@@ -27,18 +27,22 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= turbo_stream_from 'notification_center' %>
+<%= turbo_stream_from 'hot_boards' %>
 
-<h1>Notifications</h1>
-<%= turbo_frame_tag 'notifications_empty' do %>
-  <%= render partial: 'notifications_empty' %>
-<% end %>
-<%= turbo_frame_tag 'notifications_feed' do %>
-  <% render partial: 'notification', collection: @notifications %>
+<%= toolbar title: 'Boards' do %>
+  <li class="toolbar-item">
+    <%=
+      link_to(
+        { action: :new },
+        class: 'button -alt-highlight',
+      ) do
+    %>
+      <%= op_icon("button--icon icon-add") %>
+      <span class="button--text">Board</span>
+    <% end %>
+  </li>
 <% end %>
 
-<div class="form--section">
-  <%= turbo_frame_tag 'notification_create' do %>
-    <%= render partial: 'notification_create' %>
-  <% end %>
-</div>
+<%= rails_cell HotBoards::TableCell, @boards %>
+
+

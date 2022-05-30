@@ -1,0 +1,12 @@
+<section class="op-hot-list">
+  <h2><%= list.title %></h2>
+  <div class="op-board-list--button-container">
+    <button class="op-board-list--add-button op-board-list--card-dropdown-button button"
+            title="Add card">
+      <i class="icon-small icon-add"></i>
+    </button>
+  </div>
+  <div class="op-hot-list--container" data-controller="list">
+    <%= render partial: 'item', collection: list.items.includes(:work_package), as: :item %>
+  </div>
+</section>

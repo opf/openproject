@@ -27,18 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= turbo_stream_from 'notification_center' %>
-
-<h1>Notifications</h1>
-<%= turbo_frame_tag 'notifications_empty' do %>
-  <%= render partial: 'notifications_empty' %>
+<%= labelled_tabular_form_for @board,
+                              url: hot_boards_path do |f| %>
+  <div class='form--field -required'>
+    <%= f.text_field :title, autofocus: true, required: true, container_class: '-middle' %>
+  </div>
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
-<%= turbo_frame_tag 'notifications_feed' do %>
-  <% render partial: 'notification', collection: @notifications %>
-<% end %>
-
-<div class="form--section">
-  <%= turbo_frame_tag 'notification_create' do %>
-    <%= render partial: 'notification_create' %>
-  <% end %>
-</div>

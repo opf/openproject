@@ -27,18 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= turbo_stream_from 'notification_center' %>
+<main class="container">
+  <%= link_to sanitize("&larr; Back to list"), hot_boards_path %>
 
-<h1>Notifications</h1>
-<%= turbo_frame_tag 'notifications_empty' do %>
-  <%= render partial: 'notifications_empty' %>
-<% end %>
-<%= turbo_frame_tag 'notifications_feed' do %>
-  <% render partial: 'notification', collection: @notifications %>
-<% end %>
+  <div class="header">
+    <h1>New board</h1>
+  </div>
 
-<div class="form--section">
-  <%= turbo_frame_tag 'notification_create' do %>
-    <%= render partial: 'notification_create' %>
+  <%= labelled_tabular_form_for @board do |f| %>
+    <%= render partial: 'form', locals: { f: f }%>
   <% end %>
-</div>
+</main>
+
+

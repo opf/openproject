@@ -1,0 +1,2 @@
+module HotBoardsHelper
+end

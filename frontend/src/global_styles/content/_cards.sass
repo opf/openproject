@@ -3,6 +3,7 @@
   user-select: none
   // Leave space for the shadow to be displayed
   width: calc(100% - 2px)
+  max-width: 300px
   border: 1px solid var(--widget-box-block-border-color)
   border-radius: 2px
   padding: 10px
@@ -15,7 +16,7 @@
     .op-wp-single-card--inline-buttons
       opacity: 1
       z-index: 2
-      background-image: linear-gradient(to left, rgba($spot-color-basic-white,1), rgba($spot-color-basic-white,0))
+      background-image: linear-gradient(to left, rgba($spot-color-basic-white, 1), rgba($spot-color-basic-white, 0))
 
   &_new
     padding-right: 25px
@@ -25,19 +26,23 @@
 
   &_selected
     background-color: $spot-color-main-light
+
     .op-icon--wrapper
       background: $spot-color-main-light
+
     &:hover
       .op-wp-single-card--inline-buttons
-        background-image: linear-gradient(to left, rgba($spot-color-main-light,1), rgba($spot-color-main-light,0))
+        background-image: linear-gradient(to left, rgba($spot-color-main-light, 1), rgba($spot-color-main-light, 0))
 
   &_closed:not(&_selected)
     background-color: $spot-color-basic-gray-6
+
     .op-icon--wrapper
       background: $spot-color-basic-gray-6
+
     &:hover
       .op-wp-single-card--inline-buttons
-        background-image: linear-gradient(to left, rgba($spot-color-basic-gray-6,1), rgba($spot-color-basic-gray-6,0))
+        background-image: linear-gradient(to left, rgba($spot-color-basic-gray-6, 1), rgba($spot-color-basic-gray-6, 0))
 
   &_horizontal
     height: 100%
@@ -55,8 +60,10 @@
 
     &-assignee
       display: none
+
     &-subject-line
       display: flex
+
     &-subject
       flex-grow: 1
       @include text-shortener
@@ -85,21 +92,26 @@
       color: $spot-color-basic-gray-3
       font-size: 12px
       @include text-shortener
+
     &-type
       grid-area: type
       margin-right: 4px
+
     &-subject-line
       grid-area: subject
       @include text-shortener(false)
+
     &-assignee
       grid-area: avatar
       max-width: 140px
       color: $spot-color-basic-gray-3
       font-size: 12px
+
     &-id
       grid-area: id
       color: $spot-color-basic-gray-3
       font-size: 12px
+
     &-status
       grid-area: status
       margin-right: 5px
@@ -192,3 +204,34 @@
     height: 16px
     padding: 0px 5px
     margin-right: 0
+
+.op-hot-board
+  display: flex
+
+.op-hot-list
+  height: 100%
+  width: 300px
+  padding: 0 15px
+  display: flex
+  flex-direction: column
+
+  &--container
+    min-height: 500px
+
+    .op-wp-single-card
+      margin-bottom: 1rem
+
+.op-board-list--button-container
+  background-color: var(--body-background)
+  position: sticky
+  top: 0
+  z-index: 1
+  display: flex
+  align-items: center
+
+.op-board-list--add-button
+  background-color: var(--body-background)
+  width: calc(100% - 2px)
+  margin: 0
+  margin-bottom: 15px
+  box-shadow: 1px 1px 3px 0px lightgrey

@@ -571,6 +571,11 @@ OpenProject::Application.routes.draw do
   root to: 'account#login'
 
   resources :notifications, only: %i[index destroy new create]
+  resources :hot_boards do
+    member do
+      post :delta
+    end
+  end
   # scope :notifications do
   #   get '(/*state)', to: 'angular#notifications_layout', as: :notifications_center
   # end

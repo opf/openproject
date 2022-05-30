@@ -4,8 +4,9 @@ class WorkPackageCardComponent < ViewComponent::Base
   include ::Redmine::I18n
   include ::AvatarHelper
 
-  def initialize(work_package:)
+  def initialize(work_package:, item:)
     @work_package = work_package
+    @item = item
   end
 
   def formatted_dates
