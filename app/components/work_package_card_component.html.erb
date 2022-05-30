@@ -1,0 +1,73 @@
+<div
+  class="op-wp-single-card"
+  data-qa-selector="op-wp-single-card"
+>
+
+  <div class="op-wp-single-card--highlighting">
+  </div>
+
+  <div class="op-wp-single-card--card-actions">
+    <div class="op-wp-single-card--inline-buttons hidden-for-mobile"
+         data-qa-selector="op-wp-single-card--inline-buttons">
+      <button
+        type="button"
+        class="spot-link op-wp-single-card--details-button op-wp-single-card--card-action"
+        data-qa-selector="op-wp-single-card--details-button"
+      >
+        <i class="icon3 icon-info2"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="op-wp-single-card--content">
+    <span
+      class="op-wp-single-card--content-project-name"
+    >
+      <%= @work_package.project.name %>
+    </span>
+    <%= link_to "##{@work_package.id}",
+                work_package_path(@work_package.id),
+                class: 'op-wp-single-card--content-id'
+    %>
+
+    <span class="op-wp-single-card--content-subject-line">
+      <span
+        class="op-wp-single-card--content-type __hl_inline_type_<%= @work_package.type.id %>"
+        data-qa-selector="op-wp-single-card--content-type"
+      >
+        <%= @work_package.type.name %>
+      </span>
+
+      <span
+        class="op-wp-single-card--content-subject"
+        data-qa-selector="op-wp-single-card--content-subject"
+      >
+        <%= @work_package.subject %>
+      </span>
+    </span>
+
+    <div
+      class="op-wp-status-button op-wp-status-button_small"
+      data-qa-selector="op-wp-status-button"
+    >
+      <button
+        class="op-wp-status-button--button button __hl_background_status_<%= @work_package.status.id %>"
+      >
+      <span
+        class="op-wp-status-button--text button--text"
+        aria-hidden="true"
+      >
+        <%= @work_package.status.name %>
+      </span>
+      </button>
+    </div>
+
+    <%= avatar(@work_package.assigned_to) if @work_package.assigned_to_id %>
+
+    <span
+      class="op-wp-single-card--content-dates"
+    >
+      <%= formatted_dates %>
+    </span>
+  </div>
+</div>

@@ -1137,7 +1137,7 @@ DEPENDENCIES
   typed_dag (~> 2.0.2)
   tzinfo-data (~> 1.2022.1)
   validate_url
-  view_component
+  view_component (~> 2.82)
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
   webdrivers (~> 5.2.0)
