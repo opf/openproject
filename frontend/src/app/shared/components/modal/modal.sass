@@ -1,6 +1,6 @@
 // TODO: Check out -danger-zone and modal-close-button patterns
 .op-modal
-  --modal-padding: 2rem
+  --modal-padding: 1rem
 
   position: relative
   display: flex
@@ -19,7 +19,6 @@
   @include styled-scroll-bar
 
   @media (max-width: 680px), (max-height: 500px)
-    --modal-padding: 1rem
     height: 100vh
     width: 100vw
     min-height: unset
@@ -70,7 +69,7 @@
       text-align: center
 
   &--title
-    font-size: 1.3rem 
+    font-size: 1.3rem
     padding: 0
     margin: 0
     margin-right: auto
@@ -78,14 +77,14 @@
   &--footer
     display: flex
     justify-content: flex-end
-    padding: calc(0.5 * var(--modal-padding)) var(--modal-padding) var(--modal-padding) var(--modal-padding) 
+    padding: calc(0.5 * var(--modal-padding)) var(--modal-padding) var(--modal-padding) var(--modal-padding)
     width: 100%
 
     .button
       margin-bottom: 0
 
     @media (max-width: 680px), (max-height: 500px)
-      padding: var(--modal-padding) 
+      padding: var(--modal-padding)
 
   &--close-button
     height: 100%

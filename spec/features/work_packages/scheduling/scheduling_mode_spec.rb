@@ -98,7 +98,6 @@ describe 'scheduling mode',
     combined_field.activate!(expect_open: false)
     combined_field.expect_active!
     combined_field.expect_scheduling_mode manually: false
-    combined_field.expect_parent_notification
     combined_field.toggle_scheduling_mode
     combined_field.update(%w[2016-01-05 2016-01-10])
 
@@ -132,7 +131,6 @@ describe 'scheduling mode',
     combined_field.expect_active!
     combined_field.expect_scheduling_mode manually: true
     combined_field.toggle_scheduling_mode
-    combined_field.expect_parent_notification
     combined_field.save!
 
     work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
@@ -162,7 +160,6 @@ describe 'scheduling mode',
     combined_field.activate!(expect_open: false)
     combined_field.expect_active!
     combined_field.expect_scheduling_mode manually: false
-    combined_field.expect_parent_notification
     combined_field.toggle_scheduling_mode
     # Increasing the duration while at it
     combined_field.update(%w[2015-12-20 2015-12-31])
@@ -194,7 +191,6 @@ describe 'scheduling mode',
     combined_field.expect_active!
     combined_field.expect_scheduling_mode manually: true
     combined_field.toggle_scheduling_mode
-    combined_field.expect_parent_notification
     combined_field.save!
 
     work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
