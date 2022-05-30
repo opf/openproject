@@ -43,6 +43,22 @@ export class InAppNotificationBellComponent {
     this.polling$,
   ]).pipe(map(([count]) => count));
 
+  unreadCountText$ = this
+    .unreadCount$
+    .pipe(
+      map((count) => {
+        if (count > 99) {
+          return '99+';
+        }
+
+        if (count <= 0) {
+          return '';
+        }
+
+        return count;
+      }),
+    );
+
   constructor(
     readonly storeService:IanBellService,
     readonly apiV3Service:ApiV3Service,

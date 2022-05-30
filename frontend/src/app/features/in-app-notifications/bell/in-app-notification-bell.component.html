@@ -9,7 +9,7 @@
       *ngIf="unreadCount !== 0"
       class="op-ian-bell--indicator"
       data-qa-selector="op-ian-notifications-count"
-      [textContent]="(unreadCount === -1 || unreadCount > 99) ? '' : unreadCount"
+      [textContent]="unreadCountText$ | async"
     ></span>
   </ng-container>
 </a>
