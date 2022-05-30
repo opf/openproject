@@ -1,125 +1,19 @@
 <div class="work-package--attachments--files" *ngIf="resource" data-qa-selector="op-files-tab--file-link-list">
-  <!-- Textbox for no file links TODO: extract to shared component -->
-  <div
-    *ngIf="($fileLinks | async).length === 0 && storageConnectionState === 'connected'"
-    class="op-files-tab--storage-info-box"
-  >
-    <div
-      class="icon-box"
-    >
-      <i
-        class="icon icon-info1"
-      ></i>
-    </div>
-
-    <div
-      class="text-box"
-    >
-      <div
-        class="text-box-header"
-      >
-        <span>Link files in Nextcloud</span>
-      </div>
-      <div
-        class="text-box-content"
-      >
-        <span>In order to link files to this work package please do it via Nextcloud</span>
-      </div>
-    </div>
-
-    <div
-      class="button-box"
-    >
-      <button
-        class="action-button"
-        [textContent]="'Open Nextcloud'"
-      ></button>
-    </div>
-  </div>
-
-  <!-- Textbox for authentication error -->
-  <div
-    *ngIf="storageConnectionState === 'authenticationFailed'"
-    class="op-files-tab--storage-info-box"
-  >
-    <div
-      class="icon-box"
-    >
-      <i
-        class="icon icon-info1"
-      ></i>
-    </div>
-
-    <div
-      class="text-box"
-    >
-      <div
-        class="text-box-header"
-      >
-        <span>Login to Nextcloud</span>
-      </div>
-      <div
-        class="text-box-content"
-      >
-        <span>To add a link, see or upload files related to this work package, please login to Nextcloud</span>
-      </div>
-    </div>
-
-    <div
-      class="button-box"
-    >
-      <button
-        class="action-button"
-        [textContent]="'Nextcloud login'"
-      ></button>
-    </div>
-  </div>
-
-  <!-- Textbox for connection error -->
-  <div
-    *ngIf="storageConnectionState === 'connectionError'"
-    class="op-files-tab--storage-info-box"
-  >
-    <div
-      class="icon-box"
-    >
-      <i
-        class="icon icon-info1"
-      ></i>
-    </div>
-
-    <div
-      class="text-box"
-    >
-      <div
-        class="text-box-header"
-      >
-        <span>No Nextcloud connection</span>
-      </div>
-      <div
-        class="text-box-content"
-      >
-        <span>Some Nextcloud settings are not working. Please try to login again or contact your Nexcloud administrator</span>
-      </div>
-    </div>
-
-    <div
-      class="button-box"
-    >
-      <button
-        class="action-button"
-        [textContent]="'Nextcloud login'"
-      ></button>
-    </div>
-  </div>
+  <op-storage-information
+    *ngIf="showInformationBox"
+    [infoIcon]="'info1'"
+    [infoTextHeader]="informationBoxHeader"
+    [infoTextContent]="informationBoxContent"
+    [buttonText]="informationBoxButton"
+  ></op-storage-information>
 
   <div
-    *ngIf="storageConnectionState !== 'connectionError'"
+    *ngIf="showFileLinks"
   >
     <op-file-link-list-item
-      *ngFor="let fileLink of $fileLinks | async; let i = index;"
+      *ngFor="let fileLink of fileLinks$ | async; let i = index;"
       class="op-files-tab--file-list-item"
-      [ngClass]="{ 'inactive': storageConnectionState === 'authenticationFailed' }"
+      [ngClass]="{ 'inactive': showInformationBox || fileLink._links.permission.href === 'urn:openproject-org:api:v3:file-links:permission:NotAllowed' }"
       data-qa-selector="op-files-tab--file-list-item"
       [fileLink]="fileLink"
       [resource]="resource"

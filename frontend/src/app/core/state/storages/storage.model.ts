@@ -42,5 +42,5 @@ export interface IStorage {
   createdAt?:string;
   lastModifiedAt?:string;
 
-  _links?:IStorageHalResourceLinks;
+  _links:IStorageHalResourceLinks;
 }

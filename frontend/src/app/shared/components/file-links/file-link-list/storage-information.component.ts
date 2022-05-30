@@ -26,32 +26,23 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { IconModule } from 'core-app/shared/components/icon/icon.module';
-
-import { FileLinkListComponent } from 'core-app/shared/components/file-links/file-link-list/file-link-list.component';
 import {
-  FileLinkListItemComponent,
-} from 'core-app/shared/components/file-links/file-link-list/file-link-list-item.component';
-import {
-  StorageInformationComponent,
-} from 'core-app/shared/components/file-links/file-link-list/storage-information.component';
+  ChangeDetectionStrategy, Component, EventEmitter, Input, Output,
+} from '@angular/core';
 
-@NgModule({
-  imports: [
-    CommonModule,
-    IconModule,
-  ],
-  declarations: [
-    FileLinkListComponent,
-    FileLinkListItemComponent,
-    StorageInformationComponent,
-  ],
-  exports: [
-    FileLinkListComponent,
-    FileLinkListItemComponent,
-  ],
+@Component({
+  selector: 'op-storage-information',
+  templateUrl: './storage-information.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpenprojectFileLinksModule {
+export class StorageInformationComponent {
+  @Input() infoIcon:string;
+
+  @Input() infoTextHeader:string;
+
+  @Input() infoTextContent:string;
+
+  @Input() buttonText:string;
+
+  @Output() buttonClickEventEmitter = new EventEmitter();
 }
