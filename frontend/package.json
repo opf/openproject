@@ -127,6 +127,7 @@
     "ng2-dragula": "^2.1.1",
     "observable-array": "0.0.4",
     "pako": "^2.0.3",
+    "qr-creator": "^1.0.0",
     "reactivestates": "2.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.6.6",
