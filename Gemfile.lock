@@ -713,7 +713,7 @@ GEM
       puma (>= 5.0, < 6)
     raabro (1.4.0)
     racc (1.6.0)
-    rack (2.2.3)
+    rack (2.2.3.1)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-attack (6.6.1)
