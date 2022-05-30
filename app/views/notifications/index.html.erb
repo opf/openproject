@@ -43,5 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 </div>
 
-<%= render WorkPackageCardComponent.new(work_package: WorkPackage.last) %>
+<div data-controller="boards">
+  <%= render WorkPackageCardComponent.new(work_package: WorkPackage.last) %>
+</div>
 

@@ -29,6 +29,7 @@ window.ErrorReporter = configureErrorReporter();
 
 require('core-app/core/setup/init-vendors');
 require('core-app/core/setup/init-globals');
+require('stimulus/bootstrap');
 
 if (environment.production) {
   enableProdMode();

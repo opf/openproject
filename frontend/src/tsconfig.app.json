@@ -9,9 +9,10 @@
     "main.ts",
     "polyfills.ts",
     "app/core/setup/init-globals.ts",
-    "app/core/setup/init-vendors.ts"
+    "app/core/setup/init-vendors.ts",
   ],
   "include": [
+    "stimulus/**/*.ts",
     "src/**/*.ts",
     "**/*.d.ts",
     "app/core/augmenting/dynamic-scripts/*.ts"
