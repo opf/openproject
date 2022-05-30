@@ -3,6 +3,7 @@ sidebar_navigation:
   title: Projects
   priority: 600
 description: Manage projects in OpenProject.
+robots: index, follow
 keywords: projects
 ---
 # Manage projects
@@ -45,7 +46,7 @@ To create a subproject for an existing project, navigate to [*Project settings*]
 
 Then follow the instructions to [create a new project](../../getting-started/projects/#create-a-new-project).
 
-![create-subproject](image-20210204165705788.png)
+![project-settings-subproject](project-settings-subproject.png)
 
 
 
@@ -77,9 +78,11 @@ Or, a project can be to separate products or customers.
 
 OpenProject, for example, uses the projects to structure the different modules/plugin development:
 
-![project-structure](1566214944644.png)
+![project-hierarchy-select-project](project-hierarchy-select-project.png)
 
-> **Please note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
+<div class="alert alert-info" role="alert">
+**Please note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
+</div>
 
 ## Project Settings
 
@@ -91,14 +94,16 @@ You can specify further advanced settings for your project. Navigate to your pro
 
 - You see the default project **Identifier**. The identifier will be shown in the URL. 
 
-> **Note**: Changing the project identifier while the project is already being worked on can have major effects and is therefore not recommended. For example, repositories may not be loaded correctly and deep links may no longer work (since the project URL changes when the project identifier is changed).
+<div class="alert alert-info" role="alert">
+**Note**: Changing the project identifier while the project is already being worked on can have major effects and is therefore not recommended. For example, repositories may not be loaded correctly and deep links may no longer work (since the project URL changes when the project identifier is changed).
+</div>
 
 
 - You can set a project to **Public**. This means it can be accessed without signing in to OpenProject.
-- Click the blue **Create** button in order to save your new project. Or click the blue **Save** button to save your changes.
+- Click the blue **Save** button to save your changes.
 - If you like, use the autocompleter to fill in the project attributes.
 
-![project-settings](image-20210204170357754.png)
+![project-information-descrobtion-status](project-information-descrobtion-status.png)
 
 Find out more detailed information about the Project settings [here](project-settings).
 
@@ -108,7 +113,7 @@ To change the project's hierarchy, navigate to the [project settings](project-se
 
 Press the blue **Save** button to apply your changes.
 
-![set-parent-project](image-20210204170603014.png)
+![project-settings-information-change-hierarchy](project-settings-information-change-hierarchy-3912542.png)
 
 
 
@@ -124,52 +129,51 @@ Setting a project to public will make it accessible to all people within your Op
 
 You can copy an existing project by navigating to the [project settings](project-settings) and clicking **Copy project** in the upper right of the project settings.
 
-![copy-project](image-20210204170859459.png)
+![project-information-copy-project](project-information-copy-project.png)
 
 Give the new project a name. Select which modules and settings you want to copy and whether or not you want to notify users via email during copying. 
 You can copy existing [boards](../agile-boards) (apart from the Subproject board) and the [Project overview](../project-overview/#project-overview) dashboards along with your project, too.
 
-![copy-project-screen-11.0](image-20201007172029375.png)
+![project-settings-information-copy-project-copy-options](project-settings-information-copy-project-copy-options.png)
 
 **!!Attention!!** - **Budgets** cannot be copied, so they must be removed from the work package table beforehand. Alternatively, you can delete them in the Budget module and thus delete them from the work packages as well.
 
 For further configuration open the **Advanced settings**. Here you can specify (among other things) the project's URL (identifier), its visibility and status. Furthermore you can set values for custom fields (not shown in the screenshot).
 
-![advanced-settings-project](image-20201007172208540.png)
+![copy-project-advanced-settings](copy-project-advanced-settings-3914305.png)
 
 Then click the blue **Copy** button.
 
 ### Archive a project
 
 In order to archive a project, navigate to the [project settings](project-settings), and click the **Archive project** button.
-
-> **Note**: This option is only available for Administrators.
-
-![archive-project](image-20210204171059565.png)
+<div class="alert alert-info" role="alert">
+**Note**: This option is only available for Administrators.
+</div>
+![project-settings-archive-project](project-settings-archive-project.png)
 
 Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you set the "Active" filter to "off" (move slider to the left). You can un-archive it there, too, using the three dots at the right end of a row.
 
-![view-archived-projects-in-projects-overview](image-20210204171251754.png)
-
-
+![project-list-filter](project-list-filter.png)
 
 
 ### Delete a project
 
 If you want to delete a project, navigate to the [Project settings](project-settings). Click the button **Delete project** on the top right of the page. 
 
-![delete-project](image-20210204171422693.png)
+![delete-a-project](delete-a-project.png)
 
 Also, you can delete a project via the [projects overview](#global-projects-overview---view-all-projects).
-
-> **Please note**: Deleting projects is only available for System administrators.
+<div class="alert alert-info" role="alert">
+**Please note**: Deleting projects is only available for System administrators.
+</div>
 
 
 ## Global projects overview - View all projects
 
 To get an overview of all your projects, select the **View all projects** option from the **Select a project** menu in the top left header navigation. 
 
-![view all projects](1566293251039.png)
+![select-a-project-view-all-projects](select-a-project-view-all-projects.png)
 
 You will then get a list of all your projects in OpenProject. You can use this projects overview to **create a multi project status dashboard** if you include your own [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), e.g. custom status options, Accountable, Project duration, and more.
 
@@ -179,11 +183,11 @@ With the **arrow** on the right you can display the **project description**.
 
 With the horizontal **three dots** icon on the right side of the list you can open **further features**, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features. Find out how to un-archive projects [here](#archive-a-project).
 
-![projects-overview-view-all-projects](image-20210204171811255.png)
+![new-subproject-project-list](new-subproject-project-list.png)
 
 You can choose the **columns displayed by default** in the [System settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration. To access it quickly use the **vertical three dots** icon on the upper right.
 
-![configure-projects-list](image-20210204172213314.png)
+![configure-project-list](configure-project-list.png)
 
 To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](../../system-admin-guide/custom-fields/custom-fields-projects/#displaying-project-custom-fields) 
 
@@ -192,7 +196,22 @@ To change the order of the displayed [custom fields](../../system-admin-guide/cu
 To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to quickly get to the report described in the [chapter below](#project-overarching-reports). 
 The Gantt chart view can be configured in the [System settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration.
 
-![open-global-gantt-chart](image-20201007161248903.png)
+![Bildschirmfoto 2022-05-30 um 16.42.09](Bildschirmfoto 2022-05-30 um 16.42.09.png)
+
+
+
+### Overall activity
+
+Besides the Gantt-chart view and the filter function for the project list, you can also access the activity of all users in all projects. 
+
+![overall-activity-button](overall-activity-button-3922893.png)
+
+By clicking on the Overall activity button you can open a view in which all the latest global project activities are documented. In the menu on the left side you can filter the activity by different areas to control e.g. the activity of work packages, wiki pages or meetings.
+
+![overall-activity-meeting-filter](overall-activity-meeting-filter.png)
+
+
+
 
 ## Export projects
 
@@ -214,7 +233,9 @@ It can be exported as .xls or .csv.
 
 Often you need to see information about more than one project at once and want to create project overarching reports.
 
-Click on the **Modules** icon with the dots in the header navigation. These are the project overarching modules in OpenProject.![overarching-modules](overarching-modules.png) 
+Click on the **Modules** icon with the dots in the header navigation. These are the project overarching modules in OpenProject.
+
+![navigation-bar-modules](navigation-bar-modules-3923134.png)
 
 Here you will find
 
