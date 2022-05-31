@@ -1,13 +1,7 @@
 <div
   class="op-files-tab--storage-info-box"
 >
-  <div
-    class="icon-box"
-  >
-    <i
-      class="icon icon-{{infoIcon}}"
-    ></i>
-  </div>
+  <span class="spot-icon spot-icon_{{infoIcon}}"></span>
 
   <div
     class="text-box"
@@ -29,8 +23,10 @@
   >
     <button
       class="action-button"
-      [textContent]="buttonText"
       (click)="buttonClickEventEmitter.emit()"
-    ></button>
+    >
+      <span class="spot-icon spot-icon_external-link"></span>
+      <span [textContent]="buttonText"></span>
+    </button>
   </div>
 </div>

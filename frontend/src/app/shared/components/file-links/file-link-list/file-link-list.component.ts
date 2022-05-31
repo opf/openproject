@@ -49,8 +49,6 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   @Input() public storage:IStorage;
 
-  allowEditing = false;
-
   fileLinks$:Observable<IFileLink[]>;
 
   informationBoxHeader:string;
@@ -60,6 +58,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   informationBoxButton:string;
 
   informationBoxIcon:string;
+
+  allowEditing = false;
 
   showInformationBox = false;
 
@@ -154,7 +154,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     this.informationBoxHeader = this.text.infoBox.authenticationFailureHeader;
     this.informationBoxContent = this.text.infoBox.authenticationFailureContent;
     this.informationBoxButton = this.text.infoBox.loginButton;
-    this.informationBoxIcon = 'info1';
+    this.informationBoxIcon = 'import';
     this.showInformationBox = true;
     this.showFileLinks = true;
   }
@@ -163,7 +163,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     this.informationBoxHeader = this.text.infoBox.connectionErrorHeader;
     this.informationBoxContent = this.text.infoBox.connectionErrorContent;
     this.informationBoxButton = this.text.infoBox.loginButton;
-    this.informationBoxIcon = 'info1';
+    this.informationBoxIcon = 'remove-link';
     this.showInformationBox = true;
     this.showFileLinks = false;
   }
@@ -172,7 +172,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     this.informationBoxHeader = this.text.infoBox.emptyStorageHeader;
     this.informationBoxContent = this.text.infoBox.emptyStorageContent;
     this.informationBoxButton = this.text.infoBox.emptyStorageButton;
-    this.informationBoxIcon = 'info1';
+    this.informationBoxIcon = 'add-link';
     this.showInformationBox = true;
     this.showFileLinks = true;
   }

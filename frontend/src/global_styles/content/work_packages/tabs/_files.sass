@@ -84,17 +84,12 @@
     display: grid
     grid-template: "icon text" "button button" / auto 1fr
 
-    .icon-box
-      height: 54px
-      width: 54px
+    .spot-icon
       grid-area: icon
-      display: flex
-      justify-content: center
-      align-items: center
-
-      .icon
-        color: #878787
-        font-size: 36px
+      width: 3.375rem
+      height: 3.375rem
+      color: #878787
+      font-size: 20px
 
     .text-box
       grid-area: text
@@ -119,6 +114,13 @@
         padding: 4px 12px
         font-size: 14px
         line-height: 20px
+
+        .spot-icon
+          width: $spot-spacing-1_5
+          height: $spot-spacing-1_5
+          margin-right: 8px
+          font-size: 14px
+          color: #333333
 
   &--color
     &-red
