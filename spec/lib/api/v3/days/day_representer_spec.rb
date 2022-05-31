@@ -30,13 +30,19 @@ require 'spec_helper'
 
 describe ::API::V3::Days::DayRepresenter do
   let(:working) { true }
+  let(:date) { Date.new(2022, 12, 27) }
   let(:day) do
-    build(:day, date: Date.new(2022, 12, 27), week_day: create(:week_day, :tuesday, working:))
+    Day.from_range(from: Date.new(2022, 12, 1), to: Date.new(2022, 12, 31))
+       .find(date.strftime("%Y%m%d").to_i)
   end
   let(:current_user) { instance_double(User, name: 'current_user') }
   let(:representer) { described_class.new(day, current_user:) }
 
   subject(:generated) { representer.to_json }
+
+  before do
+    create(:week_day, :tuesday, working:)
+  end
 
   it 'has _type: Day' do
     expect(subject).to be_json_eql('Day'.to_json).at_path('_type')
@@ -91,7 +97,7 @@ describe ::API::V3::Days::DayRepresenter do
       end
 
       context 'when a non-working day is present' do
-        let!(:non_working_day) { create(:non_working_day, date: day.date) }
+        let!(:non_working_day) { create(:non_working_day, date:) }
 
         it 'links to the non-working day resource' do
           expected_json = [{
@@ -105,7 +111,7 @@ describe ::API::V3::Days::DayRepresenter do
 
       context 'when the day has working false and a non-working day is present' do
         let(:working) { false }
-        let!(:non_working_day) { create(:non_working_day, date: day.date) }
+        let!(:non_working_day) { create(:non_working_day, date:) }
 
         it 'links to the day resource and to the non-working day resource' do
           expected_json = [{
