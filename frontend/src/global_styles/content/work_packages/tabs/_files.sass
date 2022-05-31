@@ -68,12 +68,6 @@
           color: $primary-color
           width: $spot-spacing-1_25
           height: $spot-spacing-1_25
-          margin: 0
-
-      .spot-icon
-        width: $spot-spacing-1_5
-        height: $spot-spacing-1_5
-        margin-right: 8px
 
     &--file-info-timestamp
       margin-right: 8px
@@ -90,7 +84,7 @@
     display: grid
     grid-template: "icon text" "button button" / auto 1fr
 
-    .spot-icon
+    .spot-icon.big
       grid-area: icon
       width: 3.375rem
       height: 3.375rem
@@ -121,12 +115,13 @@
         font-size: 14px
         line-height: 20px
 
-        .spot-icon
-          width: $spot-spacing-1_5
-          height: $spot-spacing-1_5
-          margin-right: 8px
-          font-size: 14px
-          color: #333333
+  &--file-list-action-button
+    &.spot-link
+      margin-top: 12px
+      font-size: 14px
+
+      .spot-icon:first-child
+        margin: 0
 
   &--color
     &-red

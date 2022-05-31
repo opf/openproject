@@ -30,15 +30,28 @@
   &--container
     margin-right: 16px
 
+    .spot-icon
+      width: $spot-spacing-1_5
+      height: $spot-spacing-1_5
+
+      &.with-text
+        margin-right: 8px
+
+  &--tab-section
+    margin-bottom: 32px
+
   &--header
     border-bottom: 1px solid #ddd
+    padding-bottom: 12px
     display: flex
     align-items: center
 
     &-text
-      font-size: 16px
-      line-height: 1.1875em
+      line-height: $spot-spacing-1_5
+      font-weight: 700
       text-transform: uppercase
-      margin: 16px 0
-      padding: 0
-      border-bottom: none
+
+    .spot-icon
+      width: $spot-spacing-1_5
+      height: $spot-spacing-1_5
+      margin-right: 8px

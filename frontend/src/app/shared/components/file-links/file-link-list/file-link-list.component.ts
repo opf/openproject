@@ -69,7 +69,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     'urn:openproject-org:api:v3:storages:Nextcloud': 'Nextcloud',
   };
 
-  private text:{
+  text:{
     infoBox:{
       emptyStorageHeader:string,
       emptyStorageContent:string,
@@ -79,6 +79,9 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
       authenticationFailureHeader:string,
       authenticationFailureContent:string,
       loginButton:string,
+    },
+    actions:{
+      linkFile:string,
     }
   };
 
@@ -117,6 +120,10 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   public removeFileLink(fileLink:IFileLink):void {
     this.fileLinkResourceService.remove(this.collectionKey, fileLink);
+  }
+
+  public openStorageLocation():void {
+    window.open(this.storage._links.origin.href);
   }
 
   private get collectionKey():string {
@@ -181,14 +188,17 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     const storageType = this.storageTypeMap[this.storage._links.type.href];
     this.text = {
       infoBox: {
-        emptyStorageHeader: this.i18n.t('js.label_no_file_links_header', { storageType }),
-        emptyStorageContent: this.i18n.t('js.label_no_file_links_content', { storageType }),
+        emptyStorageHeader: this.i18n.t('js.label_link_files_in_storage', { storageType }),
+        emptyStorageContent: this.i18n.t('js.label_no_file_links', { storageType }),
         emptyStorageButton: this.i18n.t('js.label_open_storage', { storageType }),
         connectionErrorHeader: this.i18n.t('js.label_no_storage_connection', { storageType }),
         connectionErrorContent: this.i18n.t('js.label_storage_connection_error', { storageType }),
         authenticationFailureHeader: this.i18n.t('js.label_login_to_storage', { storageType }),
         authenticationFailureContent: this.i18n.t('js.label_storage_not_connected', { storageType }),
         loginButton: this.i18n.t('js.label_storage_login', { storageType }),
+      },
+      actions: {
+        linkFile: this.i18n.t('js.label_link_files_in_storage', { storageType }),
       },
     };
   }

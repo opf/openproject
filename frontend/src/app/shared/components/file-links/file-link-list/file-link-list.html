@@ -1,10 +1,14 @@
-<div class="work-package--attachments--files" *ngIf="resource" data-qa-selector="op-files-tab--file-link-list">
+<div
+  *ngIf="resource"
+  data-qa-selector="op-files-tab--file-link-list"
+>
   <op-storage-information
     *ngIf="showInformationBox"
     [infoIcon]="informationBoxIcon"
     [infoTextHeader]="informationBoxHeader"
     [infoTextContent]="informationBoxContent"
     [buttonText]="informationBoxButton"
+    (buttonClickEventEmitter)="openStorageLocation()"
   ></op-storage-information>
 
   <ul
@@ -26,4 +30,13 @@
       ></op-file-link-list-item>
     </li>
   </ul>
+
+  <a
+    *ngIf="!showInformationBox"
+    class="spot-link op-files-tab--file-list-action-button"
+    (click)="openStorageLocation()"
+  >
+    <span class="spot-icon spot-icon_external-link"></span>
+    <span [textContent]="text.actions.linkFile"></span>
+  </a>
 </div>
