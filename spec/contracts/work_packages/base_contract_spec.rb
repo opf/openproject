@@ -498,7 +498,7 @@ describe WorkPackages::BaseContract do
         work_package.duration = 4.5
       end
 
-      it_behaves_like 'contract is invalid', duration: :only_integer
+      it_behaves_like 'contract is invalid', duration: :not_an_integer
     end
 
     context 'when setting the duration to a negative value' do

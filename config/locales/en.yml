@@ -578,6 +578,7 @@ en:
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
         done_ratio: "Progress (%)"
+        duration: "Duration"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
         version: "Version"
