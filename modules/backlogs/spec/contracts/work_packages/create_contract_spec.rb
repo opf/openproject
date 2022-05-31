@@ -40,6 +40,8 @@ describe WorkPackages::CreateContract do
   end
   let(:changed_values) { [] }
 
+  include_context 'user with stubbed permissions'
+
   subject(:contract) { described_class.new(work_package, user) }
 
   include_context 'user with stubbed permissions'

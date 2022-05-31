@@ -32,7 +32,7 @@ require 'features/page_objects/notification'
 describe 'Upload attachment to documents',
          js: true,
          with_settings: {
-           journal_aggregation_time_minutes: 0,
+           journal_aggregation_time_minutes: 0
          } do
   let!(:user) do
     create :user,

@@ -30,8 +30,8 @@ module HideSectionsHelper
   def initialize_hide_sections_with(all, active)
     gon.push(
       hideSections: {
-        all: all,
-        active: active
+        all:,
+        active:
       }
     )
   end

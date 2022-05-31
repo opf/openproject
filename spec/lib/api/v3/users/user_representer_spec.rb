@@ -30,9 +30,9 @@ require 'spec_helper'
 
 describe ::API::V3::Users::UserRepresenter do
   let(:status) { Principal.statuses[:active] }
-  let(:user) { build_stubbed(:user, status: status) }
+  let(:user) { build_stubbed(:user, status:) }
   let(:current_user) { build_stubbed(:user) }
-  let(:representer) { described_class.create(user, current_user: current_user) }
+  let(:representer) { described_class.create(user, current_user:) }
 
   include API::V3::Utilities::PathHelper
 
@@ -43,18 +43,18 @@ describe ::API::V3::Users::UserRepresenter do
 
     context 'as regular user' do
       it 'hides as much information as possible' do
-        is_expected.to have_json_path('id')
-        is_expected.to have_json_path('name')
+        expect(subject).to have_json_path('id')
+        expect(subject).to have_json_path('name')
 
-        is_expected.not_to have_json_path('login')
-        is_expected.not_to have_json_path('firstName')
-        is_expected.not_to have_json_path('lastName')
-        is_expected.not_to have_json_path('admin')
-        is_expected.not_to have_json_path('updatedAt')
-        is_expected.not_to have_json_path('createdAt')
-        is_expected.not_to have_json_path('status')
-        is_expected.not_to have_json_path('email')
-        is_expected.not_to have_json_path('language')
+        expect(subject).not_to have_json_path('login')
+        expect(subject).not_to have_json_path('firstName')
+        expect(subject).not_to have_json_path('lastName')
+        expect(subject).not_to have_json_path('admin')
+        expect(subject).not_to have_json_path('updatedAt')
+        expect(subject).not_to have_json_path('createdAt')
+        expect(subject).not_to have_json_path('status')
+        expect(subject).not_to have_json_path('email')
+        expect(subject).not_to have_json_path('language')
       end
     end
 
@@ -62,18 +62,18 @@ describe ::API::V3::Users::UserRepresenter do
       let(:current_user) { user }
 
       it 'shows the information of the user' do
-        is_expected.to have_json_path('id')
-        is_expected.to have_json_path('name')
-        is_expected.to have_json_path('login')
-        is_expected.to have_json_path('firstName')
-        is_expected.to have_json_path('lastName')
-        is_expected.to have_json_path('updatedAt')
-        is_expected.to have_json_path('createdAt')
-        is_expected.to have_json_path('status')
-        is_expected.to have_json_path('email')
-        is_expected.to have_json_path('language')
+        expect(subject).to have_json_path('id')
+        expect(subject).to have_json_path('name')
+        expect(subject).to have_json_path('login')
+        expect(subject).to have_json_path('firstName')
+        expect(subject).to have_json_path('lastName')
+        expect(subject).to have_json_path('updatedAt')
+        expect(subject).to have_json_path('createdAt')
+        expect(subject).to have_json_path('status')
+        expect(subject).to have_json_path('email')
+        expect(subject).to have_json_path('language')
 
-        is_expected.not_to have_json_path('admin')
+        expect(subject).not_to have_json_path('admin')
       end
     end
 
@@ -81,15 +81,15 @@ describe ::API::V3::Users::UserRepresenter do
       let(:current_user) { build_stubbed(:admin) }
 
       it 'shows everything' do
-        is_expected.to have_json_path('id')
-        is_expected.to have_json_path('login')
-        is_expected.to have_json_path('firstName')
-        is_expected.to have_json_path('lastName')
-        is_expected.to have_json_path('name')
-        is_expected.to have_json_path('status')
-        is_expected.to have_json_path('email')
-        is_expected.to have_json_path('admin')
-        is_expected.to have_json_path('language')
+        expect(subject).to have_json_path('id')
+        expect(subject).to have_json_path('login')
+        expect(subject).to have_json_path('firstName')
+        expect(subject).to have_json_path('lastName')
+        expect(subject).to have_json_path('name')
+        expect(subject).to have_json_path('status')
+        expect(subject).to have_json_path('email')
+        expect(subject).to have_json_path('admin')
+        expect(subject).to have_json_path('language')
       end
 
       it_behaves_like 'has UTC ISO 8601 date and time' do
@@ -104,11 +104,11 @@ describe ::API::V3::Users::UserRepresenter do
     end
 
     describe 'email' do
-      let(:user) { build_stubbed(:user, status: 1, preference: preference) }
+      let(:user) { build_stubbed(:user, status: 1, preference:) }
 
       shared_examples_for 'shows the users E-Mail address' do
         it do
-          is_expected.to be_json_eql(user.mail.to_json).at_path('email')
+          expect(subject).to be_json_eql(user.mail.to_json).at_path('email')
         end
       end
 
@@ -122,7 +122,7 @@ describe ::API::V3::Users::UserRepresenter do
         let(:preference) { build(:user_preference, hide_mail: true) }
 
         it 'does not render the users E-Mail address' do
-          is_expected
+          expect(subject)
             .not_to have_json_path('email')
         end
 
@@ -145,12 +145,12 @@ describe ::API::V3::Users::UserRepresenter do
       let(:current_user) { user }
 
       it 'contains the name of the account status' do
-        is_expected.to be_json_eql('active'.to_json).at_path('status')
+        expect(subject).to be_json_eql('active'.to_json).at_path('status')
       end
     end
 
     describe '_links' do
-      it 'should link to self' do
+      it 'links to self' do
         expect(subject).to have_json_path('_links/self/href')
       end
 
@@ -170,7 +170,7 @@ describe ::API::V3::Users::UserRepresenter do
       end
 
       context 'when regular current_user' do
-        it 'should have no lock-related links' do
+        it 'has no lock-related links' do
           expect(subject).not_to have_json_path('_links/lock/href')
           expect(subject).not_to have_json_path('_links/unlock/href')
           expect(subject).not_to have_json_path('_links/update/href')
@@ -180,13 +180,13 @@ describe ::API::V3::Users::UserRepresenter do
       context 'when current_user is admin' do
         let(:current_user) { build_stubbed(:admin) }
 
-        it 'should link to lock and update' do
+        it 'links to lock and update' do
           expect(subject).to have_json_path('_links/lock/href')
           expect(subject).to have_json_path('_links/updateImmediately/href')
         end
 
         context 'when account is locked' do
-          it 'should link to unlock' do
+          it 'links to unlock' do
             user.lock
             expect(subject).to have_json_path('_links/unlock/href')
           end
@@ -199,7 +199,7 @@ describe ::API::V3::Users::UserRepresenter do
                                              .and_return(true)
           end
 
-          it 'should link to delete' do
+          it 'links to delete' do
             expect(subject).to have_json_path('_links/delete/href')
           end
         end
@@ -212,7 +212,7 @@ describe ::API::V3::Users::UserRepresenter do
             .and_return(true)
         end
 
-        it 'should link to delete' do
+        it 'links to delete' do
           expect(subject).to have_json_path('_links/delete/href')
         end
       end
@@ -224,7 +224,7 @@ describe ::API::V3::Users::UserRepresenter do
             .and_return(false)
         end
 
-        it 'should not link to delete' do
+        it 'does not link to delete' do
           expect(subject).not_to have_json_path('_links/delete/href')
         end
       end
@@ -243,7 +243,7 @@ describe ::API::V3::Users::UserRepresenter do
             'values' => [user.id.to_s]
           } }]
 
-          api_v3_paths.path_for(:memberships, filters: filters)
+          api_v3_paths.path_for(:memberships, filters:)
         end
 
         context 'if the user has the :view_members permissions' do

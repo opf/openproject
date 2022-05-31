@@ -38,7 +38,7 @@ describe WorkPackage, type: :model do
         expect(context[:work_package].subject).to eq subject
       end
 
-      create :work_package, subject: subject
+      create :work_package, subject:
     end
   end
 

@@ -16,7 +16,7 @@ module XlsExport
       def success(content)
         ::Exports::Result
           .new format: :xls,
-               content: content,
+               content:,
                title: xls_export_filename,
                mime_type: 'application/vnd.ms-excel'
       end

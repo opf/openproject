@@ -48,7 +48,7 @@ module Bim::Bcf
         model.project
 
         ::WorkPackages::DeleteService
-          .new(user: user,
+          .new(user:,
                model: associated_wp.reload)
           .call(params)
       end

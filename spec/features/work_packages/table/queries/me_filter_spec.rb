@@ -50,8 +50,8 @@ describe 'filter me value', js: true do
   let!(:role_anonymous) { create(:anonymous_role, permissions: [:view_work_packages]) }
 
   describe 'assignee' do
-    let(:wp_admin) { create :work_package, status: status, project: project, assigned_to: admin }
-    let(:wp_user) { create :work_package, status: status, project: project, assigned_to: user }
+    let(:wp_admin) { create :work_package, status:, project:, assigned_to: admin }
+    let(:wp_user) { create :work_package, status:, project:, assigned_to: user }
 
     context 'as anonymous', with_settings: { login_required?: false } do
       current_user { User.anonymous }
@@ -59,8 +59,8 @@ describe 'filter me value', js: true do
       let(:assignee_query) do
         query = create(:query,
                        name: 'Assignee Query',
-                       project: project,
-                       user: user)
+                       project:,
+                       user:)
 
         query.add_filter('assigned_to_id', '=', ['me'])
         query.save!(validate: false)
@@ -152,14 +152,14 @@ describe 'filter me value', js: true do
     let(:wp_admin) do
       create :work_package,
              type: type_task,
-             project: project,
+             project:,
              custom_field_values: { custom_field.id => admin.id }
     end
 
     let(:wp_user) do
       create :work_package,
              type: type_task,
-             project: project,
+             project:,
              custom_field_values: { custom_field.id => user.id }
     end
 
@@ -167,14 +167,15 @@ describe 'filter me value', js: true do
       let(:assignee_query) do
         query = create(:query,
                        name: 'CF user Query',
-                       project: project,
-                       user: user)
+                       project:,
+                       user:)
 
         query.add_filter(cf_accessor, '=', ['me'])
         query.save!(validate: false)
 
         query
       end
+
       current_user { User.anonymous }
 
       it 'shows an error visiting a query with a me value' do

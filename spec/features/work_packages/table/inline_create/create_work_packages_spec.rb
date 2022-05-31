@@ -5,7 +5,7 @@ describe 'inline create work package', js: true do
   let(:types) { [type] }
 
   let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages) }
-  let(:role) { create :role, permissions: permissions }
+  let(:role) { create :role, permissions: }
   let(:user) do
     create :user,
            member_in_project: project,
@@ -17,11 +17,11 @@ describe 'inline create work package', js: true do
            type_id: type.id,
            old_status: status,
            new_status: create(:status),
-           role: role
+           role:
   end
 
-  let!(:project) { create(:project, public: true, types: types) }
-  let!(:existing_wp) { create(:work_package, project: project) }
+  let!(:project) { create(:project, public: true, types:) }
+  let!(:existing_wp) { create(:work_package, project:) }
   let!(:priority) { create :priority, is_default: true }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
@@ -196,7 +196,7 @@ describe 'inline create work package', js: true do
       end
       let!(:membership) do
         create :member,
-               user: user,
+               user:,
                project: project2,
                roles: [role2]
       end

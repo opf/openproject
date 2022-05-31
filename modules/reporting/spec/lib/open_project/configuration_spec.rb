@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'OpenProject::Configuration' do
-  context '.cost_reporting_cache_filter_classes' do
+  describe '.cost_reporting_cache_filter_classes' do
     it 'is a true by default via the method' do
       expect(OpenProject::Configuration.cost_reporting_cache_filter_classes).to be_truthy
     end

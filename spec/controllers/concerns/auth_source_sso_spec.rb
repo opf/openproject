@@ -33,8 +33,8 @@ describe MyController, type: :controller do
 
   let(:sso_config) do
     {
-      header: header,
-      secret: secret
+      header:,
+      secret:
     }
   end
 
@@ -42,7 +42,7 @@ describe MyController, type: :controller do
   let(:secret) { "42" }
 
   let!(:auth_source) { DummyAuthSource.create name: "Dummy LDAP" }
-  let!(:user) { create :user, login: login, auth_source_id: auth_source.id, last_login_on: 5.days.ago }
+  let!(:user) { create :user, login:, auth_source_id: auth_source.id, last_login_on: 5.days.ago }
   let(:login) { "h.wurst" }
   let(:header_login_value) { login }
   let(:header_value) { "#{header_login_value}#{secret ? ':' : ''}#{secret}" }
@@ -70,8 +70,8 @@ describe MyController, type: :controller do
     context 'when the config is marked optional' do
       let(:sso_config) do
         {
-          header: header,
-          secret: secret,
+          header:,
+          secret:,
           optional: true
         }
       end
@@ -130,10 +130,10 @@ describe MyController, type: :controller do
 
     context 'when the user is invited' do
       let!(:user) do
-        create :user, login: login, status: Principal.statuses[:invited], auth_source_id: auth_source.id
+        create :user, login:, status: Principal.statuses[:invited], auth_source_id: auth_source.id
       end
 
-      it "should log in given user and activate it" do
+      it "logs in given user and activate it" do
         expect(response).to redirect_to my_account_path
         expect(user.reload).to be_active
         expect(session[:user_id]).to eq user.id
@@ -143,15 +143,15 @@ describe MyController, type: :controller do
     context "with no auth source sso configured" do
       let(:sso_config) { nil }
 
-      it "should redirect to login" do
+      it "redirects to login" do
         expect(response).to redirect_to("/login?back_url=http%3A%2F%2Ftest.host%2Fmy%2Faccount")
       end
     end
 
     context "with a non-active user user" do
-      let(:user) { create :user, login: login, auth_source_id: auth_source.id, status: 2 }
+      let(:user) { create :user, login:, auth_source_id: auth_source.id, status: 2 }
 
-      it_should_behave_like "auth source sso failure"
+      it_behaves_like "auth source sso failure"
     end
 
     context "with an invalid user" do
@@ -161,10 +161,10 @@ describe MyController, type: :controller do
       let(:login) { "dummy_dupuser" }
 
       let(:user) do
-        build :user, login: login, mail: duplicate.mail, auth_source_id: auth_source.id
+        build :user, login:, mail: duplicate.mail, auth_source_id: auth_source.id
       end
 
-      it_should_behave_like "auth source sso failure"
+      it_behaves_like "auth source sso failure"
     end
   end
 
@@ -192,14 +192,14 @@ describe MyController, type: :controller do
       expect(user.reload.last_login_on).to be_within(1.second).of(last_login)
 
       # Session values are kept
-      expect(session[:should_be_kept]).to eq true
+      expect(session[:should_be_kept]).to be true
     end
   end
 
   context 'when the logged-in user differs from the header' do
     let(:other_user) { create :user, login: 'other_user' }
     let(:session_update_time) { 1.minute.ago }
-    let(:service) { Users::LogoutService.new(controller: controller) }
+    let(:service) { Users::LogoutService.new(controller:) }
 
     before do
       session[:user_id] = other_user.id

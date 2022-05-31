@@ -66,7 +66,7 @@ class EnterprisesController < ApplicationController
       end
       respond_to do |format|
         format.html { render action: :show }
-        format.json { render json: { description: @token.errors.full_messages.join(", ") }, status: 400 }
+        format.json { render json: { description: @token.errors.full_messages.join(", ") }, status: :bad_request }
       end
     end
   end

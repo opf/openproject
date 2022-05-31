@@ -67,6 +67,6 @@ module Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin
 
   def relation_subselect
     Relation
-      .where(relation_type: relation_type)
+      .where(relation_type:)
   end
 end

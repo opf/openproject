@@ -54,7 +54,7 @@ describe 'API v3 Project resource index', type: :request, content_type: :json do
   let(:second_role) { create(:role) }
   let(:filters) { [] }
   let(:get_path) do
-    api_v3_paths.path_for :projects, filters: filters
+    api_v3_paths.path_for :projects, filters:
   end
   let(:response) { last_response }
   let(:projects) { [project, other_project] }
@@ -232,7 +232,7 @@ describe 'API v3 Project resource index', type: :request, content_type: :json do
     let(:projects) { [project, parent_project] }
     let(:select) { 'elements/id,elements/name,elements/ancestors,total' }
     let(:get_path) do
-      api_v3_paths.path_for :projects, select: select
+      api_v3_paths.path_for :projects, select:
     end
     let(:expected) do
       {

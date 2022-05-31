@@ -97,10 +97,10 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
 
   shared_let(:task) do
     create :work_package,
-           project: project,
+           project:,
            type: type_task,
            assigned_to: user,
-           start_date: Time.zone.today - 2.day,
+           start_date: Time.zone.today - 2.days,
            due_date: Time.zone.today + 1.day,
            subject: 'A task for ' + user.name
   end
@@ -127,7 +127,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
 
   shared_let(:other_task) do
     create :work_package,
-           project: project,
+           project:,
            type: type_task,
            assigned_to: other_user,
            start_date: Time.zone.today,
@@ -140,8 +140,8 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
            project: other_project,
            type: type_task,
            assigned_to: other_user,
-           start_date: Time.zone.today - 2.day,
-           due_date: Time.zone.today + 4.day,
+           start_date: Time.zone.today - 2.days,
+           due_date: Time.zone.today + 4.days,
            subject: 'A task for the other user in other-project'
   end
 

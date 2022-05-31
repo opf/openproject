@@ -32,9 +32,9 @@ describe CustomValue::VersionStrategy do
   let(:instance) { described_class.new(custom_value) }
   let(:custom_value) do
     double('CustomValue',
-           value: value,
-           custom_field: custom_field,
-           customized: customized)
+           value:,
+           custom_field:,
+           customized:)
   end
   let(:customized) { double('customized') }
   let(:custom_field) { build(:custom_field) }
@@ -48,7 +48,7 @@ describe CustomValue::VersionStrategy do
 
       it 'returns the version and sets it for later retrieval' do
         expect(Version)
-          .to_not receive(:find_by)
+          .not_to receive(:find_by)
 
         expect(subject.parse_value(value)).to eql version.id.to_s
 
@@ -76,7 +76,7 @@ describe CustomValue::VersionStrategy do
 
       it 'is nil and does not look for the version' do
         expect(Version)
-          .to_not receive(:find_by)
+          .not_to receive(:find_by)
 
         expect(subject.parse_value(value)).to be_nil
 
@@ -89,7 +89,7 @@ describe CustomValue::VersionStrategy do
 
       it 'is nil and does not look for the version' do
         expect(Version)
-          .to_not receive(:find_by)
+          .not_to receive(:find_by)
 
         expect(subject.parse_value(value)).to be_nil
 
@@ -106,11 +106,11 @@ describe CustomValue::VersionStrategy do
 
       it 'is the version to_s (without db access)' do
         expect(Version)
-          .to_not receive(:find_by)
+          .not_to receive(:find_by)
 
         instance.parse_value(value)
 
-        is_expected.to eql value.to_s
+        expect(subject).to eql value.to_s
       end
     end
 
@@ -123,7 +123,7 @@ describe CustomValue::VersionStrategy do
           .with(id: version.id.to_s)
           .and_return(version)
 
-        is_expected.to eql version.to_s
+        expect(subject).to eql version.to_s
       end
     end
 
@@ -132,9 +132,9 @@ describe CustomValue::VersionStrategy do
 
       it 'is blank and does not look for the version' do
         expect(Version)
-          .to_not receive(:find_by)
+          .not_to receive(:find_by)
 
-        is_expected.to eql ''
+        expect(subject).to eql ''
       end
     end
 
@@ -143,15 +143,16 @@ describe CustomValue::VersionStrategy do
 
       it 'is blank and does not look for the version' do
         expect(Version)
-          .to_not receive(:find_by)
+          .not_to receive(:find_by)
 
-        is_expected.to eql ''
+        expect(subject).to eql ''
       end
     end
   end
 
   describe '#validate_type_of_value' do
     subject { instance.validate_type_of_value }
+
     let(:allowed_ids) { %w(12 13) }
 
     before do
@@ -160,15 +161,17 @@ describe CustomValue::VersionStrategy do
 
     context 'value is id of included element' do
       let(:value) { '12' }
+
       it 'accepts' do
-        is_expected.to be_nil
+        expect(subject).to be_nil
       end
     end
 
     context 'value is id of non included element' do
       let(:value) { '10' }
+
       it 'rejects' do
-        is_expected.to eql(:inclusion)
+        expect(subject).to be(:inclusion)
       end
     end
   end

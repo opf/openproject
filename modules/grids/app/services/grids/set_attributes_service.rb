@@ -84,7 +84,7 @@ class Grids::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def classify_preserve_existing(widgets)
-    widget_map = model.widgets.map { |w| [w, nil] }.to_h
+    widget_map = model.widgets.index_with { |_w| nil }
     to_create = []
 
     widgets.each do |widget|

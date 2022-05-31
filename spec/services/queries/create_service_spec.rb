@@ -31,7 +31,8 @@ require 'spec_helper'
 describe Queries::CreateService do
   let(:user) { build_stubbed(:admin) }
 
-  let(:instance) { described_class.new(user: user) }
+  let(:instance) { described_class.new(user:) }
+
   subject { instance.call(params).result }
 
   describe 'ordered work packages' do

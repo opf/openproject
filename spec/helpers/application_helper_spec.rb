@@ -53,6 +53,7 @@ describe ApplicationHelper, type: :helper do
         expect(footer_content.include?(I18n.t(:text_powered_by,
                                               link: link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_truthy
       }
+
       it { expect(footer_content.include?("<span class=\"footer_openproject\">footer</span>")).to be_truthy }
     end
 
@@ -88,7 +89,7 @@ describe ApplicationHelper, type: :helper do
     end
     let(:issue) do
       create :work_package,
-             project: project,
+             project:,
              author: project_member,
              type: project.types.first
     end
@@ -147,6 +148,7 @@ describe ApplicationHelper, type: :helper do
       before do
         @links = other_formats_links { |f| f.link_to 'Atom', url: { controller: :projects, action: :index } }
       end
+
       it {
         expect(@links).to be_html_eql("<p class=\"other-formats\">Also available in:<span><a class=\"icon icon-atom\" href=\"/projects.atom\" rel=\"nofollow\">Atom</a></span></p>")
       }
@@ -157,6 +159,7 @@ describe ApplicationHelper, type: :helper do
         allow(Setting).to receive(:feeds_enabled?).and_return(false)
         @links = other_formats_links { |f| f.link_to 'Atom', url: { controller: :projects, action: :index } }
       end
+
       it { expect(@links).to be_nil }
     end
   end

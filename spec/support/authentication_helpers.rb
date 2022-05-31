@@ -65,8 +65,8 @@ module AuthenticationHelpers
     # Will make the return value available in the specs as current_user (using a let block)
     # and treat that user as the one currently being logged in
     # @block [Proc] The user to log in.
-    def current_user(&block)
-      let(:current_user, &block)
+    def current_user(&)
+      let(:current_user, &)
 
       before { login_as current_user }
     end

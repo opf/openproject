@@ -52,7 +52,7 @@ module Components
       end
 
       def search(query)
-        search_autocomplete(autocompleter, query: query)
+        search_autocomplete(autocompleter, query:)
       end
 
       def clear_search
@@ -63,7 +63,7 @@ module Components
       def search_and_select(query)
         select_autocomplete autocompleter,
                             results_selector: autocompleter_results_selector,
-                            query: query
+                            query:
       end
 
       def search_results

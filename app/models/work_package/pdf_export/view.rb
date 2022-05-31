@@ -46,7 +46,7 @@ class WorkPackage::PDFExport::View
   end
 
   def document
-    @document ||= Prawn::Document.new(options.merge(info: info)).tap do |document|
+    @document ||= Prawn::Document.new(options.merge(info:)).tap do |document|
       register_fonts! document
 
       document.set_font document.font('NotoSans')

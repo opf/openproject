@@ -42,12 +42,12 @@ module Pages
     end
 
     def remove_row_element(text)
-      element_name = find("#group-by--rows label", text: text)[:for]
+      element_name = find("#group-by--rows label", text:)[:for]
       find("##{element_name}_remove").click
     end
 
     def remove_column_element(text)
-      element_name = find("#group-by--columns label", text: text)[:for]
+      element_name = find("#group-by--columns label", text:)[:for]
       find("##{element_name}_remove").click
     end
 
@@ -65,17 +65,17 @@ module Pages
 
     def expect_row_element(text, present: true)
       if present
-        expect(page).to have_selector('#group-by--selected-rows .group-by--selected-element', text: text)
+        expect(page).to have_selector('#group-by--selected-rows .group-by--selected-element', text:)
       else
-        expect(page).to have_no_selector('#group-by--selected-rows .group-by--selected-element', text: text)
+        expect(page).to have_no_selector('#group-by--selected-rows .group-by--selected-element', text:)
       end
     end
 
     def expect_column_element(text, present: true)
       if present
-        expect(page).to have_selector('#group-by--selected-columns .group-by--selected-element', text: text)
+        expect(page).to have_selector('#group-by--selected-columns .group-by--selected-element', text:)
       else
-        expect(page).to have_no_selector('#group-by--selected-columns .group-by--selected-element', text: text)
+        expect(page).to have_no_selector('#group-by--selected-columns .group-by--selected-element', text:)
       end
     end
 

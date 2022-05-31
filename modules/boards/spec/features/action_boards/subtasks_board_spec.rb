@@ -33,7 +33,7 @@ require_relative './../support/board_page'
 describe 'Subtasks action board', type: :feature, js: true do
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
 
   let(:user) do
     create(:user,
@@ -45,8 +45,8 @@ describe 'Subtasks action board', type: :feature, js: true do
 
   let!(:priority) { create :default_priority }
   let!(:open_status) { create :default_status, name: 'Open' }
-  let!(:parent) { create :work_package, project: project, subject: 'Parent WP', status: open_status }
-  let!(:child) { create :work_package, project: project, subject: 'Child WP', parent: parent, status: open_status }
+  let!(:parent) { create :work_package, project:, subject: 'Parent WP', status: open_status }
+  let!(:child) { create :work_package, project:, subject: 'Child WP', parent:, status: open_status }
 
   before do
     with_enterprise_token :board_view
@@ -76,7 +76,7 @@ describe 'Subtasks action board', type: :feature, js: true do
   end
 
   context 'with all permissions' do
-    let!(:other_wp) { create :work_package, project: project, subject: 'Other WP', status: open_status }
+    let!(:other_wp) { create :work_package, project:, subject: 'Other WP', status: open_status }
 
     let(:permissions) do
       %i[show_board_views manage_board_views add_work_packages

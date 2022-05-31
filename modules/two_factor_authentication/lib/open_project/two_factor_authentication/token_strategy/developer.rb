@@ -20,7 +20,7 @@ module OpenProject::TwoFactorAuthentication
       end
 
       def transmit_success_message
-        I18n.t(:notice_developer_strategy_otp, token: token, channel: channel)
+        I18n.t(:notice_developer_strategy_otp, token:, channel:)
       end
 
       private

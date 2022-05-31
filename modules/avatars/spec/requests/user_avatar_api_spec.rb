@@ -34,11 +34,10 @@ describe 'API v3 User avatar resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) { create(:admin) }
+  let(:setup) { nil }
   let(:other_user) { create(:user) }
 
   subject(:response) { last_response }
-
-  let(:setup) { nil }
 
   before do
     login_as current_user

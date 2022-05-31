@@ -78,7 +78,7 @@ describe Queries::WorkPackages::Filter::AuthorFilter, type: :model do
         let(:logged_in) { false }
 
         it 'is false if no other user is available' do
-          expect(instance).to_not be_available
+          expect(instance).not_to be_available
         end
 
         it 'is true if there is another user selectable' do

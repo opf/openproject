@@ -48,7 +48,7 @@ module API
 
               get do
                 API::V3::Projects::Statuses::StatusRepresenter
-                  .new(params[:id], current_user: current_user, embed_links: true)
+                  .new(params[:id], current_user:, embed_links: true)
               end
             end
           end

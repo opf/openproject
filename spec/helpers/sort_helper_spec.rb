@@ -69,7 +69,7 @@ describe SortHelper, type: :helper do
     context 'when sorting by the column' do
       let(:sort_key) { 'id' }
 
-      it 'should add the sort class' do
+      it 'adds the sort class' do
         expect(output).to be_html_eql(%{
           <th title="Ascending sorted by &quot;Id&quot;">
             <div class="generic-table--sort-header-outer">
@@ -89,7 +89,7 @@ describe SortHelper, type: :helper do
       let(:sort_key) { 'id' }
       let(:sort_asc) { false }
 
-      it 'should add the sort class' do
+      it 'adds the sort class' do
         expect(output).to be_html_eql(%{
           <th title="Descending sorted by &quot;Id&quot;">
             <div class="generic-table--sort-header-outer">

@@ -63,7 +63,7 @@ describe 'WorkPackage-Visibility', type: :model do
 
     it 'is visible for members of the project, with the view_work_packages permissison' do
       create(:member,
-             user: user,
+             user:,
              project: private_project,
              role_ids: [view_work_packages.id])
 
@@ -74,7 +74,7 @@ describe 'WorkPackage-Visibility', type: :model do
       subject
 
       create(:member,
-             user: user,
+             user:,
              project: private_project,
              role_ids: [view_work_packages.id,
                         view_work_packages_role2.id])
@@ -89,7 +89,7 @@ describe 'WorkPackage-Visibility', type: :model do
     it 'is not visible for members of the project, without the view_work_packages permissison' do
       no_permission = create(:role, permissions: [:no_permission])
       create(:member,
-             user: user,
+             user:,
              project: private_project,
              role_ids: [no_permission.id])
 

@@ -100,7 +100,7 @@ module Components
 
       def open_select_in_step(query = '')
         search_autocomplete modal_element.find('.ng-select-container'),
-                            query: query,
+                            query:,
                             results_selector: 'body'
       end
 
@@ -139,8 +139,8 @@ module Components
 
       def autocomplete(query, select_text: query)
         select_autocomplete modal_element.find('.ng-select-container'),
-                            query: query,
-                            select_text: select_text,
+                            query:,
+                            select_text:,
                             results_selector: 'body'
       end
 

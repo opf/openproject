@@ -31,7 +31,7 @@ class CustomFieldsPage
   include Capybara::DSL
 
   def visit_new(type = 'WorkPackageCustomField')
-    visit new_custom_field_path type: type
+    visit new_custom_field_path type:
   end
 
   def name_attribute

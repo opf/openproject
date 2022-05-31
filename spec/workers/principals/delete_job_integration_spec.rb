@@ -41,12 +41,13 @@ describe Principals::DeleteJob, type: :model do
   end
   let(:member) do
     create(:member,
-           principal: principal,
-           project: project,
+           principal:,
+           project:,
            roles: [role])
   end
+
   shared_let(:role) do
-    create(:role, permissions: %i[view_work_packages] )
+    create(:role, permissions: %i[view_work_packages])
   end
 
   describe '#perform' do
@@ -107,7 +108,7 @@ describe Principals::DeleteJob, type: :model do
                project: work_package.project,
                units: 100.0,
                spent_on: Date.today,
-               work_package: work_package,
+               work_package:,
                comments: '')
       end
 
@@ -150,7 +151,7 @@ describe Principals::DeleteJob, type: :model do
       let(:hourly_rate) do
         build(:hourly_rate,
               user: principal,
-              project: project)
+              project:)
       end
 
       before do
@@ -163,7 +164,7 @@ describe Principals::DeleteJob, type: :model do
     end
 
     shared_examples_for 'watcher handling' do
-      let(:watched) { create(:news, project: project) }
+      let(:watched) { create(:news, project:) }
       let(:watch) do
         Watcher.create(user: principal,
                        watchable: watched)
@@ -223,7 +224,7 @@ describe Principals::DeleteJob, type: :model do
       let(:category) do
         create(:category,
                assigned_to: principal,
-               project: project)
+               project:)
       end
 
       before do
@@ -256,7 +257,7 @@ describe Principals::DeleteJob, type: :model do
       it 'removes the query' do
         job
 
-        expect(CostQuery.find_by_id(query.id)).to eq(nil)
+        expect(CostQuery.find_by_id(query.id)).to be_nil
       end
     end
 
@@ -343,25 +344,25 @@ describe Principals::DeleteJob, type: :model do
       describe "with the query has a user_id filter" do
         let(:filter) { CostQuery::Filter::UserId }
 
-        it_should_behave_like "public query rewriting"
+        it_behaves_like "public query rewriting"
       end
 
       describe "with the query has a author_id filter" do
         let(:filter) { CostQuery::Filter::AuthorId }
 
-        it_should_behave_like "public query rewriting"
+        it_behaves_like "public query rewriting"
       end
 
       describe "with the query has a assigned_to_id filter" do
         let(:filter) { CostQuery::Filter::AssignedToId }
 
-        it_should_behave_like "public query rewriting"
+        it_behaves_like "public query rewriting"
       end
 
       describe "with the query has an responsible_id filter" do
         let(:filter) { CostQuery::Filter::ResponsibleId }
 
-        it_should_behave_like "public query rewriting"
+        it_behaves_like "public query rewriting"
       end
     end
 
@@ -395,9 +396,9 @@ describe Principals::DeleteJob, type: :model do
           create(:user)
         end
         let(:group_members) { [user] }
-        let(:watched) { create(:news, project: project) }
+        let(:watched) { create(:news, project:) }
         let(:watch) do
-          Watcher.create(user: user,
+          Watcher.create(user:,
                          watchable: watched)
         end
 

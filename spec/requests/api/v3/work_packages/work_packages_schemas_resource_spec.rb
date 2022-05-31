@@ -59,7 +59,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
     context 'authorized' do
       context 'valid' do
         it 'returns HTTP 200' do
-          expect(last_response.status).to eql(200)
+          expect(last_response.status).to be(200)
         end
 
         it 'returns a collection of schemas' do
@@ -79,7 +79,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
         let(:filter_values) { ["#{0}-#{type.id}"] }
 
         it 'returns HTTP 200' do
-          expect(last_response.status).to eql(200)
+          expect(last_response.status).to be(200)
         end
 
         it 'returns an empty collection' do
@@ -93,7 +93,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
         let(:filter_values) { ["#{project.id}-#{0}"] }
 
         it 'returns HTTP 200' do
-          expect(last_response.status).to eql(200)
+          expect(last_response.status).to be(200)
         end
 
         it 'returns an empty collection' do
@@ -107,7 +107,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
         let(:filter_values) { ['bogus'] }
 
         it 'returns HTTP 400' do
-          expect(last_response.status).to eql(400)
+          expect(last_response.status).to be(400)
         end
 
         it 'returns an error' do
@@ -122,7 +122,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
       let(:role) { create(:role, permissions: []) }
 
       it 'returns HTTP 403' do
-        expect(last_response.status).to eql(403)
+        expect(last_response.status).to be(403)
       end
     end
   end
@@ -137,11 +137,11 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
       end
 
       context 'valid schema' do
-        it 'should return HTTP 200' do
-          expect(last_response.status).to eql(200)
+        it 'returns HTTP 200' do
+          expect(last_response.status).to be(200)
         end
 
-        it 'should set a weak ETag' do
+        it 'sets a weak ETag' do
           expect(last_response.headers['ETag']).to match(/W\/"\w+"/)
         end
 
@@ -149,14 +149,14 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
           schema_class = API::V3::WorkPackages::Schema::TypedWorkPackageSchema
           representer_class = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter
 
-          schema = schema_class.new(project: project,
-                                    type: type)
+          schema = schema_class.new(project:,
+                                    type:)
           self_link = api_v3_paths.work_package_schema(project.id, type.id)
           represented_schema = representer_class.create(schema,
-                                                        self_link: self_link,
-                                                        current_user: current_user)
+                                                        self_link:,
+                                                        current_user:)
 
-          expect(OpenProject::Cache.fetch(represented_schema.json_cache_key)).to_not be_nil
+          expect(OpenProject::Cache.fetch(represented_schema.json_cache_key)).not_to be_nil
         end
       end
 
@@ -174,15 +174,16 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
     end
 
     context 'not logged in' do
-      it 'should act as if the schema does not exist' do
+      it 'acts as if the schema does not exist' do
         get schema_path
-        expect(last_response.status).to eql(404)
+        expect(last_response.status).to be(404)
       end
     end
   end
 
   describe 'GET /api/v3/work_packages/schemas/sums' do
     let(:schema_path) { api_v3_paths.work_package_sums_schema }
+
     subject { last_response }
 
     context 'logged in' do
@@ -192,27 +193,27 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
       end
 
       context 'valid schema' do
-        it 'should return HTTP 200' do
-          expect(last_response.status).to eql(200)
+        it 'returns HTTP 200' do
+          expect(last_response.status).to be(200)
         end
 
         # Further fields are tested in the representer specs
-        it 'should return the schema for estimated_hours' do
-          expected = { 'type': 'Duration',
-                       'name': 'Estimated time',
-                       'required': false,
-                       'hasDefault': false,
-                       'writable': false,
-                       'options': {} }
+        it 'returns the schema for estimated_hours' do
+          expected = { type: 'Duration',
+                       name: 'Estimated time',
+                       required: false,
+                       hasDefault: false,
+                       writable: false,
+                       options: {} }
           expect(subject.body).to be_json_eql(expected.to_json).at_path('estimatedTime')
         end
       end
     end
 
     context 'not logged in' do
-      it 'should act as if the schema does not exist' do
+      it 'acts as if the schema does not exist' do
         get schema_path
-        expect(last_response.status).to eql(404)
+        expect(last_response.status).to be(404)
       end
     end
   end

@@ -42,7 +42,7 @@ describe 'Upload attachment to work package', js: true do
            member_through_role: role
   end
   let(:project) { create(:project) }
-  let(:work_package) { create(:work_package, project: project, description: 'Initial description') }
+  let(:work_package) { create(:work_package, project:, description: 'Initial description') }
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
   let(:attachments) { ::Components::Attachments.new }
   let(:field) { TextEditorField.new wp_page, 'description' }
@@ -85,7 +85,7 @@ describe 'Upload attachment to work package', js: true do
         let(:comment_field) do
           TextEditorField.new wp_page,
                               'comment',
-                              selector: selector
+                              selector:
         end
         let(:editor) { Components::WysiwygEditor.new '.work-packages--activity--add-comment' }
 

@@ -62,7 +62,7 @@ describe RolesController, type: :controller do
 
       expect(Roles::CreateService)
         .to receive(:new)
-        .with(user: user)
+        .with(user:)
         .and_return(service_double)
 
       expect(service_double)
@@ -74,7 +74,7 @@ describe RolesController, type: :controller do
     before do
       create_service
 
-      post :create, params: params
+      post :create, params:
     end
 
     context 'success' do
@@ -127,7 +127,7 @@ describe RolesController, type: :controller do
 
       it 'returns a 200 OK' do
         expect(response.status)
-          .to eql(200)
+          .to be(200)
       end
 
       it 'renders the new template' do
@@ -178,7 +178,7 @@ describe RolesController, type: :controller do
 
       expect(Roles::UpdateService)
         .to receive(:new)
-        .with(user: user, model: role)
+        .with(user:, model: role)
         .and_return(service_double)
 
       expect(service_double)
@@ -190,7 +190,7 @@ describe RolesController, type: :controller do
     before do
       update_service
 
-      put :update, params: params
+      put :update, params:
     end
 
     context 'success' do
@@ -210,7 +210,7 @@ describe RolesController, type: :controller do
 
       it 'returns a 200 OK' do
         expect(response.status)
-          .to eql(200)
+          .to be(200)
       end
 
       it 'renders the edit template' do
@@ -270,7 +270,7 @@ describe RolesController, type: :controller do
 
       expect(Roles::UpdateService)
         .to receive(:new)
-        .with(user: user, model: role0)
+        .with(user:, model: role0)
         .and_return(service_double)
 
       expect(service_double)
@@ -286,7 +286,7 @@ describe RolesController, type: :controller do
 
       expect(Roles::UpdateService)
         .to receive(:new)
-        .with(user: user, model: role1)
+        .with(user:, model: role1)
         .and_return(service_double)
 
       expect(service_double)
@@ -302,7 +302,7 @@ describe RolesController, type: :controller do
 
       expect(Roles::UpdateService)
         .to receive(:new)
-        .with(user: user, model: role2)
+        .with(user:, model: role2)
         .and_return(service_double)
 
       expect(service_double)
@@ -318,7 +318,7 @@ describe RolesController, type: :controller do
 
       expect(Roles::UpdateService)
         .to receive(:new)
-        .with(user: user, model: role3)
+        .with(user:, model: role3)
         .and_return(service_double)
 
       expect(service_double)
@@ -333,7 +333,7 @@ describe RolesController, type: :controller do
       update_service2
       update_service3
 
-      put :bulk_update, params: params
+      put :bulk_update, params:
     end
 
     context 'success' do
@@ -353,7 +353,7 @@ describe RolesController, type: :controller do
 
       it 'returns a 200 OK' do
         expect(response.status)
-          .to eql(200)
+          .to be(200)
       end
 
       it 'renders the report template' do

@@ -32,7 +32,7 @@ module Members::Concerns::NotificationSender
   included do
     def send_notification(member)
       OpenProject::Notifications.send(event_type,
-                                      member: member,
+                                      member:,
                                       message: notification_message,
                                       send_notifications: send_notifications?)
     end

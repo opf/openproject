@@ -73,7 +73,7 @@ class Principals::DeleteJob < ApplicationJob
         remove_cost_query_values(name, options, principal)
       end.compact
 
-      CostQuery.where(id: query.id).update_all(serialized: serialized)
+      CostQuery.where(id: query.id).update_all(serialized:)
     end
   end
 

@@ -37,7 +37,7 @@ describe ::API::V3::CostEntries::CostEntryRepresenter do
   subject { representer.to_json }
 
   it 'has a type' do
-    is_expected.to be_json_eql('CostEntry'.to_json).at_path('_type')
+    expect(subject).to be_json_eql('CostEntry'.to_json).at_path('_type')
   end
 
   it_behaves_like 'has an untitled link' do
@@ -70,11 +70,11 @@ describe ::API::V3::CostEntries::CostEntryRepresenter do
   end
 
   it 'has an id' do
-    is_expected.to be_json_eql(cost_entry.id.to_json).at_path('id')
+    expect(subject).to be_json_eql(cost_entry.id.to_json).at_path('id')
   end
 
   it 'has spent units' do
-    is_expected.to be_json_eql(cost_entry.units.to_json).at_path('spentUnits')
+    expect(subject).to be_json_eql(cost_entry.units.to_json).at_path('spentUnits')
   end
 
   it_behaves_like 'has ISO 8601 date only' do

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'version edit', type: :feature do
+describe 'version edit', type: :feature do
   let(:user) do
     create(:user,
            member_in_project: version.project,
@@ -41,7 +41,7 @@ feature 'version edit', type: :feature do
     login_as(user)
   end
 
-  scenario 'edit a version' do
+  it 'edit a version' do
     # from the version show page
     visit version_path(version)
 

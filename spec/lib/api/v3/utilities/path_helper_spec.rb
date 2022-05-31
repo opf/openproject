@@ -33,22 +33,22 @@ describe ::API::V3::Utilities::PathHelper do
 
   shared_examples_for 'path' do |url|
     it 'provides the path' do
-      is_expected.to match(url)
+      expect(subject).to match(url)
     end
 
     it 'prepends the sub uri if configured' do
       allow(OpenProject::Configuration).to receive(:rails_relative_url_root)
         .and_return('/open_project')
 
-      is_expected.to match("/open_project#{url}")
+      expect(subject).to match("/open_project#{url}")
     end
   end
 
-  before(:each) do
+  before do
     RequestStore.store[:cached_root_path] = nil
   end
 
-  after(:each) do
+  after do
     RequestStore.clear!
   end
 

@@ -316,7 +316,7 @@ class UsersController < ApplicationController
     if params[:user][:assign_random_password]
       password = OpenProject::Passwords::Generator.random_password
       update_params.merge!(
-        password: password,
+        password:,
         password_confirmation: password,
         force_password_change: true
       )

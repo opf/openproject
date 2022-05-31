@@ -28,7 +28,6 @@
 
 require 'spec_helper'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe Notifications::SetAttributesService, type: :model do
   let(:user) { build_stubbed(:user) }
   let(:contract_class) do
@@ -50,14 +49,14 @@ describe Notifications::SetAttributesService, type: :model do
   end
   let(:member_valid) { true }
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: event,
-                        contract_class: contract_class)
+                        contract_class:)
   end
   let(:call_attributes) { {} }
   let(:project) { build_stubbed(:project) }
   let(:reason) { :mentioned }
-  let(:journal) { build_stubbed(:journal, journable: journable, data: journal_data) }
+  let(:journal) { build_stubbed(:journal, journable:, data: journal_data) }
   let(:journable) { nil }
   let(:journal_data) { nil }
   let(:event_subject) { 'I find it important' }
@@ -66,12 +65,12 @@ describe Notifications::SetAttributesService, type: :model do
   describe 'call' do
     let(:call_attributes) do
       {
-        recipient_id: recipient_id,
-        reason: reason,
+        recipient_id:,
+        reason:,
         resource: journable,
-        journal: journal,
+        journal:,
         subject: event_subject,
-        project: project
+        project:
       }
     end
 
@@ -104,21 +103,21 @@ describe Notifications::SetAttributesService, type: :model do
 
       context 'with only the minimal set of attributes for a notification' do
         let(:journable) do
-          build_stubbed(:work_package, project: project).tap do |wp|
+          build_stubbed(:work_package, project:).tap do |wp|
             allow(wp)
               .to receive(:to_s)
               .and_return("wp to s")
           end
         end
-        let(:journal_data) {
-          build_stubbed(:journal_work_package_journal, project: project)
-        }
+        let(:journal_data) do
+          build_stubbed(:journal_work_package_journal, project:)
+        end
         let(:call_attributes) do
           {
-            recipient_id: recipient_id,
-            reason: reason,
-            journal: journal,
-            resource: journable,
+            recipient_id:,
+            reason:,
+            journal:,
+            resource: journable
           }
         end
 
@@ -148,4 +147,3 @@ describe Notifications::SetAttributesService, type: :model do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

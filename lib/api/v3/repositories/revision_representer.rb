@@ -35,7 +35,7 @@ module API
         include API::Decorators::FormattableProperty
 
         self_link path: :revision,
-                  title_getter: ->(*) { nil }
+                  title_getter: ->(*) {}
 
         link :project do
           {

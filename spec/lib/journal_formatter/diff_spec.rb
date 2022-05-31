@@ -41,7 +41,7 @@ describe OpenProject::JournalFormatter::Diff do
   let(:klass) { OpenProject::JournalFormatter::Diff }
   let(:id) { 1 }
   let(:journal) do
-    OpenStruct.new(id: id, journable: WorkPackage.new)
+    OpenStruct.new(id:, journable: WorkPackage.new)
   end
   let(:instance) { klass.new(journal) }
   let(:key) { 'description' }
@@ -64,7 +64,7 @@ describe OpenProject::JournalFormatter::Diff do
       let(:expected) do
         I18n.t(:text_journal_set_with_diff,
                label: "<strong>#{key.camelize}</strong>",
-               link: link)
+               link:)
       end
 
       it { expect(instance.render(key, [nil, 'new value'])).to eq(expected) }
@@ -74,7 +74,7 @@ describe OpenProject::JournalFormatter::Diff do
       let(:expected) do
         I18n.t(:text_journal_changed_with_diff,
                label: "<strong>#{key.camelize}</strong>",
-               link: link)
+               link:)
       end
 
       it { expect(instance.render(key, ['old value', 'new value'])).to eq(expected) }
@@ -85,25 +85,25 @@ describe OpenProject::JournalFormatter::Diff do
       let(:expected) do
         I18n.t(:text_journal_changed_with_diff,
                label: '<strong>Beschreibung</strong>',
-               link: link)
+               link:)
       end
 
       before do
         I18n.locale = :de
       end
 
-      it { expect(instance.render(key, ['old value', 'new value'])).to eq(expected) }
-
       after do
         I18n.locale = :en
       end
+
+      it { expect(instance.render(key, ['old value', 'new value'])).to eq(expected) }
     end
 
     describe 'WITH the first value being a string, and the second nil' do
       let(:expected) do
         I18n.t(:text_journal_deleted_with_diff,
                label: "<strong>#{key.camelize}</strong>",
-               link: link)
+               link:)
       end
 
       it { expect(instance.render(key, ['old_value', nil])).to eq(expected) }

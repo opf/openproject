@@ -47,7 +47,7 @@ describe 'Backlogs in backlog view',
     create(:workflow,
            old_status: default_status,
            new_status: other_status,
-           role: role,
+           role:,
            type_id: story.id)
   end
   let(:role) do
@@ -68,15 +68,15 @@ describe 'Backlogs in backlog view',
   end
   let!(:sprint) do
     create(:version,
-           project: project,
+           project:,
            start_date: Date.today - 10.days,
            effective_date: Date.today + 10.days,
-           version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_LEFT }])
+           version_settings_attributes: [{ project:, display: VersionSetting::DISPLAY_LEFT }])
   end
   let!(:backlog) do
     create(:version,
-           project: project,
-           version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_RIGHT }])
+           project:,
+           version_settings_attributes: [{ project:, display: VersionSetting::DISPLAY_RIGHT }])
   end
   let!(:other_project) do
     create(:project)
@@ -90,7 +90,7 @@ describe 'Backlogs in backlog view',
   end
   let!(:sprint_story1) do
     create(:work_package,
-           project: project,
+           project:,
            type: story,
            status: default_status,
            version: sprint,

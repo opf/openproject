@@ -83,7 +83,7 @@ module WorkPackages::Costs
 
       CostEntry
         .where(work_package_id: id)
-        .update_all(project_id: project_id)
+        .update_all(project_id:)
     end
   end
 

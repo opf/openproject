@@ -90,7 +90,7 @@ module OpenProject::TextFormatting::Formats
       ##
       # Run pandoc through posix-spawn and raise if an exception occurred
       def run_pandoc!(command, stdin_data: nil, timeout: pandoc_timeout)
-        child = POSIX::Spawn::Child.new(PandocDownloader.pandoc_path, *command, input: stdin_data, timeout: timeout)
+        child = POSIX::Spawn::Child.new(PandocDownloader.pandoc_path, *command, input: stdin_data, timeout:)
         status = child.status
 
         unless status.success?
@@ -128,12 +128,10 @@ module OpenProject::TextFormatting::Formats
 
       def read_output_formats
         @output_formats ||= begin
-          begin
-            run_pandoc! %w[--list-output-formats]
-          rescue StandardError => e
-            logger.warn "Failed to detect output format (Error was: #{e}). Falling back to github_markdown"
-            ''
-          end
+          run_pandoc! %w[--list-output-formats]
+        rescue StandardError => e
+          logger.warn "Failed to detect output format (Error was: #{e}). Falling back to github_markdown"
+          ''
         end
       end
     end

@@ -29,12 +29,12 @@ require 'spec_helper'
 
 describe SCM::DeleteManagedRepositoryService do
   let(:user) { build(:user) }
+  let(:config) { {} }
   let(:project) { build(:project) }
 
   let(:repository) { build(:repository_subversion) }
-  subject(:service) { SCM::DeleteManagedRepositoryService.new(repository) }
 
-  let(:config) { {} }
+  subject(:service) { SCM::DeleteManagedRepositoryService.new(repository) }
 
   before do
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
@@ -97,7 +97,7 @@ describe SCM::DeleteManagedRepositoryService do
 
     context 'and parent project' do
       let(:parent) { create(:project) }
-      let(:project) { create(:project, parent: parent) }
+      let(:project) { create(:project, parent:) }
       let(:repo_path) do
         Pathname.new(File.join(tmpdir, 'svn', project.identifier))
       end

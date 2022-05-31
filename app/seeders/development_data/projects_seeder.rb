@@ -71,7 +71,7 @@ module DevelopmentData
         user = User.find_by!(login: id)
         role = Role.find_by!(name: I18n.t("default_role_#{id}"))
 
-        projects.each { |p| Member.create! project: p, user: user, roles: [role] }
+        projects.each { |p| Member.create! project: p, user:, roles: [role] }
       end
     end
 
@@ -98,7 +98,7 @@ module DevelopmentData
     def project_data(identifier)
       {
         name: identifier.humanize,
-        identifier: identifier,
+        identifier:,
         enabled_module_names: project_modules,
         types: Type.all
       }

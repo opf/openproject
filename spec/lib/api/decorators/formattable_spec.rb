@@ -48,12 +48,12 @@ describe ::API::Decorators::Formattable do
   context 'when passing an object context' do
     let(:object) { build_stubbed :work_package }
 
-    subject { described_class.new(represented, object: object) }
+    subject { described_class.new(represented, object:) }
 
     it 'passes that to format_text' do
       # rubocop:disable RSpec/SubjectStub RSpec/MessageSpies
       expect(subject)
-        .to receive(:format_text).with(anything, format: :markdown, object: object)
+        .to receive(:format_text).with(anything, format: :markdown, object:)
         .and_call_original
       # rubocop:enable RSpec/SubjectStub RSpec/MessageSpies
 

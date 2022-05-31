@@ -32,7 +32,7 @@ describe ::Projects::DeleteService, type: :model do
   let(:user) { build_stubbed(:admin) }
   let(:project) { build_stubbed(:project) }
 
-  let(:instance) { described_class.new(user: user, model: project) }
+  let(:instance) { described_class.new(user:, model: project) }
 
   subject { instance.call }
 

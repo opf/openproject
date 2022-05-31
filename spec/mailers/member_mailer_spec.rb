@@ -36,9 +36,9 @@ describe MemberMailer, type: :mailer do
   let(:current_user) { build_stubbed(:user) }
   let(:member) do
     build_stubbed(:member,
-                  principal: principal,
-                  project: project,
-                  roles: roles)
+                  principal:,
+                  project:,
+                  roles:)
   end
   let(:principal) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }

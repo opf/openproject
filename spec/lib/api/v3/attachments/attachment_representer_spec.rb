@@ -41,8 +41,8 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
   let(:author) { current_user }
   let(:attachment) do
     build_stubbed(:attachment,
-                  container: container,
-                  author: author) do |attachment|
+                  container:,
+                  author:) do |attachment|
       allow(attachment)
         .to receive(:filename)
         .and_return('some_file_of_mine.txt')
@@ -50,7 +50,7 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
   end
 
   let(:representer) do
-    ::API::V3::Attachments::AttachmentRepresenter.new(attachment, current_user: current_user)
+    ::API::V3::Attachments::AttachmentRepresenter.new(attachment, current_user:)
   end
 
   before do
@@ -163,7 +163,7 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
       end
 
       it 'has the DELETE method' do
-        is_expected.to be_json_eql('delete'.to_json).at_path('_links/delete/method')
+        expect(subject).to be_json_eql('delete'.to_json).at_path('_links/delete/method')
       end
 
       context 'user is not allowed to edit the container' do

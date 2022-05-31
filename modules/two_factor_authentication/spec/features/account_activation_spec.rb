@@ -40,7 +40,7 @@ describe 'activating an invited account',
   end
 
   context 'when not enforced, but device present' do
-    let!(:device) { create :two_factor_authentication_device_sms, user: user, default: true }
+    let!(:device) { create :two_factor_authentication_device_sms, user:, default: true }
 
     it 'requests a OTP' do
       sms_token = nil

@@ -31,7 +31,7 @@ class Version < ApplicationRecord
   include ::Scopes::Scoped
 
   belongs_to :project
-  has_many :work_packages, foreign_key: :version_id, dependent: :nullify
+  has_many :work_packages, dependent: :nullify
   acts_as_customizable
 
   VERSION_STATUSES = %w(open locked closed).freeze
@@ -41,9 +41,9 @@ class Version < ApplicationRecord
             presence: true,
             uniqueness: { scope: [:project_id], case_sensitive: false }
 
-  validates_format_of :effective_date, with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true
-  validates_format_of :start_date, with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true
-  validates_inclusion_of :status, in: VERSION_STATUSES
+  validates :effective_date, format: { with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true }
+  validates :start_date, format: { with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true }
+  validates :status, inclusion: { in: VERSION_STATUSES }
   validate :validate_start_date_before_effective_date
 
   scopes :order_by_semver_name,
@@ -142,7 +142,7 @@ class Version < ApplicationRecord
   end
 
   def wiki_page
-    if project.wiki && !wiki_page_title.blank?
+    if project.wiki && wiki_page_title.present?
       @wiki_page ||= project.wiki.find_page(wiki_page_title)
     end
     @wiki_page

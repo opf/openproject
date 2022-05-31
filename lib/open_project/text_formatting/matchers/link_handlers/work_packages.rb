@@ -61,7 +61,7 @@ module OpenProject::TextFormatting::Matchers
         ApplicationController.helpers.content_tag :macro,
                                                   '',
                                                   class: "macro--wp-quickinfo",
-                                                  data: { id: wp_id, detailed: detailed }
+                                                  data: { id: wp_id, detailed: }
       end
 
       def render_work_package_link(wp_id)

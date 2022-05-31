@@ -7,9 +7,9 @@ describe Bim::IfcModels::UpdateService do
   end
   let(:model_valid) { true }
   let(:instance) do
-    described_class.new(user: user,
-                        model: model,
-                        contract_class: contract_class)
+    described_class.new(user:,
+                        model:,
+                        contract_class:)
   end
   let(:call_attributes) { { name: 'Some name', identifier: 'Some identifier' } }
   let(:set_attributes_success) do
@@ -41,9 +41,9 @@ describe Bim::IfcModels::UpdateService do
 
     allow(Bim::IfcModels::SetAttributesService)
       .to receive(:new)
-      .with(user: user,
-            model: model,
-            contract_class: contract_class,
+      .with(user:,
+            model:,
+            contract_class:,
             contract_options: {})
       .and_return(service)
 
@@ -117,7 +117,7 @@ describe Bim::IfcModels::UpdateService do
       let(:call_attributes) do
         { name: 'Some name',
           identifier: 'Some identifier',
-          ifc_attachment: ifc_attachment }
+          ifc_attachment: }
       end
 
       it 'schedules conversion job' do
@@ -155,7 +155,7 @@ describe Bim::IfcModels::UpdateService do
 
       it 'does not persist the changes' do
         expect(model)
-          .to_not receive(:save)
+          .not_to receive(:save)
 
         subject
       end
@@ -168,6 +168,7 @@ describe Bim::IfcModels::UpdateService do
 
       context 'if the attachment is altered' do
         let(:attachment_marked_for_destruction) { true }
+
         before do
           allow(ifc_attachment)
             .to receive(:new_record?)

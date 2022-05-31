@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe ::Recaptcha::AdminController, type: :controller do
   let(:user) { build_stubbed :admin }
+
   before do
     login_as user
   end

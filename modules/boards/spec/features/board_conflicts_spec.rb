@@ -38,7 +38,7 @@ describe 'Board remote changes resolution', type: :feature, js: true do
   end
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
@@ -49,8 +49,8 @@ describe 'Board remote changes resolution', type: :feature, js: true do
 
   let!(:priority) { create :default_priority }
   let!(:open_status) { create :default_status, name: 'Open' }
-  let!(:work_package1) { create :work_package, project: project, subject: 'Work package A', status: open_status }
-  let!(:work_package2) { create :work_package, project: project, subject: 'Work package B', status: open_status }
+  let!(:work_package1) { create :work_package, project:, subject: 'Work package A', status: open_status }
+  let!(:work_package2) { create :work_package, project:, subject: 'Work package B', status: open_status }
 
   before do
     with_enterprise_token :board_view

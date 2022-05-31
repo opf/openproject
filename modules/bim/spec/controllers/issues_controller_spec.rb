@@ -46,16 +46,17 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
   end
   let(:member) do
     create(:member,
-           project: project,
+           project:,
            user: collaborator,
            roles: [collaborator_role])
   end
   let(:bcf_manager_member) do
     create(:member,
-           project: project,
+           project:,
            user: bcf_manager,
            roles: [manage_bcf_role])
   end
+
   before do
     bcf_manager_member
     member
@@ -68,20 +69,22 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
 
       context 'not member of project' do
         let(:bcf_manager_member) {}
+
         it 'will return "not authorized"' do
-          expect(response).to_not be_successful
+          expect(response).not_to be_successful
         end
       end
 
       context 'no manage_bcf permission' do
         let(:bcf_manager_member) do
           create(:member,
-                 project: project,
+                 project:,
                  user: bcf_manager,
                  roles: [collaborator_role])
         end
+
         it 'will return "not authorized"' do
-          expect(response).to_not be_successful
+          expect(response).not_to be_successful
         end
       end
     end
@@ -95,7 +98,7 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
       }
     end
     let(:action) do
-      post :prepare_import, params: params
+      post :prepare_import, params:
     end
 
     context 'with valid BCF file' do
@@ -107,7 +110,7 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
         )
       end
 
-      it 'should be successful' do
+      it 'is successful' do
         expect { action }.to change { Attachment.count }.by(1)
         expect(response).to be_successful
       end
@@ -118,8 +121,8 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
     context 'with invalid BCF file' do
       let(:file) { FileHelpers.mock_uploaded_file }
 
-      it 'should redirect back to where we started from' do
-        expect { action }.to change { Attachment.count }.by(0)
+      it 'redirects back to where we started from' do
+        expect { action }.not_to change { Attachment.count }
         expect(response).to redirect_to '/projects/bim_project/issues/upload'
       end
     end
@@ -144,8 +147,8 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
         allow(Attachment).to receive(:find_by).and_return(Attachment.new)
       end
 
-      it 'should be successful' do
-        expect { action }.to change { Attachment.count }.by(0)
+      it 'is successful' do
+        expect { action }.not_to change { Attachment.count }
         expect(response).to be_successful
       end
 
@@ -172,8 +175,8 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
         allow(Attachment).to receive(:find_by).and_return(Attachment.new)
       end
 
-      it 'should be successful' do
-        expect { action }.to change { Attachment.count }.by(0)
+      it 'is successful' do
+        expect { action }.not_to change { Attachment.count }
         expect(response).to be_successful
       end
 

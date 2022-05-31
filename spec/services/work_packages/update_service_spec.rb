@@ -37,14 +37,14 @@ describe WorkPackages::UpdateService, type: :model do
     p
   end
   let(:work_package) do
-    wp = build_stubbed(:work_package, project: project)
+    wp = build_stubbed(:work_package, project:)
     wp.type = build_stubbed(:type)
     wp.send(:clear_changes_information)
 
     wp
   end
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: work_package)
   end
 
@@ -62,6 +62,7 @@ describe WorkPackages::UpdateService, type: :model do
 
       service
     end
+    let(:send_notifications) { true }
     let(:set_attributes_service_instance) do
       instance = double("WorkPackages::SetAttributesServiceInstance")
 
@@ -82,8 +83,6 @@ describe WorkPackages::UpdateService, type: :model do
       set_attributes_service
     end
 
-    let(:send_notifications) { true }
-
     before do
       expect(Journal::NotificationConfiguration)
         .to receive(:with)
@@ -96,7 +95,7 @@ describe WorkPackages::UpdateService, type: :model do
     end
 
     shared_examples_for 'service call' do
-      subject { instance.call(**call_attributes.merge(send_notifications: send_notifications).symbolize_keys) }
+      subject { instance.call(**call_attributes.merge(send_notifications:).symbolize_keys) }
 
       it 'is successful' do
         expect(subject.success?).to be_truthy
@@ -116,7 +115,7 @@ describe WorkPackages::UpdateService, type: :model do
 
       context 'when setting the attributes is unsuccessful (invalid)' do
         let(:errors) { ActiveModel::Errors.new(work_package) }
-        let(:set_service_results) { ServiceResult.new success: false, errors: errors, result: work_package }
+        let(:set_service_results) { ServiceResult.new success: false, errors:, result: work_package }
 
         it 'is unsuccessful' do
           expect(subject.success?).to be_falsey
@@ -125,7 +124,7 @@ describe WorkPackages::UpdateService, type: :model do
         it 'does not persist the changes' do
           subject
 
-          expect(work_package).to_not receive(:save)
+          expect(work_package).not_to receive(:save)
         end
 
         it 'exposes the errors' do

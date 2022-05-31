@@ -28,7 +28,7 @@ class Backup < Export
       attachments_query.pluck(:filesize).sum / 1024.0 / 1024.0
     end
 
-    def attachments_size_in_bounds?(attachments_query = self.attachments_query, max: self.attachment_size_max_sum_mb)
+    def attachments_size_in_bounds?(attachments_query = self.attachments_query, max: attachment_size_max_sum_mb)
       attachments_size_in_mb(attachments_query) <= max
     end
   end

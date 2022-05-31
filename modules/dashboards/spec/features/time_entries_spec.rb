@@ -36,23 +36,23 @@ describe 'Time entries widget on dashboard', type: :feature, js: true, with_mail
   let!(:other_project) { create :project, types: [type] }
   let!(:work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            author: user
   end
   let!(:visible_time_entry) do
     create :time_entry,
-           work_package: work_package,
-           project: project,
-           user: user,
+           work_package:,
+           project:,
+           user:,
            spent_on: Date.today,
            hours: 6,
            comments: 'My comment'
   end
   let!(:other_visible_time_entry) do
     create :time_entry,
-           work_package: work_package,
-           project: project,
+           work_package:,
+           project:,
            user: other_user,
            spent_on: Date.today - 1.day,
            hours: 5,
@@ -60,9 +60,9 @@ describe 'Time entries widget on dashboard', type: :feature, js: true, with_mail
   end
   let!(:invisible_time_entry) do
     create :time_entry,
-           work_package: work_package,
+           work_package:,
            project: other_project,
-           user: user,
+           user:,
            hours: 4
   end
   let(:role) do
@@ -76,7 +76,7 @@ describe 'Time entries widget on dashboard', type: :feature, js: true, with_mail
   end
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project: project, roles: [role], user: u)
+      create(:member, project:, roles: [role], user: u)
       create(:member, project: other_project, roles: [role], user: u)
     end
   end

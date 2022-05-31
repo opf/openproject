@@ -32,23 +32,23 @@ describe ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:project) { create(:project) }
-  let(:work_package) { create(:work_package, project: project) }
+  let(:work_package) { create(:work_package, project:) }
   let(:cost_type_A) { create(:cost_type) }
   let(:cost_type_B) { create(:cost_type) }
   let(:cost_entries_A) do
     create_list(:cost_entry,
                 2,
                 units: 1,
-                work_package: work_package,
-                project: project,
+                work_package:,
+                project:,
                 cost_type: cost_type_A)
   end
   let(:cost_entries_B) do
     create_list(:cost_entry,
                 3,
                 units: 2,
-                work_package: work_package,
-                project: project,
+                work_package:,
+                project:,
                 cost_type: cost_type_B)
   end
   let(:current_user) do
@@ -56,7 +56,7 @@ describe ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter do
   end
   let(:role) { build(:role, permissions: [:view_cost_entries]) }
 
-  let(:representer) { described_class.new(work_package, current_user: current_user) }
+  let(:representer) { described_class.new(work_package, current_user:) }
 
   subject { representer.to_json }
 
@@ -67,11 +67,11 @@ describe ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter do
   end
 
   it 'has a type' do
-    is_expected.to be_json_eql('Collection'.to_json).at_path('_type')
+    expect(subject).to be_json_eql('Collection'.to_json).at_path('_type')
   end
 
   it 'has one element per type' do
-    is_expected.to have_json_size(2).at_path('_embedded/elements')
+    expect(subject).to have_json_size(2).at_path('_embedded/elements')
   end
 
   it 'indicates the cost types' do
@@ -88,7 +88,7 @@ describe ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter do
       hash
     end
 
-    expect(units_by_type[api_v3_paths.cost_type cost_type_A.id]).to eql 2.0
-    expect(units_by_type[api_v3_paths.cost_type cost_type_B.id]).to eql 6.0
+    expect(units_by_type[api_v3_paths.cost_type cost_type_A.id]).to be 2.0
+    expect(units_by_type[api_v3_paths.cost_type cost_type_B.id]).to be 6.0
   end
 end

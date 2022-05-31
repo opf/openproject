@@ -98,9 +98,7 @@ module API
           # readonly
         end
 
-        def reverse_type
-          represented.reverse_type
-        end
+        delegate :reverse_type, to: :represented
 
         def reverse_type=(reverse_type)
           # readonly

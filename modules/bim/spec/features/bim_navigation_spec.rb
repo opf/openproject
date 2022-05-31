@@ -33,7 +33,7 @@ describe 'BIM navigation spec',
          with_config: { edition: 'bim' },
          js: true do
   let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
-  let!(:work_package) { create(:work_package, project: project) }
+  let!(:work_package) { create(:work_package, project:) }
   let(:role) do
     create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages delete_work_packages])
   end
@@ -46,7 +46,7 @@ describe 'BIM navigation spec',
 
   let(:model) do
     create(:ifc_model_minimal_converted,
-           project: project,
+           project:,
            uploader: user)
   end
 
@@ -164,11 +164,13 @@ describe 'BIM navigation spec',
 
   context 'on default page' do
     let(:model_page) { ::Pages::IfcModels::ShowDefault.new project }
+
     it_behaves_like 'can switch from split to viewer to list-only'
   end
 
   context 'on show page' do
     let(:model_page) { ::Pages::IfcModels::Show.new project, model.id }
+
     it_behaves_like 'can switch from split to viewer to list-only'
   end
 end

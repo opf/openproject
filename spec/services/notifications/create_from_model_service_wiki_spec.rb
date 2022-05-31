@@ -36,14 +36,14 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
   include_context 'with CreateFromJournalJob context'
 
   shared_let(:project) { create(:project) }
-  shared_let(:wiki) { create(:wiki, project: project) }
+  shared_let(:wiki) { create(:wiki, project:) }
 
   let(:permissions) { [:view_wiki_pages] }
   let(:send_notifications) { true }
 
   let(:wiki_page) do
     create(:wiki_page,
-           wiki: wiki,
+           wiki:,
            content: build(:wiki_content,
                           author: other_user))
   end

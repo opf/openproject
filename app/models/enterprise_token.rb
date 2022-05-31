@@ -54,7 +54,7 @@ class EnterpriseToken < ApplicationRecord
     end
   end
 
-  validates_presence_of :encoded_token
+  validates :encoded_token, presence: true
   validate :valid_token_object
   validate :valid_domain
 
@@ -89,7 +89,7 @@ class EnterpriseToken < ApplicationRecord
   end
 
   def expired?(reprieve: true)
-    token_object.expired?(reprieve: reprieve) || invalid_domain?
+    token_object.expired?(reprieve:) || invalid_domain?
   end
 
   ##

@@ -40,16 +40,16 @@ describe 'API v3 Relation resource', type: :request do
            member_through_role: role)
   end
   let(:permissions) { [] }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
 
   let(:work_package) do
     create(:work_package,
-           project: project,
+           project:,
            type: project.types.first)
   end
   let(:visible_work_package) do
     create(:work_package,
-           project: project,
+           project:,
            type: project.types.first)
   end
   let(:invisible_work_package) do

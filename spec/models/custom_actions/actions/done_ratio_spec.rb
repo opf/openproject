@@ -43,7 +43,7 @@ describe CustomActions::Actions::DoneRatio, type: :model do
         instance.apply(work_package)
 
         expect(work_package.done_ratio)
-          .to eql 95
+          .to be 95
       end
     end
 

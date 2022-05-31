@@ -7,7 +7,7 @@ describe 'Activity tab notifications', js: true, selenium: true do
   shared_let(:project) { create :project_with_types, public: true }
   shared_let(:work_package) do
     work_package = create(:work_package,
-                          project: project,
+                          project:,
                           created_at: 5.days.ago.to_date.to_fs(:db))
 
     work_package.update({ journal_notes: 'First comment on this wp.',
@@ -25,7 +25,7 @@ describe 'Activity tab notifications', js: true, selenium: true do
     shared_let(:notification) do
       create :notification,
              recipient: admin,
-             project: project,
+             project:,
              resource: work_package,
              journal: work_package.journals.last
     end

@@ -59,7 +59,7 @@ describe EnumerationsController, type: :controller do
     before do
       work_packages
 
-      delete :destroy, params: params
+      delete :destroy, params:
     end
 
     it 'redirects' do

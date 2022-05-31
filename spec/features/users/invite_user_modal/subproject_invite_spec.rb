@@ -39,12 +39,12 @@ describe 'Invite user modal subprojects', type: :feature, js: true do
   let(:modal) do
     ::Components::Users::InviteUserModal.new project: subproject,
                                              principal: invitable_user,
-                                             role: role
+                                             role:
   end
   let!(:role) do
     create :role,
            name: 'Member',
-           permissions: permissions
+           permissions:
   end
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:assignee_field) { wp_page.edit_field :assignee }
@@ -53,7 +53,7 @@ describe 'Invite user modal subprojects', type: :feature, js: true do
     create :user,
            member_in_projects: [project, subproject],
            member_through_role: role,
-           global_permissions: global_permissions
+           global_permissions:
   end
 
   context 'with manage permissions in subproject' do

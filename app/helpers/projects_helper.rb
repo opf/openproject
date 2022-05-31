@@ -174,22 +174,22 @@ module ProjectsHelper
       project = item[:project]
 
       {
-        "id": project.id,
-        "name": project.name,
-        "identifier": project.identifier,
-        "has_children": !project.leaf?,
-        "level": item[:level]
+        id: project.id,
+        name: project.name,
+        identifier: project.identifier,
+        has_children: !project.leaf?,
+        level: item[:level]
       }
     end
 
     { projects: projects_list }
   end
 
-  def projects_with_levels_order_sensitive(projects, &block)
+  def projects_with_levels_order_sensitive(projects, &)
     if sorted_by_lft?
-      project_tree(projects, &block)
+      project_tree(projects, &)
     else
-      projects_with_level(projects, &block)
+      projects_with_level(projects, &)
     end
   end
 

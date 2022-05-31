@@ -68,9 +68,9 @@ module Projects
 
     def notify(success)
       if success
-        ProjectMailer.delete_project_completed(model, user: user).deliver_now
+        ProjectMailer.delete_project_completed(model, user:).deliver_now
       else
-        ProjectMailer.delete_project_failed(model, user: user).deliver_now
+        ProjectMailer.delete_project_failed(model, user:).deliver_now
       end
     end
   end

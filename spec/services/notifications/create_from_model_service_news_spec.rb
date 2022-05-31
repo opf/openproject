@@ -37,7 +37,7 @@ describe Notifications::CreateFromModelService, 'news', with_settings: { journal
 
   let(:journable) { build_stubbed(:news) }
 
-  let(:resource) { create(:news, project: project) }
+  let(:resource) { create(:news, project:) }
 
   # view_news is a public permission
   let(:permissions) { [] }

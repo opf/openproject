@@ -30,14 +30,14 @@ require 'spec_helper'
 
 describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
   let(:version) { build_stubbed(:version) }
+  let(:permissions) { [:manage_versions] }
+  let(:permissions) { [:manage_versions] }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.create(version, current_user: user) }
 
   include API::V3::Utilities::PathHelper
 
   subject(:generated) { representer.to_json }
-
-  it { is_expected.to include_json('Version'.to_json).at_path('_type') }
 
   before do
     allow(user)
@@ -46,7 +46,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
       end
   end
 
-  let(:permissions) { [:manage_versions] }
+  it { is_expected.to include_json('Version'.to_json).at_path('_type') }
 
   describe 'links' do
     it { is_expected.to have_json_type(Object).at_path('_links') }
@@ -134,7 +134,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
     context 'custom value' do
       let(:custom_field) { build_stubbed(:list_version_custom_field) }
       let(:custom_value) do
-        build_stubbed(:custom_value, custom_field: custom_field, value: '1')
+        build_stubbed(:custom_value, custom_field:, value: '1')
       end
 
       before do
@@ -149,7 +149,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
       end
 
       it "has property for the custom field" do
-        is_expected
+        expect(subject)
           .to be_json_eql(api_v3_paths.custom_option(custom_value.value).to_json)
           .at_path("_links/customField#{custom_field.id}/href")
       end
@@ -176,13 +176,13 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
     end
 
     it 'has a status' do
-      is_expected
+      expect(subject)
         .to be_json_eql(version.status.to_json)
         .at_path('status')
     end
 
     it 'has a sharing' do
-      is_expected
+      expect(subject)
         .to be_json_eql(version.sharing.to_json)
         .at_path('sharing')
     end
@@ -200,7 +200,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
     context 'custom value' do
       let(:custom_field) { build_stubbed(:version_custom_field) }
       let(:custom_value) do
-        CustomValue.new(custom_field: custom_field,
+        CustomValue.new(custom_field:,
                         value: '1234',
                         customized: version)
       end
@@ -222,7 +222,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
           raw: custom_value.value
         }
 
-        is_expected
+        expect(subject)
           .to be_json_eql(expected.to_json)
           .at_path("customField#{custom_field.id}")
       end

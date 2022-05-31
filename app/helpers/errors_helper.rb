@@ -54,7 +54,7 @@ module ErrorsHelper
       options[:message_details] = get_additional_message
     end
 
-    render_error({ message: message }.merge(options))
+    render_error({ message: }.merge(options))
     false
   end
 

@@ -43,14 +43,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
   let(:schema) do
-    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
+    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:)
   end
   let(:embedded) { false }
   let(:representer) do
     described_class.create(schema,
                            self_link: nil,
                            form_embedded: embedded,
-                           current_user: current_user)
+                           current_user:)
   end
   let(:project) { work_package.project }
 

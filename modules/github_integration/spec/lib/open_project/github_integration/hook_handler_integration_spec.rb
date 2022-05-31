@@ -56,7 +56,7 @@ describe OpenProject::GithubIntegration::HookHandler do
     create(:project, members: { user => role })
   end
 
-  let(:work_packages) { create_list :work_package, 4, project: project }
+  let(:work_packages) { create_list :work_package, 4, project: }
   let(:journal_counts_before) { work_packages.map { |wp| wp.journals.count } }
   let(:journal_counts_after) { work_packages.map { |wp| wp.journals.count } }
 
@@ -268,10 +268,10 @@ describe OpenProject::GithubIntegration::HookHandler do
       let(:project_without_permission) { create(:project) }
       let(:work_packages) do
         [
-          create(:work_package, project: project),
+          create(:work_package, project:),
           create(:work_package, project: project_without_permission),
           create(:work_package, project: project_without_permission),
-          create(:work_package, project: project)
+          create(:work_package, project:)
         ]
       end
 
@@ -579,7 +579,7 @@ describe OpenProject::GithubIntegration::HookHandler do
       it_behaves_like 'it does not create a pull request'
 
       it 'does not create a check run' do
-        expect { process_webhook }.to(change(GithubCheckRun, :count).by(0))
+        expect { process_webhook }.not_to(change(GithubCheckRun, :count))
       end
     end
 
@@ -595,7 +595,7 @@ describe OpenProject::GithubIntegration::HookHandler do
         expect { process_webhook }.to(change(GithubCheckRun, :count).by(1))
         check_run = GithubCheckRun.last
         expect(check_run).to have_attributes(
-          github_pull_request: github_pull_request,
+          github_pull_request:,
           github_app_owner_avatar_url: 'https://avatars.githubusercontent.com/u/9919?v=4',
           status: 'queued',
           details_url: 'https://github.com/test_user/webhooks_playground/runs/2241417510',
@@ -616,7 +616,7 @@ describe OpenProject::GithubIntegration::HookHandler do
         expect { process_webhook }.to(change(GithubCheckRun, :count).by(1))
         check_run = GithubCheckRun.last
         expect(check_run).to have_attributes(
-          github_pull_request: github_pull_request,
+          github_pull_request:,
           github_app_owner_avatar_url: 'https://avatars.githubusercontent.com/u/9919?v=4',
           status: 'completed',
           details_url: 'https://github.com/test_user/webhooks_playground/runs/2241431836',
@@ -637,7 +637,7 @@ describe OpenProject::GithubIntegration::HookHandler do
         expect { process_webhook }.to(change(GithubCheckRun, :count).by(1))
         check_run = GithubCheckRun.last
         expect(check_run).to have_attributes(
-          github_pull_request: github_pull_request,
+          github_pull_request:,
           github_app_owner_avatar_url: 'https://avatars.githubusercontent.com/u/9919?v=4',
           name: 'test',
           status: 'completed',

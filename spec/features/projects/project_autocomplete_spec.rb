@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe 'Projects autocomplete page', type: :feature, js: true do
   let!(:user) { create :user }
+  let(:top_menu) { ::Components::Projects::TopMenu.new }
 
   let!(:project) do
     create(:project,
@@ -61,7 +62,7 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     names.map do |name|
       identifier = name.gsub(/[ \-]+/, "-").downcase
 
-      create :project, name: name, identifier: identifier
+      create :project, name:, identifier:
     end
   end
   let!(:non_member_project) do
@@ -77,11 +78,9 @@ describe 'Projects autocomplete page', type: :feature, js: true do
 
   include BecomeMember
 
-  let(:top_menu) { ::Components::Projects::TopMenu.new }
-
   before do
     ([project, project2, project3] + other_projects).each do |p|
-      add_user_to_project! user: user, project: p, role: role
+      add_user_to_project! user:, project: p, role:
     end
     login_as user
     visit root_path
@@ -162,7 +161,7 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     top_menu.expect_open
     top_menu.search_and_select 'Plain project'
 
-    expect(current_path).to eq(project_news_index_path(project))
+    expect(page).to have_current_path(project_news_index_path(project), ignore_query: true)
     expect(page).to have_selector('.news-menu-item.selected')
   end
 end

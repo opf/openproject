@@ -79,7 +79,7 @@ describe 'Team planner', type: :feature, js: true do
 
     let!(:other_task) do
       create :work_package,
-             project: project,
+             project:,
              type: type_task,
              assigned_to: other_user,
              start_date: Time.zone.today - 1.day,
@@ -88,7 +88,7 @@ describe 'Team planner', type: :feature, js: true do
     end
     let!(:other_bug) do
       create :work_package,
-             project: project,
+             project:,
              type: type_bug,
              assigned_to: other_user,
              start_date: Time.zone.today - 1.day,
@@ -97,7 +97,7 @@ describe 'Team planner', type: :feature, js: true do
     end
     let!(:closed_bug) do
       create :work_package,
-             project: project,
+             project:,
              type: type_bug,
              assigned_to: other_user,
              status: closed_status,
@@ -107,7 +107,7 @@ describe 'Team planner', type: :feature, js: true do
     end
     let!(:user_bug) do
       create :work_package,
-             project: project,
+             project:,
              type: type_bug,
              assigned_to: user,
              start_date: Time.zone.today - 10.days,

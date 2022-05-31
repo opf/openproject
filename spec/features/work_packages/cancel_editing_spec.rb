@@ -31,8 +31,8 @@ require 'spec_helper'
 describe 'Cancel editing work package', js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
-  let(:work_package) { create(:work_package, project: project) }
-  let(:work_package2) { create(:work_package, project: project) }
+  let(:work_package) { create(:work_package, project:) }
+  let(:work_package2) { create(:work_package, project:) }
   let(:wp_page) { ::Pages::AbstractWorkPackage.new(work_package) }
   let(:wp_table) { ::Pages::WorkPackagesTable.new }
   let(:paths) do
@@ -182,7 +182,7 @@ describe 'Cancel editing work package', js: true do
 
   context 'when user does not want to be warned' do
     before do
-      create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
+      create(:user_preference, user:, others: { warn_on_leaving_unsaved: false })
     end
 
     it 'does not alert when moving anywhere' do

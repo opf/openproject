@@ -35,7 +35,7 @@ describe 'My page documents widget', type: :feature, js: true do
   let!(:other_project) { create :project }
   let!(:visible_document) do
     create :document,
-           project: project,
+           project:,
            description: 'blubs'
   end
   let!(:invisible_document) do

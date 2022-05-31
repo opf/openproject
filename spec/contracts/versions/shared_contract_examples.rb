@@ -33,8 +33,8 @@ shared_examples_for 'version contract' do
     build_stubbed(:user) do |user|
       allow(user)
         .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && version_project == permission_project ||
-          root_permissions.include?(permission) && root_project == permission_project
+        (permissions.include?(permission) && version_project == permission_project) ||
+          (root_permissions.include?(permission) && root_project == permission_project)
       end
     end
   end
@@ -196,6 +196,7 @@ shared_examples_for 'version contract' do
 
     context 'if sharing is tree and the user has no manage permission on the root project' do
       let(:root_permissions) { [] }
+
       before do
         version.sharing = 'tree'
       end

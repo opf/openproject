@@ -38,6 +38,7 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
   let(:model) { ::API::V3::Users::UserModel.new(user) }
   let(:representer) { ::API::V3::Users::UserRepresenter.new(model) }
   let(:lock_path) { api_v3_paths.user_lock user.id }
+
   subject(:response) { last_response }
 
   describe '#post' do
@@ -53,11 +54,11 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
       let(:current_user) { build_stubbed(:admin) }
 
       context 'user account can be locked' do
-        it 'should respond with 200' do
+        it 'responds with 200' do
           expect(subject.status).to eq(200)
         end
 
-        it 'should respond with an updated lock status in the user model' do
+        it 'responds with an updated lock status in the user model' do
           expect(parse_json(subject.body, 'status')).to eq 'locked'
         end
       end
@@ -66,7 +67,8 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
         let(:user) do
           create(:user, status: User.statuses[:registered])
         end
-        it 'should fail for invalid transitions' do
+
+        it 'fails for invalid transitions' do
           expect(subject.status).to eq(400)
         end
       end
@@ -74,11 +76,12 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
 
     context 'requesting nonexistent user' do
       let(:lock_path) { api_v3_paths.user_lock 9999 }
+
       it_behaves_like 'not found'
     end
 
     context 'non-admin user' do
-      it 'should respond with 403' do
+      it 'responds with 403' do
         expect(subject.status).to eq(403)
       end
     end
@@ -97,11 +100,11 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
       let(:current_user) { build_stubbed(:admin) }
 
       context 'user account can be unlocked' do
-        it 'should respond with 200' do
+        it 'responds with 200' do
           expect(subject.status).to eq(200)
         end
 
-        it 'should respond with an updated lock status in the user model' do
+        it 'responds with an updated lock status in the user model' do
           expect(parse_json(subject.body, 'status')).to eq 'active'
         end
       end
@@ -110,14 +113,15 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
         let(:user) do
           create(:user, status: User.statuses[:registered])
         end
-        it 'should fail for invalid transitions' do
+
+        it 'fails for invalid transitions' do
           expect(subject.status).to eq(400)
         end
       end
     end
 
     context 'non-admin user' do
-      it 'should respond with 403' do
+      it 'responds with 403' do
         expect(subject.status).to eq(403)
       end
     end

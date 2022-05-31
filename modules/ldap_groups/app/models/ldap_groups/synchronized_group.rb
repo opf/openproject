@@ -8,8 +8,7 @@ module LdapGroups
     belongs_to :auth_source
 
     belongs_to :filter,
-               class_name: '::LdapGroups::SynchronizedFilter',
-               foreign_key: :filter_id
+               class_name: '::LdapGroups::SynchronizedFilter'
 
     has_many :users,
              class_name: '::LdapGroups::Membership',

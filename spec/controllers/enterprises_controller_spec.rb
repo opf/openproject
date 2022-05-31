@@ -137,7 +137,7 @@ describe EnterprisesController, type: :controller do
         expect(a_token).to receive(:encoded_token=).with('foo')
         expect(a_token).to receive(:save).and_return(valid)
 
-        post :create, params: params
+        post :create, params:
       end
 
       context 'valid token input' do

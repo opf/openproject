@@ -34,7 +34,7 @@ describe 'bim/ifc_models/ifc_models/index', type: :view do
     create(:ifc_model,
            uploader: uploader_user,
            title: "office.ifc",
-           project: project).tap do |model|
+           project:).tap do |model|
       model.uploader = uploader_user
     end
   end
@@ -91,7 +91,7 @@ describe 'bim/ifc_models/ifc_models/index', type: :view do
       let(:ifc_model) do
         create(:ifc_model_without_ifc_attachment,
                title: "office.ifc",
-               project: project)
+               project:)
       end
 
       it 'lists the IFC model with all but the download button' do

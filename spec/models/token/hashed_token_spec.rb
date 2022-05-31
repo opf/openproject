@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::Token::HashedToken, type: :model do
   let(:user) { build(:user) }
 
-  subject { described_class.new user: user }
+  subject { described_class.new user: }
 
   describe 'token value' do
     it 'is generated on a new instance' do
@@ -39,7 +39,7 @@ describe ::Token::HashedToken, type: :model do
     end
 
     it 'provides the generated plain value on a new instance' do
-      expect(subject.valid_plaintext?(subject.plain_value)).to eq true
+      expect(subject.valid_plaintext?(subject.plain_value)).to be true
     end
 
     it 'hashes the plain value to value' do
@@ -49,8 +49,8 @@ describe ::Token::HashedToken, type: :model do
     it 'does not keep the value when finding it' do
       subject.save!
 
-      instance = described_class.where(user: user).last
-      expect(instance.plain_value).to eq nil
+      instance = described_class.where(user:).last
+      expect(instance.plain_value).to be_nil
     end
   end
 
@@ -61,7 +61,7 @@ describe ::Token::HashedToken, type: :model do
 
     it 'finds using the plaintext value' do
       expect(described_class.find_by_plaintext_value(subject.plain_value)).to eq subject
-      expect(described_class.find_by_plaintext_value('foobar')).to eq nil
+      expect(described_class.find_by_plaintext_value('foobar')).to be_nil
     end
   end
 end

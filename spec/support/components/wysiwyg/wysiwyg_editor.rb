@@ -28,17 +28,17 @@ module Components
     def set_markdown(text)
       textarea = container.find('.op-ckeditor-source-element', visible: :all)
       page.execute_script(
-          'jQuery(arguments[0]).trigger("op:ckeditor:setData", arguments[1])',
-          textarea.native,
-          text
+        'jQuery(arguments[0]).trigger("op:ckeditor:setData", arguments[1])',
+        textarea.native,
+        text
       )
     end
 
     def clear
       textarea = container.find('.op-ckeditor-source-element', visible: :all)
       page.execute_script(
-          'jQuery(arguments[0]).trigger("op:ckeditor:clear")',
-          textarea.native
+        'jQuery(arguments[0]).trigger("op:ckeditor:clear")',
+        textarea.native
       )
     end
 
@@ -166,7 +166,7 @@ module Components
     end
 
     def click_autocomplete(text)
-      page.find('.mention-list-item', text: text).click
+      page.find('.mention-list-item', text:).click
     end
 
     def align_table_by_label(editor, table, label)

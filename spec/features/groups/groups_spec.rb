@@ -39,7 +39,7 @@ describe 'group memberships through groups page', type: :feature, js: true do
       allow(User).to receive(:current).and_return admin
     end
 
-    scenario 'I can delete a group' do
+    it 'I can delete a group' do
       groups_page.visit!
       expect(groups_page).to have_group "Bob's Team"
 

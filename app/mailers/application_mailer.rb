@@ -43,7 +43,7 @@ class ApplicationMailer < ActionMailer::Base
 
   class << self
     # Activates/deactivates email deliveries during +block+
-    def with_deliveries(temporary_state = true, &_block)
+    def with_deliveries(temporary_state = true, &)
       old_state = ActionMailer::Base.perform_deliveries
       ActionMailer::Base.perform_deliveries = temporary_state
       yield
@@ -121,7 +121,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def send_mail(user, subject)
     with_locale_for(user) do
-      mail to: user.mail, subject: subject
+      mail to: user.mail, subject:
     end
   end
 

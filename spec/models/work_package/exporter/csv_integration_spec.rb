@@ -62,7 +62,7 @@ describe WorkPackage::Exports::CSV, 'integration', type: :model do
       description: "\u2022 requires unicode.",
       assigned_to: current_user,
       derived_estimated_hours: 15.0,
-      project: project
+      project:
     )
   end
 

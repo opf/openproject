@@ -47,7 +47,7 @@ describe ::API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
            member_with_permissions: permissions)
   end
   let(:work_package) do
-    create(:work_package, project: project)
+    create(:work_package, project:)
   end
   let(:other_user) { create(:user) }
   let(:permissions) { %i[view_time_entries edit_time_entries view_work_packages] }
@@ -90,7 +90,7 @@ describe ::API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
           },
           spentOn: Date.today.to_s,
           hours: 'PT5H',
-          "comment": {
+          comment: {
             raw: "some comment"
           },
           "customField#{custom_field.id}": {
@@ -199,7 +199,7 @@ describe ::API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
 
           create(:member,
                  project: time_entry.project,
-                 roles: [create(:role, permissions: permissions)],
+                 roles: [create(:role, permissions:)],
                  principal: user)
 
           user

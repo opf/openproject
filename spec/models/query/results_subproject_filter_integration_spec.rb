@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::Query::Results, 'Subproject filter integration', type: :model, with_mail: false do
   let(:query) do
     build(:query,
-          user: user,
+          user:,
           project: parent_project).tap do |q|
       q.filters.clear
     end

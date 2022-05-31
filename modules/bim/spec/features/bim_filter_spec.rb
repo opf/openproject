@@ -39,14 +39,14 @@ describe 'BIM filter spec',
   let(:open_status) { create(:status, is_closed: false) }
   let(:closed_status) { create(:status, is_closed: true) }
 
-  let(:wp1) { create(:work_package, project: project, status: open_status) }
-  let(:wp2) { create(:work_package, project: project, status: closed_status) }
+  let(:wp1) { create(:work_package, project:, status: open_status) }
+  let(:wp2) { create(:work_package, project:, status: closed_status) }
 
   let(:admin) { create :admin }
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
-           project: project,
+           project:,
            uploader: admin)
   end
 

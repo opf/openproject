@@ -36,12 +36,12 @@ describe 'API v3 Cost Entry resource' do
   let(:current_user) do
     create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:cost_entry) { create(:cost_entry, project:) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { [:view_cost_entries] }
   let(:project) { create(:project) }
-  subject(:response) { last_response }
 
-  let(:cost_entry) { create(:cost_entry, project: project) }
+  subject(:response) { last_response }
 
   before do
     login_as(current_user)
@@ -54,8 +54,8 @@ describe 'API v3 Cost Entry resource' do
 
     context 'user can see cost entries' do
       context 'valid id' do
-        it 'should return HTTP 200' do
-          expect(response.status).to eql(200)
+        it 'returns HTTP 200' do
+          expect(response.status).to be(200)
         end
       end
 
@@ -79,10 +79,10 @@ describe 'API v3 Cost Entry resource' do
       end
 
       context 'cost entry is his own' do
-        let(:cost_entry) { create(:cost_entry, project: project, user: current_user) }
+        let(:cost_entry) { create(:cost_entry, project:, user: current_user) }
 
-        it 'should return HTTP 200' do
-          expect(response.status).to eql(200)
+        it 'returns HTTP 200' do
+          expect(response.status).to be(200)
         end
       end
     end
@@ -91,7 +91,8 @@ describe 'API v3 Cost Entry resource' do
       let(:permissions) { [] }
 
       describe 'he can\'t even see own cost entries' do
-        let(:cost_entry) { create(:cost_entry, project: project, user: current_user) }
+        let(:cost_entry) { create(:cost_entry, project:, user: current_user) }
+
         it_behaves_like 'error response',
                         403,
                         'MissingPermission',

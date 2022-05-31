@@ -39,7 +39,7 @@ shared_examples_for 'API V3 formattable' do |property|
 
   it do
     if defined?(html)
-      is_expected.to be_json_eql(html.to_json).at_path(property + '/html')
+      expect(subject).to be_json_eql(html.to_json).at_path(property + '/html')
     end
   end
 end

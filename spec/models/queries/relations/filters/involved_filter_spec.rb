@@ -55,6 +55,7 @@ describe Queries::Relations::Filters::InvolvedFilter, type: :model do
     before do
       login_as(current_user)
     end
+
     let(:visible_sql) { WorkPackage.visible(current_user).select(:id).to_sql }
 
     context 'for "="' do

@@ -419,7 +419,7 @@ module OpenProject::TextFormatting::Formats
             data[:arguments] = args if args.present?
           end
 
-          content_tag :macro, '', class: macro, data: data
+          content_tag :macro, '', class: macro, data:
         end
       end
 

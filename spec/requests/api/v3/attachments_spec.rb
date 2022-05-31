@@ -37,7 +37,7 @@ describe API::V3::Attachments::AttachmentsAPI, type: :request do
   let(:current_user) { create(:user, member_in_project: project, member_through_role: role) }
 
   let(:project) { create(:project, public: false) }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { [:add_work_packages] }
 
   context(
@@ -50,7 +50,7 @@ describe API::V3::Attachments::AttachmentsAPI, type: :request do
     let(:permissions) { [] }
 
     let(:request_path) { api_v3_paths.prepare_new_attachment_upload }
-    let(:request_parts) { { metadata: metadata.to_json, file: file } }
+    let(:request_parts) { { metadata: metadata.to_json, file: } }
     let(:metadata) { { fileName: 'cat.png' } }
     let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
 
@@ -58,7 +58,7 @@ describe API::V3::Attachments::AttachmentsAPI, type: :request do
       post request_path, request_parts
     end
 
-    it 'should forbid to prepare attachments' do
+    it 'forbids to prepare attachments' do
       expect(last_response.status).to eq 403
     end
   end
@@ -70,7 +70,7 @@ describe API::V3::Attachments::AttachmentsAPI, type: :request do
     describe 'GET /uploaded' do
       let(:digest) { "" }
       let(:attachment) do
-        create :attachment, digest: digest, author: current_user, container: nil, container_type: nil, downloads: -1
+        create :attachment, digest:, author: current_user, container: nil, container_type: nil, downloads: -1
       end
 
       before do
@@ -80,21 +80,21 @@ describe API::V3::Attachments::AttachmentsAPI, type: :request do
       context 'with no pending attachments' do
         let(:digest) { "0xFF" }
 
-        it 'should return 404' do
+        it 'returns 404' do
           expect(last_response.status).to eq 404
         end
       end
 
       context 'with a pending attachment' do
-        it 'should enqueue a FinishDirectUpload job' do
+        it 'enqueues a FinishDirectUpload job' do
           expect(::Attachments::FinishDirectUploadJob).to have_been_enqueued.at_least(1)
         end
 
-        it 'should respond with HTTP OK' do
+        it 'responds with HTTP OK' do
           expect(last_response.status).to eq 200
         end
 
-        it 'should return the attachment representation' do
+        it 'returns the attachment representation' do
           json = JSON.parse last_response.body
 
           expect(json["_type"]).to eq "Attachment"

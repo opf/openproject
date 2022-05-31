@@ -51,7 +51,7 @@ module Tableless
           type = ActiveRecord::Type.lookup(type, default)
         end
 
-        define_attribute(name, type, default: default)
+        define_attribute(name, type, default:)
 
         # Improve Model#inspect output
         @columns_hash[name.to_s] = ActiveRecord::ConnectionAdapters::Column.new(name.to_s, default)

@@ -99,10 +99,10 @@ module Pages
                                     wait: 10)
     end
 
-    def expect_group(name, &block)
+    def expect_group(name, &)
       expect(page).to have_selector('.attributes-group--header-text', text: name.upcase)
       if block_given?
-        page.within(".attributes-group[data-group-name='#{name}']", &block)
+        page.within(".attributes-group[data-group-name='#{name}']", &)
       end
     end
 
@@ -175,13 +175,13 @@ module Pages
     end
 
     def update_attributes(save: true, **key_value_map)
-      set_attributes(key_value_map, save: save)
+      set_attributes(key_value_map, save:)
     end
 
     def set_attributes(key_value_map, save: true)
       key_value_map.each_with_index.map do |(key, value), index|
         field = work_package_field(key)
-        field.update(value, save: save)
+        field.update(value, save:)
         unless index == key_value_map.length - 1
           ensure_no_conflicting_modifications
         end

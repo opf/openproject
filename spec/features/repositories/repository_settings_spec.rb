@@ -107,7 +107,7 @@ describe 'Repository Settings', type: :feature, js: true do
     let(:repository) do
       create("repository_#{name}".to_sym,
              scm_type: type,
-             project: project)
+             project:)
     end
     it_behaves_like 'manages the repository', type
   end
@@ -140,11 +140,13 @@ describe 'Repository Settings', type: :feature, js: true do
 
       context 'Subversion' do
         let(:managed_vendor) { :subversion }
+
         it_behaves_like 'manages the repository', 'managed'
       end
 
       context 'Git' do
         let(:managed_vendor) { :git }
+
         it_behaves_like 'manages the repository', 'managed'
       end
     end
@@ -173,6 +175,7 @@ describe 'Repository Settings', type: :feature, js: true do
         repo.save!
         repo
       end
+
       it_behaves_like 'manages the repository', 'managed'
     end
   end
@@ -181,7 +184,7 @@ describe 'Repository Settings', type: :feature, js: true do
     let(:repository) do
       create(:repository_subversion,
              scm_type: :existing,
-             project: project)
+             project:)
     end
 
     it 'can set login and password' do

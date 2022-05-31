@@ -41,7 +41,6 @@ module Principals
 
     private
 
-    # rubocop:disable Rails/SkipsModelValidations
     def rewrite_active_models(from, to)
       rewrite_author(from, to)
       rewrite_user(from, to)
@@ -125,7 +124,6 @@ module Principals
         klass.where(responsible_id: from.id).update_all(responsible_id: to.id)
       end
     end
-    # rubocop:enable Rails/SkipsModelValidations
 
     def journal_classes
       [Journal] + Journal::BaseJournal.subclasses

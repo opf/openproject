@@ -57,7 +57,7 @@ module Users
 
     def set_preferences
       ::UserPreferences::SetAttributesService
-        .new(user: user, model: model.pref, contract_class: ::UserPreferences::UpdateContract)
+        .new(user:, model: model.pref, contract_class: ::UserPreferences::UpdateContract)
         .call(pref)
     end
 

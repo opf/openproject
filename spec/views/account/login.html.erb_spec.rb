@@ -34,7 +34,7 @@ describe 'account/login', type: :view do
       render
     end
 
-    it 'should show a login field' do
+    it 'shows a login field' do
       expect(rendered).to include 'Password'
     end
   end
@@ -45,7 +45,7 @@ describe 'account/login', type: :view do
       render
     end
 
-    it 'should not show a login field' do
+    it 'does not show a login field' do
       expect(rendered).not_to include 'Password'
     end
   end

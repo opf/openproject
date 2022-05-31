@@ -39,12 +39,11 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
   let(:permissions) do
     %i[view_dashboards
        manage_dashboards
-       add_work_packages
-      ]
+       add_work_packages]
   end
 
   let(:role) do
-    create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
 
   let(:user) do
@@ -157,7 +156,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
   context 'for a user lacking edit permissions' do
     let!(:dashboard) do
-      create(:dashboard_with_custom_text, project: project)
+      create(:dashboard_with_custom_text, project:)
     end
 
     let(:permissions) do
