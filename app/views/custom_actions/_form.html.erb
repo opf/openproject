@@ -22,11 +22,22 @@
 
       <div class="form--field-container">
         <div class="form--select-container -middle">
-          <%= render partial: 'augmented/autocomplete_select_decoration',
-                     locals: { input_name: input_name,
-                               input_id: "custom_action_conditions_#{condition.key}",
-                               select_options: select_options,
-                               multiple: true }  %>
+          <% if condition.key.to_s == 'project' %>
+            <%= angular_component_tag 'op-project-autocompleter',
+                                      inputs: {
+                                        multiple: true,
+                                        APIFilters: [],
+                                        name: input_name
+                                      },
+                                      id: "custom_action_conditions_#{condition.key}"
+            %>
+          <% else %>
+            <%= render partial: 'augmented/autocomplete_select_decoration',
+                       locals: { input_name: input_name,
+                                 input_id: "custom_action_conditions_#{condition.key}",
+                                 select_options: select_options,
+                                 multiple: true }  %>
+          <% end %>
         </div>
       </div>
     </div>
