@@ -228,7 +228,6 @@ OpenProject::Application.routes.draw do
       collection do
         post '/new' => 'wiki#create', as: 'create'
         get :export
-        get :date_index
         get '/index' => 'wiki#index'
       end
 

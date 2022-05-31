@@ -69,12 +69,6 @@ class WikiPage < ApplicationRecord
   before_save :update_redirects
   before_destroy :remove_redirects
 
-  # eager load information about last updates, without loading text
-  scope :with_updated_at, -> {
-    select("#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_at")
-      .joins("LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id")
-  }
-
   scope :main_pages, ->(wiki_id) {
     where(wiki_id: wiki_id, parent_id: nil)
   }
