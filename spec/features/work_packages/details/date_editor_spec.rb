@@ -41,6 +41,7 @@ describe 'date inplace editor',
   let(:user) { create :admin }
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:wp_timeline) { Pages::WorkPackagesTimeline.new }
 
   let(:start_date) { work_packages_page.edit_field(:combinedDate) }
 
@@ -273,6 +274,204 @@ describe 'date inplace editor',
 
       wp = WorkPackage.last
       expect(wp.custom_value_for(date_cf.id).value).to eq Time.zone.today.iso8601
+    end
+  end
+
+  context 'with the work package having no relations whatsoever' do
+    let!(:work_package) { create :work_package, project: }
+
+    before do
+      start_date.activate!
+      start_date.expect_active!
+    end
+
+    it 'does not show a banner with or without manual scheduling' do
+      expect(page).to have_no_selector('[data-qa-selector="op-modal-banner-warning"]')
+      expect(page).to have_no_selector('[data-qa-selector="op-modal-banner-info"]')
+
+      # When toggling manuallly scheduled
+      start_date.expect_scheduling_mode manually: false
+      start_date.toggle_scheduling_mode
+      start_date.expect_scheduling_mode manually: true
+
+      expect(page).to have_no_selector('[data-qa-selector="op-modal-banner-warning"]')
+      expect(page).to have_no_selector('[data-qa-selector="op-modal-banner-info"]')
+    end
+  end
+
+  context 'with the work package being a parent' do
+    let!(:child) { create :work_package, project:, start_date: 1.day.ago, due_date: 5.days.from_now }
+    let!(:work_package) do
+      wp = create :work_package, project: project, schedule_manually: schedule_manually
+      child.update! parent: wp
+      wp
+    end
+
+    before do
+      start_date.activate!
+      start_date.expect_active!
+    end
+
+    context 'when parent is manually scheduled' do
+      let(:schedule_manually) { true }
+
+      it 'shows a banner that the relations are ignored' do
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
+                                      text: 'Manual scheduling enabled, all relations ignored.')
+
+        # When toggling manuallly scheduled
+        start_date.expect_scheduling_mode manually: true
+        start_date.toggle_scheduling_mode
+        start_date.expect_scheduling_mode manually: false
+
+        # Expect banner to switch
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+                                      text: 'Automatically scheduled. Dates are derived from relations.')
+
+        new_window = window_opened_by { click_on 'Show relations' }
+        switch_to_window new_window
+
+        wp_table.expect_work_package_listed child
+        wp_timeline.expect_timeline!
+      end
+    end
+
+    context 'when parent is not manually scheduled' do
+      let(:schedule_manually) { false }
+
+      it 'shows a banner that the dates are not editable' do
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+                                      text: 'Automatically scheduled. Dates are derived from relations.')
+
+        # When toggling manuallly scheduled
+        start_date.expect_scheduling_mode manually: false
+        start_date.toggle_scheduling_mode
+        start_date.expect_scheduling_mode manually: true
+
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
+                                      text: 'Manual scheduling enabled, all relations ignored.')
+
+        new_window = window_opened_by { click_on 'Show relations' }
+        switch_to_window new_window
+
+        wp_table.expect_work_package_listed child
+        wp_timeline.expect_timeline!
+      end
+    end
+  end
+
+  context 'with the work package having a precedes relation' do
+    let!(:work_package) { create :work_package, project:, schedule_manually: }
+    let!(:preceding) { create :work_package, project:, start_date: 10.days.ago, due_date: 5.days.ago }
+
+    let!(:relationship) do
+      create :relation,
+             from: preceding,
+             to: work_package,
+             relation_type: Relation::TYPE_PRECEDES
+    end
+
+    before do
+      start_date.activate!
+      start_date.expect_active!
+    end
+
+    context 'when work package is manually scheduled' do
+      let(:schedule_manually) { true }
+
+      it 'shows a banner that the relations are ignored' do
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
+                                      text: 'Manual scheduling enabled, all relations ignored.')
+
+        # When toggling manuallly scheduled
+        start_date.expect_scheduling_mode manually: true
+        start_date.toggle_scheduling_mode
+        start_date.expect_scheduling_mode manually: false
+
+        # Expect new banner info
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+                                      text: 'Available start date is limited by relations.')
+
+        new_window = window_opened_by { click_on 'Show relations' }
+        switch_to_window new_window
+
+        wp_table.expect_work_package_listed preceding
+        wp_timeline.expect_timeline!
+      end
+    end
+
+    context 'when work package is not manually scheduled' do
+      let(:schedule_manually) { false }
+
+      it 'shows a banner that the start date is limited' do
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+                                      text: 'Available start date is limited by relations.')
+
+        # When toggling manuallly scheduled
+        start_date.expect_scheduling_mode manually: false
+        start_date.toggle_scheduling_mode
+        start_date.expect_scheduling_mode manually: true
+
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
+                                      text: 'Manual scheduling enabled, all relations ignored.')
+      end
+    end
+  end
+
+  context 'with the work package having a follows relation' do
+    let!(:work_package) { create :work_package, project:, schedule_manually: }
+    let!(:following) { create :work_package, project:, start_date: 5.days.from_now, due_date: 10.days.from_now }
+
+    let!(:relationship) do
+      create :relation,
+             from: following,
+             to: work_package,
+             relation_type: Relation::TYPE_FOLLOWS
+    end
+
+    before do
+      start_date.activate!
+      start_date.expect_active!
+    end
+
+    context 'when work package is manually scheduled' do
+      let(:schedule_manually) { true }
+
+      it 'shows a banner that the relations are ignored' do
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
+                                      text: 'Manual scheduling enabled, all relations ignored.')
+
+        # When toggling manuallly scheduled
+        start_date.expect_scheduling_mode manually: true
+        start_date.toggle_scheduling_mode
+        start_date.expect_scheduling_mode manually: false
+
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+                                      text: 'Changing these dates will affect dates of related work packages.')
+
+        new_window = window_opened_by { click_on 'Show relations' }
+        switch_to_window new_window
+
+        wp_table.expect_work_package_listed following
+        wp_timeline.expect_timeline!
+      end
+    end
+
+    context 'when work package is not manually scheduled' do
+      let(:schedule_manually) { false }
+
+      it 'shows a banner that the start date is limited' do
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+                                      text: 'Changing these dates will affect dates of related work packages.')
+
+        # When toggling manuallly scheduled
+        start_date.expect_scheduling_mode manually: false
+        start_date.toggle_scheduling_mode
+        start_date.expect_scheduling_mode manually: true
+
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
+                                      text: 'Manual scheduling enabled, all relations ignored.')
+      end
     end
   end
 end

@@ -26,14 +26,96 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import {
+  Inject,
+  Injectable,
+} from '@angular/core';
 import { DateKeys } from 'core-app/shared/components/datepicker/datepicker.modal';
 import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
 import { DateOption } from 'flatpickr/dist/types/options';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import {
+  map,
+  shareReplay,
+} from 'rxjs/operators';
+import {
+  combineLatest,
+  Observable,
+} from 'rxjs';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
-@Injectable({ providedIn: 'root' })
-export class DatePickerModalHelper {
+@Injectable()
+export class DatepickerModalService {
   currentlyActivatedDateField:DateKeys;
+
+  private changeset:WorkPackageChangeset = this.locals.changeset as WorkPackageChangeset;
+
+  precedingWorkPackages$:Observable<WorkPackageResource[]> = this
+    .apiV3Service
+    .work_packages
+    .filtered(ApiV3Filter('precedes', '=', [this.changeset.id]))
+    .get()
+    .pipe(
+      map((collection) => collection.elements),
+      shareReplay(1),
+    );
+
+  followingWorkPackages$:Observable<WorkPackageResource[]> = this
+    .apiV3Service
+    .work_packages
+    .filtered(ApiV3Filter('follows', '=', [this.changeset.id]))
+    .get()
+    .pipe(
+      map((collection) => collection.elements),
+      shareReplay(1),
+    );
+
+  hasRelations$ = combineLatest([
+    this.precedingWorkPackages$,
+    this.followingWorkPackages$,
+  ])
+    .pipe(
+      map(([precedes, follows]) => precedes.length > 0 || follows.length > 0 || this.isParent),
+    );
+
+  constructor(
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    private apiV3Service:ApiV3Service,
+  ) {}
+
+  /**
+   * Determines whether the work package is a parent. It does so
+   * by checking the children links.
+   */
+  get isParent():boolean {
+    return this.children.length > 0;
+  }
+
+  get children():HalResource[] {
+    const wp = this.changeset.projectedResource;
+    return wp.children || [];
+  }
+
+  getInvolvedWorkPackageIds():Observable<string[]> {
+    return combineLatest([
+      this.precedingWorkPackages$,
+      this.followingWorkPackages$,
+    ])
+      .pipe(
+        map(
+          ([preceding, following]) => [
+            ...preceding,
+            ...following,
+            ...this.children,
+          ].map((el) => el.id as string),
+        ),
+      );
+  }
 
   /**
    * Map the date to the internal format,
@@ -49,7 +131,8 @@ export class DatePickerModalHelper {
   parseDate(date:Date|string):Date|'' {
     if (date instanceof Date) {
       return new Date(date.setHours(0, 0, 0, 0));
-    } if (date === '') {
+    }
+    if (date === '') {
       return '';
     }
     return new Date(new Date(date).setHours(0, 0, 0, 0));
@@ -90,6 +173,7 @@ export class DatePickerModalHelper {
     const { currentYear } = datePicker.datepickerInstance;
     datePicker.setDates(dates);
 
+    /* eslint-disable no-param-reassign */
     if (enforceDate) {
       datePicker.datepickerInstance.currentMonth = enforceDate.getMonth();
       datePicker.datepickerInstance.currentYear = enforceDate.getFullYear();
@@ -100,5 +184,6 @@ export class DatePickerModalHelper {
     }
 
     datePicker.datepickerInstance.redraw();
+    /* eslint-enable no-param-reassign */
   }
 }

@@ -1,0 +1,30 @@
+@import '~app/spot/styles/sass/variables'
+
+.op-modal-banner
+  display: grid
+  grid-template-columns: 20px auto max-content
+  grid-gap: 20px
+  align-items: center
+  padding: 10px 20px
+
+  @media only screen and (max-width: 679px)
+    grid-template-columns: auto max-content
+
+  &_warning
+    background: $spot-color-feedback-warning-light
+
+  &_info
+    background: $spot-color-feedback-info-light
+
+  &--text
+    margin: 0
+    line-height: 1
+
+  &--icon
+    font-size: 20px
+
+  &--title
+    font-weight: bold
+
+  &--button
+    margin: 0
