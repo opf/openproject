@@ -493,6 +493,14 @@ describe WorkPackages::BaseContract do
       it_behaves_like 'contract is invalid', duration: :greater_than
     end
 
+    context 'when setting the duration to a floating point' do
+      before do
+        work_package.duration = 4.5
+      end
+
+      it_behaves_like 'contract is invalid', duration: :only_integer
+    end
+
     context 'when setting the duration to a negative value' do
       before do
         work_package.duration = -5

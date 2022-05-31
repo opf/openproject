@@ -131,9 +131,13 @@ module WorkPackages
     validate :validate_assigned_to_exists
 
     validates :duration,
-              comparison: { greater_than: 0 },
+              # only_integer: true, cannot be used as that will not compare with the value
+              # before the type cast. So even a float value will pass the validation as it is silently
+              # floored.
+              numericality: { greater_than: 0 },
               allow_nil: true
 
+    validate :validate_duration_integer
     validate :validate_duration_matches_dates
 
     def initialize(work_package, user, options: {})
@@ -311,6 +315,10 @@ module WorkPackages
                    I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                           property: I18n.t("attributes.#{attribute}"))
       end
+    end
+
+    def validate_duration_integer
+      errors.add :duration, :only_integer if model.duration_before_type_cast != model.duration
     end
 
     def validate_duration_matches_dates
