@@ -1,0 +1,4 @@
+ckb-IR:
+  js:
+    my_page:
+      label: "My page"
