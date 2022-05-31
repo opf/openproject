@@ -2,8 +2,13 @@ require 'spec_helper'
 
 describe Day, type: :model do
   let(:today) { Date.current }
+  let(:first_of_year) { Date.new(2022, 1, 1) }
 
-  subject { described_class.new(date: Date.new(2022, 1, 1), day_of_week: 6) }
+  subject do
+    described_class
+    .from_range(from: Date.new(2022, 1, 1), to: Date.new(2022, 2, 1))
+    .find(first_of_year.strftime("%Y%m%d").to_i)
+  end
 
   it { is_expected.to be_readonly }
   it { is_expected.to respond_to :id }
@@ -67,7 +72,7 @@ describe Day, type: :model do
 
       context 'with a non-working day' do
         before do
-          create(:non_working_day, date: subject.date)
+          create(:non_working_day, date: first_of_year)
         end
 
         it 'is false' do
@@ -87,7 +92,7 @@ describe Day, type: :model do
 
       context 'with a non working day' do
         before do
-          create(:non_working_day, date: subject.date)
+          create(:non_working_day, date: first_of_year)
         end
 
         it 'is false' do

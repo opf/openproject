@@ -39,10 +39,12 @@ class Day < ApplicationRecord
            inverse_of: false,
            class_name: 'NonWorkingDay',
            foreign_key: :date,
-           primary_key: :date
+           primary_key: :date,
+           dependent: nil
 
   attribute :date, :date, default: nil
   attribute :day_of_week, :integer, default: nil
+  attribute :working, :boolean, default: 't'
 
   delegate :name, to: :week_day, allow_nil: true
 
@@ -50,11 +52,11 @@ class Day < ApplicationRecord
     today = Time.zone.today
     from = today.at_beginning_of_month
     to = today.next_month.at_end_of_month
+    from_range(from:, to:).includes(:week_day).includes(:non_working_days).order(:date)
+  end
 
+  def self.from_range(from:, to:)
     from(Arel.sql(from_sql(from:, to:)))
-    .includes(:week_day)
-    .includes(:non_working_days)
-    .order(:date)
   end
 
   def self.from_sql(from:, to:)
@@ -62,23 +64,17 @@ class Day < ApplicationRecord
       (SELECT
         to_char(dd, 'YYYYMMDD')::integer id,
         date_trunc('day', dd)::date date,
-        extract(isodow from dd) day_of_week
+        extract(isodow from dd) day_of_week,
+        (COALESCE(week_days.working, TRUE) AND non_working_days.id IS NULL)::bool working
       FROM
       generate_series( '#{from}'::timestamp,
             '#{to}'::timestamp,
             '1 day'::interval) dd
+      LEFT JOIN week_days
+           ON extract(isodow from dd) = week_days.day
+      LEFT JOIN non_working_days
+           ON date = non_working_days.date
       ) days
     SQL
-  end
-
-  def working
-    week_day&.working && non_working_days.empty?
-  end
-
-  ##
-  # Since the base table is a generated series of dates that cannot be modified
-  # we should mark the records readonly.
-  def readonly?
-    true
   end
 end
