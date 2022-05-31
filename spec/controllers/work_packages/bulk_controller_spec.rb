@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe WorkPackages::BulkController, type: :controller, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
@@ -566,9 +567,6 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
       end
 
       before do
-        expect(new_parent.start_date).to be_nil
-        expect(new_parent.due_date).to be_nil
-
         put :update,
             params: {
               ids: [task1.id, task2.id],
@@ -577,7 +575,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
             }
       end
 
-      it 'should update the parent dates as well' do
+      it 'updates the parent dates as well' do
         expect(response.response_code).to eq(302)
 
         task1.reload
@@ -626,7 +624,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
         end
       end
 
-      it 'should redirect to the project' do
+      it 'redirects to the project' do
         expect(response).to redirect_to(project_work_packages_path(stub_work_package.project))
       end
     end
@@ -641,9 +639,10 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
         end
       end
 
-      it 'should redirect to the project' do
+      it 'redirects to the project' do
         expect(response).to render_template('destroy')
       end
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

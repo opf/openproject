@@ -114,7 +114,7 @@ class WorkPackages::BulkController < ApplicationController
     permitted_params
       .update_work_package
       .tap { |attributes| attributes[:custom_field_values]&.reject! { |_k, v| v.blank? } }
-      .reject { |_k, v| v.blank? }
+      .compact_blank
       .transform_values { |v| v == 'none' ? '' : v }
       .to_h
   end

@@ -54,18 +54,19 @@ module Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin
   end
 
   def relations_subselect_to_from
-    Relation
-      .direct
-      .send(relation_type)
+    relation_subselect
       .where(to_id: values)
       .select(:from_id)
   end
 
   def relations_subselect_from_to
-    Relation
-      .direct
-      .send(relation_type)
+    relation_subselect
       .where(from_id: values)
       .select(:to_id)
+  end
+
+  def relation_subselect
+    Relation
+      .where(relation_type: relation_type)
   end
 end

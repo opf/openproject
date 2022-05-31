@@ -31,7 +31,12 @@ import { CommonModule } from '@angular/common';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 
 import { FileLinkListComponent } from 'core-app/shared/components/file-links/file-link-list/file-link-list.component';
-import { FileLinkListItemComponent } from 'core-app/shared/components/file-links/file-link-list/file-link-list-item.component';
+import {
+  FileLinkListItemComponent,
+} from 'core-app/shared/components/file-links/file-link-list/file-link-list-item.component';
+import {
+  StorageInformationComponent,
+} from 'core-app/shared/components/file-links/file-link-list/storage-information.component';
 
 @NgModule({
   imports: [
@@ -41,6 +46,7 @@ import { FileLinkListItemComponent } from 'core-app/shared/components/file-links
   declarations: [
     FileLinkListComponent,
     FileLinkListItemComponent,
+    StorageInformationComponent,
   ],
   exports: [
     FileLinkListComponent,

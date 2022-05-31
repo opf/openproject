@@ -28,9 +28,8 @@
 
 # Register interceptors defined in app/mailers/user_mailer.rb
 # Do this here, so they aren't registered multiple times due to reloading in development mode.
-
-Rails.application.config.action_mailer.interceptors = [
-  "DefaultHeadersInterceptor",
+Rails.application.reloader.to_prepare do
+  ApplicationMailer.register_interceptor Interceptors::DefaultHeaders
   # following needs to be the last interceptor
-  "DoNotSendMailsWithoutReceiverInterceptor"
-]
+  ApplicationMailer.register_interceptor Interceptors::DoNotSendMailsWithoutRecipient
+end

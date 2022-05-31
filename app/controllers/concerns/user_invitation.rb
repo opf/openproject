@@ -139,10 +139,10 @@ module UserInvitation
         token = Token::Invitation.create! user: user
         user.save!
 
-        return [user, token]
+        [user, token]
+      else
+        [user, nil]
       end
     end
-
-    [user, nil]
   end
 end

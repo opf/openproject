@@ -39,6 +39,7 @@ class User < Principal
   }.freeze
 
   include ::Associations::Groupable
+  include ::Users::Avatars
   extend DeprecatedAlias
 
   has_many :categories, foreign_key: 'assigned_to_id',
@@ -164,8 +165,8 @@ class User < Principal
   def reload(*args)
     @name = nil
     @projects_by_role = nil
-    @authorization_service = ::Authorization::UserAllowedService.new(self)
-    @project_role_cache = ::Users::ProjectRoleCache.new(self)
+    @user_allowed_service = nil
+    @project_role_cache = nil
 
     super
   end
@@ -518,19 +519,19 @@ class User < Principal
     Authorization.users(action, project).where.not(members: { id: nil })
   end
 
-  def allowed_to?(action, context, options = {})
-    authorization_service.call(action, context, options).result
+  def allowed_to?(action, context, global: false)
+    user_allowed_service.call(action, context, global:).result
   end
 
-  def allowed_to_in_project?(action, project, options = {})
-    authorization_service.call(action, project, options).result
+  def allowed_to_in_project?(action, project)
+    allowed_to?(action, project)
   end
 
-  def allowed_to_globally?(action, options = {})
-    authorization_service.call(action, nil, options.merge(global: true)).result
+  def allowed_to_globally?(action)
+    allowed_to?(action, nil, global: true)
   end
 
-  delegate :preload_projects_allowed_to, to: :authorization_service
+  delegate :preload_projects_allowed_to, to: :user_allowed_service
 
   def reported_work_package_count
     WorkPackage.on_active_project.with_author(self).visible.count
@@ -648,8 +649,8 @@ class User < Principal
     [skip_suffix_check, regexp]
   end
 
-  def authorization_service
-    @authorization_service ||= ::Authorization::UserAllowedService.new(self, role_cache: project_role_cache)
+  def user_allowed_service
+    @user_allowed_service ||= ::Authorization::UserAllowedService.new(self, role_cache: project_role_cache)
   end
 
   def project_role_cache

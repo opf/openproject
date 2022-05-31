@@ -79,8 +79,7 @@ module WorkPackages::DerivedDates
       values = if persisted?
                  WorkPackage
                    .from(WorkPackage.include_derived_dates.where(id: self))
-                   .pluck(*attributes.each { |a| Arel.sql(a) })
-                   .first || []
+                   .pick(*attributes.each { |a| Arel.sql(a) }) || []
                else
                  []
                end

@@ -40,8 +40,8 @@ en:
 
     autocomplete_select:
       placeholder:
-       multi: "Add \"%{name}\""
-       single: "Select \"%{name}\""
+        multi: "Add \"%{name}\""
+        single: "Select \"%{name}\""
       remove: "Remove %{name}"
       active: "Active %{label} %{name}"
 
@@ -422,6 +422,7 @@ en:
     label_less_or_equal: "<="
     label_less_than_ago: "less than days ago"
     label_loading: "Loading..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Email notifications"
     label_me: "me"
     label_meeting_agenda: "Agenda"
@@ -435,13 +436,17 @@ en:
     label_no_data: "No data to display"
     label_no_due_date: "no finish date"
     label_no_start_date: "no start date"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "No value"
+    label_no_file_links_header: "Link files in %{storageType}"
+    label_no_file_links_content: "In order to link files to this work package please do it via %{storageType}."
     label_none: "none"
     label_not_contains: "doesn't contain"
     label_not_equals: "is not"
     label_on: "on"
     label_open_menu: "Open menu"
     label_open_context_menu: "Open context menu"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "open"
     label_open_file_link: 'Open file on storage'
     label_open_file_link_location: 'Open file in location'
@@ -473,6 +478,9 @@ en:
     label_sorting: "Sorting"
     label_spent_time: "Spent time"
     label_star_query: "Favored"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Public"
     label_sum: "Sum"
@@ -819,7 +827,7 @@ en:
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
-      sorted_no : 'No sort applied, '
+      sorted_no: 'No sort applied, '
       sorting_disabled: 'sorting is disabled'
       activate_asc: 'activate to apply an ascending sort'
       activate_dsc: 'activate to apply a descending sort'
@@ -861,12 +869,12 @@ en:
       outline: "Reset Outline"
       outlines:
         aggregation: "Show aggregations only"
-        level1:      "Expand level 1"
-        level2:      "Expand level 2"
-        level3:      "Expand level 3"
-        level4:      "Expand level 4"
-        level5:      "Expand level 5"
-        all:         "Show all"
+        level1: "Expand level 1"
+        level2: "Expand level 2"
+        level3: "Expand level 3"
+        level4: "Expand level 4"
+        level5: "Expand level 5"
+        all: "Show all"
       project_status: "Project status"
       really_close_dialog: "Do you really want to close the dialog and lose the entered data?"
       responsible: "Responsible"
@@ -939,7 +947,7 @@ en:
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
-       title: 'Click here to add a new work package to this list'
+        title: 'Click here to add a new work package to this list'
       create:
         title: 'New work package'
         header: 'New %{type}'

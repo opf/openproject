@@ -75,7 +75,7 @@ class Version < ApplicationRecord
   # Returns the total estimated time for this version
   # (sum of leaves estimated_hours)
   def estimated_hours
-    @estimated_hours ||= work_packages.hierarchy_leaves.sum(:estimated_hours).to_f
+    @estimated_hours ||= work_packages.leaves.sum(:estimated_hours).to_f
   end
 
   # Returns the total reported time for this version
@@ -98,17 +98,6 @@ class Version < ApplicationRecord
   # Returns true if the version is completed: finish date reached and no open issues
   def completed?
     effective_date && (effective_date <= Date.today) && open_issues_count.zero?
-  end
-
-  def behind_schedule?
-    if completed_percent == 100
-      false
-    elsif due_date && start_date
-      done_date = start_date + ((due_date - start_date + 1) * completed_percent / 100).floor
-      done_date <= Date.today
-    else
-      false # No issues so it's not late
-    end
   end
 
   # Returns the completion percentage of this version based on the amount of open/closed issues

@@ -395,6 +395,7 @@ import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/co
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { OpenprojectFileLinksModule } from 'core-app/shared/components/file-links/openproject-file-links.module';
 import { FileLinkResourceService } from 'core-app/core/state/file-links/file-links.service';
+import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 
 @NgModule({
   imports: [
@@ -450,6 +451,8 @@ import { FileLinkResourceService } from 'core-app/core/state/file-links/file-lin
 
     HalEventsService,
     FileLinkResourceService,
+
+    StoragesResourceService,
   ],
   declarations: [
     // Routing

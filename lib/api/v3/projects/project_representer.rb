@@ -210,7 +210,7 @@ module API
                    next unless represented.status&.code
 
                    ::API::V3::Projects::Statuses::StatusRepresenter
-                     .create(represented.status.code, current_user: current_user, embed_links: embed_links)
+                     .create(represented.status.code, current_user:, embed_links:)
                  },
                  link: ->(*) {
                    if represented.status&.code

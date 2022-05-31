@@ -37,11 +37,22 @@ describe 'form query configuration', type: :feature, js: true do
   let(:project) { create :project, types: [type_bug, type_task] }
   let(:other_project) { create :project, types: [type_task] }
   let!(:work_package) do
-    create :work_package,
-           new_relation.merge(
-             project: project,
-             type: type_bug
-           )
+    create(:work_package,
+           project: project,
+           type: type_bug).tap do |wp|
+      case wp_relation_type
+      when :children
+        wp.children = [related_bug, related_task, related_task_other_project]
+      when :blocks
+        [related_bug, related_task, related_task_other_project].each do |related|
+          create(:relation, from: wp, to: related, relation_type: Relation::TYPE_BLOCKS)
+        end
+      when :relates_to
+        [related_bug, related_task, related_task_other_project].each do |related|
+          create(:relation, from: wp, to: related, relation_type: Relation::TYPE_RELATES)
+        end
+      end
+    end
   end
   let(:wp_relation_type) { :children }
   let(:frontend_relation_type) { wp_relation_type }
