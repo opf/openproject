@@ -7,19 +7,23 @@
     [buttonText]="informationBoxButton"
   ></op-storage-information>
 
-  <div
+  <ul
     *ngIf="showFileLinks"
+    class="spot-list"
   >
-    <op-file-link-list-item
+    <li
       *ngFor="let fileLink of fileLinks$ | async; let i = index;"
-      class="op-files-tab--file-list-item"
-      [ngClass]="{ 'inactive': showInformationBox || fileLink._links.permission.href === 'urn:openproject-org:api:v3:file-links:permission:NotAllowed' }"
-      data-qa-selector="op-files-tab--file-list-item"
-      [fileLink]="fileLink"
-      [resource]="resource"
-      [index]="i"
-      [allowEditing]="allowEditing"
-      (removeFileLink)="removeFileLink(fileLink)"
-    ></op-file-link-list-item>
-  </div>
+      class="spot-list--item"
+    >
+      <op-file-link-list-item
+        class="op-files-tab--file-list-item"
+        data-qa-selector="op-files-tab--file-list-item"
+        [fileLink]="fileLink"
+        [resource]="resource"
+        [index]="i"
+        [allowEditing]="allowEditing"
+        (removeFileLink)="removeFileLink(fileLink)"
+      ></op-file-link-list-item>
+    </li>
+  </ul>
 </div>

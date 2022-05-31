@@ -1,12 +1,12 @@
 <div
   class="op-files-tab--file-list-item--content file-name"
 >
-  <op-icon
-    icon-classes="icon4 icon-{{fileLinkIcon.icon}}"
-    class="op-files-tab--color-{{fileLinkIcon.color}}"
-  ></op-icon>
+  <span
+    class="spot-icon spot-icon_{{fileLinkIcon.icon}} op-files-tab--color-{{fileLinkIcon.color}}"
+  ></span>
 
   <a
+    class="spot-link"
     [textContent]="fileLink.originData.name"
     [title]="text.title.openFile"
     (click)="openLinkedFile(false)"
@@ -29,24 +29,16 @@
 <div
   class="op-files-tab--file-list-item--content hover-menu"
 >
-  <button
-    class="spot-link"
+  <span
     [title]="text.title.openFileLocation"
     (click)="openLinkedFile(true)"
-  >
-    <span
-      class="spot-icon spot-icon_folder-open"
-    ></span>
-  </button>
+    class="spot-icon spot-icon_folder-open"
+  ></span>
 
-  <button
+  <span
     *ngIf="allowEditing"
-    class="spot-link"
     [title]="text.title.removeFileLink"
     (click)="removeFileLink.emit()"
-  >
-    <span
-      class="spot-icon spot-icon_remove-link"
-    ></span>
-  </button>
+    class="spot-icon spot-icon_remove-link"
+  ></span>
 </div>

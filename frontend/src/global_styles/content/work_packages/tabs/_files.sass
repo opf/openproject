@@ -28,37 +28,52 @@
 
 .op-files-tab
   &--file-list-item
-    display: grid
-    grid-template-columns: 1fr 1fr
-    height: 40px
+    position: relative
+    display: flex
+    padding: 4px 8px 4px 0
 
     &.inactive
       opacity: 0.5
 
     &--content
-      align-self: center
-      width: 100%
       white-space: nowrap
       overflow: hidden
       text-overflow: ellipsis
 
       &.file-name
+        flex: 4 1 30%
         font-size: 14px
 
       &.file-info
+        flex: 1 4 30%
         text-align: right
         font-size: 12px
 
       &.hover-menu
-        display: none
+        position: absolute
+        right: 0
         font-size: 14px
+        background: linear-gradient(90deg, rgba(243, 243, 243, 0) 0%, #F3F3F3 11.98%)
+        opacity: 0
+        mouse-events: none
+        display: flex
+        flex-direction: row
+        justify-content: flex-end
+        align-items: center
         padding: 0 8px
+        gap: 8px
 
-        // TODO: overwrites of design system components.
-        // Can be removed once design system contains components needed here
-        .spot-link
+        .spot-icon
+          cursor: pointer
           color: $primary-color
-          outline: none
+          width: $spot-spacing-1_25
+          height: $spot-spacing-1_25
+          margin: 0
+
+      .spot-icon
+        width: $spot-spacing-1_5
+        height: $spot-spacing-1_5
+        margin-right: 8px
 
     &--file-info-timestamp
       margin-right: 8px
@@ -66,18 +81,9 @@
     &:hover
       background-color: #F3F3F3
 
-      .hover-menu
-        display: flex
-        justify-content: end
-
-        .spot-link
-          margin: 0 8px
-
-          &:last-child
-            margin-right: 0
-
-      .file-info
-        display: none
+      .hover-menu,.hover-menu:focus
+        opacity: 1
+        mouse-events: all
 
   &--storage-info-box
     margin-top: 14px
