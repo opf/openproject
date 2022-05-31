@@ -202,6 +202,9 @@ gem "sentry-delayed_job", '~> 5.3.0'
 gem "sentry-rails", '~> 5.3.0'
 gem "sentry-ruby", '~> 5.3.0'
 
+# Appsignal integration
+gem "appsignal", "~> 3.0", require: false
+
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 1.1.0'
