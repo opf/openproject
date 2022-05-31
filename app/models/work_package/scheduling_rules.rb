@@ -62,19 +62,4 @@ module WorkPackage::SchedulingRules
         .compact
         .max
   end
-
-  # Returns the time scheduled for this work package.
-  #
-  # Example:
-  #   Start Date: 2/26/09, Finish Date: 3/04/09,  duration => 7
-  #   Start Date: 2/26/09, Finish Date: 2/26/09,  duration => 1
-  #   Start Date: 2/26/09, Finish Date: -      ,  duration => 1
-  #   Start Date: -      , Finish Date: 2/26/09,  duration => 1
-  def duration
-    if start_date && due_date
-      due_date - start_date + 1
-    else
-      1
-    end
-  end
 end
