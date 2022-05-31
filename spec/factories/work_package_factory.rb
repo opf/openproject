@@ -27,17 +27,19 @@
 #++
 
 FactoryBot.define do
-  factory :abstract_work_package_factory, class: 'WorkPackage' do
+  factory :work_package do
     transient do
       custom_values { nil }
-      abstract_factory { raise "You can't instantiate this abstract factory." }
     end
 
     priority
+    project factory: :project_with_types
     status
     sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
     author factory: :user
+    created_at { Time.zone.now }
+    updated_at { Time.zone.now }
     duration do
       if start_date && due_date
         due_date - start_date + 1
@@ -46,46 +48,26 @@ FactoryBot.define do
       end
     end
 
-    after(:build) do |_, evaluator|
-      evaluator.abstract_factory
-    end
+    callback(:after_build) do |work_package, evaluator|
+      work_package.type = work_package.project.types.first unless work_package.type
 
-    after(:stub) do |_, evaluator|
-      evaluator.abstract_factory
-    end
+      custom_values = evaluator.custom_values || {}
 
-    factory :work_package do
-      transient do
-        abstract_factory { false }
-      end
-
-      project factory: :project_with_types
-
-      callback(:after_build) do |work_package, evaluator|
-        work_package.type = work_package.project.types.first unless work_package.type
-
-        custom_values = evaluator.custom_values || {}
-
-        if custom_values.is_a? Hash
-          custom_values.each_pair do |custom_field_id, value|
-            work_package.custom_values.build custom_field_id:, value:
-          end
-        else
-          custom_values.each { |cv| work_package.custom_values << cv }
+      if custom_values.is_a? Hash
+        custom_values.each_pair do |custom_field_id, value|
+          work_package.custom_values.build custom_field_id:, value:
         end
+      else
+        custom_values.each { |cv| work_package.custom_values << cv }
       end
     end
 
-    factory :stubbed_work_package, parent: :abstract_work_package_factory do
-      transient do
-        abstract_factory { false }
-      end
+    callback(:after_stub) do |wp, arguments|
+      wp.type = wp.project.types.first unless wp.type_id || arguments.instance_variable_get(:@overrides).has_key?(:type)
+    end
 
-      project { build_stubbed(:project_with_types) }
-
-      callback(:after_stub) do |wp, arguments|
-        wp.type = wp.project.types.first unless wp.type_id || arguments.instance_variable_get(:@overrides).has_key?(:type)
-      end
+    factory :stubbed_work_package do
+      "this factory is not necessary anymore and should be removed"
     end
   end
 end
