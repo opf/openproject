@@ -54,9 +54,7 @@ Reporting.Controls = function($){
   };
 
   var send_settings_data = function (targetUrl, callback, failureCallback) {
-    if (!failureCallback) {
-      failureCallback = default_failure_callback;
-    }
+    var errorCallback = failureCallback || default_failure_callback()
     Reporting.clearFlash();
 
     $.ajax({
@@ -66,7 +64,7 @@ Reporting.Controls = function($){
       beforeSend: function () {
         $('#ajax-indicator').show();
       },
-      error: failureCallback,
+      error: errorCallback,
       success: callback
     });
   };
@@ -94,7 +92,7 @@ Reporting.Controls = function($){
     if (element === null) {
       return;
     }
-    failureCallback = function (response) {
+    var failureCallback = function (response) {
       $('#result-table').html("");
 
       default_failure_callback(response);
