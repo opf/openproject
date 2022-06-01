@@ -39,6 +39,10 @@ describe MailHandler, type: :model do
     # there is a default work package priority to save any work packages
     priority_low
     anno_user
+
+    allow(UserMailer)
+      .to receive(:incoming_email_error)
+      .and_return instance_double(ActionMailer::MessageDelivery, deliver_later: nil)
   end
 
   after do
@@ -338,6 +342,12 @@ describe MailHandler, type: :model do
             end
           end.to change(Notification.where(recipient: user), :count).by(1)
         end
+
+        it 'does not send an error reply email' do
+          subject # send mail
+
+          expect(UserMailer).not_to have_received(:incoming_email_error)
+        end
       end
 
       context 'in given project with a default type' do
@@ -387,28 +397,74 @@ describe MailHandler, type: :model do
           end.to change(User, :count).by(1)
         end
 
-        it 'rejects if unknown_user=accept and permission check is present' do
-          expected =
+        context 'with unknown_user=default' do
+          let(:results) { [] }
+
+          before do
+            results << submit_email(
+              'ticket_by_unknown_user.eml',
+              issue: { project: project.identifier },
+              unknown_user: nil
+            )
+          end
+
+          it "ignores the email" do
+            expect(results).to eq [false]
+          end
+
+          it "does not respond with an error email" do
+            expect(UserMailer).not_to have_received(:incoming_email_error)
+          end
+        end
+
+        context 'with unknown_user=accept and permision check present' do
+          let(:expected) do
             'MailHandler: work_package could not be created by Anonymous due to ' \
             '#["may not be accessed.", ' \
             '"Type was attempted to be written but is not writable.", ' \
             '"Project was attempted to be written but is not writable.", ' \
             '"Subject was attempted to be written but is not writable.", ' \
             '"Description was attempted to be written but is not writable."]'
+          end
 
-          allow(Rails.logger)
-            .to receive(:error)
-            .with(expected)
+          let(:results) { [] }
 
-          result = submit_email 'ticket_by_unknown_user.eml',
-                                issue: { project: project.identifier },
-                                unknown_user: 'accept'
+          before do
+            allow(Rails.logger).to receive(:error).with(expected)
 
-          expect(result).to eq false
+            results << submit_email(
+              'ticket_by_unknown_user.eml',
+              issue: { project: project.identifier },
+              unknown_user: 'accept'
+            )
+          end
 
-          expect(Rails.logger)
-            .to have_received(:error)
-                  .with(expected)
+          it 'rejects the email' do
+            expect(results).to eq [false]
+          end
+
+          it 'logs the error' do
+            expect(Rails.logger).to have_received(:error).with(expected)
+          end
+
+          context 'with report_incoming_email_errors true (default)' do
+            it 'responds with an error email' do
+              expect(UserMailer).to have_received(:incoming_email_error) do |user, mail, logs|
+                expect(user).to eq anno_user
+                expect(mail.subject).to eq "Ticket by unknown user"
+                expect(logs).to eq [expected.sub(/^MailHandler/, "error")]
+              end
+            end
+          end
+
+          context(
+            'with report_incoming_email_errors false',
+            with_settings: { report_incoming_email_errors: false }
+          ) do
+            it 'does not respond with an error email' do
+              expect(UserMailer).not_to have_received(:incoming_email_error)
+            end
+          end
         end
 
         it 'accepts if unknown_user=accept and no_permission_check' do
@@ -445,6 +501,12 @@ describe MailHandler, type: :model do
         it 'does not create the work_package' do
           expect { subject }
             .not_to(change { WorkPackage.count })
+        end
+
+        it 'does not result in an error email response' do
+          subject # send email
+
+          expect(UserMailer).not_to have_received(:incoming_email_error)
         end
       end
 

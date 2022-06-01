@@ -27,7 +27,7 @@
 #++
 require_relative '../legacy_spec_helper'
 
-describe MailHandler, type: :model do
+describe MailHandler, type: :model, with_settings: { report_incoming_email_errors: false } do
   fixtures :all
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'

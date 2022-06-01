@@ -683,6 +683,8 @@ Settings::Definition.define do
       },
       writable: false
 
+  add :report_incoming_email_errors, default: true
+
   add :repositories_automatic_managed_vendor,
       default: nil,
       format: :string,

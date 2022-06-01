@@ -50,7 +50,7 @@ describe ActivitiesController, type: :controller do
       let!(:journal) do
         create(:work_package_journal,
                journable_id: work_package.id,
-               created_at: 3.days.ago.to_date.to_s(:db),
+               created_at: 3.days.ago.to_date.to_fs(:db),
                version: Journal.maximum(:version) + 1,
                data: build(:journal_work_package_journal,
                            subject: work_package.subject,
