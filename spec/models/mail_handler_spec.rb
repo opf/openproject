@@ -40,10 +40,9 @@ describe MailHandler, type: :model do
     priority_low
     anno_user
 
-    mail = double("mail")
-
-    allow(mail).to receive(:deliver_later)
-    allow(UserMailer).to receive(:incoming_email_error).and_return mail
+    allow(UserMailer)
+      .to receive(:incoming_email_error)
+      .and_return instance_double(ActionMailer::MessageDelivery, deliver_later: nil)
   end
 
   after do
