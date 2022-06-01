@@ -35,7 +35,7 @@ describe Queries::WorkPackages::Columns::PropertyColumn, type: :model do
   it_behaves_like 'query column'
 
   describe 'instances' do
-    context 'done_ratio disabled' do
+    context 'when done_ratio disabled' do
       it 'the done ratio column does not exist' do
         allow(WorkPackage)
           .to receive(:done_ratio_disabled?)
@@ -45,13 +45,33 @@ describe Queries::WorkPackages::Columns::PropertyColumn, type: :model do
       end
     end
 
-    context 'done_ratio enabled' do
+    context 'when done_ratio enabled' do
       it 'the done ratio column exists' do
         allow(WorkPackage)
           .to receive(:done_ratio_disabled?)
           .and_return(false)
 
         expect(described_class.instances.map(&:name)).to include :done_ratio
+      end
+    end
+
+    context 'when duration feature flag disabled' do
+      it 'column does not exist' do
+        allow(OpenProject::FeatureDecisions)
+          .to receive(:work_packages_duration_field_active?)
+          .and_return(false)
+
+        expect(described_class.instances.map(&:name)).not_to include :duration
+      end
+    end
+
+    context 'when duration feature flag enabled' do
+      it 'column exists' do
+        allow(OpenProject::FeatureDecisions)
+          .to receive(:work_packages_duration_field_active?)
+          .and_return(true)
+
+        expect(described_class.instances.map(&:name)).to include :duration
       end
     end
   end
