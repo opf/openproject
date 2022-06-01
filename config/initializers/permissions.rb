@@ -155,7 +155,8 @@ OpenProject::AccessControl.map do |map|
     wpt.permission :move_work_packages,
                    { 'work_packages/moves': %i[new create] },
                    require: :loggedin,
-                   dependencies: :view_work_packages
+                   dependencies: :view_work_packages,
+                   contract_actions: { work_packages: %i[move] }
 
     wpt.permission :add_work_package_notes,
                    {
