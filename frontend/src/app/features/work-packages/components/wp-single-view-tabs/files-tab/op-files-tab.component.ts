@@ -71,29 +71,24 @@ export class WorkPackageFilesTabComponent implements OnInit {
     private readonly toast:ToastService,
   ) { }
 
-  async ngOnInit():Promise<void> {
+  ngOnInit():void {
     const project = this.workPackage.$embedded.project as HalResource;
     if (project.id === null) {
       return;
     }
 
-    try {
-      await this.storagesResourceService.updateCollection(project);
-    } catch (error) {
-      this.toast.addError(error);
-      return;
-    }
-
     this.canViewFileLinks$ = this
       .currentUserService
-      .hasCapabilities$('file_links/view', project.id.toString());
+      .hasCapabilities$('file_links/view', project.id);
 
     this.storages$ = this
       .storagesResourceService
-      .collection(project)
-      .pipe(catchError((error) => {
-        this.toast.addError(error);
-        throw error;
-      }));
+      .collection(project.href as string)
+      .pipe(
+        catchError((error) => {
+          this.toast.addError(error);
+          throw error;
+        }),
+      );
   }
 }

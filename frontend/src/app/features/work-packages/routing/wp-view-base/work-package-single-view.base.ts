@@ -32,14 +32,22 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import {
+  WorkPackageViewFocusService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { States } from 'core-app/core/states/states.service';
-import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import {
+  KeepTabService,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import {
+  HalResourceEditingService,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import {
+  WorkPackageNotificationService,
+} from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -48,6 +56,7 @@ import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-
 import { Observable } from 'rxjs';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
+import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() states:States;
@@ -79,6 +88,8 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() readonly actions$:ActionsService;
 
   @InjectField() readonly storeService:WpSingleViewService;
+
+  @InjectField() private readonly storages:StoragesResourceService;
 
   // Static texts
   public text:any = {};
@@ -177,6 +188,9 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       .subscribe((tabs:any) => {
         this.updateFocusAnchorLabel(tabs.active);
       });
+
+    const project = this.workPackage.project as { $links:{ storages:{ href:string }[] }, href:string };
+    void this.storages.updateCollection(project.href, project.$links.storages);
   }
 
   protected handleLoadingError(error:unknown):void {

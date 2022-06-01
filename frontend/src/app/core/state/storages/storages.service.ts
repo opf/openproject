@@ -30,11 +30,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { IStorage, StorageCollection } from 'core-app/core/state/storages/storage.model';
+import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { StoragesStore } from 'core-app/core/state/storages/storages.store';
 import { StoragesQuery } from 'core-app/core/state/storages/storages.query';
 import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 
 @Injectable()
 export class StoragesResourceService {
@@ -44,28 +44,38 @@ export class StoragesResourceService {
 
   constructor(private readonly http:HttpClient) {}
 
-  collection(project:HalResource):Observable<IStorage[]> {
+  collection(key:string):Observable<IStorage[]> {
     return this
       .query
       .select()
       .pipe(
-        map((state) => state.collections[project.id as string]?.ids),
+        map((state) => state.collections[key]?.ids),
         switchMap((ids) => this.query.selectMany(ids)),
       );
   }
 
-  lookup(id:string):Observable<IStorage|undefined> {
-    return this.query.selectEntity(id);
+  lookup(id:string):Observable<IStorage> {
+    return this
+      .query
+      .selectEntity(id)
+      .pipe(
+        map((storage) => {
+          if (storage === undefined) {
+            throw new Error('not found');
+          }
+
+          return storage;
+        }),
+      );
   }
 
-  async updateCollection(project:HalResource):Promise<void> {
+  async updateCollection(key:string, storageLinks:{ href:string }[]):Promise<void> {
     const storages = await forkJoin(
-      (project.$links as { storages:{ href:string }[] })
-        .storages
-        .map((link) => this.http.get<IStorage>(link.href)),
+      storageLinks.map((link) => this.http.get<IStorage>(link.href)),
     ).toPromise();
-    const storageCollection = new StorageCollection(storages);
 
-    insertCollectionIntoState(this.store, storageCollection, project.id as string);
+    const storageCollection = { _embedded: { elements: storages } } as IHALCollection<IStorage>;
+
+    insertCollectionIntoState(this.store, storageCollection, key);
   }
 }
