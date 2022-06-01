@@ -28,6 +28,29 @@
 
 import { ID } from '@datorama/akita';
 import { IHalResourceLink, IHalResourceLinks } from 'core-app/core/state/hal-resource';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+
+export class StorageCollection implements IHALCollection<IStorage> {
+  readonly _type:'Collection';
+
+  readonly _embedded:{ elements:IStorage[] } = { elements: [] };
+
+  readonly count:number;
+
+  readonly offset:number;
+
+  readonly pageSize:number;
+
+  readonly total:number;
+
+  constructor(storages:IStorage[]) {
+    this._embedded.elements = storages;
+    this.count = storages.length;
+    this.offset = 0;
+    this.pageSize = 1;
+    this.total = storages.length;
+  }
+}
 
 export interface IStorageHalResourceLinks extends IHalResourceLinks {
   self:IHalResourceLink;

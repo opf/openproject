@@ -1,6 +1,6 @@
 <div class="op-tab-content--container">
   <section data-qa-selector="op-tab-content--tab-section">
-    <div *ngIf="canViewFileLinks$ | async" class="op-tab-content--header">
+    <div *ngIf="(canViewFileLinks$ | async) === true" class="op-tab-content--header">
       <h3 class="op-tab-content--header-text" [textContent]="text.attachments.label"></h3>
     </div>
 

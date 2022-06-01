@@ -28,59 +28,44 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { IStorage } from 'core-app/core/state/storages/storage.model';
+import { forkJoin, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { IStorage, StorageCollection } from 'core-app/core/state/storages/storage.model';
 import { StoragesStore } from 'core-app/core/state/storages/storages.store';
 import { StoragesQuery } from 'core-app/core/state/storages/storages.query';
-import { IHalResourceLink } from 'core-app/core/state/hal-resource';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Injectable()
 export class StoragesResourceService {
-  protected store = new StoragesStore();
+  private readonly store = new StoragesStore();
 
-  protected readonly query = new StoragesQuery(this.store);
+  private readonly query = new StoragesQuery(this.store);
 
-  private get storagesPath():string {
-    return `${this.apiV3Service.root.path}/storages`;
+  constructor(private readonly http:HttpClient) {}
+
+  collection(project:HalResource):Observable<IStorage[]> {
+    return this
+      .query
+      .select()
+      .pipe(
+        map((state) => state.collections[project.id as string]?.ids),
+        switchMap((ids) => this.query.selectMany(ids)),
+      );
   }
 
-  constructor(
-    private readonly http:HttpClient,
-    private readonly toastService:ToastService,
-    private readonly apiV3Service:ApiV3Service,
-  ) {}
+  lookup(id:string):Observable<IStorage|undefined> {
+    return this.query.selectEntity(id);
+  }
 
-  lookup(link:IHalResourceLink, require = false):Observable<IStorage> {
-    const id = idFromLink(link.href);
+  async updateCollection(project:HalResource):Promise<void> {
+    const storages = await forkJoin(
+      (project.$links as { storages:{ href:string }[] })
+        .storages
+        .map((link) => this.http.get<IStorage>(link.href)),
+    ).toPromise();
+    const storageCollection = new StorageCollection(storages);
 
-    if (require && !this.query.hasEntity(id)) {
-      return this.http
-        .get<IStorage>(`${this.storagesPath}/${id}`)
-        .pipe(
-          tap((storage) => {
-            if (storage) {
-              this.store.add(storage);
-            }
-          }),
-          catchError((error) => {
-            this.toastService.addError(error);
-            throw error;
-          }),
-        );
-    }
-
-    return this.query.selectEntity(id)
-      .pipe(
-        map((storage) => {
-          if (!storage) {
-            throw new Error('not found');
-          }
-          return storage;
-        }),
-      );
+    insertCollectionIntoState(this.store, storageCollection, project.id as string);
   }
 }
