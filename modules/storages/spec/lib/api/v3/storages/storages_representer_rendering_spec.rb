@@ -43,6 +43,21 @@ describe ::API::V3::Storages::StorageRepresenter, 'rendering' do
         let(:title) { storage.name }
       end
     end
+
+    describe 'origin' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'origin' }
+        let(:href) { storage.host }
+      end
+    end
+
+    describe 'connectionState' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'connectionState' }
+        let(:href) { 'urn:openproject-org:api:v3:storages:connection:Connected' }
+        let(:title) { 'Connected' }
+      end
+    end
   end
 
   describe 'properties' do
