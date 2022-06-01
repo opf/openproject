@@ -26,19 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
-  namespace :admin do
-    namespace :settings do
-      resources :storages, controller: '/storages/admin/storages' do
-        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
-      end
-    end
-  end
+class CreateOAuthClient < ActiveRecord::Migration[6.1]
+  def change
+    create_table :oauth_clients do |t|
+      t.string :client_id, null: false
+      t.string :client_secret, null: false
+      t.references :integration,
+                   polymorphic: true, index: { unique: true }, null: false
 
-  scope 'projects/:project_id', as: 'project' do
-    namespace 'settings' do
-      resources :projects_storages, controller: '/storages/admin/projects_storages',
-                                    except: %i[show update]
+      t.timestamps
     end
   end
 end

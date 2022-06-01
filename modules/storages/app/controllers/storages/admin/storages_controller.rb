@@ -43,6 +43,8 @@ class Storages::Admin::StoragesController < ApplicationController
   before_action :require_admin
   before_action :find_model_object, only: %i[show destroy edit update]
 
+  before_action :set_shortened_secret, only: %i[show edit update]
+
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
   # The menu item is defined in the engine.rb
@@ -89,8 +91,12 @@ class Storages::Admin::StoragesController < ApplicationController
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_create)
-      # admin_settings_storage_path is automagically created by Ruby routes.
-      redirect_to admin_settings_storage_path(@object)
+      if @object.oauth_client
+        # admin_settings_storage_path is automagically created by Ruby routes.
+        redirect_to admin_settings_storage_path(@object)
+      else
+        redirect_to new_admin_settings_storage_oauth_client_path(@object)
+      end
     else
       @errors = service_result.errors
       render :new
@@ -135,6 +141,15 @@ class Storages::Admin::StoragesController < ApplicationController
     redirect_to admin_settings_storages_path
   end
 
+  # Show first two and last two characters, with **** in the middle
+  def shortened_secret(secret)
+    result = ""
+    if secret.is_a?(String) && secret.present?
+      result = "#{secret[...2]}****#{secret[-2...]}"
+    end
+    result
+  end
+
   # Used by: admin layout
   # Breadcrumbs is something like OpenProject > Admin > Storages.
   # This returns the name of the last part (Storages admin page)
@@ -165,6 +180,10 @@ class Storages::Admin::StoragesController < ApplicationController
   def permitted_storage_params
     params
       .require(:storages_storage)
-      .permit('name', 'provider_type', 'host')
+      .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret')
+  end
+
+  def set_shortened_secret
+    @short_secret = shortened_secret(@object.oauth_client&.client_secret.to_s)
   end
 end
