@@ -704,9 +704,19 @@ shared_examples_for 'filter for relation' do
     let!(:filter_value_wp) { create(:work_package) }
     let(:wp_relation_type) { defined?(:relation_type) ? relation_type : raise('needs to be defined') }
     let!(:related_wp) do
-      relation = Hash.new
-      relation[wp_relation_type] = [filter_value_wp]
-      create(:work_package, relation)
+      create(:work_package).tap do |wp|
+        if Relation.canonical_type(wp_relation_type) == wp_relation_type
+          create(:relation,
+                 from: wp,
+                 to: filter_value_wp,
+                 relation_type: wp_relation_type)
+        else
+          create(:relation,
+                 to: wp,
+                 from: filter_value_wp,
+                 relation_type: wp_relation_type)
+        end
+      end
     end
 
     let!(:unrelated_wp) { create(:work_package) }

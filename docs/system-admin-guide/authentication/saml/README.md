@@ -13,7 +13,16 @@ keywords: SAML, SSO, single sign-on, authentication
 </div>
 You can integrate your active directory or other SAML compliant identity provider in your OpenProject Enterprise Edition.
 
+### Prerequisites
 
+In order to use integrate OpenProject as a service provider (SP) using SAML, your identity providers (idP):
+
+- needs to be able to handle SAML 2.0 redirect Single-Sign On (SSO) flows, in some implementations also referred to as WebSSO
+- has a known or configurable set of attributes that map to the following required OpenProject attributes. The way these attribute mappings will be defined is described later in this document.
+  - **login**: A stable attribute used to uniquely identify the user. This willl most commonly map to an account ID, samAccountName or email (but please note that emails are often interchangeable, and this might result in logins changing in OpenProject).
+  - **email**: The email attribute of the user being authenticated
+  - **first name** and **last name** of the user.
+- provides the public certificate or certificate fingerprint (SHA1) in use for communicating with the idP.
 
 ### 1: Configuring the SAML integration
 
@@ -48,13 +57,16 @@ The following is an exemplary file with a set of common settings:
 
 ```yaml
 saml:
+  # Name of the provider, leave this at saml unless you use multiple providers
   name: "saml"
+  # The name that will be display in the login button
   display_name: "My SSO"
   # Use the default SAML icon
   icon: "auth_provider-saml.png"
 
-  # omniauth-saml config
+  # The callback within OpenProject that your idP should redirect to
   assertion_consumer_service_url: "https://<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
+  # The SAML issuer string that OpenProject will call your idP with
   issuer: "https://<YOUR OPENPROJECT HOSTNAME>"
 
   # IF your SSL certificate on your SSO is not trusted on this machine, you need to add it here in ONE line
@@ -65,10 +77,10 @@ saml:
   # Either `idp_cert` or `idp_cert_fingerprint` must be present!
   idp_cert_fingerprint: "E7:91:B2:E1:..."
 
-  # Replace with your single sign on URL
+  # Replace with your SAML 2.0 redirect flow single sign on URL
   # For example: "https://sso.example.com/saml/singleSignOn"
   idp_sso_target_url: "<YOUR SSO URL>"
-  # Replace with your single sign out URL
+  # Replace with your redirect flow single sign out URL
   # or comment out
   # For example: "https://sso.example.com/saml/proxySingleLogout"
   idp_slo_target_url: "<YOUR SSO logout URL>"
@@ -94,10 +106,41 @@ As with [all the rest of the OpenProject configuration settings](../../../instal
 E.g.
 
 ```bash
-OPENPROJECT_SAML_MY__SAML_NAME="your-provider-name"
-OPENPROJECT_SAML_MY__SAML_DISPLAY__NAME="My SAML provider"
-...
-OPENPROJECT_SAML_MY__SAML_ATTRIBUTE__STATEMENTS_ADMIN="['openproject-isadmin']"
+# Name of the provider, leave this at saml unless you use multiple providers
+OPENPROJECT_SAML_SAML_NAME="saml"
+
+# The name that will be display in the login button
+OPENPROJECT_SAML_SAML_DISPLAY__NAME="<Name of the login button>"
+
+# The callback within OpenProject that your idP should redirect to
+OPENPROJECT_SAML_SAML_ASSERTION__CONSUMER__SERVICE__URL="https://<openproject.host>/auth/saml/callback"
+
+# The SAML issuer string that OpenProject will call your idP with
+OPENPROJECT_SAML_SAML_ISSUER="https://<openproject.host>"
+
+# IF your SSL certificate on your SSO is not trusted on this machine, you need to add it here in ONE line
+### one liner to generate certificate in ONE line
+### awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' <yourcert.pem>
+#idp_cert: "-----BEGIN CERTIFICATE-----\n ..... SSL CERTIFICATE HERE ...-----END CERTIFICATE-----\n"
+# Otherwise, the certificate fingerprint must be added
+# Either `OPENPROJECT_SAML_SAML_IDP__CERT` or `OPENPROJECT_SAML_SAML_IDP__CERT__FINGERPRINT` must be present!
+OPENPROJECT_SAML_SAML_IDP__CERT="-----BEGIN CERTIFICATE-----<cert one liner>-----END CERTIFICATE-----"
+OPENPROJECT_SAML_SAML_IDP__CERT__FINGERPRINT="da:39:a3:ee:5e:6b:4b:0d:32:55:bf:ef:95:60:18:90:af:d8:07:09"
+# Replace with your single sign on URL, the exact value depends on your idP implemention
+OPENPROJECT_SAML_SAML_IDP__SSO__TARGET__URL="https://<hostname of your idp>/application/saml/<slug>/sso/binding/post/"
+
+# (Optinal) Replace with your redirect flow single sign out URL that we should redirect to
+OPENPROJECT_SAML_SAML_IDP__SLO__TARGET__URL=""
+
+# 
+# Which SAMLAttribute we should look for for the corresponding attributes of OpenProject
+# can be a string or URI/URN depending on our idP format
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_EMAIL="mail"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LOGIN="mail"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_FIRST__NAME="givenName"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LAST__NAME="sn"
+# You can also specify an array of attributes, the first found value will be used. Example:
+# OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LOGIN="['mail', 'samAccountName', 'uid']"
 ```
 
 Please note that every underscore (`_`) in the original configuration key has to be replaced by a duplicate underscore
@@ -129,11 +172,35 @@ Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml
     "saml" => {
       "name" => "saml",
       "display_name" => "My SSO",
-      "assertion_consumer_service_url" => "https://<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
+      "assertion_consumer_service_url" => "https://<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback",
+      # The SAML issuer string that OpenProject will call your idP with
+      "issuer" => "https://<YOUR OPENPROJECT HOSTNAME>",
       ### one liner to generate certificate in ONE line
       ### awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' <yourcert.pem>
       "idp_cert" => "-----BEGIN CERTIFICATE-----\nMI................IEr\n-----END CERTIFICATE-----\n",
-      # etc.
+      # Otherwise, the certificate fingerprint must be added
+ 	  # Either `idp_cert` or `idp_cert_fingerprint` must be present!
+	  "idp_cert_fingerprint" => "E7:91:B2:E1:...",
+
+      # Replace with your SAML 2.0 redirect flow single sign on URL
+      # For example: "https://sso.example.com/saml/singleSignOn"
+      "idp_sso_target_url" => "<YOUR SSO URL>",
+      # Replace with your redirect flow single sign out URL
+      # or comment out
+      # For example: "https://sso.example.com/saml/proxySingleLogout"
+      "idp_slo_target_url" => "<YOUR SSO logout URL>",
+
+      # Attribute map in SAML
+      "attribute_statements" => {
+        # What attribute in SAML maps to email (default: mail)
+        "email" => ['mail'],
+        # What attribute in SAML maps to the user login (default: uid)
+        "login" => ['uid'],
+        # What attribute in SAML maps to the first name (default: givenName)
+        "first_name" => ['givenName'],
+        # What attribute in SAML maps to the last name (default: sn)
+        "last_name" => ['sn']
+      }
     }
   }
 })
@@ -180,13 +247,18 @@ The OpenProject username is taken by default from the `email` attribute if no ex
 Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml).deep_merge({
   "providers" => {
     "saml" => {
-      "email" => "email",
-      "login" => "username",
-      "first_name" => "firstname",
-      "last_name" => "lastname"
-      # another example for combined attributes in an array:
-      "login" => ['username', 'samAccountName', 'uid'],
-      # etc.
+       # ... other attributes, see above.
+       # Attribute map in SAML
+      "attribute_statements" => {
+        # What attribute in SAML maps to email (default: mail)
+        "email" => ['mail'],
+        # another example for combined attributes in an array:
+        "login" => ['username', 'samAccountName', 'uid'],
+        # What attribute in SAML maps to the first name (default: givenName)
+        "first_name" => ['givenName'],
+        # What attribute in SAML maps to the last name (default: sn)
+        "last_name" => ['sn']
+      }
     }
   }
 })
@@ -244,8 +316,11 @@ To enable request signing, enable the following flag:
   certificate: "-----BEGIN CERTIFICATE-----\n .... certificate contents ....\n-----END CERTIFICATE-----",
   private_key: "-----BEGIN PRIVATE KEY-----\n .... private key contents ....\n-----END PRIVATE KEY-----",
   security: {
+    # Whether SP and idP should sign requests and assertions
     authn_requests_signed: true,
     want_assertions_signed: true,
+    # Whether the idP should encrypt assertions
+    want_assertions_signed: false,
     embed_sign: true,
     signature_method: 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
     digest_method: 'http://www.w3.org/2001/04/xmlenc#sha256',
@@ -258,7 +333,7 @@ With request signing enabled, the certificate will be added to the identity prov
 
 ### 3: Restarting the server
 
-Once the configuration is completed, restart your OpenProject server with `service openproject restart`. 
+Once the configuration is completed, restart your OpenProject server with `service openproject restart`.  If you configured SAML through settings, this step can be ignored.
 
 #### XML Metadata exchange
 

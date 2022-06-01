@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package timeline date formatting',
-              with_settings: { date_format: '%Y-%m-%d' },
-              js: true,
-              selenium: true do
+RSpec.describe 'Work package timeline date formatting',
+               with_settings: { date_format: '%Y-%m-%d' },
+               js: true,
+               selenium: true do
   shared_let(:type) { create(:type_bug) }
   shared_let(:project) { create(:project, types: [type]) }
 
@@ -39,8 +39,8 @@ RSpec.feature 'Work package timeline date formatting',
     create :work_package,
            project: project,
            type: type,
-           start_date: '2020-12-31',
-           due_date: '2021-01-01',
+           start_date: Date.parse('2020-12-31'),
+           due_date: Date.parse('2021-01-01'),
            subject: 'My subject'
   end
 
@@ -73,7 +73,6 @@ RSpec.feature 'Work package timeline date formatting',
 
   describe 'with default settings',
            with_settings: { start_of_week: '', first_week_of_year: '' } do
-
     context 'with english locale user' do
       let(:current_user) { create :admin, language: 'en' }
 
@@ -104,7 +103,6 @@ RSpec.feature 'Work package timeline date formatting',
 
   describe 'with US/CA settings',
            with_settings: { start_of_week: '7', first_week_of_year: '1' } do
-
     let(:current_user) { create :admin }
 
     it 'shows english ISO dates' do

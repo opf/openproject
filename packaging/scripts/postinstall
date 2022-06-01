@@ -4,6 +4,12 @@
 # the database. This will override existing settings.
 # The user can just choose `skip` during `reconfigure` if they do not want that.
 
+SMTP_CONFIG_FILE=/etc/${APP_NAME}/conf.d/smtp
+
+if [ -f "$SMTP_CONFIG_FILE" ]; then
+  source $SMTP_CONFIG_FILE
+fi
+
 if [ "$EMAIL_DELIVERY_METHOD" = "smtp" ]; then
   ${CLI} run rake "setting:set_to_env[\
 email_delivery_method=EMAIL_DELIVERY_METHOD,\
@@ -15,7 +21,7 @@ smtp_password=SMTP_PASSWORD,\
 smtp_domain=SMTP_DOMAIN\
 ]"
 elif [ "$EMAIL_DELIVERY_METHOD" = "sendmail" ]; then
-  ${CLI} run rake "setting:set[email_delivery_method=sendmail]"
+  ${CLI} run rake "setting:set_to_env[email_delivery_method=EMAIL_DELIVERY_METHOD]"
 fi
 
 # We have transferred all the SMTP options to their settings within the database.

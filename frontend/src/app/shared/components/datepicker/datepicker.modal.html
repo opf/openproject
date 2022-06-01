@@ -7,6 +7,22 @@
   (submit)="save($event)"
 >
   <div class="op-modal--body form -vertical">
+    <div class="form--field op-datepicker-modal--scheduling-action-container">
+      <div class="form--field-container">
+        <label class="form--label-with-check-box">
+          <div class="form--check-box-container">
+            <input type="checkbox"
+                   name="scheduling"
+                   class="form--check-box op-datepicker-modal--scheduling-action"
+                   data-qa-selector="op-datepicker-modal--scheduling-action"
+                   [ngModel]="scheduleManually"
+                   (ngModelChange)="changeSchedulingMode()">
+          </div>
+          {{ text.manualScheduling }}
+        </label>
+      </div>
+    </div>
+
     <div class="op-datepicker-modal--dates-container">
       <ng-container *ngIf="singleDate">
         <div class="form--field">
@@ -14,20 +30,17 @@
                  [textContent]="text.date">
           </label>
           <div class="form--field-container">
-            <div class="form--text-field-container -xslim">
-              <input type="text"
+            <div class="form--text-field-container op-datepicker-modal--date-container">
+              <spot-text-field
                      name="date"
-                     class="form--date-field"
-                     [ngClass]="{'-current' : datepickerHelper.isStateOfCurrentActivatedField('date')}"
+                     class="op-datepicker-modal--date-field"
+                     [ngClass]="{'op-datepicker-modal--date-field_current' : datepickerHelper.isStateOfCurrentActivatedField('date')}"
                      [ngModel]="dates.date"
                      (ngModelChange)="updateDate('date', $event)"
-                     (click)="datepickerHelper.setCurrentActivatedField('date')">
+                     [showClearButton]="datepickerHelper.isStateOfCurrentActivatedField('date')"
+                     (click)="datepickerHelper.setCurrentActivatedField('date')"
+              ></spot-text-field>
             </div>
-            <a class="form--field-inline-action"
-               [title]="text.clear"
-               (click)="clear('date')">
-              <span class="icon2 icon-small icon-cancel"></span>
-            </a>
           </div>
           <div class="form--field-extra-actions">
             <a (click)="setToday('date')"
@@ -45,25 +58,22 @@
                  [textContent]="text.startDate">
           </label>
           <div class="form--field-container">
-            <div class="form--text-field-container -xslim">
-              <input type="text"
+            <div class="form--text-field-container op-datepicker-modal--date-container">
+              <spot-text-field
                      name="startDate"
-                     class="form--date-field"
-                     [ngClass]="{'-current' : datepickerHelper.isStateOfCurrentActivatedField('start')}"
+                     data-qa-selector="op-datepicker-modal--start-date-field"
+                     class="op-datepicker-modal--date-field"
+                     [ngClass]="{'op-datepicker-modal--date-field_current' : datepickerHelper.isStateOfCurrentActivatedField('start')}"
                      [ngModel]="dates.start"
                      (ngModelChange)="updateDate('start', $event)"
                      [disabled]="!isSchedulable"
-                     (click)="setCurrentActivatedField('start')">
+                     [showClearButton]="datepickerHelper.isStateOfCurrentActivatedField('start')"
+                     (focusin)="datepickerHelper.setCurrentActivatedField('start')"
+              ></spot-text-field>
             </div>
-            <a class="form--field-inline-action"
-               *ngIf="isSchedulable"
-               [title]="text.clear"
-               (click)="clear('start')">
-              <span class="icon2 icon-small  icon-cancel"></span>
-            </a>
           </div>
           <div class="form--field-extra-actions">
-            <a *ngIf="showTodayLink('start')"
+            <a *ngIf="showTodayLink()"
                (click)="setToday('start')"
                [textContent]="text.today">
             </a>
@@ -76,64 +86,32 @@
                  [textContent]="text.endDate">
           </label>
           <div class="form--field-container">
-            <div class="form--text-field-container -xslim">
-              <input type="text"
+            <div class="form--text-field-container op-datepicker-modal--date-container">
+              <spot-text-field
                      name="endDate"
-                     class="form--date-field"
-                     [ngClass]="{'-current' : datepickerHelper.isStateOfCurrentActivatedField('end')}"
+                     data-qa-selector="op-datepicker-modal--end-date-field"
+                     class="op-datepicker-modal--date-field"
+                     [ngClass]="{'op-datepicker-modal--date-field_current' : datepickerHelper.isStateOfCurrentActivatedField('end')}"
                      [ngModel]="dates.end"
                      (ngModelChange)="updateDate('end', $event)"
                      [disabled]="!isSchedulable"
-                     (click)="setCurrentActivatedField('end')">
+                     [showClearButton]="datepickerHelper.isStateOfCurrentActivatedField('end')"
+                     (focusin)="datepickerHelper.setCurrentActivatedField('end')"
+              ></spot-text-field>
             </div>
-            <a class="form--field-inline-action"
-               *ngIf="isSchedulable"
-               [title]="text.clear"
-               (click)="clear('end')">
-              <span class="icon2 icon-small icon-cancel"></span>
-            </a>
           </div>
           <div class="form--field-extra-actions">
-            <a *ngIf="showTodayLink('end')"
+            <a *ngIf="showTodayLink()"
                (click)="setToday('end')"
                [textContent]="text.today">
             </a>
           </div>
         </div>
       </ng-container>
-      <div class="form--field op-datepicker-modal--scheduling-action-container">
-        <div class="form--field-container">
-          <label class="form--label-with-check-box">
-            <div class="form--check-box-container">
-              <input type="checkbox"
-                     name="scheduling"
-                     class="form--check-box op-datepicker-modal--scheduling-action"
-                     data-qa-selector="op-datepicker-modal--scheduling-action"
-                     [ngModel]="scheduleManually"
-                     (ngModelChange)="changeSchedulingMode()">
-            </div>
-            {{ text.manualScheduling }}
-          </label>
-        </div>
-      </div>
     </div>
 
-    <ng-container *ngIf="!isSchedulable">
-      <div class="op-toast -info">
-        <div class="op-toast--content">
-          <ng-container *ngIf="isParent">
-            <p [textContent]="text.isParent"></p>
-          </ng-container>
-          <ng-container *ngIf="isSwitchedFromManualToAutomatic && !isParent">
-            <p [textContent]="text.isSwitchedFromManualToAutomatic"></p>
-          </ng-container>
-        </div>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="isSchedulable">
-      <input id="flatpickr-input"
-             hidden>
-    </ng-container>
+    <input id="flatpickr-input"
+           hidden>
   </div>
 
   <div class="op-modal--footer">

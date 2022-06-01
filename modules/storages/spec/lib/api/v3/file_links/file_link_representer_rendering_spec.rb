@@ -83,6 +83,14 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
       end
     end
 
+    describe 'permission' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'permission' }
+        let(:href) { 'urn:openproject-org:api:v3:file-links:permission:View' }
+        let(:title) { 'View' }
+      end
+    end
+
     describe 'originOpen' do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'originOpen' }

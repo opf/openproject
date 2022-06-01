@@ -27,7 +27,7 @@ es:
       updating: "Actualizando…"
     attachments:
       draggable_hint: |
-        Arrastre el campo del editor a una imagen alineada o un adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.
+        Arrastre el campo del editor a una imagen alineada o un archivo adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.
     autocomplete_select:
       placeholder:
         multi: "Añadir \"%{name}\""
@@ -37,7 +37,7 @@ es:
     backup:
       attachments_disabled: No se pueden adjuntar los archivos, ya que el tamaño total supera el máximo permitido. Puede cambiar este valor en la configuración (es necesario reiniciar el servidor).
       info: >
-        Aquí puede activar una copia de seguridad. Este proceso puede tardar algún tiempo en completarse, según la cantidad de datos que tenga (sobre todo, archivos adjuntos). Recibirá un correo electrónico cuando se complete.
+        Aquí puede activar una copia de seguridad. Este proceso puede tardar algún tiempo en completarse según la cantidad de datos que tenga (sobre todo, archivos adjuntos). Recibirá un correo electrónico cuando se complete.
       note: >
         Las nuevas copias de seguridad reemplazarán a las anteriores. Solo puede solicitarse un número limitado de copias de seguridad al día.
       last_backup: Última copia de seguridad
@@ -57,15 +57,15 @@ es:
     button_cancel: "Cancelar"
     button_close: "Cerrar"
     button_change_project: "Cambiar proyecto"
-    button_check_all: "Seleccionar Todos"
+    button_check_all: "Seleccionar todos"
     button_configure-form: "Configurar formulario"
     button_confirm: "Confirmar"
     button_continue: "Continuar"
     button_copy: "Copiar"
     button_copy_to_other_project: "Copiar en otro proyecto"
-    button_custom-fields: "Campos Personalizados"
-    button_delete: "Borrar"
-    button_delete_watcher: "Eliminar los observadores"
+    button_custom-fields: "Campos personalizados"
+    button_delete: "Eliminar"
+    button_delete_watcher: "Eliminar observador"
     button_details_view: "Vista detallada"
     button_duplicate: "Duplicar"
     button_edit: "Editar"
@@ -79,7 +79,7 @@ es:
     button_more: "Más"
     button_open_details: "Abrir vista detallada"
     button_close_details: "Cerrar vista detallada"
-    button_open_fullscreen: "Abrir vista de pantalla completa"
+    button_open_fullscreen: "Abrir en pantalla completa"
     button_show_cards: "Mostrar vista de tarjeta"
     button_show_list: "Mostrar vista de lista"
     button_quote: "presupuesto"
@@ -93,13 +93,13 @@ es:
     card:
       add_new: 'Añadir nueva tarjeta'
       highlighting:
-        inline: 'Resaltar en línea:'
+        inline: 'Resaltar línea:'
         entire_card_by: 'Tarjeta entera por'
       remove_from_list: 'Eliminar tarjeta de la lista'
-    caption_rate_history: "Historial de tasa"
+    caption_rate_history: "Historial de tasas"
     clipboard:
-      browser_error: "Su navegador no soporta copiar al portapapeles. Por favor, copie el texto seleccionado manualmente."
-      copied_successful: "Copiado correctamente en el Portapapeles"
+      browser_error: "Su navegador no es compatible con copiar al portapapeles. Por favor, copie el texto seleccionado manualmente."
+      copied_successful: "Copiado correctamente en el portapapeles"
     chart:
       type: 'Tipo de gráfico'
       axis_criteria: 'Criterios del eje'
@@ -108,8 +108,8 @@ es:
         line: 'Línea'
         horizontal_bar: 'Barra horizontal'
         bar: 'Barra'
-        pie: 'Gráfico Circular'
-        doughnut: 'Rosquilla'
+        pie: 'Gráfico circular'
+        doughnut: 'Gráfico de anillos'
         radar: 'Radar'
         polar_area: 'Área polar'
       tabs:
@@ -117,14 +117,14 @@ es:
         dataset: 'Conjunto de datos %{number}'
       errors:
         could_not_load: 'No se pueden cargar los datos necesarios para mostrar el gráfico. Puede que falten los permisos necesarios.'
-    description_available_columns: "Columnas disponibles"
-    description_current_position: "Usted está aquí: "
+    description_available_columns: "Columnas Disponibles"
+    description_current_position: "Está aquí:"
     description_select_work_package: "Seleccione el paquete de trabajo #%{id}"
     description_selected_columns: "Columnas seleccionadas"
     description_subwork_package: "Seleccione el paquete de trabajo #%{id}"
     editor:
-      preview: 'Cambiar modo de vista previa'
-      source_code: 'Alternar modo de visualización de Markdown'
+      preview: 'Activar modo de vista previa'
+      source_code: 'Activar modo de visualización Markdown'
       error_saving_failed: 'No se pudo guardar el documento debido al siguiente error: %{error}'
       ckeditor_error: 'Se ha producido un error dentro de CKEditor'
       mode:
@@ -137,9 +137,9 @@ es:
           not_found: 'No se encuentra el recurso solicitado'
           invalid_attribute: "El atributo seleccionado («%{name}») no existe."
         child_pages:
-          button: 'Vínculos a páginas secundarias'
+          button: 'Enlaces a páginas secundarias'
           include_parent: 'Incluir principal'
-          text: '[Placeholder] Vínculos a páginas secundarias de'
+          text: '[Placeholder] Enlaces a páginas secundarias de'
           page: 'Página wiki'
           this_page: 'esta página'
           hint: |
@@ -210,7 +210,7 @@ es:
           try_another_email: "O bien pruebe con otra dirección."
           next_steps: "Pasos siguientes"
           resend_link: "Reenviar"
-          resend_success: "Hemos vuelto a enviarle el mensaje. Consulte su correo electrónico y haga clic en el enlace de confirmación proporcionado."
+          resend_success: "El correo electrónico ha sido reenviado. Consulte su correo electrónico y haga clic en el enlace de confirmación proporcionado."
           resend_warning: "No pudimos volver a enviar el correo electrónico."
           session_timeout: "Se agotó el tiempo de espera de la sesión. Pruebe a recargar la página o vuelva a enviar el correo electrónico."
           status_label: "Estado:"
@@ -1149,7 +1149,7 @@ es:
       role:
         label: 'Rol en %{project}'
         no_roles_found: 'No se encontraron roles'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Este es el role que %{principal} recibirá al unirse al proyecto. El role define las acciones que són permitidas y que información pueden ver. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Obtén más información sobre roles y permisos. </a>'
         required: 'Seleccione un rol'
         next_button: 'Siguiente'
       message:

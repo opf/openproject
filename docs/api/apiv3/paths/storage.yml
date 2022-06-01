@@ -6,7 +6,8 @@ get:
   tags:
     - File links
   description: |-
-    Gets a storage resource.
+    Gets a storage resource. As a side effect, a live connection to the storages origin is established to retrieve
+    connection state data.
   parameters:
     - name: id
       description: Storage id

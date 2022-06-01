@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package timeline labels',
-              with_settings: { date_format: '%Y-%m-%d' },
-              js: true,
-              selenium: true do
+RSpec.describe 'Work package timeline labels',
+               with_settings: { date_format: '%Y-%m-%d' },
+               js: true,
+               selenium: true do
   let(:user) { create(:admin) }
   let(:type) { create(:type_bug) }
   let(:milestone_type) { create(:type, is_milestone: true) }
@@ -52,13 +52,9 @@ RSpec.feature 'Work package timeline labels',
     )
   end
 
-  def custom_value_for(str)
-    custom_field.custom_options.find { |co| co.value == str }.try(:id)
-  end
-
-  let(:today) { Date.today.iso8601 }
-  let(:tomorrow) { Date.tomorrow.iso8601 }
-  let(:future) { (Date.today + 5).iso8601 }
+  let(:today) { Time.zone.today }
+  let(:tomorrow) { Time.zone.tomorrow }
+  let(:future) { Time.zone.today + 5.days }
 
   let(:work_package) do
     create :work_package,
@@ -78,6 +74,10 @@ RSpec.feature 'Work package timeline labels',
            start_date: future,
            due_date: future,
            subject: 'My milestone'
+  end
+
+  def custom_value_for(str)
+    custom_field.custom_options.find { |co| co.value == str }.try(:id)
   end
 
   before do

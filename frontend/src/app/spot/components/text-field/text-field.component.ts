@@ -50,7 +50,7 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
   }
 
   writeValue(value:string) {
-    this.value = value;
+    this.value = value || '';
   }
 
   onChange = (_:string):void => {};

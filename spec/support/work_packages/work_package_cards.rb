@@ -34,6 +34,7 @@ class WorkPackageCards
 
   def initialize(project = nil)
     @project = project
+    super()
   end
 
   def open_full_screen_by_doubleclick(work_package)

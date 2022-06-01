@@ -519,6 +519,7 @@ pt:
         begin_deletion: "Início da exclusão"
         children: "Subelementos"
         done_ratio: "Progresso (%)"
+        duration: "Duration"
         end_insertion: "Final da inserção"
         end_deletion: "Final da exclusão"
         version: "Versão"
@@ -733,6 +734,9 @@ pt:
           attributes:
             due_date:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
             parent:
               cannot_be_milestone: "não pode ser um marco."
               cannot_be_self_assigned: "não pode ser atribuído a ele mesmo."
@@ -2154,7 +2158,7 @@ pt:
   permission_comment_news: "Comentar notícias"
   permission_commit_access: "Acesso de leitura/gravação para o repositório (commit)"
   permission_copy_projects: "Copiar projetos"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "Criar backup"
   permission_delete_work_package_watchers: "Excluir observadores"
   permission_delete_work_packages: "Excluir pacotes de trabalho"
   permission_delete_messages: "Excluir mensagens"
@@ -2247,7 +2251,7 @@ pt:
     assigned_to_role: "Atribuído ao papel"
     member_of_group: "Atribuído ao grupo"
     assignee_or_group: "Responsável ou grupo"
-    subproject_id: "Including subproject"
+    subproject_id: "Incluindo Subprojeto"
     only_subproject_id: "Apenas subprojeto"
     name_or_identifier: "Nome ou identificador"
   repositories:

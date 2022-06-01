@@ -225,7 +225,6 @@ describe WikiController, type: :controller do
     pages = assigns(:pages)
     refute_nil pages
     assert_equal wiki.pages.size, pages.size
-    assert_equal pages.first.content.updated_at, pages.first.updated_at
 
     assert_select 'ul', attributes: { class: 'pages-hierarchy' },
                         child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/CookBook%20documentation' },
@@ -267,21 +266,6 @@ describe WikiController, type: :controller do
         it { is_expected.to respond_with :redirect }
         it { is_expected.to redirect_to('wiki index') { { action: 'show', project_id: @project, id: nil } } }
       end
-    end
-  end
-
-  context 'GET :date_index' do
-    before do
-      get :date_index, params: { project_id: 'ecookbook' }
-    end
-
-    it { is_expected.to respond_with :success }
-    it { should_assign_to :pages }
-    it { should_assign_to :pages_by_date }
-    it { is_expected.to render_template 'wiki/date_index' }
-
-    it 'should include atom link' do
-      assert_select 'a', attributes: { href: '/projects/ecookbook/activity.atom?show_wiki_edits=1' }
     end
   end
 

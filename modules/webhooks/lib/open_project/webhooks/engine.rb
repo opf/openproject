@@ -45,8 +45,10 @@ module OpenProject::Webhooks
            caption: :'webhooks.plural'
     end
 
-    initializer 'webhooks.subscribe_to_notifications' do
-      ::OpenProject::Webhooks::EventResources.subscribe!
+    initializer 'webhooks.subscribe_to_notifications' do |app|
+      app.config.after_initialize do
+        ::OpenProject::Webhooks::EventResources.subscribe!
+      end
     end
   end
 end

@@ -27,6 +27,7 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
 describe WorkPackages::BaseContract do
   let(:work_package) do
@@ -79,6 +80,8 @@ describe WorkPackages::BaseContract do
   let(:changed_values) { [] }
 
   subject(:contract) { described_class.new(work_package, current_user) }
+
+  include_context 'ModelContract shared context'
 
   shared_examples_for 'invalid if changed' do |attribute|
     before do
@@ -195,7 +198,7 @@ describe WorkPackages::BaseContract do
       end
 
       it 'is not writable' do
-        expect(contract.writable?(:status)).to be_falsey
+        expect(contract).not_to be_writable(:status)
       end
 
       context 'if we only switched into that status now' do
@@ -206,7 +209,7 @@ describe WorkPackages::BaseContract do
         end
 
         it 'is writable' do
-          expect(contract.writable?(:status)).to be_truthy
+          expect(contract).to be_writable(:status)
         end
       end
     end
@@ -426,7 +429,9 @@ describe WorkPackages::BaseContract do
 
       before do
         work_package.schedule_manually = schedule_manually
-        work_package.parent = build_stubbed(:work_package)
+        allow(work_package)
+          .to receive(:parent)
+          .and_return(build_stubbed(:work_package))
         allow(work_package)
           .to receive(:soonest_start)
           .and_return(Date.today + 4.days)
@@ -434,7 +439,7 @@ describe WorkPackages::BaseContract do
         work_package.start_date = Date.today + 2.days
       end
 
-      context 'scheduled automatically' do
+      context 'when scheduled automatically' do
         it 'notes the error' do
           contract.validate
 
@@ -446,20 +451,15 @@ describe WorkPackages::BaseContract do
         end
       end
 
-      context 'scheduled manually' do
+      context 'when scheduled manually' do
         let(:schedule_manually) { true }
 
-        it 'is valid' do
-          contract.validate
-
-          expect(contract.errors[:start_date])
-            .to be_empty
-        end
+        it_behaves_like 'contract is valid'
       end
     end
   end
 
-  describe 'finish date' do
+  describe 'due date' do
     it_behaves_like 'a parent unwritable property', :due_date, schedule_sensitive: true
     it_behaves_like 'a date attribute', :due_date
 
@@ -473,6 +473,80 @@ describe WorkPackages::BaseContract do
 
       expect(contract.errors[:due_date])
         .to include message
+    end
+  end
+
+  describe 'duration' do
+    context 'when setting the duration' do
+      before do
+        work_package.duration = 5
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when setting the duration to 0' do
+      before do
+        work_package.duration = 0
+      end
+
+      it_behaves_like 'contract is invalid', duration: :greater_than
+    end
+
+    context 'when setting the duration to a floating point' do
+      before do
+        work_package.duration = 4.5
+      end
+
+      it_behaves_like 'contract is invalid', duration: :not_an_integer
+    end
+
+    context 'when setting the duration to a negative value' do
+      before do
+        work_package.duration = -5
+      end
+
+      it_behaves_like 'contract is invalid', duration: :greater_than
+    end
+
+    context 'when setting duration as well as the dates' do
+      before do
+        work_package.duration = 6
+        work_package.start_date = Time.zone.today - 4.days
+        work_package.due_date = Time.zone.today + 1.day
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when setting duration as well as the dates and the duration is too small' do
+      before do
+        work_package.duration = 5
+        work_package.start_date = Time.zone.today - 4.days
+        work_package.due_date = Time.zone.today + 1.day
+      end
+
+      it_behaves_like 'contract is invalid', duration: :smaller_than_dates
+    end
+
+    context 'when setting duration as well as the dates and the duration is too big' do
+      before do
+        work_package.duration = 7
+        work_package.start_date = Time.zone.today - 4.days
+        work_package.due_date = Time.zone.today + 1.day
+      end
+
+      it_behaves_like 'contract is invalid', duration: :larger_than_dates
+    end
+
+    context 'when setting duration as well as the dates to the same date' do
+      before do
+        work_package.duration = 1
+        work_package.start_date = Time.zone.today
+        work_package.due_date = Time.zone.today
+      end
+
+      it_behaves_like 'contract is valid'
     end
   end
 
@@ -564,7 +638,6 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'parent' do
-    let(:child) { build_stubbed(:stubbed_work_package) }
     let(:parent) { build_stubbed(:stubbed_work_package) }
 
     before do
@@ -576,47 +649,36 @@ describe WorkPackages::BaseContract do
 
       # while we do validate the parent
       # the errors are still put on :base so that the messages can be reused
-      contract.errors.symbols_for(:base)
+      contract.errors.symbols_for(:parent)
     end
 
     context 'when self assigning' do
       let(:parent) { work_package }
 
-      it 'returns an error for the aparent' do
-        expect(contract.validate).to eq false
-        expect(contract.errors.symbols_for(:parent)).to eq [:cannot_be_self_assigned]
+      it 'returns an error for the parent' do
+        expect(subject)
+          .to eq [:cannot_be_self_assigned]
       end
     end
 
-    context 'a relation exists between the parent and its ancestors and the work package and its descendants' do
-      let(:parent) { child }
-
+    context 'when the intended parent is not relatable' do
       before do
-        from_parent_stub = double('from parent stub')
-        allow(Relation)
-          .to receive(:from_parent_to_self_and_descendants)
-          .with(work_package)
-          .and_return(from_parent_stub)
+        scope = instance_double(ActiveRecord::Relation)
 
-        from_descendants_stub = double('from descendants stub')
-        allow(Relation)
-          .to receive(:from_self_and_descendants_to_ancestors)
-          .with(work_package)
-          .and_return(from_descendants_stub)
+        allow(WorkPackage)
+          .to receive(:relatable)
+                .with(work_package, Relation::TYPE_PARENT)
+                .and_return(scope)
 
-        allow(from_parent_stub)
-          .to receive(:or)
-          .with(from_descendants_stub)
-          .and_return(from_parent_stub)
-
-        allow(from_parent_stub)
-          .to receive_message_chain(:direct, :exists?)
-          .and_return(true)
+        allow(scope)
+          .to receive(:where)
+                .with(id: parent.id)
+                .and_return([])
       end
 
       it 'is invalid' do
-        expect(subject.include?(:cant_link_a_work_package_with_a_descendant))
-          .to be_truthy
+        expect(subject)
+          .to include(:cant_link_a_work_package_with_a_descendant)
       end
     end
   end

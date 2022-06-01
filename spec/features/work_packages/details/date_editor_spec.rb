@@ -37,7 +37,7 @@ describe 'date inplace editor',
          with_settings: { date_format: '%Y-%m-%d' },
          js: true, selenium: true do
   let(:project) { create :project_with_types, public: true }
-  let(:work_package) { create :work_package, project: project, start_date: '2016-01-01' }
+  let(:work_package) { create :work_package, project:, start_date: Date.parse('2016-01-02') }
   let(:user) { create :admin }
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -61,7 +61,20 @@ describe 'date inplace editor',
 
     start_date.save!
     start_date.expect_inactive!
-    start_date.expect_state_text '2016-01-01 - 2016-01-25'
+    start_date.expect_state_text '2016-01-02 - 2016-01-25'
+  end
+
+  it 'reverses the dates if the selected date is before the current start date' do
+    start_date.activate!
+    start_date.expect_active!
+
+    start_date.datepicker.expect_year '2016'
+    start_date.datepicker.expect_month 'January', true
+    start_date.datepicker.select_day '1'
+
+    start_date.save!
+    start_date.expect_inactive!
+    start_date.expect_state_text '2016-01-01 - 2016-01-02'
   end
 
   it 'can set "today" as a date via the provided link' do
@@ -79,8 +92,76 @@ describe 'date inplace editor',
     start_date.expect_state_text "#{Time.zone.today.strftime('%Y-%m-%d')} - no finish date"
   end
 
+  context 'with start and end date set' do
+    let(:work_package) do
+      create :work_package,
+             project:,
+             start_date: Date.parse('2016-01-02'),
+             due_date: Date.parse('2016-01-25')
+    end
+
+    it 'selecting a date before the current start date will change the start date' do
+      start_date.activate!
+      start_date.expect_active!
+
+      start_date.datepicker.expect_year '2016'
+      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.select_day '1'
+
+      start_date.save!
+      start_date.expect_inactive!
+      start_date.expect_state_text '2016-01-01 - 2016-01-25'
+    end
+
+    it 'selecting a date in between changes the date that is currently in focus' do
+      start_date.activate!
+      start_date.expect_active!
+
+      start_date.datepicker.expect_year '2016'
+      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.select_day '3'
+
+      # Since the focus shifts automatically, we can directly click again to modify the end date
+      start_date.datepicker.select_day '21'
+
+      start_date.save!
+      start_date.expect_inactive!
+      start_date.expect_state_text '2016-01-03 - 2016-01-21'
+    end
+
+    it 'selecting a date after the current finish date will change either start or finish depending on the focus' do
+      start_date.activate!
+      start_date.expect_active!
+
+      start_date.datepicker.expect_year '2016'
+      start_date.datepicker.expect_month 'January', true
+
+      # Focus the end date field
+      start_date.activate_due_date_within_modal
+      start_date.datepicker.set_date '2016-03-01', true
+
+      # Since the end date is focused, the date will become the new end date
+      start_date.save!
+      start_date.expect_inactive!
+      start_date.expect_state_text '2016-01-02 - 2016-03-01'
+
+      # Activating again and now changing the start date to something after the current end date
+      start_date.activate!
+      start_date.expect_active!
+
+      start_date.datepicker.expect_year '2016'
+      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.set_date '2016-04-01', true
+
+      # This will set the new start and unset the end date
+      start_date.save!
+      start_date.expect_inactive!
+      start_date.expect_state_text '2016-04-01 - no finish date'
+    end
+  end
+
   context 'with the start date empty' do
-    let(:work_package) { create :work_package, project: project, start_date: nil }
+    let(:work_package) { create :work_package, project:, start_date: nil }
 
     it 'can set "today" as a date via the provided link' do
       start_date.activate!
@@ -164,7 +245,7 @@ describe 'date inplace editor',
 
     let(:cf_field) { EditField.new page, :"customField#{date_cf.id}" }
     let(:datepicker) { ::Components::Datepicker.new }
-    let(:create_page) { ::Pages::FullWorkPackageCreate.new(project: project) }
+    let(:create_page) { ::Pages::FullWorkPackageCreate.new(project:) }
 
     it 'can handle creating a CF date' do
       create_page.visit!

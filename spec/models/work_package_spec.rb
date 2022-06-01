@@ -648,53 +648,19 @@ describe WorkPackage, type: :model do
   end
 
   describe '#duration' do
-    let(:instance) { send(subclass) }
-
-    describe "w/ today as start date
-              w/ tomorrow as finish date" do
-      before do
-        work_package.start_date = Date.today
-        work_package.due_date = Date.today + 1.day
-      end
-
-      it 'should have a duration of two' do
-        expect(work_package.duration).to eq(2)
+    context "when not setting a value" do
+      it 'is nil' do
+        expect(work_package.duration).to be_nil
       end
     end
 
-    describe "w/ today as start date
-              w/ today as finish date" do
+    context "when setting the value" do
       before do
-        work_package.start_date = Date.today
-        work_package.due_date = Date.today
+        work_package.duration = 5
       end
 
-      it 'should have a duration of one' do
-        expect(work_package.duration).to eq(1)
-      end
-    end
-
-    describe "w/ today as start date
-              w/o a finish date" do
-      before do
-        work_package.start_date = Date.today
-        work_package.due_date = nil
-      end
-
-      it 'should have a duration of one' do
-        expect(work_package.duration).to eq(1)
-      end
-    end
-
-    describe "w/o a start date
-              w today as finish date" do
-      before do
-        work_package.start_date = nil
-        work_package.due_date = Date.today
-      end
-
-      it 'should have a duration of one' do
-        expect(work_package.duration).to eq(1)
+      it 'is the value' do
+        expect(work_package.duration).to eq(5)
       end
     end
   end

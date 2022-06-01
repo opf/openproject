@@ -73,7 +73,7 @@
         <div class="spot-action-bar--right">
           <button
             [disabled]="(loading$ | async)"
-            class="spot-button spot-button_outlined spot-button_main"
+            class="button"
             type="button"
             (click)="clearSelection()"
           >
@@ -81,7 +81,7 @@
           </button>
           <button 
             [disabled]="(loading$ | async)"
-            class="spot-button spot-button_main"
+            class="button -highlight"
           >
             {{ text.apply }}
           </button>

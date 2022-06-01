@@ -1,4 +1,22 @@
 te-calendar
+  // The two media queries below make sure the "Log time" button does not overlap
+  // with the dates on mobile. Instead, it will be shown above the full calendar toolbar.
+  // The media queries are the normal mobile/tablet breakpoints.
+  @media screen and (max-width: 679px)
+    .fc-toolbar-chunk:empty
+      display: none
+
+  @media screen and (min-width: 680px)
+    .te-calendar--create-button
+      position: absolute
+      right: 0
+      top: 0
+      margin-right: 0px
+
+    .fc-toolbar-chunk:last-child
+      flex-basis: 165px
+      flex-shrink: 0
+
   full-calendar
     overflow-x: auto
 
@@ -119,9 +137,3 @@ te-calendar
       margin-right: 5px
       padding-right: 5px
       font-weight: bold
-
-  .te-calendar--create-button
-    position: absolute
-    right: 0
-    top: 6px
-    margin-right: 0px

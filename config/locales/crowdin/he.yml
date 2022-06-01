@@ -522,6 +522,7 @@ he:
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
         done_ratio: "Progress (%)"
+        duration: "Duration"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
         version: "גירסה"
@@ -736,6 +737,9 @@ he:
           attributes:
             due_date:
               not_start_date: "is not on start date, although this is required for milestones."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
             parent:
               cannot_be_milestone: "cannot be a milestone."
               cannot_be_self_assigned: "cannot be assigned to itself."

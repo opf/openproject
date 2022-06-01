@@ -102,16 +102,12 @@ Rails.application.config.hosts << 'openproject.example.com'
 
 
 
-Then, you will start a REPL console for OpenProject with: `RAILS_ENV=development ./bin/rails console`
-
-Update the settings for host name and protocol:
+Then, you will to set the following settings
 
 ```ruby
-Setting.protocol = 'https'
-Setting.host_name = 'openproject.example.com'
+export OPENPROJECT_HTTPS = true
+export OPENPROJECT_HOST__NAME = 'openproject.example.com'
 ```
-
-
 
 Finally, start your OpenProject development server and Frontend server and access `https://openproject.example.com` in your browser.
 

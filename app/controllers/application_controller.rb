@@ -139,7 +139,7 @@ class ApplicationController < ActionController::Base
                 :stop_if_feeds_disabled,
                 :set_cache_buster,
                 :action_hooks,
-                :reload_mailer_configuration!
+                :reload_mailer_settings!
 
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
@@ -167,8 +167,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def reload_mailer_configuration!
-    OpenProject::Configuration.reload_mailer_configuration!
+  def reload_mailer_settings!
+    Setting.reload_mailer_settings!
   end
 
   # Checks if the session cookie is missing.
@@ -228,7 +228,7 @@ class ApplicationController < ActionController::Base
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action], global = false)
     context = @project || @projects
-    is_authorized = AuthorizationService.new({ controller: ctrl, action: action }, context: context, global: global).call
+    is_authorized = User.current.allowed_to?({ controller: ctrl, action: }, context, global:)
 
     unless is_authorized
       if @project&.archived?

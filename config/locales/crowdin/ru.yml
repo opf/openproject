@@ -521,6 +521,7 @@ ru:
         begin_deletion: "Начало удаления"
         children: "Вложенные элементы"
         done_ratio: "Прогресс (%)"
+        duration: "Duration"
         end_insertion: "Завершение вставки"
         end_deletion: "Завершение удаления"
         version: "Этапы"
@@ -735,6 +736,9 @@ ru:
           attributes:
             due_date:
               not_start_date: "не дата начала, но нужна для вех."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
             parent:
               cannot_be_milestone: "не может служить вехой."
               cannot_be_self_assigned: "не может быть присвоено самому себе."
@@ -816,7 +820,7 @@ ru:
       custom_field: "Настраиваемое поле"
       group: "Группа"
       category: "Категория"
-      status: "Состояние группы работ"
+      status: "Статус пакета работ"
       member: "Участник"
       news: "Новости"
       notification:
@@ -893,7 +897,7 @@ ru:
     role: "Роль"
     roles: "Роль"
     start_date: "Дата начала"
-    status: "Состояние"
+    status: "Статус"
     subject: "Тема"
     summary: "Сводка"
     title: "Заголовок"
@@ -1286,7 +1290,7 @@ ru:
   error_password_change_failed: 'Произошла ошибка при попытке изменить пароль.'
   error_scm_command_failed: "Произошла ошибка при попытке доступа к хранилищу: %{value}"
   error_scm_not_found: "Ни статья, ни ее исправленная версия в репозитории не найдены."
-  error_unable_delete_status: "Состояние работы пакета удалить нельзя, так как оно используется по крайней мере одним рабочим пакетом."
+  error_unable_delete_status: "Статус пакета работ удалить нельзя, так как он используется по крайней мере одним рабочим пакетом."
   error_unable_delete_default_status: "Не удается удалить статус работы пакета по умолчанию. Пожалуйста, выберите другой статус работы пакета по умолчанию перед удалением текущего."
   error_unable_to_connect: "Не удается подключиться (%{value})"
   error_unable_delete_wiki: "Не удается удалить вики-страницу."
@@ -2756,7 +2760,7 @@ ru:
       work_package_responsible: "Показать пакеты работ с подотчетными"
       work_package_assignee: "Показать пакеты работ с назначениями"
       types: "Показать типы"
-      status: "Показать состояние"
+      status: "Показать статус"
       project_time_filter: "Проекты пакета работ определенного типа в определенные сроки"
       project_time_filter_timeframe: "Срок"
       project_time_filter_historical_from: "от"

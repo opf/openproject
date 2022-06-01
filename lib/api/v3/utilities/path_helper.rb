@@ -192,6 +192,30 @@ module API
             "#{root}/custom_options/#{id}"
           end
 
+          def self.day(date)
+            "#{days}/#{date}"
+          end
+
+          def self.days
+            "#{root}/days"
+          end
+
+          def self.days_week
+            "#{days}/week"
+          end
+
+          def self.days_week_day(day)
+            "#{days_week}/#{day}"
+          end
+
+          def self.days_non_working
+            "#{root}/days/non_working"
+          end
+
+          def self.days_non_working_day(date)
+            "#{days_non_working}/#{date}"
+          end
+
           index :help_text
           show :help_text
 
@@ -473,7 +497,7 @@ module API
                 "#{project_id}-#{type_id}"
               end
 
-              filter = [{ id: { operator: '=', values: values } }]
+              filter = [{ id: { operator: '=', values: } }]
 
               path + "?filters=#{CGI.escape(filter.to_s)}"
             end
@@ -497,8 +521,8 @@ module API
               sortBy: sort_by&.to_json,
               groupBy: group_by,
               pageSize: page_size,
-              offset: offset,
-              select: select
+              offset:,
+              select:
             }.compact_blank
 
             if query_params.any?
