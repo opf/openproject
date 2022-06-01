@@ -12,7 +12,7 @@
   <op-project-autocompleter
     *ngIf="active"
 
-    (change)="selectProject($event)"
+    (valueChange)="selectProject($event)"
     (keydown.escape)="active = false"
 
     [apiFilters]="APIFilters"

@@ -6,6 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormArray } from '@angular/forms';
+import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 import { IProjectAutocompleteItem } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocomplete-item';
@@ -37,7 +38,7 @@ export class NotificationSettingInlineCreateComponent {
     already_selected: this.I18n.t('js.notifications.settings.project_specific.already_selected'),
   };
 
-  public get APIFilters() {
+  public get APIFilters():ApiV3ListFilter[] {
     return [['visible', '=', [this.userId]]];
   }
 

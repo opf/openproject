@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
@@ -35,10 +35,12 @@ import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { IProjectAutocompleteItem } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocomplete-item';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ID } from '@datorama/akita';
 
 @Component({
   selector: 'op-filter-project',
   templateUrl: './filter-project.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterProjectComponent extends UntilDestroyedMixin {
   @Input() public shouldFocus = false;
@@ -54,7 +56,7 @@ export class FilterProjectComponent extends UntilDestroyedMixin {
     super();
   }
 
-  async onChange(val:HalResource[]|IProjectAutocompleteItem[]) {
+  async onChange(val:HalResource[]|IProjectAutocompleteItem[]):Promise<void> {
     if (val === this.filter.values || val === undefined) {
       return;
     }
@@ -69,7 +71,7 @@ export class FilterProjectComponent extends UntilDestroyedMixin {
     // Here we change from one to the other
     const projects = await this.apiV3Service.projects.list({
       filters: [
-        [ 'id', '=', val.map((p:any) => p.id)],
+        ['id', '=', val.map((p:HalResource|IProjectAutocompleteItem) => String(p.id) || '')],
       ],
     }).toPromise();
 

@@ -29,7 +29,7 @@ export interface DatasetInputsComponent extends DatasetInputsDecorated {
  *   constructor(
  *    elementRef:ElementRef,
  *   ) {
- *     populateInputsFromDataset(this); 
+ *     populateInputsFromDataset(this);
  *   }
  * }
  * ```
@@ -64,8 +64,6 @@ export function populateInputsFromDataset(instance:DatasetInputsDecorated):any {
 
   const input = cstr[declaredInputsParentKey] as ɵDirectiveDef<unknown>;
   const inputs = input.declaredInputs as { [key:string]:string };
-
-  console.log(inputs);
 
   Object.keys(inputs)
     .forEach((outsideName) => {

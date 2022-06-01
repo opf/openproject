@@ -31,12 +31,12 @@ import {
   ElementRef,
   Injector,
   Input,
-  OnInit,
   forwardRef,
   EventEmitter,
   Output,
   HostBinding,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -65,11 +65,12 @@ export interface IProjectAutocompleterData {
   id:ID;
   href:string;
   name:string;
-};
+}
 
 @Component({
   templateUrl: './project-autocompleter.component.html',
   styleUrls: ['./project-autocompleter.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: projectsAutocompleterSelector,
   providers: [{
@@ -78,12 +79,10 @@ export interface IProjectAutocompleterData {
     multi: true,
   }],
 })
-export class ProjectAutocompleterComponent implements OnInit, ControlValueAccessor {
+export class ProjectAutocompleterComponent implements ControlValueAccessor {
   @HostBinding('class.op-project-autocompleter') public className = true;
 
-  projectTracker = (item:IProjectAutocompleteItem) => {
-    return item.href || item.id;
-  }
+  projectTracker = (item:IProjectAutocompleteItem):ID => item.href || item.id;
 
   // Load all projects as default
   @Input() public url:string = this.apiV3Service.projects.path;
@@ -113,15 +112,15 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
   set value(value:IProjectAutocompleterData|IProjectAutocompleterData[]|null) {
     this._value = value;
     this.onChange(value);
-    this.changeEmitter.emit(value);
+    this.valueChange.emit(value);
     this.onTouched(value);
   }
 
   get plainValue():ID|ID[]|undefined {
-    return Array.isArray(this.value) ? this.value?.map(i => i.id) : this.value?.id;
+    return Array.isArray(this.value) ? this.value?.map((i) => i.id) : this.value?.id;
   }
 
-  @Output('change') changeEmitter = new EventEmitter<IProjectAutocompleterData|IProjectAutocompleterData[]|null>();
+  @Output('valueChange') valueChange = new EventEmitter<IProjectAutocompleterData|IProjectAutocompleterData[]|null>();
 
   constructor(
     public elementRef:ElementRef,
@@ -134,10 +133,7 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
     readonly injector:Injector,
   ) {
     populateInputsFromDataset(this);
-    debugger;
   }
-
-  ngOnInit() { }
 
   public getAvailableProjects(searchTerm:string):Observable<IProjectAutocompleteItem[]> {
     return getPaginatedResults<IProject>(
@@ -147,6 +143,7 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
         if (searchTerm.length) {
           filters.push(['name_and_identifier', '~', [searchTerm]]);
         }
+
         const fullParams = {
           filters,
           select: [
@@ -182,7 +179,7 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
       );
   }
 
-  writeValue(value:IProjectAutocompleterData|null) {
+  writeValue(value:IProjectAutocompleterData|null):void {
     this.value = value;
   }
 

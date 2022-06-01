@@ -107,7 +107,7 @@ export class ProjectSelectionComponent implements OnInit {
       });
   }
 
-  private setPlaceholderOption() {
+  private setPlaceholderOption():void {
     if (this.bannersService.eeShowBanners) {
       this.typeOptions.push({
         value: PrincipalType.Placeholder,
@@ -130,14 +130,14 @@ export class ProjectSelectionComponent implements OnInit {
     }
   }
 
-  async onSubmit($e:Event) {
+  async onSubmit($e:Event):Promise<void> {
     $e.preventDefault();
     if (this.projectAndTypeForm.invalid) {
       this.projectAndTypeForm.markAsDirty();
       return;
     }
 
-    const projectId = idFromLink(this.projectControl?.value.href);
+    const projectId = idFromLink(this.projectControl?.value?.href);
     const project = await this.apiV3Service.projects.id(projectId).get().toPromise();
 
     this.save.emit({
@@ -150,7 +150,7 @@ export class ProjectSelectionComponent implements OnInit {
 
   projectFilterFn(projects:IProjectAutocompleteItem[]):IProjectAutocompleteItem[] {
     const mapped = projects.map((project) => {
-      const disabled = !this.projectInviteCapabilities.find((cap) => parseInt(cap.context.id, 10) === project.id);
+      const disabled = !this.projectInviteCapabilities.find((cap) => parseInt(cap.context?.id, 10) === project.id);
       return {
         ...project,
         disabled,

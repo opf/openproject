@@ -92,7 +92,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @Input() public addTag?:boolean = false;
 
-  @Input() public id:string = '';
+  @Input() public id = '';
 
   @Input() public accesskey?:number;
 

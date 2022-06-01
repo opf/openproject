@@ -32,17 +32,17 @@ class Widget::Filters::Project < Widget::Filters::Base
   def render
     write(content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: 'advanced-filters--filter-value') do
       label = label_tag "#{filter_class.underscore_name}_arg_1_val",
-                        h(filter_class.label) + ' ' + I18n.t(:label_filter_value),
+                        "#{h(filter_class.label)} #{I18n.t(:label_filter_value)}",
                         class: 'hidden-for-sighted'
 
       box = angular_component_tag 'op-project-autocompleter',
-                                inputs: {
-                                  apiFilters: [],
-                                  name: "values[#{filter_class.underscore_name}][]",
-                                  multiple: true
-                                },
-                                id: "#{filter_class.underscore_name}_select_1",
-                                class: 'filter-value'
+                                  inputs: {
+                                    apiFilters: [],
+                                    name: "values[#{filter_class.underscore_name}][]",
+                                    multiple: true
+                                  },
+                                  id: "#{filter_class.underscore_name}_select_1",
+                                  class: 'filter-value'
 
       content_tag(:span, class: 'inline-label') do
         label + box
