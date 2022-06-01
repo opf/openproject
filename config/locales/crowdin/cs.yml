@@ -522,6 +522,7 @@ cs:
         begin_deletion: "Začátek odstranění"
         children: "Dílčí prvky"
         done_ratio: "Průběh (%)"
+        duration: "Duration"
         end_insertion: "Konec vložení"
         end_deletion: "Konec odstranění"
         version: "Verze"
@@ -736,6 +737,9 @@ cs:
           attributes:
             due_date:
               not_start_date: "není v počátečním datu, i když je to nutné pro milníky."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
             parent:
               cannot_be_milestone: "nemůže být milník."
               cannot_be_self_assigned: "nemůže být přiřazeno k sobě."

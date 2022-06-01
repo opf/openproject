@@ -520,6 +520,7 @@ fi:
         begin_deletion: "Poistokohdan alku"
         children: "Subelements"
         done_ratio: "Valmiusaste (%)"
+        duration: "Duration"
         end_insertion: "Lisäyksen loppu"
         end_deletion: "Poistokohdan loppu"
         version: "Versio"
@@ -734,6 +735,9 @@ fi:
           attributes:
             due_date:
               not_start_date: "ei ole aloituspäivänä, vaikka välitavoite vaatii sen olevan."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
             parent:
               cannot_be_milestone: "ei voi olla välitavoite."
               cannot_be_self_assigned: "cannot be assigned to itself."
