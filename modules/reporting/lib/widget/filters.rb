@@ -98,6 +98,8 @@ class Widget::Filters < ::Widget::Base
       end
     elsif f_cls.is_multiple_choice?
       render_widget MultiChoice, f, to: html
+    elsif f_inst.instance_of?(CostQuery::Filter::ProjectId)
+      render_widget Project, f, to: html, lazy: true
     else
       render_widget MultiValues, f, to: html, lazy: true
     end

@@ -104,20 +104,24 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
   @Input()
   public mapResultsFn:(projects:IProjectAutocompleteItem[]) => IProjectAutocompleteItem[] = (projects) => projects;
 
-  @Input('value') public _value:IProjectAutocompleterData|null = null;
+  @Input('value') public _value:IProjectAutocompleterData|IProjectAutocompleterData[]|null = null;
 
-  get value():IProjectAutocompleterData|null {
+  get value():IProjectAutocompleterData|IProjectAutocompleterData[]|null {
     return this._value;
   }
 
-  set value(value:IProjectAutocompleterData|null) {
+  set value(value:IProjectAutocompleterData|IProjectAutocompleterData[]|null) {
     this._value = value;
     this.onChange(value);
     this.changeEmitter.emit(value);
     this.onTouched(value);
   }
 
-  @Output('change') changeEmitter = new EventEmitter<IProjectAutocompleterData|null>();
+  get plainValue():ID|ID[]|undefined {
+    return Array.isArray(this.value) ? this.value?.map(i => i.id) : this.value?.id;
+  }
+
+  @Output('change') changeEmitter = new EventEmitter<IProjectAutocompleterData|IProjectAutocompleterData[]|null>();
 
   constructor(
     public elementRef:ElementRef,
@@ -181,15 +185,15 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
     this.value = value;
   }
 
-  onChange = (_:IProjectAutocompleterData|null):void => {};
+  onChange = (_:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void => {};
 
-  onTouched = (_:IProjectAutocompleterData|null):void => {};
+  onTouched = (_:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void => {};
 
-  registerOnChange(fn:(_:IProjectAutocompleterData|null) => void):void {
+  registerOnChange(fn:(_:IProjectAutocompleterData|IProjectAutocompleterData[]|null) => void):void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn:(_:IProjectAutocompleterData|null) => void):void {
+  registerOnTouched(fn:(_:IProjectAutocompleterData|IProjectAutocompleterData[]|null) => void):void {
     this.onTouched = fn;
   }
 }
