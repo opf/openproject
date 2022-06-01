@@ -45,11 +45,12 @@ get:
             message: The requested resource could not be found.
 
 patch:
-  summary: Update a non-working day attributes
+  summary: Update a non-working day attributes (NOT IMPLEMENTED)
   operationId: update_non_working_day
   tags:
     - Work Schedule
   description: |-
+    **(NOT IMPLEMENTED)**
     Update the non-working day information for a given date.
   parameters:
     - name: date
@@ -99,11 +100,12 @@ patch:
             message: The requested resource could not be found.
 
 delete:
-  summary: Removes a non-working day
+  summary: Removes a non-working day (NOT IMPLEMENTED)
   operationId: delete_non_working_day
   tags:
     - Work Schedule
   description: |-
+    **(NOT IMPLEMENTED)**
     Removes the non-working day at the given date.
 
     Note: deleting a non-working day will not affect the start and finish dates

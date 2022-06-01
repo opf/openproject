@@ -49,9 +49,10 @@ get:
             message: The requested resource could not be found.
 
 patch:
-  summary: Update a week day attributes
+  summary: Update a week day attributes (NOT IMPLEMENTED)
   operationId: update_week_day
   description: |-
+    **(NOT IMPLEMENTED)**
     Makes a week day a working or non-working day.
 
     Note: changing a week day working attribute will not affect the start and
