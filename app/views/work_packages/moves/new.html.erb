@@ -60,9 +60,8 @@ See COPYRIGHT and LICENSE files for more details.
                   <div class="form--field-container">
                     <%= angular_component_tag 'op-project-autocompleter',
                                               inputs: {
-                                                APIFilters: [],
+                                                # apiFilters: [['user_action', '=', ['work_packages/move']]],
                                                 name: 'new_project_id',
-                                                url: url_for(action: 'available_values'),
                                               },
                                               id: 'new_project_id',
                                               class: 'remote-field--input'

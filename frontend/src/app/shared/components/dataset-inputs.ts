@@ -65,6 +65,8 @@ export function populateInputsFromDataset(instance:DatasetInputsDecorated):any {
   const input = cstr[declaredInputsParentKey] as ɵDirectiveDef<unknown>;
   const inputs = input.declaredInputs as { [key:string]:string };
 
+  console.log(inputs);
+
   Object.keys(inputs)
     .forEach((outsideName) => {
       const insideName = inputs[outsideName];

@@ -37,7 +37,7 @@ class Widget::Filters::Project < Widget::Filters::Base
 
       box = angular_component_tag 'op-project-autocompleter',
                                 inputs: {
-                                  APIFilters: [],
+                                  apiFilters: [],
                                   name: "values[#{filter_class.underscore_name}][]",
                                   multiple: true
                                 },

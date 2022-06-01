@@ -94,7 +94,7 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
 
   @Input() public multiple = false;
 
-  @Input() public APIFilters:ApiV3ListFilter[] = [];
+  @Input() public apiFilters:ApiV3ListFilter[] = [];
 
   // This function allows mapping of the results before they are fed to the tree
   // structuring and destructuring algorithms used internally the this component
@@ -134,6 +134,7 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
     readonly injector:Injector,
   ) {
     populateInputsFromDataset(this);
+    debugger;
   }
 
   ngOnInit() { }
@@ -141,7 +142,7 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
   public getAvailableProjects(searchTerm:string):Observable<IProjectAutocompleteItem[]> {
     return getPaginatedResults<IProject>(
       (params) => {
-        const filters:ApiV3ListFilter[] = [...this.APIFilters];
+        const filters:ApiV3ListFilter[] = [...this.apiFilters];
         
         if (searchTerm.length) {
           filters.push(['name_and_identifier', '~', [searchTerm]]);
