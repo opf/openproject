@@ -398,6 +398,26 @@ describe MailHandler, type: :model do
           end.to change(User, :count).by(1)
         end
 
+        context 'with unknown_user=default' do
+          let(:results) { [] }
+
+          before do
+            results << submit_email(
+              'ticket_by_unknown_user.eml',
+              issue: { project: project.identifier },
+              unknown_user: nil
+            )
+          end
+
+          it "ignores the email" do
+            expect(results).to eq [false]
+          end
+
+          it "does not respond with an error email" do
+            expect(UserMailer).not_to have_received(:incoming_email_error)
+          end
+        end
+
         context 'with unknown_user=accept and permision check present' do
           let(:expected) do
             'MailHandler: work_package could not be created by Anonymous due to ' \
@@ -413,13 +433,11 @@ describe MailHandler, type: :model do
           before do
             allow(Rails.logger).to receive(:error).with(expected)
 
-            result = submit_email(
+            results << submit_email(
               'ticket_by_unknown_user.eml',
               issue: { project: project.identifier },
               unknown_user: 'accept'
             )
-
-            results << result
           end
 
           it 'rejects the email' do

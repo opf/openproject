@@ -115,7 +115,7 @@ class MailHandler < ActionMailer::Base
         end
       else
         # Default behaviour, emails from unknown users are ignored
-        log "ignoring email from unknown user [#{sender_email}]"
+        log "ignoring email from unknown user [#{sender_email}]", report: false
         return false
       end
     end
