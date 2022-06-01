@@ -48,8 +48,15 @@
 
       &.file-info
         flex: 1 5 auto
-        text-align: right
         font-size: 12px
+        display: flex
+        align-items: center
+        justify-content: flex-end
+
+        > :last-child
+          white-space: nowrap
+          overflow: hidden
+          text-overflow: ellipsis
 
       &.hover-menu
         position: absolute
@@ -117,12 +124,12 @@
         font-size: 14px
         line-height: 20px
 
-  &--file-list-action-button
-    &.spot-link
-      font-size: 14px
-
-      .spot-icon:first-child
-        margin: 0
+  //&--file-list-action-button
+  //  &.spot-link
+  //    font-size: 14px
+  //
+  //    .spot-icon:first-child
+  //      margin: 0
 
   &--color
     &-red

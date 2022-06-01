@@ -1,9 +1,9 @@
-<div
+<ng-container
   *ngIf="resource"
-  data-qa-selector="op-files-tab--file-link-list"
 >
   <op-storage-information
-    *ngIf="showInformationBox"
+    *ngIf="showInformationBox$ | async"
+    class="op-files-tab--storage-info-box"
     [infoIcon]="informationBoxIcon"
     [infoTextHeader]="informationBoxHeader"
     [infoTextContent]="informationBoxContent"
@@ -12,8 +12,9 @@
   ></op-storage-information>
 
   <ul
-    *ngIf="showFileLinks"
+    *ngIf="showFileLinks$ | async"
     class="spot-list"
+    data-qa-selector="op-files-tab--file-link-list"
   >
     <li
       *ngFor="let fileLink of fileLinks$ | async; let i = index;"
@@ -31,12 +32,16 @@
     </li>
   </ul>
 
-  <a
-    *ngIf="!showInformationBox"
-    class="spot-link op-files-tab--file-list-action-button"
-    (click)="openStorageLocation()"
+  <p
+    *ngIf="(showInformationBox$ | async) === false"
+    class="spot-body-small"
   >
-    <span class="spot-icon spot-icon_external-link"></span>
-    <span [textContent]="text.actions.linkFile"></span>
-  </a>
-</div>
+    <a
+      class="spot-link op-files-tab--file-list-action-button"
+      (click)="openStorageLocation()"
+    >
+      <span class="spot-icon spot-icon_external-link"></span>
+      <span [textContent]="text.actions.linkFile"></span>
+    </a>
+  </p>
+</ng-container>

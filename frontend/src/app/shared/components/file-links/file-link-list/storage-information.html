@@ -1,32 +1,28 @@
+<span class="spot-icon big spot-icon_{{infoIcon}}"></span>
+
 <div
-  class="op-files-tab--storage-info-box"
+  class="text-box"
 >
-  <span class="spot-icon big spot-icon_{{infoIcon}}"></span>
-
   <div
-    class="text-box"
+    class="text-box-header"
   >
-    <div
-      class="text-box-header"
-    >
-      <span [textContent]="infoTextHeader"></span>
-    </div>
-    <div
-      class="text-box-content"
-    >
-      <span [textContent]="infoTextContent"></span>
-    </div>
+    <span [textContent]="infoTextHeader"></span>
   </div>
-
   <div
-    class="button-box"
+    class="text-box-content"
   >
-    <button
-      class="action-button"
-      (click)="buttonClickEventEmitter.emit()"
-    >
-      <span class="spot-icon with-text spot-icon_external-link"></span>
-      <span [textContent]="buttonText"></span>
-    </button>
+    <span [textContent]="infoTextContent"></span>
   </div>
+</div>
+
+<div
+  class="button-box"
+>
+  <button
+    class="action-button"
+    (click)="buttonClickEventEmitter.emit()"
+  >
+    <span class="spot-icon with-text spot-icon_external-link"></span>
+    <span [textContent]="buttonText"></span>
+  </button>
 </div>

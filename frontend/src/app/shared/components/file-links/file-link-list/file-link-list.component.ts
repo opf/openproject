@@ -29,7 +29,7 @@
 import {
   ChangeDetectionStrategy, Component, Input, OnInit,
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
@@ -61,9 +61,9 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   allowEditing = false;
 
-  showInformationBox = false;
+  showInformationBox$ = new Subject<boolean>();
 
-  showFileLinks = false;
+  showFileLinks$ = new Subject<boolean>();
 
   private readonly storageTypeMap:{ [urn:string]:string; } = {
     'urn:openproject-org:api:v3:storages:Nextcloud': 'Nextcloud',
@@ -138,7 +138,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   private deriveStorageInformation(fileLinkCount:number):void {
     switch (this.storage._links?.connectionState.href) {
       case 'urn:openproject-org:api:v3:storages:connection:FailedAuthentication':
-        this.setAuthenticationFailureState();
+        this.setAuthenticationFailureState(fileLinkCount);
         break;
       case 'urn:openproject-org:api:v3:storages:connection:Error':
         this.setConnectionErrorState();
@@ -147,23 +147,23 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
         if (fileLinkCount === 0) {
           this.setEmptyFileLinkListState();
         } else {
-          this.showInformationBox = false;
-          this.showFileLinks = true;
+          this.showInformationBox$.next(false);
+          this.showFileLinks$.next(true);
         }
         break;
       default:
-        this.showInformationBox = false;
-        this.showFileLinks = false;
+        this.showInformationBox$.next(false);
+        this.showFileLinks$.next(false);
     }
   }
 
-  private setAuthenticationFailureState():void {
+  private setAuthenticationFailureState(fileLinkCount:number):void {
     this.informationBoxHeader = this.text.infoBox.authenticationFailureHeader;
     this.informationBoxContent = this.text.infoBox.authenticationFailureContent;
     this.informationBoxButton = this.text.infoBox.loginButton;
     this.informationBoxIcon = 'import';
-    this.showInformationBox = true;
-    this.showFileLinks = true;
+    this.showInformationBox$.next(true);
+    this.showFileLinks$.next(fileLinkCount > 0);
   }
 
   private setConnectionErrorState():void {
@@ -171,8 +171,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     this.informationBoxContent = this.text.infoBox.connectionErrorContent;
     this.informationBoxButton = this.text.infoBox.loginButton;
     this.informationBoxIcon = 'remove-link';
-    this.showInformationBox = true;
-    this.showFileLinks = false;
+    this.showInformationBox$.next(true);
+    this.showFileLinks$.next(false);
   }
 
   private setEmptyFileLinkListState():void {
@@ -180,8 +180,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     this.informationBoxContent = this.text.infoBox.emptyStorageContent;
     this.informationBoxButton = this.text.infoBox.emptyStorageButton;
     this.informationBoxIcon = 'add-link';
-    this.showInformationBox = true;
-    this.showFileLinks = true;
+    this.showInformationBox$.next(true);
+    this.showFileLinks$.next(false);
   }
 
   private initializeLocales():void {
