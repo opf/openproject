@@ -190,7 +190,7 @@ en:
     execute: 'Execute %{name}'
     upsale:
       title: 'Custom actions'
-      description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
 
   custom_fields:
     text_add_new_custom_field: >
@@ -309,9 +309,9 @@ en:
     upsale:
       title: Placeholder users
       description: >
-        There are multiple scenarios where you want to assign work to people that are not member of your project.
-        It could simply be that you still need to hire the correct person for the job. Or you just don't want to give
-        that person access to the project's information but still want track tasks assigned to that person.
+        Placeholder users are a way to assign work packages to users who are not part of your project.
+        They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available,
+        or if you don't want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
      priority_color_text: |
