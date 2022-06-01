@@ -30,6 +30,7 @@
   &--file-list-item
     position: relative
     display: flex
+    justify-content: space-between
     padding: 4px 8px 4px 0
 
     &.inactive
@@ -41,11 +42,12 @@
       text-overflow: ellipsis
 
       &.file-name
-        flex: 4 1 30%
+        flex: 5 1 auto
         font-size: 14px
+        font-weight: 700
 
       &.file-info
-        flex: 1 4 30%
+        flex: 1 5 auto
         text-align: right
         font-size: 12px
 
@@ -117,7 +119,6 @@
 
   &--file-list-action-button
     &.spot-link
-      margin-top: 12px
       font-size: 14px
 
       .spot-icon:first-child

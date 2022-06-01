@@ -73,8 +73,7 @@ export class FileLinkListItemComponent implements OnInit {
 
   ngOnInit():void {
     if (this.fileLink.originData.lastModifiedAt) {
-      const date = this.timezoneService.formattedDate(this.fileLink.originData.lastModifiedAt);
-      this.infoTimestampText = this.i18n.t('js.label_modified_at', { date });
+      this.infoTimestampText = this.timezoneService.parseDatetime(this.fileLink.originData.lastModifiedAt).fromNow();
     }
 
     this.fileLinkIcon = getIconForMimeType(this.fileLink.originData.mimeType);
