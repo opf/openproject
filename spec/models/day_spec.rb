@@ -2,13 +2,11 @@ require 'spec_helper'
 
 describe Day, type: :model do
   let(:today) { Date.current }
-  let(:first_of_year) { Date.new(2022, 1, 1) }
+  let(:date_range) { Date.new(2022, 1, 1)..Date.new(2022, 2, 1) }
+  let(:first_of_year) { date_range.begin }
+  let(:days) { described_class.from_range(from: date_range.begin, to: date_range.end) }
 
-  subject do
-    described_class
-    .from_range(from: Date.new(2022, 1, 1), to: Date.new(2022, 2, 1))
-    .find(first_of_year.strftime("%Y%m%d").to_i)
-  end
+  subject { days.find(first_of_year.strftime("%Y%m%d").to_i) }
 
   it { is_expected.to be_readonly }
   it { is_expected.to respond_to :id }
@@ -16,7 +14,7 @@ describe Day, type: :model do
   it { is_expected.to respond_to :day_of_week }
   it { is_expected.to respond_to :name }
 
-  context 'with a collection' do
+  context 'with default_scope' do
     let(:days) { described_class.default_scope }
 
     it 'returns a default date range' do
@@ -47,6 +45,35 @@ describe Day, type: :model do
 
     it 'does not have a name' do
       expect(days.first.name).to be_nil
+    end
+  end
+
+  context 'for collection with multiple non-working days' do
+    let(:non_working_dates) { [date_range.begin, date_range.begin + 1.day] }
+
+    before do
+      create(:week_days)
+      non_working_dates.each { |date| create(:non_working_day, date:) }
+    end
+
+    it 'returns the correct number of days' do
+      expect(days.count).to eq(date_range.count)
+    end
+
+    it 'returns the dates included in the date_range' do
+      expect(days.collect(&:date)).to eq(date_range.to_a)
+    end
+
+    it 'returns working false for weekends and non_working_days' do
+      expected_working_states = date_range.map do |day|
+        !(day.saturday? || day.sunday? || day.in?(non_working_dates))
+      end
+      expect(days.pluck(:working)).to eq(expected_working_states)
+    end
+
+    it 'returns the correct day_of_week' do
+      expected_days_of_week = date_range.map { |day| Array(1..7)[day.wday - 1] }
+      expect(days.pluck(:day_of_week)).to eq(expected_days_of_week)
     end
   end
 

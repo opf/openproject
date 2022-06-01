@@ -52,7 +52,10 @@ class Day < ApplicationRecord
     today = Time.zone.today
     from = today.at_beginning_of_month
     to = today.next_month.at_end_of_month
-    from_range(from:, to:).includes(:week_day).includes(:non_working_days).order(:date)
+    from_range(from:, to:)
+    .includes(:week_day)
+    .includes(:non_working_days)
+    .order("days.id")
   end
 
   def self.from_range(from:, to:)
@@ -73,7 +76,7 @@ class Day < ApplicationRecord
       LEFT JOIN week_days
            ON extract(isodow from dd) = week_days.day
       LEFT JOIN non_working_days
-           ON date = non_working_days.date
+           ON dd = non_working_days.date
       ) days
     SQL
   end
