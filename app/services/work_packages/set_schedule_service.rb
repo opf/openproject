@@ -77,7 +77,7 @@ class WorkPackages::SetScheduleService
   def schedule_following
     altered = []
 
-    WorkPackages::ScheduleDependency.new(work_packages).each do |scheduled, dependency|
+    WorkPackages::ScheduleDependency.new(work_packages).in_schedule_order do |scheduled, dependency|
       reschedule(scheduled, dependency)
 
       altered << scheduled if scheduled.changed?

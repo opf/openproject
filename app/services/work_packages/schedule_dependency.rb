@@ -29,26 +29,45 @@
 class WorkPackages::ScheduleDependency
   def initialize(work_packages)
     self.work_packages = Array(work_packages)
-    self.dependencies = {}
-    self.known_work_packages = self.work_packages
 
-    build_dependencies
+    following = load_following
+
+    # Those variables are pure optimizations.
+    # We want to reuse the already loaded work packages as much as possible
+    # and we want to have them readily available as hashes.
+    self.known_work_packages_by_id = (self.work_packages + following).group_by(&:id).transform_values(&:first)
+    self.known_work_packages_by_parent_id = fetch_descendants.group_by(&:parent_id)
+
+    self.dependencies = create_dependencies(following)
   end
 
-  def each
-    each_while_unhandled do |unhandled_by_id, scheduled, dependency|
-      next unless unhandled_by_id[scheduled.id]
-      next unless dependency.met?(unhandled_by_id.keys)
+  # Returns each dependency in the order necessary for scheduling:
+  # * successors after predecessors
+  # * ancestors after descendants
+  def in_schedule_order
+    schedule_order = []
 
-      yield scheduled, dependency
+    dependencies
+      .each_value do |dependency|
+      # Find the index of the last dependency the dependency needs to come after.
+      index = schedule_order.rindex do |inserted_dependency|
+        dependency.dependent_ids.include?(inserted_dependency.work_package.id)
+      end
 
-      unhandled_by_id.except!(scheduled.id)
+      if index
+        schedule_order.insert(index + 1, dependency)
+      else
+        schedule_order.unshift(dependency)
+      end
+    end
+
+    schedule_order.each do |dependency|
+      yield dependency.work_package, dependency
     end
   end
 
   attr_accessor :work_packages,
                 :dependencies,
-                :known_work_packages,
                 :known_work_packages_by_id,
                 :known_work_packages_by_parent_id
 
@@ -58,71 +77,16 @@ class WorkPackages::ScheduleDependency
 
   private
 
-  def build_dependencies
-    following = load_following
-
-    # Those variables are pure optimizations.
-    # We want to reuse the already loaded work packages as much as possible
-    # and we want to have them readily available as hashes.
-    self.known_work_packages += following
-    known_work_packages.uniq!
-    self.known_work_packages_by_id = known_work_packages.group_by(&:id).transform_values(&:first)
-    self.known_work_packages_by_parent_id = fetch_descendants.group_by(&:parent_id)
-
-    add_dependencies(following)
-  end
-
   def load_following
     WorkPackage
       .for_scheduling(work_packages)
       .includes(follows_relations: :to)
   end
 
-  def add_dependencies(dependent_work_packages)
-    added = dependent_work_packages.inject({}) do |new_dependencies, dependent_work_package|
-      dependency = Dependency.new dependent_work_package, self
-
-      new_dependencies[dependent_work_package] = dependency
-
+  def create_dependencies(dependent_work_packages)
+    dependent_work_packages.inject({}) do |new_dependencies, dependent_work_package|
+      new_dependencies[dependent_work_package] = Dependency.new dependent_work_package, self
       new_dependencies
-    end
-
-    moved = find_moved(added)
-
-    moved.except(*dependencies.keys)
-
-    dependencies.merge!(moved)
-  end
-
-  def find_moved(candidates)
-    candidates.select do |following, dependency|
-      dependency.ancestors.any? { |ancestor| included_in_follows?(ancestor, candidates) } ||
-        dependency.descendants.any? { |descendant| included_in_follows?(descendant, candidates) } ||
-        dependency.descendants.any? { |descendant| work_packages.include?(descendant) } ||
-        included_in_follows?(following, candidates)
-    end
-  end
-
-  def included_in_follows?(wp, candidates)
-    tos = wp.follows_relations.map(&:to)
-
-    dependencies.slice(*tos).any? ||
-      candidates.slice(*tos).any? ||
-      (tos & work_packages).any?
-  end
-
-  def each_while_unhandled
-    unhandled_by_id = dependencies.keys.group_by(&:id).transform_values(&:last)
-
-    while unhandled_by_id.any?
-      unhandled_by_id_count_before = unhandled_by_id_count_after = unhandled_by_id.count
-      dependencies.each do |scheduled, dependency|
-        yield unhandled_by_id, scheduled, dependency
-
-        unhandled_by_id_count_after = unhandled_by_id.count
-      end
-
-      raise "Circular dependency" unless unhandled_by_id_count_after < unhandled_by_id_count_before
     end
   end
 
@@ -158,27 +122,27 @@ class WorkPackages::ScheduleDependency
     end
 
     def follows_moved
-      tree = ancestors + descendants
-
-      @follows_moved ||= moved_predecessors_from_preloaded(work_package, tree)
+      @follows_moved ||= moved_predecessors_from_preloaded(work_package)
     end
 
     def follows_unmoved
-      tree = ancestors + descendants
-
-      @follows_unmoved ||= unmoved_predecessors_from_preloaded(work_package, tree)
+      @follows_unmoved ||= unmoved_predecessors_from_preloaded(work_package)
     end
 
-    def follows_moved_to_ids
-      @follows_moved_to_ids ||= follows_moved.map(&:to).map(&:id)
+    def follows_moved_ids
+      @follows_moved_ids ||= follows_moved.map(&:to).map(&:id)
     end
 
     attr_accessor :work_package,
                   :schedule_dependency
 
+    def dependent_ids
+      @dependent_ids ||= descendants_ids + follows_moved_ids
+    end
+
     def met?(unhandled_ids)
       (descendants_ids & unhandled_ids).empty? &&
-        (follows_moved_to_ids & unhandled_ids).empty?
+        (follows_moved_ids & unhandled_ids).empty?
     end
 
     def max_date_of_followed
@@ -209,7 +173,9 @@ class WorkPackages::ScheduleDependency
         if parent
           [parent] + ancestors_from_preloaded(parent)
         end
-      end || []
+      else
+        []
+      end
     end
 
     def descendants_from_preloaded(work_package)
@@ -218,8 +184,7 @@ class WorkPackages::ScheduleDependency
       children + children.map { |child| descendants_from_preloaded(child) }.flatten
     end
 
-    delegate :known_work_packages,
-             :known_work_packages_by_id,
+    delegate :known_work_packages_by_id,
              :known_work_packages_by_parent_id,
              :scheduled_work_packages_by_id, to: :schedule_dependency
 
@@ -227,8 +192,8 @@ class WorkPackages::ScheduleDependency
       schedule_dependency.work_packages + schedule_dependency.dependencies.keys
     end
 
-    def moved_predecessors_from_preloaded(work_package, tree)
-      ([work_package] + tree)
+    def moved_predecessors_from_preloaded(work_package)
+      ([work_package] + ancestors + descendants)
         .map(&:follows_relations)
         .flatten
         .map do |relation|
@@ -242,8 +207,8 @@ class WorkPackages::ScheduleDependency
         .compact
     end
 
-    def unmoved_predecessors_from_preloaded(work_package, tree)
-      ([work_package] + tree)
+    def unmoved_predecessors_from_preloaded(work_package)
+      ([work_package] + ancestors + descendants)
         .map(&:follows_relations)
         .flatten
         .reject do |relation|
