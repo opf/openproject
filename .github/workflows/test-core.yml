@@ -25,7 +25,7 @@ jobs:
       CI_RETRY_COUNT: 3
       LOCAL_DEV_CHECK: 1
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: cache
       uses: actions/cache@v2
       with:
@@ -55,7 +55,7 @@ jobs:
       CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
       CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: cache
       uses: actions/cache@v2
       with:
@@ -78,7 +78,7 @@ jobs:
     if: github.repository == 'opf/openproject'
     runs-on: [ubuntu-latest]
     steps:    
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
