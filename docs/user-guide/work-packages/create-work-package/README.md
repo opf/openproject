@@ -43,7 +43,7 @@ This way, you can quickly and easily create new Work packages in the list, just 
 
 ### Create a Work package in the split screen view
 
-In order to enter detailed information to the Work package from the start, you can create a Work package in the split screen view. In the Work package module, click the green **+ Work package** button and select the type of Work package you want to create.
+In order to enter detailed information to the Work package from the start, you can create a Work package in the split screen view. In the Work package module, click the green **+ Create** button and select the type of Work package you want to create.
 
 ![select-work-package-type](1566303633018.png)
 
