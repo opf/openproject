@@ -115,6 +115,8 @@ Currently selected value is {{ toggleValue }}
 
 <h1>Lists</h1>
 
+<h2>Normal list</h2>
+
 <ul class="spot-list">
   <li class="spot-list--item">
     <label class="spot-list--item-action">
@@ -134,6 +136,54 @@ Currently selected value is {{ toggleValue }}
           <div class="spot-list--item-title">Child checkbox item</div>
         </label>
         <ul class="spot-list">
+          <li class="spot-list--item">
+            <label class="spot-list--item-action">
+              <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
+              <div class="spot-list--item-title">Secon level child</div>
+            </label>
+          </li>
+        </ul>
+      </li>
+      <li class="spot-list--item">
+        <label class="spot-list--item-action">
+          <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
+          <div class="spot-list--item-title">Second child checkbox item</div>
+        </label>
+      </li>
+      <li class="spot-list--item">
+        <label class="spot-list--item-action spot-list--item-action_disabled">
+          <spot-checkbox
+            [(ngModel)]="listCheckboxValue"
+            [disabled]="true"
+          ></spot-checkbox>
+          <div class="spot-list--item-title">Disabled item</div>
+        </label>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2>Compact list</h2>
+
+<ul class="spot-list spot-list_compact">
+  <li class="spot-list--item">
+    <label class="spot-list--item-action">
+      <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
+      <div class="spot-list--item-title">Checkbox item</div>
+    </label>
+  </li>
+  <li class="spot-list--item">
+    <label class="spot-list--item-action">
+      <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
+      <div class="spot-list--item-title">Checkbox item with children</div>
+    </label>
+    <ul class="spot-list spot-list_compact">
+      <li class="spot-list--item">
+        <label class="spot-list--item-action">
+          <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
+          <div class="spot-list--item-title">Child checkbox item</div>
+        </label>
+        <ul class="spot-list spot-list_compact">
           <li class="spot-list--item">
             <label class="spot-list--item-action">
               <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>

@@ -23,7 +23,7 @@
       cursor: pointer
 
       &:hover
-        background-color: $spot-color-main-light
+        background-color: $spot-color-basic-gray-6
 
       &_disabled
         color: $spot-color-basic-gray-3
@@ -37,7 +37,10 @@
       &:not(:last-child)
         margin-left: $spot-spacing-0_5
 
-  &_compact &--item
+  &_compact &--item:not(:first-child)
+    margin-top: $spot-spacing-0_25
+
+  &--item > &_compact > &--item:first-child
     margin-top: $spot-spacing-0_25
 
   &_compact &--item-action
