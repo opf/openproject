@@ -61,6 +61,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ApiV3NotificationsPaths } from 'core-app/core/apiv3/endpoints/notifications/apiv3-notifications-paths';
 import { ApiV3ViewsPaths } from 'core-app/core/apiv3/endpoints/views/apiv3-views-paths';
 import { Apiv3BackupsPath } from 'core-app/core/apiv3/endpoints/backups/apiv3-backups-path';
+import { ApiV3DaysPaths } from 'core-app/core/apiv3/endpoints/days/api-v3-days-paths';
 
 @Injectable({ providedIn: 'root' })
 export class ApiV3Service {
@@ -72,6 +73,9 @@ export class ApiV3Service {
 
   // /api/v3/configuration
   public readonly configuration = this.apiV3CustomEndpoint(ApiV3ConfigurationPath);
+
+  // /api/v3/days
+  public readonly days = this.apiV3CustomEndpoint(ApiV3DaysPaths);
 
   // /api/v3/documents
   public readonly documents = this.apiV3CollectionEndpoint('documents');

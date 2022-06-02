@@ -32,6 +32,11 @@ import { Instance } from 'flatpickr/dist/types/instance';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { rangeSeparator } from 'core-app/shared/components/op-date-picker/op-range-date-picker/op-range-date-picker.component';
+import { WeekdayResourceService } from 'core-app/core/state/days/weekday.service';
+import { IWeekday } from 'core-app/core/state/days/weekday.model';
+import { Injector } from '@angular/core';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { take } from 'rxjs/operators';
 import DateOption = flatpickr.Options.DateOption;
 
 export class DatePicker {
@@ -41,7 +46,13 @@ export class DatePicker {
 
   public datepickerInstance:Instance;
 
-  private reshowTimeout:any;
+  private reshowTimeout:ReturnType<typeof setTimeout>;
+
+  private weekdays:IWeekday[] = [];
+
+  @InjectField() configurationService:ConfigurationService;
+
+  @InjectField() weekdaysService:WeekdayResourceService;
 
   constructor(private datepickerElemIdentifier:string,
     private date:Date|Date[]|string[]|string,
