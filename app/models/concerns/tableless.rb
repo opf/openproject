@@ -33,6 +33,10 @@ module Tableless
     false
   end
 
+  def readonly?
+    true
+  end
+
   class_methods do
     def attribute_names
       @attribute_names ||= attribute_types.keys
