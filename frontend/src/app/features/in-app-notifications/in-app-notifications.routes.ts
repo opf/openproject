@@ -32,7 +32,6 @@ import { WorkPackageSplitViewComponent } from 'core-app/features/work-packages/r
 import { InAppNotificationCenterComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center.component';
 import { InAppNotificationCenterPageComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center-page.component';
 import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routing/wp-base/wp--base.component';
-import { EmptyStateComponent } from './center/empty-state/empty-state.component';
 
 export interface INotificationPageQueryParameters {
   filter?:string;
