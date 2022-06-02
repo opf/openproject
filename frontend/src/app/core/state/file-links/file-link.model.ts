@@ -33,7 +33,7 @@ import {
 } from 'core-app/core/state/hal-resource';
 
 export interface IFileLinkHalResourceLinks extends IHalResourceLinks {
-  storage?:IHalResourceLink;
+  storage:IHalResourceLink;
   container:IHalResourceLink;
   creator:IHalResourceLink;
   delete?:IHalResourceLink;

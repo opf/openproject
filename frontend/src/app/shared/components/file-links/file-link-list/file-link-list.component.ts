@@ -89,8 +89,6 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   ngOnInit():void {
     this.initializeLocales();
 
-    this.fileLinkResourceService.fetchCurrent(this.fileLinkSelfLink);
-
     this.fileLinks$ = this.fileLinkResourceService.all(this.collectionKey);
 
     this.fileLinks$

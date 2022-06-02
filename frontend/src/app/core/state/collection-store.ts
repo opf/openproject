@@ -121,7 +121,7 @@ export function insertCollectionIntoState<T extends { id:ID }>(
   applyTransaction(() => {
     // Avoid inserting when elements is not defined
     if (elements && elements.length > 0) {
-      store.upsertMany(collection._embedded.elements);
+      store.upsertMany(elements);
     }
 
     store.update(({ collections }) => (

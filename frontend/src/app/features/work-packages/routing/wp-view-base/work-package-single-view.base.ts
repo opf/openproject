@@ -57,6 +57,7 @@ import { Observable } from 'rxjs';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
+import { FileLinkResourceService } from 'core-app/core/state/file-links/file-links.service';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() states:States;
@@ -76,6 +77,8 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() authorisationService:AuthorisationService;
 
   @InjectField() attachmentsResourceService:AttachmentsResourceService;
+
+  @InjectField() fileLinkResourceService:FileLinkResourceService;
 
   @InjectField() cdRef:ChangeDetectorRef;
 
@@ -179,6 +182,9 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     // Fetch attachments of current work package
     const attachments = this.workPackage.attachments as unknown&{ href:string };
     this.attachmentsResourceService.fetchAttachments(attachments.href).subscribe();
+
+    // Fetch file link collections for work package
+    this.fileLinkResourceService.updateCollectionsForWorkPackage(this.workPackage.$links.fileLinks.href as string);
 
     // Listen to tab changes to update the tab label
     this.keepTab.observable
