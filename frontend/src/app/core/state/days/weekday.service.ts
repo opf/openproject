@@ -49,16 +49,6 @@ export class WeekdayResourceService extends ResourceCollectionService<IWeekday> 
       );
   }
 
-  require():Observable<IWeekday[]> {
-    return this
-      .query
-      .selectHasCache()
-      .pipe(
-        switchMap((hasCache) => (hasCache ? EMPTY : this.fetchWeekdays())),
-        switchMap(() => this.query.selectAll()),
-      );
-  }
-
   private fetchWeekdays():Observable<IHALCollection<IWeekday>> {
     const collectionURL = 'all'; // We load all weekdays
 
