@@ -60,24 +60,24 @@ describe 'Work package filtering by user custom field', js: true do
 
   let!(:work_package_user) do
     create(:work_package,
-           type: type,
-           project: project).tap do |wp|
+           type:,
+           project:).tap do |wp|
       wp.custom_field_values = { user_cf.id => other_user }
       wp.save!
     end
   end
   let!(:work_package_placeholder) do
     create(:work_package,
-           type: type,
-           project: project).tap do |wp|
+           type:,
+           project:).tap do |wp|
       wp.custom_field_values = { user_cf.id => placeholder_user }
       wp.save!
     end
   end
   let!(:work_package_group) do
     create(:work_package,
-           type: type,
-           project: project).tap do |wp|
+           type:,
+           project:).tap do |wp|
       wp.custom_field_values = { user_cf.id => group }
       wp.save!
     end

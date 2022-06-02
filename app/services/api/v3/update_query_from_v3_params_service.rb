@@ -42,7 +42,7 @@ module API
         if parsed.success?
           ::UpdateQueryFromParamsService
             .new(query, current_user)
-            .call(parsed.result, valid_subset: valid_subset)
+            .call(parsed.result, valid_subset:)
         else
           parsed
         end

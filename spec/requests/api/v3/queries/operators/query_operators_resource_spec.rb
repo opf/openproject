@@ -37,7 +37,7 @@ describe 'API v3 Query Operator resource', type: :request do
     let(:path) { api_v3_paths.query_operator(CGI.escape(operator)) }
     let(:operator) { '=' }
     let(:project) { create(:project) }
-    let(:role) { create(:role, permissions: permissions) }
+    let(:role) { create(:role, permissions:) }
     let(:permissions) { [:view_work_packages] }
     let(:user) do
       create(:user,
@@ -75,7 +75,7 @@ describe 'API v3 Query Operator resource', type: :request do
 
       it 'returns 404' do
         expect(last_response.status)
-          .to eql(404)
+          .to be(404)
       end
     end
   end

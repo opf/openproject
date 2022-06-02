@@ -31,7 +31,7 @@ module TabsHelper
   def render_tabs(tabs, form = nil)
     if tabs.any?
       selected = selected_tab(tabs)
-      render partial: 'common/tabs', locals: { f: form, tabs: tabs, selected_tab: selected }
+      render partial: 'common/tabs', locals: { f: form, tabs:, selected_tab: selected }
     else
       content_tag 'p', I18n.t(:label_no_data), class: 'nodata'
     end

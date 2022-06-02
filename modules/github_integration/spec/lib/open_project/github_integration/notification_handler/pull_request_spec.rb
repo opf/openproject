@@ -129,7 +129,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
     let(:action) { 'closed' }
     let(:comment) do
       "**PR Closed:** Pull request 1 [A PR title](http://pr.url) for [test_user/repo](github.com/test_user/repo)" \
-      " has been closed by [test_user](github.com/test_user).\n"
+        " has been closed by [test_user](github.com/test_user).\n"
     end
 
     it_behaves_like 'adding a comment'
@@ -141,7 +141,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
     let(:pr_merged) { true }
     let(:comment) do
       "**PR Merged:** Pull request 1 [A PR title](http://pr.url) for [test_user/repo](github.com/test_user/repo)" \
-      " has been merged by [test_user](github.com/test_user).\n"
+        " has been merged by [test_user](github.com/test_user).\n"
     end
 
     it_behaves_like 'adding a comment'
@@ -172,7 +172,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
     let(:action) { 'edited' }
     let(:comment) do
       "**Referenced in PR:** [test_user](github.com/test_user) referenced this work package" \
-      " in Pull request 1 [A PR title](http://pr.url) on [test_user/repo](github.com/test_user/repo).\n"
+        " in Pull request 1 [A PR title](http://pr.url) on [test_user/repo](github.com/test_user/repo).\n"
     end
 
     it_behaves_like 'adding a comment'
@@ -242,7 +242,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
     let(:action) { 'opened' }
     let(:comment) do
       "**PR Opened:** Pull request 1 [A PR title](http://pr.url) for [test_user/repo](github.com/test_user/repo)" \
-      " has been opened by [test_user](github.com/test_user).\n"
+        " has been opened by [test_user](github.com/test_user).\n"
     end
 
     it_behaves_like 'adding a comment'
@@ -254,7 +254,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
     let(:pr_draft) { true }
     let(:comment) do
       "**PR Opened:** Pull request 1 [A PR title](http://pr.url) for [test_user/repo](github.com/test_user/repo)" \
-      " has been opened by [test_user](github.com/test_user).\n"
+        " has been opened by [test_user](github.com/test_user).\n"
     end
 
     it_behaves_like 'adding a comment'
@@ -265,7 +265,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
     let(:action) { 'ready_for_review' }
     let(:comment) do
       "**PR Ready for Review:** Pull request 1 [A PR title](http://pr.url)" \
-      " for [test_user/repo](github.com/test_user/repo) was marked as ready for review by [test_user](github.com/test_user).\n"
+        " for [test_user/repo](github.com/test_user/repo) was marked as ready for review by [test_user](github.com/test_user).\n"
     end
 
     it_behaves_like 'adding a comment'
@@ -276,7 +276,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
     let(:action) { 'reopened' }
     let(:comment) do
       "**PR Opened:** Pull request 1 [A PR title](http://pr.url) for [test_user/repo](github.com/test_user/repo)" \
-      " has been opened by [test_user](github.com/test_user).\n"
+        " has been opened by [test_user](github.com/test_user).\n"
     end
 
     it_behaves_like 'adding a comment'

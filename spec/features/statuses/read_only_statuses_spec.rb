@@ -39,8 +39,8 @@ describe 'Read-only statuses affect work package editing',
   let(:project) { create :project, types: [type] }
   let!(:work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            status: unlocked_status
   end
 
@@ -56,14 +56,14 @@ describe 'Read-only statuses affect work package editing',
            type_id: type.id,
            old_status: unlocked_status,
            new_status: locked_status,
-           role: role
+           role:
   end
   let!(:workflow2) do
     create :workflow,
            type_id: type.id,
            old_status: locked_status,
            new_status: unlocked_status,
-           role: role
+           role:
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }

@@ -80,7 +80,7 @@ describe UpdateProjectsTypesService do
         expect(project).to receive(:errors).and_return(errors)
         expect(errors).to receive(:add).with(:type, :in_use_by_work_packages, types: type.name)
 
-        expect(project).to_not receive(:type_ids=)
+        expect(project).not_to receive(:type_ids=)
 
         expect(instance.call(ids)).to be_falsey
       end

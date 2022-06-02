@@ -141,8 +141,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         it 'signalizes the payload' do
-          is_expected
-            .to be_json_eql({ "reference_links": ["/api/v3/work_packages/#{work_package.id}"] }.to_json)
+          expect(subject)
+            .to be_json_eql({ reference_links: ["/api/v3/work_packages/#{work_package.id}"] }.to_json)
             .at_path('_links/convertBCF/payload')
         end
       end

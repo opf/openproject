@@ -9,7 +9,7 @@ class DateEditField < EditField
                  is_milestone: false,
                  is_table: false)
 
-    super(context, property_name, selector: selector)
+    super(context, property_name, selector:)
     self.milestone = is_milestone
     self.is_table = is_table
   end
@@ -60,8 +60,8 @@ class DateEditField < EditField
     page.find(modal_selector)
   end
 
-  def within_modal(&block)
-    page.within(modal_selector, &block)
+  def within_modal(&)
+    page.within(modal_selector, &)
   end
 
   def input_element
@@ -134,6 +134,6 @@ class DateEditField < EditField
   end
 
   def action_button(text)
-    page.find("#{modal_selector} [data-qa-selector='op-datepicker-modal--action']", text: text)
+    page.find("#{modal_selector} [data-qa-selector='op-datepicker-modal--action']", text:)
   end
 end

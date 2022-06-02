@@ -42,7 +42,6 @@ namespace :openproject do
         end.compact
       end
 
-
       desc 'Update gems to the extend the Gemfile allows in individual commits'
       task :gems do
         out, _process = Open3.capture3('bundle', 'outdated', '--parseable')

@@ -24,7 +24,7 @@ describe 'Create BCF',
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
-           project: project,
+           project:,
            uploader: user)
   end
   let(:type) { create(:type) }
@@ -142,7 +142,7 @@ describe 'Create BCF',
     end
 
     context 'when starting on the details page of an existing work package' do
-      let(:work_package) { create :work_package, project: project }
+      let(:work_package) { create :work_package, project: }
 
       before do
         visit bcf_project_frontend_path(project, "details/#{work_package.id}")

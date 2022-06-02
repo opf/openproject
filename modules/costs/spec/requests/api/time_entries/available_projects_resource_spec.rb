@@ -94,6 +94,7 @@ describe 'API v3 time entries available projects resource', type: :request do
        project_without_permission,
        project_without_membership]
     end
+    let(:path) { api_v3_paths.path_for(:time_entries_available_projects, sort_by: [%w(id asc)]) }
 
     before do
       projects
@@ -101,8 +102,6 @@ describe 'API v3 time entries available projects resource', type: :request do
 
       get path
     end
-
-    let(:path) { api_v3_paths.path_for(:time_entries_available_projects, sort_by: [%w(id asc)]) }
 
     it 'responds 200 OK' do
       expect(subject.status).to eq(200)

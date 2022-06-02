@@ -33,9 +33,9 @@ class Notifications::GroupMemberAlteredJob < ApplicationJob
     User.execute_as(current_user) do
       each_member(members_ids) do |member|
         OpenProject::Notifications.send(event_type(member),
-                                        member: member,
-                                        message: message,
-                                        send_notifications: send_notifications)
+                                        member:,
+                                        message:,
+                                        send_notifications:)
       end
     end
   end
@@ -54,9 +54,9 @@ class Notifications::GroupMemberAlteredJob < ApplicationJob
     member.updated_at == member.created_at
   end
 
-  def each_member(members_ids, &block)
+  def each_member(members_ids, &)
     Member
       .where(id: members_ids)
-      .each(&block)
+      .each(&)
   end
 end

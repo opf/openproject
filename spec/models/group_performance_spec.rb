@@ -40,7 +40,7 @@ describe Group, type: :model do
     projects = create_list :project_with_types, 20
 
     projects.each do |project|
-      add_user_to_project! user: group, project: project, role: role
+      add_user_to_project! user: group, project:, role:
     end
 
     projects
@@ -53,8 +53,8 @@ describe Group, type: :model do
         1,
         type: project.types.first,
         author: user,
-        project: project,
-        status: status
+        project:,
+        status:
       )
 
       work_packages.first.tap do |wp|
@@ -85,7 +85,7 @@ describe Group, type: :model do
 
         @seconds = Time.now.to_i - start
 
-        expect(@seconds < 10).to eq true
+        expect(@seconds < 10).to be true
       end
 
       it 'reassigns the work package to nobody and cleans up the journals' do

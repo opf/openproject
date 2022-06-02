@@ -116,10 +116,10 @@ class ExportCardConfiguration < ApplicationRecord
   end
 
   def deactivate
-    if !is_default?
-      update!({ active: false })
-    else
+    if is_default?
       false
+    else
+      update!({ active: false })
     end
   end
 

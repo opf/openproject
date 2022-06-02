@@ -31,7 +31,7 @@ require 'features/page_objects/notification'
 require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
-RSpec.feature 'Query menu items', js: true do
+RSpec.describe 'Query menu items', js: true do
   let(:user) { create :admin }
   let(:project) { create :project }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
@@ -55,13 +55,13 @@ RSpec.feature 'Query menu items', js: true do
       create :query_with_view_work_packages_table,
              public: true,
              name: 'some query.',
-             project: project
+             project:
     end
     let(:query_b) do
       create :query_with_view_work_packages_table,
              public: true,
              name: query_a.name,
-             project: project
+             project:
     end
 
     it 'can be shown' do
@@ -77,7 +77,11 @@ RSpec.feature 'Query menu items', js: true do
       create :query_with_view_work_packages_table,
              public: true,
              name: 'OP 3.0',
-             project: project
+             project:
+    end
+
+    after do
+      work_packages_page.ensure_loaded
     end
 
     it 'can be added', js: true, selenium: true do
@@ -91,10 +95,6 @@ RSpec.feature 'Query menu items', js: true do
       notification.expect_success('Successful update')
       expect(page).to have_selector('.op-sidemenu--item', text: query.name)
     end
-
-    after do
-      work_packages_page.ensure_loaded
-    end
   end
 
   describe 'renaming a menu item' do
@@ -102,15 +102,15 @@ RSpec.feature 'Query menu items', js: true do
       create :query_with_view_work_packages_table,
              public: true,
              name: 'bbbb',
-             project: project,
-             user: user
+             project:,
+             user:
     end
     let(:query_b) do
       create :query_with_view_work_packages_table,
              public: true,
              name: 'zzzz',
-             project: project,
-             user: user
+             project:,
+             user:
     end
 
     let(:new_name) { 'aaaaa' }

@@ -36,7 +36,7 @@ describe ::API::V3::WorkPackages::EagerLoading::CustomValue do
   let!(:project) { work_package.project }
   let!(:other_project) { create(:project) }
   let!(:user) { create(:user) }
-  let!(:version) { create(:version, project: project) }
+  let!(:version) { create(:version, project:) }
 
   describe 'multiple CFs' do
     let!(:type_project_list_cf) do
@@ -136,6 +136,7 @@ describe ::API::V3::WorkPackages::EagerLoading::CustomValue do
       end
     end
     let(:other_project) { create :project }
+
     subject { described_class.new [work_package] }
 
     before do
@@ -146,7 +147,7 @@ describe ::API::V3::WorkPackages::EagerLoading::CustomValue do
     it 'still allows looking up the global custom field in a different project' do
       # Exhibits the same behavior as in regression, usage returns a hash with project_id set for a global
       # custom field
-      expect(for_all_type_cf.is_for_all).to eq(true)
+      expect(for_all_type_cf.is_for_all).to be(true)
       expect(subject.send(:usages))
         .to include("project_id" => other_project.id, "type_id" => type.id, "custom_field_id" => for_all_type_cf.id)
 
@@ -163,6 +164,7 @@ describe ::API::V3::WorkPackages::EagerLoading::CustomValue do
     end
     let(:other_project) { create :project }
     let(:other_project2) { create :project }
+
     subject { described_class.new [work_package] }
 
     before do
@@ -174,7 +176,7 @@ describe ::API::V3::WorkPackages::EagerLoading::CustomValue do
     it 'does not double add the custom field to the available CFs' do
       # Exhibits the same behavior as in regression, usage returns a hash with project_id set for a global
       # custom field
-      expect(for_all_type_cf.is_for_all).to eq(true)
+      expect(for_all_type_cf.is_for_all).to be(true)
       expect(subject.send(:usages))
         .to include("project_id" => other_project.id, "type_id" => type.id, "custom_field_id" => for_all_type_cf.id)
 

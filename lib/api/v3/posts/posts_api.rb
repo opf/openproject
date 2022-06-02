@@ -40,7 +40,7 @@ module API
           route_param :id, type: Integer, desc: 'Message ID' do
             get do
               ::API::V3::Posts::PostRepresenter.new(post,
-                                                    current_user: current_user,
+                                                    current_user:,
                                                     embed_links: true)
             end
 

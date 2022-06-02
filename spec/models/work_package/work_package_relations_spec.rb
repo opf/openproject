@@ -40,16 +40,16 @@ describe WorkPackage, type: :model do
       let(:type) { create(:type) }
       let(:original) do
         create(:work_package,
-               project: project,
-               type: type,
-               status: status)
+               project:,
+               type:,
+               status:)
       end
       let(:project) { create(:project, members: { current_user => workflow.role }) }
       let(:dup_1) do
         create(:work_package,
-               project: project,
-               type: type,
-               status: status)
+               project:,
+               type:,
+               status:)
       end
       let(:relation_org_dup_1) do
         create(:relation,
@@ -63,14 +63,15 @@ describe WorkPackage, type: :model do
                new_status: closed_state,
                type_id: type.id)
       end
+
       current_user { create(:user) }
 
       context 'closes duplicates' do
         let(:dup_2) do
           create(:work_package,
-                 project: project,
-                 type: type,
-                 status: status)
+                 project:,
+                 type:,
+                 status:)
         end
         let(:relation_dup_1_dup_2) do
           create(:relation,

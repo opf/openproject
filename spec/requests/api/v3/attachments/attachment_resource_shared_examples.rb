@@ -42,7 +42,7 @@ shared_examples 'it supports direct uploads' do
   end
 
   describe 'POST /prepare', with_settings: { attachment_max_size: 512 } do
-    let(:request_parts) { { metadata: metadata.to_json, file: file } }
+    let(:request_parts) { { metadata: metadata.to_json, file: } }
     let(:metadata) { { fileName: 'cat.png', fileSize: file.size, contentType: 'image/png' } }
     let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
     let(:json_response) { JSON.parse last_response.body }
@@ -105,7 +105,7 @@ shared_examples 'it supports direct uploads' do
                 expect(link).to be_present
               end
 
-              it "it points to the expected container" do
+              it "points to the expected container" do
                 expect(link["href"]).to eq container_href
               end
             end
@@ -202,9 +202,9 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
   end
 
   let(:project) { create(:project, public: false) }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
 
-  let(:attachment) { create(:attachment, container: container, author: author) }
+  let(:attachment) { create(:attachment, container:, author:) }
   let(:container) { send attachment_type }
 
   let(:attachment_type) { raise "attachment type goes here, e.g. work_package" }
@@ -224,6 +224,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
 
   describe '#get' do
     subject(:response) { last_response }
+
     let(:get_path) { api_v3_paths.attachment attachment.id }
 
     let(:container) { send(attachment_type) }
@@ -260,7 +261,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
     let(:permissions) { Array(update_permission) }
 
     let(:request_path) { api_v3_paths.attachments }
-    let(:request_parts) { { metadata: metadata.to_json, file: file } }
+    let(:request_parts) { { metadata: metadata.to_json, file: } }
     let(:metadata) { { fileName: 'cat.png' } }
     let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
     let(:max_file_size) { 1 } # given in kiB
@@ -286,7 +287,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
     end
 
     context 'metadata section is missing' do
-      let(:request_parts) { { file: file } }
+      let(:request_parts) { { file: } }
 
       it_behaves_like 'constraint violation' do
         let(:message) { "File #{I18n.t('activerecord.errors.messages.blank')}" }
@@ -304,7 +305,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
     end
 
     context 'metadata section is no valid JSON' do
-      let(:request_parts) { { metadata: '"fileName": "cat.png"', file: file } }
+      let(:request_parts) { { metadata: '"fileName": "cat.png"', file: } }
 
       it_behaves_like 'parse error'
     end
@@ -430,7 +431,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         let(:content_disposition) { raise "define content_disposition" }
 
         let(:attachment) do
-          att = create(:attachment, container: container, file: mock_file, author: current_user)
+          att = create(:attachment, container:, file: mock_file, author: current_user)
 
           att.file.store!
           att.send :write_attribute, :file, mock_file.original_filename
@@ -496,7 +497,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         let(:external_url) { 'http://some_service.org/blubs.gif' }
         let(:mock_file) { FileHelpers.mock_uploaded_file name: 'foobar.txt' }
         let(:attachment) do
-          create(:attachment, container: container, file: mock_file, author: current_user).tap do
+          create(:attachment, container:, file: mock_file, author: current_user).tap do
             # need to mock here to avoid dependency on external service
             allow_any_instance_of(Attachment)
               .to receive(:external_url)
@@ -535,7 +536,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       let(:get_path) { api_v3_paths.send "attachments_by_#{attachment_type}", container.id }
 
       before do
-        create_list(:attachment, 2, container: container)
+        create_list(:attachment, 2, container:)
         get get_path
       end
 
@@ -548,7 +549,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
 
     describe '#post' do
       let(:request_path) { api_v3_paths.send "attachments_by_#{attachment_type}", container.id }
-      let(:request_parts) { { metadata: metadata.to_json, file: file } }
+      let(:request_parts) { { metadata: metadata.to_json, file: } }
       let(:metadata) { { fileName: 'cat.png' } }
       let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
       let(:max_file_size) { 1 } # given in kiB
@@ -571,7 +572,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       end
 
       context 'metadata section is missing' do
-        let(:request_parts) { { file: file } }
+        let(:request_parts) { { file: } }
 
         it_behaves_like 'constraint violation' do
           # File here is the localized name for fileName property
@@ -591,7 +592,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       end
 
       context 'metadata section is no valid JSON' do
-        let(:request_parts) { { metadata: '"fileName": "cat.png"', file: file } }
+        let(:request_parts) { { metadata: '"fileName": "cat.png"', file: } }
 
         it_behaves_like 'parse error'
       end

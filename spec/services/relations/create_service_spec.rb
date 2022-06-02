@@ -49,7 +49,7 @@ describe Relations::CreateService do
                   start_date: work_package2_start_date)
   end
   let(:instance) do
-    described_class.new(user: user)
+    described_class.new(user:)
   end
   let(:relation) do
     relation = Relation.new attributes
@@ -64,7 +64,7 @@ describe Relations::CreateService do
     {
       to: work_package1,
       from: work_package2,
-      delay: delay
+      delay:
     }
   end
 
@@ -112,7 +112,7 @@ describe Relations::CreateService do
     before do
       expect(WorkPackages::SetScheduleService)
         .to receive(:new)
-        .with(user: user, work_package: work_package1)
+        .with(user:, work_package: work_package1)
         .and_return(set_schedule_service)
 
       expect(set_schedule_service)
@@ -209,7 +209,7 @@ describe Relations::CreateService do
     end
 
     context 'on a circular_dependency error' do
-      let(:symbols_for_base) { [:"typed_dag.circular_dependency"] }
+      let(:symbols_for_base) { [:'typed_dag.circular_dependency'] }
       before do
         allow(relation)
           .to receive(:save) do
@@ -222,7 +222,7 @@ describe Relations::CreateService do
           {
             to: work_package1,
             from: work_package2,
-            delay: delay,
+            delay:,
             relation_type: Relation::TYPE_RELATES
           }
         end
@@ -246,7 +246,7 @@ describe Relations::CreateService do
           {
             to: work_package1,
             from: work_package2,
-            delay: delay,
+            delay:,
             relation_type: Relation::TYPE_BLOCKED
           }
         end

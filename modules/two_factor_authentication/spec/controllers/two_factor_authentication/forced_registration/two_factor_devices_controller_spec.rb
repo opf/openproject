@@ -128,7 +128,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
 
         describe 'and registered totp device' do
           let(:active_strategies) { [:totp] }
-          let!(:device) { create :two_factor_authentication_device_totp, user: user, active: false, default: false }
+          let!(:device) { create :two_factor_authentication_device_totp, user:, active: false, default: false }
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
@@ -139,7 +139,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
         end
 
         describe 'with registered device' do
-          let!(:device) { create :two_factor_authentication_device_sms, user: user, active: false, default: false }
+          let!(:device) { create :two_factor_authentication_device_sms, user:, active: false, default: false }
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
@@ -167,7 +167,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
 
         describe 'and registered totp device' do
           let(:active_strategies) { [:totp] }
-          let!(:device) { create :two_factor_authentication_device_totp, user: user, active: false, default: false }
+          let!(:device) { create :two_factor_authentication_device_totp, user:, active: false, default: false }
 
           it 'renders a 400 on missing token' do
             post :confirm, params: { device_id: device.id }
@@ -181,8 +181,8 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
 
             device.reload
 
-            expect(device.active).to eq false
-            expect(device.default).to eq false
+            expect(device.active).to be false
+            expect(device.default).to be false
           end
 
           it 'activates the device when entered correctly' do
@@ -195,8 +195,8 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
             expect(response).to redirect_to stage_success_path(stage: :two_factor_authentication, secret: 'asdf')
             expect(flash[:notice]).to include I18n.t('two_factor_authentication.devices.registration_complete')
             device.reload
-            expect(device.active).to eq true
-            expect(device.default).to eq true
+            expect(device.active).to be true
+            expect(device.default).to be true
           end
         end
       end

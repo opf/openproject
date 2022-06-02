@@ -96,7 +96,7 @@ describe MailHandler, type: :model do
     let!(:work_package) do
       create(:work_package,
              id: 2,
-             project: project).tap do |wp|
+             project:).tap do |wp|
         wp.journals.last.update_column(:id, 891223)
       end
     end
@@ -144,7 +144,7 @@ describe MailHandler, type: :model do
       create(:work_package,
              subject: 'Some subject of the bug',
              id: 39733,
-             project: project).tap do |wp|
+             project:).tap do |wp|
         wp.journals.last.update_column(:id, 99999999)
       end
     end
@@ -157,7 +157,7 @@ describe MailHandler, type: :model do
   shared_context 'with a reply to a wp mention with attributes' do
     let(:permissions) { %i[add_work_package_notes view_work_packages edit_work_packages work_package_assigned] }
     let(:role) do
-      create(:role, permissions: permissions)
+      create(:role, permissions:)
     end
     let!(:user) do
       create(:user,
@@ -170,7 +170,7 @@ describe MailHandler, type: :model do
       create(:work_package,
              subject: 'Some subject of the bug',
              id: 39733,
-             project: project,
+             project:,
              status: original_status).tap do |wp|
         wp.journals.last.update_column(:id, 99999999)
       end
@@ -184,7 +184,7 @@ describe MailHandler, type: :model do
         create(:workflow,
                old_status: original_status,
                new_status: status,
-               role: role,
+               role:,
                type: work_package.type)
       end
     end
@@ -219,7 +219,7 @@ describe MailHandler, type: :model do
     let!(:message) do
       create(:message,
              id: 70917,
-             forum: create(:forum, project: project)).tap do |wp|
+             forum: create(:forum, project:)).tap do |wp|
         wp.journals.last.update_column(:id, 99999999)
       end
     end
@@ -253,7 +253,7 @@ describe MailHandler, type: :model do
     context 'when sending a mail not as a reply' do
       context 'in a given project' do
         let!(:status) { create(:status, name: 'Resolved') }
-        let!(:version) { create(:version, name: 'alpha', project: project) }
+        let!(:version) { create(:version, name: 'alpha', project:) }
 
         include_context 'wp_on_given_project' do
           let(:submit_options) { { allow_override: 'version' } }
@@ -313,12 +313,12 @@ describe MailHandler, type: :model do
 
         it 'sets the estimated_hours' do
           expect(subject.estimated_hours)
-            .to eql(2.5)
+            .to be(2.5)
         end
 
         it 'sets the done_ratio' do
           expect(subject.done_ratio)
-            .to eql(30)
+            .to be(30)
         end
 
         it 'removes keywords' do
@@ -527,7 +527,7 @@ describe MailHandler, type: :model do
       context 'wp with status case insensitive' do
         let!(:status) { create(:status, name: 'Resolved') }
         let!(:priority_low) { create(:priority_low, name: 'Low', is_default: true) }
-        let!(:version) { create(:version, name: 'alpha', project: project) }
+        let!(:version) { create(:version, name: 'alpha', project:) }
 
         # This email contains: 'Project: onlinestore' and 'Status: resolved'
         include_context 'wp_on_given_project_case_insensitive'
@@ -555,7 +555,7 @@ describe MailHandler, type: :model do
 
     context 'when sending a reply to work package mail' do
       let!(:mail_user) { create :admin, mail: 'user@example.org' }
-      let!(:work_package) { create :work_package, project: project }
+      let!(:work_package) { create :work_package, project: }
 
       before do
         # Avoid trying to extract text
@@ -679,7 +679,7 @@ describe MailHandler, type: :model do
       end
 
       context 'with a custom field' do
-        let(:work_package) { create :work_package, project: project }
+        let(:work_package) { create :work_package, project: }
         let(:type) { create :type }
 
         before do
@@ -830,9 +830,9 @@ describe MailHandler, type: :model do
     end
 
     describe 'category' do
-      let!(:category) { create :category, project: project, name: 'Foobar' }
+      let!(:category) { create :category, project:, name: 'Foobar' }
 
-      it 'should add a work_package with category' do
+      it 'adds a work_package with category' do
         allow(Setting).to receive(:default_language).and_return('en')
         Role.non_member.update_attribute :permissions, [:add_work_packages]
         project.update_attribute :public, true
@@ -850,7 +850,7 @@ describe MailHandler, type: :model do
   describe '#cleanup_body' do
     let(:input) do
       "Subject:foo\nDescription:bar\n" \
-      ">>> myserver.example.org 2016-01-27 15:56 >>>\n... (Email-Body) ..."
+        ">>> myserver.example.org 2016-01-27 15:56 >>>\n... (Email-Body) ..."
     end
     let(:handler) { MailHandler.send :new }
 

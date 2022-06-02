@@ -35,7 +35,7 @@ shared_context 'grid contract' do
       row_count: 6,
       column_count: 7,
       widgets: [],
-      project: project
+      project:
     }
   end
   let(:grid) do

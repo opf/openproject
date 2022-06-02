@@ -41,7 +41,7 @@ describe Version, type: :model do
     expect(version.errors[:effective_date].size).to eq(1)
   end
 
-  context '#to_s_for_project' do
+  describe '#to_s_for_project' do
     let(:other_project) { build(:project) }
 
     it 'returns only the version for the same project' do
@@ -76,7 +76,7 @@ describe Version, type: :model do
     end
   end
 
-  context '#<=>' do
+  describe '#<=>' do
     let(:version1) { build_stubbed(:version) }
     let(:version2) { build_stubbed(:version) }
 
@@ -93,7 +93,7 @@ describe Version, type: :model do
       version2.name = 'AAAA'
       version2.project.name = 'BBBB'
 
-      expect(version1 <=> version2).to eql -1
+      expect(version1 <=> version2).to be -1
     end
 
     it "is 1 if the project name is alphabetically after the other's project name" do
@@ -102,7 +102,7 @@ describe Version, type: :model do
       version2.name = 'BBBB'
       version2.project.name = 'AAAA'
 
-      expect(version1 <=> version2).to eql 1
+      expect(version1 <=> version2).to be 1
     end
 
     it "is -1 if the project name is equal
@@ -111,7 +111,7 @@ describe Version, type: :model do
       version1.name = 'AAAA'
       version2.name = 'BBBB'
 
-      expect(version1 <=> version2).to eql -1
+      expect(version1 <=> version2).to be -1
     end
 
     it "is 1 if the project name is equal
@@ -120,7 +120,7 @@ describe Version, type: :model do
       version1.name = 'BBBB'
       version2.name = 'AAAA'
 
-      expect(version1 <=> version2).to eql 1
+      expect(version1 <=> version2).to be 1
     end
 
     it 'is 0 if name and project are equal except for case' do
@@ -136,7 +136,7 @@ describe Version, type: :model do
       version2.name = 'AAAA'
       version2.project.name = 'BBBB'
 
-      expect(version1 <=> version2).to eql -1
+      expect(version1 <=> version2).to be -1
     end
 
     it "is 1 if the project name is alphabetically after the other's project name ignoring case" do
@@ -145,7 +145,7 @@ describe Version, type: :model do
       version2.name = 'BBBB'
       version2.project.name = 'aaaa'
 
-      expect(version1 <=> version2).to eql 1
+      expect(version1 <=> version2).to be 1
     end
 
     it "is -1 if the project name is equal
@@ -154,7 +154,7 @@ describe Version, type: :model do
       version1.name = 'aaaa'
       version2.name = 'BBBB'
 
-      expect(version1 <=> version2).to eql -1
+      expect(version1 <=> version2).to be -1
     end
 
     it "is 1 if the project name is equal
@@ -163,11 +163,11 @@ describe Version, type: :model do
       version1.name = 'BBBB'
       version2.name = 'aaaa'
 
-      expect(version1 <=> version2).to eql 1
+      expect(version1 <=> version2).to be 1
     end
   end
 
-  context '#projects' do
+  describe '#projects' do
     let(:grand_parent_project) do
       build(:project, name: 'grand_parent_project')
     end

@@ -49,9 +49,9 @@ describe ::Projects::ScheduleDeletionService, type: :model do
   let(:project_valid) { true }
   let(:project) { build_stubbed(:project) }
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: project,
-                        contract_class: contract_class)
+                        contract_class:)
   end
   let(:archive_success) do
     true
@@ -69,7 +69,7 @@ describe ::Projects::ScheduleDeletionService, type: :model do
 
     allow(Projects::ArchiveService)
       .to receive(:new)
-      .with(user: user,
+      .with(user:,
             model: project)
       .and_return(service)
 
@@ -91,7 +91,7 @@ describe ::Projects::ScheduleDeletionService, type: :model do
 
       expect(::Projects::DeleteProjectJob)
         .to receive(:perform_later)
-        .with(user: user, project: project)
+        .with(user:, project:)
 
       expect(subject).to be_success
     end

@@ -49,7 +49,7 @@ describe Queries::WorkPackages::Filter::PriorityFilter, type: :model do
           .to receive_message_chain(:active, :exists?)
           .and_return false
 
-        expect(instance).to_not be_available
+        expect(instance).not_to be_available
       end
     end
 

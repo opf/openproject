@@ -37,8 +37,7 @@ describe 'Dashboard page members', type: :feature, js: true, with_mail: false do
   shared_let(:permissions) do
     %i[manage_dashboards
        view_dashboards
-       view_members
-      ]
+       view_members]
   end
 
   shared_let(:user) do

@@ -85,7 +85,7 @@ module API
 
           -> do
             request = self # proc is executed in the context of the grape request
-            endpoint.before_hook&.(request: request)
+            endpoint.before_hook&.(request:)
             params = endpoint.parse(request)
             call = endpoint.process(request, params)
 
@@ -98,7 +98,7 @@ module API
         def parse(request)
           parse_service
             .new(request.current_user,
-                 model: model,
+                 model:,
                  representer: parse_representer)
             .call(params_source.call(request))
             .result
@@ -113,7 +113,7 @@ module API
 
           process_service
             .new(**args.compact)
-            .with_state(request.instance_exec(model: instance, params: params, &process_state))
+            .with_state(request.instance_exec(model: instance, params:, &process_state))
             .call(**request.instance_exec(params, &params_modifier))
         end
 

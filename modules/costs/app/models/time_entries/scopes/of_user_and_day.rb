@@ -34,7 +34,7 @@ module TimeEntries::Scopes
       def of_user_and_day(user, date, excluding: nil)
         scope = TimeEntry
                   .where(spent_on: date,
-                         user: user)
+                         user:)
 
         if excluding
           scope = scope.where.not(id: excluding.id)

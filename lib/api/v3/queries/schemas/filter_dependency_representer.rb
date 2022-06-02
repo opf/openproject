@@ -36,7 +36,7 @@ module API
           def initialize(filter, operator, form_embedded: false)
             self.operator = operator
 
-            super(filter, current_user: nil, form_embedded: form_embedded)
+            super(filter, current_user: nil, form_embedded:)
           end
 
           schema_with_allowed_link :values,

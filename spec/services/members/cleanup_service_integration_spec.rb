@@ -34,14 +34,14 @@ describe Members::CleanupService, 'integration', type: :model do
   let(:user) { create(:user) }
   let(:users) { [user] }
   let(:project) { create(:project) }
-  let(:projects) { [project]}
+  let(:projects) { [project] }
   let(:instance) do
     described_class.new(users, projects)
   end
 
   describe 'category unassignment' do
     let!(:category) do
-      build(:category, project: project, assigned_to: user).tap do |c|
+      build(:category, project:, assigned_to: user).tap do |c|
         c.save(validate: false)
       end
     end
@@ -57,7 +57,7 @@ describe Members::CleanupService, 'integration', type: :model do
       before do
         create(:member,
                principal: user,
-               project: project,
+               project:,
                roles: [create(:role, permissions: %i[work_package_assigned])])
       end
 
@@ -73,7 +73,7 @@ describe Members::CleanupService, 'integration', type: :model do
       before do
         create(:member,
                principal: user,
-               project: project,
+               project:,
                # Lacking work_package_assigned
                roles: [create(:role, permissions: [])])
       end
@@ -90,12 +90,12 @@ describe Members::CleanupService, 'integration', type: :model do
   describe 'watcher pruning' do
     let(:work_package) do
       create :work_package,
-             project: project
+             project:
     end
     let!(:watcher) do
       build(:watcher,
             watchable: work_package,
-            user: user) do |w|
+            user:) do |w|
         w.save(validate: false)
       end
     end
@@ -111,7 +111,7 @@ describe Members::CleanupService, 'integration', type: :model do
       before do
         create(:member,
                principal: user,
-               project: project,
+               project:,
                roles: [create(:role, permissions: [:view_work_packages])])
       end
 
@@ -127,7 +127,7 @@ describe Members::CleanupService, 'integration', type: :model do
       before do
         create(:member,
                principal: user,
-               project: project,
+               project:,
                roles: [create(:role, permissions: [])])
       end
 

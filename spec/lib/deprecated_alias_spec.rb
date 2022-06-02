@@ -39,9 +39,6 @@ describe DeprecatedAlias do
       deprecated_alias :special_key, :secret_key
     end
   end
-
-  subject(:object) { clazz.new }
-
   let(:deprecation_warning) do
     <<~MSG
       special_key is deprecated and will be removed in a future OpenProject version.
@@ -50,6 +47,8 @@ describe DeprecatedAlias do
 
     MSG
   end
+
+  subject(:object) { clazz.new }
 
   before do
     expect(ActiveSupport::Deprecation).to receive(:warn)

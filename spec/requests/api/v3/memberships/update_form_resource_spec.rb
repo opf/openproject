@@ -32,14 +32,14 @@ describe ::API::V3::Memberships::UpdateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:member) { create(:member, project: project, roles: [role, another_role]) }
+  let(:member) { create(:member, project:, roles: [role, another_role]) }
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
            member_in_project: project,
            member_through_role: role)
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:other_role) { create(:role) }
   let(:another_role) { create(:role) }
   let(:other_user) { create(:user) }
@@ -147,10 +147,10 @@ describe ::API::V3::Memberships::UpdateFormAPI, content_type: :json do
 
     context 'with wanting to alter the project' do
       let(:other_project) do
-        role = create(:role, permissions: permissions)
+        role = create(:role, permissions:)
 
         create(:project,
-               members: { user => role } )
+               members: { user => role })
       end
       let(:parameters) do
         {

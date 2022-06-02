@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe DesignColor, type: :model do
   let(:default_primary) { ::OpenProject::CustomStyles::Design.variables['primary-color'] }
-  let(:primary_color) { create :"design_color_primary-color" }
+  let(:primary_color) { create :'design_color_primary-color' }
 
   describe "#setables" do
     it "returns an Array of instances" do
@@ -29,7 +29,7 @@ RSpec.describe DesignColor, type: :model do
 
     it "returns nil hexcode if hexcode not present" do
       expect(described_class.new(variable: "primary-color").hexcode)
-        .to eq nil
+        .to be_nil
     end
   end
 
@@ -70,7 +70,8 @@ RSpec.describe DesignColor, type: :model do
   describe "#create" do
     context "no CustomStyle.current exists yet" do
       subject { DesignColor.new variable: "foo", hexcode: "#111111" }
-      it 'should create a CustomStyle.current' do
+
+      it 'creates a CustomStyle.current' do
         expect(CustomStyle.current).to be_nil
         subject.save
         expect(CustomStyle.current).to be_present

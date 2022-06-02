@@ -87,7 +87,7 @@ module Pages
         click_on 'Save'
 
         model_listed true, new_name
-        expect(current_path).to eq bcf_project_ifc_models_path(project)
+        expect(page).to have_current_path bcf_project_ifc_models_path(project), ignore_query: true
       end
 
       def delete_model(model_name)
@@ -96,7 +96,7 @@ module Pages
         page.driver.browser.switch_to.alert.accept
 
         model_listed false, model_name
-        expect(current_path).to eq bcf_project_ifc_models_path(project)
+        expect(page).to have_current_path bcf_project_ifc_models_path(project), ignore_query: true
       end
 
       def show_model(model)

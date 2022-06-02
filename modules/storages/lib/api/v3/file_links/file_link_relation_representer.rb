@@ -55,7 +55,7 @@ module API
           def file_links
             ::API::V3::FileLinks::FileLinkCollectionRepresenter.new(represented.file_links,
                                                                     self_link: api_v3_paths.file_links(represented.id),
-                                                                    current_user: current_user)
+                                                                    current_user:)
           end
         end
       end

@@ -44,23 +44,23 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       CostQuery.chain_initializer.clear
     end
 
-    it "should contain NoFilter" do
+    it "contains NoFilter" do
       expect(@query.chain).to be_a(CostQuery::Filter::NoFilter)
     end
 
-    it "should keep NoFilter at bottom" do
+    it "keeps NoFilter at bottom" do
       @query.filter :project_id
       expect(@query.chain.bottom).to be_a(CostQuery::Filter::NoFilter)
       expect(@query.chain.top).not_to be_a(CostQuery::Filter::NoFilter)
     end
 
-    it "should remember it's correct parent" do
+    it "remembers it's correct parent" do
       @query.group_by :project_id
       @query.filter :project_id
       expect(@query.chain.top.child.child.parent).to eq(@query.chain.top.child)
     end
 
-    it "should place filter after a group_by" do
+    it "places filter after a group_by" do
       @query.group_by :project_id
       expect(@query.chain.bottom.parent).to be_a(CostQuery::GroupBy::ProjectId)
       expect(@query.chain.top).to be_a(CostQuery::GroupBy::ProjectId)
@@ -70,7 +70,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(@query.chain.top).to be_a(CostQuery::GroupBy::ProjectId)
     end
 
-    it "should place rows in front of columns when adding a column first" do
+    it "places rows in front of columns when adding a column first" do
       @query.column :project_id
       expect(@query.chain.bottom.parent.type).to eq(:column)
       expect(@query.chain.top.type).to eq(:column)
@@ -80,7 +80,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(@query.chain.top.type).to eq(:row)
     end
 
-    it "should place rows in front of filters" do
+    it "places rows in front of filters" do
       @query.row :project_id
       expect(@query.chain.bottom.parent.type).to eq(:row)
       expect(@query.chain.top.type).to eq(:row)
@@ -91,21 +91,21 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(@query.chain.top.type).to eq(:row)
     end
 
-    it "should return all filters, including the NoFilter" do
+    it "returns all filters, including the NoFilter" do
       @query.filter :project_id
       @query.group_by :project_id
       expect(@query.filters.size).to eq(2)
       expect(@query.filters.map { |f| f.class.underscore_name }).to include "project_id"
     end
 
-    it "should return all group_bys" do
+    it "returns all group_bys" do
       @query.filter :project_id
       @query.group_by :project_id
       expect(@query.group_bys.size).to eq(1)
       expect(@query.group_bys.map { |g| g.class.underscore_name }).to include "project_id"
     end
 
-    it "should initialize the chain through a block" do
+    it "initializes the chain through a block" do
       class TestFilter < Report::Filter::Base
         def self.engine
           CostQuery
@@ -128,7 +128,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         @new_query = CostQuery.deserialize(@query.serialize)
       end
 
-      it "should serialize the chain correctly" do
+      it "serializes the chain correctly" do
         %i[filters group_bys].each do |type|
           @query.send(type).each do |chainable|
             expect(@query.serialize[type].collect { |c| c[0] }).to include chainable.class.name.demodulize
@@ -136,11 +136,11 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         end
       end
 
-      it "should deserialize a serialized query correctly" do
+      it "deserializes a serialized query correctly" do
         expect(@new_query.serialize).to eq(@query.serialize)
       end
 
-      it "should keep the order of group bys" do
+      it "keeps the order of group bys" do
         @query.group_bys.each_with_index do |group_by, index|
           # check for order
           @new_query.group_bys.each_with_index do |g, ix|
@@ -151,7 +151,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         end
       end
 
-      it "should keep the right filter values" do
+      it "keeps the right filter values" do
         @query.filters.each_with_index do |filter, _index|
           # check for presence
           expect(@new_query.filters.any? do |f|
@@ -224,7 +224,9 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       describe '#list' do
         it "merges lists" do
           @a.inherited_attribute :bar, list: true
-          @a.bar 1; @b.bar 2; @d.bar 3, 4
+          @a.bar 1
+          @b.bar 2
+          @d.bar 3, 4
           expect(@a.bar).to eq([1])
           expect(@b.bar.sort).to eq([1, 2])
           expect(@c.bar.sort).to eq([1])
@@ -233,7 +235,9 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
         it "is able to map lists" do
           @a.inherited_attribute :bar, list: true, map: :to_s
-          @a.bar 1; @b.bar 1; @d.bar 1
+          @a.bar 1
+          @b.bar 1
+          @d.bar 1
           expect(@a.bar).to eq(%w[1])
           expect(@b.bar).to eq(%w[1 1])
           expect(@c.bar).to eq(%w[1])
@@ -257,7 +261,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     describe '#display' do
-      it "should give display? == false when a filter says dont_display!" do
+      it "gives display? == false when a filter says dont_display!" do
         class TestFilter < Report::Filter::Base
           dont_display!
         end
@@ -265,14 +269,14 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         Object.send(:remove_const, :TestFilter)
       end
 
-      it "should give display? == true when a filter doesn't specify it's visibility" do
+      it "gives display? == true when a filter doesn't specify it's visibility" do
         class TestFilter < Report::Filter::Base
         end
         expect(TestFilter.display?).to be true
         Object.send(:remove_const, :TestFilter)
       end
 
-      it "should give display? == true when a filter says display!" do
+      it "gives display? == true when a filter says display!" do
         class TestFilter < Report::Filter::Base
           display!
         end
@@ -282,7 +286,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     describe '#selectable' do
-      it "should give selectable? == false when a filter says not_selectable!" do
+      it "gives selectable? == false when a filter says not_selectable!" do
         class TestFilter < Report::Filter::Base
           not_selectable!
         end
@@ -290,14 +294,14 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         Object.send(:remove_const, :TestFilter)
       end
 
-      it "should give selectable? == true when a filter doesn't specify it's selectability" do
+      it "gives selectable? == true when a filter doesn't specify it's selectability" do
         class TestFilter < Report::Filter::Base
         end
         expect(TestFilter.selectable?).to be true
         Object.send(:remove_const, :TestFilter)
       end
 
-      it "should give selectable? == true when a filter says selectable!" do
+      it "gives selectable? == true when a filter says selectable!" do
         class TestFilter < Report::Filter::Base
           selectable!
         end

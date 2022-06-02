@@ -83,7 +83,7 @@ module OpenProject
           manifest[chunk_name] = filename
         end
 
-        File.open(manifest_path, 'w+') { |file| file.write manifest.to_json }
+        File.write(manifest_path, manifest.to_json)
       end
 
       def current_assets

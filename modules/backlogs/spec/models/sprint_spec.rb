@@ -35,9 +35,9 @@ describe Sprint, type: :model do
   describe 'Class Methods' do
     describe '#displayed_left' do
       describe 'WITH display set to left' do
-        before(:each) do
-          sprint.version_settings = [build(:version_setting, project: project,
-                                                                        display: VersionSetting::DISPLAY_LEFT)]
+        before do
+          sprint.version_settings = [build(:version_setting, project:,
+                                                             display: VersionSetting::DISPLAY_LEFT)]
           sprint.project = project
           sprint.save!
         end
@@ -48,12 +48,12 @@ describe Sprint, type: :model do
       end
 
       describe 'WITH a version setting defined for another project' do
-        before(:each) do
+        before do
           another_project = build(:project, name: 'another project',
-                                                       identifier: 'another project')
+                                            identifier: 'another project')
 
           sprint.version_settings = [build(:version_setting, project: another_project,
-                                                                        display: VersionSetting::DISPLAY_RIGHT)]
+                                                             display: VersionSetting::DISPLAY_RIGHT)]
           sprint.project = project
           sprint.save
         end
@@ -62,7 +62,7 @@ describe Sprint, type: :model do
       end
 
       describe 'WITH no version setting defined' do
-        before(:each) do
+        before do
           sprint.project = project
           sprint.save!
         end
@@ -92,47 +92,47 @@ describe Sprint, type: :model do
         let(:displayed) { Sprint.apply_to(sister_project).displayed_left(sister_project) }
 
         describe 'WITH no version settings' do
-          it "should include the shared version by default" do
+          it "includes the shared version by default" do
             expect(displayed).to match_array [version]
           end
         end
 
         describe 'WITH display = left in home project' do
           before do
-            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_LEFT
+            VersionSetting.create version:, project: home_project, display: VersionSetting::DISPLAY_LEFT
           end
 
-          it "should include the shared version" do
+          it "includes the shared version" do
             expect(displayed).to match_array [version]
           end
         end
 
         describe 'WITH display = none in home project' do
           before do
-            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_NONE
+            VersionSetting.create version:, project: home_project, display: VersionSetting::DISPLAY_NONE
           end
 
-          it "should include the shared version" do
+          it "includes the shared version" do
             expect(displayed).to match_array []
           end
         end
 
         describe 'WITH display = left in sister project' do
           before do
-            VersionSetting.create version: version, project: sister_project, display: VersionSetting::DISPLAY_LEFT
+            VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_LEFT
           end
 
-          it "should include the shared version" do
+          it "includes the shared version" do
             expect(displayed).to match_array [version]
           end
         end
 
         describe 'WITH display = none in sister project' do
           before do
-            VersionSetting.create version: version, project: sister_project, display: VersionSetting::DISPLAY_NONE
+            VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_NONE
           end
 
-          it "should not include the shared version" do
+          it "does not include the shared version" do
             expect(displayed).to match_array []
           end
         end
@@ -140,10 +140,10 @@ describe Sprint, type: :model do
         describe 'WITH display = left in home project and display = left in sister project' do
           before do
             VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_LEFT
-            VersionSetting.create version: version, project: sister_project, display: VersionSetting::DISPLAY_LEFT
+            VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_LEFT
           end
 
-          it "should include the shared version" do
+          it "includes the shared version" do
             expect(displayed).to match_array [version]
           end
         end
@@ -151,10 +151,10 @@ describe Sprint, type: :model do
         describe 'WITH display = left in home project and display = none in sister project' do
           before do
             VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_LEFT
-            VersionSetting.create version: version, project: sister_project, display: VersionSetting::DISPLAY_NONE
+            VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_NONE
           end
 
-          it "should not include the shared version" do
+          it "does not include the shared version" do
             expect(displayed).to match_array []
           end
         end
@@ -162,10 +162,10 @@ describe Sprint, type: :model do
         describe 'WITH display = none in home project and display = left in sister project' do
           before do
             VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_NONE
-            VersionSetting.create version: version, project: sister_project, display: VersionSetting::DISPLAY_LEFT
+            VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_LEFT
           end
 
-          it "should include the shared version" do
+          it "includes the shared version" do
             expect(displayed).to match_array [version]
           end
         end
@@ -173,10 +173,10 @@ describe Sprint, type: :model do
         describe 'WITH display = none in home project and display = none in sister project' do
           before do
             VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_NONE
-            VersionSetting.create version: version, project: sister_project, display: VersionSetting::DISPLAY_NONE
+            VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_NONE
           end
 
-          it "should not include the shared version" do
+          it "does not include the shared version" do
             expect(displayed).to match_array []
           end
         end
@@ -184,8 +184,8 @@ describe Sprint, type: :model do
     end
 
     describe '#displayed_right' do
-      before(:each) do
-        sprint.version_settings = [build(:version_setting, project: project, display: VersionSetting::DISPLAY_RIGHT)]
+      before do
+        sprint.version_settings = [build(:version_setting, project:, display: VersionSetting::DISPLAY_RIGHT)]
         sprint.project = project
         sprint.save!
       end
@@ -194,12 +194,12 @@ describe Sprint, type: :model do
     end
 
     describe '#order_by_date' do
-      before(:each) do
-        @sprint1 = create(:sprint, name: 'sprint1', project: project, start_date: Date.today + 2.days)
-        @sprint2 = create(:sprint, name: 'sprint2', project: project, start_date: Date.today + 1.day,
-                                              effective_date: Date.today + 3.days)
-        @sprint3 = create(:sprint, name: 'sprint3', project: project, start_date: Date.today + 1.day,
-                                              effective_date: Date.today + 2.days)
+      before do
+        @sprint1 = create(:sprint, name: 'sprint1', project:, start_date: Date.today + 2.days)
+        @sprint2 = create(:sprint, name: 'sprint2', project:, start_date: Date.today + 1.day,
+                                   effective_date: Date.today + 3.days)
+        @sprint3 = create(:sprint, name: 'sprint3', project:, start_date: Date.today + 1.day,
+                                   effective_date: Date.today + 2.days)
       end
 
       it 'sorts the dates correctly', :aggregate_failures do
@@ -210,13 +210,13 @@ describe Sprint, type: :model do
     end
 
     describe '#apply_to' do
-      before(:each) do
+      before do
         project.save
         @other_project = create(:project)
       end
 
       describe 'WITH the version being shared system wide' do
-        before(:each) do
+        before do
           @version = create(:sprint, name: 'systemwide', project: @other_project, sharing: 'system')
         end
 
@@ -225,7 +225,7 @@ describe Sprint, type: :model do
       end
 
       describe 'WITH the version being shared from a parent project' do
-        before(:each) do
+        before do
           project.update(parent: @other_project)
           project.reload
           @version = create(:sprint, name: 'descended', project: @other_project, sharing: 'descendants')
@@ -236,7 +236,7 @@ describe Sprint, type: :model do
       end
 
       describe 'WITH the version being shared within the tree' do
-        before(:each) do
+        before do
           @parent_project = create(:project)
           @other_project.update(parent: @parent_project)
           project.update(parent: @parent_project)
@@ -249,7 +249,7 @@ describe Sprint, type: :model do
       end
 
       describe 'WITH the version being shared within the tree' do
-        before(:each) do
+        before do
           @descendant_project = create(:project, parent: project)
           project.reload
           @version = create(:sprint, name: 'hierar', project: @descendant_project, sharing: 'hierarchy')

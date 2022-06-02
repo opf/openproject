@@ -41,6 +41,7 @@ describe 'OpenProject child pages macro' do
     create :valid_project,
            enabled_module_names: %w[wiki]
   end
+  let(:input) {}
   let(:member_project) do
     create :valid_project,
            identifier: 'member-project',
@@ -105,7 +106,6 @@ describe 'OpenProject child pages macro' do
     login_as(user)
   end
 
-  let(:input) {}
   subject { format_text(current_page.content, :text) }
 
   before do
@@ -117,21 +117,24 @@ describe 'OpenProject child pages macro' do
 
   def error_html(exception_msg)
     "<p class=\"op-uc-p\"><macro class=\"macro-unavailable\" data-macro-name=\"child_pages\">" \
-          "Error executing the macro child_pages (#{exception_msg})</macro></p>"
+      "Error executing the macro child_pages (#{exception_msg})</macro></p>"
   end
 
   context 'with invalid page' do
     let(:input) { '<macro class="child_pages" data-page="Invalid"></macro>' }
+
     it { is_expected.to be_html_eql(error_html("Cannot find the wiki page 'Invalid'.")) }
   end
 
   context 'old macro syntax no longer works' do
     let(:input) { '{{child_pages(whatever)}}' }
+
     it { is_expected.to be_html_eql("<p class=\"op-uc-p\">#{input}</p>") }
   end
 
   context 'when nothing passed' do
     let(:input) { '<macro class="child_pages"></macro>' }
+
     it { is_expected.not_to match(current_page.title) }
     it { is_expected.to match(middle_page.title) }
     it { is_expected.to match(leaf_page.title) }
@@ -141,6 +144,7 @@ describe 'OpenProject child pages macro' do
 
   context 'when only include_parent passed' do
     let(:input) { '<macro class="child_pages" data-include-parent="true"></macro>' }
+
     it { is_expected.to match(current_page.title) }
     it { is_expected.to match(middle_page.title) }
     it { is_expected.to match(leaf_page.title) }
@@ -148,6 +152,7 @@ describe 'OpenProject child pages macro' do
 
   context 'when page title from same project passed' do
     let(:input) { '<macro class="child_pages" data-page="Node from same project"></macro>' }
+
     it { is_expected.not_to match(current_page.title) }
     it { is_expected.not_to match(middle_page.title) }
     it { is_expected.to match(leaf_page.title) }
@@ -155,6 +160,7 @@ describe 'OpenProject child pages macro' do
 
   context 'when page slug from same project passed' do
     let(:input) { '<macro class="child_pages" data-page="node-from-same-project"></macro>' }
+
     it { is_expected.not_to match(current_page.title) }
     it { is_expected.not_to match(middle_page.title) }
     it { is_expected.to match(leaf_page.title) }
@@ -162,13 +168,15 @@ describe 'OpenProject child pages macro' do
 
   context 'when page title from same project with include_parent passed' do
     let(:input) { '<macro class="child_pages" data-page="Node from same project" data-include-parent="true"></macro>' }
-    it { is_expected.to_not match(current_page.title) }
+
+    it { is_expected.not_to match(current_page.title) }
     it { is_expected.to match(middle_page.title) }
     it { is_expected.to match(leaf_page.title) }
   end
 
   context 'when page slug from invisible project passed' do
     let(:input) { '<macro class="child_pages" data-page="other-project:leaf-page-from-other-project"></macro>' }
+
     it { is_expected.to be_html_eql(error_html("Cannot find the wiki page 'other-project:leaf-page-from-other-project'.")) }
   end
 
@@ -176,7 +184,9 @@ describe 'OpenProject child pages macro' do
     let(:input) do
       '<macro class="child_pages" data-page="member-project:leaf-page-from-member-project" data-include-parent="true"></macro>'
     end
+
     before { leaf_page_member_project }
+
     it { is_expected.to match(leaf_page_member_project.title) }
   end
 end

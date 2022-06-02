@@ -45,7 +45,7 @@ module Pages
 
       def expect_caught_up
         text = I18n.t('js.notifications.center.empty_state.no_notification')
-        expect(page).to have_selector('[data-qa-selector="op-empty-state"]', text: text)
+        expect(page).to have_selector('[data-qa-selector="op-empty-state"]', text:)
       end
     end
   end

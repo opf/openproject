@@ -67,7 +67,7 @@ class BaseContract < Disposable::Twin
       attribute_aliases[db] = outside
     end
 
-    def property(name, options = {}, &block)
+    def property(name, options = {}, &)
       if (twin = options.delete(:form))
         options[:twin] = twin
       end
@@ -135,9 +135,7 @@ class BaseContract < Disposable::Twin
   end
 
   def writable_attributes
-    @writable_attributes ||= begin
-      reduce_writable_attributes(collect_writable_attributes)
-    end
+    @writable_attributes ||= reduce_writable_attributes(collect_writable_attributes)
   end
 
   def writable?(attribute)

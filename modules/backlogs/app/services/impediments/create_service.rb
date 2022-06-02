@@ -37,7 +37,7 @@ class Impediments::CreateService
     attributes[:type_id] = Impediment.type
 
     WorkPackages::CreateService
-      .new(user: user)
+      .new(user:)
       .call(**attributes.merge(work_package: Impediment.new).symbolize_keys)
   end
 end

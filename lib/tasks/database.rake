@@ -42,17 +42,15 @@ namespace 'openproject' do
   namespace 'db' do
     desc 'Ensure database version compatibility'
     task check_connection: %w[environment db:load_config] do
-      begin
-        ActiveRecord::Base.establish_connection
-        ActiveRecord::Base.connection.execute "SELECT 1;"
-        unless ActiveRecord::Base.connected?
-          puts "Database connection failed"
-          Kernel.exit 1
-        end
-      rescue StandardError => e
-        puts "Database connection failed with error: #{e}"
+      ActiveRecord::Base.establish_connection
+      ActiveRecord::Base.connection.execute "SELECT 1;"
+      unless ActiveRecord::Base.connected?
+        puts "Database connection failed"
         Kernel.exit 1
       end
+    rescue StandardError => e
+      puts "Database connection failed with error: #{e}"
+      Kernel.exit 1
     end
 
     desc 'Ensure database version compatibility'

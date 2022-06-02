@@ -193,7 +193,7 @@ describe UserMailer, type: :mailer do
       end
 
       let(:message) do
-        build_stubbed(:message, parent: parent).tap do |msg|
+        build_stubbed(:message, parent:).tap do |msg|
           allow(msg)
             .to receive(:project)
                   .and_return(msg.forum.project)

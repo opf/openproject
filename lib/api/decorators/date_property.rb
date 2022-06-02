@@ -44,8 +44,8 @@ module API
                           **args)
 
           attributes = {
-            getter: getter,
-            setter: setter,
+            getter:,
+            setter:,
             render_nil: true
           }
 
@@ -58,7 +58,7 @@ module API
                                **args)
 
           attributes = {
-            getter: getter,
+            getter:,
             render_nil: true
           }
 

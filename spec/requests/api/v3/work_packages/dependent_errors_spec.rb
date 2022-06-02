@@ -38,13 +38,13 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
     create(
       :work_package,
       project_id: project.id,
-      parent: parent,
+      parent:,
       subject: "Updated WorkPackage"
     )
   end
 
   let!(:parent) do
-    create(:work_package, project_id: project.id, type: type, subject: "Invalid Dependent WorkPackage").tap do |parent|
+    create(:work_package, project_id: project.id, type:, subject: "Invalid Dependent WorkPackage").tap do |parent|
       parent.custom_values.create custom_field: custom_field, value: custom_field.possible_values.first.id
 
       cv = parent.custom_values.last
@@ -75,7 +75,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
     )
   end
 
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i[view_work_packages edit_work_packages create_work_packages] }
 
   let(:current_user) do
@@ -84,7 +84,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
   let(:dependent_error_result) do
     proc do |instance, _attributes, work_package|
-      result = ServiceResult.new(success: true, result: instance.respond_to?(:model) && instance.model || work_package)
+      result = ServiceResult.new(success: true, result: (instance.respond_to?(:model) && instance.model) || work_package)
       dep = parent
       dep.errors.add :base, "invalid", message: "invalid"
 
@@ -110,7 +110,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
     subject(:response) { last_response }
 
     shared_context 'patch request' do
-      before(:each) do
+      before do
         patch path, params.to_json, 'CONTENT_TYPE' => 'application/json'
       end
     end
@@ -126,14 +126,14 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
       it { expect(response.status).to eq(422) }
 
-      it 'should respond with an error' do
+      it 'responds with an error' do
         expected_error = {
-          "_type": "Error",
-          "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-          "message": "Error attempting to alter dependent object: Work package ##{parent.id} - #{parent.subject}: invalid",
-          "_embedded": {
-            "details": {
-              "attribute": "base"
+          _type: "Error",
+          errorIdentifier: "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+          message: "Error attempting to alter dependent object: Work package ##{parent.id} - #{parent.subject}: invalid",
+          _embedded: {
+            details: {
+              attribute: "base"
             }
           }
         }
@@ -163,7 +163,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
     subject(:response) { last_response }
 
     shared_context 'post request' do
-      before(:each) do
+      before do
         post path, params.to_json, 'CONTENT_TYPE' => 'application/json'
       end
     end
@@ -179,14 +179,14 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
       it { expect(response.status).to eq(422) }
 
-      it 'should respond with an error' do
+      it 'responds with an error' do
         expected_error = {
-          "_type": "Error",
-          "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-          "message": "Error attempting to alter dependent object: Work package ##{parent.id} - #{parent.subject}: invalid",
-          "_embedded": {
-            "details": {
-              "attribute": "base"
+          _type: "Error",
+          errorIdentifier: "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+          message: "Error attempting to alter dependent object: Work package ##{parent.id} - #{parent.subject}: invalid",
+          _embedded: {
+            details: {
+              attribute: "base"
             }
           }
         }

@@ -38,6 +38,7 @@ describe PlaceholderUser, type: :model do
       subject.name = "Foo"
       expect(subject.name).to eq("Foo")
     end
+
     it 'updates the lastname attribute' do
       subject.name = "Foo"
       expect(subject.lastname).to eq("Foo")

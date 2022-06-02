@@ -45,12 +45,12 @@ module OpenProject::PDFExport::ExportCard
       page_size = config.page_size or defaults[:page_size]
 
       @pdf = Prawn::Document.new(
-        page_layout: page_layout,
+        page_layout:,
         left_margin: 0,
         right_margin: 0,
         top_margin: 0,
         bottom_margin: 0,
-        page_size: page_size
+        page_size:
       )
 
       view = ::WorkPackage::PDFExport::View.new(I18n.locale)
@@ -80,9 +80,9 @@ module OpenProject::PDFExport::ExportCard
           x_offset: card_padding,
           width: card_width.floor,
           height: card_height.floor,
-          card_padding: card_padding,
-          group_padding: group_padding,
-          text_padding: text_padding
+          card_padding:,
+          group_padding:,
+          text_padding:
         }
 
         card_element = CardElement.new(pdf, orientation, config.rows_hash, wp)

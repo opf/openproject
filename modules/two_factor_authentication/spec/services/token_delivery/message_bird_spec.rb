@@ -5,19 +5,19 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird, wit
   describe 'sending messages' do
     let!(:user) { create :user, language: locale }
     let!(:locale) { 'en' }
-    let!(:device) { create :two_factor_authentication_device_sms, user: user, channel: channel }
+    let!(:device) { create :two_factor_authentication_device_sms, user:, channel: }
 
     let(:service_url) { 'https://example.org/foobar' }
     let(:apikey) { 'whatever' }
     let(:params) do
       {
-        apikey: apikey
+        apikey:
       }
     end
 
     let(:result) { subject.request }
 
-    subject { ::TwoFactorAuthentication::TokenService.new user: user }
+    subject { ::TwoFactorAuthentication::TokenService.new user: }
 
     include_context 'with settings' do
       let(:settings) do
@@ -60,7 +60,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird, wit
     end
 
     describe 'calling the real test API' do
-      let(:apikey) { ENV['MESSAGEBIRD_TEST_APIKEY'] }
+      let(:apikey) { ENV.fetch('MESSAGEBIRD_TEST_APIKEY', nil) }
 
       before do
         skip 'Missing MESSAGEBIRD_TEST_APIKEY environment variable' unless apikey.present?

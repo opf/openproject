@@ -57,12 +57,12 @@ describe ::OpenProject::Bim::BcfXml::Importer do
   let(:workflow) do
     create(:workflow_with_default_status,
            role: manage_bcf_role,
-           type: type)
+           type:)
   end
   let(:priority) { create :default_priority }
   let(:bcf_manager_member) do
     create(:member,
-           project: project,
+           project:,
            user: bcf_manager,
            roles: [manage_bcf_role, member_role])
   end

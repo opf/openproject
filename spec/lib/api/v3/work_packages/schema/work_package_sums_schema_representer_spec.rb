@@ -33,11 +33,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
 
   let(:custom_field) { build_stubbed(:integer_issue_custom_field) }
   let(:available_custom_fields) { [custom_field] }
-  let(:schema) { double('wp_schema', available_custom_fields: available_custom_fields) }
+  let(:schema) { double('wp_schema', available_custom_fields:) }
   let(:current_user) { double('user', admin?: false) }
 
   let(:representer) do
-    described_class.create(schema, current_user: current_user)
+    described_class.create(schema, current_user:)
   end
 
   subject { representer.to_json }

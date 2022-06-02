@@ -40,7 +40,7 @@ module API
 
             schema :"copy_#{identifier}",
                    type: 'Boolean',
-                   name_source: name_source,
+                   name_source:,
                    has_default: true,
                    writable: true,
                    required: false,

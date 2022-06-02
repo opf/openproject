@@ -33,8 +33,8 @@ describe AngularHelper, type: :helper do
   let(:options) do
     {
       class: 'op-classname',
-      inputs: inputs,
-      data: data
+      inputs:,
+      data:
     }
   end
   let(:data) do

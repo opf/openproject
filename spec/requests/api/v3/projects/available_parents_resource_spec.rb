@@ -88,7 +88,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
     context 'without a project candidate' do
       it 'returns 200 OK' do
         expect(subject.status)
-          .to eql 200
+          .to be 200
       end
 
       it 'returns projects for which the user has the add_subprojects permission' do
@@ -115,7 +115,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
 
       it 'returns 200 OK' do
         expect(subject.status)
-          .to eql 200
+          .to be 200
       end
 
       it 'returns projects for which the user has the add_subprojects permission but' +
@@ -139,7 +139,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
 
       it 'returns 403' do
         expect(subject.status)
-          .to eql 403
+          .to be 403
       end
     end
 
@@ -149,7 +149,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
 
       it 'returns 200' do
         expect(subject.status)
-          .to eql 200
+          .to be 200
       end
     end
 
@@ -159,7 +159,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
 
       it 'returns 200' do
         expect(subject.status)
-          .to eql 200
+          .to be 200
       end
     end
 
@@ -169,7 +169,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
 
       it 'returns 200' do
         expect(subject.status)
-          .to eql 200
+          .to be 200
       end
     end
   end

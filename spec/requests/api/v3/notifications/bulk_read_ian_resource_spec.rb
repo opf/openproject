@@ -38,17 +38,17 @@ describe ::API::V3::Notifications::NotificationsAPI,
   shared_let(:recipient) { create :user, member_in_project: project, member_with_permissions: %i[view_work_packages] }
   shared_let(:other_recipient) { create :user }
 
-  shared_let(:work_package) { create :work_package, project: project }
+  shared_let(:work_package) { create :work_package, project: }
 
-  shared_let(:notification1) { create :notification, recipient: recipient, project: project, resource: work_package }
-  shared_let(:notification2) { create :notification, recipient: recipient, project: project, resource: work_package }
-  shared_let(:notification3) { create :notification, recipient: recipient, project: project, resource: work_package }
+  shared_let(:notification1) { create :notification, recipient:, project:, resource: work_package }
+  shared_let(:notification2) { create :notification, recipient:, project:, resource: work_package }
+  shared_let(:notification3) { create :notification, recipient:, project:, resource: work_package }
   shared_let(:other_user_notification) { create :notification, recipient: other_recipient }
 
   let(:filters) { nil }
 
   let(:read_path) do
-    api_v3_paths.path_for :notification_bulk_read_ian, filters: filters
+    api_v3_paths.path_for :notification_bulk_read_ian, filters:
   end
 
   let(:parsed_response) { JSON.parse(last_response.body) }
@@ -64,7 +64,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
     it 'returns 204' do
       expect(last_response.status)
-        .to eql(204)
+        .to be(204)
     end
 
     it 'sets all the current users`s notifications to read' do
@@ -112,7 +112,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
       it 'returns 400' do
         expect(last_response.status)
-          .to eql(400)
+          .to be(400)
       end
     end
   end

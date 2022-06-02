@@ -105,21 +105,21 @@ describe 'index placeholder users', type: :feature, js: true do
         index_page.expect_delete_button(placeholder_user_3)
       end
     end
-    
+
     context 'when user is allowed to manage members only in some projects of the placeholder users' do
       let(:shared_project) do
         create(:project, members: {
-                            placeholder_user_1 => member_role,
-                            placeholder_user_2 => member_role,
-                            current_user => manager_role
-                          })
+                 placeholder_user_1 => member_role,
+                 placeholder_user_2 => member_role,
+                 current_user => manager_role
+               })
       end
 
       let(:not_shared_project) do
         create(:project, members: {
-                           placeholder_user_2 => member_role,
-                           placeholder_user_3 => member_role
-                         })
+                 placeholder_user_2 => member_role,
+                 placeholder_user_3 => member_role
+               })
       end
 
       before do

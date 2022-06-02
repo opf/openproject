@@ -36,7 +36,7 @@ describe ::API::V3::Projects::ProjectCollectionRepresenter do
   let(:representer) do
     described_class.new Project.all,
                         self_link: self_base_link,
-                        current_user: current_user
+                        current_user:
   end
   let(:total) { 3 }
   let(:page) { 1 }

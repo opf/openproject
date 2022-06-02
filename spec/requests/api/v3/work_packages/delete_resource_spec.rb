@@ -42,13 +42,13 @@ describe 'API v3 Work package resource',
   let(:project) do
     create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
   current_user do
     user = create(:user, member_in_project: project, member_through_role: role)
 
-    create(:user_preference, user: user)
+    create(:user_preference, user:)
 
     user
   end

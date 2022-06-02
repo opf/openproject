@@ -34,12 +34,12 @@ describe ::API::V3::Repositories::RevisionRepresenter do
   let(:representer) { described_class.new(revision, current_user: double('current_user')) }
 
   let(:project) { build :project }
-  let(:repository) { build :repository_subversion, project: project }
+  let(:repository) { build :repository_subversion, project: }
   let(:revision) do
     build(:changeset,
           id: 42,
           revision: '1234',
-          repository: repository,
+          repository:,
           comments: commit_message,
           committer: 'foo bar <foo@example.org>',
           committed_on: DateTime.now)
@@ -70,6 +70,7 @@ describe ::API::V3::Repositories::RevisionRepresenter do
         before do
           allow(revision).to receive(:format_identifier).and_return('123')
         end
+
         it { is_expected.to have_json_path('formattedIdentifier') }
         it { is_expected.to be_json_eql('123'.to_json).at_path('formattedIdentifier') }
       end
@@ -88,7 +89,7 @@ describe ::API::V3::Repositories::RevisionRepresenter do
     end
 
     context 'with referencing commit message' do
-      let(:work_package) { build_stubbed(:work_package, project: project) }
+      let(:work_package) { build_stubbed(:work_package, project:) }
       let(:commit_message) { "Totally references ##{work_package.id}" }
       let(:html_reference) do
         id = work_package.id
@@ -122,6 +123,7 @@ describe ::API::V3::Repositories::RevisionRepresenter do
 
       context 'with linked user as author' do
         let(:user) { build(:user) }
+
         before do
           allow(revision).to receive(:user).and_return(user)
         end

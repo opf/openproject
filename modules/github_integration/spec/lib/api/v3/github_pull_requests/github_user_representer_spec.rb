@@ -92,7 +92,7 @@ describe ::API::V3::GithubPullRequests::GithubUserRepresenter do
       end
 
       it 'changes when the github_user is updated' do
-        github_user.updated_at = Time.zone.now + 20.seconds
+        github_user.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key

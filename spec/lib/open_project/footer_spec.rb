@@ -36,6 +36,7 @@ describe OpenProject::Footer do
         OpenProject::Footer.content = nil
         OpenProject::Footer.add_content('OpenProject', 'footer')
       end
+
       it { expect(OpenProject::Footer.content.class).to eq(Hash) }
       it { expect(OpenProject::Footer.content['OpenProject']).to eq('footer') }
     end

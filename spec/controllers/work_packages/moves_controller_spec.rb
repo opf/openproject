@@ -54,9 +54,9 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
   let(:work_package) do
     create(:work_package,
            project_id: project.id,
-           type: type,
+           type:,
            author: user,
-           priority: priority)
+           priority:)
   end
 
   let(:current_user) { create(:user) }
@@ -118,14 +118,14 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
   end
 
   describe '#create' do
-    let!(:source_member) { create(:member, user: current_user, project: project, roles: [role]) }
+    let!(:source_member) { create(:member, user: current_user, project:, roles: [role]) }
     let!(:target_member) { create(:member, user: current_user, project: target_project, roles: [role]) }
     let(:target_project) { create(:project, public: false) }
     let(:work_package_2) do
       create(:work_package,
              project_id: project.id,
              type: type_2,
-             priority: priority)
+             priority:)
     end
 
     describe 'an issue to another project' do
@@ -150,8 +150,8 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
         end
 
         it "redirects to the project's work packages page" do
-          is_expected.to be_redirect
-          is_expected.to redirect_to(project_work_packages_path(project))
+          expect(subject).to be_redirect
+          expect(subject).to redirect_to(project_work_packages_path(project))
         end
       end
 
@@ -172,8 +172,8 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
         end
 
         it 'redirects to the work package page' do
-          is_expected.to be_redirect
-          is_expected.to redirect_to(work_package_path(work_package))
+          expect(subject).to be_redirect
+          expect(subject).to redirect_to(work_package_path(work_package))
         end
       end
     end
@@ -294,7 +294,7 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
 
           it 'redirects to the work package copy' do
             copy = WorkPackage.order(id: :desc).first
-            is_expected.to redirect_to(work_package_path(copy))
+            expect(subject).to redirect_to(work_package_path(copy))
           end
         end
 
@@ -339,7 +339,7 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
             user = create :user
 
             create(:member,
-                   user: user,
+                   user:,
                    project: target_project,
                    roles: [role])
 
@@ -357,8 +357,8 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
                    responsible_id: target_user.id,
                    status_id: target_status,
                    version_id: target_version.id,
-                   start_date: start_date,
-                   due_date: due_date
+                   start_date:,
+                   due_date:
                  }
           end
 
@@ -433,8 +433,8 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
         context 'parent and child work package' do
           let!(:child_wp) do
             create(:work_package,
-                   type: type,
-                   project: project,
+                   type:,
+                   project:,
                    parent: work_package)
           end
 
@@ -472,8 +472,8 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
           end
           let!(:child_wp) do
             create(:work_package,
-                   type: type,
-                   project: project,
+                   type:,
+                   project:,
                    parent: work_package)
           end
 

@@ -60,7 +60,7 @@ module Attachments
 
       OpenProject::Notifications.send(
         OpenProject::Events::ATTACHMENT_CREATED,
-        attachment: attachment
+        attachment:
       )
 
       call

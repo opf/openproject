@@ -5,4 +5,5 @@ Gem::Specification.new do |s|
   s.summary     = "OpenProject Grids."
 
   s.files = Dir["{app,config,db,lib}/**/*"]
+  s.metadata['rubygems_mfa_required'] = 'true'
 end

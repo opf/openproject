@@ -41,44 +41,45 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
   end
 
   describe 'deleting a child with estimated_hours set' do
-    let(:parent) { create(:work_package, project: project) }
+    let(:parent) { create(:work_package, project:) }
     let(:child) do
       create(:work_package,
-             project: project,
-             parent: parent,
+             project:,
+             parent:,
              estimated_hours: 123)
     end
 
     let(:instance) do
-      described_class.new(user: user,
+      described_class.new(user:,
                           model: child)
     end
+
     subject { instance.call }
 
     before do
       # Ensure estimated_hours is inherited
-      ::WorkPackages::UpdateAncestorsService.new(user: user, work_package: child).call(%i[estimated_hours])
+      ::WorkPackages::UpdateAncestorsService.new(user:, work_package: child).call(%i[estimated_hours])
       parent.reload
     end
 
     it 'updates the parent estimated_hours' do
       expect(child.estimated_hours).to eq 123
       expect(parent.derived_estimated_hours).to eq 123
-      expect(parent.estimated_hours).to eq nil
+      expect(parent.estimated_hours).to be_nil
 
       expect(subject).to be_success
 
       parent.reload
 
-      expect(parent.estimated_hours).to eq(nil)
+      expect(parent.estimated_hours).to be_nil
     end
   end
 
   describe 'with a stale work package reference' do
-    let!(:work_package) { create :work_package, project: project }
+    let!(:work_package) { create :work_package, project: }
 
     let(:instance) do
-      described_class.new(user: user,
+      described_class.new(user:,
                           model: work_package)
     end
 
@@ -94,17 +95,17 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
   end
 
   describe 'with a notification' do
-    let!(:work_package) { create :work_package, project: project }
+    let!(:work_package) { create :work_package, project: }
     let!(:notification) do
       create :notification,
              recipient: user,
              actor: user,
              resource: work_package,
-             project: project
+             project:
     end
 
     let(:instance) do
-      described_class.new(user: user,
+      described_class.new(user:,
                           model: work_package)
     end
 

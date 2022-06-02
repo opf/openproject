@@ -32,29 +32,29 @@ describe CostlogController, type: :controller do
   include Cost::PluginSpecHelper
   let (:project) { create(:project_with_types) }
   let (:work_package) do
-    create(:work_package, project: project,
-                                     author: user,
-                                     type: project.types.first)
+    create(:work_package, project:,
+                          author: user,
+                          type: project.types.first)
   end
   let (:user) { create(:user) }
   let (:user2) { create(:user) }
   let (:controller) { build(:role, permissions: %i[log_costs edit_cost_entries]) }
   let (:cost_type) { build(:cost_type) }
   let (:cost_entry) do
-    build(:cost_entry, work_package: work_package,
-                                  project: project,
-                                  spent_on: Date.today,
-                                  overridden_costs: 400,
-                                  units: 100,
-                                  user: user,
-                                  comments: '')
+    build(:cost_entry, work_package:,
+                       project:,
+                       spent_on: Date.today,
+                       overridden_costs: 400,
+                       units: 100,
+                       user:,
+                       comments: '')
   end
   let(:work_package_status) { create(:work_package_status, is_default: true) }
 
   def grant_current_user_permissions(user, permissions)
-    member = build(:member, project: project,
-                                       principal: user)
-    member.roles << build(:role, permissions: permissions)
+    member = build(:member, project:,
+                            principal: user)
+    member.roles << build(:role, permissions:)
     member.principal = user
     member.save!
     user.reload # in order to refresh the member/membership associations
@@ -99,17 +99,18 @@ describe CostlogController, type: :controller do
 
     shared_examples_for 'successful new' do
       before do
-        get :new, params: params
+        get :new, params:
       end
 
       it { expect(response).to be_successful }
-      it_should_behave_like 'assigns'
+
+      it_behaves_like 'assigns'
       it { expect(response).to render_template('edit') }
     end
 
     shared_examples_for 'forbidden new' do
       before do
-        get :new, params: params
+        get :new, params:
       end
 
       it { expect(response.response_code).to eq(403) }
@@ -120,7 +121,7 @@ describe CostlogController, type: :controller do
         grant_current_user_permissions user, [:log_costs]
       end
 
-      it_should_behave_like 'successful new'
+      it_behaves_like 'successful new'
     end
 
     describe "WHEN user allowed to create new cost_entry
@@ -134,7 +135,7 @@ describe CostlogController, type: :controller do
         grant_current_user_permissions user, [:log_costs]
       end
 
-      it_should_behave_like 'successful new'
+      it_behaves_like 'successful new'
     end
 
     describe 'WHEN user is allowed to create new own cost_entry' do
@@ -142,7 +143,7 @@ describe CostlogController, type: :controller do
         grant_current_user_permissions user, [:log_own_costs]
       end
 
-      it_should_behave_like 'successful new'
+      it_behaves_like 'successful new'
     end
 
     describe 'WHEN user is not allowed to create new cost_entries' do
@@ -150,7 +151,7 @@ describe CostlogController, type: :controller do
         grant_current_user_permissions user, []
       end
 
-      it_should_behave_like 'forbidden new'
+      it_behaves_like 'forbidden new'
     end
   end
 
@@ -163,7 +164,7 @@ describe CostlogController, type: :controller do
 
     shared_examples_for 'successful edit' do
       before do
-        get :edit, params: params
+        get :edit, params:
       end
 
       it { expect(response).to be_successful }
@@ -174,7 +175,7 @@ describe CostlogController, type: :controller do
 
     shared_examples_for 'forbidden edit' do
       before do
-        get :edit, params: params
+        get :edit, params:
       end
 
       it { expect(response.response_code).to eq(403) }
@@ -185,7 +186,7 @@ describe CostlogController, type: :controller do
         grant_current_user_permissions user, [:edit_cost_entries]
       end
 
-      it_should_behave_like 'successful edit'
+      it_behaves_like 'successful edit'
     end
 
     describe "WHEN the user is allowed to edit cost_entries
@@ -197,7 +198,7 @@ describe CostlogController, type: :controller do
         cost_entry.save(validate: false)
       end
 
-      it_should_behave_like 'successful edit'
+      it_behaves_like 'successful edit'
     end
 
     describe 'WHEN the user is allowed to edit own cost_entries' do
@@ -205,7 +206,7 @@ describe CostlogController, type: :controller do
         grant_current_user_permissions user, [:edit_own_cost_entries]
       end
 
-      it_should_behave_like 'successful edit'
+      it_behaves_like 'successful edit'
     end
 
     describe "WHEN the user is allowed to edit own cost_entries
@@ -217,7 +218,7 @@ describe CostlogController, type: :controller do
         cost_entry.save(validate: false)
       end
 
-      it_should_behave_like 'forbidden edit'
+      it_behaves_like 'forbidden edit'
     end
 
     describe 'WHEN the user is not allowed to edit cost_entries' do
@@ -225,7 +226,7 @@ describe CostlogController, type: :controller do
         grant_current_user_permissions user, []
       end
 
-      it_should_behave_like 'forbidden edit'
+      it_behaves_like 'forbidden edit'
     end
 
     describe "WHEN the user is allowed to edit cost_entries
@@ -235,12 +236,12 @@ describe CostlogController, type: :controller do
 
         cost_entry.project = create(:project_with_types)
         cost_entry.work_package = create(:work_package, project: cost_entry.project,
-                                                                   type: cost_entry.project.types.first,
-                                                                   author: user)
+                                                        type: cost_entry.project.types.first,
+                                                        author: user)
         cost_entry.save!
       end
 
-      it_should_behave_like 'forbidden edit'
+      it_behaves_like 'forbidden edit'
     end
 
     describe "WHEN the user is allowed to edit cost_entries
@@ -250,7 +251,7 @@ describe CostlogController, type: :controller do
 
         params['id'] = (cost_entry.id + 1).to_s
 
-        get :edit, params: params
+        get :edit, params:
       end
 
       it { expect(response.response_code).to eq(404) }
@@ -287,28 +288,30 @@ describe CostlogController, type: :controller do
 
     shared_examples_for 'successful create' do
       before do
-        post :create, params: params
+        post :create, params:
       end
 
       it { expect(response).to be_redirect }
       it { expect(assigns(:cost_entry)).not_to be_new_record }
-      it_should_behave_like 'assigns'
+
+      it_behaves_like 'assigns'
       it { expect(flash[:notice]).to eql('Unit cost logged successfully.') }
     end
 
     shared_examples_for 'invalid create' do
       before do
-        post :create, params: params
+        post :create, params:
       end
 
       it { expect(response).to be_successful }
-      it_should_behave_like 'assigns'
+
+      it_behaves_like 'assigns'
       it { expect(flash[:notice]).to be_nil }
     end
 
     shared_examples_for 'forbidden create' do
       before do
-        post :create, params: params
+        post :create, params:
       end
 
       it { expect(response.response_code).to eq(403) }
@@ -319,7 +322,7 @@ describe CostlogController, type: :controller do
         grant_current_user_permissions user, [:log_costs]
       end
 
-      it_should_behave_like 'successful create'
+      it_behaves_like 'successful create'
     end
 
     describe 'WHEN the user is allowed to create own cost_entries' do
@@ -327,7 +330,7 @@ describe CostlogController, type: :controller do
         grant_current_user_permissions user, [:log_own_costs]
       end
 
-      it_should_behave_like 'successful create'
+      it_behaves_like 'successful create'
     end
 
     describe "WHEN the user is allowed to create cost_entries
@@ -340,7 +343,7 @@ describe CostlogController, type: :controller do
         params['cost_entry'].delete('spent_on')
       end
 
-      it_should_behave_like 'successful create'
+      it_behaves_like 'successful create'
     end
 
     describe "WHEN the user is allowed to create cost_entries
@@ -353,7 +356,7 @@ describe CostlogController, type: :controller do
         params['cost_entry']['cost_type_id'] = (cost_type.id + 1).to_s
       end
 
-      it_should_behave_like 'invalid create'
+      it_behaves_like 'invalid create'
     end
 
     describe "WHEN the user is allowed to create cost_entries
@@ -368,7 +371,7 @@ describe CostlogController, type: :controller do
         params['cost_entry']['cost_type_id'] = 1
       end
 
-      it_should_behave_like 'invalid create'
+      it_behaves_like 'invalid create'
     end
 
     describe "WHEN the user is allowed to create cost_entries
@@ -383,7 +386,7 @@ describe CostlogController, type: :controller do
         params['cost_entry'].delete('cost_type_id')
       end
 
-      it_should_behave_like 'invalid create'
+      it_behaves_like 'invalid create'
     end
 
     describe "WHEN the user is allowed to create cost_entries
@@ -396,7 +399,7 @@ describe CostlogController, type: :controller do
         params['cost_entry'].delete('cost_type_id')
       end
 
-      it_should_behave_like 'invalid create'
+      it_behaves_like 'invalid create'
     end
 
     describe "WHEN the user is allowed to create cost_entries
@@ -407,7 +410,7 @@ describe CostlogController, type: :controller do
         cost_type.save!
       end
 
-      it_should_behave_like 'invalid create'
+      it_behaves_like 'invalid create'
     end
 
     describe "WHEN the user is allowed to create cost_entries
@@ -420,7 +423,7 @@ describe CostlogController, type: :controller do
         params['cost_entry']['user_id'] = user.id.to_s
       end
 
-      it_should_behave_like 'successful create'
+      it_behaves_like 'successful create'
     end
 
     describe "WHEN the user is allowed to create cost_entries
@@ -432,7 +435,7 @@ describe CostlogController, type: :controller do
         params['cost_entry']['user_id'] = user.id.to_s
       end
 
-      it_should_behave_like 'invalid create'
+      it_behaves_like 'invalid create'
     end
 
     describe "WHEN the user is allowed to create cost_entries
@@ -440,8 +443,8 @@ describe CostlogController, type: :controller do
       let(:project2) { create(:project_with_types) }
       let(:work_package2) do
         create(:work_package, project: project2,
-                                         type: project2.types.first,
-                                         author: user)
+                              type: project2.types.first,
+                              author: user)
       end
       let(:expected_work_package) { work_package2 }
 
@@ -451,7 +454,7 @@ describe CostlogController, type: :controller do
         params['cost_entry']['work_package_id'] = work_package2.id
       end
 
-      it_should_behave_like 'invalid create'
+      it_behaves_like 'invalid create'
     end
 
     describe "WHEN the user is allowed to create cost_entries
@@ -464,7 +467,7 @@ describe CostlogController, type: :controller do
         params['cost_entry'].delete('work_package_id')
       end
 
-      it_should_behave_like 'invalid create'
+      it_behaves_like 'invalid create'
     end
 
     describe "WHEN the user is allowed to create own cost_entries
@@ -475,7 +478,7 @@ describe CostlogController, type: :controller do
         params['cost_entry']['user_id'] = user.id
       end
 
-      it_should_behave_like 'forbidden create'
+      it_behaves_like 'forbidden create'
     end
 
     describe 'WHEN the user is not allowed to create cost_entries' do
@@ -483,7 +486,7 @@ describe CostlogController, type: :controller do
         grant_current_user_permissions user, []
       end
 
-      it_should_behave_like 'forbidden create'
+      it_behaves_like 'forbidden create'
     end
   end
 
@@ -497,11 +500,6 @@ describe CostlogController, type: :controller do
                           'user_id' => cost_entry.user.id.to_s,
                           'cost_type_id' => cost_entry.cost_type.id.to_s } }
     end
-
-    before do
-      cost_entry.save(validate: false)
-    end
-
     let(:expected_work_package) { cost_entry.work_package }
     let(:expected_user) { cost_entry.user }
     let(:expected_project) { cost_entry.project }
@@ -510,31 +508,36 @@ describe CostlogController, type: :controller do
     let(:expected_overridden_costs) { cost_entry.overridden_costs }
     let(:expected_spent_on) { cost_entry.spent_on }
 
+    before do
+      cost_entry.save(validate: false)
+    end
+
     shared_examples_for 'successful update' do
       before do
-        put :update, params: params
+        put :update, params:
       end
 
       it { expect(response).to be_redirect }
       it { expect(assigns(:cost_entry)).to eq(cost_entry) }
-      it_should_behave_like 'assigns'
+
+      it_behaves_like 'assigns'
       it { expect(assigns(:cost_entry)).not_to be_changed }
       it { expect(flash[:notice]).to eql I18n.t(:notice_successful_update) }
     end
 
     shared_examples_for 'invalid update' do
       before do
-        put :update, params: params
+        put :update, params:
       end
 
-      it_should_behave_like 'assigns'
+      it_behaves_like 'assigns'
       it { expect(response).to be_successful }
       it { expect(flash[:notice]).to be_nil }
     end
 
     shared_examples_for 'forbidden update' do
       before do
-        put :update, params: params
+        put :update, params:
       end
 
       it { expect(response.response_code).to eq(403) }
@@ -549,9 +552,9 @@ describe CostlogController, type: :controller do
                 overridden_costs
                 spent_on" do
       let(:expected_work_package) do
-        create(:work_package, project: project,
-                                         type: project.types.first,
-                                         author: user)
+        create(:work_package, project:,
+                              type: project.types.first,
+                              author: user)
       end
       let(:expected_user) { create(:user) }
       let(:expected_spent_on) { cost_entry.spent_on + 4.days }
@@ -571,7 +574,7 @@ describe CostlogController, type: :controller do
         params['cost_entry']['overridden_costs'] = expected_overridden_costs.to_s
       end
 
-      it_should_behave_like 'successful update'
+      it_behaves_like 'successful update'
     end
 
     describe "WHEN the user is allowed to update cost_entries
@@ -580,7 +583,7 @@ describe CostlogController, type: :controller do
         grant_current_user_permissions user, [:edit_cost_entries]
       end
 
-      it_should_behave_like 'successful update'
+      it_behaves_like 'successful update'
     end
 
     describe "WHEN the user is allowed ot update own cost_entries
@@ -593,7 +596,7 @@ describe CostlogController, type: :controller do
         params['cost_entry']['units'] = expected_units.to_s
       end
 
-      it_should_behave_like 'successful update'
+      it_behaves_like 'successful update'
     end
 
     describe "WHEN the user is allowed to update cost_entries
@@ -608,7 +611,7 @@ describe CostlogController, type: :controller do
         params['cost_entry']['user_id'] = user2.id.to_s
       end
 
-      it_should_behave_like 'invalid update'
+      it_behaves_like 'invalid update'
     end
 
     describe "WHEN the user is allowed to update cost_entries
@@ -617,7 +620,7 @@ describe CostlogController, type: :controller do
       let(:project2) { create(:project_with_types) }
       let(:work_package2) do
         create(:work_package, project: project2,
-                                         type: project2.types.first)
+                              type: project2.types.first)
       end
       let(:expected_work_package) { work_package2 }
 
@@ -627,7 +630,7 @@ describe CostlogController, type: :controller do
         params['cost_entry']['work_package_id'] = work_package2.id.to_s
       end
 
-      it_should_behave_like 'invalid update'
+      it_behaves_like 'invalid update'
     end
 
     describe "WHEN the user is allowed to update cost_entries
@@ -641,7 +644,7 @@ describe CostlogController, type: :controller do
         params['cost_entry']['work_package_id'] = (work_package.id + 1).to_s
       end
 
-      it_should_behave_like 'invalid update'
+      it_behaves_like 'invalid update'
     end
 
     describe "WHEN the user is allowed to update cost_entries
@@ -655,7 +658,7 @@ describe CostlogController, type: :controller do
         params['cost_entry']['cost_type_id'] = expected_cost_type.id.to_s
       end
 
-      it_should_behave_like 'invalid update'
+      it_behaves_like 'invalid update'
     end
 
     describe "WHEN the user is allowed to update cost_entries
@@ -669,7 +672,7 @@ describe CostlogController, type: :controller do
         params['cost_entry']['cost_type_id'] = '1234123512'
       end
 
-      it_should_behave_like 'invalid update'
+      it_behaves_like 'invalid update'
     end
 
     describe "WHEN the user is allowed to update own cost_entries and not all
@@ -683,7 +686,7 @@ describe CostlogController, type: :controller do
         params['cost_entry']['user_id'] = user3.id
       end
 
-      it_should_behave_like 'forbidden update'
+      it_behaves_like 'forbidden update'
     end
 
     describe "WHEN the user is allowed to update own cost_entries and not all
@@ -697,7 +700,7 @@ describe CostlogController, type: :controller do
         params['cost_entry']['units'] = (cost_entry.units + 20).to_s
       end
 
-      it_should_behave_like 'forbidden update'
+      it_behaves_like 'forbidden update'
     end
   end
 end

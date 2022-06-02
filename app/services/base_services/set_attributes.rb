@@ -65,8 +65,8 @@ module BaseServices
     def validate_and_result
       success, errors = validate(model, user, options: contract_options)
 
-      ServiceResult.new(success: success,
-                        errors: errors,
+      ServiceResult.new(success:,
+                        errors:,
                         result: model)
     end
 

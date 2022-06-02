@@ -2,6 +2,7 @@ require 'spec_helper'
 
 RSpec.describe EnterpriseToken, type: :model do
   let(:object) { OpenProject::Token.new domain: Setting.host_name }
+
   subject { EnterpriseToken.new(encoded_token: 'foo') }
 
   before do
@@ -21,7 +22,7 @@ RSpec.describe EnterpriseToken, type: :model do
         expect(EnterpriseToken.count).to eq(1)
         expect(EnterpriseToken.current).to eq(subject)
         expect(EnterpriseToken.current.encoded_token).to eq('foo')
-        expect(EnterpriseToken.show_banners?).to eq(false)
+        expect(EnterpriseToken.show_banners?).to be(false)
 
         # Deleting it updates the current token
         EnterpriseToken.current.destroy!
@@ -66,8 +67,8 @@ RSpec.describe EnterpriseToken, type: :model do
             .with(:allowed_action)
             .and_return double('ServiceResult', result: true)
 
-          expect(EnterpriseToken.allows_to?(:forbidden_action)).to eq false
-          expect(EnterpriseToken.allows_to?(:allowed_action)).to eq true
+          expect(EnterpriseToken.allows_to?(:forbidden_action)).to be false
+          expect(EnterpriseToken.allows_to?(:allowed_action)).to be true
         end
       end
     end
@@ -79,7 +80,7 @@ RSpec.describe EnterpriseToken, type: :model do
 
       it 'has an expired token' do
         expect(EnterpriseToken.current).to eq(subject)
-        expect(EnterpriseToken.show_banners?).to eq(true)
+        expect(EnterpriseToken.show_banners?).to be(true)
       end
     end
 
@@ -94,14 +95,14 @@ RSpec.describe EnterpriseToken, type: :model do
   describe 'no token' do
     it do
       expect(EnterpriseToken.current).to be_nil
-      expect(EnterpriseToken.show_banners?).to eq(true)
+      expect(EnterpriseToken.show_banners?).to be(true)
     end
   end
 
   describe 'invalid token' do
     it 'appears as if no token is shown' do
       expect(EnterpriseToken.current).to be_nil
-      expect(EnterpriseToken.show_banners?).to eq(true)
+      expect(EnterpriseToken.show_banners?).to be(true)
     end
   end
 

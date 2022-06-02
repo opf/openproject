@@ -87,7 +87,7 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
     options = derive_contract_options(whitelist)
     ::Attachments::CreateContract.new attachment,
                                       attachment.author,
-                                      options: options
+                                      options:
   end
 
   def derive_contract_options(whitelist)
@@ -132,7 +132,7 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
   def attachment_created_event(attachment)
     OpenProject::Notifications.send(
       OpenProject::Events::ATTACHMENT_CREATED,
-      attachment: attachment
+      attachment:
     )
   end
 end

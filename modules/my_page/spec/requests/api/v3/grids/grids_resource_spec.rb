@@ -163,7 +163,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       let(:path) { api_v3_paths.grid(5) }
 
       it 'responds with 404 NOT FOUND' do
-        expect(subject.status).to eql 404
+        expect(subject.status).to be 404
       end
     end
 
@@ -176,7 +176,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       let(:path) { api_v3_paths.grid(other_my_page_grid.id) }
 
       it 'responds with 404 NOT FOUND' do
-        expect(subject.status).to eql 404
+        expect(subject.status).to be 404
       end
     end
   end
@@ -186,15 +186,15 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
     let(:params) do
       {
-        "rowCount": 10,
-        "name": 'foo',
-        "columnCount": 15,
-        "widgets": [{
-          "identifier": "documents",
-          "startRow": 4,
-          "endRow": 8,
-          "startColumn": 2,
-          "endColumn": 5
+        rowCount: 10,
+        name: 'foo',
+        columnCount: 15,
+        widgets: [{
+          identifier: "documents",
+          startRow: 4,
+          endRow: 8,
+          startColumn: 2,
+          endColumn: 5
         }]
       }.with_indifferent_access
     end
@@ -236,14 +236,14 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     context 'with invalid params' do
       let(:params) do
         {
-          "rowCount": -5,
-          "columnCount": 15,
-          "widgets": [{
-            "identifier": "documents",
-            "startRow": 4,
-            "endRow": 8,
-            "startColumn": 2,
-            "endColumn": 5
+          rowCount: -5,
+          columnCount: 15,
+          widgets: [{
+            identifier: "documents",
+            startRow: 4,
+            endRow: 8,
+            startColumn: 2,
+            endColumn: 5
           }]
         }.with_indifferent_access
       end
@@ -265,9 +265,9 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     context 'with a scope param' do
       let(:params) do
         {
-          "_links": {
-            "scope": {
-              "href": ''
+          _links: {
+            scope: {
+              href: ''
             }
           }
         }.with_indifferent_access
@@ -280,7 +280,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       let(:path) { api_v3_paths.grid(5) }
 
       it 'responds with 404 NOT FOUND' do
-        expect(subject.status).to eql 404
+        expect(subject.status).to be 404
       end
     end
 
@@ -293,7 +293,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       let(:path) { api_v3_paths.grid(other_my_page_grid.id) }
 
       it 'responds with 404 NOT FOUND' do
-        expect(subject.status).to eql 404
+        expect(subject.status).to be 404
       end
     end
   end
@@ -303,18 +303,18 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
     let(:params) do
       {
-        "rowCount": 10,
-        "columnCount": 15,
-        "widgets": [{
-          "identifier": "documents",
-          "startRow": 4,
-          "endRow": 8,
-          "startColumn": 2,
-          "endColumn": 5
+        rowCount: 10,
+        columnCount: 15,
+        widgets: [{
+          identifier: "documents",
+          startRow: 4,
+          endRow: 8,
+          startColumn: 2,
+          endColumn: 5
         }],
-        "_links": {
-          "scope": {
-            "href": my_page_path
+        _links: {
+          scope: {
+            href: my_page_path
           }
         }
       }.with_indifferent_access
@@ -342,24 +342,24 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
     it 'persists the grid' do
       expect(Grids::Grid.count)
-        .to eql(1)
+        .to be(1)
     end
 
     context 'with invalid params' do
       let(:params) do
         {
-          "rowCount": -5,
-          "columnCount": "sdjfksdfsdfdsf",
-          "widgets": [{
-            "identifier": "documents",
-            "startRow": 4,
-            "endRow": 8,
-            "startColumn": 2,
-            "endColumn": 5
+          rowCount: -5,
+          columnCount: "sdjfksdfsdfdsf",
+          widgets: [{
+            identifier: "documents",
+            startRow: 4,
+            endRow: 8,
+            startColumn: 2,
+            endColumn: 5
           }],
-          "_links": {
-            "scope": {
-              "href": my_page_path
+          _links: {
+            scope: {
+              href: my_page_path
             }
           }
         }.with_indifferent_access
@@ -371,7 +371,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
       it 'does not create a grid' do
         expect(Grids::Grid.count)
-          .to eql(0)
+          .to be(0)
       end
 
       it 'returns the errors' do

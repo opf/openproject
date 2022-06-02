@@ -46,14 +46,14 @@ describe 'model management',
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
-           project: project,
+           project:,
            uploader: user,
            is_default: true)
   end
 
   let!(:model2) do
     create(:ifc_model_minimal_converted,
-           project: project,
+           project:,
            uploader: user)
   end
 

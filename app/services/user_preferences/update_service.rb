@@ -33,7 +33,7 @@ module UserPreferences
     attr_accessor :notifications
 
     def validate_params(params)
-      contract = ParamsContract.new(model, user, params: params)
+      contract = ParamsContract.new(model, user, params:)
 
       ServiceResult.new success: contract.valid?,
                         errors: contract.errors,
@@ -87,8 +87,8 @@ module UserPreferences
         .import(
           notifications,
           on_duplicate_key_update: {
-            conflict_target: conflict_target,
-            index_predicate: index_predicate,
+            conflict_target:,
+            index_predicate:,
             columns: %i[watched
                         involved
                         mentioned

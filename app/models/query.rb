@@ -137,7 +137,7 @@ class Query < ApplicationRecord
 
   def validate_show_hierarchies
     if show_hierarchies && group_by.present?
-      errors.add :show_hierarchies, :group_by_hierarchies_exclusive, group_by: group_by
+      errors.add :show_hierarchies, :group_by_hierarchies_exclusive, group_by:
     end
   end
 
@@ -190,11 +190,11 @@ class Query < ApplicationRecord
 
   def available_columns
     if @available_columns &&
-       (@available_columns_project == (project && project.cache_key || 0))
+       (@available_columns_project == ((project && project.cache_key) || 0))
       return @available_columns
     end
 
-    @available_columns_project = project && project.cache_key || 0
+    @available_columns_project = (project && project.cache_key) || 0
     @available_columns = ::Query.available_columns(project)
   end
 

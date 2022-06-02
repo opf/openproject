@@ -53,19 +53,19 @@ describe ::API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter do
     end
 
     it 'has _type QueryColumn::RelationToType' do
-      is_expected
+      expect(subject)
         .to be_json_eql('QueryColumn::RelationToType'.to_json)
         .at_path('_type')
     end
 
     it 'has id attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql("relationsToType#{type.id}".to_json)
         .at_path('id')
     end
 
     it 'has name attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql("Relations to #{type.name}".to_json)
         .at_path('name')
     end

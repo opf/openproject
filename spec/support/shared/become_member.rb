@@ -35,7 +35,7 @@ module BecomeMember
     def become_member_with_permissions(project, user, permissions)
       role = create :role, permissions: Array(permissions)
 
-      add_user_to_project! user: user, project: project, role: role
+      add_user_to_project! user:, project:, role:
     end
 
     def become_member(project, user)
@@ -44,7 +44,7 @@ module BecomeMember
 
     def add_user_to_project!(user:, project:, role: nil, permissions: nil)
       role ||= create :existing_role, permissions: Array(permissions)
-      create :member, principal: user, project: project, roles: [role]
+      create :member, principal: user, project:, roles: [role]
     end
   end
 end

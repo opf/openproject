@@ -85,14 +85,14 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
   context 'with optional and required custom fields' do
     let!(:optional_custom_field) do
       create(:custom_field, name: 'Optional Foo',
-                        type: ProjectCustomField,
-                        is_for_all: true)
+                            type: ProjectCustomField,
+                            is_for_all: true)
     end
     let!(:required_custom_field) do
       create(:custom_field, name: 'Required Foo',
-                        type: ProjectCustomField,
-                        is_for_all: true,
-                        is_required: true)
+                            type: ProjectCustomField,
+                            is_for_all: true,
+                            is_required: true)
     end
 
     it 'shows optional and required custom fields for edit without a separation' do

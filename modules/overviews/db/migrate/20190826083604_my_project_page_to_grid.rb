@@ -94,7 +94,7 @@ class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
 
   def build_custom_text_widget(grid, widget_config, position)
     build_widget_with_options(grid, 'custom_text', position) do |options|
-      name = widget_config[1].blank? ? grid.project.name : widget_config[1]
+      name = widget_config[1].presence || grid.project.name
 
       options[:name] = name
       options[:text] = widget_config[2]
@@ -130,18 +130,18 @@ class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
 
     yield options if block_given?
 
-    grid.widgets.build position_args.merge(options: options, identifier: new_identifier)
+    grid.widgets.build position_args.merge(options:, identifier: new_identifier)
   end
 
   def new_name(name)
     {
-      'news_latest': 'news',
-      'work_package_tracking': 'work_packages_overview',
-      'spent_time': 'time_entries_list',
-      'work_packages_assigned_to_me': 'work_packages_table',
-      'work_packages_reported_by_me': 'work_packages_table',
-      'work_packages_responsible_for': 'work_packages_table',
-      'work_packages_watched': 'work_packages_table'
+      news_latest: 'news',
+      work_package_tracking: 'work_packages_overview',
+      spent_time: 'time_entries_list',
+      work_packages_assigned_to_me: 'work_packages_table',
+      work_packages_reported_by_me: 'work_packages_table',
+      work_packages_responsible_for: 'work_packages_table',
+      work_packages_watched: 'work_packages_table'
     }.with_indifferent_access[name] || name
   end
 
@@ -153,7 +153,7 @@ class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
     start_row = grid.widgets.map(&:end_row).max || 1
 
     {
-      start_row: start_row,
+      start_row:,
       end_row: start_row + 1,
       start_column: 1,
       end_column: 3
@@ -164,7 +164,7 @@ class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
     start_row = grid.widgets.select { |w| w.start_column == 1 }.map(&:end_row).max || 1
 
     {
-      start_row: start_row,
+      start_row:,
       end_row: start_row + 1,
       start_column: 1,
       end_column: 2
@@ -175,7 +175,7 @@ class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
     start_row = grid.widgets.select { |w| w.end_column == 3 }.map(&:end_row).max || 1
 
     {
-      start_row: start_row,
+      start_row:,
       end_row: start_row + 1,
       start_column: 2,
       end_column: 3

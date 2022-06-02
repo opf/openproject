@@ -64,7 +64,7 @@ module TwoFactorAuthentication
       return false unless active?
 
       Device.transaction do
-        Device.where(user_id: user_id).update_all(default: false)
+        Device.where(user_id:).update_all(default: false)
         update_column(:default, true)
         true
       end

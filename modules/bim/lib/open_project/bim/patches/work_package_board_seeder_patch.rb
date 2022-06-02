@@ -46,7 +46,7 @@ module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
       end
 
       statuses.to_a.map do |status|
-        Query.new_default(project: project, user: admin).tap do |query|
+        Query.new_default(project:, user: admin).tap do |query|
           # Make it public so that new members can see it too
           query.public = true
 

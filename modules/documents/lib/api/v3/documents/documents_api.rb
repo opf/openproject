@@ -43,7 +43,7 @@ module API
                                                 self_link: api_v3_paths.documents,
                                                 page: to_i_or_nil(params[:offset]),
                                                 per_page: resolve_page_size(params[:pageSize]),
-                                                current_user: current_user)
+                                                current_user:)
             else
               raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
             end
@@ -58,7 +58,7 @@ module API
 
             get do
               ::API::V3::Documents::DocumentRepresenter.new(document,
-                                                            current_user: current_user,
+                                                            current_user:,
                                                             embed_links: true)
             end
 

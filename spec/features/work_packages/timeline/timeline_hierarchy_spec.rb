@@ -28,8 +28,29 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package timeline hierarchies', js: true, selenium: true do
+RSpec.describe 'Work package timeline hierarchies', js: true, selenium: true do
   let(:user) { create :admin }
+  let!(:wp_root) do
+    create :work_package,
+           project:
+  end
+  let!(:wp_leaf) do
+    create :work_package,
+           project:,
+           parent: wp_root,
+           start_date: Date.today,
+           due_date: (Date.today + 5.days)
+  end
+  let!(:query) do
+    query              = build(:query, user:, project:)
+    query.column_names = ['subject']
+    query.filters.clear
+    query.show_hierarchies = true
+    query.timeline_visible = true
+
+    query.save!
+    query
+  end
   let(:project) { create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -39,30 +60,6 @@ RSpec.feature 'Work package timeline hierarchies', js: true, selenium: true do
 
   before do
     login_as(user)
-  end
-
-  let!(:wp_root) do
-    create :work_package,
-           project: project
-  end
-
-  let!(:wp_leaf) do
-    create :work_package,
-           project: project,
-           parent: wp_root,
-           start_date: Date.today,
-           due_date: (Date.today + 5.days)
-  end
-
-  let!(:query) do
-    query              = build(:query, user: user, project: project)
-    query.column_names = ['subject']
-    query.filters.clear
-    query.show_hierarchies = true
-    query.timeline_visible = true
-
-    query.save!
-    query
   end
 
   it 'hides the row in both hierarchy and timeline' do
@@ -91,7 +88,7 @@ RSpec.feature 'Work package timeline hierarchies', js: true, selenium: true do
   context 'with a relation being rendered to a hidden row' do
     let!(:wp_other) do
       create :work_package,
-             project: project,
+             project:,
              start_date: Date.today + 5.days,
              due_date: (Date.today + 10.days)
     end

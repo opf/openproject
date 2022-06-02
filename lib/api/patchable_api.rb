@@ -42,9 +42,9 @@ module API
         api.send(:execute_patches_for, nil)
       end
 
-      def namespace(name, *args, &block)
+      def namespace(name, *args, &)
         super(name, *args) do
-          instance_eval(&block)
+          instance_eval(&)
           execute_patches_for(name)
         end
       end

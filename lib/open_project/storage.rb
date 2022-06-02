@@ -46,7 +46,7 @@ module OpenProject
         # SCM vendors
         OpenProject::SCM::Manager.managed_paths.each do |vendor, path|
           paths[vendor] = {
-            path: path,
+            path:,
             label: I18n.t(:label_managed_repositories_vendor, vendor: vendor.to_s.camelize)
           }
         end
@@ -91,7 +91,7 @@ module OpenProject
         stat = Sys::Filesystem.stat(dir)
 
         {
-          dir: dir,
+          dir:,
           free: stat.bytes_free,
           used: stat.bytes_used,
           percent_used: stat.percent_used,

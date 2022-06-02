@@ -17,7 +17,7 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
            account: 'uid=admin,ou=system',
            account_password: 'secret',
            base_dn: 'ou=people,dc=example,dc=com',
-           onthefly_register: onthefly_register,
+           onthefly_register:,
            filter_string: ldap_filter,
            attr_login: 'uid',
            attr_firstname: 'givenName',
@@ -29,9 +29,9 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   let(:sync_users) { false }
   let(:ldap_filter) { nil }
 
-  let(:user_aa729) { create :user, login: 'aa729', auth_source: auth_source }
-  let(:user_bb459) { create :user, login: 'bb459', auth_source: auth_source }
-  let(:user_cc414) { create :user, login: 'cc414', auth_source: auth_source }
+  let(:user_aa729) { create :user, login: 'aa729', auth_source: }
+  let(:user_bb459) { create :user, login: 'bb459', auth_source: }
+  let(:user_cc414) { create :user, login: 'cc414', auth_source: }
 
   let(:group_foo) { create :group, lastname: 'foo_internal' }
   let(:group_bar) { create :group, lastname: 'bar' }
@@ -40,15 +40,15 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
     create :ldap_synchronized_group,
            dn: 'cn=foo,ou=groups,dc=example,dc=com',
            group: group_foo,
-           sync_users: sync_users,
-           auth_source: auth_source
+           sync_users:,
+           auth_source:
   end
   let(:synced_bar) do
     create :ldap_synchronized_group,
            dn: 'cn=bar,ou=groups,dc=example,dc=com',
            group: group_bar,
-           sync_users: sync_users,
-           auth_source: auth_source
+           sync_users:,
+           auth_source:
   end
 
   subject do
@@ -254,7 +254,7 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
               expect(synced_foo.users.count).to eq(0)
               expect(synced_bar.users.count).to eq(1)
 
-              expect(user_aa729).to eq nil
+              expect(user_aa729).to be_nil
               # Only matched users are added to the group, meaning cc414 is not added
               expect(group_bar.users).to contain_exactly(user_bb459)
             end
@@ -268,8 +268,8 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
               expect(synced_foo.users.count).to eq(0)
               expect(synced_bar.users.count).to eq(0)
 
-              expect(user_aa729).to eq nil
-              expect(user_bb459).to eq nil
+              expect(user_aa729).to be_nil
+              expect(user_bb459).to be_nil
             end
           end
         end
@@ -348,11 +348,11 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   context 'with invalid base' do
     let(:synced_foo) do
       create :ldap_synchronized_group, dn: 'cn=foo,ou=invalid,dc=example,dc=com', group: group_foo,
-                        auth_source: auth_source
+                                       auth_source:
     end
     let(:synced_bar) do
       create :ldap_synchronized_group, dn: 'cn=bar,ou=invalid,dc=example,dc=com', group: group_bar,
-                        auth_source: auth_source
+                                       auth_source:
     end
 
     context 'when one synced group exists' do

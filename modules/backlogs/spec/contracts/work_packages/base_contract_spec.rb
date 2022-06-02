@@ -74,10 +74,10 @@ describe WorkPackages::BaseContract, type: :model do
   let(:story) do
     build_stubbed(:stubbed_work_package,
                   subject: 'Story',
-                  project: project,
+                  project:,
                   type: type_feature,
                   version: version1,
-                  status: status,
+                  status:,
                   author: user,
                   priority: issue_priority)
   end
@@ -85,10 +85,10 @@ describe WorkPackages::BaseContract, type: :model do
   let(:story2) do
     build_stubbed(:stubbed_work_package,
                   subject: 'Story2',
-                  project: project,
+                  project:,
                   type: type_feature,
                   version: version1,
-                  status: status,
+                  status:,
                   author: user,
                   priority: issue_priority)
   end
@@ -98,8 +98,8 @@ describe WorkPackages::BaseContract, type: :model do
                   subject: 'Task',
                   type: type_task,
                   version: version1,
-                  project: project,
-                  status: status,
+                  project:,
+                  status:,
                   author: user,
                   priority: issue_priority)
   end
@@ -109,8 +109,8 @@ describe WorkPackages::BaseContract, type: :model do
                   subject: 'Task2',
                   type: type_task,
                   version: version1,
-                  project: project,
-                  status: status,
+                  project:,
+                  status:,
                   author: user,
                   priority: issue_priority)
   end
@@ -120,8 +120,8 @@ describe WorkPackages::BaseContract, type: :model do
                   subject: 'Bug',
                   type: type_bug,
                   version: version1,
-                  project: project,
-                  status: status,
+                  project:,
+                  status:,
                   author: user,
                   priority: issue_priority)
   end
@@ -131,8 +131,8 @@ describe WorkPackages::BaseContract, type: :model do
                   subject: 'Bug2',
                   type: type_bug,
                   version: version1,
-                  project: project,
-                  status: status,
+                  project:,
+                  status:,
                   author: user,
                   priority: issue_priority)
   end

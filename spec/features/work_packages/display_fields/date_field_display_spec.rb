@@ -33,9 +33,9 @@ describe 'Show the date of a Work Package', type: :feature, js: true do
   let(:admin) { create :admin }
   let(:work_package) do
     create :work_package,
-           project: project,
+           project:,
            due_date: Date.yesterday,
-           type: type,
+           type:,
            status: open_status
   end
 
@@ -58,7 +58,7 @@ describe 'Show the date of a Work Package', type: :feature, js: true do
       wp_page.visit!
     end
 
-    it 'should be highlighted only if the WP status is open (#33457)' do
+    it 'is highlighted only if the WP status is open (#33457)' do
       # Highlighted with an open status
       expect(page).to have_selector('.inline-edit--display-field.combinedDate .__hl_date_overdue')
 

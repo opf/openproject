@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package index sums', js: true do
+RSpec.describe 'Work package index sums', js: true do
   let(:user) do
     create :user,
            member_in_project: project,
@@ -57,27 +57,27 @@ RSpec.feature 'Work package index sums', js: true do
     end
   end
   let!(:work_package_1) do
-    create(:work_package, project: project, type: type, estimated_hours: 10).tap do |wp|
+    create(:work_package, project:, type:, estimated_hours: 10).tap do |wp|
       wp.custom_field_values = { int_cf.id => 5, float_cf.id => 5.5 }
       wp.save!
     end
   end
   let!(:work_package_2) do
-    create(:work_package, project: project, type: type, estimated_hours: 15).tap do |wp|
+    create(:work_package, project:, type:, estimated_hours: 15).tap do |wp|
       wp.custom_field_values = { int_cf.id => 7, float_cf.id => 7.7 }
       wp.save!
     end
   end
   let!(:hourly_rate) do
     create :default_hourly_rate,
-           user: user,
+           user:,
            rate: 10.00
   end
   let!(:time_entry) do
     create :time_entry,
-           user: user,
+           user:,
            work_package: work_package_1,
-           project: project,
+           project:,
            hours: 1.50
   end
   let(:cost_type) do
@@ -90,10 +90,10 @@ RSpec.feature 'Work package index sums', js: true do
   let!(:cost_entry) do
     create :cost_entry,
            work_package: work_package_1,
-           project: project,
+           project:,
            units: 2.50,
-           cost_type: cost_type,
-           user: user
+           cost_type:,
+           user:
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -105,10 +105,10 @@ RSpec.feature 'Work package index sums', js: true do
     login_as(user)
 
     visit project_work_packages_path(project)
-    expect(current_path).to eq('/projects/project1/work_packages')
+    expect(page).to have_current_path('/projects/project1/work_packages')
   end
 
-  scenario 'calculates sums correctly' do
+  it 'calculates sums correctly' do
     wp_table.expect_work_package_listed work_package_1, work_package_2
 
     # Add estimated time column

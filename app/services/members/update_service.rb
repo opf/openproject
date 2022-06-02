@@ -51,7 +51,7 @@ class Members::UpdateService < ::BaseServices::Update
   def update_group_roles(member)
     Groups::UpdateRolesService
       .new(member.principal, current_user: user, contract_class: EmptyContract)
-      .call(member: member, send_notifications: send_notifications?, message: notification_message)
+      .call(member:, send_notifications: send_notifications?, message: notification_message)
   end
 
   def event_type

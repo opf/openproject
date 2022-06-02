@@ -65,19 +65,19 @@ describe PaginationHelper, type: :helper do
         .and_return(url_options.merge(controller: 'work_packages', action: 'index'))
     end
 
-    it "should be inside a 'pagination' div" do
+    it "is inside a 'pagination' div" do
       expect(pagination).to have_selector('div.op-pagination')
     end
 
-    it 'should have a next_page reference' do
+    it 'has a next_page reference' do
       expect(pagination).to have_selector('.op-pagination--item_next')
     end
 
-    it 'should not have a previous_page reference' do
+    it 'does not have a previous_page reference' do
       expect(pagination).not_to have_selector('.op-pagination--item_prev')
     end
 
-    it 'should have links to every page except the current one' do
+    it 'has links to every page except the current one' do
       (1..(total_entries / per_page)).each do |i|
         next if i == current_page
 
@@ -86,25 +86,25 @@ describe PaginationHelper, type: :helper do
       end
     end
 
-    it 'should not have a link to the current page' do
+    it 'does not have a link to the current page' do
       expect(pagination).not_to have_selector('a', text: Regexp.new("^#{current_page}$"))
     end
 
-    it 'should have an element for the current page' do
+    it 'has an element for the current page' do
       expect(pagination).to have_selector('.op-pagination--item_current',
                                           text: Regexp.new("^#{current_page}$"))
     end
 
-    it 'should show the range of the entries displayed' do
+    it 'shows the range of the entries displayed' do
       range = "(#{(current_page * per_page) - per_page + 1} - " +
               "#{current_page * per_page}/#{total_entries})"
       expect(pagination).to have_selector('.op-pagination--range', text: range)
     end
 
-    it 'should have different urls if the params are specified as options' do
+    it 'has different urls if the params are specified as options' do
       params = { controller: 'work_packages', action: 'index' }
 
-      pagination = helper.pagination_links_full(paginator, params: params)
+      pagination = helper.pagination_links_full(paginator, params:)
 
       (1..(total_entries / per_page)).each do |i|
         next if i == current_page
@@ -115,7 +115,7 @@ describe PaginationHelper, type: :helper do
       end
     end
 
-    it 'should show the available per page options' do
+    it 'shows the available per page options' do
       allow(Setting)
         .to receive(:per_page_options)
         .and_return("#{per_page},#{per_page * 10}")
@@ -131,24 +131,24 @@ describe PaginationHelper, type: :helper do
     describe 'WHEN the first page is the current' do
       let(:current_page) { 1 }
 
-      it 'should deactivate the previous page link' do
+      it 'deactivates the previous page link' do
         expect(pagination).not_to have_selector('.op-pagination--item_prev')
       end
 
-      it 'should have a link to the next page' do
+      it 'has a link to the next page' do
         path = work_packages_path(page: current_page + 1)
         expect(pagination).to have_selector(".op-pagination--item_next a[href='#{path}']")
       end
     end
 
     describe 'WHEN the last page is the current' do
-      let(:current_page) { total_entries / per_page + 1 }
+      let(:current_page) { (total_entries / per_page) + 1 }
 
-      it 'should deactivate the next page link' do
+      it 'deactivates the next page link' do
         expect(pagination).not_to have_selector('.op-pagination--item_next')
       end
 
-      it 'should have a link to the previous page' do
+      it 'has a link to the previous page' do
         path = work_packages_path(page: current_page - 1)
         expect(pagination).to have_selector(".op-pagination--item_prev a[href='#{path}']")
       end
@@ -157,77 +157,77 @@ describe PaginationHelper, type: :helper do
     describe 'WHEN the paginated object is empty' do
       let(:total_entries) { 0 }
 
-      it 'should show no pages' do
+      it 'shows no pages' do
         expect(pagination).not_to have_selector('.op-pagination--items .op-pagination--item')
       end
 
-      it 'should show no pagination' do
+      it 'shows no pagination' do
         expect(pagination).not_to have_selector('.op-pagination')
       end
     end
   end
 
   describe '#page_param' do
-    it 'should return page if provided and sensible' do
+    it 'returns page if provided and sensible' do
       page = 2
 
-      expect(page_param(page: page)).to eq(page)
+      expect(page_param(page:)).to eq(page)
     end
 
-    it 'should return default page 1 if page provided but useless' do
+    it 'returns default page 1 if page provided but useless' do
       page = 0
 
-      expect(page_param(page: page)).to eq(1)
+      expect(page_param(page:)).to eq(1)
     end
 
     context 'with multiples per_page',
             with_settings: { per_page_options: '5,10,15' } do
-      it 'should calculate page from offset and limit if page is not provided' do
+      it 'calculates page from offset and limit if page is not provided' do
         # need to change settings as only multiples of per_page
         # are allowed for limit
         offset = 55
         limit = 10
 
-        expect(page_param(offset: offset, limit: limit)).to eq(6)
+        expect(page_param(offset:, limit:)).to eq(6)
       end
     end
 
-    it 'should ignore offset and limit if page is provided' do
+    it 'ignores offset and limit if page is provided' do
       offset = 55
       limit = 10
       page = 7
 
-      expect(page_param(offset: offset, limit: limit, page: page)).to eq(page)
+      expect(page_param(offset:, limit:, page:)).to eq(page)
     end
 
     context 'faulty settings',
             with_settings: { per_page_options: '-1,2,3' } do
-      it 'should not break if limit is bogus (also faulty settings)' do
+      it 'does not break if limit is bogus (also faulty settings)' do
         offset = 55
         limit = 'lorem'
 
-        expect(page_param(offset: offset, limit: limit)).to eq(28)
+        expect(page_param(offset:, limit:)).to eq(28)
       end
     end
 
-    it 'should return 1 if nothing is provided' do
+    it 'returns 1 if nothing is provided' do
       expect(page_param({})).to eq(1)
     end
   end
 
   describe '#per_page_param',
            with_settings: { per_page_options: '1,2,3' } do
-    it 'should return per_page if provided and one of the values stored in the settings' do
+    it 'returns per_page if provided and one of the values stored in the settings' do
       per_page = 2
 
-      expect(per_page_param(per_page: per_page)).to eq(per_page)
+      expect(per_page_param(per_page:)).to eq(per_page)
     end
 
-    it 'should return per_page if provided and store it in the session' do
+    it 'returns per_page if provided and store it in the session' do
       session[:per_page] = 3
       per_page = 2
 
-      expect(per_page_param(per_page: per_page)).to eq(per_page)
+      expect(per_page_param(per_page:)).to eq(per_page)
       expect(session[:per_page]).to eq(2)
     end
 
@@ -235,7 +235,7 @@ describe PaginationHelper, type: :helper do
        'if provided per_page param is not one of the configured' do
       per_page = 4
 
-      expect(per_page_param(per_page: per_page)).to eq(1)
+      expect(per_page_param(per_page:)).to eq(1)
     end
 
     it 'prefers the value stored in the session if it is valid according to the settings' do
@@ -253,20 +253,20 @@ describe PaginationHelper, type: :helper do
     it 'uses limit synonymously to per_page' do
       limit = 2
 
-      expect(per_page_param(limit: limit)).to eq(limit)
+      expect(per_page_param(limit:)).to eq(limit)
     end
 
     it 'prefers per_page over limit' do
       limit = 2
       per_page = 3
 
-      expect(per_page_param(limit: limit, per_page: per_page)).to eq(per_page)
+      expect(per_page_param(limit:, per_page:)).to eq(per_page)
     end
 
     it 'stores the value in the session' do
       limit = 2
 
-      per_page_param(limit: limit)
+      per_page_param(limit:)
 
       expect(session[:per_page]).to eq(limit)
     end

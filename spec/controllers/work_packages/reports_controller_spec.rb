@@ -37,7 +37,7 @@ describe WorkPackages::ReportsController, type: :controller do
   end
   let(:member) do
     create(:member,
-           project: project,
+           project:,
            principal: user,
            roles: [role])
   end
@@ -45,18 +45,18 @@ describe WorkPackages::ReportsController, type: :controller do
     create(:work_package,
            id: 21,
            subject: "Can't print recipes",
-           project: project)
+           project:)
   end
   let(:work_package_2) do
     create(:work_package,
            id: 2101,
            subject: 'Error 281 when updating a recipe',
-           project: project)
+           project:)
   end
   let(:work_package_3) do
     create(:work_package,
            id: 2102,
-           project: project)
+           project:)
   end
 
   before do
@@ -101,7 +101,7 @@ describe WorkPackages::ReportsController, type: :controller do
       shared_examples_for 'details view' do
         before do
           get :report_details,
-              params: { project_id: project.id, detail: detail }
+              params: { project_id: project.id, detail: }
         end
 
         subject { response }

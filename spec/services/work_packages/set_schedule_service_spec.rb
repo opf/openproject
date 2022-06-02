@@ -28,7 +28,6 @@
 
 require 'spec_helper'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe WorkPackages::SetScheduleService do
   let(:work_package) do
     build_stubbed(:stubbed_work_package,
@@ -38,7 +37,7 @@ describe WorkPackages::SetScheduleService do
   let(:work_package_due_date) { Time.zone.today }
   let(:work_package_start_date) { nil }
   let(:instance) do
-    described_class.new(user: user, work_package: work_package)
+    described_class.new(user:, work_package:)
   end
   let!(:following) { [] }
   let(:user) { build_stubbed(:user) }
@@ -93,14 +92,14 @@ describe WorkPackages::SetScheduleService do
 
   def stub_follower(start_date, due_date, predecessors, parent: nil)
     work_package = build_stubbed(:stubbed_work_package,
-                                 type: type,
-                                 start_date: start_date,
-                                 due_date: due_date,
-                                 parent: parent)
+                                 type:,
+                                 start_date:,
+                                 due_date:,
+                                 parent:)
 
     relations = predecessors.map do |predecessor, delay|
       build_stubbed(:follows_relation,
-                    delay: delay,
+                    delay:,
                     from: work_package,
                     to: predecessor)
     end
@@ -116,7 +115,7 @@ describe WorkPackages::SetScheduleService do
     stub_follower(start,
                   due,
                   {},
-                  parent: parent)
+                  parent:)
   end
 
   subject { instance.call(attributes) }
@@ -308,7 +307,7 @@ describe WorkPackages::SetScheduleService do
     context 'when moving backwards with the follower having another relation limiting movement' do
       let(:other_work_package) do
         build_stubbed(:stubbed_work_package,
-                      type: type,
+                      type:,
                       start_date: follower1_start_date - 8.days,
                       due_date: follower1_start_date - 5.days)
       end
@@ -557,7 +556,7 @@ describe WorkPackages::SetScheduleService do
     context 'when moving backwards with the parent having another relation limiting movement' do
       let(:other_work_package) do
         build_stubbed(:stubbed_work_package,
-                      type: type,
+                      type:,
                       start_date: Time.zone.today - 8.days,
                       due_date: Time.zone.today - 4.days)
       end
@@ -592,7 +591,7 @@ describe WorkPackages::SetScheduleService do
     context 'when moving backwards with the parent having another relation not limiting movement' do
       let(:other_work_package) do
         build_stubbed(:stubbed_work_package,
-                      type: type,
+                      type:,
                       start_date: Time.zone.today - 10.days,
                       due_date: Time.zone.today - 9.days)
       end
@@ -953,4 +952,3 @@ describe WorkPackages::SetScheduleService do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

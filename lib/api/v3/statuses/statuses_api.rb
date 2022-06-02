@@ -41,7 +41,7 @@ module API
           get do
             StatusCollectionRepresenter.new(Status.all,
                                             self_link: api_v3_paths.statuses,
-                                            current_user: current_user)
+                                            current_user:)
           end
 
           route_param :id, type: Integer, desc: 'Status ID' do
@@ -54,7 +54,7 @@ module API
             end
 
             get do
-              StatusRepresenter.new(work_package_status, current_user: current_user)
+              StatusRepresenter.new(work_package_status, current_user:)
             end
           end
         end

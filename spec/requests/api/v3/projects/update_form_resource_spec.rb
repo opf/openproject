@@ -106,7 +106,7 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
     context 'with faulty parameters' do
       let(:params) do
         {
-          "name": nil
+          name: nil
         }
       end
 
@@ -135,9 +135,9 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
       context 'with a correct parameter' do
         let(:params) do
           {
-            "_links": {
-              "parent": {
-                "href": api_v3_paths.project(viable_parent_project.id)
+            _links: {
+              parent: {
+                href: api_v3_paths.project(viable_parent_project.id)
               }
             }
           }
@@ -163,15 +163,15 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
           identifier: 'new_project_identifier',
           name: 'Project name',
           "customField#{text_custom_field.id}": {
-            "raw": "new CF text"
+            raw: "new CF text"
           },
           statusExplanation: { raw: 'Something goes awry.' },
-          "_links": {
+          _links: {
             "customField#{list_custom_field.id}": {
-              "href": api_v3_paths.custom_option(list_custom_field.custom_options.last.id)
+              href: api_v3_paths.custom_option(list_custom_field.custom_options.last.id)
             },
-            "status": {
-              "href": api_v3_paths.project_status('off_track')
+            status: {
+              href: api_v3_paths.project_status('off_track')
             }
           }
         }
@@ -238,8 +238,8 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
     context 'with faulty status parameters' do
       let(:params) do
         {
-          "status": {
-            "href": api_v3_paths.project_status('bogus')
+          status: {
+            href: api_v3_paths.project_status('bogus')
           }
         }
       end

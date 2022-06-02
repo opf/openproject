@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'Top menu items', js: true, selenium: true do
+describe 'Top menu items', js: true, selenium: true do
   let(:user) { create :user }
   let(:open_menu) { true }
 
@@ -78,6 +78,7 @@ feature 'Top menu items', js: true, selenium: true do
 
     context 'as an admin' do
       let(:user) { create :admin }
+
       it 'displays all items' do
         has_menu_items?(reporting_item, news_item, project_item)
       end
@@ -102,6 +103,7 @@ feature 'Top menu items', js: true, selenium: true do
 
     context 'as an anonymous user' do
       let(:user) { create :anonymous }
+
       it 'displays only news and projects' do
         has_menu_items? news_item, project_item
       end
@@ -116,6 +118,7 @@ feature 'Top menu items', js: true, selenium: true do
 
     context 'as an admin' do
       let(:user) { create :admin }
+
       it 'displays all items' do
         has_menu_items?(all_projects)
       end
@@ -131,6 +134,7 @@ feature 'Top menu items', js: true, selenium: true do
       before do
         Role.non_member.update_attribute :permissions, [:view_project]
       end
+
       it 'does not display new_project' do
         has_menu_items? all_projects
       end

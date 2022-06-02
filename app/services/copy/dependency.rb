@@ -74,7 +74,7 @@ module Copy
 
     def perform(params:)
       begin
-        copy_dependency(params: params)
+        copy_dependency(params:)
       rescue StandardError => e
         Rails.logger.error { "Failed to copy dependency #{self.class.identifier}: #{e.message}" }
         result.success = false

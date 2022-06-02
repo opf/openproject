@@ -34,12 +34,12 @@ describe "WorkPackageXlsExport Custom Fields" do
     wp
   end
 
-  let(:work_package3) { create :work_package, project: project, type: type }
+  let(:work_package3) { create :work_package, project:, type: }
   let(:work_packages) { [work_package1, work_package2, work_package3] }
   let(:current_user) { create :admin }
 
   let!(:query) do
-    query              = build(:query, user: current_user, project: project)
+    query              = build(:query, user: current_user, project:)
     query.column_names = ['subject', "cf_#{custom_field.id}"]
     query.sort_criteria = [%w[id asc]]
 
@@ -78,6 +78,6 @@ describe "WorkPackageXlsExport Custom Fields" do
     # CF values
     expect(sheet.row(1)[1]).to eq('ham, onions')
     expect(sheet.row(2)[1]).to eq('pineapple')
-    expect(sheet.row(3)[1]).to eq(nil)
+    expect(sheet.row(3)[1]).to be_nil
   end
 end

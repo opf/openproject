@@ -68,9 +68,7 @@ class ServiceResult
 
   ##
   # Rollback the state if possible
-  def rollback!
-    state.rollback!
-  end
+  delegate :rollback!, to: :state
 
   ##
   # Print messages to flash
@@ -129,13 +127,13 @@ class ServiceResult
     self.dependent_results += inner_results
   end
 
-  def on_success(&block)
-    tap(&block) if success?
+  def on_success(&)
+    tap(&) if success?
     self
   end
 
-  def on_failure(&block)
-    tap(&block) if failure?
+  def on_failure(&)
+    tap(&) if failure?
     self
   end
 

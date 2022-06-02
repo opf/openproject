@@ -183,7 +183,7 @@ describe 'layouts/base', type: :view do
 
     context "EE is active and styles are present" do
       let(:custom_style) { create(:custom_style) }
-      let(:primary_color) { create :"design_color_primary-color" }
+      let(:primary_color) { create :'design_color_primary-color' }
 
       before do
         allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
@@ -214,7 +214,7 @@ describe 'layouts/base', type: :view do
       end
 
       it "does not contain an inline CSS block for styles." do
-        expect(rendered).to_not render_template partial: 'custom_styles/_inline_css'
+        expect(rendered).not_to render_template partial: 'custom_styles/_inline_css'
       end
     end
 
@@ -228,7 +228,7 @@ describe 'layouts/base', type: :view do
       end
 
       it "does not contain an inline CSS block for styles." do
-        expect(rendered).to_not render_template partial: 'custom_styles/_inline_css'
+        expect(rendered).not_to render_template partial: 'custom_styles/_inline_css'
       end
     end
 
@@ -240,7 +240,7 @@ describe 'layouts/base', type: :view do
       end
 
       it "does not contain an inline CSS block for styles." do
-        expect(rendered).to_not render_template partial: 'custom_styles/_inline_css'
+        expect(rendered).not_to render_template partial: 'custom_styles/_inline_css'
       end
     end
   end

@@ -50,8 +50,8 @@ module BaseServices
     # Determine the type of context
     # this service is running in
     # e.g., within a resource lock or just executing as the given user
-    def service_context(&block)
-      in_context(model, true, &block)
+    def service_context(&)
+      in_context(model, true, &)
     end
 
     def perform(params = {})

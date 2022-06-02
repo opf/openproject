@@ -56,7 +56,7 @@ describe OmniAuth::FlexibleStrategy do
   end
 
   describe 'request call' do
-    it 'should match the registered providers' do
+    it 'matches the registered providers' do
       [provider_a, provider_b].each do |pro|
         code, env = middleware.call env_for("http://www.example.com/auth/#{pro[:name]}")
         strategy = env['omniauth.strategy']
@@ -66,7 +66,7 @@ describe OmniAuth::FlexibleStrategy do
       end
     end
 
-    it 'should not match other paths' do
+    it 'does not match other paths' do
       code, env = middleware.call env_for('http://www.example.com/auth/other_provider')
 
       expect(env).not_to include 'omniauth.strategy' # no hit
@@ -78,7 +78,7 @@ describe OmniAuth::FlexibleStrategy do
       allow_any_instance_of(MockStrategy).to receive(:callback_phase).and_return(['hit'])
     end
 
-    it 'should match the registered providers' do
+    it 'matches the registered providers' do
       [provider_a, provider_b].each do |pro|
         code, = middleware.call env_for("http://www.example.com/auth/#{pro[:name]}/callback")
 
@@ -86,7 +86,7 @@ describe OmniAuth::FlexibleStrategy do
       end
     end
 
-    it 'should not match other paths' do
+    it 'does not match other paths' do
       code, env = middleware.call env_for('http://www.example.com/auth/other_provider/callback')
 
       expect(code).to eq 200

@@ -20,8 +20,8 @@ describe 'Inline editing work packages', js: true do
   let(:project) { create(:project, types: [type]) }
   let(:work_package) do
     create(:work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            status: status1,
            subject: 'Foobar')
   end
@@ -35,8 +35,8 @@ describe 'Inline editing work packages', js: true do
            new_status: status2,
            role: manager_role
   end
-  let(:version) { create :version, project: project }
-  let(:category) { create :category, project: project }
+  let(:version) { create :version, project: }
+  let(:category) { create :category, project: }
 
   before do
     login_as(manager)
@@ -135,14 +135,14 @@ describe 'Inline editing work packages', js: true do
 
       fields
     end
-    let(:type) { create(:type_task, custom_fields: custom_fields) }
+    let(:type) { create(:type_task, custom_fields:) }
     let(:project) { create(:project, types: [type]) }
     let(:work_package) do
       create(:work_package,
              subject: 'Foobar',
              status: status1,
-             type: type,
-             project: project)
+             type:,
+             project:)
     end
 
     before do

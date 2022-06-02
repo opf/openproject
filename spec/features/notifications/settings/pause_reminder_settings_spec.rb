@@ -31,7 +31,7 @@ describe "Pause reminder settings", type: :feature, js: true do
                                             last: last
 
       pref.reload
-      expect(pref.pause_reminders[:enabled]).to eq true
+      expect(pref.pause_reminders[:enabled]).to be true
       expect(pref.pause_reminders[:first_day]).to eq first.iso8601
       expect(pref.pause_reminders[:last_day]).to eq last.iso8601
     end

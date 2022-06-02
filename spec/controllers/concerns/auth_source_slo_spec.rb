@@ -33,7 +33,7 @@ describe AccountController, 'Auth header logout', type: :controller do
   render_views
 
   let!(:auth_source) { DummyAuthSource.create name: "Dummy LDAP" }
-  let!(:user) { create :user, login: login, auth_source_id: auth_source.id }
+  let!(:user) { create :user, login:, auth_source_id: auth_source.id }
   let(:login) { "h.wurst" }
 
   before do

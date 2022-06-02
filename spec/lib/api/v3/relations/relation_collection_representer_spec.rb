@@ -32,6 +32,11 @@ describe ::API::V3::Relations::RelationCollectionRepresenter do
   let(:work_package) do
     build_stubbed(:work_package)
   end
+  let(:representer) do
+    described_class.new(relations,
+                        self_link:,
+                        current_user: user)
+  end
 
   let(:relations) do
     build_stubbed_list(:relation,
@@ -46,12 +51,6 @@ describe ::API::V3::Relations::RelationCollectionRepresenter do
 
   def self_link
     'a link that is provided'
-  end
-
-  let(:representer) do
-    described_class.new(relations,
-                        self_link: self_link,
-                        current_user: user)
   end
 
   context 'generation' do

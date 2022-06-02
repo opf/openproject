@@ -5,16 +5,16 @@ describe 'Work Package group by progress', js: true do
 
   let(:project) { create(:project) }
 
-  let!(:wp_1) { create(:work_package, project: project) }
-  let!(:wp_2) { create(:work_package, project: project, done_ratio: 10) }
-  let!(:wp_3) { create(:work_package, project: project, done_ratio: 10) }
-  let!(:wp_4) { create(:work_package, project: project, done_ratio: 50) }
+  let!(:wp_1) { create(:work_package, project:) }
+  let!(:wp_2) { create(:work_package, project:, done_ratio: 10) }
+  let!(:wp_3) { create(:work_package, project:, done_ratio: 10) }
+  let!(:wp_4) { create(:work_package, project:, done_ratio: 50) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
   let!(:query) do
-    query              = build(:query, user: user, project: project)
+    query              = build(:query, user:, project:)
     query.column_names = ['subject', 'done_ratio']
 
     query.save!
@@ -52,7 +52,7 @@ describe 'Work Package group by progress', js: true do
 
   context 'with grouped query' do
     let!(:query) do
-      query              = build(:query, user: user, project: project)
+      query              = build(:query, user:, project:)
       query.column_names = ['subject', 'done_ratio']
       query.group_by = 'done_ratio'
 

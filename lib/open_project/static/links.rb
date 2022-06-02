@@ -38,9 +38,7 @@ module OpenProject
           OpenProject::Configuration.force_help_link.presence || static_links[:user_guides]
         end
 
-        def [](name)
-          links[name]
-        end
+        delegate :[], to: :links
 
         def links
           @links ||= static_links.merge(dynamic_links)

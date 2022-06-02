@@ -274,7 +274,7 @@ module OpenProject
           Entry.new(
             name: CGI.unescape(name),
             path: ((path.empty? ? '' : "#{path}/") + name),
-            kind: kind,
+            kind:,
             size: size.empty? ? nil : size.to_i,
             lastrev: revision
           )
@@ -314,7 +314,7 @@ module OpenProject
           )
         end
 
-        def fetch_revision_entries(identifier_from, identifier_to, options, path, &block)
+        def fetch_revision_entries(identifier_from, identifier_to, options, path, &)
           path ||= ''
           identifier_from = numeric_identifier(identifier_from, 'HEAD')
           identifier_to = numeric_identifier(identifier_to, 1)
@@ -323,7 +323,7 @@ module OpenProject
           cmd << '--limit' << options[:limit].to_s if options[:limit]
           cmd << target(path, peg: identifier_from)
           xml_capture(cmd, force_encoding: true) do |doc|
-            doc.xpath('/log/logentry').each &block
+            doc.xpath('/log/logentry').each(&)
           end
         end
 

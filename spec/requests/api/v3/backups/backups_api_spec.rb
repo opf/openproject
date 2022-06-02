@@ -35,7 +35,7 @@ describe API::V3::Backups::BackupsAPI, type: :request, with_config: { backup_ena
   let(:user) { create :user, global_permissions: [:create_backup] }
   let(:params) { { backupToken: backup_token.plain_value } }
 
-  let(:backup_token) { create :backup_token, user: user }
+  let(:backup_token) { create :backup_token, user: }
 
   before do
     login_as user
@@ -67,7 +67,7 @@ describe API::V3::Backups::BackupsAPI, type: :request, with_config: { backup_ena
         before do
           expect(Backups::CreateService)
             .to receive(:new)
-            .with(user: user, backup_token: backup_token.plain_value, include_attachments: true)
+            .with(user:, backup_token: backup_token.plain_value, include_attachments: true)
             .and_call_original
 
           create_backup
@@ -84,9 +84,9 @@ describe API::V3::Backups::BackupsAPI, type: :request, with_config: { backup_ena
         before do
           expect(Backups::CreateService)
             .to receive(:new)
-            .with(user: user, backup_token: backup_token.plain_value, include_attachments: false)
+            .with(user:, backup_token: backup_token.plain_value, include_attachments: false)
             .and_call_original
-          
+
           create_backup
         end
 
@@ -98,7 +98,7 @@ describe API::V3::Backups::BackupsAPI, type: :request, with_config: { backup_ena
 
     context "with pending backups" do
       let!(:backup) { create :backup }
-      let!(:status) { create :delayed_job_status, user: user, reference: backup }
+      let!(:status) { create :delayed_job_status, user:, reference: backup }
 
       include_context "request"
 
@@ -137,7 +137,7 @@ describe API::V3::Backups::BackupsAPI, type: :request, with_config: { backup_ena
     end
 
     context "with backup token on cooldown", with_config: { backup_initial_waiting_period: 24.hours } do
-      let(:backup_token) { create :backup_token, :with_waiting_period, user: user, since: 5.hours }
+      let(:backup_token) { create :backup_token, :with_waiting_period, user:, since: 5.hours }
 
       include_context "request"
 

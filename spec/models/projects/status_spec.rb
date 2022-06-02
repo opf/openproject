@@ -33,7 +33,7 @@ describe Projects::Status, type: :model do
 
   let(:explanation) { 'some explanation' }
   let(:code) { :on_track }
-  let(:instance) { described_class.new explanation: explanation, code: code, project: project }
+  let(:instance) { described_class.new explanation:, code:, project: }
 
   describe 'explanation' do
     it 'stores an explanation' do

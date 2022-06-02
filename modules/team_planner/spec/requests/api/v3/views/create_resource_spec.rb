@@ -47,7 +47,7 @@ describe ::API::V3::Views::ViewsAPI,
   end
   shared_let(:public_query) do
     create(:query,
-           project: project,
+           project:,
            public: true)
   end
 
