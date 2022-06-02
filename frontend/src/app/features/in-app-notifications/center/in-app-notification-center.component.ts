@@ -20,6 +20,7 @@ import {
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 
 @Component({
   selector: 'op-in-app-notification-center',
@@ -62,11 +63,20 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   originalOrder = ():number => 0;
 
+  image = {
+    no_notification: imagePath('notification-center/empty-state-no-notification.svg'),
+    no_selection: imagePath('notification-center/empty-state-no-selection.svg'),
+    loading: imagePath('notification-center/notification_loading.gif'),
+  };
+
   trackNotificationGroups = (i:number, item:InAppNotification[]):string => item
     .map((el) => `${el.id}@${el.updatedAt}`)
     .join(',');
 
   text = {
+    no_notification: this.I18n.t('js.notifications.center.empty_state.no_notification'),
+    no_notification_with_current_filter: this.I18n.t('js.notifications.center.empty_state.no_notification_with_current_filter'),
+    no_selection: this.I18n.t('js.notifications.center.empty_state.no_selection'),
     change_notification_settings: this.I18n.t(
       'js.notifications.settings.change_notification_settings',
       { url: this.pathService.myNotificationsSettingsPath() },
@@ -98,5 +108,9 @@ export class InAppNotificationCenterComponent implements OnInit {
       filter: this.uiRouterGlobals.params.filter, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
       name: this.uiRouterGlobals.params.name, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
     });
+  }
+
+  noNotificationText(hasNotifications:boolean, totalNotifications:number):string {
+    return (!hasNotifications && totalNotifications > 0) ? this.text.no_notification_with_current_filter : this.text.no_notification;
   }
 }

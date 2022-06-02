@@ -64,7 +64,6 @@ export const IAN_ROUTES:Ng2StateDeclaration[] = [
     },
     views: {
       'content-left': { component: InAppNotificationCenterComponent },
-      'content-right': { component: EmptyStateComponent },
     },
   },
   ...makeSplitViewRoutes(
