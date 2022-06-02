@@ -1185,3 +1185,6 @@ th:
         remove: 'Remove'
       drop_modal:
         Close: 'Close'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

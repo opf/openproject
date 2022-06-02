@@ -1996,6 +1996,9 @@ el:
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Για να αλλάξετε τον κωδικό πρόσβασης, πατήστε τον ακόλουθο σύνδεσμο:"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Email πρόσκλησης μέλους του έργου"
@@ -2014,6 +2017,7 @@ el:
   mail_subject_account_activation_request: "Αίτηση ενεργοποίησης του λογαριασμού %{value}"
   mail_subject_backup_ready: "Το αντίγραφο ασφαλείας σας είναι έτοιμο"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ο %{value} κωδικός σας"
   mail_subject_register: "Ενεργοποίηση του %{value} λογαριασμού σας"
   mail_subject_reminder: "%{count} πακέτο(-α) εργασίας με προθεσμία στις επόμενες %{days} ημέρες"

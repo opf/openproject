@@ -2032,6 +2032,9 @@ uk:
   mail_body_backup_token_info: Попередній маркер більше не дійсний.
   mail_body_backup_waiting_period: Новий маркер почне діяти через %{hours} год.
   mail_body_backup_token_warning: Якщо це були не ви, негайно ввійдіть в OpenProject і знову скиньте його.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Щоб змінити пароль, натисніть на посилання:"
   mail_body_register: "Вітаємо в %{app_title}. Активуйте свій обліковий запис, перейшовши за цим посиланням:"
   mail_body_register_header_title: "Електронний лист із запрошенням стати учасником проєкту"
@@ -2049,6 +2052,7 @@ uk:
   mail_subject_account_activation_request: "Запит на активацію облікового запису %{value}"
   mail_subject_backup_ready: "Ваша резервна копія готова"
   mail_subject_backup_token_reset: "Скидання маркера резервного копіювання"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ваш %{value} пароль"
   mail_subject_register: "Активація облікового запису %{value}"
   mail_subject_reminder: "%{count} призначених на Вас робочих пакетів в найближчі %{days} дні"

@@ -2036,6 +2036,9 @@ cs:
   mail_body_backup_token_info: Předchozí token již není platný.
   mail_body_backup_waiting_period: Nový token bude povolen za %{hours} hodin.
   mail_body_backup_token_warning: Pokud jste to nebyl Vy, přihlaste se okamžitě do OpenProject a resetujte jej .
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Pro změnu vašeho hesla klikněte na následující odkaz:"
   mail_body_register: "Vítejte v %{app_title}. Aktivujte svůj účet kliknutím na tento odkaz:"
   mail_body_register_header_title: "E-mail pozvánka člena projektu"
@@ -2054,6 +2057,7 @@ cs:
   mail_subject_account_activation_request: "Žádost o aktivaci účtu %{value}"
   mail_subject_backup_ready: "Vaše záloha je připravena"
   mail_subject_backup_token_reset: "Resetovat token zálohy"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Vaše heslo %{value}"
   mail_subject_register: "Aktivace vašeho účtu %{value}"
   mail_subject_reminder: "%{count} pracovních balíčků s termínem do dalších %{days} dnů"

@@ -1185,3 +1185,6 @@ ko:
         remove: '제거'
       drop_modal:
         Close: '닫기'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

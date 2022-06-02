@@ -1982,6 +1982,9 @@ zh-TW:
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "若要變更您的密碼，請按一下以下的連結:"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
@@ -2000,6 +2003,7 @@ zh-TW:
   mail_subject_account_activation_request: "帳號 %{value} 啟用請求"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "你的 %{value} 密碼"
   mail_subject_register: "你的帳號 %{value} 啟用"
   mail_subject_reminder: "%{count} 個工作項目將在 %{days} 天後到期"

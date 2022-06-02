@@ -2000,6 +2000,9 @@ fr:
   mail_body_backup_token_info: Le jeton précédent n'est plus valide.
   mail_body_backup_waiting_period: Le nouveau jeton sera activé dans %{hours} heures.
   mail_body_backup_token_warning: Si ce n'était pas vous, connectez-vous immédiatement à OpenProject et réinitialisez-le à nouveau.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Pour changer votre mot de passe, cliquez sur le lien suivant:"
   mail_body_register: "Bienvenue sur %{app_title}. Veuillez activer votre compte en cliquant sur ce lien :"
   mail_body_register_header_title: "E-mail d'invitation du membre du projet"
@@ -2018,6 +2021,7 @@ fr:
   mail_subject_account_activation_request: "Requête pour l'activation du compte %{value}"
   mail_subject_backup_ready: "Votre sauvegarde est prête"
   mail_subject_backup_token_reset: "Réinitialisation du jeton de sauvegarde"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_subject_register: "Votre activation du compte %{value}"
   mail_subject_reminder: "%{count} lot(s) de travaux à échéance dans les %{days} prochains jours"

@@ -1981,6 +1981,9 @@ ko:
   mail_body_backup_token_info: 이전 토큰은 더 이상 유효하지 않습니다.
   mail_body_backup_waiting_period: '%{hours}시간 후 새 토큰이 활성화됩니다.'
   mail_body_backup_token_warning: 만약 본인이 한 것이 아니라면, OpenProject에 즉시 로그인하고 다시 초기화하십시오.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "암호를 변경하려면 다음 링크를 클릭하세요."
   mail_body_register: "%{app_title}입니다. 다음 링크를 클릭하여 계정을 활성화하세요:"
   mail_body_register_header_title: "프로젝트 멤버 초대 이메일"
@@ -1999,6 +2002,7 @@ ko:
   mail_subject_account_activation_request: "%{value} 계정 활성화 요청"
   mail_subject_backup_ready: "백업이 준비되었습니다"
   mail_subject_backup_token_reset: "백업 토큰 초기화"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "%{value} 암호"
   mail_subject_register: "%{value} 계정 활성화"
   mail_subject_reminder: "다음 %{days}일 후 만료되는 %{count} 작업 패키지"

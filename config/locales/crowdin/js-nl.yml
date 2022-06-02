@@ -1188,3 +1188,6 @@ nl:
         remove: 'Verwijder'
       drop_modal:
         Close: 'Sluiten'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

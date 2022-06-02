@@ -1188,3 +1188,6 @@ si:
         remove: 'ඉවත් කරන්න'
       drop_modal:
         Close: 'වසන්න'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

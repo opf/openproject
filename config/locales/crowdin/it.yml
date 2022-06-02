@@ -1997,6 +1997,9 @@ it:
   mail_body_backup_token_info: Il token precedente non è più valido.
   mail_body_backup_waiting_period: Il nuovo token sarà abilitato tra %{hours} ore.
   mail_body_backup_token_warning: Se non sei stato tu, accedi immediatamente a OpenProject e ripristinalo di nuovo.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Per cambiare la password, clicca nel link seguente:"
   mail_body_register: "Benvenuto in %{app_title}. Attiva il tuo account cliccando su questo link:"
   mail_body_register_header_title: "Email di invito come membro del progetto"
@@ -2015,6 +2018,7 @@ it:
   mail_subject_account_activation_request: "%{value} richiesta di attivazione account"
   mail_subject_backup_ready: "Il tuo backup è pronto"
   mail_subject_backup_token_reset: "Resetta il token di backup"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "La tua %{value} password"
   mail_subject_register: "La tua %{value} attivazione dell'account"
   mail_subject_reminder: "%{count} macro-attività in scadenza nei prossimi %{days} giorni"
