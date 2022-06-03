@@ -682,7 +682,7 @@ GEM
     openproject-token (2.2.0)
       activemodel
     parallel (1.22.1)
-    parallel_tests (3.10.1)
+    parallel_tests (3.11.0)
       parallel
     parser (3.1.2.0)
       ast (~> 2.4.1)
