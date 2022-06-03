@@ -41,7 +41,6 @@ module API
 
       private
 
-
       def not_found_message(model)
         if model.present?
           I18n.t("api_v3.errors.not_found.#{model}", default: I18n.t('api_v3.errors.code_404'))

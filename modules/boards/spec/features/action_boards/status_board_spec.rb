@@ -38,7 +38,7 @@ describe 'Status action board', type: :feature, js: true do
   end
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
@@ -51,28 +51,28 @@ describe 'Status action board', type: :feature, js: true do
   let!(:open_status) { create :default_status, name: 'Open' }
   let!(:other_status) { create :status, name: 'Whatever' }
   let!(:closed_status) { create :status, is_closed: true, name: 'Closed' }
-  let!(:work_package) { create :work_package, project: project, subject: 'Foo', status: other_status }
+  let!(:work_package) { create :work_package, project:, subject: 'Foo', status: other_status }
 
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   let!(:workflow_type) do
     create(:workflow,
-           type: type,
-           role: role,
+           type:,
+           role:,
            old_status_id: open_status.id,
            new_status_id: closed_status.id)
   end
   let!(:workflow_type_back) do
     create(:workflow,
-           type: type,
-           role: role,
+           type:,
+           role:,
            old_status_id: other_status.id,
            new_status_id: open_status.id)
   end
   let!(:workflow_type_back_open) do
     create(:workflow,
-           type: type,
-           role: role,
+           type:,
+           role:,
            old_status_id: closed_status.id,
            new_status_id: open_status.id)
   end

@@ -79,7 +79,7 @@ class ExtractFulltextJob < ApplicationJob
   end
 
   def find_attachment(id)
-    Attachment.find_by(id: id)
+    Attachment.find_by(id:)
   end
 
   def remote_file?

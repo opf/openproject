@@ -268,7 +268,7 @@ class Report::Operator
     @force
   end
 
-  def self.new(name, values = {}, &block)
+  def self.new(name, values = {}, &)
     all[name.to_s] ||= super
   end
 
@@ -292,8 +292,8 @@ class Report::Operator
     all.has_key?(name.to_s)
   end
 
-  def self.defaults(&block)
-    class_eval &block
+  def self.defaults(&)
+    class_eval(&)
   end
 
   def self.default_operator

@@ -41,7 +41,7 @@ describe 'API v3 Query Filter Schema resource', type: :request do
   let(:visible_child) do
     create(:project, parent: project, members: { current_user => role })
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { [:view_work_packages] }
   let(:global_path) { api_v3_paths.query_filter_instance_schemas }
   let(:project_path) { api_v3_paths.query_project_filter_instance_schemas(project.id) }

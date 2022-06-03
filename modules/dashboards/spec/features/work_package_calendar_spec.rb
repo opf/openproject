@@ -42,40 +42,40 @@ describe 'Work package calendar widget on dashboard',
   let!(:spanning_work_package) do
     create :work_package,
            subject: 'Spanning work package',
-           project: project,
+           project:,
            start_date: Date.today - 8.days,
            due_date: Date.today + 8.days,
-           type: type,
+           type:,
            author: user,
            responsible: user
   end
   let!(:starting_work_package) do
     create :work_package,
            subject: 'Starting work package',
-           project: project,
+           project:,
            start_date: Date.today,
            due_date: Date.today + 8.days,
-           type: type,
+           type:,
            author: user,
            responsible: user
   end
   let!(:ending_work_package) do
     create :work_package,
            subject: 'Ending work package',
-           project: project,
+           project:,
            start_date: Date.today - 8.days,
            due_date: Date.today,
-           type: type,
+           type:,
            author: user,
            responsible: user
   end
   let!(:outdated_work_package) do
     create :work_package,
            subject: 'Outdated work package',
-           project: project,
+           project:,
            start_date: Date.today - 9.days,
            due_date: Date.today - 7.days,
-           type: type,
+           type:,
            author: user,
            responsible: user
   end
@@ -85,7 +85,7 @@ describe 'Work package calendar widget on dashboard',
            project: other_project,
            start_date: Date.today - 9.days,
            due_date: Date.today + 7.days,
-           type: type,
+           type:,
            author: user,
            responsible: user
   end
@@ -97,12 +97,12 @@ describe 'Work package calendar widget on dashboard',
   end
 
   let(:role) do
-    create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
 
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project: project, user: u, roles: [role])
+      create(:member, project:, user: u, roles: [role])
       create(:member, project: other_project, user: u, roles: [role])
     end
   end

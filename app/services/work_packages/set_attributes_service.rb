@@ -44,6 +44,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
 
     model.change_by_system do
       update_dates
+      update_duration
       reassign_invalid_status_if_type_changed
       set_templated_description
     end
@@ -140,13 +141,6 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     initialize_unset_custom_values
   end
 
-  def unify_dates
-    return unless work_package_now_milestone?
-
-    unified_date = work_package.due_date || work_package.start_date
-    work_package.start_date = work_package.due_date = unified_date
-  end
-
   def custom_field_context_changed?
     work_package.type_id_changed? || work_package.project_id_changed?
   end
@@ -167,7 +161,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def update_dates
-    unify_dates
+    unify_dates if work_package_now_milestone?
 
     min_start = new_start_date
 
@@ -177,9 +171,25 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     work_package.start_date = min_start
   end
 
+  def unify_dates
+    unified_date = work_package.due_date || work_package.start_date
+    work_package.start_date = work_package.due_date = unified_date
+  end
+
+  def update_duration
+    return unless date_changed_but_not_duration?
+
+    work_package.duration = if work_package.start_date && work_package.due_date
+                              work_package.due_date - work_package.start_date + 1
+                            else
+                              1
+                            end
+  end
+
   def set_version_to_nil
     if work_package.version &&
-       !work_package.project&.shared_versions.include?(work_package.version)
+       work_package.project &&
+       work_package.project.shared_versions.exclude?(work_package.version)
       work_package.version = nil
     end
   end
@@ -290,5 +300,9 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     start = work_package.start_date || work_package.parent&.start_date
 
     (due && !start) || ((due && start) && (due > start))
+  end
+
+  def date_changed_but_not_duration?
+    (work_package.start_date_changed? || work_package.due_date_changed?) && !work_package.duration_changed?
   end
 end

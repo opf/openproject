@@ -35,14 +35,14 @@ class AttributeHelpText::Project < AttributeHelpText
       .reject { |key, _| skip.include?(key.to_s) }
       .transform_values { |definition| definition[:name_source].call }
 
-    ProjectCustomField.all.each do |field|
+    ProjectCustomField.all.find_each do |field|
       attributes["custom_field_#{field.id}"] = field.name
     end
 
     attributes
   end
 
-  validates_inclusion_of :attribute_name, in: ->(*) { available_attributes.keys }
+  validates :attribute_name, inclusion: { in: ->(*) { available_attributes.keys } }
 
   def type_caption
     Project.model_name.human

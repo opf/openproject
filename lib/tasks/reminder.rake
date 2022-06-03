@@ -41,8 +41,8 @@ END_DESC
 
 namespace :redmine do
   task send_reminders: :environment do
-    reminder = OpenProject::Reminders::DueIssuesReminder.new(days: ENV['days'], project_id: ENV['project'],
-                                                             type_id: ENV['type'], user_ids: ENV['users'].to_s.split(',').map(&:to_i))
+    reminder = OpenProject::Reminders::DueIssuesReminder.new(days: ENV.fetch('days', nil), project_id: ENV.fetch('project', nil),
+                                                             type_id: ENV.fetch('type', nil), user_ids: ENV['users'].to_s.split(',').map(&:to_i))
     reminder.remind_users
   end
 end

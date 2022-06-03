@@ -30,24 +30,16 @@ require 'spec_helper'
 
 describe "PATCH /api/v3/queries/:id", type: :request do
   let(:user) { create :admin }
-  let(:status) { create :status }
-  let(:project) { create :project }
-
-  def json
-    JSON.parse last_response.body
-  end
-
   let!(:query) do
     create(
       :global_query,
       name: "A Query",
-      user: user,
+      user:,
       public: false,
       show_hierarchies: false,
       display_sums: false
     )
   end
-
   let(:params) do
     {
       name: "Dummy Query",
@@ -61,10 +53,10 @@ describe "PATCH /api/v3/queries/:id", type: :request do
               href: "/api/v3/queries/filters/status"
             },
             operator: {
-              "href": "/api/v3/queries/operators/="
+              href: "/api/v3/queries/operators/="
             },
             schema: {
-              "href": "/api/v3/queries/filter_instance_schemas/status"
+              href: "/api/v3/queries/filter_instance_schemas/status"
             },
             values: [
               {
@@ -106,6 +98,12 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       }
     }
   end
+  let(:status) { create :status }
+  let(:project) { create :project }
+
+  def json
+    JSON.parse last_response.body
+  end
 
   before do
     RequestStore.clear!
@@ -118,26 +116,26 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       patch "/api/v3/queries/#{query.id}", params.to_json
     end
 
-    it 'should return 200 (ok)' do
+    it 'returns 200 (ok)' do
       expect(last_response.status).to eq(200)
     end
 
-    it 'should render the updated query' do
+    it 'renders the updated query' do
       json = JSON.parse(last_response.body)
 
       expect(json["_type"]).to eq "Query"
       expect(json["name"]).to eq "Dummy Query"
     end
 
-    it 'should update the query correctly' do
+    it 'updates the query correctly' do
       query = Query.first
 
       expect(query.group_by_column.name).to eq :assigned_to
       expect(query.sort_criteria).to eq [["id", "desc"], ["assigned_to", "asc"]]
       expect(query.columns.map(&:name)).to eq %i[id subject status assigned_to]
       expect(query.project).to eq project
-      expect(query.public).to eq true
-      expect(query.display_sums).to eq false
+      expect(query.public).to be true
+      expect(query.display_sums).to be false
 
       expect(query.filters.size).to eq 1
       filter = query.filters.first
@@ -150,7 +148,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
     describe "with empty params" do
       let(:params) { {} }
 
-      it "should not change anything" do
+      it "does not change anything" do
         json = JSON.parse(last_response.body)
 
         expect(json["_type"]).to eq "Query"

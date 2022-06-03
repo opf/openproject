@@ -32,8 +32,8 @@ describe DefaultHourlyRate, type: :model do
   let(:project) { create(:project) }
   let(:user) { create(:user) }
   let(:rate) do
-    build(:default_hourly_rate, project: project,
-                                           user: user)
+    build(:default_hourly_rate, project:,
+                                user:)
   end
 
   describe '#user' do

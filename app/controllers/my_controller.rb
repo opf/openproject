@@ -70,7 +70,7 @@ class MyController < ApplicationController
 
   # When making changes here, also check AccountController.change_password
   def change_password
-    change_password_flow(user: @user, params: params, update_legacy: false) do
+    change_password_flow(user: @user, params:, update_legacy: false) do
       redirect_to action: 'password'
     end
   end

@@ -67,7 +67,7 @@ describe 'API v3 Project resource delete', type: :request, content_type: :json d
     end
 
     context 'for a project with work packages' do
-      let(:work_package) { create(:work_package, project: project) }
+      let(:work_package) { create(:work_package, project:) }
       let(:setup) { work_package }
 
       it 'deletes the work packages' do
@@ -78,7 +78,7 @@ describe 'API v3 Project resource delete', type: :request, content_type: :json d
     context 'for a project with members' do
       let(:member) do
         create(:member,
-               project: project,
+               project:,
                principal: current_user,
                roles: [create(:role)])
       end
@@ -100,7 +100,7 @@ describe 'API v3 Project resource delete', type: :request, content_type: :json d
     context 'for a project with a forum' do
       let(:forum) do
         create(:forum,
-               project: project)
+               project:)
       end
       let(:setup) do
         forum
@@ -118,8 +118,8 @@ describe 'API v3 Project resource delete', type: :request, content_type: :json d
     end
 
     context 'for a project which has a version foreign work packages refer to' do
-      let(:version) { create(:version, project: project) }
-      let(:work_package) { create(:work_package, version: version) }
+      let(:version) { create(:version, project:) }
+      let(:work_package) { create(:work_package, version:) }
 
       let(:setup) { work_package }
 

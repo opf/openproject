@@ -49,7 +49,7 @@ module API
                    }
                  },
                  getter: ->(*) {
-                   ::API::V3::CostTypes::CostTypeRepresenter.new(@cost_type, current_user: current_user)
+                   ::API::V3::CostTypes::CostTypeRepresenter.new(@cost_type, current_user:)
                  },
                  setter: ->(*) {}
 

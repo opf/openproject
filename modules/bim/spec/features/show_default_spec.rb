@@ -46,7 +46,7 @@ describe 'show default model',
   let(:model) do
     create(:ifc_model_minimal_converted,
            is_default: model_is_default,
-           project: project,
+           project:,
            uploader: user)
   end
   let(:model_is_default) { true }
@@ -67,8 +67,8 @@ describe 'show default model',
   end
 
   context 'with everything ready' do
-    let(:old_work_package) { create(:work_package, project: project) }
-    let(:new_work_package) { create(:work_package, project: project) }
+    let(:old_work_package) { create(:work_package, project:) }
+    let(:new_work_package) { create(:work_package, project:) }
 
     before do
       old_work_package

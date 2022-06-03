@@ -42,7 +42,7 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
 
   let(:resource) do
     create(:document,
-           project: project)
+           project:)
   end
   let(:journal) { resource.journals.last }
   let(:author) { other_user }

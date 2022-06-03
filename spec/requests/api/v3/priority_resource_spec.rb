@@ -83,8 +83,8 @@ describe 'API v3 Priority resource' do
       end
 
       context 'valid priority id' do
-        it 'should return HTTP 200' do
-          expect(response.status).to eql(200)
+        it 'returns HTTP 200' do
+          expect(response.status).to be(200)
         end
       end
 

@@ -33,12 +33,12 @@ module Report::Validation
       return true if values.empty?
 
       values.flatten.all? do |val|
-        if val.to_i.to_s != val.to_s
+        if val.to_i.to_s == val.to_s
+          true
+        else
           errors[:int] << val
           validate_integers(values - [val])
           false
-        else
-          true
         end
       end
     end

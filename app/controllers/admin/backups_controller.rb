@@ -93,7 +93,7 @@ class Admin::BackupsController < ApplicationController
   def find_backup(status: :success, user: current_user)
     Backup
       .joins(:job_status)
-      .where(job_status: { user: user, status: status })
+      .where(job_status: { user:, status: })
       .last
   end
 

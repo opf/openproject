@@ -39,7 +39,7 @@ describe 'API v3 Custom Options resource' do
            member_through_role: role)
   end
   let(:project) { create(:project) }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { [:view_work_packages] }
   let(:custom_field) do
     cf = create(:list_wp_custom_field)
@@ -50,7 +50,7 @@ describe 'API v3 Custom Options resource' do
   end
   let(:custom_option) do
     create(:custom_option,
-           custom_field: custom_field)
+           custom_field:)
   end
 
   subject(:response) { last_response }
@@ -68,7 +68,7 @@ describe 'API v3 Custom Options resource' do
     context 'when being allowed' do
       it 'is successful' do
         expect(subject.status)
-          .to eql(200)
+          .to be(200)
       end
 
       it 'returns the custom option' do
@@ -91,7 +91,7 @@ describe 'API v3 Custom Options resource' do
 
       it 'is 404' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
 
@@ -103,7 +103,7 @@ describe 'API v3 Custom Options resource' do
 
       it 'is 404' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
 
@@ -112,7 +112,7 @@ describe 'API v3 Custom Options resource' do
 
       it 'is 404' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
   end

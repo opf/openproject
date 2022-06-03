@@ -123,7 +123,7 @@ module DemoData
 
       if status_code || status_explanation
         Projects::Status.create!(
-          project: project,
+          project:,
           code: status_code,
           explanation: status_explanation
         )
@@ -135,7 +135,7 @@ module DemoData
       user = User.user.admin.first
 
       Member.create!(
-        project: project,
+        project:,
         principal: user,
         roles: [role]
       )
@@ -168,7 +168,7 @@ module DemoData
     def seed_news(project, key)
       user = User.admin.first
       Array(project_data_for(key, 'news')).each do |news|
-        News.create! project: project, author: user, title: news[:title], summary: news[:summary], description: news[:description]
+        News.create! project:, author: user, title: news[:title], summary: news[:summary], description: news[:description]
       end
     end
 
@@ -188,7 +188,7 @@ module DemoData
 
     def seed_board(project)
       Forum.create!(
-        project: project,
+        project:,
         name: demo_data_for('board.name'),
         description: demo_data_for('board.description')
       )
@@ -216,7 +216,7 @@ module DemoData
         identifier = project_data_for(key, 'parent')
         return nil unless identifier.present?
 
-        Project.find_by(identifier: identifier)
+        Project.find_by(identifier:)
       end
 
       def project_name(key)

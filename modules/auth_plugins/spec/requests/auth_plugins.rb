@@ -84,16 +84,16 @@ describe OpenProject::Plugins::AuthPlugin do
       end
     end
 
-    it 'should register all strategies' do
+    it 'registers all strategies' do
       expect(strategies.keys.to_a).to eq %i[strategy_a strategy_b]
     end
 
-    it 'should register register each strategy (i.e. middleware) only once' do
+    it 'registers register each strategy (i.e. middleware) only once' do
       expect(middlewares.size).to eq 2
       expect(middlewares).to eq %i[strategy_a strategy_b]
     end
 
-    it 'should associate the correct providers with their respective strategies' do
+    it 'associates the correct providers with their respective strategies' do
       expect(OpenProject::Plugins::AuthPlugin.providers_for(:strategy_a)).to eq [providers_a.call, providers_c.call].flatten
       expect(OpenProject::Plugins::AuthPlugin.providers_for(:strategy_b)).to eq providers_b.call
     end

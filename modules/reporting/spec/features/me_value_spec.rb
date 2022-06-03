@@ -5,21 +5,21 @@ describe 'Cost report showing my own times', type: :feature, js: true do
   let(:user) { create :admin }
   let(:user2) { create :admin }
 
-  let(:work_package) { create :work_package, project: project }
-  let!(:hourly_rate1) { create :default_hourly_rate, user: user, rate: 1.00, valid_from: 1.year.ago }
+  let(:work_package) { create :work_package, project: }
+  let!(:hourly_rate1) { create :default_hourly_rate, user:, rate: 1.00, valid_from: 1.year.ago }
 
   let!(:time_entry1) do
     create :time_entry,
-           user: user,
-           work_package: work_package,
-           project: project,
+           user:,
+           work_package:,
+           project:,
            hours: 10
   end
   let!(:time_entry2) do
     create :time_entry,
            user: user2,
-           work_package: work_package,
-           project: project,
+           work_package:,
+           project:,
            hours: 15
   end
 
@@ -63,21 +63,21 @@ describe 'Cost report showing my own times', type: :feature, js: true do
   end
 
   describe 'assignee filter' do
-    let(:work_package) { create :work_package, project: project, assigned_to: user }
-    let(:work_package2) { create :work_package, project: project, assigned_to: user2 }
+    let(:work_package) { create :work_package, project:, assigned_to: user }
+    let(:work_package2) { create :work_package, project:, assigned_to: user2 }
 
     let!(:time_entry1) do
       create :time_entry,
-             user: user,
-             work_package: work_package,
-             project: project,
+             user:,
+             work_package:,
+             project:,
              hours: 10
     end
     let!(:time_entry2) do
       create :time_entry,
              user: user2,
              work_package: work_package2,
-             project: project,
+             project:,
              hours: 15
     end
 

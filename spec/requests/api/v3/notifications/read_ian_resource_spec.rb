@@ -34,7 +34,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { create(:project) }
-  shared_let(:work_package) { create(:work_package, project: project) }
+  shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:recipient) do
     create :user,
            member_in_project: project,
@@ -42,9 +42,9 @@ describe ::API::V3::Notifications::NotificationsAPI,
   end
   shared_let(:notification) do
     create :notification,
-           recipient: recipient,
+           recipient:,
            resource: work_package,
-           project: project
+           project:
   end
 
   let(:send_read) do

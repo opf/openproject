@@ -39,11 +39,11 @@ describe WorkPackages::ExportJob do
   let(:job) { described_class.new(**jobs_args) }
   let(:jobs_args) do
     {
-      export: export,
-      mime_type: mime_type,
-      user: user,
+      export:,
+      mime_type:,
+      user:,
       options: {},
-      query: query,
+      query:,
       query_attributes: {}
     }
   end
@@ -68,7 +68,7 @@ describe WorkPackages::ExportJob do
 
         expect(Attachments::CreateService)
           .to receive(:bypass_whitelist)
-                .with(user: user)
+                .with(user:)
                 .and_return(service)
 
         expect(Exports::CleanupOutdatedJob)

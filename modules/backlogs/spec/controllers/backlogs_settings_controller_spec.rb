@@ -53,8 +53,8 @@ describe BacklogsSettingsController, type: :controller do
       put :update,
           params: {
             settings: {
-              task_type: task_type,
-              story_types: story_types
+              task_type:,
+              story_types:
             }
           }
     end

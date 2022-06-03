@@ -40,16 +40,20 @@ describe ::API::V3::Categories::CategoryRepresenter do
       it { is_expected.to include_json('Category'.to_json).at_path('_type') }
 
       it { is_expected.to have_json_type(Object).at_path('_links') }
-      it 'should link to self' do
+
+      it 'links to self' do
         expect(subject).to have_json_path('_links/self/href')
       end
-      it 'should display its name as title in self' do
+
+      it 'displays its name as title in self' do
         expect(subject).to have_json_path('_links/self/title')
       end
-      it 'should link to its project' do
+
+      it 'links to its project' do
         expect(subject).to have_json_path('_links/project/href')
       end
-      it 'should display its project title' do
+
+      it 'displays its project title' do
         expect(subject).to have_json_path('_links/project/title')
       end
 
@@ -60,7 +64,7 @@ describe ::API::V3::Categories::CategoryRepresenter do
     context 'default assignee not set' do
       it_behaves_like 'category has core values'
 
-      it 'should not link to an assignee' do
+      it 'does not link to an assignee' do
         expect(subject).not_to have_json_path('_links/defaultAssignee')
       end
     end
@@ -69,12 +73,14 @@ describe ::API::V3::Categories::CategoryRepresenter do
       let(:category) do
         build_stubbed(:category, assigned_to: user)
       end
+
       it_behaves_like 'category has core values'
 
-      it 'should link to its default assignee' do
+      it 'links to its default assignee' do
         expect(subject).to have_json_path('_links/defaultAssignee/href')
       end
-      it 'should display the name of its default assignee' do
+
+      it 'displays the name of its default assignee' do
         expect(subject).to have_json_path('_links/defaultAssignee/title')
       end
     end
@@ -91,11 +97,11 @@ describe ::API::V3::Categories::CategoryRepresenter do
 
       describe '#json_cache_key' do
         let(:assigned_to) { build_stubbed(:user) }
+        let!(:former_cache_key) { representer.json_cache_key }
 
         before do
           category.assigned_to = assigned_to
         end
-        let!(:former_cache_key) { representer.json_cache_key }
 
         it 'includes the name of the representer class' do
           expect(representer.json_cache_key)

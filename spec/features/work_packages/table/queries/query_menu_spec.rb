@@ -79,9 +79,9 @@ describe 'Query menu item', js: true do
   end
 
   context 'when filtering by version in project' do
-    let(:version) { create :version, project: project }
-    let(:work_package_with_version) { create :work_package, project: project, version: version }
-    let(:work_package_without_version) { create :work_package, project: project }
+    let(:version) { create :version, project: }
+    let(:work_package_with_version) { create :work_package, project:, version: }
+    let(:work_package_without_version) { create :work_package, project: }
 
     before do
       work_package_with_version

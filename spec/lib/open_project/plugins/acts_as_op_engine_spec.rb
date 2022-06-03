@@ -44,6 +44,7 @@ describe OpenProject::Plugins::ActsAsOpEngine do
 
   describe '#name' do
     subject { engine.name }
+
     it { is_expected.to eq 'ActsAsOpEngineTestEngine' }
   end
 end

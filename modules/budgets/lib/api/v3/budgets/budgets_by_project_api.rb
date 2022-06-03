@@ -40,7 +40,7 @@ module API
             BudgetCollectionRepresenter.new(@budgets,
                                             @budgets.count,
                                             self_link: api_v3_paths.budgets_by_project(@project.id),
-                                            current_user: current_user)
+                                            current_user:)
           end
         end
       end

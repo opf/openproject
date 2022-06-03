@@ -1187,3 +1187,6 @@ lol:
         remove: 'crwdns788758:0crwdne788758:0'
       drop_modal:
         Close: 'crwdns788760:0crwdne788760:0'
+    storages:
+      enter_oauth2_client_secret: 'crwdns816752:0crwdne816752:0'
+

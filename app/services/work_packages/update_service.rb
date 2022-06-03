@@ -89,9 +89,9 @@ class WorkPackages::UpdateService < ::BaseServices::BaseCallable
 
   def set_attributes(attributes, wp = work_package)
     WorkPackages::SetAttributesService
-      .new(user: user,
+      .new(user:,
            model: wp,
-           contract_class: contract_class)
+           contract_class:)
       .call(attributes)
   end
 
@@ -131,7 +131,7 @@ class WorkPackages::UpdateService < ::BaseServices::BaseCallable
   def move_time_entries(work_packages, project_id)
     TimeEntry
       .on_work_packages(work_packages)
-      .update_all(project_id: project_id)
+      .update_all(project_id:)
   end
 
   def reset_custom_values
@@ -181,7 +181,7 @@ class WorkPackages::UpdateService < ::BaseServices::BaseCallable
 
   def reschedule(work_packages)
     WorkPackages::SetScheduleService
-      .new(user: user,
+      .new(user:,
            work_package: work_packages)
       .call(changed_attributes)
   end

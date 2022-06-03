@@ -36,21 +36,21 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
   include_context 'with CreateFromJournalJob context'
 
   shared_let(:project) { create(:project) }
-  shared_let(:forum) { create(:forum, project: project) }
+  shared_let(:forum) { create(:forum, project:) }
 
   let(:permissions) { [:view_messages] }
   let(:send_notifications) { true }
 
   let(:resource) do
     create(:message,
-           forum: forum,
+           forum:,
            parent: root_message)
   end
   let(:journal) { resource.journals.last }
   let(:author) { other_user }
   let(:root_message) do
     create(:message,
-           forum: forum)
+           forum:)
   end
 
   current_user { other_user }

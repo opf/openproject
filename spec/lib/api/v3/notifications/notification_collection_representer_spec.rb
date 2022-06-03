@@ -54,9 +54,9 @@ describe ::API::V3::Notifications::NotificationCollectionRepresenter do
     described_class.new(notifications,
                         self_link: self_base_link,
                         per_page: page_size,
-                        page: page,
-                        groups: groups,
-                        current_user: current_user)
+                        page:,
+                        groups:,
+                        current_user:)
   end
   let(:total) { 3 }
   let(:page) { 1 }

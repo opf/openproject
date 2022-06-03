@@ -37,26 +37,26 @@ describe WorkPackages::AutoCompletesController, type: :controller do
   end
   let(:member) do
     create(:member,
-           project: project,
+           project:,
            principal: user,
            roles: [role])
   end
   let(:work_package_1) do
     create(:work_package,
            subject: "Can't print recipes",
-           project: project)
+           project:)
   end
 
   let(:work_package_2) do
     create(:work_package,
            subject: 'Error when updating a recipe',
-           project: project)
+           project:)
   end
 
   let(:work_package_3) do
     create(:work_package,
            subject: 'Lorem ipsum',
-           project: project)
+           project:)
   end
 
   before do
@@ -174,7 +174,7 @@ describe WorkPackages::AutoCompletesController, type: :controller do
       let(:work_package_4) do
         create(:work_package,
                subject: "<script>alert('danger!');</script>",
-               project: project)
+               project:)
       end
       let(:expected_values) { work_package_4 }
 
@@ -190,7 +190,7 @@ describe WorkPackages::AutoCompletesController, type: :controller do
       it_behaves_like 'successful response'
       it_behaves_like 'contains expected values'
 
-      it 'should escape html' do
+      it 'escapes html' do
         expect(response.body).not_to include '<script>'
       end
     end
@@ -200,6 +200,7 @@ describe WorkPackages::AutoCompletesController, type: :controller do
         create(:project,
                parent: project)
       end
+      let(:expected_values) { work_package_4 }
       let(:member_2) do
         create(:member,
                project: project_2,
@@ -224,8 +225,6 @@ describe WorkPackages::AutoCompletesController, type: :controller do
             },
             format: :json
       end
-
-      let(:expected_values) { work_package_4 }
 
       it_behaves_like 'successful response'
 

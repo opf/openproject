@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Color, type: :model do
-  describe '- Relations ' do
+  describe '- Relations' do
     describe '#planning_element_types' do
       it 'can read planning_element_types w/ the help of the has_many association' do
         color                 = create(:color)
@@ -56,7 +56,7 @@ describe Color, type: :model do
     end
   end
 
-  describe '- Validations ' do
+  describe '- Validations' do
     let(:attributes) do
       { name: 'Color No. 1',
         hexcode: '#FFFFFF' }

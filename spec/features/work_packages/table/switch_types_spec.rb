@@ -36,12 +36,12 @@ describe 'Switching types in work package table', js: true do
       create(:work_package,
              subject: 'Foobar',
              type: type_task,
-             project: project)
+             project:)
     end
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
     let(:query) do
-      query = build(:query, user: user, project: project)
+      query = build(:query, user:, project:)
       query.column_names = ['id', 'subject', 'type', "cf_#{cf_text.id}"]
 
       query.save!
@@ -233,7 +233,7 @@ describe 'Switching types in work package table', js: true do
       create(:work_package,
              subject: 'Foobar',
              type: type_task,
-             project: project)
+             project:)
     end
     let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
     let(:type_field) { wp_page.edit_field :type }
@@ -257,7 +257,7 @@ describe 'Switching types in work package table', js: true do
 
       work_package.reload
       expect(work_package.type_id).to eq(type_bug.id)
-      expect(work_package.send("custom_field_#{cf_req_bool.id}")).to eq(false)
+      expect(work_package.send("custom_field_#{cf_req_bool.id}")).to be(false)
     end
   end
 
@@ -266,7 +266,7 @@ describe 'Switching types in work package table', js: true do
     let!(:type_with_cf) { create(:type_task, custom_fields: [custom_field]) }
     let!(:type) { create(:type_bug) }
     let(:permissions) { %i(view_work_packages add_work_packages) }
-    let(:role) { create :role, permissions: permissions }
+    let(:role) { create :role, permissions: }
     let(:user) do
       create :user,
              member_in_project: project,
@@ -295,7 +295,7 @@ describe 'Switching types in work package table', js: true do
              type_id: type.id,
              old_status: status,
              new_status: create(:status),
-             role: role
+             role:
     end
 
     let!(:priority) { create :priority, is_default: true }

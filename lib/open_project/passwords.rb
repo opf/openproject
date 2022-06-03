@@ -130,7 +130,7 @@ module OpenProject
       def self.rules_description_locale(rules)
         I18n.t(:weak,
                scope: %i[activerecord errors models user attributes password],
-               rules: rules,
+               rules:,
                min_count: min_adhered_rules,
                all_count: active_rules.size)
       end

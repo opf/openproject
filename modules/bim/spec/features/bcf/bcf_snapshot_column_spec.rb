@@ -8,15 +8,15 @@ describe 'BCF snapshot column',
   let(:project) { create(:project, enabled_module_names: %w[bim work_package_tracking]) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:permissions) { %i[add_work_packages view_work_packages view_linked_issues] }
-  let!(:work_package) { create(:work_package, project: project) }
-  let!(:bcf_issue) { create(:bcf_issue_with_viewpoint, work_package: work_package) }
+  let!(:work_package) { create(:work_package, project:) }
+  let!(:bcf_issue) { create(:bcf_issue_with_viewpoint, work_package:) }
   let(:user) do
     create :user,
            member_in_project: project,
            member_with_permissions: permissions
   end
   let!(:query) do
-    query              = build(:query, user: user, project: project)
+    query              = build(:query, user:, project:)
     query.column_names = ['subject', 'bcf_thumbnail']
     query.filters.clear
     query.show_hierarchies = false

@@ -56,7 +56,7 @@ class Queries::SetAttributesService < ::BaseServices::SetAttributes
       wp_id = key.to_s.to_i
       next unless available.include?(wp_id)
 
-      model.ordered_work_packages.build(work_package_id: wp_id, position: position)
+      model.ordered_work_packages.build(work_package_id: wp_id, position:)
     end
   end
 end

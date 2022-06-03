@@ -164,7 +164,7 @@ module API
 
         authorized = permissions.any? do |permission|
           if global
-            authorize(permission, global: true, user: user) do
+            authorize(permission, global: true, user:) do
               false
             end
           else
@@ -181,7 +181,7 @@ module API
       end
 
       def authorize_logged_in
-        authorize_by_with_raise(current_user.logged? && current_user.active? || current_user.is_a?(SystemUser))
+        authorize_by_with_raise((current_user.logged? && current_user.active?) || current_user.is_a?(SystemUser))
       end
 
       def raise_invalid_query_on_service_failure
@@ -243,7 +243,7 @@ module API
                    ::API::Errors::InternalError,
                    log: ->(exception) do
                      payload = ::OpenProject::Logging::ThreadPoolContextBuilder.build!
-                     ::OpenProject.logger.error exception, reference: :APIv3, payload: payload
+                     ::OpenProject.logger.error exception, reference: :APIv3, payload:
                    end
 
     # hide internal errors behind the same JSON response as all other errors

@@ -116,7 +116,7 @@ module Entry
   rescue NoMethodError
   end
 
-  def self.method_missing(*a, &b)
-    Delegator.send(*a, &b)
+  def self.method_missing(*a, &)
+    Delegator.send(*a, &)
   end
 end

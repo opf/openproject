@@ -1187,3 +1187,6 @@ sv:
         remove: 'Ta bort'
       drop_modal:
         Close: 'Stäng'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

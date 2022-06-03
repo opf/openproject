@@ -75,7 +75,7 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
         let(:project) { nil }
 
         it 'is unavailable' do
-          expect(instance).to_not be_available
+          expect(instance).not_to be_available
         end
       end
 
@@ -87,7 +87,7 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
         end
 
         it 'is unavailable' do
-          expect(instance).to_not be_available
+          expect(instance).not_to be_available
         end
       end
 
@@ -103,7 +103,7 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
         end
 
         it 'is unavailable' do
-          expect(instance).to_not be_available
+          expect(instance).not_to be_available
         end
       end
     end

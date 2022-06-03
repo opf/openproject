@@ -55,11 +55,7 @@ class Redmine::MenuManager::Mapper
 
     if options[:parent]
       subtree = find(options[:parent])
-      target_root = if subtree
-                      subtree
-                    else
-                      @menu_items.root
-                    end
+      target_root = subtree || @menu_items.root
 
     else
       target_root = @menu_items.root

@@ -56,5 +56,16 @@ describe ::API::V3::Days::DaysAPI,
 
       it_behaves_like 'API V3 collection response', 6, 6, 'Day'
     end
+
+    context 'when filtering by working' do
+      let(:filters) do
+        [{ working: { operator: '=',
+                      values: ['t'] } }]
+      end
+
+      nb_days = (Time.zone.today.at_beginning_of_month..Time.zone.today.next_month.at_end_of_month)
+                .count { |d| !(d.saturday? || d.sunday?) }
+      it_behaves_like 'API V3 collection response', nb_days, nb_days, 'Day'
+    end
   end
 end

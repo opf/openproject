@@ -97,7 +97,7 @@ module OpenProject::Bim::BcfXml
     end
 
     def people
-      ([assignee, author] + comments.map { |comment| comment[:author] }).filter(&:present?).uniq
+      ([assignee, author] + comments.pluck(:author)).filter(&:present?).uniq
     end
 
     private
@@ -115,7 +115,7 @@ module OpenProject::Bim::BcfXml
 
     def extract(path, prefix: '/Markup/Topic/'.freeze, attribute: false)
       path = [prefix, path.to_s].join('')
-      extract_from_node(path, doc, attribute: attribute)
+      extract_from_node(path, doc, attribute:)
     end
 
     def extract_from_node(path, node, attribute: false)

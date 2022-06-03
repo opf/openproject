@@ -32,7 +32,7 @@ class Queries::Days::DayQuery < Queries::BaseQuery
   end
 
   def default_scope
-    Day.default
+    Day.default_scope
   end
 
   ##

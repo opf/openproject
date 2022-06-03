@@ -72,11 +72,11 @@ describe ::Type, type: :model do
       let!(:type) { create(:type) }
       let!(:workflow_a) do
         create(:workflow, role_id: role.id,
-                                     type_id: type.id,
-                                     old_status_id: statuses[0].id,
-                                     new_status_id: statuses[1].id,
-                                     author: false,
-                                     assignee: false)
+                          type_id: type.id,
+                          old_status_id: statuses[0].id,
+                          new_status_id: statuses[1].id,
+                          author: false,
+                          assignee: false)
       end
 
       it 'returns the statuses relation' do

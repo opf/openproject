@@ -57,7 +57,7 @@ module API
           # errors for invalid data (e.g. validation errors) are handled inside the form
           if api_errors.all? { |error| error.code == 422 }
             status 200
-            form_representer.new query, current_user: current_user, errors: api_errors
+            form_representer.new query, current_user:, errors: api_errors
           else
             fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
           end

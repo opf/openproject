@@ -78,15 +78,12 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
   text = {
     save: this.I18n.t('js.button_save'),
     cancel: this.I18n.t('js.button_cancel'),
-    clear: this.I18n.t('js.work_packages.button_clear'),
     manualScheduling: this.I18n.t('js.scheduling.manual'),
     date: this.I18n.t('js.work_packages.properties.date'),
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
     endDate: this.I18n.t('js.work_packages.properties.dueDate'),
     placeholder: this.I18n.t('js.placeholders.default'),
     today: this.I18n.t('js.label_today'),
-    isParent: this.I18n.t('js.work_packages.scheduling.is_parent'),
-    isSwitchedFromManualToAutomatic: this.I18n.t('js.work_packages.scheduling.is_switched_from_manual_to_automatic'),
   };
 
   onDataUpdated = new EventEmitter<string>();
@@ -176,11 +173,6 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     this.closeMe();
   }
 
-  clear(key:DateKeys):void {
-    this.dates[key] = '';
-    this.enforceManualChangesToDatepicker();
-  }
-
   updateDate(key:DateKeys, val:string):void {
     // Expected minimal format YYYY-M-D => 8 characters OR empty
     if (val.length >= 8 || val.length === 0) {
@@ -257,6 +249,11 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         mode: this.singleDate ? 'single' : 'range',
         showMonths: this.browserDetector.isMobile ? 1 : 2,
         inline: true,
+        onReady: (selectedDates, dateStr, instance) => {
+          if (!this.isSchedulable) {
+            instance.calendarContainer.classList.add('disabled');
+          }
+        },
         onChange: (dates:Date[]) => {
           this.handleDatePickerChange(dates);
 

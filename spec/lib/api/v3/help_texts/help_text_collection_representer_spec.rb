@@ -35,17 +35,16 @@ describe ::API::V3::HelpTexts::HelpTextCollectionRepresenter do
       build_stubbed(:work_package_help_text, attribute_name: 'status')
     ]
   end
+  let(:representer) do
+    described_class.new(help_texts,
+                        self_link:,
+                        current_user: user)
+  end
 
   let(:user) { build_stubbed(:user) }
 
   def self_link
     'a link that is provided'
-  end
-
-  let(:representer) do
-    described_class.new(help_texts,
-                        self_link: self_link,
-                        current_user: user)
   end
 
   context 'generation' do

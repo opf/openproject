@@ -15,7 +15,7 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
   let(:meeting) do
     create(
       :meeting,
-      project: project,
+      project:,
       title: "Versammlung",
       agenda: create(:meeting_agenda, text: "Versammlung")
     )

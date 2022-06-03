@@ -1187,3 +1187,6 @@ de:
         remove: 'Entfernen'
       drop_modal:
         Close: 'Schließen'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

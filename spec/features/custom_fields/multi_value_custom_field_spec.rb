@@ -3,6 +3,14 @@ require "support/pages/work_packages/abstract_work_package"
 
 describe "multi select custom values", js: true do
   let(:type) { create :type }
+  let(:wp_page) { Pages::FullWorkPackage.new work_package }
+  let(:wp_table) { Pages::WorkPackagesTable.new project }
+  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
+  let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+  let(:sort_by) { ::Components::WorkPackages::SortBy.new }
+  let(:user) { create :admin }
+  let(:cf_frontend) { "customField#{custom_field.id}" }
   let(:project) { create :project, types: [type] }
   let(:multi_value) { true }
 
@@ -10,7 +18,7 @@ describe "multi select custom values", js: true do
     create(
       :list_wp_custom_field,
       name: "Ingredients",
-      multi_value: multi_value,
+      multi_value:,
       types: [type],
       projects: [project],
       possible_values: ["ham", "onions", "pineapple", "mushrooms"]
@@ -26,16 +34,6 @@ describe "multi select custom values", js: true do
     field.field_type = 'create-autocompleter'
     field
   end
-
-  let(:wp_page) { Pages::FullWorkPackage.new work_package }
-  let(:wp_table) { Pages::WorkPackagesTable.new project }
-  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
-  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
-  let(:sort_by) { ::Components::WorkPackages::SortBy.new }
-
-  let(:user) { create :admin }
-  let(:cf_frontend) { "customField#{custom_field.id}" }
 
   context "with existing custom values" do
     let(:work_package_options) { %w[ham pineapple onions] }
@@ -76,7 +74,7 @@ describe "multi select custom values", js: true do
         wp_page.ensure_page_loaded
       end
 
-      it "should be shown and allowed to be updated" do
+      it "is shown and allowed to be updated" do
         expect(page).to have_text custom_field.name
         expect(page).to have_text "ham"
         expect(page).to have_text "pineapple"
@@ -116,7 +114,7 @@ describe "multi select custom values", js: true do
         columns.add custom_field.name
       end
 
-      it 'should be usable in the table and split view context' do
+      it 'is usable in the table and split view context' do
         # Disable hierarchies
         hierarchy.disable_hierarchy
         hierarchy.expect_no_hierarchies
@@ -191,7 +189,7 @@ describe "multi select custom values", js: true do
       let(:wp1_field) { table_edit_field(work_package) }
       let(:wp2_field) { table_edit_field(work_package2) }
       let!(:query) do
-        query = build(:query, user: user, project: project)
+        query = build(:query, user:, project:)
         query.column_names = ['id', 'type', 'subject', "cf_#{custom_field.id}"]
         query.filters.clear
         query.timeline_visible = false

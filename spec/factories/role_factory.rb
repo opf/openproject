@@ -36,13 +36,13 @@ FactoryBot.define do
     factory :non_member do
       name { 'Non member' }
       builtin { Role::BUILTIN_NON_MEMBER }
-      initialize_with { Role.where(name: name).first_or_initialize }
+      initialize_with { Role.where(name:).first_or_initialize }
     end
 
     factory :anonymous_role do
       name { 'Anonymous' }
       builtin { Role::BUILTIN_ANONYMOUS }
-      initialize_with { Role.where(name: name).first_or_initialize }
+      initialize_with { Role.where(name:).first_or_initialize }
     end
 
     factory :existing_role do
@@ -51,8 +51,8 @@ FactoryBot.define do
 
       initialize_with do
         role =
-          if Role.where(name: name).exists?
-            Role.find_by(name: name)
+          if Role.where(name:).exists?
+            Role.find_by(name:)
           else
             Role.create name: name
           end

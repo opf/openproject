@@ -8,4 +8,5 @@ Gem::Specification.new do |s|
   s.license     = 'GPLv3'
 
   s.files = Dir['{app,config,db,lib}/**/*']
+  s.metadata['rubygems_mfa_required'] = 'true'
 end

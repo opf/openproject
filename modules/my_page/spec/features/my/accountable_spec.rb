@@ -38,22 +38,22 @@ describe 'Accountable widget on my page', type: :feature, js: true do
   let!(:open_status) { create :default_status }
   let!(:accountable_work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            author: user,
            responsible: user
   end
   let!(:accountable_by_other_work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            author: user,
            responsible: other_user
   end
   let!(:accountable_but_invisible_work_package) do
     create :work_package,
            project: other_project,
-           type: type,
+           type:,
            author: user,
            responsible: user
   end

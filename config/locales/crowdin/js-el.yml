@@ -1187,3 +1187,6 @@ el:
         remove: 'Αφαίρεση'
       drop_modal:
         Close: 'Κλείσιμο'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

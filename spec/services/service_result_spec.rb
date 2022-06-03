@@ -114,7 +114,7 @@ describe ServiceResult, type: :model do
   end
 
   describe 'apply_flash_message!' do
-    let(:service_result) { described_class.new(message: message, **params) }
+    let(:service_result) { described_class.new(message:, **params) }
     let(:params) { {} }
     let(:message) { 'some message' }
 

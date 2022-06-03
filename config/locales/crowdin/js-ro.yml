@@ -1190,3 +1190,6 @@ ro:
         remove: 'Eliminare'
       drop_modal:
         Close: 'Închide'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

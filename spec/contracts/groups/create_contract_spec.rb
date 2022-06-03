@@ -36,7 +36,7 @@ describe Groups::CreateContract do
   it_behaves_like 'group contract' do
     let(:group) do
       Group.new(name: group_name,
-                group_users: group_users)
+                group_users:)
     end
 
     let(:contract) { described_class.new(group, current_user) }

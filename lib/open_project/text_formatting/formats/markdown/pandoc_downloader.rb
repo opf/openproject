@@ -83,7 +83,7 @@ module OpenProject::TextFormatting::Formats
         end
 
         def forced_pandoc_path
-          ENV['OPENPROJECT_PANDOC_PATH']
+          ENV.fetch('OPENPROJECT_PANDOC_PATH', nil)
         end
 
         def pandoc_path

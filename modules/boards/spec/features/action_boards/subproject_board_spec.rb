@@ -46,7 +46,7 @@ describe 'Subproject action board', type: :feature, js: true do
   let(:subproject2) do
     create(:project, parent: project, name: 'Child 2', types: [type], enabled_module_names: %i[work_package_tracking])
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
@@ -178,14 +178,14 @@ describe 'Subproject action board', type: :feature, js: true do
   context 'with permissions in only one subproject' do
     let(:user) do
       create(:user,
-                        # The membership in subproject2 gets removed later on
+             # The membership in subproject2 gets removed later on
              member_in_projects: [project, subproject1, subproject2],
              member_through_role: role)
     end
 
     let!(:board) do
       create(:subproject_board,
-             project: project,
+             project:,
              projects_columns: [subproject1, subproject2])
     end
 
@@ -225,7 +225,7 @@ describe 'Subproject action board', type: :feature, js: true do
 
     let!(:board) do
       create(:subproject_board,
-             project: project,
+             project:,
              projects_columns: [subproject1])
     end
 

@@ -37,7 +37,7 @@ describe "meeting agenda attachments" do
     let(:read_permission) { :view_meetings }
     let(:update_permission) { :edit_meetings }
 
-    let(:meeting_content) { create :meeting_agenda, meeting: meeting }
-    let(:meeting) { create :meeting, project: project }
+    let(:meeting_content) { create :meeting_agenda, meeting: }
+    let(:meeting) { create :meeting, project: }
   end
 end

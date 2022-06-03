@@ -89,7 +89,7 @@ describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
           .to receive(:user_values)
           .and_return([])
 
-        expect(instance).to_not be_available
+        expect(instance).not_to be_available
       end
 
       it 'is false if the user is not allowed to see watchers but there are users' do
@@ -105,7 +105,7 @@ describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
           .to receive(:user_values)
           .and_return([user])
 
-        expect(instance).to_not be_available
+        expect(instance).not_to be_available
       end
     end
 

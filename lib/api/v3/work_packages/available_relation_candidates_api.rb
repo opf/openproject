@@ -49,7 +49,7 @@ module API
           end
 
           def filter_param(key, operator, values)
-            { key => { operator: operator, values: values } }.with_indifferent_access
+            { key => { operator:, values: } }.with_indifferent_access
           end
         end
 

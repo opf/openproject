@@ -62,7 +62,7 @@ describe Principals::Scopes::PossibleAssignee, type: :model do
     context 'with the role being assignable' do
       context 'with the user status being active' do
         it 'returns non locked users, groups and placeholder users that are members' do
-          is_expected
+          expect(subject)
             .to match_array([member_user,
                              member_placeholder_user,
                              member_group])
@@ -73,7 +73,7 @@ describe Principals::Scopes::PossibleAssignee, type: :model do
         let(:user_status) { :registered }
 
         it 'returns non locked users, groups and placeholder users that are members' do
-          is_expected
+          expect(subject)
             .to match_array([member_user,
                              member_placeholder_user,
                              member_group])
@@ -84,7 +84,7 @@ describe Principals::Scopes::PossibleAssignee, type: :model do
         let(:user_status) { :invited }
 
         it 'returns non locked users, groups and placeholder users that are members' do
-          is_expected
+          expect(subject)
             .to match_array([member_user,
                              member_placeholder_user,
                              member_group])
@@ -95,7 +95,7 @@ describe Principals::Scopes::PossibleAssignee, type: :model do
         let(:user_status) { :locked }
 
         it 'returns non locked users, groups and placeholder users that are members' do
-          is_expected
+          expect(subject)
             .to match_array([member_placeholder_user,
                              member_group])
         end
@@ -106,7 +106,7 @@ describe Principals::Scopes::PossibleAssignee, type: :model do
       let(:role_assignable) { false }
 
       it 'returns nothing' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end

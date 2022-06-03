@@ -1188,3 +1188,6 @@ et:
         remove: 'Eemalda'
       drop_modal:
         Close: 'Sulge'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

@@ -47,6 +47,7 @@ describe '/api/v3/projects/:id/types' do
 
   describe '#get' do
     let(:get_path) { api_v3_paths.types_by_project requested_project.id }
+
     subject(:response) { last_response }
 
     before do

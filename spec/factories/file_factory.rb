@@ -51,10 +51,10 @@ FactoryBot.define do
 
     initialize_with do
       FileHelpers.mock_uploaded_file(
-        name: name,
-        content: content,
-        content_type: content_type,
-        binary: binary
+        name:,
+        content:,
+        content_type:,
+        binary:
       )
     end
 

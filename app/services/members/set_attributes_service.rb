@@ -61,7 +61,7 @@ module Members
 
     def build_roles(role_ids)
       role_ids.each do |role_id|
-        model.member_roles.build(role_id: role_id)
+        model.member_roles.build(role_id:)
       end
     end
   end

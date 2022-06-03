@@ -42,7 +42,7 @@ class CustomActions::Conditions::Base
 
   def allowed_values
     associated
-      .map { |value, label| { value: value, label: label } }
+      .map { |value, label| { value:, label: } }
   end
 
   def human_name
@@ -50,7 +50,7 @@ class CustomActions::Conditions::Base
   end
 
   def fulfilled_by?(work_package, _user)
-    work_package.respond_to?(:"#{key}_id") && values.include?(work_package.send(:"#{key}_id")) ||
+    (work_package.respond_to?(:"#{key}_id") && values.include?(work_package.send(:"#{key}_id"))) ||
       values.empty?
   end
 

@@ -37,7 +37,7 @@ describe Projects::Scopes::VisibleWithActivatedTimeActivity, type: :model do
   let(:current_user) do
     create(:user).tap do |u|
       create(:member,
-             project: project,
+             project:,
              principal: u,
              roles: [create(:role, permissions: project_permissions)])
 
@@ -58,7 +58,7 @@ describe Projects::Scopes::VisibleWithActivatedTimeActivity, type: :model do
     context 'without project specific overrides' do
       context 'and being active' do
         it 'returns all projects' do
-          is_expected
+          expect(subject)
             .to match_array [project, other_project]
         end
       end
@@ -69,7 +69,7 @@ describe Projects::Scopes::VisibleWithActivatedTimeActivity, type: :model do
         end
 
         it 'returns no projects' do
-          is_expected
+          expect(subject)
             .to be_empty
         end
       end
@@ -79,7 +79,7 @@ describe Projects::Scopes::VisibleWithActivatedTimeActivity, type: :model do
         let(:other_project_permissions) { [:view_own_time_entries] }
 
         it 'returns all projects' do
-          is_expected
+          expect(subject)
             .to match_array [project, other_project]
         end
       end
@@ -89,7 +89,7 @@ describe Projects::Scopes::VisibleWithActivatedTimeActivity, type: :model do
         let(:other_project_permissions) { [] }
 
         it 'returns all projects' do
-          is_expected
+          expect(subject)
             .to be_empty
         end
       end
@@ -103,7 +103,7 @@ describe Projects::Scopes::VisibleWithActivatedTimeActivity, type: :model do
 
       context 'and being active' do
         it 'returns the project the activity is activated in' do
-          is_expected
+          expect(subject)
             .to match_array [project]
         end
       end
@@ -114,7 +114,7 @@ describe Projects::Scopes::VisibleWithActivatedTimeActivity, type: :model do
         end
 
         it 'returns only the projects the activity is activated in' do
-          is_expected
+          expect(subject)
             .to match_array [project]
         end
       end

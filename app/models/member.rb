@@ -35,8 +35,8 @@ class Member < ApplicationRecord
   has_many :roles, -> { distinct }, through: :member_roles
   belongs_to :project
 
-  validates_presence_of :principal
-  validates_uniqueness_of :user_id, scope: :project_id
+  validates :principal, presence: true
+  validates :user_id, uniqueness: { scope: :project_id }
 
   validate :validate_presence_of_role
   validate :validate_presence_of_principal
@@ -47,9 +47,7 @@ class Member < ApplicationRecord
          :of,
          :visible
 
-  def name
-    principal.name
-  end
+  delegate :name, to: :principal
 
   def to_s
     name
@@ -71,7 +69,7 @@ class Member < ApplicationRecord
   def deletable_role?(role)
     member_roles
       .only_inherited
-      .where(role: role)
+      .where(role:)
       .none?
   end
 

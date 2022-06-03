@@ -95,12 +95,12 @@ module Components
 
     def click_button(text)
       within_body do
-        page.find('button:not([disabled])', text: text).click
+        page.find('button:not([disabled])', text:).click
       end
     end
 
-    def within_body(&block)
-      page.within(body_selector, &block)
+    def within_body(&)
+      page.within(body_selector, &)
     end
 
     def body_element

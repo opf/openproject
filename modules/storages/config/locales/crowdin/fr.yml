@@ -45,6 +45,11 @@ fr:
       setting_up_storages: "Pour configurer des stockages de fichiers, veuillez visiter"
       setting_up_storages_non_admin: "Les administrateurs peuvent configurer des stockages de fichiers dans Administration / Stockages de fichiers."
       all_available_storages_already_added: "Tous les stockages disponibles sont déjà ajoutés au projet."
+      nextcloud:
+        administration: Administration
+        oauth2_clients: OAuth2 clients
+        oauth_client_id: Copy the value from
+        oauth_client_secret: Copy the value from
     delete_warning:
       storage: >
         Voulez-vous vraiment supprimer ce stockage ? Cela supprimera également le stockage de tous les projets où il est utilisé. De plus, il supprimera également tous les liens des lots de travaux vers les fichiers stockés dans ce stockage.
@@ -55,11 +60,16 @@ fr:
     label_file_links: "Liens de fichier"
     label_name: "Nom"
     label_host: "Hôte"
+    label_oauth_client_details: "OAuth client details"
     label_provider_type: "Type de fournisseur"
     label_new_storage: "Nouveau stockage"
     label_storage: "Stockage"
     label_storages: "Stockages"
     no_results: "Aucun stockage configuré pour le moment."
+    label_oauth_client_id: "OAuth Client ID"
+    label_oauth_client_secret: "OAuth Client Secret"
     provider_types:
       label: "Type de fournisseur"
       nextcloud: "Nextcloud"
+    confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
+    oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."

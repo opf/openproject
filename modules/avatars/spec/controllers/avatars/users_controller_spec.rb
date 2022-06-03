@@ -27,6 +27,7 @@ describe ::Avatars::UsersController, type: :controller do
 
     context 'as another user' do
       let(:current_user) { create :user }
+
       before do
         get :show, params: { id: target_user.id }
       end

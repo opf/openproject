@@ -31,7 +31,7 @@ require 'contracts/shared/model_contract_shared_context'
 
 describe CustomActions::CuContract do
   include_context 'ModelContract shared context'
-  
+
   let(:user) { build_stubbed(:user) }
   let(:action) do
     build_stubbed(:custom_action, actions:
@@ -45,6 +45,7 @@ describe CustomActions::CuContract do
 
       expect_contract_valid
     end
+
     it 'needs to be set' do
       action.name = nil
 

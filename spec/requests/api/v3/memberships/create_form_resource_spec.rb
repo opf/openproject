@@ -38,7 +38,7 @@ describe ::API::V3::Memberships::CreateFormAPI, content_type: :json do
            member_in_project: project,
            member_through_role: role)
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:other_user) { create(:user) }
   let(:permissions) { [:manage_members] }
 
@@ -67,7 +67,7 @@ describe ::API::V3::Memberships::CreateFormAPI, content_type: :json do
     it 'does not create a member' do
       # 1 as the current user already has a membership
       expect(Member.count)
-        .to eql 1
+        .to be 1
     end
 
     context 'with empty parameters' do

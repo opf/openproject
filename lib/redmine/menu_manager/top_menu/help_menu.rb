@@ -98,7 +98,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
               OpenProject::Configuration.youtube_channel,
               title: I18n.t('label_videos'),
               class: 'op-menu--item-action',
-              target: '_blank'
+              target: '_blank', rel: 'noopener'
     end
     result << static_link_item(:shortcuts)
     result << static_link_item(:forums)
@@ -143,7 +143,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
               "#{link[:href]}#{options[:href_suffix]}",
               title: label,
               target: '_blank',
-              class: 'op-menu--item-action'
+              class: 'op-menu--item-action', rel: 'noopener'
     end
   end
 end

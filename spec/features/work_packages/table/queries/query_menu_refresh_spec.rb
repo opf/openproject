@@ -33,8 +33,8 @@ describe 'Refreshing query menu item', js: true do
   let(:project) { create :project }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
 
-  let(:work_package) { create :work_package, project: project }
-  let(:other_work_package) { create :work_package, project: project }
+  let(:work_package) { create :work_package, project: }
+  let(:other_work_package) { create :work_package, project: }
 
   before do
     login_as(user)

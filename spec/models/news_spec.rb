@@ -39,9 +39,9 @@ describe News, type: :model do
     project.reload
   end
 
-  let!(:news) { create(:news, project: project) }
+  let!(:news) { create(:news, project:) }
   let(:permissions) { [] }
-  let(:role) { build(:role, permissions: permissions) }
+  let(:role) { build(:role, permissions:) }
 
   it_behaves_like 'acts_as_watchable included' do
     let(:model_instance) { create(:news) }
@@ -50,7 +50,7 @@ describe News, type: :model do
   end
 
   describe '.latest' do
-    let(:project_news) { News.where(project: project) }
+    let(:project_news) { News.where(project:) }
 
     before do
       Role.anonymous
@@ -77,9 +77,7 @@ describe News, type: :model do
     it 'limits the number of returned news elements' do
       project_news.delete_all
 
-      10.times do
-        create(:news, project: project)
-      end
+      create_list(:news, 10, project:)
 
       expect(project_news.latest(user: User.current, count:  2).size).to eq(2)
       expect(project_news.latest(user: User.current, count:  6).size).to eq(6)
@@ -89,20 +87,14 @@ describe News, type: :model do
     it 'returns five news elements by default' do
       project_news.delete_all
 
-      2.times do
-        create(:news, project: project)
-      end
+      create_list(:news, 2, project:)
 
       expect(project_news.latest.size).to eq(2)
 
-      3.times do
-        create(:news, project: project)
-      end
+      create_list(:news, 3, project:)
       expect(project_news.latest.size).to eq(5)
 
-      2.times do
-        create(:news, project: project)
-      end
+      create_list(:news, 2, project:)
       expect(project_news.latest.size).to eq(5)
     end
   end
@@ -115,7 +107,7 @@ describe News, type: :model do
       project.members.reload
 
       perform_enqueued_jobs do
-        create(:news, project: project)
+        create(:news, project:)
       end
       expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
@@ -124,7 +116,7 @@ describe News, type: :model do
   describe '#to_param' do
     it 'includes includes id and title for a nicer url' do
       title = 'OpenProject now has a Twitter Account'
-      news  = create(:news, title: title)
+      news  = create(:news, title:)
       slug  = "#{news.id}-openproject-now-has-a-twitter-account"
 
       expect(news.to_param).to eq slug

@@ -39,7 +39,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   def render_projects_dropdown
     label = !!(@project && !@project.name.empty?) ? @project.name : t(:label_select_project)
     render_menu_dropdown_with_items(
-      label: label,
+      label:,
       label_options: {
         id: 'projects-menu',
         accesskey: OpenProject::AccessKeys.key_for(:project_search),

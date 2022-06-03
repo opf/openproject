@@ -37,7 +37,7 @@ describe 'API v3 Principals resource', type: :request do
     subject(:response) { last_response }
 
     let(:path) do
-      api_v3_paths.path_for :principals, filters: filter, sort_by: order, select: select
+      api_v3_paths.path_for :principals, filters: filter, sort_by: order, select:
     end
     let(:order) { { name: :desc } }
     let(:filter) { nil }
@@ -45,7 +45,7 @@ describe 'API v3 Principals resource', type: :request do
     let(:project) { create(:project) }
     let(:other_project) { create(:project) }
     let(:non_member_project) { create(:project) }
-    let(:role) { create(:role, permissions: permissions) }
+    let(:role) { create(:role, permissions:) }
     let(:permissions) { [] }
     let(:user) do
       user = create(:user,

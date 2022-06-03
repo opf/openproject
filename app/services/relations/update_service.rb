@@ -30,7 +30,7 @@ class Relations::UpdateService < Relations::BaseService
   attr_accessor :model
 
   def initialize(user:, model:)
-    super(user: user)
+    super(user:)
     self.model = model
     self.contract_class = Relations::UpdateContract
   end

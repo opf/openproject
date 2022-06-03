@@ -37,37 +37,37 @@ describe 'Only see your own rates', type: :feature, js: true do
   end
   let(:role) do
     create :role, permissions: %i[view_own_hourly_rate
-                                             view_work_packages
-                                             view_work_packages
-                                             view_own_time_entries
-                                             view_own_cost_entries
-                                             view_cost_rates
-                                             log_costs]
+                                  view_work_packages
+                                  view_work_packages
+                                  view_own_time_entries
+                                  view_own_cost_entries
+                                  view_cost_rates
+                                  log_costs]
   end
   let(:work_package) { create :work_package }
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package) }
   let(:hourly_rate) do
-    create :default_hourly_rate, user: user,
-                                            rate: 10.00
+    create :default_hourly_rate, user:,
+                                 rate: 10.00
   end
   let(:time_entry) do
-    create :time_entry, user: user,
-                                   work_package: work_package,
-                                   project: project,
-                                   hours: 1.00
+    create :time_entry, user:,
+                        work_package:,
+                        project:,
+                        hours: 1.00
   end
   let(:cost_type) do
     type = create :cost_type, name: 'Translations'
     create :cost_rate, cost_type: type,
-                                  rate: 7.00
+                       rate: 7.00
     type
   end
   let(:cost_entry) do
-    create :cost_entry, work_package: work_package,
-                                   project: project,
-                                   units: 2.00,
-                                   cost_type: cost_type,
-                                   user: user
+    create :cost_entry, work_package:,
+                        project:,
+                        units: 2.00,
+                        cost_type:,
+                        user:
   end
   let(:other_role) { create :role, permissions: [] }
   let(:other_user) do
@@ -77,20 +77,20 @@ describe 'Only see your own rates', type: :feature, js: true do
   end
   let(:other_hourly_rate) do
     create :default_hourly_rate, user: other_user,
-                                            rate: 11.00
+                                 rate: 11.00
   end
   let(:other_time_entry) do
     create :time_entry, user: other_user,
-                                   hours: 3.00,
-                                   project: project,
-                                   work_package: work_package
+                        hours: 3.00,
+                        project:,
+                        work_package:
   end
   let(:other_cost_entry) do
-    create :cost_entry, work_package: work_package,
-                                   project: project,
-                                   units: 5.00,
-                                   user: other_user,
-                                   cost_type: cost_type
+    create :cost_entry, work_package:,
+                        project:,
+                        units: 5.00,
+                        user: other_user,
+                        cost_type:
   end
 
   before do

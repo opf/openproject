@@ -82,8 +82,11 @@ module LegacyAssertionsAndHelpers
     file
   end
 
-  def with_legacy_settings(options, &_block)
-    saved_settings = options.keys.inject({}) { |h, k| h[k] = Setting[k].dup; h }
+  def with_legacy_settings(options, &)
+    saved_settings = options.keys.inject({}) do |h, k|
+      h[k] = Setting[k].dup
+      h
+    end
     options.each { |k, v| Setting[k] = v }
     yield
   ensure

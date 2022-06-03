@@ -1188,3 +1188,6 @@ tr:
         remove: 'Kaldır'
       drop_modal:
         Close: 'Kapat'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

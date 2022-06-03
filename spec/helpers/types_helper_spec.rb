@@ -54,7 +54,7 @@ describe TypesHelper, type: :helper do
 
       # The "assignee" is in "group one". It should not appear in :inactives.
       it 'does not contain attributes that do not exist anymore' do
-        expect(subject.map { |inactive| inactive[:key] }).to_not include "assignee"
+        expect(subject.pluck(:key)).not_to include "assignee"
       end
     end
 

@@ -62,7 +62,7 @@ vi:
     button_confirm: "Xác nhận"
     button_continue: "Tiếp tục"
     button_copy: "Sao chép"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Sao chép sang dự án khác"
     button_custom-fields: "Tùy chỉnh mục"
     button_delete: "Xoá"
     button_delete_watcher: "Xóa người xem"
@@ -383,7 +383,7 @@ vi:
     label_next: "Tiếp"
     label_no_color: "Không màu"
     label_no_data: "Không có dữ liệu để hiển thị"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "không có ngày hoàn thành"
     label_no_start_date: "không có ngày bắt đầu"
     label_no_value: "Không có giá trị"
     label_none: "không"
@@ -1184,3 +1184,6 @@ vi:
         remove: 'Xoá'
       drop_modal:
         Close: 'Đóng'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

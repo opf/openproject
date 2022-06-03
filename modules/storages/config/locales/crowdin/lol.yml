@@ -45,6 +45,11 @@ lol:
       setting_up_storages: "crwdns807942:0crwdne807942:0"
       setting_up_storages_non_admin: "crwdns807944:0crwdne807944:0"
       all_available_storages_already_added: "crwdns807946:0crwdne807946:0"
+      nextcloud:
+        administration: crwdns816754:0crwdne816754:0
+        oauth2_clients: crwdns816756:0crwdne816756:0
+        oauth_client_id: crwdns816758:0crwdne816758:0
+        oauth_client_secret: crwdns816760:0crwdne816760:0
     delete_warning:
       storage: >
         crwdns807948:0crwdne807948:0
@@ -55,11 +60,16 @@ lol:
     label_file_links: "crwdns807956:0crwdne807956:0"
     label_name: "crwdns807958:0crwdne807958:0"
     label_host: "crwdns807960:0crwdne807960:0"
+    label_oauth_client_details: "crwdns816762:0crwdne816762:0"
     label_provider_type: "crwdns807962:0crwdne807962:0"
     label_new_storage: "crwdns807964:0crwdne807964:0"
     label_storage: "crwdns807966:0crwdne807966:0"
     label_storages: "crwdns807968:0crwdne807968:0"
     no_results: "crwdns807970:0crwdne807970:0"
+    label_oauth_client_id: "crwdns816764:0crwdne816764:0"
+    label_oauth_client_secret: "crwdns816766:0crwdne816766:0"
     provider_types:
       label: "crwdns807972:0crwdne807972:0"
       nextcloud: "crwdns807974:0crwdne807974:0"
+    confirm_replace_oauth_client: "crwdns816768:0crwdne816768:0"
+    oauth_client_details_missing: "crwdns816770:0crwdne816770:0"

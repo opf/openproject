@@ -34,7 +34,7 @@ describe 'model viewer',
          js: true do
   let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
   # TODO: Add empty viewpoint and stub method to load viewpoints once defined
-  let(:work_package) { create(:work_package, project: project) }
+  let(:work_package) { create(:work_package, project:) }
   let(:role) { create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }
 
   let(:user) do
@@ -45,7 +45,7 @@ describe 'model viewer',
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
-           project: project,
+           project:,
            uploader: user)
   end
 

@@ -105,7 +105,7 @@ module Users
       user.register
 
       with_saved_user_result(success_message: I18n.t(:notice_account_register_done)) do
-        token = Token::Invitation.create!(user: user)
+        token = Token::Invitation.create!(user:)
         UserMailer.user_signed_up(token).deliver_later
         Rails.logger.info { "Scheduled email activation mail for #{user.login}" }
       end

@@ -70,7 +70,7 @@ describe 'Menu item traversal', type: :feature do
         visit link
 
         expect(current_url).to include link
-        expect(page).to have_http_status(200)
+        expect(page).to have_http_status(:ok)
         expect(page).to have_no_text(I18n.t(:notice_not_authorized))
         expect(page).to have_selector '#menu-sidebar .selected'
       }

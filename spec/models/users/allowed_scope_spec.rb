@@ -37,8 +37,8 @@ describe User, 'allowed scope' do
   let(:role2) { build(:role) }
   let(:anonymous_role) { build(:anonymous_role) }
   let(:member) do
-    build(:member, project: project,
-                              roles: [role])
+    build(:member, project:,
+                   roles: [role])
   end
 
   let(:action) { :view_work_packages }

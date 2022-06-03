@@ -43,7 +43,7 @@ module OpenProject::Backlogs::Patches::ProjectSeederPatch
 
       versions.each do |version|
         display = version_settings_display_map[version.name] || VersionSetting::DISPLAY_NONE
-        version.version_settings.create! display: display, project: version.project
+        version.version_settings.create! display:, project: version.project
       end
     end
 

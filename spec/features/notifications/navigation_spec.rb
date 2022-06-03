@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe "Notification center navigation", type: :feature, js: true do
   shared_let(:project) { create :project }
-  shared_let(:work_package) { create :work_package, project: project }
-  shared_let(:second_work_package) { create :work_package, project: project }
+  shared_let(:work_package) { create :work_package, project: }
+  shared_let(:second_work_package) { create :work_package, project: }
   shared_let(:recipient) do
     create :user,
            member_in_project: project,
@@ -11,16 +11,16 @@ describe "Notification center navigation", type: :feature, js: true do
   end
   shared_let(:notification) do
     create :notification,
-           recipient: recipient,
-           project: project,
+           recipient:,
+           project:,
            resource: work_package,
            journal: work_package.journals.last
   end
 
   shared_let(:second_notification) do
     create :notification,
-           recipient: recipient,
-           project: project,
+           recipient:,
+           project:,
            resource: second_work_package,
            journal: second_work_package.journals.last
   end

@@ -62,7 +62,7 @@ describe 'Work Package cost fields', type: :feature, js: true do
     type
   end
 
-  shared_let(:work_package) { create :work_package, project: project, status: status, type: type_task }
+  shared_let(:work_package) { create :work_package, project:, status:, type: type_task }
   shared_let(:full_view) { ::Pages::FullWorkPackage.new(work_package, project) }
 
   before do

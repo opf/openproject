@@ -7,9 +7,7 @@ class RowCell < RailsCell
     options[:table]
   end
 
-  def columns
-    table.columns
-  end
+  delegate :columns, to: :table
 
   def column_value(column)
     value = send column
@@ -40,7 +38,7 @@ class RowCell < RailsCell
   def column_css_classes
     entries = columns.map { |name| [name, name] }
 
-    Hash[entries]
+    entries.to_h
   end
 
   def column_title(_column)

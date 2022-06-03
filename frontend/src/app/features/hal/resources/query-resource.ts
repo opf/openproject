@@ -64,6 +64,10 @@ export class QueryResource extends HalResource {
 
   public sortBy:QuerySortByResource[];
 
+  public setSortBy(newSortBy:QuerySortByResource[]):void {
+    this.sortBy = newSortBy;
+  }
+
   public filters:QueryFilterInstanceResource[];
 
   public starred:boolean;

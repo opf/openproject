@@ -95,6 +95,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
 
   describe '#create' do
     let(:save_result) { false }
+
     before do
       allow_any_instance_of(::LdapGroups::SynchronizedGroup).to receive(:save).and_return(save_result)
       post :create, params: { synchronized_group: params }
@@ -125,6 +126,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
 
         context 'and saving succeeds' do
           let(:save_result) { true }
+
           it 'renders 200' do
             expect(flash[:notice]).to be_present
             expect(response).to redirect_to action: :index

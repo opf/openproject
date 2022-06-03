@@ -143,13 +143,13 @@ module Type::AttributeGroups
                to_attribute_group_array(attribute_groups_objects)
              end
 
-    write_attribute(:attribute_groups, groups)
+    self[:attribute_groups] = groups
 
     cleanup_query_groups_queries
   end
 
   def custom_attribute_groups
-    read_attribute(:attribute_groups).presence
+    self[:attribute_groups].presence
   end
 
   def default_group_key(key)
@@ -222,7 +222,7 @@ module Type::AttributeGroups
   def cleanup_query_groups_queries
     return unless attribute_groups_changed?
 
-    new_groups = read_attribute(:attribute_groups)
+    new_groups = self[:attribute_groups]
     old_groups = attribute_groups_was
 
     ids = (old_groups.map(&:last).flatten - new_groups.map(&:last).flatten)

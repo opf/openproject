@@ -46,7 +46,7 @@ module Pages
 
       def expect_password_reuse_error_message(count)
         expect_toast(type: :error,
-                     message: I18n.t(:'activerecord.errors.models.user.attributes.password.reused', count: count))
+                     message: I18n.t(:'activerecord.errors.models.user.attributes.password.reused', count:))
       end
 
       def expect_password_weak_error_message

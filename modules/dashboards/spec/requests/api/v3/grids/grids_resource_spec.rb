@@ -42,8 +42,8 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   let(:project) { create(:project) }
   let(:grid) do
     create(:dashboard,
-           project: project,
-           widgets: widgets)
+           project:,
+           widgets:)
   end
   let(:widgets) do
     [create(:grid_widget,
@@ -107,7 +107,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       let(:path) { api_v3_paths.grid(grid.id + 1) }
 
       it 'responds with 404 NOT FOUND' do
-        expect(subject.status).to eql 404
+        expect(subject.status).to be 404
       end
     end
   end
@@ -123,10 +123,10 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
     let(:params) do
       {
-        "rowCount": 10,
-        "name": 'foo',
-        "columnCount": 15,
-        "widgets": widget_params
+        rowCount: 10,
+        name: 'foo',
+        columnCount: 15,
+        widgets: widget_params
       }.with_indifferent_access
     end
 
@@ -140,17 +140,17 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       let(:widget_params) do
         [
           {
-            "startColumn": 1,
-            "startRow": 1,
-            "endColumn": 3,
-            "endRow": 3,
-            "identifier": "custom_text",
-            "options": {
-              "name": "Name for custom text widget",
-              "text": {
-                "format": "markdown",
-                "raw": "A custom text text",
-                "html": "<p>A custom text text</p>"
+            startColumn: 1,
+            startRow: 1,
+            endColumn: 3,
+            endRow: 3,
+            identifier: "custom_text",
+            options: {
+              name: "Name for custom text widget",
+              text: {
+                format: "markdown",
+                raw: "A custom text text",
+                html: "<p>A custom text text</p>"
               }
             }
           }.with_indifferent_access

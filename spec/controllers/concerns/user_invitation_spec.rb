@@ -31,7 +31,7 @@ require 'spec_helper'
 describe UserInvitation do
   describe '.reinvite_user' do
     let(:user) { create :invited_user }
-    let!(:token) { create :invitation_token, user: user }
+    let!(:token) { create :invitation_token, user: }
 
     it 'notifies listeners of the re-invite' do
       expect(OpenProject::Notifications).to receive(:send) do |event, _new_token|
@@ -45,7 +45,7 @@ describe UserInvitation do
       new_token = UserInvitation.reinvite_user user.id
 
       expect(new_token.value).not_to eq token.value
-      expect(Token::Invitation.exists?(token.id)).to eq false
+      expect(Token::Invitation.exists?(token.id)).to be false
     end
   end
 end

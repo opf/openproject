@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'Administrating memberships via the project settings', type: :feature, js: true do
+describe 'Administrating memberships via the project settings', type: :feature, js: true do
   shared_let(:admin) { create :admin }
   let(:current_user) do
     create(:user,
@@ -65,9 +65,9 @@ feature 'Administrating memberships via the project settings', type: :feature, j
 
   let!(:manager)   { create :role, name: 'Manager', permissions: [:manage_members] }
   let!(:developer) { create :role, name: 'Developer' }
-  let(:member1) { create(:member, principal: peter, project: project, roles: [manager]) }
-  let(:member2) { create(:member, principal: hannibal, project: project, roles: [developer]) }
-  let(:member3) { create(:member, principal: group, project: project, roles: [manager]) }
+  let(:member1) { create(:member, principal: peter, project:, roles: [manager]) }
+  let(:member2) { create(:member, principal: hannibal, project:, roles: [developer]) }
+  let(:member3) { create(:member, principal: group, project:, roles: [manager]) }
 
   let!(:existing_members) { [] }
 
@@ -84,7 +84,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
   context 'with members in the project' do
     let!(:existing_members) { [member1, member2, member3] }
 
-    scenario 'sorting the page' do
+    it 'sorting the page' do
       members_page.expect_sorted_by 'name'
       expect(members_page.contents('name')).to eq [group.name, hannibal.name, peter.name]
 
@@ -114,7 +114,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     end
   end
 
-  scenario 'Adding and Removing a Group as Member' do
+  it 'Adding and Removing a Group as Member' do
     members_page.add_user! 'A-Team', as: 'Manager'
 
     expect(members_page).to have_added_group('A-Team')
@@ -126,7 +126,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     expect(page).to have_text 'There are currently no members part of this project.'
   end
 
-  scenario 'Adding and removing a User as Member' do
+  it 'Adding and removing a User as Member' do
     members_page.add_user! 'Hannibal Smith', as: 'Manager'
 
     expect(members_page).to have_added_user 'Hannibal Smith'
@@ -138,7 +138,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     expect(page).to have_text 'There are currently no members part of this project.'
   end
 
-  scenario 'Adding and removing a Placeholder as Member' do
+  it 'Adding and removing a Placeholder as Member' do
     members_page.add_user! developer_placeholder.name, as: developer.name
 
     expect(members_page).to have_added_user developer_placeholder.name
@@ -150,7 +150,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     expect(page).to have_text 'There are currently no members part of this project.'
   end
 
-  scenario 'Entering a Username as Member in firstname, lastname order' do
+  it 'Entering a Username as Member in firstname, lastname order' do
     members_page.open_new_member!
     SeleniumHubWaiter.wait
 
@@ -158,7 +158,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     expect(members_page).to have_search_result 'Hannibal Smith'
   end
 
-  scenario 'Entering a Username as Member in lastname, firstname order' do
+  it 'Entering a Username as Member in lastname, firstname order' do
     members_page.open_new_member!
     SeleniumHubWaiter.wait
 
@@ -166,7 +166,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     expect(members_page).to have_search_result 'Hannibal Smith'
   end
 
-  scenario 'Escaping should work properly when entering a name' do
+  it 'Escaping should work properly when entering a name' do
     members_page.open_new_member!
     SeleniumHubWaiter.wait
 

@@ -42,9 +42,7 @@ module Versions
       model
     end
 
-    def project
-      version.project
-    end
+    delegate :project, to: :version
 
     def row_css_class
       shared = "shared" if version.project != table.project

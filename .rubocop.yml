@@ -175,7 +175,7 @@ RSpec/MultipleMemoizedHelpers:
   Enabled: false
 
 RSpec/NestedGroups:
-  Max: 4
+  Enabled: false
 
 # Don't force the second argument of describe
 # to be .class_method or #instance_method

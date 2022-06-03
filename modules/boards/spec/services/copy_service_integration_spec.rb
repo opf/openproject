@@ -34,29 +34,33 @@ describe Projects::CopyService, 'integration', type: :model do
            member_in_project: source,
            member_through_role: role)
   end
+  let(:project_copy) { subject.result }
+  let(:board_copies) { Boards::Grid.where(project: project_copy) }
+  let(:board_copy) { board_copies.first }
   let!(:source) { create :project, enabled_module_names: %w[boards work_package_tracking] }
   let(:query) { board_view.contained_queries.first }
   let(:role) { create :role, permissions: %i[copy_projects] }
   let(:instance) do
-    described_class.new(source: source, user: current_user)
+    described_class.new(source:, user: current_user)
   end
   let(:only_args) { %w[work_packages boards] }
   let(:target_project_params) do
     { name: 'Some name', identifier: 'some-identifier' }
   end
   let(:params) do
-    { target_project_params: target_project_params, only: only_args }
+    { target_project_params:, only: only_args }
   end
+
   subject { instance.call(params) }
-  let(:project_copy) { subject.result }
-  let(:board_copies) { Boards::Grid.where(project: project_copy) }
-  let(:board_copy) { board_copies.first }
 
   describe 'for a subproject board' do
     let(:current_user) do
       create(:user,
              member_in_projects: [source, child_project],
              member_through_role: role)
+    end
+    let(:expected_error) do
+      "Widget contained in Grid Board 'Subproject board': Only subproject filter has invalid values."
     end
     let!(:child_project) { create :project, parent: source }
     let!(:board_view) do
@@ -73,10 +77,6 @@ describe Projects::CopyService, 'integration', type: :model do
       query = board_view.contained_queries.first
       query.add_filter('only_subproject_id', '=', child_project.id)
       query.save!
-    end
-
-    let(:expected_error) do
-      "Widget contained in Grid Board 'Subproject board': Only subproject filter has invalid values."
     end
 
     it 'will succeed to copy, but add an error for the missing subproject column (Regression #34550)' do
@@ -99,8 +99,8 @@ describe Projects::CopyService, 'integration', type: :model do
     let!(:wp_2) { create(:work_package, project: source, subject: 'First') }
 
     before do
-      ::OrderedWorkPackage.create(query: query, work_package: wp_1, position: 1234)
-      ::OrderedWorkPackage.create(query: query, work_package: wp_2, position: -1000)
+      ::OrderedWorkPackage.create(query:, work_package: wp_1, position: 1234)
+      ::OrderedWorkPackage.create(query:, work_package: wp_2, position: -1000)
     end
 
     describe 'call' do

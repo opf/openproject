@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'WYSIWYG UI localization',
          type: :feature, js: true do
-  let(:user) { create(:admin, language: language) }
+  let(:user) { create(:admin, language:) }
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { ::Components::WysiwygEditor.new }
 

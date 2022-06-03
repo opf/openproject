@@ -43,7 +43,7 @@ module API
 
               representer.new(filters,
                               self_link: api_v3_paths.query_project_filter_instance_schemas(@project.id),
-                              current_user: current_user)
+                              current_user:)
             end
           end
         end

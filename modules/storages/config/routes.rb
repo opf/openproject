@@ -29,7 +29,9 @@
 OpenProject::Application.routes.draw do
   namespace :admin do
     namespace :settings do
-      resources :storages, controller: '/storages/admin/storages'
+      resources :storages, controller: '/storages/admin/storages' do
+        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
+      end
     end
   end
 

@@ -1,12 +1,12 @@
 RSpec.configure do |config|
-  config.before(:each) do
+  config.before do
     # Clear any mail deliveries
     # This happens automatically for :mailer specs
     ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.deliveries.clear
   end
 
-  config.append_after(:each) do
+  config.append_after do
     # Cleanup after specs changing locale explicitly or
     # by calling code in the app setting changing the locale.
     I18n.locale = :en unless I18n.locale == :en

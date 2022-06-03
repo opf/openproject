@@ -52,8 +52,8 @@ describe ::API::V3::Groups::GroupCollectionRepresenter do
     described_class.new(groups,
                         self_link: self_base_link,
                         per_page: page_size,
-                        page: page,
-                        current_user: current_user)
+                        page:,
+                        current_user:)
   end
   let(:total) { 3 }
   let(:page) { 1 }

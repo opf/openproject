@@ -72,7 +72,7 @@ module Pages
     end
 
     def expect_view_mode(text)
-      expect(page).to have_selector('.fc-button-active', text: text)
+      expect(page).to have_selector('.fc-button-active', text:)
 
       param = {
         '1-week' => :resourceTimelineWeek,
@@ -83,7 +83,7 @@ module Pages
     end
 
     def switch_view_mode(text)
-      page.find('.fc-button', text: text).click
+      page.find('.fc-button', text:).click
       expect_view_mode(text)
     end
 
@@ -108,17 +108,17 @@ module Pages
       JS
 
       page.execute_script(script, assignee, start_date, end_date)
-      ::Pages::SplitWorkPackageCreate.new project: project
+      ::Pages::SplitWorkPackageCreate.new project:
     end
 
     def remove_assignee(user)
       page.find(%([data-qa-remove-assignee="#{user.id}"])).click
     end
 
-    def within_lane(user, &block)
+    def within_lane(user, &)
       raise ArgumentError.new("Expected instance of principal") unless user.is_a?(Principal)
 
-      page.within(lane(user), &block)
+      page.within(lane(user), &)
     end
 
     def expect_event(work_package, present: true)
@@ -172,7 +172,7 @@ module Pages
     def drag_wp_by_pixel(work_package, by_x, by_y)
       source = event(work_package)
 
-      drag_by_pixel(element: source, by_x: by_x, by_y: by_y)
+      drag_by_pixel(element: source, by_x:, by_y:)
     end
 
     def drag_wp_to_lane(work_package, user)

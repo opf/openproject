@@ -35,7 +35,7 @@ describe 'Documents widget on dashboard', type: :feature, js: true do
   let!(:other_project) { create :project }
   let!(:visible_document) do
     create :document,
-           project: project,
+           project:,
            description: 'blubs'
   end
   let!(:invisible_document) do
@@ -50,7 +50,7 @@ describe 'Documents widget on dashboard', type: :feature, js: true do
   end
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project: project, roles: [role], user: u)
+      create(:member, project:, roles: [role], user: u)
       create(:member, project: other_project, roles: [role], user: u)
     end
   end

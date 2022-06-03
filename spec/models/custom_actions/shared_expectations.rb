@@ -172,7 +172,7 @@ shared_examples_for 'associated custom action validations' do
     end
 
     it 'adds an error on actions if there are more values than one (depending on multi_value?)' do
-      instance.values = allowed_values.map { |a| a[:value] }
+      instance.values = allowed_values.pluck(:value)
 
       instance.validate(errors)
 

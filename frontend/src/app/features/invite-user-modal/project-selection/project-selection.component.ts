@@ -36,6 +36,7 @@ export class ProjectSelectionComponent implements OnInit {
   public text = {
     title: this.I18n.t('js.invite_user_modal.title.invite'),
     project: {
+      label: this.I18n.t('js.invite_user_modal.project.label'),
       required: this.I18n.t('js.invite_user_modal.project.required'),
       lackingPermission: this.I18n.t('js.invite_user_modal.project.lacking_permission'),
       lackingPermissionInfo: this.I18n.t('js.invite_user_modal.project.lacking_permission_info'),

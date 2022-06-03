@@ -37,14 +37,14 @@ describe User, 'allowed_to?' do
   let(:role2) { build(:role) }
   let(:anonymous_role) { build(:anonymous_role) }
   let(:member) do
-    build(:member, project: project,
-                              roles: [role],
-                              principal: user)
+    build(:member, project:,
+                   roles: [role],
+                   principal: user)
   end
   let(:member2) do
     build(:member, project: project2,
-                              roles: [role2],
-                              principal: user)
+                   roles: [role2],
+                   principal: user)
   end
   let(:global_permission) { OpenProject::AccessControl.permissions.find { |p| p.global? } }
   let(:global_role) { build(:global_role, permissions: [global_permission.name]) }

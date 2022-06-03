@@ -56,7 +56,7 @@ describe 'API v3 Query Schema resource', type: :request do
 
     it 'succeeds' do
       expect(subject.status)
-        .to eql(200)
+        .to be(200)
     end
 
     it 'returns the schema' do

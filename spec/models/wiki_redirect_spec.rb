@@ -29,7 +29,7 @@ require 'spec_helper'
 
 describe WikiRedirect, type: :model do
   let(:wiki) { create(:wiki) }
-  let(:wiki_page) { create(:wiki_page, wiki: wiki, title: 'Original title') }
+  let(:wiki_page) { create(:wiki_page, wiki:, title: 'Original title') }
 
   context 'when renaming the page' do
     before do
@@ -100,7 +100,7 @@ describe WikiRedirect, type: :model do
 
   context 'when an equally named redirect already exists' do
     before do
-      WikiRedirect.create!(wiki: wiki, title: 'an-old-page', redirects_to: 'other-page')
+      WikiRedirect.create!(wiki:, title: 'an-old-page', redirects_to: 'other-page')
 
       wiki_page.title = 'An old page'
       wiki_page.save
@@ -112,9 +112,8 @@ describe WikiRedirect, type: :model do
     end
   end
 
-
   it 'is removed when deleting the page' do
-    redirect = WikiRedirect.create(wiki: wiki, title: 'an-old-page', redirects_to: wiki_page.slug)
+    redirect = WikiRedirect.create(wiki:, title: 'an-old-page', redirects_to: wiki_page.slug)
 
     wiki_page.destroy
     expect(WikiRedirect)

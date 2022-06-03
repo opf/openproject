@@ -107,7 +107,7 @@ module AuthSourceSSO
   end
 
   def find_or_create_sso_user(login, save: false)
-    find_user_from_auth_source(login) || create_user_from_auth_source(login, save: save)
+    find_user_from_auth_source(login) || create_user_from_auth_source(login, save:)
   end
 
   def find_user_from_auth_source(login)
@@ -174,7 +174,7 @@ module AuthSourceSSO
 
   def handle_sso_for!(user, login)
     if sso_login_failed?(user)
-      handle_sso_failure!(login: login)
+      handle_sso_failure!(login:)
     else
       # valid user
       # If a user is invited, ensure it gets activated
@@ -208,7 +208,7 @@ module AuthSourceSSO
 
   def handle_sso_failure!(login: nil)
     session[:auth_source_sso_failure] = {
-      login: login,
+      login:,
       back_url: request.base_url + request.original_fullpath,
       ttl: 1
     }

@@ -38,13 +38,11 @@ module Redmine
     end
 
     def self.all_languages
-      @@all_languages ||= begin
-        Dir.glob(Rails.root.join('config/locales/**/*.yml'))
+      @@all_languages ||= Dir.glob(Rails.root.join('config/locales/**/*.yml'))
           .map { |f| File.basename(f).split('.').first }
           .reject! { |l| /\Ajs-/.match(l.to_s) }
           .uniq
           .map(&:to_sym)
-      end
     end
 
     def l_or_humanize(s, options = {})
@@ -58,14 +56,14 @@ module Redmine
     end
 
     def localized_float(number, locale: ::I18n.locale, precision: 2)
-      number_with_precision(number, locale: locale, precision: precision)
+      number_with_precision(number, locale:, precision:)
     rescue StandardError => e
       Rails.logger.error("Failed to localize float number #{number}: #{e}")
       ('%.2f' % hours.to_f)
     end
 
     def ll(lang, str, value = nil)
-      ::I18n.t(str.to_s, value: value, locale: lang.to_s.gsub(%r{(.+)-(.+)$}) { "#{$1}-#{$2.upcase}" })
+      ::I18n.t(str.to_s, value:, locale: lang.to_s.gsub(%r{(.+)-(.+)$}) { "#{$1}-#{$2.upcase}" })
     end
 
     def format_date(date)
@@ -94,7 +92,7 @@ module Redmine
     # @param i18n_key [String] The I18n key to translate.
     # @param links [Hash] Link names mapped to URLs.
     def link_translate(i18n_key, links: {}, locale: ::I18n.locale)
-      translation = ::I18n.t(i18n_key.to_s, locale: locale)
+      translation = ::I18n.t(i18n_key.to_s, locale:)
       result = translation.scan(link_regex).inject(translation) do |t, matches|
         link, text, key = matches
         href = String(links[key.to_sym])
@@ -191,9 +189,9 @@ module Redmine
     def all_attribute_translations(locale = current_locale)
       @cached_attribute_translations ||= {}
       @cached_attribute_translations[locale] ||= begin
-        general_attributes = ::I18n.t('attributes', locale: locale)
+        general_attributes = ::I18n.t('attributes', locale:)
         ::I18n.t('activerecord.attributes',
-                 locale: locale).inject(general_attributes) do |attr_t, model_t|
+                 locale:).inject(general_attributes) do |attr_t, model_t|
           attr_t.merge(model_t.last || {})
         end
       end

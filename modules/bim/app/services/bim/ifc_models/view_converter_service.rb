@@ -46,11 +46,9 @@ module Bim
       end
 
       def self.available_commands
-        @available_commands ||= begin
-          PIPELINE_COMMANDS.select do |command|
-            _, status = Open3.capture2e('which', command)
-            status.exitstatus.zero?
-          end
+        @available_commands ||= PIPELINE_COMMANDS.select do |command|
+          _, status = Open3.capture2e('which', command)
+          status.exitstatus.zero?
         end
       end
 

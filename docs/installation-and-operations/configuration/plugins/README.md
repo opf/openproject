@@ -46,6 +46,13 @@ If your plugin links into the Angular frontend, you will need to set the followi
 openproject config:set RECOMPILE_ANGULAR_ASSETS="true"
 ```
 
+<div class="alert alert-info" role="alert">
+**Note**: Re-enabling Angular asset compilation has two implications: It will install all npm packages required for the compilation and in turn cause a higher disk and especially inode consumption. The Angular CLI production build itself then consumes a sometimes absurd amount of RAM with at least 4GB being required to compile successfully.
+  
+If you experience any issues with OpenProject not starting after setting this flag, double check that you are not running out of inodes or RAM when calling `openproject configure`.
+</div>
+
+
 ## Re-run the installer
 
 To re-bundle the application including the new plugins, as well as running migrations and precompiling their assets, simply re-run the installer while using the same configuration as before.

@@ -51,7 +51,7 @@ describe 'wiki child pages', type: :feature, js: true do
     login_as user
   end
 
-  scenario 'adding a childpage' do
+  it 'adding a childpage' do
     visit project_wiki_path(project, parent_page.title)
 
     click_on 'Wiki page'

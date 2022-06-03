@@ -55,7 +55,7 @@ module Components
       end
 
       def expect_number_of_groups(count)
-        expect(page).to have_selector('[data-qa-selector="op-group--value"] .count', count: count)
+        expect(page).to have_selector('[data-qa-selector="op-group--value"] .count', count:)
       end
 
       def expect_grouped_by_value(value_name, count)
@@ -80,8 +80,8 @@ module Components
         page.find(".generic-table--sort-header ##{name.downcase}").click
       end
 
-      def within_column_context_menu(&block)
-        page.within('#column-context-menu', &block)
+      def within_column_context_menu(&)
+        page.within('#column-context-menu', &)
       end
     end
   end

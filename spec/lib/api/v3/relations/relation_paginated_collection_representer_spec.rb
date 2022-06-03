@@ -58,7 +58,7 @@ describe ::API::V3::Relations::RelationPaginatedCollectionRepresenter do
   let(:representer) do
     described_class.new(relations,
                         self_link: self_base_link,
-                        page: page,
+                        page:,
                         per_page: page_size,
                         current_user: user)
   end

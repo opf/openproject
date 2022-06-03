@@ -37,7 +37,7 @@ class Tasks::CreateService
     attributes[:type_id] = Task.type
 
     create_call = WorkPackages::CreateService
-                  .new(user: user)
+                  .new(user:)
                   .call(**attributes)
 
     if create_call.success?

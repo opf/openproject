@@ -48,9 +48,8 @@ module API
             ProjectCopySchemaRepresenter
               .create(contract,
                       form_embedded: true,
-                      current_user: current_user)
+                      current_user:)
           end
-
         end
       end
     end
