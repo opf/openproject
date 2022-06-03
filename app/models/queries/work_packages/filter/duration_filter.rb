@@ -34,9 +34,19 @@ class Queries::WorkPackages::Filter::DurationFilter <
 
   def where
     if operator == Queries::Operators::None.to_sym.to_s
-      super + " OR #{WorkPackage.table_name}.duration=0"
+      <<~SQL.squish
+        #{super}
+        OR #{WorkPackage.table_name}.duration = 0
+        OR #{Type.table_name}.is_milestone = TRUE
+      SQL
     else
-      super
+      <<~SQL.squish
+        #{super} AND #{Type.table_name}.is_milestone = FALSE
+      SQL
     end
+  end
+
+  def joins
+    :type
   end
 end

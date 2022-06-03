@@ -31,5 +31,9 @@ module OpenProject
     def self.storages_module_active?
       Setting.feature_storages_module_active
     end
+
+    def self.work_packages_duration_field_active?
+      Setting.work_packages_duration_field_active
+    end
   end
 end

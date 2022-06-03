@@ -51,15 +51,23 @@ describe Queries::WorkPackages::Filter::DurationFilter, type: :model do
       let!(:work_package_zero_duration) { create(:work_package, duration: 0) }
       let!(:work_package_no_duration) { create(:work_package, duration: nil) }
       let!(:work_package_with_duration) { create(:work_package, duration: 1) }
+      let!(:work_package_with_milestone) { create(:work_package, duration: 1, type: create(:type_milestone)) }
+      let(:values) { [1] }
+
+      subject { WorkPackage.joins(instance.joins).where(instance.where) }
 
       context 'with the operator being "none"' do
         before do
           instance.operator = Queries::Operators::None.to_sym.to_s
         end
 
-        it 'finds zero and none values' do
-          expect(WorkPackage.where(instance.where)).to match_array [work_package_zero_duration, work_package_no_duration]
+        it 'finds zero and none values also including milestones' do
+          expect(subject).to match_array [work_package_zero_duration, work_package_no_duration, work_package_with_milestone]
         end
+      end
+
+      it 'does not returns milestone work packages' do
+        expect(subject).to match_array [work_package_with_duration]
       end
     end
   end

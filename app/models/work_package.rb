@@ -271,7 +271,7 @@ class WorkPackage < ApplicationRecord
 
   # Returns true if the work_package is overdue
   def overdue?
-    !due_date.nil? && (due_date < Date.today) && !closed?
+    !due_date.nil? && (due_date < Time.zone.today) && !closed?
   end
 
   def milestone?
@@ -287,9 +287,13 @@ class WorkPackage < ApplicationRecord
     end
   end
 
-  def estimated_hours=(h)
-    converted_hours = (h.is_a?(String) ? h.to_hours : h)
-    write_attribute :estimated_hours, !!converted_hours ? converted_hours : h
+  def estimated_hours=(hours)
+    converted_hours = (hours.is_a?(String) ? hours.to_hours : hours)
+    write_attribute :estimated_hours, !!converted_hours ? converted_hours : hours
+  end
+
+  def duration_in_hours
+    duration ? duration * 24 : nil
   end
 
   # aliasing subject to name
@@ -460,7 +464,7 @@ class WorkPackage < ApplicationRecord
     return if time_entry_blank?(attributes)
 
     attributes.reverse_merge!(user:,
-                              spent_on: Date.today)
+                              spent_on: Time.zone.today)
 
     time_entries.build(attributes)
   end
@@ -474,7 +478,7 @@ class WorkPackage < ApplicationRecord
 
     key = 'activity_id'
     id = attributes[key]
-    default_id = if id && id.present?
+    default_id = if id&.present?
                    Enumeration.exists? id: id, is_default: true, type: 'TimeEntryActivity'
                  else
                    true
