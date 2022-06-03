@@ -96,7 +96,7 @@ export class AttachmentsResourceService {
    *
    * @param key the collection key
    */
-  all(key:string):Observable<IAttachment[]> {
+  collection(key:string):Observable<IAttachment[]> {
     return this.query
       .select()
       .pipe(
