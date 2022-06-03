@@ -86,16 +86,6 @@ class WorkPackages::SetScheduleService
     altered
   end
 
-  def date_rescheduling_delta(predecessor)
-    if predecessor.due_date.present?
-      predecessor.due_date - (predecessor.due_date_was || predecessor.due_date)
-    elsif predecessor.start_date.present?
-      predecessor.start_date - (predecessor.start_date_was || predecessor.start_date)
-    else
-      0
-    end
-  end
-
   # Schedules work packages based on either
   #  - their descendants if they are parents
   #  - their predecessors (or predecessors of their ancestors) if they are leaves
@@ -111,8 +101,7 @@ class WorkPackages::SetScheduleService
   # start_date receives the minimum of the dates (start_date and due_date) of the descendants
   # due_date receives the maximum of the dates (start_date and due_date) of the descendants
   def reschedule_ancestor(scheduled, dependency)
-    scheduled.start_date = dependency.start_date
-    scheduled.due_date = dependency.due_date
+    set_dates(scheduled, dependency.start_date, dependency.due_date)
   end
 
   # Calculates the dates of a work package based on its follows relations. The follows relations of
@@ -141,8 +130,9 @@ class WorkPackages::SetScheduleService
   def reschedule_to_date(scheduled, date)
     new_start_date = [scheduled.start_date, date].compact.max
 
-    scheduled.due_date = new_start_date + scheduled.duration - 1 if scheduled.due_date
-    scheduled.start_date = new_start_date
+    set_dates(scheduled,
+              new_start_date,
+              scheduled.due_date && (new_start_date + scheduled.duration - 1))
   end
 
   def reschedule_by_delta(scheduled, delta, min_start_date)
@@ -155,8 +145,9 @@ class WorkPackages::SetScheduleService
   # If the start_date of scheduled is nil at this point something
   # went wrong before. So we fix it now by setting the date.
   def schedule_on_missing_dates(scheduled, min_start_date)
-    scheduled.start_date = min_start_date
-    scheduled.due_date = scheduled.start_date if scheduled.due_date && scheduled.due_date < scheduled.start_date
+    set_dates(scheduled,
+              min_start_date,
+              scheduled.due_date && scheduled.due_date < min_start_date ? min_start_date : scheduled.due_date)
   end
 
   def follows_delta(dependency)
@@ -165,5 +156,26 @@ class WorkPackages::SetScheduleService
     else
       0
     end
+  end
+
+  def date_rescheduling_delta(predecessor)
+    if predecessor.due_date.present?
+      predecessor.due_date - (predecessor.due_date_was || predecessor.due_date)
+    elsif predecessor.start_date.present?
+      predecessor.start_date - (predecessor.start_date_was || predecessor.start_date)
+    else
+      0
+    end
+  end
+
+  def set_dates(work_package, start_date, due_date)
+    work_package.start_date = start_date
+    work_package.due_date = due_date
+    work_package.duration = if start_date && due_date
+                              due_date - start_date + 1
+                            else
+                              # This needs to change to nil once duration can be set
+                              1
+                            end
   end
 end

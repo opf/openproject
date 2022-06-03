@@ -142,6 +142,16 @@ describe WorkPackages::SetScheduleService do
           .to eql start_date
         expect(result.due_date)
           .to eql due_date
+
+        duration = if start_date && due_date
+                     (due_date - start_date + 1).to_i
+                   else
+                     # This needs to change to nil once duration can be set
+                     1
+                   end
+
+        expect(result.duration)
+          .to eql duration
       end
     end
 
