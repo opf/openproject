@@ -22,7 +22,7 @@ describe 'Generate 2FA backup codes', with_2fa_ee: true, type: :feature,
 
     # Log token for next access
     backup_codes = nil
-    expect(::TwoFactorAuthentication::BackupCode)
+    allow(::TwoFactorAuthentication::BackupCode)
         .to receive(:regenerate!)
         .and_wrap_original do |m, user|
       backup_codes = m.call(user)
@@ -33,7 +33,7 @@ describe 'Generate 2FA backup codes', with_2fa_ee: true, type: :feature,
     click_on I18n.t('two_factor_authentication.backup_codes.generate.title')
     dialog.confirm_flow_with 'wrong_password', should_fail: true
 
-    # Confirm with correc password
+    # Confirm with correct password
     expect(page).to have_selector('h2', text: I18n.t('two_factor_authentication.backup_codes.plural'))
     click_on I18n.t('two_factor_authentication.backup_codes.generate.title')
     dialog.confirm_flow_with user_password, should_fail: false

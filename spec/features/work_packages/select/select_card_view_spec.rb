@@ -34,74 +34,74 @@ describe 'Selecting cards in the card view (regression #31962)', js: true do
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:cards) { ::Pages::WorkPackageCards.new(project) }
   let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
-  let(:work_package_1) { create(:work_package, project:) }
-  let(:work_package_2) { create(:work_package, project:) }
-  let(:work_package_3) { create(:work_package, project:) }
+  let!(:work_package1) { create(:work_package, project:) }
+  let!(:work_package2) { create(:work_package, project:) }
+  let!(:work_package3) { create(:work_package, project:) }
 
   before do
-    work_package_1
-    work_package_2
-    work_package_3
+    work_package1
+    work_package2
+    work_package3
 
     login_as(user)
     wp_table.visit!
     display_representation.switch_to_card_layout
-    cards.expect_work_package_listed work_package_1, work_package_2, work_package_3
+    cards.expect_work_package_listed work_package1, work_package2, work_package3
   end
 
-  context 'selecting cards' do
+  describe 'selecting cards' do
     it 'can select and deselect all cards' do
       # Select all
       cards.select_all_work_packages
-      cards.expect_work_package_selected work_package_1, true
-      cards.expect_work_package_selected work_package_2, true
-      cards.expect_work_package_selected work_package_3, true
+      cards.expect_work_package_selected work_package1, true
+      cards.expect_work_package_selected work_package2, true
+      cards.expect_work_package_selected work_package3, true
 
       # Deselect all
       cards.deselect_all_work_packages
-      cards.expect_work_package_selected work_package_1, false
-      cards.expect_work_package_selected work_package_2, false
-      cards.expect_work_package_selected work_package_3, false
+      cards.expect_work_package_selected work_package1, false
+      cards.expect_work_package_selected work_package2, false
+      cards.expect_work_package_selected work_package3, false
     end
 
     it 'can select and deselect single cards' do
       # Select a card
-      cards.select_work_package work_package_1
-      cards.expect_work_package_selected work_package_1, true
-      cards.expect_work_package_selected work_package_2, false
-      cards.expect_work_package_selected work_package_3, false
+      cards.select_work_package work_package1
+      cards.expect_work_package_selected work_package1, true
+      cards.expect_work_package_selected work_package2, false
+      cards.expect_work_package_selected work_package3, false
 
       # Selecting another card changes the selection
-      cards.select_work_package work_package_2
-      cards.expect_work_package_selected work_package_1, false
-      cards.expect_work_package_selected work_package_2, true
-      cards.expect_work_package_selected work_package_3, false
+      cards.select_work_package work_package2
+      cards.expect_work_package_selected work_package1, false
+      cards.expect_work_package_selected work_package2, true
+      cards.expect_work_package_selected work_package3, false
 
       # Deselect a card
-      cards.deselect_work_package work_package_2
-      cards.expect_work_package_selected work_package_1, false
-      cards.expect_work_package_selected work_package_2, false
-      cards.expect_work_package_selected work_package_3, false
+      cards.deselect_work_package work_package2
+      cards.expect_work_package_selected work_package1, false
+      cards.expect_work_package_selected work_package2, false
+      cards.expect_work_package_selected work_package3, false
     end
 
     it 'can select and deselect range of cards' do
       # Select the first WP
-      cards.select_work_package work_package_1
-      cards.expect_work_package_selected work_package_1, true
-      cards.expect_work_package_selected work_package_2, false
-      cards.expect_work_package_selected work_package_3, false
+      cards.select_work_package work_package1
+      cards.expect_work_package_selected work_package1, true
+      cards.expect_work_package_selected work_package2, false
+      cards.expect_work_package_selected work_package3, false
 
       # Select the third with Shift results in all WPs being selected
-      cards.select_work_package_with_shift work_package_3
-      cards.expect_work_package_selected work_package_1, true
-      cards.expect_work_package_selected work_package_2, true
-      cards.expect_work_package_selected work_package_3, true
+      cards.select_work_package_with_shift work_package3
+      cards.expect_work_package_selected work_package1, true
+      cards.expect_work_package_selected work_package2, true
+      cards.expect_work_package_selected work_package3, true
 
       # The range can be changed
-      cards.select_work_package_with_shift work_package_2
-      cards.expect_work_package_selected work_package_1, true
-      cards.expect_work_package_selected work_package_2, true
-      cards.expect_work_package_selected work_package_3, false
+      cards.select_work_package_with_shift work_package2
+      cards.expect_work_package_selected work_package1, true
+      cards.expect_work_package_selected work_package2, true
+      cards.expect_work_package_selected work_package3, false
     end
   end
 end
