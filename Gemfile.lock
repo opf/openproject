@@ -682,7 +682,7 @@ GEM
     openproject-token (2.2.0)
       activemodel
     parallel (1.22.1)
-    parallel_tests (3.10.1)
+    parallel_tests (3.11.0)
       parallel
     parser (3.1.2.0)
       ast (~> 2.4.1)
@@ -727,7 +727,7 @@ GEM
     psych (4.0.4)
       stringio
     public_suffix (4.0.7)
-    puffing-billy (3.0.2)
+    puffing-billy (3.0.3)
       addressable (~> 2.5)
       em-http-request (~> 1.1, >= 1.1.0)
       em-synchrony
