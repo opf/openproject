@@ -51,7 +51,7 @@ export interface WorkPackageResourceEmbedded {
   ancestors:WorkPackageResource[];
   assignee:HalResource|any;
   attachments:AttachmentCollectionResource;
-  fileLinks:CollectionResource;
+  fileLinks?:CollectionResource;
   author:HalResource|any;
   availableWatchers:HalResource|any;
   category:HalResource|any;

@@ -72,7 +72,7 @@ export class WorkPackageFilesTabComponent implements OnInit {
   ) { }
 
   ngOnInit():void {
-    const project = this.workPackage.$embedded.project as HalResource;
+    const project = this.workPackage.project as HalResource;
     if (project.id === null) {
       return;
     }

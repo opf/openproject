@@ -26,10 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectorRef,
-  Injector,
-} from '@angular/core';
+import { ChangeDetectorRef, Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import {
@@ -58,6 +55,9 @@ import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
+import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() states:States;
@@ -76,9 +76,15 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   @InjectField() authorisationService:AuthorisationService;
 
-  @InjectField() attachmentsResourceService:AttachmentsResourceService;
+  @InjectField() private readonly attachmentsResourceService:AttachmentsResourceService;
 
-  @InjectField() fileLinkResourceService:FileLinksResourceService;
+  @InjectField() private readonly fileLinkResourceService:FileLinksResourceService;
+
+  @InjectField() private readonly projectsResourceService:ProjectsResourceService;
+
+  @InjectField() private readonly storages:StoragesResourceService;
+
+  @InjectField() private readonly toastService:ToastService;
 
   @InjectField() cdRef:ChangeDetectorRef;
 
@@ -92,9 +98,6 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   @InjectField() readonly storeService:WpSingleViewService;
 
-  @InjectField() private readonly storages:StoragesResourceService;
-
-  // Static texts
   public text:any = {};
 
   // Work package resource to be loaded from the cache
@@ -118,15 +121,13 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    * Observe changes of work package and re-run initialization.
    * Needs to be run explicitly by descendants.
    */
-  protected observeWorkPackage() {
+  protected observeWorkPackage():void {
     this
       .apiV3Service
       .work_packages
       .id(this.workPackageId)
       .requireAndStream()
-      .pipe(
-        this.untilDestroyed(),
-      )
+      .pipe(this.untilDestroyed())
       .subscribe((wp:WorkPackageResource) => {
         if (!this.workPackage) {
           this.workPackage = wp;
@@ -136,8 +137,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
         }
 
         this.cdRef.detectChanges();
-      },
-      (error) => {
+      }, (error) => {
         this.handleLoadingError(error);
       });
   }
@@ -145,7 +145,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   /**
    * Provide static translations
    */
-  protected initializeTexts() {
+  protected initializeTexts():void {
     this.text.tabs = {};
     ['overview', 'activity', 'relations', 'watchers'].forEach((tab) => {
       this.text.tabs[tab] = this.I18n.t(`js.work_packages.tabs.${tab}`);
@@ -155,7 +155,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   /**
    * Initialize controller after workPackage resource has been loaded.
    */
-  protected init() {
+  protected init():void {
     // Set elements
     this
       .apiV3Service
@@ -165,6 +165,14 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       .subscribe(() => {
         this.projectIdentifier = this.workPackage.project.identifier;
         this.cdRef.detectChanges();
+      });
+
+    // lazy load the work package's project, needed when initializing
+    // the work package resource from split view.
+    this.projectsResourceService
+      .update((this.workPackage.$links.project as HalResource).href as string)
+      .subscribe(() => {}, (error) => {
+        this.toastService.addError(error);
       });
 
     this.displayNotificationsButton$ = this.storeService.query.hasNotifications$;
@@ -183,20 +191,27 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     const attachments = this.workPackage.attachments as unknown&{ href:string };
     this.attachmentsResourceService.fetchAttachments(attachments.href).subscribe();
 
-    // Fetch file link collections for work package
-    this.fileLinkResourceService.updateCollectionsForWorkPackage(this.workPackage.$links.fileLinks.href as string);
+    // Fetch file link collections for work package (only if storages module is enabled)
+    if (this.workPackage.$links.fileLinks) {
+      this.fileLinkResourceService.updateCollectionsForWorkPackage(this.workPackage.$links.fileLinks.href as string);
+    }
+
+    // Fetch storages for work package's project (only if storages module is enabled)
+    this.projectsResourceService
+      .lookup((this.workPackage.project as unknown&{ id:string }).id)
+      .pipe(this.untilDestroyed())
+      .subscribe((project) => {
+        if (project._links.storages) {
+          this.storages.updateCollection(project._links.self.href, project._links.storages);
+        }
+      });
 
     // Listen to tab changes to update the tab label
     this.keepTab.observable
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe((tabs:any) => {
+      .pipe(this.untilDestroyed())
+      .subscribe((tabs:{ active:string }) => {
         this.updateFocusAnchorLabel(tabs.active);
       });
-
-    const project = this.workPackage.project as { $links:{ storages:{ href:string }[] }, href:string };
-    this.storages.updateCollection(project.href, project.$links.storages);
   }
 
   protected handleLoadingError(error:unknown):void {
@@ -207,12 +222,11 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    * Recompute the current tab focus label
    */
   public updateFocusAnchorLabel(tabName:string):string {
-    const tabLabel = this.I18n.t('js.label_work_package_details_you_are_here', {
+    this.focusAnchorLabel = this.I18n.t('js.label_work_package_details_you_are_here', {
       tab: this.I18n.t(`js.work_packages.tabs.${tabName}`),
       type: this.workPackage.type.name,
       subject: this.workPackage.subject,
     });
-
-    return this.focusAnchorLabel = tabLabel;
+    return this.focusAnchorLabel;
   }
 }

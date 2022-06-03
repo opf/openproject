@@ -29,12 +29,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { StoragesStore } from 'core-app/core/state/storages/storages.store';
 import { StoragesQuery } from 'core-app/core/state/storages/storages.query';
 import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { IHalResourceLink } from 'core-app/core/state/hal-resource';
+
+export function isIStorage(input:IStorage|undefined):input is IStorage {
+  return input !== undefined;
+}
 
 @Injectable()
 export class StoragesResourceService {
@@ -58,18 +63,10 @@ export class StoragesResourceService {
     return this
       .query
       .selectEntity(id)
-      .pipe(
-        map((storage) => {
-          if (storage === undefined) {
-            throw new Error('not found');
-          }
-
-          return storage;
-        }),
-      );
+      .pipe(filter(isIStorage));
   }
 
-  updateCollection(key:string, storageLinks:{ href:string }[]):void {
+  updateCollection(key:string, storageLinks:IHalResourceLink[]):void {
     forkJoin(
       storageLinks.map((link) => this.http.get<IStorage>(link.href)),
     ).subscribe((storages) => {

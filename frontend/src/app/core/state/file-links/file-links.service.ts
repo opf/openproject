@@ -74,16 +74,7 @@ export class FileLinksResourceService {
       .subscribe((fileLinkCollections) => {
         const storageId = idFromLink(fileLinkCollections.storage);
         const collectionKey = `${fileLinksSelfLink}?filters=[{"storage":{"operator":"=","values":["${storageId}"]}}]`;
-        const collection:IHALCollection<IFileLink> = {
-          _type: 'Collection',
-          count: fileLinkCollections.fileLinks.length,
-          total: fileLinkCollections.fileLinks.length,
-          pageSize: fileLinkCollections.fileLinks.length,
-          offset: 0,
-          _embedded: {
-            elements: fileLinkCollections.fileLinks,
-          },
-        };
+        const collection = { _embedded: { elements: fileLinkCollections.fileLinks } } as IHALCollection<IFileLink>;
         insertCollectionIntoState(this.store, collection, collectionKey);
       });
   }

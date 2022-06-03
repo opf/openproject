@@ -13,7 +13,7 @@ export interface IProjectHalResourceLinks extends IHalResourceLinks {
   self:IHalResourceLink;
   status:IHalResourceLink;
   schema:IHalResourceLink;
-  storages:IHalResourceLink[];
+  storages?:IHalResourceLink[];
 }
 
 export interface IProject {

@@ -27,7 +27,7 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, filter, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ID } from '@datorama/akita';
 import { HttpClient } from '@angular/common/http';
@@ -42,6 +42,10 @@ import {
 } from 'core-app/core/state/collection-store';
 import { ProjectsStore } from './projects.store';
 import { IProject } from './project.model';
+
+export function isIProject(input:IProject|undefined):input is IProject {
+  return input !== undefined;
+}
 
 @Injectable()
 export class ProjectsResourceService {
@@ -78,31 +82,18 @@ export class ProjectsResourceService {
       );
   }
 
-  lookup(id:ID, require = false):Observable<IProject> {
-    if (require && !this.query.hasEntity(id)) {
-      return this.http
-        .get<IProject>(`${this.projectsPath}/${id}`)
-        .pipe(
-          tap((project) => {
-            if (project) {
-              this.store.add(project);
-            }
-          }),
-        );
-    }
-
-    return this.query.selectEntity(id)
+  update(link:string):Observable<IProject> {
+    return this.http.get<IProject>(link)
       .pipe(
-        map((project) => {
-          if (!project) {
-            throw new Error('not found');
-          }
-          return project;
+        tap((project) => {
+          this.store.upsertMany([project]);
         }),
       );
   }
 
-  update(id:ID, project:Partial<IProject>):void {
-    this.store.update(id, project);
+  lookup(id:ID):Observable<IProject> {
+    return this.query
+      .selectEntity(id)
+      .pipe(filter(isIProject));
   }
 }
