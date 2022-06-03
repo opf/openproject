@@ -34,10 +34,10 @@ describe 'Showing of file links in work package', :enable_storages, type: :featu
   let(:current_user) do
     create(:user, member_in_project: project, member_with_permissions: permissions)
   end
-  let(:work_package) { create(:work_package, project: project, description: 'Initial description') }
+  let(:work_package) { create(:work_package, project:, description: 'Initial description') }
   let(:storage) { create(:storage) }
-  let(:project_storage) { create(:project_storage, project: project, storage: storage) }
-  let(:file_link) { create(:file_link, container: work_package, storage: storage) }
+  let(:project_storage) { create(:project_storage, project:, storage:) }
+  let(:file_link) { create(:file_link, container: work_package, storage:) }
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
 
   before do
