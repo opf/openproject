@@ -72,7 +72,7 @@ class WorkPackages::ScheduleDependency
                 :known_work_packages_by_parent_id
 
   def scheduled_work_packages_by_id
-    @scheduled_work_packages_by_id ||= (work_packages + dependencies.keys).group_by(&:id).transform_values(&:first)
+    @scheduled_work_packages_by_id ||= (work_packages + dependencies.keys).index_by(&:id)
   end
 
   private
@@ -84,10 +84,7 @@ class WorkPackages::ScheduleDependency
   end
 
   def create_dependencies(dependent_work_packages)
-    dependent_work_packages.inject({}) do |new_dependencies, dependent_work_package|
-      new_dependencies[dependent_work_package] = Dependency.new dependent_work_package, self
-      new_dependencies
-    end
+    dependent_work_packages.index_with { |work_package| Dependency.new(work_package, self) }
   end
 
   # Use a mixture of work packages that are already loaded to be scheduled themselves but also load
@@ -117,10 +114,6 @@ class WorkPackages::ScheduleDependency
       @descendants ||= descendants_from_preloaded(work_package)
     end
 
-    def descendants_ids
-      @descendants_ids ||= descendants.map(&:id)
-    end
-
     def follows_moved
       @follows_moved ||= moved_predecessors_from_preloaded(work_package)
     end
@@ -129,20 +122,11 @@ class WorkPackages::ScheduleDependency
       @follows_unmoved ||= unmoved_predecessors_from_preloaded(work_package)
     end
 
-    def follows_moved_ids
-      @follows_moved_ids ||= follows_moved.map(&:to).map(&:id)
-    end
-
     attr_accessor :work_package,
                   :schedule_dependency
 
     def dependent_ids
-      @dependent_ids ||= descendants_ids + follows_moved_ids
-    end
-
-    def met?(unhandled_ids)
-      (descendants_ids & unhandled_ids).empty? &&
-        (follows_moved_ids & unhandled_ids).empty?
+      @dependent_ids ||= (descendants + follows_moved.map(&:to)).map(&:id)
     end
 
     def max_date_of_followed
@@ -167,12 +151,10 @@ class WorkPackages::ScheduleDependency
     end
 
     def ancestors_from_preloaded(work_package)
-      if work_package.parent_id
-        parent = known_work_packages_by_id[work_package.parent_id]
+      parent = known_work_packages_by_id[work_package.parent_id]
 
-        if parent
-          [parent] + ancestors_from_preloaded(parent)
-        end
+      if parent
+        [parent] + ancestors_from_preloaded(parent)
       else
         []
       end
