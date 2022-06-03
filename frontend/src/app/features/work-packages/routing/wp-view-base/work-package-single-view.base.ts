@@ -196,7 +196,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       });
 
     const project = this.workPackage.project as { $links:{ storages:{ href:string }[] }, href:string };
-    void this.storages.updateCollection(project.href, project.$links.storages);
+    this.storages.updateCollection(project.href, project.$links.storages);
   }
 
   protected handleLoadingError(error:unknown):void {

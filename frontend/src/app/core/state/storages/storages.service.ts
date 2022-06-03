@@ -69,13 +69,12 @@ export class StoragesResourceService {
       );
   }
 
-  async updateCollection(key:string, storageLinks:{ href:string }[]):Promise<void> {
-    const storages = await forkJoin(
+  updateCollection(key:string, storageLinks:{ href:string }[]):void {
+    forkJoin(
       storageLinks.map((link) => this.http.get<IStorage>(link.href)),
-    ).toPromise();
-
-    const storageCollection = { _embedded: { elements: storages } } as IHALCollection<IStorage>;
-
-    insertCollectionIntoState(this.store, storageCollection, key);
+    ).subscribe((storages) => {
+      const storageCollection = { _embedded: { elements: storages } } as IHALCollection<IStorage>;
+      insertCollectionIntoState(this.store, storageCollection, key);
+    });
   }
 }
