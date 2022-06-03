@@ -30,10 +30,9 @@ require 'spec_helper'
 require 'open_project/auth_plugins'
 
 describe OpenProject::Plugins::AuthPlugin do
-  class MockEngine
-    extend OpenProject::Plugins::AuthPlugin
+  let(:dummy_engine_klass) do
+    Class.new { extend OpenProject::Plugins::AuthPlugin }
   end
-
   let(:strategies) { {} }
   let(:providers_a) do
     lambda { [{ name: 'a1' }, { name: 'a2' }] }
@@ -48,6 +47,7 @@ describe OpenProject::Plugins::AuthPlugin do
   let(:middlewares) { [] }
 
   before do
+    with_enterprise_token :board_view
     app = Object.new
     omniauth_builder = Object.new
 
@@ -55,13 +55,13 @@ describe OpenProject::Plugins::AuthPlugin do
       middlewares << strategy
     }
 
-    allow(app).to receive_message_chain(:config, :middleware, :use) { |_mw, &block|
+    allow(app).to receive_message_chain(:config, :middleware, :use) { |_mw, &block| # rubocop:disable RSpec/MessageChain
       omniauth_builder.instance_eval(&block)
     }
 
-    allow(OpenProject::Plugins::AuthPlugin).to receive(:strategies).and_return(strategies)
-    allow(MockEngine).to receive(:engine_name).and_return('foobar')
-    allow(MockEngine).to receive(:initializer) { |_, &block| app.instance_eval(&block) }
+    allow(described_class).to receive(:strategies).and_return(strategies)
+    allow(dummy_engine_klass).to receive(:engine_name).and_return('foobar')
+    allow(dummy_engine_klass).to receive(:initializer) { |_, &block| app.instance_eval(&block) }
   end
 
   describe 'ProviderBuilder' do
@@ -70,16 +70,22 @@ describe OpenProject::Plugins::AuthPlugin do
       pb = providers_b.call
       pc = providers_c.call
 
-      Class.new(MockEngine) do
+      Class.new(dummy_engine_klass) do
         register_auth_providers do
-          strategy :strategy_a do; pa; end
-          strategy :strategy_b do; pb; end
+          strategy :strategy_a do
+            pa
+          end
+          strategy :strategy_b do
+            pb
+          end
         end
       end
 
-      Class.new(MockEngine) do
+      Class.new(dummy_engine_klass) do
         register_auth_providers do
-          strategy :strategy_a do; pc; end
+          strategy :strategy_a do
+            pc
+          end
         end
       end
     end
@@ -94,8 +100,9 @@ describe OpenProject::Plugins::AuthPlugin do
     end
 
     it 'associates the correct providers with their respective strategies' do
-      expect(OpenProject::Plugins::AuthPlugin.providers_for(:strategy_a)).to eq [providers_a.call, providers_c.call].flatten
-      expect(OpenProject::Plugins::AuthPlugin.providers_for(:strategy_b)).to eq providers_b.call
+      described_class.providers_for(:strategy_a)
+      expect(described_class.providers_for(:strategy_a)).to eq [providers_a.call, providers_c.call].flatten
+      expect(described_class.providers_for(:strategy_b)).to eq providers_b.call
     end
   end
 end
