@@ -41,7 +41,7 @@ import { insertCollectionIntoState } from 'core-app/core/state/collection-store'
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Injectable()
-export class FileLinkResourceService {
+export class FileLinksResourceService {
   private store = new FileLinksStore();
 
   constructor(
@@ -88,7 +88,7 @@ export class FileLinkResourceService {
       });
   }
 
-  all(key:string):Observable<IFileLink[]> {
+  collection(key:string):Observable<IFileLink[]> {
     const query = new QueryEntity(this.store);
     return query
       .select()

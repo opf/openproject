@@ -57,7 +57,7 @@ import { Observable } from 'rxjs';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
-import { FileLinkResourceService } from 'core-app/core/state/file-links/file-links.service';
+import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() states:States;
@@ -78,7 +78,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   @InjectField() attachmentsResourceService:AttachmentsResourceService;
 
-  @InjectField() fileLinkResourceService:FileLinkResourceService;
+  @InjectField() fileLinkResourceService:FileLinksResourceService;
 
   @InjectField() cdRef:ChangeDetectorRef;
 
