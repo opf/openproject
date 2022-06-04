@@ -574,7 +574,7 @@ es:
         global:
           immediately:
             title: 'Notificarme de inmediato'
-            description: 'Estos ajustes se aplican en todos los proyectos. A continuación, puede crear excepciones específicas de proyectos.'
+            description: 'Estos ajustes se aplican en todos los proyectos. A continuación, puede crear excepciones específicas para proyectos.'
           delayed:
             title: 'También notificarme sobre'
             description: 'Recibir notificaciones de estas actividades de paquetes de trabajo en todos los proyectos:'
@@ -609,33 +609,33 @@ es:
       copy:
         copy_options: "Opciones de copia"
       autocompleter:
-        label: 'Contexto | Solicitar contexto'
+        label: 'Autocompletado del proyecto'
     reminders:
       settings:
         daily:
           add_time: 'Añadir tiempo'
           enable: 'Habilitar recordatorios por correo electrónico diarios'
-          explanation: 'Solo recibirá estos recordatorios de las notificaciones sin leer y en las horas que especifique. %{no_time_zone}'
+          explanation: 'Solo recibirá estos recordatorios para las notificaciones sin leer y en las horas que especifique. %{no_time_zone}'
           no_time_zone: 'Hasta que configure una zona horaria para su cuenta, las horas se interpretarán en UTC.'
           time_label: 'Tiempo %{counter}:'
-          title: 'Enviarme recordatorios por correo electrónico diarios de notificaciones sin leer'
+          title: 'Enviarme recordatorios por correo electrónico diarios con las notificaciones sin leer'
         workdays:
           title: 'Recibir recordatorios por correo electrónico en estos días'
         immediate:
           title: 'Enviarme un recordatorio por correo electrónico'
-          mentioned: 'De inmediato cuando alguien me mencione'
+          mentioned: 'De inmediato cuando alguien me @mencione'
         alerts:
           title: 'Alertas por correo electrónico de otros elementos (que no sean paquetes de trabajo)'
           explanation: >
-            Las notificaciones para hoy están limitadas a los paquetes de trabajo. Puede elegir seguir recibiendo alertas por correo electrónico de estos eventos hasta que se incluyan en las notificaciones:
+            Las notificaciones por ahora están limitadas a los paquetes de trabajo. Puede elegir seguir recibiendo alertas por correo electrónico de estos eventos hasta que se incluyan en las notificaciones:
           news_added: 'Noticias añadidas'
           news_commented: 'Comentarios en un elemento de noticias'
           document_added: 'Documentos añadidos'
-          forum_messages: 'Nuevos mensajes de foros'
+          forum_messages: 'Nuevos mensajes en foro'
           wiki_page_added: 'Página wiki añadida'
           wiki_page_updated: 'Página wiki actualizada'
-          membership_added: 'Pertenencia añadida'
-          membership_updated: 'Pertenencia actualizada'
+          membership_added: 'Subscripción añadida'
+          membership_updated: 'Subscripción actualizada'
         title: 'Recordatorios por correo electrónico'
         pause:
           label: 'Pausar temporalmente los recordatorios por correo electrónico diarios'
@@ -650,8 +650,8 @@ es:
         reset_title: "Restablecer la configuración del formulario"
         confirm_reset: >
           Advertencia: ¿Está seguro de que quiere restablecer la configuración del formulario? Se restablecerán los atributos al grupo predeterminado y se deshabilitarán TODOS los campos personalizados.
-        upgrade_to_ee: "Actualizar a Enterprise on-premises Edition"
-        upgrade_to_ee_text: "¡Vaya! Si necesita está opción, entonces ¡es un usuario experto! ¿Le importaría apoyar a los desarrolladores de OpenSource convirtiéndose en un cliente de la versión corporativa?"
+        upgrade_to_ee: "Actualizar a edición Enterprise on-premises"
+        upgrade_to_ee_text: "¡Vaya! Si necesita está opción, entonces ¡eres un usuario experto! ¿Te importaría apoyar a los desarrolladores de OpenSource convirtiéndose en un cliente de la versión Enterprise?"
         more_information: "Más información"
         nevermind: "No importa"
       edit:
@@ -680,7 +680,7 @@ es:
     relation_labels:
       parent: "Principal"
       children: "Sub-elemento"
-      relates: "Relacionado a"
+      relates: "Relacionado con"
       duplicates: "Duplicados"
       duplicated: "Duplicado por"
       blocks: "Bloques"
