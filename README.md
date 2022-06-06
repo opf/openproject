@@ -15,8 +15,8 @@ In case of a **docker** installation, you can follow the steps described in the 
 ## Introduction
 
 OpenProject module for integration with Gitlab:
-* Latest Gitlab release tested: **14.10**
-* Latest OpenProject release tested: **12.1.0** (for previous versions of OpenProject use v2.0.4)
+* Latest Gitlab release tested: **15.0**
+* Latest OpenProject release tested: **12.1.4** (for OpenProject versions earlier than 12.1.0 use v2.0.4)
 
 This plugin is based on the current [plugin to integrate Github with OpenProject](https://www.openproject.org/docs/system-admin-guide/integrations/github-integration/).
 
@@ -146,6 +146,8 @@ In case of **Docker** installation, follow the official OpenProject documentatio
 * Build the container: `docker build -t openproject-docker --file=docker/prod/Dockerfile .`
 * Now run the image following the official documentation
 
+In case of **DEB/RPM** based instalation, follow the official OpenProject documentation [here](https://www.openproject.org/docs/installation-and-operations/configuration/plugins/).
+
 In case of [**manual**](https://www.openproject.org/docs/installation-and-operations/installation/manual/) installation, this plugin should be installed in the same place as the Github plugin that comes bundled with OpenProject.
 
 - **Github plugin path:** `modules/github_integration`
@@ -160,21 +162,9 @@ Add the following in **Gemfile.lock**:
 PATH
   remote: modules/gitlab_integration
   specs:
-    openproject-gitlab_integration (1.0.0)
-      openproject-webhooks
-```
-
-> **Note:** Use version 1.0.0 if you only want to capture the events as comments.
-
-```
-PATH
-  remote: modules/gitlab_integration
-  specs:
     openproject-gitlab_integration (2.0.5)
       openproject-webhooks
 ```
-
-> **Note:** Use version 2.0.5 if you want to capture the events as comments and see the new UI Tab with the linked Merge Requests.
 
 And add this other line in DEPENDENCIES section:
 
