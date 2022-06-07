@@ -1,0 +1,36 @@
+<div
+  class="op-files-tab--storage-info-box"
+>
+  <div
+    class="icon-box"
+  >
+    <i
+      class="icon icon-{{infoIcon}}"
+    ></i>
+  </div>
+
+  <div
+    class="text-box"
+  >
+    <div
+      class="text-box-header"
+    >
+      <span [textContent]="infoTextHeader"></span>
+    </div>
+    <div
+      class="text-box-content"
+    >
+      <span [textContent]="infoTextContent"></span>
+    </div>
+  </div>
+
+  <div
+    class="button-box"
+  >
+    <button
+      class="action-button"
+      [textContent]="buttonText"
+      (click)="buttonClickEventEmitter.emit()"
+    ></button>
+  </div>
+</div>

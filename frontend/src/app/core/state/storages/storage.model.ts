@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2022 the OpenProject GmbH
 //
@@ -26,44 +26,21 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-// Table editing styles
-@import work_packages/table_content
-@import work_packages/table_hierarchy
-@import work_packages/table_relations
-@import work_packages/table_inline_create
-@import work_packages/table_drag_and_drop
+import { ID } from '@datorama/akita';
+import { IHalResourceLink, IHalResourceLinks } from 'core-app/core/state/hal-resource';
 
-// WP creation styles
-@import work_packages/new/type_status_row
-@import work_packages/new/split_view
-@import work_packages/new/full_view
-@import work_packages/new/overridden_description_wiki
+export interface IStorageHalResourceLinks extends IHalResourceLinks {
+  self:IHalResourceLink;
+  type:IHalResourceLink;
+  origin:IHalResourceLink;
+  connectionState:IHalResourceLink;
+}
 
-// Specific field styles
-@import work_packages/inplace_editing/display_fields
-@import work_packages/inplace_editing/edit_fields
-@import work_packages/inplace_editing/textareas
+export interface IStorage {
+  id:ID;
+  name:string;
+  createdAt?:string;
+  lastModifiedAt?:string;
 
-// WP single view styles
-@import work_packages/single_view/single_view
-@import work_packages/single_view/attachments
-@import work_packages/single_view/work_package_comment
-
-// WP fullscreen specific styles
-@import work_packages/fullscreen/fullscreen
-
-// Tabs
-@import work_packages/tabs/activities
-@import work_packages/tabs/relations
-@import work_packages/tabs/files
-@import work_packages/tabs/tab_content
-
-// Table configuration
-@import work_packages/table_configuration_modal
-
-// Timelines
-@import work_packages/timelines/timelines
-
-// Resizer
-@import work_packages/resizer/resizer
-
+  _links:IStorageHalResourceLinks;
+}
