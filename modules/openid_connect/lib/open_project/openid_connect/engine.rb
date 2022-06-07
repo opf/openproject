@@ -43,6 +43,12 @@ module OpenProject::OpenIDConnect
       end
     end
 
+    initializer "openid_connect.configure" do
+      ::Settings::Definition.add(
+        OpenProject::OpenIDConnect::CONFIG_KEY, value: {}, writable: false
+      )
+    end
+
     initializer 'openid_connect.form_post_method' do
       # If response_mode 'form_post' is chosen,
       # the IP sends a POST to the callback. Only if
