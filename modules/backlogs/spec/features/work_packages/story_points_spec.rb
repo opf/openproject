@@ -53,12 +53,12 @@ describe 'Work packages having story points', type: :feature, js: true do
       create(:story,
              type: story_type,
              author: current_user,
-             project: project,
-             status: status,
-             story_points: story_points)
+             project:,
+             status:,
+             story_points:)
     end
 
-    it 'should be displayed' do
+    it 'is displayed' do
       wp_page = Pages::FullWorkPackage.new(story_with_sp)
 
       wp_page.visit!

@@ -36,12 +36,11 @@ describe 'Work package filtering by id', js: true do
 
   let!(:work_package) do
     create :work_package,
-           project: project
+           project:
   end
   let!(:other_work_package) do
     create :work_package,
-           project: project
-
+           project:
   end
 
   current_user do

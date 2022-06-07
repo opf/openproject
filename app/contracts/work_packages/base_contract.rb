@@ -98,6 +98,8 @@ module WorkPackages
                 model.leaf? || model.schedule_manually?
               }
 
+    attribute :duration
+
     attribute :budget
 
     validates :due_date,
@@ -127,6 +129,16 @@ module WorkPackages
     validate :validate_estimated_hours
 
     validate :validate_assigned_to_exists
+
+    validates :duration,
+              # only_integer: true, cannot be used as that will not compare with the value
+              # before the type cast. So even a float value will pass the validation as it is silently
+              # floored.
+              numericality: { greater_than: 0 },
+              allow_nil: true
+
+    validate :validate_duration_integer
+    validate :validate_duration_matches_dates
 
     def initialize(work_package, user, options: {})
       super
@@ -198,7 +210,7 @@ module WorkPackages
 
     def validate_enabled_type
       # Checks that the issue can not be added/moved to a disabled type
-      if type_context_changed? && !model.project.types.include?(model.type)
+      if type_context_changed? && model.project.types.exclude?(model.type)
         errors.add :type_id, :inclusion
       end
     end
@@ -282,7 +294,7 @@ module WorkPackages
     end
 
     def validate_version_is_assignable
-      if model.version_id && !model.assignable_versions.map(&:id).include?(model.version_id)
+      if model.version_id && model.assignable_versions.map(&:id).exclude?(model.version_id)
         errors.add :version_id, :inclusion
       end
     end
@@ -296,12 +308,26 @@ module WorkPackages
     def validate_people_visible(attribute, id_attribute, list)
       id = model[id_attribute]
 
-      return if id.nil? || !model.changed.include?(id_attribute)
+      return if id.nil? || model.changed.exclude?(id_attribute)
 
       unless principal_visible?(id, list)
         errors.add attribute,
                    I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                           property: I18n.t("attributes.#{attribute}"))
+      end
+    end
+
+    def validate_duration_integer
+      errors.add :duration, :not_an_integer if model.duration_before_type_cast != model.duration
+    end
+
+    def validate_duration_matches_dates
+      return unless calculated_duration && model.duration
+
+      if calculated_duration > model.duration
+        errors.add :duration, :smaller_than_dates
+      elsif calculated_duration < model.duration
+        errors.add :duration, :larger_than_dates
       end
     end
 
@@ -324,7 +350,7 @@ module WorkPackages
     end
 
     def principal_visible?(id, list)
-      list.exists?(id: id)
+      list.exists?(id:)
     end
 
     def start_before_soonest_start?
@@ -345,7 +371,7 @@ module WorkPackages
     end
 
     def category_not_of_project?
-      model.category && !model.project.categories.include?(model.category)
+      model.category && model.project.categories.exclude?(model.category)
     end
 
     def status_changed?
@@ -414,6 +440,12 @@ module WorkPackages
     # We're in a readonly status and did not move into that status right now.
     def already_in_readonly_status?
       model.readonly_status? && !model.status_id_change
+    end
+
+    def calculated_duration
+      return nil unless model.due_date && model.start_date
+
+      model.due_date - model.start_date + 1
     end
   end
 end

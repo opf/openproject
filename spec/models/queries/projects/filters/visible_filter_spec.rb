@@ -49,6 +49,7 @@ describe Queries::Projects::Filters::VisibleFilter, type: :model do
           .to receive(:pluck)
                 .and_return([[5, 5], [8, 8]])
       end
+
       context 'without values' do
         let(:values) { [] }
 

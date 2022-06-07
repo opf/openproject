@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require "#{File.dirname(__FILE__)}/../spec_helper"
 
 describe DocumentsController do
   render_views
@@ -37,35 +37,17 @@ describe DocumentsController do
   let(:role) { create(:role, permissions: [:view_documents]) }
 
   let(:default_category) do
-    create(:document_category, project: project, name: "Default Category")
+    create(:document_category, project:, name: "Default Category")
   end
 
-  let(:document) do
-    create(:document, title: "Sample Document", project: project, category: default_category)
+  let!(:document) do
+    create(:document, title: "Sample Document", project:, category: default_category)
   end
 
   current_user { admin }
 
   describe "index" do
-    let(:long_description) do
-      <<-LOREM.strip_heredoc
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.\
-        Ut egestas, mi vehicula varius varius, ipsum massa fermentum orci,\
-        eget tristique ante sem vel mi. Nulla facilisi.\
-        Donec enim libero, luctus ac sagittis sit amet, vehicula sagittis magna.\
-        Duis ultrices molestie ante, eget scelerisque sem iaculis vitae.\
-        Etiam fermentum mauris vitae metus pharetra condimentum fermentum est pretium.\
-        Proin sollicitudin elementum quam quis pharetra.\
-        Aenean facilisis nunc quis elit volutpat mollis.\
-        Aenean eleifend varius euismod. Ut dolor est, congue eget dapibus eget, elementum eu odio.\
-        Integer et lectus neque, nec scelerisque nisi. EndOfLineHere
-
-        Praesent a nunc lorem, ac porttitor eros.
-      LOREM
-    end
-
     before do
-      document.update(description: long_description)
       get :index, params: { project_id: project.identifier }
     end
 
@@ -77,12 +59,6 @@ describe DocumentsController do
     it "group documents by category, if no other sorting is given" do
       expect(assigns(:grouped)).not_to be_nil
       expect(assigns(:grouped).keys.map(&:name)).to eql [default_category.name]
-    end
-
-    it "renders documents with long descriptions properly" do
-      expect(response.body).to have_selector('.wiki p', visible: :all)
-      expect(response.body).to have_selector('.wiki p', visible: :all, text: (document.description.split("\n").first + '...'))
-      expect(response.body).to have_selector('.wiki p', visible: :all, text: /EndOfLineHere.../)
     end
   end
 
@@ -134,7 +110,7 @@ describe DocumentsController do
 
       before do
         notify_project = project
-        create(:member, project: notify_project, user: user, roles: [role])
+        create(:member, project: notify_project, user:, roles: [role])
 
         post :create,
              params: {
@@ -150,7 +126,7 @@ describe DocumentsController do
       it "adds an attachment" do
         document = Document.last
 
-        expect(document.attachments.count).to eql 1
+        expect(document.attachments.count).to be 1
         attachment = document.attachments.first
         expect(uncontainered.reload).to eql attachment
       end

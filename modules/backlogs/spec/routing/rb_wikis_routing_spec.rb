@@ -36,6 +36,7 @@ describe RbWikisController, type: :routing do
                                                                       project_id: 'project_42',
                                                                       sprint_id: '21')
     }
+
     it {
       expect(get('/projects/project_42/sprints/21/wiki/edit')).to route_to(controller: 'rb_wikis',
                                                                            action: 'edit',

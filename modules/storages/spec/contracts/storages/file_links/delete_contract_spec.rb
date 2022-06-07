@@ -36,7 +36,7 @@ describe ::Storages::FileLinks::DeleteContract, :enable_storages do
   let(:current_user) { create(:user) }
   let(:role) { create(:existing_role, permissions: [:manage_file_links]) }
   let(:project) { create(:project, members: { current_user => role }) }
-  let(:work_package) { create(:work_package, project: project) }
+  let(:work_package) { create(:work_package, project:) }
   let(:file_link) { create(:file_link, container: work_package) }
   let(:contract) { described_class.new(file_link, current_user) }
 

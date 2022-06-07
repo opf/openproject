@@ -77,7 +77,7 @@ module BudgetsHelper
 
   def budget_attachment_representer(message)
     ::API::V3::Budgets::BudgetRepresenter.new(message,
-                                              current_user: current_user,
+                                              current_user:,
                                               embed_links: true)
   end
 end

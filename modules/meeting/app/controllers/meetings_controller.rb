@@ -119,7 +119,7 @@ class MeetingsController < ApplicationController
 
   private
 
-  def set_time_zone(&block)
+  def set_time_zone(&)
     zone = User.current.time_zone
     if zone.nil?
       localzone = Time.current.utc_offset
@@ -127,7 +127,7 @@ class MeetingsController < ApplicationController
       zone = ::ActiveSupport::TimeZone[localzone]
     end
 
-    Time.use_zone(zone, &block)
+    Time.use_zone(zone, &)
   end
 
   def find_project

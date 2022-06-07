@@ -26,20 +26,18 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
-import { switchMap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
@@ -52,10 +50,10 @@ export class WorkPackageFilesTabComponent implements OnInit {
 
   text = {
     attachments: {
-      label: this.I18n.t('js.label_attachments'),
+      label: this.i18n.t('js.label_attachments'),
     },
     file_links: {
-      label: this.I18n.t('js.label_nextcloud'),
+      label: this.i18n.t('js.label_nextcloud'),
     },
   };
 
@@ -64,15 +62,17 @@ export class WorkPackageFilesTabComponent implements OnInit {
   storages$:Observable<IStorage[]>;
 
   constructor(
-    readonly I18n:I18nService,
-    protected hook:HookService,
-    private currentUserService:CurrentUserService,
+    private readonly i18n:I18nService,
+    private readonly hook:HookService,
+    private readonly currentUserService:CurrentUserService,
     private readonly projectsResourceService:ProjectsResourceService,
     private readonly storagesResourceService:StoragesResourceService,
+    private readonly apiV3:ApiV3Service,
+    private readonly toast:ToastService,
   ) { }
 
   ngOnInit():void {
-    const project = this.workPackage.$embedded.project as HalResource;
+    const project = this.workPackage.project as HalResource;
     if (project.id === null) {
       return;
     }
@@ -81,16 +81,13 @@ export class WorkPackageFilesTabComponent implements OnInit {
       .currentUserService
       .hasCapabilities$('file_links/view', project.id);
 
-    this.storages$ = this.projectsResourceService.lookup(project.id, true)
+    this.storages$ = this
+      .storagesResourceService
+      .collection(project.href as string)
       .pipe(
-        switchMap((p) => {
-          const storageLinks = p._links.storages;
-
-          return forkJoin(
-            storageLinks.map((link) => this
-              .storagesResourceService
-              .lookup(link, true)),
-          );
+        catchError((error) => {
+          this.toast.addError(error);
+          throw error;
         }),
       );
   }

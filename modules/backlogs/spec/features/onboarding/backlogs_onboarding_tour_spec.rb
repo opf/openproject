@@ -45,17 +45,17 @@ describe 'backlogs onboarding tour', js: true do
            public: true,
            enabled_module_names: %w[work_package_tracking wiki backlogs]
   end
-  let(:sprint) { create(:version, project: project, name: 'Sprint 1') }
+  let(:sprint) { create(:version, project:, name: 'Sprint 1') }
   let(:status) { create(:default_status) }
   let(:priority) { create(:default_priority) }
 
   let(:impediment) do
     build(:impediment, author: user,
-                     version: sprint,
-                     assigned_to: user,
-                     project: project,
-                     type: type_task,
-                     status: status)
+                       version: sprint,
+                       assigned_to: user,
+                       project:,
+                       type: type_task,
+                       status:)
   end
 
   let(:story_type) { create(:type_feature) }
@@ -69,9 +69,9 @@ describe 'backlogs onboarding tour', js: true do
   let!(:existing_story) do
     create(:work_package,
            type: story_type,
-           project: project,
-           status: status,
-           priority: priority,
+           project:,
+           status:,
+           priority:,
            position: 1,
            story_points: 3,
            version: sprint)

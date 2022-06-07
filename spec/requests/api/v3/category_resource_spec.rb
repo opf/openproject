@@ -57,6 +57,7 @@ describe 'API v3 Category resource' do
 
     context 'logged in user' do
       let(:get_path) { api_v3_paths.categories_by_project private_project.id }
+
       before do
         allow(User).to receive(:current).and_return privileged_user
 
@@ -68,6 +69,7 @@ describe 'API v3 Category resource' do
 
     context 'not logged in user' do
       let(:get_path) { api_v3_paths.categories_by_project private_project.id }
+
       before do
         allow(User).to receive(:current).and_return anonymous_user
 
@@ -83,6 +85,7 @@ describe 'API v3 Category resource' do
 
     context 'logged in user' do
       let(:get_path) { api_v3_paths.category categories.first.id }
+
       before do
         allow(User).to receive(:current).and_return privileged_user
 
@@ -90,13 +93,14 @@ describe 'API v3 Category resource' do
       end
 
       context 'valid priority id' do
-        it 'should return HTTP 200' do
-          expect(response.status).to eql(200)
+        it 'returns HTTP 200' do
+          expect(response.status).to be(200)
         end
       end
 
       context 'invalid priority id' do
         let(:get_path) { api_v3_paths.category 'bogus' }
+
         it_behaves_like 'param validation error' do
           let(:id) { 'bogus' }
           let(:type) { 'Category' }
@@ -106,6 +110,7 @@ describe 'API v3 Category resource' do
 
     context 'not logged in user' do
       let(:get_path) { api_v3_paths.category 'bogus' }
+
       before do
         allow(User).to receive(:current).and_return anonymous_user
 

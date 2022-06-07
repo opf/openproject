@@ -37,6 +37,7 @@ describe Grids::CreateContract, 'for Grids::Overview' do
         .and_return(p)
     end
   end
+  let(:instance) { described_class.new(grid, current_user) }
   let(:permissions) { %i[manage_overview] }
   let(:current_user) do
     build_stubbed(:user).tap do |u|
@@ -50,9 +51,8 @@ describe Grids::CreateContract, 'for Grids::Overview' do
     scope = OpenProject::StaticRouting::StaticUrlHelpers.new.project_overview_path(project)
     ::Grids::Factory.build(scope, current_user)
   end
-  include_context 'model contract'
 
-  let(:instance) { described_class.new(grid, current_user) }
+  include_context 'model contract'
 
   describe 'user_id' do
     it_behaves_like 'is not writable' do

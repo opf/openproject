@@ -66,7 +66,7 @@ module OpenProject
                              binary: false)
 
       tmp = create_temp_file name: name, content: content, binary: binary
-      build_uploaded_file tmp, content_type, binary: binary
+      build_uploaded_file tmp, content_type, binary:
     end
   end
 end

@@ -37,24 +37,24 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
   let!(:other_activity) { create :time_entry_activity }
   let!(:work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            author: user,
            subject: 'First work package'
   end
   let!(:other_work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            author: user,
            subject: 'Another task'
   end
   let!(:visible_time_entry) do
     create :time_entry,
-           work_package: work_package,
-           project: project,
-           activity: activity,
-           user: user,
+           work_package:,
+           project:,
+           activity:,
+           user:,
            spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
            hours: 3,
            comments: 'My comment'
@@ -62,38 +62,38 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
   let!(:visible_time_entry_on_project) do
     FactoryBot.create :time_entry,
                       work_package: nil,
-                      project: project,
-                      activity: activity,
-                      user: user,
+                      project:,
+                      activity:,
+                      user:,
                       spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
                       hours: 1,
                       comments: 'My comment'
   end
   let!(:other_visible_time_entry) do
     create :time_entry,
-           work_package: work_package,
-           project: project,
-           activity: activity,
-           user: user,
+           work_package:,
+           project:,
+           activity:,
+           user:,
            spent_on: Date.today.beginning_of_week(:sunday) + 4.days,
            hours: 2,
            comments: 'My other comment'
   end
   let!(:last_week_visible_time_entry) do
     create :time_entry,
-           work_package: work_package,
-           project: project,
-           activity: activity,
-           user: user,
+           work_package:,
+           project:,
+           activity:,
+           user:,
            spent_on: Date.today - (Date.today.wday + 3).days,
            hours: 8,
            comments: 'My last week comment'
   end
   let!(:invisible_time_entry) do
     create :time_entry,
-           work_package: work_package,
-           project: project,
-           activity: activity,
+           work_package:,
+           project:,
+           activity:,
            user: other_user,
            hours: 4
   end
@@ -220,7 +220,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
       .to have_content "Total: 10.00"
 
     expect(TimeEntry.count)
-      .to eql 6
+      .to be 6
 
     ## Editing an entry
 

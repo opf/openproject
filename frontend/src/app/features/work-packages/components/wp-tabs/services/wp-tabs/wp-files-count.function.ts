@@ -31,19 +31,19 @@ import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
-import { FileLinkResourceService } from 'core-app/core/state/file-links/file-links.service';
+import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 
 export function workPackageFilesCount(
   workPackage:WorkPackageResource,
   injector:Injector,
 ):Observable<number> {
   const attachmentService = injector.get(AttachmentsResourceService);
-  const fileLinkService = injector.get(FileLinkResourceService);
+  const fileLinkService = injector.get(FileLinksResourceService);
 
   return combineLatest(
     [
-      attachmentService.all(workPackage.$links.attachments.href || ''),
-      fileLinkService.all(workPackage.$links.fileLinks?.href || ''),
+      attachmentService.collection(workPackage.$links.attachments.href || ''),
+      fileLinkService.collection(workPackage.$links.fileLinks?.href || ''),
     ],
   ).pipe(
     map(([a, f]) => a.length + f.length),

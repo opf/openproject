@@ -34,7 +34,7 @@ describe StatusesController, type: :controller do
 
   before { login_as(user) }
 
-  shared_examples_for :response do
+  shared_examples_for 'response' do
     subject { response }
 
     it { is_expected.to be_successful }
@@ -42,7 +42,7 @@ describe StatusesController, type: :controller do
     it { is_expected.to render_template(template) }
   end
 
-  shared_examples_for :redirect do
+  shared_examples_for 'redirect' do
     subject { response }
 
     it { is_expected.to be_redirect }
@@ -50,8 +50,8 @@ describe StatusesController, type: :controller do
     it { is_expected.to redirect_to(action: :index) }
   end
 
-  shared_examples_for :statuses do
-    subject { Status.find_by(name: name) }
+  shared_examples_for 'statuses' do
+    subject { Status.find_by(name:) }
 
     it { is_expected.not_to be_nil }
   end
@@ -61,7 +61,7 @@ describe StatusesController, type: :controller do
 
     before { get :index }
 
-    it_behaves_like :response
+    it_behaves_like 'response'
   end
 
   describe '#new' do
@@ -69,7 +69,7 @@ describe StatusesController, type: :controller do
 
     before { get :new }
 
-    it_behaves_like :response
+    it_behaves_like 'response'
   end
 
   describe '#create' do
@@ -77,12 +77,12 @@ describe StatusesController, type: :controller do
 
     before do
       post :create,
-           params: { status: { name: name } }
+           params: { status: { name: } }
     end
 
-    it_behaves_like :statuses
+    it_behaves_like 'statuses'
 
-    it_behaves_like :redirect
+    it_behaves_like 'redirect'
   end
 
   describe '#edit' do
@@ -99,7 +99,7 @@ describe StatusesController, type: :controller do
             params: { id: status_default.id }
       end
 
-      it_behaves_like :response
+      it_behaves_like 'response'
 
       describe '#view' do
         render_views
@@ -119,7 +119,7 @@ describe StatusesController, type: :controller do
         get :edit, params: { id: status.id }
       end
 
-      it_behaves_like :response
+      it_behaves_like 'response'
 
       describe '#view' do
         render_views
@@ -141,20 +141,20 @@ describe StatusesController, type: :controller do
       patch :update,
             params: {
               id: status.id,
-              status: { name: name }
+              status: { name: }
             }
     end
 
-    it_behaves_like :statuses
+    it_behaves_like 'statuses'
 
-    it_behaves_like :redirect
+    it_behaves_like 'redirect'
   end
 
   describe '#destroy' do
     let(:name) { status.name }
 
-    shared_examples_for :destroyed do
-      subject { Status.find_by(name: name) }
+    shared_examples_for 'destroyed' do
+      subject { Status.find_by(name:) }
 
       it { is_expected.to be_nil }
     end
@@ -164,19 +164,19 @@ describe StatusesController, type: :controller do
         delete :destroy, params: { id: status.id }
       end
 
-      it_behaves_like :destroyed
-
-      it_behaves_like :redirect
-
       after do
         Status.delete_all
       end
+
+      it_behaves_like 'destroyed'
+
+      it_behaves_like 'redirect'
     end
 
     context 'used' do
       let(:work_package) do
         create(:work_package,
-               status: status)
+               status:)
       end
 
       before do
@@ -185,9 +185,9 @@ describe StatusesController, type: :controller do
         delete :destroy, params: { id: status.id }
       end
 
-      it_behaves_like :statuses
+      it_behaves_like 'statuses'
 
-      it_behaves_like :redirect
+      it_behaves_like 'redirect'
     end
 
     context 'default' do
@@ -200,9 +200,9 @@ describe StatusesController, type: :controller do
         delete :destroy, params: { id: status_default.id }
       end
 
-      it_behaves_like :statuses
+      it_behaves_like 'statuses'
 
-      it_behaves_like :redirect
+      it_behaves_like 'redirect'
 
       it 'shows the right flash message' do
         expect(flash[:error]).to eq(I18n.t('error_unable_delete_default_status'))
@@ -211,7 +211,7 @@ describe StatusesController, type: :controller do
   end
 
   describe '#update_work_package_done_ratio' do
-    shared_examples_for :flash do
+    shared_examples_for 'flash' do
       it { is_expected.to set_flash.to(message) }
     end
 
@@ -224,9 +224,9 @@ describe StatusesController, type: :controller do
         post :update_work_package_done_ratio
       end
 
-      it_behaves_like :flash
+      it_behaves_like 'flash'
 
-      it_behaves_like :redirect
+      it_behaves_like 'redirect'
     end
 
     context "with 'work_package_done_ratio' using 'status'" do
@@ -238,9 +238,9 @@ describe StatusesController, type: :controller do
         post :update_work_package_done_ratio
       end
 
-      it_behaves_like :flash
+      it_behaves_like 'flash'
 
-      it_behaves_like :redirect
+      it_behaves_like 'redirect'
     end
   end
 end

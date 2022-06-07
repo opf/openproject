@@ -1,11 +1,12 @@
 # /api/v3/days/non_working
 ---
 post:
-  summary: Creates a non-working day
+  summary: Creates a non-working day (NOT IMPLEMENTED)
   operationId: create_non_working_day
   tags:
     - Work Schedule
   description: |-
+    **(NOT IMPLEMENTED)**
     Marks a day as being a non-working day.
 
     Note: creating a non-working day will not affect the start and finish dates

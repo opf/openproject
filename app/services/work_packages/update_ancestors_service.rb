@@ -45,7 +45,7 @@ class WorkPackages::UpdateAncestorsService
       modified.all? { |wp| wp.save(validate: false) }
     end
 
-    result = ServiceResult.new(success: success, result: work_package)
+    result = ServiceResult.new(success:, result: work_package)
 
     modified.each do |wp|
       result.add_dependent!(ServiceResult.new(success: !wp.changed?, result: wp))

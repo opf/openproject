@@ -33,13 +33,13 @@ describe 'form configuration', type: :feature, js: true do
   let(:type) { create :type }
 
   let(:project) { create :project, types: [type] }
-  let(:category) { create :category, project: project }
+  let(:category) { create :category, project: }
   let(:work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            done_ratio: 10,
-           category: category
+           category:
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }

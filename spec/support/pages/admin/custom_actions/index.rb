@@ -45,7 +45,7 @@ module Pages
             find('.icon-edit').click
           end
 
-          custom_action = CustomAction.find_by!(name: name)
+          custom_action = CustomAction.find_by!(name:)
           Pages::Admin::CustomActions::Edit.new(custom_action)
         end
 
@@ -96,15 +96,15 @@ module Pages
 
         private
 
-        def within_row_of(name, &block)
+        def within_row_of(name, &)
           within 'table' do
-            within find('tr', text: name), &block
+            within(find('tr', text: name), &)
           end
         end
 
-        def within_buttons_of(name, &block)
+        def within_buttons_of(name, &)
           within_row_of(name) do
-            within find('.buttons'), &block
+            within(find('.buttons'), &)
           end
         end
       end

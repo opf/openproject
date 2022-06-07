@@ -45,12 +45,12 @@ describe 'Impediments on taskboard',
     create(:workflow,
            old_status: status,
            new_status: other_status,
-           role: role,
+           role:,
            type_id: story.id)
     create(:workflow,
            old_status: status,
            new_status: other_status,
-           role: role,
+           role:,
            type_id: task.id)
   end
   let(:role) do
@@ -70,36 +70,36 @@ describe 'Impediments on taskboard',
   end
   let!(:task1) do
     create(:work_package,
-           status: status,
-           project: project,
+           status:,
+           project:,
            type: task,
            version: sprint,
            parent: story1)
   end
   let!(:story1) do
     create(:work_package,
-           project: project,
+           project:,
            type: story,
            version: sprint)
   end
   let!(:other_task) do
     create(:work_package,
-           project: project,
+           project:,
            type: task,
            version: sprint,
            parent: other_story)
   end
   let!(:other_story) do
     create(:work_package,
-           project: project,
+           project:,
            type: story,
            version: other_sprint)
   end
   let!(:sprint) do
-    create(:version, project: project)
+    create(:version, project:)
   end
   let!(:other_sprint) do
-    create(:version, project: project)
+    create(:version, project:)
   end
 
   before do

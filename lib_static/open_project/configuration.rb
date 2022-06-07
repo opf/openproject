@@ -83,7 +83,7 @@ module OpenProject
 
       private
 
-      def method_missing(name, *args, &block)
+      def method_missing(name, *args, &)
         setting_name = name.to_s.sub(/\?$/, '')
 
         definition = Settings::Definition[setting_name]
@@ -91,7 +91,7 @@ module OpenProject
         if definition
           define_config_methods(definition)
 
-          send(name, *args, &block)
+          send(name, *args, &)
         else
           super
         end

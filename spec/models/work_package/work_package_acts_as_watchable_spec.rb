@@ -34,7 +34,7 @@ describe WorkPackage, type: :model do
   let(:project) { create(:project) }
   let(:work_package) do
     create(:work_package,
-           project: project)
+           project:)
   end
 
   it_behaves_like 'acts_as_watchable included' do

@@ -42,7 +42,7 @@ describe 'admin/enterprises/_current', type: :view do
     assign :current_token, token
 
     Timecop.travel(current_date) do
-      render :partial => "enterprises/current"
+      render partial: "enterprises/current"
     end
   end
 

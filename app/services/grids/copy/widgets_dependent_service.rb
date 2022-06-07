@@ -119,7 +119,7 @@ module Grids::Copy
       query = Query.find query_id
 
       ::Queries::CopyService
-        .new(user: user, source: query)
+        .new(user:, source: query)
         .with_state(state)
         .call(params)
     end

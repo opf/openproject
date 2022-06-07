@@ -61,8 +61,8 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
     described_class.new(placeholders,
                         self_link: self_base_link,
                         per_page: page_size,
-                        page: page,
-                        current_user: current_user)
+                        page:,
+                        current_user:)
   end
 
   context 'generation' do

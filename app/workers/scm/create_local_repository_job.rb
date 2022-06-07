@@ -77,7 +77,7 @@ class SCM::CreateLocalRepositoryJob < ApplicationJob
   # Accepts an overridden permission mode mask from the scm config,
   # or sets a sensible default of 0700.
   def create(mode)
-    FileUtils.mkdir_p(repository.root_url, mode: mode)
+    FileUtils.mkdir_p(repository.root_url, mode:)
   end
 
   ##

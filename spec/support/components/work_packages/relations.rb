@@ -126,7 +126,7 @@ module Components
       end
 
       def expect_relation_by_text(text)
-        expect(relations_group).to have_selector('.wp-relations--subject-field', text: text)
+        expect(relations_group).to have_selector('.wp-relations--subject-field', text:)
       end
 
       def expect_no_relation(relatable)
@@ -142,7 +142,7 @@ module Components
         SeleniumHubWaiter.wait
         autocomplete = find("[data-qa-selector='wp-relations-autocomplete']")
         select_autocomplete autocomplete,
-                            query: query,
+                            query:,
                             results_selector: '.ng-dropdown-panel-items',
                             select_text: work_package.id
       end

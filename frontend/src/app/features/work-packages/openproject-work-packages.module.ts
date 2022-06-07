@@ -394,7 +394,7 @@ import {
 import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { OpenprojectFileLinksModule } from 'core-app/shared/components/file-links/openproject-file-links.module';
-import { FileLinkResourceService } from 'core-app/core/state/file-links/file-links.service';
+import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 
 @NgModule({
@@ -450,7 +450,7 @@ import { StoragesResourceService } from 'core-app/core/state/storages/storages.s
     WorkPackagesQueryViewService,
 
     HalEventsService,
-    FileLinkResourceService,
+    FileLinksResourceService,
 
     StoragesResourceService,
   ],

@@ -40,7 +40,7 @@ module API
         link :self,
              path: { api: :action, params: %w(action) },
              column: -> { :id },
-             title: -> { nil }
+             title: -> {}
       end
     end
   end

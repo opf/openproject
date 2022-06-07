@@ -30,7 +30,7 @@ require 'rack/test'
 
 describe "/api/v3/queries/:id/order", type: :request do
   let(:user) { create :admin }
-  let(:query) { create(:query, name: "A Query", user: user) }
+  let(:query) { create(:query, name: "A Query", user:) }
   let(:path) { "/api/v3/queries/#{query.id}/order" }
 
   subject(:body) { JSON.parse(last_response.body) }

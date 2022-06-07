@@ -28,23 +28,26 @@
 require 'spec_helper'
 
 describe UpdateProjectsTypesService do
-  let(:project) { double(Project, types_used_by_work_packages: []) }
-  let(:type) { double(Type, id: 456, name: 'A type') }
-  let(:standard_type) { double('StandardType', id: 123) }
-  let(:instance) { described_class.new(project) }
+  let(:project) { instance_double(Project, types_used_by_work_packages: []) }
+  let(:standard_type) { build_stubbed(:type_standard) }
+
+  subject(:instance) { described_class.new(project) }
 
   before do
     allow(Type).to receive(:standard_type).and_return standard_type
   end
 
   describe '.call' do
+    before do
+      allow(project).to receive(:type_ids=)
+    end
+
     context 'with ids provided' do
       let(:ids) { [1, 2, 3] }
 
       it 'returns true and updates the ids' do
-        expect(project).to receive(:type_ids=).with(ids)
-
         expect(instance.call(ids)).to be_truthy
+        expect(project).to have_received(:type_ids=).with(ids)
       end
     end
 
@@ -52,9 +55,8 @@ describe UpdateProjectsTypesService do
       let(:ids) { [] }
 
       it 'adds the id of the default type and returns true' do
-        expect(project).to receive(:type_ids=).with([standard_type.id])
-
         expect(instance.call(ids)).to be_truthy
+        expect(project).to have_received(:type_ids=).with([standard_type.id])
       end
     end
 
@@ -62,13 +64,14 @@ describe UpdateProjectsTypesService do
       let(:ids) { nil }
 
       it 'adds the id of the default type and returns true' do
-        expect(project).to receive(:type_ids=).with([standard_type.id])
-
         expect(instance.call(ids)).to be_truthy
+        expect(project).to have_received(:type_ids=).with([standard_type.id])
       end
     end
 
-    context 'the id of a type in use is not provided' do
+    context 'when the id of a type in use is not provided' do
+      let(:type) { build_stubbed(:type) }
+
       before do
         allow(project).to receive(:types_used_by_work_packages).and_return([type])
       end
@@ -76,13 +79,13 @@ describe UpdateProjectsTypesService do
       it 'returns false and sets an error message' do
         ids = [1]
 
-        errors = double('Errors')
-        expect(project).to receive(:errors).and_return(errors)
-        expect(errors).to receive(:add).with(:type, :in_use_by_work_packages, types: type.name)
-
-        expect(project).to_not receive(:type_ids=)
+        errors = instance_double(ActiveModel::Errors)
+        allow(errors).to receive(:add)
+        allow(project).to receive(:errors).and_return(errors)
 
         expect(instance.call(ids)).to be_falsey
+        expect(errors).to have_received(:add).with(:types, :in_use_by_work_packages, types: type.name)
+        expect(project).not_to have_received(:type_ids=)
       end
     end
   end

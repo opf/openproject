@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package pagination', js: true do
+RSpec.describe 'Work package pagination', js: true do
   shared_let(:admin) { create :admin }
 
   let(:project) do
@@ -36,23 +36,23 @@ RSpec.feature 'Work package pagination', js: true do
   end
 
   shared_examples_for 'paginated work package list' do
-    let!(:work_package_1) { create(:work_package, project: project) }
-    let!(:work_package_2) { create(:work_package, project: project) }
+    let!(:work_package_1) { create(:work_package, project:) }
+    let!(:work_package_2) { create(:work_package, project:) }
 
     before do
       login_as(admin)
       allow(Setting).to receive(:per_page_options).and_return '1, 50, 100'
 
       visit path
-      expect(current_path).to eq(expected_path)
+      expect(page).to have_current_path(expected_path, ignore_query: true)
     end
 
-    scenario do
+    it do
       expect(page).to have_content('All open')
 
       within('.work-packages-partitioned-query-space--container') do
         expect(page).to     have_content(work_package_1.subject)
-        expect(page).to_not have_content(work_package_2.subject)
+        expect(page).not_to have_content(work_package_2.subject)
       end
 
       within('.op-pagination--pages') do
@@ -61,7 +61,7 @@ RSpec.feature 'Work package pagination', js: true do
 
       within('.work-packages-partitioned-query-space--container') do
         expect(page).to     have_content(work_package_2.subject)
-        expect(page).to_not have_content(work_package_1.subject)
+        expect(page).not_to have_content(work_package_1.subject)
       end
 
       within('.op-pagination--options') do

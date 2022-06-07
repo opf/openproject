@@ -1184,3 +1184,6 @@ zh-TW:
         remove: '刪除'
       drop_modal:
         Close: '關閉'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

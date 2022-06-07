@@ -28,11 +28,32 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package timeline labels',
-              with_settings: { date_format: '%Y-%m-%d' },
-              js: true,
-              selenium: true do
+RSpec.describe 'Work package timeline labels',
+               with_settings: { date_format: '%Y-%m-%d' },
+               js: true,
+               selenium: true do
   let(:user) { create(:admin) }
+  let(:today) { Time.zone.today }
+  let(:tomorrow) { Time.zone.tomorrow }
+  let(:future) { Time.zone.today + 5 }
+  let(:work_package) do
+    create :work_package,
+           project:,
+           type:,
+           assigned_to: user,
+           start_date: today,
+           due_date: tomorrow,
+           subject: 'My subject',
+           custom_field_values: { custom_field.id => custom_value_for('onions') }
+  end
+  let(:milestone_work_package) do
+    create :work_package,
+           project:,
+           type: milestone_type,
+           start_date: future,
+           due_date: future,
+           subject: 'My milestone'
+  end
   let(:type) { create(:type_bug) }
   let(:milestone_type) { create(:type, is_milestone: true) }
 
@@ -56,30 +77,6 @@ RSpec.feature 'Work package timeline labels',
     custom_field.custom_options.find { |co| co.value == str }.try(:id)
   end
 
-  let(:today) { Date.today.iso8601 }
-  let(:tomorrow) { Date.tomorrow.iso8601 }
-  let(:future) { (Date.today + 5).iso8601 }
-
-  let(:work_package) do
-    create :work_package,
-           project: project,
-           type: type,
-           assigned_to: user,
-           start_date: today,
-           due_date: tomorrow,
-           subject: 'My subject',
-           custom_field_values: { custom_field.id => custom_value_for('onions') }
-  end
-
-  let(:milestone_work_package) do
-    create :work_package,
-           project: project,
-           type: milestone_type,
-           start_date: future,
-           due_date: future,
-           subject: 'My milestone'
-  end
-
   before do
     custom_field
     milestone_work_package
@@ -98,14 +95,14 @@ RSpec.feature 'Work package timeline labels',
                       right: nil,
                       farRight: 'My subject'
 
-    row.expect_hovered_labels left: today, right: tomorrow
+    row.expect_hovered_labels left: today.iso8601, right: tomorrow.iso8601
 
     # Check default labels (milestone)
     row = wp_timeline.timeline_row milestone_work_package.id
     row.expect_labels left: nil,
                       right: nil,
                       farRight: 'My milestone'
-    row.expect_hovered_labels left: nil, right: future
+    row.expect_hovered_labels left: nil, right: future.iso8601
 
     # Modify label configuration
     config_modal.open!
@@ -168,14 +165,14 @@ RSpec.feature 'Work package timeline labels',
 
     # Check overridden labels
     row = wp_timeline.timeline_row work_package.id
-    row.expect_labels left: today,
-                      right: tomorrow,
+    row.expect_labels left: today.iso8601,
+                      right: tomorrow.iso8601,
                       farRight: work_package.subject
 
     # Check default labels (milestone)
     row = wp_timeline.timeline_row milestone_work_package.id
     row.expect_labels left: nil,
-                      right: future,
+                      right: future.iso8601,
                       farRight: milestone_work_package.subject
   end
 end

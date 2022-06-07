@@ -37,10 +37,10 @@ describe 'API v3 news resource', type: :request do
     create(:user, member_in_project: project, member_through_role: role)
   end
   let(:news) do
-    create(:news, project: project, author: current_user)
+    create(:news, project:, author: current_user)
   end
   let(:other_news) do
-    create(:news, project: project, author: other_user)
+    create(:news, project:, author: other_user)
   end
   let(:other_user) do
     create(:user, member_in_project: project, member_through_role: role)
@@ -50,7 +50,7 @@ describe 'API v3 news resource', type: :request do
   end
   let(:project) { create(:project) }
   let(:other_project) { create(:project) }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i(view_news) }
 
   subject(:response) { last_response }
@@ -131,7 +131,7 @@ describe 'API v3 news resource', type: :request do
 
     it 'returns 200 OK' do
       expect(subject.status)
-        .to eql(200)
+        .to be(200)
     end
 
     it 'returns the news' do
@@ -149,7 +149,7 @@ describe 'API v3 news resource', type: :request do
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
   end

@@ -69,7 +69,7 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
   end
 
   let(:role) do
-    create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
 
   let(:read_only_user) do

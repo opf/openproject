@@ -1194,3 +1194,6 @@ uk:
         remove: 'Видалити'
       drop_modal:
         Close: 'Закрити'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

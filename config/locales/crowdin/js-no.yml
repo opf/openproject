@@ -1188,3 +1188,6 @@
         remove: 'Fjern'
       drop_modal:
         Close: 'Lukk'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

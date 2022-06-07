@@ -31,6 +31,7 @@ require 'spec_helper'
 describe Queries::Copy::FiltersMapper do
   let(:state) { ::Shared::ServiceState.new }
   let(:instance) { described_class.new(state, filters) }
+
   subject { instance.map_filters! }
 
   describe 'with a query filters array' do

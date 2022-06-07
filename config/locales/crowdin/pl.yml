@@ -519,6 +519,7 @@ pl:
         begin_deletion: "Początek usuwania"
         children: "Elementy składowe"
         done_ratio: "Postęp (%)"
+        duration: "Duration"
         end_insertion: "Koniec wstawiania"
         end_deletion: "Koniec usuwania"
         version: "Wersja"
@@ -733,6 +734,9 @@ pl:
           attributes:
             due_date:
               not_start_date: "nie jest w dniu rozpoczęcia, chociaż jest to wymagane dla Kamieni Milowych."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
             parent:
               cannot_be_milestone: "nie może być kamieniem milowym."
               cannot_be_self_assigned: "nie może być przypisany do siebie."
@@ -2029,6 +2033,9 @@ pl:
   mail_body_backup_token_info: Poprzedni token jest już nieprawidłowy.
   mail_body_backup_waiting_period: Nowy token zostanie włączony za %{hours} godz.
   mail_body_backup_token_warning: Jeśli to nie Ty, zaloguj się natychmiast do OpenProject i zresetuj go ponownie.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Aby zmienić hasło, kliknij na poniższy link:"
   mail_body_register: "Witamy w %{app_title}. Aktywuj swoje konto, klikając ten link:"
   mail_body_register_header_title: "Wiadomość e-mail z zaproszeniem członka projektu"
@@ -2047,6 +2054,7 @@ pl:
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_subject_backup_ready: "Twoja kopia zapasowa jest gotowa"
   mail_subject_backup_token_reset: "Reset tokenu kopii zapasowej"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Twoje hasło do %{value}"
   mail_subject_register: "Your %{value} account activation"
   mail_subject_reminder: "Termin wykonania %{count} pakietów roboczych kończy się w ciągu %{days} dni"

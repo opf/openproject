@@ -33,7 +33,7 @@ module API
         attr_reader :grid_scope, :grid_writable
 
         def initialize(models, self_link:, grid_scope:, **args)
-          super(models, self_link: self_link, **args)
+          super(models, self_link:, **args)
           @grid_scope = grid_scope
           @grid_writable = ::Grids::Configuration.writable_scope?(grid_scope)
         end

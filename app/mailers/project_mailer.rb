@@ -63,7 +63,7 @@ class ProjectMailer < ApplicationMailer
     with_locale_for(user) do
       subject = I18n.t('copy_project.failed', source_project_name: source_project.name)
 
-      mail to: user.mail, subject: subject
+      mail to: user.mail, subject:
     end
   end
 
@@ -81,7 +81,7 @@ class ProjectMailer < ApplicationMailer
     with_locale_for(user) do
       subject = I18n.t('copy_project.succeeded', target_project_name: target_project.name)
 
-      mail to: user.mail, subject: subject
+      mail to: user.mail, subject:
     end
   end
 end

@@ -2,50 +2,50 @@ require_relative '../../spec_helper'
 
 shared_examples 'immediate success login' do
   context 'with valid credentials' do
-    it "should not yet log in user" do
+    it "does not yet log in user" do
       expect(User.current).not_to eq(user)
     end
 
-    it "should not render flash error message" do
+    it "does not render flash error message" do
       expect(flash[:error]).not_to be_present
     end
 
-    it "should render redirect" do
+    it "renders redirect" do
       expect(response).to redirect_to stage_success_path(stage: :two_factor_authentication, secret: 'asdf')
     end
   end
 end
 
 shared_examples '2FA forced registry' do
-  it "should not log in user" do
+  it "does not log in user" do
     expect(User.current).not_to eq(user)
   end
 
-  it "should set authenticated user" do
+  it "sets authenticated user" do
     expect(session[:authenticated_user_force_2fa]).to be_truthy
     expect(session[:authenticated_user_id]).to eq user.id
   end
 
-  it "should flash info message" do
+  it "flashes info message" do
     expect(flash[:info]).not_to be_empty
   end
 
-  it "should render the login_otp" do
+  it "renders the login_otp" do
     expect(response).to redirect_to new_forced_2fa_device_path
   end
 end
 
 shared_examples '2FA response failure' do |expected_error|
-  it "should not log in user" do
+  it "does not log in user" do
     expect(User.current).not_to eq(user)
   end
 
-  it "should flash error message" do
+  it "flashes error message" do
     expect(flash[:error]).not_to be_empty
     expect(flash[:error]).to include expected_error
   end
 
-  it "should render the login_otp" do
+  it "renders the login_otp" do
     expect(response).to redirect_to stage_failure_path(stage: :two_factor_authentication)
   end
 end
@@ -66,15 +66,15 @@ shared_examples '2FA credentials authentication success' do
       get :request_otp
     end
 
-    it "should not log in user" do
+    it "does not log in user" do
       expect(User.current).not_to eq(user)
     end
 
-    it "should print the success message" do
+    it "prints the success message" do
       expect(flash[:error]).not_to be_present
     end
 
-    it "should render the login_otp" do
+    it "renders the login_otp" do
       expect(response).to render_template 'request_otp'
     end
   end
@@ -88,11 +88,11 @@ shared_examples '2FA login_otp fails without authenticated user' do
       post :confirm_otp, params: { otp: 'does not matter' }
     end
 
-    it "should redirect to login page" do
+    it "redirects to login page" do
       expect(response).to redirect_to stage_failure_path(stage: :two_factor_authentication)
     end
 
-    it "should not log in user" do
+    it "does not log in user" do
       expect(User.current).not_to eq(user)
     end
   end
@@ -116,11 +116,13 @@ shared_examples '2FA TOTP request success' do
 
     context 'with a valid token' do
       let(:token) { device.totp.now }
+
       it_behaves_like 'immediate success login'
     end
 
     context 'with an invalid token' do
       let(:token) { 'bogus' }
+
       it_behaves_like '2FA response failure', I18n.t(:notice_account_otp_invalid)
     end
   end
@@ -155,11 +157,13 @@ shared_examples '2FA SMS request success' do
 
       context 'when not expired' do
         let(:expired) { false }
+
         it_behaves_like 'immediate success login'
       end
 
       context 'when expired' do
         let(:expired) { true }
+
         it_behaves_like '2FA response failure', I18n.t(:notice_account_otp_invalid)
       end
     end

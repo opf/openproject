@@ -37,9 +37,9 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
                   spent_on: Date.today - 3.days,
                   created_at: DateTime.now - 6.hours,
                   updated_at: DateTime.now - 3.hours,
-                  activity: activity,
-                  project: project,
-                  user: user)
+                  activity:,
+                  project:,
+                  user:)
   end
   let(:project) { build_stubbed(:project) }
   let(:project2) { build_stubbed(:project) }
@@ -141,7 +141,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
       it 'updates hours' do
         time_entry = representer.from_hash(hash)
         expect(time_entry.hours)
-          .to eql(5.0)
+          .to be(5.0)
       end
 
       context 'with null value' do
@@ -154,7 +154,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
         it 'updates hours' do
           time_entry = representer.from_hash(hash)
           expect(time_entry.hours)
-            .to eql(nil)
+            .to be_nil
         end
       end
     end

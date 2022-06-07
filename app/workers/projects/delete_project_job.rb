@@ -49,7 +49,7 @@ module Projects
 
     def delete_project
       ::Projects::DeleteService
-        .new(user: user, model: project)
+        .new(user:, model: project)
         .call
     end
 

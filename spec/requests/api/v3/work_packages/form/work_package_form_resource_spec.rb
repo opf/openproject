@@ -44,7 +44,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
     # Prevent executing as potentially unsaved AnyonymousUser which would
     # lead to the creation failing as the journal cannot be written with user_id = nil.
     User.execute_as authorized_user do
-      create(:work_package, project: project)
+      create(:work_package, project:)
     end
   end
   shared_let(:authorized_assign_user) do
@@ -64,7 +64,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
     subject(:response) { last_response }
 
     shared_context 'post request' do
-      before(:each) do
+      before do
         login_as(current_user)
         post post_path, (params ? params.to_json : nil), 'CONTENT_TYPE' => 'application/json'
       end
@@ -228,7 +228,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 it_behaves_like 'having no errors'
 
-                it 'should respond with updated work package subject' do
+                it 'responds with updated work package subject' do
                   expect(subject.body).to be_json_eql('Updated subject'.to_json)
                     .at_path('_embedded/payload/subject')
                 end
@@ -241,7 +241,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 it_behaves_like 'having an error', 'subject'
 
-                it 'should respond with updated work package subject' do
+                it 'responds with updated work package subject' do
                   expect(subject.body).to be_json_eql(nil.to_json)
                     .at_path('_embedded/payload/subject')
                 end
@@ -259,7 +259,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
                 let(:raw_value) { description }
                 let(:html_value) do
                   '<p class="op-uc-p"><strong>Some text</strong> <em>describing</em> ' \
-                  '<strong>something</strong>...</p>'
+                    '<strong>something</strong>...</p>'
                 end
               end
 
@@ -276,7 +276,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 it_behaves_like 'having no errors'
 
-                it 'should respond with updated work package' do
+                it 'responds with updated work package' do
                   expect(subject.body).to be_json_eql('2015-01-31'.to_json)
                     .at_path('_embedded/payload/startDate')
                 end
@@ -303,7 +303,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 it_behaves_like 'having no errors'
 
-                it 'should respond with updated work package' do
+                it 'responds with updated work package' do
                   expect(subject.body).to be_json_eql('2015-01-31'.to_json)
                     .at_path('_embedded/payload/dueDate')
                 end
@@ -342,11 +342,11 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 it_behaves_like 'having no errors'
 
-                it 'should respond with updated work package status' do
+                it 'responds with updated work package status' do
                   expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
                 end
 
-                it 'should still show the original allowed statuses' do
+                it 'stills show the original allowed statuses' do
                   expect(subject.body).to be_json_eql(status_link.to_json)
                     .at_path('_embedded/schema/status/_links/allowedValues/1/href')
                 end
@@ -360,7 +360,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                   it_behaves_like 'having an error', 'status'
 
-                  it 'should respond with updated work package status' do
+                  it 'responds with updated work package status' do
                     expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
                   end
                 end
@@ -377,7 +377,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                   it_behaves_like 'having an error', 'status'
 
-                  it 'should respond with updated work package status' do
+                  it 'responds with updated work package status' do
                     expect(subject.body).to be_json_eql(status_link.to_json).at_path(path)
                   end
                 end
@@ -411,7 +411,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
                 let(:params) { valid_params.merge(user_parameter) }
 
                 shared_examples_for 'having updated work package principal' do
-                  it "should respond with updated work package #{property}" do
+                  it "responds with updated work package #{property}" do
                     expect(subject.body).to be_json_eql(user_link.to_json).at_path(path)
                   end
                 end
@@ -446,7 +446,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
                     let(:group_member) do
                       create(:member,
                              principal: group,
-                             project: project,
+                             project:,
                              roles: [role])
                     end
 
@@ -490,7 +490,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
                     it_behaves_like 'invalid resource link' do
                       let(:message) do
                         I18n.t('api_v3.errors.invalid_resource',
-                               property: property,
+                               property:,
                                expected: "/api/v3/groups/:id' or '/api/v3/users/:id' or '/api/v3/placeholder_users/:id",
                                actual: user_link)
                       end
@@ -506,8 +506,8 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
             describe 'version' do
               let(:path) { '_embedded/payload/_links/version/href' }
-              let(:target_version) { create(:version, project: project, start_date: Date.today - 2.days) }
-              let(:other_version) { create(:version, project: project, start_date: Date.today - 1.day) }
+              let(:target_version) { create(:version, project:, start_date: Date.today - 2.days) }
+              let(:other_version) { create(:version, project:, start_date: Date.today - 1.day) }
               let(:version_link) { api_v3_paths.version target_version.id }
               let(:version_parameter) { { _links: { version: { href: version_link } } } }
               let(:params) { valid_params.merge(version_parameter) }
@@ -519,7 +519,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 include_context 'post request'
 
-                it 'should list all versions available for the project' do
+                it 'lists all versions available for the project' do
                   [target_version, other_version].sort.each_with_index do |v, i|
                     expect(subject.body).to be_json_eql(api_v3_paths.version(v.id).to_json)
                       .at_path("_embedded/schema/version/_links/allowedValues/#{i}/href")
@@ -534,7 +534,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 it_behaves_like 'having no errors'
 
-                it 'should respond with updated work package version' do
+                it 'responds with updated work package version' do
                   expect(subject.body).to be_json_eql(version_link.to_json).at_path(path)
                 end
               end
@@ -543,8 +543,8 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
             describe 'category' do
               let(:path) { '_embedded/payload/_links/category/href' }
               let(:links_path) { '_embedded/schema/category/_links' }
-              let(:target_category) { create(:category, project: project) }
-              let(:other_category) { create(:category, project: project) }
+              let(:target_category) { create(:category, project:) }
+              let(:other_category) { create(:category, project:) }
               let(:category_link) { api_v3_paths.category target_category.id }
               let(:category_parameter) { { _links: { category: { href: category_link } } } }
               let(:params) { valid_params.merge(category_parameter) }
@@ -556,7 +556,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 include_context 'post request'
 
-                it 'should list the categories' do
+                it 'lists the categories' do
                   [target_category, other_category].sort.each_with_index do |c, i|
                     expect(subject.body).to be_json_eql(api_v3_paths.category(c.id).to_json)
                       .at_path("#{links_path}/allowedValues/#{i}/href")
@@ -571,7 +571,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 it_behaves_like 'having no errors'
 
-                it 'should respond with updated work package category' do
+                it 'responds with updated work package category' do
                   expect(subject.body).to be_json_eql(category_link.to_json).at_path(path)
                 end
               end
@@ -594,7 +594,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 include_context 'post request'
 
-                it 'should list the priorities' do
+                it 'lists the priorities' do
                   expect(subject.body).to be_json_eql(priority_link.to_json)
                     .at_path("#{links_path}/allowedValues/1/href")
                   expect(subject.body).to be_json_eql(other_priority_link.to_json)
@@ -609,7 +609,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 it_behaves_like 'having no errors'
 
-                it 'should respond with updated work package priority' do
+                it 'responds with updated work package priority' do
                   expect(subject.body).to be_json_eql(priority_link.to_json).at_path(path)
                 end
               end
@@ -636,7 +636,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 include_context 'post request'
 
-                it 'should list the types' do
+                it 'lists the types' do
                   expect(subject.body).to be_json_eql(type_link.to_json)
                     .at_path("#{links_path}/allowedValues/1/href")
                   expect(subject.body).to be_json_eql(other_type_link.to_json)
@@ -651,7 +651,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 it_behaves_like 'having no errors'
 
-                it 'should respond with updated work package type' do
+                it 'responds with updated work package type' do
                   expect(subject.body).to be_json_eql(type_link.to_json).at_path(path)
                 end
               end
@@ -660,8 +660,8 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
             describe 'budget' do
               let(:path) { '_embedded/payload/_links/budget/href' }
               let(:links_path) { '_embedded/schema/budget/_links' }
-              let(:target_budget) { create(:budget, project: project) }
-              let(:other_budget) { create(:budget, project: project) }
+              let(:target_budget) { create(:budget, project:) }
+              let(:other_budget) { create(:budget, project:) }
               let(:budget_link) { api_v3_paths.budget target_budget.id }
               let(:budget_parameter) { { _links: { budget: { href: budget_link } } } }
               let(:params) { valid_params.merge(budget_parameter) }
@@ -673,7 +673,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 include_context 'post request'
 
-                it 'should list the budgets' do
+                it 'lists the budgets' do
                   budgets = project.budgets
 
                   budgets.each_with_index do |budget, index|
@@ -688,7 +688,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 it_behaves_like 'having no errors'
 
-                it 'should respond with updated work package budget' do
+                it 'responds with updated work package budget' do
                   expect(subject.body).to be_json_eql(budget_link.to_json).at_path(path)
                 end
               end
@@ -700,7 +700,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 it_behaves_like 'having an error', 'budget'
 
-                it 'should respond with updated work package budget' do
+                it 'responds with updated work package budget' do
                   expect(subject.body).to be_json_eql(budget_link.to_json).at_path(path)
                 end
               end
@@ -757,7 +757,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
                 post post_path, (params ? params.to_json : nil), 'CONTENT_TYPE' => 'application/json'
               end
 
-              it 'should respond with a valid body (Regression OP#37510)' do
+              it 'responds with a valid body (Regression OP#37510)' do
                 expect(last_response.status).to eq(200)
               end
             end
@@ -794,13 +794,13 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
       it_behaves_like 'valid payload'
 
       it 'denotes subject to not be writeable' do
-        is_expected
+        expect(subject)
           .to be_json_eql(false)
           .at_path('_embedded/schema/subject/writable')
       end
 
       it 'denotes version to be writeable' do
-        is_expected
+        expect(subject)
           .to be_json_eql(true)
           .at_path('_embedded/schema/version/writable')
       end

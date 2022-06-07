@@ -6,7 +6,7 @@ module Components
       element.click
 
       # Wait for dropdown to open
-      ng_find_dropdown(element, results_selector: results_selector) if wait_dropdown_open
+      ng_find_dropdown(element, results_selector:) if wait_dropdown_open
 
       # Insert the text to find
       within(element) do
@@ -15,7 +15,7 @@ module Components
       sleep(0.5)
 
       # Find the open dropdown
-      dropdown_list = ng_find_dropdown(element, results_selector: results_selector)
+      dropdown_list = ng_find_dropdown(element, results_selector:)
       scroll_to_element(dropdown_list)
       dropdown_list
     end
@@ -58,9 +58,9 @@ module Components
 
     def select_autocomplete(element, query:, select_text: nil, results_selector: nil, wait_dropdown_open: true)
       target_dropdown = search_autocomplete(element,
-                                            query: query,
-                                            results_selector: results_selector,
-                                            wait_dropdown_open: wait_dropdown_open)
+                                            query:,
+                                            results_selector:,
+                                            wait_dropdown_open:)
 
       ##
       # If a specific select_text is given, use that to locate the match,
@@ -68,7 +68,7 @@ module Components
       text = select_text.presence || query
 
       # click the element to select it
-      target_dropdown.find('.ng-option', text: text, match: :first, wait: 15).click
+      target_dropdown.find('.ng-option', text:, match: :first, wait: 15).click
     end
   end
 end

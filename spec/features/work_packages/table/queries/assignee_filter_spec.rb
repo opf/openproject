@@ -56,12 +56,12 @@ describe 'Work package filtering by assignee', js: true do
 
   let!(:work_package_user_assignee) do
     create :work_package,
-           project: project,
+           project:,
            assigned_to: other_user
   end
   let!(:work_package_placeholder_user_assignee) do
     create :work_package,
-           project: project,
+           project:,
            assigned_to: placeholder_user
   end
 

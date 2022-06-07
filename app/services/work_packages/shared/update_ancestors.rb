@@ -58,7 +58,7 @@ module WorkPackages
 
       def inherit_to_ancestors(wp, changes)
         WorkPackages::UpdateAncestorsService
-          .new(user: user,
+          .new(user:,
                work_package: wp)
           .call(changes)
       end

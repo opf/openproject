@@ -40,7 +40,7 @@ shared_context 'work package table helpers' do
     end
   end
 
-  def within_wp_table(&block)
-    within('.work-package-table--container', &block)
+  def within_wp_table(&)
+    within('.work-package-table--container', &)
   end
 end

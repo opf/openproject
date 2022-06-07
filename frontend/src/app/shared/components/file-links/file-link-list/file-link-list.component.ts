@@ -33,7 +33,7 @@ import { Observable, Subject } from 'rxjs';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
-import { FileLinkResourceService } from 'core-app/core/state/file-links/file-links.service';
+import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -87,7 +87,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   constructor(
     private readonly i18n:I18nService,
-    private readonly fileLinkResourceService:FileLinkResourceService,
+    private readonly fileLinkResourceService:FileLinksResourceService,
     private readonly currentUserService:CurrentUserService,
   ) {
     super();
@@ -96,9 +96,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   ngOnInit():void {
     this.initializeLocales();
 
-    this.fileLinkResourceService.fetchCurrent(this.fileLinkSelfLink);
-
-    this.fileLinks$ = this.fileLinkResourceService.all(this.collectionKey);
+    this.fileLinks$ = this.fileLinkResourceService.collection(this.collectionKey);
 
     this.fileLinks$
       .pipe(this.untilDestroyed())

@@ -38,7 +38,7 @@ module API
 
           ::API::Utilities::PropertyNameConverter.to_ar_name(attribute,
                                                              context: conversion_wp,
-                                                             refer_to_ids: refer_to_ids)
+                                                             refer_to_ids:)
         end
       end
     end

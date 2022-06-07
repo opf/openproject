@@ -140,9 +140,7 @@ module OpenProject
           lines.join("\n")
         end
 
-        def empty?
-          lines.empty?
-        end
+        delegate :empty?, to: :lines
       end
     end
   end

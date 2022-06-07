@@ -34,7 +34,7 @@ describe Changeset, type: :model do
   with_virtual_subversion_repository do
     let(:changeset) do
       build(:changeset,
-            repository: repository,
+            repository:,
             revision: '1',
             committer: email,
             comments: 'Initial commit')
@@ -58,9 +58,9 @@ describe Changeset, type: :model do
   end
 
   describe 'empty comment' do
-    it 'should comments empty' do
+    it 'commentses empty' do
       changeset.comments = ''
-      expect(changeset.save).to eq true
+      expect(changeset.save).to be true
       expect(changeset.comments).to eq ''
 
       if changeset.comments.respond_to?(:force_encoding)
@@ -68,9 +68,9 @@ describe Changeset, type: :model do
       end
     end
 
-    it 'should comments nil' do
+    it 'commentses nil' do
       changeset.comments = nil
-      expect(changeset.save).to eq true
+      expect(changeset.save).to be true
       expect(changeset.comments).to eq ''
 
       if changeset.comments.respond_to?(:force_encoding)
@@ -80,20 +80,21 @@ describe Changeset, type: :model do
   end
 
   describe 'stripping commit' do
-    let(:comment) { 'This is a looooooooooooooong comment' + (' ' * 80 + "\n") * 5 }
+    let(:comment) { 'This is a looooooooooooooong comment' + (((' ' * 80) + "\n") * 5) }
+
     with_virtual_subversion_repository do
       let(:changeset) do
         build(:changeset,
-              repository: repository,
+              repository:,
               revision: '1',
               committer: email,
               comments: comment)
       end
     end
 
-    it 'should for changeset comments strip' do
-      expect(changeset.save).to eq true
-      expect(comment).to_not eq changeset.comments
+    it 'fors changeset comments strip' do
+      expect(changeset.save).to be true
+      expect(comment).not_to eq changeset.comments
       expect(changeset.comments).to eq 'This is a looooooooooooooong comment'
     end
   end
@@ -102,7 +103,7 @@ describe Changeset, type: :model do
     let!(:user) { create :user, login: 'jsmith', mail: 'jsmith@somenet.foo' }
     let!(:repository) { create(:repository_subversion) }
 
-    it 'should manual user mapping' do
+    it 'manuals user mapping' do
       c = Changeset.create! repository: repository,
                             committer: 'foo',
                             committed_on: Time.now,
@@ -122,7 +123,7 @@ describe Changeset, type: :model do
       expect(c.user).to eq user
     end
 
-    it 'should auto user mapping by username' do
+    it 'autoes user mapping by username' do
       c = Changeset.create! repository: repository,
                             committer: 'jsmith',
                             committed_on: Time.now,
@@ -131,7 +132,7 @@ describe Changeset, type: :model do
       expect(c.user).to eq user
     end
 
-    it 'should auto user mapping by email' do
+    it 'autoes user mapping by email' do
       c = Changeset.create! repository: repository,
                             committer: 'john <jsmith@somenet.foo>',
                             committed_on: Time.now,
@@ -164,10 +165,10 @@ describe Changeset, type: :model do
       end
       let(:changeset) do
         create(:changeset,
-               repository: repository,
+               repository:,
                revision: '123',
                committer: user.login,
-               comments: comments)
+               comments:)
       end
     end
 
@@ -180,7 +181,7 @@ describe Changeset, type: :model do
       describe 'reference with brackets' do
         let(:comments) { "[##{work_package.id}] Worked on this work_package" }
 
-        it 'should reference' do
+        it 'references' do
           changeset.scan_comment_for_work_package_ids
           work_package.reload
 
@@ -191,7 +192,7 @@ describe Changeset, type: :model do
       describe 'reference at line start' do
         let(:comments) { "##{work_package.id} Worked on this work_package" }
 
-        it 'should reference' do
+        it 'references' do
           changeset.scan_comment_for_work_package_ids
           work_package.reload
 
@@ -202,7 +203,8 @@ describe Changeset, type: :model do
 
     describe 'non matching ref' do
       let(:comments) { "Some fix ignores ##{work_package.id}" }
-      it 'should reference the work package id' do
+
+      it 'references the work package id' do
         changeset.scan_comment_for_work_package_ids
         work_package.reload
 
@@ -212,12 +214,13 @@ describe Changeset, type: :model do
 
     describe 'with timelogs' do
       let!(:activity) { create :activity, is_default: true }
+
       before do
         repository.project.enabled_module_names += ['costs']
         repository.project.save!
       end
 
-      it 'should ref keywords any with timelog' do
+      it 'refs keywords any with timelog' do
         allow(Setting).to receive(:commit_ref_keywords).and_return '*'
         allow(Setting).to receive(:commit_logtime_enabled?).and_return true
 
@@ -255,14 +258,15 @@ describe Changeset, type: :model do
           expect(time.hours).to eq expected_hours
           expect(time.spent_on).to eq Date.yesterday
 
-          expect(time.activity.is_default).to eq true
+          expect(time.activity.is_default).to be true
           expect(time.comments).to include 'r520'
         end
       end
 
       context 'with a second work package' do
         let!(:work_package2) { create :work_package, project: repository.project, status: open_status }
-        it 'should ref keywords closing with timelog' do
+
+        it 'refs keywords closing with timelog' do
           allow(Setting).to receive(:commit_fix_status_id).and_return closed_status.id
           allow(Setting).to receive(:commit_ref_keywords).and_return '*'
           allow(Setting).to receive(:commit_fix_keywords).and_return 'fixes , closes'
@@ -290,9 +294,9 @@ describe Changeset, type: :model do
       end
     end
 
-    it 'should reference the work package id' do
+    it 'references the work package id' do
       # make sure work package 1 is not already closed
-      expect(work_package.status.is_closed?).to eq false
+      expect(work_package.status.is_closed?).to be false
 
       changeset.scan_comment_for_work_package_ids
       work_package.reload
@@ -325,7 +329,7 @@ describe Changeset, type: :model do
 
       it 'can reference it' do
         # make sure work package 1 is not already closed
-        expect(work_package.status.is_closed?).to eq false
+        expect(work_package.status.is_closed?).to be false
 
         changeset.scan_comment_for_work_package_ids
         work_package.reload
@@ -353,7 +357,7 @@ describe Changeset, type: :model do
 
       it 'can reference it' do
         # make sure work package 1 is not already closed
-        expect(work_package.status.is_closed?).to eq false
+        expect(work_package.status.is_closed?).to be false
 
         changeset.scan_comment_for_work_package_ids
         work_package.reload

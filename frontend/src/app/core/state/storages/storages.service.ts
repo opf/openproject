@@ -28,59 +28,50 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { StoragesStore } from 'core-app/core/state/storages/storages.store';
 import { StoragesQuery } from 'core-app/core/state/storages/storages.query';
+import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+
+export function isIStorage(input:IStorage|undefined):input is IStorage {
+  return input !== undefined;
+}
 
 @Injectable()
 export class StoragesResourceService {
-  protected store = new StoragesStore();
+  private readonly store = new StoragesStore();
 
-  protected readonly query = new StoragesQuery(this.store);
+  private readonly query = new StoragesQuery(this.store);
 
-  private get storagesPath():string {
-    return `${this.apiV3Service.root.path}/storages`;
+  constructor(private readonly http:HttpClient) {}
+
+  collection(key:string):Observable<IStorage[]> {
+    return this
+      .query
+      .select()
+      .pipe(
+        map((state) => state.collections[key]?.ids),
+        switchMap((ids) => this.query.selectMany(ids)),
+      );
   }
 
-  constructor(
-    private readonly http:HttpClient,
-    private readonly toastService:ToastService,
-    private readonly apiV3Service:ApiV3Service,
-  ) {}
+  lookup(id:string):Observable<IStorage> {
+    return this
+      .query
+      .selectEntity(id)
+      .pipe(filter(isIStorage));
+  }
 
-  lookup(link:IHalResourceLink, require = false):Observable<IStorage> {
-    const id = idFromLink(link.href);
-
-    if (require && !this.query.hasEntity(id)) {
-      return this.http
-        .get<IStorage>(`${this.storagesPath}/${id}`)
-        .pipe(
-          tap((storage) => {
-            if (storage) {
-              this.store.add(storage);
-            }
-          }),
-          catchError((error) => {
-            this.toastService.addError(error);
-            throw error;
-          }),
-        );
-    }
-
-    return this.query.selectEntity(id)
-      .pipe(
-        map((storage) => {
-          if (!storage) {
-            throw new Error('not found');
-          }
-          return storage;
-        }),
-      );
+  updateCollection(key:string, storageLinks:IHalResourceLink[]):void {
+    forkJoin(
+      storageLinks.map((link) => this.http.get<IStorage>(link.href)),
+    ).subscribe((storages) => {
+      const storageCollection = { _embedded: { elements: storages } } as IHALCollection<IStorage>;
+      insertCollectionIntoState(this.store, storageCollection, key);
+    });
   }
 }

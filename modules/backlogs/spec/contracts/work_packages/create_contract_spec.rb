@@ -29,12 +29,9 @@
 require 'spec_helper'
 
 describe WorkPackages::CreateContract do
-  let(:work_package) do
-    WorkPackage.new attributes_for(:stubbed_work_package, author: other_user, project: project)
-  end
+  let(:work_package) { build(:work_package, author: other_user, project:) }
   let(:other_user) { build_stubbed(:user) }
-  include_context 'user with stubbed permissions'
-  let (:project) { build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
   let(:permissions) do
     %i[
       view_work_packages
@@ -43,7 +40,11 @@ describe WorkPackages::CreateContract do
   end
   let(:changed_values) { [] }
 
+  include_context 'user with stubbed permissions'
+
   subject(:contract) { described_class.new(work_package, user) }
+
+  include_context 'user with stubbed permissions'
 
   before do
     allow(work_package).to receive(:changed).and_return(changed_values)
@@ -54,11 +55,11 @@ describe WorkPackages::CreateContract do
       contract.validate
     end
 
-    context 'has not changed' do
+    context 'when not changed' do
       it('is valid') { expect(contract.errors.symbols_for(:story_points)).to be_empty }
     end
 
-    context 'has changed' do
+    context 'when changed' do
       let(:changed_values) { ['story_points'] }
 
       it('is valid') { expect(contract.errors.symbols_for(:story_points)).to be_empty }
@@ -66,20 +67,18 @@ describe WorkPackages::CreateContract do
   end
 
   describe 'remaining hours' do
-    context 'is no parent' do
-      before do
-        contract.validate
-      end
+    before do
+      contract.validate
+    end
 
-      context 'has not changed' do
-        it('is valid') { expect(contract.errors.symbols_for(:remaining_hours)).to be_empty }
-      end
+    context 'when not changed' do
+      it('is valid') { expect(contract.errors.symbols_for(:remaining_hours)).to be_empty }
+    end
 
-      context 'has changed' do
-        let(:changed_values) { ['remaining_hours'] }
+    context 'when changed' do
+      let(:changed_values) { ['remaining_hours'] }
 
-        it('is valid') { expect(contract.errors.symbols_for(:remaining_hours)).to be_empty }
-      end
+      it('is valid') { expect(contract.errors.symbols_for(:remaining_hours)).to be_empty }
     end
   end
 end

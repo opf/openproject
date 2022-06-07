@@ -42,8 +42,8 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   let(:project) { create(:project) }
   let(:grid) do
     create(:overview,
-           project: project,
-           widgets: widgets)
+           project:,
+           widgets:)
   end
   let(:widgets) do
     [create(:grid_widget,
@@ -131,11 +131,11 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
     let(:params) do
       {
-        "rowCount": 10,
-        "columnCount": 15,
-        "_links": {
-          "scope": {
-            "href": project_overview_path(project)
+        rowCount: 10,
+        columnCount: 15,
+        _links: {
+          scope: {
+            href: project_overview_path(project)
           }
         }
       }.with_indifferent_access
@@ -154,7 +154,6 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
       it_behaves_like 'creates a grid resource'
     end
-
 
     context 'if not being a member in the project' do
       current_user do

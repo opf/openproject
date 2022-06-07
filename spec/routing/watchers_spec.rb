@@ -34,14 +34,14 @@ describe WatchersController, type: :routing do
       expect(OpenProject::Acts::Watchable::Routes).to receive(:matches?).and_return(true)
     end
 
-    it 'should connect POST /:object_type/:object_id/watch to watchers#watch' do
+    it 'connects POST /:object_type/:object_id/watch to watchers#watch' do
       expect(post("/#{type}/1/watch")).to route_to(controller: 'watchers',
                                                    action: 'watch',
                                                    object_type: type,
                                                    object_id: '1')
     end
 
-    it 'should connect DELETE /:object_type/:id/unwatch to watchers#unwatch' do
+    it 'connects DELETE /:object_type/:id/unwatch to watchers#unwatch' do
       expect(delete("/#{type}/1/unwatch")).to route_to(controller: 'watchers',
                                                        action: 'unwatch',
                                                        object_type: type,
@@ -53,7 +53,7 @@ describe WatchersController, type: :routing do
     describe "routing #{type} watches" do
       let(:type) { type }
 
-      it_should_behave_like 'watched model routes'
+      it_behaves_like 'watched model routes'
     end
   end
 end

@@ -42,6 +42,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
   end
   let(:path) { api_v3_paths.grid_form(grid.id) }
   let(:params) { {} }
+
   subject(:response) { last_response }
 
   before do
@@ -55,7 +56,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
 
     it 'returns 200 OK' do
       expect(subject.status)
-        .to eql 200
+        .to be 200
     end
 
     it 'is of type form' do
@@ -81,7 +82,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
         options: {},
         widgets: [
           {
-            "_type": "GridWidget",
+            _type: "GridWidget",
             identifier: 'news',
             options: {},
             startRow: 1,
@@ -90,7 +91,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
             endColumn: 3
           },
           {
-            "_type": "GridWidget",
+            _type: "GridWidget",
             identifier: 'documents',
             options: {},
             startRow: 1,
@@ -99,11 +100,11 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
             endColumn: 5
           }
         ],
-        "_links": {
-          "attachments": [],
-          "scope": {
-            "href": "/my/page",
-            "type": "text/html"
+        _links: {
+          attachments: [],
+          scope: {
+            href: "/my/page",
+            type: "text/html"
           }
         }
       }
@@ -122,9 +123,9 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
     context 'with some value for the scope value' do
       let(:params) do
         {
-          '_links': {
-            'scope': {
-              'href': '/some/path'
+          _links: {
+            scope: {
+              href: '/some/path'
             }
           }
         }
@@ -140,14 +141,14 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
     context 'with an unsupported widget identifier' do
       let(:params) do
         {
-          "widgets": [
+          widgets: [
             {
-              "_type": "GridWidget",
-              "identifier": "bogus_identifier",
-              "startRow": 4,
-              "endRow": 5,
-              "startColumn": 1,
-              "endColumn": 2
+              _type: "GridWidget",
+              identifier: "bogus_identifier",
+              startRow: 4,
+              endRow: 5,
+              startColumn: 1,
+              endColumn: 2
             }
           ]
         }
@@ -168,7 +169,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql 404
+          .to be 404
       end
     end
   end

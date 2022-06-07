@@ -36,7 +36,7 @@ describe OpenProject::JournalFormatter::CustomField do
   let(:instance) { klass.new(journal) }
   let(:id) { 1 }
   let(:journal) do
-    OpenStruct.new(id: id)
+    OpenStruct.new(id:)
   end
   let(:custom_field) do
     build_stubbed(:work_package_custom_field).tap do |cf|

@@ -103,7 +103,7 @@ module Pagination::Controller
     end
 
     def default_pagination
-      :'paginate_scope!'
+      :paginate_scope!
     end
 
     def default_search
@@ -197,7 +197,7 @@ module Pagination::Controller
           search_call = (options.presence ? methods[:search].call(params[:q], options) : methods[:search].call(params[:q]))
           @paginated_items = methods[:pagination].call(
             search_call,
-            page: page, page_limit: size
+            page:, page_limit: size
           )
 
           @more = @paginated_items.total_pages > page

@@ -47,6 +47,7 @@ describe Queries::TimeEntries::TimeEntryQuery, type: :model do
 
   context 'with a user filter' do
     let(:values) { ['1'] }
+
     before do
       allow(Principal)
         .to receive_message_chain(:in_visible_project, :pluck)

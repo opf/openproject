@@ -121,7 +121,7 @@ describe ::API::V3::GithubPullRequests::GithubCheckRunRepresenter do
       end
 
       it 'changes when the check run is updated' do
-        check_run.updated_at = Time.zone.now + 20.seconds
+        check_run.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key

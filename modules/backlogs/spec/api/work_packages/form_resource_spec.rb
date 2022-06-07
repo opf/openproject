@@ -34,7 +34,7 @@ describe 'API v3 Work package form resource', type: :request do
   include Capybara::RSpecMatchers
 
   let(:project) { create(:project, public: false) }
-  let(:work_package) { create(:work_package, project: project) }
+  let(:work_package) { create(:work_package, project:) }
   let(:authorized_user) { create(:user, member_in_project: project) }
   let(:unauthorized_user) { create(:user) }
 
@@ -81,6 +81,7 @@ describe 'API v3 Work package form resource', type: :request do
         end
 
         it { expect(subject.body).to have_json_path(error_path) }
+
         it {
           expect(subject.body).to be_json_eql(error_id).at_path("#{error_path}/errorIdentifier")
         }
@@ -88,6 +89,14 @@ describe 'API v3 Work package form resource', type: :request do
     end
 
     let(:post_path) { "/api/v3/work_packages/#{work_package.id}/form" }
+    let(:params) {}
+    let(:current_user) { authorized_user }
+    let(:valid_params) do
+      {
+        _type: 'WorkPackage',
+        lockVersion: work_package.lock_version
+      }
+    end
     let(:valid_params) do
       {
         _type: 'WorkPackage',
@@ -98,20 +107,10 @@ describe 'API v3 Work package form resource', type: :request do
     subject(:response) { last_response }
 
     shared_context 'post request' do
-      before(:each) do
+      before do
         allow(User).to receive(:current).and_return current_user
         post post_path, (params ? params.to_json : nil), 'CONTENT_TYPE' => 'application/json'
       end
-    end
-
-    let(:params) {}
-    let(:current_user) { authorized_user }
-
-    let(:valid_params) do
-      {
-        _type: 'WorkPackage',
-        lockVersion: work_package.lock_version
-      }
     end
 
     describe 'storyPoints' do
@@ -124,7 +123,7 @@ describe 'API v3 Work package form resource', type: :request do
 
         it_behaves_like 'having no errors'
 
-        it 'should respond with updated story points' do
+        it 'responds with updated story points' do
           expect(subject.body).to be_json_eql(42.to_json).at_path('_embedded/payload/storyPoints')
         end
       end
@@ -148,7 +147,7 @@ describe 'API v3 Work package form resource', type: :request do
 
         it_behaves_like 'having no errors'
 
-        it 'should respond with updated story points' do
+        it 'responds with updated story points' do
           expect(subject.body).to be_json_eql('PT2H45M'.to_json)
             .at_path('_embedded/payload/remainingTime')
         end

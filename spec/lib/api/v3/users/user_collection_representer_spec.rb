@@ -60,7 +60,7 @@ describe ::API::V3::Users::UserCollectionRepresenter do
     described_class.new(users,
                         self_link: '/api/v3/users',
                         per_page: page_size,
-                        page: page,
+                        page:,
                         current_user: users.first)
   end
 

@@ -34,7 +34,7 @@ class AttributeHelpText < ApplicationRecord
   end
 
   def self.used_attributes(type)
-    where(type: type)
+    where(type:)
       .select(:attribute_name)
       .distinct
       .pluck(:attribute_name)

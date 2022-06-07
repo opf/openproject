@@ -39,12 +39,12 @@ describe 'Work Package boards spec', type: :feature, js: true do
   # The identifier is important to test https://community.openproject.com/wp/29754
   let(:project) { create(:project, identifier: 'boards', enabled_module_names: %i[work_package_tracking board_view]) }
   let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:admin) { create :admin }
   let!(:priority) { create :default_priority }
   let!(:status) { create :default_status }
   let(:board_index) { Pages::BoardIndex.new(project) }
-  let!(:board_view) { create :board_grid_with_query, name: 'My board', project: project }
+  let!(:board_view) { create :board_grid_with_query, name: 'My board', project: }
   let(:project_html_title) { ::Components::HtmlTitle.new project }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
 
@@ -52,6 +52,12 @@ describe 'Work Package boards spec', type: :feature, js: true do
     with_enterprise_token :board_view
     project
     login_as(user)
+  end
+
+  before do
+    with_enterprise_token :board_view
+    project
+    login_as(admin)
   end
 
   it 'navigates from boards to the WP full view and back' do
@@ -140,12 +146,6 @@ describe 'Work Package boards spec', type: :feature, js: true do
 
     expect(page).to have_current_path /details\/#{wp.id}\/relations/
     split_view.expect_tab 'Relations'
-  end
-
-  before do
-    with_enterprise_token :board_view
-    project
-    login_as(admin)
   end
 
   it 'navigates to boards after deleting WP(see #33756)' do

@@ -1188,3 +1188,6 @@ fi:
         remove: 'Poista'
       drop_modal:
         Close: 'Sulje'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

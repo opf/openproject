@@ -59,7 +59,7 @@ module API
 
         # We do this lambda business because #rescue_from behaves differently
         # depending on the number of parameters the passed block accepts.
-        rescue_from rescued_error, rescue_subclasses: rescue_subclasses, &response
+        rescue_from rescued_error, rescue_subclasses:, &response
       end
 
       def default_error_response(headers, log)

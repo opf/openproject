@@ -33,9 +33,9 @@ class News < ApplicationRecord
     order(:created_at)
   }, as: :commented, dependent: :delete_all
 
-  validates_presence_of :title
-  validates_length_of :title, maximum: 60
-  validates_length_of :summary, maximum: 255
+  validates :title, presence: true
+  validates :title, length: { maximum: 60 }
+  validates :summary, length: { maximum: 255 }
 
   acts_as_journalized
 
@@ -66,7 +66,7 @@ class News < ApplicationRecord
 
   # returns latest news for projects visible by user
   def self.latest(user: User.current, count: 5)
-    latest_for(user, count: count)
+    latest_for(user, count:)
   end
 
   def self.latest_for(user, count: 5)

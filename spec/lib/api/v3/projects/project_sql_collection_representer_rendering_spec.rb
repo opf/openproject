@@ -32,9 +32,9 @@ describe ::API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' do
   subject(:json) do
     ::API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
-           current_user: current_user,
+           current_user:,
            self_path: 'some_path',
-           url_query: { offset: 1, pageSize: 5, select: select })
+           url_query: { offset: 1, pageSize: 5, select: })
       .walk(described_class)
       .to_json
   end

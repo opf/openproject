@@ -37,7 +37,7 @@ module Attachments
     #
     # Warning: When passing an empty whitelist, this results in no validations on the content type taking place.
     def self.bypass_whitelist(user:, whitelist: [])
-      new(user: user, contract_options: { whitelist: whitelist.map(&:to_s) })
+      new(user:, contract_options: { whitelist: whitelist.map(&:to_s) })
     end
   end
 end

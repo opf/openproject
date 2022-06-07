@@ -77,8 +77,8 @@ module DemoData
     def create_view(query)
       type = config.fetch(:module, 'work_packages_table')
       View.create!(
-        type: type,
-        query: query
+        type:,
+        query:
       )
 
       # Save information that a view has been seeded.
@@ -171,7 +171,7 @@ module DemoData
       users = Array(config[:assignee])
                 .map(&:split)
                 .inject(User.user.none) do |scope, (firstname, lastname)|
-                  scope.or(User.user.where(firstname: firstname, lastname: lastname))
+                  scope.or(User.user.where(firstname:, lastname:))
                 end
                 .pluck(:id)
 

@@ -38,7 +38,7 @@ describe 'GET /api/v3/relations', type: :request do
     def new_relation(opts = {})
       relation_type = opts.delete(:type)
 
-      relation = create :relation, opts.merge(relation_type: relation_type)
+      relation = create :relation, opts.merge(relation_type:)
       relation.id
     end
 

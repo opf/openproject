@@ -24,15 +24,15 @@ def register_firefox(language, name: :"firefox_#{language}")
     # only one FF process
     profile['dom.ipc.processCount'] = 1
 
-    options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
+    options = Selenium::WebDriver::Firefox::Options.new(profile:)
 
     yield(profile, options, capabilities) if block_given?
 
-    unless ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_NO_HEADLESS'])
+    unless ActiveRecord::Type::Boolean.new.cast(ENV.fetch('OPENPROJECT_TESTING_NO_HEADLESS', nil))
       options.args << "--headless"
     end
 
-    if ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_AUTO_DEVTOOLS'])
+    if ActiveRecord::Type::Boolean.new.cast(ENV.fetch('OPENPROJECT_TESTING_AUTO_DEVTOOLS', nil))
       options.args << "--devtools"
     end
 
@@ -40,13 +40,13 @@ def register_firefox(language, name: :"firefox_#{language}")
 
     driver_opts = {
       browser: is_grid ? :remote : :firefox,
-      url: ENV['SELENIUM_GRID_URL'],
+      url: ENV.fetch('SELENIUM_GRID_URL', nil),
       http_client: client,
       capabilities: options
     }
 
     if is_grid
-      driver_opts[:url] = ENV['SELENIUM_GRID_URL']
+      driver_opts[:url] = ENV.fetch('SELENIUM_GRID_URL', nil)
     end
 
     driver = Capybara::Selenium::Driver.new app, **driver_opts

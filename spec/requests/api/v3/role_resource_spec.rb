@@ -40,7 +40,7 @@ describe 'API v3 roles resource', type: :request do
   end
   let(:role) do
     create(:role,
-           permissions: permissions)
+           permissions:)
   end
   let(:permissions) { %i[view_members manage_members] }
   let(:project) { create(:project) }
@@ -62,7 +62,7 @@ describe 'API v3 roles resource', type: :request do
 
     it 'succeeds' do
       expect(last_response.status)
-        .to eql(200)
+        .to be(200)
     end
 
     it_behaves_like 'API V3 collection response', 1, 1, 'Role'
@@ -75,7 +75,7 @@ describe 'API v3 roles resource', type: :request do
       let(:non_member_role) { Role.non_member }
       let(:roles) { [role, non_member_role] }
 
-      let(:get_path) { api_v3_paths.path_for(:roles, filters: filters) }
+      let(:get_path) { api_v3_paths.path_for(:roles, filters:) }
 
       it 'contains only the filtered member in the response' do
         expect(subject.body)
@@ -100,7 +100,7 @@ describe 'API v3 roles resource', type: :request do
       let(:global_role) { create(:global_role) }
       let(:roles) { [role, non_member_role, global_role] }
 
-      let(:get_path) { api_v3_paths.path_for(:roles, filters: filters) }
+      let(:get_path) { api_v3_paths.path_for(:roles, filters:) }
 
       it 'contains only the filtered member in the response' do
         expect(subject.body)
@@ -118,7 +118,7 @@ describe 'API v3 roles resource', type: :request do
 
       it 'returns 403' do
         expect(subject.status)
-          .to eql(403)
+          .to be(403)
       end
     end
   end
@@ -138,7 +138,7 @@ describe 'API v3 roles resource', type: :request do
 
     it 'returns 200 OK' do
       expect(subject.status)
-        .to eql(200)
+        .to be(200)
     end
 
     it 'returns the member' do
@@ -156,7 +156,7 @@ describe 'API v3 roles resource', type: :request do
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
 
@@ -165,7 +165,7 @@ describe 'API v3 roles resource', type: :request do
 
       it 'returns 403' do
         expect(subject.status)
-          .to eql(403)
+          .to be(403)
       end
     end
   end

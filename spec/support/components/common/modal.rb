@@ -36,7 +36,7 @@ module Components
 
       def expect_title(text)
         within_modal do
-          expect(page).to have_selector('.op-modal--title' ,text: text)
+          expect(page).to have_selector('.op-modal--title', text:)
         end
       end
 
@@ -60,8 +60,8 @@ module Components
         end
       end
 
-      def within_modal(&block)
-        page.within(selector, &block)
+      def within_modal(&)
+        page.within(selector, &)
       end
 
       def modal_element

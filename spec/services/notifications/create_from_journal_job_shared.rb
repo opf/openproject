@@ -34,7 +34,7 @@ shared_context 'with CreateFromJournalJob context' do
     create(:user,
            notification_settings: recipient_notification_settings,
            member_in_project: project,
-           member_through_role: create(:role, permissions: permissions),
+           member_through_role: create(:role, permissions:),
            login: recipient_login)
   end
   let(:recipient_login) { "johndoe" }
@@ -44,7 +44,7 @@ shared_context 'with CreateFromJournalJob context' do
     ]
 
     create(:user,
-           notification_settings: notification_settings)
+           notification_settings:)
   end
   let(:notification_settings_all_false) do
     NotificationSetting
@@ -93,10 +93,10 @@ shared_context 'with CreateFromJournalJob context' do
       expect(notifications_service)
         .to have_received(:call)
               .with({ recipient_id: recipient.id,
-                      project: project,
+                      project:,
                       actor: sender,
-                      journal: journal,
-                      resource: resource }.merge(notification_channel_reasons))
+                      journal:,
+                      resource: }.merge(notification_channel_reasons))
     end
   end
 

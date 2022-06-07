@@ -29,38 +29,57 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { applyTransaction, QueryEntity } from '@datorama/akita';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import {
-  catchError, map, switchMap, tap,
+  catchError, groupBy, map, mergeMap, reduce, switchMap, tap,
 } from 'rxjs/operators';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { FileLinksStore } from 'core-app/core/state/file-links/file-links.store';
 import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Injectable()
-export class FileLinkResourceService {
-  protected store = new FileLinksStore();
+export class FileLinksResourceService {
+  private store = new FileLinksStore();
 
   constructor(
     private readonly http:HttpClient,
     private readonly toastService:ToastService,
   ) {}
 
-  fetchCurrent(fileLinksSelfLink:string):void {
+  updateCollectionsForWorkPackage(fileLinksSelfLink:string):void {
     this.http
       .get<IHALCollection<IFileLink>>(fileLinksSelfLink)
       .pipe(
         tap((collection) => insertCollectionIntoState(this.store, collection, fileLinksSelfLink)),
+        switchMap((collection) => from(collection._embedded.elements)),
+        groupBy(
+          (fileLink) => fileLink._links.storage.href,
+          (fileLink) => fileLink,
+        ),
+        mergeMap((group$) => {
+          const seed = { storage: group$.key, fileLinks: [] as IFileLink[] };
+          return group$.pipe(reduce((acc, fileLink) => {
+            acc.fileLinks = [...acc.fileLinks, fileLink];
+            return acc;
+          }, seed));
+        }),
         catchError((error) => {
           this.toastService.addError(error);
           throw error;
         }),
-      ).subscribe();
+      )
+      .subscribe((fileLinkCollections) => {
+        const storageId = idFromLink(fileLinkCollections.storage);
+        const collectionKey = `${fileLinksSelfLink}?filters=[{"storage":{"operator":"=","values":["${storageId}"]}}]`;
+        const collection = { _embedded: { elements: fileLinkCollections.fileLinks } } as IHALCollection<IFileLink>;
+        insertCollectionIntoState(this.store, collection, collectionKey);
+      });
   }
 
-  all(key:string):Observable<IFileLink[]> {
+  collection(key:string):Observable<IFileLink[]> {
     const query = new QueryEntity(this.store);
     return query
       .select()

@@ -36,7 +36,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   let(:custom_field) do
     build(:custom_field,
           id: 1,
-          field_format: field_format,
+          field_format:,
           is_required: true)
   end
 
@@ -90,7 +90,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
 
       it 'indicates no regular expression' do
-        is_expected.not_to have_json_path("#{cf_path}/regularExpression")
+        expect(subject).not_to have_json_path("#{cf_path}/regularExpression")
       end
 
       # meaning they won't as no values are specified
@@ -100,7 +100,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         let(:custom_field) { build(:custom_field, is_required: false) }
 
         it 'marks the field as not required' do
-          is_expected.to be_json_eql(false.to_json).at_path("#{cf_path}/required")
+          expect(subject).to be_json_eql(false.to_json).at_path("#{cf_path}/required")
         end
       end
 
@@ -108,7 +108,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         let(:custom_field) { build(:custom_field, regexp: 'Foo+bar') }
 
         it 'renders the regular expression' do
-          is_expected.to be_json_eql('Foo+bar'.to_json).at_path("#{cf_path}/regularExpression")
+          expect(subject).to be_json_eql('Foo+bar'.to_json).at_path("#{cf_path}/regularExpression")
         end
       end
 
@@ -163,7 +163,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       it 'embeds allowed values' do
         # N.B. we do not use the stricter 'links to and embeds allowed values directly' helper
         # because this would not allow us to easily mock the VersionRepresenter away
-        is_expected
+        expect(subject)
           .to have_json_size(assignable_versions.size)
           .at_path("#{cf_path}/_embedded/allowedValues")
       end
@@ -272,7 +272,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   describe '#inject_value' do
     shared_examples_for 'injects property custom field' do
       it 'has a readable value' do
-        is_expected.to be_json_eql(json_value.to_json).at_path(cf_path)
+        expect(subject).to be_json_eql(json_value.to_json).at_path(cf_path)
       end
 
       it 'on writing it sets on the represented' do
@@ -293,12 +293,13 @@ describe ::API::V3::Utilities::CustomFieldInjector do
              available_custom_fields: [custom_field],
              custom_field.accessor_name => value)
     end
-    let(:custom_value) { double('CustomValue', value: raw_value, typed_value: typed_value) }
+    let(:custom_value) { double('CustomValue', value: raw_value, typed_value:) }
     let(:raw_value) { nil }
     let(:typed_value) { raw_value }
     let(:value) { '' }
     let(:current_user) { build(:user) }
-    subject { modified_class.new(represented, current_user: current_user, embed_links: true).to_json }
+
+    subject { modified_class.new(represented, current_user:, embed_links: true).to_json }
 
     before do
       # should only be called when building links
@@ -321,8 +322,8 @@ describe ::API::V3::Utilities::CustomFieldInjector do
           end
 
           it 'has the user embedded' do
-            is_expected.to be_json_eql(type.classify.to_json).at_path("_embedded/#{cf_path}/_type")
-            is_expected.to be_json_eql(value.name.to_json).at_path("_embedded/#{cf_path}/name")
+            expect(subject).to be_json_eql(type.classify.to_json).at_path("_embedded/#{cf_path}/_type")
+            expect(subject).to be_json_eql(value.name.to_json).at_path("_embedded/#{cf_path}/name")
           end
         end
       end
@@ -350,8 +351,8 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
 
       it 'has the version embedded' do
-        is_expected.to be_json_eql('Version'.to_json).at_path("_embedded/#{cf_path}/_type")
-        is_expected.to be_json_eql(value.name.to_json).at_path("_embedded/#{cf_path}/name")
+        expect(subject).to be_json_eql('Version'.to_json).at_path("_embedded/#{cf_path}/_type")
+        expect(subject).to be_json_eql(value.name.to_json).at_path("_embedded/#{cf_path}/name")
       end
 
       context 'value is nil' do
@@ -474,10 +475,11 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     let(:represented) do
       double('represented', available_custom_fields: [custom_field])
     end
-    let(:custom_value) { double('CustomValue', value: value, typed_value: typed_value) }
+    let(:custom_value) { double('CustomValue', value:, typed_value:) }
     let(:value) { '' }
     let(:user) { build_stubbed(:user) }
     let(:typed_value) { value }
+
     subject { modified_class.new(represented, current_user: user).to_json }
 
     before do

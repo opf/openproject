@@ -30,71 +30,71 @@ require 'spec_helper'
 
 describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
   let(:project) { create(:project) }
-  let(:origin) { create(:work_package, project: project) }
+  let(:origin) { create(:work_package, project:) }
   let(:predecessor) do
-    create(:work_package, project: project).tap do |pre|
+    create(:work_package, project:).tap do |pre|
       create(:follows_relation, from: origin, to: pre)
     end
   end
   let(:parent) do
-    create(:work_package, project: project).tap do |par|
+    create(:work_package, project:).tap do |par|
       origin.update(parent: par)
     end
   end
   let(:grandparent) do
-    create(:work_package, project: project).tap do |grand|
+    create(:work_package, project:).tap do |grand|
       parent.update(parent: grand)
     end
   end
   let(:successor) do
-    create(:work_package, project: project).tap do |suc|
+    create(:work_package, project:).tap do |suc|
       create(:follows_relation, from: suc, to: origin)
     end
   end
   let(:successor2) do
-    create(:work_package, project: project).tap do |suc|
+    create(:work_package, project:).tap do |suc|
       create(:follows_relation, from: suc, to: origin)
     end
   end
   let(:successor_parent) do
-    create(:work_package, project: project).tap do |par|
+    create(:work_package, project:).tap do |par|
       successor.update(parent: par)
     end
   end
   let(:successor_child) do
-    create(:work_package, project: project, parent: successor)
+    create(:work_package, project:, parent: successor)
   end
   let(:successor_grandchild) do
-    create(:work_package, project: project, parent: successor_child)
+    create(:work_package, project:, parent: successor_child)
   end
   let(:successor_child2) do
-    create(:work_package, project: project, parent: successor)
+    create(:work_package, project:, parent: successor)
   end
   let(:successor_successor) do
-    create(:work_package, project: project).tap do |suc|
+    create(:work_package, project:).tap do |suc|
       create(:follows_relation, from: suc, to: successor)
     end
   end
   let(:parent_successor) do
-    create(:work_package, project: project).tap do |suc|
+    create(:work_package, project:).tap do |suc|
       create(:follows_relation, from: suc, to: parent)
     end
   end
   let(:parent_successor_parent) do
-    create(:work_package, project: project).tap do |par|
+    create(:work_package, project:).tap do |par|
       parent_successor.update(parent: par)
     end
   end
   let(:parent_successor_child) do
-    create(:work_package, project: project, parent: parent_successor)
+    create(:work_package, project:, parent: parent_successor)
   end
   let(:blocker) do
-    create(:work_package, project: project).tap do |blo|
+    create(:work_package, project:).tap do |blo|
       create(:relation, relation_type: 'blocks', from: blo, to: origin)
     end
   end
   let(:includer) do
-    create(:work_package, project: project).tap do |inc|
+    create(:work_package, project:).tap do |inc|
       create(:relation, relation_type: 'includes', from: inc, to: origin)
     end
   end
@@ -441,7 +441,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
     context 'for a work package with a successor that has a child and two grandchildren' do
       let(:successor_grandchild2) do
-        create(:work_package, project: project, parent: successor_child)
+        create(:work_package, project:, parent: successor_child)
       end
 
       let!(:existing_work_packages) { [successor, successor_child, successor_grandchild, successor_grandchild2] }
@@ -503,10 +503,10 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
     context 'for a work package with a sibling and a successor that also has a sibling' do
       let(:sibling) do
-        create(:work_package, project: project, parent: parent)
+        create(:work_package, project:, parent:)
       end
       let(:successor_sibling) do
-        create(:work_package, project: project, parent: successor_parent)
+        create(:work_package, project:, parent: successor_parent)
       end
 
       let!(:existing_work_packages) { [parent, sibling, successor, successor_parent, successor_sibling] }

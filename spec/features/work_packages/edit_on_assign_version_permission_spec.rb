@@ -20,14 +20,14 @@ describe 'edit work package', js: true do
   let(:work_package) do
     create(:work_package,
            author: current_user,
-           project: project,
-           type: type,
-           created_at: 5.days.ago.to_date.to_s(:db))
+           project:,
+           type:,
+           created_at: 5.days.ago.to_date.to_fs(:db))
   end
   let(:status) { work_package.status }
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:version) { create :version, project: project }
+  let(:version) { create :version, project: }
 
   def visit!
     wp_page.visit!

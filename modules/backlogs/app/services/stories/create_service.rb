@@ -35,7 +35,7 @@ class Stories::CreateService
 
   def call(attributes: {}, prev: nil)
     create_call = WorkPackages::CreateService
-                  .new(user: user)
+                  .new(user:)
                   .call(**attributes.symbolize_keys)
 
     if create_call.success?

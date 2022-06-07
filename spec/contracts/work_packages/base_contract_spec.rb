@@ -27,14 +27,15 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
 describe WorkPackages::BaseContract do
   let(:work_package) do
     build_stubbed(:stubbed_work_package,
-                  type: type,
+                  type:,
                   done_ratio: 50,
                   estimated_hours: 6.0,
-                  project: project)
+                  project:)
   end
   let(:type) { build_stubbed(:type) }
   let(:member) do
@@ -79,6 +80,8 @@ describe WorkPackages::BaseContract do
   let(:changed_values) { [] }
 
   subject(:contract) { described_class.new(work_package, current_user) }
+
+  include_context 'ModelContract shared context'
 
   shared_examples_for 'invalid if changed' do |attribute|
     before do
@@ -426,7 +429,9 @@ describe WorkPackages::BaseContract do
 
       before do
         work_package.schedule_manually = schedule_manually
-        work_package.parent = build_stubbed(:work_package)
+        allow(work_package)
+          .to receive(:parent)
+          .and_return(build_stubbed(:work_package))
         allow(work_package)
           .to receive(:soonest_start)
           .and_return(Date.today + 4.days)
@@ -434,7 +439,7 @@ describe WorkPackages::BaseContract do
         work_package.start_date = Date.today + 2.days
       end
 
-      context 'scheduled automatically' do
+      context 'when scheduled automatically' do
         it 'notes the error' do
           contract.validate
 
@@ -446,20 +451,15 @@ describe WorkPackages::BaseContract do
         end
       end
 
-      context 'scheduled manually' do
+      context 'when scheduled manually' do
         let(:schedule_manually) { true }
 
-        it 'is valid' do
-          contract.validate
-
-          expect(contract.errors[:start_date])
-            .to be_empty
-        end
+        it_behaves_like 'contract is valid'
       end
     end
   end
 
-  describe 'finish date' do
+  describe 'due date' do
     it_behaves_like 'a parent unwritable property', :due_date, schedule_sensitive: true
     it_behaves_like 'a date attribute', :due_date
 
@@ -473,6 +473,80 @@ describe WorkPackages::BaseContract do
 
       expect(contract.errors[:due_date])
         .to include message
+    end
+  end
+
+  describe 'duration' do
+    context 'when setting the duration' do
+      before do
+        work_package.duration = 5
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when setting the duration to 0' do
+      before do
+        work_package.duration = 0
+      end
+
+      it_behaves_like 'contract is invalid', duration: :greater_than
+    end
+
+    context 'when setting the duration to a floating point' do
+      before do
+        work_package.duration = 4.5
+      end
+
+      it_behaves_like 'contract is invalid', duration: :not_an_integer
+    end
+
+    context 'when setting the duration to a negative value' do
+      before do
+        work_package.duration = -5
+      end
+
+      it_behaves_like 'contract is invalid', duration: :greater_than
+    end
+
+    context 'when setting duration as well as the dates' do
+      before do
+        work_package.duration = 6
+        work_package.start_date = Time.zone.today - 4.days
+        work_package.due_date = Time.zone.today + 1.day
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when setting duration as well as the dates and the duration is too small' do
+      before do
+        work_package.duration = 5
+        work_package.start_date = Time.zone.today - 4.days
+        work_package.due_date = Time.zone.today + 1.day
+      end
+
+      it_behaves_like 'contract is invalid', duration: :smaller_than_dates
+    end
+
+    context 'when setting duration as well as the dates and the duration is too big' do
+      before do
+        work_package.duration = 7
+        work_package.start_date = Time.zone.today - 4.days
+        work_package.due_date = Time.zone.today + 1.day
+      end
+
+      it_behaves_like 'contract is invalid', duration: :larger_than_dates
+    end
+
+    context 'when setting duration as well as the dates to the same date' do
+      before do
+        work_package.duration = 1
+        work_package.start_date = Time.zone.today
+        work_package.due_date = Time.zone.today
+      end
+
+      it_behaves_like 'contract is valid'
     end
   end
 
@@ -816,8 +890,8 @@ describe WorkPackages::BaseContract do
                     assigned_to: assignee_user,
                     author: author_user,
                     status: current_status,
-                    version: version,
-                    type: type)
+                    version:,
+                    type:)
     end
     let!(:default_status) do
       status = build_stubbed(:status)

@@ -45,7 +45,7 @@ describe WikiPages::CopyService, 'integration', type: :model do
 
   let(:role) do
     create(:role,
-           permissions: permissions)
+           permissions:)
   end
 
   let(:permissions) do
@@ -59,7 +59,7 @@ describe WikiPages::CopyService, 'integration', type: :model do
 
   let(:wiki_page) { create(:wiki_page_with_content) }
 
-  let(:instance) { described_class.new(model: wiki_page, user: user) }
+  let(:instance) { described_class.new(model: wiki_page, user:) }
 
   let(:attributes) { {} }
 

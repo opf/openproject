@@ -43,7 +43,7 @@ module ApplicationHelper
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action, project: @project)
-    User.current.allowed_to?({ controller: controller, action: action }, project)
+    User.current.allowed_to?({ controller:, action: }, project)
   end
 
   # Display a link if user is authorized
@@ -54,7 +54,7 @@ module ApplicationHelper
   # @param [optional, Hash] parameters_for_method_reference Extra parameters for link_to
   #
   # When a block is given, skip the name parameter
-  def link_to_if_authorized(*args, &block)
+  def link_to_if_authorized(*args, &)
     name = args.shift unless block_given?
     options = args.shift || {}
     html_options = args.shift
@@ -63,7 +63,7 @@ module ApplicationHelper
     return unless authorize_for(options[:controller] || params[:controller], options[:action])
 
     if block_given?
-      link_to(options, html_options, *parameters_for_method_reference, &block)
+      link_to(options, html_options, *parameters_for_method_reference, &)
     else
       link_to(name, options, html_options, *parameters_for_method_reference)
     end
@@ -107,12 +107,6 @@ module ApplicationHelper
 
   def format_activity_day(date)
     date == User.current.today ? I18n.t(:label_today).titleize : format_date(date)
-  end
-
-  def format_activity_description(text)
-    html_escape_once(truncate(text.to_s, length: 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...'))
-      .gsub(/[\r\n]+/, '<br />')
-      .html_safe
   end
 
   def due_date_distance_in_words(date)
@@ -174,7 +168,7 @@ module ApplicationHelper
       tag_options[:disabled] = true if disabled.include? identifier
 
       content = ''.html_safe
-      content << ('&nbsp;' * 3 * element[:level] + '&#187; ').html_safe if element[:level] > 0
+      content << (('&nbsp;' * 3 * element[:level]) + '&#187; ').html_safe if element[:level] > 0
       content << element[:project].name
 
       options << content_tag('option', content, tag_options)
@@ -186,11 +180,11 @@ module ApplicationHelper
   # Yields the given block for each project with its level in the tree
   #
   # Wrapper for Project#project_tree
-  def project_tree(projects, &block)
-    Project.project_tree(projects, &block)
+  def project_tree(projects, &)
+    Project.project_tree(projects, &)
   end
 
-  def project_nested_ul(projects, &_block)
+  def project_nested_ul(projects, &)
     s = ''
     if projects.any?
       ancestors = []
@@ -233,7 +227,7 @@ module ApplicationHelper
 
       content_tag :div, class: 'form--field' do
         label_tag(id, object, object_options) do
-          styled_check_box_tag(name, object.id, false, id: id) + object
+          styled_check_box_tag(name, object.id, false, id:) + object
         end
       end
     end.join.html_safe
@@ -269,7 +263,7 @@ module ApplicationHelper
               title: format_time(time))
     else
       datetime = time.acts_like?(:time) ? time.xmlschema : time.iso8601
-      content_tag(:time, text, datetime: datetime,
+      content_tag(:time, text, datetime:,
                                title: format_time(time), class: 'timestamp')
     end
   end
@@ -285,8 +279,8 @@ module ApplicationHelper
     path.to_s
   end
 
-  def other_formats_links(&block)
-    formats = capture(Redmine::Views::OtherFormatsBuilder.new(self), &block)
+  def other_formats_links(&)
+    formats = capture(Redmine::Views::OtherFormatsBuilder.new(self), &)
     unless formats.nil? || formats.strip.empty?
       content_tag 'p', class: 'other-formats' do
         (I18n.t(:label_export_to) + formats).html_safe
@@ -300,8 +294,8 @@ module ApplicationHelper
     css = ['theme-' + OpenProject::CustomStyles::Design.identifier.to_s]
 
     if params[:controller] && params[:action]
-      css << 'controller-' + params[:controller]
-      css << 'action-' + params[:action]
+      css << ('controller-' + params[:controller])
+      css << ('action-' + params[:action])
     end
 
     css << "ee-banners-#{EnterpriseToken.show_banners? ? 'visible' : 'hidden'}"
@@ -347,27 +341,27 @@ module ApplicationHelper
     initial_lang_options + mapped_languages.sort_by(&:last)
   end
 
-  def labelled_tabular_form_for(record, options = {}, &block)
+  def labelled_tabular_form_for(record, options = {}, &)
     options.reverse_merge!(builder: TabularFormBuilder, html: {})
     options[:html][:class] = 'form' unless options[:html].has_key?(:class)
-    form_for(record, options, &block)
+    form_for(record, options, &)
   end
 
   def back_url_hidden_field_tag
     back_url = params[:back_url] || request.env['HTTP_REFERER']
     back_url = CGI.unescape(back_url.to_s)
-    hidden_field_tag('back_url', CGI.escape(back_url), id: nil) unless back_url.blank?
+    hidden_field_tag('back_url', CGI.escape(back_url), id: nil) if back_url.present?
   end
 
   def back_url_to_current_page_hidden_field_tag
     back_url = params[:back_url]
     if back_url.present?
       back_url = back_url.to_s
-    elsif request.get? and !params.blank?
+    elsif request.get? and params.present?
       back_url = request.url
     end
 
-    hidden_field_tag('back_url', back_url) unless back_url.blank?
+    hidden_field_tag('back_url', back_url) if back_url.present?
   end
 
   def check_all_links(form_name)

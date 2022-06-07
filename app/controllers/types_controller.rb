@@ -135,8 +135,8 @@ class TypesController < ApplicationController
 
   def redirect_to_type_tab_path(type, notice)
     tab = params["tab"] || "settings"
-    redirect_to(edit_type_tab_path(type, tab: tab),
-                notice: notice)
+    redirect_to(edit_type_tab_path(type, tab:),
+                notice:)
   end
 
   def default_breadcrumb

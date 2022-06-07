@@ -50,9 +50,9 @@ describe Projects::SetAttributesService, type: :model do
   end
   let(:project_valid) { true }
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: project,
-                        contract_class: contract_class)
+                        contract_class:)
   end
   let(:call_attributes) { {} }
   let(:project) do

@@ -41,7 +41,8 @@ describe OpenProject::Storage do
 
     describe '#known_storage_paths' do
       subject { OpenProject::Storage.known_storage_paths }
-      it 'should contain attachments path' do
+
+      it 'contains attachments path' do
         expect(subject.length).to be == 1
         expect(subject[:attachments])
           .to eq(label: I18n.t('attributes.attachments'),
@@ -51,6 +52,7 @@ describe OpenProject::Storage do
 
     describe '#mount_information' do
       subject { OpenProject::Storage.mount_information }
+
       include_context 'with tmpdir'
 
       before do
@@ -58,7 +60,7 @@ describe OpenProject::Storage do
           .and_return(foobar: { path: tmpdir, label: 'this is foobar' })
       end
 
-      it 'should contain one fs entry' do
+      it 'contains one fs entry' do
         expect(File.exist?(tmpdir)).to be true
         expect(subject.length).to be == 1
 
@@ -92,7 +94,7 @@ describe OpenProject::Storage do
       it 'contains both paths' do
         expect(subject.length).to be == 2
 
-        labels = subject.values.map { |h| h[:label] }
+        labels = subject.values.pluck(:label)
         expect(labels)
           .to match_array([I18n.t(:label_managed_repositories_vendor, vendor: 'Git'),
                            I18n.t('attributes.attachments')])
@@ -101,6 +103,7 @@ describe OpenProject::Storage do
 
     describe '#mount_information' do
       subject { OpenProject::Storage.mount_information }
+
       it 'contains one entry' do
         expect(subject.length).to eq(1)
 
@@ -112,6 +115,7 @@ describe OpenProject::Storage do
 
       context 'with multiple filesystem ids' do
         let(:returned_fs_info) { [{ id: 1, free: 1234 }, { id: 2, free: 15 }] }
+
         it 'contains two entries' do
           expect(subject.length).to eq(2)
           expect(subject)

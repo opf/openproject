@@ -30,15 +30,15 @@ require 'spec_helper'
 
 shared_examples 'member job' do
   subject(:run_job) do
-    described_class.perform_now(current_user: current_user,
-                                member: member,
-                                message: message)
+    described_class.perform_now(current_user:,
+                                member:,
+                                message:)
   end
 
   let(:member) do
     build_stubbed(:member,
-                  project: project,
-                  principal: principal)
+                  project:,
+                  principal:)
   end
   let(:project) { build_stubbed(:project) }
   let(:principal) { user }
@@ -46,18 +46,18 @@ shared_examples 'member job' do
   let(:group_users) { [user] }
   let(:group_member_roles) do
     [build_stubbed(:member_role,
-                   role: role,
+                   role:,
                    inherited_from: nil)]
   end
   let(:group_user_member_roles) do
     [build_stubbed(:member_role,
-                   role: role,
+                   role:,
                    inherited_from: nil)]
   end
 
   let(:group_user_member) do
     build_stubbed(:member,
-                  project: project,
+                  project:,
                   principal: user,
                   member_roles: group_user_member_roles) do |gum|
       group_user_members << gum
@@ -97,7 +97,7 @@ shared_examples 'member job' do
     %i[added_project updated_global updated_project].each do |mails|
       allow(MemberMailer)
         .to receive(mails)
-              .and_return(double('mail', deliver_now: nil))  # rubocop:disable Rspec/VerifiedDoubles
+              .and_return(double('mail', deliver_now: nil))  # rubocop:disable RSpec/VerifiedDoubles
     end
   end
 

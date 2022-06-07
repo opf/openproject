@@ -32,7 +32,7 @@
 module Projects
   class EnabledModulesService < ::BaseServices::BaseContracted
     def initialize(user:, model:, contract_class: ::Projects::EnabledModulesContract)
-      super(user: user, contract_class: contract_class)
+      super(user:, contract_class:)
       self.model = model
     end
 

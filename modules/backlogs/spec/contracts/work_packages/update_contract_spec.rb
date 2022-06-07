@@ -33,7 +33,7 @@ describe WorkPackages::UpdateContract do
     create(:work_package,
            done_ratio: 50,
            estimated_hours: 6.0,
-           project: project)
+           project:)
   end
   let(:member) { create(:user, member_in_project: project, member_through_role: role) }
   let(:project) { create(:project) }
@@ -49,7 +49,7 @@ describe WorkPackages::UpdateContract do
       add_work_package_notes
     ]
   end
-  let(:role) { create :role, permissions: permissions }
+  let(:role) { create :role, permissions: }
   let(:changed_values) { [] }
 
   subject(:contract) { described_class.new(work_package, current_user) }
@@ -93,8 +93,9 @@ describe WorkPackages::UpdateContract do
         work_package.reload
         contract.validate
       end
+
       let(:child) do
-        create(:work_package, parent_id: work_package.id, project: project)
+        create(:work_package, parent_id: work_package.id, project:)
       end
 
       context 'has not changed' do

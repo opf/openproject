@@ -54,9 +54,9 @@ module Queries::WorkPackages::Filter::OrFilterForWpMixin
   def create_instances
     filter_configurations.map do |conf|
       conf.filter_class.create!(name: conf.filter_name,
-                                context: context,
+                                context:,
                                 operator: conf.operator,
-                                values: values)
+                                values:)
     end
   end
 

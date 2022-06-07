@@ -29,7 +29,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe 'MeetingAgenda', type: :model do
-  before(:each) do
+  before do
     @a = build :meeting_agenda, text: "Some content...\n\nMore content!\n\nExtraordinary content!!"
   end
 
@@ -61,6 +61,7 @@ describe 'MeetingAgenda', type: :model do
       @a.locked = false
       expect(@a.editable?).to be_truthy
     end
+
     it 'is not editable when locked' do
       @a.locked = true
       expect(@a.editable?).to be_falsey

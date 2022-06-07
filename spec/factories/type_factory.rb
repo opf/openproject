@@ -71,7 +71,7 @@ FactoryBot.define do
 
     # reuse existing type with the given name
     # this prevents a validation error (name has to be unique)
-    initialize_with { ::Type.find_or_initialize_by(name: name) }
+    initialize_with { ::Type.find_or_initialize_by(name:) }
 
     factory :type_feature do
       name { 'Feature' }

@@ -65,18 +65,16 @@ module OpenProject::Backlogs::Patches::VersionPatch
 
     def ==(other)
       super ||
-        other.is_a?(self.class) &&
+        (other.is_a?(self.class) &&
           id.present? &&
-          other.id == id
+          other.id == id)
     end
 
     def eql?(other)
       self == other
     end
 
-    def hash
-      id.hash
-    end
+    delegate :hash, to: :id
 
     private
 

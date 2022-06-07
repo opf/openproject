@@ -34,7 +34,7 @@ shared_context 'with temporary LDAP' do
     @ldap_server = Ladle::Server.new(quiet: false,
                                      port: ParallelHelper.port_for_ldap.to_s,
                                      domain: 'dc=example,dc=com',
-                                     ldif: ldif).start
+                                     ldif:).start
   end
 
   after(:all) do
@@ -51,7 +51,7 @@ shared_context 'with temporary LDAP' do
            account: 'uid=admin,ou=system',
            account_password: 'secret',
            base_dn: 'ou=people,dc=example,dc=com',
-           onthefly_register: onthefly_register,
+           onthefly_register:,
            filter_string: ldap_filter,
            attr_login: 'uid',
            attr_firstname: 'givenName',

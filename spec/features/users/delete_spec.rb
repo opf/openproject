@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'user deletion: ', type: :feature, js: true do
+describe 'user deletion:', type: :feature, js: true do
   let(:dialog) { ::Components::PasswordConfirmationDialog.new }
 
   before do
@@ -53,7 +53,7 @@ describe 'user deletion: ', type: :feature, js: true do
       dialog.confirm_flow_with user_password
 
       expect(page).to have_content 'Account successfully deleted'
-      expect(current_path).to eq '/login'
+      expect(page).to have_current_path '/login'
     end
 
     it 'cannot delete their own account if the settings forbid it' do
@@ -61,7 +61,7 @@ describe 'user deletion: ', type: :feature, js: true do
       visit my_account_path
 
       within '#main-menu' do
-        expect(page).to_not have_content 'Delete account'
+        expect(page).not_to have_content 'Delete account'
       end
     end
   end
@@ -75,7 +75,7 @@ describe 'user deletion: ', type: :feature, js: true do
       visit edit_user_path(user)
 
       expect(page).to have_content "#{user.firstname} #{user.lastname}"
-      expect(page).to_not have_content 'Delete account'
+      expect(page).not_to have_content 'Delete account'
 
       visit deletion_info_user_path(user)
       expect(page).to have_text 'Error 404'
@@ -112,14 +112,14 @@ describe 'user deletion: ', type: :feature, js: true do
       dialog.confirm_flow_with user_password, should_fail: false
 
       expect(page).to have_content 'Account successfully deleted'
-      expect(current_path).to eq '/users'
+      expect(page).to have_current_path '/users'
     end
 
     it 'cannot delete other users if the settings forbid it' do
       Setting.users_deletable_by_admins = 0
       visit edit_user_path(user)
 
-      expect(page).to_not have_content 'Delete account'
+      expect(page).not_to have_content 'Delete account'
     end
 
     it 'can change the deletablilty settings' do
@@ -133,8 +133,8 @@ describe 'user deletion: ', type: :feature, js: true do
 
       click_on 'Save'
 
-      expect(Setting.users_deletable_by_admins?).to eq true
-      expect(Setting.users_deletable_by_self?).to eq true
+      expect(Setting.users_deletable_by_admins?).to be true
+      expect(Setting.users_deletable_by_self?).to be true
     end
   end
 end

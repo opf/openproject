@@ -42,13 +42,13 @@ class DirectFogUploader < FogFileUploader
     )
       uploader = direct_fog_hash_uploader attachment, success_action_redirect, success_action_status
       hash = uploader
-        .direct_fog_hash(enforce_utf8: false, max_file_size: max_file_size)
-        .merge(extra_fog_hash_attributes(uploader: uploader))
+        .direct_fog_hash(enforce_utf8: false, max_file_size:)
+        .merge(extra_fog_hash_attributes(uploader:))
 
       if success_action_redirect.present?
-        hash.merge(success_action_redirect: success_action_redirect)
+        hash.merge(success_action_redirect:)
       else
-        hash.merge(success_action_status: success_action_status)
+        hash.merge(success_action_status:)
       end
     end
 
@@ -56,14 +56,14 @@ class DirectFogUploader < FogFileUploader
       return {} unless include_content_type?(uploader)
 
       {
-        "Content-Type": uploader.fog_attributes[:"Content-Type"]
+        'Content-Type': uploader.fog_attributes[:'Content-Type']
       }
     end
 
     private
 
     def include_content_type?(uploader)
-      uploader.will_include_content_type && uploader.fog_attributes.include?(:"Content-Type")
+      uploader.will_include_content_type && uploader.fog_attributes.include?(:'Content-Type')
     end
 
     def direct_fog_hash_uploader(attachment, success_action_redirect, success_action_status)

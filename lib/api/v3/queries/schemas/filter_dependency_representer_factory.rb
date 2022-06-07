@@ -40,7 +40,7 @@ module API
 
             instance = klass.new(filter,
                                  operator,
-                                 form_embedded: form_embedded)
+                                 form_embedded:)
 
             if filter.is_a?(::Queries::Filters::Shared::CustomFields::Base)
               instance.extend(::API::V3::Queries::Schemas::CustomFieldJsonCacheKeyMixin)

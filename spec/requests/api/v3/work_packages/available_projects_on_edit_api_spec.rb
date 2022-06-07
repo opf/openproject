@@ -41,14 +41,14 @@ describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI', type: :request do
   end
   let(:project) { create(:project) }
   let(:target_project) { create(:project) }
-  let(:work_package) { create(:work_package, project: project) }
+  let(:work_package) { create(:work_package, project:) }
 
   current_user do
     create(:user,
            member_in_project: project,
            member_through_role: edit_role).tap do |user|
       create(:member,
-             user: user,
+             user:,
              project: target_project,
              roles: [move_role])
     end

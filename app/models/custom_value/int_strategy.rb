@@ -28,7 +28,7 @@
 
 class CustomValue::IntStrategy < CustomValue::FormatStrategy
   def typed_value
-    unless value.blank?
+    if value.present?
       value.to_i
     end
   end

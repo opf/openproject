@@ -32,7 +32,6 @@ module API
       module Endpoints
         class SqlShow
           def initialize(model:)
-
             self.model = model
           end
 

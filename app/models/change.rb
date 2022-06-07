@@ -29,7 +29,7 @@
 class Change < ApplicationRecord
   belongs_to :changeset
 
-  validates_presence_of :changeset_id, :action, :path
+  validates :changeset_id, :action, :path, presence: true
   before_save :init_path
 
   delegate :repository_encoding, to: :changeset, allow_nil: true, prefix: true

@@ -28,14 +28,14 @@
 
 require 'spec_helper'
 
-feature 'color administration', type: :feature do
+describe 'color administration', type: :feature do
   shared_let(:admin) { create :admin }
 
   before do
     login_as(admin)
   end
 
-  scenario 'CRUD' do
+  it 'CRUD' do
     # Only a stub for now
 
     visit colors_path

@@ -42,7 +42,7 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
   end
   let(:current_user_admin) { false }
   let(:current_user) { build_stubbed(:user, admin: current_user_admin) }
-  let(:representer) { described_class.new(group, current_user: current_user, embed_links: embed_links) }
+  let(:representer) { described_class.new(group, current_user:, embed_links:) }
   let(:members) { 2.times.map { build_stubbed(:user) } }
   let(:permissions) { [:manage_members] }
   let(:embed_links) { true }
@@ -139,7 +139,7 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
     describe 'createdAt' do
       context 'without admin' do
         it 'hides the createdAt property' do
-          is_expected.not_to have_json_path('createdAt')
+          expect(subject).not_to have_json_path('createdAt')
         end
       end
 
@@ -156,7 +156,7 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
     describe 'updatedAt' do
       context 'without admin' do
         it 'hides the updatedAt property' do
-          is_expected.not_to have_json_path('updatedAt')
+          expect(subject).not_to have_json_path('updatedAt')
         end
       end
 
@@ -178,11 +178,11 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
       context 'with the necessary permissions' do
         it 'has an array of users embedded' do
           members.each_with_index do |user, index|
-            is_expected
+            expect(subject)
               .to be_json_eql('User'.to_json)
               .at_path("#{embedded_path}/#{index}/_type")
 
-            is_expected
+            expect(subject)
               .to be_json_eql(user.name.to_json)
               .at_path("#{embedded_path}/#{index}/name")
           end

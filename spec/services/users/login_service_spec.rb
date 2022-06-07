@@ -34,7 +34,7 @@ describe ::Users::LoginService, type: :model do
   let(:session) { {} }
   let(:flash) { ActionDispatch::Flash::FlashHash.new }
 
-  let(:instance) { described_class.new(controller: controller) }
+  let(:instance) { described_class.new(controller:) }
 
   subject { instance.call(input_user) }
 
@@ -80,7 +80,7 @@ describe ::Users::LoginService, type: :model do
           subject
 
           expect(session[:foo]).to be_present
-          expect(session[:what]).to eq nil
+          expect(session[:what]).to be_nil
           expect(session[:user_id]).to eq input_user.id
         end
       end

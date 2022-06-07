@@ -6,8 +6,8 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategyManager do
   let(:totp_strategy) { ::OpenProject::TwoFactorAuthentication::TokenStrategy::Totp }
   let(:configuration) do
     {
-      active_strategies: active_strategies,
-      enforced: enforced
+      active_strategies:,
+      enforced:
     }
   end
   let(:enforced) { false }

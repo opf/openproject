@@ -46,11 +46,11 @@ describe Notifications::CreateService, 'integration', type: :model do
   describe '#call' do
     let(:attributes) do
       {
-        recipient: recipient,
-        project: project,
+        recipient:,
+        project:,
         resource: work_package,
-        journal: journal,
-        actor: actor,
+        journal:,
+        actor:,
         read_ian: false,
         reason: :mentioned,
         mail_reminder_sent: nil,

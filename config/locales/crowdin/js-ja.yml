@@ -1188,3 +1188,6 @@ ja:
         remove: '削除'
       drop_modal:
         Close: '閉じる'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

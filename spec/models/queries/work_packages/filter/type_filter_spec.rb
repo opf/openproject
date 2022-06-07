@@ -50,7 +50,7 @@ describe Queries::WorkPackages::Filter::TypeFilter, type: :model do
             .to receive_message_chain(:rolled_up_types, :exists?)
             .and_return false
 
-          expect(instance).to_not be_available
+          expect(instance).not_to be_available
         end
       end
 
@@ -72,13 +72,14 @@ describe Queries::WorkPackages::Filter::TypeFilter, type: :model do
             .to receive_message_chain(:order, :exists?)
             .and_return false
 
-          expect(instance).to_not be_available
+          expect(instance).not_to be_available
         end
       end
     end
 
     describe '#allowed_values' do
       let(:type) { build_stubbed(:type) }
+
       context 'within a project' do
         before do
           allow(project)
@@ -97,7 +98,7 @@ describe Queries::WorkPackages::Filter::TypeFilter, type: :model do
 
         before do
           allow(Type)
-            .to receive_message_chain(:order)
+            .to receive(:order)
             .and_return [type]
         end
 

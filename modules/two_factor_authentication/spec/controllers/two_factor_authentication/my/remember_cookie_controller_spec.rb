@@ -16,6 +16,7 @@ describe ::TwoFactorAuthentication::My::RememberCookieController do
 
     context 'when not logged in' do
       let(:logged_in_user) { User.anonymous }
+
       it 'does not give access' do
         expect(response).to be_redirect
         expect(response).to redirect_to signin_path(back_url: my_2fa_remember_cookie_url)

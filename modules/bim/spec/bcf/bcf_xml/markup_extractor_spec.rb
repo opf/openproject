@@ -95,14 +95,14 @@ describe ::OpenProject::Bim::BcfXml::MarkupExtractor do
   end
 
   it '#viewpoints' do
-    expect(subject.viewpoints.size).to eql 3
+    expect(subject.viewpoints.size).to be 3
     expect(subject.viewpoints.first[:uuid]).to eql '8dc86298-9737-40b4-a448-98a9e953293a'
     expect(subject.viewpoints.first[:viewpoint]).to eql 'Viewpoint_8dc86298-9737-40b4-a448-98a9e953293a.bcfv'
     expect(subject.viewpoints.first[:snapshot]).to eql 'Snapshot_8dc86298-9737-40b4-a448-98a9e953293a.png'
   end
 
   it '#comments' do
-    expect(subject.comments.size).to eql 4
+    expect(subject.comments.size).to be 4
     expect(subject.comments.first[:uuid]).to eql('780FAE52-C432-42BE-ADEA-FF3E7A8CD8E1')
     expect(subject.comments.first[:date]).to eql(Time.iso8601('2015-08-31T12:40:17Z'))
     expect(subject.comments.first[:modified_date]).to eql(Time.iso8601('2015-08-31T16:07:11Z'))
@@ -115,13 +115,13 @@ describe ::OpenProject::Bim::BcfXml::MarkupExtractor do
   end
 
   it '#people' do
-    expect(subject.people.size).to eql 2
+    expect(subject.people.size).to be 2
     expect(subject.people.first).to eql 'andy@example.com'
     expect(subject.people.second).to eql 'mike@example.com'
   end
 
   it '#mail_addresses' do
-    expect(subject.mail_addresses.size).to eql 2
+    expect(subject.mail_addresses.size).to be 2
     expect(subject.mail_addresses.first).to eql 'andy@example.com'
     expect(subject.mail_addresses.second).to eql 'mike@example.com'
   end

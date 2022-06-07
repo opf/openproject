@@ -29,24 +29,24 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe LaborBudgetItem, type: :model do
-  let(:item) { build(:labor_budget_item, budget: budget, user: user) }
-  let(:budget) { build(:budget, project: project) }
+  let(:item) { build(:labor_budget_item, budget:, user:) }
+  let(:budget) { build(:budget, project:) }
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
   let(:rate) do
-    create(:hourly_rate, user: user,
-                                    valid_from: Date.today - 4.days,
-                                    rate: 400.0,
-                                    project: project)
+    create(:hourly_rate, user:,
+                         valid_from: Date.today - 4.days,
+                         rate: 400.0,
+                         project:)
   end
   let(:project) { create(:valid_project) }
   let(:project2) { create(:valid_project) }
 
   def is_member(project, user, permissions)
     create(:member,
-           project: project,
-           user: user,
-           roles: [create(:role, permissions: permissions)])
+           project:,
+           user:,
+           roles: [create(:role, permissions:)])
   end
 
   describe '#calculated_costs' do
@@ -137,7 +137,7 @@ describe LaborBudgetItem, type: :model do
 
   describe '#valid?' do
     describe 'WHEN hours, budget and user are provided' do
-      it 'should be valid' do
+      it 'is valid' do
         expect(item).to be_valid
       end
     end
@@ -147,7 +147,7 @@ describe LaborBudgetItem, type: :model do
         item.hours = nil
       end
 
-      it 'should not be valid' do
+      it 'is not valid' do
         expect(item).not_to be_valid
         expect(item.errors[:hours]).to eq([I18n.t('activerecord.errors.messages.not_a_number')])
       end
@@ -158,7 +158,7 @@ describe LaborBudgetItem, type: :model do
         item.hours = 'test'
       end
 
-      it 'should not be valid' do
+      it 'is not valid' do
         expect(item).not_to be_valid
         expect(item.errors[:hours]).to eq([I18n.t('activerecord.errors.messages.not_a_number')])
       end
@@ -169,7 +169,7 @@ describe LaborBudgetItem, type: :model do
         item.budget = nil
       end
 
-      it 'should not be valid' do
+      it 'is not valid' do
         expect(item).not_to be_valid
         expect(item.errors[:budget]).to eq([I18n.t('activerecord.errors.messages.blank')])
       end
@@ -180,7 +180,7 @@ describe LaborBudgetItem, type: :model do
         item.user = nil
       end
 
-      it 'should not be valid' do
+      it 'is not valid' do
         expect(item).not_to be_valid
         expect(item.errors[:user]).to eq([I18n.t('activerecord.errors.messages.blank')])
       end
