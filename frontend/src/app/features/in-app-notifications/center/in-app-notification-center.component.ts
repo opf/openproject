@@ -14,7 +14,7 @@ import { StateService } from '@uirouter/angular';
 import { UIRouterGlobals } from '@uirouter/core';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 import {
-  InAppNotification,
+  INotification,
   NOTIFICATIONS_MAX_SIZE,
 } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -61,7 +61,7 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   originalOrder = ():number => 0;
 
-  trackNotificationGroups = (i:number, item:InAppNotification[]):string => item
+  trackNotificationGroups = (i:number, item:INotification[]):string => item
     .map((el) => `${el.id}@${el.updatedAt}`)
     .join(',');
 

@@ -34,7 +34,7 @@ import {
   notificationCountIncreased,
   notificationsMarkedRead,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
-import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
+import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import {
   EffectCallback,
   EffectHandler,
@@ -82,7 +82,7 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   loading$:Observable<boolean> = this.query.selectLoading();
 
-  selectNotifications$:Observable<InAppNotification[]> = this
+  selectNotifications$:Observable<INotification[]> = this
     .activeCollection$
     .pipe(
       switchMap((collection) => forkJoin(collection.ids.map((id) => this.resourceService.lookup(id)))),
@@ -252,7 +252,7 @@ export class IanCenterService extends UntilDestroyedMixin {
       .notifications$
       .pipe(
         take(1),
-      ).subscribe((notifications:InAppNotification[][]) => {
+      ).subscribe((notifications:INotification[][]) => {
         if (notifications.length <= 0) {
           void this.state.go(
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
@@ -321,7 +321,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     }
   }
 
-  private sideLoadInvolvedWorkPackages(elements:InAppNotification[]):Promise<unknown> {
+  private sideLoadInvolvedWorkPackages(elements:INotification[]):Promise<unknown> {
     const { cache } = this.apiV3Service.work_packages;
     const wpIds = elements
       .map((element) => {
@@ -353,7 +353,7 @@ export class IanCenterService extends UntilDestroyedMixin {
         take(1),
       )
       .subscribe(
-        (notifications:InAppNotification[][]) => {
+        (notifications:INotification[][]) => {
           for (let i = 0; i < notifications.length; ++i) {
             if (notifications[i][0]._links.resource
               && idFromLink(notifications[i][0]._links.resource.href) === this.uiRouterGlobals.params.workPackageId) {

@@ -39,10 +39,10 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { HttpClient } from '@angular/common/http';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ID } from '@datorama/akita';
-import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
+import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 
 export class ApiV3NotificationsPaths
-  extends ApiV3ResourceCollection<InAppNotification, ApiV3NotificationPaths> {
+  extends ApiV3ResourceCollection<INotification, ApiV3NotificationPaths> {
   @InjectField() http:HttpClient;
 
   constructor(protected apiRoot:ApiV3Service,
@@ -50,7 +50,7 @@ export class ApiV3NotificationsPaths
     super(apiRoot, basePath, 'notifications', ApiV3NotificationPaths);
   }
 
-  public facet(facet:string, params?:ApiV3ListParameters):Observable<IHALCollection<InAppNotification>> {
+  public facet(facet:string, params?:ApiV3ListParameters):Observable<IHALCollection<INotification>> {
     if (facet === 'unread') {
       return this.unread(params);
     }
@@ -61,10 +61,10 @@ export class ApiV3NotificationsPaths
    * Load a list of events with a given list parameter filter
    * @param params
    */
-  public list(params?:ApiV3ListParameters):Observable<IHALCollection<InAppNotification>> {
+  public list(params?:ApiV3ListParameters):Observable<IHALCollection<INotification>> {
     return this
       .http
-      .get<IHALCollection<InAppNotification>>(this.path + listParamsString(params));
+      .get<IHALCollection<INotification>>(this.path + listParamsString(params));
   }
 
   public listPath(params?:ApiV3ListParameters):string {
@@ -74,7 +74,7 @@ export class ApiV3NotificationsPaths
   /**
    * Load unread events
    */
-  public unread(additional?:ApiV3ListParameters):Observable<IHALCollection<InAppNotification>> {
+  public unread(additional?:ApiV3ListParameters):Observable<IHALCollection<INotification>> {
     const unreadFilter:ApiV3ListFilter = ['readIAN', '=', false];
     const filters = [
       ...(additional?.filters ? additional.filters : []),

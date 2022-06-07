@@ -21,7 +21,7 @@ import {
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { InAppNotificationsStore } from './in-app-notifications.store';
-import { InAppNotification } from './in-app-notification.model';
+import { INotification } from './in-app-notification.model';
 import {
   CollectionStore,
   ResourceCollectionService,
@@ -29,7 +29,7 @@ import {
 
 @EffectHandler
 @Injectable()
-export class InAppNotificationsResourceService extends ResourceCollectionService<InAppNotification> {
+export class InAppNotificationsResourceService extends ResourceCollectionService<INotification> {
   private get notificationsPath():string {
     return this
       .apiV3Service
@@ -46,18 +46,18 @@ export class InAppNotificationsResourceService extends ResourceCollectionService
     super();
   }
 
-  fetchNotifications(params:ApiV3ListParameters):Observable<IHALCollection<InAppNotification>> {
+  fetchNotifications(params:ApiV3ListParameters):Observable<IHALCollection<INotification>> {
     const collectionURL = collectionKey(params);
 
     return this
       .http
-      .get<IHALCollection<InAppNotification>>(this.notificationsPath + collectionURL)
+      .get<IHALCollection<INotification>>(this.notificationsPath + collectionURL)
       .pipe(
         tap((collection) => insertCollectionIntoState(this.store, collection, collectionURL)),
       );
   }
 
-  update(id:ID, inAppNotification:Partial<InAppNotification>):void {
+  update(id:ID, inAppNotification:Partial<INotification>):void {
     this.store.update(id, inAppNotification);
   }
 
@@ -85,7 +85,7 @@ export class InAppNotificationsResourceService extends ResourceCollectionService
       ));
   }
 
-  protected createStore():CollectionStore<InAppNotification> {
+  protected createStore():CollectionStore<INotification> {
     return new InAppNotificationsStore();
   }
 }
