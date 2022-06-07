@@ -30,13 +30,13 @@ import { IanBellService } from 'core-app/features/in-app-notifications/bell/stat
 export class InAppNotificationCenterComponent implements OnInit {
   maxSize = NOTIFICATIONS_MAX_SIZE;
 
-  hasMoreThanPageSize$ = this.storeService.query.hasMoreThanPageSize$;
+  hasMoreThanPageSize$ = this.storeService.hasMoreThanPageSize$;
 
-  hasNotifications$ = this.storeService.query.hasNotifications$;
+  hasNotifications$ = this.storeService.hasNotifications$;
 
-  notifications$ = this.storeService.query.notifications$;
+  notifications$ = this.storeService.notifications$;
 
-  loading$ = this.storeService.query.selectLoading();
+  loading$ = this.storeService.loading$;
 
   private totalCount$ = this.bellService.unread$;
 
@@ -48,7 +48,6 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   totalCountWarning$ = this
     .storeService
-    .query
     .notLoaded$
     .pipe(
       filter((notLoaded) => notLoaded > 0),

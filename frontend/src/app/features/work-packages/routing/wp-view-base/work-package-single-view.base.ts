@@ -175,7 +175,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
         this.toastService.addError(error);
       });
 
-    this.displayNotificationsButton$ = this.storeService.query.hasNotifications$;
+    this.displayNotificationsButton$ = this.storeService.hasNotifications$;
     this.storeService.setFilters(this.workPackage.id as string);
 
     // Set authorisation data
