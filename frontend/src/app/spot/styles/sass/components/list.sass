@@ -26,14 +26,14 @@
       &:hover
         background-color: $spot-color-basic-gray-6
 
-        .spot-list--item-hover
+        .spot-list--item-floating-actions
           opacity: 1
 
       &_disabled
         color: $spot-color-basic-gray-3
         cursor: default
 
-    &-hover
+    &-floating-actions
       opacity: 0
       position: absolute
       right: 0
@@ -43,11 +43,6 @@
       > .spot-link
         &:not(:first-child)
           margin-left: $spot-spacing-0_5
-
-        > .spot-icon
-          width: 1.125rem
-          height: 1.125rem
-          font-size: 0.75rem
 
     &-title
       min-height: $spot-spacing-1_5
