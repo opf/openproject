@@ -82,3 +82,18 @@ export function insertCollectionIntoState<T extends { id:ID }>(
     ));
   });
 }
+
+export function collectionFrom<T>(elements:T[]):IHALCollection<T> {
+  const count = elements.length;
+
+  return {
+    _type: 'Collection',
+    count,
+    total: count,
+    pageSize: count,
+    offset: 1,
+    _embedded: {
+      elements,
+    },
+  };
+}

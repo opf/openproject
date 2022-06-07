@@ -75,6 +75,38 @@ export abstract class ResourceCollectionService<T> {
   }
 
   /**
+   * Lookup multiple entities from the store
+   */
+  lookupMany(ids:ID[]):Observable<T[]> {
+    return this
+      .query
+      .selectMany(ids);
+  }
+
+  /**
+   * Lookup a single entity from the store
+   * @param id
+   */
+  lookupMultiple(id:ID):Observable<T> {
+    return this
+      .query
+      .selectEntity(id)
+      .pipe(
+        filter((entity) => entity !== undefined),
+      ) as Observable<T>;
+  }
+
+  /**
+   * Update a single entity in the store
+   *
+   * @param id The id to update
+   * @param entity A section of the entity to update
+   */
+  update(id:ID, entity:Partial<T>):void {
+    this.store.update(id, entity);
+  }
+
+  /**
    * Create a new instance of this resource service's underyling store.
    * @protected
    */

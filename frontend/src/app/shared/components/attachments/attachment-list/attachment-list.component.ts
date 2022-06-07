@@ -37,7 +37,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { Observable } from 'rxjs';
 
@@ -72,12 +72,11 @@ export class AttachmentListComponent extends UntilDestroyedMixin implements OnIn
       this.attachmentsResourceService.requireCollection(this.attachmentsSelfLink);
     }
 
-    this.$attachments = this.attachmentsResourceService.query.select()
+    this.$attachments = this
+      .attachmentsResourceService
+      .collection(this.collectionKey)
       .pipe(
         this.untilDestroyed(),
-        map((state) => state.collections[this.collectionKey]?.ids),
-        switchMap((attachmentIds) => this.attachmentsResourceService.query.selectMany(attachmentIds)),
-
         // store attachments for new resources directly into the resource. This way, the POST request to create the
         // resource embeds the attachments and the backend reroutes the anonymous attachments to the resource.
         tap((attachments) => {

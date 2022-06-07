@@ -27,32 +27,29 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { catchError, filter, tap } from 'rxjs/operators';
+import {
+  catchError,
+  tap,
+} from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { ID } from '@datorama/akita';
 import { HttpClient } from '@angular/common/http';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { ProjectsQuery } from 'core-app/core/state/projects/projects.query';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import {
   collectionKey,
   insertCollectionIntoState,
 } from 'core-app/core/state/collection-store';
-import { ProjectsStore } from './projects.store';
 import { IProject } from './project.model';
-
-export function isIProject(input:IProject|undefined):input is IProject {
-  return input !== undefined;
-}
+import {
+  CollectionStore,
+  ResourceCollectionService,
+} from 'core-app/core/state/resource-collection.service';
+import { ProjectsStore } from 'core-app/core/state/projects/projects.store';
 
 @Injectable()
-export class ProjectsResourceService {
-  protected store = new ProjectsStore();
-
-  readonly query = new ProjectsQuery(this.store);
-
+export class ProjectsResourceService extends ResourceCollectionService<IProject> {
   private get projectsPath():string {
     return this
       .apiV3Service
@@ -65,6 +62,7 @@ export class ProjectsResourceService {
     private apiV3Service:ApiV3Service,
     private toastService:ToastService,
   ) {
+    super();
   }
 
   fetchProjects(params:ApiV3ListParameters):Observable<IHALCollection<IProject>> {
@@ -91,9 +89,7 @@ export class ProjectsResourceService {
       );
   }
 
-  lookup(id:ID):Observable<IProject> {
-    return this.query
-      .selectEntity(id)
-      .pipe(filter(isIProject));
+  protected createStore():CollectionStore<IProject> {
+    return new ProjectsStore();
   }
 }

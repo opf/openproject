@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import {
   debounceTime,
+  defaultIfEmpty,
   distinctUntilChanged,
   map,
   mapTo,
@@ -85,7 +86,11 @@ export class IanCenterService extends UntilDestroyedMixin {
   selectNotifications$:Observable<INotification[]> = this
     .activeCollection$
     .pipe(
-      switchMap((collection) => forkJoin(collection.ids.map((id) => this.resourceService.lookup(id)))),
+      switchMap((collection) => {
+        const lookupId = (id:ID) => this.resourceService.lookup(id).pipe(take(1));
+        return forkJoin(collection.ids.map(lookupId))
+          .pipe(defaultIfEmpty([]));
+      }),
     );
 
   aggregatedCenterNotifications$ = this
