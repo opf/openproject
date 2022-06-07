@@ -29,7 +29,11 @@ module AuthSourceSSO
     logged_user = match_sso_with_logged_user(login, user)
 
     # Return the logged in user if matches
-    return logged_user if logged_user.present?
+    # but remember it came from auth_source_sso
+    if logged_user.present?
+      session[:user_from_auth_header] = true
+      return logged_user
+    end
 
     Rails.logger.debug { "Starting header-based auth source SSO for #{header_name}='#{op_auth_header_value}'" }
 
