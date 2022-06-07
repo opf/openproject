@@ -48,8 +48,8 @@ ru:
       nextcloud:
         administration: Администрирование
         oauth2_clients: Клиенты OAuth2
-        oauth_client_id: Copy the value from
-        oauth_client_secret: Copy the value from
+        oauth_client_id: Скопировать значение из
+        oauth_client_secret: Скопировать значение из
     delete_warning:
       storage: >
         Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.
