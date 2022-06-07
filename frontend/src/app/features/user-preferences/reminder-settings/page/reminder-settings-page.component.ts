@@ -18,7 +18,7 @@ import {
   DailyRemindersSettings,
   ImmediateRemindersSettings,
   PauseRemindersSettings,
-  UserPreferencesModel,
+  IUserPreference,
 } from 'core-app/features/user-preferences/state/user-preferences.model';
 import {
   emailAlerts,
@@ -125,7 +125,7 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
       });
   }
 
-  private buildForm(settings:UserPreferencesModel, globalSetting:INotificationSetting) {
+  private buildForm(settings:IUserPreference, globalSetting:INotificationSetting) {
     this.form.get('immediateReminders.mentioned')?.setValue(settings.immediateReminders.mentioned);
 
     this.form.get('dailyReminders.enabled')?.setValue(settings.dailyReminders.enabled);

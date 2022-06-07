@@ -7,10 +7,10 @@ import {
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
-import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
+import { IUserPreference } from 'core-app/features/user-preferences/state/user-preferences.model';
 import { INotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
 
-export class UserPreferencesQuery extends Query<UserPreferencesModel> {
+export class UserPreferencesQuery extends Query<IUserPreference> {
   notificationSettings$ = this.select('notifications');
 
   notificationsGroupedByProject$:Observable<{ [key:string]:INotificationSetting[] }> = this

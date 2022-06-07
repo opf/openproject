@@ -13,7 +13,7 @@ export interface ImmediateRemindersSettings {
   mentioned:boolean;
 }
 
-export interface UserPreferencesModel {
+export interface IUserPreference {
   autoHidePopups:boolean;
   commentSortDescending:boolean;
   hideMail:boolean;
