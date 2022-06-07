@@ -10,7 +10,7 @@ module OpenProject
       end
 
       def asset_host
-        @asset_host ||= OpenProject::Configuration["rails_asset_host"]
+        OpenProject::Configuration["rails_asset_host"]
       end
 
       def serve_through_asset_host?(source)
