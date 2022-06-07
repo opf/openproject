@@ -29,7 +29,7 @@
 import {
   ChangeDetectionStrategy, Component, Input, OnInit,
 } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
@@ -61,9 +61,9 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   allowEditing = false;
 
-  showInformationBox$ = new Subject<boolean>();
+  showInformationBox$ = new BehaviorSubject<boolean>(false);
 
-  showFileLinks$ = new Subject<boolean>();
+  showFileLinks$ = new BehaviorSubject<boolean>(false);
 
   private readonly storageTypeMap:{ [urn:string]:string; } = {
     'urn:openproject-org:api:v3:storages:Nextcloud': 'Nextcloud',
@@ -134,7 +134,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   }
 
   private deriveStorageInformation(fileLinkCount:number):void {
-    switch (this.storage._links?.connectionState.href) {
+    switch (this.storage._links.connectionState.href) {
       case 'urn:openproject-org:api:v3:storages:connection:FailedAuthentication':
         this.setAuthenticationFailureState(fileLinkCount);
         break;
