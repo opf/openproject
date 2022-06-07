@@ -556,7 +556,7 @@ GEM
       nokogiri (>= 1.4)
     htmldiff (0.0.1)
     http-accept (1.7.0)
-    http-cookie (1.0.4)
+    http-cookie (1.0.5)
       domain_name (~> 0.5)
     http_parser.rb (0.6.0)
     httpclient (2.8.3)
@@ -967,7 +967,7 @@ GEM
     uber (0.1.0)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.8.1)
+    unf_ext (0.0.8.2)
     unicode-display_width (2.1.0)
     uri_template (0.7.0)
     validate_email (0.1.6)
