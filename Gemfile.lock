@@ -462,7 +462,7 @@ GEM
     erbse (0.1.4)
       temple
     erubi (1.10.0)
-    escape_utils (1.2.1)
+    escape_utils (1.2.2)
     et-orbi (1.2.7)
       tzinfo
     eventmachine (1.2.7)
