@@ -135,6 +135,23 @@ Currently selected value is {{ toggleValue }}
   <li class="spot-list--item">
     <label class="spot-list--item-action">
       <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
+      <div class="spot-list--item-title">Checkbox item with hover menu</div>
+      <div class="spot-list--item-hover">
+        <button class="spot-link">
+          <span class="spot-icon spot-icon_folder-open"></span>
+        </button>
+        <button class="spot-link">
+          <span class="spot-icon spot-icon_external-link"></span>
+        </button>
+        <button class="spot-link">
+          <span class="spot-icon spot-icon_file-doc"></span>
+        </button>
+      </div>
+    </label>
+  </li>
+  <li class="spot-list--item">
+    <label class="spot-list--item-action">
+      <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
       <div class="spot-list--item-title">Checkbox item with children</div>
     </label>
     <ul class="spot-list">
@@ -178,6 +195,23 @@ Currently selected value is {{ toggleValue }}
     <label class="spot-list--item-action">
       <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
       <div class="spot-list--item-title">Checkbox item</div>
+    </label>
+  </li>
+  <li class="spot-list--item">
+    <label class="spot-list--item-action">
+      <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
+      <div class="spot-list--item-title">Checkbox item with hover menu</div>
+      <div class="spot-list--item-hover">
+        <button class="spot-link">
+          <span class="spot-icon spot-icon_folder-open"></span>
+        </button>
+        <button class="spot-link">
+          <span class="spot-icon spot-icon_external-link"></span>
+        </button>
+        <button class="spot-link">
+          <span class="spot-icon spot-icon_file-doc"></span>
+        </button>
+      </div>
     </label>
   </li>
   <li class="spot-list--item">
