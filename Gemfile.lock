@@ -643,7 +643,7 @@ GEM
       digest
       net-protocol
       strscan
-    net-ldap (0.17.0)
+    net-ldap (0.17.1)
     net-pop (0.1.1)
       digest
       net-protocol
