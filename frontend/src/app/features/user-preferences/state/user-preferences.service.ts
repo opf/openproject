@@ -3,7 +3,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3UserPreferencesPaths } from 'core-app/core/apiv3/endpoints/users/apiv3-user-preferences-paths';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
+import { IUserPreference } from 'core-app/features/user-preferences/state/user-preferences.model';
 import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
 import { UserPreferencesQuery } from 'core-app/features/user-preferences/state/user-preferences.query';
 
@@ -33,7 +33,7 @@ export class UserPreferencesService {
       );
   }
 
-  update(user:string, delta:Partial<UserPreferencesModel>):void {
+  update(user:string, delta:Partial<IUserPreference>):void {
     this.store.setLoading(true);
     this
       .preferenceAPI(user)

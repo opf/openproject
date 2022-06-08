@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import {
   debounceTime,
+  defaultIfEmpty,
   distinctUntilChanged,
   map,
   mapTo,
@@ -14,23 +15,27 @@ import {
   tap,
 } from 'rxjs/operators';
 import {
+  forkJoin,
   from,
+  Observable,
   Subject,
 } from 'rxjs';
 import {
   ID,
-  setLoading,
+  Query,
 } from '@datorama/akita';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.service';
+import {
+  IToast,
+  ToastService,
+} from 'core-app/shared/components/toaster/toast.service';
 import {
   centerUpdatedInPlace,
   markNotificationsAsRead,
   notificationCountIncreased,
   notificationsMarkedRead,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
-import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
-import { IanCenterQuery } from 'core-app/features/in-app-notifications/center/state/ian-center.query';
+import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import {
   EffectCallback,
   EffectHandler,
@@ -40,12 +45,12 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import {
+  collectionKey,
   mapHALCollectionToIDCollection,
-  selectCollectionAsEntities$,
-  selectCollectionAsHrefs$,
 } from 'core-app/core/state/collection-store';
 import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
 import {
+  IAN_FACET_FILTERS,
   IanCenterStore,
   InAppNotificationFacet,
 } from './ian-center.store';
@@ -54,6 +59,10 @@ import { UIRouterGlobals } from '@uirouter/core';
 import { StateService } from '@uirouter/angular';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { DeviceService } from 'core-app/core/browser/device.service';
+import {
+  ApiV3ListFilter,
+  ApiV3ListParameters,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 
 @Injectable()
 @EffectHandler
@@ -62,7 +71,74 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   readonly store = new IanCenterStore();
 
-  readonly query = new IanCenterQuery(this.store, this.resourceService);
+  readonly query = new Query(this.store);
+
+  activeFacet$ = this.query.select('activeFacet');
+
+  notLoaded$ = this.query.select('notLoaded');
+
+  paramsChanges$ = this.query.select(['params', 'activeFacet']);
+
+  activeCollection$ = this.query.select('activeCollection');
+
+  loading$:Observable<boolean> = this.query.selectLoading();
+
+  selectNotifications$:Observable<INotification[]> = this
+    .activeCollection$
+    .pipe(
+      switchMap((collection) => {
+        const lookupId = (id:ID) => this.resourceService.lookup(id).pipe(take(1));
+        return forkJoin(collection.ids.map(lookupId))
+          .pipe(defaultIfEmpty([]));
+      }),
+    );
+
+  aggregatedCenterNotifications$ = this
+    .selectNotifications$
+    .pipe(
+      map((notifications) => (
+        _.groupBy(notifications, (notification) => notification._links.resource?.href || 'none')
+      )),
+      distinctUntilChanged(),
+    );
+
+  notifications$ = this
+    .aggregatedCenterNotifications$
+    .pipe(
+      map((items) => Object.values(items)),
+      distinctUntilChanged(),
+    );
+
+  hasNotifications$ = this
+    .notifications$
+    .pipe(
+      distinctUntilChanged(),
+      map((items) => items.length > 0),
+      distinctUntilChanged(),
+    );
+
+  hasMoreThanPageSize$ = this
+    .notLoaded$
+    .pipe(
+      map((notLoaded) => notLoaded > 0),
+      distinctUntilChanged(),
+    );
+
+  get params():ApiV3ListParameters {
+    const state = this.store.getValue();
+    const hasFilters = state.filters.name && state.filters.filter;
+    return {
+      ...state.params,
+      filters: [
+        ...IAN_FACET_FILTERS[state.activeFacet],
+        ...(
+          hasFilters
+            ? ([[state.filters.filter, '=', [state.filters.name]]] as ApiV3ListFilter[])
+            : []
+        ),
+      ],
+    };
+  }
 
   private activeReloadToast:IToast|null = null;
 
@@ -75,8 +151,9 @@ export class IanCenterService extends UntilDestroyedMixin {
         this.store.setLoading(true);
       }
     }),
-    switchMap(() => this.resourceService
-      .fetchNotifications(this.query.params)
+    switchMap(() => this
+      .resourceService
+      .fetchNotifications(this.params)
       .pipe(
         switchMap(
           (results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))
@@ -149,13 +226,22 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   markAllAsRead():void {
-    const ids:ID[] = selectCollectionAsEntities$(this.resourceService, this.query.params)
-      .filter((notification) => notification.readIAN === false)
-      .map((notification) => notification.id);
+    const key = collectionKey(this.params);
+    this
+      .resourceService
+      .collection(key)
+      .pipe(
+        take(1),
+      )
+      .subscribe((elements) => {
+        const ids:ID[] = elements
+          .filter((notification) => notification.readIAN === false)
+          .map((notification) => notification.id);
 
-    if (ids.length > 0) {
-      this.markAsRead(ids);
-    }
+        if (ids.length > 0) {
+          this.markAsRead(ids);
+        }
+      });
   }
 
   openSplitScreen(wpId:string|null):void {
@@ -168,11 +254,10 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   showNextNotification():void {
     void this
-      .query
       .notifications$
       .pipe(
         take(1),
-      ).subscribe((notifications:InAppNotification[][]) => {
+      ).subscribe((notifications:INotification[][]) => {
         if (notifications.length <= 0) {
           void this.state.go(
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
@@ -241,7 +326,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     }
   }
 
-  private sideLoadInvolvedWorkPackages(elements:InAppNotification[]):Promise<unknown> {
+  private sideLoadInvolvedWorkPackages(elements:INotification[]):Promise<unknown> {
     const { cache } = this.apiV3Service.work_packages;
     const wpIds = elements
       .map((element) => {
@@ -268,18 +353,20 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   private updateSelectedNotificationIndex() {
     this
-      .query
       .notifications$
       .pipe(
         take(1),
-      ).subscribe((notifications:InAppNotification[][]) => {
-        for (let i = 0; i < notifications.length; ++i) {
-          if (notifications[i][0]._links.resource
-            && idFromLink(notifications[i][0]._links.resource.href) === this.uiRouterGlobals.params.workPackageId) {
-            this.selectedNotificationIndex = i;
-            return;
+      )
+      .subscribe(
+        (notifications:INotification[][]) => {
+          for (let i = 0; i < notifications.length; ++i) {
+            if (notifications[i][0]._links.resource
+              && idFromLink(notifications[i][0]._links.resource.href) === this.uiRouterGlobals.params.workPackageId) {
+              this.selectedNotificationIndex = i;
+              return;
+            }
           }
-        }
-      });
+        },
+      );
   }
 }
