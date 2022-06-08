@@ -52,15 +52,15 @@ As a user of [Enterprise on-premises](https://www.openproject.org/enterprise-edi
 
 This is useful if you want to get an overview of certain types of relationships between work packages. You can for example see which work packages are blocking other work packages.
 
-To add relation columns, open the columns modal and select a relation from the dropdown menu (e.g. "blocked by relations").
+To add relation columns, click on the Gear wheel icon in the upper right corner to open the work package table configuration. Select a relation from the dropdown menu (e.g. "blocked by relations").
 
-![Add-relation-column](Add-relation-column.png)
+![work-package-relation-work-package-table-configuration](work-package-relation-work-package-table-configuration-4704558.png)
 
 The relations column shows the number of relations each work package has for the relation type (e.g. "blocked by").
 
 You can click on the number to display the work packages which have the relation type.
 
-![Relations_column](Relations_column.png)
+![work-package-relations-in-columns](work-package-relations-in-columns-4704711.png)
 
 ## Work package hierarchies
 
