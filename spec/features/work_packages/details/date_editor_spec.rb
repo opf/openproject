@@ -289,7 +289,7 @@ describe 'date inplace editor',
       expect(page).to have_no_selector('[data-qa-selector="op-modal-banner-warning"]')
       expect(page).to have_no_selector('[data-qa-selector="op-modal-banner-info"]')
 
-      # When toggling manuallly scheduled
+      # When toggling manually scheduled
       start_date.expect_scheduling_mode manually: false
       start_date.toggle_scheduling_mode
       start_date.expect_scheduling_mode manually: true
@@ -317,16 +317,16 @@ describe 'date inplace editor',
 
       it 'shows a banner that the relations are ignored' do
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
-                                      text: 'Manual scheduling enabled, all relations ignored.')
+                                      text: 'Manual scheduling is enabled so all existing work package relations are ignored.')
 
-        # When toggling manuallly scheduled
+        # When toggling manually scheduled
         start_date.expect_scheduling_mode manually: true
         start_date.toggle_scheduling_mode
         start_date.expect_scheduling_mode manually: false
 
         # Expect banner to switch
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
-                                      text: 'Automatically scheduled. Dates are derived from relations.')
+                                      text: 'The dates are automatically derived from relations.')
 
         new_window = window_opened_by { click_on 'Show relations' }
         switch_to_window new_window
@@ -341,15 +341,15 @@ describe 'date inplace editor',
 
       it 'shows a banner that the dates are not editable' do
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
-                                      text: 'Automatically scheduled. Dates are derived from relations.')
+                                      text: 'The dates are automatically derived from relations.')
 
-        # When toggling manuallly scheduled
+        # When toggling manually scheduled
         start_date.expect_scheduling_mode manually: false
         start_date.toggle_scheduling_mode
         start_date.expect_scheduling_mode manually: true
 
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
-                                      text: 'Manual scheduling enabled, all relations ignored.')
+                                      text: 'Manual scheduling is enabled so all existing work package relations are ignored.')
 
         new_window = window_opened_by { click_on 'Show relations' }
         switch_to_window new_window
@@ -381,16 +381,16 @@ describe 'date inplace editor',
 
       it 'shows a banner that the relations are ignored' do
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
-                                      text: 'Manual scheduling enabled, all relations ignored.')
+                                      text: 'Manual scheduling is enabled so all existing work package relations are ignored.')
 
-        # When toggling manuallly scheduled
+        # When toggling manually scheduled
         start_date.expect_scheduling_mode manually: true
         start_date.toggle_scheduling_mode
         start_date.expect_scheduling_mode manually: false
 
         # Expect new banner info
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
-                                      text: 'Available start date is limited by relations.')
+                                      text: 'Available start and finish dates are limited by relations.')
 
         new_window = window_opened_by { click_on 'Show relations' }
         switch_to_window new_window
@@ -405,15 +405,15 @@ describe 'date inplace editor',
 
       it 'shows a banner that the start date is limited' do
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
-                                      text: 'Available start date is limited by relations.')
+                                      text: 'Available start and finish dates are limited by relations.')
 
-        # When toggling manuallly scheduled
+        # When toggling manually scheduled
         start_date.expect_scheduling_mode manually: false
         start_date.toggle_scheduling_mode
         start_date.expect_scheduling_mode manually: true
 
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
-                                      text: 'Manual scheduling enabled, all relations ignored.')
+                                      text: 'Manual scheduling is enabled so all existing work package relations are ignored.')
       end
     end
   end
@@ -439,15 +439,16 @@ describe 'date inplace editor',
 
       it 'shows a banner that the relations are ignored' do
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
-                                      text: 'Manual scheduling enabled, all relations ignored.')
+                                      text: 'Manual scheduling is enabled so all existing work package relations are ignored.')
 
-        # When toggling manuallly scheduled
+        # When toggling manually scheduled
         start_date.expect_scheduling_mode manually: true
         start_date.toggle_scheduling_mode
         start_date.expect_scheduling_mode manually: false
 
-        expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
-                                      text: 'Changing these dates will affect dates of related work packages.')
+        expect(page)
+          .to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+                            text: 'Changing the dates of this work package will change the dates of related work packages.')
 
         new_window = window_opened_by { click_on 'Show relations' }
         switch_to_window new_window
@@ -461,16 +462,17 @@ describe 'date inplace editor',
       let(:schedule_manually) { false }
 
       it 'shows a banner that the start date is limited' do
-        expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
-                                      text: 'Changing these dates will affect dates of related work packages.')
+        expect(page)
+          .to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+                            text: 'Changing the dates of this work package will change the dates of related work packages.')
 
-        # When toggling manuallly scheduled
+        # When toggling manually scheduled
         start_date.expect_scheduling_mode manually: false
         start_date.toggle_scheduling_mode
         start_date.expect_scheduling_mode manually: true
 
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
-                                      text: 'Manual scheduling enabled, all relations ignored.')
+                                      text: 'Manual scheduling is enabled so all existing work package relations are ignored.')
       end
     end
   end
