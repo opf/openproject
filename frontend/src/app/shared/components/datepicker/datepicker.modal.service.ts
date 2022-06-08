@@ -80,13 +80,26 @@ export class DatepickerModalService {
     this.followingWorkPackages$,
   ])
     .pipe(
-      map(([precedes, follows]) => precedes.length > 0 || follows.length > 0 || this.isParent),
+      map(([precedes, follows]) => precedes.length > 0 || follows.length > 0 || this.isParent || this.isChild),
     );
 
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     private apiV3Service:ApiV3Service,
   ) {}
+
+  /**
+   * Determines whether the work package is a child. It does so
+   * by checking the ancestors links.
+   */
+  get isChild():boolean {
+    return this.ancestors.length > 0;
+  }
+
+  get ancestors():HalResource[] {
+    const wp = this.changeset.projectedResource;
+    return wp.ancestors || [];
+  }
 
   /**
    * Determines whether the work package is a parent. It does so
@@ -112,6 +125,7 @@ export class DatepickerModalService {
             ...preceding,
             ...following,
             ...this.children,
+            ...this.ancestors,
           ].map((el) => el.id as string),
         ),
       );

@@ -299,6 +299,61 @@ describe 'date inplace editor',
     end
   end
 
+  context 'with the work package being the last in the hierarchy' do
+    let!(:parent) { create :work_package, project:, schedule_manually:, start_date: 1.day.ago, due_date: 5.days.from_now }
+    let!(:work_package) { create :work_package, project:, schedule_manually:, parent: }
+
+    before do
+      start_date.activate!
+      start_date.expect_active!
+    end
+
+    context 'when work package is manually scheduled' do
+      let(:schedule_manually) { true }
+
+      it 'shows a banner that the relations are ignored' do
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
+                                      text: 'Manual scheduling is enabled so all existing work package relations are ignored.',
+                                      wait: 5)
+
+        # When toggling manually scheduled
+        start_date.expect_scheduling_mode manually: true
+        start_date.toggle_scheduling_mode
+        start_date.expect_scheduling_mode manually: false
+
+        # Expect new banner info
+        expect(page)
+          .to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
+                            text: 'Changing the dates of this work package will change the dates of related work packages.')
+
+        new_window = window_opened_by { click_on 'Show relations' }
+        switch_to_window new_window
+
+        wp_table.expect_work_package_listed parent
+        wp_timeline.expect_timeline!
+      end
+    end
+
+    context 'when work package is not manually scheduled' do
+      let(:schedule_manually) { false }
+
+      it 'shows a banner that the start date is limited' do
+        expect(page)
+          .to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
+                            text: 'Changing the dates of this work package will change the dates of related work packages.',
+                            wait: 5)
+
+        # When toggling manually scheduled
+        start_date.expect_scheduling_mode manually: false
+        start_date.toggle_scheduling_mode
+        start_date.expect_scheduling_mode manually: true
+
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
+                                      text: 'Manual scheduling is enabled so all existing work package relations are ignored.')
+      end
+    end
+  end
+
   context 'with the work package being a parent' do
     let!(:child) { create :work_package, project:, start_date: 1.day.ago, due_date: 5.days.from_now }
     let!(:work_package) do
@@ -447,7 +502,7 @@ describe 'date inplace editor',
         start_date.expect_scheduling_mode manually: false
 
         expect(page)
-          .to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+          .to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                             text: 'Changing the dates of this work package will change the dates of related work packages.')
 
         new_window = window_opened_by { click_on 'Show relations' }
@@ -463,7 +518,7 @@ describe 'date inplace editor',
 
       it 'shows a banner that the start date is limited' do
         expect(page)
-          .to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+          .to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                             text: 'Changing the dates of this work package will change the dates of related work packages.')
 
         # When toggling manually scheduled

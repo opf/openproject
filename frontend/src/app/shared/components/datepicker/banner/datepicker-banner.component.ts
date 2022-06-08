@@ -66,6 +66,8 @@ export class DatepickerBannerComponent {
 
   isParent = this.datepickerService.isParent;
 
+  isChild = this.datepickerService.isChild;
+
   text = {
     automatically_scheduled_parent: this.I18n.t('js.work_packages.datepicker_modal.automatically_scheduled_parent'),
     manually_scheduled: this.I18n.t('js.work_packages.datepicker_modal.manually_scheduled'),
