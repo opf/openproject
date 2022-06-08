@@ -47,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= hidden_field_tag "member[user_ids][]", nil  %>
           <%= angular_component_tag 'members-autocompleter',
                                     inputs: {
-                                      updateInput: "member[user_ids][]",
+                                      updateInputSelector: "member[user_ids][]",
                                       url: autocomplete_for_member_project_members_path + '.json',
                                       appendTo: "body",
                                       multiple: true

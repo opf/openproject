@@ -78,9 +78,11 @@ export class UserAutocompleterComponent implements OnInit {
 
   @Input() public initialSelection:number|null = null;
 
-  @Input() public additionalFilters:{ selector:string; operator:FilterOperator, values:string[] }[];
+  @Input() public additionalFilters:{ selector:string; operator:FilterOperator, values:string[] }[] = [];
 
   public inputFilters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+
+  @Input() public updateInputSelector:string;
 
   // Update an input field after changing, used when externally loaded
   private updateInputField:HTMLInputElement|undefined;
@@ -104,10 +106,8 @@ export class UserAutocompleterComponent implements OnInit {
   }
 
   ngOnInit() {
-    const input = this.elementRef.nativeElement.dataset.updateInput;
-
-    if (input) {
-      this.updateInputField = document.getElementsByName(input)[0] as HTMLInputElement|undefined;
+    if (this.updateInputSelector) {
+      this.updateInputField = document.getElementsByName(this.updateInputSelector)[0] as HTMLInputElement|undefined;
       this.setInitialSelection();
     }
 
