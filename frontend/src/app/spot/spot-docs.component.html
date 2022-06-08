@@ -125,6 +125,11 @@ Currently selected value is {{ toggleValue }}
 
 <h2>Normal list</h2>
 
+<p>HINT: To enable floating actions on hover, every <i>spot-list--item</i> needs a
+  <i>spot-list--item-floating-wrapper</i>, which wraps the item's content and the <i>spot-list-item-floating-actions</i>,
+  but not any sub lists. This way, floating actions on hover are defined specific for each item, hence in the same list
+  items with floating actions can be right next to items without.</p>
+
 <ul class="spot-list">
   <li class="spot-list--item">
     <label class="spot-list--item-action">
@@ -134,8 +139,6 @@ Currently selected value is {{ toggleValue }}
   </li>
   <li class="spot-list--item">
     <div class="spot-list--item-floating-wrapper">
-      <!-- The floating wrapper enables correct hover effects, when the list items needs floating actions on hover.-->
-      <!-- Always wrap the content of the list item and the floating actions into the wrapper, but not any sub lists.-->
       <label class="spot-list--item-action">
         <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
         <div class="spot-list--item-title">Checkbox item with hover menu</div>
@@ -229,8 +232,6 @@ Currently selected value is {{ toggleValue }}
   </li>
   <li class="spot-list--item">
     <div class="spot-list--item-floating-wrapper">
-      <!-- The floating wrapper enables correct hover effects, when the list items needs floating actions on hover.-->
-      <!-- Always wrap the content of the list item and the floating actions into the wrapper, but not any sub lists.-->
       <label class="spot-list--item-action">
         <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
         <div class="spot-list--item-title">Checkbox item with hover menu</div>
