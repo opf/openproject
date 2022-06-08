@@ -69,7 +69,7 @@ class WorkPackages::UpdateService < ::BaseServices::BaseCallable
   def save_if_valid(result)
     if result.success?
       result.success = consolidated_results(result)
-                       .all?(&:save)
+                         .all? { |wp| wp.save(validate: false) }
     end
 
     result.success?

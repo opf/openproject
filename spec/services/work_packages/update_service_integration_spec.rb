@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe WorkPackages::UpdateService, 'integration tests', type: :model, with_mail: false do
   let(:user) do
     create(:user,
@@ -1228,4 +1229,55 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
       end
     end
   end
+
+  describe 'removing an invalid parent' do
+    # The parent does not have a required custom field set but will need to be touched since.
+    # the dates, inherited from its children (and then the only remaining child) will have to be updated.
+    let!(:parent) do
+      create(:work_package,
+             type: project.types.first,
+             project: project,
+             start_date: Time.zone.today - 1.day,
+             due_date: Time.zone.today + 5.days)
+    end
+    let!(:custom_field) do
+      create(:int_wp_custom_field, is_required: true, is_for_all: true, default_value: nil).tap do |cf|
+        project.types.first.custom_fields << cf
+        project.work_package_custom_fields << cf
+      end
+    end
+    let!(:sibling) do
+      create(:work_package,
+             type: project.types.first,
+             project: project,
+             parent: parent,
+             start_date: Time.zone.today + 1.day,
+             due_date: Time.zone.today + 5.days,
+             "custom_field_#{custom_field.id}": 5)
+    end
+    let!(:attributes) { { parent: nil } }
+
+    let(:work_package_attributes) do
+      {
+        start_date: Time.zone.today - 1.day,
+        due_date: Time.zone.today + 1.day,
+        project: project,
+        type: project.types.first,
+        parent: parent,
+        "custom_field_#{custom_field.id}": 8
+      }
+    end
+
+    it 'removes the parent successfully and reschedules the parent' do
+      expect(subject).to be_success
+
+      expect(work_package.reload.parent).to be_nil
+
+      expect(parent.reload.start_date)
+        .to eql(sibling.start_date)
+      expect(parent.due_date)
+        .to eql(sibling.due_date)
+    end
+  end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers
