@@ -37,7 +37,7 @@ describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' do
   let(:project) do
     build_stubbed(:project)
   end
-  let(:work_package) { build_stubbed(:stubbed_work_package, project:) }
+  let(:work_package) { build_stubbed(:work_package, project:) }
   let(:priority) { build_stubbed(:priority) }
   let(:user) { build_stubbed(:user) }
   let(:contract) do

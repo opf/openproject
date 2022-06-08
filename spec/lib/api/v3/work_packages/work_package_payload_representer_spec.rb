@@ -32,7 +32,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:work_package) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   start_date: Date.today.to_datetime,
                   due_date: Date.today.to_datetime,
                   created_at: DateTime.now,

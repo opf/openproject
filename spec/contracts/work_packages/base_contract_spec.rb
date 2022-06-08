@@ -31,7 +31,7 @@ require 'contracts/shared/model_contract_shared_context'
 
 describe WorkPackages::BaseContract do
   let(:work_package) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   type:,
                   done_ratio: 50,
                   estimated_hours: 6.0,
@@ -638,7 +638,7 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'parent' do
-    let(:parent) { build_stubbed(:stubbed_work_package) }
+    let(:parent) { build_stubbed(:work_package) }
 
     before do
       work_package.parent = parent

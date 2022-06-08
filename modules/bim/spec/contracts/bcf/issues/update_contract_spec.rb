@@ -44,7 +44,7 @@ describe Bim::Bcf::Issues::UpdateContract do
 
     context 'if work_package is altered' do
       before do
-        issue.work_package = build_stubbed(:stubbed_work_package)
+        issue.work_package = build_stubbed(:work_package)
       end
 
       it 'is invalid' do

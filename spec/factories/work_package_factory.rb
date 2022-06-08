@@ -65,9 +65,5 @@ FactoryBot.define do
     callback(:after_stub) do |wp, arguments|
       wp.type = wp.project.types.first unless wp.type_id || arguments.instance_variable_get(:@overrides).has_key?(:type)
     end
-
-    factory :stubbed_work_package do
-      "this factory is not necessary anymore and should be removed"
-    end
   end
 end

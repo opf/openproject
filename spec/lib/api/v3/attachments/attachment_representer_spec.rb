@@ -37,7 +37,7 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
   let(:all_permissions) { %i[view_work_packages edit_work_packages] }
   let(:permissions) { all_permissions }
 
-  let(:container) { build_stubbed(:stubbed_work_package) }
+  let(:container) { build_stubbed(:work_package) }
   let(:author) { current_user }
   let(:attachment) do
     build_stubbed(:attachment,
