@@ -54,7 +54,7 @@ module OpenProject
         @manifest ||= begin
           JSON.parse File.read(manifest_path)
         rescue StandardError => e
-          Rails.logger.error "Failed to read frontend manifest file: #{e} #{e.message}."
+          Rails.logger.error "Failed to read frontend manifest file: #{e}."
           {}
         end
       end

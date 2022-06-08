@@ -94,7 +94,7 @@ export class IanMenuComponent implements OnInit {
     },
   ];
 
-  notificationsByProject$ = this.ianMenuService.query.notificationsByProject$.pipe(
+  notificationsByProject$ = this.ianMenuService.notificationsByProject$.pipe(
     map((items) => items
       .map((item) => ({
         ...item,
@@ -110,7 +110,7 @@ export class IanMenuComponent implements OnInit {
       })),
   );
 
-  notificationsByReason$ = this.ianMenuService.query.notificationsByReason$.pipe(
+  notificationsByReason$ = this.ianMenuService.notificationsByReason$.pipe(
     map((items) => this.reasonMenuItems.map((reason) => ({
       ...items.find((item) => item.value === reason.key),
       ...reason,

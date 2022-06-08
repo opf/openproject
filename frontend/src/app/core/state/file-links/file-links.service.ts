@@ -28,10 +28,15 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { applyTransaction, QueryEntity } from '@datorama/akita';
-import { from, Observable } from 'rxjs';
+import { applyTransaction } from '@datorama/akita';
+import { from } from 'rxjs';
 import {
-  catchError, groupBy, map, mergeMap, reduce, switchMap, tap,
+  catchError,
+  groupBy,
+  mergeMap,
+  reduce,
+  switchMap,
+  tap,
 } from 'rxjs/operators';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
@@ -39,15 +44,19 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { FileLinksStore } from 'core-app/core/state/file-links/file-links.store';
 import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import {
+  CollectionStore,
+  ResourceCollectionService,
+} from 'core-app/core/state/resource-collection.service';
 
 @Injectable()
-export class FileLinksResourceService {
-  private store = new FileLinksStore();
-
+export class FileLinksResourceService extends ResourceCollectionService<IFileLink> {
   constructor(
     private readonly http:HttpClient,
     private readonly toastService:ToastService,
-  ) {}
+  ) {
+    super();
+  }
 
   updateCollectionsForWorkPackage(fileLinksSelfLink:string):void {
     this.http
@@ -79,14 +88,8 @@ export class FileLinksResourceService {
       });
   }
 
-  collection(key:string):Observable<IFileLink[]> {
-    const query = new QueryEntity(this.store);
-    return query
-      .select()
-      .pipe(
-        map((state) => state.collections[key]?.ids),
-        switchMap((fileLinkIds) => query.selectMany(fileLinkIds)),
-      );
+  protected createStore():CollectionStore<IFileLink> {
+    return new FileLinksStore();
   }
 
   remove(collectionKey:string, fileLink:IFileLink):void {

@@ -28,42 +28,21 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { StoragesStore } from 'core-app/core/state/storages/storages.store';
-import { StoragesQuery } from 'core-app/core/state/storages/storages.query';
 import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
-
-export function isIStorage(input:IStorage|undefined):input is IStorage {
-  return input !== undefined;
-}
+import {
+  CollectionStore,
+  ResourceCollectionService,
+} from 'core-app/core/state/resource-collection.service';
 
 @Injectable()
-export class StoragesResourceService {
-  private readonly store = new StoragesStore();
-
-  private readonly query = new StoragesQuery(this.store);
-
-  constructor(private readonly http:HttpClient) {}
-
-  collection(key:string):Observable<IStorage[]> {
-    return this
-      .query
-      .select()
-      .pipe(
-        map((state) => state.collections[key]?.ids),
-        switchMap((ids) => this.query.selectMany(ids)),
-      );
-  }
-
-  lookup(id:string):Observable<IStorage> {
-    return this
-      .query
-      .selectEntity(id)
-      .pipe(filter(isIStorage));
+export class StoragesResourceService extends ResourceCollectionService<IStorage> {
+  constructor(private readonly http:HttpClient) {
+    super();
   }
 
   updateCollection(key:string, storageLinks:IHalResourceLink[]):void {
@@ -73,5 +52,9 @@ export class StoragesResourceService {
       const storageCollection = { _embedded: { elements: storages } } as IHALCollection<IStorage>;
       insertCollectionIntoState(this.store, storageCollection, key);
     });
+  }
+
+  protected createStore():CollectionStore<IStorage> {
+    return new StoragesStore();
   }
 }
