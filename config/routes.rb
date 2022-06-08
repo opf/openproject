@@ -576,6 +576,7 @@ OpenProject::Application.routes.draw do
       post :delta
     end
   end
+  resources :hot_messages
   # scope :notifications do
   #   get '(/*state)', to: 'angular#notifications_layout', as: :notifications_center
   # end

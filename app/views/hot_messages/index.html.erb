@@ -26,44 +26,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
+<div>
+  <h3>Messages - rendered at <%= Time.zone.now %></h3>
 
-<main class="container">
-  <%= link_to sanitize("&larr; Back to list"), hot_boards_path %>
-
-  <%= toolbar title: @board.title do %>
-    <li class="toolbar-item">
-      <%=
-        link_to(
-          { action: :edit },
-          class: 'button',
-          ) do
-      %>
-        <%= op_icon("button--icon icon-edit") %>
-        <span class="button--text">Edit</span>
-      <% end %>
-    </li>
-    <li class="toolbar-item">
-      <%=
-        link_to(
-          { action: :destroy },
-          method: :delete,
-          data: { confirm: I18n.t(:text_are_you_sure) },
-          class: 'button -danger',
-          ) do
-      %>
-        <%= op_icon("button--icon icon-delete") %>
-        <span class="button--text">Delete</span>
-      <% end %>
-    </li>
-  <% end %>
-
-  <%= turbo_stream_from "board_content_#{@board.id}" %>
-
-  <% if @board.lists.empty? %>
-    <%= no_results_box %>
-  <% end %>
-
-  <div class="op-hot-board" data-controller="boards" data-board-id="<%= @board.id %>">
-    <%= render partial: 'list', collection: @board.lists, as: :list %>
+  <%= turbo_stream_from :hot_messages_stream %>
+  <div id="hot_messages">
+    <%= render HotMessageComponent.with_collection(@hot_messages) %>
   </div>
-</main>
+
+  <%= render 'form' %>
+</div>
