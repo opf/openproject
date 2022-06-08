@@ -144,6 +144,8 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
           filters.push(['name_and_identifier', '~', [searchTerm]]);
         }
 
+        // The URL constructor needs a full URL or a base, so we just use example.com as a base here.
+        const url = new URL(this.url, window.location.origin);
         const fullParams = {
           filters,
           select: [
@@ -158,8 +160,9 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
           ],
           ...params,
         };
-        const collectionURL = listParamsString(fullParams);
-        return this.http.get<IHALCollection<IProject>>(this.url + collectionURL);
+        const collectionURL = listParamsString(fullParams) + '&' + url.searchParams.toString();
+        url.searchParams.forEach((key) => url.searchParams.delete(key));
+        return this.http.get<IHALCollection<IProject>>(url.toString() + collectionURL);
       },
     )
       .pipe(
