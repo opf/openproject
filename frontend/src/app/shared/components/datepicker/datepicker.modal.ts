@@ -49,7 +49,10 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { DayElement } from 'flatpickr/dist/types/instance';
+import {
+  DayElement,
+  Instance,
+} from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
 import { DatepickerModalService } from 'core-app/shared/components/datepicker/datepicker.modal.service';
 
@@ -131,22 +134,15 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
   }
 
   ngAfterViewInit():void {
-    if (this.isSchedulable) {
-      this.initializeDatepicker();
-    }
+    this.initializeDatepicker();
 
     this.onDataChange();
   }
 
   changeSchedulingMode():void {
     this.scheduleManually = !this.scheduleManually;
+    this.toggleDisabledState(this.datePickerInstance.datepickerInstance);
     this.cdRef.detectChanges();
-
-    if (this.scheduleManually) {
-      this.initializeDatepicker();
-    } else if (this.datepickerService.isParent) {
-      this.removeDateSelection();
-    }
   }
 
   save($event:Event):void {
@@ -229,10 +225,6 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     return !this.scheduleManually && !!this.changeset.value('scheduleManually');
   }
 
-  private removeDateSelection() {
-    this.datePickerInstance.destroy();
-  }
-
   private initializeDatepicker() {
     this.datePickerInstance?.destroy();
     this.datePickerInstance = new DatePicker(
@@ -243,9 +235,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         showMonths: this.browserDetector.isMobile ? 1 : 2,
         inline: true,
         onReady: (selectedDates, dateStr, instance) => {
-          if (!this.isSchedulable) {
-            instance.calendarContainer.classList.add('disabled');
-          }
+          this.toggleDisabledState(instance);
         },
         onChange: (dates:Date[]) => {
           this.handleDatePickerChange(dates);
@@ -346,5 +336,13 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
   private initialActivatedField():DateKeys {
     return this.locals.fieldName === 'dueDate' ? 'end' : 'start';
+  }
+
+  private toggleDisabledState(instance:Instance) {
+    if (this.isSchedulable) {
+      instance.calendarContainer.classList.remove('disabled');
+    } else {
+      instance.calendarContainer.classList.add('disabled');
+    }
   }
 }
