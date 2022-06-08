@@ -26,50 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module FrontendAssetHelper
-  CLI_DEFAULT_PROXY = 'http://localhost:4200'.freeze
+require 'spec_helper'
 
-  def self.assets_proxied?
-    ENV['OPENPROJECT_DISABLE_DEV_ASSET_PROXY'].blank? && !Rails.env.production? && cli_proxy?
+Capybara.register_driver :auth_source_sso do |app|
+  Capybara::RackTest::Driver.new(app, headers: { 'HTTP_X_REMOTE_USER' => 'bob' })
+end
+
+describe 'Login with auth source SSO',
+         type: :feature,
+         driver: :auth_source_sso do
+  before do
+    allow(OpenProject::Configuration)
+      .to receive(:auth_source_sso)
+            .and_return(sso_config)
   end
 
-  def self.cli_proxy
-    ENV.fetch('OPENPROJECT_CLI_PROXY', CLI_DEFAULT_PROXY)
+  let(:sso_config) do
+    {
+      header: 'X-Remote-User',
+      logout_url: 'http://google.com/'
+    }
   end
 
-  def self.cli_proxy?
-    cli_proxy.present?
-  end
+  let(:auth_source) { create :auth_source }
+  let!(:user) { create(:user, login: 'bob', auth_source: auth_source) }
 
-  ##
-  # Include angular CLI frontend assets by either referencing a prod build,
-  # or referencing the running CLI proxy that hosts the assets in memory.
-  def include_frontend_assets
-    capture do
-      %w(vendor.js polyfills.js runtime.js main.js).each do |file|
-        concat javascript_include_tag variable_asset_path(file), skip_pipeline: true
-      end
+  it 'can log out after multiple visits' do
+    visit home_path
 
-      concat stylesheet_link_tag variable_asset_path("styles.css"), media: :all, skip_pipeline: true
-    end
-  end
+    expect(page).to have_selector('.controller-homescreen')
 
-  private
+    visit home_path
 
-  def angular_cli_asset(path)
-    URI.join(FrontendAssetHelper.cli_proxy, "assets/frontend/#{path}")
-  end
+    expect(page).to have_selector('.controller-homescreen')
 
-  def frontend_asset_path(unhashed)
-    file_name = ::OpenProject::Assets.lookup_asset unhashed
-    "/assets/frontend/#{file_name}"
-  end
+    visit signout_path
 
-  def variable_asset_path(path)
-    if FrontendAssetHelper.assets_proxied?
-      angular_cli_asset(path)
-    else
-      frontend_asset_path(path)
-    end
+    expect(current_url).to eq 'http://google.com/'
   end
 end

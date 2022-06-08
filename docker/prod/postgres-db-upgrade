@@ -31,3 +31,4 @@ fi
 
 cd /var/lib/postgresql
 su -m postgres -c "$PGBINNEW/pg_upgrade"
+su -m postgres -c "./analyze_new_cluster.sh"

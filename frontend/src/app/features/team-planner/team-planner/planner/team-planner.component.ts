@@ -266,7 +266,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   principals$ = this.principalIds$
     .pipe(
       this.untilDestroyed(),
-      mergeMap((ids:string[]) => this.principalsResourceService.query.byIds(ids)),
+      mergeMap((ids:string[]) => this.principalsResourceService.lookupMany(ids)),
       debounceTime(50),
       distinctUntilChanged((prev, curr) => prev.length === curr.length && prev.length === 0),
       shareReplay(1),
