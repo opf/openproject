@@ -215,6 +215,7 @@ export class DynamicFieldsService {
         ...(maxLength && { maxLength }),
         ...templateOptions,
         ...(fieldOptions && { options: fieldOptions }),
+        allowedValuesHref: fieldSchema?._links?.allowedValues?.href,
       },
     };
 
