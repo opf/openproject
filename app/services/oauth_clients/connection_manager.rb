@@ -31,6 +31,8 @@ require "uri/http"
 
 module OAuthClients
   class ConnectionManager
+    AUTHORIZATION_CHECK_PATH = '/ocs/v2.php/cloud/capabilities'.freeze
+
     attr_reader :user, :oauth_client
 
     def initialize(user:, oauth_client:)
@@ -105,6 +107,33 @@ module OAuthClients
       )
     end
 
+    def authorization_state
+      oauth_client_token = get_existing_token
+      return :failed_authentication unless oauth_client_token
+
+      RestClient.get(
+        File.join(oauth_client.integration.host, AUTHORIZATION_CHECK_PATH),
+        { :Authorization => "Bearer #{oauth_client_token.access_token}" }
+      )
+      :connected
+    rescue RestClient::Unauthorized, RestClient::Forbidden => _e
+      service_result = refresh_token # `refresh_token` already has exception handling
+      return :connected if service_result.success?
+
+      if service_result.result == 'invalid_grant'
+        # This can happen if the Authorization Server invalidated all tokens.
+        # Then the user would ideally be asked to reauthorize.
+        :failed_authentication
+      else
+        # It could also be that some other error happened, i.e. firewall badly configured.
+        # Then the user needs to know that something is technically off. The user could try
+        # to reload the page or contact an admin.
+        :error
+      end
+    rescue StandardError => _e
+      :error
+    end
+
     private
 
     # Check if a OAuthClientToken already exists and return nil otherwise.
@@ -123,7 +152,7 @@ module OAuthClients
       ServiceResult.new(success: true,
                         result: rack_access_token)
     rescue Rack::OAuth2::Client::Error => e # Handle Rack::OAuth2 specific errors
-      service_result_with_error(i18n_rack_oauth2_error_message(e))
+      service_result_with_error(i18n_rack_oauth2_error_message(e), e.message)
     rescue Timeout::Error, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError,
            Errno::EINVAL, Errno::ENETUNREACH, Errno::ECONNRESET, Errno::ECONNREFUSED, JSON::ParserError => e
       service_result_with_error(
@@ -205,9 +234,9 @@ module OAuthClients
 
     # Shortcut method to convert an error message into an unsuccessful
     # ServiceResult with that error message
-    def service_result_with_error(message)
-      ServiceResult.new(success: false).tap do |result|
-        result.errors.add(:base, message)
+    def service_result_with_error(message, res = nil)
+      ServiceResult.new(success: false, result: res).tap do |service_result|
+        service_result.errors.add(:base, message)
       end
     end
   end

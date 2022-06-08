@@ -3214,6 +3214,10 @@ en:
     my_registered_applications: "Registered OAuth applications"
 
   oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      auth_failed: "Authentication failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
       label_redirect_uri: "Redirect URI"
@@ -3248,9 +3252,8 @@ en:
       rack_oauth2:
         client_secret_invalid: "Client secret is invalid"
         invalid_request: >
-          OAuth2 server responded with 'invalid_request'. 
+          OAuth2 Authorization Server responded with 'invalid_request'. 
           This error appears if you try to authorize multiple times.
-        invalid_response: "OAuth2 server provided an invalid response"
-
-
+        invalid_response: "OAuth2 Authorization Server provided an invalid response"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize."
   you: you

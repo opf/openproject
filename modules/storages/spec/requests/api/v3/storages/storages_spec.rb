@@ -98,5 +98,16 @@ describe 'API v3 storages resource', :enable_storages, type: :request, content_t
     context 'when storages module is inactive', :disable_storages do
       it_behaves_like 'not found'
     end
+
+    context 'when Storage connected to a OAuth2 Authorization Server' do
+      subject { last_response.body }
+
+      let(:current_user) { create(:admin) }
+
+      it 'returns an error authorization state' do
+        is_expected.to be_json_eql("urn:openproject-org:api:v3:storages:authorization:Error".to_json)
+                         .at_path('_links/authorizationState/href')
+      end
+    end
   end
 end
