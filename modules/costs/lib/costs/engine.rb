@@ -201,7 +201,7 @@ module Costs
                  }
                },
                getter: ->(*) {
-                 ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter.new(represented, current_user: current_user)
+                 ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter.new(represented, current_user:)
                },
                setter: ->(*) {},
                skip_render: ->(*) { !costs_by_type_visible? }

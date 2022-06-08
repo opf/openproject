@@ -50,5 +50,6 @@
     var select = jQuery('#user_auth_source_id');
 
     select.on('change.toggleNewUserLogin', toggleLogin);
+    toggleLogin();
   });
 })();

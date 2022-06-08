@@ -62,8 +62,9 @@ describe Workflow, type: :model do
                old_status: status_0,
                new_status: status_1,
                type_id: type.id,
-               role: role)
+               role:)
       end
+
       it_behaves_like 'copied workflow'
     end
 
@@ -73,9 +74,10 @@ describe Workflow, type: :model do
                old_status: status_0,
                new_status: status_1,
                type_id: type.id,
-               role: role,
+               role:,
                author: true)
       end
+
       it_behaves_like 'copied workflow'
     end
 
@@ -85,9 +87,10 @@ describe Workflow, type: :model do
                old_status: status_0,
                new_status: status_1,
                type_id: type.id,
-               role: role,
+               role:,
                assignee: true)
       end
+
       it_behaves_like 'copied workflow'
     end
   end

@@ -36,7 +36,7 @@ describe WorkPackages::CreateService, 'integration', type: :model do
   end
   let(:role) do
     create(:role,
-           permissions: permissions)
+           permissions:)
   end
 
   let(:permissions) do
@@ -53,10 +53,10 @@ describe WorkPackages::CreateService, 'integration', type: :model do
   let(:project) { create(:project, types: [type, default_type]) }
   let(:parent) do
     create(:work_package,
-           project: project,
-           type: type)
+           project:,
+           type:)
   end
-  let(:instance) { described_class.new(user: user) }
+  let(:instance) { described_class.new(user:) }
   let(:custom_field) { create(:work_package_custom_field) }
   let(:other_status) { create(:status) }
   let(:default_status) { create(:default_status) }
@@ -85,9 +85,9 @@ describe WorkPackages::CreateService, 'integration', type: :model do
   describe '#call' do
     let(:attributes) do
       { subject: 'blubs',
-        project: project,
+        project:,
         done_ratio: 50,
-        parent: parent,
+        parent:,
         start_date: Date.today,
         due_date: Date.today + 3.days }
     end
@@ -152,7 +152,7 @@ describe WorkPackages::CreateService, 'integration', type: :model do
 
         # The parent work package
         expect(WorkPackage.count)
-          .to eql 1
+          .to be 1
 
         expect(other_users_attachment.reload.container)
           .to be_nil

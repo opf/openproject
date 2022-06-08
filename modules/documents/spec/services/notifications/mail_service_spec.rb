@@ -51,11 +51,11 @@ describe Notifications::MailService, type: :model do
     let(:read_ian) { false }
     let(:notification) do
       build_stubbed(:notification,
-                    journal: journal,
+                    journal:,
                     resource: journal.journable,
-                    recipient: recipient,
-                    actor: actor,
-                    read_ian: read_ian)
+                    recipient:,
+                    actor:,
+                    read_ian:)
     end
     let(:notification_setting) { %w(document_added) }
     let(:mail) do

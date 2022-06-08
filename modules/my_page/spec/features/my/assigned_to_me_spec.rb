@@ -37,25 +37,25 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   let!(:open_status) { create :default_status }
   let!(:assigned_work_package) do
     create :work_package,
-           project: project,
+           project:,
            subject: 'Assigned to me',
-           type: type,
+           type:,
            author: user,
            assigned_to: user
   end
   let!(:assigned_work_package_2) do
     create :work_package,
-           project: project,
+           project:,
            subject: 'My task 2',
-           type: type,
+           type:,
            author: user,
            assigned_to: user
   end
   let!(:assigned_to_other_work_package) do
     create :work_package,
-           project: project,
+           project:,
            subject: 'Not assigned to me',
-           type: type,
+           type:,
            author: user,
            assigned_to: other_user
   end
@@ -88,8 +88,8 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
       create :work_package,
              subject: 'Child',
              parent: assigned_work_package,
-             project: project,
-             type: type,
+             project:,
+             type:,
              author: user,
              assigned_to: user
     end

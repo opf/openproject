@@ -37,11 +37,18 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
                   due_date: Date.today.to_datetime,
                   created_at: DateTime.now,
                   updated_at: DateTime.now,
-                  budget: budget,
+                  budget:,
                   type: build_stubbed(:type)) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
         .and_return(available_custom_fields)
+    end
+  end
+  let(:user) do
+    build_stubbed(:user) do |u|
+      allow(u)
+        .to receive(:allowed_to?)
+        .and_return(true)
     end
   end
 
@@ -58,14 +65,6 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     allow(work_package)
       .to receive(:lock_version)
       .and_return(1)
-  end
-
-  let(:user) do
-    build_stubbed(:user) do |u|
-      allow(u)
-        .to receive(:allowed_to?)
-        .and_return(true)
-    end
   end
 
   context 'generation' do
@@ -95,7 +94,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           end
 
           it 'has a lockVersion of 0' do
-            is_expected
+            expect(subject)
               .to be_json_eql(0)
               .at_path('lockVersion')
           end
@@ -110,8 +109,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
 
         it { is_expected.to have_json_path('estimatedTime') }
+
         it do
-          is_expected.to be_json_eql(work_package.estimated_hours.to_json)
+          expect(subject).to be_json_eql(work_package.estimated_hours.to_json)
             .at_path('estimatedTime')
         end
 
@@ -136,8 +136,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         context 'percentage done enabled' do
           it { is_expected.to have_json_path('percentageDone') }
           it { is_expected.to have_json_type(Integer).at_path('percentageDone') }
+
           it do
-            is_expected.to be_json_eql(work_package.done_ratio.to_json).at_path('percentageDone')
+            expect(subject).to be_json_eql(work_package.done_ratio.to_json).at_path('percentageDone')
           end
         end
 
@@ -148,7 +149,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
             end
 
             it 'has no percentageDone attribute' do
-              is_expected.to_not have_json_path('percentageDone')
+              expect(subject).not_to have_json_path('percentageDone')
             end
           end
         end
@@ -174,7 +175,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:work_package) { build(:work_package, start_date: nil) }
 
           it 'renders as null' do
-            is_expected.to be_json_eql(nil.to_json).at_path('startDate')
+            expect(subject).to be_json_eql(nil.to_json).at_path('startDate')
           end
         end
 
@@ -186,7 +187,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           end
 
           it 'has no date attribute' do
-            is_expected.to_not have_json_path('startDate')
+            expect(subject).not_to have_json_path('startDate')
           end
         end
       end
@@ -211,7 +212,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:work_package) { build(:work_package, due_date: nil) }
 
           it 'renders as null' do
-            is_expected.to be_json_eql(nil.to_json).at_path('dueDate')
+            expect(subject).to be_json_eql(nil.to_json).at_path('dueDate')
           end
         end
 
@@ -223,7 +224,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           end
 
           it 'has no date attribute' do
-            is_expected.to_not have_json_path('dueDate')
+            expect(subject).not_to have_json_path('dueDate')
           end
         end
       end
@@ -252,7 +253,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           end
 
           it 'renders as null' do
-            is_expected.to be_json_eql(nil.to_json).at_path('date')
+            expect(subject).to be_json_eql(nil.to_json).at_path('date')
           end
         end
 
@@ -264,16 +265,16 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           end
 
           it 'has no date attribute' do
-            is_expected.to_not have_json_path('date')
+            expect(subject).not_to have_json_path('date')
           end
         end
       end
     end
 
     describe '_links' do
-      it { is_expected.to have_json_path('_links') }
-
       let(:path) { "_links/#{property}/href" }
+
+      it { is_expected.to have_json_path('_links') }
 
       shared_examples_for 'linked property' do
         before do
@@ -447,6 +448,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
     describe 'custom fields' do
       let(:available_custom_fields) { [build_stubbed(:int_wp_custom_field)] }
+
       it 'uses a CustomFieldInjector' do
         expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_value_representer)
           .and_call_original
@@ -475,7 +477,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       copy.to_json
     end
     let(:work_package) do
-      OpenStruct.new available_custom_fields: available_custom_fields
+      OpenStruct.new available_custom_fields:
     end
 
     subject { representer.from_json(json) }
@@ -499,7 +501,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         let(:dateString) { nil }
 
         it 'sets the date to nil' do
-          expect(subject.send(method)).to eql(nil)
+          expect(subject.send(method)).to be_nil
         end
       end
 
@@ -529,7 +531,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         let(:value) { true }
 
         it 'reads true' do
-          expect(subject.schedule_manually).to eq true
+          expect(subject.schedule_manually).to be true
         end
       end
 
@@ -537,7 +539,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         let(:value) { false }
 
         it 'reads false' do
-          expect(subject.schedule_manually).to eq false
+          expect(subject.schedule_manually).to be false
         end
       end
     end
@@ -602,12 +604,13 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         let(:href) { { href: nil } }
 
         it 'sets attribute to nil' do
-          expect(representer_attribute).to eql(nil)
+          expect(representer_attribute).to be_nil
         end
       end
 
       describe 'with an invalid link' do
         let(:href) { {} }
+
         !let(:old_id) { work_package.send(association_name) }
 
         it 'leaves attribute unchanged' do
@@ -728,7 +731,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         let(:href) { { href: nil } }
 
         it 'sets attribute to nil' do
-          expect(subject.parent).to eql(nil)
+          expect(subject.parent).to be_nil
         end
       end
 

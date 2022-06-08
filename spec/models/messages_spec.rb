@@ -52,10 +52,10 @@ describe Message, type: :model do
   describe 'with forum' do
     shared_let(:forum) { create :forum }
     let(:message) do
-      build(:message, forum: forum, subject: 'Test message', content: 'Test message content')
+      build(:message, forum:, subject: 'Test message', content: 'Test message content')
     end
 
-    it 'should create' do
+    it 'creates' do
       topics_count = forum.topics_count
       messages_count = forum.messages_count
 
@@ -73,10 +73,10 @@ describe Message, type: :model do
     context 'with previous message' do
       let(:topic) { create :message }
       let(:reply) do
-        create :message, forum: forum, subject: 'Test reply', parent: topic
+        create :message, forum:, subject: 'Test reply', parent: topic
       end
 
-      it 'should reply' do
+      it 'replies' do
         topics_count = forum.topics_count
         messages_count = forum.messages_count
         replies_count = topic.replies_count
@@ -101,7 +101,7 @@ describe Message, type: :model do
       let!(:forum2) { create :forum }
       let!(:message) { create :message, forum: forum1 }
 
-      it 'should moving message should update counters' do
+      it 'movings message should update counters' do
         expect do
           forum1.reload
           expect(forum1.topics_count).to eq 1
@@ -119,7 +119,7 @@ describe Message, type: :model do
       end
     end
 
-    it 'should set sticky' do
+    it 'sets sticky' do
       message = Message.new
       expect(message.sticky).to eq 0
       message.sticky = nil
@@ -139,7 +139,7 @@ describe Message, type: :model do
         create :message, forum: message.forum, parent: message
       end
 
-      it 'should destroy topic' do
+      it 'destroys topic' do
         forum = message.forum.reload
         expect(forum.topics_count).to eq 1
         expect(forum.messages_count).to eq 2
@@ -151,7 +151,7 @@ describe Message, type: :model do
         expect(forum.messages_count).to eq 0
       end
 
-      it 'should destroy reply' do
+      it 'destroys reply' do
         forum = message.forum
         expect(forum.topics_count).to eq 1
         expect(forum.messages_count).to eq 2

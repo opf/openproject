@@ -33,7 +33,7 @@ describe ::API::V3::News::NewsRepresenter, 'rendering' do
 
   let(:news) do
     build_stubbed(:news,
-                  project: project,
+                  project:,
                   author: user)
   end
   let(:project) { build_stubbed(:project) }

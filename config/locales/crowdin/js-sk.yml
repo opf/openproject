@@ -374,25 +374,31 @@ sk:
     label_less_or_equal: "<="
     label_less_than_ago: "pred necelým dňom"
     label_loading: "Načítava sa..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Upozornenia e-mailom"
     label_me: "mňa"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Zápisnica"
     label_menu_collapse: "zbaliť"
     label_menu_expand: "rozbaliť"
+    label_modified_at: "Modified: %{date}"
     label_more_than_ago: "pred viac než dňom"
     label_next: "Ďalšie"
     label_no_color: "Žiadna farba"
     label_no_data: "Žiadne dáta na zobrazenie"
     label_no_due_date: "no finish date"
     label_no_start_date: "žiadny dátum začatia"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Žiadna hodnota"
+    label_no_file_links_header: "Link files in %{storageType}"
+    label_no_file_links_content: "In order to link files to this work package please do it via %{storageType}."
     label_none: "žiadne"
     label_not_contains: "neobsahuje"
     label_not_equals: "nie je"
     label_on: "dňa"
     label_open_menu: "Otvorte menu"
     label_open_context_menu: "Otvoriť kontextové menu"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "otvorené"
     label_password: "Heslo"
     label_previous: "Predošlý"
@@ -421,6 +427,9 @@ sk:
     label_sorting: "Zoradenie"
     label_spent_time: "Strávený čas"
     label_star_query: "Preferované"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Stlačte enter pre uloženie."
     label_public_query: "Verejný"
     label_sum: "Súčet"
@@ -457,6 +466,7 @@ sk:
     label_custom_queries: "Súkromné zobrazenia"
     label_columns: "Stĺpce"
     label_attachments: Prílohy
+    label_nextcloud: Nextcloud
     label_drop_files: Presuňte súbory sem
     label_drop_files_hint: alebo kliknite na tlačidlo Pridať súbory
     label_drop_folders_hint: Nie je možné použiť priečinok ako prílohu. Prosím vyberte jednotlivé súbory.
@@ -1194,3 +1204,6 @@ sk:
         remove: 'Vymazať'
       drop_modal:
         Close: 'Zatvoriť'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

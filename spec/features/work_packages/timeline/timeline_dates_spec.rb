@@ -37,8 +37,8 @@ RSpec.describe 'Work package timeline date formatting',
 
   shared_let(:work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            start_date: Date.parse('2020-12-31'),
            due_date: Date.parse('2021-01-01'),
            subject: 'My subject'
@@ -46,7 +46,7 @@ RSpec.describe 'Work package timeline date formatting',
 
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
   let!(:query_tl) do
-    query = build(:query, user: current_user, project: project)
+    query = build(:query, user: current_user, project:)
     query.column_names = ['id', 'type', 'subject']
     query.filters.clear
     query.timeline_visible = true

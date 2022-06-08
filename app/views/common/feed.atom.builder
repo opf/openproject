@@ -60,7 +60,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
       if author
         xml.author do
           xml.name(author)
-          xml.email(author.mail) if author.is_a?(User) && !author.mail.blank? && !author.pref.hide_mail
+          xml.email(author.mail) if author.is_a?(User) && author.mail.present? && !author.pref.hide_mail
         end
       end
       xml.content "type" => "html" do

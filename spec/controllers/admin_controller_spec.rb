@@ -69,7 +69,7 @@ describe AdminController, type: :controller do
         let(:plugin_name) { "Apple" }
         let(:visible) { true }
 
-        it "should show the plugin in the overview" do
+        it "shows the plugin in the overview" do
           expect(response.body).to have_selector('a.menu-block', text: plugin_name.capitalize)
         end
       end
@@ -78,7 +78,7 @@ describe AdminController, type: :controller do
         let(:plugin_name) { "Orange" }
         let(:visible) { false }
 
-        it "should not show the plugin in the overview" do
+        it "does not show the plugin in the overview" do
           expect(response.body).not_to have_selector('a.menu-block', text: plugin_name.capitalize)
         end
       end

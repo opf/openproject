@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::Sessions::SqlBypass do
-  subject { build(:user_session, user: user) }
+  subject { build(:user_session, user:) }
 
   shared_examples 'augments the user_id attribute' do
     it do
@@ -41,18 +41,20 @@ describe ::Sessions::SqlBypass do
   describe 'when user_id is present' do
     let(:user) { build_stubbed(:user) }
     let(:user_id) { user.id }
+
     it_behaves_like 'augments the user_id attribute'
   end
 
   describe 'when user_id is nil' do
     let(:user) { nil }
     let(:user_id) { nil }
+
     it_behaves_like 'augments the user_id attribute'
   end
 
   describe 'delete other sessions on destroy' do
     let(:user) { build_stubbed(:user) }
-    let!(:sessions) { create_list(:user_session, 2, user: user) }
+    let!(:sessions) { create_list(:user_session, 2, user:) }
 
     context 'when config is enabled',
             with_config: { drop_old_sessions_on_logout: true } do

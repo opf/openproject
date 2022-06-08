@@ -31,14 +31,14 @@ describe 'Copy work packages through Rails view', js: true do
   shared_let(:work_package) do
     create(:work_package,
            author: dev,
-           project: project,
-           type: type)
+           project:,
+           type:)
   end
   shared_let(:work_package2) do
     create(:work_package,
            author: dev,
-           project: project,
-           type: type)
+           project:,
+           type:)
   end
   shared_let(:version) { create :version, project: project2 }
 
@@ -97,8 +97,8 @@ describe 'Copy work packages through Rails view', js: true do
         let!(:child) do
           create(:work_package,
                  author: dev,
-                 project: project,
-                 type: type,
+                 project:,
+                 type:,
                  parent: work_package)
         end
 
@@ -126,8 +126,8 @@ describe 'Copy work packages through Rails view', js: true do
         let!(:child) do
           create(:work_package,
                  author: dev,
-                 project: project,
-                 type: type,
+                 project:,
+                 type:,
                  parent: work_package)
         end
 

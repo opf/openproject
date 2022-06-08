@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe 'Projects module administration',
          type: :feature do
-
   let!(:project) do
     create(:project,
            enabled_module_names: [])
@@ -38,7 +37,7 @@ describe 'Projects module administration',
 
   let(:role) do
     create(:role,
-           permissions: permissions)
+           permissions:)
   end
   let(:permissions) { %i(edit_project select_project_modules) }
   let(:settings_page) { Pages::Projects::Settings.new(project) }

@@ -30,12 +30,12 @@ require 'spec_helper'
 
 describe WorkPackage, type: :model do
   let(:work_package) do
-    create(:work_package, project: project,
-                                     status: status)
+    create(:work_package, project:,
+                          status:)
   end
   let(:work_package2) do
     create(:work_package, project: project2,
-                                     status: status)
+                          status:)
   end
   let(:user) { create(:user) }
 
@@ -46,25 +46,25 @@ describe WorkPackage, type: :model do
   let(:role2) { create(:role) }
   let(:member) do
     create(:member, principal: user,
-                               roles: [role])
+                    roles: [role])
   end
   let(:member2) do
     create(:member, principal: user,
-                               roles: [role2],
-                               project: work_package2.project)
+                    roles: [role2],
+                    project: work_package2.project)
   end
   let(:status) { create(:status) }
   let(:priority) { create(:priority) }
   let(:cost_type) { create(:cost_type) }
   let(:cost_entry) do
-    create(:cost_entry, work_package: work_package,
-                                   project: work_package.project,
-                                   cost_type: cost_type)
+    create(:cost_entry, work_package:,
+                        project: work_package.project,
+                        cost_type:)
   end
   let(:cost_entry2) do
     create(:cost_entry, work_package: work_package2,
-                                   project: work_package2.project,
-                                   cost_type: cost_type)
+                        project: work_package2.project,
+                        cost_type:)
   end
 
   describe '#cleanup_action_required_before_destructing?' do
@@ -74,7 +74,7 @@ describe WorkPackage, type: :model do
         cost_entry
       end
 
-      it 'should be true' do
+      it 'is true' do
         expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_truthy
       end
     end
@@ -86,7 +86,7 @@ describe WorkPackage, type: :model do
         cost_entry2
       end
 
-      it 'should be true' do
+      it 'is true' do
         expect(WorkPackage.cleanup_action_required_before_destructing?([work_package, work_package2])).to be_truthy
       end
     end
@@ -96,7 +96,7 @@ describe WorkPackage, type: :model do
         work_package
       end
 
-      it 'should be false' do
+      it 'is false' do
         expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_falsey
       end
     end
@@ -109,7 +109,7 @@ describe WorkPackage, type: :model do
         cost_entry
       end
 
-      it "should be have 'CostEntry' as class to address" do
+      it "is have 'CostEntry' as class to address" do
         expect(WorkPackage.associated_classes_to_address_before_destruction_of(work_package)).to eq([CostEntry])
       end
     end
@@ -119,7 +119,7 @@ describe WorkPackage, type: :model do
         work_package
       end
 
-      it 'should be empty' do
+      it 'is empty' do
         expect(WorkPackage.associated_classes_to_address_before_destruction_of(work_package)).to be_empty
       end
     end
@@ -139,7 +139,7 @@ describe WorkPackage, type: :model do
         cost_entry.destroy
       end
 
-      it 'should return true' do
+      it 'returns true' do
         expect(action).to be_truthy
       end
     end
@@ -147,11 +147,11 @@ describe WorkPackage, type: :model do
     describe 'w/ "destroy" as action' do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'destroy') }
 
-      it 'should return true' do
+      it 'returns true' do
         expect(action).to be_truthy
       end
 
-      it 'should not touch the cost_entry' do
+      it 'does not touch the cost_entry' do
         action
 
         cost_entry.reload
@@ -162,11 +162,11 @@ describe WorkPackage, type: :model do
     describe 'w/o an action' do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user) }
 
-      it 'should return true' do
+      it 'returns true' do
         expect(action).to be_truthy
       end
 
-      it 'should not touch the cost_entry' do
+      it 'does not touch the cost_entry' do
         action
 
         cost_entry.reload
@@ -177,18 +177,18 @@ describe WorkPackage, type: :model do
     describe 'w/ "nullify" as action' do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'nullify') }
 
-      it 'should return false' do
+      it 'returns false' do
         expect(action).to be_falsey
       end
 
-      it 'should not alter the work_package_id of all cost entries' do
+      it 'does not alter the work_package_id of all cost entries' do
         action
 
         cost_entry.reload
         expect(cost_entry.work_package_id).to eq(work_package.id)
       end
 
-      it 'should set an error on work packages' do
+      it 'sets an error on work packages' do
         action
 
         expect(work_package.errors[:base]).to eq([I18n.t(:'activerecord.errors.models.work_package.nullify_is_not_valid_for_cost_entries')])
@@ -209,18 +209,18 @@ describe WorkPackage, type: :model do
         member2.save!
       end
 
-      it 'should return true' do
+      it 'returns true' do
         expect(action).to be_truthy
       end
 
-      it 'should set the work_package_id of all cost entries to the new work package' do
+      it 'sets the work_package_id of all cost entries to the new work package' do
         action
 
         cost_entry.reload
         expect(cost_entry.work_package_id).to eq(work_package2.id)
       end
 
-      it "should set the project_id of all cost entries to the new work package's project" do
+      it "sets the project_id of all cost entries to the new work package's project" do
         action
 
         cost_entry.reload
@@ -239,11 +239,11 @@ describe WorkPackage, type: :model do
         work_package2.save!
       end
 
-      it 'should return true' do
+      it 'returns true' do
         expect(action).to be_falsey
       end
 
-      it 'should not alter the work_package_id of all cost entries' do
+      it 'does not alter the work_package_id of all cost entries' do
         action
 
         cost_entry.reload
@@ -257,11 +257,11 @@ describe WorkPackage, type: :model do
         WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign', reassign_to_id: 0)
       end
 
-      it 'should return true' do
+      it 'returns true' do
         expect(action).to be_falsey
       end
 
-      it 'should not alter the work_package_id of all cost entries' do
+      it 'does not alter the work_package_id of all cost entries' do
         action
 
         cost_entry.reload
@@ -273,11 +273,11 @@ describe WorkPackage, type: :model do
               w/o providing a reassignment id' do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign') }
 
-      it 'should return true' do
+      it 'returns true' do
         expect(action).to be_falsey
       end
 
-      it 'should not alter the work_package_id of all cost entries' do
+      it 'does not alter the work_package_id of all cost entries' do
         action
 
         cost_entry.reload
@@ -288,7 +288,7 @@ describe WorkPackage, type: :model do
     describe 'w/ an invalid option' do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'bogus') }
 
-      it 'should return false' do
+      it 'returns false' do
         expect(action).to be_falsey
       end
     end
@@ -296,7 +296,7 @@ describe WorkPackage, type: :model do
     describe 'w/ nil as invalid option' do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, nil) }
 
-      it 'should return false' do
+      it 'returns false' do
         expect(action).to be_falsey
       end
     end

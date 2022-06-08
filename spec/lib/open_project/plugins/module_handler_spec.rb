@@ -42,8 +42,8 @@ describe OpenProject::Plugins::ModuleHandler do
     OpenProject::AccessControl.clear_caches
   end
 
-  context '#disable' do
-    it 'should disable repository module' do
+  describe '#disable' do
+    it 'disables repository module' do
       expect(OpenProject::AccessControl.available_project_modules).not_to include(:repository)
     end
   end

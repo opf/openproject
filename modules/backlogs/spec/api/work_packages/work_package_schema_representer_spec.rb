@@ -43,9 +43,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
   let(:schema) do
-    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
+    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:)
   end
-  let(:representer) { described_class.create(schema, self_link: nil, current_user: current_user) }
+  let(:representer) { described_class.create(schema, self_link: nil, current_user:) }
 
   before do
     login_as(current_user)
@@ -72,7 +72,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       it 'does not show story points' do
-        is_expected.to_not have_json_path('storyPoints')
+        expect(subject).not_to have_json_path('storyPoints')
       end
     end
 
@@ -82,7 +82,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       it 'does not show story points' do
-        is_expected.to_not have_json_path('storyPoints')
+        expect(subject).not_to have_json_path('storyPoints')
       end
     end
   end
@@ -112,7 +112,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       it 'has no schema for remaining time' do
-        is_expected.not_to have_json_path('remainingTime')
+        expect(subject).not_to have_json_path('remainingTime')
       end
     end
 

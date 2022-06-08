@@ -26,5 +26,5 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Redmine::MenuManager::MenuError < StandardError #:nodoc:
+class Redmine::MenuManager::MenuError < StandardError # :nodoc:
 end

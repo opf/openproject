@@ -53,7 +53,7 @@ module Projects
       test_params = params.merge(attributes_only: true)
 
       Projects::CopyService
-        .new(user: user, source: source)
+        .new(user:, source:)
         .call(test_params)
     end
 

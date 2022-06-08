@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe AttributeHelpTextsController, type: :routing do
-  it 'should route CRUD to the controller' do
+  it 'routes CRUD to the controller' do
     expect(get('/admin/attribute_help_texts'))
       .to route_to(controller: 'attribute_help_texts', action: 'index')
 

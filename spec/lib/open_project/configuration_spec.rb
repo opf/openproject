@@ -116,7 +116,7 @@ describe OpenProject::Configuration, :settings_reset do
           attachments_storage: :fog,
           fog: {
             credentials: {
-              provider: provider
+              provider:
             }
           }
         }

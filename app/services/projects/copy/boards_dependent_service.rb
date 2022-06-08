@@ -48,7 +48,7 @@ module Projects::Copy
 
     def duplicate_board(board, params)
       ::Boards::CopyService
-        .new(source: board, user: user)
+        .new(source: board, user:)
         .with_state(state)
         .call(params.merge)
         .tap { |call| result.merge!(call, without_success: true) }

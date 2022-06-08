@@ -47,14 +47,14 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
 
   let!(:first_wp) do
     create :work_package,
-           project: project,
+           project:,
            assigned_to: other_user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
            due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
   end
   let!(:second_wp) do
     create :work_package,
-           project: project,
+           project:,
            parent: first_wp,
            assigned_to: other_user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
@@ -62,7 +62,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
   end
   let!(:third_wp) do
     create :work_package,
-           project: project,
+           project:,
            assigned_to: user,
            start_date: Time.zone.today - 10.days,
            due_date: Time.zone.today + 20.days
@@ -71,7 +71,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
   let(:milestone_type) { create(:type, is_milestone: true) }
   let!(:fourth_wp) do
     create :work_package,
-           project: project,
+           project:,
            assigned_to: user,
            type: milestone_type,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),

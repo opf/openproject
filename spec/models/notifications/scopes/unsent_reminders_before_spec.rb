@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Notifications::Scopes::UnsentRemindersBefore, type: :model do
   describe '.unsent_reminders_before' do
-    subject(:scope) { ::Notification.unsent_reminders_before(recipient: recipient, time: time) }
+    subject(:scope) { ::Notification.unsent_reminders_before(recipient:, time:) }
 
     let(:recipient) do
       create(:user)
@@ -48,7 +48,7 @@ describe Notifications::Scopes::UnsentRemindersBefore, type: :model do
     end
     let(:notification_mail_reminder_sent) { false }
     let(:notification_read_ian) { false }
-    let(:notification_created_at) { Time.current - 10.minutes }
+    let(:notification_created_at) { 10.minutes.ago }
     let(:notification_recipient) { recipient }
 
     let!(:notifications) { notification }
@@ -68,7 +68,7 @@ describe Notifications::Scopes::UnsentRemindersBefore, type: :model do
     end
 
     context 'with a unread and not reminded notification that was created after the time and for the user' do
-      let(:notification_created_at) { Time.current + 10.minutes }
+      let(:notification_created_at) { 10.minutes.from_now }
 
       it_behaves_like 'is empty'
     end

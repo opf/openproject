@@ -43,11 +43,11 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI, content_type: :json do
 
   subject(:response) { last_response }
 
-  it 'should return 200(OK)' do
+  it 'returns 200(OK)' do
     expect(response.status).to eq(200)
   end
 
-  it 'should be of type form' do
+  it 'is of type form' do
     expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
   end
 end

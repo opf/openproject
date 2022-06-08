@@ -31,7 +31,7 @@ describe Redmine::I18n do
   include Redmine::I18n
   include ActionView::Helpers::NumberHelper
 
-  it 'should date and time for each language' do
+  it 'dates and time for each language' do
     Setting.date_format = ''
     valid_languages.each do |lang|
       set_language_if_valid lang
@@ -50,7 +50,7 @@ describe Redmine::I18n do
     end
   end
 
-  it 'should time format' do
+  it 'times format' do
     set_language_if_valid 'en'
     now = Time.parse('2011-02-20 15:45:22')
     Setting.time_format = '%H:%M'
@@ -63,7 +63,7 @@ describe Redmine::I18n do
     assert_equal '15:45', format_time(now, false)
   end
 
-  it 'should time format default' do
+  it 'times format default' do
     set_language_if_valid 'en'
     now = Time.parse('2011-02-20 15:45:22')
     Setting.time_format = ''
@@ -76,7 +76,7 @@ describe Redmine::I18n do
     assert_equal '03:45 PM', format_time(now, false)
   end
 
-  it 'should time format' do
+  it 'times format' do
     set_language_if_valid 'en'
     now = Time.now
     Setting.time_format = '%H %M'
@@ -85,7 +85,7 @@ describe Redmine::I18n do
     assert_equal now.strftime('%H %M'), format_time(now, false)
   end
 
-  it 'should utc time format' do
+  it 'utcs time format' do
     set_language_if_valid 'en'
     now = Time.now
     Setting.time_format = '%H %M'
@@ -94,7 +94,7 @@ describe Redmine::I18n do
     assert_equal now.localtime.strftime('%H %M'), format_time(now.utc, false)
   end
 
-  it 'should number to human size for each language' do
+  it 'numbers to human size for each language' do
     valid_languages.each do |lang|
       set_language_if_valid lang
       expect do
@@ -103,7 +103,7 @@ describe Redmine::I18n do
     end
   end
 
-  it 'should fallback' do
+  it 'fallbacks' do
     ::I18n.backend.store_translations(:en, untranslated: 'Untranslated string')
     ::I18n.locale = 'en'
     assert_equal 'Untranslated string', I18n.t(:untranslated)

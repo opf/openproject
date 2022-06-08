@@ -31,7 +31,7 @@ require 'spec_helper'
 describe WorkPackage, 'custom_actions', type: :model do
   let(:work_package) do
     build_stubbed(:stubbed_work_package,
-                  project: project)
+                  project:)
   end
   let(:project) { create(:project) }
   let(:status) { create(:status) }

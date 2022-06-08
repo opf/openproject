@@ -82,7 +82,7 @@ end
 
 shared_examples_for 'filter dependency empty' do
   it 'is an empty object' do
-    is_expected
+    expect(subject)
       .to be_json_eql({}.to_json)
   end
 end
@@ -91,13 +91,13 @@ shared_examples_for 'relation filter dependency' do
   include ::API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project) }
-  let(:query) { build_stubbed(:query, project: project) }
+  let(:query) { build_stubbed(:query, project:) }
   let(:form_embedded) { false }
 
   let(:instance) do
     described_class.new(filter,
                         operator,
-                        form_embedded: form_embedded)
+                        form_embedded:)
   end
 
   subject(:generated) { instance.to_json }

@@ -49,7 +49,7 @@ describe PlaceholderUsers::SetAttributesService, type: :model do
   let(:instance) do
     described_class.new(user: current_user,
                         model: model_instance,
-                        contract_class: contract_class,
+                        contract_class:,
                         contract_options: {})
   end
   let(:model_instance) { PlaceholderUser.new }
@@ -77,7 +77,7 @@ describe PlaceholderUsers::SetAttributesService, type: :model do
   end
 
   it 'is a success' do
-    is_expected
+    expect(subject)
       .to be_success
   end
 
@@ -104,7 +104,7 @@ describe PlaceholderUsers::SetAttributesService, type: :model do
     end
 
     it 'returns failure' do
-      is_expected
+      expect(subject)
         .not_to be_success
     end
 

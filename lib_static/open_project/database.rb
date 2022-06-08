@@ -46,11 +46,9 @@ module OpenProject
     # This method returns a hash which maps the identifier of the supported
     # adapter to a regex matching the adapter_name.
     def self.supported_adapters
-      @adapters ||= begin
-        {
-          postgresql: /postgres/i
-        }
-      end
+      @adapters ||= {
+        postgresql: /postgres/i
+      }
     end
 
     ##

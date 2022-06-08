@@ -30,8 +30,8 @@ module BaseServices
   class Create < Write
     protected
 
-    def service_context(&block)
-      in_user_context(true, &block)
+    def service_context(&)
+      in_user_context(true, &)
     end
 
     def instance(_params)

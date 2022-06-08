@@ -373,25 +373,31 @@ zh-TW:
     label_less_or_equal: "<="
     label_less_than_ago: "少於幾天前"
     label_loading: "讀取中..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "電子郵件通知"
     label_me: "我"
     label_meeting_agenda: "會議大綱"
     label_meeting_minutes: "會議記錄"
     label_menu_collapse: "收合"
     label_menu_expand: "展開"
+    label_modified_at: "Modified: %{date}"
     label_more_than_ago: "很多天之前"
     label_next: "下一個"
     label_no_color: "無顏色"
     label_no_data: "沒有資料可顯示"
     label_no_due_date: "no finish date"
     label_no_start_date: "無開始日期"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "無值"
+    label_no_file_links_header: "Link files in %{storageType}"
+    label_no_file_links_content: "In order to link files to this work package please do it via %{storageType}."
     label_none: "無"
     label_not_contains: "不包含"
     label_not_equals: "不是"
     label_on: "開啟"
     label_open_menu: "開啟選單"
     label_open_context_menu: "打開選單"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "打開"
     label_password: "密碼"
     label_previous: "上一個"
@@ -420,6 +426,9 @@ zh-TW:
     label_sorting: "排序"
     label_spent_time: "耗時"
     label_star_query: "喜好"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "按 Enter 即可儲存。"
     label_public_query: "公開"
     label_sum: "總和"
@@ -456,6 +465,7 @@ zh-TW:
     label_custom_queries: "私密檢視"
     label_columns: "欄"
     label_attachments: 附加檔
+    label_nextcloud: Nextcloud
     label_drop_files: 將檔案拖曳至此處
     label_drop_files_hint: 或按一下要添加的檔
     label_drop_folders_hint: 不能將資料夾作為附件上載。請選擇單個檔。
@@ -1184,3 +1194,6 @@ zh-TW:
         remove: '刪除'
       drop_modal:
         Close: '關閉'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

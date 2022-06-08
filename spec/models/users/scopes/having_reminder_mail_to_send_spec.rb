@@ -653,7 +653,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
   end
 
   context 'when the provided scope_time is after the current time' do
-    let(:scope_time) { Time.current + 1.minute }
+    let(:scope_time) { 1.minute.from_now }
 
     it 'raises an error' do
       expect { scope }

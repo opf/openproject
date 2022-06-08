@@ -31,13 +31,13 @@ nl:
           no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'Projectstatus'
-          not_started: 'Not started'
+          not_started: 'Nog niet gestart'
           on_track: 'Op schema'
           off_track: 'Buiten schema'
           at_risk: 'In gevaar'
           not_set: 'Niet ingesteld'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: 'Afgewerkt'
+          discontinued: 'Stopgezet'
         subprojects:
           title: 'Subprojecten'
           no_results: 'No subprojects.'

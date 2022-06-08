@@ -60,7 +60,7 @@ describe DigestMailer, type: :mailer do
     [build_stubbed(:notification,
                    resource: work_package,
                    reason: :commented,
-                   journal: journal,
+                   journal:,
                    project: project1)].tap do |notifications|
       allow(Notification)
         .to receive(:where)

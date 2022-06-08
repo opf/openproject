@@ -44,7 +44,7 @@ describe CustomActions::Actions::EstimatedHours, type: :model do
         instance.apply(work_package)
 
         expect(work_package.estimated_hours)
-          .to eql 95.56
+          .to be 95.56
       end
     end
 

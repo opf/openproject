@@ -98,7 +98,7 @@ class CopyProjectJob < ApplicationJob
 
     upsert_status status: :success,
                   message: I18n.t('copy_project.succeeded', target_project_name: target_project.name),
-                  payload: payload
+                  payload:
   end
 
   def failure_status_update
@@ -108,7 +108,7 @@ class CopyProjectJob < ApplicationJob
       message << ": #{errors.join("\n")}"
     end
 
-    upsert_status status: :failure, message: message
+    upsert_status status: :failure, message:
   end
 
   def user
@@ -149,12 +149,12 @@ class CopyProjectJob < ApplicationJob
 
   def copy_project
     ::Projects::CopyService
-      .new(source: source_project, user: user)
+      .new(source: source_project, user:)
       .call(copy_project_params)
   end
 
   def copy_project_params
-    params = { target_project_params: target_project_params }
+    params = { target_project_params: }
     params[:only] = associations_to_copy if associations_to_copy.present?
 
     params

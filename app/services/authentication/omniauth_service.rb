@@ -150,7 +150,7 @@ module Authentication
     ##
     # Find an existing user by the identity url
     def find_existing_user
-      User.find_by(identity_url: identity_url)
+      User.find_by(identity_url:)
     end
 
     ##

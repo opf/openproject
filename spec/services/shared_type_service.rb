@@ -160,10 +160,10 @@ shared_examples_for 'type service' do
           .to eql query
 
         expect(query.filters.length)
-          .to eql 1
+          .to be 1
 
         expect(query.filters[0].name)
-          .to eql :status_id
+          .to be :status_id
       end
 
       context 'when the query service reports an error' do

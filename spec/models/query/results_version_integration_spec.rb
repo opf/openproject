@@ -95,7 +95,7 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
   let(:query) do
     build(:query,
           user: user_1,
-          group_by: group_by,
+          group_by:,
           show_hierarchies: false,
           project: project_1).tap do |q|
       q.filters.clear

@@ -32,7 +32,7 @@ describe WorkPackage, type: :model do
   describe '#overdue' do
     let(:work_package) do
       create(:work_package,
-             due_date: due_date)
+             due_date:)
     end
 
     shared_examples_for 'overdue' do

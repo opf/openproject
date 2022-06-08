@@ -31,7 +31,7 @@ require 'spec_helper'
 describe CustomValue do
   let(:format) { 'bool' }
   let(:custom_field) { create(:custom_field, field_format: format) }
-  let(:custom_value) { create(:custom_value, custom_field: custom_field, value: value) }
+  let(:custom_value) { create(:custom_value, custom_field:, value:) }
 
   describe '#typed_value' do
     subject { custom_value }

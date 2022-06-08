@@ -52,10 +52,10 @@ describe PlaceholderUsers::MembershipsController, type: :controller do
                                       id: placeholder_user.id,
                                       tab: 'memberships')
 
-      is_member = placeholder_user.reload.memberships.any? { |m|
+      is_member = placeholder_user.reload.memberships.any? do |m|
         m.project_id == project.id && m.role_ids.include?(role.id)
-      }
-      expect(is_member).to eql(true)
+      end
+      expect(is_member).to be(true)
     end
   end
 

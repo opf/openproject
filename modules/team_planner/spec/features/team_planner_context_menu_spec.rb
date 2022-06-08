@@ -7,7 +7,7 @@ describe 'Work package table context menu', js: true do
 
   let!(:work_package) do
     create :work_package,
-           project: project,
+           project:,
            assigned_to: user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
            due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)

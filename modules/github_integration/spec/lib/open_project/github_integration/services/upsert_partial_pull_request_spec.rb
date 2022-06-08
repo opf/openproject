@@ -31,7 +31,7 @@ require File.expand_path('../../../../spec_helper', __dir__)
 describe OpenProject::GithubIntegration::Services::UpsertPartialPullRequest do
   subject(:upsert) do
     described_class.new.call(OpenProject::GithubIntegration::NotificationHandler::Helper::Payload.new(payload),
-                             work_packages: work_packages)
+                             work_packages:)
   end
 
   let!(:upsert_user_service) do
@@ -80,7 +80,7 @@ describe OpenProject::GithubIntegration::Services::UpsertPartialPullRequest do
       github_updated_at: DateTime.parse("2021-04-06T15:16:03Z"),
       github_user_id: 12345,
       repository: 'test_user/repo',
-      work_packages: work_packages
+      work_packages:
     )
   end
 
@@ -99,7 +99,7 @@ describe OpenProject::GithubIntegration::Services::UpsertPartialPullRequest do
     let(:github_pull_request) do
       create(:github_pull_request,
              github_html_url: 'https://github.com/pulls/1',
-             work_packages: work_packages)
+             work_packages:)
     end
 
     it 'does not change the associated work packages' do

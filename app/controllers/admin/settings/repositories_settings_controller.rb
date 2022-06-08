@@ -35,4 +35,3 @@ module Admin::Settings
     end
   end
 end
-

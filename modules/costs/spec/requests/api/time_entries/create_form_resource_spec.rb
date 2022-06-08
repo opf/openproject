@@ -46,7 +46,7 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
            member_with_permissions: permissions)
   end
   let(:work_package) do
-    create(:work_package, project: project)
+    create(:work_package, project:)
   end
   let(:other_user) { create(:user) }
   let(:permissions) { %i[log_time view_work_packages] }
@@ -75,7 +75,7 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
 
     it 'does not create a time_entry' do
       expect(TimeEntry.count)
-        .to eql 0
+        .to be 0
     end
 
     context 'with empty parameters' do
@@ -122,7 +122,7 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
           },
           spentOn: Date.today.to_s,
           hours: 'PT5H',
-          "comment": {
+          comment: {
             raw: "some comment"
           },
           "customField#{custom_field.id}": {

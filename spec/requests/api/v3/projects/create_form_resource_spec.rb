@@ -43,7 +43,7 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
   end
 
   let(:global_role) do
-    create(:global_role, permissions: permissions)
+    create(:global_role, permissions:)
   end
   let(:text_custom_field) do
     create(:text_project_custom_field)
@@ -75,7 +75,7 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
 
     it 'does not create a project' do
       expect(Project.count)
-        .to eql 0
+        .to be 0
     end
 
     context 'with empty parameters' do
@@ -92,15 +92,15 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
           identifier: 'new_project_identifier',
           name: 'Project name',
           "customField#{text_custom_field.id}": {
-            "raw": "CF text"
+            raw: "CF text"
           },
           statusExplanation: { raw: "A magic dwells in each beginning." },
-          "_links": {
+          _links: {
             "customField#{list_custom_field.id}": {
-              "href": api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
+              href: api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
             },
-            "status": {
-              "href": api_v3_paths.project_status('on_track')
+            status: {
+              href: api_v3_paths.project_status('on_track')
             }
           }
         }
@@ -136,9 +136,9 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
         expect(body)
           .to be_json_eql(
             {
-              "format": "markdown",
-              "html": "<p class=\"op-uc-p\">A magic dwells in each beginning.</p>",
-              "raw": "A magic dwells in each beginning."
+              format: "markdown",
+              html: "<p class=\"op-uc-p\">A magic dwells in each beginning.</p>",
+              raw: "A magic dwells in each beginning."
             }.to_json
           ).at_path("_embedded/payload/statusExplanation")
       end
@@ -188,9 +188,9 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
 
       let(:params) do
         {
-          "_links": {
-            "parent": {
-              "href": api_v3_paths.project(parent_project.id)
+          _links: {
+            parent: {
+              href: api_v3_paths.project(parent_project.id)
             }
           }
         }

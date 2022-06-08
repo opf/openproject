@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Queries::Days::DayQuery, type: :model do
   let(:instance) { described_class.new }
-  let(:base_scope) { Day.default.order(date: :asc) }
+  let(:base_scope) { Day.reorder(date: :asc) }
   let(:current_user) { build_stubbed(:admin) }
 
   before do
@@ -63,13 +63,14 @@ describe Queries::Days::DayQuery, type: :model do
     context 'with dates within the default range' do
       let(:from) { Time.zone.today }
       let(:to) { 5.days.from_now.to_date }
-      let(:base_scope) { Day.default.from(Day.from_sql(from:, to:)).order(date: :asc) }
+      let(:base_scope) { Day.from_range(from:, to:).reorder(date: :asc) }
 
       it 'is the same as handwriting the query' do
         # Expectation has to be weirdly specific to the logic of Queries::Operators::DateRangeClauses
         expected = base_scope.where("days.date > ? AND days.date <= ?",
                                     (from - 1.day).end_of_day,
                                     to.end_of_day)
+
         expect(instance.results.to_sql).to eql expected.to_sql
       end
     end

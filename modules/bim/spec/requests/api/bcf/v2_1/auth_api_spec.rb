@@ -51,10 +51,10 @@ describe 'BCF 2.1 auth resource', type: :request, content_type: :json do
     it_behaves_like 'bcf api successful response' do
       let(:expected_body) do
         {
-          "oauth2_auth_url": "http://localhost:3000/oauth/authorize",
-          "oauth2_token_url": "http://localhost:3000/oauth/token",
-          "http_basic_supported": false,
-          "supported_oauth2_flows": %w(authorization_code_grant client_credentials)
+          oauth2_auth_url: "http://localhost:3000/oauth/authorize",
+          oauth2_token_url: "http://localhost:3000/oauth/token",
+          http_basic_supported: false,
+          supported_oauth2_flows: %w(authorization_code_grant client_credentials)
         }
       end
     end

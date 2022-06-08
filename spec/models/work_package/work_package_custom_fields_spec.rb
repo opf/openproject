@@ -34,8 +34,8 @@ describe WorkPackage, type: :model do
     let(:project) { create(:project, types: [type]) }
     let(:work_package) do
       build(:work_package,
-            project: project,
-            type: type)
+            project:,
+            type:)
     end
     let(:custom_field) do
       create(:work_package_custom_field,
@@ -157,7 +157,7 @@ describe WorkPackage, type: :model do
               subject { work_package.errors[custom_field_key] }
 
               it {
-                is_expected.to include(I18n.t("activerecord.errors.messages.#{error_key}"))
+                expect(subject).to include(I18n.t("activerecord.errors.messages.#{error_key}"))
               }
             end
 
@@ -210,7 +210,7 @@ describe WorkPackage, type: :model do
           subject { work_package.errors.full_messages.first }
 
           it 'matches' do
-            is_expected.to eq("Database #{I18n.t('activerecord.errors.messages.inclusion')}")
+            expect(subject).to eq("Database #{I18n.t('activerecord.errors.messages.inclusion')}")
           end
         end
       end
@@ -226,6 +226,7 @@ describe WorkPackage, type: :model do
 
         context 'save' do
           subject { work_package.typed_custom_value_for(custom_field.id) }
+
           it { is_expected.to eq('PostgreSQL') }
         end
       end
@@ -272,6 +273,7 @@ describe WorkPackage, type: :model do
           end
 
           subject { WorkPackage.find(work_package.id).typed_custom_value_for(custom_field) }
+
           it { is_expected.to eq('PostgreSQL') }
         end
       end
@@ -279,8 +281,8 @@ describe WorkPackage, type: :model do
       context 'w/o initial type' do
         let(:work_package_without_type) do
           build_stubbed(:work_package,
-                        project: project,
-                        type: type)
+                        project:,
+                        type:)
         end
 
         describe 'pre-condition' do
@@ -308,7 +310,7 @@ describe WorkPackage, type: :model do
 
         subject do
           wp = WorkPackage.new.tap do |i|
-            i.attributes = { project: project }
+            i.attributes = { project: }
           end
           wp.attributes = attribute_hash
 
@@ -336,6 +338,7 @@ describe WorkPackage, type: :model do
         let(:relevant_journal) do
           work_package.journals.find { |j| j.customizable_journals.size > 0 }
         end
+
         subject { relevant_journal.customizable_journals.first.value }
 
         before do
@@ -356,7 +359,7 @@ describe WorkPackage, type: :model do
 
         it 'sets the default values for custom_field_values' do
           expect(work_package.custom_field_values.length)
-            .to eql 1
+            .to be 1
 
           expect(work_package.custom_field_values[0].value)
             .to eql custom_field.custom_options[1].id.to_s
@@ -366,7 +369,7 @@ describe WorkPackage, type: :model do
       context 'for a custom field without default value' do
         it 'sets the default values for custom_field_values' do
           expect(work_package.custom_field_values.length)
-            .to eql 1
+            .to be 1
 
           expect(work_package.custom_field_values[0].value)
             .to be_nil

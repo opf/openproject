@@ -109,7 +109,7 @@ module API
             [
               ::API::V3::Schemas::SchemaDependencyRepresenter.new(dependencies,
                                                                   'operator',
-                                                                  current_user: current_user)
+                                                                  current_user:)
             ]
           end
 
@@ -122,7 +122,7 @@ module API
               path = api_v3_paths.query_operator(operator.to_query)
               value = FilterDependencyRepresenterFactory.create(filter,
                                                                 operator,
-                                                                form_embedded: form_embedded)
+                                                                form_embedded:)
 
               hash[path] = value unless value.nil?
             end

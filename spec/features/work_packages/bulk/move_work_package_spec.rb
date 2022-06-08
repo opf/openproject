@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'Moving a work package through Rails view', js: true do
   let(:dev_role) do
     create :role,
@@ -35,15 +34,15 @@ describe 'Moving a work package through Rails view', js: true do
   let(:work_package) do
     create(:work_package,
            author: dev,
-           project: project,
-           type: type,
-           status: status)
+           project:,
+           type:,
+           status:)
   end
   let(:work_package2) do
     create(:work_package,
            author: dev,
-           project: project,
-           type: type,
+           project:,
+           type:,
            status: work_package2_status)
   end
   let(:status) { create(:status) }
@@ -68,9 +67,9 @@ describe 'Moving a work package through Rails view', js: true do
       create(:work_package,
              author: dev,
              parent: work_package,
-             project: project,
-             type: type,
-             status: status)
+             project:,
+             type:,
+             status:)
     end
 
     context 'with permission' do
@@ -189,4 +188,3 @@ describe 'Moving a work package through Rails view', js: true do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

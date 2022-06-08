@@ -44,8 +44,8 @@ module Pages
     def add_labor_costs!(num_hours, user_name:, comment: nil)
       edit_labor_costs!(labor_rows,
                         hours: num_hours,
-                        user_name: user_name,
-                        comment: comment,
+                        user_name:,
+                        comment:,
                         type: 'new')
       add_labor_costs_row!
     end
@@ -70,7 +70,7 @@ module Pages
     end
 
     def edit_planned_costs!(id, costs:, type:)
-      open_edit_planned_costs!(id, type: type)
+      open_edit_planned_costs!(id, type:)
 
       row_id = "#budget_existing_#{type}_budget_item_attributes_#{id}"
       editor_name = "budget_existing_#{type}_budget_item_attributes_#{id}_amount"

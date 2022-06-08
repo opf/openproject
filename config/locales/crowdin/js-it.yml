@@ -376,25 +376,31 @@ it:
     label_less_or_equal: "<="
     label_less_than_ago: "meno di qualche giorno fa"
     label_loading: "Caricamento..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Notifiche email"
     label_me: "io"
     label_meeting_agenda: "Ordine del giorno"
     label_meeting_minutes: "Verbali"
     label_menu_collapse: "collassa"
     label_menu_expand: "espandi"
+    label_modified_at: "Modified: %{date}"
     label_more_than_ago: "più di qualche giorno fa"
     label_next: "Prossimo"
     label_no_color: "Nessun colore"
     label_no_data: "Nessun dato da visualizzare"
     label_no_due_date: "nessuna data di fine"
     label_no_start_date: "nessuna data di inizio"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Nessun valore"
+    label_no_file_links_header: "Link files in %{storageType}"
+    label_no_file_links_content: "In order to link files to this work package please do it via %{storageType}."
     label_none: "nessuno"
     label_not_contains: "non contiene"
     label_not_equals: "non è"
     label_on: "il"
     label_open_menu: "Apri menu"
     label_open_context_menu: "Apri il menu di scelta rapida"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "aperte"
     label_password: "Password"
     label_previous: "Precedente"
@@ -423,6 +429,9 @@ it:
     label_sorting: "Ordinamento"
     label_spent_time: "Tempo speso"
     label_star_query: "Preferito"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Premi Invio per salvare."
     label_public_query: "Pubblico"
     label_sum: "Somma"
@@ -459,6 +468,7 @@ it:
     label_custom_queries: "Viste private"
     label_columns: "Colonne"
     label_attachments: Allegati
+    label_nextcloud: Nextcloud
     label_drop_files: Trascina i file qui
     label_drop_files_hint: o fai clic per aggiungere file
     label_drop_folders_hint: Non è possibile caricare cartelle come allegati. Si prega di selezionare singoli file.
@@ -1190,3 +1200,6 @@ it:
         remove: 'Rimuovi'
       drop_modal:
         Close: 'Chiuso'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

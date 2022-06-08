@@ -373,25 +373,31 @@ lol:
     label_less_or_equal: "crwdns787416:0crwdne787416:0"
     label_less_than_ago: "crwdns787418:0crwdne787418:0"
     label_loading: "crwdns787420:0crwdne787420:0"
+    label_login_to_storage: "crwdns816790:0%{storageType}crwdne816790:0"
     label_mail_notification: "crwdns787422:0crwdne787422:0"
     label_me: "crwdns787424:0crwdne787424:0"
     label_meeting_agenda: "crwdns787426:0crwdne787426:0"
     label_meeting_minutes: "crwdns787428:0crwdne787428:0"
     label_menu_collapse: "crwdns787430:0crwdne787430:0"
     label_menu_expand: "crwdns787432:0crwdne787432:0"
+    label_modified_at: "crwdns816792:0%{date}crwdne816792:0"
     label_more_than_ago: "crwdns787434:0crwdne787434:0"
     label_next: "crwdns787436:0crwdne787436:0"
     label_no_color: "crwdns787438:0crwdne787438:0"
     label_no_data: "crwdns787440:0crwdne787440:0"
     label_no_due_date: "crwdns787442:0crwdne787442:0"
     label_no_start_date: "crwdns787444:0crwdne787444:0"
+    label_no_storage_connection: "crwdns816794:0%{storageType}crwdne816794:0"
     label_no_value: "crwdns787446:0crwdne787446:0"
+    label_no_file_links_header: "crwdns816796:0%{storageType}crwdne816796:0"
+    label_no_file_links_content: "crwdns816798:0%{storageType}crwdne816798:0"
     label_none: "crwdns787448:0crwdne787448:0"
     label_not_contains: "crwdns787450:0crwdne787450:0"
     label_not_equals: "crwdns787452:0crwdne787452:0"
     label_on: "crwdns787454:0crwdne787454:0"
     label_open_menu: "crwdns787456:0crwdne787456:0"
     label_open_context_menu: "crwdns787458:0crwdne787458:0"
+    label_open_storage: "crwdns816800:0%{storageType}crwdne816800:0"
     label_open_work_packages: "crwdns787460:0crwdne787460:0"
     label_password: "crwdns787462:0crwdne787462:0"
     label_previous: "crwdns787464:0crwdne787464:0"
@@ -420,6 +426,9 @@ lol:
     label_sorting: "crwdns787510:0crwdne787510:0"
     label_spent_time: "crwdns787512:0crwdne787512:0"
     label_star_query: "crwdns787514:0crwdne787514:0"
+    label_storage_connection_error: "crwdns816802:0%{storageType}crwdnd816802:0%{storageType}crwdne816802:0"
+    label_storage_login: "crwdns816804:0%{storageType}crwdne816804:0"
+    label_storage_not_connected: "crwdns816806:0%{storageType}crwdne816806:0"
     label_press_enter_to_save: "crwdns787516:0crwdne787516:0"
     label_public_query: "crwdns787518:0crwdne787518:0"
     label_sum: "crwdns787520:0crwdne787520:0"
@@ -456,6 +465,7 @@ lol:
     label_custom_queries: "crwdns787582:0crwdne787582:0"
     label_columns: "crwdns787584:0crwdne787584:0"
     label_attachments: crwdns807696:0crwdne807696:0
+    label_nextcloud: crwdns816808:0crwdne816808:0
     label_drop_files: crwdns787588:0crwdne787588:0
     label_drop_files_hint: crwdns787590:0crwdne787590:0
     label_drop_folders_hint: crwdns787592:0crwdne787592:0
@@ -1187,3 +1197,6 @@ lol:
         remove: 'crwdns788758:0crwdne788758:0'
       drop_modal:
         Close: 'crwdns788760:0crwdne788760:0'
+    storages:
+      enter_oauth2_client_secret: 'crwdns816752:0crwdne816752:0'
+

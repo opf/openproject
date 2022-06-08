@@ -40,7 +40,7 @@ describe 'Status action board', type: :feature, js: true do
     %i[show_board_views manage_board_views add_work_packages
        edit_work_packages view_work_packages manage_public_queries]
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
 
   let(:type_bug) { create(:type_bug) }
   let(:type_task) { create(:type_task) }
@@ -56,14 +56,14 @@ describe 'Status action board', type: :feature, js: true do
 
   let(:task_wp) do
     create :work_package,
-           project: project,
+           project:,
            type: type_task,
            subject: 'Open task item',
            status: open_status
   end
   let(:bug_wp) do
     create :work_package,
-           project: project,
+           project:,
            type: type_bug,
            subject: 'Closed bug item',
            status: closed_status
@@ -72,14 +72,14 @@ describe 'Status action board', type: :feature, js: true do
   let!(:workflow_task) do
     create(:workflow,
            type: type_task,
-           role: role,
+           role:,
            old_status_id: open_status.id,
            new_status_id: closed_status.id)
   end
   let!(:workflow_task_back) do
     create(:workflow,
            type: type_task,
-           role: role,
+           role:,
            old_status_id: closed_status.id,
            new_status_id: open_status.id)
   end
@@ -87,14 +87,14 @@ describe 'Status action board', type: :feature, js: true do
   let!(:workflow_bug) do
     create(:workflow,
            type: type_bug,
-           role: role,
+           role:,
            old_status_id: open_status.id,
            new_status_id: closed_status.id)
   end
   let!(:workflow_bug_back) do
     create(:workflow,
            type: type_bug,
-           role: role,
+           role:,
            old_status_id: closed_status.id,
            new_status_id: open_status.id)
   end

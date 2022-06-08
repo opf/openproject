@@ -34,7 +34,7 @@ module Bim::Bcf
       def before_perform(params, service_result)
         wp_call = ::WorkPackages::UpdateService
           .new(model: model.work_package,
-               user: user,
+               user:,
                contract_class: ::WorkPackages::UpdateContract)
           .call(**params)
 

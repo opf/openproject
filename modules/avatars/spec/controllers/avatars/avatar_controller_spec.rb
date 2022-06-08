@@ -16,6 +16,7 @@ describe ::Avatars::AvatarController, type: :controller do
     context 'as anonymous' do
       let(:target_user) { user_with_avatar }
       let(:current_user) { User.anonymous }
+
       it_behaves_like 'an action checked for required login'
     end
 
@@ -38,6 +39,7 @@ describe ::Avatars::AvatarController, type: :controller do
 
         context 'when user has no avatar' do
           let(:target_user) { user_without_avatar }
+
           it 'renders 404' do
             expect(response.status).to eq 404
           end

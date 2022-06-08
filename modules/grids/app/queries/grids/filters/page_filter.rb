@@ -39,7 +39,7 @@ module Grids
           .map do |page, config|
             next unless config && config[:class]
 
-            if config[:id] && config[:class].visible.exists?(config[:id]) || config[:class].visible.any?
+            if (config[:id] && config[:class].visible.exists?(config[:id])) || config[:class].visible.any?
               page
             end
           end.compact

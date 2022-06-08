@@ -48,7 +48,7 @@ describe Relations::UpdateService do
                   start_date: work_package2_start_date)
   end
   let(:instance) do
-    described_class.new(user: user, model: relation)
+    described_class.new(user:, model: relation)
   end
   let(:relation) do
     relation = build_stubbed(:relation)
@@ -63,7 +63,7 @@ describe Relations::UpdateService do
     {
       to: work_package1,
       from: work_package2,
-      delay: delay
+      delay:
     }
   end
 
@@ -74,7 +74,7 @@ describe Relations::UpdateService do
   let(:symbols_for_base) { [] }
 
   subject do
-    instance.call(attributes: attributes)
+    instance.call(attributes:)
   end
 
   before do
@@ -107,7 +107,7 @@ describe Relations::UpdateService do
     before do
       expect(WorkPackages::SetScheduleService)
         .to receive(:new)
-        .with(user: user, work_package: work_package1)
+        .with(user:, work_package: work_package1)
         .and_return(set_schedule_service)
 
       expect(set_schedule_service)

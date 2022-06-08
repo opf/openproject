@@ -66,7 +66,7 @@ module Projects::Exports
         .all_columns
         .reject { |_, options| options[:builtin] } # We add builtin columns ourselves
         .select { |name, _| Setting.enabled_projects_columns.include?(name.to_s) }
-        .map { |name, options| { name: name, caption: options[:caption] } }
+        .map { |name, options| { name:, caption: options[:caption] } }
     end
   end
 end

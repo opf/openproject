@@ -64,7 +64,7 @@ class Groups::UpdateService < ::BaseServices::Update
   def remove_member_roles(member_role_ids)
     ::Groups::CleanupInheritedRolesService
       .new(model, current_user: user)
-      .call(member_role_ids: member_role_ids)
+      .call(member_role_ids:)
   end
 
   def member_roles_to_prune(users)

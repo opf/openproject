@@ -521,7 +521,7 @@ ru:
         begin_deletion: "Начало удаления"
         children: "Вложенные элементы"
         done_ratio: "Прогресс (%)"
-        duration: "Duration"
+        duration: "Продолжительность"
         end_insertion: "Завершение вставки"
         end_deletion: "Завершение удаления"
         version: "Этапы"
@@ -737,8 +737,8 @@ ru:
             due_date:
               not_start_date: "не дата начала, но нужна для вех."
             duration:
-              larger_than_dates: "is larger than the interval between the start and the finish date."
-              smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              larger_than_dates: "больше, чем интервал между началом и датой окончания."
+              smaller_than_dates: "меньше интервала между началом и датой окончания."
             parent:
               cannot_be_milestone: "не может служить вехой."
               cannot_be_self_assigned: "не может быть присвоено самому себе."
@@ -2035,6 +2035,9 @@ ru:
   mail_body_backup_token_info: Предыдущий маркер больше не действителен.
   mail_body_backup_waiting_period: Новый маркер будет действителен через %{hours} часов.
   mail_body_backup_token_warning: Если это не так, войдите в OpenProject и сбросьте его снова немедленно.
+  mail_body_incoming_email_error: Не удалось обработать письмо, которое вы отправили в OpenProject.
+  mail_body_incoming_email_error_in_reply_to: "%{received_at} %{from_email} написал"
+  mail_body_incoming_email_error_logs: "Журналы"
   mail_body_lost_password: "Чтобы изменить пароль, щёлкните по следующей ссылке:"
   mail_body_register: "Добро пожаловать в %{app_title}. Пожалуйста, активируйте свою учетную запись, перейдя по ссылке:"
   mail_body_register_header_title: "Приглашение участника проекта по электронной почте"
@@ -2053,6 +2056,7 @@ ru:
   mail_subject_account_activation_request: "Запрос на активацию учетной записи %{value}"
   mail_subject_backup_ready: "Ваша резервная копия готова"
   mail_subject_backup_token_reset: "Сброс маркера резервного копирования"
+  mail_subject_incoming_email_error: "Письмо отправлено на OpenProject не может быть обработано"
   mail_subject_lost_password: "Ваш пароль %{value}"
   mail_subject_register: "Активация вашей учетной записи %{value}"
   mail_subject_reminder: "%{count}  пакет(-ов) работ на  следующие %{days}"

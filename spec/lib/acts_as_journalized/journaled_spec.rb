@@ -37,7 +37,7 @@ describe 'Journalized Objects' do
         create(:work_package,
                type: project.types.first,
                author: user,
-               project: project,
+               project:,
                description: '')
       end
 

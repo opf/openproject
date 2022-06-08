@@ -36,7 +36,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
   end
   let(:role) do
     create(:role,
-           permissions: permissions)
+           permissions:)
   end
 
   let(:permissions) do
@@ -50,14 +50,14 @@ describe WorkPackages::CopyService, 'integration', type: :model do
   let(:project) { create(:project, types: [type]) }
   let(:work_package) do
     create(:work_package,
-           project: project,
-           type: type)
+           project:,
+           type:)
   end
-  let(:instance) { described_class.new(work_package: work_package, user: user) }
+  let(:instance) { described_class.new(work_package:, user:) }
   let(:custom_field) { create(:work_package_custom_field) }
   let(:custom_value) do
     create(:work_package_custom_value,
-           custom_field: custom_field,
+           custom_field:,
            customized: work_package,
            value: false)
   end
@@ -234,7 +234,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
       end
 
       describe 'with children' do
-        let(:instance) { described_class.new(work_package: child, user: user) }
+        let(:instance) { described_class.new(work_package: child, user:) }
         let!(:child) do
           create(:work_package, parent: work_package, project: source_project)
         end

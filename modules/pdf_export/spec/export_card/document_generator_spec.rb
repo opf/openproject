@@ -55,7 +55,7 @@ describe OpenProject::PDFExport::ExportCard::DocumentGenerator do
   end
 
   describe "Single work package rendering" do
-    before(:each) do
+    before do
       work_packages = [work_package1]
       @generator = OpenProject::PDFExport::ExportCard::DocumentGenerator.new(config, work_packages)
     end
@@ -70,14 +70,14 @@ describe OpenProject::PDFExport::ExportCard::DocumentGenerator do
       expect(text_analysis.strings.include?('Non existent:')).to be_falsey
     end
 
-    it 'should be 1 page' do
+    it 'is 1 page' do
       page_analysis = PDF::Inspector::Page.analyze(@generator.render)
       expect(page_analysis.pages.size).to eq(1)
     end
   end
 
   describe "Multiple work package rendering" do
-    before(:each) do
+    before do
       work_packages = [work_package1, work_package2]
       @generator = OpenProject::PDFExport::ExportCard::DocumentGenerator.new(config, work_packages)
     end
@@ -88,7 +88,7 @@ describe OpenProject::PDFExport::ExportCard::DocumentGenerator do
       expect(text.strings.include?('Work package 2')).to be_truthy
     end
 
-    it 'should be 2 pages' do
+    it 'is 2 pages' do
       page_analysis = PDF::Inspector::Page.analyze(@generator.render)
       expect(page_analysis.pages.size).to eq(2)
     end

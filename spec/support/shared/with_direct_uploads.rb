@@ -35,9 +35,9 @@ class WithDirectUploads
 
   ##
   # We need this so calls to rspec mocks (allow, expect etc.) will work here as expected.
-  def method_missing(method, *args, &block)
+  def method_missing(method, *args, &)
     if context.respond_to?(method)
-      context.send method, *args, &block
+      context.send(method, *args, &)
     else
       super
     end
@@ -174,7 +174,7 @@ class WithDirectUploads
 end
 
 RSpec.configure do |config|
-  config.before(:each) do |example|
+  config.before do |example|
     next unless example.metadata[:with_direct_uploads]
 
     WithDirectUploads.new(self).before example
@@ -190,7 +190,7 @@ RSpec.configure do |config|
     end
   end
 
-  config.around(:each) do |example|
+  config.around do |example|
     enabled = example.metadata[:with_direct_uploads]
 
     if enabled

@@ -56,38 +56,38 @@ describe ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper, 'cost eager lo
   end
   let(:cost_entry1) do
     create(:cost_entry,
-           cost_type: cost_type,
-           user: user,
-           work_package: work_package,
-           project: project)
+           cost_type:,
+           user:,
+           work_package:,
+           project:)
   end
   let(:cost_entry2) do
     create(:cost_entry,
-           cost_type: cost_type,
-           user: user,
-           work_package: work_package,
-           project: project)
+           cost_type:,
+           user:,
+           work_package:,
+           project:)
   end
   let(:time_entry1) do
     create(:time_entry,
-           user: user,
-           project: project,
-           work_package: work_package)
+           user:,
+           project:,
+           work_package:)
   end
   let(:time_entry2) do
     create(:time_entry,
-           user: user,
-           project: project,
-           work_package: work_package)
+           user:,
+           project:,
+           work_package:)
   end
   let(:user_rates) do
     create(:hourly_rate,
-           user: user,
-           project: project)
+           user:,
+           project:)
   end
   let(:cost_rate) do
     create(:cost_rate,
-           cost_type: cost_type)
+           cost_type:)
   end
 
   context "combining core's and cost's eager loading" do

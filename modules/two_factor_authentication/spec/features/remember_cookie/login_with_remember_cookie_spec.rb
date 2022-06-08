@@ -17,7 +17,7 @@ describe 'Login with 2FA remember cookie',
   let(:user) do
     create(:user, password: user_password, password_confirmation: user_password)
   end
-  let!(:device) { create :two_factor_authentication_device_sms, user: user, active: true, default: true }
+  let!(:device) { create :two_factor_authentication_device_sms, user:, active: true, default: true }
 
   def login_with_cookie
     page.driver.browser.manage.delete_all_cookies
@@ -83,7 +83,7 @@ describe 'Login with 2FA remember cookie',
       expect_logged_in
 
       # Expire token
-      token = ::TwoFactorAuthentication::RememberedAuthToken.find_by!(user: user)
+      token = ::TwoFactorAuthentication::RememberedAuthToken.find_by!(user:)
       expect(token).not_to be_expired
       token.update_columns(expires_on: 1.day.ago, created_at: 31.days.ago)
 

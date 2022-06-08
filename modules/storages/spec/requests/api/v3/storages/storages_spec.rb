@@ -66,7 +66,7 @@ describe 'API v3 storages resource', :enable_storages, type: :request, content_t
     let(:path) { api_v3_paths.storage(storage.id) }
 
     context 'when user belongs to a project using the given storage' do
-      let!(:project_storage) { create(:project_storage, project: project, storage: storage) }
+      let!(:project_storage) { create(:project_storage, project:, storage:) }
 
       it_behaves_like 'successful storage response'
 

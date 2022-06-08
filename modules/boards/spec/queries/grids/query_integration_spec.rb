@@ -37,12 +37,12 @@ describe Grids::Query, type: :model do
   shared_let(:other_role) { create(:role, permissions: []) }
   shared_let(:current_user) do
     create(:user).tap do |user|
-      create(:member, user: user, project: project, roles: [show_board_views_role])
-      create(:member, user: user, project: other_project, roles: [other_role])
+      create(:member, user:, project:, roles: [show_board_views_role])
+      create(:member, user:, project: other_project, roles: [other_role])
     end
   end
   let!(:board_grid) do
-    create(:board_grid, project: project)
+    create(:board_grid, project:)
   end
   let!(:other_board_grid) do
     create(:board_grid, project: other_project)

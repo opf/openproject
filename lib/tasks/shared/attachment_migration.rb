@@ -76,7 +76,7 @@ module Tasks
           .where(container_type: model.name)
           .group(:container_id)
           .pluck(:container_id)
-          .map { |id| model.find_by(id: id) }
+          .map { |id| model.find_by(id:) }
       end
 
       def enable_wiki!(project)
@@ -101,7 +101,7 @@ module Tasks
           )
 
           Migrations::Attachments::CurrentWikiContent.create!(
-            page_id: page.id, author_id: User.system.id, text: text
+            page_id: page.id, author_id: User.system.id, text:
           )
         end
 
@@ -119,7 +119,7 @@ module Tasks
           )
 
           Migrations::Attachments::CurrentWikiContent.create!(
-            page_id: page.id, author_id: User.system.id, text: text
+            page_id: page.id, author_id: User.system.id, text:
           )
         end
 

@@ -47,10 +47,10 @@ describe 'OAuth authorization code flow with PKCE',
     {
       response_type: :code,
       client_id: app.uid,
-      redirect_uri: redirect_uri,
+      redirect_uri:,
       scope: :api_v3,
       code_challenge_method: 'S256',
-      code_challenge: code_challenge
+      code_challenge:
     }
   end
 
@@ -61,10 +61,10 @@ describe 'OAuth authorization code flow with PKCE',
   def get_and_test_token(code)
     parameters = {
       client_id: app.uid,
-      code: code,
+      code:,
       grant_type: :authorization_code,
       redirect_uri: app.redirect_uri,
-      code_verifier: code_verifier
+      code_verifier:
     }
 
     session = ActionDispatch::Integration::Session.new(Rails.application)

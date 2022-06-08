@@ -36,7 +36,7 @@ module API
         @groups = groups
         @self_link = self_link
 
-        super(models, current_user: current_user)
+        super(models, current_user:)
       end
 
       class_attribute :element_decorator_class
@@ -75,7 +75,7 @@ module API
       collection :elements,
                  getter: ->(*) {
                    represented.map do |model|
-                     element_decorator.create(model, current_user: current_user)
+                     element_decorator.create(model, current_user:)
                    end
                  },
                  exec_context: :decorator,

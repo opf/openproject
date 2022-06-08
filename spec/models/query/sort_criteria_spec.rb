@@ -37,6 +37,7 @@ describe ::Query::SortCriteria, type: :model do
   let(:available_criteria) { query.sortable_key_by_column_name }
 
   let(:instance) { described_class.new query.sortable_columns }
+
   subject { instance.to_a }
 
   before do

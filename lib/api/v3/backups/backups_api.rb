@@ -73,7 +73,7 @@ module API
 
             status 202
 
-            BackupRepresenter.new call.result, current_user: current_user
+            BackupRepresenter.new call.result, current_user:
           end
         end
       end

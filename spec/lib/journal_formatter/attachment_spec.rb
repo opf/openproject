@@ -44,7 +44,7 @@ describe OpenProject::JournalFormatter::Attachment do
   let(:instance) { klass.new(journal) }
   let(:id) { 1 }
   let(:journal) do
-    OpenStruct.new(id: id)
+    OpenStruct.new(id:)
   end
   let(:user) { create(:user) }
   let(:attachment) do

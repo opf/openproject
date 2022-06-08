@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Bim::IfcModels::IfcConversionJob, type: :job do
   let(:model) { build :ifc_model }
+
   subject { described_class.perform_now(model) }
 
   it 'calls the conversion service' do

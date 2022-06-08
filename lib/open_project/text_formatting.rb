@@ -58,13 +58,13 @@ module OpenProject
 
       Renderer.format_text text,
                            options.merge(
-                             plain: plain,
-                             object: object,
+                             plain:,
+                             object:,
                              request: try(:request),
-                             current_user: current_user,
-                             attribute: attribute,
-                             only_path: only_path,
-                             project: project
+                             current_user:,
+                             attribute:,
+                             only_path:,
+                             project:
                            )
     end
   end

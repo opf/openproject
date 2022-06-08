@@ -49,7 +49,7 @@ class WorkPackageCostlogController < ApplicationController
 
     respond_to do |format|
       format.html do
-        session[CostQuery.name.underscore.to_sym] = { filters: filters, groups: { rows: [], columns: [] } }
+        session[CostQuery.name.underscore.to_sym] = { filters:, groups: { rows: [], columns: [] } }
         redirect_to_cost_reports
       end
       format.all do

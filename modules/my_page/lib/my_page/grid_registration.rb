@@ -54,9 +54,9 @@ module MyPage
             options: {
               name: I18n.t('js.grid.widgets.work_packages_assigned.title'),
               queryProps: {
-                "columns[]": %w(id project type subject),
-                filters: JSON.dump([{ "status": { "operator": "o", "values": [] } },
-                                    { "assigned_to": { "operator": "=", "values": ["me"] } }])
+                'columns[]': %w(id project type subject),
+                filters: JSON.dump([{ status: { operator: "o", values: [] } },
+                                    { assigned_to: { operator: "=", values: ["me"] } }])
               }
             }
           },
@@ -69,9 +69,9 @@ module MyPage
             options: {
               name: I18n.t('js.grid.widgets.work_packages_created.title'),
               queryProps: {
-                "columns[]": %w(id project type subject),
-                filters: JSON.dump([{ "status": { "operator": "o", "values": [] } },
-                                    { "author": { "operator": "=", "values": ["me"] } }])
+                'columns[]': %w(id project type subject),
+                filters: JSON.dump([{ status: { operator: "o", values: [] } },
+                                    { author: { operator: "=", values: ["me"] } }])
               }
             }
           }

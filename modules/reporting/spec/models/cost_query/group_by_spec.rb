@@ -32,7 +32,7 @@ require File.join(File.dirname(__FILE__), '..', '..', 'support', 'custom_field_f
 describe CostQuery, type: :model, reporting_query_helper: true do
   let!(:type) { create(:type) }
   let!(:project1) { create(:project_with_types, types: [type]) }
-  let!(:work_package1) { create(:work_package, project: project1, type: type) }
+  let!(:work_package1) { create(:work_package, project: project1, type:) }
   let!(:time_entry1) do
     create(:time_entry, work_package: work_package1, project: project1, spent_on: Date.new(2012, 1, 1))
   end
@@ -52,7 +52,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
   end
 
   let!(:project2) { create(:project_with_types, types: [type]) }
-  let!(:work_package2) { create(:work_package, project: project2, type: type) }
+  let!(:work_package2) { create(:work_package, project: project2, type:) }
   let!(:time_entry3) do
     create(:time_entry, work_package: work_package2, project: project2, spent_on: Date.new(2013, 2, 3))
   end
@@ -74,12 +74,12 @@ describe CostQuery, type: :model, reporting_query_helper: true do
   minimal_query
 
   describe CostQuery::GroupBy do
-    it "should compute group_by on projects" do
+    it "computes group_by on projects" do
       @query.group_by :project_id
       expect(@query.result.size).to eq(2)
     end
 
-    it "should keep own and all parents' group fields in all_group_fields" do
+    it "keeps own and all parents' group fields in all_group_fields" do
       @query.group_by :project_id
       @query.group_by :work_package_id
       @query.group_by :cost_type_id
@@ -88,59 +88,59 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(@query.child.child.all_group_fields).to eq(%w[entries.cost_type_id entries.work_package_id entries.project_id])
     end
 
-    it "should compute group_by WorkPackage" do
+    it "computes group_by WorkPackage" do
       @query.group_by :work_package_id
       expect(@query.result.size).to eq(2)
     end
 
-    it "should compute group_by CostType" do
+    it "computes group_by CostType" do
       @query.group_by :cost_type_id
       # type 'Labor' for time entries, 2 different cost types
       expect(@query.result.size).to eq(3)
     end
 
-    it "should compute group_by Activity" do
+    it "computes group_by Activity" do
       @query.group_by :activity_id
       # "-1" for time entries, 2 different cost activities
       expect(@query.result.size).to eq(3)
     end
 
-    it "should compute group_by Date (day)" do
+    it "computes group_by Date (day)" do
       @query.group_by :spent_on
       expect(@query.result.size).to eq(2)
     end
 
-    it "should compute group_by Date (week)" do
+    it "computes group_by Date (week)" do
       @query.group_by :tweek
       expect(@query.result.size).to eq(2)
     end
 
-    it "should compute group_by Date (month)" do
+    it "computes group_by Date (month)" do
       @query.group_by :tmonth
       expect(@query.result.size).to eq(2)
     end
 
-    it "should compute group_by Date (year)" do
+    it "computes group_by Date (year)" do
       @query.group_by :tyear
       expect(@query.result.size).to eq(2)
     end
 
-    it "should compute group_by User" do
+    it "computes group_by User" do
       @query.group_by :user_id
       expect(@query.result.size).to eq(4)
     end
 
-    it "should compute group_by Type" do
+    it "computes group_by Type" do
       @query.group_by :type_id
       expect(@query.result.size).to eq(1)
     end
 
-    it "should compute group_by Budget" do
+    it "computes group_by Budget" do
       @query.group_by :budget_id
       expect(@query.result.size).to eq(1)
     end
 
-    it "should compute multiple group_by" do
+    it "computes multiple group_by" do
       @query.group_by :project_id
       @query.group_by :user_id
       sql_result = @query.result
@@ -158,7 +158,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     # TODO: ?
-    it "should compute multiple group_by with joins" do
+    it "computes multiple group_by with joins" do
       @query.group_by :project_id
       @query.group_by :type_id
       sql_result = @query.result
@@ -188,22 +188,22 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(@query.result.count).to eq(8)
     end
 
-    it "should accept row as a specialised group_by" do
+    it "accepts row as a specialised group_by" do
       @query.row :project_id
       expect(@query.chain.type).to eq(:row)
     end
 
-    it "should accept column as a specialised group_by" do
+    it "accepts column as a specialised group_by" do
       @query.column :project_id
       expect(@query.chain.type).to eq(:column)
     end
 
-    it "should have type :column as a default" do
+    it "has type :column as a default" do
       @query.group_by :project_id
       expect(@query.chain.type).to eq(:column)
     end
 
-    it "should aggregate a third group_by which owns at least 2 sub results" do
+    it "aggregates a third group_by which owns at least 2 sub results" do
       @query.group_by :tweek
       @query.group_by :project_id
       @query.group_by :user_id
@@ -258,23 +258,23 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       include OpenProject::Reporting::SpecHelper::CustomFieldFilterHelper
 
-      it "should create classes for custom fields" do
+      it "creates classes for custom fields" do
         # Would raise a name error
-        expect { group_by_class_name_string(custom_field).constantize }.to_not raise_error
+        expect { group_by_class_name_string(custom_field).constantize }.not_to raise_error
       end
 
-      it "should create new classes for custom fields that get added after starting the server" do
+      it "creates new classes for custom fields that get added after starting the server" do
         custom_field2.save!
 
         check_cache
 
         # Would raise a name error
-        expect { group_by_class_name_string(custom_field2).constantize }.to_not raise_error
+        expect { group_by_class_name_string(custom_field2).constantize }.not_to raise_error
 
         custom_field2.destroy
       end
 
-      it "should remove the custom field classes after it is deleted" do
+      it "removes the custom field classes after it is deleted" do
         custom_field2.save!
 
         check_cache

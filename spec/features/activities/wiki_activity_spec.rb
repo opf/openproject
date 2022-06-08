@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'Wiki activities' do
+describe 'Wiki activities' do
   let(:user) do
     create :user,
            member_in_project: project,

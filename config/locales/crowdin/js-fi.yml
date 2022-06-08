@@ -374,25 +374,31 @@ fi:
     label_less_or_equal: "<="
     label_less_than_ago: "vähemmän kuin päivää sitten"
     label_loading: "Lataa..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Sähköposti-ilmoitukset"
     label_me: "minä"
     label_meeting_agenda: "Esityslista"
     label_meeting_minutes: "Pöytäkirja"
     label_menu_collapse: "pienennä"
     label_menu_expand: "laajenna"
+    label_modified_at: "Modified: %{date}"
     label_more_than_ago: "enemän kuin päivää sitten"
     label_next: "Seuraava"
     label_no_color: "Ei väriä"
     label_no_data: "Ei tietoja"
     label_no_due_date: "no finish date"
     label_no_start_date: "ei aloituspäivää"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Ei arvoa"
+    label_no_file_links_header: "Link files in %{storageType}"
+    label_no_file_links_content: "In order to link files to this work package please do it via %{storageType}."
     label_none: "ei mitään"
     label_not_contains: "ei sisällä"
     label_not_equals: "ei ole"
     label_on: "päälle"
     label_open_menu: "Avaa valikko"
     label_open_context_menu: "Avaa valikko"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "avoin"
     label_password: "Salasana"
     label_previous: "Edellinen"
@@ -421,6 +427,9 @@ fi:
     label_sorting: "Lajittelu"
     label_spent_time: "Käytetty aika"
     label_star_query: "Suosikit"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Tallenna painamalla ENTER"
     label_public_query: "Julkinen"
     label_sum: "Yhteensä"
@@ -457,6 +466,7 @@ fi:
     label_custom_queries: "Yksityiset näkymät"
     label_columns: "Sarakkeet"
     label_attachments: Liitteet
+    label_nextcloud: Nextcloud
     label_drop_files: Raahaa ja pudota tiedostoja tähän
     label_drop_files_hint: tai klikkaa lisätäksesi tiedostoja
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -1188,3 +1198,6 @@ fi:
         remove: 'Poista'
       drop_modal:
         Close: 'Sulje'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

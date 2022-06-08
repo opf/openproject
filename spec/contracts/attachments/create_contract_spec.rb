@@ -35,10 +35,10 @@ describe Attachments::CreateContract do
   let(:current_user) { build_stubbed :user }
   let(:model) do
     build :attachment,
-          container: container,
-          content_type: content_type,
-          file: file,
-          filename: filename,
+          container:,
+          content_type:,
+          file:,
+          filename:,
           author: current_user
   end
   let(:contract) { described_class.new model, user, options: contract_options }
@@ -100,7 +100,6 @@ describe Attachments::CreateContract do
 
       it_behaves_like 'contract is valid'
     end
-
   end
 
   context 'with an empty whitelist',

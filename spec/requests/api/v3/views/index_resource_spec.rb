@@ -45,7 +45,7 @@ describe ::API::V3::Views::ViewsAPI,
   shared_let(:user_private_project_query) do
     create(:query,
            user: permitted_user,
-           project: project,
+           project:,
            public: false)
   end
   shared_let(:user_private_project_view) do
@@ -54,7 +54,7 @@ describe ::API::V3::Views::ViewsAPI,
   end
   shared_let(:other_user_private_project_query) do
     create(:query,
-           project: project,
+           project:,
            public: false)
   end
   shared_let(:other_user_private_project_view) do
@@ -63,7 +63,7 @@ describe ::API::V3::Views::ViewsAPI,
   end
   shared_let(:user_public_project_query) do
     create(:query,
-           project: project,
+           project:,
            public: true)
   end
   shared_let(:user_public_project_view) do
@@ -94,7 +94,7 @@ describe ::API::V3::Views::ViewsAPI,
   let(:filters) { nil }
 
   let(:send_request) do
-    get api_v3_paths.path_for :views, filters: filters
+    get api_v3_paths.path_for :views, filters:
   end
 
   let(:parsed_response) { JSON.parse(last_response.body) }
@@ -145,7 +145,7 @@ describe ::API::V3::Views::ViewsAPI,
     let(:other_user_private_project_query) do
       create(:query,
              user: permitted_user,
-             project: project,
+             project:,
              public: false)
     end
 

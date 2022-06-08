@@ -8,7 +8,7 @@ describe Ldap::SynchronizeUsersService do
   end
 
   context 'when updating an admin' do
-    let!(:user_aa729) { create :user, login: 'aa729', firstname: 'Foobar', auth_source: auth_source, admin: true }
+    let!(:user_aa729) { create :user, login: 'aa729', firstname: 'Foobar', auth_source:, admin: true }
 
     it 'does not update the admin attribute if not defined (Regression #42396)' do
       expect(user_aa729).to be_admin
@@ -20,8 +20,8 @@ describe Ldap::SynchronizeUsersService do
   end
 
   context 'when updating users' do
-    let!(:user_aa729) { create :user, login: 'aa729', firstname: 'Foobar', auth_source: auth_source }
-    let!(:user_bb459) { create :user, login: 'bb459', firstname: 'Bla', auth_source: auth_source }
+    let!(:user_aa729) { create :user, login: 'aa729', firstname: 'Foobar', auth_source: }
+    let!(:user_bb459) { create :user, login: 'bb459', firstname: 'Bla', auth_source: }
 
     it 'updates the attributes of those users' do
       subject
@@ -87,7 +87,7 @@ describe Ldap::SynchronizeUsersService do
     end
 
     context 'when requesting only a subset of users' do
-      let!(:user_cc414) { create :user, login: 'cc414', auth_source: auth_source }
+      let!(:user_cc414) { create :user, login: 'cc414', auth_source: }
 
       subject do
         described_class.new(auth_source, %w[Aa729 cc414]).call
@@ -115,7 +115,7 @@ describe Ldap::SynchronizeUsersService do
   end
 
   context 'with a user that is no longer in LDAP' do
-    let(:user_foo) { create :user, login: 'login', auth_source: auth_source }
+    let(:user_foo) { create :user, login: 'login', auth_source: }
 
     it 'locks that user' do
       expect(user_foo).to be_active

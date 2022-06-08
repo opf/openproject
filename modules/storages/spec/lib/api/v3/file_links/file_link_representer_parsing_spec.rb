@@ -46,7 +46,7 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
     subject(:parsed) { representer.from_hash parsed_hash }
 
     let(:representer) do
-      described_class.create(file_link, current_user: current_user)
+      described_class.create(file_link, current_user:)
     end
 
     let(:parsed_hash) do

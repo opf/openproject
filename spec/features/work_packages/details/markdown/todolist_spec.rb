@@ -141,7 +141,7 @@ describe 'Todolists in CKEditor', js: true do
     let!(:priority) { create :default_priority }
     let!(:type) { create :type_task }
     let(:project) { create :project, types: [type] }
-    let(:wp_page) { ::Pages::FullWorkPackageCreate.new project: project }
+    let(:wp_page) { ::Pages::FullWorkPackageCreate.new project: }
     let(:field) { wp_page.edit_field :description }
     let(:ckeditor) { field.ckeditor }
 

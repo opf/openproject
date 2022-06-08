@@ -100,7 +100,7 @@ module API
                    api_v3_paths.query_schema
                  end
           {
-            href: href
+            href:
           }
         end
 
@@ -112,14 +112,14 @@ module API
                  end
 
           {
-            href: href,
+            href:,
             method: :post
           }
         end
 
         link :updateImmediately do
-          next unless represented.new_record? && allowed_to?(:create) ||
-                      represented.persisted? && allowed_to?(:update)
+          next unless (represented.new_record? && allowed_to?(:create)) ||
+                      (represented.persisted? && allowed_to?(:update))
 
           {
             href: api_v3_paths.query(represented.id),
@@ -128,8 +128,8 @@ module API
         end
 
         link :updateOrderedWorkPackages do
-          next unless represented.new_record? && allowed_to?(:create) ||
-                      represented.persisted? && allowed_to?(:reorder_work_packages)
+          next unless (represented.new_record? && allowed_to?(:create)) ||
+                      (represented.persisted? && allowed_to?(:reorder_work_packages))
 
           {
             href: api_v3_paths.query_order(represented.id),
@@ -317,7 +317,7 @@ module API
           self.results = results
           self.params = params
 
-          super(model, current_user: current_user, embed_links: embed_links)
+          super(model, current_user:, embed_links:)
         end
 
         self.to_eager_load = [:user,
@@ -344,7 +344,7 @@ module API
             if name
               filter_class = Query.find_registered_filter(name) || ::Queries::Filters::NotExistingFilter
               filter_representer = ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter
-                                     .new(filter_class.create!(name: name))
+                                     .new(filter_class.create!(name:))
 
               filter = filter_representer.from_hash filter_attributes
               represented.filters << filter
@@ -392,7 +392,7 @@ module API
             href,
             property: (expected_namespace && expected_namespace.split("/").last) || "filter_value",
             expected_version: "3",
-            expected_namespace: expected_namespace
+            expected_namespace:
           )
         end
 

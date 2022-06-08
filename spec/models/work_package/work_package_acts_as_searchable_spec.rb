@@ -39,7 +39,7 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
   let(:work_package) do
     create(:work_package,
            subject: wp_subject,
-           project: project)
+           project:)
   end
   let(:user) { create(:user) }
 
@@ -54,7 +54,7 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
         become_member_with_permissions(project, user, :view_work_packages)
       end
 
-      it 'should return the work package' do
+      it 'returns the work package' do
         expect(WorkPackage.search(wp_subject.split).first).to include(work_package)
       end
     end
@@ -74,8 +74,8 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
         become_member_with_permissions(project, user, :view_work_packages)
       end
 
-      it 'should return the work package if the offset is before the work packages created at value' do
-        expect(WorkPackage.search(wp_subject.split, nil, offset: offset).first).to include(work_package)
+      it 'returns the work package if the offset is before the work packages created at value' do
+        expect(WorkPackage.search(wp_subject.split, nil, offset:).first).to include(work_package)
       end
     end
   end

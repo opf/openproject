@@ -43,7 +43,7 @@ describe WorkPackages::UpdateAncestorsService do
   end
   let!(:sibling) do
     create :work_package,
-           parent: parent,
+           parent:,
            remaining_hours: sibling_remaining_hours
   end
 
@@ -51,13 +51,13 @@ describe WorkPackages::UpdateAncestorsService do
     let!(:work_package) do
       create :work_package,
              remaining_hours: work_package_remaining_hours,
-             parent: parent
+             parent:
     end
 
     subject do
       described_class
-        .new(user: user,
-             work_package: work_package)
+        .new(user:,
+             work_package:)
         .call(%i(parent))
     end
 
@@ -84,7 +84,7 @@ describe WorkPackages::UpdateAncestorsService do
     let!(:work_package) do
       create :work_package,
              remaining_hours: work_package_remaining_hours,
-             parent: parent
+             parent:
     end
 
     subject do
@@ -92,8 +92,8 @@ describe WorkPackages::UpdateAncestorsService do
       work_package.save!
 
       described_class
-        .new(user: user,
-             work_package: work_package)
+        .new(user:,
+             work_package:)
         .call(%i(parent))
     end
 

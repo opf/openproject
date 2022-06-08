@@ -54,12 +54,12 @@ describe 'Subprojects widget on dashboard', type: :feature, js: true do
   end
 
   let(:role) do
-    create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
 
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project: project, roles: [role], user: u)
+      create(:member, project:, roles: [role], user: u)
       create(:member, project: child_project, roles: [role], user: u)
       create(:member, project: grandchild_project, roles: [role], user: u)
       create(:member, project: parent_project, roles: [role], user: u)

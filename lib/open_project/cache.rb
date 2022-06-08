@@ -30,8 +30,8 @@ require_relative 'cache/cache_key'
 
 module OpenProject
   module Cache
-    def self.fetch(*parts, &block)
-      Rails.cache.fetch(CacheKey.key(*parts), &block)
+    def self.fetch(*parts, &)
+      Rails.cache.fetch(CacheKey.key(*parts), &)
     end
 
     def self.clear

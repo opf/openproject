@@ -32,7 +32,7 @@ describe Meeting, type: :model do
   let(:project) { create(:project, members: project_members) }
   let(:user1) { create(:user) }
   let(:user2) { create(:user) }
-  let(:meeting) { create(:meeting, project: project, author: user1) }
+  let(:meeting) { create(:meeting, project:, author: user1) }
   let(:agenda) do
     meeting.create_agenda text: 'Meeting Agenda text'
     meeting.reload_agenda # avoiding stale object errors
@@ -41,13 +41,13 @@ describe Meeting, type: :model do
 
   let(:role) { create(:role, permissions: [:view_meetings]) }
 
-  it { is_expected.to belong_to :project }
-  it { is_expected.to belong_to :author }
-  it { is_expected.to validate_presence_of :title }
-
   before do
     @m = build :meeting, title: 'dingens'
   end
+
+  it { is_expected.to belong_to :project }
+  it { is_expected.to belong_to :author }
+  it { is_expected.to validate_presence_of :title }
 
   describe 'to_s' do
     it { expect(@m.to_s).to eq('dingens') }
@@ -113,7 +113,7 @@ describe Meeting, type: :model do
     describe 'WITH a user having the view_meetings permission' do
       let(:project_members) { { user1 => role } }
 
-      it 'should contain the user' do
+      it 'contains the user' do
         expect(meeting.all_changeable_participants).to eq([user1])
       end
     end
@@ -122,18 +122,19 @@ describe Meeting, type: :model do
       let(:role2) { create(:role, permissions: []) }
       let(:project_members) { { user1 => role, user2 => role2 } }
 
-      it 'should not contain the user' do
+      it 'does not contain the user' do
         expect(meeting.all_changeable_participants.include?(user2)).to be_falsey
       end
     end
 
     describe 'WITH a user being locked but invited' do
       let(:locked_user) { create(:locked_user) }
+
       before do
         meeting.participants_attributes = [{ 'user_id' => locked_user.id, 'invited' => 1 }]
       end
 
-      it 'should contain the user' do
+      it 'contains the user' do
         expect(meeting.all_changeable_participants.include?(locked_user)).to be_truthy
       end
     end
@@ -157,11 +158,11 @@ describe Meeting, type: :model do
       meeting.close_agenda_and_copy_to_minutes!
     end
 
-    it "should create a meeting with the agenda's text" do
+    it "creates a meeting with the agenda's text" do
       expect(meeting.minutes.text).to eq(meeting.agenda.text)
     end
 
-    it 'should close the agenda' do
+    it 'closes the agenda' do
       expect(meeting.agenda.locked?).to be_truthy
     end
   end
@@ -203,22 +204,22 @@ describe Meeting, type: :model do
       meeting.save!
     end
 
-    it 'should have the same start_time as the original meeting' do
+    it 'has the same start_time as the original meeting' do
       copy = meeting.copy({})
       expect(copy.start_time).to eq(meeting.start_time)
     end
 
-    it 'should delete the copied meeting author if no author is given as parameter' do
+    it 'deletes the copied meeting author if no author is given as parameter' do
       copy = meeting.copy({})
       expect(copy.author).to be_nil
     end
 
-    it 'should set the author to the provided author if one is given' do
+    it 'sets the author to the provided author if one is given' do
       copy = meeting.copy author: user2
       expect(copy.author).to eq(user2)
     end
 
-    it 'should clear participant ids and attended flags for all copied attendees' do
+    it 'clears participant ids and attended flags for all copied attendees' do
       copy = meeting.copy({})
       expect(copy.participants.all? { |p| p.id.nil? && !p.attended }).to be_truthy
     end

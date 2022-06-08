@@ -35,13 +35,13 @@ describe WorkPackage, 'acts_as_customizable', type: :model do
   let(:status) { create(:status) }
   let(:priority) { create(:priority) }
 
-  let(:work_package) { create(:work_package, project: project, type: type) }
+  let(:work_package) { create(:work_package, project:, type:) }
   let(:new_work_package) do
-    WorkPackage.new type: type,
-                    project: project,
+    WorkPackage.new type:,
+                    project:,
                     author: user,
-                    status: status,
-                    priority: priority,
+                    status:,
+                    priority:,
                     subject: 'some subject'
   end
 
@@ -58,7 +58,7 @@ describe WorkPackage, 'acts_as_customizable', type: :model do
         new_work_package
       end
 
-      let(:version) { create(:version, project: project) }
+      let(:version) { create(:version, project:) }
       let(:version_cf) { create(:version_wp_custom_field, is_required: true) }
 
       it 'results in a valid work package' do
@@ -89,7 +89,7 @@ describe WorkPackage, 'acts_as_customizable', type: :model do
     end
 
     it 'really responds to valid custom field accessors' do
-      expect(work_package.send(included_cf.accessor_name)).to eql(nil)
+      expect(work_package.send(included_cf.accessor_name)).to be_nil
     end
 
     it 'says to not respond to foreign custom field accessors' do
@@ -108,7 +108,7 @@ describe WorkPackage, 'acts_as_customizable', type: :model do
     it 'does not duplicate error messages when invalid' do
       # create work_package with one required custom field
       work_package = new_work_package
-      #work_package.reload
+      # work_package.reload
       setup_custom_field(cf1)
 
       # set that custom field with a value, should be fine

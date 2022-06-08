@@ -57,9 +57,9 @@ module Report::InheritedAttribute
     end
   end
 
-  def define_singleton_method(name, &block)
+  def define_singleton_method(name, &)
     singleton_class.send :attr_writer, name
-    singleton_class.class_eval { define_method(name, &block) }
+    singleton_class.class_eval { define_method(name, &) }
     define_method(name) { instance_variable_get("@#{name}") or singleton_class.send(name) }
   end
 

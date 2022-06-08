@@ -47,7 +47,7 @@ describe 'Tasks on taskboard',
     create(:workflow,
            old_status: default_status,
            new_status: other_status,
-           role: role,
+           role:,
            type_id: task.id)
   end
   let(:role) do
@@ -67,7 +67,7 @@ describe 'Tasks on taskboard',
   end
   let!(:story1) do
     create(:work_package,
-           project: project,
+           project:,
            type: story,
            status: default_status,
            version: sprint,
@@ -76,7 +76,7 @@ describe 'Tasks on taskboard',
   end
   let!(:story1_task) do
     create(:work_package,
-           project: project,
+           project:,
            parent: story1,
            type: task,
            status: default_status,
@@ -84,7 +84,7 @@ describe 'Tasks on taskboard',
   end
   let!(:story1_task_subtask) do
     create(:work_package,
-           project: project,
+           project:,
            parent: story1_task,
            type: task,
            status: default_status,
@@ -92,14 +92,14 @@ describe 'Tasks on taskboard',
   end
   let!(:other_work_package) do
     create(:work_package,
-           project: project,
+           project:,
            type: create(:type),
            status: default_status,
            version: sprint)
   end
   let!(:other_work_package_subtask) do
     create(:work_package,
-           project: project,
+           project:,
            parent: other_work_package,
            type: task,
            status: default_status,
@@ -107,7 +107,7 @@ describe 'Tasks on taskboard',
   end
   let!(:story2) do
     create(:work_package,
-           project: project,
+           project:,
            type: story,
            status: default_status,
            version: sprint,
@@ -116,10 +116,10 @@ describe 'Tasks on taskboard',
   end
   let!(:sprint) do
     create(:version,
-           project: project,
+           project:,
            start_date: Date.today - 10.days,
            effective_date: Date.today + 10.days,
-           version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_LEFT }])
+           version_settings_attributes: [{ project:, display: VersionSetting::DISPLAY_LEFT }])
   end
   let!(:other_project) do
     create(:project).tap do |p|

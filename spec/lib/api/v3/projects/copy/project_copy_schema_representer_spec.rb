@@ -39,14 +39,14 @@ describe ::API::V3::Projects::Copy::ProjectCopySchemaRepresenter do
     described_class.create(contract,
                            self_link: '/a/self/link',
                            form_embedded: true,
-                           current_user: current_user)
+                           current_user:)
   end
 
   shared_let(:subject, reload: false) { representer.to_json }
 
   describe '_type' do
     it 'is indicated as Schema' do
-      is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
+      expect(subject).to be_json_eql('Schema'.to_json).at_path('_type')
     end
   end
 

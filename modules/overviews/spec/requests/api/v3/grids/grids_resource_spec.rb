@@ -42,8 +42,8 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   let(:project) { create(:project) }
   let(:grid) do
     create(:overview,
-           project: project,
-           widgets: widgets)
+           project:,
+           widgets:)
   end
   let(:widgets) do
     [create(:grid_widget,
@@ -113,9 +113,12 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       expect(subject.body)
         .to be_json_eql('Grid'.to_json)
               .at_path('_type')
-      expect(subject.body)
-        .to be_json_eql(params['rowCount'].to_json)
-              .at_path('rowCount')
+
+      if params["rowCount"]
+        expect(subject.body)
+          .to be_json_eql(params['rowCount'].to_json)
+                .at_path('rowCount')
+      end
     end
 
     it 'persists the grid' do
@@ -131,11 +134,11 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
     let(:params) do
       {
-        "rowCount": 10,
-        "columnCount": 15,
-        "_links": {
-          "scope": {
-            "href": project_overview_path(project)
+        rowCount: 10,
+        columnCount: 15,
+        _links: {
+          scope: {
+            href: project_overview_path(project)
           }
         }
       }.with_indifferent_access
@@ -147,14 +150,40 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
     it_behaves_like 'creates a grid resource'
 
-    context 'if lacking the manage_overview permission' do
-      # Since manage_overview is a public permission, being a member in the project will grant the permission
-      # which is why this test case is the same as the one above
+    context 'if lacking the manage_overview permission and not changing the default values' do
+      # Creating a grid should be possible for every member in the project to avoid having an empty page for the project
+      # which is why this test case is the same as the one above.
+      # But this is only true if only the scope is provided and no other attribute.
       let(:permissions) { %i[] }
+      let(:params) do
+        {
+          _links: {
+            scope: {
+              href: project_overview_path(project)
+            }
+          }
+        }.with_indifferent_access
+      end
 
       it_behaves_like 'creates a grid resource'
     end
 
+    context 'if lacking the manage_overview permission and changing the default values' do
+      # Creating a grid should be possible for every member in the project to avoid having an empty page for the project
+      # which is why this test case is the same as the one above.
+      # But this is only true if only the scope is provided and no other attribute.
+      # In this test, the rowCount and columnCount is changed
+      let(:permissions) { %i[] }
+
+      it 'responds with 422' do
+        expect(subject.status).to eq(422)
+      end
+
+      it 'persists no grid' do
+        expect(Grids::Grid.count)
+          .to be(0)
+      end
+    end
 
     context 'if not being a member in the project' do
       current_user do

@@ -47,8 +47,8 @@ module Components
 
     protected
 
-    def within_pagination(&block)
-      within('.op-pagination', &block)
+    def within_pagination(&)
+      within('.op-pagination', &)
     end
   end
 end

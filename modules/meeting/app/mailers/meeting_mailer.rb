@@ -40,7 +40,7 @@ class MeetingMailer < UserMailer
 
     User.execute_as(user) do
       subject = "[#{@meeting.project.name}] #{I18n.t(:"label_#{content_type}")}: #{@meeting.title}"
-      mail to: user.mail, subject: subject
+      mail to: user.mail, subject:
     end
   end
 

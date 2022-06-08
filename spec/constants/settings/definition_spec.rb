@@ -552,8 +552,8 @@ describe Settings::Definition do
     let(:instance) do
       described_class
         .new 'bogus',
-             format: format,
-             default: default
+             format:,
+             default:
     end
 
     context 'with string format' do
@@ -650,7 +650,7 @@ describe Settings::Definition do
       let(:instance) do
         described_class
           .new 'bogus',
-               format: format,
+               format:,
                default: 'foo',
                allowed: %w[foo bar]
       end

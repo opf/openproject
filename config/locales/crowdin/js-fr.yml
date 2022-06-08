@@ -374,25 +374,31 @@ fr:
     label_less_or_equal: "<="
     label_less_than_ago: "il y a moins de quelques jours"
     label_loading: "Chargement…"
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Notifications par courriel"
     label_me: "moi"
     label_meeting_agenda: "Ordre du jour"
     label_meeting_minutes: "Compte-rendu"
     label_menu_collapse: "réduire"
     label_menu_expand: "développer"
+    label_modified_at: "Modified: %{date}"
     label_more_than_ago: "il y a plus de quelques jours"
     label_next: "Suivante"
     label_no_color: "Aucune couleur"
     label_no_data: "Aucune donnée à afficher"
     label_no_due_date: "pas de date de fin"
     label_no_start_date: "pas de date de début"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Aucune valeur"
+    label_no_file_links_header: "Link files in %{storageType}"
+    label_no_file_links_content: "In order to link files to this work package please do it via %{storageType}."
     label_none: "aucune"
     label_not_contains: "ne contient pas"
     label_not_equals: "n'est pas"
     label_on: "le"
     label_open_menu: "Ouvrir le menu"
     label_open_context_menu: "Ouvrir le menu contextuel"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "ouverts"
     label_password: "Mot de passe"
     label_previous: "Précédent"
@@ -421,6 +427,9 @@ fr:
     label_sorting: "Tri"
     label_spent_time: "Temps passé"
     label_star_query: "Préféré"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Appuyer sur \"entrée\" pour enregistrer."
     label_public_query: "Public"
     label_sum: "Total"
@@ -457,6 +466,7 @@ fr:
     label_custom_queries: "Vues privées"
     label_columns: "Colonnes"
     label_attachments: Fichiers
+    label_nextcloud: Nextcloud
     label_drop_files: Déposez des fichiers ici
     label_drop_files_hint: ou cliquez pour ajouter des fichiers
     label_drop_folders_hint: Vous ne pouvez pas télécharger les dossiers en pièce jointe. S’il vous plaît sélectionnez des fichiers seuls.
@@ -1188,3 +1198,6 @@ fr:
         remove: 'Supprimer'
       drop_modal:
         Close: 'Fermer'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
+

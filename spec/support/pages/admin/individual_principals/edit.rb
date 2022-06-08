@@ -32,8 +32,7 @@ module Pages
   module Admin
     module IndividualPrincipals
       class Edit < ::Pages::Page
-        attr_reader :id
-        attr_reader :individual_principal
+        attr_reader :id, :individual_principal
 
         def initialize(individual_principal)
           @individual_principal = individual_principal
@@ -69,11 +68,9 @@ module Pages
 
           page.within("#member-#{membership.id}-roles-form") do
             page.all('.form--check-box').each do |f|
-              begin
-                f.set false
-              rescue Selenium::WebDriver::Error::InvalidElementStateError
-                # Happens if an element is disabled
-              end
+              f.set false
+            rescue Selenium::WebDriver::Error::InvalidElementStateError
+              # Happens if an element is disabled
             end
             Array(roles).each { |role| page.check role }
             page.find('.memberships--edit-submit-button').click

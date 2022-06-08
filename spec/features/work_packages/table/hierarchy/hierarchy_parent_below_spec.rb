@@ -34,12 +34,12 @@ describe 'Work Package table hierarchy parent below', js: true do
   # .... Child
   # V Grandparent
   describe 'grand-parent sorted below child, parent invisible' do
-    let(:child) { create(:work_package, project: project, type: type_task) }
-    let(:parent) { create(:work_package, project: project, type: type_bug) }
-    let(:grandparent) { create(:work_package, project: project, type: type_task) }
+    let(:child) { create(:work_package, project:, type: type_task) }
+    let(:parent) { create(:work_package, project:, type: type_bug) }
+    let(:grandparent) { create(:work_package, project:, type: type_task) }
 
     let(:query) do
-      query              = build(:query, user: user, project: project)
+      query              = build(:query, user:, project:)
       query.column_names = ['id', 'subject', 'type']
       query.sort_criteria = [%w(id asc)]
       query.filters.clear
@@ -94,13 +94,13 @@ describe 'Work Package table hierarchy parent below', js: true do
   end
 
   describe 'grand-parent of 2+ children visible anywhere on the page, but parent is not (Regression #29652)' do
-    let(:child) { create(:work_package, subject: 'AA Child WP', project: project, type: type_task) }
-    let(:child2) { create(:work_package, subject: 'BB Child WP', project: project, type: type_task) }
-    let(:parent) { create(:work_package, subject: 'ZZ Parent WP', project: project, type: type_task) }
-    let(:grandparent) { create(:work_package, subject: 'Grandparent', project: project, type: type_task) }
+    let(:child) { create(:work_package, subject: 'AA Child WP', project:, type: type_task) }
+    let(:child2) { create(:work_package, subject: 'BB Child WP', project:, type: type_task) }
+    let(:parent) { create(:work_package, subject: 'ZZ Parent WP', project:, type: type_task) }
+    let(:grandparent) { create(:work_package, subject: 'Grandparent', project:, type: type_task) }
 
     let(:query) do
-      query              = build(:query, user: user, project: project)
+      query              = build(:query, user:, project:)
       query.column_names = %w(id subject)
       query.sort_criteria = [%w(subject asc), %w(id asc)]
       query.show_hierarchies = true
@@ -143,8 +143,8 @@ describe 'Work Package table hierarchy parent below', js: true do
   end
 
   describe 'An arrow is beside parent name' do
-    let(:child) { create(:work_package, subject: 'AA Child WP', project: project, parent: parent) }
-    let(:parent) { create(:work_package, subject: 'ZZ Parent WP', project: project) }
+    let(:child) { create(:work_package, subject: 'AA Child WP', project:, parent:) }
+    let(:parent) { create(:work_package, subject: 'ZZ Parent WP', project:) }
     let(:relations) { ::Components::WorkPackages::Relations.new(parent) }
 
     before do

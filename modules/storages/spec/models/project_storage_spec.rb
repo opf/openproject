@@ -34,9 +34,9 @@ describe ::Storages::ProjectStorage, type: :model do
   let(:storage) { create(:storage) }
   let(:attributes) do
     {
-      storage: storage,
-      creator: creator,
-      project: project
+      storage:,
+      creator:,
+      project:
     }
   end
 
@@ -61,8 +61,8 @@ describe ::Storages::ProjectStorage, type: :model do
 
   describe '#destroy' do
     let(:project_storage_to_destroy) { described_class.create(attributes) }
-    let(:work_package) { create(:work_package, project: project) }
-    let(:file_link) { create(:file_link, storage: storage, container_id: work_package.id) }
+    let(:work_package) { create(:work_package, project:) }
+    let(:file_link) { create(:file_link, storage:, container_id: work_package.id) }
 
     before do
       project_storage_to_destroy

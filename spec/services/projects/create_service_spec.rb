@@ -41,7 +41,7 @@ describe Projects::CreateService, type: :model do
 
       allow(Members::CreateService)
         .to(receive(:new))
-        .with(user: user, contract_class: EmptyContract)
+        .with(user:, contract_class: EmptyContract)
         .and_return(create_member_instance)
 
       allow(create_member_instance)

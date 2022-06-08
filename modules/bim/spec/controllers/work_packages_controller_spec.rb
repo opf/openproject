@@ -61,7 +61,7 @@ describe WorkPackagesController, type: :controller do
 
         allow(service_instance)
           .to receive(:call)
-          .with(query: query, mime_type: mime_type.to_sym, params: anything)
+          .with(query:, mime_type: mime_type.to_sym, params: anything)
           .and_return(ServiceResult.new(result: 'uuid of the export job'))
       end
 
@@ -71,7 +71,7 @@ describe WorkPackagesController, type: :controller do
       end
 
       context 'with json accept' do
-        it 'should fulfill the defined should_receives' do
+        it 'fulfills the defined should_receives' do
           request.headers['Accept'] = 'application/json'
           get 'index', params: { format: 'bcf' }
           expect(response.body).to eq({ job_id: 'uuid of the export job' }.to_json)

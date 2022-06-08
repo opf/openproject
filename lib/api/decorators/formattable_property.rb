@@ -46,8 +46,8 @@ module API
 
           attributes = {
             exec_context: :decorator,
-            getter: getter,
-            setter: setter,
+            getter:,
+            setter:,
             render_nil: true
           }
 
@@ -61,7 +61,7 @@ module API
           ->(*) {
             ::API::Decorators::Formattable.new(represented.send(name),
                                                object: represented,
-                                               plain: plain)
+                                               plain:)
           }
         end
 

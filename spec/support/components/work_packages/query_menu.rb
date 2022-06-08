@@ -39,7 +39,7 @@ module Components
         select_autocomplete autocompleter,
                             results_selector: autocompleter_results_selector,
                             item_selector: autocompleter_item_selector,
-                            query: query
+                            query:
       end
 
       def autocompleter

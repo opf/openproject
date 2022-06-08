@@ -46,7 +46,7 @@ module MetaTagsHelper
           firstDayOfWeek: locale_first_day_of_week,
           environment: Rails.env,
           edition: OpenProject::Configuration.edition
-    }
+        }
   end
 
   ##

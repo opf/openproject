@@ -38,7 +38,7 @@ describe ::API::V3::Queries::Schemas::BudgetFilterDependencyRepresenter do
   let(:instance) do
     described_class.new(filter,
                         operator,
-                        form_embedded: form_embedded)
+                        form_embedded:)
   end
 
   subject(:generated) { instance.to_json }

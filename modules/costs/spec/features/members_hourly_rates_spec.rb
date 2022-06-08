@@ -34,7 +34,7 @@ describe 'hourly rates on a member', type: :feature, js: true do
     create :admin,
            member_in_project: project
   end
-  let(:member) { Member.find_by(project: project, principal: user) }
+  let(:member) { Member.find_by(project:, principal: user) }
 
   def view_rates
     visit edit_user_path(user, tab: 'rates')

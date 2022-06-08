@@ -35,13 +35,13 @@ describe 'Read only mode when user lacks edit permission on dashboard', type: :f
   let!(:project) { create :project, types: [type] }
   let!(:work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            author: user,
            responsible: user
   end
   let!(:dashboard) do
-    create(:dashboard_with_table, project: project)
+    create(:dashboard_with_table, project:)
   end
 
   let(:permissions) do
@@ -53,12 +53,12 @@ describe 'Read only mode when user lacks edit permission on dashboard', type: :f
   end
 
   let(:role) do
-    create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
 
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project: project, user: u, roles: [role])
+      create(:member, project:, user: u, roles: [role])
     end
   end
   let(:dashboard_page) do

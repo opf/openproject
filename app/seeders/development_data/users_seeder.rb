@@ -79,7 +79,7 @@ module DevelopmentData
     def seed_users_disabled?
       off_values = ["off", "false", "no", "0"]
 
-      off_values.include? ENV['OP_DEV_USER_SEEDER_ENABLED']
+      off_values.include? ENV.fetch('OP_DEV_USER_SEEDER_ENABLED', nil)
     end
 
     def user_names
@@ -108,13 +108,13 @@ module DevelopmentData
     end
 
     def force_password_change?
-      Rails.env != 'development' && !force_password_change_disabled?
+      !Rails.env.development? && !force_password_change_disabled?
     end
 
     def force_password_change_disabled?
       off_values = ["off", "false", "no", "0"]
 
-      off_values.include? ENV[force_password_change_env_switch_name]
+      off_values.include? ENV.fetch(force_password_change_env_switch_name, nil)
     end
   end
 end

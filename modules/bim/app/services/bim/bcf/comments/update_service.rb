@@ -39,7 +39,7 @@ module Bim::Bcf
       end
 
       def update_journal(journal, comment)
-        ::Journals::UpdateService.new(user: user,
+        ::Journals::UpdateService.new(user:,
                                       model: journal,
                                       contract_class: ::EmptyContract)
                                  .call(notes: comment)

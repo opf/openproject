@@ -31,7 +31,7 @@ module Token
     include ExpirableToken
 
     def self.validity_time
-      1.days
+      1.day
     end
   end
 end

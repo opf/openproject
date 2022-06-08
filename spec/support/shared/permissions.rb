@@ -74,14 +74,14 @@ module PermissionSpecHelpers
   end
 end
 
-shared_examples_for 'a controller action with unrestricted access' do
+shared_context 'a controller action with unrestricted access' do
   let(:valid_user) { create(:anonymous) }
 
   extend PermissionSpecHelpers
   spec_permissions(false)
 end
 
-shared_examples_for 'a controller action with require_login' do
+shared_context 'a controller action with require_login' do
   let(:valid_user)   { create(:user) }
   let(:invalid_user) { create(:anonymous) }
 
@@ -89,7 +89,7 @@ shared_examples_for 'a controller action with require_login' do
   spec_permissions
 end
 
-shared_examples_for 'a controller action with require_admin' do
+shared_context 'a controller action with require_admin' do
   let(:valid_user)   { User.where(admin: true).first || create(:admin) }
   let(:invalid_user) { create(:user) }
 
@@ -97,7 +97,7 @@ shared_examples_for 'a controller action with require_admin' do
   spec_permissions
 end
 
-shared_examples_for 'a controller action which needs project permissions' do
+shared_context 'a controller action which needs project permissions' do
   # Expecting the following environment
   #
   # let(:project) { create(:project) }
@@ -121,7 +121,7 @@ shared_examples_for 'a controller action which needs project permissions' do
 
   def add_membership(user, permissions)
     role   = create(:role, permissions: Array(permissions))
-    member = build(:member, user: user, project: project)
+    member = build(:member, user:, project:)
     member.roles = [role]
     member.save!
   end

@@ -31,7 +31,7 @@ require 'spec_helper'
 describe QueryPolicy, type: :controller do
   let(:user)    { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
-  let(:query)   { build_stubbed(:query, project: project, user: user) }
+  let(:query)   { build_stubbed(:query, project:, user:) }
 
   describe '#allowed?' do
     let(:subject) { described_class.new(user) }
@@ -45,6 +45,7 @@ describe QueryPolicy, type: :controller do
     shared_examples 'viewing queries' do |global|
       context (global ? 'in global context' : 'in project context').to_s do
         let(:other_user) { build_stubbed(:user) }
+
         if global
           let(:project) { nil }
         end
@@ -58,8 +59,8 @@ describe QueryPolicy, type: :controller do
         context 'query belongs to a different user' do
           let(:query) do
             build_stubbed(:query,
-                          project: project,
-                          user: user,
+                          project:,
+                          user:,
                           public: false)
           end
 
@@ -199,7 +200,7 @@ describe QueryPolicy, type: :controller do
         it 'is true if the user has the save_query permission in the project' do
           allow(user).to receive(:allowed_to?).with(:save_queries,
                                                     project,
-                                                    global: global)
+                                                    global:)
             .and_return true
 
           expect(subject.allowed?(query, action)).to be_truthy
@@ -209,7 +210,7 @@ describe QueryPolicy, type: :controller do
            'AND the query is persisted' do
           allow(user).to receive(:allowed_to?).with(:save_queries,
                                                     project,
-                                                    global: global)
+                                                    global:)
             .and_return true
 
           allow(query).to receive(:new_record?).and_return false
@@ -377,21 +378,21 @@ describe QueryPolicy, type: :controller do
       end
     end
 
-    it_should_behave_like 'action on persisted', :update, global: true
-    it_should_behave_like 'action on persisted', :update, global: false
-    it_should_behave_like 'action on persisted', :destroy, global: true
-    it_should_behave_like 'action on persisted', :destroy, global: false
-    it_should_behave_like 'action on unpersisted', :create, global: true
-    it_should_behave_like 'action on unpersisted', :create, global: false
-    it_should_behave_like 'publicize', global: false
-    it_should_behave_like 'publicize', global: true
-    it_should_behave_like 'depublicize', global: false
-    it_should_behave_like 'depublicize', global: true
-    it_should_behave_like 'action on persisted', :star, global: false
-    it_should_behave_like 'action on persisted', :star, global: true
-    it_should_behave_like 'action on persisted', :unstar, global: false
-    it_should_behave_like 'action on persisted', :unstar, global: true
-    it_should_behave_like 'viewing queries', global: true
-    it_should_behave_like 'viewing queries', global: false
+    it_behaves_like 'action on persisted', :update, global: true
+    it_behaves_like 'action on persisted', :update, global: false
+    it_behaves_like 'action on persisted', :destroy, global: true
+    it_behaves_like 'action on persisted', :destroy, global: false
+    it_behaves_like 'action on unpersisted', :create, global: true
+    it_behaves_like 'action on unpersisted', :create, global: false
+    it_behaves_like 'publicize', global: false
+    it_behaves_like 'publicize', global: true
+    it_behaves_like 'depublicize', global: false
+    it_behaves_like 'depublicize', global: true
+    it_behaves_like 'action on persisted', :star, global: false
+    it_behaves_like 'action on persisted', :star, global: true
+    it_behaves_like 'action on persisted', :unstar, global: false
+    it_behaves_like 'action on persisted', :unstar, global: true
+    it_behaves_like 'viewing queries', global: true
+    it_behaves_like 'viewing queries', global: false
   end
 end

@@ -34,7 +34,7 @@ module API
         include API::Caching::CachedRepresenter
         include ::API::V3::Attachments::AttachableRepresenterMixin
 
-        self_link title_getter: ->(*) { nil }
+        self_link title_getter: ->(*) {}
 
         property :id
 

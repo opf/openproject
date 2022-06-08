@@ -35,7 +35,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:wp_type) { project.types.first }
   let(:custom_field) { build_stubbed(:custom_field) }
   let(:work_package) do
-    build_stubbed(:stubbed_work_package, project: project, type: wp_type) do |wp|
+    build_stubbed(:stubbed_work_package, project:, type: wp_type) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
         .and_return(available_custom_fields)
@@ -62,7 +62,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
      Type::QueryGroup.new(wp_type, "Children", attribute_query)]
   end
   let(:schema) do
-    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package).tap do |schema|
+    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:).tap do |schema|
       allow(wp_type)
         .to receive(:attribute_groups)
         .and_return(attribute_groups)
@@ -81,10 +81,10 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:embedded) { true }
   let(:representer) do
     described_class.create(schema,
-                           self_link: self_link,
+                           self_link:,
                            form_embedded: embedded,
-                           base_schema_link: base_schema_link,
-                           current_user: current_user)
+                           base_schema_link:,
+                           current_user:)
   end
   let(:available_custom_fields) { [] }
 
@@ -169,7 +169,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     describe '_type' do
       it 'is indicated as Schema' do
-        is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
+        expect(subject).to be_json_eql('Schema'.to_json).at_path('_type')
       end
     end
 
@@ -247,12 +247,12 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:representer) do
           described_class.create(schema,
                                  self_link: nil,
-                                 current_user: current_user,
+                                 current_user:,
                                  hide_lock_version: true)
         end
 
         it 'is hidden' do
-          is_expected.to_not have_json_path('lockVersion')
+          expect(subject).not_to have_json_path('lockVersion')
         end
       end
     end
@@ -349,7 +349,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
 
         it 'has no date attribute' do
-          is_expected.to_not have_json_path('date')
+          expect(subject).not_to have_json_path('date')
         end
       end
     end
@@ -399,7 +399,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
 
         it 'has no date attribute' do
-          is_expected.to_not have_json_path('startDate')
+          expect(subject).not_to have_json_path('startDate')
         end
       end
     end
@@ -446,7 +446,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
 
         it 'has no date attribute' do
-          is_expected.to_not have_json_path('dueDate')
+          expect(subject).not_to have_json_path('dueDate')
         end
       end
     end
@@ -472,7 +472,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:is_milestone) { true }
 
         it 'has no date attribute' do
-          is_expected.to_not have_json_path('derivedStartDate')
+          expect(subject).not_to have_json_path('derivedStartDate')
         end
       end
     end
@@ -498,7 +498,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:is_milestone) { true }
 
         it 'has no date attribute' do
-          is_expected.to_not have_json_path('derivedDueDate')
+          expect(subject).not_to have_json_path('derivedDueDate')
         end
       end
     end
@@ -574,7 +574,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'without any view time_entries permission' do
         it 'has no spentTime attribute' do
-          is_expected.to_not have_json_path('spentTime')
+          expect(subject).not_to have_json_path('spentTime')
         end
       end
     end
@@ -612,7 +612,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
 
         it 'is hidden' do
-          is_expected.to_not have_json_path('percentageDone')
+          expect(subject).not_to have_json_path('percentageDone')
         end
       end
     end
@@ -684,7 +684,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'when creating (new_record)' do
         let(:work_package) do
-          build(:stubbed_work_package, project: project, type: wp_type) do |wp|
+          build(:stubbed_work_package, project:, type: wp_type) do |wp|
             allow(wp)
               .to receive(:available_custom_fields)
               .and_return(available_custom_fields)
@@ -699,7 +699,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'when creating (new_record with empty type)' do
         let(:work_package) do
-          build(:stubbed_work_package, project: project, type: nil) do |wp|
+          build(:stubbed_work_package, project:, type: nil) do |wp|
             allow(wp)
               .to receive(:available_custom_fields)
                     .and_return(available_custom_fields)
@@ -950,13 +950,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'user not allowed to view_budgets' do
         it 'has no schema for budget' do
-          is_expected.not_to have_json_path('budget')
+          expect(subject).not_to have_json_path('budget')
         end
       end
     end
 
     describe 'custom fields' do
       let(:available_custom_fields) { [build_stubbed(:int_wp_custom_field)] }
+
       it 'uses a CustomFieldInjector' do
         expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_schema_representer)
           .and_return(described_class)
@@ -986,7 +987,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       let(:schema) do
         ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema
-          .new(type: work_package.type, project: project).tap do |schema|
+          .new(type: work_package.type, project:).tap do |schema|
           allow(wp_type)
             .to receive(:attribute_groups)
             .and_return(attribute_groups)
@@ -1046,7 +1047,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
 
         it 'the cache key' do
-          expect(joined_cache_key).to_not eql(original_cache_key)
+          expect(joined_cache_key).not_to eql(original_cache_key)
         end
       end
 

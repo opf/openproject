@@ -47,7 +47,7 @@ describe 'Stories in backlog',
     create(:workflow,
            old_status: default_status,
            new_status: other_status,
-           role: role,
+           role:,
            type_id: story.id)
   end
   let(:role) do
@@ -66,7 +66,7 @@ describe 'Stories in backlog',
   end
   let!(:sprint_story1) do
     create(:work_package,
-           project: project,
+           project:,
            type: story,
            status: default_status,
            version: sprint,
@@ -75,21 +75,21 @@ describe 'Stories in backlog',
   end
   let!(:sprint_story1_task) do
     create(:work_package,
-           project: project,
+           project:,
            type: task,
            status: default_status,
            version: sprint)
   end
   let!(:sprint_story2_parent) do
     create(:work_package,
-           project: project,
+           project:,
            type: create(:type),
            status: default_status,
            version: sprint)
   end
   let!(:sprint_story2) do
     create(:work_package,
-           project: project,
+           project:,
            type: story,
            status: default_status,
            version: sprint,
@@ -98,22 +98,22 @@ describe 'Stories in backlog',
   end
   let!(:backlog_story1) do
     create(:work_package,
-           project: project,
+           project:,
            type: story,
            status: default_status,
            version: backlog)
   end
   let!(:sprint) do
     create(:version,
-           project: project,
+           project:,
            start_date: Date.today - 10.days,
            effective_date: Date.today + 10.days,
-           version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_LEFT }])
+           version_settings_attributes: [{ project:, display: VersionSetting::DISPLAY_LEFT }])
   end
   let!(:backlog) do
     create(:version,
-           project: project,
-           version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_RIGHT }])
+           project:,
+           version_settings_attributes: [{ project:, display: VersionSetting::DISPLAY_RIGHT }])
   end
   let!(:other_project) do
     create(:project).tap do |p|
@@ -194,7 +194,7 @@ describe 'Stories in backlog',
       .expect_story_in_sprint(new_story, sprint)
 
     # All positions will be unique in the sprint
-    expect(Story.where(version: sprint, type: story, project: project).pluck(:position))
+    expect(Story.where(version: sprint, type: story, project:).pluck(:position))
       .to match_array([1, 2, 3])
 
     backlogs_page
@@ -232,7 +232,7 @@ describe 'Stories in backlog',
     backlogs_page
       .expect_stories_in_order(sprint, sprint_story1, new_story, sprint_story2)
 
-    expect(Story.where(version: sprint, type: story, project: project).pluck(:position))
+    expect(Story.where(version: sprint, type: story, project:).pluck(:position))
       .to match_array([1, 2, 3])
 
     # Moving a story to bottom
@@ -244,7 +244,7 @@ describe 'Stories in backlog',
     backlogs_page
       .expect_stories_in_order(sprint, new_story, sprint_story2, sprint_story1)
 
-    expect(Story.where(version: sprint, type: story, project: project).pluck(:position))
+    expect(Story.where(version: sprint, type: story, project:).pluck(:position))
       .to match_array([1, 2, 3])
 
     # Moving a story to from the backlog to the sprint (3rd position)
@@ -258,7 +258,7 @@ describe 'Stories in backlog',
     backlogs_page
       .expect_stories_in_order(sprint, new_story, sprint_story2, backlog_story1, sprint_story1)
 
-    expect(Story.where(version: sprint, type: story, project: project).pluck(:position))
+    expect(Story.where(version: sprint, type: story, project:).pluck(:position))
       .to match_array([1, 2, 3, 4])
 
     # Available statuses when editing
