@@ -366,6 +366,9 @@ import {
   FilterStringValueComponent,
 } from 'core-app/features/work-packages/components/filters/filter-string-value/filter-string-value.component';
 import {
+  FilterProjectComponent,
+} from 'core-app/features/work-packages/components/filters/filter-project/filter-project.component';
+import {
   FilterDateValueComponent,
 } from 'core-app/features/work-packages/components/filters/filter-date-value/filter-date-value.component';
 import {
