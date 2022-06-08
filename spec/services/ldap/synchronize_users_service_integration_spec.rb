@@ -72,6 +72,20 @@ describe Ldap::SynchronizeUsersService do
       expect(user_aa729).to be_active
     end
 
+    context 'when requesting not to sync users status',
+            with_config: { ldap_users_sync_status: false } do
+      it 'does not reactivate the account if it is locked' do
+        user_aa729.lock!
+
+        expect(user_aa729.reload).to be_locked
+
+        subject
+
+        expect(user_aa729.reload).to be_locked
+        expect(user_aa729).not_to be_active
+      end
+    end
+
     context 'when requesting only a subset of users' do
       let!(:user_cc414) { create :user, login: 'cc414', auth_source: auth_source }
 
@@ -109,6 +123,17 @@ describe Ldap::SynchronizeUsersService do
       subject
 
       expect(user_foo.reload).to be_locked
+    end
+
+    context 'when requesting not to sync users status',
+            with_config: { ldap_users_sync_status: false } do
+      it 'does not lock that user' do
+        expect(user_foo).to be_active
+
+        subject
+
+        expect(user_foo.reload).to be_active
+      end
     end
   end
 

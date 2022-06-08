@@ -74,14 +74,14 @@ module Pages
       Capybara.current_session.driver.is_a?(Capybara::Selenium::Driver)
     end
 
-    def set_items_per_page!(n)
-      Setting.per_page_options = "#{n}, 50, 100"
+    def set_items_per_page!(number)
+      Setting.per_page_options = "#{number}, 50, 100"
     end
 
     def expect_current_path(query_params = nil)
       uri = URI.parse(current_url)
       current_path = uri.path
-      current_path += '?' + uri.query if uri.query
+      current_path += "?#{uri.query}" if uri.query
 
       expected_path = path
       expected_path += "?#{query_params}" if query_params
@@ -121,6 +121,55 @@ module Pages
       else
         expect(page).to have_no_selector(".op-toast.-#{type}", text: message)
       end
+    end
+
+    def drag_and_drop_list(from:, to:, elements:, handler:)
+      # Wait a bit because drag & drop in selenium is easily offended
+      sleep 1
+
+      list = page.all(elements)
+      source = list[from]
+      target = list[to]
+
+      scroll_to_element(source)
+      source.hover
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(source.native)
+        .click_and_hold(source.find(handler).native)
+        .perform
+
+      ## Hover over each item to be sure,
+      # that the dragged element is reduced to the minimum height.
+      # Thus we can afterwards drag to the correct position.
+      list.each do |item|
+        next if item == source
+
+        page
+          .driver
+          .browser
+          .action
+          .move_to(item.native)
+          .perform
+      end
+
+      sleep 2
+
+      scroll_to_element(target)
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(target.native)
+        .release
+        .perform
+
+      # Wait a bit because drag & drop in selenium is easily offended
+      sleep 1
     end
 
     def path
