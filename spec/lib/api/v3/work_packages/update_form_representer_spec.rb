@@ -38,7 +38,7 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
   let(:project) { work_package.project }
   let(:permissions) { %i(edit_work_packages) }
   let(:work_package) do
-    build_stubbed(:stubbed_work_package)
+    build_stubbed(:work_package)
   end
 
   include_context 'user with stubbed permissions'

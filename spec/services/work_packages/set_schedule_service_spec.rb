@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe WorkPackages::SetScheduleService do
   let(:work_package) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   start_date: work_package_start_date,
                   due_date: work_package_due_date)
   end
@@ -91,7 +91,7 @@ describe WorkPackages::SetScheduleService do
   let(:attributes) { [:start_date] }
 
   def stub_follower(start_date, due_date, predecessors, parent: nil)
-    work_package = build_stubbed(:stubbed_work_package,
+    work_package = build_stubbed(:work_package,
                                  type:,
                                  start_date:,
                                  due_date:,
@@ -306,7 +306,7 @@ describe WorkPackages::SetScheduleService do
 
     context 'when moving backwards with the follower having another relation limiting movement' do
       let(:other_work_package) do
-        build_stubbed(:stubbed_work_package,
+        build_stubbed(:work_package,
                       type:,
                       start_date: follower1_start_date - 8.days,
                       due_date: follower1_start_date - 5.days)
@@ -441,7 +441,7 @@ describe WorkPackages::SetScheduleService do
                         another_successor => 0 })
       end
       let(:another_successor) do
-        build_stubbed(:stubbed_work_package,
+        build_stubbed(:work_package,
                       start_date: nil,
                       due_date: nil)
       end
@@ -474,7 +474,7 @@ describe WorkPackages::SetScheduleService do
 
   context 'with only a parent' do
     let(:parent_work_package) do
-      build_stubbed(:stubbed_work_package)
+      build_stubbed(:work_package)
     end
     let(:work_package_start_date) { Time.zone.today - 5.days }
     let!(:following) do
@@ -555,7 +555,7 @@ describe WorkPackages::SetScheduleService do
 
     context 'when moving backwards with the parent having another relation limiting movement' do
       let(:other_work_package) do
-        build_stubbed(:stubbed_work_package,
+        build_stubbed(:work_package,
                       type:,
                       start_date: Time.zone.today - 8.days,
                       due_date: Time.zone.today - 4.days)
@@ -590,7 +590,7 @@ describe WorkPackages::SetScheduleService do
 
     context 'when moving backwards with the parent having another relation not limiting movement' do
       let(:other_work_package) do
-        build_stubbed(:stubbed_work_package,
+        build_stubbed(:work_package,
                       type:,
                       start_date: Time.zone.today - 10.days,
                       due_date: Time.zone.today - 9.days)
@@ -895,7 +895,7 @@ describe WorkPackages::SetScheduleService do
   end
 
   context 'when setting the parent' do
-    let(:new_parent_work_package) { build_stubbed(:stubbed_work_package) }
+    let(:new_parent_work_package) { build_stubbed(:work_package) }
     let(:attributes) { [:parent] }
 
     before do

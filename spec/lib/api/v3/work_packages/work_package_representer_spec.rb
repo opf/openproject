@@ -53,7 +53,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:derived_due_date) { Time.zone.today - 5.days }
   let(:budget) { build_stubbed(:budget, project:) }
   let(:work_package) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   schedule_manually:,
                   start_date:,
                   due_date:,
@@ -903,14 +903,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         describe 'parent' do
           let(:visible_parent) do
-            build_stubbed(:stubbed_work_package) do |wp|
+            build_stubbed(:work_package) do |wp|
               allow(wp)
                 .to receive(:visible?)
                 .and_return(true)
             end
           end
           let(:invisible_parent) do
-            build_stubbed(:stubbed_work_package) do |wp|
+            build_stubbed(:work_package) do |wp|
               allow(wp)
                 .to receive(:visible?)
                       .and_return(false)
