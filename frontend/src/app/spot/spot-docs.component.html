@@ -133,9 +133,13 @@ Currently selected value is {{ toggleValue }}
     </label>
   </li>
   <li class="spot-list--item">
-    <label class="spot-list--item-action">
-      <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
-      <div class="spot-list--item-title">Checkbox item with hover menu</div>
+    <div class="spot-list--item-floating-wrapper">
+      <!-- The floating wrapper enables correct hover effects, when the list items needs floating actions on hover.-->
+      <!-- Always wrap the content of the list item and the floating actions into the wrapper, but not any sub lists.-->
+      <label class="spot-list--item-action">
+        <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
+        <div class="spot-list--item-title">Checkbox item with hover menu</div>
+      </label>
       <div class="spot-list--item-floating-actions">
         <button class="spot-link">
           <span class="spot-icon spot-icon_folder-open"></span>
@@ -147,7 +151,7 @@ Currently selected value is {{ toggleValue }}
           <span class="spot-icon spot-icon_file-doc"></span>
         </button>
       </div>
-    </label>
+    </div>
   </li>
   <li class="spot-list--item">
     <label class="spot-list--item-action">
@@ -156,15 +160,25 @@ Currently selected value is {{ toggleValue }}
     </label>
     <ul class="spot-list">
       <li class="spot-list--item">
-        <label class="spot-list--item-action">
-          <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
-          <div class="spot-list--item-title">Child checkbox item</div>
-        </label>
+        <div class="spot-list--item-floating-wrapper">
+          <label class="spot-list--item-action">
+            <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
+            <div class="spot-list--item-title">Child checkbox item</div>
+          </label>
+          <div class="spot-list--item-floating-actions">
+            <button class="spot-link">
+              <span class="spot-icon spot-icon_folder-open"></span>
+            </button>
+            <button class="spot-link">
+              <span class="spot-icon spot-icon_file-doc"></span>
+            </button>
+          </div>
+        </div>
         <ul class="spot-list">
           <li class="spot-list--item">
             <label class="spot-list--item-action">
               <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
-              <div class="spot-list--item-title">Secon level child</div>
+              <div class="spot-list--item-title">Second level child</div>
             </label>
           </li>
         </ul>
@@ -174,6 +188,22 @@ Currently selected value is {{ toggleValue }}
           <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
           <div class="spot-list--item-title">Second child checkbox item</div>
         </label>
+      </li>
+      <li class="spot-list--item">
+        <div class="spot-list--item-floating-wrapper">
+          <label class="spot-list--item-action">
+            <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
+            <div class="spot-list--item-title">Second child checkbox item with hover menu</div>
+          </label>
+          <div class="spot-list--item-floating-actions">
+            <button class="spot-link">
+              <span class="spot-icon spot-icon_folder-open"></span>
+            </button>
+            <button class="spot-link">
+              <span class="spot-icon spot-icon_file-doc"></span>
+            </button>
+          </div>
+        </div>
       </li>
       <li class="spot-list--item">
         <label class="spot-list--item-action spot-list--item-action_disabled">
@@ -198,9 +228,13 @@ Currently selected value is {{ toggleValue }}
     </label>
   </li>
   <li class="spot-list--item">
-    <label class="spot-list--item-action">
-      <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
-      <div class="spot-list--item-title">Checkbox item with hover menu</div>
+    <div class="spot-list--item-floating-wrapper">
+      <!-- The floating wrapper enables correct hover effects, when the list items needs floating actions on hover.-->
+      <!-- Always wrap the content of the list item and the floating actions into the wrapper, but not any sub lists.-->
+      <label class="spot-list--item-action">
+        <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
+        <div class="spot-list--item-title">Checkbox item with hover menu</div>
+      </label>
       <div class="spot-list--item-floating-actions">
         <button class="spot-link">
           <span class="spot-icon spot-icon_folder-open"></span>
@@ -212,7 +246,7 @@ Currently selected value is {{ toggleValue }}
           <span class="spot-icon spot-icon_file-doc"></span>
         </button>
       </div>
-    </label>
+    </div>
   </li>
   <li class="spot-list--item">
     <label class="spot-list--item-action">
@@ -221,15 +255,25 @@ Currently selected value is {{ toggleValue }}
     </label>
     <ul class="spot-list spot-list_compact">
       <li class="spot-list--item">
-        <label class="spot-list--item-action">
-          <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
-          <div class="spot-list--item-title">Child checkbox item</div>
-        </label>
+        <div class="spot-list--item-floating-wrapper">
+          <label class="spot-list--item-action">
+            <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
+            <div class="spot-list--item-title">Child checkbox item</div>
+          </label>
+          <div class="spot-list--item-floating-actions">
+            <button class="spot-link">
+              <span class="spot-icon spot-icon_folder-open"></span>
+            </button>
+            <button class="spot-link">
+              <span class="spot-icon spot-icon_file-doc"></span>
+            </button>
+          </div>
+        </div>
         <ul class="spot-list spot-list_compact">
           <li class="spot-list--item">
             <label class="spot-list--item-action">
               <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
-              <div class="spot-list--item-title">Secon level child</div>
+              <div class="spot-list--item-title">Second level child</div>
             </label>
           </li>
         </ul>
@@ -239,6 +283,22 @@ Currently selected value is {{ toggleValue }}
           <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
           <div class="spot-list--item-title">Second child checkbox item</div>
         </label>
+      </li>
+      <li class="spot-list--item">
+        <div class="spot-list--item-floating-wrapper">
+          <label class="spot-list--item-action">
+            <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
+            <div class="spot-list--item-title">Second child checkbox item with hover menu</div>
+          </label>
+          <div class="spot-list--item-floating-actions">
+            <button class="spot-link">
+              <span class="spot-icon spot-icon_folder-open"></span>
+            </button>
+            <button class="spot-link">
+              <span class="spot-icon spot-icon_file-doc"></span>
+            </button>
+          </div>
+        </div>
       </li>
       <li class="spot-list--item">
         <label class="spot-list--item-action spot-list--item-action_disabled">
