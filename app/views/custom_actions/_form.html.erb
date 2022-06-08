@@ -27,9 +27,9 @@
                                       inputs: {
                                         multiple: true,
                                         apiFilters: [],
-                                        name: input_name
-                                      },
-                                      id: "custom_action_conditions_#{condition.key}"
+                                        name: input_name,
+                                        labelForId: "custom_action_conditions_#{condition.key}"
+                                      }
             %>
           <% else %>
             <%= render partial: 'augmented/autocomplete_select_decoration',

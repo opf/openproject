@@ -93,6 +93,8 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Input() public multiple = false;
 
+  @Input() public labelForId:string = '';
+
   @Input() public apiFilters:ApiV3ListFilter[] = [];
 
   // This function allows mapping of the results before they are fed to the tree

@@ -6,6 +6,7 @@
 
   [multiple]="multiple"
   [focusDirectly]="focusDirectly"
+  [labelForId]="labelForId"
 
   appendTo="body"
 
@@ -15,7 +16,7 @@
     op-autocompleter-label-tmp
     let-item
   >
-    {{ item.name }}
+    <span class="ng-value-label">{{ item.name }}</span>
   </ng-template>
 
   <ng-template
