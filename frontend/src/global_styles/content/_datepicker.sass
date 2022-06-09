@@ -63,6 +63,8 @@ $datepicker--border-radius: 5px
       padding: 0 1rem 0 0
     &:last-of-type
       padding: 0 0 0 1rem
+    &:only-of-type
+      padding: 0
 
   .flatpickr-prev-month
     padding-left: 0
@@ -73,6 +75,11 @@ $datepicker--border-radius: 5px
     .dayContainer
       box-shadow: none
       min-width: 283px
+      max-width: 283px
+
+      @media screen and (max-width: 679px)
+        min-width: 267px
+        max-width: 267px
 
       .flatpickr-day
         color: $spot-color-basic-black
