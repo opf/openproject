@@ -12,7 +12,7 @@ if OpenProject::Appsignal.enabled?
       ignore_actions: %w[OkComputerController#index OkComputerController#show]
     }
 
-    if Rails.env.development?
+    if ENV['APPSIGNAL_DEBUG'] == 'true'
       config[:log] = 'stdout'
       config[:debug] = true
       config[:log_level] = 'debug'
