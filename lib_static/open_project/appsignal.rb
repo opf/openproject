@@ -34,14 +34,31 @@ module OpenProject
       ENV['APPSIGNAL_ENABLED'] == 'true'
     end
 
+    def exception_handler(message, log_context = {})
+      if (exception = log_context[:exception])
+        ::Appsignal.send_error(exception) do |transaction|
+          transaction.set_namespace("log_delegator")
+          transaction.set_tags tags(log_context)
+        end
+      else
+        Rails.logger.warn "Ignoring non-exception message for appsignal #{message.inspect}"
+      end
+    end
+
     ##
     # Add current user and other stateful tags to appsignal
     # @param context A hash of context, such as passing in the current controller or request
-    def tag_request(**context)
+    def tag_request(context)
       return unless enabled?
 
-      extended = OpenProject::Logging.extend_payload!(default_payload, context)
-      ::Appsignal.tag_request(extended)
+      payload = tags(context)
+      ::Appsignal.tag_request(payload)
+    end
+
+    ##
+    # Tags to be added for Appsignal
+    def tags(context)
+      OpenProject::Logging.extend_payload!(default_payload, context)
     end
 
     ##

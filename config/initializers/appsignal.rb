@@ -29,6 +29,10 @@ if OpenProject::Appsignal.enabled?
       Appsignal::Rack::RailsInstrumentation
     )
 
+    # Extend the core log delegator
+    handler = ::OpenProject::Appsignal.method(:exception_handler)
+    ::OpenProject::Logging::LogDelegator.register(:appsignal, handler)
+
     Appsignal.start
   end
 end
