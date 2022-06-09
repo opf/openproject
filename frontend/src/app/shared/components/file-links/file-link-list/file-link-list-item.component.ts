@@ -27,7 +27,15 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
@@ -37,13 +45,15 @@ import {
 } from 'core-app/shared/components/file-links/file-link-list/file-link-list-item-icon.factory';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
 
 @Component({
-  selector: 'op-file-link-list-item',
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: '[op-file-link-list-item]',
   templateUrl: './file-link-list-item.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileLinkListItemComponent implements OnInit {
+export class FileLinkListItemComponent implements OnInit, AfterViewInit {
   @Input() public resource:HalResource;
 
   @Input() public fileLink:IFileLink;
@@ -53,6 +63,8 @@ export class FileLinkListItemComponent implements OnInit {
   @Input() public allowEditing = false;
 
   @Output() public removeFileLink = new EventEmitter<void>();
+
+  @ViewChild('avatar') avatar:ElementRef;
 
   public infoTimestampText:string;
 
@@ -69,6 +81,7 @@ export class FileLinkListItemComponent implements OnInit {
   constructor(
     private readonly i18n:I18nService,
     private readonly timezoneService:TimezoneService,
+    private readonly principalRendererService:PrincipalRendererService,
   ) {}
 
   ngOnInit():void {
@@ -79,12 +92,14 @@ export class FileLinkListItemComponent implements OnInit {
     this.fileLinkIcon = getIconForMimeType(this.fileLink.originData.mimeType);
   }
 
-  public openLinkedFile(openInLocation:boolean):void {
-    let link = this.fileLink._links.staticOriginOpen.href;
-    if (openInLocation) {
-      link = this.fileLink._links.staticOriginOpenLocation.href;
+  ngAfterViewInit():void {
+    if (this.fileLink.originData.lastModifiedByName) {
+      this.principalRendererService.render(
+        this.avatar.nativeElement,
+        { name: this.fileLink.originData.lastModifiedByName, href: '/users/1' },
+        { hide: true, link: false },
+        { hide: false, size: 'mini' },
+      );
     }
-
-    window.open(link);
   }
 }

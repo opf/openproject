@@ -27,69 +27,42 @@
 //++
 
 .op-files-tab
-  &--file-list-item
-    position: relative
-    display: flex
-    justify-content: space-between
-    padding: 4px 8px 4px 0
+  .op-files-tab--file-list
+    .op-files-tab--file-list-item
+      .op-files-tab--file-list-item-action
+        padding-left: 0
+        padding-right: 0
 
-    &.inactive
-      opacity: 0.5
+        &:hover .op-files-tab--file-list-item-title
+          text-decoration: underline
 
-    &--content
-      white-space: nowrap
-      overflow: hidden
-      text-overflow: ellipsis
+        .op-files-tab--file-list-item-title
+          @include spot-body-small(bold)
 
-      &.file-name
-        flex: 5 1 auto
-        font-size: 14px
-        font-weight: 700
-
-      &.file-info
-        flex: 1 5 auto
-        font-size: 12px
-        display: flex
-        align-items: center
-        justify-content: flex-end
-
-        > :last-child
-          white-space: nowrap
+          line-height: $spot-spacing-1-5
           overflow: hidden
           text-overflow: ellipsis
 
-      &.hover-menu
-        position: absolute
-        right: 0
-        font-size: 14px
-        background: linear-gradient(90deg, rgba(243, 243, 243, 0) 0%, #F3F3F3 11.98%)
-        opacity: 0
-        mouse-events: none
-        display: flex
-        flex-direction: row
-        justify-content: flex-end
-        align-items: center
-        padding: 0 8px
-        gap: 8px
+        .op-files-tab--file-list-item-text
+          font-size: $spot-spacing-0-75
 
-        .spot-icon
-          cursor: pointer
-          color: $primary-color
-          width: $spot-spacing-1_25
-          height: $spot-spacing-1_25
+          &:not(:last-child)
+            margin-right: $spot-spacing-0-5
 
-    &--file-info-timestamp
-      margin-right: 8px
+        .spot-icon:first-child:not(:last-child)
+          width: $spot-spacing-1-5
+          height: $spot-spacing-1-5
 
-    &:hover
-      background-color: #F3F3F3
-
-      .hover-menu,.hover-menu:focus
-        opacity: 1
-        mouse-events: all
+        .op-files-tab--file-list-item-avatar
+          flex-shrink: 0
+          display: inline-flex
+          justify-content: center
+          align-items: center
+          width: $spot-spacing-1-5
+          height: $spot-spacing-1-5
 
   &--storage-info-box
-    margin-top: 14px
+    margin-top: 0.875rem
     display: grid
     grid-template: "icon text" "button button" / auto 1fr
 
@@ -97,22 +70,18 @@
       grid-area: icon
       width: 3.375rem
       height: 3.375rem
-      color: #878787
-      font-size: 20px
+      font-size: $spot-spacing-1-25
 
     .text-box
       grid-area: text
 
       .text-box-header
-        font-size: 16px
         font-weight: 700
-        line-height: 24px
+        line-height: $spot-spacing-1-5
 
       .text-box-content
-        font-size: 14px
-        font-weight: 400
-        line-height: 20px
-        color: #878787
+        font-size: 0.875rem
+        line-height: $spot-spacing-1-25
 
     .button-box
       grid-area: button
@@ -120,16 +89,11 @@
       justify-content: end
 
       .action-button
-        padding: 4px 12px
-        font-size: 14px
-        line-height: 20px
+        padding: $spot-spacing-0-25 $spot-spacing-0-75
+        font-size: 0.875rem
 
-  //&--file-list-action-button
-  //  &.spot-link
-  //    font-size: 14px
-  //
-  //    .spot-icon:first-child
-  //      margin: 0
+      .spot-icon
+        margin-right: $spot-spacing-0-5
 
   &--color
     &-red

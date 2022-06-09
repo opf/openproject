@@ -1,44 +1,44 @@
-<div
-  class="op-files-tab--file-list-item--content file-name"
->
-  <span
-    class="spot-icon with-text spot-icon_{{fileLinkIcon.icon}} op-files-tab--color-{{fileLinkIcon.color}}"
-  ></span>
-
+<div class="spot-list--item-floating-wrapper">
   <a
-    class="spot-link"
-    [textContent]="fileLink.originData.name"
-    [title]="text.title.openFile"
-    (click)="openLinkedFile(false)"
-  ></a>
-</div>
+    class="spot-list--item-action op-files-tab--file-list-item-action"
+    [href]="fileLink._links.staticOriginOpen.href"
+    target="_blank"
+  >
+    <span
+      class="spot-icon spot-icon_{{fileLinkIcon.icon}} op-files-tab--color-{{fileLinkIcon.color}}"
+    ></span>
 
-<div
-  class="op-files-tab--file-list-item--content file-info"
->
-  <span
-    class="op-files-tab--file-list-item--file-info-timestamp op-files-tab--color-grey"
-    [textContent]="infoTimestampText"
-  ></span>
+    <span
+      [textContent]="fileLink.originData.name"
+      class="spot-list--item-title op-files-tab--file-list-item-title"
+    ></span>
 
-  <span
-    [textContent]="fileLink.originData.lastModifiedByName"
-  ></span>
-</div>
+    <span
+      class="op-files-tab--file-list-item-text op-files-tab--color-grey"
+      [textContent]="infoTimestampText"
+    ></span>
 
-<div
-  class="op-files-tab--file-list-item--content hover-menu"
->
-  <span
-    [title]="text.title.openFileLocation"
-    (click)="openLinkedFile(true)"
-    class="spot-icon spot-icon_folder-open"
-  ></span>
-
-  <span
-    *ngIf="allowEditing"
-    [title]="text.title.removeFileLink"
-    (click)="removeFileLink.emit()"
-    class="spot-icon spot-icon_remove-link"
-  ></span>
+    <div
+      #avatar
+      class="op-files-tab--file-list-item-avatar"
+    ></div>
+  </a>
+  <div class="spot-list--item-floating-actions">
+    <a
+      class="spot-link"
+      [title]="text.title.openFileLocation"
+      [href]="fileLink._links.staticOriginOpenLocation.href"
+      target="_blank"
+    >
+      <span class="spot-icon spot-icon_folder-open"></span>
+    </a>
+    <button
+      *ngIf="allowEditing"
+      class="spot-link"
+      [title]="text.title.removeFileLink"
+      (click)="removeFileLink.emit()"
+    >
+      <span class="spot-icon spot-icon_remove-link"></span>
+    </button>
+  </div>
 </div>
