@@ -35,12 +35,21 @@ class Widget::Filters::Project < Widget::Filters::Base
                         "#{h(filter_class.label)} #{I18n.t(:label_filter_value)}",
                         class: 'hidden-for-sighted'
 
+
+      selected_values = filter.values.each.map do |id|
+        available_value = filter_class.available_values.detect { |val| val[1] === id }
+
+        {
+          id: id,
+          name: available_value[0]
+        }
+      end
       box = angular_component_tag 'op-project-autocompleter',
                                   inputs: {
                                     apiFilters: [],
                                     name: "values[#{filter_class.underscore_name}][]",
                                     multiple: true,
-                                    value: Array(filter.values).flatten
+                                    value: selected_values
                                   },
                                   id: "#{filter_class.underscore_name}_select_1",
                                   class: 'filter-value'
