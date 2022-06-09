@@ -118,8 +118,8 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     this.onTouched(value);
   }
 
-  get plainValue():ID|ID[]|undefined {
-    return Array.isArray(this.value) ? this.value?.map((i) => i.id) : this.value?.id;
+  get plainValue():ID|ID[] {
+    return (Array.isArray(this.value) ? this.value?.map((i) => i.id) : this.value?.id) || '';
   }
 
   @Output('valueChange') valueChange = new EventEmitter<IProjectAutocompleterData|IProjectAutocompleterData[]|null>();

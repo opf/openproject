@@ -39,7 +39,8 @@ class Widget::Filters::Project < Widget::Filters::Base
                                   inputs: {
                                     apiFilters: [],
                                     name: "values[#{filter_class.underscore_name}][]",
-                                    multiple: true
+                                    multiple: true,
+                                    value: Array(filter.values).flatten
                                   },
                                   id: "#{filter_class.underscore_name}_select_1",
                                   class: 'filter-value'

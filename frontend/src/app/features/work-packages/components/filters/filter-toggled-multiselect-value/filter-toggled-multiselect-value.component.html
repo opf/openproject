@@ -1,6 +1,7 @@
-<div class="inline-label ng-select-container"
-     id="div-values-{{filter.id}}">
-
+<div
+  class="inline-label ng-select-container"
+  id="div-values-{{filter.id}}"
+>
   <op-autocompleter
     appendTo="body"
     class="advanced-filters--ng-select -multi-select"
@@ -9,7 +10,6 @@
     [classes]="{'-required-highlighting' : value.length === 0}"
     [virtualScroll]
     [closeOnSelect]="false"
-    [defaultData]="true"
     [placeholder]="text.placeholder"
     [hideSelected]="true"
     [multiple]="true"
