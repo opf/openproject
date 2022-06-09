@@ -1,6 +1,7 @@
 require 'open_project/version'
+require_relative '../../lib_static/open_project/appsignal'
 
-if ENV['APPSIGNAL_ENABLED'] == 'true'
+if OpenProject::Appsignal.enabled?
   require 'appsignal'
   OpenProject::Application.configure do |app|
     config = {

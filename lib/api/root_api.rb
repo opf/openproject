@@ -258,6 +258,7 @@ module API
       authenticate
       set_localization
       enforce_content_type
+      ::OpenProject::Appsignal.tag_request(request:)
     end
   end
 end

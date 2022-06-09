@@ -25,15 +25,35 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module API
-  module AppsignalAPI
-    def self.included(base)
-      base.class_eval do
-        if OpenProject::Appsignal.enabled?
-          require "appsignal/integrations/grape"
-          insert_before Grape::Middleware::Error, Appsignal::Grape::Middleware
-        end
-      end
+
+module OpenProject
+  module Appsignal
+    module_function
+
+    def enabled?
+      ENV['APPSIGNAL_ENABLED'] == 'true'
+    end
+
+    ##
+    # Add current user and other stateful tags to appsignal
+    # @param context A hash of context, such as passing in the current controller or request
+    def tag_request(**context)
+      return unless enabled?
+
+      extended = OpenProject::Logging.extend_payload!(default_payload, context)
+      ::Appsignal.tag_request(extended)
+    end
+
+    ##
+    # Default payload to add for appsignal
+    def default_payload
+      {
+        locale: I18n.locale,
+        version: OpenProject::VERSION.to_semver,
+        core_hash: OpenProject::VERSION.revision,
+        core_version: OpenProject::VERSION.core_version,
+        product_version: OpenProject::VERSION.product_version
+      }.compact
     end
   end
 end
