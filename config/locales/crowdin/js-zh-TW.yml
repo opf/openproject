@@ -843,6 +843,13 @@ zh-TW:
       comment_send_failed: "發生錯誤。無法提交評論。"
       comment_updated: "注釋已成功更新。"
       confirm_edit_cancel: "是否確定取消編輯中的工作包"
+      datepicker_modal:
+        automatically_scheduled_parent: "The dates are automatically derived from relations."
+        manually_scheduled: "Manual scheduling is enabled so all existing work package relations are ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing the dates of this work package will change the dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "篩選器"
       description_enter_text: "輸入文字"
       description_options_hide: "隱藏選項"

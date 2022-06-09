@@ -844,6 +844,13 @@ el:
       comment_send_failed: "Παρουσιάστηκε ένα σφάλμα. Δεν ήταν δυνατή η υποβολή του σχολίου."
       comment_updated: "Το σχόλιο ενημερώθηκε με επιτυχία."
       confirm_edit_cancel: "Είστε βέβαιοι ότι θέλετε να ακυρώσετε την επεξεργασία αυτού του πακέτου εργασίας;"
+      datepicker_modal:
+        automatically_scheduled_parent: "The dates are automatically derived from relations."
+        manually_scheduled: "Manual scheduling is enabled so all existing work package relations are ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing the dates of this work package will change the dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Φίλτρο"
       description_enter_text: "Εισάγετε κείμενο"
       description_options_hide: "Απόκρυψη επιλογών"
