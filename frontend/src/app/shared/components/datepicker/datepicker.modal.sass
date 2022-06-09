@@ -3,9 +3,8 @@
 .op-datepicker-modal
   z-index: 500
   width: auto
-  // prevent additional content like notifications to
-  // drastically increase the width.
-  max-width: 730px
+  // Basically the width of the two calendars next to each other + spacings
+  max-width: 600px
   min-height: 200px
   box-shadow: $spot-shadow-light-mid
   // Apply a bottom margin before the banners are loaded
@@ -27,3 +26,7 @@
 
   &--date-container
     display: inline-grid
+
+  &--action
+    &:last-of-type
+      margin-right: 0

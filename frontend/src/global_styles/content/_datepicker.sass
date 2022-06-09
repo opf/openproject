@@ -42,6 +42,14 @@ $datepicker--border-radius: 5px
   .flatpickr-months
     min-height: 45px
 
+    .flatpickr-current-month
+      @include spot-body-small(bold)
+      justify-content: center
+
+    .numInputWrapper
+      position: relative !important
+      left: 0 !important
+
   .flatpickr-weekwrapper
     display: none
 
@@ -50,18 +58,32 @@ $datepicker--border-radius: 5px
 
   .flatpickr-weekdaycontainer,
   .flatpickr-days .dayContainer
-    padding: 0 1.25rem
+
+    &:first-of-type
+      padding: 0 1rem 0 0
+    &:last-of-type
+      padding: 0 0 0 1rem
+
+  .flatpickr-prev-month
+    padding-left: 0
+  .flatpickr-next-month
+    padding-right: 0
 
   .flatpickr-days
     .dayContainer
       box-shadow: none
+      min-width: 283px
 
       .flatpickr-day
         color: $spot-color-basic-black
         height: 30px
         line-height: 28px
+        margin: 0
         border-radius: $datepicker--border-radius
         box-shadow: none !important
+
+        &:hover
+          border-radius: 0
 
         &.flatpickr-disabled,
         &.flatpickr-non-working-day
@@ -71,6 +93,7 @@ $datepicker--border-radius: 5px
         &.today
           background: $spot-color-indication-current-date
           border-color: $spot-color-indication-current-date
+          border-radius: $datepicker--border-radius
 
         &.selected,
         &.startRange,
