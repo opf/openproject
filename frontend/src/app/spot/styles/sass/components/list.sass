@@ -17,13 +17,18 @@
       align-items: flex-start
       justify-content: flex-start
       padding: $spot-spacing-0_5 $spot-spacing-1
+      width: 100%
       background-color: transparent
       margin: 0
       border: 0
       cursor: pointer
 
+      > *:first-child
+        flex-shrink: 0
+
       &:hover
         background-color: $spot-color-basic-gray-6
+        text-decoration: none
 
       &_disabled
         color: $spot-color-basic-gray-3
@@ -43,13 +48,14 @@
       right: 0
       height: 100%
       padding: $spot-spacing-0_5 $spot-spacing-1
-      background: linear-gradient(90deg, rgba($spot-color-basic-gray-6, 0) 0%, $spot-color-basic-gray-6 11.98%)
+      background: linear-gradient(90deg, rgba($spot-color-basic-gray-6, 0) 0%, $spot-color-basic-gray-6 1rem)
 
       > .spot-link
         &:not(:first-child)
           margin-left: $spot-spacing-0_5
 
     &-title
+      margin-right: auto
       min-height: $spot-spacing-1_5
 
       &:not(:first-child)
