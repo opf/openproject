@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-# Apply SMTP options given in the packager wizard to the settings within
+# Apply previous SMTP options given in the packager wizard to the settings within
 # the database. This will override existing settings.
 # The user can just choose `skip` during `reconfigure` if they do not want that.
 

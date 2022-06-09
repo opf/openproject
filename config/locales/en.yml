@@ -2495,7 +2495,7 @@ en:
   setting_smtp_authentication: "SMTP authentication"
   setting_smtp_user_name: "SMTP username"
   setting_smtp_password: "SMTP password"
-  setting_smtp_domain: "SMTP HELLO domain"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Days displayed on project activity"
   setting_app_subtitle: "Application subtitle"
   setting_app_title: "Application title"
