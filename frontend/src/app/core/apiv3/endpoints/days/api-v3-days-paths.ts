@@ -23,27 +23,28 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { NgModule } from '@angular/core';
-import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
-import { InAppNotificationsResourceService } from './in-app-notifications/in-app-notifications.service';
-import { ProjectsResourceService } from './projects/projects.service';
-import { PrincipalsResourceService } from './principals/principals.service';
-import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
-import { DayResourceService } from 'core-app/core/state/days/day.service';
-import { WeekdayResourceService } from 'core-app/core/state/days/weekday.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3DayPaths } from 'core-app/core/apiv3/endpoints/days/api-v3-day-paths';
+import { IDay } from 'core-app/core/state/days/day.model';
+import {
+  ApiV3GettableResource,
+  ApiV3ResourceCollection,
+} from 'core-app/core/apiv3/paths/apiv3-resource';
 
-@NgModule({
-  providers: [
-    AttachmentsResourceService,
-    InAppNotificationsResourceService,
-    ProjectsResourceService,
-    PrincipalsResourceService,
-    CapabilitiesResourceService,
-    DayResourceService,
-    WeekdayResourceService,
-  ],
-})
-export class OpenProjectStateModule {}
+export class ApiV3DaysPaths extends ApiV3ResourceCollection<IDay, ApiV3DayPaths> {
+  // Base path
+  public readonly path:string;
+
+  constructor(readonly apiRoot:ApiV3Service,
+    protected basePath:string) {
+    super(apiRoot, basePath, 'days', ApiV3DayPaths);
+  }
+
+  // Static paths
+
+  // /api/v3/days/week
+  public readonly week = new ApiV3GettableResource(this.apiRoot, this.path, 'week', this);
+}

@@ -141,7 +141,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
   changeSchedulingMode():void {
     this.scheduleManually = !this.scheduleManually;
-    this.toggleDisabledState(this.datePickerInstance.datepickerInstance);
+    this.initializeDatepicker();
     this.cdRef.detectChanges();
   }
 
@@ -228,6 +228,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
   private initializeDatepicker() {
     this.datePickerInstance?.destroy();
     this.datePickerInstance = new DatePicker(
+      this.injector,
       '#flatpickr-input',
       this.singleDate ? this.dates.date : [this.dates.start, this.dates.end],
       {
@@ -243,11 +244,14 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
           this.onDataChange();
         },
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
+          if (this.datePickerInstance?.isDateDisabled(dayElem.dateObj)) {
+            dayElem.classList.add('flatpickr-non-working-day');
+          }
+
           dayElem.setAttribute('data-iso-date', dayElem.dateObj.toISOString());
         },
       },
       null,
-      this.configurationService,
     );
   }
 
