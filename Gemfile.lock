@@ -282,6 +282,8 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.1.0)
       rbtree3 (~> 0.5)
+    appsignal (3.0.27)
+      rack
     ast (2.4.2)
     attr_required (1.0.1)
     auto_strip_attributes (2.6.0)
@@ -760,7 +762,7 @@ GEM
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
-    rack-timeout (0.6.1)
+    rack-timeout (0.6.3)
     rack_session_access (0.2.0)
       builder (>= 2.0.0)
       rack (>= 1.0.0)
@@ -1015,6 +1017,7 @@ DEPENDENCIES
   acts_as_tree (~> 2.9.0)
   addressable (~> 2.8.0)
   airbrake (~> 13.0.0)
+  appsignal (~> 3.0)
   auto_strip_attributes (~> 2.5)
   awesome_nested_set (~> 3.5.0)
   aws-sdk-core (~> 3.107)

@@ -846,6 +846,13 @@ lv:
       comment_send_failed: "Radusies kļūda. Nevar iesniegt komentāru."
       comment_updated: "Komentārs tika veiksmīgi atjaunināts."
       confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
+      datepicker_modal:
+        automatically_scheduled_parent: "The dates are automatically derived from relations."
+        manually_scheduled: "Manual scheduling is enabled so all existing work package relations are ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing the dates of this work package will change the dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtrēt"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"

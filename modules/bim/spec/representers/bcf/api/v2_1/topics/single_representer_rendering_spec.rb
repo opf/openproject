@@ -43,7 +43,7 @@ describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
   let(:status) { build_stubbed(:status) }
   let(:priority) { build_stubbed(:priority) }
   let(:work_package) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   assigned_to: assignee,
                   due_date: Date.today,
                   status:,

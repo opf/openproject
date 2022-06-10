@@ -35,7 +35,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:wp_type) { project.types.first }
   let(:custom_field) { build_stubbed(:custom_field) }
   let(:work_package) do
-    build_stubbed(:stubbed_work_package, project:, type: wp_type) do |wp|
+    build_stubbed(:work_package, project:, type: wp_type) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
         .and_return(available_custom_fields)
@@ -684,7 +684,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'when creating (new_record)' do
         let(:work_package) do
-          build(:stubbed_work_package, project:, type: wp_type) do |wp|
+          build(:work_package, project:, type: wp_type) do |wp|
             allow(wp)
               .to receive(:available_custom_fields)
               .and_return(available_custom_fields)
@@ -699,7 +699,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'when creating (new_record with empty type)' do
         let(:work_package) do
-          build(:stubbed_work_package, project:, type: nil) do |wp|
+          build(:work_package, project:, type: nil) do |wp|
             allow(wp)
               .to receive(:available_custom_fields)
                     .and_return(available_custom_fields)

@@ -6,6 +6,7 @@
   data-indicator-name="modal"
   (submit)="save($event)"
 >
+  <op-datepicker-banner [scheduleManually]="scheduleManually"></op-datepicker-banner>
   <div class="op-modal--body form -vertical">
     <div class="form--field op-datepicker-modal--scheduling-action-container">
       <div class="form--field-container">
@@ -34,11 +35,11 @@
               <spot-text-field
                      name="date"
                      class="op-datepicker-modal--date-field"
-                     [ngClass]="{'op-datepicker-modal--date-field_current' : datepickerHelper.isStateOfCurrentActivatedField('date')}"
+                     [ngClass]="{'op-datepicker-modal--date-field_current' : datepickerService.isStateOfCurrentActivatedField('date')}"
                      [ngModel]="dates.date"
                      (ngModelChange)="updateDate('date', $event)"
-                     [showClearButton]="datepickerHelper.isStateOfCurrentActivatedField('date')"
-                     (click)="datepickerHelper.setCurrentActivatedField('date')"
+                     [showClearButton]="datepickerService.isStateOfCurrentActivatedField('date')"
+                     (click)="datepickerService.setCurrentActivatedField('date')"
               ></spot-text-field>
             </div>
           </div>
@@ -63,12 +64,12 @@
                      name="startDate"
                      data-qa-selector="op-datepicker-modal--start-date-field"
                      class="op-datepicker-modal--date-field"
-                     [ngClass]="{'op-datepicker-modal--date-field_current' : datepickerHelper.isStateOfCurrentActivatedField('start')}"
+                     [ngClass]="{'op-datepicker-modal--date-field_current' : datepickerService.isStateOfCurrentActivatedField('start')}"
                      [ngModel]="dates.start"
                      (ngModelChange)="updateDate('start', $event)"
                      [disabled]="!isSchedulable"
-                     [showClearButton]="datepickerHelper.isStateOfCurrentActivatedField('start')"
-                     (focusin)="datepickerHelper.setCurrentActivatedField('start')"
+                     [showClearButton]="datepickerService.isStateOfCurrentActivatedField('start')"
+                     (focusin)="datepickerService.setCurrentActivatedField('start')"
               ></spot-text-field>
             </div>
           </div>
@@ -91,12 +92,12 @@
                      name="endDate"
                      data-qa-selector="op-datepicker-modal--end-date-field"
                      class="op-datepicker-modal--date-field"
-                     [ngClass]="{'op-datepicker-modal--date-field_current' : datepickerHelper.isStateOfCurrentActivatedField('end')}"
+                     [ngClass]="{'op-datepicker-modal--date-field_current' : datepickerService.isStateOfCurrentActivatedField('end')}"
                      [ngModel]="dates.end"
                      (ngModelChange)="updateDate('end', $event)"
                      [disabled]="!isSchedulable"
-                     [showClearButton]="datepickerHelper.isStateOfCurrentActivatedField('end')"
-                     (focusin)="datepickerHelper.setCurrentActivatedField('end')"
+                     [showClearButton]="datepickerService.isStateOfCurrentActivatedField('end')"
+                     (focusin)="datepickerService.setCurrentActivatedField('end')"
               ></spot-text-field>
             </div>
           </div>

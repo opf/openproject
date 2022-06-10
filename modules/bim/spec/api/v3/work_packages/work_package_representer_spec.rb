@@ -41,7 +41,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   end
   let(:permissions) { %i[view_linked_issues view_work_packages manage_bcf] }
   let(:work_package) do
-    build_stubbed(:stubbed_work_package, bcf_issue: bcf_topic)
+    build_stubbed(:work_package, bcf_issue: bcf_topic)
   end
   let(:representer) do
     described_class.create(work_package,

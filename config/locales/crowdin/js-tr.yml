@@ -845,6 +845,13 @@ tr:
       comment_send_failed: "Bir hata oluştu. Yorum gönderilemedi."
       comment_updated: "Yorum başarıyla güncelleştirildi."
       confirm_edit_cancel: "İş paketini düzenlemeyi iptal etmek istediğinizden emin misiniz?"
+      datepicker_modal:
+        automatically_scheduled_parent: "The dates are automatically derived from relations."
+        manually_scheduled: "Manual scheduling is enabled so all existing work package relations are ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing the dates of this work package will change the dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtre"
       description_enter_text: "Metin girin"
       description_options_hide: "Seçenekleri gizle"

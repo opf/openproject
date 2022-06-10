@@ -844,6 +844,13 @@ lol:
       comment_send_failed: "crwdns788186:0crwdne788186:0"
       comment_updated: "crwdns788188:0crwdne788188:0"
       confirm_edit_cancel: "crwdns788190:0crwdne788190:0"
+      datepicker_modal:
+        automatically_scheduled_parent: "crwdns818658:0crwdne818658:0"
+        manually_scheduled: "crwdns818660:0crwdne818660:0"
+        start_date_limited_by_relations: "crwdns818662:0crwdne818662:0"
+        changing_dates_affects_follow_relations: "crwdns818664:0crwdne818664:0"
+        click_on_show_relations_to_open_gantt: 'crwdns818666:0%{button_name}crwdne818666:0'
+        show_relations: 'crwdns818668:0crwdne818668:0'
       description_filter: "crwdns788192:0crwdne788192:0"
       description_enter_text: "crwdns788194:0crwdne788194:0"
       description_options_hide: "crwdns788196:0crwdne788196:0"

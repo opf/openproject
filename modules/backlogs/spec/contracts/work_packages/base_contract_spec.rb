@@ -72,7 +72,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:story) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   subject: 'Story',
                   project:,
                   type: type_feature,
@@ -83,7 +83,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:story2) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   subject: 'Story2',
                   project:,
                   type: type_feature,
@@ -94,7 +94,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:task) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   subject: 'Task',
                   type: type_task,
                   version: version1,
@@ -105,7 +105,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:task2) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   subject: 'Task2',
                   type: type_task,
                   version: version1,
@@ -116,7 +116,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:bug) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   subject: 'Bug',
                   type: type_bug,
                   version: version1,
@@ -127,7 +127,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:bug2) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   subject: 'Bug2',
                   type: type_bug,
                   version: version1,

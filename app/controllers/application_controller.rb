@@ -132,6 +132,7 @@ class ApplicationController < ActionController::Base
 
   before_action :user_setup,
                 :set_localization,
+                :tag_request,
                 :check_if_login_required,
                 :log_requesting_user,
                 :reset_i18n_fallbacks,
@@ -165,6 +166,10 @@ class ApplicationController < ActionController::Base
         must_revalidate: true
       )
     end
+  end
+
+  def tag_request
+    ::OpenProject::Appsignal.tag_request(controller: self, request:)
   end
 
   def reload_mailer_settings!

@@ -35,6 +35,7 @@ require 'open_project/authentication'
 module API
   class RootAPI < Grape::API
     include OpenProject::Authentication::Scope
+    include ::API::AppsignalAPI
     extend API::Utilities::GrapeHelper
 
     insert_before Grape::Middleware::Error,
@@ -257,6 +258,7 @@ module API
       authenticate
       set_localization
       enforce_content_type
+      ::OpenProject::Appsignal.tag_request(request:)
     end
   end
 end
