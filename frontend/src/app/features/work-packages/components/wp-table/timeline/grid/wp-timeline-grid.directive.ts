@@ -25,7 +25,11 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-import { AfterViewInit, Component, ElementRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+} from '@angular/core';
 import * as moment from 'moment';
 import { TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
@@ -36,17 +40,8 @@ import {
   timelineGridElementCssClass,
   TimelineViewParameters,
 } from '../wp-timeline';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
 import Moment = moment.Moment;
-
-function checkForNonWorkingDayHighlight(date:Moment, cell:HTMLElement) {
-  const day = date.day();
-
-  // Sunday = 0
-  // Monday = 6
-  if (day === 0 || day === 6) {
-    cell.classList.add('wp-timeline--non-working-day');
-  }
-}
 
 @Component({
   selector: 'wp-timeline-grid',
@@ -57,9 +52,11 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
 
   private gridContainer:JQuery;
 
-  constructor(private elementRef:ElementRef,
-    public wpTimeline:WorkPackageTimelineTableController) {
-  }
+  constructor(
+    private elementRef:ElementRef,
+    public wpTimeline:WorkPackageTimelineTableController,
+    private weekdaysService:WeekdayService,
+  ) {}
 
   ngAfterViewInit():void {
     const $element = jQuery(this.elementRef.nativeElement);
@@ -104,7 +101,7 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
   private renderLabelsDays(vp:TimelineViewParameters):void {
     this.renderTimeSlices(vp, 'day', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.style.paddingTop = '1px';
-      checkForNonWorkingDayHighlight(start, cell);
+      this.checkForNonWorkingDayHighlight(start, cell);
     });
 
     this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
@@ -115,7 +112,7 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
 
   private renderLabelsWeeks(vp:TimelineViewParameters):void {
     this.renderTimeSlices(vp, 'day', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      checkForNonWorkingDayHighlight(start, cell);
+      this.checkForNonWorkingDayHighlight(start, cell);
     });
 
     this.renderTimeSlices(vp, 'week', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
@@ -190,5 +187,13 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
         cellCallback(start, cell);
       }
     }, 0);
+  }
+
+  private checkForNonWorkingDayHighlight(date:Moment, cell:HTMLElement) {
+    const day = date.toDate();
+
+    if (this.weekdaysService.isDateDisabled(day)) {
+      cell.classList.add('wp-timeline--non-working-day');
+    }
   }
 }
