@@ -44,7 +44,6 @@ describe ::OAuthClients::ConnectionManager, type: :model do
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user:) }
   let(:instance) { described_class.new(user:, oauth_client:) }
 
-
   # Test the redirect_to_oauth_authorize function that puts together
   # the OAuth2 provider URL (Nextcloud) according to RFC specs.
   describe '#redirect_to_oauth_authorize' do
@@ -364,8 +363,8 @@ describe ::OAuthClients::ConnectionManager, type: :model do
     subject { instance.authorization_state }
 
     context 'without access token present' do
-      it 'returns :failed_authentication' do
-        expect(subject).to eq :failed_authentication
+      it 'returns :failed_authorization' do
+        expect(subject).to eq :failed_authorization
       end
     end
 
@@ -418,8 +417,8 @@ describe ::OAuthClients::ConnectionManager, type: :model do
         context 'with invalid refresh token' do
           let(:refresh_service_result) { ServiceResult.new(success: false, result: 'invalid_grant') }
 
-          it 'refreshes the access token and returns :failed_authentication' do
-            expect(subject).to eq :failed_authentication
+          it 'refreshes the access token and returns :failed_authorization' do
+            expect(subject).to eq :failed_authorization
             expect(instance).to have_received(:refresh_token)
           end
         end
@@ -436,8 +435,8 @@ describe ::OAuthClients::ConnectionManager, type: :model do
     end
 
     context 'with both invalid access token and refresh token', webmock: true do
-      it 'returns :failed_authentication' do
-        expect(subject).to eq :failed_authentication
+      it 'returns :failed_authorization' do
+        expect(subject).to eq :failed_authorization
       end
     end
   end

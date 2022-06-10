@@ -34,8 +34,9 @@ module API
   module V3
     module Storages
       URN_TYPE_NEXTCLOUD = "#{::API::V3::URN_PREFIX}storages:Nextcloud".freeze
+
       URN_CONNECTION_CONNECTED = "#{::API::V3::URN_PREFIX}storages:authorization:Connected".freeze
-      URN_CONNECTION_AUTH_FAILED = "#{::API::V3::URN_PREFIX}storages:authorization:FailedAuthentication".freeze
+      URN_CONNECTION_AUTH_FAILED = "#{::API::V3::URN_PREFIX}storages:authorization:FailedAuthorization".freeze
       URN_CONNECTION_ERROR = "#{::API::V3::URN_PREFIX}storages:authorization:Error".freeze
 
       class StorageRepresenter < ::API::Decorators::Single
@@ -70,45 +71,17 @@ module API
         link :authorizationState do
           oauth_client = represented.oauth_client
           connection_manager = ::OAuthClients::ConnectionManager.new(user: User.current, oauth_client:)
-          status_urn = urn_authorization_state(connection_manager.authorization_state)
+          state = connection_manager.authorization_state.to_s
+          state_urn = "#{::API::V3::URN_PREFIX}storages:authorization:#{state.camelize}"
+          state_title = I18n.t(:"oauth_client.urn_connection_status.#{state}")
           {
-            href: status_urn,
-            title: urn_authorization_state_title(status_urn)
+            href: state_urn,
+            title: state_title
           }
         end
 
         def _type
           'Storage'
-        end
-
-        private
-
-        # Check the ConnectionManager for the OAuth2 status
-        def urn_authorization_state(authorization_state)
-          case authorization_state
-          when :error
-            URN_CONNECTION_ERROR
-          when :connected
-            URN_CONNECTION_CONNECTED
-          when :failed_authentication
-            URN_CONNECTION_AUTH_FAILED
-          else
-            # This should never happen
-            raise StandardError
-          end
-        end
-
-        # Provide a human readable title for the connection status
-        def urn_authorization_state_title(token_status)
-          case token_status
-          when URN_CONNECTION_CONNECTED
-            I18n.t(:"urn_authorization_state")
-          when URN_CONNECTION_AUTH_FAILED
-            I18n.t(:"urn_authorization_state")
-          else
-            # Mainly covers URN_CONNECTION_ERROR
-            I18n.t(:"urn_authorization_state")
-          end
         end
       end
     end
