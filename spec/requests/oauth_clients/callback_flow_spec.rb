@@ -39,7 +39,9 @@ describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
     "mBf4v9hNA6hXXCWHd5mZggsAa2FSOXinx9jKx1yjSoDwOPOX4k6zGEgM2radqgg1nRwXCqvIe5xZsfwqMIaTdL" +
       "jYnl0OpYOc6ePblzQTmnlp7RYiHW09assYEJjv9zps"
   end
-  let(:state) { "https://example.org/my-path?and=some&query=params" }
+  let(:state) do
+    File.join(::API::V3::Utilities::PathHelper::ApiV3Path::root_url, "/my-path?and=some&query=params")
+  end
   let(:oauth_client_token) { create :oauth_client_token }
   let(:oauth_client) do
     create :oauth_client,
@@ -57,7 +59,6 @@ describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
   subject(:response) { last_response }
 
   before do
-    host! 'https://my-example.org'
     login_as current_user
 
     allow(::Rack::OAuth2::Client).to receive(:new).and_return(rack_oauth2_client)
@@ -84,6 +85,13 @@ describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
     end
   end
 
+  shared_examples 'fallback redirect' do
+    it 'redirects to home' do
+      expect(response.status).to eq 302
+      expect(URI(response.location).path).to eq home_path
+    end
+  end
+
   context 'with valid params' do
     context 'without errors' do
       before do
@@ -101,6 +109,19 @@ describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
         expect(::OAuthClientToken.last.access_token).to eq 'xyzaccesstoken'
         expect(::OAuthClientToken.last.refresh_token).to eq 'xyzrefreshtoken'
       end
+    end
+
+    context 'with a state param containing a URL pointing to a different host' do
+      let(:state) { "https://some-other-domain.com/foo/bar" }
+
+      before do
+        uri.query = URI.encode_www_form([['code', code], ['state', state]])
+        get uri.to_s
+
+        subject
+      end
+
+      it_behaves_like 'fallback redirect'
     end
 
     context 'with some other error, having a state param' do
@@ -136,7 +157,7 @@ describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
       subject
     end
 
-    context 'with current_user being not being an admin' do
+    context 'with current_user not being an admin' do
       it_behaves_like 'with errors and state param, not being admin'
     end
 
@@ -155,9 +176,6 @@ describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
       subject
     end
 
-    it 'redirects to home' do
-      expect(response.status).to eq 302
-      expect(URI(response.location).path).to eq home_path
-    end
+    it_behaves_like 'fallback redirect'
   end
 end

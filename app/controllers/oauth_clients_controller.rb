@@ -128,7 +128,7 @@ class OAuthClientsController < ApplicationController
     # This needs to be modified as soon as we support more integration types.
     if User.current.admin && state && nextcloud?
       yield
-    elsif state
+    elsif ::API::V3::Utilities::PathHelper::ApiV3Path::same_origin? state
       flash[:error] = [t(:'oauth_client.errors.oauth_issue_contact_admin')]
       redirect_to state
     else
