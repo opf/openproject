@@ -72,26 +72,12 @@ module OAuthClients
     end
 
     # Redirect to the "authorize" endpoint of the OAuth2 Authorization Server.
-    # @param state (OAuth2 RFC) encapsulates the state of the calling page (URL + params) to return
+    # @param state (OAuth2 RFC) is a nonce referencing a cookie containing the calling page (URL + params) to which to
+    # return to at the end of the whole flow.
     # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud only has one global scope.
     def redirect_to_oauth_authorize(scope: [], state: nil)
       client = rack_oauth_client # Configure and start the rack-oauth2 client
       client.authorization_uri(scope:, state:)
-    end
-
-    # For the OAuth2 callback page: Calculate the redirection URL that will
-    # point the browser at the initial page that wanted to access the OAuth2
-    # protected resource.
-    # @param state (OAuth2 RFC) encapsulates the state of the calling page (URL + params) to return
-    def callback_redirect_uri(state)
-      # In the current implementation "state" just consists of the URL of
-      # the initial page, possibly with "&var=value" added parameters.
-      # So we can just return this URI.
-      unless ::API::V3::Utilities::PathHelper::ApiV3Path::same_origin?(state)
-        return ::API::V3::Utilities::PathHelper::ApiV3Path::root_url
-      end
-
-      state
     end
 
     # Called by callback_page with a cryptographic "code" that indicates
