@@ -194,6 +194,7 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
 
     if (this.weekdaysService.isDateDisabled(day)) {
       cell.classList.add('wp-timeline--non-working-day');
+      cell.dataset.qaSelector = `wp-timeline--non-working-day_${day.getDate()}-${day.getMonth() + 1}-${day.getFullYear()}`;
     }
   }
 }
