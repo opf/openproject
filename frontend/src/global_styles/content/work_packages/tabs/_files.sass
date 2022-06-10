@@ -40,11 +40,13 @@
           @include spot-body-small(bold)
 
           line-height: $spot-spacing-1-5
+          word-break: normal
           overflow: hidden
           text-overflow: ellipsis
 
         .op-files-tab--file-list-item-text
           font-size: $spot-spacing-0-75
+          flex-shrink: 0
 
           &:not(:last-child)
             margin-right: $spot-spacing-0-5
