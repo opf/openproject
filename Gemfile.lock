@@ -760,7 +760,7 @@ GEM
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
-    rack-timeout (0.6.2)
+    rack-timeout (0.6.3)
     rack_session_access (0.2.0)
       builder (>= 2.0.0)
       rack (>= 1.0.0)
