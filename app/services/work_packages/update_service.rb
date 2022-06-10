@@ -71,7 +71,7 @@ class WorkPackages::UpdateService < ::BaseServices::Update
     WorkPackages::SetAttributesService
       .new(user:,
            model: descendant,
-           contract_class: EmptyContract)
+           contract_class: WorkPackages::UpdateDependentContract)
       .call(attributes)
   end
 
