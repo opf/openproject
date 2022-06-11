@@ -848,10 +848,10 @@ it:
       comment_updated: "Il commento è stato aggiornato correttamente."
       confirm_edit_cancel: "Sei sicuro di voler annullare la modifica della macro-attività?"
       datepicker_modal:
-        automatically_scheduled_parent: "The dates are automatically derived from relations."
-        manually_scheduled: "Manual scheduling is enabled so all existing work package relations are ignored."
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
         start_date_limited_by_relations: "Available start and finish dates are limited by relations."
-        changing_dates_affects_follow_relations: "Changing the dates of this work package will change the dates of related work packages."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
       description_filter: "Filtro"
@@ -1209,4 +1209,3 @@ it:
         Close: 'Chiuso'
     storages:
       enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
-
