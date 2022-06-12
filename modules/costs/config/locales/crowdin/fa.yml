@@ -43,7 +43,7 @@ fa:
         default_rates: "Default rates"
     models:
       cost_type:
-        one: "Cost type"
+        one: "نوع هزینه"
         other: "Cost types"
       rate: "نرخ"
     errors:

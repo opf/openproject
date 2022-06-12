@@ -777,7 +777,7 @@ fa:
               special: "special (e.g. '%')"
               reused:
                 one: "has been used before. Please choose one that is different from your last one."
-                other: "has been used before. Please choose one that is different from your last %{count}."
+                other: "قبلا استفاده شده است. لطفا انتخابی متفاوت از %{count} گذشته انجام دهید."
               match:
                 confirm: "Confirm new password."
                 description: "'Password confirmation' should match the input in the 'New password' field."
@@ -801,7 +801,7 @@ fa:
         body: "Please check the following fields:"
         header:
           one: "1 error prohibited this %{model} from being saved"
-          other: "%{count} errors prohibited this %{model} from being saved"
+          other: "%{count} خطا باعث می شود این %{model} ذخیره نشود."
     models:
       attachment: "فایل"
       attribute_help_text: "Attribute help text"
@@ -815,14 +815,14 @@ fa:
       member: "Member"
       news: "News"
       notification:
-        one: "Notification"
+        one: "اعلان‌"
         other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Project"
       query: "Custom query"
       role:
         one: "Role"
-        other: "Roles"
+        other: "نقش‌ها"
       type: "نوع"
       user: "User"
       version: "نسخه"
@@ -1081,42 +1081,42 @@ fa:
     distance_in_words:
       about_x_hours:
         one: "about 1 hour"
-        other: "about %{count} hours"
+        other: "تقریبا %{count} ساعت"
       about_x_months:
         one: "about 1 month"
-        other: "about %{count} months"
+        other: "حدود %{count} ماه"
       about_x_years:
         one: "about 1 year"
-        other: "about %{count} years"
+        other: "حدود %{count} سال"
       almost_x_years:
         one: "almost 1 year"
-        other: "almost %{count} years"
+        other: "تقریبا %{count} سال"
       half_a_minute: "half a minute"
       less_than_x_minutes:
         one: "less than a minute"
-        other: "less than %{count} minutes"
+        other: "کمتر از %{count} دقیقه"
       less_than_x_seconds:
         one: "less than 1 second"
-        other: "less than %{count} seconds"
+        other: "کمتر از %{count} ثانیه"
       over_x_years:
         one: "over 1 year"
-        other: "over %{count} years"
+        other: "بیش از %{count} سال"
       x_days:
         one: "1 day"
-        other: "%{count} days"
+        other: "%{count} روز"
       x_minutes:
         one: "1 minute"
-        other: "%{count} minutes"
+        other: "%{count} دقیقه"
       x_months:
         one: "1 month"
-        other: "%{count} months"
+        other: "%{count} ماه"
       x_seconds:
         one: "1 second"
-        other: "%{count} seconds"
+        other: "%{count} ثانیه"
     units:
       hour:
         one: "hour"
-        other: "hours"
+        other: "ساعت"
   default_activity_development: "Development"
   default_activity_management: "مدیریت"
   default_activity_other: "Other"
@@ -2131,7 +2131,7 @@ fa:
         units:
           byte:
             one: "Byte"
-            other: "Bytes"
+            other: "بایت"
           gb: "GB"
           kb: "kB"
           mb: "MB"
@@ -2652,7 +2652,7 @@ fa:
     duration: "Duration"
     duration_days:
       one: "1 day"
-      other: "%{count} days"
+      other: "%{count} روز"
     edit_color: "Edit color"
     edit_thing: "ویرایش"
     edit_timeline: "Edit timeline report %{timeline}"
@@ -2812,7 +2812,7 @@ fa:
     blocked: "locked temporarily"
     blocked_num_failed_logins:
       one: "locked temporarily (one failed login attempt)"
-      other: "locked temporarily (%{count} failed login attempts)"
+      other: "موقتا قفل شده  (%{count}تلاش ناموفق برای ورود)"
     confirm_status_change: "شما در حال تغییر وضعیت '%{name}' هستید. آیا می خواهید ادامه دهید؟"
     deleted: "Deleted user"
     error_status_change_failed: "Changing the user status failed due to the following errors: %{errors}"
