@@ -16,10 +16,10 @@ This guide describes how to contribute to the OpenProject documentation, includi
 
 This guide aims to help users that are new to Git and Markdown to contribute to the OpenProject documentation. There are a two very helpful tools that makes it extremely easy to contribute to OpenProject:
 
-| Tool               | Purpose of this tool                                         | Website and download        |
-| ------------------ | ------------------------------------------------------------ | --------------------------- |
-| **Typora**         | Typora is an application that enables you to easily edit markdown files. The markdown file format is used used for the OpenProject documentation which allows you to focus on the content instead of the formatting. | https://desktop.github.com/ |
-| **GitHub Desktop** | Desktop is an application that enables you to interact with GitHub using a GUI instead of the command line or a web browser. | https://typora.io/          |
+| Tool               | Purpose of this tool                                                                                                                                                                                                 | Website and download                              |
+|--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
+| **Typora**         | Typora is an application that enables you to easily edit markdown files. The markdown file format is used used for the OpenProject documentation which allows you to focus on the content instead of the formatting. | [desktop.github.com](https://desktop.github.com/) |
+| **GitHub Desktop** | Desktop is an application that enables you to interact with GitHub using a GUI instead of the command line or a web browser.                                                                                         | [typora.io](https://typora.io/)                   |
 
 ## Step 1: Create user account on GitHub.com
 
@@ -53,7 +53,7 @@ After authenticating your account, you are ready to manage and contribute to pro
 
 ## Step 5: Fork the OpenProject repository 
 
-If you are an external contributor you don't have write permissions on the repository https://github.com/opf/openproject/. In this case you need to fork the repository first. This basically means that you have your own copy of the repository on GitHub.com. Since it is your own repository you have write privileges here.
+If you are an external contributor you don't have write permissions on the repository [https://github.com/opf/openproject/](https://github.com/opf/openproject/). In this case you need to fork the repository first. This basically means that you have your own copy of the repository on GitHub.com. Since it is your own repository you have write privileges here.
 
 ![fork openproject](fork-openproject.png)
 
@@ -119,7 +119,7 @@ At the moment your change is only available in your local repository. To make it
 
 ## Step 13: Create a pull request
 
-A pull request is a workflow to ask for a review from the OpenProject team. With a pull request you basically ask to check your changes and to copy it over to the OpenProject repository (opf/openproject). Navigate to https://github.com/opf/openproject/pulls/compare.
+A pull request is a workflow to ask for a review from the OpenProject team. With a pull request you basically ask to check your changes and to copy it over to the OpenProject repository (opf/openproject). Navigate to [https://github.com/opf/openproject/pulls/compare](https://github.com/opf/openproject/pulls/compare).
 
 Here select the latest release branch e.g. release/12.1 in the first dropdown. In the second select the branch you have changed.
 
