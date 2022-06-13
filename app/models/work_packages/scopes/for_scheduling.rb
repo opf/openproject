@@ -186,19 +186,22 @@ module WorkPackages::Scopes
                   AND (relations.to_id = to_schedule.id AND relations.relation_type = '#{Relation::TYPE_FOLLOWS}')
               UNION
                 SELECT
-                  CASE
-                    WHEN work_package_hierarchies.ancestor_id = to_schedule.id
-                    THEN work_package_hierarchies.descendant_id
-                    ELSE work_package_hierarchies.ancestor_id
-                    END from_id,
+                  work_package_hierarchies.ancestor_id from_id,
                   to_schedule.id to_id,
-                  work_package_hierarchies.descendant_id = to_schedule.id hierarchy_up
+                  true hierarchy_up
                 FROM
                   work_package_hierarchies
-                WHERE
-                  NOT to_schedule.manually
-                  AND ((work_package_hierarchies.ancestor_id = to_schedule.id AND NOT to_schedule.hierarchy_up AND work_package_hierarchies.generations = 1)
-                       OR (work_package_hierarchies.descendant_id = to_schedule.id AND work_package_hierarchies.generations > 0))
+                WHERE NOT to_schedule.manually
+                  AND (work_package_hierarchies.descendant_id = to_schedule.id AND work_package_hierarchies.generations > 0)
+              UNION
+                SELECT
+                  work_package_hierarchies.descendant_id from_id,
+                  to_schedule.id to_id,
+                  false hierarchy_up
+                FROM
+                  work_package_hierarchies
+                WHERE NOT to_schedule.manually
+                  AND (work_package_hierarchies.ancestor_id = to_schedule.id AND NOT to_schedule.hierarchy_up AND work_package_hierarchies.generations = 1)
               ) relations ON relations.to_id = to_schedule.id
             LEFT JOIN work_packages related_work_packages
               ON relations.from_id = related_work_packages.id
