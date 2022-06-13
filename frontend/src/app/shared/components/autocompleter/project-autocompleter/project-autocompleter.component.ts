@@ -37,6 +37,7 @@ import {
   HostBinding,
   ViewEncapsulation,
   ChangeDetectionStrategy,
+  ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -116,6 +117,9 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     this.onChange(value);
     this.valueChange.emit(value);
     this.onTouched(value);
+    setTimeout(() => {
+      this.hiddenInput.nativeElement?.dispatchEvent(new Event('change'));
+    }, 100);
   }
 
   get plainValue():ID|ID[] {
@@ -123,6 +127,8 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
   }
 
   @Output('valueChange') valueChange = new EventEmitter<IProjectAutocompleterData|IProjectAutocompleterData[]|null>();
+
+  @ViewChild('hiddenInput') hiddenInput: ElementRef;
 
   constructor(
     public elementRef:ElementRef,
