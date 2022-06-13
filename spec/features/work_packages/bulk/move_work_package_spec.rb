@@ -1,7 +1,10 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
+require 'support/components/ng_select_autocomplete_helpers'
 
 describe 'Moving a work package through Rails view', js: true do
+  include ::Components::NgSelectAutocompleteHelpers
+
   let(:dev_role) do
     create :role,
            permissions: %i[view_work_packages add_work_packages]
@@ -137,7 +140,10 @@ describe 'Moving a work package through Rails view', js: true do
       context_menu.choose 'Bulk change of project'
 
       # On work packages move page
-      select project2.name, from: 'new_project_id'
+      select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+                          query: project2.name,
+                          select_text: project2.name,
+                          results_selector: 'body'
       click_on 'Move and follow'
     end
 
