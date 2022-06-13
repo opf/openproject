@@ -171,7 +171,7 @@ export class DatePicker {
         return moment(dateObj).format('W');
       },
       onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
-        if (this.weekdaysService.isDateDisabled(dayElem.dateObj)) {
+        if (this.weekdaysService.isNonWorkingDay(dayElem.dateObj)) {
           dayElem.classList.add('flatpickr-non-working-day');
         }
       },

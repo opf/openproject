@@ -50,9 +50,13 @@ export class WeekdayService {
     readonly injector:Injector,
   ) {}
 
-  public isDateDisabled(date:Date):boolean {
-    const dayOfWeek = moment(date).isoWeekday();
-    return !!this.weekdays.find((wd) => wd.day === dayOfWeek && !wd.working);
+  /**
+   * @param date The iso day number (1-7) or a date instance
+   * @return {boolean} whether the given iso day is working or not
+   */
+  public isNonWorkingDay(date:Date|number):boolean {
+    const isoDayOfWeek = (typeof date === 'number') ? date : moment(date).isoWeekday();
+    return !!this.weekdays.find((wd) => wd.day === isoDayOfWeek && !wd.working);
   }
 
   loadWeekdays():Observable<IWeekday[]> {
