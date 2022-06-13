@@ -154,7 +154,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @Input() public selectableGroupAsModel?:boolean = true;
 
-  @Input() public searchFn ? = null;
+  @Input() public searchFn:(term:string, item:any) => boolean;
 
   @Input() public trackByFn ? = null;
 
