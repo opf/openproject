@@ -30,8 +30,7 @@ import { PrincipalLike } from 'core-app/shared/components/principal/principal-ty
 import { IPrincipal } from 'core-app/core/state/principals/principal.model';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 
-export type PrincipalType = 'user'|'placeholder_user'|'group';
-export type PrincipalPluralType = 'users'|'placeholder_users'|'groups';
+export type PrincipalType = 'user'|'placeholder_user'|'group'|'external_user';
 
 /*
  * This function is a helper that wraps around the old HalResource based principal type and the new interface based one.
@@ -51,7 +50,7 @@ export function hrefFromPrincipal(p:IPrincipal|PrincipalLike):string {
   return '';
 }
 export function typeFromHref(href:string):PrincipalType|null {
-  const match = /\/(user|group|placeholder_user)s\/\d+$/.exec(href);
+  const match = /\/(user|group|placeholder_user|external_user)s\/\d+$/.exec(href);
 
   if (!match) {
     return null;

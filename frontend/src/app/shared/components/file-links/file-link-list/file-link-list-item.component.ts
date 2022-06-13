@@ -100,7 +100,7 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
     if (this.originData.lastModifiedByName) {
       this.principalRendererService.render(
         this.avatar.nativeElement,
-        { name: this.originData.lastModifiedByName, href: '/users/1' },
+        { name: this.originData.lastModifiedByName, href: '/external_users/1' },
         { hide: true, link: false },
         { hide: false, size: 'mini' },
       );
