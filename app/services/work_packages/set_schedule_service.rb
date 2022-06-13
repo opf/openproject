@@ -34,14 +34,14 @@ class WorkPackages::SetScheduleService
     self.work_packages = Array(work_package)
   end
 
-  def call(attributes = %i(start_date due_date))
-    altered = if (%i(parent parent_id) & attributes).any?
-                schedule_by_parent
-              else
-                []
-              end
+  def call(changed_attributes = %i(start_date due_date))
+    altered = []
 
-    if (%i(start_date due_date parent parent_id) & attributes).any?
+    if (%i(parent parent_id) & changed_attributes).any?
+      altered += schedule_by_parent
+    end
+
+    if (%i(start_date due_date parent parent_id) & changed_attributes).any?
       altered += schedule_following
     end
 
@@ -64,16 +64,22 @@ class WorkPackages::SetScheduleService
       .each { |wp| wp.start_date = wp.parent.soonest_start }
   end
 
-  # Finds all work packages that need to be rescheduled because of a rescheduling of the service's work package
-  # and reschedules them.
-  # The order of the rescheduling is important as successors' dates are calculated based on their predecessors' dates and
-  # ancestors' dates based on their children's dates.
-  # Thus, the work packages following (having a follows relation, direct or transitively) the service's work package
-  # are first all loaded, and then sorted by their need to be scheduled before one another:
+  # Finds all work packages that need to be rescheduled because of a
+  # rescheduling of the service's work package and reschedules them.
+  #
+  # The order of the rescheduling is important as successors' dates are
+  # calculated based on their predecessors' dates and ancestors' dates based on
+  # their children's dates.
+  #
+  # Thus, the work packages following (having a follows relation, direct or
+  # transitively) the service's work package are first all loaded, and then
+  # sorted by their need to be scheduled before one another:
+  #
   # - predecessors are scheduled before their successors
   # - children/descendants are scheduled before their parents/ancestors
-  # Manually scheduled work packages are not encountered at this point as they are filtered out when fetching the
-  # work packages eligible for rescheduling.
+  #
+  # Manually scheduled work packages are not encountered at this point as they
+  # are filtered out when fetching the work packages eligible for rescheduling.
   def schedule_following
     altered = []
 
@@ -88,7 +94,8 @@ class WorkPackages::SetScheduleService
 
   # Schedules work packages based on either
   #  - their descendants if they are parents
-  #  - their predecessors (or predecessors of their ancestors) if they are leaves
+  #  - their predecessors (or predecessors of their ancestors) if they are
+  #    leaves
   def reschedule(scheduled, dependency)
     if dependency.descendants.any?
       reschedule_ancestor(scheduled, dependency)
@@ -97,23 +104,32 @@ class WorkPackages::SetScheduleService
     end
   end
 
-  # Inherits the start/due_date from the descendants of this work package. Only parent work packages are scheduled like this.
-  # start_date receives the minimum of the dates (start_date and due_date) of the descendants
-  # due_date receives the maximum of the dates (start_date and due_date) of the descendants
+  # Inherits the start/due_date from the descendants of this work package.
+  #
+  # Only parent work packages are scheduled like this. start_date receives the
+  # minimum of the dates (start_date and due_date) of the descendants due_date
+  # receives the maximum of the dates (start_date and due_date) of the
+  # descendants
   def reschedule_ancestor(scheduled, dependency)
     set_dates(scheduled, dependency.start_date, dependency.due_date)
   end
 
-  # Calculates the dates of a work package based on its follows relations. The follows relations of
-  # ancestors are considered to be equal to own follows relations as they inhibit moving a work package
-  # just the same. Only leaf work packages are calculated like this.
-  # * work package is moved to a later date (delta positive):
-  #  - all following work packages are moved by the same amount unless there is still a time buffer between work package and
-  #    its predecessors (predecessors can also be acquired transitively by ancestors)
-  # * work package moved to an earlier date (delta negative):
-  #  - all following work packages are moved by the same amount unless a follows relation of the work package or one of its
-  #    ancestors limits moving it. Then it is moved to the earliest date possible. This limitation is propagated transtitively
-  #    to all following work packages.
+  # Calculates the dates of a work package based on its follows relations.
+  #
+  # The follows relations of ancestors are considered to be equal to own follows
+  # relations as they inhibit moving a work package just the same. Only leaf
+  # work packages are calculated like this.
+  #
+  # work package is moved to a later date (delta positive):
+  #   - all following work packages are moved by the same amount unless there is
+  #     still a time buffer between work package and its predecessors
+  #     (predecessors can also be acquired transitively by ancestors)
+  #
+  # work package moved to an earlier date (delta negative):
+  #   - all following work packages are moved by the same amount unless a
+  #     follows relation of the work package or one of its ancestors limits
+  #     moving it. Then it is moved to the earliest date possible. This
+  #     limitation is propagated transitively to all following work packages.
   def reschedule_by_follows(scheduled, dependency)
     delta = follows_delta(dependency)
     min_start_date = dependency.max_date_of_followed
