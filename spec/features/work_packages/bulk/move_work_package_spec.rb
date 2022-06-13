@@ -88,6 +88,7 @@ describe 'Moving a work package through Rails view', js: true do
                             query: 'Target',
                             select_text: 'Target',
                             results_selector: 'body'
+        SeleniumHubWaiter.wait
         click_on 'Move and follow'
       end
 
