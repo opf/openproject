@@ -156,6 +156,7 @@ class WorkPackage < ApplicationRecord
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
 
+  # makes virtual modal WorkPackageHierarchy available
   has_closure_tree
 
   ##################### WARNING #####################
