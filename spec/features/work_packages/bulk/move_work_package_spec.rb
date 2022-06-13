@@ -84,7 +84,10 @@ describe 'Moving a work package through Rails view', js: true do
 
         # On work packages move page
         expect(page).to have_selector('#new_project_id')
-        select 'Target', from: 'new_project_id'
+        select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+                            query: 'Target',
+                            select_text: 'Target',
+                            results_selector: 'body'
         click_on 'Move and follow'
       end
 
