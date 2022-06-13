@@ -28,7 +28,6 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { applyTransaction } from '@datorama/akita';
 import { from } from 'rxjs';
 import {
   catchError,
@@ -42,7 +41,7 @@ import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { FileLinksStore } from 'core-app/core/state/file-links/file-links.store';
-import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
+import { insertCollectionIntoState, removeEntityFromCollectionAndState } from 'core-app/core/state/collection-store';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import {
   CollectionStore,
@@ -106,21 +105,6 @@ export class FileLinksResourceService extends ResourceCollectionService<IFileLin
           throw error;
         }),
       )
-      .subscribe(() => {
-        applyTransaction(() => {
-          this.store.remove(fileLink.id);
-          this.store.update(({ collections }) => (
-            {
-              collections: {
-                ...collections,
-                [collectionKey]: {
-                  ...collections[collectionKey],
-                  ids: (collections[collectionKey]?.ids || []).filter((id) => id !== fileLink.id),
-                },
-              },
-            }
-          ));
-        });
-      });
+      .subscribe(() => removeEntityFromCollectionAndState(this.store, fileLink.id, collectionKey));
   }
 }

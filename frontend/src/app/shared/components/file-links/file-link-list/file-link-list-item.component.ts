@@ -38,7 +38,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
+import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
 import {
   getIconForMimeType,
   IFileLinkListItemIcon,
@@ -84,19 +84,23 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
     private readonly principalRendererService:PrincipalRendererService,
   ) {}
 
+  private get originData():IFileLinkOriginData {
+    return this.fileLink.originData;
+  }
+
   ngOnInit():void {
-    if (this.fileLink.originData.lastModifiedAt) {
-      this.infoTimestampText = this.timezoneService.parseDatetime(this.fileLink.originData.lastModifiedAt).fromNow();
+    if (this.originData.lastModifiedAt) {
+      this.infoTimestampText = this.timezoneService.parseDatetime(this.originData.lastModifiedAt).fromNow();
     }
 
-    this.fileLinkIcon = getIconForMimeType(this.fileLink.originData.mimeType);
+    this.fileLinkIcon = getIconForMimeType(this.originData.mimeType);
   }
 
   ngAfterViewInit():void {
-    if (this.fileLink.originData.lastModifiedByName) {
+    if (this.originData.lastModifiedByName) {
       this.principalRendererService.render(
         this.avatar.nativeElement,
-        { name: this.fileLink.originData.lastModifiedByName, href: '/users/1' },
+        { name: this.originData.lastModifiedByName, href: '/users/1' },
         { hide: true, link: false },
         { hide: false, size: 'mini' },
       );

@@ -28,18 +28,18 @@
 
 export interface IFileLinkListItemIcon {
   icon:'image1'|'movie'|'file-text'|'export-pdf-descr'|'file-doc'|'file-sheet'|'file-presentation'|'folder'|'ticket'
-  color:'red'|'blue'|'blue-deep'|'blue-dark'|'turquoise'|'green'|'grey-dark'|'grey'|'orange'
+  clazz:'pdf'|'img'|'txt'|'doc'|'sheet'|'presentation'|'form'|'dir'|'default'
 }
 
 const mimeTypeIconMap:{ [mimeType:string]:IFileLinkListItemIcon; } = {
-  'image/*': { icon: 'image1', color: 'blue-dark' },
-  'text/plain': { icon: 'file-text', color: 'grey-dark' },
-  'application/pdf': { icon: 'export-pdf-descr', color: 'red' },
-  'application/vnd.oasis.opendocument.text': { icon: 'file-doc', color: 'blue-deep' },
-  'application/vnd.oasis.opendocument.spreadsheet': { icon: 'file-sheet', color: 'green' },
-  'application/vnd.oasis.opendocument.presentation': { icon: 'file-presentation', color: 'turquoise' },
-  'application/x-op-directory': { icon: 'folder', color: 'blue' },
-  default: { icon: 'ticket', color: 'grey-dark' },
+  'image/*': { icon: 'image1', clazz: 'img' },
+  'text/plain': { icon: 'file-text', clazz: 'txt' },
+  'application/pdf': { icon: 'export-pdf-descr', clazz: 'pdf' },
+  'application/vnd.oasis.opendocument.text': { icon: 'file-doc', clazz: 'doc' },
+  'application/vnd.oasis.opendocument.spreadsheet': { icon: 'file-sheet', clazz: 'sheet' },
+  'application/vnd.oasis.opendocument.presentation': { icon: 'file-presentation', clazz: 'presentation' },
+  'application/x-op-directory': { icon: 'folder', clazz: 'dir' },
+  default: { icon: 'ticket', clazz: 'default' },
 };
 
 export function getIconForMimeType(mimeType?:string):IFileLinkListItemIcon {

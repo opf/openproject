@@ -2,10 +2,11 @@
   <a
     class="spot-list--item-action op-files-tab--file-list-item-action"
     [href]="fileLink._links.staticOriginOpen.href"
+    [title]="fileLink.originData.name"
     target="_blank"
   >
     <span
-      class="spot-icon spot-icon_{{fileLinkIcon.icon}} op-files-tab--color-{{fileLinkIcon.color}}"
+      class="spot-icon spot-icon_{{fileLinkIcon.icon}} op-files-tab--icon_{{fileLinkIcon.clazz}}"
     ></span>
 
     <span
@@ -14,7 +15,7 @@
     ></span>
 
     <span
-      class="op-files-tab--file-list-item-text op-files-tab--color-grey"
+      class="op-files-tab--file-list-item-text"
       [textContent]="infoTimestampText"
     ></span>
 
@@ -23,7 +24,7 @@
       class="op-files-tab--file-list-item-avatar"
     ></div>
   </a>
-  <div class="spot-list--item-floating-actions">
+  <div class="spot-list--item-floating-actions op-files-tab--file-list-item-floating-actions">
     <a
       class="spot-link"
       [title]="text.title.openFileLocation"

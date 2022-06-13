@@ -45,7 +45,10 @@
           text-overflow: ellipsis
 
         .op-files-tab--file-list-item-text
-          font-size: $spot-spacing-0-75
+          @include spot-caption()
+
+          color: #9A9A9A
+          line-height: $spot-spacing-1-5
           flex-shrink: 0
 
           &:not(:last-child)
@@ -63,16 +66,20 @@
           width: $spot-spacing-1-5
           height: $spot-spacing-1-5
 
+      .op-files-tab--file-list-item-floating-actions
+        padding-right: 0
+
   &--storage-info-box
     margin-top: 0.875rem
     display: grid
     grid-template: "icon text" "button button" / auto 1fr
 
     .spot-icon.big
+      color: #9A9A9A
       grid-area: icon
       width: 3.375rem
       height: 3.375rem
-      font-size: $spot-spacing-1-25
+      font-size: 1.25rem
 
     .text-box
       grid-area: text
@@ -82,8 +89,9 @@
         line-height: $spot-spacing-1-5
 
       .text-box-content
-        font-size: 0.875rem
-        line-height: $spot-spacing-1-25
+        @include spot-body-small()
+
+        color: #9A9A9A
 
     .button-box
       grid-area: button
@@ -91,39 +99,39 @@
       justify-content: end
 
       .action-button
+        @include spot-body-small()
+
         padding: $spot-spacing-0-25 $spot-spacing-0-75
-        font-size: 0.875rem
 
       .spot-icon
         margin-right: $spot-spacing-0-5
+        width: $spot-spacing-1-5
+        height: $spot-spacing-1-5
 
-  &--color
-    &-red
+  &--icon
+    &_pdf
       color: #B93A33
 
-    &-blue
-      color: #00BDF3
-
-    &-blue-deep
-      color: #006E8F
-
-    &-blue-dark
+    &_img
       color: #0081C7
 
-    &-turquoise
-      color: #87E2C1
-
-    &-green
-      color: #007528
-
-    &-grey-dark
+    &_txt
       color: #9A9A9A
 
-    &-grey
-      color: #878787
+    &_doc
+      color: #006E8F
 
-    &-grey-light
-      color: #F3F3F3
+    &_sheet
+      color: #007528
 
-    &-orange
+    &_presentation
       color: #EF9E56
+
+    &_form
+      color: #87E2C1
+
+    &_dir
+      color: #00BDF3
+
+    &_default
+      color: #9A9A9A
