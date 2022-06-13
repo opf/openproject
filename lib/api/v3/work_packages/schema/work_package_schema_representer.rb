@@ -117,18 +117,6 @@ module API
                  type: 'Formattable',
                  required: false
 
-          schema :duration,
-                 type: 'Duration',
-                 required: false,
-                 writable: false,
-                 show_if: ->(*) { !represented.milestone? && OpenProject::FeatureDecisions.work_packages_duration_field_active? }
-
-          # TODO: Remove this, once the duration feature is complete
-          # This enables hiding the duration field on the form_configuration
-          ::Type.add_constraint :duration, ->(*) {
-            OpenProject::FeatureDecisions.work_packages_duration_field_active?
-          }
-
           schema :schedule_manually,
                  type: 'Boolean',
                  required: false,

@@ -293,50 +293,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe 'duration' do
-      before do
-        # TODO: remove feature flag once the implementation is complete
-        allow(OpenProject::FeatureDecisions)
-          .to receive(:work_packages_duration_field_active?)
-          .and_return(true)
-        allow(schema)
-          .to receive(:milestone?)
-          .and_return(false)
-      end
-
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'duration' }
-        let(:type) { 'Duration' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.duration') }
-        let(:required) { false }
-        let(:writable) { false }
-      end
-
-      context 'when the work package is a milestone' do
-        before do
-          allow(schema)
-            .to receive(:milestone?)
-            .and_return(true)
-        end
-
-        it 'has no duration attribute' do
-          expect(subject).not_to have_json_path('duration')
-        end
-      end
-
-      context 'when the feature flag is off' do
-        before do
-          allow(OpenProject::FeatureDecisions)
-            .to receive(:work_packages_duration_field_active?)
-            .and_return(false)
-        end
-
-        it 'has no duration attribute' do
-          expect(subject).not_to have_json_path('duration')
-        end
-      end
-    end
-
     describe 'scheduleManually' do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'scheduleManually' }
