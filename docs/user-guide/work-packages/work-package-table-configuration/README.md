@@ -12,10 +12,10 @@ keywords: work packages table configuration, work package list, columns, filter,
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Add or remove columns](#add-or-remove-columns-in-the-work-package-table) | How to add or remove columns in the work package table?      |
-| [Filter work packages](#filter-work-packages)                | How to filter in the work package list?                      |
-| [Sort the work package list](#sort-the-work-package-list)    | How to sort within the work package list?                    |
+| [Filter work packages](#filter-work-packages)                | How to filter in the work package table?                     |
+| [Sort the work package list](#sort-the-work-package-list)    | How to sort within the work package table?                   |
 | [Display settings](#flat-list-hierarchy-mode-and-group-by)   | Get to know the flat list, the hierarchy mode, the group by and the sum feature. |
-| [Attribute highlighting (Premium Feature)](#attribute-highlighting-premium-feature) | How to highlight certain attributes in the work package list? |
+| [Attribute highlighting (Premium Feature)](#attribute-highlighting-premium-feature) | How to highlight certain attributes in the work package table? |
 | [Save work package views](#save-work-package-views)          | How to save a new work package view and how to change existing ones? |
 
 You can configure the work package table view in OpenProject to display the information that you need in the list.
@@ -80,7 +80,7 @@ The results will be displayed accordingly in the work package list.
 ### Filtering for a work package's children
 
 If you want to only show work package with specific parents (e.g. all work packages belonging to a specific phase of your project) you can use the filter "Parent". Enter all required work packages and press Enter. This will show the selected work package(s) and its/their children. 
-If you only selected work packages without children, no work packages will be shown at all.
+If you only select work packages without children, no work packages will be shown at all.
 
 ![filter-for-parent-work-package](filter-for-parent-work-package.png)
 
@@ -88,7 +88,7 @@ If you only selected work packages without children, no work packages will be sh
 
 It is possible to display the work packages from more than one project. To include, or exclude such work packages, use the **Include projects** dialog, where you can select/unselect the appropriate projects and sub-projects. To automatically include all subprojects for each project you chose to select, check the **Include all sub-projects** box at the bottom of the dialog.
 
-![Work package filter](work_package_filter.png)
+![work-package-filter-include-projects](work-package-filter-include-projects.png)
 
 To view all work packages across all projects you could select everything, or use the [global work package list](../../projects/#global-work-packages-list).
 
@@ -124,7 +124,7 @@ The **ID** is unique for a work package within OpenProject. It will be set autom
 
 To sort the work package list view, open the [work package table configuration](#work-package-table-configuration) and select the tab **Sort by**. You can sort by up to three attributes, either ascending or descending.
 
-![1566396586476](1566396586476.png)
+![work-package-table-configuration](work-package-table-configuration-4874227.png)
 
 Clicking the blue **Apply** button will save your changes and display the results accordingly in the list view.
 
