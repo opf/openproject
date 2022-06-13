@@ -37,11 +37,14 @@ class Widget::Filters::Project < Widget::Filters::Base
 
 
       selected_values = filter.values.each.map do |id|
-        available_value = filter_class.available_values.detect { |val| val[1] === id }
+        # When live testing, these IDs came out as integers.
+        # However, when running the specs, they came out as strings.
+        int_id = Integer(id)
+        available_value = filter_class.available_values.detect { |val| Integer(val[1]) === int_id }
 
         if available_value != nil
           {
-            id: id,
+            id: int_id,
             name: available_value[0]
           }
         else
