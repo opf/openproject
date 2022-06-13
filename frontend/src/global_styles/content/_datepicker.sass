@@ -35,6 +35,13 @@ $datepicker--border-radius: 5px
   position: fixed
   left: 65%
 
+
+.flatpickr-day
+  &.flatpickr-disabled,
+  &.flatpickr-non-working-day
+    background: $spot-color-basic-gray-6
+    border-radius: 0
+
 .flatpickr-calendar.inline
   box-shadow: none !important
   @include spot-caption
@@ -90,11 +97,6 @@ $datepicker--border-radius: 5px
         box-shadow: none !important
 
         &:hover
-          border-radius: 0
-
-        &.flatpickr-disabled,
-        &.flatpickr-non-working-day
-          background: $spot-color-basic-gray-6
           border-radius: 0
 
         &.today
