@@ -57,6 +57,7 @@ export class NotificationSettingInlineCreateComponent {
       disabled: !!this.settings.controls.find(
         (projectSetting) => (projectSetting.get('project')!.value as NotificationSettingProjectOption).href === project.href,
       ),
+      disabledReason: this.text.already_selected,
     }));
   }
 }
