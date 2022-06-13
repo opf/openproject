@@ -99,6 +99,24 @@ RSpec.describe 'Work package timeline date formatting',
         expect_date_week '2021-01-04', '01'
       end
     end
+
+    context 'with weekdays defined' do
+      let(:current_user) { create :admin, language: 'en' }
+      let!(:week_days) { create :week_days }
+
+      it 'shows them as disabled' do
+        expect_date_week work_package.start_date.iso8601, '01'
+
+        expect(page).to have_selector('[data-qa-selector="wp-timeline--non-working-day_27-12-2020"]')
+        expect(page).to have_selector('[data-qa-selector="wp-timeline--non-working-day_2-1-2021"]')
+
+        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_28-12-2020"]')
+        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_29-12-2020"]')
+        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_30-12-2020"]')
+        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_31-12-2020"]')
+        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_1-1-2021"]')
+      end
+    end
   end
 
   describe 'with US/CA settings',
