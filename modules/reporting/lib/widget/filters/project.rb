@@ -39,17 +39,21 @@ class Widget::Filters::Project < Widget::Filters::Base
       selected_values = filter.values.each.map do |id|
         available_value = filter_class.available_values.detect { |val| val[1] === id }
 
-        {
-          id: id,
-          name: available_value[0]
-        }
+        if available_value != nil
+          {
+            id: id,
+            name: available_value[0]
+          }
+        else
+          nil
+        end
       end
       box = angular_component_tag 'op-project-autocompleter',
                                   inputs: {
                                     apiFilters: [],
                                     name: "values[#{filter_class.underscore_name}][]",
                                     multiple: true,
-                                    value: selected_values
+                                    value: selected_values.filter { |item| item != nil }
                                   },
                                   id: "#{filter_class.underscore_name}_select_1",
                                   class: 'filter-value'
