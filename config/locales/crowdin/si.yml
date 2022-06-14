@@ -776,7 +776,7 @@ si:
               numeric: "සංඛ්යාත්මක (උදා: '1')"
               special: "විශේෂ (උදා: '%')"
               reused:
-                one: "has been used before. Please choose one that is different from your last one."
+                one: "මීට පෙර භාවිතා කර ඇත. කරුණාකර ඔබේ අන්තිම එකට වඩා වෙනස් එකක් තෝරන්න."
                 other: "has been used before. Please choose one that is different from your last %{count}."
               match:
                 confirm: "නව මුරපදය තහවුරු කරන්න."

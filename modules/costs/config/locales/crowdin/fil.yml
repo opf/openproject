@@ -43,7 +43,7 @@ fil:
         default_rates: "Default rates"
     models:
       cost_type:
-        one: "Cost type"
+        one: "Uri ng Gastos"
         other: "Cost types"
       rate: "Rate"
     errors:

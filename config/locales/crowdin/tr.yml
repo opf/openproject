@@ -816,7 +816,7 @@ tr:
       news: "Haberler"
       notification:
         one: "Notification"
-        other: "Notifications"
+        other: "Bildirimler"
       placeholder_user: "Yer tutucu kullanıcı"
       project: "Proje"
       query: "Özel sorgu"
