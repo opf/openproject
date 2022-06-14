@@ -26,30 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export interface IFileLinkListItemIcon {
-  icon:'image1'|'movie'|'file-text'|'export-pdf-descr'|'file-doc'|'file-sheet'|'file-presentation'|'folder'|'ticket'
-  clazz:'pdf'|'img'|'txt'|'doc'|'sheet'|'presentation'|'form'|'dir'|'default'
-}
-
-const mimeTypeIconMap:{ [mimeType:string]:IFileLinkListItemIcon; } = {
-  'image/*': { icon: 'image1', clazz: 'img' },
-  'text/plain': { icon: 'file-text', clazz: 'txt' },
-  'application/pdf': { icon: 'export-pdf-descr', clazz: 'pdf' },
-  'application/vnd.oasis.opendocument.text': { icon: 'file-doc', clazz: 'doc' },
-  'application/vnd.oasis.opendocument.spreadsheet': { icon: 'file-sheet', clazz: 'sheet' },
-  'application/vnd.oasis.opendocument.presentation': { icon: 'file-presentation', clazz: 'presentation' },
-  'application/x-op-directory': { icon: 'folder', clazz: 'dir' },
-  default: { icon: 'ticket', clazz: 'default' },
-};
+import {
+  fileIconMappings,
+  IFileLinkListItemIcon,
+} from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
 
 export function getIconForMimeType(mimeType?:string):IFileLinkListItemIcon {
-  if (mimeType?.startsWith('image/')) {
-    return mimeTypeIconMap['image/*'];
+  if (mimeType && fileIconMappings[mimeType]) {
+    return fileIconMappings[mimeType];
   }
 
-  if (mimeType && mimeTypeIconMap[mimeType]) {
-    return mimeTypeIconMap[mimeType];
-  }
-
-  return mimeTypeIconMap.default;
+  return fileIconMappings.default;
 }

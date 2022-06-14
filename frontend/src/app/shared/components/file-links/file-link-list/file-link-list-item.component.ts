@@ -41,11 +41,11 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
 import {
   getIconForMimeType,
-  IFileLinkListItemIcon,
-} from 'core-app/shared/components/file-links/file-link-list/file-link-list-item-icon.factory';
+} from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
+import { IFileLinkListItemIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

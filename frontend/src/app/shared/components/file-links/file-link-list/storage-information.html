@@ -18,11 +18,10 @@
 <div
   class="button-box"
 >
-  <button
-    class="action-button"
-    (click)="buttonClickEventEmitter.emit()"
-  >
-    <span class="spot-icon with-text spot-icon_external-link"></span>
-    <span [textContent]="buttonText"></span>
+  <button class="button">
+    <op-icon icon-classes="button--icon spot-icon spot-icon_external-link" class="op-icon--wrapper">
+      <i class="button--icon spot-icon spot-icon_external-link"></i>
+    </op-icon>
+    <span class="button--text">Open Nextcloud</span>
   </button>
 </div>
