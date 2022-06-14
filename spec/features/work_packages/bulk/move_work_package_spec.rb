@@ -89,14 +89,17 @@ describe 'Moving a work package through Rails view', js: true do
                             select_text: 'Target',
                             results_selector: 'body'
         SeleniumHubWaiter.wait
-        click_on 'Move and follow'
+
+        # Clicking move and follow might be broken due to the location.href
+        # in the refresh-on-form-changes component
+        retry_block do
+          click_on 'Move and follow'
+          page.find('.inline-edit--container.subject', text: work_package.subject, wait: 10)
+          page.find('#projects-menu', text: 'Target')
+        end
       end
 
       it 'moves parent and child wp to a new project' do
-        expect_angular_frontend_initialized
-        expect(page).to have_selector('.inline-edit--container.subject', text: work_package.subject, wait: 10)
-        expect(page).to have_selector('#projects-menu', text: 'Target')
-
         # Should move its children
         child_wp.reload
         expect(child_wp.project_id).to eq(project2.id)
@@ -106,10 +109,6 @@ describe 'Moving a work package through Rails view', js: true do
         let!(:project2) { create(:project, name: 'Target', types: [type2]) }
 
         it 'does moves the work package and changes the type' do
-          expect_angular_frontend_initialized
-          expect(page).to have_selector('.inline-edit--container.subject', text: work_package.subject, wait: 10)
-          expect(page).to have_selector('#projects-menu', text: 'Target')
-
           # Should NOT have moved
           child_wp.reload
           work_package.reload
