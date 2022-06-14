@@ -29,8 +29,6 @@
 require 'spec_helper'
 
 describe UsersHelper, type: :helper do
-  include UsersHelper
-
   def build_user(status, blocked)
     build_stubbed(:user,
                   status:,
@@ -60,13 +58,14 @@ describe UsersHelper, type: :helper do
 
     test_cases.each do |(status, blocked), expectation|
       describe "with status #{status} and blocked #{blocked}" do
-        before do
-          user = build_user(status, blocked)
-          @status = full_user_status(user, true)
+        let(:user) { build_user(status, blocked) }
+
+        subject(:user_status) do
+          full_user_status(user, true)
         end
 
         it "returns #{expectation}" do
-          expect(@status).to eq(expectation)
+          expect(user_status).to eq(expectation)
         end
       end
     end
@@ -84,34 +83,34 @@ describe UsersHelper, type: :helper do
     test_cases.each do |(status, blocked), expectation_symbol|
       describe "with status #{status} and blocked #{blocked}" do
         expectation = I18n.t(expectation_symbol, scope: :user)
-        before do
+        subject(:buttons) do
           user = build_user(status, blocked)
-          @buttons = change_user_status_buttons(user)
+          change_user_status_buttons(user)
         end
 
         it "contains '#{expectation}'" do
-          expect(@buttons).to include(expectation)
+          expect(buttons).to include(expectation)
         end
 
         it 'contains a single button' do
-          expect(@buttons.scan('<input').count).to eq(1)
+          expect(buttons.scan('<input').count).to eq(1)
         end
       end
     end
 
     describe 'with status active and blocked True' do
-      before do
+      subject(:buttons) do
         user = build_user(:active, true)
-        @buttons = change_user_status_buttons(user)
+        change_user_status_buttons(user)
       end
 
       it 'returns inputs (buttons)' do
-        expect(@buttons.scan('<input').count).to eq(2)
+        expect(buttons.scan('<input').count).to eq(2)
       end
 
       it "contains 'Lock' and 'Reset Failed logins'" do
-        expect(@buttons).to include(I18n.t('user.lock'))
-        expect(@buttons).to include(I18n.t('user.reset_failed_logins'))
+        expect(buttons).to include(I18n.t('user.lock'))
+        expect(buttons).to include(I18n.t('user.reset_failed_logins'))
       end
     end
   end
