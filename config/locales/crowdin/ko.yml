@@ -1508,6 +1508,7 @@ ko:
   label_diff: "차이"
   label_diff_inline: "인라인"
   label_diff_side_by_side: "나란히"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "사용 안 함"
   label_display: "표시"
   label_display_per_page: "페이지당: %{value}"
@@ -2366,7 +2367,7 @@ ko:
   setting_smtp_authentication: "SMTP 인증"
   setting_smtp_user_name: "SMTP 사용자 이름"
   setting_smtp_password: "SMTP 비밀번호"
-  setting_smtp_domain: "SMTP HELLO 도메인"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "프로젝트 작업에 표시되는 기간(일)"
   setting_app_subtitle: "응용 프로그램 부제목"
   setting_app_title: "응용 프로그램 제목"
@@ -2998,4 +2999,36 @@ ko:
     authorization_error: "권한 부여 오류가 발생했습니다."
     revoke_my_application_confirmation: "이 애플리케이션을 제거하시겠습니까? 그러면 이 애플리케이션에 대해 활성화된 %{token_count}개가 취소됩니다."
     my_registered_applications: "등록된 OAuth 애플리케이션"
+  oauth_client:
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authentication. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid"
+        invalid_request: >
+          OAuth2 server responded with 'invalid_request'. This error appears if you try to authorize multiple times.
+        invalid_response: "OAuth2 server provided an invalid response"
   you: 당신
