@@ -3217,7 +3217,7 @@ en:
     urn_connection_status:
       connected: "Connected"
       error: "Error"
-      failed_authorization: "Authentication failed"
+      failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
       label_redirect_uri: "Redirect URI"
@@ -3246,7 +3246,7 @@ en:
       oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
       oauth_state_not_present_explanation: >
         The 'state' is used to indicate to OpenProject where to continue
-        after a successful OAuth2 authentication. 
+        after a successful OAuth2 authorization. 
         A missing 'state' is an internal error that may appear during setup. 
         Please contact your system administrator.
       rack_oauth2:
