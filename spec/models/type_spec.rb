@@ -119,8 +119,8 @@ describe ::Type, type: :model do
         .and_return(true)
     end
 
-    it 'returns the duration field' do
-      expect(subject).to have_key("duration")
+    it 'does not return the duration field' do
+      expect(subject).not_to have_key("duration")
     end
 
     context 'when the feature flag is off' do
