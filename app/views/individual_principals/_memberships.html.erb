@@ -150,7 +150,10 @@ See COPYRIGHT and LICENSE files for more details.
                                       apiFilters: [],
                                       name: 'membership[project_id]'
                                     },
-                                    id: 'membership_project_id'
+                                    data: {
+                                      'qa-selector': 'membership_project_id'
+                                    },
+                                    class: 'form--field'
           %>
           <div class="form--field -vertical">
             <%= styled_label_tag nil, "#{t(:label_role_plural)}:" %>
