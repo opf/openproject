@@ -80,6 +80,7 @@ module WorkPackages
     end
 
     attribute :schedule_manually
+    attribute :ignore_non_working_days
 
     attribute :start_date,
               writeable: ->(*) {

@@ -113,25 +113,39 @@ describe ::Type, type: :model do
   describe '#work_package_attributes' do
     subject { type.work_package_attributes }
 
+    let(:duration_field_active) { true }
+
     before do
       allow(OpenProject::FeatureDecisions)
         .to receive(:work_packages_duration_field_active?)
         .and_return(true)
     end
 
-    it 'does not return the duration field' do
-      expect(subject).not_to have_key("duration")
-    end
-
-    context 'when the feature flag is off' do
-      before do
-        allow(OpenProject::FeatureDecisions)
-          .to receive(:work_packages_duration_field_active?)
-          .and_return(false)
+    context 'for the duration field' do
+      it 'does not return true field' do
+        expect(subject).not_to have_key("duration")
       end
 
-      it 'does not return the duration field' do
-        expect(subject).not_to have_key("duration")
+      context 'when the feature flag is off' do
+        let(:duration_field_active) { true }
+
+        it 'does not return the field' do
+          expect(subject).not_to have_key("duration")
+        end
+      end
+    end
+
+    context 'for the ignore_non_working_days field' do
+      it 'does not return duration' do
+        expect(subject).not_to have_key("ignore_non_working_days")
+      end
+
+      context 'when the feature flag is off' do
+        let(:duration_field_active) { true }
+
+        it 'does not return the duration field' do
+          expect(subject).not_to have_key("ignore_non_working_days")
+        end
       end
     end
   end

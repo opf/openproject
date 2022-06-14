@@ -550,6 +550,24 @@ describe WorkPackages::BaseContract do
     end
   end
 
+  describe 'ignore_non_working_days' do
+    context 'when setting the value to true' do
+      before do
+        work_package.ignore_non_working_days = true
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when setting the value to false' do
+      before do
+        work_package.ignore_non_working_days = false
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+  end
+
   describe 'percentage done' do
     it_behaves_like 'a parent unwritable property', :done_ratio
 
