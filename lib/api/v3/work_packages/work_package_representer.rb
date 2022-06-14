@@ -402,6 +402,11 @@ module API
                  end,
                  render_nil: true
 
+        property :ignore_non_working_days,
+                 if: ->(*) {
+                   OpenProject::FeatureDecisions.work_packages_duration_field_active?
+                 }
+
         property :spent_time,
                  exec_context: :decorator,
                  getter: ->(*) do
