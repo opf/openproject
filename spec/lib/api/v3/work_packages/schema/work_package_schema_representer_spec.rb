@@ -348,6 +348,33 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe 'ignoreNonWorkingDays' do
+      let(:feature_active) { true }
+
+      before do
+        # TODO: remove feature flag once the implementation is complete
+        allow(OpenProject::FeatureDecisions)
+          .to receive(:work_packages_duration_field_active?)
+                .and_return(feature_active)
+      end
+
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'ignoreNonWorkingDays' }
+        let(:type) { 'Boolean' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.ignore_non_working_days') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+
+      context 'when the feature flag is off' do
+        let(:feature_active) { false }
+
+        it 'has no ignoreNonWorkingDays attribute' do
+          expect(subject).not_to have_json_path('ignoreNonWorkingDays')
+        end
+      end
+    end
+
     describe 'date' do
       before do
         allow(schema)
@@ -1063,13 +1090,18 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       it 'does not cache the attribute_groups' do
-        representer.to_json
+        call_count = 0
+        allow(work_package.type)
+          .to receive(:attribute_groups) do
+          call_count += 1
+          []
+        end
 
-        expect(work_package.type)
-          .to receive(:attribute_groups)
-          .and_return([])
-
+        # Rendering two times, the Type#attribute_groups
+        # should still be called on the second rendering.
         representer.to_json
+        expect { representer.to_json }
+          .to change { call_count }
       end
     end
 
