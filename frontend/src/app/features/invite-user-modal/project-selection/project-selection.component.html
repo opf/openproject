@@ -18,7 +18,7 @@
 
       <div
         slot="help-text"
-        *ngIf="projectControl!.errors?.lackingPermission"
+        *ngIf="projectControl.errors?.lackingPermission"
       >
         {{ text.project.lackingPermissionInfo }}
       </div>
@@ -26,7 +26,7 @@
       <div
         slot="errors"
         class="op-form-field--error"
-        *ngIf="projectControl!.errors?.required"
+        *ngIf="projectControl.errors?.required"
       >
         {{ text.project.required }}
       </div>
@@ -34,7 +34,7 @@
       <div
         slot="errors"
         class="op-form-field--error"
-        *ngIf="projectControl!.errors?.lackingPermission"
+        *ngIf="projectControl.errors?.lackingPermission"
       >
         {{ text.project.lackingPermission }}
       </div>

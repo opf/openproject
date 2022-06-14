@@ -72,11 +72,11 @@ export class ProjectSelectionComponent implements OnInit {
   });
 
   get typeControl() {
-    return this.projectAndTypeForm.get('type');
+    return this.projectAndTypeForm.get('type')!;
   }
 
   get projectControl() {
-    return this.projectAndTypeForm.get('project');
+    return this.projectAndTypeForm.get('project')!;
   }
 
   private projectInviteCapabilities:CapabilityResource[] = [];
@@ -90,10 +90,10 @@ export class ProjectSelectionComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.typeControl?.setValue(this.type);
+    this.typeControl.setValue(this.type);
 
     if (this.project) {
-      this.projectControl?.setValue({ ...this.project });
+      this.projectControl.setValue({ ...this.project });
     }
 
     this.setPlaceholderOption();
