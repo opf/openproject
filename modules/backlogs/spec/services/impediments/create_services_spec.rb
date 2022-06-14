@@ -137,9 +137,7 @@ describe Impediments::CreateService do
       it { expect(subject).to be_new_record }
 
       it {
-        expect(subject.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint,
-                                                              scope: %i[activerecord errors models work_package attributes
-                                                                        blocks_ids])
+        expect(subject.errors[:blocks_ids]).to include I18n.t('activerecord.errors.models.work_package.attributes.blocks_ids.can_only_contain_work_packages_of_current_sprint')
       }
     end
 
@@ -159,9 +157,7 @@ describe Impediments::CreateService do
       it { expect(subject).to be_new_record }
 
       it {
-        expect(subject.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint,
-                                                              scope: %i[activerecord errors models work_package attributes
-                                                                        blocks_ids])
+        expect(subject.errors[:blocks_ids]).to include I18n.t('activerecord.errors.models.work_package.attributes.blocks_ids.can_only_contain_work_packages_of_current_sprint')
       }
     end
   end
@@ -182,9 +178,7 @@ describe Impediments::CreateService do
     it { expect(subject).to be_new_record }
 
     it {
-      expect(subject.errors[:blocks_ids]).to include I18n.t(:must_block_at_least_one_work_package,
-                                                            scope: %i[activerecord errors models work_package attributes
-                                                                      blocks_ids])
+      expect(subject.errors[:blocks_ids]).to include I18n.t('activerecord.errors.models.work_package.attributes.blocks_ids.must_block_at_least_one_work_package')
     }
   end
 end

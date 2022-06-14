@@ -43,7 +43,7 @@ module OpenProject
       end
 
       def frontend_asset_path
-        Rails.root.join('public/assets/frontend/')
+        Rails.public_path.join('assets/frontend/')
       end
 
       def manifest_path

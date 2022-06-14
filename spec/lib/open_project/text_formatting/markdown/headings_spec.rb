@@ -112,7 +112,7 @@ describe OpenProject::TextFormatting,
         end
 
         let(:expected) do
-          <<~EXPECTED.strip_heredoc
+          <<~EXPECTED
             <h1 class="op-uc-h1" id="20090209">
               2009\\02\\09
               <a class="op-uc-link_permalink icon-link op-uc-link" href="#20090209" aria-hidden="true"></a>

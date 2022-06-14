@@ -626,14 +626,8 @@ class User < Principal
 
       if former_passwords_include?(password)
         errors.add(:password,
-                   I18n.t(:reused,
-                          count: Setting[:password_count_former_banned].to_i,
-                          scope: %i[activerecord
-                                    errors
-                                    models
-                                    user
-                                    attributes
-                                    password]))
+                   I18n.t('activerecord.errors.models.user.attributes.password.reused',
+                          count: Setting[:password_count_former_banned].to_i))
       end
     end
   end

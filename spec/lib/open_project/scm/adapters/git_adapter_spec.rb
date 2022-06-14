@@ -517,7 +517,7 @@ describe OpenProject::SCM::Adapters::Git do
 
           it 'provides the selected diff for the given range' do
             diff = adapter.diff('README', '61b685f', '2f9c009').map(&:chomp)
-            expect(diff).to eq(<<-DIFF.strip_heredoc.split("\n"))
+            expect(diff).to eq(<<~DIFF.split("\n"))
               diff --git a/README b/README
               index 6cbd30c..b94e68e 100644
               --- a/README
