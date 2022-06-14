@@ -59,7 +59,7 @@ class WorkPackage::PDFExport::View
   end
 
   def register_fonts!(document)
-    font_path = Rails.root.join('public/fonts')
+    font_path = Rails.public_path.join('fonts')
 
     document.font_families['NotoSans'] = {
       normal: {
