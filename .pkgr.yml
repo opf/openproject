@@ -57,7 +57,6 @@ wizards:
   - https://github.com/pkgr/addon-postgres
   - https://github.com/pkgr/addon-apache2.git
   - ./packaging/addons/repositories
-  - https://github.com/pkgr/addon-smtp.git
   - https://github.com/pkgr/addon-memcached.git
   - ./packaging/addons/openproject
 buildpack: https://github.com/opf/heroku-buildpack-multi.git#master

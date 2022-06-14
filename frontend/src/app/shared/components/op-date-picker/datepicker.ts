@@ -34,11 +34,9 @@ import {
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { rangeSeparator } from 'core-app/shared/components/op-date-picker/op-range-date-picker/op-range-date-picker.component';
-import { WeekdayResourceService } from 'core-app/core/state/days/weekday.service';
-import { IWeekday } from 'core-app/core/state/days/weekday.model';
 import { Injector } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { take } from 'rxjs/operators';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
 import DateOption = flatpickr.Options.DateOption;
 
 export class DatePicker {
@@ -50,11 +48,9 @@ export class DatePicker {
 
   private reshowTimeout:ReturnType<typeof setTimeout>;
 
-  private weekdays:IWeekday[] = [];
-
   @InjectField() configurationService:ConfigurationService;
 
-  @InjectField() weekdaysService:WeekdayResourceService;
+  @InjectField() weekdaysService:WeekdayService;
 
   @InjectField() I18n:I18nService;
 
@@ -69,7 +65,14 @@ export class DatePicker {
   }
 
   private initialize(options:flatpickr.Options.Options) {
-    this.loadWeekdays();
+    this
+      .weekdaysService
+      .loadWeekdays()
+      .subscribe(() => {
+        if (this.datepickerInstance) {
+          this.datepickerInstance.redraw();
+        }
+      });
 
     const mergedOptions = _.extend({}, this.defaultOptions, options);
 
@@ -159,27 +162,6 @@ export class DatePicker {
     );
   }
 
-  public isDateDisabled(date:Date):boolean {
-    const dayOfWeek = moment(date).isoWeekday();
-    return !!this.weekdays.find((wd) => wd.day === dayOfWeek && !wd.working);
-  }
-
-  private loadWeekdays() {
-    this
-      .weekdaysService
-      .require()
-      .pipe(
-        take(1),
-      )
-      .subscribe((weekdays) => {
-        this.weekdays = weekdays;
-
-        if (this.datepickerInstance) {
-          this.datepickerInstance.redraw();
-        }
-      });
-  }
-
   private get defaultOptions() {
     const firstDayOfWeek = this.configurationService.startOfWeek();
 
@@ -189,8 +171,8 @@ export class DatePicker {
         return moment(dateObj).format('W');
       },
       onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
-        if (this.isDateDisabled(dayElem.dateObj)) {
-          dayElem.classList.add('flatpickr-grey-out');
+        if (this.weekdaysService.isNonWorkingDay(dayElem.dateObj)) {
+          dayElem.classList.add('flatpickr-non-working-day');
         }
       },
       dateFormat: this.datepickerFormat,

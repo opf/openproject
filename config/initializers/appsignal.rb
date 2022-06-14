@@ -9,7 +9,10 @@ if OpenProject::Appsignal.enabled?
       name: ENV.fetch('APPSIGNAL_NAME'),
       push_api_key: ENV.fetch('APPSIGNAL_KEY'),
       revision: OpenProject::VERSION.to_s,
-      ignore_actions: %w[OkComputerController#index OkComputerController#show]
+      ignore_actions: [
+        'OkComputer::OkComputerController#show',
+        'OkComputer::OkComputerController#index'
+      ]
     }
 
     if ENV['APPSIGNAL_DEBUG'] == 'true'

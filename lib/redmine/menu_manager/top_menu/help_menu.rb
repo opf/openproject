@@ -119,6 +119,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     end
 
     result << static_link_item(:data_privacy)
+    result << static_link_item(:digital_accessibility)
     result << static_link_item(
       :website,
       href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=website-help-menu"

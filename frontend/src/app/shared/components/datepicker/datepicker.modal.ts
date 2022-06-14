@@ -244,7 +244,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
           this.onDataChange();
         },
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
-          if (this.datePickerInstance?.isDateDisabled(dayElem.dateObj)) {
+          if (this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj)) {
             dayElem.classList.add('flatpickr-non-working-day');
           }
 
