@@ -40,9 +40,9 @@ module OAuthClients
       redirect_uri = oauth_state_cookie
 
       if redirect_uri.present? && ::API::V3::Utilities::PathHelper::ApiV3Path::same_origin?(redirect_uri)
-        ServiceResult.new(success: true, result: redirect_uri)
+        ServiceResult.success(result: redirect_uri)
       else
-        ServiceResult.new(success: false)
+        ServiceResult.failure
       end
     end
 

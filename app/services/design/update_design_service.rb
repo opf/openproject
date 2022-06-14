@@ -42,10 +42,10 @@ module Design
 
         custom_style.save!
 
-        ServiceResult.new success: true, result: custom_style
+        ServiceResult.success result: custom_style
       end
     rescue StandardError => e
-      ServiceResult.new success: false, message: e.message
+      ServiceResult.failure message: e.message
     end
 
     private

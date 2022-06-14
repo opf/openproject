@@ -60,10 +60,9 @@ class UpdateQueryFromParamsService
     end
 
     if query.valid?
-      ServiceResult.new(success: true,
-                        result: query)
+      ServiceResult.success(result: query)
     else
-      ServiceResult.new(errors: query.errors)
+      ServiceResult.failure(errors: query.errors)
     end
   end
 

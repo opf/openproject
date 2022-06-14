@@ -76,7 +76,7 @@ describe WorkPackages::ExportJob do
 
         expect(service)
           .to(receive(:call))
-          .and_return(ServiceResult.new(result: attachment, success: true))
+          .and_return(ServiceResult.success(result: attachment))
 
         allow(exporter).to receive(:new).and_return(exporter_instance)
         allow(exporter_instance).to receive(:export!).and_return(result)
