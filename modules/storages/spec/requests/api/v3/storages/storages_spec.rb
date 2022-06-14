@@ -105,7 +105,7 @@ describe 'API v3 storages resource', :enable_storages, type: :request, content_t
       let(:current_user) { create(:admin) }
 
       it 'returns an error authorization state' do
-        is_expected.to be_json_eql("urn:openproject-org:api:v3:storages:authorization:Error".to_json)
+        expect(subject).to be_json_eql("urn:openproject-org:api:v3:storages:authorization:Error".to_json)
                          .at_path('_links/authorizationState/href')
       end
     end
