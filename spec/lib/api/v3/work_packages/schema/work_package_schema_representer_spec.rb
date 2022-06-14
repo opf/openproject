@@ -97,7 +97,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     allow(schema).to receive(:writable?).and_call_original
   end
 
-  context 'generation' do
+  context 'for generation' do
     subject(:generated) { representer.to_json }
 
     shared_examples_for 'has a collection of allowed values' do
@@ -152,7 +152,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:link) { 'baseSchema' }
       end
 
-      context 'embedded in a form' do
+      context 'when embedded in a form' do
         let(:self_link) { nil }
         let(:base_schema_link) { '/a/schema/link' }
 
@@ -243,7 +243,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:writable) { true }
       end
 
-      context 'lockVersion disabled' do
+      context 'when lockVersion disabled' do
         let(:representer) do
           described_class.create(schema,
                                  self_link: nil,
@@ -293,6 +293,50 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe 'duration' do
+      before do
+        # TODO: remove feature flag once the implementation is complete
+        allow(OpenProject::FeatureDecisions)
+          .to receive(:work_packages_duration_field_active?)
+          .and_return(true)
+        allow(schema)
+          .to receive(:milestone?)
+          .and_return(false)
+      end
+
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'duration' }
+        let(:type) { 'Duration' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.duration') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+
+      context 'when the work package is a milestone' do
+        before do
+          allow(schema)
+            .to receive(:milestone?)
+            .and_return(true)
+        end
+
+        it 'has no duration attribute' do
+          expect(subject).not_to have_json_path('duration')
+        end
+      end
+
+      context 'when the feature flag is off' do
+        before do
+          allow(OpenProject::FeatureDecisions)
+            .to receive(:work_packages_duration_field_active?)
+            .and_return(false)
+        end
+
+        it 'has no duration attribute' do
+          expect(subject).not_to have_json_path('duration')
+        end
+      end
+    end
+
     describe 'scheduleManually' do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'scheduleManually' }
@@ -324,7 +368,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:writable) { true }
       end
 
-      context 'not writable' do
+      context 'when not writable' do
         before do
           allow(schema)
             .to receive(:writable?)
@@ -374,7 +418,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:writable) { true }
       end
 
-      context 'not writable' do
+      context 'when not writable' do
         before do
           allow(schema)
             .to receive(:writable?)
@@ -424,7 +468,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:writable) { true }
       end
 
-      context 'not writable' do
+      context 'when not writable' do
         before do
           allow(schema).to receive(:writable?).with(:due_date).and_return false
         end
@@ -519,7 +563,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:writable) { true }
       end
 
-      context 'not writable' do
+      context 'when not writable' do
         before do
           allow(schema)
             .to receive(:writable?)
@@ -592,7 +636,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:writable) { true }
       end
 
-      context 'not writable' do
+      context 'when not writable' do
         before do
           allow(schema).to receive(:writable?).with(:percentage_done).and_return false
         end
@@ -606,7 +650,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
       end
 
-      context 'is disabled' do
+      context 'as disabled' do
         before do
           allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
         end
@@ -839,7 +883,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:factory) { :priority }
       end
 
-      context 'not writable' do
+      context 'when not writable' do
         before do
           allow(schema).to receive(:writable?).with(:priority).and_return false
         end
@@ -929,7 +973,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'budget' do
-      context 'user allowed to view_budgets' do
+      context 'when user allowed to view_budgets' do
         let(:permissions) { %i[edit_work_packages view_budgets] }
 
         it_behaves_like 'has basic schema properties' do
@@ -948,7 +992,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
       end
 
-      context 'user not allowed to view_budgets' do
+      context 'when user not allowed to view_budgets' do
         it 'has no schema for budget' do
           expect(subject).not_to have_json_path('budget')
         end
@@ -959,9 +1003,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       let(:available_custom_fields) { [build_stubbed(:int_wp_custom_field)] }
 
       it 'uses a CustomFieldInjector' do
-        expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_schema_representer)
+        allow(::API::V3::Utilities::CustomFieldInjector).to receive(:create_schema_representer)
           .and_return(described_class)
         representer.to_json
+
+        expect(::API::V3::Utilities::CustomFieldInjector).to have_received(:create_schema_representer)
       end
     end
   end
@@ -972,10 +1018,12 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       let(:attribute_groups) { [] }
 
       it 'is disabled' do
-        expect(OpenProject::Cache)
-          .not_to receive(:fetch)
+        allow(OpenProject::Cache).to receive(:fetch)
 
         representer.to_json
+
+        expect(OpenProject::Cache)
+          .not_to have_received(:fetch)
       end
     end
 
@@ -1002,12 +1050,16 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       it 'is based on the representer\'s cache_key' do
-        expect(OpenProject::Cache)
+        allow(OpenProject::Cache)
           .to receive(:fetch)
           .with(representer.json_cache_key)
           .and_call_original
 
         representer.to_json
+
+        expect(OpenProject::Cache)
+          .to have_received(:fetch)
+          .with(representer.json_cache_key)
       end
 
       it 'does not cache the attribute_groups' do
@@ -1038,7 +1090,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         change
       end
 
-      let(:setup) {}
+      let(:setup) { nil }
       let(:original_cache_key) { joined_cache_key }
 
       shared_examples_for 'changes' do
@@ -1051,7 +1103,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
       end
 
-      context 'for a different type' do
+      context 'for a different project' do
         it_behaves_like 'changes' do
           let(:change) { work_package.project = build_stubbed(:project) }
         end
