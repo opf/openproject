@@ -6,6 +6,10 @@ set -e
 
 CLI="${APP_NAME}"
 
+# Set the configured admin email
+ADMIN_EMAIL="$(wiz_get "openproject/admin_email" || wiz_get "smtp/admin_email")"
+${CLI} config:set RECOMPILE_RAILS_ASSETS="true"
+
 # Check for custom gems
 custom_gemfile=$(${CLI} config:get CUSTOM_PLUGIN_GEMFILE || echo "")
 if [ -n "$custom_gemfile" ] && [ -f "$custom_gemfile" ]; then

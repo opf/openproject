@@ -26,7 +26,7 @@
 
     <div class="op-datepicker-modal--dates-container">
       <ng-container *ngIf="singleDate">
-        <div class="form--field">
+        <div class="form--field op-datepicker-modal--date-form">
           <label class="form--label"
                  [textContent]="text.date">
           </label>
@@ -52,7 +52,7 @@
       </ng-container>
 
       <ng-container *ngIf="!singleDate">
-        <div class="form--field"
+        <div class="form--field op-datepicker-modal--date-form"
              data-qa-selector="datepicker-start-date"
         >
           <label class="form--label"
@@ -80,7 +80,7 @@
             </a>
           </div>
         </div>
-        <div class="form--field"
+        <div class="form--field op-datepicker-modal--date-form"
              data-qa-selector="datepicker-end-date"
         >
           <label class="form--label"

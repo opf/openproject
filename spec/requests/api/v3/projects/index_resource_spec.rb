@@ -266,4 +266,17 @@ describe 'API v3 Project resource index', type: :request, content_type: :json do
         .to be_json_eql(expected.to_json)
     end
   end
+
+  context 'as project collection' do
+    let(:role) { create(:role, permissions: %i[view_work_packages]) }
+    let(:projects) { [project] }
+    let(:expected) do
+      "#{api_v3_paths.project(project.id)}/work_packages"
+    end
+
+    it 'has projects with links to their work packages' do
+      expect(last_response.body)
+        .to be_json_eql(expected.to_json).at_path('_embedded/elements/0/_links/workPackages/href')
+    end
+  end
 end

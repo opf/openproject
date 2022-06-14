@@ -29,8 +29,6 @@
 require 'spec_helper'
 
 describe UsersHelper, type: :helper do
-  include UsersHelper
-
   def build_user(status, blocked)
     build_stubbed(:user,
                   status:,
@@ -43,35 +41,31 @@ describe UsersHelper, type: :helper do
 
   describe 'full_user_status' do
     test_cases = {
-      [:active, false] => I18n.t(:active, scope: :user),
-      [:active, true] => I18n.t(:blocked_num_failed_logins,
-                                count: 3,
-                                scope: :user),
-      [:locked, false] => I18n.t(:locked, scope: :user),
-      [:locked, true] => I18n.t(:status_user_and_brute_force,
-                                user: I18n.t(:locked, scope: :user),
-                                brute_force: I18n.t(:blocked_num_failed_logins,
-                                                    count: 3,
-                                                    scope: :user),
-                                scope: :user),
-      [:registered, false] => I18n.t(:registered, scope: :user),
-      [:registered, true] => I18n.t(:status_user_and_brute_force,
-                                    user: I18n.t(:registered, scope: :user),
-                                    brute_force: I18n.t(:blocked_num_failed_logins,
-                                                        count: 3,
-                                                        scope: :user),
-                                    scope: :user)
+      [:active, false] => I18n.t('user.active'),
+      [:active, true] => I18n.t('user.blocked_num_failed_logins',
+                                count: 3),
+      [:locked, false] => I18n.t('user.locked'),
+      [:locked, true] => I18n.t('user.status_user_and_brute_force',
+                                user: I18n.t('user.locked'),
+                                brute_force: I18n.t('user.blocked_num_failed_logins',
+                                                    count: 3)),
+      [:registered, false] => I18n.t('user.registered'),
+      [:registered, true] => I18n.t('user.status_user_and_brute_force',
+                                    user: I18n.t('user.registered'),
+                                    brute_force: I18n.t('user.blocked_num_failed_logins',
+                                                        count: 3))
     }
 
     test_cases.each do |(status, blocked), expectation|
       describe "with status #{status} and blocked #{blocked}" do
-        before do
-          user = build_user(status, blocked)
-          @status = full_user_status(user, true)
+        let(:user) { build_user(status, blocked) }
+
+        subject(:user_status) do
+          full_user_status(user, true)
         end
 
         it "returns #{expectation}" do
-          expect(@status).to eq(expectation)
+          expect(user_status).to eq(expectation)
         end
       end
     end
@@ -89,34 +83,34 @@ describe UsersHelper, type: :helper do
     test_cases.each do |(status, blocked), expectation_symbol|
       describe "with status #{status} and blocked #{blocked}" do
         expectation = I18n.t(expectation_symbol, scope: :user)
-        before do
+        subject(:buttons) do
           user = build_user(status, blocked)
-          @buttons = change_user_status_buttons(user)
+          change_user_status_buttons(user)
         end
 
         it "contains '#{expectation}'" do
-          expect(@buttons).to include(expectation)
+          expect(buttons).to include(expectation)
         end
 
         it 'contains a single button' do
-          expect(@buttons.scan('<input').count).to eq(1)
+          expect(buttons.scan('<input').count).to eq(1)
         end
       end
     end
 
     describe 'with status active and blocked True' do
-      before do
+      subject(:buttons) do
         user = build_user(:active, true)
-        @buttons = change_user_status_buttons(user)
+        change_user_status_buttons(user)
       end
 
       it 'returns inputs (buttons)' do
-        expect(@buttons.scan('<input').count).to eq(2)
+        expect(buttons.scan('<input').count).to eq(2)
       end
 
       it "contains 'Lock' and 'Reset Failed logins'" do
-        expect(@buttons).to include(I18n.t(:lock, scope: :user))
-        expect(@buttons).to include(I18n.t(:reset_failed_logins, scope: :user))
+        expect(buttons).to include(I18n.t('user.lock'))
+        expect(buttons).to include(I18n.t('user.reset_failed_logins'))
       end
     end
   end

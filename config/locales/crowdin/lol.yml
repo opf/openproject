@@ -1496,6 +1496,7 @@ lol:
   label_diff: "crwdns497113:0crwdne497113:0"
   label_diff_inline: "crwdns497115:0crwdne497115:0"
   label_diff_side_by_side: "crwdns497117:0crwdne497117:0"
+  label_digital_accessibility: 'crwdns818690:0crwdne818690:0'
   label_disabled: "crwdns497119:0crwdne497119:0"
   label_display: "crwdns497121:0crwdne497121:0"
   label_display_per_page: "crwdns497123:0%{value}crwdne497123:0"
@@ -2352,7 +2353,7 @@ lol:
   setting_smtp_authentication: "crwdns498923:0crwdne498923:0"
   setting_smtp_user_name: "crwdns498925:0crwdne498925:0"
   setting_smtp_password: "crwdns498927:0crwdne498927:0"
-  setting_smtp_domain: "crwdns498929:0crwdne498929:0"
+  setting_smtp_domain: "crwdns818692:0crwdne818692:0"
   setting_activity_days_default: "crwdns498931:0crwdne498931:0"
   setting_app_subtitle: "crwdns498933:0crwdne498933:0"
   setting_app_title: "crwdns498935:0crwdne498935:0"
@@ -2986,4 +2987,36 @@ lol:
     authorization_error: "crwdns499967:0crwdne499967:0"
     revoke_my_application_confirmation: "crwdns499969:0%{token_count}crwdne499969:0"
     my_registered_applications: "crwdns499971:0crwdne499971:0"
+  oauth_client:
+    labels:
+      label_oauth_integration: "crwdns818694:0crwdne818694:0"
+      label_redirect_uri: "crwdns818696:0crwdne818696:0"
+      label_request_token: "crwdns818698:0crwdne818698:0"
+      label_refresh_token: "crwdns818700:0crwdne818700:0"
+    errors:
+      oauth_authorization_code_grant_had_errors: "crwdns818702:0crwdne818702:0"
+      oauth_reported: "crwdns818704:0crwdne818704:0"
+      oauth_returned_error: "crwdns818706:0crwdne818706:0"
+      oauth_returned_json_error: "crwdns818708:0crwdne818708:0"
+      oauth_returned_http_error: "crwdns818710:0crwdne818710:0"
+      oauth_returned_standard_error: "crwdns818712:0crwdne818712:0"
+      wrong_token_type_returned: "crwdns818714:0crwdne818714:0"
+      oauth_issue_contact_admin: "crwdns818716:0crwdne818716:0"
+      oauth_client_not_found: "crwdns818718:0crwdne818718:0"
+      refresh_token_called_without_existing_token: >
+        crwdns818720:0crwdne818720:0
+      refresh_token_updated_failed: "crwdns818722:0crwdne818722:0"
+      oauth_client_not_found_explanation: >
+        crwdns818724:0crwdne818724:0
+      oauth_code_not_present: "crwdns818726:0crwdne818726:0"
+      oauth_code_not_present_explanation: >
+        crwdns818728:0crwdne818728:0
+      oauth_state_not_present: "crwdns818730:0crwdne818730:0"
+      oauth_state_not_present_explanation: >
+        crwdns818732:0crwdne818732:0
+      rack_oauth2:
+        client_secret_invalid: "crwdns818734:0crwdne818734:0"
+        invalid_request: >
+          crwdns818736:0crwdne818736:0
+        invalid_response: "crwdns818738:0crwdne818738:0"
   you: crwdns499973:0crwdne499973:0

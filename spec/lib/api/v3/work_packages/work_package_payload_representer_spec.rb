@@ -33,8 +33,8 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
   let(:work_package) do
     build_stubbed(:work_package,
-                  start_date: Date.today.to_datetime,
-                  due_date: Date.today.to_datetime,
+                  start_date: Time.zone.today.to_datetime,
+                  due_date: Time.zone.today.to_datetime,
                   created_at: DateTime.now,
                   updated_at: DateTime.now,
                   budget:,
@@ -55,7 +55,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
   let(:budget) { build_stubbed(:budget) }
 
   let(:representer) do
-    ::API::V3::WorkPackages::WorkPackagePayloadRepresenter
+    described_class
       .create(work_package, current_user: user)
   end
 
@@ -67,7 +67,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       .and_return(1)
   end
 
-  context 'generation' do
+  context 'for generation' do
     subject(:generated) { representer.to_json }
 
     describe 'work_package' do
@@ -76,7 +76,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       it_behaves_like 'API V3 formattable', 'description' do
         let(:format) { 'markdown' }
         let(:raw) { work_package.description }
-        let(:html) { '<p class="op-uc-p">' + work_package.description + '</p>' }
+        let(:html) { "<p class=\"op-uc-p\">#{work_package.description}</p>" }
       end
 
       describe 'lock version' do
@@ -115,11 +115,11 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
             .at_path('estimatedTime')
         end
 
-        context 'not set' do
+        context 'when not set' do
           it { is_expected.to have_json_type(NilClass).at_path('estimatedTime') }
         end
 
-        context 'set' do
+        context 'when set' do
           let(:work_package) { build(:work_package, estimated_hours: 0) }
 
           it { is_expected.to have_json_type(String).at_path('estimatedTime') }
@@ -133,7 +133,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
             .and_return(true)
         end
 
-        context 'percentage done enabled' do
+        context 'when percentage done enabled' do
           it { is_expected.to have_json_path('percentageDone') }
           it { is_expected.to have_json_type(Integer).at_path('percentageDone') }
 
@@ -143,7 +143,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
 
         %w(disabled status).each do |setting|
-          context "work package done ratio setting on #{setting}" do
+          context "when work package done ratio setting on #{setting}" do
             before do
               allow(Setting).to receive(:work_package_done_ratio).and_return(setting)
             end
@@ -171,7 +171,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:json_path) { 'startDate' }
         end
 
-        context 'no start date' do
+        context 'with no start date' do
           let(:work_package) { build(:work_package, start_date: nil) }
 
           it 'renders as null' do
@@ -179,7 +179,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           end
         end
 
-        context 'if the work_package is a milestone' do
+        context 'when the work_package is a milestone' do
           before do
             allow(work_package)
               .to receive(:milestone?)
@@ -208,7 +208,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:json_path) { 'dueDate' }
         end
 
-        context 'no finish date' do
+        context 'when no finish date' do
           let(:work_package) { build(:work_package, due_date: nil) }
 
           it 'renders as null' do
@@ -216,7 +216,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           end
         end
 
-        context 'if the work_package is a milestone' do
+        context 'when the work_package is a milestone' do
           before do
             allow(work_package)
               .to receive(:milestone?)
@@ -245,7 +245,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:json_path) { 'date' }
         end
 
-        context 'no finish date' do
+        context 'when no finish date' do
           let(:work_package) do
             build_stubbed(:work_package,
                           type: build_stubbed(:type),
@@ -257,7 +257,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           end
         end
 
-        context 'if the work_package is no milestone' do
+        context 'when the work_package is no milestone' do
           before do
             allow(work_package)
               .to receive(:milestone?)
@@ -266,6 +266,32 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
           it 'has no date attribute' do
             expect(subject).not_to have_json_path('date')
+          end
+        end
+      end
+
+      describe 'duration' do
+        before do
+          allow(OpenProject::FeatureDecisions)
+             .to receive(:work_packages_duration_field_active?)
+             .and_return(true)
+        end
+
+        it 'has no duration attribute' do
+          # TODO: Remove this, once the duration feature is complete
+          expect(subject).not_to have_json_path('duration')
+        end
+
+        context 'when duration feature flag disabled' do
+          before do
+            allow(OpenProject::FeatureDecisions)
+               .to receive(:work_packages_duration_field_active?)
+               .and_return(false)
+          end
+
+          it 'has no duration attribute' do
+            # TODO: Remove this, once the duration feature is complete
+            expect(subject).not_to have_json_path('duration')
           end
         end
       end
@@ -450,9 +476,10 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       let(:available_custom_fields) { [build_stubbed(:int_wp_custom_field)] }
 
       it 'uses a CustomFieldInjector' do
-        expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_value_representer)
+        allow(::API::V3::Utilities::CustomFieldInjector).to receive(:create_value_representer)
           .and_call_original
         representer.to_json
+        expect(::API::V3::Utilities::CustomFieldInjector).to have_received(:create_value_representer)
       end
     end
 
@@ -460,10 +487,13 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       it 'does not cache' do
         representer.to_json
 
-        expect(Rails.cache)
-          .not_to receive(:fetch)
+        allow(Rails.cache)
+          .to receive(:fetch)
 
         representer.to_json
+
+        expect(Rails.cache)
+          .not_to have_received(:fetch)
       end
     end
   end
@@ -476,21 +506,19 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       copy[:_links] = links
       copy.to_json
     end
-    let(:work_package) do
-      OpenStruct.new available_custom_fields:
-    end
+    let(:work_package) { WorkPackage.new }
 
     subject { representer.from_json(json) }
 
     shared_examples_for 'settable ISO 8601 date only' do
       let(:attributes) do
         {
-          property => dateString
+          property => date_string
         }
       end
 
       context 'with an ISO formatted date' do
-        let(:dateString) { '2015-01-31' }
+        let(:date_string) { '2015-01-31' }
 
         it 'sets the date' do
           expect(subject.send(method)).to eql(Date.new(2015, 1, 31))
@@ -498,7 +526,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       context 'with null' do
-        let(:dateString) { nil }
+        let(:date_string) { nil }
 
         it 'sets the date to nil' do
           expect(subject.send(method)).to be_nil
@@ -506,7 +534,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       context 'with a non ISO formatted date' do
-        let(:dateString) { '31.01.2015' }
+        let(:date_string) { '31.01.2015' }
 
         it 'raises an error' do
           expect { subject }.to raise_error(API::Errors::PropertyFormatError)
@@ -514,7 +542,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       context 'with an ISO formatted date and time' do
-        let(:dateString) { '2015-01-31T13:37:00Z' }
+        let(:date_string) { '2015-01-31T13:37:00Z' }
 
         it 'raises an error' do
           expect { subject }.to raise_error(API::Errors::PropertyFormatError)
@@ -565,7 +593,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           .and_return(true)
 
         # Setting values to ensure they are later set to nil in one of the test cases
-        work_package.start_date = work_package.due_date = Date.today
+        work_package.start_date = work_package.due_date = Time.zone.today
       end
 
       it_behaves_like 'settable ISO 8601 date only' do
@@ -573,7 +601,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         let(:method) { :due_date }
 
         context 'with an ISO formatted date' do
-          let(:dateString) { '2015-01-31' }
+          let(:date_string) { '2015-01-31' }
 
           it 'sets the start and the due_date' do
             expect(subject.start_date).to eql(Date.new(2015, 1, 31))
@@ -585,7 +613,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
     shared_examples_for 'linked resource' do
       let(:path) { api_v3_paths.send(attribute_name, id) }
-      let(:association_name) { attribute_name + '_id' }
+      let(:association_name) { "#{attribute_name}_id" }
       let(:id) { work_package.send(association_name).to_i + 1 }
       let(:links) do
         { attribute_name => href }

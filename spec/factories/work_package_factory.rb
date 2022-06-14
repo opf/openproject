@@ -44,6 +44,7 @@ FactoryBot.define do
       if start_date && due_date
         due_date - start_date + 1
       else
+        # This needs to change to nil once duration can be set
         1
       end
     end

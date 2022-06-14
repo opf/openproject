@@ -46,6 +46,7 @@ get:
         - due_date
         - duplicated
         - duplicates
+        - duration
         - estimated_hours
         - file_link_origin_id
         - follows

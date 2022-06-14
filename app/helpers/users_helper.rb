@@ -63,10 +63,9 @@ module UsersHelper
 
     both_statuses = user_status + brute_force_status
     if user_status.present? and brute_force_status.present?
-      I18n.t(:status_user_and_brute_force,
+      I18n.t('user.status_user_and_brute_force',
              user: user_status,
-             brute_force: brute_force_status,
-             scope: :user)
+             brute_force: brute_force_status)
     elsif not both_statuses.empty?
       both_statuses
     else
