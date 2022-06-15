@@ -352,10 +352,10 @@ module API
                         next unless doc.key?('date')
 
                         date = decorator
-                                 .datetime_formatter
-                                 .parse_date(doc['date'],
-                                             name.to_s.camelize(:lower),
-                                             allow_nil: true)
+                          .datetime_formatter
+                          .parse_date(doc['date'],
+                                      name.to_s.camelize(:lower),
+                                      allow_nil: true)
 
                         self.due_date = self.start_date = date
                       },
@@ -427,6 +427,15 @@ module API
                  if: ->(*) { embed_links },
                  uncacheable: true
 
+        property :hasReadonlyStatus,
+                 writeable: false,
+                 render_nil: false,
+                 getter: ->(*) do
+                   if status_id && ::Status.can_readonly?
+                     status.is_readonly?
+                   end
+                 end
+
         associated_resource :category
 
         associated_resource :type
@@ -443,19 +452,19 @@ module API
 
         associated_resource :responsible,
                             getter: ::API::V3::Principals::PrincipalRepresenterFactory
-                                      .create_getter_lambda(:responsible),
+                              .create_getter_lambda(:responsible),
                             setter: ::API::V3::Principals::PrincipalRepresenterFactory
-                                      .create_setter_lambda(:responsible),
+                              .create_setter_lambda(:responsible),
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
-                                    .create_link_lambda(:responsible)
+                              .create_link_lambda(:responsible)
 
         associated_resource :assignee,
                             getter: ::API::V3::Principals::PrincipalRepresenterFactory
-                                      .create_getter_lambda(:assigned_to),
+                              .create_getter_lambda(:assigned_to),
                             setter: ::API::V3::Principals::PrincipalRepresenterFactory
-                                      .create_setter_lambda(:assigned_to, property_name: :assignee),
+                              .create_setter_lambda(:assigned_to, property_name: :assignee),
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
-                                    .create_link_lambda(:assigned_to)
+                              .create_link_lambda(:assigned_to)
 
         associated_resource :version,
                             v3_path: :version,
@@ -485,16 +494,17 @@ module API
 
                               href = fragment['href']
 
-                              new_parent = if href
-                                             id = ::API::Utilities::ResourceLinkParser
-                                                    .parse_id href,
-                                                              property: 'parent',
-                                                              expected_version: '3',
-                                                              expected_namespace: 'work_packages'
+                              new_parent =
+                                if href
+                                  id = ::API::Utilities::ResourceLinkParser
+                                    .parse_id href,
+                                              property: 'parent',
+                                              expected_version: '3',
+                                              expected_namespace: 'work_packages'
 
-                                             WorkPackage.find_by(id:) ||
-                                               ::WorkPackage::InexistentWorkPackage.new(id:)
-                                           end
+                                  WorkPackage.find_by(id:) ||
+                                    ::WorkPackage::InexistentWorkPackage.new(id:)
+                                end
 
                               represented.parent = new_parent
                             end
@@ -550,8 +560,8 @@ module API
         def relations
           self_path = api_v3_paths.work_package_relations(represented.id)
           visible_relations = represented
-                                .visible_relations(current_user)
-                                .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
+            .visible_relations(current_user)
+            .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
 
           ::API::V3::Relations::RelationCollectionRepresenter.new(visible_relations,
                                                                   self_link: self_path,
@@ -572,7 +582,7 @@ module API
 
         def derived_estimated_time=(value)
           represented.derived_estimated_hours = datetime_formatter
-                                                  .parse_duration_to_hours(value, 'derivedEstimatedTime', allow_nil: true)
+            .parse_duration_to_hours(value, 'derivedEstimatedTime', allow_nil: true)
         end
 
         def spent_time=(value)
