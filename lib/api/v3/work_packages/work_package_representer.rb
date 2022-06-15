@@ -430,10 +430,9 @@ module API
         property :readonly,
                  writeable: false,
                  render_nil: false,
+                 if: ->(*) { ::Status.can_readonly? },
                  getter: ->(*) do
-                   if status_id && ::Status.can_readonly?
-                     status.is_readonly?
-                   end
+                   status_id && status.is_readonly?
                  end
 
         associated_resource :category
