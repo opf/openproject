@@ -81,13 +81,11 @@ module OpenProject::Backlogs::List
 
     protected
 
-    # Overwriting acts/list to avoid it calling save.
-    # Calling save will remove the changes/saved_changes information.
-    # rubocop:disable Style/OptionalBooleanParameter
-    def set_list_position(new_position, _raise_exception_if_save_fails = false)
+    # Override acts_as_list implementation to avoid it calling save.
+    # Calling save would remove the changes/saved_changes information.
+    def set_list_position(new_position, _raise_exception_if_save_fails = false) # rubocop:disable Style/OptionalBooleanParameter
       update_columns(position: new_position)
     end
-    # rubocop:enable Style/OptionalBooleanParameter
 
     def fix_other_work_package_positions
       if changes.slice('project_id', 'type_id', 'version_id').present?
