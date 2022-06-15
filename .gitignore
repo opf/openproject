@@ -108,6 +108,9 @@ npm-debug.log*
 /frontend/tests/*.gif
 node_modules/
 
+# Storybook data
+/frontend/documentation.json
+
 # Ignore global package-lock.json that generates
 /package-lock.json
 plaintext.yml
