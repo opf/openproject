@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe 'Showing of file links in work package', :enable_storages, type: :feature, js: true do
+describe 'Showing of file links in work package', with_flag: { storages_module_active: true }, type: :feature, js: true do
   let(:permissions) { %i(view_work_packages edit_work_packages view_file_links) }
   let(:project) { create(:project) }
   let(:current_user) do

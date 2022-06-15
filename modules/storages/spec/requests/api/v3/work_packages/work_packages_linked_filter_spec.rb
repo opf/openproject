@@ -31,7 +31,7 @@ require_module_spec_helper
 require_relative 'shared_filter_examples'
 
 describe 'API v3 work packages resource with filters for linked storage file',
-         :enable_storages,
+         with_flag: { storages_module_active: true },
          type: :request,
          content_type: :json do
   include API::V3::Utilities::PathHelper

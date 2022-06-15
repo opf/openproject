@@ -41,11 +41,7 @@ end
 RSpec.configure do |config|
   config.include WithFlagMixin
 
-  config.before do |example|
-    flags = example.metadata[:with_flag]
-
-    if flags.present?
-      with_flags(flags)
-    end
+  config.before :example, :with_flag do |example|
+    with_flags(example.metadata[:with_flag])
   end
 end
