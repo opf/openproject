@@ -129,6 +129,14 @@ module Pages
       end
     end
 
+    def expect_resizable(work_package, resizable: true)
+      if resizable
+        expect(page).to have_selector('.fc-event.fc-event-resizable', text: work_package.subject, wait: 10)
+      else
+        expect(page).to have_selector('.fc-event:not(.fc-event-resizable)', text: work_package.subject, wait: 10)
+      end
+    end
+
     def add_assignee(name)
       click_add_user
       page.find('[data-qa-selector="tp-add-assignee"] input')
