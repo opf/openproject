@@ -39,7 +39,7 @@ describe WorkPackage, type: :model do
   let(:status) { create(:status) }
   let(:priority) { create(:priority) }
   let(:work_package) do
-    WorkPackage.new.tap do |w|
+    described_class.new.tap do |w|
       w.attributes = { project_id: project.id,
                        type_id: type.id,
                        author_id: user.id,
@@ -62,14 +62,14 @@ describe WorkPackage, type: :model do
 
       context 'no project chosen' do
         it 'has no type set if no project was chosen' do
-          expect(WorkPackage.new.type)
+          expect(described_class.new.type)
             .to be_nil
         end
       end
 
       context 'project chosen' do
         it 'has the provided type if one is provided' do
-          expect(WorkPackage.new(project:, type: type2).type)
+          expect(described_class.new(project:, type: type2).type)
             .to eql type2
         end
       end
@@ -96,7 +96,7 @@ describe WorkPackage, type: :model do
 
     describe 'minimal' do
       let(:work_package_minimal) do
-        WorkPackage.new.tap do |w|
+        described_class.new.tap do |w|
           w.attributes = { project_id: project.id,
                            type_id: type.id,
                            author_id: user.id,
@@ -277,7 +277,7 @@ describe WorkPackage, type: :model do
     end
 
     context 'work package' do
-      subject { WorkPackage.find_by(id: work_package.id) }
+      subject { described_class.find_by(id: work_package.id) }
 
       it { is_expected.to be_nil }
     end
@@ -450,43 +450,43 @@ describe WorkPackage, type: :model do
     end
 
     context 'by type' do
-      let(:groups) { WorkPackage.by_type(project) }
+      let(:groups) { described_class.by_type(project) }
 
       it_behaves_like 'group by'
     end
 
     context 'by version' do
-      let(:groups) { WorkPackage.by_version(project) }
+      let(:groups) { described_class.by_version(project) }
 
       it_behaves_like 'group by'
     end
 
     context 'by priority' do
-      let(:groups) { WorkPackage.by_priority(project) }
+      let(:groups) { described_class.by_priority(project) }
 
       it_behaves_like 'group by'
     end
 
     context 'by category' do
-      let(:groups) { WorkPackage.by_category(project) }
+      let(:groups) { described_class.by_category(project) }
 
       it_behaves_like 'group by'
     end
 
     context 'by assigned to' do
-      let(:groups) { WorkPackage.by_assigned_to(project) }
+      let(:groups) { described_class.by_assigned_to(project) }
 
       it_behaves_like 'group by'
     end
 
     context 'by responsible' do
-      let(:groups) { WorkPackage.by_responsible(project) }
+      let(:groups) { described_class.by_responsible(project) }
 
       it_behaves_like 'group by'
     end
 
     context 'by author' do
-      let(:groups) { WorkPackage.by_author(project) }
+      let(:groups) { described_class.by_author(project) }
 
       it_behaves_like 'group by'
     end
@@ -496,7 +496,7 @@ describe WorkPackage, type: :model do
         create(:project,
                parent: project)
       end
-      let(:groups) { WorkPackage.by_author(project) }
+      let(:groups) { described_class.by_author(project) }
       let(:work_package_3) do
         create(:work_package,
                project: project_2)
@@ -523,7 +523,7 @@ describe WorkPackage, type: :model do
     end
 
     context 'limit' do
-      subject { WorkPackage.recently_updated.limit(1).first }
+      subject { described_class.recently_updated.limit(1).first }
 
       it { is_expected.to eq(work_package_2) }
     end
@@ -540,7 +540,7 @@ describe WorkPackage, type: :model do
              project: project_archived)
     end
 
-    subject { WorkPackage.on_active_project.length }
+    subject { described_class.on_active_project.length }
 
     context 'one work package in active projects' do
       it { is_expected.to eq(1) }
@@ -566,7 +566,7 @@ describe WorkPackage, type: :model do
              author: user)
     end
 
-    subject { WorkPackage.with_author(user).length }
+    subject { described_class.with_author(user).length }
 
     context 'one work package in active projects' do
       it { is_expected.to eq(1) }
@@ -608,7 +608,7 @@ describe WorkPackage, type: :model do
 
     context 'when having the move_work_packages permission' do
       it 'returns the project' do
-        expect(WorkPackage.allowed_target_projects_on_move(user))
+        expect(described_class.allowed_target_projects_on_move(user))
           .to match_array [project]
       end
     end
@@ -617,7 +617,7 @@ describe WorkPackage, type: :model do
       let(:role) { create(:role, permissions: []) }
 
       it 'does not return the project' do
-        expect(WorkPackage.allowed_target_projects_on_move(user))
+        expect(described_class.allowed_target_projects_on_move(user))
           .to be_empty
       end
     end
@@ -632,7 +632,7 @@ describe WorkPackage, type: :model do
 
     context 'when having the add_work_packages permission' do
       it 'returns the project' do
-        expect(WorkPackage.allowed_target_projects_on_create(user))
+        expect(described_class.allowed_target_projects_on_create(user))
           .to match_array [project]
       end
     end
@@ -641,7 +641,7 @@ describe WorkPackage, type: :model do
       let(:role) { create(:role, permissions: []) }
 
       it 'does not return the project' do
-        expect(WorkPackage.allowed_target_projects_on_create(user))
+        expect(described_class.allowed_target_projects_on_create(user))
           .to be_empty
       end
     end
@@ -673,19 +673,19 @@ describe WorkPackage, type: :model do
     end
 
     describe 'null' do
-      subject { WorkPackage.changed_since(nil) }
+      subject { described_class.changed_since(nil) }
 
       it { expect(subject).to match_array([work_package]) }
     end
 
     describe 'now' do
-      subject { WorkPackage.changed_since(DateTime.now) }
+      subject { described_class.changed_since(DateTime.now) }
 
       it { expect(subject).to be_empty }
     end
 
     describe 'work package update' do
-      subject { WorkPackage.changed_since(work_package.reload.updated_at) }
+      subject { described_class.changed_since(work_package.reload.updated_at) }
 
       it { expect(subject).to match_array([work_package]) }
     end
