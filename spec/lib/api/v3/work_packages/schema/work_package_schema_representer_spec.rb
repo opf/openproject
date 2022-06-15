@@ -293,15 +293,13 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe 'duration' do
+    describe 'duration', with_flag: { work_packages_duration_field_active: true } do
+      let(:milestone?) { false }
+
       before do
-        # TODO: remove feature flag once the implementation is complete
-        allow(OpenProject::FeatureDecisions)
-          .to receive(:work_packages_duration_field_active?)
-          .and_return(true)
         allow(schema)
           .to receive(:milestone?)
-          .and_return(false)
+          .and_return(milestone?)
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -313,24 +311,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'when the work package is a milestone' do
-        before do
-          allow(schema)
-            .to receive(:milestone?)
-            .and_return(true)
-        end
+        let(:milestone?) { true }
 
         it 'has no duration attribute' do
           expect(subject).not_to have_json_path('duration')
         end
       end
 
-      context 'when the feature flag is off' do
-        before do
-          allow(OpenProject::FeatureDecisions)
-            .to receive(:work_packages_duration_field_active?)
-            .and_return(false)
-        end
-
+      context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
         it 'has no duration attribute' do
           expect(subject).not_to have_json_path('duration')
         end
@@ -345,6 +333,22 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:required) { false }
         let(:has_default) { true }
         let(:writable) { true }
+      end
+    end
+
+    describe 'ignoreNonWorkingDays', with_flag: { work_packages_duration_field_active: true } do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'ignoreNonWorkingDays' }
+        let(:type) { 'Boolean' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.ignore_non_working_days') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+
+      context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
+        it 'has no ignoreNonWorkingDays attribute' do
+          expect(subject).not_to have_json_path('ignoreNonWorkingDays')
+        end
       end
     end
 
@@ -1063,13 +1067,18 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       it 'does not cache the attribute_groups' do
-        representer.to_json
+        call_count = 0
+        allow(work_package.type)
+          .to receive(:attribute_groups) do
+          call_count += 1
+          []
+        end
 
-        expect(work_package.type)
-          .to receive(:attribute_groups)
-          .and_return([])
-
+        # Rendering two times, the Type#attribute_groups
+        # should still be called on the second rendering.
         representer.to_json
+        expect { representer.to_json }
+          .to change { call_count }
       end
     end
 

@@ -80,6 +80,10 @@ module WorkPackages
     end
 
     attribute :schedule_manually
+    attribute :ignore_non_working_days,
+              writeable: ->(*) {
+                OpenProject::FeatureDecisions.work_packages_duration_field_active?
+              }
 
     attribute :start_date,
               writeable: ->(*) {
@@ -98,7 +102,10 @@ module WorkPackages
                 model.leaf? || model.schedule_manually?
               }
 
-    attribute :duration
+    attribute :duration,
+              writeable: ->(*) {
+                OpenProject::FeatureDecisions.work_packages_duration_field_active?
+              }
 
     attribute :budget
 

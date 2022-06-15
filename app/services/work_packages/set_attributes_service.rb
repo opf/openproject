@@ -312,6 +312,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def date_changed_but_not_duration?
-    (work_package.start_date_changed? || work_package.due_date_changed?) && !work_package.duration_changed?
+    (work_package.start_date_changed? || work_package.due_date_changed? || work_package.duration.nil?) &&
+      !work_package.duration_changed?
   end
 end

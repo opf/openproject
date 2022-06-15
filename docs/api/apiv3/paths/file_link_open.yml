@@ -4,7 +4,6 @@ get:
   summary: Creates an opening uri of the linked file.
   operationId: open_file_link
   tags:
-    - Work Packages
     - File links
   description: |-
     Creates a uri to open the origin file linked by the given file link. This uri depends on the storage type and
