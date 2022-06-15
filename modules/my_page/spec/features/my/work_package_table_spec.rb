@@ -39,14 +39,14 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
   let!(:open_status) { create :default_status }
   let!(:type_work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            author: user,
            responsible: user
   end
   let!(:other_type_work_package) do
     create :work_package,
-           project: project,
+           project:,
            type: other_type,
            author: user,
            responsible: user

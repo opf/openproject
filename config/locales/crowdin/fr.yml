@@ -1526,6 +1526,7 @@ fr:
   label_diff: "diff"
   label_diff_inline: "en ligne"
   label_diff_side_by_side: "côte à côte"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "désactivé"
   label_display: "Affichage"
   label_display_per_page: "Par page: %{value}"
@@ -2000,6 +2001,9 @@ fr:
   mail_body_backup_token_info: Le jeton précédent n'est plus valide.
   mail_body_backup_waiting_period: Le nouveau jeton sera activé dans %{hours} heures.
   mail_body_backup_token_warning: Si ce n'était pas vous, connectez-vous immédiatement à OpenProject et réinitialisez-le à nouveau.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Pour changer votre mot de passe, cliquez sur le lien suivant:"
   mail_body_register: "Bienvenue sur %{app_title}. Veuillez activer votre compte en cliquant sur ce lien :"
   mail_body_register_header_title: "E-mail d'invitation du membre du projet"
@@ -2018,6 +2022,7 @@ fr:
   mail_subject_account_activation_request: "Requête pour l'activation du compte %{value}"
   mail_subject_backup_ready: "Votre sauvegarde est prête"
   mail_subject_backup_token_reset: "Réinitialisation du jeton de sauvegarde"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_subject_register: "Votre activation du compte %{value}"
   mail_subject_reminder: "%{count} lot(s) de travaux à échéance dans les %{days} prochains jours"
@@ -2384,7 +2389,7 @@ fr:
   setting_smtp_authentication: "Authentification SMTP"
   setting_smtp_user_name: "Utilisateur SMTP"
   setting_smtp_password: "Mot de passe SMTP"
-  setting_smtp_domain: "Domaine SMTP HELLO"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Nombre des jours affichés dans l'activité du projet"
   setting_app_subtitle: "Sous-titre de l'Application"
   setting_app_title: "Titre de l'Application"
@@ -3018,4 +3023,36 @@ fr:
     authorization_error: "Une erreur d'autorisation s'est produite."
     revoke_my_application_confirmation: "Voulez-vous vraiment supprimer cette application ? Ceci va révoquer %{token_count} actif pour elle."
     my_registered_applications: "Applications OAuth enregistrées"
+  oauth_client:
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authentication. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid"
+        invalid_request: >
+          OAuth2 server responded with 'invalid_request'. This error appears if you try to authorize multiple times.
+        invalid_response: "OAuth2 server provided an invalid response"
   you: vous

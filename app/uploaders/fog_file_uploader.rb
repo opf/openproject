@@ -64,7 +64,7 @@ class FogFileUploader < CarrierWave::Uploader::Base
 
     return super if content_type.blank?
 
-    super.merge "Content-Type": content_type
+    super.merge 'Content-Type': content_type
   end
 
   ##

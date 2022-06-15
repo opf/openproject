@@ -46,7 +46,7 @@ describe 'boards onboarding tour', js: true do
       manage_public_queries
     ]
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
 
   let(:demo_project) do
     create :project,
@@ -65,14 +65,14 @@ describe 'boards onboarding tour', js: true do
   let!(:wp_1) { create(:work_package, project: demo_project) }
   let!(:wp_2) { create(:work_package, project: scrum_project) }
 
-  let!(:demo_board_view) { create :board_grid_with_query, project: demo_project, name: 'Kanban', query: query }
-  let!(:demo_basic_board_view) { create :board_grid_with_query, project: demo_project, name: 'Basic board', query: query }
-  let!(:scrum_board_view) { create :board_grid_with_query, project: scrum_project, name: 'Kanban', query: query }
-  let!(:scrum_basic_board_view) { create :board_grid_with_query, project: scrum_project, name: 'Task board', query: query }
-  let(:query) { create :query, user: user, project: demo_project }
+  let!(:demo_board_view) { create :board_grid_with_query, project: demo_project, name: 'Kanban', query: }
+  let!(:demo_basic_board_view) { create :board_grid_with_query, project: demo_project, name: 'Basic board', query: }
+  let!(:scrum_board_view) { create :board_grid_with_query, project: scrum_project, name: 'Kanban', query: }
+  let!(:scrum_basic_board_view) { create :board_grid_with_query, project: scrum_project, name: 'Task board', query: }
+  let(:query) { create :query, user:, project: demo_project }
 
   before do
-    ::OrderedWorkPackage.create(query: query, work_package: wp_1, position: 0)
+    ::OrderedWorkPackage.create(query:, work_package: wp_1, position: 0)
     allow(Setting).to receive(:demo_projects_available).and_return(true)
     allow(Setting).to receive(:boards_demo_data_available).and_return(true)
   end

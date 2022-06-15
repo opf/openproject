@@ -38,7 +38,7 @@ describe WorkflowsController, type: :controller do
     session[:user_id] = 1 # admin
   end
 
-  it 'should get edit' do
+  it 'gets edit' do
     get :edit
     assert_response :success
     assert_template 'edit'
@@ -46,7 +46,7 @@ describe WorkflowsController, type: :controller do
     refute_nil assigns(:types)
   end
 
-  it 'should get edit with role and type' do
+  it 'gets edit with role and type' do
     Workflow.delete_all
     Workflow.create!(role_id: 1, type_id: 1, old_status_id: 2, new_status_id: 3)
     Workflow.create!(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 5)
@@ -74,7 +74,7 @@ describe WorkflowsController, type: :controller do
                                            name: 'status[1][1][]' } }, false)
   end
 
-  it 'should get edit with role and type and all statuses' do
+  it 'gets edit with role and type and all statuses' do
     Workflow.delete_all
 
     get :edit, params: { role_id: 2, type_id: 1, used_statuses_only: '0' }
@@ -90,13 +90,13 @@ describe WorkflowsController, type: :controller do
                                          checked: nil }
   end
 
-  it 'should get copy' do
+  it 'gets copy' do
     get :copy
     assert_response :success
     assert_template 'copy'
   end
 
-  it 'should post copy one to one' do
+  it 'posts copy one to one' do
     source_transitions = status_transitions(type_id: 1, role_id: 2)
 
     post :copy, params: { source_type_id: '1', source_role_id: '2',
@@ -105,7 +105,7 @@ describe WorkflowsController, type: :controller do
     assert_equal source_transitions, status_transitions(type_id: 3, role_id: 1)
   end
 
-  it 'should post copy one to many' do
+  it 'posts copy one to many' do
     source_transitions = status_transitions(type_id: 1, role_id: 2)
 
     post :copy, params: { source_type_id: '1', source_role_id: '2',
@@ -117,7 +117,7 @@ describe WorkflowsController, type: :controller do
     assert_equal source_transitions, status_transitions(type_id: 3, role_id: 3)
   end
 
-  it 'should post copy many to many' do
+  it 'posts copy many to many' do
     source_t2 = status_transitions(type_id: 2, role_id: 2)
     source_t3 = status_transitions(type_id: 3, role_id: 2)
 

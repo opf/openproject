@@ -287,7 +287,7 @@ module API
           filters = [{ work_package_id: { operator: "=", values: [represented.id.to_s] } }]
 
           {
-            href: api_v3_paths.path_for(:time_entries, filters: filters),
+            href: api_v3_paths.path_for(:time_entries, filters:),
             title: 'Time entries'
           }
         end
@@ -391,6 +391,17 @@ module API
                  end,
                  render_nil: true
 
+        property :duration,
+                 exec_context: :decorator,
+                 skip_render: ->(represented:, **) {
+                   represented.milestone? || !OpenProject::FeatureDecisions.work_packages_duration_field_active?
+                 },
+                 getter: ->(*) do
+                   datetime_formatter.format_duration_from_hours(represented.duration_in_hours,
+                                                                 allow_nil: true)
+                 end,
+                 render_nil: true
+
         property :spent_time,
                  exec_context: :decorator,
                  getter: ->(*) do
@@ -433,14 +444,16 @@ module API
         associated_resource :responsible,
                             getter: ::API::V3::Principals::PrincipalRepresenterFactory
                                       .create_getter_lambda(:responsible),
-                            setter: PrincipalSetter.lambda(:responsible),
+                            setter: ::API::V3::Principals::PrincipalRepresenterFactory
+                                      .create_setter_lambda(:responsible),
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
                                     .create_link_lambda(:responsible)
 
         associated_resource :assignee,
                             getter: ::API::V3::Principals::PrincipalRepresenterFactory
                                       .create_getter_lambda(:assigned_to),
-                            setter: PrincipalSetter.lambda(:assigned_to, :assignee),
+                            setter: ::API::V3::Principals::PrincipalRepresenterFactory
+                                      .create_setter_lambda(:assigned_to, property_name: :assignee),
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
                                     .create_link_lambda(:assigned_to)
 
@@ -479,8 +492,8 @@ module API
                                                               expected_version: '3',
                                                               expected_namespace: 'work_packages'
 
-                                             WorkPackage.find_by(id: id) ||
-                                               ::WorkPackage::InexistentWorkPackage.new(id: id)
+                                             WorkPackage.find_by(id:) ||
+                                               ::WorkPackage::InexistentWorkPackage.new(id:)
                                            end
 
                               represented.parent = new_parent
@@ -505,7 +518,7 @@ module API
                   },
                   getter: ->(*) {
                     ordered_custom_actions.map do |action|
-                      ::API::V3::CustomActions::CustomActionRepresenter.new(action, current_user: current_user)
+                      ::API::V3::CustomActions::CustomActionRepresenter.new(action, current_user:)
                     end
                   },
                   setter: ->(*) do
@@ -542,16 +555,14 @@ module API
 
           ::API::V3::Relations::RelationCollectionRepresenter.new(visible_relations,
                                                                   self_link: self_path,
-                                                                  current_user: current_user)
+                                                                  current_user:)
         end
 
         def visible_children
           @visible_children ||= represented.children.select(&:visible?)
         end
 
-        def schedule_manually=(value)
-          represented.schedule_manually = value
-        end
+        delegate :schedule_manually=, to: :represented
 
         def estimated_time=(value)
           represented.estimated_hours = datetime_formatter.parse_duration_to_hours(value,

@@ -34,11 +34,11 @@ module OpenProject::TwoFactorAuthentication::Patches
       end
 
       describe '#try_to_login', "with valid username but invalid pwd" do
-        it "should return nil" do
-          expect(invalid_login).to eq(nil)
+        it "returns nil" do
+          expect(invalid_login).to be_nil
         end
 
-        it "should return the user" do
+        it "returns the user" do
           expect(valid_login).to eq(@user)
         end
       end

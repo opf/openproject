@@ -30,14 +30,6 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   let(:project) { build_stubbed(:project) }
-  let(:query) { build_stubbed(:query, project: project) }
-  let(:cf_accessor) { "cf_#{custom_field.id}" }
-  let(:instance) do
-    described_class.create!(name: cf_accessor, operator: '=', context: query)
-  end
-  let(:instance_key) { nil }
-
-  shared_let(:list_wp_custom_field) { create(:list_wp_custom_field) }
   let(:bool_wp_custom_field) { build_stubbed(:bool_wp_custom_field) }
   let(:int_wp_custom_field) { build_stubbed(:int_wp_custom_field) }
   let(:float_wp_custom_field) { build_stubbed(:float_wp_custom_field) }
@@ -47,7 +39,6 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   let(:date_wp_custom_field) { build_stubbed(:date_wp_custom_field) }
   let(:string_wp_custom_field) { build_stubbed(:string_wp_custom_field) }
   let(:custom_field) { list_wp_custom_field }
-
   let(:all_custom_fields) do
     [list_wp_custom_field,
      bool_wp_custom_field,
@@ -59,6 +50,14 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
      date_wp_custom_field,
      string_wp_custom_field]
   end
+  let(:query) { build_stubbed(:query, project:) }
+  let(:cf_accessor) { "cf_#{custom_field.id}" }
+  let(:instance) do
+    described_class.create!(name: cf_accessor, operator: '=', context: query)
+  end
+  let(:instance_key) { nil }
+
+  shared_let(:list_wp_custom_field) { create(:list_wp_custom_field) }
 
   before do
     allow(WorkPackageCustomField)
@@ -103,7 +102,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
         it "is invalid if the value is not one of the custom field's possible values" do
           instance.values = ['bogus']
 
-          expect(instance).to_not be_valid
+          expect(instance).not_to be_valid
         end
       end
     end
@@ -129,7 +128,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     it 'are valid' do
       all_custom_fields.each do |cf|
         name = "cf_#{cf.id}"
-        filter = described_class.create!(name: name)
+        filter = described_class.create!(name:)
         expect(filter.name).to eql(:"cf_#{cf.id}")
       end
     end
@@ -141,7 +140,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
 
       it 'is integer for an integer' do
         expect(instance.type)
-          .to eql(:integer)
+          .to be(:integer)
       end
     end
 
@@ -150,7 +149,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
 
       it 'is integer for a float' do
         expect(instance.type)
-          .to eql(:float)
+          .to be(:float)
       end
     end
 
@@ -159,7 +158,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
 
       it 'is text for a text' do
         expect(instance.type)
-          .to eql(:text)
+          .to be(:text)
       end
     end
 
@@ -168,15 +167,16 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
 
       it 'is list_optional for a list' do
         expect(instance.type)
-          .to eql(:list_optional)
+          .to be(:list_optional)
       end
     end
 
     context 'user' do
       let(:cf_accessor) { "cf_#{user_wp_custom_field.id}" }
+
       it 'is list_optional for a user' do
         expect(instance.type)
-          .to eql(:list_optional)
+          .to be(:list_optional)
       end
     end
 
@@ -185,7 +185,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
 
       it 'is list_optional for a version' do
         expect(instance.type)
-          .to eql(:list_optional)
+          .to be(:list_optional)
       end
     end
 
@@ -194,7 +194,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
 
       it 'is date for a date' do
         expect(instance.type)
-          .to eql(:date)
+          .to be(:date)
       end
     end
 
@@ -203,7 +203,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
 
       it 'is list for a bool' do
         expect(instance.type)
-          .to eql(:list)
+          .to be(:list)
       end
     end
 
@@ -212,7 +212,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
 
       it 'is string for a string' do
         expect(instance.type)
-          .to eql(:string)
+          .to be(:string)
       end
     end
   end
@@ -325,13 +325,13 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   describe '.all_for' do
     context 'with a project' do
       before do
-        filter_scope = instance_double('ActiveRecord::Relation')
+        filter_scope = instance_double(ActiveRecord::Relation)
 
         allow(::WorkPackageCustomField)
           .to receive(:filter)
                 .and_return(filter_scope)
 
-        project_cf_scope = instance_double('ActiveRecord::Relation')
+        project_cf_scope = instance_double(ActiveRecord::Relation)
 
         allow(project)
           .to receive(:all_work_package_custom_fields)
@@ -386,7 +386,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
          text_wp_custom_field,
          date_wp_custom_field,
          string_wp_custom_field].each do |cf|
-          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }).to_not be_nil
+          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }).not_to be_nil
         end
 
         expect(filters.detect { |filter| filter.name == :"cf_#{version_wp_custom_field.id}" })

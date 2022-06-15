@@ -34,9 +34,7 @@ module Queries::Filters::Shared::GroupFilter
 
   module InstanceMethods
     def allowed_values
-      @allowed_values ||= begin
-        ::Group.pluck(:id).map { |g| [g, g.to_s] }
-      end
+      @allowed_values ||= ::Group.pluck(:id).map { |g| [g, g.to_s] }
     end
 
     def available?

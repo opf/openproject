@@ -69,7 +69,7 @@ module Accounts::AuthenticationStages
       if session.include?(:authentication_stages)
         lookup_authentication_stages
       else
-        init_authentication_stages after_activation: after_activation
+        init_authentication_stages after_activation:
       end
     else
       []
@@ -109,8 +109,7 @@ module Accounts::AuthenticationStages
 
   def new_stage_secrets
     session[:authentication_stages]
-      .map { |ident| [ident, stage_secret(ident)] }
-      .to_h
+      .index_with { |ident| stage_secret(ident) }
   end
 
   def stage_secret(_ident)

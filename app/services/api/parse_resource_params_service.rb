@@ -64,7 +64,7 @@ module API
 
     def parsing_representer
       representer
-        .new(struct, current_user: current_user)
+        .new(struct, current_user:)
     end
 
     def parse_attributes(request_body)

@@ -683,6 +683,8 @@ Settings::Definition.define do
       },
       writable: false
 
+  add :report_incoming_email_errors, default: true
+
   add :repositories_automatic_managed_vendor,
       default: nil,
       format: :string,
@@ -976,6 +978,10 @@ Settings::Definition.define do
 
   add :work_package_startdate_is_adddate,
       default: false
+
+  add :work_packages_duration_field_active,
+      default: Rails.env.development?,
+      format: :boolean
 
   add :youtube_channel,
       default: 'https://www.youtube.com/c/OpenProjectCommunity',

@@ -46,8 +46,8 @@ describe 'Update status from WP card', type: :feature, js: true do
   let!(:project) { create(:project, types: [type]) }
   let!(:work_package) do
     create(:work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            status: status1,
            subject: 'Foobar')
   end

@@ -38,7 +38,7 @@ describe Queries::TimeEntries::Filters::ActivityFilter, type: :model do
 
   before do
     allow(::TimeEntryActivity)
-      .to receive_message_chain(:shared)
+      .to receive(:shared)
       .and_return(activities)
 
     allow(::TimeEntryActivity)

@@ -84,7 +84,7 @@ module API
           def initialize(schema, self_link:, **context)
             @base_schema_link = context.delete(:base_schema_link) || nil
             @show_lock_version = !context.delete(:hide_lock_version)
-            super(schema, self_link: self_link, **context)
+            super(schema, self_link:, **context)
           end
 
           link :baseSchema do
@@ -116,6 +116,12 @@ module API
           schema :description,
                  type: 'Formattable',
                  required: false
+
+          schema :duration,
+                 type: 'Duration',
+                 required: false,
+                 writable: false,
+                 show_if: ->(*) { !represented.milestone? && OpenProject::FeatureDecisions.work_packages_duration_field_active? }
 
           schema :schedule_manually,
                  type: 'Boolean',
@@ -303,10 +309,8 @@ module API
           def attribute_group_map(key)
             return nil if represented.type.nil?
 
-            @attribute_group_map ||= begin
-              represented.type.attribute_groups.each_with_object({}) do |group, hash|
-                Array(group.active_members(represented.project)).each { |prop| hash[prop] = group.translated_key }
-              end
+            @attribute_group_map ||= represented.type.attribute_groups.each_with_object({}) do |group, hash|
+              Array(group.active_members(represented.project)).each { |prop| hash[prop] = group.translated_key }
             end
 
             @attribute_group_map[key]
@@ -333,24 +337,28 @@ module API
             # schemas is rendered, we can reuse that.
             RequestStore.fetch("wp_schema_query_group/#{group.key}") do
               ::JSON::parse(::API::V3::WorkPackages::Schema::FormConfigurations::QueryRepresenter
-                              .new(group, current_user: current_user, embed_links: true)
+                              .new(group, current_user:, embed_links: true)
                               .to_json)
             end
           end
 
           def form_config_attribute_representation(group)
-            cache_keys = ['wp_schema_attribute_group',
-                          group.key,
-                          I18n.locale,
-                          represented.project,
-                          represented.type,
-                          represented.available_custom_fields.sort_by(&:id)]
-
-            OpenProject::Cache.fetch(OpenProject::Cache::CacheKey.expand(cache_keys.flatten.compact)) do
+            OpenProject::Cache.fetch(*form_config_attribute_cache_key(group)) do
               ::JSON::parse(::API::V3::WorkPackages::Schema::FormConfigurations::AttributeRepresenter
-                              .new(group, current_user: current_user, project: represented.project, embed_links: true)
+                              .new(group, current_user:, project: represented.project, embed_links: true)
                               .to_json)
             end
+          end
+
+          def form_config_attribute_cache_key(group)
+            ['wp_schema_attribute_group',
+             group.key,
+             I18n.locale,
+             represented.project,
+             represented.type,
+             represented.available_custom_fields.sort_by(&:id)]
+              .flatten
+              .compact
           end
         end
       end

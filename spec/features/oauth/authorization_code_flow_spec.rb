@@ -44,8 +44,8 @@ describe 'OAuth authorization code flow',
   def get_and_test_token(code)
     parameters = {
       client_id: app.uid,
-      client_secret: client_secret,
-      code: code,
+      client_secret:,
+      code:,
       grant_type: :authorization_code,
       redirect_uri: app.redirect_uri
     }
@@ -106,7 +106,7 @@ describe 'OAuth authorization code flow',
     expect(page).to have_selector('.flash.notice')
     expect(page).to have_no_selector("[id^=oauth-application-grant]")
 
-    expect(current_path).to match "/my/access_token"
+    expect(page).to have_current_path /\/my\/access_token/
 
     # And all grants have been revoked
     authorized = ::Doorkeeper::Application.authorized_for(user)
@@ -137,6 +137,7 @@ describe 'OAuth authorization code flow',
     context 'with real urls as allowed redirect uris' do
       let!(:redirect_uri) { "https://foo.com/foo" }
       let!(:allowed_redirect_uri) { "#{redirect_uri} https://bar.com/bar" }
+
       it 'can authorize and manage an OAuth application grant' do
         visit oauth_path app.uid, redirect_uri
 
@@ -181,7 +182,7 @@ describe 'OAuth authorization code flow',
       find('input.button[value="Authorize"]').click
 
       # Expect redirect to stubbed URL
-      expect(page).to have_current_path(/#{Regexp.escape(redirect_uri)}\?code\=.+$/, url: true)
+      expect(page).to have_current_path(/#{Regexp.escape(redirect_uri)}\?code=.+$/, url: true)
       expect(page).to have_text 'Welcome to stubbed response'
 
       # Get auth token from URL query
@@ -198,7 +199,7 @@ describe 'OAuth authorization code flow',
       login_with user.login, 'adminADMIN!', visit_signin_path: false
 
       # Expect redirect to stubbed URL
-      expect(page).to have_current_path(/#{Regexp.escape(redirect_uri)}\?code\=.+$/, url: true)
+      expect(page).to have_current_path(/#{Regexp.escape(redirect_uri)}\?code=.+$/, url: true)
       expect(page).to have_text 'Welcome to stubbed response'
 
       # Get auth token from URL query

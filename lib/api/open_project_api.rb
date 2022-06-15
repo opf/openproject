@@ -28,6 +28,8 @@
 
 module API
   class OpenProjectAPI < ::Grape::API
+    include ::API::AppsignalAPI
+
     class << self
       def inherited(api, *)
         super
@@ -45,9 +47,9 @@ Grape::DSL::Routing::ClassMethods.module_eval do
     alias :orig_namespace :namespace
   end
 
-  def namespace(space = nil, options = {}, &block)
+  def namespace(space = nil, options = {}, &)
     orig_namespace(space, options) do
-      instance_eval(&block)
+      instance_eval(&)
       apply_patches(space)
     end
   end

@@ -17,8 +17,8 @@ module Dashboards
             options: {
               name: I18n.t('js.grid.widgets.work_packages_table.title'),
               queryProps: {
-                "columns[]": %w(id project type subject),
-                filters: JSON.dump([{ "status": { "operator": "o", "values": [] } }])
+                'columns[]': %w(id project type subject),
+                filters: JSON.dump([{ status: { operator: "o", values: [] } }])
               }
             }
           }

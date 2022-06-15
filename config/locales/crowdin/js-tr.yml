@@ -374,25 +374,31 @@ tr:
     label_less_or_equal: "<="
     label_less_than_ago: "bir haftadan kısa bir süre önce"
     label_loading: "Yükleniyor..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "E-posta bildirimleri"
     label_me: "ben"
     label_meeting_agenda: "Ajanda"
     label_meeting_minutes: "Dakika"
     label_menu_collapse: "çöküş"
     label_menu_expand: "genişletmek"
+    label_modified_at: "Modified: %{date}"
     label_more_than_ago: "günler önce"
     label_next: "Sonraki"
     label_no_color: "Renk yok"
     label_no_data: "Görüntülenecek veri yok"
     label_no_due_date: "bitiş tarihi yok"
     label_no_start_date: "başlangıç tarihi yok"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Değer yok"
+    label_no_file_links_header: "Link files in %{storageType}"
+    label_no_file_links_content: "In order to link files to this work package please do it via %{storageType}."
     label_none: "hiçbiri"
     label_not_contains: "içermiyor"
     label_not_equals: "değildir"
     label_on: "açık"
     label_open_menu: "Menüyü Aç"
     label_open_context_menu: "Bağlam menüsünü aç"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "açık"
     label_password: "Parola"
     label_previous: "Önceki"
@@ -421,6 +427,9 @@ tr:
     label_sorting: "Sıralama"
     label_spent_time: "Harcanan zaman"
     label_star_query: "avantajlı"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Kaydetmek için enter tuşuna basın."
     label_public_query: "Herkese Açık"
     label_sum: "toplam\n"
@@ -457,6 +466,7 @@ tr:
     label_custom_queries: "Gizli görünümler"
     label_columns: "Sütunlar"
     label_attachments: Ekler
+    label_nextcloud: Nextcloud
     label_drop_files: Dosyaları buraya bırakın
     label_drop_files_hint: veya eklemek için tıklayın
     label_drop_folders_hint: Klasörleri ek olarak karşıya yükleyemezsiniz. Lütfen tekil dosyalar seçiniz.
@@ -835,6 +845,13 @@ tr:
       comment_send_failed: "Bir hata oluştu. Yorum gönderilemedi."
       comment_updated: "Yorum başarıyla güncelleştirildi."
       confirm_edit_cancel: "İş paketini düzenlemeyi iptal etmek istediğinizden emin misiniz?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtre"
       description_enter_text: "Metin girin"
       description_options_hide: "Seçenekleri gizle"
@@ -1188,3 +1205,5 @@ tr:
         remove: 'Kaldır'
       drop_modal:
         Close: 'Kapat'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

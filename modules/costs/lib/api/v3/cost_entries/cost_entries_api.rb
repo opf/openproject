@@ -47,7 +47,7 @@ module API
             end
 
             get do
-              CostEntryRepresenter.new(@cost_entry, current_user: current_user)
+              CostEntryRepresenter.new(@cost_entry, current_user:)
             end
           end
         end

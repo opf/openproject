@@ -84,7 +84,6 @@ describe 'messages', type: :feature, js: true do
       create_page.click_save
     end
 
-
     show_page.expect_current_path
 
     show_page.expect_subject('The message is')

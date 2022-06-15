@@ -55,7 +55,7 @@ module API
             end
 
             get do
-              AttachmentRepresenter.new(@attachment, embed_links: true, current_user: current_user)
+              AttachmentRepresenter.new(@attachment, embed_links: true, current_user:)
             end
 
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: Attachment).mount
@@ -72,7 +72,7 @@ module API
 
                 ::Attachments::FinishDirectUploadJob.perform_later attachment.id
 
-                ::API::V3::Attachments::AttachmentRepresenter.new(attachment, current_user: current_user)
+                ::API::V3::Attachments::AttachmentRepresenter.new(attachment, current_user:)
               end
             end
           end

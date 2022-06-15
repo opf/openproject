@@ -77,7 +77,7 @@ describe 'new work package', js: true, with_mail: false do
 
   describe 'project work package create' do
     let(:wp_table) { Pages::WorkPackagesTable.new project }
-    let(:wp_page) { Pages::SplitWorkPackageCreate.new project: project }
+    let(:wp_page) { Pages::SplitWorkPackageCreate.new project: }
 
     it 'shows the template after selection of project and type' do
       wp_table.visit!

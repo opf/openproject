@@ -31,8 +31,8 @@ require 'spec_helper'
 describe ::API::V3::Relations::RelationRepresenter do
   let(:user) { build_stubbed(:admin) }
 
-  let(:from) { build_stubbed(:stubbed_work_package) }
-  let(:to) { build_stubbed :stubbed_work_package }
+  let(:from) { build_stubbed(:work_package) }
+  let(:to) { build_stubbed(:work_package) }
 
   let(:type) { "follows" }
   let(:description) { "This first" }
@@ -40,11 +40,11 @@ describe ::API::V3::Relations::RelationRepresenter do
 
   let(:relation) do
     build_stubbed :relation,
-                  from: from,
-                  to: to,
+                  from:,
+                  to:,
                   relation_type: type,
-                  description: description,
-                  delay: delay
+                  description:,
+                  delay:
   end
 
   let(:representer) { described_class.new relation, current_user: user }

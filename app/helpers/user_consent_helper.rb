@@ -51,7 +51,7 @@ module ::UserConsentHelper
   end
 
   def consent_checkbox_label(locale: I18n.locale)
-    I18n.t('consent.checkbox_label', locale: locale)
+    I18n.t('consent.checkbox_label', locale:)
   end
 
   def consent_configured?

@@ -63,10 +63,9 @@ module UsersHelper
 
     both_statuses = user_status + brute_force_status
     if user_status.present? and brute_force_status.present?
-      I18n.t(:status_user_and_brute_force,
+      I18n.t('user.status_user_and_brute_force',
              user: user_status,
-             brute_force: brute_force_status,
-             scope: :user)
+             brute_force: brute_force_status)
     elsif not both_statuses.empty?
       both_statuses
     else
@@ -92,14 +91,14 @@ module UsersHelper
 
     result = ''.html_safe
     (STATUS_CHANGE_ACTIONS[[status, blocked]] || []).each do |title, name|
-      result << (yield I18n.t(title, scope: :user), name) + ' '.html_safe
+      result << ((yield I18n.t(title, scope: :user), name) + ' '.html_safe)
     end
     result
   end
 
   def change_user_status_buttons(user)
     build_change_user_status_action(user) do |title, name|
-      submit_tag(title, name: name, class: 'button')
+      submit_tag(title, name:, class: 'button')
     end
   end
 

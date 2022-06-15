@@ -64,13 +64,13 @@ describe SearchController, type: :controller do
   shared_let(:work_package_1) do
     create(:work_package,
            subject: 'This is a test issue',
-           project: project)
+           project:)
   end
 
   shared_let(:work_package_2) do
     create(:work_package,
            subject: 'Issue test 2',
-           project: project,
+           project:,
            status: create(:closed_status))
   end
 
@@ -131,12 +131,12 @@ describe SearchController, type: :controller do
         it { expect(assigns(:results)).to include(work_package_2) }
         it { expect(assigns(:results)).to include(work_package_3) }
         it { expect(assigns(:results)).to include(wiki_page) }
-        it { expect(assigns(:results)).to_not include(work_package_4) }
+        it { expect(assigns(:results)).not_to include(work_package_4) }
       end
 
       describe '#results_count' do
         it { expect(assigns(:results_count)).to be_a(Hash) }
-        it { expect(assigns(:results_count)['work_packages']).to eql(3) }
+        it { expect(assigns(:results_count)['work_packages']).to be(3) }
       end
 
       describe '#view' do
@@ -161,7 +161,7 @@ describe SearchController, type: :controller do
         it { expect(assigns(:results)).to include(work_package_2) }
         it { expect(assigns(:results)).to include(work_package_3) }
         it { expect(assigns(:results)).to include(wiki_page) }
-        it { expect(assigns(:results)).to_not include(work_package_4) }
+        it { expect(assigns(:results)).not_to include(work_package_4) }
       end
     end
 
@@ -175,8 +175,8 @@ describe SearchController, type: :controller do
         it { expect(assigns(:results)).to include(work_package_1) }
         it { expect(assigns(:results)).to include(work_package_2) }
         it { expect(assigns(:results)).to include(wiki_page) }
-        it { expect(assigns(:results)).to_not include(work_package_3) }
-        it { expect(assigns(:results)).to_not include(work_package_4) }
+        it { expect(assigns(:results)).not_to include(work_package_3) }
+        it { expect(assigns(:results)).not_to include(work_package_4) }
       end
     end
 
@@ -187,9 +187,6 @@ describe SearchController, type: :controller do
                notes: 'Test note 1',
                version: 2
       end
-
-      before { allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) }
-
       let!(:note_2) do
         create :work_package_journal,
                journable_id: work_package_1.id,
@@ -197,16 +194,18 @@ describe SearchController, type: :controller do
                version: 3
       end
 
+      before { allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) }
+
+      before do
+        get :index, params: { q: 'note' }
+      end
+
       describe 'second note predecessor' do
         subject { note_2.send :predecessor }
 
         it { is_expected.to eq note_1 }
-        it { expect(note_1.data).not_to be nil }
-        it { expect(subject.data).not_to be nil }
-      end
-
-      before do
-        get :index, params: { q: 'note' }
+        it { expect(note_1.data).not_to be_nil }
+        it { expect(subject.data).not_to be_nil }
       end
 
       it_behaves_like 'successful search'

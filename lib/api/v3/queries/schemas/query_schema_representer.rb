@@ -36,9 +36,9 @@ module API
         class QuerySchemaRepresenter < ::API::Decorators::SchemaRepresenter
           def initialize(represented, self_link: nil, current_user: nil, form_embedded: false)
             super(represented,
-                  self_link: self_link,
-                  current_user: current_user,
-                  form_embedded: form_embedded)
+                  self_link:,
+                  current_user:,
+                  form_embedded:)
           end
 
           def self.filters_schema
@@ -272,8 +272,8 @@ module API
             filters = represented.available_filters
             QueryFilterInstanceSchemaCollectionRepresenter.new(filters,
                                                                self_link: filter_instance_schemas_href,
-                                                               form_embedded: form_embedded,
-                                                               current_user: current_user)
+                                                               form_embedded:,
+                                                               current_user:)
           end
 
           def filter_instance_schemas_href

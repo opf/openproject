@@ -56,6 +56,7 @@ describe 'Global role: Global Create project', type: :feature, js: true do
     # And I am already admin
     # When I go to the edit page of the role "Global"
     # Then I should see "Create project"
+
     it 'does show the global permission' do
       visit edit_role_path(role)
       expect(page).to have_no_selector('.form--label-with-check-box', text: 'Edit project')
@@ -98,6 +99,7 @@ describe 'Global role: Global Create project', type: :feature, js: true do
     # | Lastname | Bobbit |
     #   When I am already logged in as "bob"
     let(:user) { create :user }
+
     it 'does show the global permission' do
       # And I go to the overall projects page
       visit projects_path

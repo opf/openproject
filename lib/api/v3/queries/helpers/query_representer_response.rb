@@ -34,14 +34,14 @@ module API
           def query_representer_response(query, params, valid_subset = false)
             representer = ::API::V3::WorkPackageCollectionFromQueryService
                           .new(query, current_user)
-                          .call(params, valid_subset: valid_subset)
+                          .call(params, valid_subset:)
 
             if representer.success?
               QueryRepresenter.new(query,
-                                   current_user: current_user,
+                                   current_user:,
                                    results: representer.result,
                                    embed_links: true,
-                                   params: params)
+                                   params:)
             else
               raise ::API::Errors::InvalidQuery.new(representer.errors.full_messages)
             end

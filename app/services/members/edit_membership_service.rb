@@ -53,14 +53,14 @@ module Members
             member.validate
           end
 
-        make_result(success: success)
+        make_result(success:)
       end
     end
 
     private
 
     def make_result(success:)
-      ServiceResult.new(success: success, errors: member.errors, result: member)
+      ServiceResult.new(success:, errors: member.errors, result: member)
     end
 
     def process_attributes!(attributes)

@@ -373,25 +373,31 @@ el:
     label_less_or_equal: "<="
     label_less_than_ago: "σε λιγότερο από ημέρες πριν"
     label_loading: "Φόρτωση..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Ειδοποιήσεις email"
     label_me: "εγώ"
     label_meeting_agenda: "Ατζέντα"
     label_meeting_minutes: "Πρακτικά"
     label_menu_collapse: "σύμπτυξη"
     label_menu_expand: "επέκταση"
+    label_modified_at: "Modified: %{date}"
     label_more_than_ago: "σε περισσότερο από ημέρες πριν"
     label_next: "Επόμενο"
     label_no_color: "Χωρίς χρώμα"
     label_no_data: "Δεν υπάρχουν δεδομένα για εμφάνιση"
     label_no_due_date: "καμία ημερομηνία λήξης"
     label_no_start_date: "δεν υπάρχει ημερομηνία έναρξης"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Καμία τιμή"
+    label_no_file_links_header: "Link files in %{storageType}"
+    label_no_file_links_content: "In order to link files to this work package please do it via %{storageType}."
     label_none: "κανένα"
     label_not_contains: "δεν περιέχει"
     label_not_equals: "δεν είναι"
     label_on: "σε"
     label_open_menu: "Άνοιγμα μενού"
     label_open_context_menu: "Άνοιγμα του μενού πλαισίου"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "ανοιχτό"
     label_password: "Κωδικός"
     label_previous: "Προηγούμενο"
@@ -420,6 +426,9 @@ el:
     label_sorting: "Ταξινόμηση"
     label_spent_time: "Χρόνος που δαπανήθηκε"
     label_star_query: "Αγαπημένο"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Πατήστε enter για αποθήκευση."
     label_public_query: "Δημόσιο"
     label_sum: "Άθροισμα"
@@ -456,6 +465,7 @@ el:
     label_custom_queries: "Ιδιωτικές προβολές"
     label_columns: "Στήλες"
     label_attachments: Συνημμένα
+    label_nextcloud: Nextcloud
     label_drop_files: Σύρετε αρχεία εδώ
     label_drop_files_hint: ή κάντε κλικ για να προσθέσετε αρχεία
     label_drop_folders_hint: Δεν μπορείτε να μεταφορτώσετε φακέλους ως συνημμένο. Παρακαλώ επιλέξτε μεμονωμένα αρχεία.
@@ -834,6 +844,13 @@ el:
       comment_send_failed: "Παρουσιάστηκε ένα σφάλμα. Δεν ήταν δυνατή η υποβολή του σχολίου."
       comment_updated: "Το σχόλιο ενημερώθηκε με επιτυχία."
       confirm_edit_cancel: "Είστε βέβαιοι ότι θέλετε να ακυρώσετε την επεξεργασία αυτού του πακέτου εργασίας;"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Φίλτρο"
       description_enter_text: "Εισάγετε κείμενο"
       description_options_hide: "Απόκρυψη επιλογών"
@@ -1187,3 +1204,5 @@ el:
         remove: 'Αφαίρεση'
       drop_modal:
         Close: 'Κλείσιμο'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

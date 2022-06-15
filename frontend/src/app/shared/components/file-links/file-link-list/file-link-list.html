@@ -1,0 +1,23 @@
+<div class="work-package--attachments--files" *ngIf="resource" data-qa-selector="op-files-tab--file-link-list">
+  <op-storage-information
+    *ngIf="showInformationBox"
+    [infoIcon]="'info1'"
+    [infoTextHeader]="informationBoxHeader"
+    [infoTextContent]="informationBoxContent"
+    [buttonText]="informationBoxButton"
+  ></op-storage-information>
+
+  <div
+    *ngIf="showFileLinks"
+  >
+    <op-file-link-list-item
+      *ngFor="let fileLink of fileLinks$ | async; let i = index;"
+      class="op-files-tab--file-list-item"
+      [ngClass]="{ 'inactive': showInformationBox || fileLink._links.permission.href === 'urn:openproject-org:api:v3:file-links:permission:NotAllowed' }"
+      data-qa-selector="op-files-tab--file-list-item"
+      [fileLink]="fileLink"
+      [resource]="resource"
+      [index]="i">
+    </op-file-link-list-item>
+  </div>
+</div>

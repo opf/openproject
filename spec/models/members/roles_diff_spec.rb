@@ -28,7 +28,6 @@
 
 require 'spec_helper'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe Members::RolesDiff, type: :model do
   let(:project) { build_stubbed(:project) }
   let(:group) { build_stubbed(:group) }
@@ -36,18 +35,18 @@ describe Members::RolesDiff, type: :model do
   let(:role) { build_stubbed(:role) }
   let(:role_other) { build_stubbed(:role) }
 
-  let(:group_member_role) { build_stubbed(:member_role, role: role) }
+  let(:group_member_role) { build_stubbed(:member_role, role:) }
   let(:group_member_role_other) { build_stubbed(:member_role, role: role_other) }
   let(:group_member_roles) { raise NotImplementedError('please set group_member_roles') }
   let(:group_member) do
-    build_stubbed(:member, principal: group, project: project, member_roles: group_member_roles)
+    build_stubbed(:member, principal: group, project:, member_roles: group_member_roles)
   end
 
   let(:user_member_role) do
-    build_stubbed(:member_role, role: role)
+    build_stubbed(:member_role, role:)
   end
   let(:user_member_role_inherited) do
-    build_stubbed(:member_role, role: role, inherited_from: group_member_role.id)
+    build_stubbed(:member_role, role:, inherited_from: group_member_role.id)
   end
   let(:user_member_role_other) do
     build_stubbed(:member_role, role: role_other)
@@ -57,7 +56,7 @@ describe Members::RolesDiff, type: :model do
   end
   let(:user_member_roles) { raise NotImplementedError('please set user_member_roles') }
   let(:user_member) do
-    build_stubbed(:member, principal: user, project: project, member_roles: user_member_roles)
+    build_stubbed(:member, principal: user, project:, member_roles: user_member_roles)
   end
 
   subject(:difference) do
@@ -167,10 +166,10 @@ describe Members::RolesDiff, type: :model do
   end
 
   context 'with another group defined' do
-    let(:other_group_member_role) { build_stubbed(:member_role, role: role) }
+    let(:other_group_member_role) { build_stubbed(:member_role, role:) }
     let(:other_group_member_role_other) { build_stubbed(:member_role, role: role_other) }
     let(:user_member_role_inherited_from_other_group) do
-      build_stubbed(:member_role, role: role, inherited_from: other_group_member_role.id)
+      build_stubbed(:member_role, role:, inherited_from: other_group_member_role.id)
     end
     let(:user_member_role_other_inherited_from_other_group) do
       build_stubbed(:member_role, role: role_other, inherited_from: other_group_member_role_other.id)
@@ -204,4 +203,3 @@ describe Members::RolesDiff, type: :model do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

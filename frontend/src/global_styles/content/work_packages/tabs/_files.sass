@@ -1,0 +1,122 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2022 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+.op-files-tab
+  &--file-list-item
+    display: grid
+    grid-template-columns: 1fr 1fr
+    height: 40px
+
+    &.inactive
+      opacity: 0.5
+
+    &--content
+      align-self: center
+      width: 100%
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+
+      &.file-name
+        font-size: 14px
+
+      &.file-info
+        text-align: right
+        font-size: 12px
+
+    &--file-info-timestamp
+      margin-right: 8px
+
+  &--storage-info-box
+    margin-top: 14px
+    display: grid
+    grid-template: "icon text" "button button" / auto 1fr
+
+    .icon-box
+      height: 54px
+      width: 54px
+      grid-area: icon
+      display: flex
+      justify-content: center
+      align-items: center
+
+      .icon
+        color: #878787
+        font-size: 36px
+
+    .text-box
+      grid-area: text
+
+      .text-box-header
+        font-size: 16px
+        font-weight: 700
+        line-height: 24px
+
+      .text-box-content
+        font-size: 14px
+        font-weight: 400
+        line-height: 20px
+        color: #878787
+
+    .button-box
+      grid-area: button
+      display: flex
+      justify-content: end
+
+      .action-button
+        padding: 4px 12px
+        font-size: 14px
+        line-height: 20px
+
+  &--color
+    &-red
+      color: #B93A33
+
+    &-blue
+      color: #00BDF3
+
+    &-blue-deep
+      color: #006E8F
+
+    &-blue-dark
+      color: #0081C7
+
+    &-turquoise
+      color: #87E2C1
+
+    &-green
+      color: #007528
+
+    &-grey-dark
+      color: #9A9A9A
+
+    &-grey
+      color: #878787
+
+    &-orange
+      color: #EF9E56

@@ -45,7 +45,7 @@ describe Notifications::AggregatedJournalService, 'integration', type: :model do
     expect { journal.reload }.to raise_error(ActiveRecord::RecordNotFound)
 
     # Expect only one notification to be present
-    expect(Notification.where(recipient: recipient, reason: :mentioned).count)
+    expect(Notification.where(recipient:, reason: :mentioned).count)
       .to eq 1
   end
 end

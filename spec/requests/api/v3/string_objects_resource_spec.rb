@@ -43,14 +43,14 @@ describe 'API v3 String Objects resource' do
     end
 
     it 'return 410 GONE' do
-      expect(subject.status).to eql(410)
+      expect(subject.status).to be(410)
     end
 
     context 'nil string' do
       let(:path) { '/api/v3/string_objects?value' }
 
       it 'return 410 GONE' do
-        expect(subject.status).to eql(410)
+        expect(subject.status).to be(410)
       end
     end
   end

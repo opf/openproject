@@ -28,10 +28,8 @@
 
 class Queries::TimeEntries::Filters::WorkPackageFilter < Queries::TimeEntries::Filters::TimeEntryFilter
   def allowed_values
-    @allowed_values ||= begin
-      # We don't care for the first value as we do not display the values visibly
-      ::WorkPackage.visible.pluck(:id).map { |id| [id, id.to_s] }
-    end
+    # We don't care for the first value as we do not display the values visibly
+    @allowed_values ||= ::WorkPackage.visible.pluck(:id).map { |id| [id, id.to_s] }
   end
 
   def type

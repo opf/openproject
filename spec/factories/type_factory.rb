@@ -31,8 +31,8 @@ FactoryBot.define do
     sequence(:position)
     name { |a| "Type No. #{a.position}" }
     description { nil }
-    created_at { Time.now }
-    updated_at { Time.now }
+    created_at { Time.zone.now }
+    updated_at { Time.zone.now }
 
     factory :type_with_workflow, class: 'Type' do
       callback(:after_build) do |t|
@@ -53,25 +53,29 @@ FactoryBot.define do
                                                             ["query_#{query.id}".to_sym]]]
       end
     end
+
+    factory :type_milestone, class: 'Type' do
+      is_milestone { true }
+    end
   end
 
   factory :type_standard, class: '::Type' do
     name { 'None' }
     is_standard { true }
     is_default { true }
-    created_at { Time.now }
-    updated_at { Time.now }
+    created_at { Time.zone.now }
+    updated_at { Time.zone.now }
   end
 
   factory :type_bug, class: '::Type' do
     name { 'Bug' }
     position { 1 }
-    created_at { Time.now }
-    updated_at { Time.now }
+    created_at { Time.zone.now }
+    updated_at { Time.zone.now }
 
     # reuse existing type with the given name
     # this prevents a validation error (name has to be unique)
-    initialize_with { ::Type.find_or_initialize_by(name: name) }
+    initialize_with { ::Type.find_or_initialize_by(name:) }
 
     factory :type_feature do
       name { 'Feature' }

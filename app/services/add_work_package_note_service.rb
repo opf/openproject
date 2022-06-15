@@ -49,7 +49,7 @@ class AddWorkPackageNoteService
       end
 
       journal = work_package.journals.last if success
-      ServiceResult.new(success: success, result: journal, errors: errors)
+      ServiceResult.new(success:, result: journal, errors:)
     end
   end
 end

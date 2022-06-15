@@ -32,7 +32,7 @@ module API
       def initialize(represented, current_user: nil, errors: [], meta: nil)
         @errors = errors
         @meta = meta
-        super(represented, current_user: current_user)
+        super(represented, current_user:)
       end
 
       property :payload,

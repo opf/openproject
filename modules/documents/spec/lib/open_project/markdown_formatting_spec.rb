@@ -43,7 +43,7 @@ describe OpenProject::TextFormatting,
   end
 
   shared_let(:document) do
-    create :document, project: project, title: 'My document'
+    create :document, project:, title: 'My document'
   end
 
   subject do

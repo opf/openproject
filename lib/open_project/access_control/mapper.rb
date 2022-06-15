@@ -35,7 +35,7 @@ module OpenProject
 
       def project_module(name, options = {})
         options[:dependencies] = Array(options[:dependencies]) if options[:dependencies]
-        mapped_modules << { name: name, order: 0 }.merge(options)
+        mapped_modules << { name:, order: 0 }.merge(options)
 
         if block_given?
           @project_module = name

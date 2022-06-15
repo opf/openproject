@@ -82,6 +82,7 @@ describe HomescreenController, type: :controller do
 
       context 'with enabled announcement' do
         let!(:announcement) { create :active_announcement }
+
         it 'renders the announcement' do
           expect(response).to render_template(partial: 'announcements/_show')
         end
@@ -110,6 +111,7 @@ describe HomescreenController, type: :controller do
 
   context 'with admin' do
     let(:user) { build(:admin) }
+
     it_behaves_like 'renders blocks' do
       let(:shown) { all_blocks }
     end
@@ -117,6 +119,7 @@ describe HomescreenController, type: :controller do
 
   context 'regular user' do
     let(:user) { build(:user) }
+
     it_behaves_like 'renders blocks' do
       let(:shown) { all_blocks - %w(administration users) }
     end
@@ -124,6 +127,7 @@ describe HomescreenController, type: :controller do
 
   context 'anonymous user' do
     let(:user) { User.anonymous }
+
     it_behaves_like 'renders blocks' do
       let(:shown) { all_blocks - %w(administration users my_account) }
     end

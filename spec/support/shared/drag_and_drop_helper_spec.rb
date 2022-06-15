@@ -58,7 +58,7 @@ end
 
 def drag_n_drop_element(from:, to:, offset_x: nil, offset_y: nil)
   start_dragging(from)
-  drag_element_to(to, offset_x: offset_x, offset_y: offset_y)
+  drag_element_to(to, offset_x:, offset_y:)
   drag_release
 end
 

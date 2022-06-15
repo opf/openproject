@@ -374,25 +374,31 @@ cs:
     label_less_or_equal: "<="
     label_less_than_ago: "před méně jak (dny)"
     label_loading: "Načítání..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "E-mailová upozornění"
     label_me: "já"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Zápis"
     label_menu_collapse: "sbalit"
     label_menu_expand: "rozbalit"
+    label_modified_at: "Modified: %{date}"
     label_more_than_ago: "před více jak (dny)"
     label_next: "Další"
     label_no_color: "Bez barvy"
     label_no_data: "Žádná data k zobrazení"
     label_no_due_date: "žádné datum dokončení"
     label_no_start_date: "žádné datum začátku"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Žádná hodnota"
+    label_no_file_links_header: "Link files in %{storageType}"
+    label_no_file_links_content: "In order to link files to this work package please do it via %{storageType}."
     label_none: "žádný"
     label_not_contains: "neobsahuje"
     label_not_equals: "není"
     label_on: "zapnuto"
     label_open_menu: "Otevřít nabídku"
     label_open_context_menu: "Otevřít kontextovou nabídku"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "open"
     label_password: "Heslo"
     label_previous: "Předchozí"
@@ -421,6 +427,9 @@ cs:
     label_sorting: "Řazení"
     label_spent_time: "Strávený čas"
     label_star_query: "Oblíbená"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Stiskněte Enter pro uložení."
     label_public_query: "Veřejné"
     label_sum: "Suma"
@@ -457,6 +466,7 @@ cs:
     label_custom_queries: "Soukromé zobrazení"
     label_columns: "Sloupce"
     label_attachments: Přílohy
+    label_nextcloud: Nextcloud
     label_drop_files: Sem přetáhněte soubory
     label_drop_files_hint: nebo klikněte pro přidání souborů
     label_drop_folders_hint: Není možné použít složku jako přílohu. Prosím vyberte jednotlivé soubory.
@@ -837,6 +847,13 @@ cs:
       comment_send_failed: "Došlo k chybě. Nelze odeslat komentář."
       comment_updated: "Komentář byl úspěšně aktualizován."
       confirm_edit_cancel: "Opravdu chcete zrušit úpravy pracovního balíčku?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtr"
       description_enter_text: "Zadejte text"
       description_options_hide: "Skrýt možnosti"
@@ -1194,3 +1211,5 @@ cs:
         remove: 'Odstranit'
       drop_modal:
         Close: 'Zavřít'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

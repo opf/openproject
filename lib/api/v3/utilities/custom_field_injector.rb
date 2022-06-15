@@ -178,7 +178,7 @@ module API
                         name_source: ->(*) { custom_field.name },
                         required: custom_field.is_required,
                         has_default: custom_field.default_value.present?,
-                        writable: writable,
+                        writable:,
                         min_length: cf_min_length(custom_field),
                         max_length: cf_max_length(custom_field),
                         regular_expression: cf_regexp(custom_field),
@@ -201,9 +201,9 @@ module API
 
           @class.send(method,
                       property_name(custom_field.id),
-                      link: link,
-                      setter: setter,
-                      getter: getter)
+                      link:,
+                      setter:,
+                      getter:)
         end
 
         def link_value_setter_for(custom_field, property, expected_namespace)
@@ -214,9 +214,9 @@ module API
                 if href
                   ::API::Utilities::ResourceLinkParser.parse_id(
                     href,
-                    property: property,
+                    property:,
                     expected_version: '3',
-                    expected_namespace: expected_namespace
+                    expected_namespace:
                   )
                 end
 
@@ -242,7 +242,7 @@ module API
             next unless value
 
             representer_class
-              .create(value, current_user: current_user)
+              .create(value, current_user:)
           end
         end
 
@@ -289,7 +289,7 @@ module API
             # keep the appended filters between requests.
             filters = static_filters + instance_filters.call(represented)
 
-            api_v3_paths.path_for(:principals, filters: filters, page_size: -1)
+            api_v3_paths.path_for(:principals, filters:, page_size: -1)
           }
         end
 
@@ -302,7 +302,7 @@ module API
         end
 
         def cf_regexp(custom_field)
-          custom_field.regexp unless custom_field.regexp.blank?
+          custom_field.regexp.presence
         end
 
         def cf_options(custom_field)

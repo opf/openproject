@@ -32,6 +32,8 @@ import { InAppNotificationsResourceService } from './in-app-notifications/in-app
 import { ProjectsResourceService } from './projects/projects.service';
 import { PrincipalsResourceService } from './principals/principals.service';
 import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
+import { DayResourceService } from 'core-app/core/state/days/day.service';
+import { WeekdayResourceService } from 'core-app/core/state/days/weekday.service';
 
 @NgModule({
   providers: [
@@ -40,6 +42,8 @@ import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/ca
     ProjectsResourceService,
     PrincipalsResourceService,
     CapabilitiesResourceService,
+    DayResourceService,
+    WeekdayResourceService,
   ],
 })
 export class OpenProjectStateModule {}

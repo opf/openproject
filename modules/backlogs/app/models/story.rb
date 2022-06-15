@@ -125,7 +125,7 @@ class Story < WorkPackage
       end
     end
 
-    { open: open, closed: closed }
+    { open:, closed: }
   end
 
   def rank=(r)

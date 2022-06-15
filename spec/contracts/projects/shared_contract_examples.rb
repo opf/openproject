@@ -167,7 +167,7 @@ shared_examples_for 'project contract' do
 
     it_behaves_like 'is valid'
   end
-  
+
   context 'when the identifier consists of letters followed by numbers with an underscore in between' do
     let(:project_identifier) { 'abc_12' }
 

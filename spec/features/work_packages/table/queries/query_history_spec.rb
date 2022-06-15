@@ -44,30 +44,30 @@ describe 'Going back and forth through the browser history', type: :feature, js:
 
   let(:work_package_1) do
     create(:work_package,
-           project: project,
-           type: type)
+           project:,
+           type:)
   end
   let(:work_package_2) do
     create(:work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            assigned_to: user)
   end
   let(:version) do
     create(:version,
-           project: project)
+           project:)
   end
   let(:work_package_3) do
     create(:work_package,
-           project: project,
-           type: type,
-           version: version)
+           project:,
+           type:,
+           version:)
   end
   let(:assignee_query) do
     query = create(:query,
                    name: 'Assignee Query',
-                   project: project,
-                   user: user)
+                   project:,
+                   user:)
 
     query.add_filter('assigned_to_id', '=', [user.id])
     query.save!
@@ -77,8 +77,8 @@ describe 'Going back and forth through the browser history', type: :feature, js:
   let(:version_query) do
     query = create(:query,
                    name: 'Version Query',
-                   project: project,
-                   user: user)
+                   project:,
+                   user:)
 
     query.add_filter('version_id', '=', [version.id])
     query.save!

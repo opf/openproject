@@ -30,11 +30,11 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe BudgetsHelper, type: :helper do
   let(:project) { build(:project) }
-  let(:budget) { build(:budget, project: project) }
+  let(:budget) { build(:budget, project:) }
 
   describe '#budgets_to_csv' do
     describe 'WITH a list of one cost object' do
-      it 'should output the cost objects attributes' do
+      it 'outputs the cost objects attributes' do
         expected = [
           budget.id,
           budget.project.name,
@@ -52,7 +52,7 @@ describe BudgetsHelper, type: :helper do
         expect(budgets_to_csv([budget]).include?(expected)).to be_truthy
       end
 
-      it 'should start with a header explaining the fields' do
+      it 'starts with a header explaining the fields' do
         expected = [
           '#',
           Project.model_name.human,

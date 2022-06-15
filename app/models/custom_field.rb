@@ -52,14 +52,14 @@ class CustomField < ApplicationRecord
   validate :uniqueness_of_name_with_scope
 
   def uniqueness_of_name_with_scope
-    taken_names = CustomField.where(type: type)
-    taken_names = taken_names.where('id != ?', id) if id
+    taken_names = CustomField.where(type:)
+    taken_names = taken_names.where.not(id:) if id
     taken_names = taken_names.pluck(:name)
 
     errors.add(:name, :taken) if name.in?(taken_names)
   end
 
-  validates_inclusion_of :field_format, in: OpenProject::CustomFieldFormat.available_formats
+  validates :field_format, inclusion: { in: OpenProject::CustomFieldFormat.available_formats }
 
   validate :validate_default_value
   validate :validate_regex
@@ -140,9 +140,9 @@ class CustomField < ApplicationRecord
 
   def value_of(value)
     if list?
-      custom_options.where(value: value).pluck(:id).first
+      custom_options.where(value:).pluck(:id).first
     else
-      CustomValue.new(custom_field: self, value: value).valid? && value
+      CustomValue.new(custom_field: self, value:).valid? && value
     end
   end
 
@@ -171,7 +171,7 @@ class CustomField < ApplicationRecord
       if custom_option
         custom_option.value = value
       else
-        custom_options.build position: i + 1, value: value
+        custom_options.build position: i + 1, value:
       end
 
       max_position = i + 1
@@ -182,7 +182,7 @@ class CustomField < ApplicationRecord
 
   def cast_value(value)
     casted = nil
-    unless value.blank?
+    if value.present?
       case field_format
       when 'string', 'text', 'list'
         casted = value

@@ -32,8 +32,8 @@ describe Member, type: :model do
   let(:user) { create(:user) }
   let(:role) { create(:role) }
   let(:project) { create(:project) }
-  let(:member) { create(:member, user: user, roles: [role]) }
-  let(:new_member) { build(:member, user: user, roles: [role], project: project) }
+  let(:member) { create(:member, user:, roles: [role]) }
+  let(:new_member) { build(:member, user:, roles: [role], project:) }
 
   describe '#project' do
     context 'with a project' do
@@ -54,7 +54,7 @@ describe Member, type: :model do
 
     context 'without a project (global) but with a global membership already existing' do
       let(:project) { nil }
-      let!(:existing_member) { create(:member, user: user, roles: [role], project: project) }
+      let!(:existing_member) { create(:member, user:, roles: [role], project:) }
 
       it 'is invalid' do
         expect(new_member)
@@ -65,13 +65,13 @@ describe Member, type: :model do
 
   describe '#deletable_role?' do
     it 'returns true if not inherited from a group' do
-      expect(member.deletable_role?(role)).to eq(true)
+      expect(member.deletable_role?(role)).to be(true)
     end
 
     it 'returns false if role is inherited' do
       member
       group = create(:group, members: [user])
-      create(:member, project: project, principal: group, roles: [role])
+      create(:member, project:, principal: group, roles: [role])
       ::Groups::AddUsersService
         .new(group, current_user: User.system, contract_class: EmptyContract)
         .call(ids: [user.id])

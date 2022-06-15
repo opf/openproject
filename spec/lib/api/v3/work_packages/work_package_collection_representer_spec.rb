@@ -50,14 +50,14 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     described_class.new(
       work_packages,
       self_link: self_base_link,
-      query: query,
-      project: project,
-      groups: groups,
-      total_sums: total_sums,
+      query:,
+      project:,
+      groups:,
+      total_sums:,
       page: page_parameter,
       per_page: page_size_parameter,
       current_user: user,
-      embed_schemas: embed_schemas
+      embed_schemas:
     )
   end
   let(:collection_inner_type) { 'WorkPackage' }
@@ -349,7 +349,6 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
         .not_to have_json_path('_links/createWorkPackageImmediate')
     end
   end
-
 
   context 'with a magic page size' do
     let(:page_size_parameter) { -1 }

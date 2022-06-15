@@ -55,7 +55,7 @@ module API
 
               authorize_view_in_activated_project(co)
 
-              CustomOptionRepresenter.new(co, current_user: current_user)
+              CustomOptionRepresenter.new(co, current_user:)
             end
           end
         end

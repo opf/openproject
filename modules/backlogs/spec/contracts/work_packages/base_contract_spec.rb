@@ -72,67 +72,67 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:story) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   subject: 'Story',
-                  project: project,
+                  project:,
                   type: type_feature,
                   version: version1,
-                  status: status,
+                  status:,
                   author: user,
                   priority: issue_priority)
   end
 
   let(:story2) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   subject: 'Story2',
-                  project: project,
+                  project:,
                   type: type_feature,
                   version: version1,
-                  status: status,
+                  status:,
                   author: user,
                   priority: issue_priority)
   end
 
   let(:task) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   subject: 'Task',
                   type: type_task,
                   version: version1,
-                  project: project,
-                  status: status,
+                  project:,
+                  status:,
                   author: user,
                   priority: issue_priority)
   end
 
   let(:task2) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   subject: 'Task2',
                   type: type_task,
                   version: version1,
-                  project: project,
-                  status: status,
+                  project:,
+                  status:,
                   author: user,
                   priority: issue_priority)
   end
 
   let(:bug) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   subject: 'Bug',
                   type: type_bug,
                   version: version1,
-                  project: project,
-                  status: status,
+                  project:,
+                  status:,
                   author: user,
                   priority: issue_priority)
   end
 
   let(:bug2) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   subject: 'Bug2',
                   type: type_bug,
                   version: version1,
-                  project: project,
-                  status: status,
+                  project:,
+                  status:,
                   author: user,
                   priority: issue_priority)
   end

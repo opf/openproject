@@ -5,19 +5,20 @@ describe 'Cost report calculations', type: :feature, js: true do
   let(:project) { create :project }
   let(:user) { create :admin }
 
-  let(:work_package) { create :work_package, project: project }
-  let!(:hourly_rate1) { create :default_hourly_rate, user: user, rate: 1.00, valid_from: 1.year.ago }
+  let(:work_package) { create :work_package, project: }
+  let!(:hourly_rate1) { create :default_hourly_rate, user:, rate: 1.00, valid_from: 1.year.ago }
 
   let(:report_page) { ::Pages::CostReportPage.new project }
 
   let!(:time_entry1) do
     create :time_entry,
            spent_on: 6.months.ago,
-           user: user,
-           work_package: work_package,
-           project: project,
+           user:,
+           work_package:,
+           project:,
            hours: 10
   end
+
   before do
     login_as(user)
     visit cost_reports_path(project)

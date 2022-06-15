@@ -30,7 +30,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe WorkPackage::PDFExport::WorkPackageToPdf, type: :model do
   let(:project) { create :project }
-  let(:query) { Query.new_default(name: '_', project: project) }
+  let(:query) { Query.new_default(name: '_', project:) }
+
   subject { described_class.new query }
 
   before do
@@ -38,7 +39,7 @@ describe WorkPackage::PDFExport::WorkPackageToPdf, type: :model do
   end
 
   describe 'backlogs column' do
-    it 'should contain the story_points column in valid export column names' do
+    it 'contains the story_points column in valid export column names' do
       backlog_column = subject.columns.detect { |c| c.name == :story_points }
       expect(backlog_column).to be_present
     end

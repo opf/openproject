@@ -38,7 +38,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
     @changeset = Changeset.find(100)
   end
 
-  it 'should search_by_anonymous' do
+  it 'search_by_anonymouses' do
     User.current = nil
 
     r = WorkPackage.search(@issue_keyword).first
@@ -62,7 +62,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
     assert !r.include?(@changeset)
   end
 
-  it 'should search_by_user' do
+  it 'search_by_users' do
     User.current = User.find_by_login('rhill')
     assert User.current.memberships.empty?
 
@@ -87,7 +87,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
     assert !r.include?(@changeset)
   end
 
-  it 'should search_by_allowed_member' do
+  it 'search_by_allowed_members' do
     User.current = User.find_by_login('jsmith')
     assert User.current.projects.include?(@project)
 
@@ -104,7 +104,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
     assert r.include?(@changeset)
   end
 
-  it 'should search_by_unallowed_member' do
+  it 'search_by_unallowed_members' do
     # Removes the :view_changesets permission from user's and non member role
     remove_permission Role.find(1), :view_changesets
     remove_permission Role.non_member, :view_changesets
@@ -125,7 +125,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
     assert !r.include?(@changeset)
   end
 
-  it 'should search_issue_with_multiple_hits_in_journals' do
+  it 'search_issue_with_multiple_hits_in_journalses' do
     i = WorkPackage.find(1)
     Journal.where(journable_id: i.id).delete_all
     i.add_journal User.current, 'Journal notes'

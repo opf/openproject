@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'Group memberships through groups page', type: :feature do
+describe 'Group memberships through groups page', type: :feature do
   shared_let(:admin) { create :admin }
   let!(:project) { create :project, name: 'Project 1', identifier: 'project1' }
 
@@ -43,7 +43,7 @@ feature 'Group memberships through groups page', type: :feature do
   end
 
   shared_examples 'errors when adding members' do
-    scenario 'adding a role without a principal', js: true do
+    it 'adding a role without a principal', js: true do
       members_page.visit!
       expect_angular_frontend_initialized
       members_page.add_user! nil, as: 'Manager'

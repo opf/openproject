@@ -45,7 +45,6 @@ module API
                    WorkPackage
                      .allowed_target_projects_on_create(current_user)
                      .includes(Projects::ProjectCollectionRepresenter.to_eager_load)
-
                  })
             .mount
         end

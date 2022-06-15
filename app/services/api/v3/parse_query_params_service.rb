@@ -40,7 +40,7 @@ module API
 
         result = without_empty(parsed.merge(json_parsed.result), determine_allowed_empty(params))
 
-        ServiceResult.new(success: true, result: result)
+        ServiceResult.new(success: true, result:)
       end
 
       private
@@ -131,8 +131,8 @@ module API
         ar_attribute = convert_filter_attribute attribute, append_id: true
 
         { field: ar_attribute,
-          operator: operator,
-          values: values }
+          operator:,
+          values: }
       end
 
       def columns_from_params(params)

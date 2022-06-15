@@ -56,6 +56,7 @@ import { AuthoringComponent } from './authoring/authoring.component';
     AttachmentsComponent,
 
     AuthoringComponent,
+    AttachmentListItemComponent,
   ],
 })
 export class OpenprojectAttachmentsModule {

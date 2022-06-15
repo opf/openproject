@@ -374,25 +374,31 @@ fil:
     label_less_or_equal: "<="
     label_less_than_ago: "mas mababa kaysa sa mga araw na lumipas"
     label_loading: "Naglo-load..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Mga abiso ng emailba"
     label_me: "ako"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Minutes"
     label_menu_collapse: "bumagsak"
     label_menu_expand: "palawakin"
+    label_modified_at: "Modified: %{date}"
     label_more_than_ago: "mahigit sa araw nakalipas"
     label_next: "Susunod"
     label_no_color: "No color"
     label_no_data: "Walang data upang ipakita"
     label_no_due_date: "no finish date"
     label_no_start_date: "walang simulang petsa"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Walang halaga"
+    label_no_file_links_header: "Link files in %{storageType}"
+    label_no_file_links_content: "In order to link files to this work package please do it via %{storageType}."
     label_none: "wala"
     label_not_contains: "hindi naglalaman"
     label_not_equals: "ay hindi"
     label_on: "sa"
     label_open_menu: "Buksan ang pagpipilian"
     label_open_context_menu: "Open context menu"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "buksan"
     label_password: "Password"
     label_previous: "Nakaraan"
@@ -421,6 +427,9 @@ fil:
     label_sorting: "Pag-aayos"
     label_spent_time: "Nauubos na oras"
     label_star_query: "Favored"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Publiko"
     label_sum: "Sum"
@@ -457,6 +466,7 @@ fil:
     label_custom_queries: "Private views"
     label_columns: "Mga hanay"
     label_attachments: Mga kalakip
+    label_nextcloud: Nextcloud
     label_drop_files: Ihulog ang mga file dito
     label_drop_files_hint: o pindutin upang magdagdag ng mga file
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -835,6 +845,13 @@ fil:
       comment_send_failed: "Isang mali ang naganal. Hindi maaring magpasa ng komento."
       comment_updated: "Ang komento ay matagumpay na i-update."
       confirm_edit_cancel: "Sigurado ka ba na gusto mong kanselahin ang pag-edit ng work package?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Salain"
       description_enter_text: "Ipasok ang teksto"
       description_options_hide: "Itago ang mga opsyon"
@@ -1188,3 +1205,5 @@ fil:
         remove: 'Tanggalin'
       drop_modal:
         Close: 'Isara'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

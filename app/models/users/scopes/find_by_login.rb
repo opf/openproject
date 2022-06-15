@@ -40,7 +40,7 @@ module Users::Scopes
       # version. Exact matches will be given priority.
       def find_by_login(login)
         # First look for an exact match
-        user = find_by(login: login)
+        user = find_by(login:)
         # Fail over to case-insensitive if none was found
         user || by_login(login).first
       end

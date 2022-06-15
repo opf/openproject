@@ -75,11 +75,11 @@ class ParseSchemaFilterParamsService
   def error(message)
     errors = ActiveModel::Errors.new(self)
     errors.add(:base, message)
-    ServiceResult.new(errors: errors)
+    ServiceResult.new(errors:)
   end
 
   def success(result)
-    ServiceResult.new(success: true, result: result)
+    ServiceResult.new(success: true, result:)
   end
 
   def valid_project_type_pairs(filter)

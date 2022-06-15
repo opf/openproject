@@ -35,6 +35,7 @@ describe CostType, type: :model do
               unit: 'singular',
               unit_plural: 'plural'
   end
+
   before do
     # as the spec_helper loads fixtures and they are probably needed by other tests
     # we delete them here so they do not interfere.

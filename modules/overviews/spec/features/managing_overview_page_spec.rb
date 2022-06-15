@@ -36,14 +36,14 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
   let!(:open_status) { create :default_status }
   let!(:created_work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            author: user
   end
   let!(:assigned_work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            assigned_to: user
   end
 

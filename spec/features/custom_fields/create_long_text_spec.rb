@@ -8,7 +8,7 @@ describe 'custom fields', js: true do
   let(:type) { create :type_task }
   let(:project) { create :project, enabled_module_names: %i[work_package_tracking], types: [type] }
 
-  let(:wp_page) { Pages::FullWorkPackageCreate.new project: project }
+  let(:wp_page) { Pages::FullWorkPackageCreate.new project: }
 
   let(:default_text) do
     <<~MARKDOWN

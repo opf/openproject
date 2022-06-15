@@ -107,7 +107,7 @@ module DemoData
       end
 
       statuses.to_a.map do |status|
-        Query.new_default(project: project, user: admin).tap do |query|
+        Query.new_default(project:, user: admin).tap do |query|
           # Make it public so that new members can see it too
           query.public = true
 
@@ -157,7 +157,7 @@ module DemoData
                { name: 'Never', wps: wps[3] }]
 
       lists.map do |list|
-        Query.new(project: project, user: admin).tap do |query|
+        Query.new(project:, user: admin).tap do |query|
           # Make it public so that new members can see it too
           query.public = true
           query.include_subprojects = true
@@ -227,7 +227,7 @@ module DemoData
                  WorkPackage.find_by(subject: 'Follow-up tasks')]
 
       parents.map do |parent|
-        Query.new_default(project: project, user: admin).tap do |query|
+        Query.new_default(project:, user: admin).tap do |query|
           # Make it public so that new members can see it too
           query.public = true
 

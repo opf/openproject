@@ -59,7 +59,7 @@ describe Version, type: :model do
     def move_to_project(work_package, project)
       WorkPackages::UpdateService
         .new(model: work_package, user: admin)
-        .call(project: project)
+        .call(project:)
     end
 
     before do
@@ -94,9 +94,9 @@ describe Version, type: :model do
 
       work_package1 = create(:work_package, type_id: task_type.id, status_id: status.id, project_id: project.id)
       work_package2 = create(:work_package, parent_id: work_package1.id, type_id: task_type.id, status_id: status.id,
-                                                       project_id: project.id)
+                                            project_id: project.id)
       work_package3 = create(:work_package, parent_id: work_package2.id, type_id: task_type.id, status_id: status.id,
-                                                       project_id: project.id)
+                                            project_id: project.id)
 
       work_package1.reload
       work_package1.version_id = version.id

@@ -2,10 +2,12 @@ require 'spec_helper'
 
 describe ::Bim::IfcModels::IfcModel, type: :model do
   subject { described_class.new params }
+
   let(:params) { { title: 'foo', is_default: true } }
 
   describe 'converted?' do
     let(:attachment) { build :attachment }
+
     it 'is converted when the xkt attachment is present' do
       expect(subject).not_to be_converted
 
@@ -21,7 +23,9 @@ describe ::Bim::IfcModels::IfcModel, type: :model do
     let(:new_attachment) do
       FileHelpers.mock_uploaded_file name: "model.ifc", content_type: 'application/binary', binary: true
     end
-    subject { create :ifc_model_minimal_converted, project: project }
+
+    subject { create :ifc_model_minimal_converted, project: }
+
     current_user do
       create :user,
              member_in_project: project,

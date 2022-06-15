@@ -31,11 +31,11 @@ require 'contracts/shared/model_contract_shared_context'
 
 describe WorkPackages::BaseContract do
   let(:work_package) do
-    build_stubbed(:stubbed_work_package,
-                  type: type,
+    build_stubbed(:work_package,
+                  type:,
                   done_ratio: 50,
                   estimated_hours: 6.0,
-                  project: project)
+                  project:)
   end
   let(:type) { build_stubbed(:type) }
   let(:member) do
@@ -638,7 +638,7 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'parent' do
-    let(:parent) { build_stubbed(:stubbed_work_package) }
+    let(:parent) { build_stubbed(:work_package) }
 
     before do
       work_package.parent = parent
@@ -890,8 +890,8 @@ describe WorkPackages::BaseContract do
                     assigned_to: assignee_user,
                     author: author_user,
                     status: current_status,
-                    version: version,
-                    type: type)
+                    version:,
+                    type:)
     end
     let!(:default_status) do
       status = build_stubbed(:status)

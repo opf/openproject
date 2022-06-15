@@ -43,7 +43,7 @@ module ::Widget
     ##
     # Query whether this widget class should be cached.
     def self.dont_cache?
-      @dont_cache or self != Widget::Base && Widget::Base.dont_cache?
+      @dont_cache or (self != Widget::Base && Widget::Base.dont_cache?)
     end
 
     def initialize(query)
@@ -74,10 +74,10 @@ module ::Widget
     # Render this widget, passing options.
     # Available options:
     #   :to => canvas - The canvas (streaming or otherwise) to render to. Has to respond to #write
-    def render_with_options(options = {}, &block)
+    def render_with_options(options = {}, &)
       set_canvas(options.delete(:to)) if options.has_key? :to
       @options = options
-      render_with_cache(options, &block)
+      render_with_cache(options, &)
       @output
     end
 
@@ -103,11 +103,11 @@ module ::Widget
 
     ##
     # Render this widget or serve it from cache
-    def render_with_cache(_options = {}, &block)
+    def render_with_cache(_options = {}, &)
       if cached?
         write Rails.cache.fetch(cache_key)
       else
-        render(&block)
+        render(&)
         Rails.cache.write(cache_key, @cache_output || @output) if cache?
       end
     end

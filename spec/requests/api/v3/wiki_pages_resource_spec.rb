@@ -39,13 +39,13 @@ describe 'API v3 wiki_pages resource', type: :request do
   let(:other_user) do
     create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:wiki) { create(:wiki, project: project) }
-  let(:wiki_page) { create(:wiki_page, wiki: wiki) }
+  let(:wiki) { create(:wiki, project:) }
+  let(:wiki_page) { create(:wiki_page, wiki:) }
   let(:project) { create(:project) }
   let(:other_wiki) { create(:wiki, project: other_project) }
   let(:other_wiki_page) { create(:wiki_page, wiki: other_wiki) }
   let(:other_project) { create(:project) }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i(view_wiki_pages) }
 
   subject(:response) { last_response }
@@ -63,7 +63,7 @@ describe 'API v3 wiki_pages resource', type: :request do
 
     it 'returns 200 OK' do
       expect(subject.status)
-        .to eql(200)
+        .to be(200)
     end
 
     it 'returns the wiki page' do
@@ -81,7 +81,7 @@ describe 'API v3 wiki_pages resource', type: :request do
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
   end

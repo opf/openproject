@@ -35,6 +35,14 @@ describe ::Query::Results, 'sums', type: :model do
       p.work_package_custom_fields << float_cf
     end
   end
+  let(:estimated_hours_column) { query.available_columns.detect { |c| c.name.to_s == 'estimated_hours' } }
+  let(:int_cf_column) { query.available_columns.detect { |c| c.name.to_s == "cf_#{int_cf.id}" } }
+  let(:float_cf_column) { query.available_columns.detect { |c| c.name.to_s == "cf_#{float_cf.id}" } }
+  let(:material_costs_column) { query.available_columns.detect { |c| c.name.to_s == "material_costs" } }
+  let(:labor_costs_column) { query.available_columns.detect { |c| c.name.to_s == "labor_costs" } }
+  let(:overall_costs_column) { query.available_columns.detect { |c| c.name.to_s == "overall_costs" } }
+  let(:remaining_hours_column) { query.available_columns.detect { |c| c.name.to_s == "remaining_hours" } }
+  let(:story_points_column) { query.available_columns.detect { |c| c.name.to_s == "story_points" } }
   let(:other_project) do
     create(:project).tap do |p|
       p.work_package_custom_fields << int_cf
@@ -43,8 +51,8 @@ describe ::Query::Results, 'sums', type: :model do
   end
   let!(:work_package1) do
     create(:work_package,
-           type: type,
-           project: project,
+           type:,
+           project:,
            estimated_hours: 5,
            done_ratio: 10,
            "custom_field_#{int_cf.id}" => 10,
@@ -54,8 +62,8 @@ describe ::Query::Results, 'sums', type: :model do
   end
   let!(:work_package2) do
     create(:work_package,
-           type: type,
-           project: project,
+           type:,
+           project:,
            assigned_to: current_user,
            done_ratio: 50,
            estimated_hours: 5,
@@ -66,8 +74,8 @@ describe ::Query::Results, 'sums', type: :model do
   end
   let!(:work_package3) do
     create(:work_package,
-           type: type,
-           project: project,
+           type:,
+           project:,
            assigned_to: current_user,
            responsible: current_user,
            done_ratio: 50,
@@ -79,7 +87,7 @@ describe ::Query::Results, 'sums', type: :model do
   end
   let!(:invisible_work_package1) do
     create(:work_package,
-           type: type,
+           type:,
            project: other_project,
            estimated_hours: 5,
            "custom_field_#{int_cf.id}" => 10,
@@ -89,28 +97,28 @@ describe ::Query::Results, 'sums', type: :model do
   end
   let!(:cost_entry1) do
     create(:cost_entry,
-           project: project,
+           project:,
            work_package: work_package1,
            user: current_user,
            overridden_costs: 200)
   end
   let!(:cost_entry2) do
     create(:cost_entry,
-           project: project,
+           project:,
            work_package: work_package2,
            user: current_user,
            overridden_costs: 200)
   end
   let!(:time_entry1) do
     create(:time_entry,
-           project: project,
+           project:,
            work_package: work_package1,
            user: current_user,
            overridden_costs: 300)
   end
   let!(:time_entry2) do
     create(:time_entry,
-           project: project,
+           project:,
            work_package: work_package2,
            user: current_user,
            overridden_costs: 300)
@@ -138,8 +146,8 @@ describe ::Query::Results, 'sums', type: :model do
   let(:group_by) { nil }
   let(:query) do
     build :query,
-          project: project,
-          group_by: group_by
+          project:,
+          group_by:
   end
   let(:query_results) do
     ::Query::Results.new query
@@ -148,14 +156,6 @@ describe ::Query::Results, 'sums', type: :model do
   before do
     login_as(current_user)
   end
-  let(:estimated_hours_column) { query.available_columns.detect { |c| c.name.to_s == 'estimated_hours' } }
-  let(:int_cf_column) { query.available_columns.detect { |c| c.name.to_s == "cf_#{int_cf.id}" } }
-  let(:float_cf_column) { query.available_columns.detect { |c| c.name.to_s == "cf_#{float_cf.id}" } }
-  let(:material_costs_column) { query.available_columns.detect { |c| c.name.to_s == "material_costs" } }
-  let(:labor_costs_column) { query.available_columns.detect { |c| c.name.to_s == "labor_costs" } }
-  let(:overall_costs_column) { query.available_columns.detect { |c| c.name.to_s == "overall_costs" } }
-  let(:remaining_hours_column) { query.available_columns.detect { |c| c.name.to_s == "remaining_hours" } }
-  let(:story_points_column) { query.available_columns.detect { |c| c.name.to_s == "story_points" } }
 
   describe '#all_total_sums' do
     it 'is a hash of all summable columns' do

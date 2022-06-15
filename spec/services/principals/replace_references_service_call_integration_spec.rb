@@ -50,7 +50,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
     context 'with a Journal' do
       let!(:journal) do
         create(:work_package_journal,
-               user_id: user_id)
+               user_id:)
       end
 
       context 'with the replaced user' do

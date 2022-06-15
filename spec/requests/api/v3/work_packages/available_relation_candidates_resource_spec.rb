@@ -84,7 +84,7 @@ describe ::API::V3::WorkPackages::AvailableRelationCandidatesAPI, type: :request
   context "without cross project relations",
           with_settings: { cross_project_work_package_relations: false } do
     describe "relation candidates for wp_1 (in hierarchy)" do
-      it "should return an empty list" do # as relations to ancestors or descendents is not allowed
+      it "returns an empty list" do # as relations to ancestors or descendents is not allowed
         expect(result["count"]).to eq 0
       end
     end
@@ -92,7 +92,7 @@ describe ::API::V3::WorkPackages::AvailableRelationCandidatesAPI, type: :request
     describe "relation candidates for wp_2" do
       let(:href) { "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=WP" }
 
-      it "should return WP 2.1 and 2.2" do
+      it "returns WP 2.1 and 2.2" do
         expect(subjects).to match_array ["WP 2.1", "WP 2.2"]
       end
     end
@@ -100,7 +100,7 @@ describe ::API::V3::WorkPackages::AvailableRelationCandidatesAPI, type: :request
     describe "case-insensitive matches" do
       let(:href) { "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=wp" }
 
-      it "should return WP 2.1 and 2.2" do
+      it "returns WP 2.1 and 2.2" do
         expect(subjects).to match_array ["WP 2.1", "WP 2.2"]
       end
     end
@@ -108,7 +108,7 @@ describe ::API::V3::WorkPackages::AvailableRelationCandidatesAPI, type: :request
     describe "relation candidates for WP 2.2 (circular dependency check)" do
       let(:href) { "/api/v3/work_packages/#{wp_2_2.id}/available_relation_candidates?query=WP" }
 
-      it "should return just WP 2, not WP 2.1" do
+      it "returns just WP 2, not WP 2.1" do
         expect(subjects).to match_array ["WP 2"]
       end
     end
@@ -119,7 +119,7 @@ describe ::API::V3::WorkPackages::AvailableRelationCandidatesAPI, type: :request
     describe "relation candidates for wp_1 (in hierarchy)" do
       let(:href) { "/api/v3/work_packages/#{wp_1.id}/available_relation_candidates?query=WP" }
 
-      it "should return WP 2 and all WP 2.x" do
+      it "returns WP 2 and all WP 2.x" do
         expect(subjects).to match_array ["WP 2", "WP 2.1", "WP 2.2"]
       end
     end
@@ -127,7 +127,7 @@ describe ::API::V3::WorkPackages::AvailableRelationCandidatesAPI, type: :request
     describe "relation candidates for wp_2" do
       let(:href) { "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=WP&type=follows" }
 
-      it "should return WP 2.1 and 2.2, WP 1 and all WP 1.x" do
+      it "returns WP 2.1 and 2.2, WP 1 and all WP 1.x" do
         expect(subjects).to match_array ["WP 1", "WP 1.1", "WP 1.2", "WP 1.2.1", "WP 2.1", "WP 2.2"]
       end
 

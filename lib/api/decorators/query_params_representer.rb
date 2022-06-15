@@ -46,7 +46,7 @@ module API
         to_h.to_json
       end
 
-      def to_h(*args)
+      def to_h(*_args)
         p = default_hash
 
         p[:sortBy] = orders_to_v3 if query.ordered?

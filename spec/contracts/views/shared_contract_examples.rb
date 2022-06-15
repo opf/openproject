@@ -55,7 +55,7 @@ shared_examples_for 'view contract' do |disabled_permission_checks|
   before do
     next unless view_query
 
-    visible_scope = instance_double('ActiveRecord::Relation')
+    visible_scope = instance_double(ActiveRecord::Relation)
 
     allow(Query)
       .to receive(:visible)

@@ -44,6 +44,6 @@ class Queries::BaseService
   private
 
   def service_result(result, errors, query)
-    ServiceResult.new success: result, errors: errors, result: query
+    ServiceResult.new success: result, errors:, result: query
   end
 end

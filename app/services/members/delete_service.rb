@@ -42,7 +42,7 @@ class Members::DeleteService < ::BaseServices::Delete
 
   def send_notification(member)
     ::OpenProject::Notifications.send(OpenProject::Events::MEMBER_DESTROYED,
-                                      member: member)
+                                      member:)
   end
 
   def cleanup_for_group(member)

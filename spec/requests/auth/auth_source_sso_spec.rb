@@ -38,7 +38,7 @@ describe AuthSourceSSO,
   end
 
   let(:auth_source) { create(:auth_source) }
-  let(:user) { create(:user, login: 'bob', auth_source: auth_source) }
+  let(:user) { create(:user, login: 'bob', auth_source:) }
 
   before do
     allow(OpenProject::Configuration)

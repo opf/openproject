@@ -100,7 +100,7 @@ describe 'OpenID Connect', type: :rails_request do
 
       user = User.find_by_mail(user_info[:email])
 
-      expect(user).not_to be nil
+      expect(user).not_to be_nil
       expect(user.active?).to be false
 
       ##
@@ -153,7 +153,7 @@ describe 'OpenID Connect', type: :rails_request do
       expect(response.body).not_to match /Azure/i
     end
 
-    it 'should make providers that have been configured through settings available without requiring a restart' do
+    it 'makes providers that have been configured through settings available without requiring a restart' do
       get '/login'
       expect(response.body).to match /Google/i
       expect(response.body).to match /Azure/i

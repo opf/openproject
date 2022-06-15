@@ -45,13 +45,13 @@ module API
             CostEntryCollectionRepresenter.new(cost_entries,
                                                cost_entries.count,
                                                self_link: path,
-                                               current_user: current_user)
+                                               current_user:)
           end
         end
 
         resources :summarized_costs_by_type do
           get do
-            WorkPackageCostsByTypeRepresenter.new(@work_package, current_user: current_user)
+            WorkPackageCostsByTypeRepresenter.new(@work_package, current_user:)
           end
         end
       end

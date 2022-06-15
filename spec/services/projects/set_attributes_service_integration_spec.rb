@@ -33,7 +33,7 @@ describe Projects::SetAttributesService, 'integration', type: :model do
     create(:user, global_permissions: %w[add_project])
   end
   let(:contract) { Projects::CreateContract }
-  let(:instance) { described_class.new(user: user, model: project, contract_class: contract) }
+  let(:instance) { described_class.new(user:, model: project, contract_class: contract) }
   let(:attributes) { {} }
   let(:project) { Project.new }
   let(:service_result) do

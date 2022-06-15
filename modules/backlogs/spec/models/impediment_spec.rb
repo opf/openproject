@@ -37,38 +37,38 @@ describe Impediment, type: :model do
   let(:status) { create(:status) }
   let(:task) do
     build(:task, type: type_task,
-                            project: project,
-                            author: user,
-                            priority: issue_priority,
-                            status: status)
+                 project:,
+                 author: user,
+                 priority: issue_priority,
+                 status:)
   end
   let(:feature) do
     build(:work_package, type: type_feature,
-                                    project: project,
-                                    author: user,
-                                    priority: issue_priority,
-                                    status: status)
+                         project:,
+                         author: user,
+                         priority: issue_priority,
+                         status:)
   end
-  let(:version) { create(:version, project: project) }
+  let(:version) { create(:version, project:) }
 
   let(:project) do
     unless @project
       @project = build(:project, types: [type_feature, type_task])
       @project.members = [build(:member, principal: user,
-                                                    project: @project,
-                                                    roles: [role])]
+                                         project: @project,
+                                         roles: [role])]
     end
     @project
   end
 
   let(:impediment) do
     build(:impediment, author: user,
-                                  version: version,
-                                  assigned_to: user,
-                                  priority: issue_priority,
-                                  project: project,
-                                  type: type_task,
-                                  status: status)
+                       version:,
+                       assigned_to: user,
+                       priority: issue_priority,
+                       project:,
+                       type: type_task,
+                       status:)
   end
 
   before do

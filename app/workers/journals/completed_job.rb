@@ -75,7 +75,7 @@ class Journals::CompletedJob < ApplicationJob
 
   def notify_journal_complete(journal, send_mails)
     OpenProject::Notifications.send(self.class.aggregated_event(journal),
-                                    journal: journal,
+                                    journal:,
                                     send_mail: send_mails)
   end
 end

@@ -373,25 +373,31 @@ da:
     label_less_or_equal: "<="
     label_less_than_ago: "mindre end dage siden"
     label_loading: "Henter..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "E-mail-påmindelser"
     label_me: "mig"
     label_meeting_agenda: "Dagsorden"
     label_meeting_minutes: "Referat"
     label_menu_collapse: "Fold menu sammen"
     label_menu_expand: "Fold menu ud"
+    label_modified_at: "Modified: %{date}"
     label_more_than_ago: "mere end dage siden"
     label_next: "Næste"
     label_no_color: "Ingen farve"
     label_no_data: "Ingen data at vise"
     label_no_due_date: "ingen slutdato"
     label_no_start_date: "ingen startdato"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Ingen værdi tildelt"
+    label_no_file_links_header: "Link files in %{storageType}"
+    label_no_file_links_content: "In order to link files to this work package please do it via %{storageType}."
     label_none: "ingen"
     label_not_contains: "indeholder ikke"
     label_not_equals: "er ikke"
     label_on: "på"
     label_open_menu: "Åbn menuen"
     label_open_context_menu: "Open context menu"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "åbn"
     label_password: "Adgangskode"
     label_previous: "Foregående"
@@ -420,6 +426,9 @@ da:
     label_sorting: "Sorterer"
     label_spent_time: "Anvendt tid"
     label_star_query: "Favored"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Offentlig"
     label_sum: "Sum"
@@ -456,6 +465,7 @@ da:
     label_custom_queries: "Private views"
     label_columns: "Kolonner"
     label_attachments: Vedhæftninger
+    label_nextcloud: Nextcloud
     label_drop_files: Slip filer hér
     label_drop_files_hint: eller klik for at tilføje filer
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -834,6 +844,13 @@ da:
       comment_send_failed: "En fejl opstod. Kunne ikke indsende kommentaren."
       comment_updated: "Kommentaren blev opdateret."
       confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filter"
       description_enter_text: "Indtast tekst"
       description_options_hide: "Gem muligheder"
@@ -1187,3 +1204,5 @@ da:
         remove: 'Fjern'
       drop_modal:
         Close: 'Luk'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

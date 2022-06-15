@@ -32,7 +32,7 @@ describe 'Custom actions me value', type: :feature, js: true do
   shared_let(:admin) { create :admin }
 
   let(:permissions) { %i(view_work_packages edit_work_packages) }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -43,8 +43,8 @@ describe 'Custom actions me value', type: :feature, js: true do
   let!(:custom_field) { create :user_wp_custom_field, types: [type], projects: [project] }
   let!(:work_package) do
     create(:work_package,
-           type: type,
-           project: project)
+           type:,
+           project:)
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }

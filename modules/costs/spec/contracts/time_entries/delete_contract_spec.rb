@@ -108,6 +108,7 @@ describe TimeEntries::DeleteContract do
 
     context 'when has no permission' do
       let(:permissions) { %i[edit_own_time_entries] }
+
       it 'is invalid' do
         expect_valid(false, base: %i(error_unauthorized))
       end

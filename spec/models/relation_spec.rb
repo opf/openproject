@@ -31,7 +31,7 @@ describe Relation, type: :model do
   let(:from) { create(:work_package) }
   let(:to) { create(:work_package) }
   let(:type) { 'relates' }
-  let(:relation) { build(:relation, from: from, to: to, relation_type: type) }
+  let(:relation) { build(:relation, from:, to:, relation_type: type) }
 
   describe 'all relation types' do
     Relation::TYPES.each do |key, type_hash|
@@ -66,7 +66,7 @@ describe Relation, type: :model do
       let(:type) { Relation::TYPE_FOLLOWS }
 
       it 'is not reversed' do
-        expect(relation.save).to eq(true)
+        expect(relation.save).to be(true)
         relation.reload
 
         expect(relation.relation_type).to eq(Relation::TYPE_FOLLOWS)
@@ -77,7 +77,7 @@ describe Relation, type: :model do
       it 'fails validation with invalid date and reverses' do
         relation.delay = 'xx'
         expect(relation).not_to be_valid
-        expect(relation.save).to eq(false)
+        expect(relation.save).to be(false)
 
         expect(relation.relation_type).to eq(Relation::TYPE_FOLLOWS)
         expect(relation.to).to eq(to)
@@ -89,7 +89,7 @@ describe Relation, type: :model do
       let(:type) { Relation::TYPE_PRECEDES }
 
       it 'is reversed' do
-        expect(relation.save).to eq(true)
+        expect(relation.save).to be(true)
         relation.reload
 
         expect(relation.relation_type).to eq(Relation::TYPE_FOLLOWS)

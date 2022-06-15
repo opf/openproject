@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Work package attribute help texts', type: :feature, js: true do
   let(:project) { create :project }
-  let(:work_package) { create :work_package, project: project }
+  let(:work_package) { create :work_package, project: }
 
   let(:instance) do
     create :work_package_help_text,
@@ -65,6 +65,7 @@ describe 'Work package attribute help texts', type: :feature, js: true do
 
   describe 'as admin' do
     let(:user) { create(:admin) }
+
     it_behaves_like 'allows to view help texts'
   end
 

@@ -33,8 +33,8 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
   include_context 'with team planner full access'
 
   let(:current_user) { user }
-  let(:query) { create :query, user: user, project: project, public: true }
-  let(:team_plan) { create :view_team_planner, query: query }
+  let(:query) { create :query, user:, project:, public: true }
+  let(:team_plan) { create :view_team_planner, query: }
 
   before do
     login_as current_user
@@ -88,7 +88,7 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
       end
 
       context 'when the view is non-public' do
-        let(:query) { create :query, user: user, project: project, public: false }
+        let(:query) { create :query, user:, project:, public: false }
 
         it 'does not show a non-public view' do
           expect(page).to have_text 'There is currently nothing to display.'

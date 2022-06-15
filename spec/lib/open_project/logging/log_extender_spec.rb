@@ -89,7 +89,7 @@ describe OpenProject::Logging, 'Log extenders' do
       allow(extender).to receive(:call).and_call_original
 
       expect(subject.keys).to contain_exactly :method, :action, :controller, :user
-      expect(subject[:some_hash]).to eq nil
+      expect(subject[:some_hash]).to be_nil
     end
   end
 end

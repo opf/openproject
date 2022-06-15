@@ -33,7 +33,7 @@ require_relative '../support/pages/meetings/index'
 describe 'Meetings', type: :feature do
   let(:project) { create :project, enabled_module_names: %w[meetings] }
   let(:other_project) { create :project, enabled_module_names: %w[meetings] }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i(view_meetings) }
   let(:user) do
     create(:user) do |user|
@@ -47,13 +47,13 @@ describe 'Meetings', type: :feature do
   end
 
   let(:meeting) do
-    create :meeting, project: project, title: 'Awesome meeting today!', start_time: Time.now
+    create :meeting, project:, title: 'Awesome meeting today!', start_time: Time.now
   end
   let(:tomorrows_meeting) do
-    create :meeting, project: project, title: 'Awesome meeting tomorrow!', start_time: Time.now + 1.day
+    create :meeting, project:, title: 'Awesome meeting tomorrow!', start_time: Time.now + 1.day
   end
   let(:yesterdays_meeting) do
-    create :meeting, project: project, title: 'Awesome meeting yesterday!', start_time: Time.now - 1.day
+    create :meeting, project:, title: 'Awesome meeting yesterday!', start_time: Time.now - 1.day
   end
   let!(:other_project_meeting) do
     create :meeting, project: other_project, title: 'Awesome other project meeting!'
@@ -64,20 +64,20 @@ describe 'Meetings', type: :feature do
     login_as(user)
   end
 
-  scenario 'visting page via menu with no meetings' do
+  it 'visting page via menu with no meetings' do
     meetings_page.navigate_by_menu
 
     meetings_page.expect_no_meetings_listed
   end
 
-  scenario 'visiting page with 1 meeting listed' do
+  it 'visiting page with 1 meeting listed' do
     meeting
     meetings_page.visit!
 
     meetings_page.expect_meetings_listed(meeting)
   end
 
-  scenario 'visiting page with pagination', with_settings: { per_page_options: '1' } do
+  it 'visiting page with pagination', with_settings: { per_page_options: '1' } do
     meeting
     tomorrows_meeting
     yesterdays_meeting

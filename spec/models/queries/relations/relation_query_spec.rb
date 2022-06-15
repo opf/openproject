@@ -77,6 +77,7 @@ describe Queries::Relations::RelationQuery, type: :model do
 
   context 'with a from filter' do
     let(:current_user) { build_stubbed(:user) }
+
     before do
       login_as(current_user)
       instance.where('from_id', '=', ['1'])

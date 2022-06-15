@@ -41,7 +41,7 @@ module API
             GithubPullRequestCollectionRepresenter.new(@github_pull_requests,
                                                        @github_pull_requests.count,
                                                        self_link: path,
-                                                       current_user: current_user)
+                                                       current_user:)
           end
         end
       end

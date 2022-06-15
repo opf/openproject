@@ -30,7 +30,9 @@ module Redmine
   module Platform
     class << self
       def mswin?
-        (RUBY_PLATFORM =~ /(:?mswin|mingw)/) || (RUBY_PLATFORM == 'java' && (ENV['OS'] || ENV['os']) =~ /windows/i)
+        (RUBY_PLATFORM =~ /(:?mswin|mingw)/) || (RUBY_PLATFORM == 'java' && (ENV.fetch('OS') do
+                                                                               ENV.fetch('os', nil)
+                                                                             end) =~ /windows/i)
       end
     end
   end

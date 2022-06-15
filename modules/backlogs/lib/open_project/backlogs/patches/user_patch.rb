@@ -53,7 +53,7 @@ module OpenProject::Backlogs::Patches::UserPatch
     def read_backlogs_preference(attr)
       setting = pref[:"backlogs_#{attr}"]
 
-      setting.blank? ? nil : setting
+      setting.presence
     end
 
     def write_backlogs_preference(attr, new_value)

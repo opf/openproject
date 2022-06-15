@@ -187,8 +187,8 @@ module SettingsHelper
     )
   end
 
-  def setting_block(setting, options = {}, &block)
-    setting_label(setting, options) + wrap_field_outer(options, &block)
+  def setting_block(setting, options = {}, &)
+    setting_label(setting, options) + wrap_field_outer(options, &)
   end
 
   private

@@ -36,7 +36,7 @@ describe Notifications::CreateFromModelService, 'comment', with_settings: { jour
   include_context 'with CreateFromJournalJob context'
 
   shared_let(:project) { create(:project) }
-  shared_let(:news) { create(:news, project: project) }
+  shared_let(:news) { create(:news, project:) }
 
   let(:permissions) { [] }
   let(:send_notifications) { true }
@@ -44,7 +44,7 @@ describe Notifications::CreateFromModelService, 'comment', with_settings: { jour
   let(:resource) do
     create(:comment,
            commented: news,
-           author: author,
+           author:,
            comments: 'Some text')
   end
 

@@ -69,7 +69,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
 
   describe '.visible' do
     let(:project) { create(:project) }
-    let(:role) { create(:role, permissions: permissions) }
+    let(:role) { create(:role, permissions:) }
     let(:user) do
       create(:user,
              member_in_project: project,
@@ -91,7 +91,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
       end
 
       it 'returns the help text for the static attribute but not the one for the custom field' do
-        is_expected
+        expect(subject)
           .to match_array([static_instance])
       end
     end
@@ -100,7 +100,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
       let(:permissions) { [:select_custom_fields] }
 
       it 'returns the help text for the static and cf attribute' do
-        is_expected
+        expect(subject)
           .to match_array([static_instance, cf_instance])
       end
     end
@@ -146,7 +146,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
       end
 
       it 'returns the help text for the static and active cf attributes' do
-        is_expected
+        expect(subject)
           .to match_array([static_instance, cf_instance_active, cf_instance_for_all])
       end
     end
@@ -160,14 +160,14 @@ describe AttributeHelpText::WorkPackage, type: :model do
     let(:attribute_name) { 'status' }
     let(:help_text) { 'foobar' }
 
-    subject { described_class.new attribute_name: attribute_name, help_text: help_text }
+    subject { described_class.new attribute_name:, help_text: }
 
     context 'help_text is nil' do
       let(:help_text) { nil }
 
       it 'validates presence of help text' do
         expect(subject.valid?).to be_falsey
-        expect(subject.errors[:help_text].count).to eql(1)
+        expect(subject.errors[:help_text].count).to be(1)
         expect(subject.errors[:help_text].first)
           .to eql(I18n.t('activerecord.errors.messages.blank'))
       end
@@ -178,7 +178,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
 
       it 'validates presence of attribute name' do
         expect(subject.valid?).to be_falsey
-        expect(subject.errors[:attribute_name].count).to eql(1)
+        expect(subject.errors[:attribute_name].count).to be(1)
         expect(subject.errors[:attribute_name].first)
           .to eql(I18n.t('activerecord.errors.messages.inclusion'))
       end
@@ -189,7 +189,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
 
       it 'validates inclusion of attribute name' do
         expect(subject.valid?).to be_falsey
-        expect(subject.errors[:attribute_name].count).to eql(1)
+        expect(subject.errors[:attribute_name].count).to be(1)
         expect(subject.errors[:attribute_name].first)
           .to eql(I18n.t('activerecord.errors.messages.inclusion'))
       end

@@ -36,7 +36,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:current_user) { member }
   let(:embed_links) { true }
   let(:representer) do
-    described_class.create(work_package, current_user: current_user, embed_links: embed_links)
+    described_class.create(work_package, current_user:, embed_links:)
   end
   let(:parent) { nil }
   let(:priority) { build_stubbed(:priority, updated_at: Time.zone.now) }
@@ -51,23 +51,25 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:spent_hours) { 0 }
   let(:derived_start_date) { Time.zone.today - 4.days }
   let(:derived_due_date) { Time.zone.today - 5.days }
-  let(:budget) { build_stubbed(:budget, project: project) }
+  let(:budget) { build_stubbed(:budget, project:) }
+  let(:duration) { nil }
   let(:work_package) do
-    build_stubbed(:stubbed_work_package,
-                  schedule_manually: schedule_manually,
-                  start_date: start_date,
-                  due_date: due_date,
+    build_stubbed(:work_package,
+                  schedule_manually:,
+                  start_date:,
+                  due_date:,
+                  duration:,
                   done_ratio: 50,
-                  parent: parent,
-                  type: type,
-                  project: project,
-                  priority: priority,
+                  parent:,
+                  type:,
+                  project:,
+                  priority:,
                   assigned_to: assignee,
-                  responsible: responsible,
-                  estimated_hours: estimated_hours,
-                  derived_estimated_hours: derived_estimated_hours,
-                  budget: budget,
-                  status: status) do |wp|
+                  responsible:,
+                  estimated_hours:,
+                  derived_estimated_hours:,
+                  budget:,
+                  status:) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
         .and_return(available_custom_fields)
@@ -125,7 +127,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   describe '.new' do
     it 'is prevented as .create is to be used' do
-      expect { described_class.new(work_package, current_user: current_user, embed_links: embed_links) }
+      expect { described_class.new(work_package, current_user:, embed_links:) }
         .to raise_error NoMethodError
     end
   end
@@ -291,6 +293,49 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           it 'has no derivedDueDate' do
             is_expected
               .to_not have_json_path('derivedDueDate')
+          end
+        end
+      end
+
+      describe 'duration' do
+        let(:duration) { 6 }
+
+        before do
+          # TODO: remove feature flag once the implementation is complete
+          allow(OpenProject::FeatureDecisions)
+            .to receive(:work_packages_duration_field_active?)
+            .and_return(true)
+        end
+
+        it { is_expected.to be_json_eql('P6D'.to_json).at_path('duration') }
+
+        context 'no duration' do
+          let(:duration) { nil }
+
+          it 'renders as null' do
+            is_expected.to be_json_eql(nil.to_json).at_path('duration')
+          end
+        end
+
+        context 'when the work_package is a milestone' do
+          let(:type_milestone) { true }
+
+          it 'has no duration' do
+            is_expected.to_not have_json_path('duration')
+          end
+        end
+
+        context 'when the feature flag is off' do
+          before do
+            # TODO: remove feature flag once the implementation is complete
+            allow(OpenProject::FeatureDecisions)
+              .to receive(:work_packages_duration_field_active?)
+              .and_return(false)
+          end
+          let(:duration) { 6 }
+
+          it 'has no duration' do
+            is_expected.to_not have_json_path('duration')
           end
         end
       end
@@ -561,7 +606,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'version set' do
-          let!(:version) { create :version, project: project }
+          let!(:version) { create :version, project: }
 
           before do
             work_package.version = version
@@ -903,14 +948,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         describe 'parent' do
           let(:visible_parent) do
-            build_stubbed(:stubbed_work_package) do |wp|
+            build_stubbed(:work_package) do |wp|
               allow(wp)
                 .to receive(:visible?)
                 .and_return(true)
             end
           end
           let(:invisible_parent) do
-            build_stubbed(:stubbed_work_package) do |wp|
+            build_stubbed(:work_package) do |wp|
               allow(wp)
                 .to receive(:visible?)
                       .and_return(false)
@@ -943,9 +988,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'ancestors' do
-          let(:root) { build_stubbed(:work_package, project: project) }
+          let(:root) { build_stubbed(:work_package, project:) }
           let(:intermediate) do
-            build_stubbed(:work_package, parent: root, project: project)
+            build_stubbed(:work_package, parent: root, project:)
           end
 
           context 'when ancestors are visible' do
@@ -976,7 +1021,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'children' do
-          let(:work_package) { create(:work_package, project: project) }
+          let(:work_package) { create(:work_package, project:) }
           let!(:forbidden_work_package) do
             create(:work_package,
                    project: forbidden_project,
@@ -988,7 +1033,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           describe 'visible and invisible children' do
             let!(:child) do
               create(:work_package,
-                     project: project,
+                     project:,
                      parent: work_package)
             end
 
@@ -1183,7 +1228,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'fileLinks' do
         let(:storage) { build_stubbed(:storage) }
-        let(:file_link) { build_stubbed(:file_link, storage: storage, container: work_package) }
+        let(:file_link) { build_stubbed(:file_link, storage:, container: work_package) }
 
         before do
           allow(work_package).to receive(:file_links).and_return([file_link])

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Groups::AddUsersService, 'integration', type: :model do
-  subject(:service_call) { instance.call(ids: user_ids, message: message) }
+  subject(:service_call) { instance.call(ids: user_ids, message:) }
 
   let(:projects) { create_list :project, 2 }
   let(:role) { create :role }
@@ -47,7 +47,7 @@ describe Groups::AddUsersService, 'integration', type: :model do
   let(:message) { 'Some message' }
 
   let(:instance) do
-    described_class.new(group, current_user: current_user)
+    described_class.new(group, current_user:)
   end
 
   before do
@@ -140,14 +140,14 @@ describe Groups::AddUsersService, 'integration', type: :model do
       let!(:group) do
         create :group do |g|
           create(:member,
-                 project: project,
+                 project:,
                  principal: g,
-                 roles: roles)
+                 roles:)
         end
       end
       let!(:user_member) do
         create(:member,
-               project: project,
+               project:,
                roles: [roles.first],
                principal: user1)
       end

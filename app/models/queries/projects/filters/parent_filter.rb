@@ -36,8 +36,6 @@ class Queries::Projects::Filters::ParentFilter < Queries::Projects::Filters::Pro
   end
 
   def allowed_values
-    @allowed_values ||= begin
-      ::Project.visible.pluck(:id).map { |id| [id, id.to_s] }
-    end
+    @allowed_values ||= ::Project.visible.pluck(:id).map { |id| [id, id.to_s] }
   end
 end

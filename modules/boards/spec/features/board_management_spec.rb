@@ -37,8 +37,8 @@ describe 'Board management spec', type: :feature, js: true do
            member_through_role: role)
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { create(:role, permissions: permissions) }
-  let!(:work_package) { create :work_package, subject: 'Foo', project: project }
+  let(:role) { create(:role, permissions:) }
+  let!(:work_package) { create :work_package, subject: 'Foo', project: }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
@@ -63,7 +63,7 @@ describe 'Board management spec', type: :feature, js: true do
         manage_public_queries
       ]
     end
-    let(:board_view) { create :board_grid_with_query, project: project }
+    let(:board_view) { create :board_grid_with_query, project: }
 
     it 'allows parallel creation of cards (Regression #30842)' do
       board_view
@@ -208,7 +208,7 @@ describe 'Board management spec', type: :feature, js: true do
 
   context 'with view boards + work package permission' do
     let(:permissions) { %i[show_board_views view_work_packages] }
-    let(:board_view) { create :board_grid_with_query, project: project }
+    let(:board_view) { create :board_grid_with_query, project: }
 
     it 'allows viewing boards index and boards' do
       board_view
@@ -227,7 +227,7 @@ describe 'Board management spec', type: :feature, js: true do
 
   context 'with view boards + edit work package permission' do
     let(:permissions) { %i[show_board_views view_work_packages add_work_packages edit_work_packages] }
-    let(:board_view) { create :board_grid_with_queries, project: project }
+    let(:board_view) { create :board_grid_with_queries, project: }
 
     it 'allows viewing boards index and moving items around' do
       board_view

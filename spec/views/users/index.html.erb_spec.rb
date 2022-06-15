@@ -50,8 +50,8 @@ describe 'users/index', type: :view do
   it 'renders the user table' do
     render
 
-    is_expected.to have_text("#{admin.firstname}   #{admin.lastname}")
-    is_expected.to have_text("Scarlet   Scallywag")
+    expect(subject).to have_text("#{admin.firstname}   #{admin.lastname}")
+    expect(subject).to have_text("Scarlet   Scallywag")
   end
 
   context "with an Enterprise token" do
@@ -63,7 +63,7 @@ describe 'users/index', type: :view do
       render
 
       # expected active users: admin and user from above
-      is_expected.to have_text("2/5 booked active users")
+      expect(subject).to have_text("2/5 booked active users")
     end
   end
 
@@ -71,7 +71,7 @@ describe 'users/index', type: :view do
     it "does not show the current number of active and allowed users" do
       render
 
-      is_expected.not_to have_text("booked active users")
+      expect(subject).not_to have_text("booked active users")
     end
   end
 end

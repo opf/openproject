@@ -60,11 +60,11 @@ describe Notifications::MailService, type: :model do
     let(:reason) { :mentioned }
     let(:notification) do
       build_stubbed(:notification,
-                    journal: journal,
-                    recipient: recipient,
-                    actor: actor,
-                    reason: reason,
-                    read_ian: read_ian)
+                    journal:,
+                    recipient:,
+                    actor:,
+                    reason:,
+                    read_ian:)
     end
     let(:journal_initial) { false }
 
@@ -137,10 +137,10 @@ describe Notifications::MailService, type: :model do
     let(:read_ian) { false }
     let(:notification) do
       build_stubbed(:notification,
-                    journal: journal,
-                    recipient: recipient,
-                    actor: actor,
-                    read_ian: read_ian)
+                    journal:,
+                    recipient:,
+                    actor:,
+                    read_ian:)
     end
     let(:notification_setting) { %w(wiki_content_added wiki_content_updated) }
     let(:mail) do
@@ -222,9 +222,9 @@ describe Notifications::MailService, type: :model do
     end
     let(:notification) do
       build_stubbed(:notification,
-                    journal: journal,
-                    recipient: recipient,
-                    actor: actor)
+                    journal:,
+                    recipient:,
+                    actor:)
     end
     let(:mail) do
       mail = instance_double(ActionMailer::MessageDelivery)
@@ -282,11 +282,11 @@ describe Notifications::MailService, type: :model do
     let(:read_ian) { false }
     let(:notification) do
       build_stubbed(:notification,
-                    journal: journal,
+                    journal:,
                     resource: journal.journable,
-                    recipient: recipient,
-                    actor: actor,
-                    read_ian: read_ian)
+                    recipient:,
+                    actor:,
+                    read_ian:)
     end
     let(:mail) do
       mail = instance_double(ActionMailer::MessageDelivery)
@@ -336,9 +336,9 @@ describe Notifications::MailService, type: :model do
     end
     let(:notification) do
       build_stubbed(:notification,
-                    journal: journal,
-                    recipient: recipient,
-                    actor: actor)
+                    journal:,
+                    recipient:,
+                    actor:)
     end
 
     # did that before

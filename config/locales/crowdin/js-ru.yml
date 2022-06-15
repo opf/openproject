@@ -373,25 +373,31 @@ ru:
     label_less_or_equal: "<="
     label_less_than_ago: "менее нескольких дней назад"
     label_loading: "Загрузка..."
+    label_login_to_storage: "Войти в %{storageType}"
     label_mail_notification: "Уведомления по email"
     label_me: "я"
     label_meeting_agenda: "Повестка дня"
     label_meeting_minutes: "Протокол(-ы)"
     label_menu_collapse: "свернуть"
     label_menu_expand: "развернуть"
+    label_modified_at: "Изменено: %{date}"
     label_more_than_ago: "более нескольких дней назад"
     label_next: "Следующий"
     label_no_color: "Без цвета"
     label_no_data: "Нет данных для отображения"
     label_no_due_date: "нет даты окончания"
     label_no_start_date: "без даты начала"
+    label_no_storage_connection: "Нет подключения к %{storageType}"
     label_no_value: "Нет значения"
+    label_no_file_links_header: "Связать файлы в %{storageType}"
+    label_no_file_links_content: "Чтобы связать файлы с этим рабочим пакетом, пожалуйста, сделайте это через %{storageType}."
     label_none: "Ничего"
     label_not_contains: "не содержит"
     label_not_equals: "не"
     label_on: "на"
     label_open_menu: "Открыть меню"
     label_open_context_menu: "Открыть контекстное меню"
+    label_open_storage: "Открыть %{storageType}"
     label_open_work_packages: "открыто"
     label_password: "Пароль"
     label_previous: "Предыдущие"
@@ -420,6 +426,9 @@ ru:
     label_sorting: "Сортировка"
     label_spent_time: "Затраченное время"
     label_star_query: "Добавлено в избранное"
+    label_storage_connection_error: "Некоторые настройки %{storageType} не работают. Пожалуйста, попробуйте войти снова или обратитесь к администратору %{storageType}"
+    label_storage_login: "Логин %{storageType}"
+    label_storage_not_connected: "Для добавления ссылки, просмотра или загрузки файлов, относящиеся к этому пакету работ, войдите в %{storageType}."
     label_press_enter_to_save: "Нажмите ввод для сохранения."
     label_public_query: "Общий"
     label_sum: "Сумма"
@@ -456,6 +465,7 @@ ru:
     label_custom_queries: "Приватные представления"
     label_columns: "Столбцы"
     label_attachments: Вложения
+    label_nextcloud: Nextcloud
     label_drop_files: Перетащите файлы сюда
     label_drop_files_hint: или кликните для добавления файлов
     label_drop_folders_hint: Вы не можете загружать папки как вложение. Пожалуйста, выберите один файл.
@@ -836,6 +846,13 @@ ru:
       comment_send_failed: "Произошла ошибка. Не удалось отправить комментарий."
       comment_updated: "Комментарий успешно обновлен."
       confirm_edit_cancel: "Вы уверены, что хотите отменить редактирование пакета работ?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Автоматически запланировано. Даты выводятся из отношений."
+        manually_scheduled: "Ручное планирование включено, все отношения игнорируются."
+        start_date_limited_by_relations: "Даты начала и окончания доступности ограничены взаимосвязями."
+        changing_dates_affects_follow_relations: "Изменение этих дат повлияет на даты связанных пакетов работ."
+        click_on_show_relations_to_open_gantt: 'Нажмите на "%{button_name}" для просмотра GANTT.'
+        show_relations: 'Показать взаимосвязи'
       description_filter: "Фильтр"
       description_enter_text: "Введите текст"
       description_options_hide: "Скрыть параметры"
@@ -1193,3 +1210,5 @@ ru:
         remove: 'Удалить'
       drop_modal:
         Close: 'Закрыть'
+    storages:
+      enter_oauth2_client_secret: 'Пожалуйста, введите секретный ключ клиента OAuth2'
