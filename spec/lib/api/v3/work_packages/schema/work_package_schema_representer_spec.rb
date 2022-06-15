@@ -293,15 +293,13 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe 'duration' do
+    describe 'duration', with_flag: { work_packages_duration_field_active: true } do
+      let(:milestone?) { false }
+
       before do
-        # TODO: remove feature flag once the implementation is complete
-        allow(OpenProject::FeatureDecisions)
-          .to receive(:work_packages_duration_field_active?)
-          .and_return(true)
         allow(schema)
           .to receive(:milestone?)
-          .and_return(false)
+          .and_return(milestone?)
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -313,24 +311,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'when the work package is a milestone' do
-        before do
-          allow(schema)
-            .to receive(:milestone?)
-            .and_return(true)
-        end
+        let(:milestone?) { true }
 
         it 'has no duration attribute' do
           expect(subject).not_to have_json_path('duration')
         end
       end
 
-      context 'when the feature flag is off' do
-        before do
-          allow(OpenProject::FeatureDecisions)
-            .to receive(:work_packages_duration_field_active?)
-            .and_return(false)
-        end
-
+      context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
         it 'has no duration attribute' do
           expect(subject).not_to have_json_path('duration')
         end
@@ -348,16 +336,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe 'ignoreNonWorkingDays' do
-      let(:feature_active) { true }
-
-      before do
-        # TODO: remove feature flag once the implementation is complete
-        allow(OpenProject::FeatureDecisions)
-          .to receive(:work_packages_duration_field_active?)
-                .and_return(feature_active)
-      end
-
+    describe 'ignoreNonWorkingDays', with_flag: { work_packages_duration_field_active: true } do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'ignoreNonWorkingDays' }
         let(:type) { 'Boolean' }
@@ -366,9 +345,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:writable) { false }
       end
 
-      context 'when the feature flag is off' do
-        let(:feature_active) { false }
-
+      context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
         it 'has no ignoreNonWorkingDays attribute' do
           expect(subject).not_to have_json_path('ignoreNonWorkingDays')
         end
