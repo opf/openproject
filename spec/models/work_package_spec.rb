@@ -690,4 +690,13 @@ describe WorkPackage, type: :model do
       it { expect(subject).to match_array([work_package]) }
     end
   end
+
+  describe '#ignore_non_working_days' do
+    context 'for a new record' do
+      it 'is true' do
+        expect(described_class.new.ignore_non_working_days)
+          .to be true
+      end
+    end
+  end
 end
