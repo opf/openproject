@@ -400,6 +400,7 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { OpenprojectFileLinksModule } from 'core-app/shared/components/file-links/openproject-file-links.module';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
+import { DatepickerBannerComponent } from 'core-app/shared/components/datepicker/banner/datepicker-banner.component';
 
 @NgModule({
   imports: [
@@ -609,6 +610,7 @@ import { StoragesResourceService } from 'core-app/core/state/storages/storages.s
     SaveQueryModalComponent,
     WpDestroyModalComponent,
     DatePickerModalComponent,
+    DatepickerBannerComponent,
 
     // CustomActions
     WpCustomActionComponent,

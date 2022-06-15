@@ -845,6 +845,13 @@ ca:
       comment_send_failed: "S'ha produït un error. No es pot enviar el comentari."
       comment_updated: "El comentari s'ha actualitzat correctament."
       confirm_edit_cancel: "Esteu segur que voleu cancel·lar l'edició del paquet de treball?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtre"
       description_enter_text: "Introduïu text"
       description_options_hide: "Amagar opcions"
@@ -1200,4 +1207,3 @@ ca:
         Close: 'Tanca'
     storages:
       enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
-

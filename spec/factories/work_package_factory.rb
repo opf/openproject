@@ -44,6 +44,7 @@ FactoryBot.define do
       if start_date && due_date
         due_date - start_date + 1
       else
+        # This needs to change to nil once duration can be set
         1
       end
     end
@@ -64,10 +65,6 @@ FactoryBot.define do
 
     callback(:after_stub) do |wp, arguments|
       wp.type = wp.project.types.first unless wp.type_id || arguments.instance_variable_get(:@overrides).has_key?(:type)
-    end
-
-    factory :stubbed_work_package do
-      "this factory is not necessary anymore and should be removed"
     end
   end
 end

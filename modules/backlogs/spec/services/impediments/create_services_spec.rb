@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require 'spec_helper'
 
 describe Impediments::CreateService do
   let(:instance) { described_class.new(user:) }
@@ -137,9 +137,8 @@ describe Impediments::CreateService do
       it { expect(subject).to be_new_record }
 
       it {
-        expect(subject.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint,
-                                                              scope: %i[activerecord errors models work_package attributes
-                                                                        blocks_ids])
+        expect(subject.errors.symbols_for(:blocks_ids))
+          .to eq [:can_only_contain_work_packages_of_current_sprint]
       }
     end
 
@@ -159,9 +158,8 @@ describe Impediments::CreateService do
       it { expect(subject).to be_new_record }
 
       it {
-        expect(subject.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint,
-                                                              scope: %i[activerecord errors models work_package attributes
-                                                                        blocks_ids])
+        expect(subject.errors.symbols_for(:blocks_ids))
+          .to eq [:can_only_contain_work_packages_of_current_sprint]
       }
     end
   end
@@ -182,9 +180,8 @@ describe Impediments::CreateService do
     it { expect(subject).to be_new_record }
 
     it {
-      expect(subject.errors[:blocks_ids]).to include I18n.t(:must_block_at_least_one_work_package,
-                                                            scope: %i[activerecord errors models work_package attributes
-                                                                      blocks_ids])
+      expect(subject.errors.symbols_for(:blocks_ids))
+        .to eq [:must_block_at_least_one_work_package]
     }
   end
 end

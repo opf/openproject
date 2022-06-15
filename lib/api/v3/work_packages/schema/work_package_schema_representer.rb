@@ -117,6 +117,12 @@ module API
                  type: 'Formattable',
                  required: false
 
+          schema :duration,
+                 type: 'Duration',
+                 required: false,
+                 writable: false,
+                 show_if: ->(*) { !represented.milestone? && OpenProject::FeatureDecisions.work_packages_duration_field_active? }
+
           schema :schedule_manually,
                  type: 'Boolean',
                  required: false,
@@ -337,18 +343,22 @@ module API
           end
 
           def form_config_attribute_representation(group)
-            cache_keys = ['wp_schema_attribute_group',
-                          group.key,
-                          I18n.locale,
-                          represented.project,
-                          represented.type,
-                          represented.available_custom_fields.sort_by(&:id)]
-
-            OpenProject::Cache.fetch(OpenProject::Cache::CacheKey.expand(cache_keys.flatten.compact)) do
+            OpenProject::Cache.fetch(*form_config_attribute_cache_key(group)) do
               ::JSON::parse(::API::V3::WorkPackages::Schema::FormConfigurations::AttributeRepresenter
                               .new(group, current_user:, project: represented.project, embed_links: true)
                               .to_json)
             end
+          end
+
+          def form_config_attribute_cache_key(group)
+            ['wp_schema_attribute_group',
+             group.key,
+             I18n.locale,
+             represented.project,
+             represented.type,
+             represented.available_custom_fields.sort_by(&:id)]
+              .flatten
+              .compact
           end
         end
       end

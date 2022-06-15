@@ -59,7 +59,7 @@ export class EmptyStateComponent {
     no_selection: this.I18n.t('js.notifications.center.empty_state.no_selection'),
   };
 
-  hasNotifications$ = this.storeService.query.hasNotifications$;
+  hasNotifications$ = this.storeService.hasNotifications$;
 
   totalCount$ = this.bellService.unread$;
 

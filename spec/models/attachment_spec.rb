@@ -32,7 +32,7 @@ describe Attachment, type: :model do
   let(:author) { create :user }
   let(:long_description) { 'a' * 300 }
   let(:work_package) { create :work_package }
-  let(:stubbed_work_package) { build_stubbed :stubbed_work_package }
+  let(:stubbed_work_package) { build_stubbed :work_package }
   let(:file) { create :uploaded_jpg, name: 'test.jpg' }
   let(:second_file) { create :uploaded_jpg, name: 'test2.jpg' }
   let(:container) { stubbed_work_package }

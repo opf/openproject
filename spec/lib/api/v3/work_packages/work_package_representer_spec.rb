@@ -52,11 +52,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:derived_start_date) { Time.zone.today - 4.days }
   let(:derived_due_date) { Time.zone.today - 5.days }
   let(:budget) { build_stubbed(:budget, project:) }
+  let(:duration) { nil }
   let(:work_package) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   schedule_manually:,
                   start_date:,
                   due_date:,
+                  duration:,
                   done_ratio: 50,
                   parent:,
                   type:,
@@ -291,6 +293,49 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           it 'has no derivedDueDate' do
             is_expected
               .to_not have_json_path('derivedDueDate')
+          end
+        end
+      end
+
+      describe 'duration' do
+        let(:duration) { 6 }
+
+        before do
+          # TODO: remove feature flag once the implementation is complete
+          allow(OpenProject::FeatureDecisions)
+            .to receive(:work_packages_duration_field_active?)
+            .and_return(true)
+        end
+
+        it { is_expected.to be_json_eql('P6D'.to_json).at_path('duration') }
+
+        context 'no duration' do
+          let(:duration) { nil }
+
+          it 'renders as null' do
+            is_expected.to be_json_eql(nil.to_json).at_path('duration')
+          end
+        end
+
+        context 'when the work_package is a milestone' do
+          let(:type_milestone) { true }
+
+          it 'has no duration' do
+            is_expected.to_not have_json_path('duration')
+          end
+        end
+
+        context 'when the feature flag is off' do
+          before do
+            # TODO: remove feature flag once the implementation is complete
+            allow(OpenProject::FeatureDecisions)
+              .to receive(:work_packages_duration_field_active?)
+              .and_return(false)
+          end
+          let(:duration) { 6 }
+
+          it 'has no duration' do
+            is_expected.to_not have_json_path('duration')
           end
         end
       end
@@ -903,14 +948,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         describe 'parent' do
           let(:visible_parent) do
-            build_stubbed(:stubbed_work_package) do |wp|
+            build_stubbed(:work_package) do |wp|
               allow(wp)
                 .to receive(:visible?)
                 .and_return(true)
             end
           end
           let(:invisible_parent) do
-            build_stubbed(:stubbed_work_package) do |wp|
+            build_stubbed(:work_package) do |wp|
               allow(wp)
                 .to receive(:visible?)
                       .and_return(false)

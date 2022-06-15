@@ -304,7 +304,7 @@ describe WorkPackages::SetAttributesService, type: :model do
       let(:attributes) { {} }
       let(:work_package) { new_work_package }
       let(:parent) do
-        build_stubbed(:stubbed_work_package,
+        build_stubbed(:work_package,
                       start_date: parent_start_date,
                       due_date: parent_due_date)
       end
@@ -639,7 +639,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'with start date changed' do
-      let(:work_package) { build_stubbed(:stubbed_work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
+      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
       let(:call_attributes) { { start_date: Time.zone.today + 1.day } }
       let(:attributes) { {} }
 
@@ -668,7 +668,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'with due date changed' do
-      let(:work_package) { build_stubbed(:stubbed_work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
+      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
       let(:call_attributes) { { due_date: Time.zone.today + 1.day } }
       let(:attributes) { {} }
 
@@ -697,7 +697,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'with start date nilled' do
-      let(:work_package) { build_stubbed(:stubbed_work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
+      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
       let(:call_attributes) { { start_date: nil } }
       let(:attributes) { {} }
 
@@ -726,7 +726,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'with due date nilled' do
-      let(:work_package) { build_stubbed(:stubbed_work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
+      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
       let(:call_attributes) { { due_date: nil } }
       let(:attributes) { {} }
 
@@ -755,7 +755,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'with duration explicitly set' do
-      let(:work_package) { build_stubbed(:stubbed_work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
+      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
       let(:call_attributes) { { due_date: Time.zone.today + 2.days, duration: 8 } }
       let(:attributes) { {} }
 
@@ -840,7 +840,7 @@ describe WorkPackages::SetAttributesService, type: :model do
   context 'when switching the type' do
     let(:target_type) { build_stubbed(:type) }
     let(:work_package) do
-      build_stubbed(:stubbed_work_package, start_date: Time.zone.today - 6.days, due_date: Time.zone.today)
+      build_stubbed(:work_package, start_date: Time.zone.today - 6.days, due_date: Time.zone.today)
     end
 
     context 'with a type that is no milestone' do
@@ -899,7 +899,7 @@ describe WorkPackages::SetAttributesService, type: :model do
 
     context 'with a type that is a milestone and with only the start date set' do
       let(:work_package) do
-        build_stubbed(:stubbed_work_package, start_date: Time.zone.today - 6.days)
+        build_stubbed(:work_package, start_date: Time.zone.today - 6.days)
       end
 
       before do
@@ -1198,7 +1198,7 @@ describe WorkPackages::SetAttributesService, type: :model do
 
     context 'when the work package also has a child' do
       let(:child) do
-        build_stubbed(:stubbed_work_package,
+        build_stubbed(:work_package,
                       start_date: child_start_date,
                       due_date: child_due_date)
       end

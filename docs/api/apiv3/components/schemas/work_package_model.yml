@@ -55,6 +55,13 @@ properties:
       by the work packages's descendants. If manual scheduleManually is active, the
       two dates can deviate.
     readOnly: true
+  duration:
+    type: string
+    format: duration
+    description:  |-
+      **(NOT IMPLEMENTED)** The amount of time in hours the work package needs to be completed.
+      Not available for milestone type of work packages.
+    readOnly: true
   estimatedTime:
     type: string
     format: duration

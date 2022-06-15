@@ -845,6 +845,13 @@ ro:
       comment_send_failed: "A apărut o eroare. Comentariul nu a putut fi salvat."
       comment_updated: "Comentariul a fost actualizat cu succes."
       confirm_edit_cancel: "Sunteți sigur că doriți să renunțați la editarea pachetului de lucru?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtrare"
       description_enter_text: "Introduceţi textul"
       description_options_hide: "Ascundere opțiuni"
@@ -1202,4 +1209,3 @@ ro:
         Close: 'Închide'
     storages:
       enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
-

@@ -844,6 +844,13 @@ ko:
       comment_send_failed: "오류가 발생했습니다. 코멘트를 제출할 수 없습니다."
       comment_updated: "코멘트가 성곡적으로 갱신되었습니다."
       confirm_edit_cancel: "편집 중인 작업 패키지를 취소하시겠습니까?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "필터"
       description_enter_text: "텍스트 입력"
       description_options_hide: "옵션 숨기기"
@@ -1197,4 +1204,3 @@ ko:
         Close: '닫기'
     storages:
       enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
-

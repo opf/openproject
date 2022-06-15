@@ -58,11 +58,11 @@ export class OpRangeDatePickerComponent extends AbstractDatePickerDirective {
     }
 
     this.datePickerInstance = new DatePicker(
+      this.injector,
       `#${this.id}`,
       initialValue,
       options,
       null,
-      this.configurationService,
     );
   }
 

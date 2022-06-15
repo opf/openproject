@@ -77,7 +77,9 @@ export class AttachmentListItemComponent implements OnInit {
   ngOnInit():void {
     const authorId = idFromLink(this.attachment._links.author.href);
 
-    this.author$ = this.principalsResourceService.query.selectEntity(authorId)
+    this.author$ = this
+      .principalsResourceService
+      .lookup(authorId)
       .pipe(
         switchMap((user) => (user ? of(user) : this.principalsResourceService.fetchUser(authorId))),
         map((user) => user as IUser),

@@ -847,6 +847,13 @@ it:
       comment_send_failed: "Si è verificato un errore. Impossibile inviare il commento."
       comment_updated: "Il commento è stato aggiornato correttamente."
       confirm_edit_cancel: "Sei sicuro di voler annullare la modifica della macro-attività?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtro"
       description_enter_text: "Inserisci testo"
       description_options_hide: "Nascondi opzioni"
@@ -1202,4 +1209,3 @@ it:
         Close: 'Chiuso'
     storages:
       enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
-

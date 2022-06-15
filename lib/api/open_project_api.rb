@@ -28,6 +28,8 @@
 
 module API
   class OpenProjectAPI < ::Grape::API
+    include ::API::AppsignalAPI
+
     class << self
       def inherited(api, *)
         super

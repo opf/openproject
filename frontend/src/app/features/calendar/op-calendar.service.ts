@@ -6,8 +6,12 @@ import {
 import {
   CalendarOptions,
   DatesSetArg,
+  DayCellMountArg,
+  DayHeaderMountArg,
   EventApi,
   EventDropArg,
+  SlotLabelMountArg,
+  SlotLaneMountArg,
 } from '@fullcalendar/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -50,11 +54,16 @@ import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { initial } from 'lodash';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
   event:EventApi;
+}
+
+// The CalenderOptions typings are missing daygrid hooks
+interface CalendarOptionsWithDayGrid extends CalendarOptions {
+  dayGridDidMount:(data:DayCellMountArg) => void;
 }
 
 @Injectable()
@@ -74,6 +83,8 @@ export class OpCalendarService extends UntilDestroyedMixin {
     .pipe(
       take(1),
     );
+
+  weekdaysPromise = this.weekdayService.loadWeekdays().toPromise();
 
   constructor(
     private I18n:I18nService,
@@ -95,6 +106,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
     readonly halEditing:HalResourceEditingService,
     readonly wpTableSelection:WorkPackageViewSelectionService,
     readonly contextMenuService:OPContextMenuService,
+    readonly weekdayService:WeekdayService,
   ) {
     super();
   }
@@ -235,7 +247,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
   }
 
   public generateQueryProps(
-    query: QueryResource,
+    query:QueryResource,
     startDate:string,
     endDate:string,
   ):string {
@@ -319,7 +331,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
     this.contextMenuService.show(handler, event);
   }
 
-  private defaultOptions():CalendarOptions {
+  private defaultOptions():CalendarOptionsWithDayGrid {
     return {
       editable: false,
       locale: this.I18n.locale,
@@ -335,6 +347,11 @@ export class OpCalendarService extends UntilDestroyedMixin {
       initialDate: this.initialDate,
       initialView: this.initialView,
       datesSet: (dates) => this.updateDateParam(dates),
+      dayHeaderDidMount: (data:DayHeaderMountArg) => this.applyNonWorkingDay(data),
+      dayCellDidMount: (data:DayCellMountArg) => this.applyNonWorkingDay(data),
+      dayGridDidMount: (data:DayCellMountArg) => this.applyNonWorkingDay(data),
+      slotLaneDidMount: (data:SlotLaneMountArg) => this.applyNonWorkingDay(data),
+      slotLabelDidMount: (data:SlotLabelMountArg) => this.applyNonWorkingDay(data),
     };
   }
 
@@ -413,5 +430,13 @@ export class OpCalendarService extends UntilDestroyedMixin {
     changeset.setValue('dueDate', due);
 
     return changeset;
+  }
+
+  private async applyNonWorkingDay(data:{ date?:Date, el:HTMLElement }) {
+    await this.weekdaysPromise;
+
+    if (data.date && this.weekdayService.isNonWorkingDay(data.date)) {
+      data.el.classList.add('fc-non-working-day');
+    }
   }
 }

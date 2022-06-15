@@ -845,6 +845,13 @@ hi:
       comment_send_failed: "An error has occurred. Could not submit the comment."
       comment_updated: "The comment was successfully updated."
       confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
@@ -1200,4 +1207,3 @@ hi:
         Close: 'बंद करें'
     storages:
       enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
-

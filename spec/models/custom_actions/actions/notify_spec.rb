@@ -57,7 +57,7 @@ describe CustomActions::Actions::Notify, type: :model do
     it_behaves_like 'associated custom action validations'
 
     describe '#apply' do
-      let(:work_package) { build_stubbed(:stubbed_work_package) }
+      let(:work_package) { build_stubbed(:work_package) }
 
       it 'adds a note with all values distinguised by type' do
         principals = [build_stubbed(:user),

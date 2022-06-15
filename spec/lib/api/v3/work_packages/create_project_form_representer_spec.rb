@@ -36,7 +36,7 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
   let(:permissions) { %i(edit_work_packages) }
   let(:type) { build_stubbed(:type) }
   let(:work_package) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   type:)
   end
   let(:representer) do
