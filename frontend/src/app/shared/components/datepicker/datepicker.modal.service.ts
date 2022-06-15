@@ -46,8 +46,8 @@ import {
   combineLatest,
   Observable,
 } from 'rxjs';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 
 @Injectable()
 export class DatepickerModalService {
@@ -55,23 +55,27 @@ export class DatepickerModalService {
 
   private changeset:WorkPackageChangeset = this.locals.changeset as WorkPackageChangeset;
 
-  precedingWorkPackages$:Observable<WorkPackageResource[]> = this
+  precedingWorkPackages$:Observable<{ id:string }[]> = this
     .apiV3Service
     .work_packages
-    .filtered(ApiV3Filter('precedes', '=', [this.changeset.id]))
-    .get()
+    .signalled(
+      ApiV3Filter('precedes', '=', [this.changeset.id]),
+      ['elements/id'],
+    )
     .pipe(
-      map((collection) => collection.elements),
+      map((collection:IHALCollection<{ id:string }>) => collection._embedded.elements || []),
       shareReplay(1),
     );
 
-  followingWorkPackages$:Observable<WorkPackageResource[]> = this
+  followingWorkPackages$:Observable<{ id:string }[]> = this
     .apiV3Service
     .work_packages
-    .filtered(ApiV3Filter('follows', '=', [this.changeset.id]))
-    .get()
+    .signalled(
+      ApiV3Filter('follows', '=', [this.changeset.id]),
+      ['elements/id'],
+    )
     .pipe(
-      map((collection) => collection.elements),
+      map((collection:IHALCollection<{ id:string }>) => collection._embedded.elements || []),
       shareReplay(1),
     );
 

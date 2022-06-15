@@ -96,7 +96,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       end
     end
 
-    context 'if storages feature is inactive', :disable_storages do
+    context 'if storages feature is inactive', with_flag: { storages_module_active: false } do
       it_behaves_like 'not found'
     end
 
@@ -187,7 +187,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
         end
       end
 
-      context 'when storages module is inactive', :disable_storages do
+      context 'when storages module is inactive', with_flag: { storages_module_active: false } do
         it_behaves_like 'not found'
       end
     end
@@ -382,7 +382,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       it_behaves_like 'not found'
     end
 
-    context 'when storages module is inactive', :disable_storages do
+    context 'when storages module is inactive', with_flag: { storages_module_active: false } do
       it_behaves_like 'not found'
     end
   end
@@ -419,7 +419,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       it_behaves_like 'not found'
     end
 
-    context 'when storages module is inactive', :disable_storages do
+    context 'when storages module is inactive', with_flag: { storages_module_active: false } do
       it_behaves_like 'not found'
     end
   end
@@ -455,7 +455,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       it_behaves_like 'not found'
     end
 
-    context 'when storages module is inactive', :disable_storages do
+    context 'when storages module is inactive', with_flag: { storages_module_active: false } do
       it_behaves_like 'not found'
     end
   end

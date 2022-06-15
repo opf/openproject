@@ -95,7 +95,7 @@ describe 'API v3 storages resource', with_flag: { storages_module_active: true }
       it_behaves_like 'successful storage response'
     end
 
-    context 'when storages module is inactive', :disable_storages do
+    context 'when storages module is inactive', with_flag: { storages_module_active: false } do
       it_behaves_like 'not found'
     end
   end

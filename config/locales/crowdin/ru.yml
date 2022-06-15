@@ -1559,7 +1559,7 @@ ru:
   label_diff: "отличия"
   label_diff_inline: "Встроенный"
   label_diff_side_by_side: "Рядом"
-  label_digital_accessibility: 'Digital accessibility (DE)'
+  label_digital_accessibility: 'Цифровая доступность (DE)'
   label_disabled: "отключено"
   label_display: "Отображение"
   label_display_per_page: "На странице: %{value}"
@@ -2424,7 +2424,7 @@ ru:
   setting_smtp_authentication: "SMTP аутентификация"
   setting_smtp_user_name: "Имя пользователя SMTP"
   setting_smtp_password: "SMTP пароль"
-  setting_smtp_domain: "SMTP HELO domain"
+  setting_smtp_domain: "SMTP HELO домен"
   setting_activity_days_default: "Дни отображенные на проектной деятельности"
   setting_app_subtitle: "Второе название приложения"
   setting_app_title: "Название приложения"
@@ -3066,34 +3066,34 @@ ru:
     my_registered_applications: "Зарегистрированные OAuth приложения"
   oauth_client:
     labels:
-      label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
-      label_request_token: "Request token"
-      label_refresh_token: "Refresh token"
+      label_oauth_integration: "Интеграция с OAuth2"
+      label_redirect_uri: "URI переадресации"
+      label_request_token: "Токен запроса"
+      label_refresh_token: "Токен обновления"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
-      oauth_reported: "OAuth2 provider reported"
-      oauth_returned_error: "OAuth2 returned an error"
-      oauth_returned_json_error: "OAuth2 returned a JSON error"
-      oauth_returned_http_error: "OAuth2 returned a network error"
-      oauth_returned_standard_error: "OAuth2 returned an internal error"
-      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
-      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
-      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      oauth_authorization_code_grant_had_errors: "OAuth2 вернул ошибку"
+      oauth_reported: "Поставщик OAuth2 сообщил"
+      oauth_returned_error: "OAuth2 вернул ошибку"
+      oauth_returned_json_error: "OAuth2 вернул ошибку JSON"
+      oauth_returned_http_error: "OAuth2 вернул ошибку сети"
+      oauth_returned_standard_error: "OAuth2 вернул внутреннюю ошибку"
+      wrong_token_type_returned: "OAuth2 вернул неверный тип токена, ожидая AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 сообщил об ошибке. Обратитесь к системному администратору."
+      oauth_client_not_found: "OAuth2 клиент не найден в точке 'callback' (redirect_uri)."
       refresh_token_called_without_existing_token: >
-        Internal error: Called refresh_token without a previously existing token.
-      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+        Внутренняя ошибка: Обнаружен refresh_token без ранее существующего токена.
+      refresh_token_updated_failed: "Ошибка при обновлении OAuthClientToken"
       oauth_client_not_found_explanation: >
-        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
-      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+        Эта ошибка появляется после того, как вы обновили client_id и client_secret в OpenProject, но не обновили поле 'Return URI' в OAuth2 провайдере.
+      oauth_code_not_present: "OAuth2 'code' не найден в конечной точке 'callback' (redirect_uri)."
       oauth_code_not_present_explanation: >
-        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
-      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+        Эта ошибка появляется если вы выбрали неправильный response_type в OAuth2 провайдере. Response_type должен быть 'code' или аналогичным.
+      oauth_state_not_present: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."
       oauth_state_not_present_explanation: >
-        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authentication. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+        OAuth2 'state' используется для указания OpenProject где продолжить после успешной аутентификации OAuth2. Отсутствие 'state' - внутренняя ошибка, которая может появиться при настройке. Обратитесь к системному администратору.
       rack_oauth2:
-        client_secret_invalid: "Client secret is invalid"
+        client_secret_invalid: "Неверный формат пароля клиента"
         invalid_request: >
-          OAuth2 server responded with 'invalid_request'. This error appears if you try to authorize multiple times.
-        invalid_response: "OAuth2 server provided an invalid response"
+          Сервер OAuth2 ответил 'invalid_request'. Эта ошибка появляется, если вы пытаетесь авторизовать несколько раз.
+        invalid_response: "Сервер OAuth2 дал неверный ответ"
   you: вы
