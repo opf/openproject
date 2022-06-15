@@ -299,16 +299,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
-      describe 'duration' do
+      describe 'duration', with_flag: { work_packages_duration_field_active: true } do
         let(:duration) { 6 }
-        let(:feature_active) { true }
-
-        before do
-          # TODO: remove feature flag once the implementation is complete
-          allow(OpenProject::FeatureDecisions)
-            .to receive(:work_packages_duration_field_active?)
-            .and_return(feature_active)
-        end
 
         it { is_expected.to be_json_eql('P6D'.to_json).at_path('duration') }
 
@@ -328,26 +320,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'when the feature flag is off' do
-          let(:feature_active) { false }
-          let(:duration) { 6 }
-
+        context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
           it 'has no duration' do
             is_expected.to_not have_json_path('duration')
           end
         end
       end
 
-      describe 'ignoreNonWorkingDays' do
+      describe 'ignoreNonWorkingDays', with_flag: { work_packages_duration_field_active: true } do
         let(:ignore_non_working_days) { true }
-        let(:feature_active) { true }
-
-        before do
-          # TODO: remove feature flag once the implementation is complete
-          allow(OpenProject::FeatureDecisions)
-            .to receive(:work_packages_duration_field_active?)
-                  .and_return(feature_active)
-        end
 
         context 'with the value being `true`' do
           it { is_expected.to be_json_eql(true.to_json).at_path('ignoreNonWorkingDays') }
@@ -359,9 +340,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           it { is_expected.to be_json_eql(false.to_json).at_path('ignoreNonWorkingDays') }
         end
 
-        context 'when the feature flag is off' do
-          let(:feature_active) { false }
-
+        context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
           it 'has no ignoreNonWorkingDays' do
             is_expected.to_not have_json_path('ignoreNonWorkingDays')
           end
