@@ -31,7 +31,7 @@ require_module_spec_helper
 require 'contracts/shared/model_contract_shared_context'
 require_relative 'shared_contract_examples'
 
-describe ::Storages::Storages::UpdateContract, :enable_storages do
+describe ::Storages::Storages::UpdateContract, with_flag: { storages_module_active: true } do
   include_context 'ModelContract shared context'
 
   it_behaves_like 'storage contract' do

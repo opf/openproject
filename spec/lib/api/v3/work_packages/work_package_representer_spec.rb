@@ -53,6 +53,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:derived_due_date) { Time.zone.today - 5.days }
   let(:budget) { build_stubbed(:budget, project:) }
   let(:duration) { nil }
+  let(:ignore_non_working_days) { true }
   let(:work_package) do
     build_stubbed(:work_package,
                   schedule_manually:,
@@ -69,6 +70,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                   estimated_hours:,
                   derived_estimated_hours:,
                   budget:,
+                  ignore_non_working_days:,
                   status:) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
@@ -297,15 +299,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
-      describe 'duration' do
+      describe 'duration', with_flag: { work_packages_duration_field_active: true } do
         let(:duration) { 6 }
-
-        before do
-          # TODO: remove feature flag once the implementation is complete
-          allow(OpenProject::FeatureDecisions)
-            .to receive(:work_packages_duration_field_active?)
-            .and_return(true)
-        end
 
         it { is_expected.to be_json_eql('P6D'.to_json).at_path('duration') }
 
@@ -325,17 +320,29 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'when the feature flag is off' do
-          before do
-            # TODO: remove feature flag once the implementation is complete
-            allow(OpenProject::FeatureDecisions)
-              .to receive(:work_packages_duration_field_active?)
-              .and_return(false)
-          end
-          let(:duration) { 6 }
-
+        context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
           it 'has no duration' do
             is_expected.to_not have_json_path('duration')
+          end
+        end
+      end
+
+      describe 'ignoreNonWorkingDays', with_flag: { work_packages_duration_field_active: true } do
+        let(:ignore_non_working_days) { true }
+
+        context 'with the value being `true`' do
+          it { is_expected.to be_json_eql(true.to_json).at_path('ignoreNonWorkingDays') }
+        end
+
+        context 'with the value being `false`' do
+          let(:ignore_non_working_days) { false }
+
+          it { is_expected.to be_json_eql(false.to_json).at_path('ignoreNonWorkingDays') }
+        end
+
+        context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
+          it 'has no ignoreNonWorkingDays' do
+            is_expected.to_not have_json_path('ignoreNonWorkingDays')
           end
         end
       end

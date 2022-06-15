@@ -128,6 +128,12 @@ module API
                  required: false,
                  has_default: true
 
+          schema :ignore_non_working_days,
+                 type: 'Boolean',
+                 required: false,
+                 writable: false,
+                 show_if: ->(*) { OpenProject::FeatureDecisions.work_packages_duration_field_active? }
+
           schema :start_date,
                  type: 'Date',
                  required: false,
