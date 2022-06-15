@@ -36,7 +36,7 @@ describe CustomActions::Actions::EstimatedHours, type: :model do
 
   it_behaves_like 'base custom action' do
     describe '#apply' do
-      let(:work_package) { build_stubbed(:stubbed_work_package) }
+      let(:work_package) { build_stubbed(:work_package) }
 
       it 'sets the done_ratio to the action\'s value' do
         instance.values = [95.56]

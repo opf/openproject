@@ -164,9 +164,8 @@ describe Impediments::UpdateService, type: :model do
       end
 
       it {
-        expect(subject.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint,
-                                                              scope: %i[activerecord errors models work_package attributes
-                                                                        blocks_ids])
+        expect(subject.errors.symbols_for(:blocks_ids))
+          .to eq [:can_only_contain_work_packages_of_current_sprint]
       }
     end
 
@@ -179,9 +178,8 @@ describe Impediments::UpdateService, type: :model do
       end
 
       it {
-        expect(subject.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint,
-                                                              scope: %i[activerecord errors models work_package attributes
-                                                                        blocks_ids])
+        expect(subject.errors.symbols_for(:blocks_ids))
+          .to eq [:can_only_contain_work_packages_of_current_sprint]
       }
     end
   end
@@ -195,9 +193,8 @@ describe Impediments::UpdateService, type: :model do
     end
 
     it {
-      expect(subject.errors[:blocks_ids]).to include I18n.t(:must_block_at_least_one_work_package,
-                                                            scope: %i[activerecord errors models work_package attributes
-                                                                      blocks_ids])
+      expect(subject.errors.symbols_for(:blocks_ids))
+        .to eq [:must_block_at_least_one_work_package]
     }
   end
 end

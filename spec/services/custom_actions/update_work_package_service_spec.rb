@@ -82,7 +82,7 @@ describe CustomActions::UpdateWorkPackageService do
 
     wp_service_instance
   end
-  let(:work_package) { build_stubbed(:stubbed_work_package) }
+  let(:work_package) { build_stubbed(:work_package) }
   let(:result) do
     ServiceResult.new(result: work_package, success: true)
   end

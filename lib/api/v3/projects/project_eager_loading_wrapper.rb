@@ -32,6 +32,9 @@ module API
       class ProjectEagerLoadingWrapper < API::V3::Utilities::EagerLoading::EagerLoadingWrapper
         include API::V3::Utilities::EagerLoading::CustomFieldAccessor
 
+        # delegate class check to wrapped object, as there are cases where the type is checked explicitly.
+        delegate :is_a?, to: :__getobj__
+
         class << self
           def wrap(projects)
             custom_fields = projects.first.available_custom_fields if projects.present?

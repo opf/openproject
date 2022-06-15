@@ -54,7 +54,7 @@ module Queries
                             "AND"
                           end
 
-          sql = <<-SQL.strip_heredoc
+          sql = <<~SQL.squish
             (from_id #{operator_string} (?) AND to_id IN (#{visible_sql}))
              #{concatenation} (to_id #{operator_string} (?) AND from_id IN (#{visible_sql}))
           SQL

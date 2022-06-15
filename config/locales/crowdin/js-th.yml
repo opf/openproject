@@ -374,25 +374,31 @@ th:
     label_less_or_equal: "<="
     label_less_than_ago: "น้อยกว่าสามวันที่ผ่านมา"
     label_loading: "กำลังโหลด..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "อีเมล์แจ้งเตือน"
     label_me: "ฉัน"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Minutes"
     label_menu_collapse: "ยุบ"
     label_menu_expand: "ขยาย"
+    label_modified_at: "Modified: %{date}"
     label_more_than_ago: "มากกว่าวันที่ผ่านมา"
     label_next: "ถัดไป"
     label_no_color: "ไม่มีสี"
     label_no_data: "ไม่มีข้อมูลให้แสดง"
     label_no_due_date: "no finish date"
     label_no_start_date: "ไม่มีวันเริ่มต้น"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "ไม่มีค่า"
+    label_no_file_links_header: "Link files in %{storageType}"
+    label_no_file_links_content: "In order to link files to this work package please do it via %{storageType}."
     label_none: "ไม่มี"
     label_not_contains: "ไม่ประกอบด้วยการ"
     label_not_equals: "ไม่"
     label_on: "on"
     label_open_menu: "เปิดเมนู"
     label_open_context_menu: "Open context menu"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "เปิด"
     label_password: "รหัสผ่าน"
     label_previous: "ก่อนหน้านี้"
@@ -421,6 +427,9 @@ th:
     label_sorting: "การเรียงลำดับ"
     label_spent_time: "เวลาที่ใช้"
     label_star_query: "Favored"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "สาธารณะ"
     label_sum: "Sum"
@@ -457,6 +466,7 @@ th:
     label_custom_queries: "Private views"
     label_columns: "คอลัมน์"
     label_attachments: ไฟล์แนบ
+    label_nextcloud: Nextcloud
     label_drop_files: วางไฟล์ที่นี่
     label_drop_files_hint: หรือคลิกเพื่อเพิ่มไฟล์
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -834,6 +844,13 @@ th:
       comment_send_failed: "An error has occurred. Could not submit the comment."
       comment_updated: "The comment was successfully updated."
       confirm_edit_cancel: "คุณแน่ใจหรือไม่ว่าจะยกเลิกการแก้ไขชุดภารกิจ"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "ตัวกรอง"
       description_enter_text: "ป้อนข้อความ"
       description_options_hide: "ซ่อนตัวเลือก"
@@ -1187,4 +1204,3 @@ th:
         Close: 'Close'
     storages:
       enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
-

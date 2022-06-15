@@ -35,7 +35,7 @@ describe WorkPackagesController, type: :controller do
 
   let(:stub_project) { build_stubbed(:project, identifier: 'test_project', public: false) }
   let(:current_user) { build_stubbed(:user) }
-  let(:work_packages) { [build_stubbed(:stubbed_work_package)] }
+  let(:work_packages) { [build_stubbed(:work_package)] }
 
   describe 'index' do
     let(:query) do

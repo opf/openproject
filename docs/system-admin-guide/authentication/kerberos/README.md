@@ -61,7 +61,7 @@ sudo apt-get install libapache2-mod-auth-kerb
 
 You will then need to add the generated keytab to be used for the OpenProject installation. OpenProject allows you to specify additional directives for your installation VirtualHost.
 
-We are going to create a new file `/etc/openproject/addons/apache2/includes/vhost/kerberos.conf` with the following contents.
+We are going to create a new file `/etc/openproject/addons/apache2/custom/vhost/kerberos.conf` with the following contents.
 
 <div class="alert alert-info" role="alert">
 **Please note**: The following kerberos configuration is only an example. We cannot provide any support or help with regards to the Kerberos side of configuration. OpenProject will simply handle the incoming header containing the logged in user.

@@ -88,7 +88,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.28.0'
+gem 'rouge', '~> 3.29.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 6.0.0'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -202,6 +202,9 @@ gem "sentry-delayed_job", '~> 5.3.0'
 gem "sentry-rails", '~> 5.3.0'
 gem "sentry-ruby", '~> 5.3.0'
 
+# Appsignal integration
+gem "appsignal", "~> 3.0", require: false
+
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 1.1.0'
@@ -297,7 +300,7 @@ group :development, :test do
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.11.0', require: false
+gem 'bootsnap', '~> 1.12.0', require: false
 
 # API gems
 gem 'grape', '~> 1.6.0'

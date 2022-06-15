@@ -36,7 +36,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
     build_stubbed(:project)
   end
   let(:work_package) do
-    build_stubbed(:stubbed_work_package, project:).tap do |wp|
+    build_stubbed(:work_package, project:).tap do |wp|
       allow(wp).to receive(:assignable_versions).and_return []
     end
   end

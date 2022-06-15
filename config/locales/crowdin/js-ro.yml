@@ -373,25 +373,31 @@ ro:
     label_less_or_equal: "<="
     label_less_than_ago: "acum mai puțin de zile"
     label_loading: "Se încarcă..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Notificări prin e-mail"
     label_me: "eu"
     label_meeting_agenda: "Agendă"
     label_meeting_minutes: "Concluzii"
     label_menu_collapse: "restrângere"
     label_menu_expand: "extindere"
+    label_modified_at: "Modified: %{date}"
     label_more_than_ago: "acum mai mult de zile"
     label_next: "Înainte"
     label_no_color: "Nicio culoare"
     label_no_data: "Nu există date de afișat"
     label_no_due_date: "fără dată de finalizare"
     label_no_start_date: "fără dată început"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Nici o valoare"
+    label_no_file_links_header: "Link files in %{storageType}"
+    label_no_file_links_content: "In order to link files to this work package please do it via %{storageType}."
     label_none: "niciunul"
     label_not_contains: "nu conține"
     label_not_equals: "nu este"
     label_on: "pe"
     label_open_menu: "Deschidere meniu"
     label_open_context_menu: "Deschideți meniul contextual"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "deschise"
     label_password: "Parolă"
     label_previous: "Înapoi"
@@ -420,6 +426,9 @@ ro:
     label_sorting: "Sortare"
     label_spent_time: "Timp consumat"
     label_star_query: "Favorite"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Apăsați tasta ”Enter” pentru a salva."
     label_public_query: "Public"
     label_sum: "Sumă"
@@ -456,6 +465,7 @@ ro:
     label_custom_queries: "Configurații private"
     label_columns: "Coloane"
     label_attachments: Atașamente
+    label_nextcloud: Nextcloud
     label_drop_files: Trageți fișierele aici
     label_drop_files_hint: sau dați click pentru a adăuga fişiere
     label_drop_folders_hint: Nu puteți încărca dosare ca atașament. Vă rugăm să selectați fișiere individuale.
@@ -835,6 +845,13 @@ ro:
       comment_send_failed: "A apărut o eroare. Comentariul nu a putut fi salvat."
       comment_updated: "Comentariul a fost actualizat cu succes."
       confirm_edit_cancel: "Sunteți sigur că doriți să renunțați la editarea pachetului de lucru?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtrare"
       description_enter_text: "Introduceţi textul"
       description_options_hide: "Ascundere opțiuni"
@@ -1192,4 +1209,3 @@ ro:
         Close: 'Închide'
     storages:
       enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
-

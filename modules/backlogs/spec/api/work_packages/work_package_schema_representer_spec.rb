@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:custom_field) { build(:custom_field) }
-  let(:work_package) { build_stubbed(:stubbed_work_package, type: build_stubbed(:type)) }
+  let(:work_package) { build_stubbed(:work_package, type: build_stubbed(:type)) }
   let(:current_user) do
     build_stubbed(:user, member_in_project: work_package.project).tap do |u|
       allow(u)

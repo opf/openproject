@@ -75,22 +75,12 @@ module OAuthClients
     end
 
     # Redirect to the "authorize" endpoint of the OAuth2 Authorization Server.
-    # @param state (OAuth2 RFC) encapsulates the state of the calling page (URL + params) to return
+    # @param state (OAuth2 RFC) is a nonce referencing a cookie containing the calling page (URL + params) to which to
+    # return to at the end of the whole flow.
     # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud only has one global scope.
     def redirect_to_oauth_authorize(scope: [], state: nil)
       client = rack_oauth_client # Configure and start the rack-oauth2 client
       client.authorization_uri(scope:, state:)
-    end
-
-    # For the OAuth2 callback page: Calculate the redirection URL that will
-    # point the browser at the initial page that wanted to access the OAuth2
-    # protected resource.
-    # @param state (OAuth2 RFC) encapsulates the state of the calling page (URL + params) to return
-    def callback_redirect_uri(state)
-      # In the current implementation "state" just consists of the URL of
-      # the initial page, possibly with "&var=value" added parameters.
-      # So we can just return this URI.
-      state
     end
 
     # Called by callback_page with a cryptographic "code" that indicates
@@ -186,9 +176,9 @@ module OAuthClients
 
     # Localize the error message
     def i18n_rack_oauth2_error_message(rack_oauth2_client_exception)
-      l10n_key = "oauth_client.errors.rack_oauth2.#{rack_oauth2_client_exception.message}"
-      if I18n.exists? l10n_key
-        I18n.t(l10n_key)
+      i18n_key = "oauth_client.errors.rack_oauth2.#{rack_oauth2_client_exception.message}"
+      if I18n.exists? i18n_key
+        I18n.t(i18n_key)
       else
         "#{I18n.t('oauth_client.errors.oauth_returned_error')}: #{rack_oauth2_client_exception.message.to_html}"
       end
@@ -197,12 +187,22 @@ module OAuthClients
     # Return a fully configured RackOAuth2Client.
     # This client does all the heavy lifting with the OAuth2 protocol.
     def rack_oauth_client(options = {})
+      rack_oauth_client = build_basic_rack_oauth_client
+
+      # Write options, for example authorization_code and refresh_token
+      rack_oauth_client.refresh_token = options[:refresh_token] if options[:refresh_token]
+      rack_oauth_client.authorization_code = options[:authorization_code] if options[:authorization_code]
+
+      rack_oauth_client
+    end
+
+    def build_basic_rack_oauth_client
       oauth_client_uri = URI.parse(@oauth_client.integration.host)
       oauth_client_scheme = oauth_client_uri.scheme
       oauth_client_host = oauth_client_uri.host
       oauth_client_port = oauth_client_uri.port
 
-      client = Rack::OAuth2::Client.new(
+      Rack::OAuth2::Client.new(
         identifier: @oauth_client.client_id,
         secret: @oauth_client.client_secret,
         scheme: oauth_client_scheme,
@@ -211,11 +211,6 @@ module OAuthClients
         authorization_endpoint: "/apps/oauth2/authorize",
         token_endpoint: "/apps/oauth2/api/v1/token"
       )
-
-      # Write options, for example authorization_code and refresh_token
-      client.refresh_token = options[:refresh_token] if options[:refresh_token]
-      client.authorization_code = options[:authorization_code] if options[:authorization_code]
-      client
     end
 
     # Create a new OpenProject token object based on the return values

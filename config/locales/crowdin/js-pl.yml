@@ -374,25 +374,31 @@ pl:
     label_less_or_equal: "≤"
     label_less_than_ago: "mniej niż dni temu"
     label_loading: "Ładowanie..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Powiadomienia e-mail"
     label_me: "ja"
     label_meeting_agenda: "Plan spotkania"
     label_meeting_minutes: "Protokół ze spotkania"
     label_menu_collapse: "Zwiń"
     label_menu_expand: "Rozwiń"
+    label_modified_at: "Modified: %{date}"
     label_more_than_ago: "Więcej niż dni temu"
     label_next: "Następny"
     label_no_color: "Bez koloru"
     label_no_data: "Brak danych do pokazania"
     label_no_due_date: "brak daty ukończenia"
     label_no_start_date: "brak daty rozpoczęcia"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Brak wartości"
+    label_no_file_links_header: "Link files in %{storageType}"
+    label_no_file_links_content: "In order to link files to this work package please do it via %{storageType}."
     label_none: "Brak"
     label_not_contains: "nie zawierają"
     label_not_equals: "nie jest"
     label_on: "wł"
     label_open_menu: "Otwórz menu"
     label_open_context_menu: "Otwórz menu kontekstowe"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "Otwarte"
     label_password: "Hasło"
     label_previous: "Poprzedni"
@@ -421,6 +427,9 @@ pl:
     label_sorting: "Sortowanie"
     label_spent_time: "Czas pracy"
     label_star_query: "Dodane do ulubionych"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Aby zapisać, naciśnij Enter."
     label_public_query: "Publiczny"
     label_sum: "Suma"
@@ -457,6 +466,7 @@ pl:
     label_custom_queries: "Widoki prywatne"
     label_columns: "Kolumny"
     label_attachments: Załączniki
+    label_nextcloud: Nextcloud
     label_drop_files: Upuść pliki tutaj
     label_drop_files_hint: lub kliknij aby dodać pliki
     label_drop_folders_hint: Nie można przesłać folderów jako załącznika. Wybierz pojedyncze pliki.
@@ -837,6 +847,13 @@ pl:
       comment_send_failed: "Wystąpił błąd. Nie można zamieścić komentarza."
       comment_updated: "Komentarz zaktualizowano pomyślnie."
       confirm_edit_cancel: "Czy na pewno chcesz anulować edycję pakietu pracy?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtr"
       description_enter_text: "Wpisz tekst"
       description_options_hide: "Ukryj opcje"
@@ -1196,4 +1213,3 @@ pl:
         Close: 'Zamknij'
     storages:
       enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
-

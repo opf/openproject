@@ -79,7 +79,7 @@ describe OpenProject::SCM::Adapters::Subversion do
       end
 
       it 'raises a meaningful error if shell output fails' do
-        error_string = <<-ERR.strip_heredoc
+        error_string = <<~ERR
           svn: E215004: Authentication failed and interactive prompting is disabled; see the --force-interactive option
           svn: E215004: Unable to connect to a repository at URL 'file:///tmp/bar.svn'
           svn: E215004: No more credentials or we tried too many times.
@@ -387,7 +387,7 @@ describe OpenProject::SCM::Adapters::Subversion do
 
         it 'provides the selected diff for the given range' do
           diff = adapter.diff('subversion_test/helloworld.c', 8, 6).map(&:chomp)
-          expect(diff).to eq(<<-DIFF.strip_heredoc.split("\n"))
+          expect(diff).to eq(<<~DIFF.split("\n"))
             Index: helloworld.c
             ===================================================================
             --- helloworld.c	(revision 6)

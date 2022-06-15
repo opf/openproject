@@ -31,10 +31,7 @@ import {
   HttpClient,
   HttpHeaders,
 } from '@angular/common/http';
-import {
-  applyTransaction,
-  QueryEntity,
-} from '@datorama/akita';
+import { applyTransaction } from '@datorama/akita';
 import {
   from,
   Observable,
@@ -42,7 +39,6 @@ import {
 import {
   catchError,
   map,
-  switchMap,
   tap,
 } from 'rxjs/operators';
 import { AttachmentsStore } from 'core-app/core/state/attachments/attachments.store';
@@ -61,13 +57,13 @@ import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import isNewResource, { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
+import {
+  CollectionStore,
+  ResourceCollectionService,
+} from 'core-app/core/state/resource-collection.service';
 
 @Injectable()
-export class AttachmentsResourceService {
-  protected store = new AttachmentsStore();
-
-  public query = new QueryEntity(this.store);
-
+export class AttachmentsResourceService extends ResourceCollectionService<IAttachment> {
   constructor(
     private readonly I18n:I18nService,
     private readonly http:HttpClient,
@@ -76,7 +72,9 @@ export class AttachmentsResourceService {
     private readonly directFileUploadService:OpenProjectDirectFileUploadService,
     private readonly configurationService:ConfigurationService,
     private readonly toastService:ToastService,
-  ) { }
+  ) {
+    super();
+  }
 
   /**
    * This method ensures that a specific collection is fetched, if not available.
@@ -89,20 +87,6 @@ export class AttachmentsResourceService {
     }
 
     this.fetchAttachments(key).subscribe();
-  }
-
-  /**
-   * Returns an observable of all attachments in a collection identified by the collection key.
-   *
-   * @param key the collection key
-   */
-  collection(key:string):Observable<IAttachment[]> {
-    return this.query
-      .select()
-      .pipe(
-        map((state) => state.collections[key]?.ids),
-        switchMap((attachmentIds) => this.query.selectMany(attachmentIds)),
-      );
   }
 
   /**
@@ -272,5 +256,9 @@ export class AttachmentsResourceService {
   private static getAttachmentsSelfLink(resource:HalResource):string|null {
     const attachments = resource.attachments as unknown&{ href?:string };
     return attachments?.href || null;
+  }
+
+  protected createStore():CollectionStore<IAttachment> {
+    return new AttachmentsStore();
   }
 }

@@ -32,13 +32,15 @@ module Type::Attributes
   EXCLUDED = %w[_type
                 _dependencies
                 attribute_groups
-                links parent_id
+                links
+                parent_id
                 parent
                 description
                 schedule_manually
                 derived_start_date
                 derived_due_date
-                derived_estimated_time].freeze
+                derived_estimated_time
+                duration].freeze
 
   included do
     # Allow plugins to define constraints

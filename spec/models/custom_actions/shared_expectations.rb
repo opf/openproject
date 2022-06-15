@@ -125,7 +125,7 @@ end
 shared_examples_for 'associated custom action' do
   include_context 'custom actions action' do
     describe '#apply' do
-      let(:work_package) { build_stubbed(:stubbed_work_package) }
+      let(:work_package) { build_stubbed(:work_package) }
 
       it 'sets the associated_id in the work package to the action\'s value' do
         expect(work_package)
@@ -510,7 +510,7 @@ end
 
 shared_examples_for 'date custom action apply' do
   describe '#apply' do
-    let(:work_package) { build_stubbed(:stubbed_work_package) }
+    let(:work_package) { build_stubbed(:work_package) }
 
     it 'sets the daate to the action\'s value' do
       instance.values = [Date.today + 5.days]

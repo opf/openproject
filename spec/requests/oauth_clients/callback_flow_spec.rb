@@ -39,7 +39,10 @@ describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
     "mBf4v9hNA6hXXCWHd5mZggsAa2FSOXinx9jKx1yjSoDwOPOX4k6zGEgM2radqgg1nRwXCqvIe5xZsfwqMIaTdL" +
       "jYnl0OpYOc6ePblzQTmnlp7RYiHW09assYEJjv9zps"
   end
-  let(:state) { "https://example.org/my-path?and=some&query=params" }
+  let(:state) { 'asdf1234' }
+  let(:redirect_uri) do
+    File.join(::API::V3::Utilities::PathHelper::ApiV3Path::root_url, "/my-path?and=some&query=params")
+  end
   let(:oauth_client_token) { create :oauth_client_token }
   let(:oauth_client) do
     create :oauth_client,
@@ -57,7 +60,6 @@ describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
   subject(:response) { last_response }
 
   before do
-    host! 'https://my-example.org'
     login_as current_user
 
     allow(::Rack::OAuth2::Client).to receive(:new).and_return(rack_oauth2_client)
@@ -68,12 +70,13 @@ describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
                                                       refresh_token: 'xyzrefreshtoken')
             )
     allow(rack_oauth2_client).to receive(:authorization_code=)
+    set_cookie "oauth_state_asdf1234=#{redirect_uri}"
   end
 
-  shared_examples 'with errors and state param, not being admin' do
-    it 'redirects to URI encode in state' do
+  shared_examples 'with errors and state param with cookie, not being admin' do
+    it 'redirects to URI referenced in the state param and held in a cookie' do
       expect(response.status).to eq 302
-      expect(response.location).to eq state
+      expect(response.location).to eq redirect_uri
     end
   end
 
@@ -81,6 +84,13 @@ describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
     it 'redirects to admin settings for the storage' do
       expect(response.status).to eq 302
       expect(URI(response.location).path).to eq admin_settings_storage_path(oauth_client.integration)
+    end
+  end
+
+  shared_examples 'fallback redirect' do
+    it 'redirects to home' do
+      expect(response.status).to eq 302
+      expect(URI(response.location).path).to eq ::API::V3::Utilities::PathHelper::ApiV3Path::root_path
     end
   end
 
@@ -93,14 +103,27 @@ describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
         subject
       end
 
-      it 'redirects to the URL that was provided by the state param' do
+      it 'redirects to the URL that was referenced by the state param and held by a cookie' do
         expect(rack_oauth2_client).to have_received(:authorization_code=).with(code)
         expect(response.status).to eq 302
-        expect(response.location).to eq state
+        expect(response.location).to eq redirect_uri
         expect(::OAuthClientToken.count).to eq 1
         expect(::OAuthClientToken.last.access_token).to eq 'xyzaccesstoken'
         expect(::OAuthClientToken.last.refresh_token).to eq 'xyzrefreshtoken'
       end
+    end
+
+    context 'with a OAuth state cookie containing a URL pointing to a different host' do
+      let(:redirect_uri) { "https://some-other-domain.com/foo/bar" }
+
+      before do
+        uri.query = URI.encode_www_form([['code', code], ['state', state]])
+        get uri.to_s
+
+        subject
+      end
+
+      it_behaves_like 'fallback redirect'
     end
 
     context 'with some other error, having a state param' do
@@ -123,7 +146,7 @@ describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
       end
 
       context 'with current_user not being an admin' do
-        it_behaves_like 'with errors and state param, not being admin'
+        it_behaves_like 'with errors and state param with cookie, not being admin'
       end
     end
   end
@@ -136,8 +159,8 @@ describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
       subject
     end
 
-    context 'with current_user being not being an admin' do
-      it_behaves_like 'with errors and state param, not being admin'
+    context 'with current_user not being an admin' do
+      it_behaves_like 'with errors and state param with cookie, not being admin'
     end
 
     context 'with current_user being an admin' do
@@ -155,9 +178,6 @@ describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
       subject
     end
 
-    it 'redirects to home' do
-      expect(response.status).to eq 302
-      expect(URI(response.location).path).to eq home_path
-    end
+    it_behaves_like 'fallback redirect'
   end
 end

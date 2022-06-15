@@ -30,8 +30,9 @@
 # "callback" endpoint.
 class OAuthClientsController < ApplicationController
   before_action :find_oauth_client
-  before_action :set_state
+  before_action :set_redirect_uri
   before_action :set_code
+  before_action :set_connection_manager
 
   # Provide the OAuth2 "callback" endpoint.
   # The Authorization Server redirects
@@ -43,21 +44,18 @@ class OAuthClientsController < ApplicationController
   #   state=http%3A%2F%2Flocalhost%3A4200%2Fprojects%2Fdemo-project%2Foauth2_example&
   #   code=MQoOnUTJGFdAo5jBGD1SqnDH0PV6yioG7NoYM2zZZlK3g6LuKrGUmOxjIS1bIy7fHEfZy2WrgYcx
   def callback
-    connection_manager = OAuthClients::ConnectionManager.new(user: User.current, oauth_client: @oauth_client)
-
     # Exchange the code with a token using a HTTP call to the Authorization Server
-    service_result = connection_manager.code_to_token(@code)
+    service_result = @connection_manager.code_to_token(@code)
 
     if service_result.success?
       # Redirect the user to the page that initially wanted to access the OAuth2 resource.
-      # "state" is a variable that encapsulates the page's URL and status.
-      redirect_uri = connection_manager.callback_redirect_uri(@state)
-      redirect_to redirect_uri
+      # "state" is a nonce that identifies a cookie which holds that page's URL.
+      redirect_to @redirect_uri
     else
       # We got a list of errors from ::OAuthClients::ConnectionManager
       set_oauth_errors(service_result)
 
-      redirect_user_or_admin(@state) do
+      redirect_user_or_admin(@redirect_uri) do
         # If the current user is an admin, we send her directly to the
         # settings that she needs to edit.
         redirect_to admin_settings_storage_path(@oauth_client.integration)
@@ -79,32 +77,43 @@ class OAuthClientsController < ApplicationController
     # So this could either be an error from the Authorization Server (i.e. Nextcloud) or
     # ::OAuthClient::ConnectionManager has used the wrong response_type.
     @code = params[:code]
+
     if @code.blank?
       flash[:error] = [I18n.t('oauth_client.errors.oauth_code_not_present'),
                        I18n.t('oauth_client.errors.oauth_code_not_present_explanation')]
 
-      redirect_user_or_admin params[:state] do
+      redirect_user_or_admin(get_redirect_uri) do
         # If the current user is an admin, we send her directly to the
-        # settings that she needs to edit.
+        # settings that she needs to edit/fix.
         redirect_to admin_settings_storage_path(@oauth_client.integration)
       end
     end
   end
 
-  def set_state
-    # state is used by OpenProject to contain the redirection URL where to
-    # continue after receiving an OAuth2 access token. So it should not be blank.
-    @state = params[:state]
-    if @state.blank?
+  def set_redirect_uri
+    # redirect_uri is used by OpenProject to redirect to
+    # after receiving an OAuth2 access token. So it should not be blank.
+    service_result = ::OAuthClients::RedirectUriFromStateService
+                       .new(state: params[:state], cookies:)
+                       .call
+
+    if service_result.success?
+      @redirect_uri = service_result.result
+    else
+      # To protect against CSRF we cancel this request. There was either no
+      # state parameter given, or there was no corresponding cookie present.
       flash[:error] = [I18n.t('oauth_client.errors.oauth_state_not_present'),
                        I18n.t('oauth_client.errors.oauth_state_not_present_explanation')]
 
       redirect_user_or_admin(nil) do
-        # If the current user is an admin, we send her directly to the
-        # settings that she needs to edit.
+        # Guide the user to the settings that she needs to edit/fix.
         redirect_to admin_settings_storage_path(@oauth_client.integration)
       end
     end
+  end
+
+  def set_connection_manager
+    @connection_manager = OAuthClients::ConnectionManager.new(user: User.current, oauth_client: @oauth_client)
   end
 
   def find_oauth_client
@@ -117,22 +126,22 @@ class OAuthClientsController < ApplicationController
       flash[:error] = [I18n.t('oauth_client.errors.oauth_client_not_found'),
                        I18n.t('oauth_client.errors.oauth_client_not_found_explanation')]
 
-      redirect_user_or_admin params[:state] do
+      redirect_user_or_admin(get_redirect_uri) do
         # Something must be wrong in the storage's setup
         redirect_to admin_settings_storages_path
       end
     end
   end
 
-  def redirect_user_or_admin(state = nil)
+  def redirect_user_or_admin(redirect_uri = nil)
     # This needs to be modified as soon as we support more integration types.
-    if User.current.admin && state && nextcloud?
+    if User.current.admin && redirect_uri && nextcloud?
       yield
-    elsif state
+    elsif redirect_uri
       flash[:error] = [t(:'oauth_client.errors.oauth_issue_contact_admin')]
-      redirect_to state
+      redirect_to redirect_uri
     else
-      redirect_to home_path
+      redirect_to ::API::V3::Utilities::PathHelper::ApiV3Path::root_url
     end
   end
 
@@ -140,5 +149,12 @@ class OAuthClientsController < ApplicationController
     @oauth_client&.integration && \
       @oauth_client.integration.is_a?(::Storages::Storage) && \
       @oauth_client.integration.provider_type == 'nextcloud'
+  end
+
+  def get_redirect_uri
+    ::OAuthClients::RedirectUriFromStateService
+      .new(state: params[:state], cookies:)
+      .call
+      .result
   end
 end
