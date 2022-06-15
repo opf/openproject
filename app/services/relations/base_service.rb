@@ -70,7 +70,7 @@ class Relations::BaseService < ::BaseServices::BaseCallable
     # The to-work_package will not be altered by the schedule service so
     # we do not have to save the result of the service.
     save_result = if schedule_result.success?
-                    schedule_result.dependent_results.all? { |dr| !dr.result.changed? || dr.result.save }
+                    schedule_result.dependent_results.all? { |dr| !dr.result.changed? || dr.result.save(validate: false) }
                   end || false
 
     schedule_result.success = save_result

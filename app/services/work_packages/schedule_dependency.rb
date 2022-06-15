@@ -101,6 +101,7 @@ class WorkPackages::ScheduleDependency
 
     descendants + WorkPackage
                     .with_ancestor(descendants)
+                    .includes(follows_relations: :to)
                     .where.not(id: known_work_packages_by_id.keys)
   end
 

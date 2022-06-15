@@ -1096,6 +1096,33 @@ describe WorkPackages::SetAttributesService, type: :model do
           end
         end
       end
+
+      context 'for parent' do
+        let(:parent_work_package) { build_stubbed(:work_package, project:) }
+        let(:work_package) do
+          build_stubbed(:work_package, project:, type: initial_type, parent: parent_work_package)
+        end
+
+        context 'with cross project relations allowed', with_settings: { cross_project_work_package_relations: true } do
+          it 'keeps the parent' do
+            expect(subject)
+              .to be_success
+
+            expect(work_package.parent)
+              .to eql(parent_work_package)
+          end
+        end
+
+        context 'with cross project relations disabled', with_settings: { cross_project_work_package_relations: false } do
+          it 'deletes the parent' do
+            expect(subject)
+              .to be_success
+
+            expect(work_package.parent)
+              .to be_nil
+          end
+        end
+      end
     end
 
     context 'when updating project before calling the service' do
