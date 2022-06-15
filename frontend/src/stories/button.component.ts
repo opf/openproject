@@ -2,13 +2,15 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'storybook-button',
-  template: ` <button
+  template: `<button
     type="button"
-    (click)="onClick.emit($event)"
     [ngClass]="classes"
-    [ngStyle]="{ 'background-color': backgroundColor }"
   >
     {{ label }}
+    <span
+      class="spot-icon spot-icon_bell"
+      *ngIf="showIcon"
+    ></span>
   </button>`,
   styleUrls: ['./button.css'],
 })
@@ -17,19 +19,25 @@ export default class ButtonComponent {
    * Is this the principal call to action on the page?
    */
   @Input()
-  primary = false;
+  disabled = false;
 
   /**
    * What background color to use
    */
   @Input()
-  backgroundColor?: string;
+  outlined = false;
+
+  /**
+   * What background color to use
+   */
+  @Input()
+  showIcon = false;
 
   /**
    * How large should the button be?
    */
   @Input()
-  size: 'small' | 'medium' | 'large' = 'medium';
+  type: 'default' | 'main' | 'accent' | 'danger' = 'default';
 
   /**
    * Button contents
@@ -46,8 +54,9 @@ export default class ButtonComponent {
   onClick = new EventEmitter<Event>();
 
   public get classes(): string[] {
-    const mode = this.primary ? 'storybook-button--primary' : 'storybook-button--secondary';
 
-    return ['storybook-button', `storybook-button--${this.size}`, mode];
+    return [
+      'spot-button'
+    ];
   }
 }
