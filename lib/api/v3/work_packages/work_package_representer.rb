@@ -427,7 +427,7 @@ module API
                  if: ->(*) { embed_links },
                  uncacheable: true
 
-        property :hasReadonlyStatus,
+        property :readonly,
                  writeable: false,
                  render_nil: false,
                  getter: ->(*) do

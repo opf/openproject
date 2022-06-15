@@ -29,9 +29,9 @@ properties:
   scheduleManually:
     type: boolean
     description: If false (default) schedule automatically.
-  hasReadonlyStatus:
+  readonly:
     type: boolean
-    description: If true, the associated status is readonly. Only the status can be edited in this case.
+    description: If true, the work package is in a readonly status so with the exception of the status, no other property can be altered.
   startDate:
     type: string
     format: date
@@ -559,7 +559,7 @@ example:
     raw: Develop super cool OpenProject API.
     html: "<p>Develop super cool OpenProject API.</p>"
   scheduleManually: false
-  hasReadonlyStatus: false
+  readonly: false
   startDate:
   dueDate:
   derivedStartDate:

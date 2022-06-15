@@ -312,7 +312,7 @@ post:
                 id: 1528
                 percentageDone: 0
                 scheduleManually: false
-                hasReadonlyStatus: false
+                readonly: false
                 startDate:
                 subject: Develop API
                 updatedAt: '2014-08-29T12:44:41Z'

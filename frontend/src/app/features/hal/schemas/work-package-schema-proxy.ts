@@ -73,7 +73,7 @@ export class WorkPackageSchemaProxy extends SchemaProxy {
   }
 
   public get isReadonly():boolean {
-    return (this.resource.hasReadonlyStatus as boolean) || !!(this.resource.status as StatusResource|null)?.isReadonly;
+    return (this.resource.readonly as boolean) || !!(this.resource.status as StatusResource|null)?.isReadonly;
   }
 
   /**
