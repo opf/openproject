@@ -26,30 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# This class provides definitions for API routes and endpoints for the storages namespace. It inherits the
-# functionality from the Grape REST API framework. It is mounted in lib/api/v3/root.rb.
-# `modules/storages/lib/` is a defined root directory for grape, providing a root level look up for the namespaces.
-# Hence, the modules of the class have to be represented in the directory structure.
 module API
   module V3
     module Storages
-      URN_CONNECTION_CONNECTED = "#{::API::V3::URN_PREFIX}storages:authorization:Connected".freeze
-      URN_CONNECTION_AUTH_FAILED = "#{::API::V3::URN_PREFIX}storages:authorization:FailedAuthorization".freeze
-      URN_CONNECTION_ERROR = "#{::API::V3::URN_PREFIX}storages:authorization:Error".freeze
-
       class StorageAuthorizer
         class << self
           def authorize(storage)
             oauth_client = storage.oauth_client
             connection_manager = ::OAuthClients::ConnectionManager.new(user: User.current, oauth_client:)
-            case connection_manager.authorization_state
-            when :connected
-              URN_CONNECTION_CONNECTED
-            when :failed_authorization
-              URN_CONNECTION_AUTH_FAILED
-            else
-              URN_CONNECTION_ERROR
-            end
+            connection_manager.authorization_state
           end
         end
       end

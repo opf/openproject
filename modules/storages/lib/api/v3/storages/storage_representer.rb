@@ -33,6 +33,10 @@
 module API
   module V3
     module Storages
+      URN_CONNECTION_CONNECTED = "#{::API::V3::URN_PREFIX}storages:authorization:Connected".freeze
+      URN_CONNECTION_AUTH_FAILED = "#{::API::V3::URN_PREFIX}storages:authorization:FailedAuthorization".freeze
+      URN_CONNECTION_ERROR = "#{::API::V3::URN_PREFIX}storages:authorization:Error".freeze
+
       class StorageRepresenter < ::API::Decorators::Single
         # LinkedResource module defines helper methods to describe attributes
         include API::Decorators::LinkedResource
@@ -61,9 +65,18 @@ module API
 
         link :authorizationState do
           state = ::API::V3::Storages::StorageAuthorizer.authorize represented
-          title = I18n.t(:"oauth_client.urn_connection_status.#{state.split(':').last}")
 
-          { href: state, title: }
+          urn = case state
+                when :connected
+                  URN_CONNECTION_CONNECTED
+                when :failed_authorization
+                  URN_CONNECTION_AUTH_FAILED
+                else
+                  URN_CONNECTION_ERROR
+                end
+          title = I18n.t(:"oauth_client.urn_connection_status.#{state}")
+
+          { href: urn, title: }
         end
 
         def _type

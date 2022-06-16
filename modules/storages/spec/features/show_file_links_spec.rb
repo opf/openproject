@@ -42,7 +42,7 @@ describe 'Showing of file links in work package', with_flag: { storages_module_a
 
   before do
     allow(::API::V3::Storages::StorageAuthorizer)
-      .to receive(:authorize).and_return(::API::V3::Storages::URN_CONNECTION_CONNECTED)
+      .to receive(:authorize).and_return(:connected)
     project_storage
     file_link
 
