@@ -62,6 +62,8 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   initialRequest$:Observable<CollectionResource>;
 
+  resourceType:string|null = null;
+
   readonly text = {
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
@@ -84,6 +86,10 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   }
 
   ngOnInit():void {
+    if (this.filter.id === 'id') {
+      this.resourceType = 'work_packages';
+    }
+
     this.initialRequest$ = this
       .loadCollection('')
       .pipe(
@@ -118,7 +124,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
       filtered = elements;
     } else {
       const lowered = matching.toLowerCase();
-      filtered = elements.filter((el) => el.name.toLowerCase().includes(lowered));
+      filtered = elements.filter((el) => (el.id as string).includes(lowered) || el.name.toLowerCase().includes(lowered));
     }
 
     return this.withMeValue(matching, filtered);
