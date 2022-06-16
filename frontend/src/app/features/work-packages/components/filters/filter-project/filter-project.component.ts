@@ -30,6 +30,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnInit,
   Output,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -40,24 +41,36 @@ import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { IProjectAutocompleteItem } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocomplete-item';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 @Component({
   selector: 'op-filter-project',
   templateUrl: './filter-project.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterProjectComponent extends UntilDestroyedMixin {
+export class FilterProjectComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public shouldFocus = false;
 
   @Input() public filter:QueryFilterInstanceResource;
 
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
+  additionalProjectApiFilters:ApiV3ListFilter[] = [];
+
   constructor(
     readonly I18n:I18nService,
     readonly apiV3Service:ApiV3Service,
+    readonly currentProjectService:CurrentProjectService,
   ) {
     super();
+  }
+
+  ngOnInit():void {
+    const projectID = this.currentProjectService.id;
+    if (projectID && (this.filter.id === 'subprojectId' || this.filter.id === 'onlySubproject')) {
+      this.additionalProjectApiFilters.push(['ancestor', '=', [projectID]]);
+    }
   }
 
   async onChange(val:HalResource[]|IProjectAutocompleteItem[]):Promise<void> {
