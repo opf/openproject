@@ -40,7 +40,7 @@ module API
 
         result = without_empty(parsed.merge(json_parsed.result), determine_allowed_empty(params))
 
-        ServiceResult.new(success: true, result:)
+        ServiceResult.success(result:)
       end
 
       private
@@ -52,9 +52,9 @@ module API
           timeline_labels: timeline_labels_from_params(params)
         }
 
-        ServiceResult.new success: true, result: parsed
+        ServiceResult.success result: parsed
       rescue ::JSON::ParserError => e
-        result = ServiceResult.new success: false
+        result = ServiceResult.failure
         result.errors.add(:base, e.message)
         result
       end

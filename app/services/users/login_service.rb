@@ -53,7 +53,7 @@ module Users
 
       user.log_successful_login
 
-      ServiceResult.new(result: user)
+      ServiceResult.failure(result: user)
     end
 
     def retain_sso_session_values!(user)

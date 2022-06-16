@@ -133,7 +133,7 @@ describe WorkPackagesController, type: :controller do
             allow(service_instance)
               .to receive(:call)
               .with(query:, mime_type: mime_type.to_sym, params: anything)
-              .and_return(ServiceResult.new(result: export_result))
+              .and_return(ServiceResult.failure(result: export_result))
           end
 
           it 'fulfills the defined should_receives' do

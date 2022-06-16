@@ -45,11 +45,11 @@ module TwoFactorAuthentication
       # Produce the token with the given strategy (e.g., sending an sms)
       strategy.transmit
 
-      ServiceResult.new(success: true, result: strategy.transmit_success_message)
+      ServiceResult.success(result: strategy.transmit_success_message)
     rescue StandardError => e
       Rails.logger.error "[2FA plugin] Error during token request to user##{user.id}: #{e}"
 
-      result = ServiceResult.new(success: false)
+      result = ServiceResult.failure
       result.errors.add(:base, e.message)
 
       result
@@ -69,7 +69,7 @@ module TwoFactorAuthentication
     rescue StandardError => e
       Rails.logger.error "[2FA plugin] Error during token validation for user##{user.id}: #{e}"
 
-      result = ServiceResult.new(success: false)
+      result = ServiceResult.failure
       result.errors.add(:base, e.message)
 
       result

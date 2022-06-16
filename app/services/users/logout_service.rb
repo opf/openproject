@@ -43,7 +43,7 @@ module Users
       end
 
       User.current = User.anonymous
-      ServiceResult.new(result: User.anonymous)
+      ServiceResult.failure(result: User.anonymous)
     end
 
     private
