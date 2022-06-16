@@ -128,7 +128,7 @@ See COPYRIGHT and LICENSE files for more details.
             <%= label_tag "membership_project_id", t(:description_choose_project), class: "hidden-for-sighted" %>
             <%= angular_component_tag 'op-project-autocompleter',
                                       inputs: {
-                                        apiFilters: [],
+                                        apiFilters: [['id', '!', @group.projects.ids.map(&:to_s)]],
                                         name: 'membership[project_id]'
                                       },
                                       data: {
