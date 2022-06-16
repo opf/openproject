@@ -370,6 +370,31 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         it { is_expected.to be_json_eql(work_package.lock_version.to_json).at_path('lockVersion') }
       end
+
+      describe 'readonly' do
+        context 'no status' do
+          let(:status) { nil }
+          it 'renders nothing' do
+            is_expected.not_to have_json_path('readonly')
+          end
+        end
+
+        context 'false', with_ee: %i[readonly_work_packages] do
+          let(:status) { build_stubbed :status, is_readonly: false }
+
+          it 'renders as false' do
+            is_expected.to be_json_eql(false.to_json).at_path('readonly')
+          end
+        end
+
+        context 'true', with_ee: %i[readonly_work_packages] do
+          let(:status) { build_stubbed :status, is_readonly: true }
+
+          it 'renders as true' do
+            is_expected.to be_json_eql(true.to_json).at_path('readonly')
+          end
+        end
+      end
     end
 
     describe 'estimatedTime' do

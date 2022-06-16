@@ -182,6 +182,12 @@ module API
                  show_if: ->(*) { Setting.work_package_done_ratio != 'disabled' },
                  required: false
 
+          schema :readonly,
+                 type: 'Boolean',
+                 show_if: ->(*) { Status.can_readonly? },
+                 required: false,
+                 has_default: true
+
           schema :created_at,
                  type: 'DateTime'
 
