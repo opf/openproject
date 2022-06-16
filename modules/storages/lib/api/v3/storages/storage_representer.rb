@@ -60,7 +60,7 @@ module API
         end
 
         link :authorizationState do
-          state = StorageAuthorizer.authorize represented
+          state = ::API::V3::Storages::StorageAuthorizer.authorize represented
           title = I18n.t(:"oauth_client.urn_connection_status.#{state.split(':').last}")
 
           { href: state, title: }

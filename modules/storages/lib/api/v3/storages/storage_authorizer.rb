@@ -38,26 +38,18 @@ module API
       URN_CONNECTION_ERROR = "#{::API::V3::URN_PREFIX}storages:authorization:Error".freeze
 
       class StorageAuthorizer
-        def authorize(storage)
-          throw TypeError unless storage.is_a? Storage.class
-
-          oauth_client = storage.oauth_client
-          connection_manager = ::OAuthClients::ConnectionManager.new(user: User.current, oauth_client:)
-          state = connection_manager.authorization_state
-
-          to_urn(state)
-        end
-
-        private
-
-        def to_urn(state)
-          case state
-          when :connected
-            URN_CONNECTION_CONNECTED
-          when :failed_authorization
-            URN_CONNECTION_AUTH_FAILED
-          else
-            URN_CONNECTION_ERROR
+        class << self
+          def authorize(storage)
+            oauth_client = storage.oauth_client
+            connection_manager = ::OAuthClients::ConnectionManager.new(user: User.current, oauth_client:)
+            case connection_manager.authorization_state
+            when :connected
+              URN_CONNECTION_CONNECTED
+            when :failed_authorization
+              URN_CONNECTION_AUTH_FAILED
+            else
+              URN_CONNECTION_ERROR
+            end
           end
         end
       end
