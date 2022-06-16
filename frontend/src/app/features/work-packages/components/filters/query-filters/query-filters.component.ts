@@ -71,6 +71,7 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     close_filter: this.I18n.t('js.filter.description.text_close_filter'),
     upsale_for_more: this.I18n.t('js.filter.upsale_for_more'),
     upsale_link: this.I18n.t('js.filter.upsale_link'),
+    more_info: this.I18n.t('js.filter.more_info'),
     close_form: this.I18n.t('js.close_form_title'),
     selected_filter_list: this.I18n.t('js.label_selected_filter_list'),
     button_delete: this.I18n.t('js.button_delete'),

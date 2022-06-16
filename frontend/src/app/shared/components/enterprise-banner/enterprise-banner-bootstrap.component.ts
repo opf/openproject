@@ -6,11 +6,11 @@ export const enterpriseBannerSelector = 'enterprise-banner-bootstrap';
 @Component({
   selector: enterpriseBannerSelector,
   template: `
-    <enterprise-banner
+    <op-enterprise-banner
       [textMessage]="textMessage"
       [linkMessage]="linkMessage"
       [opReferrer]="referrer">
-    </enterprise-banner>
+    </op-enterprise-banner>
   `,
 })
 export class EnterpriseBannerBootstrapComponent implements OnInit {

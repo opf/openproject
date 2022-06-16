@@ -53,10 +53,12 @@ export class EnterpriseTrialService {
     readonly pathHelper:PathHelperService,
     protected toastService:ToastService) {
     const { gon } = window as any;
-    this.baseUrlAugur = gon.augur_url;
-    this.tokenVersion = gon.token_version;
+    if (gon) {
+      this.baseUrlAugur = gon.augur_url;
+      this.tokenVersion = gon.token_version;
+    }
 
-    if ((window as any).gon.ee_trial_key) {
+    if ((window as any).gon?.ee_trial_key) {
       this.setMailSubmittedStatus();
     }
   }

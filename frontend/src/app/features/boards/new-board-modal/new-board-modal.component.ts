@@ -81,6 +81,7 @@ export class NewBoardModalComponent extends OpModalComponent implements OnInit {
 
     teaser_text: this.I18n.t('js.boards.upsale.teaser_text'),
     upgrade_to_ee_text: this.I18n.t('js.boards.upsale.upgrade'),
+    more_info_ee_text: this.I18n.t('js.boards.upsale.more_info'),
   };
 
   constructor(

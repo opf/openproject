@@ -1,14 +1,19 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Injector,
   Input,
   OnInit,
 } from '@angular/core';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { EnterpriseTrialModalComponent } from 'core-app/features/enterprise/enterprise-modal/enterprise-trial.modal';
+import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
+import { OpModalService } from '../modal/modal.service';
 
 @Component({
-  selector: 'enterprise-banner',
+  selector: 'op-enterprise-banner',
   styleUrls: ['./enterprise-banner.component.sass'],
   templateUrl: './enterprise-banner.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,18 +27,39 @@ export class EnterpriseBannerComponent implements OnInit {
 
   @Input() public opReferrer:string;
 
+  @Input() public moreInfoText:string;
+
+  @Input() public moreInfoLink:string;
+
   public link:string;
 
-  public text:any = {
+  public text = {
     enterpriseFeature: this.I18n.t('js.upsale.ee_only'),
+    become_hero: this.I18n.t('js.admin.enterprise.upsale.become_hero'),
+    you_contribute: this.I18n.t('js.admin.enterprise.upsale.you_contribute'),
+    button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
+    upgrade: this.I18n.t('js.admin.enterprise.upsale.button_upgrade'),
+  };
+
+  image = {
+    enterprise_edition: imagePath('enterprise_edition.png'),
   };
 
   constructor(
     protected I18n:I18nService,
     protected bannersService:BannersService,
+    readonly eeTrialService:EnterpriseTrialService,
+    protected opModalService:OpModalService,
+    readonly injector:Injector,
   ) {}
 
   ngOnInit():void {
     this.link = this.bannersService.getEnterPriseEditionUrl({ referrer: this.opReferrer });
+  }
+
+  public openTrialModal():void {
+    this.eeTrialService.cancelled = true;
+    this.eeTrialService.modalOpen = true;
+    this.opModalService.show(EnterpriseTrialModalComponent, this.injector);
   }
 }
