@@ -53,26 +53,22 @@ module API
           schema :hours,
                  type: 'Duration'
 
-          schema :user,
-                 type: 'User',
-                 location: :link
-
           schema :comment,
                  type: 'Formattable',
                  required: false
+
+          schema_with_allowed_link :user,
+                                   has_default: false,
+                                   required: false,
+                                   href_callback: ->(*) {
+                                     allowed_user_href
+                                   }
 
           schema_with_allowed_link :work_package,
                                    has_default: false,
                                    required: false,
                                    href_callback: ->(*) {
                                      allowed_work_package_href
-                                   }
-
-          schema_with_allowed_link :project,
-                                   has_default: false,
-                                   required: false,
-                                   href_callback: ->(*) {
-                                     allowed_projects_href
                                    }
 
           schema_with_allowed_collection :activity,
@@ -97,6 +93,10 @@ module API
 
           def allowed_projects_href
             api_v3_paths.time_entries_available_projects
+          end
+
+          def allowed_user_href
+            api_v3_paths.available_assignees(represented.project_id)
           end
         end
       end

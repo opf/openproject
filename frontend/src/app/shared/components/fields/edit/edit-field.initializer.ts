@@ -46,6 +46,7 @@ import { VersionAutocompleterComponent } from 'core-app/shared/components/autoco
 import { WorkPackageAutocompleterComponent } from 'core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component';
 import { WorkPackageCommentFieldComponent } from 'core-app/features/work-packages/components/work-package-comment/wp-comment-field.component';
 import { ProjectEditFieldComponent } from './field-types/project-edit-field.component';
+import { UserEditFieldComponent } from './field-types/user-edit-field.component';
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
   return () => {
@@ -55,11 +56,11 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addFieldType(IntegerEditFieldComponent, 'integer', ['Integer'])
       .addFieldType(DurationEditFieldComponent, 'duration', ['Duration'])
       .addFieldType(ProjectEditFieldComponent, 'project', ['Project'])
+      .addFieldType(UserEditFieldComponent, 'user', ['User'])
       .addFieldType(SelectEditFieldComponent, 'select', [
         'Priority',
         'Status',
         'Type',
-        'User',
         'Version',
         'TimeEntriesActivity',
         'Category',

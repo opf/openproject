@@ -51,6 +51,10 @@ module Costs
                    {},
                    require: :loggedin
 
+        permission :log_own_time,
+                   {},
+                   require: :loggedin
+
         permission :edit_time_entries,
                    {},
                    require: :member

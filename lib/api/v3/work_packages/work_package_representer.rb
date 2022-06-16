@@ -80,7 +80,7 @@ module API
         end
 
         link :logTime,
-             cache_if: -> { current_user_allowed_to(:log_time, context: represented.project) } do
+             cache_if: -> { current_user_allowed_to(:log_own_time, context: represented.project) } do
           next if represented.new_record?
 
           {

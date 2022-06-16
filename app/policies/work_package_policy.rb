@@ -66,7 +66,7 @@ class WorkPackagePolicy < BasePolicy
 
   def log_time_allowed?(work_package)
     @log_time_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:log_time, project)
+      hash[project] = user.allowed_to?(:log_own_time, project)
     end
 
     @log_time_cache[work_package.project]

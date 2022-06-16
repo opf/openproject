@@ -61,6 +61,7 @@ import { SelectEditFieldModule } from 'core-app/shared/components/fields/edit/fi
 import { FormattableEditFieldModule } from 'core-app/shared/components/fields/edit/field-types/formattable-edit-field/formattable-edit-field.module';
 import { EditFieldControlsModule } from 'core-app/shared/components/fields/edit/field-controls/edit-field-controls.module';
 import { ProjectEditFieldComponent } from './edit/field-types/project-edit-field.component';
+import { UserEditFieldComponent } from './edit/field-types/user-edit-field.component';
 
 @NgModule({
   imports: [
@@ -106,6 +107,7 @@ import { ProjectEditFieldComponent } from './edit/field-types/project-edit-field
     PlainFormattableEditFieldComponent,
     MultiSelectEditFieldComponent,
     ProjectEditFieldComponent,
+    UserEditFieldComponent,
     WorkPackageEditFieldComponent,
     TimeEntryWorkPackageEditFieldComponent,
     EditFormComponent,
