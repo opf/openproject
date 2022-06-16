@@ -64,6 +64,9 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   private readonly storageTypeMap:{ [urn:string]:string; } = {
     'urn:openproject-org:api:v3:storages:Nextcloud': 'Nextcloud',
+    'urn:openproject-org:api:v3:storages:authorization:FailedAuthentication': 'FailedAuthentication',
+    'urn:openproject-org:api:v3:storages:authorization:Error': 'Error',
+    'urn:openproject-org:api:v3:storages:authorization:Connected': 'Connected',
   };
 
   private text:{
@@ -112,14 +115,14 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   }
 
   private deriveStorageInformation(fileLinkCount:number):void {
-    switch (this.storage._links?.connectionState.href) {
-      case 'urn:openproject-org:api:v3:storages:connection:FailedAuthentication':
+    switch (this.storage._links?.authorizationState.href) {
+      case 'urn:openproject-org:api:v3:storages:authorization:FailedAuthentication':
         this.setAuthenticationFailureState();
         break;
-      case 'urn:openproject-org:api:v3:storages:connection:Error':
+      case 'urn:openproject-org:api:v3:storages:authorization:Error':
         this.setConnectionErrorState();
         break;
-      case 'urn:openproject-org:api:v3:storages:connection:Connected':
+      case 'urn:openproject-org:api:v3:storages:authorization:Connected':
         if (fileLinkCount === 0) {
           this.setEmptyFileLinkListState();
         } else {

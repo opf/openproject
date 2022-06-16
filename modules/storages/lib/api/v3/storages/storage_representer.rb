@@ -33,12 +33,6 @@
 module API
   module V3
     module Storages
-      URN_TYPE_NEXTCLOUD = "#{::API::V3::URN_PREFIX}storages:Nextcloud".freeze
-
-      URN_CONNECTION_CONNECTED = "#{::API::V3::URN_PREFIX}storages:authorization:Connected".freeze
-      URN_CONNECTION_AUTH_FAILED = "#{::API::V3::URN_PREFIX}storages:authorization:FailedAuthorization".freeze
-      URN_CONNECTION_ERROR = "#{::API::V3::URN_PREFIX}storages:authorization:Error".freeze
-
       class StorageRepresenter < ::API::Decorators::Single
         # LinkedResource module defines helper methods to describe attributes
         include API::Decorators::LinkedResource
@@ -52,32 +46,24 @@ module API
 
         date_time_property :updated_at
 
-        # A link back to the specific object ("represented")
         self_link
 
         link :type do
           {
-            href: URN_TYPE_NEXTCLOUD,
+            href: "#{::API::V3::URN_PREFIX}storages:Nextcloud",
             title: 'Nextcloud'
           }
         end
 
         link :origin do
-          {
-            href: represented.host
-          }
+          { href: represented.host }
         end
 
         link :authorizationState do
-          oauth_client = represented.oauth_client
-          connection_manager = ::OAuthClients::ConnectionManager.new(user: User.current, oauth_client:)
-          state = connection_manager.authorization_state.to_s
-          state_urn = "#{::API::V3::URN_PREFIX}storages:authorization:#{state.camelize}"
-          state_title = I18n.t(:"oauth_client.urn_connection_status.#{state}")
-          {
-            href: state_urn,
-            title: state_title
-          }
+          state = StorageAuthorizer.authorize represented
+          title = I18n.t(:"oauth_client.urn_connection_status.#{state.split(':').last}")
+
+          { href: state, title: }
         end
 
         def _type
