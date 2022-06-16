@@ -29,7 +29,7 @@
 module API
   module Utilities
     # PayloadRepresenter responsibility is to parse user params input and render
-    # only the writeable attributes.
+    # only the writable attributes.
     #
     # The `UpdateContract` or the `CreateContract` is used to filter out read
     # only attributes from the input parameters. Guessing is done by checking if
@@ -49,24 +49,25 @@ module API
             next
           end
 
-          writeable = property[:writeable]
-          if writeable == false
+          # Note: `:writeable` is not a typo, it's used by declarative gem
+          writable = property[:writeable]
+          if writable == false
             property.merge!(readable: false)
           end
 
           # Only filter unwritable if not a lambda
-          unless writeable.respond_to?(:call)
-            add_filter(property, UnwriteablePropertyFilter)
+          unless writable.respond_to?(:call)
+            add_filter(property, UnwritablePropertyFilter)
           end
         end
       end
 
-      class UnwriteablePropertyFilter
+      class UnwritablePropertyFilter
         def self.call(input, options)
-          writeable_attr = options[:decorator].writeable_attributes
+          writable_attr = options[:decorator].writable_attributes
 
           as = options[:binding][:as].()
-          if writeable_attr.include?(as)
+          if writable_attr.include?(as)
             input
           else
             ::Representable::Pipeline::Stop
@@ -76,10 +77,10 @@ module API
 
       class LinkRenderBlock
         def self.call(input, options)
-          writeable_attr = options[:decorator].writeable_attributes
+          writable_attr = options[:decorator].writable_attributes
 
           input.reject do |link|
-            link.rel && writeable_attr.exclude?(link.rel.to_s)
+            link.rel && writable_attr.exclude?(link.rel.to_s)
           end
         end
       end
@@ -103,8 +104,8 @@ module API
         contract_class(represented).present?
       end
 
-      def writeable_attributes
-        @writeable_attributes ||= begin
+      def writable_attributes
+        @writable_attributes ||= begin
           contract = contract_class(represented)
 
           if contract

@@ -433,7 +433,7 @@ module API
                  uncacheable: true
 
         property :readonly,
-                 writeable: false,
+                 writable: false,
                  render_nil: false,
                  if: ->(*) { ::Status.can_readonly? },
                  getter: ->(*) do

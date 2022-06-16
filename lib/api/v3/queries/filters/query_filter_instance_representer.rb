@@ -122,7 +122,7 @@ module API
 
           property :name,
                    exec_context: :decorator,
-                   writeable: false
+                   writable: false
 
           def _type
             "#{converted_name.camelize}QueryFilter"

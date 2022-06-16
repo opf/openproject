@@ -43,7 +43,7 @@ post:
                     from:
                       name: From work package
                       type: WorkPackage
-                      writeable: false
+                      writable: false
                     id:
                       name: ID
                       type: Integer

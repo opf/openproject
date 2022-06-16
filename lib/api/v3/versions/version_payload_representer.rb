@@ -34,8 +34,8 @@ module API
 
         cached_representer disabled: true
 
-        def writeable_attributes
-          @writeable_attributes ||= begin
+        def writable_attributes
+          @writable_attributes ||= begin
             static = if represented.new_record?
                        %w[endDate definingProject]
                      else
