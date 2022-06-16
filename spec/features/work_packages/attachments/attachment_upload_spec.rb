@@ -189,7 +189,7 @@ describe 'Upload attachment to work package', js: true do
                                      :center,
                                      page.find('[data-qa-tab-id="files"]')
 
-      expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', wait: 10)
+      expect(page).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', wait: 10)
       expect(page).not_to have_selector('op-toasters-upload-progress')
       wp_page.expect_tab 'Files'
     end
@@ -211,16 +211,17 @@ describe 'Upload attachment to work package', js: true do
 
       ##
       # Attach file manually
-      expect(page).to have_no_selector('.work-package--attachments--filename')
+      expect(page).to have_no_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
       attachments.attach_file_on_input(image_fixture.path)
       expect(page).not_to have_selector('op-toasters-upload-progress')
-      expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', wait: 5)
+      expect(page).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', wait: 5)
 
       ##
       # and via drag & drop
       attachments.drag_and_drop_file(container, image_fixture.path)
       expect(page).not_to have_selector('op-toasters-upload-progress')
-      expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', count: 2, wait: 5)
+      expect(page)
+        .to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', count: 2, wait: 5)
     end
   end
 end
