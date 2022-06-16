@@ -94,7 +94,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Input() public multiple = false;
 
-  @Input() public labelForId:string = '';
+  @Input() public labelForId = '';
 
   @Input() public apiFilters:ApiV3ListFilter[] = [];
 
@@ -128,7 +128,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Output('valueChange') valueChange = new EventEmitter<IProjectAutocompleterData|IProjectAutocompleterData[]|null>();
 
-  @ViewChild('hiddenInput') hiddenInput: ElementRef;
+  @ViewChild('hiddenInput') hiddenInput:ElementRef;
 
   constructor(
     public elementRef:ElementRef,
@@ -147,7 +147,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     return getPaginatedResults<IProject>(
       (params) => {
         const filters:ApiV3ListFilter[] = [...this.apiFilters];
-        
+
         if (searchTerm.length) {
           filters.push(['name_and_identifier', '~', [searchTerm]]);
         }
@@ -168,7 +168,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
           ],
           ...params,
         };
-        const collectionURL = listParamsString(fullParams) + '&' + url.searchParams.toString();
+        const collectionURL = `${listParamsString(fullParams)}&${url.searchParams.toString()}`;
         url.searchParams.forEach((key) => url.searchParams.delete(key));
         return this.http.get<IHALCollection<IProject>>(url.toString() + collectionURL);
       },
