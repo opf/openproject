@@ -524,7 +524,7 @@ vi:
         duration: "Duration"
         end_insertion: "Kết thúc chèn"
         end_deletion: "Kết thúc quá trình xóa"
-        version: "Phiên bản"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Cha"
         parent_issue: "Cha"
         parent_work_package: "Cha"
@@ -536,6 +536,7 @@ vi:
         subproject: "Dự án con"
         time_entries: "Thời gian truy cập"
         type: "Kiểu"
+        version: "Phiên bản"
         watcher: "Người quan sát"
       'doorkeeper/application':
         uid: "ID Khách hàng"

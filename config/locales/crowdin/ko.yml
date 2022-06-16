@@ -521,7 +521,7 @@ ko:
         duration: "Duration"
         end_insertion: "삽입 끝"
         end_deletion: "삭제 끝"
-        version: "버전"
+        ignore_non_working_days: "Ignore non working days"
         parent: "부모"
         parent_issue: "부모"
         parent_work_package: "부모"
@@ -533,6 +533,7 @@ ko:
         subproject: "하위 프로젝트"
         time_entries: "작업시간 기록"
         type: "타입"
+        version: "버전"
         watcher: "주시자"
       'doorkeeper/application':
         uid: "고객 ID"

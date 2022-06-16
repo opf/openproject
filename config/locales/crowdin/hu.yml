@@ -523,7 +523,7 @@ hu:
         duration: "Duration"
         end_insertion: "Beillesztés vége"
         end_deletion: "Törlés vége"
-        version: "Verzió"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Szülő"
         parent_issue: "Szülő"
         parent_work_package: "Szülő"
@@ -535,6 +535,7 @@ hu:
         subproject: "Alprojekt"
         time_entries: "Eltöltött idő rögzítése"
         type: "Típus"
+        version: "Verzió"
         watcher: "Megfigyelő"
       'doorkeeper/application':
         uid: "Ügyfél azonosító"

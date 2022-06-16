@@ -523,7 +523,7 @@ af:
         duration: "Duration"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
-        version: "Weergawe"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Ouer"
         parent_issue: "Ouer"
         parent_work_package: "Ouer"
@@ -535,6 +535,7 @@ af:
         subproject: "Sub-projek"
         time_entries: "Log tyd"
         type: "Soort"
+        version: "Weergawe"
         watcher: "Dophouer"
       'doorkeeper/application':
         uid: "Client ID"

@@ -523,7 +523,7 @@ fa:
         duration: "Duration"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
-        version: "نسخه"
+        ignore_non_working_days: "Ignore non working days"
         parent: "بالادستی"
         parent_issue: "بالادستی"
         parent_work_package: "بالادستی"
@@ -535,6 +535,7 @@ fa:
         subproject: "زیر پروژه"
         time_entries: "پیگیری زمان"
         type: "نوع"
+        version: "نسخه"
         watcher: "ناظر"
       'doorkeeper/application':
         uid: "Client ID"

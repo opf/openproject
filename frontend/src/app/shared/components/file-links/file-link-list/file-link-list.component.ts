@@ -29,11 +29,12 @@
 import {
   ChangeDetectionStrategy, Component, Input, OnInit,
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -58,15 +59,17 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   informationBoxIcon:string;
 
-  showInformationBox = false;
+  allowEditing = false;
 
-  showFileLinks = false;
+  showInformationBox$ = new BehaviorSubject<boolean>(false);
+
+  showFileLinks$ = new BehaviorSubject<boolean>(false);
 
   private readonly storageTypeMap:{ [urn:string]:string; } = {
     'urn:openproject-org:api:v3:storages:Nextcloud': 'Nextcloud',
   };
 
-  private text:{
+  text:{
     infoBox:{
       emptyStorageHeader:string,
       emptyStorageContent:string,
@@ -76,12 +79,16 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
       authenticationFailureHeader:string,
       authenticationFailureContent:string,
       loginButton:string,
+    },
+    actions:{
+      linkFile:string,
     }
   };
 
   constructor(
     private readonly i18n:I18nService,
     private readonly fileLinkResourceService:FileLinksResourceService,
+    private readonly currentUserService:CurrentUserService,
   ) {
     super();
   }
@@ -100,6 +107,21 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
         this.deriveStorageInformation(fileLinks.length);
       });
+
+    this.currentUserService
+      .hasCapabilities$('file_links/manage', (this.resource.project as unknown&{ id:string }).id)
+      .pipe(this.untilDestroyed())
+      .subscribe((value) => {
+        this.allowEditing = value;
+      });
+  }
+
+  public removeFileLink(fileLink:IFileLink):void {
+    this.fileLinkResourceService.remove(this.collectionKey, fileLink);
+  }
+
+  public openStorageLocation():void {
+    window.open(this.storage._links.origin.href);
   }
 
   private get collectionKey():string {
@@ -112,9 +134,9 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   }
 
   private deriveStorageInformation(fileLinkCount:number):void {
-    switch (this.storage._links?.connectionState.href) {
+    switch (this.storage._links.connectionState.href) {
       case 'urn:openproject-org:api:v3:storages:connection:FailedAuthentication':
-        this.setAuthenticationFailureState();
+        this.setAuthenticationFailureState(fileLinkCount);
         break;
       case 'urn:openproject-org:api:v3:storages:connection:Error':
         this.setConnectionErrorState();
@@ -123,55 +145,58 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
         if (fileLinkCount === 0) {
           this.setEmptyFileLinkListState();
         } else {
-          this.showInformationBox = false;
-          this.showFileLinks = true;
+          this.showInformationBox$.next(false);
+          this.showFileLinks$.next(true);
         }
         break;
       default:
-        this.showInformationBox = false;
-        this.showFileLinks = false;
+        this.showInformationBox$.next(false);
+        this.showFileLinks$.next(false);
     }
   }
 
-  private setAuthenticationFailureState():void {
+  private setAuthenticationFailureState(fileLinkCount:number):void {
     this.informationBoxHeader = this.text.infoBox.authenticationFailureHeader;
     this.informationBoxContent = this.text.infoBox.authenticationFailureContent;
     this.informationBoxButton = this.text.infoBox.loginButton;
-    this.informationBoxIcon = 'info1';
-    this.showInformationBox = true;
-    this.showFileLinks = true;
+    this.informationBoxIcon = 'import';
+    this.showInformationBox$.next(true);
+    this.showFileLinks$.next(fileLinkCount > 0);
   }
 
   private setConnectionErrorState():void {
     this.informationBoxHeader = this.text.infoBox.connectionErrorHeader;
     this.informationBoxContent = this.text.infoBox.connectionErrorContent;
     this.informationBoxButton = this.text.infoBox.loginButton;
-    this.informationBoxIcon = 'info1';
-    this.showInformationBox = true;
-    this.showFileLinks = false;
+    this.informationBoxIcon = 'remove-link';
+    this.showInformationBox$.next(true);
+    this.showFileLinks$.next(false);
   }
 
   private setEmptyFileLinkListState():void {
     this.informationBoxHeader = this.text.infoBox.emptyStorageHeader;
     this.informationBoxContent = this.text.infoBox.emptyStorageContent;
     this.informationBoxButton = this.text.infoBox.emptyStorageButton;
-    this.informationBoxIcon = 'info1';
-    this.showInformationBox = true;
-    this.showFileLinks = true;
+    this.informationBoxIcon = 'add-link';
+    this.showInformationBox$.next(true);
+    this.showFileLinks$.next(false);
   }
 
   private initializeLocales():void {
     const storageType = this.storageTypeMap[this.storage._links.type.href];
     this.text = {
       infoBox: {
-        emptyStorageHeader: this.i18n.t('js.label_no_file_links_header', { storageType }),
-        emptyStorageContent: this.i18n.t('js.label_no_file_links_content', { storageType }),
+        emptyStorageHeader: this.i18n.t('js.label_link_files_in_storage', { storageType }),
+        emptyStorageContent: this.i18n.t('js.label_no_file_links', { storageType }),
         emptyStorageButton: this.i18n.t('js.label_open_storage', { storageType }),
         connectionErrorHeader: this.i18n.t('js.label_no_storage_connection', { storageType }),
         connectionErrorContent: this.i18n.t('js.label_storage_connection_error', { storageType }),
         authenticationFailureHeader: this.i18n.t('js.label_login_to_storage', { storageType }),
         authenticationFailureContent: this.i18n.t('js.label_storage_not_connected', { storageType }),
         loginButton: this.i18n.t('js.label_storage_login', { storageType }),
+      },
+      actions: {
+        linkFile: this.i18n.t('js.label_link_files_in_storage', { storageType }),
       },
     };
   }

@@ -525,7 +525,7 @@ sk:
         duration: "Duration"
         end_insertion: "Koniec vkladania"
         end_deletion: "Koniec odstraňovania"
-        version: "Verzia"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Nadradený balíček"
         parent_issue: "Nadradený balíček"
         parent_work_package: "Nadradený balíček"
@@ -537,6 +537,7 @@ sk:
         subproject: "Podprojekt"
         time_entries: "Zaprotokoluj čas"
         type: "Typ"
+        version: "Verzia"
         watcher: "Pozorovateľ"
       'doorkeeper/application':
         uid: "ID klienta"

@@ -520,7 +520,7 @@ it:
         duration: "Duration"
         end_insertion: "Fine inserimento"
         end_deletion: "Fine cancellazione"
-        version: "Versione"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Superiore"
         parent_issue: "Superiore"
         parent_work_package: "Superiore"
@@ -532,6 +532,7 @@ it:
         subproject: "Sottoprogetto"
         time_entries: "Registra l'orario effettuato"
         type: "Tipo"
+        version: "Versione"
         watcher: "Osservatore"
       'doorkeeper/application':
         uid: "Client ID"

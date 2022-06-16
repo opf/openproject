@@ -518,7 +518,7 @@ ja:
         duration: "Duration"
         end_insertion: "挿入の終わり"
         end_deletion: "削除の終わり"
-        version: "バージョン"
+        ignore_non_working_days: "Ignore non working days"
         parent: "親項目"
         parent_issue: "親項目"
         parent_work_package: "親項目"
@@ -530,6 +530,7 @@ ja:
         subproject: "子プロジェクト"
         time_entries: "時間を記録"
         type: "タイプ"
+        version: "バージョン"
         watcher: "ウォッチャー"
       'doorkeeper/application':
         uid: "クライアントID"

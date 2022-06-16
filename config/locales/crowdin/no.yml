@@ -523,7 +523,7 @@
         duration: "Duration"
         end_insertion: "Slutt på innsettingen"
         end_deletion: "Slutt på slettingen"
-        version: "Versjon"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Overordnet"
         parent_issue: "Overordnet"
         parent_work_package: "Overordnet"
@@ -535,6 +535,7 @@
         subproject: "Underprosjekt"
         time_entries: "Logg tid"
         type: "Type"
+        version: "Versjon"
         watcher: "Overvåker"
       'doorkeeper/application':
         uid: "Klient ID"

@@ -522,7 +522,7 @@ pl:
         duration: "Duration"
         end_insertion: "Koniec wstawiania"
         end_deletion: "Koniec usuwania"
-        version: "Wersja"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Rodzic"
         parent_issue: "Rodzic"
         parent_work_package: "Rodzic"
@@ -534,6 +534,7 @@ pl:
         subproject: "Podprojekt"
         time_entries: "Rejestruj czas pracy"
         type: "Typ"
+        version: "Wersja"
         watcher: "Obserwator"
       'doorkeeper/application':
         uid: "Numer klienta"

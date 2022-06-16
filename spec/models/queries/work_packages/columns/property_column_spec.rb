@@ -55,22 +55,14 @@ describe Queries::WorkPackages::Columns::PropertyColumn, type: :model do
       end
     end
 
-    context 'when duration feature flag disabled' do
+    context 'when duration feature flag disabled', with_flag: { work_packages_duration_field_active: false } do
       it 'column does not exist' do
-        allow(OpenProject::FeatureDecisions)
-          .to receive(:work_packages_duration_field_active?)
-          .and_return(false)
-
         expect(described_class.instances.map(&:name)).not_to include :duration
       end
     end
 
-    context 'when duration feature flag enabled' do
+    context 'when duration feature flag enabled', with_flag: { work_packages_duration_field_active: true } do
       it 'column exists' do
-        allow(OpenProject::FeatureDecisions)
-          .to receive(:work_packages_duration_field_active?)
-          .and_return(true)
-
         expect(described_class.instances.map(&:name)).to include :duration
       end
     end
