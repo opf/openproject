@@ -56,7 +56,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import isNewResource, { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
+import { insertCollectionIntoState, removeEntityFromCollectionAndState } from 'core-app/core/state/collection-store';
 import {
   CollectionStore,
   ResourceCollectionService,
@@ -119,22 +119,7 @@ export class AttachmentsResourceService extends ResourceCollectionService<IAttac
     return this.http
       .delete<void>(attachment._links.delete.href, { withCredentials: true, headers })
       .pipe(
-        tap(() => {
-          applyTransaction(() => {
-            this.store.remove(attachment.id);
-            this.store.update(({ collections }) => (
-              {
-                collections: {
-                  ...collections,
-                  [collectionKey]: {
-                    ...collections[collectionKey],
-                    ids: (collections[collectionKey]?.ids || []).filter((id) => id !== attachment.id),
-                  },
-                },
-              }
-            ));
-          });
-        }),
+        tap(() => removeEntityFromCollectionAndState(this.store, attachment.id, collectionKey)),
         catchError((error) => {
           this.toastService.addError(error);
           throw error;
