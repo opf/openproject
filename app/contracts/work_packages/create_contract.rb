@@ -31,7 +31,7 @@ require 'work_packages/base_contract'
 module WorkPackages
   class CreateContract < BaseContract
     attribute :author_id,
-              writeable: false do
+              writable: false do
       errors.add :author_id, :invalid if model.author != user
     end
 

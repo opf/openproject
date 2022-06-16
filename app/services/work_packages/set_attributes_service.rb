@@ -278,7 +278,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def assignable_statuses
-    instantiate_contract(work_package, user).assignable_statuses(true)
+    instantiate_contract(work_package, user).assignable_statuses(include_default: true)
   end
 
   def min_child_date

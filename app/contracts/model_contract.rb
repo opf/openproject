@@ -66,7 +66,7 @@ class ModelContract < BaseContract
 
   def readonly_attributes_unchanged
     unauthenticated_changed.each do |attribute|
-      outside_attribute = collect_ancestor_attribute_aliases[attribute] || attribute
+      outside_attribute = ancestor_attribute_aliases[attribute] || attribute
 
       errors.add outside_attribute, :error_readonly
     end

@@ -33,7 +33,7 @@ module API
         extend ActiveSupport::Concern
 
         included do
-          def writeable_attributes
+          def writable_attributes
             super + %w[attachments]
           end
 
