@@ -27,44 +27,83 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, Input, OnInit,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
+import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
 import {
   getIconForMimeType,
-  IFileLinkListItemIcon,
-} from 'core-app/shared/components/file-links/file-link-list/file-link-list-item-icon.factory';
+} from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
+import { IFileLinkListItemIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
 
 @Component({
-  selector: 'op-file-link-list-item',
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: '[op-file-link-list-item]',
   templateUrl: './file-link-list-item.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileLinkListItemComponent implements OnInit {
+export class FileLinkListItemComponent implements OnInit, AfterViewInit {
   @Input() public resource:HalResource;
 
   @Input() public fileLink:IFileLink;
 
   @Input() public index:number;
 
+  @Input() public allowEditing = false;
+
+  @Output() public removeFileLink = new EventEmitter<void>();
+
+  @ViewChild('avatar') avatar:ElementRef;
+
   public infoTimestampText:string;
 
   public fileLinkIcon:IFileLinkListItemIcon;
 
+  public text = {
+    title: {
+      openFile: this.i18n.t('js.label_open_file_link'),
+      openFileLocation: this.i18n.t('js.label_open_file_link_location'),
+      removeFileLink: this.i18n.t('js.label_remove_file_link'),
+    },
+  };
+
   constructor(
     private readonly i18n:I18nService,
     private readonly timezoneService:TimezoneService,
+    private readonly principalRendererService:PrincipalRendererService,
   ) {}
 
+  private get originData():IFileLinkOriginData {
+    return this.fileLink.originData;
+  }
+
   ngOnInit():void {
-    if (this.fileLink.originData.lastModifiedAt) {
-      const date = this.timezoneService.formattedDate(this.fileLink.originData.lastModifiedAt);
-      this.infoTimestampText = this.i18n.t('js.label_modified_at', { date });
+    if (this.originData.lastModifiedAt) {
+      this.infoTimestampText = this.timezoneService.parseDatetime(this.originData.lastModifiedAt).fromNow();
     }
 
-    this.fileLinkIcon = getIconForMimeType(this.fileLink.originData.mimeType);
+    this.fileLinkIcon = getIconForMimeType(this.originData.mimeType);
+  }
+
+  ngAfterViewInit():void {
+    if (this.originData.lastModifiedByName) {
+      this.principalRendererService.render(
+        this.avatar.nativeElement,
+        { name: this.originData.lastModifiedByName, href: '/users/1' },
+        { hide: true, link: false },
+        { hide: false, size: 'mini' },
+      );
+    }
   }
 }

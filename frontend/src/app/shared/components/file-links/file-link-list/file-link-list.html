@@ -1,23 +1,44 @@
-<div class="work-package--attachments--files" *ngIf="resource" data-qa-selector="op-files-tab--file-link-list">
+<ng-container
+  *ngIf="resource"
+>
   <op-storage-information
-    *ngIf="showInformationBox"
-    [infoIcon]="'info1'"
+    *ngIf="showInformationBox$ | async"
+    class="op-files-tab--storage-info-box"
+    [infoIcon]="informationBoxIcon"
     [infoTextHeader]="informationBoxHeader"
     [infoTextContent]="informationBoxContent"
     [buttonText]="informationBoxButton"
+    (buttonClickEventEmitter)="openStorageLocation()"
   ></op-storage-information>
 
-  <div
-    *ngIf="showFileLinks"
+  <ul
+    *ngIf="showFileLinks$ | async"
+    class="spot-list spot-list_compact op-files-tab--file-list"
+    data-qa-selector="op-files-tab--file-list"
   >
-    <op-file-link-list-item
+    <li
       *ngFor="let fileLink of fileLinks$ | async; let i = index;"
-      class="op-files-tab--file-list-item"
-      [ngClass]="{ 'inactive': showInformationBox || fileLink._links.permission.href === 'urn:openproject-org:api:v3:file-links:permission:NotAllowed' }"
+      class="spot-list--item op-files-tab--file-list-item"
       data-qa-selector="op-files-tab--file-list-item"
+      op-file-link-list-item
       [fileLink]="fileLink"
       [resource]="resource"
-      [index]="i">
-    </op-file-link-list-item>
-  </div>
-</div>
+      [index]="i"
+      [allowEditing]="allowEditing"
+      (removeFileLink)="removeFileLink(fileLink)"
+    ></li>
+  </ul>
+
+  <p
+    *ngIf="(showInformationBox$ | async) === false"
+    class="spot-body-small"
+  >
+    <a
+      class="spot-link op-files-tab--file-list-action-button"
+      (click)="openStorageLocation()"
+    >
+      <span class="spot-icon spot-icon_external-link"></span>
+      <span [textContent]="text.actions.linkFile"></span>
+    </a>
+  </p>
+</ng-container>
