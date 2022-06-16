@@ -520,7 +520,7 @@ nl:
         duration: "Duration"
         end_insertion: "Einde van het invoegen"
         end_deletion: "Einde van de verwijdering"
-        version: "Versie"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Bovenliggend werkpakket"
         parent_issue: "Bovenliggend werkpakket"
         parent_work_package: "Bovenliggend werkpakket"
@@ -532,6 +532,7 @@ nl:
         subproject: "Subproject"
         time_entries: "Gelogde tijd"
         type: "Type"
+        version: "Versie"
         watcher: "Kijker"
       'doorkeeper/application':
         uid: "Client-ID"

@@ -524,7 +524,7 @@ ro:
         duration: "Duration"
         end_insertion: "Sfârșit de inserare"
         end_deletion: "Sfârșit de ștergere"
-        version: "Versiune"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Părinte"
         parent_issue: "Părinte"
         parent_work_package: "Părinte"
@@ -536,6 +536,7 @@ ro:
         subproject: "Subproiect"
         time_entries: "Consum timp"
         type: "Tip"
+        version: "Versiune"
         watcher: "Observator"
       'doorkeeper/application':
         uid: "ID Client"

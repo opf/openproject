@@ -525,7 +525,7 @@ cs:
         duration: "Duration"
         end_insertion: "Konec vložení"
         end_deletion: "Konec odstranění"
-        version: "Verze"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Rodič"
         parent_issue: "Rodič"
         parent_work_package: "Rodič"
@@ -537,6 +537,7 @@ cs:
         subproject: "Dílčí projekt"
         time_entries: "Čas protokolu"
         type: "Typ"
+        version: "Verze"
         watcher: "Sledující"
       'doorkeeper/application':
         uid: "ID klienta"

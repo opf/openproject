@@ -524,7 +524,7 @@ ru:
         duration: "Продолжительность"
         end_insertion: "Завершение вставки"
         end_deletion: "Завершение удаления"
-        version: "Этапы"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Родитель"
         parent_issue: "Родитель"
         parent_work_package: "Родитель"
@@ -536,6 +536,7 @@ ru:
         subproject: "Подпроект"
         time_entries: "Журналировать время"
         type: "Тип"
+        version: "Этапы"
         watcher: "Наблюдатель"
       'doorkeeper/application':
         uid: "ID клиента"

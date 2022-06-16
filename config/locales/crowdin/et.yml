@@ -523,7 +523,7 @@ et:
         duration: "Duration"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
-        version: "Versioon"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Pärineb teemast"
         parent_issue: "Pärineb teemast"
         parent_work_package: "Pärineb teemast"
@@ -535,6 +535,7 @@ et:
         subproject: "Alamprojekt"
         time_entries: "Ajakulu"
         type: "Tüüp"
+        version: "Versioon"
         watcher: "Jälgija"
       'doorkeeper/application':
         uid: "Kliendi ID"

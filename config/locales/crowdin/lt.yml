@@ -522,7 +522,7 @@ lt:
         duration: "Duration"
         end_insertion: "Įterpimo pabaigoje"
         end_deletion: "Ištrynimo pabaigoje"
-        version: "Versija"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Tėvas"
         parent_issue: "Tėvas"
         parent_work_package: "Tėvas"
@@ -534,6 +534,7 @@ lt:
         subproject: "Sub-projektas"
         time_entries: "Registruoti laiką"
         type: "Tipas"
+        version: "Versija"
         watcher: "Stebėtojas"
       'doorkeeper/application':
         uid: "Kliento ID"

@@ -522,7 +522,7 @@ pt:
         duration: "Duration"
         end_insertion: "Final da inserção"
         end_deletion: "Final da exclusão"
-        version: "Versão"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Pai"
         parent_issue: "Pai"
         parent_work_package: "Pai"
@@ -534,6 +534,7 @@ pt:
         subproject: "Subprojeto"
         time_entries: "Registro de tempo"
         type: "Tipo"
+        version: "Versão"
         watcher: "Observador"
       'doorkeeper/application':
         uid: "ID do cliente"

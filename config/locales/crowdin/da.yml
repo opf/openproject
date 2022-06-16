@@ -521,7 +521,7 @@ da:
         duration: "Duration"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
-        version: "Version"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Overordnet"
         parent_issue: "Overordnet"
         parent_work_package: "Overordnet"
@@ -533,6 +533,7 @@ da:
         subproject: "Underprojekt"
         time_entries: "Tidsregistrering"
         type: "Type"
+        version: "Version"
         watcher: "Tilsynsførende"
       'doorkeeper/application':
         uid: "Client ID"

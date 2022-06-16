@@ -523,7 +523,7 @@ fi:
         duration: "Duration"
         end_insertion: "Lisäyksen loppu"
         end_deletion: "Poistokohdan loppu"
-        version: "Versio"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Ylätaso"
         parent_issue: "Ylätaso"
         parent_work_package: "Ylätaso"
@@ -535,6 +535,7 @@ fi:
         subproject: "Aliprojekti"
         time_entries: "Kirjaa työaika"
         type: "Tyyppi"
+        version: "Versio"
         watcher: "Seuraajat"
       'doorkeeper/application':
         uid: "Client ID"

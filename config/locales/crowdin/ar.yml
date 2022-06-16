@@ -527,7 +527,7 @@ ar:
         duration: "Duration"
         end_insertion: "نهاية الإدراج"
         end_deletion: "نهاية الحذف"
-        version: "الإصدار"
+        ignore_non_working_days: "Ignore non working days"
         parent: "الجذر"
         parent_issue: "الجذر"
         parent_work_package: "الجذر"
@@ -539,6 +539,7 @@ ar:
         subproject: "مشروع فرعي"
         time_entries: "وقت السجل"
         type: "النّوع"
+        version: "الإصدار"
         watcher: "المشاهد"
       'doorkeeper/application':
         uid: "Client ID"

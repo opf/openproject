@@ -524,7 +524,7 @@ lv:
         duration: "Duration"
         end_insertion: "Ievietošanas beigas"
         end_deletion: "Dzēšanas beigas"
-        version: "Versija"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -536,6 +536,7 @@ lv:
         subproject: "Subproject"
         time_entries: "Log time"
         type: "Veids"
+        version: "Versija"
         watcher: "Sekotājs"
       'doorkeeper/application':
         uid: "Client ID"

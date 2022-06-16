@@ -520,7 +520,7 @@ ca:
         duration: "Duration"
         end_insertion: "Final de la inserció"
         end_deletion: "Final de la supressió"
-        version: "Versió"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Pare"
         parent_issue: "Pare"
         parent_work_package: "Pare"
@@ -532,6 +532,7 @@ ca:
         subproject: "Subprojecte"
         time_entries: "Temps de registre"
         type: "Tipus"
+        version: "Versió"
         watcher: "Observador"
       'doorkeeper/application':
         uid: "ID de Client"

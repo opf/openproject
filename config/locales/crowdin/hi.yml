@@ -521,7 +521,7 @@ hi:
         duration: "Duration"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
-        version: "संस्करण"
+        ignore_non_working_days: "Ignore non working days"
         parent: "जनक"
         parent_issue: "जनक"
         parent_work_package: "जनक"
@@ -533,6 +533,7 @@ hi:
         subproject: "परियोजना की उपपरियोजना"
         time_entries: "लॉग समय"
         type: "प्रकार"
+        version: "संस्करण"
         watcher: "वॉचर"
       'doorkeeper/application':
         uid: "Client ID"

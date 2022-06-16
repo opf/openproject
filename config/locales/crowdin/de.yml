@@ -518,7 +518,7 @@ de:
         duration: "Duration"
         end_insertion: "Ende der Einfügung"
         end_deletion: "Ende des Löschvorgangs"
-        version: "Version"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Übergeordnetes Arbeitspaket"
         parent_issue: "Übergeordnetes Arbeitspaket"
         parent_work_package: "Übergeordnetes Arbeitspaket"
@@ -530,6 +530,7 @@ de:
         subproject: "Unterprojekt"
         time_entries: "Zeit buchen"
         type: "Typ"
+        version: "Version"
         watcher: "Beobachter"
       'doorkeeper/application':
         uid: "Client-ID"
