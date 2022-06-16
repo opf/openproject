@@ -4,6 +4,19 @@
   [inEditMode]="inEditMode"
   (onSaved)="signalModifiedEntry($event)">
   <div class="attributes-map">
+    <!-- <user-autocompleter [clearAfterSelection]="false"
+        [url]="availableAssigneesPath">
+    </user-autocompleter> -->
+    <div class="attributes-map--key"
+        [ngClass]="{'-required': isRequired('user')}"
+        [textContent]="text.attributes.user">
+    </div>
+    <div class="attributes-map--value">
+    <editable-attribute-field [resource]="entry"
+                        [wrapperClasses]="'-tiny'"
+                        [fieldName]="'user'">
+    </editable-attribute-field>
+    </div>
 
     <div class="attributes-map--key"
                [ngClass]="{'-required': isRequired('spentOn')}"

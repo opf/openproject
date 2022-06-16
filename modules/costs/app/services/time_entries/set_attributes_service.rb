@@ -44,11 +44,16 @@ module TimeEntries
       set_default_user
       set_default_activity
       set_default_hours
+      set_logged_by
+    end
+
+    def set_logged_by
+      model.logged_by = user
     end
 
     def set_default_user
       model.change_by_system do
-        model.user = user
+        model.user ||= user
       end
     end
 

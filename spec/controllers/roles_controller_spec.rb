@@ -36,7 +36,7 @@ describe RolesController, type: :controller do
     {
       role: {
         name: 'A role name',
-        permissions: ['add_work_packages', 'edit_work_packages', 'log_time', ''],
+        permissions: ['add_work_packages', 'edit_work_packages', 'log_own_time', ''],
         assignable: '0'
       },
       copy_workflow_from: '5'

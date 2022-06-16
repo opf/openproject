@@ -114,7 +114,7 @@ role_permission021:
 role_permission022:
   id: 22
   role_id: 1
-  permission: 'log_time'
+  permission: 'log_own_time'
 role_permission023:
   id: 23
   role_id: 1
@@ -271,7 +271,7 @@ role_permission114:
 role_permission115:
   id: 115
   role_id: 2
-  permission: 'log_time'
+  permission: 'log_own_time'
 role_permission116:
   id: 116
   role_id: 2
@@ -400,7 +400,7 @@ role_permission212:
 role_permission213:
   id: 213
   role_id: 3
-  permission: 'log_time'
+  permission: 'log_own_time'
 role_permission214:
   id: 214
   role_id: 3
@@ -485,7 +485,7 @@ role_permission233:
 role_permission234:
   id: 234
   role_id: 4
-  permission: 'log_time'
+  permission: 'log_own_time'
 role_permission235:
   id: 235
   role_id: 4
