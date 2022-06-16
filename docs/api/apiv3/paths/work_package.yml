@@ -203,6 +203,7 @@ get:
             id: 1528
             percentageDone: 0
             scheduleManually: false
+            readonly: false
             startDate:
             subject: Develop API
             updatedAt: '2014-08-29T12:44:41Z'
@@ -388,6 +389,7 @@ patch:
             id: 1528
             percentageDone: 0
             scheduleManually: false
+            readonly: false
             startDate:
             subject: Develop API
             updatedAt: '2014-08-29T12:44:41Z'

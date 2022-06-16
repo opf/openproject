@@ -54,9 +54,6 @@ module Journals
         return ServiceResult.new success: true unless journal
 
         destroy_predecessor(journal)
-
-        journal
-
         reload_journals
         touch_journable(journal)
 

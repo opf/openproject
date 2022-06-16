@@ -476,13 +476,21 @@ describe WorkPackages::BaseContract do
     end
   end
 
-  describe 'duration' do
+  describe 'duration', with_flag: { work_packages_duration_field_active: true } do
     context 'when setting the duration' do
       before do
         work_package.duration = 5
       end
 
       it_behaves_like 'contract is valid'
+    end
+
+    context 'when setting the duration with the feature disabled', with_flag: { work_packages_duration_field_active: false } do
+      before do
+        work_package.duration = 5
+      end
+
+      it_behaves_like 'contract is invalid', duration: :error_readonly
     end
 
     context 'when setting the duration to 0' do
@@ -547,6 +555,33 @@ describe WorkPackages::BaseContract do
       end
 
       it_behaves_like 'contract is valid'
+    end
+  end
+
+  describe 'ignore_non_working_days' do
+    context 'when setting the value to true', with_flag: { work_packages_duration_field_active: true } do
+      before do
+        work_package.ignore_non_working_days = true
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when setting the value to false', with_flag: { work_packages_duration_field_active: true } do
+      before do
+        work_package.ignore_non_working_days = false
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when setting the value to false and with the feature disabled',
+            with_flag: { work_packages_duration_field_active: false } do
+      before do
+        work_package.ignore_non_working_days = false
+      end
+
+      it_behaves_like 'contract is invalid', ignore_non_working_days: :error_readonly
     end
   end
 

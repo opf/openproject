@@ -179,6 +179,8 @@ module Redmine
         end
 
         def ensure_custom_values_complete
+          return unless custom_values.loaded? && (custom_values.any?(&:changed?) || custom_value_destroyed)
+
           self.custom_values = custom_field_values
         end
 

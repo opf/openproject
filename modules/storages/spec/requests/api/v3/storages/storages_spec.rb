@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 storages resource', :enable_storages, type: :request, content_type: :json do
+describe 'API v3 storages resource', with_flag: { storages_module_active: true }, type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_file_links) }
@@ -95,7 +95,7 @@ describe 'API v3 storages resource', :enable_storages, type: :request, content_t
       it_behaves_like 'successful storage response'
     end
 
-    context 'when storages module is inactive', :disable_storages do
+    context 'when storages module is inactive', with_flag: { storages_module_active: false } do
       it_behaves_like 'not found'
     end
 

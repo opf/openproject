@@ -522,7 +522,7 @@ sv:
         duration: "Duration"
         end_insertion: "Slutet av införandet"
         end_deletion: "Slutet av raderingen"
-        version: "Version"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Överordnad"
         parent_issue: "Överordnad"
         parent_work_package: "Överordnad"
@@ -534,6 +534,7 @@ sv:
         subproject: "Delprojekt"
         time_entries: "Logga tid"
         type: "Typ"
+        version: "Version"
         watcher: "Bevakare"
       'doorkeeper/application':
         uid: "Client ID"

@@ -520,7 +520,7 @@ es:
         duration: "Duration"
         end_insertion: "Final de la inserción"
         end_deletion: "Final de la eliminación"
-        version: "Versión"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Padre"
         parent_issue: "Padre"
         parent_work_package: "Padre"
@@ -532,6 +532,7 @@ es:
         subproject: "Subproyecto"
         time_entries: "Registro de tiempo"
         type: "Tipo"
+        version: "Versión"
         watcher: "Vigilante"
       'doorkeeper/application':
         uid: "ID de cliente"

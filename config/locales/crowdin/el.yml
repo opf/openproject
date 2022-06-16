@@ -519,7 +519,7 @@ el:
         duration: "Duration"
         end_insertion: "Λήξη της εισαγωγής"
         end_deletion: "Λήξη της διαγραφής"
-        version: "Έκδοση"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Γονέας"
         parent_issue: "Γονέας"
         parent_work_package: "Γονέας"
@@ -531,6 +531,7 @@ el:
         subproject: "Υποέργο"
         time_entries: "Καταγραφή χρόνου"
         type: "Τύπος"
+        version: "Έκδοση"
         watcher: "Παρατηρητής"
       'doorkeeper/application':
         uid: "Ταυτότητα Πελάτη"

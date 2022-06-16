@@ -523,7 +523,7 @@ tr:
         duration: "Duration"
         end_insertion: "Ekleme işlemi bitti"
         end_deletion: "Silme işlemi bitti"
-        version: "Sürüm"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Üst"
         parent_issue: "Üst"
         parent_work_package: "Üst"
@@ -535,6 +535,7 @@ tr:
         subproject: "Alt proje"
         time_entries: "Zaman kaydet"
         type: "Tür"
+        version: "Sürüm"
         watcher: "Takipçi"
       'doorkeeper/application':
         uid: "Müşteri Kimliği"

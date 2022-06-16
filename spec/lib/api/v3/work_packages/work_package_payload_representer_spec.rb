@@ -269,32 +269,6 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           end
         end
       end
-
-      describe 'duration' do
-        before do
-          allow(OpenProject::FeatureDecisions)
-             .to receive(:work_packages_duration_field_active?)
-             .and_return(true)
-        end
-
-        it 'has no duration attribute' do
-          # TODO: Remove this, once the duration feature is complete
-          expect(subject).not_to have_json_path('duration')
-        end
-
-        context 'when duration feature flag disabled' do
-          before do
-            allow(OpenProject::FeatureDecisions)
-               .to receive(:work_packages_duration_field_active?)
-               .and_return(false)
-          end
-
-          it 'has no duration attribute' do
-            # TODO: Remove this, once the duration feature is complete
-            expect(subject).not_to have_json_path('duration')
-          end
-        end
-      end
     end
 
     describe '_links' do

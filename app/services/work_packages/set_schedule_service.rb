@@ -176,9 +176,9 @@ class WorkPackages::SetScheduleService
 
   def date_rescheduling_delta(predecessor)
     if predecessor.due_date.present?
-      predecessor.due_date - (predecessor.due_date_was || predecessor.due_date)
+      predecessor.due_date - (predecessor.due_date_before_last_save || predecessor.due_date_was || predecessor.due_date)
     elsif predecessor.start_date.present?
-      predecessor.start_date - (predecessor.start_date_was || predecessor.start_date)
+      predecessor.start_date - (predecessor.start_date_before_last_save || predecessor.start_date_was || predecessor.start_date)
     else
       0
     end

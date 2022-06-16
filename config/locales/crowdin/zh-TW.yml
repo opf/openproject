@@ -522,7 +522,7 @@ zh-TW:
         duration: "Duration"
         end_insertion: "結束插入"
         end_deletion: "結束刪除"
-        version: "版本"
+        ignore_non_working_days: "Ignore non working days"
         parent: "上層目錄："
         parent_issue: "上層目錄："
         parent_work_package: "上層目錄："
@@ -534,6 +534,7 @@ zh-TW:
         subproject: "子專案"
         time_entries: "日誌的時間"
         type: "類型"
+        version: "版本"
         watcher: "監看者"
       'doorkeeper/application':
         uid: "用戶端 ID"

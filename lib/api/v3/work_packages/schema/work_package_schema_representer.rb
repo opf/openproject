@@ -128,6 +128,12 @@ module API
                  required: false,
                  has_default: true
 
+          schema :ignore_non_working_days,
+                 type: 'Boolean',
+                 required: false,
+                 writable: false,
+                 show_if: ->(*) { OpenProject::FeatureDecisions.work_packages_duration_field_active? }
+
           schema :start_date,
                  type: 'Date',
                  required: false,
@@ -175,6 +181,12 @@ module API
                  name_source: :done_ratio,
                  show_if: ->(*) { Setting.work_package_done_ratio != 'disabled' },
                  required: false
+
+          schema :readonly,
+                 type: 'Boolean',
+                 show_if: ->(*) { Status.can_readonly? },
+                 required: false,
+                 has_default: true
 
           schema :created_at,
                  type: 'DateTime'

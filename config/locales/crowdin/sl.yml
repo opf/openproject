@@ -522,7 +522,7 @@ sl:
         duration: "Duration"
         end_insertion: "Konec vstavitve"
         end_deletion: "Konec izbrisa"
-        version: "Različica"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Nadrejeni"
         parent_issue: "Nadrejeni"
         parent_work_package: "Nadrejeni"
@@ -534,6 +534,7 @@ sl:
         subproject: "Podprojekt"
         time_entries: "Beleži čas"
         type: "Vrsta"
+        version: "Različica"
         watcher: "Opazovalec"
       'doorkeeper/application':
         uid: "ID odjemalca"

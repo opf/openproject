@@ -521,7 +521,7 @@ uk:
         duration: "Duration"
         end_insertion: "Кінець вставки"
         end_deletion: "Кінець видалення"
-        version: "Версія"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Джерело"
         parent_issue: "Джерело"
         parent_work_package: "Джерело"
@@ -533,6 +533,7 @@ uk:
         subproject: "Підпроект"
         time_entries: "Час журналу"
         type: "Тип"
+        version: "Версія"
         watcher: "Спостерігач"
       'doorkeeper/application':
         uid: "Ідентифікатор клієнта"

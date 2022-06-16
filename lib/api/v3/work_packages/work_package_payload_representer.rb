@@ -36,13 +36,7 @@ module API
         cached_representer disabled: true
 
         def writeable_attributes
-          attributes = super
-          # TODO: Remove this, once the duration feature is complete
-          # We have to remove the duration field as it is not being accepted yet.
-          if OpenProject::FeatureDecisions.work_packages_duration_field_active?
-            attributes -= %w[duration]
-          end
-          attributes + %w[date]
+          super + %w[date]
         end
 
         def load_complete_model(model)

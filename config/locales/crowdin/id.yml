@@ -519,7 +519,7 @@ id:
         duration: "Duration"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
-        version: "Versi"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Induk"
         parent_issue: "Induk"
         parent_work_package: "Induk"
@@ -531,6 +531,7 @@ id:
         subproject: "Sub-Project"
         time_entries: "Catatan waktu"
         type: "Tipe"
+        version: "Versi"
         watcher: "Pemantau"
       'doorkeeper/application':
         uid: "ID Pelanggan"

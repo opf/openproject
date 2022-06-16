@@ -523,7 +523,7 @@ bg:
         duration: "Duration"
         end_insertion: "Край на вмъкване"
         end_deletion: "Края на изтриване"
-        version: "Версия"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Горна категория"
         parent_issue: "Горна категория"
         parent_work_package: "Горна категория"
@@ -535,6 +535,7 @@ bg:
         subproject: "Подпроект"
         time_entries: "Отчетено време"
         type: "Тип"
+        version: "Версия"
         watcher: "Наблюдател"
       'doorkeeper/application':
         uid: "№ на клиент"

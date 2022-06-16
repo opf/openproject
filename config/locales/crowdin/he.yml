@@ -525,7 +525,7 @@ he:
         duration: "Duration"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
-        version: "גירסה"
+        ignore_non_working_days: "Ignore non working days"
         parent: "אב"
         parent_issue: "אב"
         parent_work_package: "אב"
@@ -537,6 +537,7 @@ he:
         subproject: "תת פרוייקט"
         time_entries: "נרשם ביומן"
         type: "סוג"
+        version: "גירסה"
         watcher: "צופה"
       'doorkeeper/application':
         uid: "Client ID"

@@ -50,12 +50,12 @@ module BaseServices
     # Determine the type of context
     # this service is running in
     # e.g., within a resource lock or just executing as the given user
-    def service_context(&)
-      in_context(model, true, &)
+    def service_context(send_notifications: true, &block)
+      in_context(model, send_notifications, &block)
     end
 
     def perform(params = {})
-      service_context do
+      service_context(send_notifications: (params || {}).fetch(:send_notifications, true)) do
         service_call = validate_params(params)
         service_call = before_perform(params, service_call) if service_call.success?
         service_call = validate_contract(service_call) if service_call.success?

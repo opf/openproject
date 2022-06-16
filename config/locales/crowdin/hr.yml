@@ -524,7 +524,7 @@ hr:
         duration: "Duration"
         end_insertion: "Kraj umetanja"
         end_deletion: "Kraj brisanja"
-        version: "Verzija"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Matični"
         parent_issue: "Matični"
         parent_work_package: "Matični"
@@ -536,6 +536,7 @@ hr:
         subproject: "Potprojekt"
         time_entries: "Vrijeme pristupa"
         type: "Tip"
+        version: "Verzija"
         watcher: "Nadglednik"
       'doorkeeper/application':
         uid: "Client ID"
