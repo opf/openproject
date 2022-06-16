@@ -63,7 +63,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
 
   public createdNewPrincipal = false;
 
-  public get loading() {
+  public get loading():boolean {
     return this.locals.projectId && !this.project;
   }
 
@@ -105,7 +105,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
       return this.closeWithPrincipal();
     }
 
-    this.goTo(Steps.Role);
+    return this.goTo(Steps.Role);
   }
 
   onRoleSave(role:RoleResource):void {

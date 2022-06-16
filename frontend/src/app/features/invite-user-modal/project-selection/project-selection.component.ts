@@ -7,6 +7,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   Validators,
@@ -71,11 +72,11 @@ export class ProjectSelectionComponent implements OnInit {
     project: new FormControl(null, [Validators.required], ProjectAllowedValidator(this.currentUserService)),
   });
 
-  get typeControl() {
+  get typeControl():AbstractControl {
     return this.projectAndTypeForm.get('type')!;
   }
 
-  get projectControl() {
+  get projectControl():AbstractControl {
     return this.projectAndTypeForm.get('project')!;
   }
 
@@ -89,7 +90,7 @@ export class ProjectSelectionComponent implements OnInit {
     readonly currentUserService:CurrentUserService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit():void {
     this.typeControl.setValue(this.type);
 
     if (this.project) {

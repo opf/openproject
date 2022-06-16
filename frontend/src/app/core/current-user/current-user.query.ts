@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
-import { filterNilValue, Query } from '@datorama/akita';
-import { Observable } from 'rxjs';
-import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
-import { CurrentUserState, CurrentUserStore } from './current-user.store';
+import {
+  filterNilValue,
+  Query,
+} from '@datorama/akita';
+import {
+  CurrentUserState,
+  CurrentUserStore,
+} from './current-user.store';
 
 @Injectable()
 export class CurrentUserQuery extends Query<CurrentUserState> {
@@ -14,5 +18,5 @@ export class CurrentUserQuery extends Query<CurrentUserState> {
 
   user$ = this.select(({ id, name, mail }) => ({ id, name, mail }));
 
-  capabilities$ = this.select('capabilities').pipe(filterNilValue()) as Observable<CapabilityResource[]>;
+  capabilities$ = this.select('capabilities').pipe(filterNilValue());
 }

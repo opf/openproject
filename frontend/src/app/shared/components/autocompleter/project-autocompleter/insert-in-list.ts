@@ -40,7 +40,7 @@ const insertProjectWithAncestors = (
       children: insertProjectWithAncestors([], project, ancestors.slice(1)),
     },
   ];
-}
+};
 
 export const buildTree = (
   projects:IProjectAutocompleteItem[],
@@ -51,4 +51,3 @@ export const buildTree = (
   (tree, project) => insertProjectWithAncestors(tree, project, project.ancestors),
   [],
 );
-

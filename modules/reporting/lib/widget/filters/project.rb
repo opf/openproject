@@ -31,32 +31,16 @@ class Widget::Filters::Project < Widget::Filters::Base
 
   def render
     write(content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: 'advanced-filters--filter-value') do
-      label = label_tag "#{filter_class.underscore_name}_arg_1_val",
-                        "#{h(filter_class.label)} #{I18n.t(:label_filter_value)}",
-                        class: 'hidden-for-sighted'
+      label = html_label
 
+      selected_values = map_filter_values
 
-      selected_values = filter.values.each.map do |id|
-        # When live testing, these IDs came out as integers.
-        # However, when running the specs, they came out as strings.
-        int_id = Integer(id)
-        available_value = filter_class.available_values.detect { |val| Integer(val[1]) === int_id }
-
-        if available_value != nil
-          {
-            id: int_id,
-            name: available_value[0]
-          }
-        else
-          nil
-        end
-      end
       box = angular_component_tag 'op-project-autocompleter',
                                   inputs: {
                                     apiFilters: [],
                                     name: "values[#{filter_class.underscore_name}][]",
                                     multiple: true,
-                                    value: selected_values.filter { |item| item != nil }
+                                    value: selected_values.filter { |item| !item.nil? }
                                   },
                                   id: "#{filter_class.underscore_name}_select_1",
                                   class: 'filter-value'
@@ -65,5 +49,31 @@ class Widget::Filters::Project < Widget::Filters::Base
         label + box
       end
     end)
+  end
+
+  private
+
+  def html_label
+    label_tag "#{filter_class.underscore_name}_arg_1_val",
+              "#{h(filter_class.label)} #{I18n.t(:label_filter_value)}",
+              class: 'hidden-for-sighted'
+  end
+
+  def map_filter_values
+    filter.values.each.map do |id|
+      # When live testing, these IDs came out as integers.
+      # However, when running the specs, they came out as strings.
+      int_id = Integer(id)
+      available_value = filter_class.available_values.detect { |val| Integer(val[1]) === int_id }
+
+      if available_value.nil?
+        nil
+      else
+        {
+          id: int_id,
+          name: available_value[0]
+        }
+      end
+    end
   end
 end
