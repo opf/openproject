@@ -32,7 +32,7 @@ require 'services/base_services/behaves_like_update_service'
 describe Groups::UpdateService, type: :model do
   it_behaves_like 'BaseServices update service' do
     let(:add_service_result) do
-      ServiceResult.new success: true
+      ServiceResult.success
     end
     let!(:add_users_service) do
       add_service = instance_double(Groups::AddUsersService)
@@ -82,7 +82,7 @@ describe Groups::UpdateService, type: :model do
 
       context 'with the AddUsersService being unsuccessful' do
         let(:add_service_result) do
-          ServiceResult.new success: false
+          ServiceResult.failure
         end
 
         it 'is failure' do

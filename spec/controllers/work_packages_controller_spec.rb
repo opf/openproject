@@ -175,7 +175,7 @@ describe WorkPackagesController, type: :controller do
             allow(service_instance)
               .to receive(:call)
               .with(query:, mime_type: mime_type.to_sym, params: anything)
-              .and_return(ServiceResult.new(result: 'uuid of the export job'))
+              .and_return(ServiceResult.failure(result: 'uuid of the export job'))
           end
 
           it 'redirects to the job status' do

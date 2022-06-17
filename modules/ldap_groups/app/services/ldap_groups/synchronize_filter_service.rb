@@ -8,11 +8,11 @@ module LdapGroups
 
     def call
       count = synchronize!
-      ServiceResult.new(success: true, result: count)
+      ServiceResult.success(result: count)
     rescue StandardError => e
       error = "[LDAP groups] Failed to extract LDAP groups from filter #{filter.name}: #{e.class}: #{e.message}"
       Rails.logger.error(error)
-      ServiceResult.new(success: false, message: error)
+      ServiceResult.failure(message: error)
     end
 
     ##

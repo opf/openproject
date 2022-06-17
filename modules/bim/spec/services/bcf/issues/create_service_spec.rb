@@ -34,7 +34,7 @@ describe Bim::Bcf::Issues::CreateService, type: :model do
     let(:model_class) { ::Bim::Bcf::Issue }
     let(:factory) { :bcf_issue }
     let(:work_package) { build_stubbed :work_package }
-    let(:wp_call) { ServiceResult.new(success: true, result: work_package) }
+    let(:wp_call) { ServiceResult.success(result: work_package) }
 
     before do
       allow(instance)
@@ -43,7 +43,7 @@ describe Bim::Bcf::Issues::CreateService, type: :model do
     end
 
     context 'when WP service call fails' do
-      let(:wp_call) { ServiceResult.new(success: false, result: work_package) }
+      let(:wp_call) { ServiceResult.failure(result: work_package) }
 
       it 'returns with that call immediately' do
         expect(subject).to eq wp_call

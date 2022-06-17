@@ -665,6 +665,25 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe 'readonly' do
+      context 'with the enterprise feature enabled', with_ee: %i[readonly_work_packages] do
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'readonly' }
+          let(:type) { 'Boolean' }
+          let(:name) { I18n.t('activerecord.attributes.work_package.readonly') }
+          let(:required) { false }
+          let(:has_default) { true }
+          let(:writable) { false }
+        end
+      end
+
+      context 'without the enterprise feature' do
+        it 'has no such property' do
+          expect(subject).not_to have_json_path('readonly')
+        end
+      end
+    end
+
     describe 'createdAt' do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'createdAt' }

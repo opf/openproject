@@ -85,7 +85,7 @@ shared_context 'with CreateFromJournalJob context' do
               .and_return(notifications_service)
       allow(notifications_service)
         .to receive(:call)
-              .and_return(ServiceResult.new(success: true, result: notification))
+              .and_return(ServiceResult.success(result: notification))
 
       expect(call.all_results)
         .to match_array([notification])

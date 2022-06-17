@@ -259,4 +259,41 @@ describe 'Team planner', type: :feature, js: true do
       expect(page).to have_selector('.ng-option-disabled', text: "No items found")
     end
   end
+
+  context 'with a readonly work package' do
+    let(:readonly_status) { create :status, is_readonly: true }
+
+    let!(:blocked_task) do
+      create :work_package,
+             project:,
+             assigned_to: user,
+             status: readonly_status,
+             start_date: Time.zone.today - 1.day,
+             due_date: Time.zone.today + 1.day,
+             subject: 'A blocked task'
+    end
+
+    it 'disables editing on readonly tasks' do
+      with_enterprise_token(:team_planner_view, :readonly_work_packages)
+      team_planner.visit!
+
+      team_planner.wait_for_loaded
+      team_planner.expect_empty_state
+      team_planner.expect_assignee(user, present: false)
+
+      retry_block do
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add user.name
+      end
+
+      team_planner.expect_empty_state(present: false)
+      team_planner.expect_assignee user
+
+      team_planner.within_lane(user) do
+        team_planner.expect_event blocked_task
+        team_planner.expect_resizable blocked_task, resizable: false
+      end
+    end
+  end
 end

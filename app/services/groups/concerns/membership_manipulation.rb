@@ -44,11 +44,10 @@ module Groups::Concerns
 
     def with_error_handled
       yield
-      ServiceResult.new success: true, result: model
+      ServiceResult.success result: model
     rescue StandardError => e
       Rails.logger.error { "Failed to modify members and associated roles of group #{model.id}: #{e} #{e.message}" }
-      ServiceResult.new(success: false,
-                        message: I18n.t(:notice_internal_server_error, app_title: Setting.app_title))
+      ServiceResult.failure(message: I18n.t(:notice_internal_server_error, app_title: Setting.app_title))
     end
 
     def exec_query!(params, send_notifications, message)

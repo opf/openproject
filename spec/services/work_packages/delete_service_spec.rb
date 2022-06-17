@@ -102,13 +102,10 @@ describe WorkPackages::DeleteService do
     let(:expect_inherited_attributes_service_calls) do
       inherited_service_instance = double(WorkPackages::UpdateAncestorsService)
 
-      service_result = ServiceResult.new(success: true,
-                                         result: work_package)
+      service_result = ServiceResult.success(result: work_package)
 
-      service_result.dependent_results += [ServiceResult.new(success: true,
-                                                             result: parent),
-                                           ServiceResult.new(success: true,
-                                                             result: grandparent)]
+      service_result.dependent_results += [ServiceResult.success(result: parent),
+                                           ServiceResult.success(result: grandparent)]
 
       expect(WorkPackages::UpdateAncestorsService)
         .to receive(:new)
