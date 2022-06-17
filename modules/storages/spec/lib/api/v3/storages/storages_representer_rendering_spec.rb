@@ -36,15 +36,16 @@ describe ::API::V3::Storages::StorageRepresenter, 'rendering' do
 
   subject(:generated) { representer.to_json }
 
-  describe '_links' do
-    before do
-      # Mock the ConnectionManager to return :connected
-      allow(::OAuthClients::ConnectionManager)
-        .to receive(:new).and_return(connection_manager)
-      allow(connection_manager)
-        .to receive(:authorization_state).and_return(:connected)
-    end
+  before do
+    allow(::OAuthClients::ConnectionManager)
+      .to receive(:new).and_return(connection_manager)
+    allow(connection_manager)
+      .to receive(:authorization_state).and_return(:connected)
+    allow(connection_manager)
+      .to receive(:redirect_to_oauth_authorize).and_return('https://example.com/authorize')
+  end
 
+  describe '_links' do
     describe 'self' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'self' }
