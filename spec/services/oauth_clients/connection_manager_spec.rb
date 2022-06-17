@@ -399,7 +399,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
 
       context 'with outdated access token' do
         let(:new_oauth_client_token) { create :oauth_client_token }
-        let(:refresh_service_result) { ServiceResult.new(success: true) }
+        let(:refresh_service_result) { ServiceResult.success }
 
         before do
           stub_request(:get, File.join(host, ::OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
@@ -415,7 +415,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
         end
 
         context 'with invalid refresh token' do
-          let(:refresh_service_result) { ServiceResult.new(success: false, result: 'invalid_grant') }
+          let(:refresh_service_result) { ServiceResult.failure(result: 'invalid_grant') }
 
           it 'refreshes the access token and returns :failed_authorization' do
             expect(subject).to eq :failed_authorization
@@ -424,7 +424,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
         end
 
         context 'with some other error while refreshing access token' do
-          let(:refresh_service_result) { ServiceResult.new(success: false, result: nil) }
+          let(:refresh_service_result) { ServiceResult.failure }
 
           it 'returns :error' do
             expect(subject).to eq :error
