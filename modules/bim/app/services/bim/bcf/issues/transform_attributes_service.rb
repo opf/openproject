@@ -34,8 +34,7 @@ module Bim::Bcf
       end
 
       def call(attributes)
-        ServiceResult.new success: true,
-                          result: work_package_attributes(attributes)
+        ServiceResult.success result: work_package_attributes(attributes)
       end
 
       private

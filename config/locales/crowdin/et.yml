@@ -529,6 +529,7 @@ et:
         parent_work_package: "Pärineb teemast"
         priority: "Prioriteet"
         progress: "Progress (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Kulutatud aeg"
         spent_time: "Kulutatud aeg"

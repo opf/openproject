@@ -525,6 +525,7 @@ id:
         parent_work_package: "Induk"
         priority: "Prioritas"
         progress: "Progress (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Durasi"
         spent_time: "Durasi"

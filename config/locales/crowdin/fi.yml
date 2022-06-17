@@ -529,6 +529,7 @@ fi:
         parent_work_package: "Ylätaso"
         priority: "Prioriteetti"
         progress: "Valmiusaste (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Käytetty aika"
         spent_time: "Käytetty aika"

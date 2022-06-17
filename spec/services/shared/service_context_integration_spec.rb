@@ -48,7 +48,7 @@ describe Shared::ServiceContext, 'integration', type: :model do
             VALUES ('test_setting', 'abc')
           SQL
 
-          ServiceResult.new success: false
+          ServiceResult.failure
         end
       end
 
@@ -59,7 +59,7 @@ describe Shared::ServiceContext, 'integration', type: :model do
             VALUES ('test_setting', 'abc')
           SQL
 
-          ServiceResult.new success: true
+          ServiceResult.success
         end
       end
     end.new(user)

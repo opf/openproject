@@ -528,6 +528,7 @@ sv:
         parent_work_package: "Överordnad"
         priority: "Prioritet"
         progress: "Progress (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Förbrukad tid"
         spent_time: "Förbrukad tid"

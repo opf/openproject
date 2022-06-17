@@ -525,6 +525,7 @@ el:
         parent_work_package: "Γονέας"
         priority: "Προτεραιότητα"
         progress: "Πρόοδος (%)"
+        readonly: "Read only"
         schedule_manually: "Χειροκίνητος προγραμματισμός"
         spent_hours: "Χρόνος που δαπανήθηκε"
         spent_time: "Χρόνος που δαπανήθηκε"

@@ -527,6 +527,7 @@ da:
         parent_work_package: "Overordnet"
         priority: "Prioritet"
         progress: "Fremskridt (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Anvendt tid"
         spent_time: "Anvendt tid"

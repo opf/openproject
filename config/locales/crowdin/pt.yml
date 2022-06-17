@@ -528,6 +528,7 @@ pt:
         parent_work_package: "Pai"
         priority: "Prioridade"
         progress: "Progresso (%)"
+        readonly: "Read only"
         schedule_manually: "Agendamento manual"
         spent_hours: "Tempo gasto"
         spent_time: "Tempo gasto"

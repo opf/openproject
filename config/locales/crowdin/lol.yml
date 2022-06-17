@@ -510,6 +510,7 @@ lol:
         parent_work_package: "crwdns495345:0crwdne495345:0"
         priority: "crwdns495347:0crwdne495347:0"
         progress: "crwdns495349:0crwdne495349:0"
+        readonly: "crwdns819004:0crwdne819004:0"
         schedule_manually: "crwdns495351:0crwdne495351:0"
         spent_hours: "crwdns495353:0crwdne495353:0"
         spent_time: "crwdns495355:0crwdne495355:0"

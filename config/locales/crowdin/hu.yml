@@ -529,6 +529,7 @@ hu:
         parent_work_package: "Szülő"
         priority: "Fontosság"
         progress: "Folyamat állapot (%)"
+        readonly: "Read only"
         schedule_manually: "Kézi ütemezés\n"
         spent_hours: "Eltöltött idő"
         spent_time: "Eltöltött idő"

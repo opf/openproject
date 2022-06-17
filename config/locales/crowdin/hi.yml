@@ -527,6 +527,7 @@ hi:
         parent_work_package: "जनक"
         priority: "वरीयता"
         progress: "Progress (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "समय बिताया"
         spent_time: "समय बिताया"

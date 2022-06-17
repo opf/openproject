@@ -49,11 +49,11 @@ module OAuthClients
     def get_access_token(scope: [], state: nil)
       # Check for an already existing token from last call
       token = get_existing_token
-      return ServiceResult.new(success: true, result: token) if token.present?
+      return ServiceResult.success(result: token) if token.present?
 
       # Return a String with a redirect URL to Nextcloud instead of a token
       @redirect_url = redirect_to_oauth_authorize(scope:, state:)
-      ServiceResult.new(success: false, result: @redirect_url)
+      ServiceResult.failure(result: @redirect_url)
     end
 
     # The bearer/access token has expired or is due for renew for other reasons.
@@ -100,7 +100,7 @@ module OAuthClients
         oauth_client_token = create_new_oauth_client_token(service_result.result)
       end
 
-      ServiceResult.new(success: true, result: oauth_client_token)
+      ServiceResult.success(result: oauth_client_token)
     end
 
     # Called by StorageRepresenter to inquire about the status of the OAuth2
@@ -159,8 +159,7 @@ module OAuthClients
       rack_access_token = rack_oauth_client(options)
                             .access_token!(:body) # Rack::OAuth2::AccessToken
 
-      ServiceResult.new(success: true,
-                        result: rack_access_token)
+      ServiceResult.success(result: rack_access_token)
     rescue Rack::OAuth2::Client::Error => e # Handle Rack::OAuth2 specific errors
       service_result_with_error(i18n_rack_oauth2_error_message(e), e.message)
     rescue Timeout::Error, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError,
@@ -238,20 +237,20 @@ module OAuthClients
       )
 
       if success
-        ServiceResult.new(success: true, result: oauth_client_token)
+        ServiceResult.success(result: oauth_client_token)
       else
-        result = ServiceResult.new(success: false)
+        result = ServiceResult.failure
         result.errors.add(:base, I18n.t('oauth_client.errors.refresh_token_updated_failed'))
-        result.add_dependent!(ServiceResult.new(success: false, errors: oauth_client_token.errors))
+        result.add_dependent!(ServiceResult.failure(errors: oauth_client_token.errors))
         result
       end
     end
 
     # Shortcut method to convert an error message into an unsuccessful
     # ServiceResult with that error message
-    def service_result_with_error(message, res = nil)
-      ServiceResult.new(success: false, result: res).tap do |service_result|
-        service_result.errors.add(:base, message)
+    def service_result_with_error(message, result = nil)
+      ServiceResult.failure(result:).tap do |r|
+        r.errors.add(:base, message)
       end
     end
   end

@@ -94,10 +94,10 @@ describe Relations::UpdateService do
   context 'when all valid and it is a follows relation' do
     let(:set_schedule_service) { double('set schedule service') }
     let(:set_schedule_work_package2_result) do
-      ServiceResult.new success: true, result: work_package2, errors: work_package2.errors
+      ServiceResult.success result: work_package2, errors: work_package2.errors
     end
     let(:set_schedule_result) do
-      sr = ServiceResult.new success: true, result: work_package2, errors: work_package2.errors
+      sr = ServiceResult.success result: work_package2, errors: work_package2.errors
       sr.dependent_results << set_schedule_work_package2_result
       sr
     end

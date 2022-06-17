@@ -1,6 +1,7 @@
 require:
   - rubocop-rails
   - rubocop-rspec
+  - ./lib_static/rubocop/cop/open_project/use_service_result_factory_methods.rb
 
 AllCops:
   TargetRubyVersion: 3.1

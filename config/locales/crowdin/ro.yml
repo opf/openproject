@@ -530,6 +530,7 @@ ro:
         parent_work_package: "Părinte"
         priority: "Prioritate"
         progress: "Progres (%)"
+        readonly: "Read only"
         schedule_manually: "Programarea manuală"
         spent_hours: "Timp consumat"
         spent_time: "Timp consumat"

@@ -33,6 +33,38 @@ class ServiceResult
                 :state,
                 :dependent_results
 
+  # Creates a successful ServiceResult.
+  def self.success(errors: nil,
+                   message: nil,
+                   message_type: nil,
+                   state: ::Shared::ServiceState.new,
+                   dependent_results: [],
+                   result: nil)
+    new(success: true,
+        errors:,
+        message:,
+        message_type:,
+        state:,
+        dependent_results:,
+        result:)
+  end
+
+  # Creates a failed ServiceResult.
+  def self.failure(errors: nil,
+                   message: nil,
+                   message_type: nil,
+                   state: ::Shared::ServiceState.new,
+                   dependent_results: [],
+                   result: nil)
+    new(success: false,
+        errors:,
+        message:,
+        message_type:,
+        state:,
+        dependent_results:,
+        result:)
+  end
+
   def initialize(success: false,
                  errors: nil,
                  message: nil,

@@ -529,6 +529,7 @@ af:
         parent_work_package: "Ouer"
         priority: "Prioriteit"
         progress: "Progress (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Tyd gespandeer"
         spent_time: "Tyd gespandeer"

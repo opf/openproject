@@ -530,6 +530,7 @@ lv:
         parent_work_package: "Parent"
         priority: "Prioritāte"
         progress: "Progress (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Pavadīts laiks"
         spent_time: "Pavadīts laiks"

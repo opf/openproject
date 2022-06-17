@@ -528,6 +528,7 @@ th:
         parent_work_package: "หัวข้อหลัก"
         priority: "ระดับความสำคัญ"
         progress: "Progress (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "เวลาที่ใช้"
         spent_time: "เวลาที่ใช้"

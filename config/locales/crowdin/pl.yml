@@ -528,6 +528,7 @@ pl:
         parent_work_package: "Rodzic"
         priority: "Priorytet"
         progress: "Postęp (%)"
+        readonly: "Read only"
         schedule_manually: "Planowanie ręczne"
         spent_hours: "Czas pracy"
         spent_time: "Czas pracy"

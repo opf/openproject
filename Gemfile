@@ -86,7 +86,7 @@ gem 'html-pipeline', '~> 2.14.0'
 # Tasklist parsing and renderer
 gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
-gem 'escape_utils', '~> 1.0'
+gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
 gem 'rouge', '~> 3.29.0'
 # HTML sanitization used for html-pipeline
@@ -265,10 +265,6 @@ group :development do
   gem 'spring'
   gem 'spring-commands-rspec'
 
-  gem 'rubocop'
-  gem 'rubocop-rails'
-  gem 'rubocop-rspec'
-
   # Gems for living styleguide
   gem 'livingstyleguide', '~> 2.1.0'
   gem 'sassc-rails'
@@ -291,6 +287,11 @@ group :development, :test do
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.5.2'
   gem 'pry-stack_explorer', '~> 0.6.0'
+
+  # ruby linting
+  gem 'rubocop'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
 
   # git hooks manager
   gem 'lefthook'

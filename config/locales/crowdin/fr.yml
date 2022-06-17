@@ -529,6 +529,7 @@ fr:
         parent_work_package: "Parent"
         priority: "Priorité"
         progress: "Progrès (%)"
+        readonly: "Read only"
         schedule_manually: "Planification manuelle"
         spent_hours: "Temps passé"
         spent_time: "Temps passé"

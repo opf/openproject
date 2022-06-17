@@ -46,7 +46,7 @@ module API
         if update.success?
           representer = results_to_representer(params)
 
-          ServiceResult.new(success: true, result: representer)
+          ServiceResult.success(result: representer)
         else
           update
         end
