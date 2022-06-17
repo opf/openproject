@@ -14,6 +14,7 @@
         formControlName="project"
         [apiFilters]="APIFiltersForProjects"
         [mapResultsFn]="projectFilterFn.bind(this)"
+        appendTo=".op-modal-overlay"
       ></op-project-autocompleter>
 
       <div
