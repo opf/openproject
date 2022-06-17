@@ -529,6 +529,7 @@ bg:
         parent_work_package: "Горна категория"
         priority: "Приоритет"
         progress: "Прогрес (%)"
+        readonly: "Read only"
         schedule_manually: "Ръчно планиране"
         spent_hours: "Отработено време"
         spent_time: "Отработено време"

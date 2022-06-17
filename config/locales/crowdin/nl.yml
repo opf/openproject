@@ -526,6 +526,7 @@ nl:
         parent_work_package: "Bovenliggend werkpakket"
         priority: "Prioriteit"
         progress: "Voortgang (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Bestede tijd"
         spent_time: "Bestede tijd"

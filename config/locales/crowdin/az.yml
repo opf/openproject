@@ -529,6 +529,7 @@ az:
         parent_work_package: "Parent"
         priority: "Priority"
         progress: "Progress (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Spent time"
         spent_time: "Spent time"

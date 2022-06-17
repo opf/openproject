@@ -530,6 +530,7 @@ hr:
         parent_work_package: "Matični"
         priority: "Prioritet"
         progress: "Napredak (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Utrošeno vrijeme"
         spent_time: "Utrošeno vrijeme"

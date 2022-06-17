@@ -528,6 +528,7 @@ sl:
         parent_work_package: "Nadrejeni"
         priority: "Prioriteta"
         progress: "Napredek (%)"
+        readonly: "Read only"
         schedule_manually: "Ročno razvrščanje."
         spent_hours: "Porabljen čas"
         spent_time: "Porabljen čas"

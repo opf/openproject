@@ -533,6 +533,7 @@ ar:
         parent_work_package: "الجذر"
         priority: "الأولوية"
         progress: "التقدم (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "الوقت المستهلك"
         spent_time: "الوقت المستهلك"

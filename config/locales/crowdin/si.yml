@@ -529,6 +529,7 @@ si:
         parent_work_package: "මාපිය"
         priority: "ප්රමුඛතාව"
         progress: "ප්රගතිය (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "වැය කළ කාලය"
         spent_time: "වැය කළ කාලය"

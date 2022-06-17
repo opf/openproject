@@ -531,6 +531,7 @@ cs:
         parent_work_package: "Rodič"
         priority: "Priorita"
         progress: "Průběh (%)"
+        readonly: "Read only"
         schedule_manually: "Manuální plánování"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"

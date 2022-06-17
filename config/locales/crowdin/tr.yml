@@ -529,6 +529,7 @@ tr:
         parent_work_package: "Üst"
         priority: "Öncelik"
         progress: "İlerleme (%)"
+        readonly: "Read only"
         schedule_manually: "Manuel zamanlamayı etkinleştir"
         spent_hours: "Harcanan zaman"
         spent_time: "Harcanan zaman"

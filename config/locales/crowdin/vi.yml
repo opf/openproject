@@ -530,6 +530,7 @@ vi:
         parent_work_package: "Cha"
         priority: "Độ ưu tiên"
         progress: "Phát triển (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Thời gian"
         spent_time: "Thời gian"

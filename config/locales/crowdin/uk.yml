@@ -527,6 +527,7 @@ uk:
         parent_work_package: "Джерело"
         priority: "Пріоритет"
         progress: "Прогрес (%)"
+        readonly: "Read only"
         schedule_manually: "Ручне планування"
         spent_hours: "Трудовитрати"
         spent_time: "Трудовитрати"

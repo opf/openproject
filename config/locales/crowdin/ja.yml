@@ -524,6 +524,7 @@ ja:
         parent_work_package: "親項目"
         priority: "優先度"
         progress: "進行状況 (%)"
+        readonly: "Read only"
         schedule_manually: "手動スケジュール"
         spent_hours: "作業時間の記録"
         spent_time: "作業時間の記録"

@@ -526,6 +526,7 @@ ca:
         parent_work_package: "Pare"
         priority: "Prioritat"
         progress: "Progrés (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Temps invertit"
         spent_time: "Temps invertit"

@@ -527,6 +527,7 @@ ko:
         parent_work_package: "부모"
         priority: "우선 순위"
         progress: "진행률 (%)"
+        readonly: "Read only"
         schedule_manually: "수동 스케줄링"
         spent_hours: "소비한 시간"
         spent_time: "소비한 시간"

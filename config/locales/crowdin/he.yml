@@ -531,6 +531,7 @@ he:
         parent_work_package: "אב"
         priority: "עדיפות"
         progress: "Progress (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "זמן שבוזבז"
         spent_time: "זמן שבוזבז"
