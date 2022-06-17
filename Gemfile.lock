@@ -280,7 +280,7 @@ GEM
     afm (0.2.2)
     airbrake (13.0.2)
       airbrake-ruby (~> 6.0)
-    airbrake-ruby (6.1.0)
+    airbrake-ruby (6.1.1)
       rbtree3 (~> 0.5)
     appsignal (3.0.27)
       rack
@@ -291,7 +291,7 @@ GEM
     awesome_nested_set (3.5.0)
       activerecord (>= 4.0.0, < 7.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.596.0)
+    aws-partitions (1.598.0)
     aws-sdk-core (3.131.1)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
@@ -464,7 +464,7 @@ GEM
     erbse (0.1.4)
       temple
     erubi (1.10.0)
-    escape_utils (1.2.2)
+    escape_utils (1.3.0)
     et-orbi (1.2.7)
       tzinfo
     eventmachine (1.2.7)
@@ -492,7 +492,7 @@ GEM
     faraday-em_http (1.0.0)
     faraday-em_synchrony (1.0.0)
     faraday-excon (1.1.0)
-    faraday-http-cache (2.3.0)
+    faraday-http-cache (2.4.0)
       faraday (>= 0.8)
     faraday-httpclient (1.0.1)
     faraday-multipart (1.0.4)
@@ -632,7 +632,7 @@ GEM
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
     minisyntax (0.2.5)
-    minitest (5.15.0)
+    minitest (5.16.0)
     msgpack (1.5.2)
     multi_json (1.15.0)
     multipart-post (2.2.3)
@@ -787,7 +787,7 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.4.2)
+    rails-html-sanitizer (1.4.3)
       loofah (~> 2.3)
     rails-i18n (7.0.3)
       i18n (>= 0.7, < 2)
@@ -1002,7 +1002,7 @@ GEM
       activerecord (>= 4.2)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.5.4)
+    zeitwerk (2.6.0)
 
 PLATFORMS
   ruby
@@ -1051,7 +1051,7 @@ DEPENDENCIES
   dotenv-rails
   email_validator (~> 2.2.3)
   equivalent-xml (~> 0.6)
-  escape_utils (~> 1.0)
+  escape_utils (~> 1.3)
   factory_bot (~> 6.2.0)
   factory_bot_rails (~> 6.2.0)
   faker
