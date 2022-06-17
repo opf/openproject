@@ -35,7 +35,7 @@ Work package relations indicate that work packages address a similar topic or cr
 You can select one of the following relations:
 
 - **Related to** - This option adds a link from the work package A to work package B, so that project members can immediately see the connection, even if the work packages are not members of the same hierarchy. 
-- **Duplicates / Duplicated by** - This option indicates that the work package A duplicates a work package B in one way or another, for example both address the same task. This can be useful if you have the same work package that needs to be a part of a closed and public projects at the same time. The connection in this case is only semantic, the changes you make in work package A will need to be adapted in work package B manually. 
+- **Duplicates / Duplicated by** - This option indicates that the work package A duplicates a work package B in one way or another, for example both address the same task. This can be useful if you have the same work package that needs to be a part of a closed and public projects at the same time. The connection in this case is only semantic, the changes you make in work package A will need to be adapted in work package B manually. However, this does not affect the status, so if you change the status of workpackage A the status of workpackage B will change automatically to the same. 
 - **Blocks / Blocked by** - This option defines status change restrictions between two work packages. If you set a work package A to be blocking work package B, the status of work package B cannot be set to closed or resolved until the work package A is closed.
 - **Precedes / Follows** - Defines a chronologically relation between two work packages. For example, if you set a work package A to precede a work package B, you will not be able to change the start date of B to be earlier than the day after the finish date of A. In addition, when you move the finish date of A, the start and finish date of B will be updated as well.
   Please note: If work package B is in [manual scheduling mode](../../gantt-chart/scheduling/#manual-scheduling-mode), changing the finish date of work package A will have no effect on work package B.
@@ -52,15 +52,15 @@ As a user of [Enterprise on-premises](https://www.openproject.org/enterprise-edi
 
 This is useful if you want to get an overview of certain types of relationships between work packages. You can for example see which work packages are blocking other work packages.
 
-To add relation columns, click on the Gear wheel icon in the upper right corner to open the work package table configuration. Select a relation from the dropdown menu (e.g. "blocked by relations").
+To add relation columns, navigate to the upper right corner of the work package table and cick on the icon with the three dots. **... insert columns** an type the name of the relation into the search bar. Then select the relation and click on apply.
 
-![work-package-relation-work-package-table-configuration](work-package-relation-work-package-table-configuration-4704558.png)
+![work-package-add-relation-as-column](work-package-add-relation-as-column.png)
 
 The relations column shows the number of relations each work package has for the relation type (e.g. "blocked by").
 
 You can click on the number to display the work packages which have the relation type.
 
-![work-package-relations-in-columns](work-package-relations-in-columns-4704711.png)
+![Relations_column](Relations_column.png)
 
 ## Work package hierarchies
 
@@ -82,7 +82,7 @@ Open a work package and select the tab *Relations*. Click on *+ Create new child
 
 Insert the name of the new work package and save the newly created work package by pressing *Enter*. You can make changes to the work package by clicking on the work package ID.
 
-![create work package children](image-20200129144540902.png)
+![create workpackage children](image-20200129144540902.png)
 
 For more information on the work package creation take a look at the guideline on [creating a work package](../create-work-package).
 
@@ -90,7 +90,7 @@ For more information on the work package creation take a look at the guideline o
 
 To edit or remove the parent of a work package open the work package. At the top of the details view of the work package you will see the work package hierarchy. Click on the **edit icon** or **delete icon** to change the work package parent.
 
-![change-parent-work-package](change-parent-work-package-6597345.png)
+![change-parent-work-package](change-parent-work-package.png)
 
 ## Display work package hierarchies
 
@@ -110,4 +110,5 @@ You can also add a column with information about parent work packages:
 2. Select "Parent" from the drop down menu and click on apply.
 3. Now the column with the information about a parant relation is displayed in the work package table.
 
-![change-parent](change-parent.png)
+![select-parent-as-column](select-parent-as-column.png)
+
