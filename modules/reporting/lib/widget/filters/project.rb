@@ -60,9 +60,15 @@ class Widget::Filters::Project < Widget::Filters::Base
   end
 
   def map_filter_values
+    # In case the filter values are all written in a single string (e.g. ["12, 33"])
+    if filter.values.length === 1 && filter.values[0].instance_of?(String)
+      filter.values = filter.values[0].split(',')
+    end
+
     filter.values.each.map do |id|
       # When live testing, these IDs came out as integers.
       # However, when running the specs, they came out as strings.
+
       int_id = Integer(id)
       available_value = filter_class.available_values.detect { |val| Integer(val[1]) === int_id }
 
