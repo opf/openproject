@@ -420,7 +420,7 @@ cs:
     label_sort_lower: "Přesunout níž"
     label_sorting: "Řazení"
     label_spent_time: "Strávený čas"
-    label_star_query: "Oblíbená"
+    label_star_query: "Oblíbené"
     label_press_enter_to_save: "Stiskněte Enter pro uložení."
     label_public_query: "Veřejné"
     label_sum: "Suma"
@@ -941,7 +941,7 @@ cs:
         confirm_edit_cancel: "Jste si jisti, že chcete zrušit úpravy názvu tohoto pohledu? Titulek bude nastaven zpět na předchozí hodnotu."
         click_to_edit_query_name: "Kliknutím upravíte název tohoto zobrazení."
         rename_query_placeholder: "Název tohoto zobrazení"
-        star_text: "Označte tento pohled jako oblíbený a přidejte do postranního panelu vlevo."
+        star_text: "Označte toto zobrazení jako oblíbené a přidejte do postranního panelu vlevo."
         public_text: >
           Publikujte toto zobrazení, umožňující ostatním uživatelům přístup k vašemu zobrazení. Uživatelé s oprávněním 'Spravovat veřejné zobrazení' mohou upravit nebo odebrat veřejný dotaz. To nemá vliv na viditelnost výsledků pracovního balíčku v tomto zobrazení a v závislosti na jejich oprávněních mohou uživatelé vidět různé výsledky.
         errors:

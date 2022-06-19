@@ -218,7 +218,7 @@ cs:
       no_results_title_text: V současné době nejsou žádné projekty
       no_results_content_text: Vytvořit nový projekt
     settings:
-      change_identifier: Change identifier
+      change_identifier: Změnit identifikátor
       activities:
         no_results_title_text: V současné době nejsou k dispozici žádné aktivity.
       forums:
@@ -886,7 +886,7 @@ cs:
     lastname: "Příjmení"
     login: "Uživatelské jméno"
     mail: "E-mail"
-    name: "Jméno"
+    name: "Název"
     password: "Heslo"
     priority: "Priorita"
     project: "Projekt"
