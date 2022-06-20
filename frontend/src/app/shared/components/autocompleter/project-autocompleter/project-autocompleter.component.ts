@@ -156,7 +156,6 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
           filters.push(['name_and_identifier', '~', [searchTerm]]);
         }
 
-        // The URL constructor needs a full URL or a base, so we just use example.com as a base here.
         const url = new URL(this.url, window.location.origin);
         const fullParams = {
           filters,
