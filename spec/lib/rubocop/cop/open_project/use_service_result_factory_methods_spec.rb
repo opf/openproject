@@ -28,7 +28,6 @@
 
 require 'rubocop/rspec/shared_contexts'
 require 'spec_helper'
-require 'rubocop'
 require 'rubocop/rspec/support'
 require 'rubocop/cop/open_project/use_service_result_factory_methods'
 
