@@ -11,6 +11,7 @@
   [appendTo]="appendTo"
 
   (change)="writeValue($event)"
+  (keydown.escape)="cancel.emit()"
 >
   <ng-template
     ng-label-tmp

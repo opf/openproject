@@ -34,14 +34,9 @@ import {
   Inject,
   Injector,
   OnInit,
-  ViewChild,
 } from '@angular/core';
-import { NgSelectComponent } from '@ng-select/ng-select';
 import { HttpClient } from '@angular/common/http';
-import {
-  from,
-  Observable,
-} from 'rxjs';
+import { from } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   EditFieldComponent,
@@ -50,20 +45,16 @@ import {
   OpEditingPortalSchemaToken,
 } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
-import {
-  ApiV3ListFilter,
-  ApiV3ListParameters,
-  listParamsString,
-} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ResourceChangeset } from '../../changeset/resource-changeset';
 import { IFieldSchema } from '../../field.base';
 import { EditFieldHandler } from '../editing-portal/edit-field-handler';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { switchMap } from 'rxjs/operators';
+import {
+  take,
+  tap,
+} from 'rxjs/operators';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
@@ -73,6 +64,8 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 })
 export class ProjectEditFieldComponent extends EditFieldComponent implements OnInit {
   isNew = isNewResource(this.resource);
+
+  url:string;
 
   constructor(
     readonly I18n:I18nService,
@@ -95,6 +88,16 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
       cdRef,
       injector,
     );
+  }
+
+  ngOnInit():void {
+    super.ngOnInit();
+
+    if (this.schema.allowedValues) {
+      this.setUrl();
+    } else {
+      this.loadFormAndSetUrl();
+    }
   }
 
   public onModelChange(project?:IProject):unknown {
@@ -122,5 +125,18 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
     }
 
     return filters;
+  }
+
+  private loadFormAndSetUrl():void {
+    from(this.change.getForm())
+      .pipe(
+        tap(() => this.setUrl()),
+        take(1),
+      ).subscribe();
+  }
+
+  private setUrl():void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    this.url = this.schema.allowedValues.$link.href as string;
   }
 }

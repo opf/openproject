@@ -130,6 +130,8 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Output('valueChange') valueChange = new EventEmitter<IProjectAutocompleterData|IProjectAutocompleterData[]|null>();
 
+  @Output() cancel = new EventEmitter();
+
   @ViewChild('hiddenInput') hiddenInput:ElementRef;
 
   constructor(
