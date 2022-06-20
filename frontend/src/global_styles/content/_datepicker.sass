@@ -40,7 +40,7 @@ $datepicker--border-radius: 5px
   &.flatpickr-disabled,
   &.flatpickr-non-working-day
     background: $spot-color-basic-gray-6
-    border-radius: 0 !important
+    border-radius: 0
 
 .flatpickr-calendar.inline
   box-shadow: none !important
@@ -125,6 +125,9 @@ $datepicker--border-radius: 5px
           border-color: $spot-color-feedback-info-light
           border-radius: 0
 
+        &.flatpickr-disabled:not(.selected),
+        &.flatpickr-non-working-day:not(.selected)
+          border-radius: 0
 
   &.disabled
     .flatpickr-days
