@@ -61,7 +61,7 @@ class Principals::DeleteJob < ApplicationJob
   end
 
   def delete_private_queries(principal)
-    ::Query.where(user_id: principal.id, public: false).delete_all
+    ::Query.where(user_id: principal.id, public: false).destroy_all
     CostQuery.where(user_id: principal.id, is_public: false).delete_all
   end
 
