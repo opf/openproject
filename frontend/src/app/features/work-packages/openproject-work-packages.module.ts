@@ -340,6 +340,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-copy/wp-copy-full-view.component';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
 import { TimeEntryChangeset } from 'core-app/features/work-packages/helpers/time-entries/time-entry-changeset';
+
 import {
   AttachmentsUploadComponent,
 } from 'core-app/shared/components/attachments/attachments-upload/attachments-upload.component';
@@ -364,6 +365,9 @@ import {
 import {
   FilterStringValueComponent,
 } from 'core-app/features/work-packages/components/filters/filter-string-value/filter-string-value.component';
+import {
+  FilterProjectComponent,
+} from 'core-app/features/work-packages/components/filters/filter-project/filter-project.component';
 import {
   FilterDateValueComponent,
 } from 'core-app/features/work-packages/components/filters/filter-date-value/filter-date-value.component';
@@ -514,6 +518,7 @@ import { DatepickerBannerComponent } from 'core-app/shared/components/datepicker
     FilterDateTimesValueComponent,
     FilterIntegerValueComponent,
     FilterStringValueComponent,
+    FilterProjectComponent,
     FilterToggledMultiselectValueComponent,
     FilterSearchableMultiselectValueComponent,
 

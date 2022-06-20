@@ -43,6 +43,7 @@ import {
 } from '@uirouter/angular';
 import { OpSpotModule } from 'core-app/spot/spot.module';
 import { CurrentUserModule } from 'core-app/core/current-user/current-user.module';
+import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
 import { IconTriggeredContextMenuComponent } from 'core-app/shared/components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
@@ -64,7 +65,6 @@ import {
   highlightColSelector,
   OpHighlightColDirective,
 } from './directives/highlight-col/highlight-col.directive';
-import { OpSearchHighlightDirective } from './directives/search-highlight.directive';
 
 import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to-clipboard.directive';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
@@ -134,6 +134,7 @@ export function bootstrapModule(injector:Injector) {
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
     OpenprojectContentLoaderModule,
+    OpenprojectAutocompleterModule,
 
     DatePickerModule,
     FocusModule,
@@ -154,6 +155,7 @@ export function bootstrapModule(injector:Injector) {
     NgOptionHighlightModule,
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
+    OpenprojectAutocompleterModule,
 
     OpSpotModule,
 
@@ -168,8 +170,6 @@ export function bootstrapModule(injector:Injector) {
 
     // Table highlight
     OpHighlightColDirective,
-
-    OpSearchHighlightDirective,
 
     ResizerComponent,
 
@@ -232,8 +232,6 @@ export function bootstrapModule(injector:Injector) {
 
     TablePaginationComponent,
     SortHeaderDirective,
-
-    OpSearchHighlightDirective,
 
     // Zen mode button
     ZenModeButtonComponent,

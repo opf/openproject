@@ -90,7 +90,23 @@ export class DynamicFieldsService {
       },
       useForFields: [
         'Priority', 'Status', 'Type', 'User', 'Version', 'TimeEntriesActivity',
-        'Category', 'CustomOption', 'Project',
+        'Category', 'CustomOption',
+      ],
+    },
+    {
+      config: {
+        type: 'projectInput',
+        defaultValue: this.selectDefaultValue,
+        templateOptions: {
+          locale: this.I18n.locale,
+          bindLabel: 'name',
+        },
+        expressionProperties: {
+          'templateOptions.clearable': (model:any, formState:any, field:FormlyFieldConfig) => !field.templateOptions?.required,
+        },
+      },
+      useForFields: [
+        'Project',
       ],
     },
     {
@@ -199,6 +215,7 @@ export class DynamicFieldsService {
         ...(maxLength && { maxLength }),
         ...templateOptions,
         ...(fieldOptions && { options: fieldOptions }),
+        allowedValuesHref: fieldSchema?._links?.allowedValues?.href,
       },
     };
 

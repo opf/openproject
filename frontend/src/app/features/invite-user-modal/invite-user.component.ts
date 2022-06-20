@@ -63,7 +63,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
 
   public createdNewPrincipal = false;
 
-  public get loading() {
+  public get loading():boolean {
     return this.locals.projectId && !this.project;
   }
 
@@ -76,7 +76,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     super(locals, cdRef, elementRef);
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     super.ngOnInit();
 
     if (this.locals.projectId) {
@@ -93,22 +93,22 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     }
   }
 
-  onProjectSelectionSave({ type, project }:{ type:PrincipalType, project:any }) {
+  onProjectSelectionSave({ type, project }:{ type:PrincipalType, project:ProjectResource|null }):void {
     this.type = type;
     this.project = project;
     this.goTo(Steps.Principal);
   }
 
-  onPrincipalSave({ principalData, isAlreadyMember }:{ principalData:PrincipalData, isAlreadyMember:boolean }) {
+  onPrincipalSave({ principalData, isAlreadyMember }:{ principalData:PrincipalData, isAlreadyMember:boolean }):void {
     this.principalData = principalData;
     if (isAlreadyMember) {
       return this.closeWithPrincipal();
     }
 
-    this.goTo(Steps.Role);
+    return this.goTo(Steps.Role);
   }
 
-  onRoleSave(role:RoleResource) {
+  onRoleSave(role:RoleResource):void {
     this.role = role;
 
     if (this.type === PrincipalType.Placeholder) {
@@ -118,12 +118,12 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     }
   }
 
-  onMessageSave({ message }:{ message:string }) {
+  onMessageSave({ message }:{ message:string }):void {
     this.message = message;
     this.goTo(Steps.Summary);
   }
 
-  onSuccessfulSubmission($event:{ principal:HalResource }) {
+  onSuccessfulSubmission($event:{ principal:HalResource }):void {
     if (this.principalData.principal !== $event.principal && this.type === PrincipalType.User) {
       this.createdNewPrincipal = true;
     }
@@ -131,11 +131,11 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     this.goTo(Steps.Success);
   }
 
-  goTo(step:Steps) {
+  goTo(step:Steps):void {
     this.step = step;
   }
 
-  closeWithPrincipal() {
+  closeWithPrincipal():void {
     this.data = this.principalData.principal;
     this.closeMe();
   }

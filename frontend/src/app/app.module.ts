@@ -61,7 +61,6 @@ import { OpenprojectAugmentingModule } from 'core-app/core/augmenting/openprojec
 import { OpenprojectInviteUserModalModule } from 'core-app/features/invite-user-modal/invite-user-modal.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { RevitAddInSettingsButtonService } from 'core-app/features/bim/revit_add_in/revit-add-in-settings-button.service';
-import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openproject-enterprise.module';
 import { MainMenuToggleComponent } from 'core-app/core/main-menu/main-menu-toggle.component';
@@ -174,9 +173,6 @@ export function initializeServices(injector:Injector) {
 
     // Invite user modal
     OpenprojectInviteUserModalModule,
-
-    // Autocompleters
-    OpenprojectAutocompleterModule,
 
     // Tabs
     OpenprojectTabsModule,

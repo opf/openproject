@@ -37,13 +37,12 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { AttributeHelpTextsService } from './attribute-help-text.service';
 import { AttributeHelpTextModalComponent } from './attribute-help-text.modal';
-import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
 
 export const attributeHelpTextSelector = 'attribute-help-text';
 
-@DatasetInputs
 @Component({
   selector: attributeHelpTextSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -77,6 +76,7 @@ export class AttributeHelpTextComponent implements OnInit {
     protected injector:Injector,
     protected I18n:I18nService,
   ) {
+    populateInputsFromDataset(this);
   }
 
   ngOnInit() {

@@ -1,4 +1,4 @@
-<div class="inline-label ng-select-container">
+<div class="inline-label">
   <ng-select
     #ngSelectInstance
     [(ngModel)]="model"
@@ -21,7 +21,7 @@
     [name]="name"
     [id]="id"
     [attr.accesskey]="accesskey||undefined"
-    bindLabel="name"
+    [bindLabel]="bindLabel"
     [bindValue]="bindValue"
     [markFirst]="markFirst"
     [notFoundText]="notFoundText"
@@ -41,6 +41,7 @@
     [searchable]="searchable"
     [selectableGroupAsModel]="selectableGroupAsModel"
     [trackByFn]="trackByFn"
+    [searchFn]="searchFn"
     [labelForId]="labelForId"
     [inputAttrs]="inputAttrs"
     [tabIndex]="tabIndex"
@@ -97,7 +98,7 @@
       let-search="searchTerm"
     >
       <ng-container
-        [ngTemplateOutlet]="optionTemplate ? optionTemplate : defaultOption"
+        [ngTemplateOutlet]="optionTemplate || defaultOption"
         [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
       ></ng-container>
     </ng-template>
