@@ -32,9 +32,9 @@ module API
       class StorageAuthorizer
         class << self
           def authorize(storage)
-            oauth_client = storage.oauth_client
-            connection_manager = ::OAuthClients::ConnectionManager.new(user: User.current, oauth_client:)
-            connection_manager.authorization_state
+            ::OAuthClients::ConnectionManager
+              .new(user: User.current, oauth_client: storage.oauth_client)
+              .authorization_state
           end
         end
       end

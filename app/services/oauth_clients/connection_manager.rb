@@ -126,7 +126,7 @@ module OAuthClients
         }
       )
       :connected
-    rescue RestClient::Unauthorized, RestClient::Forbidden => _e
+    rescue RestClient::Unauthorized, RestClient::Forbidden
       service_result = refresh_token # `refresh_token` already has exception handling
       return :connected if service_result.success?
 
@@ -140,7 +140,7 @@ module OAuthClients
         # to reload the page or contact an admin.
         :error
       end
-    rescue StandardError => _e
+    rescue StandardError
       :error
     end
 
