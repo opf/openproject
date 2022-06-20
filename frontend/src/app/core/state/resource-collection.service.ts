@@ -38,6 +38,7 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { CollectionState } from 'core-app/core/state/collection-store';
+import { omit } from 'lodash';
 
 export type CollectionStore<T> = EntityStore<CollectionState<T>>;
 
@@ -94,6 +95,20 @@ export abstract class ResourceCollectionService<T> {
       .pipe(
         filter((entity) => entity !== undefined),
       ) as Observable<T>;
+  }
+
+  /**
+   * Clear a collection key
+   * @param key Collection key to clear
+   */
+  clear(key:string):void {
+    this
+      .store
+      .update(
+        ({ collections }) => ({
+          collections: omit(collections, key),
+        }),
+      );
   }
 
   /**

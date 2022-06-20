@@ -59,6 +59,7 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 
@@ -79,6 +80,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     protected halEditing:HalResourceEditingService,
     protected schemaCache:SchemaCacheService,
     protected halEvents:HalEventsService,
+    protected attachmentsService:AttachmentsResourceService,
   ) {
     super();
 
@@ -215,6 +217,11 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       .work_packages
       .cache
       .clearSome('new');
+
+    this
+      .attachmentsService
+      .clear('new');
+
     this.form = undefined;
   }
 
