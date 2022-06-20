@@ -81,17 +81,7 @@ get:
             $ref: '../components/schemas/work_packages_model.yml'
       description: OK
     '400':
-      content:
-        application/hal+json:
-          schema:
-            $ref: "../components/schemas/error_response.yml"
-          example:
-            _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
-            message: Operator can't be blank.
-      description: |-
-        Returned if the client sends a query parameter, that the server knows, but does not understand.
-        E.g. by providing a syntactically incorrect `filters` parameter.
+      $ref: "../components/responses/invalid_request_body.yml"
     '403':
       content:
         application/hal+json:
@@ -157,16 +147,7 @@ post:
             $ref: '../components/schemas/work_package_model.yml'
       description: OK
     '400':
-      content:
-        application/hal+json:
-          schema:
-            $ref: '../components/schemas/error_response.yml'
-          example:
-            _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-            message: The request body was not a single JSON object.
-      description: Occurs when the client did not send a valid JSON object in the
-        request body.
+      $ref: "../components/responses/invalid_request_body.yml"
     '403':
       content:
         application/hal+json:
@@ -199,6 +180,10 @@ post:
 
         *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
         That's why a 404 is returned here, even if a 403 might be more appropriate.*
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
     '422':
       content:
         application/hal+json:

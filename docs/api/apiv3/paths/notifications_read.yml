@@ -45,3 +45,7 @@ post:
             errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
             message: 
               - Filters Invalid filter does not exist.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"

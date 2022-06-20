@@ -228,6 +228,10 @@ post:
         *Note: A client without sufficient permissions shall not be able to test for the existence of a post.
         That's why a 404 is returned here, even if a 403 might be more appropriate.*
       headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
     '422':
       content:
         application/hal+json:
