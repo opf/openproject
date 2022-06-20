@@ -42,18 +42,37 @@ module API
           reply_with_not_found_if_module_inactive
         end
 
+        # ToDo: Check race condition if two users try to get the same WP file_links?
+
         # The `:resources` keyword defines the API namespace -> /api/v3/work_packages/:id/file_links/...
         resources :file_links do
-          # A helper is used to define the behaviour at GET /api/v3/work_packages/:id/file_links
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: ::Storages::FileLink,
-                      scope: -> { visible_file_links_scope.where(container_id: @work_package.id) },
-                      self_path: -> { api_v3_paths.file_links(params[:id]) })
-                 .mount
+          # Get the list of FileLinks related to a work package.
+          # First we synchronize the list of file links between
+          # the OAuth2 Server and the database, then we just return
+          # the database contents.
+          get do
 
-          # A helper is used to define the behaviour at POST /api/v3/work_packages/:id/file_links.
-          # Additional classes are provided, that overwrite standard behaviour for parsing request parameters or
-          # rendering the response.
+            file_links = visible_file_links_scope.where(container_id: @work_package.id).all
+
+            # Start a synchronization process to get updated file metadata from Nextcloud.
+            # We assume that a valid OAuthClientToken is available for the current user.
+            # This is ensured by StorageAPI/StorageRepresenter which handle the case
+            # of a missing authorization.
+            service_result = ::Storages::FileLinkSyncService
+                            .new(user: current_user, file_links:)
+                            .call
+            unless (service_result.success)
+              # ToDo: Create a JSON error return message saying that we couldn't sync?
+              # Or just fail silently and show the outdated information from the DB?
+            end
+
+            ::API::V3::FileLinks::FileLinkCollectionRepresenter.new(
+              file_links,
+              self_link: api_v3_paths.work_package_file_links(@work_package.id),
+              current_user:
+            )
+          end
+
           post &CreateEndpoint
                   .new(
                     model: ::Storages::FileLink,

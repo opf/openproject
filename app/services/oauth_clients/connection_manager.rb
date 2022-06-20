@@ -46,6 +46,7 @@ module OAuthClients
     # Returns an OAuthClientToken object or a String in case a renew is required.
     # @param state (OAuth2 RFC) encapsulates the state of the calling page (URL + params) to return
     # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud only has one global scope.
+    # @return ServiceResult with ServiceResult.result being either an OAuthClientToken or a redirection URL
     def get_access_token(scope: [], state: nil)
       # Check for an already existing token from last call
       token = get_existing_token
