@@ -45,6 +45,10 @@ delete:
 
         **Required permission:** view work package
       headers: { }
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
   tags:
     - Work Packages
   description: |-
@@ -398,17 +402,7 @@ patch:
       description: OK
       headers: { }
     '400':
-      content:
-        application/hal+json:
-          schema:
-            $ref: "../components/schemas/error_response.yml"
-          example:
-            _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-            message: The request body was not a single JSON object.
-      description: Occurs when the client did not send a valid JSON object in the
-        request body.
-      headers: { }
+      $ref: "../components/responses/invalid_request_body.yml"
     '403':
       content:
         application/hal+json:
@@ -437,6 +431,8 @@ patch:
 
         **Required permission:** view work package
       headers: { }
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
     '409':
       content:
         application/hal+json:
@@ -450,6 +446,8 @@ patch:
       description: Returned if the resource was changed since the client requested
         it. This is determined using the `lockVersion` property.
       headers: { }
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
     '422':
       content:
         application/hal+json:

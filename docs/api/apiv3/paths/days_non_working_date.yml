@@ -26,12 +26,7 @@ get:
           schema:
             $ref: '../components/schemas/non_working_day_model.yml'
     '400':
-      description: |-
-        Returned if the client sends invalid request parameters.
-      content:
-        application/hal+json:
-          schema:
-            $ref: '../components/schemas/error_response.yml'
+      $ref: "../components/responses/invalid_request_body.yml"
     '404':
       description: |-
         Returned if the given date is not a non-working day.
@@ -81,12 +76,7 @@ patch:
           schema:
             $ref: '../components/schemas/non_working_day_model.yml'
     '400':
-      description: |-
-        Returned if the client sends invalid request parameters.
-      content:
-        application/hal+json:
-          schema:
-            $ref: '../components/schemas/error_response.yml'
+      $ref: "../components/responses/invalid_request_body.yml"
     '404':
       description: |-
         Returned if the given date is not a non-working day.
@@ -98,6 +88,10 @@ patch:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
             message: The requested resource could not be found.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
 
 delete:
   summary: Removes a non-working day (NOT IMPLEMENTED)
@@ -127,16 +121,7 @@ delete:
 
         The operation succeeded.
     '400':
-      description: |-
-        Returned if the client sends invalid request parameters.
-      content:
-        application/hal+json:
-          schema:
-            $ref: '../components/schemas/error_response.yml'
-          example:
-            _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-            message: The date is not valid.
+      $ref: "../components/responses/invalid_request_body.yml"
     '404':
       description: |-
         Returned if the given date is not a non-working day.
@@ -148,3 +133,7 @@ delete:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
             message: The requested resource could not be found.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
