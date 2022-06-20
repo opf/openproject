@@ -104,6 +104,69 @@ describe 'Upload attachment to work package', js: true do
       end
     end
 
+    context 'when on a split page' do
+      let!(:type) { create(:type_task) }
+      let!(:status) { create(:status, is_default: true) }
+      let!(:priority) { create(:priority, is_default: true) }
+      let!(:project) do
+        create(:project, types: [type])
+      end
+      let!(:table) { ::Pages::WorkPackagesTable.new project }
+
+      it 'can add two work packages in a row when uploading (Regression #42933)' do
+        table.visit!
+        new_page = table.create_wp_by_button type
+        subject = new_page.edit_field :subject
+        subject.set_value 'My subject'
+
+        target = find('.ck-content')
+        attachments.drag_and_drop_file(target, image_fixture.path)
+
+        sleep 2
+        expect(page).not_to have_selector('op-toasters-upload-progress')
+
+        editor.in_editor do |_container, editable|
+          expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
+          expect(editable).not_to have_selector('.ck-upload-placeholder-loader')
+        end
+
+        sleep 2
+
+        scroll_to_and_click find('#work-packages--edit-actions-save')
+
+        new_page.expect_toast(
+          message: 'Successful creation.'
+        )
+
+        split_view = ::Pages::SplitWorkPackage.new(WorkPackage.last)
+
+        field = split_view.edit_field :description
+        expect(field.display_element).to have_selector('img')
+
+        wp = WorkPackage.last
+        expect(wp.subject).to eq('My subject')
+        expect(wp.attachments.count).to eq(1)
+
+        # create another one
+        new_page = table.create_wp_by_button type
+        subject = new_page.edit_field :subject
+        subject.set_value 'A second task'
+
+        scroll_to_and_click find('#work-packages--edit-actions-save')
+
+        new_page.expect_toast(
+          message: 'Successful creation.'
+        )
+
+        last = WorkPackage.last
+        expect(last.subject).to eq('A second task')
+        expect(last.attachments.count).to eq(0)
+
+        wp.reload
+        expect(wp.attachments.count).to eq(1)
+      end
+    end
+
     context 'when on a new page' do
       shared_examples 'it supports image uploads via drag & drop' do
         let!(:new_page) { Pages::FullWorkPackageCreate.new }
