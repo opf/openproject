@@ -55,6 +55,20 @@ RSpec.describe WorkPackages::ScheduleDependency::Dependency do
     end
   end
 
+  def create_follower_of(work_package)
+    create(:work_package, subject: "follower of #{work_package.subject}").tap do |follower|
+      create(:follows_relation, from: follower, to: work_package)
+      known_work_packages_by_id[follower.id] = follower
+    end
+  end
+
+  def create_parent_of(work_package)
+    create(:work_package, subject: "parent of #{work_package.subject}", parent: work_package).tap do |parent|
+      known_work_packages_by_id[parent.id] = parent
+      known_work_packages_by_parent_id[work_package.parent_id] << parent
+    end
+  end
+
   def create_child_of(work_package)
     create(:work_package, subject: "child of #{work_package.subject}", parent: work_package).tap do |child|
       known_work_packages_by_id[child.id] = child
@@ -78,12 +92,7 @@ RSpec.describe WorkPackages::ScheduleDependency::Dependency do
     end
 
     context 'when the work_package has a follower' do
-      let!(:follower) do
-        create(:work_package, subject: 'follower of subject').tap do |follower|
-          create(:follows_relation, from: follower, to: work_package)
-          known_work_packages_by_id[follower.id] = follower
-        end
-      end
+      let!(:follower) { create_follower_of(work_package) }
 
       it 'returns empty array' do
         expect(subject.dependent_ids).to eq([])
@@ -91,13 +100,7 @@ RSpec.describe WorkPackages::ScheduleDependency::Dependency do
     end
 
     context 'when the work_package has a parent' do
-      let!(:parent) do
-        create(:work_package, subject: 'parent of subject').tap do |parent|
-          work_package.update(parent:)
-          known_work_packages_by_id[parent.id] = parent
-          known_work_packages_by_parent_id[work_package.parent_id] << parent
-        end
-      end
+      let!(:parent) { create_parent_of(work_package) }
 
       it 'returns empty array' do
         expect(subject.dependent_ids).to eq([])
@@ -112,6 +115,17 @@ RSpec.describe WorkPackages::ScheduleDependency::Dependency do
       end
     end
 
+    context 'when the work_package has multiple children and predecessors' do
+      let!(:child1) { create_child_of(work_package) }
+      let!(:child2) { create_child_of(work_package) }
+      let!(:predecessor1) { create_predecessor_of(work_package) }
+      let!(:predecessor2) { create_predecessor_of(work_package) }
+
+      it 'returns an array with the children and the predecessors ids' do
+        expect(subject.dependent_ids).to contain_exactly(child1.id, child2.id, predecessor1.id, predecessor2.id)
+      end
+    end
+
     context 'with more complex relations' do
       context 'when has a child which has a child' do
         let!(:child) { create_child_of(work_package) }
@@ -122,12 +136,23 @@ RSpec.describe WorkPackages::ScheduleDependency::Dependency do
         end
       end
 
-      context 'when has a predecessor which has a predecessor' do
+      context 'when has a predecessor which has a predecessor and a follower' do
         let!(:predecessor) { create_predecessor_of(work_package) }
         let!(:predecessor_predecessor) { create_predecessor_of(predecessor) }
+        let!(:predecessor_follower) { create_follower_of(predecessor) }
 
-        xit 'returns an array with both predecessors ids' do
-          expect(subject.dependent_ids).to contain_exactly(predecessor.id, predecessor_predecessor.id)
+        it 'returns an array with the first predecessor only (not transient)' do
+          expect(subject.dependent_ids).to contain_exactly(predecessor.id)
+        end
+      end
+
+      context 'when has a predecessor which has a parent and a child' do
+        let!(:predecessor) { create_predecessor_of(work_package) }
+        let!(:predecessor_parent) { create_parent_of(predecessor) }
+        let!(:predecessor_child) { create_child_of(predecessor) }
+
+        it 'returns an array with the predecessor only (not transient)' do
+          expect(subject.dependent_ids).to contain_exactly(predecessor.id)
         end
       end
     end
