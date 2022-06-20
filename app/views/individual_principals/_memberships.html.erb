@@ -146,7 +146,8 @@ See COPYRIGHT and LICENSE files for more details.
         <fieldset class="form--fieldset">
           <legend class="form--fieldset-legend"><%=t(:label_project_new)%></legend>
           <% principal_project_ids = @individual_principal.projects.ids  %>
-          <% filter = principal_project_ids.length > 0 ? [['id', '!', principal_project_ids.map(&:to_s)]] : [] %>
+          <% filter = [['active', '=', 't']] %>
+          <% filter << ['id', '!', principal_project_ids.map(&:to_s)] if principal_project_ids.any? %>
           <%= angular_component_tag 'op-project-autocompleter',
                                     inputs: {
                                       apiFilters: filter,
