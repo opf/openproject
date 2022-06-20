@@ -330,6 +330,7 @@ describe 'date inplace editor',
         switch_to_window new_window
 
         wp_table.expect_work_package_listed parent
+        wp_table.expect_work_package_listed work_package
         wp_timeline.expect_timeline!
       end
     end
@@ -387,6 +388,7 @@ describe 'date inplace editor',
         switch_to_window new_window
 
         wp_table.expect_work_package_listed child
+        wp_table.expect_work_package_listed work_package
         wp_timeline.expect_timeline!
       end
     end
@@ -451,6 +453,7 @@ describe 'date inplace editor',
         switch_to_window new_window
 
         wp_table.expect_work_package_listed preceding
+        wp_table.expect_work_package_listed work_package
         wp_timeline.expect_timeline!
       end
     end
@@ -509,6 +512,7 @@ describe 'date inplace editor',
         switch_to_window new_window
 
         wp_table.expect_work_package_listed following
+        wp_table.expect_work_package_listed work_package
         wp_timeline.expect_timeline!
       end
     end

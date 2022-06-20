@@ -126,6 +126,7 @@ export class DatepickerModalService {
       .pipe(
         map(
           ([preceding, following]) => [
+            this.changeset.pristineResource,
             ...preceding,
             ...following,
             ...this.children,
