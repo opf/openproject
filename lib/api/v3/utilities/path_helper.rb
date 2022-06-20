@@ -480,6 +480,10 @@ module API
             "#{work_package(id)}/relations"
           end
 
+          def self.work_package_file_links(id)
+            "#{work_package(id)}/file_links"
+          end
+
           def self.work_package_relation(id, work_package_id)
             "#{work_package_relations(work_package_id)}/#{id}"
           end

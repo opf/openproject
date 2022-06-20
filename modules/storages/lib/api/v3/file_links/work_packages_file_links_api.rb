@@ -42,18 +42,49 @@ module API
           reply_with_not_found_if_module_inactive
         end
 
+        # ToDo: Check race condition if two users try to get the same WP file_links?
+
         # The `:resources` keyword defines the API namespace -> /api/v3/work_packages/:id/file_links/...
         resources :file_links do
-          # A helper is used to define the behaviour at GET /api/v3/work_packages/:id/file_links
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: ::Storages::FileLink,
-                      scope: -> { visible_file_links_scope.where(container_id: @work_package.id) },
-                      self_path: -> { api_v3_paths.file_links(params[:id]) })
-                 .mount
+          # Get the list of FileLinks related to a work package, with updated information from Nextcloud.
+          get do
+            # API supports query filters on storages:
+            # storage: { operator: '=', values: [storage_id]
+            query = ParamsToQueryService
+                      .new(::Storages::Storage,
+                           current_user,
+                           query_class: ::Queries::Storages::FileLinks::FileLinkQuery)
+                      .call(params)
+            # raise "Error" unless query.valid?
 
-          # A helper is used to define the behaviour at POST /api/v3/work_packages/:id/file_links.
-          # Additional classes are provided, that overwrite standard behaviour for parsing request parameters or
-          # rendering the response.
+            # Get the list of all FileLinks for the work package.
+            # This could be a huge array in some cases...
+            file_links = query
+                           .results
+                           .where(id: visible_file_links_scope
+                                        .where(container_id: @work_package.id, container_type: 'WorkPackage'))
+                           .all
+
+            # ToDo: API allows queries on storages, how to integrate here?
+            # Example: -> grids_api.rb
+
+            # Synchronize with Nextcloud. StorageAPI handles OAuth2 for us.
+            service_result = ::Storages::FileLinkSyncService
+                               .new(user: current_user)
+                               .call(file_links)
+
+            if service_result.success?
+              ::API::V3::FileLinks::FileLinkCollectionRepresenter.new(
+                service_result.result,
+                self_link: api_v3_paths.work_package_file_links(@work_package.id),
+                current_user:
+              )
+            else
+              # There was an error during the SyncService, which should normally not occur.
+              raise StandardError, message: service_result.message
+            end
+          end
+
           post &CreateEndpoint
                   .new(
                     model: ::Storages::FileLink,
