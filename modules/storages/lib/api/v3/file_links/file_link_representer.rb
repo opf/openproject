@@ -31,6 +31,27 @@ module API
     module FileLinks
       URN_PERMISSION_VIEW = "#{::API::V3::URN_PREFIX}file-links:permission:View".freeze
       URN_PERMISSION_NOT_ALLOWED = "#{::API::V3::URN_PREFIX}file-links:permission:NotAllowed".freeze
+      URN_PERMISSION_UNKNOWN = "#{::API::V3::URN_PREFIX}file-links:permission:Unknown".freeze
+      URN_PERMISSION_ERROR = "#{::API::V3::URN_PREFIX}file-links:permission:Error".freeze
+
+      PERMISSION_LINKS = {
+        allowed: {
+          href: URN_PERMISSION_VIEW,
+          title: 'View'
+        },
+        not_allowed: {
+          href: URN_PERMISSION_NOT_ALLOWED,
+          title: 'Not allowed'
+        },
+        unknown: {
+          href: URN_PERMISSION_UNKNOWN,
+          title: 'Unknown'
+        },
+        error: {
+          href: URN_PERMISSION_ERROR,
+          title: 'Error'
+        }
+      }
 
       class FileLinkRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
@@ -77,10 +98,7 @@ module API
 
         link :permission do
           # TODO: replace with service to check real permission state
-          {
-            href: URN_PERMISSION_VIEW,
-            title: 'View'
-          }
+          PERMISSION_LINKS[represented.origin_permission]
         end
 
         link :originOpen do

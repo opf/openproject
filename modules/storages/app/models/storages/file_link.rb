@@ -39,7 +39,7 @@
 # db/migrate/20220113144759_create_file_links.rb migration.
 class Storages::FileLink < ApplicationRecord
   # Is this file shared with me in Nextcloud? This attribute is _not_ stored in the DB
-  attr_accessor :shared_with_me
+  attr_accessor :origin_permission
 
   # Every FileLink references its Storage. A "on delete cascade" is defined in
   # the migration, so this FileLink will be deleted when deleting the Storage.
