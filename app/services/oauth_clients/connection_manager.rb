@@ -31,6 +31,9 @@ require "uri/http"
 
 module OAuthClients
   class ConnectionManager
+    # Nextcloud API endpoint to check if Bearer token is valid
+    AUTHORIZATION_CHECK_PATH = '/ocs/v1.php/cloud/user'.freeze
+
     attr_reader :user, :oauth_client
 
     def initialize(user:, oauth_client:)
@@ -88,10 +91,57 @@ module OAuthClients
       service_result = request_new_token(authorization_code: code)
       return service_result unless service_result.success?
 
-      # Create a new OAuthClientToken from Rack::OAuth::AccessToken::Bearer and return
-      ServiceResult.success(
-        result: create_new_oauth_client_token(service_result.result)
+      # Check for existing OAuthClientToken and update,
+      # or create a new one from Rack::OAuth::AccessToken::Bearer
+      oauth_client_token = get_existing_token
+      if oauth_client_token.present?
+        update_oauth_client_token(oauth_client_token, service_result.result)
+      else
+        oauth_client_token = create_new_oauth_client_token(service_result.result)
+      end
+
+      ServiceResult.success(result: oauth_client_token)
+    end
+
+    # Called by StorageRepresenter to inquire about the status of the OAuth2
+    # authentication server.
+    # Returns :connected/:authorization_failed or :error for a general error.
+    # We have decided to distinguish between only these 3 cases, because the
+    # front-end (and a normal user) probably wouldn't know how to deal with
+    # other options.
+    def authorization_state
+      oauth_client_token = get_existing_token
+      return :failed_authorization unless oauth_client_token
+
+      # Check for user information. This is the cheapest Nextcloud call that requires
+      # valid authentication, so we use it for testing the validity of the Bearer token.
+      # curl -H "Authorization: Bearer MY_TOKEN" -X GET 'https://my.nextcloud.org/ocs/v1.php/cloud/user' \
+      #      -H "OCS-APIRequest: true" -H "Accept: application/json"
+      RestClient.get(
+        File.join(oauth_client.integration.host, AUTHORIZATION_CHECK_PATH),
+        {
+          'Authorization' => "Bearer #{oauth_client_token.access_token}",
+          'OCS-APIRequest' => "true",
+          'Accept' => "application/json"
+        }
       )
+      :connected
+    rescue RestClient::Unauthorized, RestClient::Forbidden
+      service_result = refresh_token # `refresh_token` already has exception handling
+      return :connected if service_result.success?
+
+      if service_result.result == 'invalid_grant'
+        # This can happen if the Authorization Server invalidated all tokens.
+        # Then the user would ideally be asked to reauthorize.
+        :failed_authorization
+      else
+        # It could also be that some other error happened, i.e. firewall badly configured.
+        # Then the user needs to know that something is technically off. The user could try
+        # to reload the page or contact an admin.
+        :error
+      end
+    rescue StandardError
+      :error
     end
 
     private
@@ -111,7 +161,7 @@ module OAuthClients
 
       ServiceResult.success(result: rack_access_token)
     rescue Rack::OAuth2::Client::Error => e # Handle Rack::OAuth2 specific errors
-      service_result_with_error(i18n_rack_oauth2_error_message(e))
+      service_result_with_error(i18n_rack_oauth2_error_message(e), e.message)
     rescue Timeout::Error, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError,
            Errno::EINVAL, Errno::ENETUNREACH, Errno::ECONNRESET, Errno::ECONNREFUSED, JSON::ParserError => e
       service_result_with_error(
@@ -198,9 +248,9 @@ module OAuthClients
 
     # Shortcut method to convert an error message into an unsuccessful
     # ServiceResult with that error message
-    def service_result_with_error(message)
-      ServiceResult.failure.tap do |result|
-        result.errors.add(:base, message)
+    def service_result_with_error(message, result = nil)
+      ServiceResult.failure(result:).tap do |r|
+        r.errors.add(:base, message)
       end
     end
   end
