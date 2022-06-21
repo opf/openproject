@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe Authorization::UserAllowedService do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:instance) { described_class.new(user) }
   let(:action) { :an_action }
   let(:action_hash) { { controller: '/controller', action: 'action' } }
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:other_project) { FactoryBot.build_stubbed(:project) }
-  let(:role) { FactoryBot.build_stubbed(:role) }
+  let(:project) { build_stubbed(:project) }
+  let(:other_project) { build_stubbed(:project) }
+  let(:role) { build_stubbed(:role) }
   let(:user_roles_in_project) do
     array = [role]
     allow(array)
@@ -208,7 +208,7 @@ describe Authorization::UserAllowedService do
 
         it 'does not call the db' do
           expect(Authorization)
-            .to_not receive(:roles)
+            .not_to receive(:roles)
 
           instance.call(action, context)
         end
@@ -266,7 +266,7 @@ describe Authorization::UserAllowedService do
       end
 
       it 'is unsuccessful' do
-        expect(instance.call(action, context)).to_not be_success
+        expect(instance.call(action, context)).not_to be_success
       end
     end
 

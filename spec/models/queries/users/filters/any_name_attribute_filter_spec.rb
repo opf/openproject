@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +48,9 @@ describe Queries::Users::Filters::AnyNameAttributeFilter, type: :model do
     describe '#available_operators' do
       it 'supports = and !' do
         expect(instance.available_operators)
-          .to eql [Queries::Operators::Contains, Queries::Operators::NotContains]
+          .to contain_exactly Queries::Operators::Contains,
+                              Queries::Operators::NotContains,
+                              Queries::Operators::Everywhere
       end
     end
   end

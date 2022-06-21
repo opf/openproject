@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,7 +62,7 @@ module ReportingHelper
       CostQuery::GroupBy.const_get(name).label
     else
       # note that using WorkPackage.human_attribute_name relies on the attribute
-      # being an work_package attribute or a general attribute for all models whicht might not
+      # being an work_package attribute or a general attribute for all models which might not
       # be the case but so far I have only seen the "comments" attribute in reports
       WorkPackage.human_attribute_name(field)
     end
@@ -132,7 +132,7 @@ module ReportingHelper
     # Reuses rails cache to locate the custom field
     # and then properly cast the value
     CustomValue
-      .new(custom_field_id: cf_id, value: value)
+      .new(custom_field_id: cf_id, value:)
       .typed_value
   end
 

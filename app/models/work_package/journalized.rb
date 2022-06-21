@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,16 +30,7 @@ module WorkPackage::Journalized
   extend ActiveSupport::Concern
 
   included do
-    acts_as_journalized data_sql: ->(journable) do
-      <<~SQL
-        LEFT OUTER JOIN
-          (
-            #{Relation.hierarchy.direct.where(to_id: journable.id).limit(1).select('from_id parent_id, to_id').to_sql}
-          ) parent_relation
-        ON
-          #{journable.class.table_name}.id = parent_relation.to_id
-      SQL
-    end
+    acts_as_journalized
 
     # This one is here only to ease reading
     module JournalizedProcs

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,9 +31,9 @@ require 'spec_helper'
 describe 'Logout', type: :feature, js: true do
   let(:user_password) { 'b0B' * 4 }
   let(:user) do
-    FactoryBot.create(:user,
-                      password: user_password,
-                      password_confirmation: user_password)
+    create(:user,
+           password: user_password,
+           password_confirmation: user_password)
   end
 
   before do

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,8 +57,8 @@ module WorkPackages
         return if OpenProject::Hook.hook_listeners(:controller_work_packages_move_before_save).empty?
 
         call_hook(:controller_work_packages_move_before_save,
-                  params: params,
-                  work_package: work_package,
+                  params:,
+                  work_package:,
                   target_project: params[:project_id] ? Project.find_by(id: params[:project_id]) : nil,
                   copy: true)
       end
@@ -68,8 +66,8 @@ module WorkPackages
       def copy_with_updated_parent_id(work_package, attributes, ancestors)
         with_updated_parent_id(work_package, attributes, ancestors) do |overridden_attributes|
           WorkPackages::CopyService
-            .new(user: user,
-                 work_package: work_package)
+            .new(user:,
+                 work_package:)
             .call(**overridden_attributes.symbolize_keys)
         end
       end

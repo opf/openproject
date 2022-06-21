@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,26 +31,27 @@ require 'spec_helper'
 require_relative '../support/pages/meetings/index'
 
 describe 'Meetings new', type: :feature do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %w[meetings] }
+  let(:project) { create :project, enabled_module_names: %w[meetings] }
+  let(:index_page) { ::Pages::Meetings::Index.new(project) }
   let(:time_zone) { 'utc' }
   let(:user) do
-    FactoryBot.create(:user,
-                      lastname: 'First',
-                      member_in_project: project,
-                      member_with_permissions: permissions).tap do |u|
+    create(:user,
+           lastname: 'First',
+           member_in_project: project,
+           member_with_permissions: permissions).tap do |u|
       u.pref[:time_zone] = time_zone
 
       u.save!
     end
   end
   let(:other_user) do
-    FactoryBot.create(:user,
-                      lastname: 'Second',
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           lastname: 'Second',
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:admin) do
-    FactoryBot.create(:admin)
+    create(:admin)
   end
   let(:permissions) { %i[view_meetings create_meetings] }
   let(:current_user) { user }
@@ -58,8 +59,6 @@ describe 'Meetings new', type: :feature do
   before do
     login_as(current_user)
   end
-
-  let(:index_page) { ::Pages::Meetings::Index.new(project) }
 
   context 'with permission to create meetings' do
     before do

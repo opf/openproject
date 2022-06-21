@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe OpenProject::Reminders::DueIssuesReminder do
   subject do
-    described_class.new(days: days, user_ids: user_ids).tap do |instance|
+    described_class.new(days:, user_ids:).tap do |instance|
       instance.remind_users
     end
   end
@@ -41,8 +41,8 @@ describe OpenProject::Reminders::DueIssuesReminder do
     context 'with user_ids unset' do
       let(:user_ids) { nil }
 
-      let!(:user) { FactoryBot.create(:user, mail: 'foo@bar.de') }
-      let!(:wp) { FactoryBot.create(:work_package, due_date: Date.tomorrow, assigned_to: user, subject: 'some issue') }
+      let!(:user) { create(:user, mail: 'foo@bar.de') }
+      let!(:wp) { create(:work_package, due_date: Date.tomorrow, assigned_to: user, subject: 'some issue') }
 
       it 'does notify the user' do
         expect(subject.notify_count).to be >= 1
@@ -55,9 +55,9 @@ describe OpenProject::Reminders::DueIssuesReminder do
       end
 
       context 'with work package assigned to group' do
-        let!(:group) { FactoryBot.create(:group, lastname: "Managers", members: user) }
+        let!(:group) { create(:group, lastname: "Managers", members: user) }
         let!(:group_wp) do
-          FactoryBot.create(:work_package, due_date: Date.tomorrow, assigned_to: group, subject: 'some group issue')
+          create(:work_package, due_date: Date.tomorrow, assigned_to: group, subject: 'some group issue')
         end
 
         it 'notifies the user once for WPs assigned to him and another for those assigned to the group' do
@@ -84,12 +84,13 @@ describe OpenProject::Reminders::DueIssuesReminder do
     end
 
     context 'with user_ids set' do
-      let!(:user) { FactoryBot.create(:user, mail: 'foo@bar.de') }
-      let!(:user2) { FactoryBot.create(:user, mail: 'foo@example.de') }
-      let!(:wp) { FactoryBot.create(:work_package, due_date: Date.tomorrow, assigned_to: user, subject: 'some issue') }
+      let!(:user) { create(:user, mail: 'foo@bar.de') }
+      let!(:user2) { create(:user, mail: 'foo@example.de') }
+      let!(:wp) { create(:work_package, due_date: Date.tomorrow, assigned_to: user, subject: 'some issue') }
 
       context 'to an unassigned user' do
         let(:user_ids) { [user2.id] }
+
         it 'does not notify' do
           expect(subject.notify_count).to eq 0
         end
@@ -97,6 +98,7 @@ describe OpenProject::Reminders::DueIssuesReminder do
 
       context 'to an assigned user' do
         let(:user_ids) { [user.id] }
+
         it 'does notify' do
           expect(subject.notify_count).to eq 1
           expect(ActionMailer::Base.deliveries.count).to eq 1

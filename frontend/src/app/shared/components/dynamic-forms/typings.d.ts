@@ -29,7 +29,7 @@ export interface IOPFormlyTemplateOptions extends FormlyTemplateOptions {
 }
 
 type OPInputType = 'formattableInput'|'selectInput'|'textInput'|'integerInput'|
-'booleanInput'|'dateInput'|'formly-group'|'selectProjectStatusInput';
+'booleanInput'|'dateInput'|'formly-group'|'projectInput'|'selectProjectStatusInput';
 
 export interface IOPDynamicInputTypeSettings {
   config:IOPFormlyFieldSettings,

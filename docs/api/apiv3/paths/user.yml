@@ -1,14 +1,19 @@
 # /api/v3/users/{id}
 ---
 delete:
+  summary: Delete user
+  operationId: delete_user
+  description: Permanently deletes the specified user account.
+  tags:
+    - Users
   parameters:
-  - description: User id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: User id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '202':
       description: |-
@@ -16,211 +21,140 @@ delete:
 
         Note that the response body is empty as of now. In future versions of the API a body
         *might* be returned, indicating the progress of deletion.
-      headers: {}
     '403':
       content:
         application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not allowed to delete the account of this user.
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to delete the account of this user.
       description: |-
         Returned if the client does not have sufficient permissions or if deletion of users was disabled in the instance wide settings.
 
         **Required permission:** Administrators only (exception: users might be able to delete their own accounts)
-      headers: {}
     '404':
       content:
         application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The specified user does not exist.
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified user does not exist.
       description: Returned if the user does not exist.
-      headers: {}
-  tags:
-  - Users
-  description: Permanently deletes the specified user account.
-  operationId: Delete_user
-  summary: Delete user
+
 get:
+  summary: View user
+  operationId: view_user
+  description: ''
+  tags:
+    - Users
   parameters:
-  - description: User id. Use `me` to reference current user, if any.
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: string
+    - description: User id. Use `me` to reference current user, if any.
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
   responses:
     '200':
       content:
         application/hal+json:
-          examples:
-            response:
-              value:
-                _links:
-                  delete:
-                    href: "/api/v3/users/1"
-                    method: DELETE
-                  lock:
-                    href: "/api/v3/users/1/lock"
-                    method: POST
-                  self:
-                    href: "/api/v3/users/1"
-                    title: j.sheppard
-                  show:
-                    href: "/users/1"
-                    type: text/html
-                  updateImmediately:
-                    href: "/api/v3/users/1"
-                    method: PATCH
-                _type: User
-                admin: true
-                avatar: https://example.org/users/1/avatar
-                createdAt: '2014-05-21T08:51:20Z'
-                email: shep@mail.com
-                firstName: John
-                id: 1
-                language: en
-                lastName: Sheppard
-                login: j.sheppard
-                status: active
-                updatedAt: '2014-05-21T08:51:20Z'
           schema:
-            "$ref": "../components/schemas/user_model.yml"
+            $ref: '../components/schemas/user_model.yml'
       description: OK
-      headers: {}
     '404':
       content:
         application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The specified user does not exist or you do not have permission
-                  to view them.
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified user does not exist or you do not have permission to view them.
       description: |-
         Returned if the user does not exist or if the API user does not have permission to view them.
 
         **Required permission** The user needs to be locked in if the installation is configured to prevent anonymous access
-      headers: {}
-  tags:
-  - Users
-  description: ''
-  operationId: View_user
-  summary: View user
+
 patch:
+  summary: Update user
+  operationId: update_user
+  tags:
+    - Users
+  description: |-
+    Updates the user's writable attributes.
+    When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
   parameters:
-  - description: User id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: User id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/user_create_model.yml'
   responses:
     '200':
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/user_model.yml"
+            $ref: '../components/schemas/user_model.yml'
       description: OK
-      headers: {}
     '400':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-                message: The request body was not a single JSON object.
-      description: Occurs when the client did not send a valid JSON object in the
-        request body.
-      headers: {}
+      $ref: "../components/responses/invalid_request_body.yml"
     '403':
       content:
         application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not allowed to update the account of this user.
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to update the account of this user.
       description: |-
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** Administrators, manage_user global permission
-      headers: {}
     '404':
       content:
         application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The specified user does not exist or you do not have permission
-                  to view them.
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+              _type: Error
+              errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+              message: The specified user does not exist or you do not have permission to view them.
       description: |-
         Returned if the user does not exist or if the API user does not have the necessary permissions to update it.
 
         **Required permission:** Administrators only (exception: users may update their own accounts)
-      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
     '422':
       content:
         application/hal+json:
-          examples:
-            response:
-              value:
-                _embedded:
-                  details:
-                    attribute: email
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
-                message: The email address is already taken.
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: email
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: The email address is already taken.
       description: |-
         Returned if:
 
         * the client tries to modify a read-only property (`PropertyIsReadOnly`)
 
         * a constraint for a property was violated (`PropertyConstraintViolation`)
-      headers: {}
-  tags:
-  - Users
-  description: |-
-    Updates the user's writable attributes.
-    When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
-  operationId: Update_user
-  requestBody:
-    content:
-      application/json:
-        schema:
-          example:
-            admin: true
-            email: h.wurst@openproject.com
-            firstName: Hans
-            language: en
-            lastName: Wurst
-            login: h.wurst
-          properties:
-            admin:
-              type: boolean
-            email:
-              type: string
-            firstName:
-              type: string
-            language:
-              type: string
-            lastName:
-              type: string
-            login:
-              type: string
-          type: object
-  summary: Update user

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,64 +28,64 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package copy', js: true, selenium: true do
+RSpec.describe 'Work package copy', js: true, selenium: true do
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: create_role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: create_role)
   end
   let(:work_flow) do
-    FactoryBot.create(:workflow,
-                      role: create_role,
-                      type_id: original_work_package.type_id,
-                      old_status: original_work_package.status,
-                      new_status: FactoryBot.create(:status))
+    create(:workflow,
+           role: create_role,
+           type_id: original_work_package.type_id,
+           old_status: original_work_package.status,
+           new_status: create(:status))
   end
 
   let(:create_role) do
-    FactoryBot.create(:role,
-                      permissions: %i[view_work_packages
-                                      add_work_packages
-                                      manage_work_package_relations
-                                      edit_work_packages
-                                      assign_versions])
+    create(:role,
+           permissions: %i[view_work_packages
+                           add_work_packages
+                           manage_work_package_relations
+                           edit_work_packages
+                           assign_versions])
   end
-  let(:type) { FactoryBot.create(:type) }
-  let(:project) { FactoryBot.create(:project, types: [type]) }
+  let(:type) { create(:type) }
+  let(:project) { create(:project, types: [type]) }
   let(:original_work_package) do
-    FactoryBot.build(:work_package,
-                     project: project,
-                     assigned_to: assignee,
-                     responsible: responsible,
-                     version: version,
-                     type: type,
-                     author: author)
+    build(:work_package,
+          project:,
+          assigned_to: assignee,
+          responsible:,
+          version:,
+          type:,
+          author:)
   end
-  let(:role) { FactoryBot.build(:role, permissions: [:view_work_packages]) }
+  let(:role) { build(:role, permissions: %i[view_work_packages work_package_assigned]) }
   let(:assignee) do
-    FactoryBot.create(:user,
-                     firstname: 'An',
-                     lastname: 'assignee',
-                     member_in_project: project,
-                     member_through_role: role)
+    create(:user,
+           firstname: 'An',
+           lastname: 'assignee',
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:responsible) do
-    FactoryBot.create(:user,
-                     firstname: 'The',
-                     lastname: 'responsible',
-                     member_in_project: project,
-                     member_through_role: role)
+    create(:user,
+           firstname: 'The',
+           lastname: 'responsible',
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:author) do
-    FactoryBot.create(:user,
-                     firstname: 'The',
-                     lastname: 'author',
-                     member_in_project: project,
-                     member_through_role: role)
+    create(:user,
+           firstname: 'The',
+           lastname: 'author',
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:version) do
-    FactoryBot.build(:version,
-                     project: project)
+    build(:version,
+          project:)
   end
 
   before do
@@ -94,7 +94,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
     work_flow.save!
   end
 
-  scenario 'on fullscreen page' do
+  it 'on fullscreen page' do
     original_work_package_page = Pages::FullWorkPackage.new(original_work_package, project)
     to_copy_work_package_page = original_work_package_page.visit_copy!
 
@@ -109,7 +109,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
 
     copied_work_package = WorkPackage.order(created_at: 'desc').first
 
-    expect(copied_work_package).to_not eql original_work_package
+    expect(copied_work_package).not_to eql original_work_package
 
     work_package_page = Pages::FullWorkPackage.new(copied_work_package, project)
 
@@ -138,7 +138,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
 
       # Go to add cost entry page
       find('#action-show-more-dropdown-menu .button').click
-      find('.menu-item', text: 'Copy').click
+      find('.menu-item', text: 'Copy', exact_text: true).click
 
       to_copy_work_package_page = Pages::FullWorkPackageCreate.new original_work_package: original_work_package
       to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
@@ -148,7 +148,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
     end
   end
 
-  scenario 'on split screen page' do
+  it 'on split screen page' do
     original_work_package_page = Pages::SplitWorkPackage.new(original_work_package, project)
     to_copy_work_package_page = original_work_package_page.visit_copy!
 
@@ -163,7 +163,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
 
     copied_work_package = WorkPackage.order(created_at: 'desc').first
 
-    expect(copied_work_package).to_not eql original_work_package
+    expect(copied_work_package).not_to eql original_work_package
 
     work_package_page = Pages::SplitWorkPackage.new(copied_work_package, project)
 

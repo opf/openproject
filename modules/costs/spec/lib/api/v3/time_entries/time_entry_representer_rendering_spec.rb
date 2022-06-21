@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,27 +32,27 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
   let(:time_entry) do
-    FactoryBot.build_stubbed(:time_entry,
-                             comments: 'blubs',
-                             spent_on: Date.today,
-                             created_at: DateTime.now - 6.hours,
-                             updated_at: DateTime.now - 3.hours,
-                             hours: hours,
-                             activity: activity,
-                             project: project,
-                             user: user)
+    build_stubbed(:time_entry,
+                  comments: 'blubs',
+                  spent_on: Date.today,
+                  created_at: DateTime.now - 6.hours,
+                  updated_at: DateTime.now - 3.hours,
+                  hours:,
+                  activity:,
+                  project:,
+                  user:)
   end
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
   let(:work_package) { time_entry.work_package }
-  let(:activity) { FactoryBot.build_stubbed(:time_entry_activity) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:activity) { build_stubbed(:time_entry_activity) }
+  let(:user) { build_stubbed(:user) }
   let(:current_user) { user }
   let(:hours) { 5 }
   let(:permissions) do
     [:edit_time_entries]
   end
   let(:representer) do
-    described_class.create(time_entry, current_user: current_user, embed_links: true)
+    described_class.create(time_entry, current_user:, embed_links: true)
   end
 
   subject { representer.to_json }
@@ -106,17 +106,17 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
 
     context 'custom value' do
       let(:custom_field) do
-        FactoryBot.build_stubbed(:time_entry_custom_field, field_format: 'user')
+        build_stubbed(:time_entry_custom_field, field_format: 'user')
       end
       let(:custom_value) do
         double('CustomValue',
-               custom_field: custom_field,
+               custom_field:,
                customized: time_entry,
                value: '1',
                typed_value: user)
       end
       let(:user) do
-        FactoryBot.build_stubbed(:user)
+        build_stubbed(:user)
       end
 
       before do
@@ -163,6 +163,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
 
     context 'when not allowed to update' do
       let(:permissions) { [] }
+
       it_behaves_like 'has no link' do
         let(:link) { 'updateImmediately' }
       end
@@ -194,7 +195,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
 
     context 'when allowed to edit own and it is not own' do
       let(:permissions) { [:edit_own_time_entries] }
-      let(:current_user) { FactoryBot.build_stubbed(:user) }
+      let(:current_user) { build_stubbed(:user) }
 
       it_behaves_like 'has no link' do
         let(:link) { 'updateImmediately' }
@@ -220,7 +221,8 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
     end
 
     context 'with an empty comment' do
-      let(:time_entry) { FactoryBot.build_stubbed(:time_entry) }
+      let(:time_entry) { build_stubbed(:time_entry) }
+
       it_behaves_like 'formattable property', :comment do
         let(:value) { time_entry.comments }
       end
@@ -253,9 +255,9 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
     end
 
     context 'custom value' do
-      let(:custom_field) { FactoryBot.build_stubbed(:time_entry_custom_field) }
+      let(:custom_field) { build_stubbed(:time_entry_custom_field) }
       let(:custom_value) do
-        CustomValue.new(custom_field: custom_field,
+        CustomValue.new(custom_field:,
                         value: '1234',
                         customized: time_entry)
       end
@@ -277,7 +279,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
           raw: custom_value.value
         }
 
-        is_expected
+        expect(subject)
           .to be_json_eql(expected.to_json)
           .at_path("customField#{custom_field.id}")
       end

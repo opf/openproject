@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,7 +57,7 @@ class TimeEntryActivity < Enumeration
              pluck_project_time_entry_activity_active_state(project)
            end
 
-    !teap.nil? && teap || teap.nil? && active?
+    (!teap.nil? && teap) || (teap.nil? && active?)
   end
 
   def activated_projects

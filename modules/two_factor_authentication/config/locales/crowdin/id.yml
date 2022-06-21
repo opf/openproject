@@ -71,7 +71,7 @@ id:
       text_2fa_enabled: 'Setelah setiap login, user ini akan diminta untuk memasukkan tanda OTP dari perangkat nya 2FA default.'
       text_2fa_disabled: "Pengguna tidak mengatur perangkat 2FA melalui 'Halaman akun saya'"
     upsale:
-      title: 'Dua faktor otentikasi adalah fitur perusahaan'
+      title: 'Two-factor authentication'
       description: 'Memperkuat mekanisme otentikasi internal atau eksternal Anda dengan faktor kedua.'
     backup_codes:
       none_found: Tidak ada cadangan yang ada untuk akun ini.

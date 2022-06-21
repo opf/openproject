@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe "default query", type: :model do
   let(:query) { Query.new_default }
 
   describe "highlighting mode" do
-    context " with highlighting mode setting", with_ee: %i[conditional_highlighting] do
+    context "with highlighting mode setting", with_ee: %i[conditional_highlighting] do
       describe "not set" do
         it "is inline" do
           expect(query.highlighting_mode).to eq :inline

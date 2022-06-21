@@ -88,7 +88,11 @@ import {
 import {
   ProjectMenuAutocompleteComponent,
   projectMenuAutocompleteSelector,
-} from 'core-app/shared/components/autocompleter//project-menu-autocomplete/project-menu-autocomplete.component';
+} from 'core-app/shared/components/autocompleter/project-menu-autocomplete/project-menu-autocomplete.component';
+import {
+  ProjectAutocompleterComponent,
+  projectsAutocompleterSelector,
+} from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter.component';
 import {
   RemoteFieldUpdaterComponent,
   remoteFieldUpdaterSelector,
@@ -147,6 +151,10 @@ import {
   enterpriseBaseSelector,
 } from 'core-app/features/enterprise/enterprise-base.component';
 import {
+  FreeTrialButtonComponent,
+  freeTrialButtonSelector,
+} from 'core-app/features/enterprise/free-trial-button/free-trial-button.component';
+import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector,
 } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component';
@@ -183,6 +191,14 @@ import {
   IanMenuComponent,
   ianMenuSelector,
 } from 'core-app/features/in-app-notifications/center/menu/menu.component';
+import {
+  opTeamPlannerSidemenuSelector,
+  TeamPlannerSidemenuComponent,
+} from 'core-app/features/team-planner/team-planner/sidemenu/team-planner-sidemenu.component';
+import {
+  CalendarSidemenuComponent,
+  opCalendarSidemenuSelector,
+} from 'core-app/features/calendar/sidemenu/calendar-sidemenu.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -219,11 +235,15 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent },
   { selector: enterpriseBannerSelector, cls: EnterpriseBannerBootstrapComponent },
   { selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent },
+  { selector: freeTrialButtonSelector, cls: FreeTrialButtonComponent },
   { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
   { selector: projectMenuAutocompleteSelector, cls: ProjectMenuAutocompleteComponent },
+  { selector: projectsAutocompleterSelector, cls: ProjectAutocompleterComponent },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: opViewSelectSelector, cls: ViewSelectComponent },
+  { selector: opTeamPlannerSidemenuSelector, cls: TeamPlannerSidemenuComponent },
+  { selector: opCalendarSidemenuSelector, cls: CalendarSidemenuComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
   { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
   { selector: attributeValueMacro, cls: AttributeValueMacroComponent, embeddable: true },

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -78,12 +78,12 @@ module API
               project_type_pairs = parse_filter_for_project_type_pairs
 
               schemas = project_type_pairs.map do |project, type|
-                TypedWorkPackageSchema.new(project: project, type: type)
+                TypedWorkPackageSchema.new(project:, type:)
               end
 
               WorkPackageSchemaCollectionRepresenter.new(schemas,
                                                          self_link: schemas_path_with_filters_params,
-                                                         current_user: current_user)
+                                                         current_user:)
             end
 
             # The schema identifier is an artificial identifier that is composed of a work package's
@@ -113,8 +113,8 @@ module API
                 schema = TypedWorkPackageSchema.new(project: @project, type: @type)
                 self_link = api_v3_paths.work_package_schema(@project.id, @type.id)
                 represented_schema = WorkPackageSchemaRepresenter.create(schema,
-                                                                         self_link: self_link,
-                                                                         current_user: current_user)
+                                                                         self_link:,
+                                                                         current_user:)
 
                 with_etag! represented_schema.json_cache_key
 
@@ -130,7 +130,7 @@ module API
 
                 schema = WorkPackageSumsSchema.new
                 @representer = WorkPackageSumsSchemaRepresenter.create(schema,
-                                                                       current_user: current_user)
+                                                                       current_user:)
               end
             end
 

@@ -1,5 +1,4 @@
 require 'rotp'
-require_dependency 'two_factor_authentication/device'
 
 module TwoFactorAuthentication
   class Device::Totp < Device
@@ -58,7 +57,7 @@ module TwoFactorAuthentication
     end
 
     def allowed_drift
-      self.class.manager.configuration.fetch :otp_drift_window, 60
+      self.class.manager.configuration['otp_drift_window'] || 60
     end
 
     def totp

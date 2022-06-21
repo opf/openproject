@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,21 +34,21 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) do
-    FactoryBot.create(:project)
+    create(:project)
   end
 
   let(:current_user) { allowed_user }
+  let(:path) { api_v3_paths.create_grid_form }
+  let(:params) { {} }
 
   shared_let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: [:manage_board_views])
+    create(:user, member_in_project: project, member_with_permissions: [:manage_board_views])
   end
 
   shared_let(:prohibited_user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: [:show_board_views])
+    create(:user, member_in_project: project, member_with_permissions: [:show_board_views])
   end
 
-  let(:path) { api_v3_paths.create_grid_form }
-  let(:params) { {} }
   subject(:response) { last_response }
 
   before do
@@ -64,9 +64,9 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
       let(:params) do
         {
           name: 'foo',
-          '_links': {
-            'scope': {
-              'href': project_work_package_boards_path(project)
+          _links: {
+            scope: {
+              href: project_work_package_boards_path(project)
             }
           }
         }
@@ -74,16 +74,16 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
 
       it 'contains default data in the payload' do
         expected = {
-          "rowCount": 1,
-          "columnCount": 4,
-          "widgets": [],
-          "name": 'foo',
-          "options": {},
-          "_links": {
-            "attachments": [],
-            "scope": {
-              'href': project_work_package_boards_path(project),
-              "type": "text/html"
+          rowCount: 1,
+          columnCount: 4,
+          widgets: [],
+          name: 'foo',
+          options: {},
+          _links: {
+            attachments: [],
+            scope: {
+              href: project_work_package_boards_path(project),
+              type: "text/html"
             }
           }
         }
@@ -110,9 +110,9 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
       let(:current_user) { prohibited_user }
       let(:params) do
         {
-          '_links': {
-            'scope': {
-              'href': project_work_package_boards_path(project)
+          _links: {
+            scope: {
+              href: project_work_package_boards_path(project)
             }
           }
         }
@@ -128,9 +128,9 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
     context 'with an invalid boards scope' do
       let(:params) do
         {
-          '_links': {
-            'scope': {
-              'href': project_work_package_boards_path(project_id: project.id + 1)
+          _links: {
+            scope: {
+              href: project_work_package_boards_path(project_id: project.id + 1)
             }
           }
         }
@@ -147,21 +147,21 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
       let(:params) do
         {
           name: 'foo',
-          "_links": {
-            "attachments": [],
-            "scope": {
-              'href': project_work_package_boards_path(project),
-              "type": "text/html"
+          _links: {
+            attachments: [],
+            scope: {
+              href: project_work_package_boards_path(project),
+              type: "text/html"
             }
           },
-          "widgets": [
+          widgets: [
             {
-              "_type": "GridWidget",
-              "identifier": "bogus_identifier",
-              "startRow": 1,
-              "endRow": 2,
-              "startColumn": 1,
-              "endColumn": 2
+              _type: "GridWidget",
+              identifier: "bogus_identifier",
+              startRow: 1,
+              endRow: 2,
+              startColumn: 1,
+              endColumn: 2
             }
           ]
         }

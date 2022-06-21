@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
     let(:type) { :list_optional }
     let(:class_key) { :subproject_id }
     let(:name) { I18n.t('query_fields.subproject_id') }
-    let(:project) { FactoryBot.build_stubbed :project }
+    let(:project) { build_stubbed :project }
     let(:relation) { double(ActiveRecord::Relation) }
     let(:projects) { [] }
     let(:plucked) { projects.map { |p| [p.id, p.name] } }
@@ -54,7 +54,7 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
     describe '#available?' do
       context 'with a project and that project not being a leaf
                and the project having visible descendants' do
-        let(:subproject) { FactoryBot.build_stubbed(:project) }
+        let(:subproject) { build_stubbed(:project) }
         let(:projects) { [subproject] }
 
         before do
@@ -75,7 +75,7 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
         let(:project) { nil }
 
         it 'is unavailable' do
-          expect(instance).to_not be_available
+          expect(instance).not_to be_available
         end
       end
 
@@ -87,7 +87,7 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
         end
 
         it 'is unavailable' do
-          expect(instance).to_not be_available
+          expect(instance).not_to be_available
         end
       end
 
@@ -103,14 +103,14 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
         end
 
         it 'is unavailable' do
-          expect(instance).to_not be_available
+          expect(instance).not_to be_available
         end
       end
     end
 
     describe '#allowed_values' do
-      let(:subproject1) { FactoryBot.build_stubbed(:project) }
-      let(:subproject2) { FactoryBot.build_stubbed(:project) }
+      let(:subproject1) { build_stubbed(:project) }
+      let(:subproject2) { build_stubbed(:project) }
       let(:projects) { [subproject1, subproject2] }
 
       it 'returns a list of all visible descendants' do
@@ -134,8 +134,8 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
     end
 
     describe '#where' do
-      let(:subproject1) { FactoryBot.build_stubbed(:project) }
-      let(:subproject2) { FactoryBot.build_stubbed(:project) }
+      let(:subproject1) { build_stubbed(:project) }
+      let(:subproject2) { build_stubbed(:project) }
       let(:projects) { [subproject1, subproject2] }
 
       context 'for the equals operator' do

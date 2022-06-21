@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,13 +34,13 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
-  let(:project) { FactoryBot.create(:project, public: false) }
+  let(:project) { create(:project, public: false) }
   let(:work_package) do
-    FactoryBot.create(:work_package, author: current_user, project: project)
+    create(:work_package, author: current_user, project:)
   end
   let(:permissions) { %i[view_work_packages edit_work_package_notes] }
   let(:activity) { work_package.journals.first }
@@ -70,7 +70,8 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
   end
 
   describe 'PATCH /api/v3/activities/:activityId' do
-    let(:params) { { comment: comment } }
+    let(:params) { { comment: } }
+
     before do
       login_as(current_user)
       patch api_v3_paths.activity(activity.id), params.to_json
@@ -181,7 +182,7 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
 
     context 'anonymous user' do
       it_behaves_like 'handling anonymous user' do
-        let(:project) { FactoryBot.create(:project, public: true) }
+        let(:project) { create(:project, public: true) }
         let(:path) { get_path }
       end
     end

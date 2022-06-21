@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +50,7 @@ module Components
       end
 
       def expect_state(text)
-        expect(page).to have_selector('#wp-view-toggle-button', text: text, wait: 10)
+        expect(page).to have_selector('#wp-view-toggle-button', text:, wait: 10)
       end
 
       private
@@ -68,8 +68,8 @@ module Components
         end
       end
 
-      def within_view_context_menu(&block)
-        page.within('#wp-view-context-menu', &block)
+      def within_view_context_menu(&)
+        page.within('#wp-view-context-menu', &)
       end
     end
   end

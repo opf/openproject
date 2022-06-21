@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -84,7 +84,7 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
       .show(DatePickerModalComponent, this.injector, { changeset: this.change, fieldName: this.name }, true);
 
     setTimeout(() => {
-      const modalElement = jQuery(modal.elementRef.nativeElement).find('.datepicker-modal');
+      const modalElement = jQuery(modal.elementRef.nativeElement).find('.op-datepicker-modal');
       const field = jQuery(this.elementRef.nativeElement);
       modal.reposition(modalElement, field);
     });

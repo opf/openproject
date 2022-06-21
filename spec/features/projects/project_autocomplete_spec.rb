@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,25 +29,26 @@
 require 'spec_helper'
 
 describe 'Projects autocomplete page', type: :feature, js: true do
-  let!(:user) { FactoryBot.create :user }
+  let!(:user) { create :user }
+  let(:top_menu) { ::Components::Projects::TopMenu.new }
 
   let!(:project) do
-    FactoryBot.create(:project,
-                      name: 'Plain project',
-                      identifier: 'plain-project')
+    create(:project,
+           name: 'Plain project',
+           identifier: 'plain-project')
   end
 
   let!(:project2) do
-    FactoryBot.create(:project,
-                      name: '<strong>foobar</strong>',
-                      identifier: 'foobar')
+    create(:project,
+           name: '<strong>foobar</strong>',
+           identifier: 'foobar')
   end
 
   let!(:project3) do
-    FactoryBot.create(:project,
-                      name: 'Plain other project',
-                      parent: project2,
-                      identifier: 'plain-project-2')
+    create(:project,
+           name: 'Plain other project',
+           parent: project2,
+           identifier: 'plain-project-2')
   end
 
   let!(:other_projects) do
@@ -61,27 +62,25 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     names.map do |name|
       identifier = name.gsub(/[ \-]+/, "-").downcase
 
-      FactoryBot.create :project, name: name, identifier: identifier
+      create :project, name:, identifier:
     end
   end
   let!(:non_member_project) do
-    FactoryBot.create :project
+    create :project
   end
   let!(:public_project) do
-    FactoryBot.create :public_project
+    create :public_project
   end
   # necessary to be able to see public projects
-  let!(:non_member_role) { FactoryBot.create :non_member }
+  let!(:non_member_role) { create :non_member }
   # we only need the public permissions: view_project, :view_news
-  let(:role) { FactoryBot.create(:role, permissions: []) }
+  let(:role) { create(:role, permissions: []) }
 
   include BecomeMember
 
-  let(:top_menu) { ::Components::Projects::TopMenu.new }
-
   before do
     ([project, project2, project3] + other_projects).each do |p|
-      add_user_to_project! user: user, project: p, role: role
+      add_user_to_project! user:, project: p, role:
     end
     login_as user
     visit root_path
@@ -162,7 +161,7 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     top_menu.expect_open
     top_menu.search_and_select 'Plain project'
 
-    expect(current_path).to eq(project_news_index_path(project))
+    expect(page).to have_current_path(project_news_index_path(project), ignore_query: true)
     expect(page).to have_selector('.news-menu-item.selected')
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ ro:
       start_trial: 'Începeți o încercare gratuită'
       book_now: 'Rezervă acum'
       get_quote: 'Obțineți o ofertă'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Afişare până la
     is_active: afișat acum
@@ -161,7 +170,7 @@ ro:
     edit: 'Editează acţiune personalizată %{name}'
     execute: 'Execută %{name}'
     upsale:
-      title: 'Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise'
+      title: 'Custom actions'
       description: 'Comenzile personalizate îmbunătățesc munca zilnică prin combinarea mai multor pași într-un macro accesibil printr-un singur buton.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +269,7 @@ ro:
       irreversible: "Această acțiune este ireversibilă"
       confirmation: "Introduceți numele de utilizator de tip placeholder %{name} pentru a confirma ștergerea."
     upsale:
-      title: Atribuiți munca unor persoane care nu sunt membri ai proiectului.
+      title: Placeholder users
       description: >
         Există mai multe scenarii în care doriți să atribuiți sarcini unor persoane care nu sunt membre ale proiectului dumneavoastră. Ar putea fi pur și simplu pentru că trebuie să angajați persoana potrivită pentru această sarcină. Sau pur și simplu nu doriți să acordați accesul la informațiile proiectului, dar doriți totuși să urmăriți sarcinile atribuite acelei persoane.
   prioritiies:
@@ -451,9 +460,12 @@ ro:
         code: 'Stare'
         explanation: 'Descrierea stării'
         codes:
+          not_started: 'Not started'
           on_track: 'Urmărește'
           at_risk: 'În pericol'
           off_track: 'În afara pistei'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Coloane"
         relations_to_type_column: "Relații cu %{type}"
@@ -464,7 +476,6 @@ ro:
       repository:
         url: "URL"
       role:
-        assignable: "Pachetele de lucru pot fi atribuite utilizatorilor și grupurilor care dețin acest rol în proiectul respectiv"
         permissions: "Drepturi"
       time_entry:
         activity: "Activitate"
@@ -510,20 +521,23 @@ ro:
         begin_deletion: "Început de ștergere"
         children: "Subelemente"
         done_ratio: "Progres (%)"
+        duration: "Duration"
         end_insertion: "Sfârșit de inserare"
         end_deletion: "Sfârșit de ștergere"
-        version: "Versiune"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Părinte"
         parent_issue: "Părinte"
         parent_work_package: "Părinte"
         priority: "Prioritate"
         progress: "Progres (%)"
+        readonly: "Read only"
         schedule_manually: "Programarea manuală"
         spent_hours: "Timp consumat"
         spent_time: "Timp consumat"
         subproject: "Subproiect"
         time_entries: "Consum timp"
         type: "Tip"
+        version: "Versiune"
         watcher: "Observator"
       'doorkeeper/application':
         uid: "ID Client"
@@ -555,6 +569,7 @@ ro:
         even: "trebuie să fie par."
         exclusion: "este rezervat."
         file_too_large: "este prea mare (dimensiunea maximă este %{count} Octeți)."
+        filter_does_not_exist: "filter does not exist."
         format: "nu se potrivește cu formatul așteptat '%{expected}'."
         format_nested: "nu se potrivește cu formatul preconizat '%{expected}' la calea '%{path}'."
         greater_than: "trebuie să fie mai mare de %{count}."
@@ -723,6 +738,9 @@ ro:
           attributes:
             due_date:
               not_start_date: "nu este în data de început, deși acest lucru este necesar pentru repere de etapă."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
             parent:
               cannot_be_milestone: "nu poate fi un reper de etapă."
               cannot_be_self_assigned: "nu poate fi atribuit singur."
@@ -753,6 +771,8 @@ ro:
               group_without_name: "Grupurile fără nume nu sunt permise."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -884,9 +904,11 @@ ro:
     updated_on: "Actualizat pe"
     uploader: "Autor"
     user: "Utilizator"
+    value: "Value"
     version: "Versiune"
     work_package: "Pachet de lucru"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token backup"
     label_create_token: "Creează token backup"
     label_delete_token: "Șterge token backup"
@@ -1236,6 +1258,7 @@ ro:
   error_enterprise_token_invalid_domain: "Ediția Enterprise Edition nu este activă. Domeniul (%{actual}) al token-ului Enterprise nu se potrivește cu numele de gazdă al sistemului (%{expected})."
   error_failed_to_delete_entry: 'Nu s-a reușit ștergerea acestei intrări.'
   error_in_dependent: "Eroare la încercarea de a modifica un obiect dependent: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valoare selectată invalidă."
   error_journal_attribute_not_present: "Jurnalul nu conține atributul %{attribute}."
   error_pdf_export_too_many_columns: "Prea multe coloane selectate pentru exportul PDF. Vă rugăm să reduceți numărul de coloane."
@@ -1345,7 +1368,9 @@ ro:
   menus:
     admin:
       mail_notification: "Notificări prin e-mail"
-      incoming_outgoing: "De intrare vs Efectuate"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Deschideți meniul de adăugare rapidă"
   my_account:
@@ -1520,6 +1545,7 @@ ro:
   label_diff: "diferențe"
   label_diff_inline: "în text"
   label_diff_side_by_side: "în paralel"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "dezactivat"
   label_display: "Afișare"
   label_display_per_page: "Pe pagină: %{value}"
@@ -1845,7 +1871,7 @@ ro:
   label_used_by_types: "Folosit/ă/e de tipurile"
   label_used_in_projects: "Folosit/ă/e în proiectele"
   label_user: "Utilizator"
-  label_user_and_permission: "Utilizatori și permisiuni"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "Activitatea lui %{value}"
   label_user_anonymous: "Anonim"
@@ -1995,8 +2021,11 @@ ro:
   mail_body_backup_token_info: Token-ul anterior nu mai este valid.
   mail_body_backup_waiting_period: Noul token va fi activat în %{hours} ore.
   mail_body_backup_token_warning: Dacă nu ați fost dvs., conectați-vă la OpenProject imediat și resetați-l din nou.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Pentru a vă modifica parola, dați click pe următorul link:"
-  mail_body_register: "Bine ați venit la OpenProject. Vă rugăm să vă activați contul făcând clic pe acest link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-mail de invitație pentru membrii proiectului"
   mail_body_register_user: "Dragă %{name},"
   mail_body_register_links_html: |
@@ -2013,6 +2042,7 @@ ro:
   mail_subject_account_activation_request: "cererea de activare a contului %{value}"
   mail_subject_backup_ready: "Backup-ul tău este gata"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Parola dumneavoastră pentru %{value}"
   mail_subject_register: "Activarea contului dumneavoastră %{value}"
   mail_subject_reminder: "%{count} pachete de lucru trebuie rezolvate în următoarele %{days} zile"
@@ -2139,7 +2169,7 @@ ro:
     heading_getting_started: "Obțineți o prezentare generală"
     text_getting_started_description: "Obțineți o viziune de ansamblu asupra administrării unui proiect și a activității echipelor folosind OpenProject."
     text_show_again: "Poate reporni acest videoclip din meniul de ajutor"
-    welcome: "Bine ați venit la OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Vă rugăm să selectați limba dvs"
   permission_add_work_package_notes: "Adăugare note"
   permission_add_work_packages: "Adăugare pachete de lucru"
@@ -2155,6 +2185,7 @@ ro:
   permission_comment_news: "Comentare noutăți"
   permission_commit_access: "Acces de citire/scriere la repo (încărcare)"
   permission_copy_projects: "Copiere proiecte"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Eliminare observatori"
   permission_delete_work_packages: "Ștergere pachete de lucru"
   permission_delete_messages: "Ștergere mesaje"
@@ -2197,7 +2228,6 @@ ro:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Selectare module proiect"
   permission_manage_types: "Selectare tipuri"
-  permission_view_calendar: "Vizualizare calendar"
   permission_view_changesets: "Vizualizare revizii repo în OpenProject"
   permission_view_commit_author_statistics: "Vizualizare statistici autor înregistrări"
   permission_view_work_package_watchers: "Vizualizare listă observatori"
@@ -2209,6 +2239,8 @@ ro:
   permission_view_timelines: "Vizualizare linii de timp"
   permission_view_wiki_edits: "Vizualizare istoric wiki"
   permission_view_wiki_pages: "Vizualizare wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Pachetele de lucru pot fi atribuite utilizatorilor și grupurilor care dețin acest rol în proiectul respectiv"
   placeholders:
     default: "-"
   project:
@@ -2233,7 +2265,6 @@ ro:
       archived: "Arhivat"
   project_module_activity: "Activitate"
   project_module_forums: "Forumuri"
-  project_module_calendar: "Calendar"
   project_module_work_package_tracking: "Urmărire pachete de lucru"
   project_module_news: "Noutăţi"
   project_module_repository: "Repo"
@@ -2247,7 +2278,7 @@ ro:
     assigned_to_role: "Rolul executantului"
     member_of_group: "Grupul executantului"
     assignee_or_group: "Destinatarul sau grupul de apartenență"
-    subproject_id: "Inclusiv subproiectul"
+    subproject_id: "Including subproject"
     only_subproject_id: "Numai subproiect"
     name_or_identifier: "Nume sau identificator"
   repositories:
@@ -2361,6 +2392,9 @@ ro:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) origini permise"
   setting_apiv3_cors_origins_text_html: >
     Dacă CORS este activat, acestea sunt originile cărora li se permite accesul la OpenProject API. <br/> Vă rugăm să consultați <a href="%{origin_link}" target="_blank">documentația privind antetul Origin</a> pentru a specifica valorile așteptate.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Documentație"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2375,7 +2409,7 @@ ro:
   setting_smtp_authentication: "Autentificare SMTP"
   setting_smtp_user_name: "Utilizatorul SMTP"
   setting_smtp_password: "Parola SMTP"
-  setting_smtp_domain: "Domeniu \"HELLO\" SMTP"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Zile afișate în lista de activități a proiectului"
   setting_app_subtitle: "Subtitlu aplicație"
   setting_app_title: "Titlu aplicație"
@@ -2568,7 +2602,6 @@ ro:
   text_work_packages_destroy_confirmation: "Sunteți sigur că doriți ștergerea pachetelor de lucru selectate?"
   text_work_packages_ref_in_commit_messages: "Referențiere și rezolvare a pachetelor de lucru în mesajele de încărcare"
   text_journal_added: "%{label} %{value} adăugat"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} actualizat"
@@ -2885,6 +2918,7 @@ ro:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "AAAA-MM-ZZ (doar formate ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "Durată ISO 8601"
       invalid_content_type: "CONTENT-TYPE așteptat '%{content_type}', dar am primit '%{actual}'."
       invalid_format: "Format invalid pentru proprietatea '%{property}': format așteptat '%{expected_format}', dar am primit '%{actual}'."
@@ -2896,6 +2930,7 @@ ro:
         select: "Selecția solicitată de %{invalid} nu este acceptată. Selecțiile acceptate sunt %{supported}."
       invalid_user_status_transition: "Starea contului pentru utilizatorul curent nu permite această operațiune."
       missing_content_type: "nespecificat"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Cererea nu are conținut."
       missing_or_malformed_parameter: "Parametrul de interogare \"%{parameter}\" lipsește sau este deformat."
       multipart_body_error: "Conținutul nu cuprinde componentele multipart așteptate."
@@ -2919,6 +2954,7 @@ ro:
       schema: 'Schemă'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Autorizare prealabilă'
@@ -2927,8 +2963,11 @@ ro:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'În cerere lipsește un parametru obligatoriu, include o valoare de parametru neacceptată sau este deformată în alt mod.'
-        invalid_redirect_uri: "URI-ul de redirecționare solicitat este deformat sau nu se potrivește cu URI-ul de redirecționare al clientului."
+        invalid_request:
+          unknown: 'În cerere lipsește un parametru obligatoriu, include o valoare de parametru neacceptată sau este deformată în alt mod.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Clientul nu este autorizat să efectueze această cerere folosind această metodă.'
         access_denied: 'Proprietarul resursei sau serverul de autorizare a refuzat cererea.'
         invalid_scope: 'Domeniul de aplicare solicitat este invalid, necunoscut sau deformat.'
@@ -2941,6 +2980,7 @@ ro:
         admin_authenticator_not_configured: 'Accesul la panoul de administrare este interzis din cauza faptului că Doorkeeper.configure.admin_authenticator este neconfigurat.'
         #Access grant errors
         unsupported_response_type: 'Serverul de autorizare nu acceptă acest tip de răspuns.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Autentificarea clientului nu a reușit din cauza nerecunoașterii clientului, nu a fost inclusă nicio autentificare client sau metoda de autentificare nu este acceptată.'
         invalid_grant: 'Autorizația de autorizare furnizată nu este valabilă, a expirat, a fost revocată, nu se potrivește cu URI-ul de redirecționare utilizat în cererea de autorizare sau a fost emisă pentru un alt client.'
@@ -2949,6 +2989,10 @@ ro:
           revoked: "Token-ul de acces a fost revocat"
           expired: "Token-ul de acces a expirat"
           unknown: "Token-ul de acces nu este valid"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Browserul dvs. este învechit și nu este acceptat."
     message: "Este posibil să întâmpinați erori și o experiență degradată pe această pagină."
@@ -3003,4 +3047,36 @@ ro:
     authorization_error: "A apărut o eroare internă."
     revoke_my_application_confirmation: "Chiar doriți să eliminați această aplicație? Acest lucru va anula %{token_count} active pentru aceasta."
     my_registered_applications: "Aplicații OAuth înregistrate"
+  oauth_client:
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authentication. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid"
+        invalid_request: >
+          OAuth2 server responded with 'invalid_request'. This error appears if you try to authorize multiple times.
+        invalid_response: "OAuth2 server provided an invalid response"
   you: tu

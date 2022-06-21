@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,11 +59,8 @@ module Pages
     def create_board(action: nil, expect_empty: false)
       page.find('.toolbar-item a', text: 'Board').click
 
-      if action == nil
-        find('.tile-block-title', text: 'Basic').click
-      else
-        find('.tile-block-title', text: action.to_s[0..5]).click
-      end
+      text = action == nil ? 'Basic' : action.to_s[0..5]
+      find('[data-qa-selector="op-tile-block-title"]', text:).click
 
       if expect_empty
         expect(page).to have_selector('.boards-list--add-item-text', wait: 10)

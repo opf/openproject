@@ -5,7 +5,7 @@ nl:
     attributes:
       openid_connect/provider:
         name: Naam
-        display_name: Display name
+        display_name: Weergavenaam
         identifier: Identifier
         secret: Secret
         scope: Scope

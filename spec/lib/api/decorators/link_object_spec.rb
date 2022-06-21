@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::Decorators::LinkObject do
   include ::API::V3::Utilities::PathHelper
 
-  let(:represented) { Hashie::Mash.new }
+  let(:represented) { API::ParserStruct.new }
 
   context 'minimal constructor call' do
     let(:representer) { described_class.new(represented, property_name: :foo) }

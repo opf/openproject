@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,18 +32,18 @@ describe ::API::V3::Activities::ActivityRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.build_stubbed(:user).tap do |u|
+    build_stubbed(:user).tap do |u|
       allow(u)
         .to receive(:allowed_to?) do |checked_permission, project|
         project == work_package.project && permissions.include?(checked_permission)
       end
     end
   end
-  let(:other_user) { FactoryBot.build_stubbed(:user) }
+  let(:other_user) { build_stubbed(:user) }
   let(:work_package) { journal.journable }
   let(:notes) { "My notes" }
   let(:journal) do
-    FactoryBot.build_stubbed(:work_package_journal, notes: notes, user: other_user).tap do |journal|
+    build_stubbed(:work_package_journal, notes:, user: other_user).tap do |journal|
       allow(journal)
         .to receive(:get_changes)
         .and_return(changes)
@@ -51,7 +51,7 @@ describe ::API::V3::Activities::ActivityRepresenter, 'rendering' do
   end
   let(:changes) { { subject: ["first subject", "second subject"] } }
   let(:permissions) { %i(edit_work_package_notes) }
-  let(:representer) { described_class.new(journal, current_user: current_user) }
+  let(:representer) { described_class.new(journal, current_user:) }
 
   before do
     login_as(current_user)
@@ -132,9 +132,9 @@ describe ::API::V3::Activities::ActivityRepresenter, 'rendering' do
 
       it 'renders all details as formattable' do
         (0..journal.details.count - 1).each do |x|
-          is_expected.to be_json_eql('custom'.to_json).at_path("details/#{x}/format")
-          is_expected.to have_json_path("details/#{x}/raw")
-          is_expected.to have_json_path("details/#{x}/html")
+          expect(subject).to be_json_eql('custom'.to_json).at_path("details/#{x}/format")
+          expect(subject).to have_json_path("details/#{x}/raw")
+          expect(subject).to have_json_path("details/#{x}/html")
         end
       end
     end

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,23 +32,23 @@ shared_examples "watcher job" do |action|
   subject { described_class.perform_now(watcher_parameter, watcher_changer) }
 
   let(:action) { action }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
   let(:watcher_changer) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
-  let(:work_package) { FactoryBot.build_stubbed(:work_package, type: FactoryBot.build_stubbed(:type), project: project) }
+  let(:work_package) { build_stubbed(:work_package, type: build_stubbed(:type), project:) }
   let(:watcher) do
-    FactoryBot.build_stubbed(:watcher, watchable: work_package, user: watching_user)
+    build_stubbed(:watcher, watchable: work_package, user: watching_user)
   end
   let(:user_pref) do
-    FactoryBot.build_stubbed(:user_preference)
+    build_stubbed(:user_preference)
   end
   let(:notification_settings) do
-    [FactoryBot.build_stubbed(:notification_setting)]
+    [build_stubbed(:notification_setting)]
   end
   let(:watching_user) do
-    FactoryBot.build_stubbed(:user,
-                             notification_settings: notification_settings).tap do |user|
+    build_stubbed(:user,
+                  notification_settings:).tap do |user|
       allow(user)
         .to receive(:notification_settings)
               .and_return(notification_settings)
@@ -128,25 +126,25 @@ shared_examples "watcher job" do |action|
 
   it_behaves_like 'notifies the watcher' do
     let(:notification_settings) do
-      [FactoryBot.build_stubbed(:notification_setting, mentioned: false, involved: false, watched: true)]
+      [build_stubbed(:notification_setting, mentioned: false, involved: false, watched: true)]
     end
   end
 
   it_behaves_like 'notifies the watcher' do
     let(:notification_settings) do
-      [FactoryBot.build_stubbed(:notification_setting, mentioned: false, involved: false, watched: true)]
+      [build_stubbed(:notification_setting, mentioned: false, involved: false, watched: true)]
     end
   end
 
   it_behaves_like 'does not notify the watcher' do
     let(:notification_settings) do
-      [FactoryBot.build_stubbed(:notification_setting, mentioned: false, involved: true, watched: false)]
+      [build_stubbed(:notification_setting, mentioned: false, involved: true, watched: false)]
     end
   end
 
   it_behaves_like 'does not notify the watcher' do
     let(:notification_settings) do
-      [FactoryBot.build_stubbed(:notification_setting, mentioned: true, involved: false, watched: false)]
+      [build_stubbed(:notification_setting, mentioned: true, involved: false, watched: false)]
     end
   end
 end

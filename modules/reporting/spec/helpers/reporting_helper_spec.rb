@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ describe ReportingHelper, type: :helper do
     context 'for a custom field' do
       context 'for which a custom option exists (e.g. a list field)' do
         let(:custom_field) do
-          FactoryBot.create(
+          create(
             :list_wp_custom_field,
             name: "Ingredients",
             possible_values: ["ham"]
@@ -55,7 +55,7 @@ describe ReportingHelper, type: :helper do
 
       context 'for which no custom option exists (e.g. a float field)' do
         let(:custom_field) do
-          FactoryBot.create(
+          create(
             :float_wp_custom_field,
             name: "Estimate"
           )
@@ -63,7 +63,7 @@ describe ReportingHelper, type: :helper do
 
         it 'returns the option value' do
           expect(field_representation_map("custom_field#{custom_field.id}", 3.0))
-            .to eql 3.0
+            .to be 3.0
         end
       end
     end

@@ -13,6 +13,8 @@ post:
     '200':
       content:
         application/hal+json:
+          schema:
+            type: object
           examples:
             response:
               value:
@@ -118,6 +120,8 @@ post:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -134,6 +138,8 @@ post:
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -145,6 +151,10 @@ post:
 
         **Required permission:** view work package
       headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
   tags:
   - Grids
   description: ''

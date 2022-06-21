@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ sv:
       start_trial: 'Starta fri provperiod'
       book_now: 'Boka nu'
       get_quote: 'Få en offert'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Visa fram till
     is_active: visas för tillfället
@@ -161,7 +170,7 @@ sv:
     edit: 'Redigera anpassad åtgärd %{name}'
     execute: 'Verkställ %{name}'
     upsale:
-      title: 'Anpassade åtgärder är en Enterprise Edition funktion'
+      title: 'Custom actions'
       description: 'Anpassade åtgärder effektiviserar det dagliga arbetet genom att kombinera en uppsättning enskilda steg till en knapp.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +269,7 @@ sv:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Placeholder users
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -449,9 +458,12 @@ sv:
         code: 'Status'
         explanation: 'Statusbeskrivning'
         codes:
+          not_started: 'Not started'
           on_track: 'På banan'
           at_risk: 'I riskzonen'
           off_track: 'Utanför banan'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Kolumner"
         relations_to_type_column: "Relationer till %{type}"
@@ -462,7 +474,6 @@ sv:
       repository:
         url: "URL"
       role:
-        assignable: "Arbetspaket kan tilldelas användare och grupper som har denna roll i respektive projektet"
         permissions: "Behörigheter"
       time_entry:
         activity: "Aktivitet"
@@ -508,20 +519,23 @@ sv:
         begin_deletion: "Början av raderingen"
         children: "Underelement"
         done_ratio: "Progress (%)"
+        duration: "Duration"
         end_insertion: "Slutet av införandet"
         end_deletion: "Slutet av raderingen"
-        version: "Version"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Överordnad"
         parent_issue: "Överordnad"
         parent_work_package: "Överordnad"
         priority: "Prioritet"
         progress: "Progress (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Förbrukad tid"
         spent_time: "Förbrukad tid"
         subproject: "Delprojekt"
         time_entries: "Logga tid"
         type: "Typ"
+        version: "Version"
         watcher: "Bevakare"
       'doorkeeper/application':
         uid: "Client ID"
@@ -553,6 +567,7 @@ sv:
         even: "måste vara jämn."
         exclusion: "är reserverat."
         file_too_large: "är för stor (största storleken är %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "måste vara större än %{count}."
@@ -721,6 +736,9 @@ sv:
           attributes:
             due_date:
               not_start_date: "är inte på startdatum, även om detta behövs för milstolpar."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
             parent:
               cannot_be_milestone: "kan inte vara en milstolpe."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -751,6 +769,8 @@ sv:
               group_without_name: "Namnlösa grupper tillåts inte."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -878,9 +898,11 @@ sv:
     updated_on: "Uppdaterat den"
     uploader: "Uploader"
     user: "Användare"
+    value: "Value"
     version: "Version"
     work_package: "Arbetspaket"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -1218,6 +1240,7 @@ sv:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Det gick inte ta bort denna post.'
   error_in_dependent: "Fel vid försök att ändra beroende objekt: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Ogiltigt valt värde."
   error_journal_attribute_not_present: "Loggbok innehåller inte attribut %{attribute}."
   error_pdf_export_too_many_columns: "För många kolumner har markerats för PDF-export. Vänlogen minska antalet kolumner."
@@ -1327,7 +1350,9 @@ sv:
   menus:
     admin:
       mail_notification: "E-postaviseringar"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1502,6 +1527,7 @@ sv:
   label_diff: "diff"
   label_diff_inline: "inline"
   label_diff_side_by_side: "sida vid sida"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "inaktiverad"
   label_display: "Visa"
   label_display_per_page: "Per sida: %{value}"
@@ -1827,7 +1853,7 @@ sv:
   label_used_by_types: "Används av typer"
   label_used_in_projects: "Används i projekt"
   label_user: "Användare"
-  label_user_and_permission: "Användare och behörigheter"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Användare %{name}"
   label_user_activity: "%{value}s aktivitet"
   label_user_anonymous: "Anonym"
@@ -1976,8 +2002,11 @@ sv:
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "För att ändra ditt lösenord, klicka på följande länk:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -1994,6 +2023,7 @@ sv:
   mail_subject_account_activation_request: "%{value}} kontoaktiveringsbegäran"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ditt %{value} lösenord"
   mail_subject_register: "Din %{value} kontoaktivering"
   mail_subject_reminder: "%{count} arbetspaket förfaller inom de %{days} dagarna"
@@ -2120,7 +2150,7 @@ sv:
     heading_getting_started: "Få en översikt"
     text_getting_started_description: "Få en snabb överblick över projektledning och samarbete med OpenProject."
     text_show_again: "Du kan starta om denna video från hjälpmenyn"
-    welcome: "Välkommen till OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Välj ditt språk"
   permission_add_work_package_notes: "Lägg till anteckningar"
   permission_add_work_packages: "Lägg till arbetspaket"
@@ -2136,6 +2166,7 @@ sv:
   permission_comment_news: "Kommentera nyhet"
   permission_commit_access: "Läs- och skrivbehörighet till databasen (incheckning)"
   permission_copy_projects: "Kopiera projekt"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Ta bort bevakare"
   permission_delete_work_packages: "Ta bort arbetspaket"
   permission_delete_messages: "Ta bort meddelanden"
@@ -2178,7 +2209,6 @@ sv:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Välj projektmoduler"
   permission_manage_types: "Välj typer"
-  permission_view_calendar: "Visa kalender"
   permission_view_changesets: "Visa databasrevisioner i OpenProject"
   permission_view_commit_author_statistics: "Visa statistik över incheckningar per författare"
   permission_view_work_package_watchers: "Visa lista med bevakare"
@@ -2190,6 +2220,8 @@ sv:
   permission_view_timelines: "Visa tidslinjer"
   permission_view_wiki_edits: "Visa historik över wiki"
   permission_view_wiki_pages: "Visa wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Arbetspaket kan tilldelas användare och grupper som har denna roll i respektive projektet"
   placeholders:
     default: "-"
   project:
@@ -2214,7 +2246,6 @@ sv:
       archived: "Arkiverad"
   project_module_activity: "Aktivitet"
   project_module_forums: "Forum"
-  project_module_calendar: "Kalender"
   project_module_work_package_tracking: "Arbetspaketsspårning"
   project_module_news: "Nyheter"
   project_module_repository: "Versionsarkiv"
@@ -2228,7 +2259,7 @@ sv:
     assigned_to_role: "Tilldelades roll"
     member_of_group: "Den tilldelades grupp"
     assignee_or_group: "Tilldelad eller tillhörandegrupp"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Namn eller identifierare"
   repositories:
@@ -2340,6 +2371,9 @@ sv:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Dokumentation"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2354,7 +2388,7 @@ sv:
   setting_smtp_authentication: "SMTP-autentisering"
   setting_smtp_user_name: "SMTP-användarnamn"
   setting_smtp_password: "SMTP-lösenord"
-  setting_smtp_domain: "SMTP HELLO-domän"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Dagar som visas i projektaktivitet"
   setting_app_subtitle: "Undertitel för applikation"
   setting_app_title: "Programnamn"
@@ -2547,7 +2581,6 @@ sv:
   text_work_packages_destroy_confirmation: "Är du säker du vill ta bort det valda arbetspaket(paketen)?"
   text_work_packages_ref_in_commit_messages: "Referenser och fixande av arbetspaket i incheckningsmeddelanden"
   text_journal_added: "%{label} %{value} lades till"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} uppdaterades"
@@ -2861,6 +2894,7 @@ sv:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "ÅÅÅÅ-MM-DD (endast datum enligt ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 varaktighet"
       invalid_content_type: "Förväntade att CONTENT-TYPE var \"%{content_type}\" men erhöll istället \"%{actual}\"."
       invalid_format: "Ogiltigt format för egenskapen '%{property}': förväntat format är '%{expected_format}', men fick '%{actual}'."
@@ -2872,6 +2906,7 @@ sv:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Statusen på den aktuella användarens konto tillåter inte denna operation."
       missing_content_type: "inte angiven"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Det fanns inget innehåll i frågan."
       missing_or_malformed_parameter: "Frågeparametern '%{parameter}' är felaktig eller saknas."
       multipart_body_error: "Frågan innehöll inte de förväntade multipart sektionerna."
@@ -2895,6 +2930,7 @@ sv:
       schema: 'Schema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Förauktorisering'
@@ -2903,8 +2939,11 @@ sv:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Begäran saknar en obligatorisk parameter, innehåller ett parametervärde som inte stöds, eller är på annat sätt felformulerad.'
-        invalid_redirect_uri: "Den begärda omdirigerings-URI är felaktigt eller matchar inte klientens omdirigerings-URI."
+        invalid_request:
+          unknown: 'Begäran saknar en obligatorisk parameter, innehåller ett parametervärde som inte stöds, eller är på annat sätt felformulerad.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Klienten har inte behörighet att utföra denna begäran med denna metod.'
         access_denied: 'Resursägaren eller auktoriseringsservern nekade begäran.'
         invalid_scope: 'Den begärda omfattningen är ogiltig, okänd eller felformulerad.'
@@ -2917,6 +2956,7 @@ sv:
         admin_authenticator_not_configured: 'Åtkomst till administratörspanelen är förbjuden på grund av att Doorkeeper.configure.admin_authenticator är okonfigurerad.'
         #Access grant errors
         unsupported_response_type: 'Auktoriseringsservern stöder inte denna typ av svar.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Klientautentisering misslyckades på grund av okänd klient, ingen klientautentisering inkluderad eller autentiseringsmetod som ej stöds.'
         invalid_grant: 'Det angivna godkännandebidraget är ogiltigt, utgånget, återkallat, matchar inte den omdirigerings-URI som används i begäran om godkännande, eller utfärdades till en annan klient.'
@@ -2925,6 +2965,10 @@ sv:
           revoked: "Åtkomsttoken har återkallats"
           expired: "Åtkomsttoken har gått ut"
           unknown: "Åtkomsttoken är ogiltig"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Din webbläsare är föråldrad och stöds inte."
     message: "Du kan stöta på fel och få försämrad upplevelse på denna sida."
@@ -2978,4 +3022,36 @@ sv:
     authorization_error: "Ett auktoriseringsfel har inträffat."
     revoke_my_application_confirmation: "Vill du verkligen ta bort denna applikation? Detta kommer att återkalla %{token_count} aktiv för den."
     my_registered_applications: "Registrerade OAuth applikationer"
+  oauth_client:
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authentication. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid"
+        invalid_request: >
+          OAuth2 server responded with 'invalid_request'. This error appears if you try to authorize multiple times.
+        invalid_response: "OAuth2 server provided an invalid response"
   you: you

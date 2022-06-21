@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe MyController, type: :controller do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
 
-  before(:each) do
+  before do
     login_as(user)
   end
 
@@ -41,7 +41,7 @@ describe MyController, type: :controller do
         get :password
       end
 
-      it 'should render the password template' do
+      it 'renders the password template' do
         assert_template 'password'
         assert_response :success
       end
@@ -67,7 +67,8 @@ describe MyController, type: :controller do
                new_password_confirmation: 'adminADMIN!Other'
              }
       end
-      it 'should show an error message' do
+
+      it 'shows an error message' do
         assert_response :success
         assert_template 'password'
         expect(user.errors.attribute_names).to eq([:password_confirmation])
@@ -88,13 +89,13 @@ describe MyController, type: :controller do
              }
       end
 
-      it 'should show an error message' do
+      it 'shows an error message' do
         assert_response :success
         assert_template 'password'
         expect(flash[:error]).to eq('Wrong password')
       end
 
-      it 'should not change the password' do
+      it 'does not change the password' do
         expect(user.current_password.id).to eq(@current_password)
       end
     end
@@ -109,18 +110,19 @@ describe MyController, type: :controller do
              }
       end
 
-      it 'should redirect to the my password page' do
+      it 'redirects to the my password page' do
         expect(response).to redirect_to('/my/password')
       end
 
-      it 'should allow the user to login with the new password' do
+      it 'allows the user to login with the new password' do
         assert User.try_to_login(user.login, 'adminADMIN!New')
       end
     end
   end
 
   describe 'account' do
-    let(:custom_field) { FactoryBot.create :text_user_custom_field }
+    let(:custom_field) { create :text_user_custom_field }
+
     before do
       custom_field
       as_logged_in_user user do
@@ -174,7 +176,7 @@ describe MyController, type: :controller do
 
       context 'when user is invalid' do
         let(:user) do
-          FactoryBot.create(:user).tap do |u|
+          create(:user).tap do |u|
             u.update_column(:mail, 'something invalid')
           end
         end
@@ -230,7 +232,7 @@ describe MyController, type: :controller do
   describe 'access_tokens' do
     describe 'rss' do
       it 'creates a key' do
-        expect(user.rss_token).to eq(nil)
+        expect(user.rss_token).to be_nil
 
         post :generate_rss_key
         expect(user.reload.rss_token).to be_present
@@ -241,7 +243,7 @@ describe MyController, type: :controller do
       end
 
       context 'with existing key' do
-        let!(:key) { ::Token::RSS.create user: user }
+        let!(:key) { ::Token::RSS.create user: }
 
         it 'replaces the key' do
           expect(user.rss_token).to eq(key)
@@ -262,7 +264,7 @@ describe MyController, type: :controller do
     describe 'api' do
       context 'with no existing key' do
         it 'creates a key' do
-          expect(user.api_token).to eq(nil)
+          expect(user.api_token).to be_nil
 
           post :generate_api_key
           new_token = user.reload.api_token
@@ -276,7 +278,7 @@ describe MyController, type: :controller do
       end
 
       context 'with existing key' do
-        let!(:key) { ::Token::API.create user: user }
+        let!(:key) { ::Token::API.create user: }
 
         it 'replaces the key' do
           expect(user.reload.api_token).to eq(key)

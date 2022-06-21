@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
   let(:self_base_link) { '/api/v3/example' }
   let(:work_packages) { WorkPackage.all }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
 
   let(:query) { {} }
   let(:groups) { nil }
@@ -50,14 +50,14 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     described_class.new(
       work_packages,
       self_link: self_base_link,
-      query: query,
-      project: project,
-      groups: groups,
-      total_sums: total_sums,
+      query:,
+      project:,
+      groups:,
+      total_sums:,
       page: page_parameter,
       per_page: page_size_parameter,
       current_user: user,
-      embed_schemas: embed_schemas
+      embed_schemas:
     )
   end
   let(:collection_inner_type) { 'WorkPackage' }
@@ -67,7 +67,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       .to receive(:allowed_to?)
       .and_return(true)
 
-    FactoryBot.create_list(:work_package, total)
+    create_list(:work_package, total)
   end
 
   subject(:collection) { representer.to_json }
@@ -118,7 +118,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       end
 
       context 'when inside of a project and the user has the export_work_packages permission' do
-        let(:project) { FactoryBot.build_stubbed(:project) }
+        let(:project) { build_stubbed(:project) }
 
         let(:expected) do
           expected_query = query.merge(pageSize: 30, offset: 1)
@@ -176,7 +176,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     describe 'customFields' do
-      let(:project) { FactoryBot.build_stubbed(:project) }
+      let(:project) { build_stubbed(:project) }
 
       before do
         allow(user)
@@ -318,7 +318,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     context 'when in project context' do
-      let(:project) { FactoryBot.build_stubbed :project }
+      let(:project) { build_stubbed :project }
 
       it 'has no link to create work_packages' do
         expect(collection)
@@ -347,6 +347,17 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     it 'has no link to create work_packages immediately' do
       expect(collection)
         .not_to have_json_path('_links/createWorkPackageImmediate')
+    end
+  end
+
+  context 'with a magic page size' do
+    let(:page_size_parameter) { -1 }
+
+    it_behaves_like 'offset-paginated APIv3 collection' do
+      let(:page) { 1 }
+      let(:page_size) {  Setting.apiv3_max_page_size }
+      let(:actual_count) { 5 }
+      let(:collection_type) { 'WorkPackageCollection' }
     end
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -119,8 +119,8 @@ module Components
         page.find(".generic-table--sort-header ##{id}").click
       end
 
-      def within_column_context_menu(&block)
-        page.within('#column-context-menu', &block)
+      def within_column_context_menu(&)
+        page.within('#column-context-menu', &)
       end
     end
   end

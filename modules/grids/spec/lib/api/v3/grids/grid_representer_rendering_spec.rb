@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,12 +33,12 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
   include API::V3::Utilities::PathHelper
 
   let(:grid) do
-    FactoryBot.build_stubbed(
+    build_stubbed(
       :grid,
       row_count: 4,
       column_count: 5,
       widgets: [
-        FactoryBot.build_stubbed(
+        build_stubbed(
           :grid_widget,
           identifier: 'work_packages_assigned',
           start_row: 4,
@@ -46,7 +46,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
           start_column: 1,
           end_column: 2
         ),
-        FactoryBot.build_stubbed(
+        build_stubbed(
           :grid_widget,
           identifier: 'work_packages_created',
           start_row: 1,
@@ -54,7 +54,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
           start_column: 1,
           end_column: 2
         ),
-        FactoryBot.build_stubbed(
+        build_stubbed(
           :grid_widget,
           identifier: 'work_packages_watched',
           start_row: 2,
@@ -67,8 +67,8 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
   end
 
   let(:embed_links) { true }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
-  let(:representer) { described_class.new(grid, current_user: current_user, embed_links: embed_links) }
+  let(:current_user) { build_stubbed(:user) }
+  let(:representer) { described_class.new(grid, current_user:, embed_links:) }
 
   let(:writable) { true }
   let(:scope_path) { 'bogus_scope' }
@@ -98,25 +98,25 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
 
     context 'properties' do
       it 'denotes its type' do
-        is_expected
+        expect(subject)
           .to be_json_eql('Grid'.to_json)
           .at_path('_type')
       end
 
       it 'has an id' do
-        is_expected
+        expect(subject)
           .to be_json_eql(grid.id)
           .at_path('id')
       end
 
       it 'has a rowCount' do
-        is_expected
+        expect(subject)
           .to be_json_eql(4)
           .at_path('rowCount')
       end
 
       it 'has a columnCount' do
-        is_expected
+        expect(subject)
           .to be_json_eql(5)
           .at_path('columnCount')
       end
@@ -138,38 +138,38 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
       it 'has a list of widgets' do
         widgets = [
           {
-            "_type": "GridWidget",
-            "id": grid.widgets[0].id,
-            "identifier": 'work_packages_assigned',
-            "options": {},
-            "startRow": 4,
-            "endRow": 5,
-            "startColumn": 1,
-            "endColumn": 2
+            _type: "GridWidget",
+            id: grid.widgets[0].id,
+            identifier: 'work_packages_assigned',
+            options: {},
+            startRow: 4,
+            endRow: 5,
+            startColumn: 1,
+            endColumn: 2
           },
           {
-            "_type": "GridWidget",
-            "id": grid.widgets[1].id,
-            "identifier": 'work_packages_created',
-            "options": {},
-            "startRow": 1,
-            "endRow": 2,
-            "startColumn": 1,
-            "endColumn": 2
+            _type: "GridWidget",
+            id: grid.widgets[1].id,
+            identifier: 'work_packages_created',
+            options: {},
+            startRow: 1,
+            endRow: 2,
+            startColumn: 1,
+            endColumn: 2
           },
           {
-            "_type": "GridWidget",
-            "id": grid.widgets[2].id,
-            "identifier": 'work_packages_watched',
-            "options": {},
-            "startRow": 2,
-            "endRow": 4,
-            "startColumn": 4,
-            "endColumn": 5
+            _type: "GridWidget",
+            id: grid.widgets[2].id,
+            identifier: 'work_packages_watched',
+            options: {},
+            startRow: 2,
+            endRow: 4,
+            startColumn: 4,
+            endColumn: 5
           }
         ]
 
-        is_expected
+        expect(subject)
           .to be_json_eql(widgets.to_json)
           .at_path('widgets')
       end
@@ -206,7 +206,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
           let(:type) { "text/html" }
 
           it 'has a content type of html' do
-            is_expected
+            expect(subject)
               .to be_json_eql(type.to_json)
               .at_path("_links/#{link}/type")
           end
@@ -236,7 +236,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
 
     context 'embedded' do
       it 'embeds the attachments as collection' do
-        is_expected
+        expect(subject)
           .to be_json_eql('Collection'.to_json)
           .at_path('_embedded/attachments/_type')
       end

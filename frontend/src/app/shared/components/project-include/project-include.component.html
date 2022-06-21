@@ -1,0 +1,127 @@
+<spot-drop-modal
+  [open]="opened"
+  alignment="bottom-right"
+  (closed)="opened = false"
+>
+  <button
+    slot="trigger"
+    type="button"
+    class="button"
+    (click)="toggleOpen()"
+    data-qa-selector="project-include-button"
+  >
+    {{ text.toggle_title }}
+    <span
+      *ngIf="(numberOfProjectsInFilter$ | async) as count"
+      class="badge -secondary"
+      [textContent]="count"
+    >
+    </span>
+  </button>
+
+  <ng-container slot="body">
+    <div class="op-project-include--header">
+      <h1 class="op-project-include--title">{{ text.title }}</h1>
+      <spot-toggle
+        [options]="displayModeOptions"
+        [(ngModel)]="displayMode"
+      ></spot-toggle>
+    </div>
+    <form
+      (submit)="onSubmit($event)"
+      class="spot-container op-project-include--body"
+    >
+      <spot-text-field
+        [disabled]="(loading$ | async)"
+        [placeholder]="text.search_placeholder"
+        name="project-include-search"
+        [(ngModel)]="searchText"
+        [ngModelOptions]="{standalone: true}"
+        data-qa-selector="project-include-search"
+      >
+        <span
+          slot="before"
+          class="spot-icon spot-icon_search"
+        ></span>
+      </spot-text-field>
+
+      <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+        <ul
+          class="op-project-include--list"
+          op-project-list
+          [projects]="projects$ | async"
+          [selected]="selectedProjects"
+          [includeSubprojects]="includeSubprojects$ | async"
+          [searchText]="searchText"
+          [root]="true"
+          (update)="selectedProjects = $event"
+          data-qa-selector="project-include-list"
+        ></ul>
+      </ng-container> 
+
+      <div class="spot-action-bar">
+        <div class="spot-action-bar--left">
+          <label class="op-project-include--include-all">
+            <spot-checkbox
+              [(ngModel)]="includeSubprojects"
+              [ngModelOptions]="{standalone: true}"
+              data-qa-project-include-all-subprojects="1"
+            ></spot-checkbox>
+            <span class="op-project-include--include-all-text">{{ text.include_subprojects }}</span>
+          </label>
+        </div>
+        <div class="spot-action-bar--right">
+          <button
+            [disabled]="(loading$ | async)"
+            class="button"
+            type="button"
+            (click)="clearSelection()"
+          >
+            {{ text.clear_selection }}
+          </button>
+          <button 
+            [disabled]="(loading$ | async)"
+            class="button -highlight"
+          >
+            {{ text.apply }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+</spot-drop-modal>
+
+<ng-template #loadingTemplate>
+  <op-content-loader
+    class="op-project-include--loading"
+    data-qa-selector="op-project-include--loading"
+    viewBox="0 0 200 140"
+  >
+    <svg:rect x="0" width="12" height="12" rx="1" />
+    <svg:rect x="15" width="100%" height="12" rx="1" />
+
+    <svg:rect x="10" y="16" width="12" height="12" rx="1" />
+    <svg:rect x="25" y="16" width="100%" height="12" rx="1" />
+
+    <svg:rect x="10" y="32" width="12" height="12" rx="1" />
+    <svg:rect x="25" y="32" width="100%" height="12" rx="1" />
+
+    <svg:rect x="20" y="48" width="12" height="12" rx="1" />
+    <svg:rect x="35" y="48" width="100%" height="12" rx="1" />
+
+    <svg:rect x="20" y="64" width="12" height="12" rx="1" />
+    <svg:rect x="35" y="64" width="100%" height="12" rx="1" />
+
+    <svg:rect x="0" y="80" width="12" height="12" rx="1" />
+    <svg:rect x="15" y="80" width="100%" height="12" rx="1" />
+
+    <svg:rect x="10" y="96" width="12" height="12" rx="1" />
+    <svg:rect x="25" y="96" width="100%" height="12" rx="1" />
+
+    <svg:rect x="10" y="112" width="12" height="12" rx="1" />
+    <svg:rect x="25" y="112" width="100%" height="12" rx="1" />
+
+    <svg:rect x="0" y="128" width="12" height="12" rx="1" />
+    <svg:rect x="15" y="128" width="100%" height="12" rx="1" />
+  </op-content-loader>
+</ng-template>

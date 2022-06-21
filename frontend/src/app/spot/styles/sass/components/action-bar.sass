@@ -1,0 +1,38 @@
+.spot-action-bar
+  display: grid
+  grid-template-columns: 1fr
+  padding: $spot-spacing-1
+  padding-bottom: $spot-spacing-0_5
+  background-color: $spot-color-basic-gray-6
+
+  &--left,
+  &--right
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    align-items: center
+    justify-content: flex-end
+
+    > *
+      margin-bottom: $spot-spacing-0_5
+      margin-left: $spot-spacing-0_5
+
+  @media #{$spot-mq-action-bar-change}
+    grid-template-columns: 1fr auto
+
+    &--left,
+    &--right
+      > *
+        margin-left: 0
+
+    &--left
+      justify-content: flex-start
+
+      > *:not(:last-child)
+        margin-right: $spot-spacing-1
+
+    &--right
+      justify-content: flex-end
+
+      > *:not(:first-child)
+        margin-left: $spot-spacing-1

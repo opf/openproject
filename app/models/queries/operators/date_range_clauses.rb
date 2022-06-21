@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,10 +45,10 @@ module Queries::Operators
     def date_range_clause(table, field, from, to)
       s = []
       if from
-        s << "#{table}.#{field} > '%s'" % [quoted_date_from_utc(from.yesterday)]
+        s << ("#{table}.#{field} > '%s'" % [quoted_date_from_utc(from.yesterday)])
       end
       if to
-        s << "#{table}.#{field} <= '%s'" % [quoted_date_from_utc(to)]
+        s << ("#{table}.#{field} <= '%s'" % [quoted_date_from_utc(to)])
       end
       s.join(' AND ')
     end

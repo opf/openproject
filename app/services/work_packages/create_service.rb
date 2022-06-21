@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,9 +74,9 @@ class WorkPackages::CreateService < ::BaseServices::BaseCallable
 
   def set_attributes(attributes, wp)
     attributes_service_class
-      .new(user: user,
+      .new(user:,
            model: wp,
-           contract_class: contract_class)
+           contract_class:)
       .call(attributes)
   end
 
@@ -89,8 +87,8 @@ class WorkPackages::CreateService < ::BaseServices::BaseCallable
 
   def reschedule_related(work_package)
     result = WorkPackages::SetScheduleService
-             .new(user: user,
-                  work_package: work_package)
+             .new(user:,
+                  work_package:)
              .call
 
     result.self_and_dependent.each do |r|

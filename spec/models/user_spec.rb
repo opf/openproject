@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,24 +29,25 @@
 require 'spec_helper'
 
 describe User, type: :model do
-  let(:user) { FactoryBot.build(:user) }
-  let(:project) { FactoryBot.create(:project_with_types) }
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:user) { build(:user) }
+  let(:project) { create(:project_with_types) }
+  let(:role) { create(:role, permissions: [:view_work_packages]) }
   let(:member) do
-    FactoryBot.build(:member, project: project,
-                              roles: [role],
-                              principal: user)
+    build(:member, project:,
+                   roles: [role],
+                   principal: user)
   end
-  let(:status) { FactoryBot.create(:status) }
+  let(:status) { create(:status) }
   let(:issue) do
-    FactoryBot.build(:work_package, type: project.types.first,
-                                    author: user,
-                                    project: project,
-                                    status: status)
+    build(:work_package, type: project.types.first,
+                         author: user,
+                         project:,
+                         status:)
   end
 
   describe 'a user with a long login (<= 256 chars)' do
     let(:login) { 'a' * 256 }
+
     it 'is valid' do
       user.login = login
       expect(user).to be_valid
@@ -221,16 +222,16 @@ describe User, type: :model do
       user.save!
     end
 
-    it 'should create a human readable name' do
+    it 'creates a human readable name' do
       expect(user.authentication_provider).to eql('Test Provider')
     end
   end
 
   describe '#blocked' do
     let!(:blocked_user) do
-      FactoryBot.create(:user,
-                        failed_login_count: 3,
-                        last_failed_login_on: Time.now)
+      create(:user,
+             failed_login_count: 3,
+             last_failed_login_on: Time.now)
     end
 
     before do
@@ -239,27 +240,27 @@ describe User, type: :model do
       allow(Setting).to receive(:brute_force_block_minutes).and_return(30)
     end
 
-    it 'should return the single blocked user' do
+    it 'returns the single blocked user' do
       expect(User.blocked.length).to eq(1)
       expect(User.blocked.first.id).to eq(blocked_user.id)
     end
   end
 
   describe '#change_password_allowed?' do
-    let(:user) { FactoryBot.build(:user) }
+    let(:user) { build(:user) }
 
     context 'for user without auth source' do
       before do
         user.auth_source = nil
       end
 
-      it 'should be true' do
+      it 'is true' do
         assert user.change_password_allowed?
       end
     end
 
     context 'for user with an auth source' do
-      let(:allowed_auth_source) { FactoryBot.create :auth_source }
+      let(:allowed_auth_source) { create :auth_source }
 
       context 'that allows password changes' do
         before do
@@ -267,20 +268,20 @@ describe User, type: :model do
           user.auth_source = allowed_auth_source
         end
 
-        it 'should allow password changes' do
+        it 'allows password changes' do
           expect(user.change_password_allowed?).to be_truthy
         end
       end
 
       context 'that does not allow password changes' do
-        let(:denied_auth_source) { FactoryBot.create :auth_source }
+        let(:denied_auth_source) { create :auth_source }
 
         before do
           def denied_auth_source.allow_password_changes?; false; end
           user.auth_source = denied_auth_source
         end
 
-        it 'should not allow password changes' do
+        it 'does not allow password changes' do
           expect(user.change_password_allowed?).to be_falsey
         end
       end
@@ -292,7 +293,7 @@ describe User, type: :model do
         allow(user).to receive(:uses_external_authentication?).and_return(true)
       end
 
-      it 'should not allow a password change' do
+      it 'does not allow a password change' do
         expect(user.change_password_allowed?).to be_falsey
       end
     end
@@ -306,7 +307,7 @@ describe User, type: :model do
     describe 'WHEN the user is watching' do
       let(:watcher) do
         Watcher.new(watchable: issue,
-                    user: user)
+                    user:)
       end
 
       before do
@@ -330,17 +331,17 @@ describe User, type: :model do
 
   describe '#uses_external_authentication?' do
     context 'with identity_url' do
-      let(:user) { FactoryBot.build(:user, identity_url: 'test_provider:veryuniqueid') }
+      let(:user) { build(:user, identity_url: 'test_provider:veryuniqueid') }
 
-      it 'should return true' do
+      it 'returns true' do
         expect(user.uses_external_authentication?).to be_truthy
       end
     end
 
     context 'without identity_url' do
-      let(:user) { FactoryBot.build(:user, identity_url: nil) }
+      let(:user) { build(:user, identity_url: nil) }
 
-      it 'should return false' do
+      it 'returns false' do
         expect(user.uses_external_authentication?).to be_falsey
       end
     end
@@ -356,6 +357,7 @@ describe User, type: :model do
     end
 
     it { expect(@u.valid?).to be_falsey }
+
     it {
       expect(@u.errors[:password]).to include I18n.t('activerecord.errors.messages.too_short',
                                                      count: Setting.password_min_length.to_i)
@@ -378,10 +380,10 @@ describe User, type: :model do
   describe '#try_authentication_for_existing_user' do
     def build_user_double_with_expired_password(is_expired)
       user_double = double('User')
-      allow(user_double).to receive(:check_password?) { true }
-      allow(user_double).to receive(:active?) { true }
-      allow(user_double).to receive(:auth_source) { nil }
-      allow(user_double).to receive(:force_password_change) { false }
+      allow(user_double).to receive(:check_password?).and_return(true)
+      allow(user_double).to receive(:active?).and_return(true)
+      allow(user_double).to receive(:auth_source).and_return(nil)
+      allow(user_double).to receive(:force_password_change).and_return(false)
 
       # check for expired password should always happen
       expect(user_double).to receive(:password_expired?) { is_expired }
@@ -389,25 +391,26 @@ describe User, type: :model do
       user_double
     end
 
-    it 'should not allow login with an expired password' do
+    it 'does not allow login with an expired password' do
       user_double = build_user_double_with_expired_password(true)
 
       # use !! to ensure value is boolean
       expect(!!User.try_authentication_for_existing_user(user_double, 'anypassword')).to \
-        eq(false)
+        be(false)
     end
-    it 'should allow login with a not expired password' do
+
+    it 'allows login with a not expired password' do
       user_double = build_user_double_with_expired_password(false)
 
       # use !! to ensure value is boolean
       expect(!!User.try_authentication_for_existing_user(user_double, 'anypassword')).to \
-        eq(true)
+        be(true)
     end
 
     context 'with an external auth source' do
-      let(:auth_source) { FactoryBot.build(:auth_source) }
+      let(:auth_source) { build(:auth_source) }
       let(:user_with_external_auth_source) do
-        user = FactoryBot.build(:user, login: 'user')
+        user = build(:user, login: 'user')
         allow(user).to receive(:auth_source).and_return(auth_source)
         user
       end
@@ -417,7 +420,7 @@ describe User, type: :model do
           expect(auth_source).to receive(:authenticate).with('user', 'password').and_return(true)
         end
 
-        it 'should succeed' do
+        it 'succeeds' do
           expect(User.try_authentication_for_existing_user(user_with_external_auth_source, 'password'))
             .to eq(user_with_external_auth_source)
         end
@@ -428,9 +431,9 @@ describe User, type: :model do
           expect(auth_source).to receive(:authenticate).with('user', 'password').and_return(false)
         end
 
-        it 'should fail when the authentication fails' do
+        it 'fails when the authentication fails' do
           expect(User.try_authentication_for_existing_user(user_with_external_auth_source, 'password'))
-            .to eq(nil)
+            .to be_nil
         end
       end
     end
@@ -461,14 +464,14 @@ describe User, type: :model do
         expect do
           system_user = User.system
           expect(system_user).to eq(@u)
-        end.to change(User, :count).by(0)
+        end.not_to change(User, :count)
       end
     end
   end
 
   describe '.default_admin_account_deleted_or_changed?' do
     let(:default_admin) do
-      FactoryBot.build(:user, login: 'admin', password: 'admin', password_confirmation: 'admin', admin: true)
+      build(:user, login: 'admin', password: 'admin', password_confirmation: 'admin', admin: true)
     end
 
     before do
@@ -479,6 +482,7 @@ describe User, type: :model do
       before do
         default_admin.save
       end
+
       it { expect(User.default_admin_account_changed?).to be_falsey }
     end
 
@@ -529,14 +533,14 @@ describe User, type: :model do
         allow(Setting).to receive(:feeds_enabled?).and_return(false)
       end
 
-      it { expect(User.find_by_rss_key(@rss_key)).to eq(nil) }
+      it { expect(User.find_by_rss_key(@rss_key)).to be_nil }
     end
   end
 
   describe 'scope.newest' do
     let!(:anonymous) { User.anonymous }
-    let!(:user1) { FactoryBot.create(:user) }
-    let!(:user2) { FactoryBot.create(:user) }
+    let!(:user1) { create(:user) }
+    let!(:user2) { create(:user) }
 
     let(:newest) { User.newest.to_a }
 
@@ -555,9 +559,9 @@ describe User, type: :model do
   end
 
   describe '#find_by_mail' do
-    let!(:user1) { FactoryBot.create(:user, mail: 'foo+test@example.org') }
-    let!(:user2) { FactoryBot.create(:user, mail: 'foo@example.org') }
-    let!(:user3) { FactoryBot.create(:user, mail: 'foo-bar@example.org') }
+    let!(:user1) { create(:user, mail: 'foo+test@example.org') }
+    let!(:user2) { create(:user, mail: 'foo@example.org') }
+    let!(:user3) { create(:user, mail: 'foo-bar@example.org') }
 
     context 'with default plus suffix' do
       it 'finds users matching the suffix' do

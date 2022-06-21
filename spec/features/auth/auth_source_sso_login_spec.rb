@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Login with auth source SSO', type: :feature, clear_cache: true do
+describe 'Login with auth source SSO', type: :feature do
   before do
     if sso_config
       allow(OpenProject::Configuration)
@@ -46,10 +46,10 @@ describe 'Login with auth source SSO', type: :feature, clear_cache: true do
 
   let(:user_password) { 'bob' * 4 }
   let(:user) do
-    FactoryBot.create(:user,
-                      login: 'bob',
-                      password: user_password,
-                      password_confirmation: user_password)
+    create(:user,
+           login: 'bob',
+           password: user_password,
+           password_confirmation: user_password)
   end
 
   it 'can still login' do

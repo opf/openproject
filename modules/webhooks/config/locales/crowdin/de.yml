@@ -27,6 +27,10 @@ de:
       events:
         created: "Angelegt am"
         updated: "Aktualisiert"
+      explanation:
+        text: >
+          Bei dem Auftreten eines Ereignisses wie der Erstellung eines Arbeitspakets oder einer Aktualisierung eines Projekts sendet OpenProject einen HTTP POST Request an die konfigurierten Web-Endpunkte. Oft wird das Ereignis nach Ablauf der %{link} gesendet.
+        link: konfigurierten Aggregationszeit
       status:
         enabled: 'Webhook ist aktiv'
         disabled: 'Webhook ist deaktiviert'

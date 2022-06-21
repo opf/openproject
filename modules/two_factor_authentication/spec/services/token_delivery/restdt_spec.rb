@@ -2,13 +2,13 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt, with_2fa_ee: true do
   describe 'sending messages' do
-    let!(:user) { FactoryBot.create :user }
-    let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, channel: channel }
+    let!(:user) { create :user }
+    let!(:device) { create :two_factor_authentication_device_sms, user:, channel: }
 
     let(:service_url) { 'https://example.org/foobar' }
     let(:params) do
       {
-        service_url: service_url,
+        service_url:,
         username: 'foobar',
         password: 'password!'
       }
@@ -25,11 +25,22 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt, with_2fa
       }
     end
 
-    before do
-      allow(OpenProject::Configuration)
-        .to receive(:[]).with('2fa')
-        .and_return(active_strategies: [:restdt], restdt: params)
+    let(:result) { subject.request }
 
+    subject { ::TwoFactorAuthentication::TokenService.new user: }
+
+    include_context 'with settings' do
+      let(:settings) do
+        {
+          plugin_openproject_two_factor_authentication: {
+            'active_strategies' => [:restdt],
+            'restdt' => params
+          }
+        }
+      end
+    end
+
+    before do
       allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt)
         .to receive(:create_mobile_otp)
         .and_return('1234')
@@ -44,9 +55,6 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt, with_2fa
           .to raise_exception(ArgumentError)
       end
     end
-
-    subject { ::TwoFactorAuthentication::TokenService.new user: user }
-    let(:result) { subject.request }
 
     describe 'calling a mocked API', webmock: true do
       let(:response_code) { '200' }
@@ -74,6 +82,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt, with_2fa
       describe 'request body' do
         context 'with SMS' do
           let(:expected_params) { { onlycall: '0' } }
+
           it_behaves_like 'API response', true
         end
 
@@ -85,7 +94,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt, with_2fa
         end
 
         context 'with german locale' do
-          let(:user) { FactoryBot.create(:user, language: 'de') }
+          let(:user) { create(:user, language: 'de') }
           let(:expected_params) { { lang: 'de' } }
 
           it_behaves_like 'API response', true

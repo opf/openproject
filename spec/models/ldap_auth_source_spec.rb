@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,16 +29,16 @@
 require 'spec_helper'
 
 describe LdapAuthSource, type: :model do
-  it 'should create' do
+  it 'creates' do
     a = LdapAuthSource.new(name: 'My LDAP', host: 'ldap.example.net', port: 389, base_dn: 'dc=example,dc=net',
                            attr_login: 'sAMAccountName')
-    expect(a.save).to eq true
+    expect(a.save).to be true
   end
 
-  it 'should strip ldap attributes' do
+  it 'strips ldap attributes' do
     a = LdapAuthSource.new(name: 'My LDAP', host: 'ldap.example.net', port: 389, base_dn: 'dc=example,dc=net', attr_login: 'sAMAccountName',
                            attr_firstname: 'givenName ')
-    expect(a.save).to eq true
+    expect(a.save).to be true
     expect(a.reload.attr_firstname).to eq 'givenName'
   end
 
@@ -51,7 +51,88 @@ describe LdapAuthSource, type: :model do
 
     it 'does nothing for plain_ldap' do
       ldap = LdapAuthSource.new tls_mode: :plain_ldap
-      expect(ldap.send(:ldap_encryption)).to eq nil
+      expect(ldap.send(:ldap_encryption)).to be_nil
+    end
+  end
+
+  describe 'admin attribute mapping' do
+    let(:auth_source) do
+      build :ldap_auth_source,
+            attr_login: 'uid',
+            attr_firstname: 'givenName',
+            attr_lastname: 'sn',
+            attr_mail: 'mail',
+            attr_admin:
+    end
+    let(:entry) do
+      Net::LDAP::Entry.new('uid=login,foo=bar').tap do |entry|
+        entry['uid'] = 'login'
+        entry['givenName'] = 'abc'
+        entry['sn'] = 'lastname'
+        entry['mail'] = 'some@example.org'
+        entry['admin'] = admin_value
+      end
+    end
+
+    subject { auth_source.get_user_attributes_from_ldap_entry(entry) }
+
+    context 'when attribute defined and not present' do
+      let(:attr_admin) { 'admin' }
+      let(:admin_value) { nil }
+
+      it 'returns it as false' do
+        expect(subject).to have_key(:admin)
+        expect(subject[:admin]).to be false
+      end
+    end
+
+    context 'when attribute defined and castable number' do
+      let(:attr_admin) { 'admin' }
+      let(:admin_value) { '1' }
+
+      it 'does return the mapping' do
+        expect(subject).to have_key(:admin)
+        expect(subject[:admin]).to be true
+      end
+    end
+
+    context 'when attribute defined and boolean' do
+      let(:attr_admin) { 'admin' }
+      let(:admin_value) { false }
+
+      it 'does return the mapping' do
+        expect(subject).to have_key(:admin)
+        expect(subject[:admin]).to be false
+      end
+    end
+
+    context 'when attribute defined and true string' do
+      let(:attr_admin) { 'admin' }
+      let(:admin_value) { 'true' }
+
+      it 'does return the mapping' do
+        expect(subject).to have_key(:admin)
+        expect(subject[:admin]).to be true
+      end
+    end
+
+    context 'when attribute defined and false string' do
+      let(:attr_admin) { 'admin' }
+      let(:admin_value) { 'false' }
+
+      it 'does return the mapping' do
+        expect(subject).to have_key(:admin)
+        expect(subject[:admin]).to be false
+      end
+    end
+
+    context 'when attribute not defined and set' do
+      let(:attr_admin) { nil }
+      let(:admin_value) { true }
+
+      it 'does not return an admin mapping' do
+        expect(subject).not_to have_key(:admin)
+      end
     end
   end
 
@@ -59,7 +140,7 @@ describe LdapAuthSource, type: :model do
     before(:all) do
       ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')
       @ldap_server = Ladle::Server.new(quiet: false, port: ParallelHelper.port_for_ldap.to_s, domain: 'dc=example,dc=com',
-                                       ldif: ldif).start
+                                       ldif:).start
     end
 
     after(:all) do
@@ -68,24 +149,24 @@ describe LdapAuthSource, type: :model do
 
     # Ldap has three users aa729, bb459, cc414
     let(:ldap) do
-      FactoryBot.create :ldap_auth_source,
-                        port: ParallelHelper.port_for_ldap.to_s,
-                        account: 'uid=admin,ou=system',
-                        account_password: 'secret',
-                        base_dn: 'ou=people,dc=example,dc=com',
-                        filter_string: filter_string,
-                        onthefly_register: true,
-                        attr_login: 'uid',
-                        attr_firstname: 'givenName',
-                        attr_lastname: 'sn',
-                        attr_mail: 'mail'
+      create :ldap_auth_source,
+             port: ParallelHelper.port_for_ldap.to_s,
+             account: 'uid=admin,ou=system',
+             account_password: 'secret',
+             base_dn: 'ou=people,dc=example,dc=com',
+             filter_string:,
+             onthefly_register: true,
+             attr_login: 'uid',
+             attr_firstname: 'givenName',
+             attr_lastname: 'sn',
+             attr_mail: 'mail'
     end
 
     let(:filter_string) { nil }
 
-    context '#authenticate' do
+    describe '#authenticate' do
       context 'with a valid LDAP user' do
-        it 'should return the user attributes' do
+        it 'returns the user attributes' do
           attributes = ldap.authenticate('bb459', 'niwdlab')
           expect(attributes).to be_kind_of Hash
           expect(attributes[:firstname]).to eq 'Belle'
@@ -98,20 +179,20 @@ describe LdapAuthSource, type: :model do
       end
 
       context 'with an invalid LDAP user' do
-        it 'should return nil' do
-          expect(ldap.authenticate('nouser', 'whatever')).to eq nil
+        it 'returns nil' do
+          expect(ldap.authenticate('nouser', 'whatever')).to be_nil
         end
       end
 
       context 'without a login' do
-        it 'should return nil' do
-          expect(ldap.authenticate('', 'whatever')).to eq nil
+        it 'returns nil' do
+          expect(ldap.authenticate('', 'whatever')).to be_nil
         end
       end
 
       context 'without a password' do
-        it 'should return nil' do
-          expect(ldap.authenticate('whatever', 'nil')).to eq nil
+        it 'returns nil' do
+          expect(ldap.authenticate('whatever', 'nil')).to be_nil
         end
       end
 
@@ -119,7 +200,7 @@ describe LdapAuthSource, type: :model do
         let(:filter_string) { '(uid=a*)' }
 
         it 'no longer authenticates bb254' do
-          expect(ldap.authenticate('bb459', 'niwdlab')).to eq nil
+          expect(ldap.authenticate('bb459', 'niwdlab')).to be_nil
         end
 
         it 'still authenticates aa729' do

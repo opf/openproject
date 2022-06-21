@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +44,7 @@ module API
             params = [ancestor: { operator: '=', values: [filter.project.id.to_s] }]
             escaped = CGI.escape(::JSON.dump(params))
 
-            "#{api_v3_paths.projects}?filters=#{escaped}"
+            "#{api_v3_paths.projects}?filters=#{escaped}&pageSize=-1"
           end
 
           def type

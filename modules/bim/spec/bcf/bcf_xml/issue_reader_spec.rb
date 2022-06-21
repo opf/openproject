@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,30 +30,30 @@ require 'spec_helper'
 
 describe ::OpenProject::Bim::BcfXml::IssueReader do
   let(:absolute_file_path) { "63E78882-7C6A-4BF7-8982-FC478AFB9C97/markup.bcf" }
-  let(:type) { FactoryBot.create :type, name: 'Issue', is_standard: true, is_default: true }
+  let(:type) { create :type, name: 'Issue', is_standard: true, is_default: true }
   let(:project) do
-    FactoryBot.create(:project,
-                      identifier: 'bim_project',
-                      types: [type])
+    create(:project,
+           identifier: 'bim_project',
+           types: [type])
   end
   let(:manage_bcf_role) do
-    FactoryBot.create(
+    create(
       :role,
       permissions: %i[manage_bcf view_linked_issues view_work_packages edit_work_packages add_work_packages]
     )
   end
-  let(:bcf_manager) { FactoryBot.create(:user) }
+  let(:bcf_manager) { create(:user) }
   let(:workflow) do
-    FactoryBot.create(:workflow_with_default_status,
-                      role: manage_bcf_role,
-                      type: type)
+    create(:workflow_with_default_status,
+           role: manage_bcf_role,
+           type:)
   end
-  let(:priority) { FactoryBot.create :default_priority }
+  let(:priority) { create :default_priority }
   let(:bcf_manager_member) do
-    FactoryBot.create(:member,
-                      project: project,
-                      user: bcf_manager,
-                      roles: [manage_bcf_role])
+    create(:member,
+           project:,
+           user: bcf_manager,
+           roles: [manage_bcf_role])
   end
   let(:markup) do
     <<-MARKUP
@@ -94,7 +94,7 @@ describe ::OpenProject::Bim::BcfXml::IssueReader do
                         nil,
                         entry,
                         current_user: bcf_manager,
-                        import_options: import_options)
+                        import_options:)
   end
 
   before do
@@ -151,9 +151,9 @@ describe ::OpenProject::Bim::BcfXml::IssueReader do
   end
 
   context 'on updating import' do
-    context '#update_comment' do
-      let(:work_package) { FactoryBot.create(:work_package) }
-      let!(:bcf_issue) { FactoryBot.create :bcf_issue_with_comment, work_package: work_package }
+    describe '#update_comment' do
+      let(:work_package) { create(:work_package) }
+      let!(:bcf_issue) { create :bcf_issue_with_comment, work_package: }
 
       before do
         allow(subject).to receive(:issue).and_return(bcf_issue)

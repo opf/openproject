@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,22 +31,25 @@ module Users
     include AssignableCustomFieldValues
 
     attribute :login,
-              writeable: ->(*) { user.allowed_to_globally?(:manage_user) && model.id != user.id }
+              writable: ->(*) { user.allowed_to_globally?(:manage_user) && model.id != user.id }
     attribute :firstname
     attribute :lastname
     attribute :mail
     attribute :admin,
-              writeable: ->(*) { user.admin? && model.id != user.id }
+              writable: ->(*) { user.admin? && model.id != user.id }
     attribute :language
 
     attribute :auth_source_id,
-              writeable: ->(*) { user.allowed_to_globally?(:manage_user) }
+              writable: ->(*) { user.allowed_to_globally?(:manage_user) }
+
+    attribute :status,
+              writable: ->(*) { user.allowed_to_globally?(:manage_user) }
 
     attribute :identity_url,
-              writeable: ->(*) { user.admin? }
+              writable: ->(*) { user.admin? }
 
     attribute :force_password_change,
-              writeable: ->(*) { user.admin? }
+              writable: ->(*) { user.admin? }
 
     def self.model
       User
@@ -85,10 +86,12 @@ module Users
       errors.add :password, :error_readonly if model.password.present?
     end
 
+    # rubocop:disable Rails/DynamicFindBy
     def existing_auth_source
       if auth_source_id && AuthSource.find_by_unique(auth_source_id).nil?
         errors.add :auth_source, :error_not_found
       end
     end
+    # rubocop:enable Rails/DynamicFindBy
   end
 end

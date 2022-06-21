@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -94,6 +94,7 @@ en:
               - news
               - wiki
               - board_view
+              - team_planner_view
             news:
               - title: Welcome to your demo project
                 summary: >
@@ -112,6 +113,7 @@ en:
                 timeline: true
                 sort_by: start_date
                 hierarchy: true
+                starred: true
                 columns:
                   - id
                   - type
@@ -143,6 +145,9 @@ en:
                   - type
                   - status
                   - assigned_to
+              - name: Team planner
+                module: team_planner
+                assignee: OpenProject Admin
             boards:
               bcf:
                 name: "Simple drag'n drop workflow"
@@ -162,6 +167,7 @@ en:
               - news
               - wiki
               - board_view
+              - team_planner_view
             news:
               - title: Welcome to your demo project
                 summary: >
@@ -180,6 +186,7 @@ en:
                 timeline: true
                 sort_by: start_date
                 hierarchy: true
+                starred: true
                 columns:
                   - id
                   - type
@@ -211,6 +218,9 @@ en:
                   - type
                   - status
                   - assigned_to
+              - name: Team planner
+                module: team_planner
+                assignee: OpenProject Admin
             work_packages:
               - :start: 4
                 :subject: Project kick off construction project
@@ -544,6 +554,7 @@ en:
               - news
               - wiki
               - board_view
+              - team_planner_view
             news:
               - title: Welcome to your demo project
                 summary: >
@@ -562,6 +573,7 @@ en:
                 timeline: true
                 sort_by: start_date
                 hierarchy: true
+                starred: true
                 columns:
                   - id
                   - type
@@ -593,6 +605,9 @@ en:
                   - type
                   - status
                   - assigned_to
+              - name: Team planner
+                module: team_planner
+                assignee: OpenProject Admin
             work_packages:
               - :start: 14
                 :subject: Project kick off creating BIM model
@@ -1025,6 +1040,7 @@ en:
               - work_package_tracking
               - bim
               - board_view
+              - team_planner_view
             ifc_models:
               - file: 'hospital_architecture'
                 name: 'Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)'
@@ -1067,6 +1083,7 @@ en:
                 timeline: true
                 sort_by: start_date
                 hierarchy: true
+                starred: true
                 columns:
                   - id
                   - type
@@ -1098,6 +1115,9 @@ en:
                   - type
                   - status
                   - assigned_to
+              - name: Team planner
+                module: team_planner
+                assignee: OpenProject Admin
             boards:
               bcf:
                 name: "BCF issues"

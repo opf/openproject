@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,12 +33,12 @@ describe 'API v3 Help texts resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project) }
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:project) { create(:project) }
+  let(:role) { create(:role, permissions: [:view_work_packages]) }
   let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
 
   let!(:help_texts) do
@@ -46,18 +46,19 @@ describe 'API v3 Help texts resource' do
     # Type.translated_work_package_form_attributes
     Rails.cache.clear
 
-    custom_field = FactoryBot.create :text_wp_custom_field
+    custom_field = create :text_wp_custom_field
 
     [
-      FactoryBot.create(:work_package_help_text, attribute_name: 'assignee'),
-      FactoryBot.create(:work_package_help_text, attribute_name: 'status'),
-      FactoryBot.create(:work_package_help_text, attribute_name: "custom_field_#{custom_field.id}")
+      create(:work_package_help_text, attribute_name: 'assignee'),
+      create(:work_package_help_text, attribute_name: 'status'),
+      create(:work_package_help_text, attribute_name: "custom_field_#{custom_field.id}")
     ]
   end
 
   describe 'help_texts' do
     describe '#get' do
       let(:get_path) { api_v3_paths.help_texts }
+
       subject(:response) { last_response }
 
       context 'logged in user' do

@@ -31,7 +31,7 @@ describe "Pause reminder settings", type: :feature, js: true do
                                             last: last
 
       pref.reload
-      expect(pref.pause_reminders[:enabled]).to eq true
+      expect(pref.pause_reminders[:enabled]).to be true
       expect(pref.pause_reminders[:first_day]).to eq first.iso8601
       expect(pref.pause_reminders[:last_day]).to eq last.iso8601
     end
@@ -42,7 +42,7 @@ describe "Pause reminder settings", type: :feature, js: true do
     let(:pref) { current_user.pref }
 
     current_user do
-      FactoryBot.create :user
+      create :user
     end
 
     it_behaves_like 'pause reminder settings'
@@ -51,11 +51,11 @@ describe "Pause reminder settings", type: :feature, js: true do
   context 'with the user administration page' do
     let(:reminders_settings_page) { Pages::Reminders::Settings.new(other_user) }
 
-    let(:other_user) { FactoryBot.create :user }
+    let(:other_user) { create :user }
     let(:pref) { other_user.pref }
 
     current_user do
-      FactoryBot.create :admin
+      create :admin
     end
 
     it_behaves_like 'pause reminder settings'

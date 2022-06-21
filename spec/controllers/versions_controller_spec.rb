@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe VersionsController, type: :controller do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:public_project) }
-  let(:version1) { FactoryBot.create(:version, project: project, effective_date: nil) }
-  let(:version2) { FactoryBot.create(:version, project: project) }
-  let(:version3) { FactoryBot.create(:version, project: project, effective_date: (Date.today - 14.days)) }
+  let(:user) { create(:admin) }
+  let(:project) { create(:public_project) }
+  let(:version1) { create(:version, project:, effective_date: nil) }
+  let(:version2) { create(:version, project:) }
+  let(:version3) { create(:version, project:, effective_date: (Date.today - 14.days)) }
 
   describe '#index' do
     render_views
@@ -54,23 +54,26 @@ describe VersionsController, type: :controller do
       it { expect(response).to render_template('index') }
 
       subject { assigns(:versions) }
+
       it 'shows Version with no date set' do
         expect(subject.include?(version1)).to be_truthy
       end
+
       it 'shows Version with date set' do
         expect(subject.include?(version2)).to be_truthy
       end
+
       it 'not shows Completed version' do
         expect(subject.include?(version3)).to be_falsey
       end
     end
 
     context 'with showing selected types' do
-      let(:type_a) { FactoryBot.create :type }
-      let(:type_b) { FactoryBot.create :type }
+      let(:type_a) { create :type }
+      let(:type_b) { create :type }
 
-      let(:wp_a) { FactoryBot.create :work_package, type: type_a, project: project, version: version1 }
-      let(:wp_b) { FactoryBot.create :work_package, type: type_b, project: project, version: version1 }
+      let(:wp_a) { create :work_package, type: type_a, project:, version: version1 }
+      let(:wp_b) { create :work_package, type: type_b, project:, version: version1 }
 
       before do
         project.types = [type_a, type_b]
@@ -126,20 +129,23 @@ describe VersionsController, type: :controller do
       it { expect(response).to render_template('index') }
 
       subject { assigns(:versions) }
+
       it 'shows Version with no date set' do
         expect(subject.include?(version1)).to be_truthy
       end
+
       it 'shows Version with date set' do
         expect(subject.include?(version2)).to be_truthy
       end
+
       it 'not shows Completed version' do
         expect(subject.include?(version3)).to be_truthy
       end
     end
 
     context 'with showing subprojects versions' do
-      let(:sub_project) { FactoryBot.create(:public_project, parent_id: project.id) }
-      let(:version4) { FactoryBot.create(:version, project: sub_project) }
+      let(:sub_project) { create(:public_project, parent_id: project.id) }
+      let(:version4) { create(:version, project: sub_project) }
 
       before do
         login_as(user)
@@ -151,12 +157,15 @@ describe VersionsController, type: :controller do
       it { expect(response).to render_template('index') }
 
       subject { assigns(:versions) }
+
       it 'shows Version with no date set' do
         expect(subject.include?(version1)).to be_truthy
       end
+
       it 'shows Version with date set' do
         expect(subject.include?(version2)).to be_truthy
       end
+
       it 'shows Version from sub project' do
         expect(subject.include?(version4)).to be_truthy
       end
@@ -177,6 +186,7 @@ describe VersionsController, type: :controller do
     it { assert_select 'h2', content: version2.name }
 
     subject { assigns(:version) }
+
     it { is_expected.to eq(version2) }
   end
 
@@ -246,9 +256,10 @@ describe VersionsController, type: :controller do
           }
         }
       end
+
       before do
         login_as(user)
-        patch :update, params: params
+        patch :update, params:
       end
 
       it { expect(response).to redirect_to(project_settings_versions_path(project)) }

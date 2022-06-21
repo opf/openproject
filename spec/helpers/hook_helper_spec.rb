@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,10 +43,10 @@ describe HookHelper do
         end
       end
       let(:project) do
-        instance_double('Project')
+        instance_double(Project)
       end
       let(:request) do
-        instance_double('ActiveSupport::Request')
+        instance_double(ActionDispatch::Request)
       end
 
       it 'adds to the context' do
@@ -59,9 +57,9 @@ describe HookHelper do
 
         expect(OpenProject::Hook)
           .to have_received(:call_hook)
-                .with(:some_hook_identifier, { project: project,
+                .with(:some_hook_identifier, { project:,
                                                controller: instance,
-                                               request: request,
+                                               request:,
                                                hook_caller: instance })
       end
     end
@@ -87,17 +85,17 @@ describe HookHelper do
         end
       end
       let(:project) do
-        instance_double('Project')
+        instance_double(Project)
       end
       let(:request) do
-        instance_double('ActiveSupport::Request')
+        instance_double(ActionDispatch::Request)
       end
       let(:controller_instance) do
-        instance_double('ApplicationController')
+        instance_double(ApplicationController)
       end
 
       it 'adds to the context' do
-        # mimicks having two different classes registered for the hook
+        # mimics having two different classes registered for the hook
         allow(OpenProject::Hook)
           .to receive(:call_hook)
           .and_return(%w[response1 response2])
@@ -107,9 +105,9 @@ describe HookHelper do
 
         expect(OpenProject::Hook)
           .to have_received(:call_hook)
-                .with(:some_hook_identifier, { project: project,
+                .with(:some_hook_identifier, { project:,
                                                controller: controller_instance,
-                                               request: request,
+                                               request:,
                                                hook_caller: instance })
       end
     end

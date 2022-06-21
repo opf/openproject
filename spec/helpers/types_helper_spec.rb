@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe TypesHelper, type: :helper do
-  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:type) { build_stubbed(:type) }
 
   describe "#form_configuration_groups" do
     it "returns a Hash with the keys :actives and :inactives Arrays" do
@@ -54,7 +54,7 @@ describe TypesHelper, type: :helper do
 
       # The "assignee" is in "group one". It should not appear in :inactives.
       it 'does not contain attributes that do not exist anymore' do
-        expect(subject.map { |inactive| inactive[:key] }).to_not include "assignee"
+        expect(subject.pluck(:key)).not_to include "assignee"
       end
     end
 

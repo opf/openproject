@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe WorkPackage, 'status', type: :model do
-  let(:status) { FactoryBot.create(:status) }
+  let(:status) { create(:status) }
   let!(:work_package) do
-    FactoryBot.create(:work_package,
-                      status: status)
+    create(:work_package,
+           status:)
   end
 
   describe '#readonly' do
-    let(:status) { FactoryBot.create(:status, is_readonly: true) }
+    let(:status) { create(:status, is_readonly: true) }
 
     context 'with EE', with_ee: %i[readonly_work_packages] do
       it 'marks work package as read only' do

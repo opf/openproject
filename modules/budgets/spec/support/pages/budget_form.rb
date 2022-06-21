@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,8 +44,8 @@ module Pages
     def add_labor_costs!(num_hours, user_name:, comment: nil)
       edit_labor_costs!(labor_rows,
                         hours: num_hours,
-                        user_name: user_name,
-                        comment: comment,
+                        user_name:,
+                        comment:,
                         type: 'new')
       add_labor_costs_row!
     end
@@ -70,10 +70,10 @@ module Pages
     end
 
     def edit_planned_costs!(id, costs:, type:)
-      open_edit_planned_costs!(id, type: type)
+      open_edit_planned_costs!(id, type:)
 
       row_id = "#budget_existing_#{type}_budget_item_attributes_#{id}"
-      editor_name = "budget_existing_#{type}_budget_item_attributes_#{id}_costs_edit"
+      editor_name = "budget_existing_#{type}_budget_item_attributes_#{id}_amount"
 
       page.within row_id do
         fill_in editor_name, with: costs

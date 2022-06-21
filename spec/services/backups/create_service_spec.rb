@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,9 +30,9 @@ require 'spec_helper'
 require 'services/base_services/behaves_like_create_service'
 
 describe Backups::CreateService, type: :model do
-  let(:user) { FactoryBot.create :admin }
-  let(:service) { described_class.new user: user, backup_token: backup_token.plain_value }
-  let(:backup_token) { FactoryBot.create :backup_token, user: user }
+  let(:user) { create :admin }
+  let(:service) { described_class.new user:, backup_token: backup_token.plain_value }
+  let(:backup_token) { create :backup_token, user: }
 
   it_behaves_like 'BaseServices create service' do
     let(:instance) { service }
@@ -45,20 +43,20 @@ describe Backups::CreateService, type: :model do
     context "with no further options" do
       it "enqueues a BackupJob which includes attachments" do
         expect { service.call }.to have_enqueued_job(BackupJob).with do |args|
-          expect(args["include_attachments"]).to eq true
+          expect(args["include_attachments"]).to be true
         end
       end
     end
 
     context "with include_attachments: false" do
       let(:service) do
-        described_class.new user: user, backup_token: backup_token.plain_value, include_attachments: false
+        described_class.new user:, backup_token: backup_token.plain_value, include_attachments: false
       end
 
       it "enqueues a BackupJob which does not include attachments" do
         expect(BackupJob)
           .to receive(:perform_later)
-          .with(hash_including(include_attachments: false, user: user))
+          .with(hash_including(include_attachments: false, user:))
 
         expect(service.call).to be_success
       end
@@ -66,7 +64,7 @@ describe Backups::CreateService, type: :model do
   end
 
   context "with missing permission" do
-    let(:user) { FactoryBot.create :user }
+    let(:user) { create :user }
 
     it "does not enqueue a BackupJob" do
       expect { expect(service.call).to be_failure }.not_to have_enqueued_job(BackupJob)

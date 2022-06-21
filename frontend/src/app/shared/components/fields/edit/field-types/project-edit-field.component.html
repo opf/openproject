@@ -1,0 +1,10 @@
+<op-project-autocompleter
+  [ngClass]="'inline-edit--field ' + handler.fieldName"
+
+  [url]="url"
+  [apiFilters]="APIFilters"
+  [focusDirectly]="!(handler.inEditMode || isNew)"
+
+  (valueChange)="onModelChange($event)"
+  (cancel)="handler.handleUserCancel()"
+></op-project-autocompleter>

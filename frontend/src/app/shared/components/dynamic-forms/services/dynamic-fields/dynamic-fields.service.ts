@@ -7,6 +7,7 @@ import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { FormsService } from 'core-app/core/forms/forms.service';
 import { IDynamicFieldGroupConfig, IOPDynamicInputTypeSettings, IOPFormlyFieldSettings } from '../../typings';
+import { addParamToHref } from 'core-app/shared/helpers/url-helpers';
 
 @Injectable()
 export class DynamicFieldsService {
@@ -89,7 +90,23 @@ export class DynamicFieldsService {
       },
       useForFields: [
         'Priority', 'Status', 'Type', 'User', 'Version', 'TimeEntriesActivity',
-        'Category', 'CustomOption', 'Project',
+        'Category', 'CustomOption',
+      ],
+    },
+    {
+      config: {
+        type: 'projectInput',
+        defaultValue: this.selectDefaultValue,
+        templateOptions: {
+          locale: this.I18n.locale,
+          bindLabel: 'name',
+        },
+        expressionProperties: {
+          'templateOptions.clearable': (model:any, formState:any, field:FormlyFieldConfig) => !field.templateOptions?.required,
+        },
+      },
+      useForFields: [
+        'Project',
       ],
     },
     {
@@ -198,6 +215,7 @@ export class DynamicFieldsService {
         ...(maxLength && { maxLength }),
         ...templateOptions,
         ...(fieldOptions && { options: fieldOptions }),
+        allowedValuesHref: fieldSchema?._links?.allowedValues?.href,
       },
     };
 
@@ -210,7 +228,7 @@ export class DynamicFieldsService {
 
     if (!inputType) {
       console.warn(
-        `Could not find a input definition for a field with the folowing type: ${fieldType}. The full field configuration is`, field,
+        `Could not find a input definition for a field with the following type: ${fieldType}. The full field configuration is`, field,
       );
       return null;
     }
@@ -256,7 +274,8 @@ export class DynamicFieldsService {
       options = of(optionsValues);
     } else if (allowedValues.href) {
       options = this.httpClient
-        .get(allowedValues.href)
+        // The page size value of '-1' is a magic number that will result in the maximum allowed page size.
+        .get(addParamToHref(allowedValues.href, { pageSize: '-1' }))
         .pipe(
           map((response:api.v3.Result) => response._embedded.elements),
           map((options) => this.formatAllowedValues(options)),

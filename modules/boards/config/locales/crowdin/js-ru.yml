@@ -2,26 +2,25 @@
 ru:
   js:
     boards:
+      create_new: 'Создать новую доску'
       label_unnamed_board: 'Безымянная доска'
       label_unnamed_list: 'Список досок без имени'
       label_board_type: 'Тип доски'
       upsale:
-        teaser_text: 'Улучшите управляемость agile-проекта гибким просмотром досок. Создайте сколько захотите досок для отслеживания.'
-        upgrade_to_ee_text: 'Boards это функционал предприятия. Пожалуйста, обновитесь до платного плана.'
+        teaser_text: 'Нужны готовые к использованию шаблоны доски? Продвинутые доски в корпоративной версии. Пожалуйста, обновитесь до платного плана.'
         upgrade: 'Обновить сейчас'
-        personal_demo: 'Свяжитесь с нами для демо'
       lists:
         delete: 'Удалить список'
       version:
         is_locked: 'Версия заблокирована. В эту версию нельзя добавить ни одного элемента.'
         is_closed: 'Версия закрыта. В эту версию не может быть добавлено ни одного элемента.'
-        close_version: 'Закрыть версию'
-        open_version: 'Открыть версию'
-        lock_version: 'Блокировать версию'
-        unlock_version: 'Разблокировать версию'
+        close_version: 'Закрыть спринт'
+        open_version: 'Открыт спринт'
+        lock_version: 'Блокировать спринт'
+        unlock_version: 'Разблокировать спринт'
         edit_version: 'Изменить версию'
-        show_version: 'Показать версию'
-        locked: 'Заперто'
+        show_version: 'Показать спринт'
+        locked: 'Заблокировано'
         closed: 'закрыто'
       new_board: 'Новая доска'
       add_list: 'Добавить список в форум'
@@ -55,13 +54,13 @@ ru:
         action_type:
           assignee: исполнитель
           status: статус
-          version: версия
+          version: спринт
           subproject: подпроект
           subtasks: родитель-потомок
         board_type_title:
           assignee: Назначенный
-          status: Состояние
-          version: Этапы
+          status: Статус
+          version: Версия
           subproject: Подпроект
           subtasks: Родитель-Потомок
           basic: Базовый

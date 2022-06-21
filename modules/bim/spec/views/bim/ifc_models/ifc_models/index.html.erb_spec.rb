@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,23 +29,23 @@
 require 'spec_helper'
 
 describe 'bim/ifc_models/ifc_models/index', type: :view do
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %i[bim]) }
+  let(:project) { create(:project, enabled_module_names: %i[bim]) }
   let(:ifc_model) do
-    FactoryBot.create(:ifc_model,
-                      uploader: uploader_user,
-                      title: "office.ifc",
-                      project: project).tap do |model|
+    create(:ifc_model,
+           uploader: uploader_user,
+           title: "office.ifc",
+           project:).tap do |model|
       model.uploader = uploader_user
     end
   end
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: %i[view_ifc_models manage_ifc_models])
+    create(:role,
+           permissions: %i[view_ifc_models manage_ifc_models])
   end
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role
+    create :user,
+           member_in_project: project,
+           member_through_role: role
   end
   let(:uploader_user) { user }
 
@@ -89,9 +89,9 @@ describe 'bim/ifc_models/ifc_models/index', type: :view do
 
     context 'without ifc_attachment' do
       let(:ifc_model) do
-        FactoryBot.create(:ifc_model_without_ifc_attachment,
-                          title: "office.ifc",
-                          project: project)
+        create(:ifc_model_without_ifc_attachment,
+               title: "office.ifc",
+               project:)
       end
 
       it 'lists the IFC model with all but the download button' do

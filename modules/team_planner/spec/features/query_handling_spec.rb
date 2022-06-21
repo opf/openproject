@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,44 +31,44 @@ require_relative '../support/pages/team_planner'
 require_relative '../../../../spec/features/views/shared_examples'
 
 describe 'Team planner query handling', type: :feature, js: true do
-  shared_let(:type_task) { FactoryBot.create(:type_task) }
-  shared_let(:type_bug) { FactoryBot.create(:type_bug) }
+  shared_let(:type_task) { create(:type_task) }
+  shared_let(:type_bug) { create(:type_bug) }
   shared_let(:project) do
-    FactoryBot.create(:project,
-                      enabled_module_names: %w[work_package_tracking team_planner_view],
-                      types: [type_task, type_bug])
+    create(:project,
+           enabled_module_names: %w[work_package_tracking team_planner_view],
+           types: [type_task, type_bug])
   end
 
   shared_let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_with_permissions: %w[
-                        view_work_packages
-                        edit_work_packages
-                        save_queries
-                        save_public_queries
-                        view_team_planner
-                        manage_team_planner
-                      ]
+    create :user,
+           member_in_project: project,
+           member_with_permissions: %w[
+             view_work_packages
+             edit_work_packages
+             save_queries
+             save_public_queries
+             view_team_planner
+             manage_team_planner
+           ]
   end
 
   shared_let(:task) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type_task,
-                      assigned_to: user,
-                      start_date: Time.zone.today - 1.day,
-                      due_date: Time.zone.today + 1.day,
-                      subject: 'A task for the user'
+    create :work_package,
+           project:,
+           type: type_task,
+           assigned_to: user,
+           start_date: Time.zone.today - 1.day,
+           due_date: Time.zone.today + 1.day,
+           subject: 'A task for the user'
   end
   shared_let(:bug) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type_bug,
-                      assigned_to: user,
-                      start_date: Time.zone.today - 1.day,
-                      due_date: Time.zone.today + 1.day,
-                      subject: 'A bug for the user'
+    create :work_package,
+           project:,
+           type: type_bug,
+           assigned_to: user,
+           start_date: Time.zone.today - 1.day,
+           due_date: Time.zone.today + 1.day,
+           subject: 'A bug for the user'
   end
 
   let(:team_planner) { ::Pages::TeamPlanner.new project }
@@ -82,6 +80,7 @@ describe 'Team planner query handling', type: :feature, js: true do
   current_user { user }
 
   before do
+    with_enterprise_token(:team_planner_view)
     login_as user
     team_planner.visit!
 
@@ -116,7 +115,8 @@ describe 'Team planner query handling', type: :feature, js: true do
 
   it 'shows only team planner queries' do
     # Go to team planner where no query is shown, only the create option
-    query_menu.expect_menu_entry 'Create new planner'
+    query_menu.expect_no_menu_entry
+    expect(page).to have_selector('[data-qa-selector="team-planner--create-button"]')
 
     # Change filter
     filters.open

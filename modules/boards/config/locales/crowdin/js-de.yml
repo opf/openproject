@@ -2,14 +2,13 @@
 de:
   js:
     boards:
+      create_new: 'Neues Board erstellen'
       label_unnamed_board: 'Unbenanntes Board'
       label_unnamed_list: 'Unbenannte Liste'
       label_board_type: 'Board-Typ'
       upsale:
-        teaser_text: 'Verbessere dein agiles Projektmanagement mit dieser flexiblen Board-Ansicht. Erstelle so viele Boards wie du möchtest, um alles zu verfolgen.'
-        upgrade_to_ee_text: 'Boards sind ein Enterprise-Feature. Bitte aktualisieren Sie auf einen bezahlten Plan.'
+        teaser_text: 'Möchten Sie hilfreiche Aktions-Boards verwenden? Aktions-Boards sind eine Enterprise-Funktion. Bitte upgraden Sie auf den Enterprise Plan.'
         upgrade: 'Jetzt Upgrade durchführen'
-        personal_demo: 'Kontaktieren Sie uns für eine Demo'
       lists:
         delete: 'Liste löschen'
       version:

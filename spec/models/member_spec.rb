@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe Member, type: :model do
-  let(:user) { FactoryBot.create(:user) }
-  let(:role) { FactoryBot.create(:role) }
-  let(:project) { FactoryBot.create(:project) }
-  let(:member) { FactoryBot.create(:member, user: user, roles: [role]) }
-  let(:new_member) { FactoryBot.build(:member, user: user, roles: [role], project: project) }
+  let(:user) { create(:user) }
+  let(:role) { create(:role) }
+  let(:project) { create(:project) }
+  let(:member) { create(:member, user:, roles: [role]) }
+  let(:new_member) { build(:member, user:, roles: [role], project:) }
 
   describe '#project' do
     context 'with a project' do
@@ -54,12 +54,29 @@ describe Member, type: :model do
 
     context 'without a project (global) but with a global membership already existing' do
       let(:project) { nil }
-      let!(:existing_member) { FactoryBot.create(:member, user: user, roles: [role], project: project) }
+      let!(:existing_member) { create(:member, user:, roles: [role], project:) }
 
       it 'is invalid' do
         expect(new_member)
           .to be_invalid
       end
+    end
+  end
+
+  describe '#deletable_role?' do
+    it 'returns true if not inherited from a group' do
+      expect(member.deletable_role?(role)).to be(true)
+    end
+
+    it 'returns false if role is inherited' do
+      member
+      group = create(:group, members: [user])
+      create(:member, project:, principal: group, roles: [role])
+      ::Groups::AddUsersService
+        .new(group, current_user: User.system, contract_class: EmptyContract)
+        .call(ids: [user.id])
+
+      expect(user.reload.memberships.map { _1.deletable_role?(role) }).to match_array([true, false])
     end
   end
 end

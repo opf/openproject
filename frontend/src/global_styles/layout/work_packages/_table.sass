@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -34,11 +34,16 @@
     #main
       top: 12px
 
-
 .router--work-packages-partitioned-split-view:not(.router--work-packages-full-create),
-.router--work-packages-partitioned-split-view-details:not(.router--work-packages-full-create)
+.router--work-packages-partitioned-split-view-details:not(.router--work-packages-full-create),
+.router--work-packages-partitioned-split-view-new:not(.router--work-packages-full-create)
   @include extended-content--bottom
   @include extended-content--right
+
+  // Since only the split screen on the right should touch the bottom,
+  // we need to add it manually to the left to avoid a jump there
+  .work-packages-partitioned-page--content-left
+    padding-bottom: 10px
 
 // Ensure correct height applied to child elements.
 // The dom looks like this:

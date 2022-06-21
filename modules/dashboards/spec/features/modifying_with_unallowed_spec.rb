@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ require_relative '../support/pages/dashboard'
 
 describe 'Modifying a dashboard which already has widgets for which permissions are lacking', type: :feature, js: true do
   let!(:project) do
-    FactoryBot.create :project
+    create :project
   end
 
   let(:permissions) do
@@ -41,17 +41,17 @@ describe 'Modifying a dashboard which already has widgets for which permissions 
   end
 
   let(:user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions)
+    create(:user, member_in_project: project, member_with_permissions: permissions)
   end
   let!(:dashboard) do
-    FactoryBot.create(:dashboard_with_table, project: project)
+    create(:dashboard_with_table, project:)
   end
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
   let!(:news) do
-    FactoryBot.create :news,
-                      project: project
+    create :news,
+           project:
   end
 
   before do

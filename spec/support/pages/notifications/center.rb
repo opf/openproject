@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,6 @@
 module Pages
   module Notifications
     class Center < ::Pages::Page
-
       def open
         bell_element.click
         expect_open
@@ -37,11 +36,6 @@ module Pages
 
       def path
         notifications_center_path
-      end
-
-      def close
-        page.find('button[data-qa-selector="op-back-button"]').click
-        expect_closed
       end
 
       def mark_all_read
@@ -61,12 +55,12 @@ module Pages
       def click_item(notification)
         text = notification.resource.is_a?(WorkPackage) ? notification.resource.subject : notification.subject
         within_item(notification) do
-          page.find('span', text: text, exact_text: true).click
+          page.find('span', text:, exact_text: true).click
         end
       end
 
-      def within_item(notification, &block)
-        page.within("[data-qa-selector='op-ian-notification-item-#{notification.id}']", &block)
+      def within_item(notification, &)
+        page.within("[data-qa-selector='op-ian-notification-item-#{notification.id}']", &)
       end
 
       def expect_item(notification, subject: notification.subject)
@@ -123,7 +117,7 @@ module Pages
         if count == 0
           expect(page).to have_no_selector('[data-qa-selector^="op-ian-notification-item-"]')
         else
-          expect(page).to have_selector('[data-qa-selector^="op-ian-notification-item-"]', count: count, wait: 10)
+          expect(page).to have_selector('[data-qa-selector^="op-ian-notification-item-"]', count:, wait: 10)
         end
       end
 

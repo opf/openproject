@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -226,7 +224,39 @@ class UserMailer < ApplicationMailer
     send_mail(admin, t("mail_user_activation_limit_reached.subject"))
   end
 
+  ##
+  # E-Mail sent to a user when they tried sending an email to OpenProject to create or update
+  # a work package, or forum message for instance.
+  #
+  # @param [User] user User who sent the email
+  # @param [Mail] mail Sent email
+  # @param [Array<String>] List of logs collected during processing of the email
+  def incoming_email_error(user, mail, logs)
+    @user = user
+    @mail = mail
+    @logs = logs
+    @received_at = DateTime.now
+    @incoming_text = incoming_email_text mail
+    @quote = incoming_email_quote mail
+
+    headers['References'] = ["<#{mail.message_id}>"]
+    headers['In-Reply-To'] = ["<#{mail.message_id}>"]
+
+    send_mail user, mail.subject.present? ? "Re: #{mail.subject}" : I18n.t("mail_subject_incoming_email_error")
+  end
+
   private
+
+  def incoming_email_text(mail)
+    mail.text_part.present? ? mail.text_part.body.to_s : mail.body.to_s
+  end
+
+  def incoming_email_quote(mail)
+    quote = incoming_email_text(mail)
+    quoted = String(quote).lines.join("> ")
+
+    "> #{quoted}"
+  end
 
   def open_project_wiki_headers(wiki_content)
     open_project_headers 'Project' => wiki_content.project.identifier,
@@ -240,4 +270,3 @@ class UserMailer < ApplicationMailer
                          'Type' => 'Forum'
   end
 end
-

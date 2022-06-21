@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe MembersController, type: :controller do
-  shared_let(:admin) { FactoryBot.create :admin }
-  let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project, identifier: 'pet_project') }
-  let(:role) { FactoryBot.create(:role) }
+  shared_let(:admin) { create :admin }
+  let(:user) { create(:user) }
+  let(:project) { create(:project, identifier: 'pet_project') }
+  let(:role) { create(:role) }
   let(:member) do
-    FactoryBot.create(:member, project: project,
-                               user: user,
-                               roles: [role])
+    create(:member, project:,
+                    user:,
+                    roles: [role])
   end
 
   before do
@@ -44,14 +44,14 @@ describe MembersController, type: :controller do
   end
 
   describe 'create' do
-    shared_let(:admin) { FactoryBot.create :admin }
-    let(:project_2) { FactoryBot.create(:project) }
+    shared_let(:admin) { create :admin }
+    let(:project_2) { create(:project) }
 
     before do
       allow(User).to receive(:current).and_return(admin)
     end
 
-    it 'should work for multiple users' do
+    it 'works for multiple users' do
       post :create,
            params: {
              project_id: project_2.identifier,
@@ -75,12 +75,12 @@ describe MembersController, type: :controller do
   end
 
   describe 'update' do
-    shared_let(:admin) { FactoryBot.create :admin }
-    let(:project_2) { FactoryBot.create(:project) }
-    let(:role_1) { FactoryBot.create(:role) }
-    let(:role_2) { FactoryBot.create(:role) }
+    shared_let(:admin) { create :admin }
+    let(:project_2) { create(:project) }
+    let(:role_1) { create(:role) }
+    let(:role_2) { create(:role) }
     let(:member_2) do
-      FactoryBot.create(
+      create(
         :member,
         project: project_2,
         user: admin,
@@ -92,7 +92,7 @@ describe MembersController, type: :controller do
       allow(User).to receive(:current).and_return(admin)
     end
 
-    it 'should, however, allow roles to be updated through mass assignment' do
+    it 'however,s allow roles to be updated through mass assignment' do
       put 'update',
           params: {
             project_id: project.identifier,
@@ -121,14 +121,14 @@ describe MembersController, type: :controller do
         member
       end
 
-      it 'should be success' do
+      it 'is success' do
         post :autocomplete_for_member, xhr: true, params: params
         expect(response).to be_successful
       end
     end
 
     describe 'WHEN the user is not authorized' do
-      it 'should be forbidden' do
+      it 'is forbidden' do
         post :autocomplete_for_member, xhr: true, params: params
         expect(response.response_code).to eq(403)
       end
@@ -137,9 +137,9 @@ describe MembersController, type: :controller do
 
   describe '#create' do
     render_views
-    let(:user2) { FactoryBot.create(:user) }
-    let(:user3) { FactoryBot.create(:user) }
-    let(:user4) { FactoryBot.create(:user) }
+    let(:user2) { create(:user) }
+    let(:user3) { create(:user) }
+    let(:user4) { create(:user) }
 
     context 'post :create' do
       context 'single member' do
@@ -151,7 +151,7 @@ describe MembersController, type: :controller do
                }
         end
 
-        it 'should add a member' do
+        it 'adds a member' do
           expect { action }.to change { Member.count }.by(1)
           expect(response).to redirect_to '/projects/pet_project/members?status=all'
           expect(user2).to be_member_of(project)
@@ -167,7 +167,7 @@ describe MembersController, type: :controller do
                }
         end
 
-        it 'should add all members' do
+        it 'adds all members' do
           expect { action }.to change { Member.count }.by(3)
           expect(response).to redirect_to '/projects/pet_project/members?status=all'
           expect(user2).to be_member_of(project)
@@ -188,11 +188,11 @@ describe MembersController, type: :controller do
         post :create, params: invalid_params
       end
 
-      it 'should not redirect to the members index' do
+      it 'does not redirect to the members index' do
         expect(response).not_to redirect_to '/projects/pet_project/members'
       end
 
-      it 'should show an error message' do
+      it 'shows an error message' do
         expect(response.body).to include 'Roles need to be assigned.'
       end
     end
@@ -200,11 +200,12 @@ describe MembersController, type: :controller do
 
   describe '#destroy' do
     let(:action) { post :destroy, params: { id: member.id } }
+
     before do
       member
     end
 
-    it 'should destroy a member' do
+    it 'destroys a member' do
       expect { action }.to change { Member.count }.by(-1)
       expect(response).to redirect_to '/projects/pet_project/members'
       expect(user).not_to be_member_of(project)
@@ -219,13 +220,13 @@ describe MembersController, type: :controller do
              member: { role_ids: [role2.id], user_id: user.id }
            }
     end
-    let(:role2) { FactoryBot.create(:role) }
+    let(:role2) { create(:role) }
 
     before do
       member
     end
 
-    it 'should update the member' do
+    it 'updates the member' do
       expect { action }.not_to change { Member.count }
       expect(response).to redirect_to '/projects/pet_project/members'
     end

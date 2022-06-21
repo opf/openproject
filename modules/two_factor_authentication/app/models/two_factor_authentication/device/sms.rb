@@ -1,5 +1,3 @@
-require_dependency 'two_factor_authentication/device'
-
 module TwoFactorAuthentication
   class Device::Sms < Device
     validates_presence_of :phone_number
@@ -51,7 +49,7 @@ module TwoFactorAuthentication
         end
 
       I18n.t 'two_factor_authentication.devices.sms.request_2fa_identifier',
-             redacted_identifier: redacted_identifier, delivery_channel: channel_name
+             redacted_identifier:, delivery_channel: channel_name
     end
 
     def redacted_identifier

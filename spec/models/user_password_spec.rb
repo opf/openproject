@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,25 +29,25 @@
 require 'spec_helper'
 
 describe UserPassword, type: :model do
-  let(:old_password) { FactoryBot.create(:old_user_password) }
-  let(:user) { FactoryBot.create(:user) }
-  let(:password) { FactoryBot.create(:user_password, user: user, plain_password: 'adminAdmin!') }
+  let(:old_password) { create(:old_user_password) }
+  let(:user) { create(:user) }
+  let(:password) { create(:user_password, user:, plain_password: 'adminAdmin!') }
 
   describe '#expired?' do
     context 'with expiry value set',
             with_settings: { password_days_valid: 30 } do
-      it 'should be true for an old password when password expiry is activated' do
+      it 'is true for an old password when password expiry is activated' do
         expect(old_password.expired?).to be_truthy
       end
 
-      it 'should be false when password expiry is enabled and the password was changed recently' do
+      it 'is false when password expiry is enabled and the password was changed recently' do
         expect(password.expired?).to be_falsey
       end
     end
 
     context 'with expiry value disabled',
             with_settings: { password_days_valid: 0 } do
-      it 'should be false for an old password when password expiry is disabled' do
+      it 'is false for an old password when password expiry is disabled' do
         expect(old_password.expired?).to be_falsey
       end
     end
@@ -62,7 +62,7 @@ describe UserPassword, type: :model do
 
   describe '#rehash_as_active' do
     let(:password) do
-      pass = FactoryBot.build(:legacy_sha1_password, user: user, plain_password: 'adminAdmin!')
+      pass = build(:legacy_sha1_password, user:, plain_password: 'adminAdmin!')
       expect(pass).to receive(:salt_and_hash_password!).and_return nil
 
       pass.save!
@@ -78,7 +78,7 @@ describe UserPassword, type: :model do
       expect(user.current_password).to be_a(UserPassword::SHA1)
       expect do
         password.matches_plaintext?('adminAdmin!')
-      end.to_not change { user.passwords.count }
+      end.not_to change { user.passwords.count }
 
       expect(user.current_password).to be_a(UserPassword::Bcrypt)
       expect(user.current_password.hashed_password).to start_with '$2a$'
@@ -96,7 +96,7 @@ describe UserPassword, type: :model do
   end
 
   describe '#save' do
-    let(:password) { FactoryBot.build(:user_password) }
+    let(:password) { build(:user_password) }
 
     it 'saves correctly' do
       expect(password).to receive(:salt_and_hash_password!).and_call_original

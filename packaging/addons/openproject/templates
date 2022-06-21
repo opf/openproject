@@ -13,3 +13,9 @@ Type: string
 Default: www.example.com
 Description: Your fully qualified domain name:
  Enter the fully qualified domain name (FQDN), where this server can be reached.
+
+Template: openproject/admin_email
+Type: string
+Default: admin@example.net
+Description: Your email address for the admin account:
+ Enter the email address to be used for first admin account.

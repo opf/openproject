@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -99,7 +97,7 @@ describe Authentication::OmniauthAuthHashContract do
   end
 
   describe '#validate_authorization_callback' do
-    let(:auth_double) { double('Authorization', approve?: authorized, message: message) }
+    let(:auth_double) { double('Authorization', approve?: authorized, message:) }
 
     before do
       allow(OpenProject::OmniAuth::Authorization)
@@ -111,6 +109,7 @@ describe Authentication::OmniauthAuthHashContract do
     context 'if authorized' do
       let(:authorized) { true }
       let(:message) { nil }
+
       it_behaves_like 'is valid'
     end
 

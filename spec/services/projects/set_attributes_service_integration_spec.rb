@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,10 +30,10 @@ require 'spec_helper'
 
 describe Projects::SetAttributesService, 'integration', type: :model do
   let(:user) do
-    FactoryBot.create(:user, global_permissions: %w[add_project])
+    create(:user, global_permissions: %w[add_project])
   end
   let(:contract) { Projects::CreateContract }
-  let(:instance) { described_class.new(user: user, model: project, contract_class: contract) }
+  let(:instance) { described_class.new(user:, model: project, contract_class: contract) }
   let(:attributes) { {} }
   let(:project) { Project.new }
   let(:service_result) do
@@ -51,7 +51,7 @@ describe Projects::SetAttributesService, 'integration', type: :model do
 
   describe 'with an existing project' do
     let(:existing_identifier) { 'my-new-project' }
-    let!(:existing) { FactoryBot.create :project, identifier: existing_identifier }
+    let!(:existing) { create :project, identifier: existing_identifier }
 
     context 'and a new project with no identifier set' do
       let(:project) { Project.new name: 'My new project' }

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -37,21 +35,21 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
   subject(:response) { last_response }
 
   current_user do
-    FactoryBot.create(:user).tap do |u|
-      FactoryBot.create(:global_member,
-                        principal: u,
-                        roles: [global_role])
+    create(:user).tap do |u|
+      create(:global_member,
+             principal: u,
+             roles: [global_role])
     end
   end
 
   let(:global_role) do
-    FactoryBot.create(:global_role, permissions: permissions)
+    create(:global_role, permissions:)
   end
   let(:text_custom_field) do
-    FactoryBot.create(:text_project_custom_field)
+    create(:text_project_custom_field)
   end
   let(:list_custom_field) do
-    FactoryBot.create(:list_project_custom_field)
+    create(:list_project_custom_field)
   end
   let(:permissions) { [:add_project] }
   let(:path) { api_v3_paths.create_project_form }
@@ -77,7 +75,7 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
 
     it 'does not create a project' do
       expect(Project.count)
-        .to eql 0
+        .to be 0
     end
 
     context 'with empty parameters' do
@@ -94,15 +92,15 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
           identifier: 'new_project_identifier',
           name: 'Project name',
           "customField#{text_custom_field.id}": {
-            "raw": "CF text"
+            raw: "CF text"
           },
           statusExplanation: { raw: "A magic dwells in each beginning." },
-          "_links": {
+          _links: {
             "customField#{list_custom_field.id}": {
-              "href": api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
+              href: api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
             },
-            "status": {
-              "href": api_v3_paths.project_status('on_track')
+            status: {
+              href: api_v3_paths.project_status('on_track')
             }
           }
         }
@@ -138,9 +136,9 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
         expect(body)
           .to be_json_eql(
             {
-              "format": "markdown",
-              "html": "<p class=\"op-uc-p\">A magic dwells in each beginning.</p>",
-              "raw": "A magic dwells in each beginning."
+              format: "markdown",
+              html: "<p class=\"op-uc-p\">A magic dwells in each beginning.</p>",
+              raw: "A magic dwells in each beginning."
             }.to_json
           ).at_path("_embedded/payload/statusExplanation")
       end
@@ -181,18 +179,18 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
 
     context 'with only add_subprojects permission' do
       current_user do
-        FactoryBot.create(:user,
-                          member_in_project: parent_project,
-                          member_with_permissions: %i[add_subprojects])
+        create(:user,
+               member_in_project: parent_project,
+               member_with_permissions: %i[add_subprojects])
       end
 
-      let(:parent_project) { FactoryBot.create(:project) }
+      let(:parent_project) { create(:project) }
 
       let(:params) do
         {
-          "_links": {
-            "parent": {
-              "href": api_v3_paths.project(parent_project.id)
+          _links: {
+            parent: {
+              href: api_v3_paths.project(parent_project.id)
             }
           }
         }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,14 +43,14 @@ class AnnouncementMailer < ApplicationMailer
            subject: localized_subject do |format|
         locals = {
           body: localized(body),
-          user: user,
+          user:,
           header_summary: localized_subject,
           body_header: localized(body_header),
           body_subheader: localized(body_subheader)
         }
 
-        format.html { render locals: locals }
-        format.text { render locals: locals }
+        format.html { render locals: }
+        format.text { render locals: }
       end
     end
   end

@@ -1,32 +1,34 @@
 require 'spec_helper'
 
 describe "Split screen in the notification center", type: :feature, js: true do
-  shared_let(:project) { FactoryBot.create :project }
-  shared_let(:work_package) { FactoryBot.create :work_package, project: project }
-  shared_let(:second_work_package) { FactoryBot.create :work_package, project: project }
+  let(:global_html_title) { ::Components::HtmlTitle.new }
+  let(:center) { ::Pages::Notifications::Center.new }
+  let(:split_screen) { ::Pages::Notifications::SplitScreen.new work_package }
+
+  shared_let(:project) { create :project }
+  shared_let(:work_package) { create :work_package, project: }
+  shared_let(:second_work_package) { create :work_package, project: }
+
   shared_let(:recipient) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages]
+    create :user,
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages]
   end
   shared_let(:notification) do
-    FactoryBot.create :notification,
-                      recipient: recipient,
-                      project: project,
-                      resource: work_package,
-                      journal: work_package.journals.last
+    create :notification,
+           recipient:,
+           project:,
+           resource: work_package,
+           journal: work_package.journals.last
   end
 
   shared_let(:second_notification) do
-    FactoryBot.create :notification,
-                      recipient: recipient,
-                      project: project,
-                      resource: second_work_package,
-                      journal: second_work_package.journals.last
+    create :notification,
+           recipient:,
+           project:,
+           resource: second_work_package,
+           journal: second_work_package.journals.last
   end
-
-  let(:center) { ::Pages::Notifications::Center.new }
-  let(:split_screen) { ::Pages::Notifications::SplitScreen.new work_package }
 
   describe 'basic use case' do
     current_user { recipient }
@@ -81,13 +83,36 @@ describe "Split screen in the notification center", type: :feature, js: true do
       split_screen.close
       split_screen.expect_empty_state
     end
+
+    it 'can show the correct html title while opening and closing the split view' do
+      global_html_title.expect_first_segment 'Notifications'
+
+      # The split view should be opened and html title should change
+      first_title = "#{work_package.type.name}: #{work_package.subject} (##{work_package.id})"
+      center.click_item notification
+      global_html_title.expect_first_segment first_title
+
+      # The split view should be closed and html title should change to the previous title
+      split_screen.close
+      global_html_title.expect_first_segment 'Notifications'
+
+      # Html title should be updated with next WP data after making the current one as read
+      second_title = "#{second_work_package.type.name}: #{second_work_package.subject} (##{second_work_package.id})"
+      center.click_item notification
+      center.mark_notification_as_read notification
+      global_html_title.expect_first_segment second_title
+
+      # After making all notifications as read, html title should show the base route
+      center.mark_notification_as_read second_notification
+      global_html_title.expect_first_segment 'Notifications'
+    end
   end
 
   context 'with no unread notification' do
     current_user { recipient }
 
     before do
-      Notification.where(recipient: recipient).update_all(read_ian: true)
+      Notification.where(recipient:).update_all(read_ian: true)
       visit home_path
       center.open
     end

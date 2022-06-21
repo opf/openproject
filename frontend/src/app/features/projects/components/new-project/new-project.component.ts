@@ -33,17 +33,17 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
 
   fieldGroups:IDynamicFieldGroupConfig[];
 
-  initialPayload = {};
+  initialPayload:Record<string, unknown> = {};
 
   text = {
     use_template: this.I18n.t('js.project.use_template'),
     no_template_selected: this.I18n.t('js.project.no_template_selected'),
     advancedSettingsLabel: this.I18n.t('js.forms.advanced_settings'),
+    copySettingsLabel: this.I18n.t('js.project.copy.copy_options'),
   };
 
   hiddenFields:string[] = [
     'identifier',
-    'sendNotifications',
     'active',
   ];
 
@@ -55,7 +55,10 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   this
     .apiV3Service
     .projects
-    .filtered(this.copyableTemplateFilter)
+    .filtered(
+      this.copyableTemplateFilter,
+      { pageSize: '-1' },
+    )
     .get()
     .pipe(
       map((response) => response.elements.map((el:HalResource) => ({ href: el.href, name: el.name }))),
@@ -86,10 +89,15 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     this.resourcePath = this.apiV3Service.projects.path;
     this.fieldGroups = [{
       name: this.text.advancedSettingsLabel,
-      fieldsFilter: (field) => !['name', 'parent'].includes(field.templateOptions?.property!)
+      fieldsFilter: (field) => !['name', 'parent'].includes(field.templateOptions?.property as string)
+        && !this.isMeta(field.templateOptions?.property)
         && !(field.templateOptions?.required
         && !field.templateOptions.hasDefault
         && field.templateOptions.payloadValue == null),
+    },
+    {
+      name: this.text.copySettingsLabel,
+      fieldsFilter: (field:IOPFormlyFieldSettings) => this.isMeta(field.templateOptions?.property),
     }];
 
     if (this.uIRouterGlobals.params.parent_id) {
@@ -109,16 +117,25 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     this.initialPayload = {
       ...this.initialPayload,
       name: this.dynamicForm.model.name,
+      _meta: {
+        ...(this.initialPayload?._meta as Record<string, unknown>),
+        sendNotifications: false,
+      },
     };
     this.formUrl = selected?.href ? `${selected.href}/copy` : null;
   }
 
   private isHiddenField(key:string|undefined):boolean {
+    // We explicitly want to show the sendNotifications param
+    if (key === '_meta.sendNotifications') {
+      return false;
+    }
+
     return !!key && (this.hiddenFields.includes(key) || this.isMeta(key));
   }
 
-  private isMeta(key:string):boolean {
-    return key.startsWith('_meta.');
+  private isMeta(property:string|undefined):boolean {
+    return !!property && (property.startsWith('copy') || property === 'sendNotifications');
   }
 
   private setParentAsPayload(parentId:string) {

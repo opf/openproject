@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,28 +33,28 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:manage_board_views_project) { FactoryBot.create(:project) }
-  shared_let(:show_board_views_project) { FactoryBot.create(:project) }
-  shared_let(:other_project) { FactoryBot.create(:project) }
-  shared_let(:show_board_views_role) { FactoryBot.create(:role, permissions: [:show_board_views]) }
-  shared_let(:manage_board_views_role) { FactoryBot.create(:role, permissions: [:manage_board_views]) }
-  shared_let(:other_role) { FactoryBot.create(:role, permissions: []) }
+  shared_let(:manage_board_views_project) { create(:project) }
+  shared_let(:show_board_views_project) { create(:project) }
+  shared_let(:other_project) { create(:project) }
+  shared_let(:show_board_views_role) { create(:role, permissions: [:show_board_views]) }
+  shared_let(:manage_board_views_role) { create(:role, permissions: [:manage_board_views]) }
+  shared_let(:other_role) { create(:role, permissions: []) }
   shared_let(:current_user) do
-    FactoryBot.create(:user).tap do |user|
-      FactoryBot.create(:member, user: user, project: manage_board_views_project, roles: [manage_board_views_role])
-      FactoryBot.create(:member, user: user, project: show_board_views_project, roles: [show_board_views_role])
-      FactoryBot.create(:member, user: user, project: other_project, roles: [other_role])
+    create(:user).tap do |user|
+      create(:member, user:, project: manage_board_views_project, roles: [manage_board_views_role])
+      create(:member, user:, project: show_board_views_project, roles: [show_board_views_role])
+      create(:member, user:, project: other_project, roles: [other_role])
     end
   end
 
   let(:manage_board_views_grid) do
-    FactoryBot.create(:board_grid, project: manage_board_views_project)
+    create(:board_grid, project: manage_board_views_project)
   end
   let(:show_board_views_grid) do
-    FactoryBot.create(:board_grid, project: show_board_views_project)
+    create(:board_grid, project: show_board_views_project)
   end
   let(:other_board_grid) do
-    FactoryBot.create(:board_grid, project: other_project)
+    create(:board_grid, project: other_project)
   end
 
   before do
@@ -97,7 +97,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
     context 'with a filter on the scope attribute for all boards of a project' do
       # The user would be able to see both boards
-      shared_let(:other_role) { FactoryBot.create(:role, permissions: [:show_board_views]) }
+      shared_let(:other_role) { create(:role, permissions: [:show_board_views]) }
 
       let(:path) do
         filter = [{ 'scope' =>
@@ -175,7 +175,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
       let(:path) { api_v3_paths.grid(5) }
 
       it 'responds with 404 NOT FOUND' do
-        expect(subject.status).to eql 404
+        expect(subject.status).to be 404
       end
     end
 
@@ -187,7 +187,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
       let(:path) { api_v3_paths.grid(other_board_grid.id) }
 
       it 'responds with 404 NOT FOUND' do
-        expect(subject.status).to eql 404
+        expect(subject.status).to be 404
       end
     end
   end
@@ -197,14 +197,14 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
     let(:params) do
       {
-        "rowCount": 10,
-        "columnCount": 15,
-        "widgets": [{
-          "identifier": "work_package_query",
-          "startRow": 4,
-          "endRow": 8,
-          "startColumn": 2,
-          "endColumn": 5
+        rowCount: 10,
+        columnCount: 15,
+        widgets: [{
+          identifier: "work_package_query",
+          startRow: 4,
+          endRow: 8,
+          startColumn: 2,
+          endColumn: 5
         }]
       }.with_indifferent_access
     end
@@ -243,14 +243,14 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
     context 'with invalid params' do
       let(:params) do
         {
-          "rowCount": -5,
-          "columnCount": 15,
-          "widgets": [{
-            "identifier": "work_package_query",
-            "startRow": 4,
-            "endRow": 8,
-            "startColumn": 2,
-            "endColumn": 5
+          rowCount: -5,
+          columnCount: 15,
+          widgets: [{
+            identifier: "work_package_query",
+            startRow: 4,
+            endRow: 8,
+            startColumn: 2,
+            endColumn: 5
           }]
         }.with_indifferent_access
       end
@@ -272,9 +272,9 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
     context 'with a scope param' do
       let(:params) do
         {
-          "_links": {
-            "scope": {
-              "href": ''
+          _links: {
+            scope: {
+              href: ''
             }
           }
         }.with_indifferent_access
@@ -287,7 +287,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
       let(:path) { api_v3_paths.grid(1234) }
 
       it 'responds with 404 NOT FOUND' do
-        expect(subject.status).to eql 404
+        expect(subject.status).to be 404
       end
     end
 
@@ -299,7 +299,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
       let(:path) { api_v3_paths.grid(show_board_views_grid.id) }
 
       it 'responds with 404 NOT FOUND' do
-        expect(subject.status).to eql 404
+        expect(subject.status).to be 404
       end
     end
   end
@@ -309,19 +309,19 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
     let(:params) do
       {
-        "rowCount": 10,
-        "name": 'foo',
-        "columnCount": 15,
-        "widgets": [{
-          "identifier": "work_package_query",
-          "startRow": 4,
-          "endRow": 8,
-          "startColumn": 2,
-          "endColumn": 5
+        rowCount: 10,
+        name: 'foo',
+        columnCount: 15,
+        widgets: [{
+          identifier: "work_package_query",
+          startRow: 4,
+          endRow: 8,
+          startColumn: 2,
+          endColumn: 5
         }],
-        "_links": {
-          "scope": {
-            "href": project_work_package_boards_path(manage_board_views_project)
+        _links: {
+          scope: {
+            href: project_work_package_boards_path(manage_board_views_project)
           }
         }
       }.with_indifferent_access
@@ -352,25 +352,25 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
     it 'persists the grid' do
       expect(Grids::Grid.count)
-        .to eql(1)
+        .to be(1)
     end
 
     context 'with invalid params' do
       let(:params) do
         {
-          "name": 'foo',
-          "rowCount": -5,
-          "columnCount": "sdjfksdfsdfdsf",
-          "widgets": [{
-            "identifier": "work_package_query",
-            "startRow": 4,
-            "endRow": 8,
-            "startColumn": 2,
-            "endColumn": 5
+          name: 'foo',
+          rowCount: -5,
+          columnCount: "sdjfksdfsdfdsf",
+          widgets: [{
+            identifier: "work_package_query",
+            startRow: 4,
+            endRow: 8,
+            startColumn: 2,
+            endColumn: 5
           }],
-          "_links": {
-            "scope": {
-              "href": project_work_package_boards_path(manage_board_views_project)
+          _links: {
+            scope: {
+              href: project_work_package_boards_path(manage_board_views_project)
             }
           }
         }.with_indifferent_access
@@ -382,7 +382,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
       it 'does not create a grid' do
         expect(Grids::Grid.count)
-          .to eql(0)
+          .to be(0)
       end
 
       it 'returns the errors' do
@@ -400,15 +400,15 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
     context 'without a scope link' do
       let(:params) do
         {
-          "rowCount": 5,
-          "name": 'foo',
-          "columnCount": 5,
-          "widgets": [{
-            "identifier": "work_package_query",
-            "startRow": 2,
-            "endRow": 4,
-            "startColumn": 2,
-            "endColumn": 5
+          rowCount: 5,
+          name: 'foo',
+          columnCount: 5,
+          widgets: [{
+            identifier: "work_package_query",
+            startRow: 2,
+            endRow: 4,
+            startColumn: 2,
+            endColumn: 5
           }]
         }.with_indifferent_access
       end
@@ -419,7 +419,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
       it 'does not create a grid' do
         expect(Grids::Grid.count)
-          .to eql(0)
+          .to be(0)
       end
 
       it 'returns the errors' do
@@ -436,19 +436,19 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
     context 'without the permission to create boards in the project' do
       let(:params) do
         {
-          "name": 'foo',
-          "rowCount": 5,
-          "columnCount": 5,
-          "widgets": [{
-            "identifier": "work_package_query",
-            "startRow": 2,
-            "endRow": 4,
-            "startColumn": 2,
-            "endColumn": 5
+          name: 'foo',
+          rowCount: 5,
+          columnCount: 5,
+          widgets: [{
+            identifier: "work_package_query",
+            startRow: 2,
+            endRow: 4,
+            startColumn: 2,
+            endColumn: 5
           }],
-          "_links": {
-            "scope": {
-              "href": project_work_package_boards_path(show_board_views_project)
+          _links: {
+            scope: {
+              href: project_work_package_boards_path(show_board_views_project)
             }
           }
         }.with_indifferent_access
@@ -460,7 +460,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
       it 'does not create a grid' do
         expect(Grids::Grid.count)
-          .to eql(0)
+          .to be(0)
       end
 
       it 'returns the errors' do

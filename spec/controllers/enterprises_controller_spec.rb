@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +50,7 @@ describe EnterprisesController, type: :controller do
   end
 
   context 'with admin' do
-    let(:user) { FactoryBot.build(:admin) }
+    let(:user) { build(:admin) }
 
     describe '#show' do
       render_views
@@ -137,7 +137,7 @@ describe EnterprisesController, type: :controller do
         expect(a_token).to receive(:encoded_token=).with('foo')
         expect(a_token).to receive(:save).and_return(valid)
 
-        post :create, params: params
+        post :create, params:
       end
 
       context 'valid token input' do
@@ -188,7 +188,7 @@ describe EnterprisesController, type: :controller do
   end
 
   context 'regular user' do
-    let(:user) { FactoryBot.build(:user) }
+    let(:user) { build(:user) }
 
     before do
       get :show

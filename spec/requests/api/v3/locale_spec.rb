@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,10 +36,10 @@ describe 'API localization', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project) }
-  let(:type) { FactoryBot.create(:type) }
+  let(:project) { create(:project) }
+  let(:type) { create(:type) }
   let(:schema_path) { api_v3_paths.work_package_schema project.id, type.id }
-  let(:current_user) { FactoryBot.create(:user, member_in_project: project, language: :fr) }
+  let(:current_user) { create(:user, member_in_project: project, language: :fr) }
 
   describe 'GET /api/v3/work_packages/schemas/:id' do
     before do

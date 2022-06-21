@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,7 +53,7 @@ module Projects::Copy
         [query.id, new_id]
       end
 
-      state.query_id_lookup = Hash[mapping]
+      state.query_id_lookup = mapping.to_h
     end
 
     def queries_to_copy
@@ -64,7 +62,7 @@ module Projects::Copy
 
     def duplicate_query(query, params)
       ::Queries::CopyService
-        .new(source: query, user: user)
+        .new(source: query, user:)
         .with_state(state)
         .call(params.merge)
         .on_failure { |result| add_error! query, result.errors }

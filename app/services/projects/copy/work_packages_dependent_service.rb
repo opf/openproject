@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -78,7 +76,7 @@ module Projects::Copy
       overrides = copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)
 
       service_call = WorkPackages::CopyService
-        .new(user: user,
+        .new(user:,
              work_package: source_work_package,
              contract_class: WorkPackages::CopyProjectContract)
         .call(**overrides)
@@ -96,27 +94,14 @@ module Projects::Copy
       end
     end
 
-    def copy_relations(wp, new_wp_id, work_packages_map)
-      wp.relations_to.non_hierarchy.direct.each do |source_relation|
-        new_relation = Relation.new
-        new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id', 'relation_type')
-        new_relation.to_id = work_packages_map[source_relation.to_id]
-        if new_relation.to_id.nil? && Setting.cross_project_work_package_relations?
-          new_relation.to_id = source_relation.to_id
-        end
-        new_relation.from_id = new_wp_id
-        new_relation.save
-      end
+    def copy_relations(source_wp, new_wp_id, work_packages_map)
+      Relation.of_work_package(source_wp).each do |source_relation|
+        from_id, to_id = relations_from_to(source_relation, source_wp, new_wp_id, work_packages_map)
 
-      wp.relations_from.non_hierarchy.direct.each do |source_relation|
-        new_relation = Relation.new
-        new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id', 'relation_type')
-        new_relation.from_id = work_packages_map[source_relation.from_id]
-        if new_relation.from_id.nil? && Setting.cross_project_work_package_relations?
-          new_relation.from_id = source_relation.from_id
-        end
-        new_relation.to_id = new_wp_id
-        new_relation.save
+        Relation.create(source_relation
+                          .attributes
+                          .except('id', 'from_id', 'to_id')
+                          .merge(to_id:, from_id:))
       end
     end
 
@@ -131,11 +116,14 @@ module Projects::Copy
 
       {
         project: target,
-        parent_id: parent_id,
+        parent_id:,
         version_id: work_package_version_id(source_work_package),
         assigned_to_id: work_package_assigned_to_id(source_work_package),
         responsible_id: work_package_responsible_id(source_work_package),
         custom_field_values: custom_value_attributes,
+        # We don't support copying budgets right now
+        budget_id: nil,
+
         # We fetch the value from the global registry to persist it in the job which
         # will trigger a delayed job for potentially sending the journal notifications.
         send_notifications: ActionMailer::Base.perform_deliveries
@@ -163,6 +151,18 @@ module Projects::Copy
 
       @principals ||= Principal.possible_assignee(project).pluck(:id).to_set
       principal_id if @principals.include?(principal_id)
+    end
+
+    def relations_from_to(source_relation, source_wp, new_wp_id, work_packages_map)
+      if source_relation.from_id == source_wp.id
+        [new_wp_id,
+         work_packages_map[source_relation.to_id] ||
+           (Setting.cross_project_work_package_relations? && source_relation.to_id)]
+      else
+        [work_packages_map[source_relation.from_id] ||
+           (Setting.cross_project_work_package_relations? && source_relation.from_id),
+         new_wp_id]
+      end
     end
   end
 end

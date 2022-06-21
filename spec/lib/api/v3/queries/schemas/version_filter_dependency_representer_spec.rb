@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,18 +28,18 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter, clear_cache: true do
+describe ::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:query) { FactoryBot.build_stubbed(:query, project: project) }
+  let(:project) { build_stubbed(:project) }
+  let(:query) { build_stubbed(:query, project:) }
   let(:filter) { Queries::WorkPackages::Filter::VersionFilter.create!(context: query) }
   let(:form_embedded) { false }
 
   let(:instance) do
     described_class.new(filter,
                         operator,
-                        form_embedded: form_embedded)
+                        form_embedded:)
   end
 
   subject(:generated) { instance.to_json }
@@ -49,7 +49,7 @@ describe ::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter, clear_
       describe 'values' do
         let(:path) { 'values' }
         let(:type) { '[]Version' }
-        let(:order) { "sortBy=#{CGI.escape(JSON.dump([%i(semver_name asc)]))}" }
+        let(:order) { "sortBy=#{CGI.escape(JSON.dump([%i(semver_name asc)]))}&pageSize=-1" }
 
         context "for operator 'Queries::Operators::All'" do
           let(:operator) { Queries::Operators::All }
@@ -107,7 +107,7 @@ describe ::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter, clear_
 
     describe 'caching' do
       let(:operator) { Queries::Operators::Equals }
-      let(:other_project) { FactoryBot.build_stubbed(:project) }
+      let(:other_project) { build_stubbed(:project) }
 
       before do
         # fill the cache

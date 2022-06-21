@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -35,31 +33,31 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:project) do
-    FactoryBot.create(:project,
-                      "custom_field_#{text_custom_field.id}": "CF text",
-                      "custom_field_#{list_custom_field.id}": list_custom_field.custom_options.first)
+    create(:project,
+           "custom_field_#{text_custom_field.id}": "CF text",
+           "custom_field_#{list_custom_field.id}": list_custom_field.custom_options.first)
   end
   let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:text_custom_field) do
-    FactoryBot.create(:text_project_custom_field)
+    create(:text_project_custom_field)
   end
   let(:list_custom_field) do
-    FactoryBot.create(:list_project_custom_field)
+    create(:list_project_custom_field)
   end
   let(:viable_parent_project) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        project: p,
-                        principal: current_user,
-                        roles: [parent_project_role])
+    create(:project).tap do |p|
+      create(:member,
+             project: p,
+             principal: current_user,
+             roles: [parent_project_role])
     end
   end
   let(:parent_project_role) do
-    FactoryBot.create(:role, permissions: parent_project_permissions)
+    create(:role, permissions: parent_project_permissions)
   end
   let(:permissions) { [:edit_project] }
   let(:parent_project_permissions) { [:add_subprojects] }
@@ -108,7 +106,7 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
     context 'with faulty parameters' do
       let(:params) do
         {
-          "name": nil
+          name: nil
         }
       end
 
@@ -137,9 +135,9 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
       context 'with a correct parameter' do
         let(:params) do
           {
-            "_links": {
-              "parent": {
-                "href": api_v3_paths.project(viable_parent_project.id)
+            _links: {
+              parent: {
+                href: api_v3_paths.project(viable_parent_project.id)
               }
             }
           }
@@ -165,15 +163,15 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
           identifier: 'new_project_identifier',
           name: 'Project name',
           "customField#{text_custom_field.id}": {
-            "raw": "new CF text"
+            raw: "new CF text"
           },
           statusExplanation: { raw: 'Something goes awry.' },
-          "_links": {
+          _links: {
             "customField#{list_custom_field.id}": {
-              "href": api_v3_paths.custom_option(list_custom_field.custom_options.last.id)
+              href: api_v3_paths.custom_option(list_custom_field.custom_options.last.id)
             },
-            "status": {
-              "href": api_v3_paths.project_status('off_track')
+            status: {
+              href: api_v3_paths.project_status('off_track')
             }
           }
         }
@@ -240,8 +238,8 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
     context 'with faulty status parameters' do
       let(:params) do
         {
-          "status": {
-            "href": api_v3_paths.project_status('bogus')
+          status: {
+            href: api_v3_paths.project_status('bogus')
           }
         }
       end

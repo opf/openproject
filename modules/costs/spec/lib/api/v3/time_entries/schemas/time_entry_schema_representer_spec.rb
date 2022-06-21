@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,15 +31,15 @@ require 'spec_helper'
 describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
 
   let(:self_link) { '/a/self/link' }
   let(:embedded) { true }
   let(:new_record) { true }
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
+  let(:user) { build_stubbed(:user) }
   let(:assigned_project) { nil }
-  let(:activity) { FactoryBot.build_stubbed(:time_entry_activity) }
+  let(:activity) { build_stubbed(:time_entry_activity) }
 
   let(:contract) do
     contract = double('contract',
@@ -68,9 +68,9 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
   end
   let(:representer) do
     described_class.create(contract,
-                           self_link: self_link,
+                           self_link:,
                            form_embedded: embedded,
-                           current_user: current_user)
+                           current_user:)
   end
 
   context 'generation' do
@@ -78,7 +78,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
 
     describe '_type' do
       it 'is indicated as Schema' do
-        is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
+        expect(subject).to be_json_eql('Schema'.to_json).at_path('_type')
       end
     end
 
@@ -240,15 +240,14 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
     end
 
     context 'custom value' do
-      let(:custom_field) { FactoryBot.build_stubbed(:time_entry_custom_field) }
+      let(:custom_field) { build_stubbed(:time_entry_custom_field) }
+      let(:path) { "customField#{custom_field.id}" }
 
       before do
         allow(contract)
           .to receive(:available_custom_fields)
           .and_return([custom_field])
       end
-
-      let(:path) { "customField#{custom_field.id}" }
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Formattable' }

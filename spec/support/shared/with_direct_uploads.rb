@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,9 +35,9 @@ class WithDirectUploads
 
   ##
   # We need this so calls to rspec mocks (allow, expect etc.) will work here as expected.
-  def method_missing(method, *args, &block)
+  def method_missing(method, *args, &)
     if context.respond_to?(method)
-      context.send method, *args, &block
+      context.send(method, *args, &)
     else
       super
     end
@@ -66,14 +64,18 @@ class WithDirectUploads
     example.metadata[:driver] = :chrome_billy
 
     csp_config = SecureHeaders::Configuration.instance_variable_get("@default_config").csp
-    csp_config.connect_src = ["'self'", "test-bucket.s3.amazonaws.com"]
-    csp_config.form_action = ["'self'", "test-bucket.s3.amazonaws.com"]
+
+    connect_src = csp_config.connect_src.dup
+    form_action = csp_config.form_action.dup
 
     begin
+      csp_config.connect_src = ["'self'", "test-bucket.s3.amazonaws.com"]
+      csp_config.form_action = ["'self'", "test-bucket.s3.amazonaws.com"]
+
       example.run
     ensure
-      csp_config.connect_src = %w('self')
-      csp_config.form_action = %w('self')
+      csp_config.connect_src = connect_src
+      csp_config.form_action = form_action
     end
   end
 
@@ -172,7 +174,7 @@ class WithDirectUploads
 end
 
 RSpec.configure do |config|
-  config.before(:each) do |example|
+  config.before do |example|
     next unless example.metadata[:with_direct_uploads]
 
     WithDirectUploads.new(self).before example
@@ -188,7 +190,7 @@ RSpec.configure do |config|
     end
   end
 
-  config.around(:each) do |example|
+  config.around do |example|
     enabled = example.metadata[:with_direct_uploads]
 
     if enabled

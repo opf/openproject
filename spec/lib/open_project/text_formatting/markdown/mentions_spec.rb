@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,37 +34,37 @@ describe OpenProject::TextFormatting,
   include_context 'expected markdown modules'
 
   describe '.format_text' do
-    shared_let(:project) { FactoryBot.create :valid_project }
+    shared_let(:project) { create :valid_project }
     let(:identifier) { project.identifier }
+    let(:options) { { project: } }
+
     shared_let(:role) do
-      FactoryBot.create :role,
-                        permissions: %i(view_work_packages edit_work_packages
-                                        browse_repository view_changesets view_wiki_pages)
+      create :role,
+             permissions: %i(view_work_packages edit_work_packages
+                             browse_repository view_changesets view_wiki_pages)
     end
 
     shared_let(:project_member) do
-      FactoryBot.create :user,
-                        member_in_project: project,
-                        member_through_role: role
+      create :user,
+             member_in_project: project,
+             member_through_role: role
     end
 
     before do
       login_as(project_member)
     end
 
-    let(:options) { { project: project } }
-
     context 'User links' do
       let(:role) do
-        FactoryBot.create :role,
-                          permissions: %i[view_work_packages edit_work_packages
-                                          browse_repository view_changesets view_wiki_pages]
+        create :role,
+               permissions: %i[view_work_packages edit_work_packages
+                               browse_repository view_changesets view_wiki_pages]
       end
 
       let(:linked_project_member) do
-        FactoryBot.create :user,
-                          member_in_project: project,
-                          member_through_role: role
+        create :user,
+               member_in_project: project,
+               member_through_role: role
       end
 
       context 'User link via mention' do
@@ -141,7 +141,7 @@ describe OpenProject::TextFormatting,
         end
 
         context 'when linked user not visible for reader' do
-          let(:role) { FactoryBot.create(:non_member) }
+          let(:role) { create(:non_member) }
 
           it_behaves_like 'format_text produces' do
             let(:raw) do
@@ -189,10 +189,10 @@ describe OpenProject::TextFormatting,
 
           context "with an email address as login name" do
             let(:linked_project_member) do
-              FactoryBot.create :user,
-                                member_in_project: project,
-                                member_through_role: role,
-                                login: "foo@bar.com"
+              create :user,
+                     member_in_project: project,
+                     member_through_role: role,
+                     login: "foo@bar.com"
             end
 
             it_behaves_like 'format_text produces' do
@@ -217,7 +217,7 @@ describe OpenProject::TextFormatting,
         end
 
         context 'when linked user not visible for reader' do
-          let(:role) { FactoryBot.create(:non_member) }
+          let(:role) { create(:non_member) }
 
           it_behaves_like 'format_text produces' do
             let(:raw) do
@@ -260,20 +260,20 @@ describe OpenProject::TextFormatting,
         end
 
         context 'when visible user exists' do
-          let(:project) { FactoryBot.create :project }
-          let(:role) { FactoryBot.create(:role, permissions: %i(view_work_packages)) }
+          let(:project) { create :project }
+          let(:role) { create(:role, permissions: %i(view_work_packages)) }
           let(:current_user) do
-            FactoryBot.create(:user,
-                              member_in_project: project,
-                              member_through_role: role)
+            create(:user,
+                   member_in_project: project,
+                   member_through_role: role)
           end
           let(:user) do
-            FactoryBot.create(:user,
-                              login: 'foo@bar.com',
-                              firstname: 'Foo',
-                              lastname: 'Barrit',
-                              member_in_project: project,
-                              member_through_role: role)
+            create(:user,
+                   login: 'foo@bar.com',
+                   firstname: 'Foo',
+                   lastname: 'Barrit',
+                   member_in_project: project,
+                   member_through_role: role)
           end
 
           before do
@@ -301,6 +301,7 @@ describe OpenProject::TextFormatting,
 
           context 'with only_path false (default)', with_settings: { host_name: "openproject.org" } do
             let(:options) { { only_path: false } }
+
             it_behaves_like 'format_text produces' do
               let(:raw) do
                 <<~RAW
@@ -323,16 +324,16 @@ describe OpenProject::TextFormatting,
 
     context 'Group reference' do
       let(:role) do
-        FactoryBot.create :role,
-                          permissions: []
+        create :role,
+               permissions: []
       end
 
       let(:linked_project_member_group) do
-        FactoryBot.create(:group).tap do |group|
-          FactoryBot.create(:member,
-                            principal: group,
-                            project: project,
-                            roles: [role])
+        create(:group).tap do |group|
+          create(:member,
+                 principal: group,
+                 project:,
+                 roles: [role])
         end
       end
 

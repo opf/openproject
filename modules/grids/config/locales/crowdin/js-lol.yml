@@ -6,7 +6,7 @@ lol:
       configure: 'crwdns500105:0crwdne500105:0'
       upsale:
         text: "crwdns500107:0crwdne500107:0"
-        link: 'crwdns500109:0crwdne500109:0'
+        link: 'crwdns809582:0crwdne809582:0'
       widgets:
         custom_text:
           title: 'crwdns500111:0crwdne500111:0'
@@ -31,10 +31,13 @@ lol:
           no_results: 'crwdns500139:0crwdne500139:0'
         project_status:
           title: 'crwdns500141:0crwdne500141:0'
+          not_started: 'crwdns712528:0crwdne712528:0'
           on_track: 'crwdns500143:0crwdne500143:0'
           off_track: 'crwdns500145:0crwdne500145:0'
           at_risk: 'crwdns500147:0crwdne500147:0'
           not_set: 'crwdns500149:0crwdne500149:0'
+          finished: 'crwdns712530:0crwdne712530:0'
+          discontinued: 'crwdns712532:0crwdne712532:0'
         subprojects:
           title: 'crwdns500151:0crwdne500151:0'
           no_results: 'crwdns500153:0crwdne500153:0'

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,23 +30,13 @@ module API
   module V3
     module Projects
       class ProjectsAPI < ::API::OpenProjectAPI
-        helpers do
-          def visible_project_scope
-            if current_user.admin?
-              Project.all
-            else
-              Project.visible(current_user)
-            end
-          end
-        end
-
         resources :projects do
-          get &::API::V3::Utilities::Endpoints::Index.new(model: Project,
-                                                          scope: -> {
-                                                            visible_project_scope
-                                                              .includes(ProjectRepresenter.to_eager_load)
-                                                          })
-                                                     .mount
+          get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex.new(model: Project,
+                                                                       scope: -> {
+                                                                         Project
+                                                                           .includes(ProjectRepresenter.to_eager_load)
+                                                                       })
+                                                                  .mount
 
           post &::API::V3::Utilities::Endpoints::Create.new(model: Project)
                                                        .mount
@@ -61,7 +51,11 @@ module API
           end
           route_param :id do
             after_validation do
-              @project = visible_project_scope.find(params[:id])
+              @project = if current_user.admin?
+                           Project.all
+                         else
+                           Project.visible(current_user)
+                         end.find(params[:id])
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: Project).mount

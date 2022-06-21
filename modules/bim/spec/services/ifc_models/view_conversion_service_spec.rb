@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe Bim::IfcModels::ViewConverterService do
-  let(:model) { FactoryBot.build :ifc_model }
+  let(:model) { build :ifc_model }
+
   subject { described_class.new(model) }
 
   before do
@@ -94,7 +95,7 @@ describe Bim::IfcModels::ViewConverterService do
 
         # mocking all convert! calls so they do nothing but create an empty dummy result file
         allow(subject).to receive(:convert!) do |source_file, ext|
-          expect(File.exists?(source_file)).to be_truthy, "Expected #{source_file} to exist."
+          expect(File.exist?(source_file)).to be_truthy, "Expected #{source_file} to exist."
 
           target_file_path = source_file.sub ext_regex, "." + ext
 
@@ -157,7 +158,7 @@ describe Bim::IfcModels::ViewConverterService do
   end
 
   describe '#change_basename' do
-    it "should return the new basename" do
+    it "returns the new basename" do
       path = "/tmp/file.xml"
       new_path = subject.send(:change_basename, path, "/home/model.xml", ".json")
 

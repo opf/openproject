@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter, clear_cache: true do
+describe ::API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:type) { { name: :label_relates_to, sym_name: :label_relates_to, order: 1, sym: :relation1 } }
@@ -47,25 +47,25 @@ describe ::API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter, clea
     end
 
     it 'has _type QueryColumn::RelationOfType' do
-      is_expected
+      expect(subject)
         .to be_json_eql('QueryColumn::RelationOfType'.to_json)
         .at_path('_type')
     end
 
     it 'has id attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql("relationsOfType#{type[:sym].to_s.camelcase}".to_json)
         .at_path('id')
     end
 
     it 'has relationType attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql(type[:sym].to_json)
         .at_path('relationType')
     end
 
     it 'has name attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql("#{I18n.t(type[:name])} relations".to_json)
         .at_path('name')
     end

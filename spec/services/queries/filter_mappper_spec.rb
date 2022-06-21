@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,11 +31,12 @@ require 'spec_helper'
 describe Queries::Copy::FiltersMapper do
   let(:state) { ::Shared::ServiceState.new }
   let(:instance) { described_class.new(state, filters) }
+
   subject { instance.map_filters! }
 
   describe 'with a query filters array' do
     let(:query) do
-      query = FactoryBot.build(:query)
+      query = build(:query)
       query.add_filter 'parent', '=', ['1']
       query.add_filter 'category_id', '=', ['2']
       query.add_filter 'version_id', '=', ['3']

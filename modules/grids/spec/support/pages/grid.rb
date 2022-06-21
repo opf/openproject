@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -68,9 +68,9 @@ module Pages
                               when :within
                                 [row_number * 2, column_number * 2]
                               when :row
-                                [row_number * 2 - 1, column_number * 2]
+                                [(row_number * 2) - 1, column_number * 2]
                               when :column
-                                [row_number * 2, column_number * 2 - 1]
+                                [row_number * 2, (column_number * 2) - 1]
                               end
 
       ::Components::Grids::GridArea.of(real_row, real_column).area
@@ -78,12 +78,12 @@ module Pages
 
     private
 
-    def within_add_widget_modal(row_number, column_number, location, &block)
+    def within_add_widget_modal(row_number, column_number, location, &)
       area = area_of(row_number, column_number, location)
       area.hover
       area.find('.grid--widget-add', visible: :all).click
 
-      within '.op-modal', &block
+      within('.op-modal', &)
     end
 
     def expect_widget_adding_prohibited_generally(row_number = 1, column_number = 1)

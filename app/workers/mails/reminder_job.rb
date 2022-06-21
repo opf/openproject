@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +39,7 @@ class Mails::ReminderJob < Mails::DeliverJob
     # Have to cast to array since the update in the subsequent block
     # will result in the notification to not be found via the .unsent_reminders_before scope.
     notification_ids = Notification
-                         .unsent_reminders_before(recipient: recipient, time: Time.current)
+                         .unsent_reminders_before(recipient:, time: Time.current)
                          .visible(recipient)
                          .pluck(:id)
 

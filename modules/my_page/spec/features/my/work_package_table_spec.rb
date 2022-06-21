@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,33 +31,33 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, js: true, with_mail: false do
-  let!(:type) { FactoryBot.create :type }
-  let!(:other_type) { FactoryBot.create :type }
-  let!(:priority) { FactoryBot.create :default_priority }
-  let!(:project) { FactoryBot.create :project, types: [type] }
-  let!(:other_project) { FactoryBot.create :project, types: [type] }
-  let!(:open_status) { FactoryBot.create :default_status }
+  let!(:type) { create :type }
+  let!(:other_type) { create :type }
+  let!(:priority) { create :default_priority }
+  let!(:project) { create :project, types: [type] }
+  let!(:other_project) { create :project, types: [type] }
+  let!(:open_status) { create :default_status }
   let!(:type_work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      author: user,
-                      responsible: user
+    create :work_package,
+           project:,
+           type:,
+           author: user,
+           responsible: user
   end
   let!(:other_type_work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: other_type,
-                      author: user,
-                      responsible: user
+    create :work_package,
+           project:,
+           type: other_type,
+           author: user,
+           responsible: user
   end
 
   let(:permissions) { %i[view_work_packages add_work_packages save_queries] }
 
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:my_page) do
     Pages::My::Page.new
@@ -75,7 +75,11 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
 
   context 'with the permission to save queries' do
     it 'can add the widget and see the work packages of the filtered for types' do
-      sleep(0.5)
+      # This one always exists by default.
+      # Using it here as a safeguard to govern speed.
+      created_by_me_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+      expect(created_by_me_area.area)
+        .to have_selector('.subject', text: type_work_package.subject)
 
       my_page.add_widget(1, 2, :column, "Work packages table")
 

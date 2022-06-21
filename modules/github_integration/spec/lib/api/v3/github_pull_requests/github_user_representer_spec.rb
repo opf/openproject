@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,10 +33,10 @@ describe ::API::V3::GithubPullRequests::GithubUserRepresenter do
 
   subject(:generated) { representer.to_json }
 
-  let(:github_user) { FactoryBot.build_stubbed(:github_user) }
+  let(:github_user) { build_stubbed(:github_user) }
   let(:representer) { described_class.create(github_user, current_user: user) }
 
-  let(:user) { FactoryBot.build_stubbed(:admin) }
+  let(:user) { build_stubbed(:admin) }
 
   it { is_expected.to include_json('GithubUser'.to_json).at_path('_type') }
 
@@ -92,7 +92,7 @@ describe ::API::V3::GithubPullRequests::GithubUserRepresenter do
       end
 
       it 'changes when the github_user is updated' do
-        github_user.updated_at = Time.zone.now + 20.seconds
+        github_user.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key

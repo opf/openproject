@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,60 +29,60 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe Stories::CreateService, type: :model do
-  let(:priority) { FactoryBot.create(:priority) }
+  let(:priority) { create(:priority) }
   let(:project) do
-    project = FactoryBot.create(:project, types: [type_feature])
+    project = create(:project, types: [type_feature])
 
-    FactoryBot.create(:member,
-                      principal: user,
-                      project: project,
-                      roles: [role])
+    create(:member,
+           principal: user,
+           project:,
+           roles: [role])
     project
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i(add_work_packages manage_subtasks assign_versions) }
-  let(:status) { FactoryBot.create(:status) }
-  let(:type_feature) { FactoryBot.create(:type_feature) }
+  let(:status) { create(:status) }
+  let(:type_feature) { create(:type_feature) }
 
   let(:user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   let(:instance) do
     Stories::CreateService
-      .new(user: user)
+      .new(user:)
   end
 
   let(:attributes) do
     {
-      project: project,
-      status: status,
+      project:,
+      status:,
       type: type_feature,
-      priority: priority,
+      priority:,
       parent_id: story.id,
-      remaining_hours: remaining_hours,
+      remaining_hours:,
       subject: 'some subject'
     }
   end
 
-  let(:version) { FactoryBot.create(:version, project: project) }
+  let(:version) { create(:version, project:) }
 
   let(:story) do
     project.enabled_module_names += ['backlogs']
 
-    FactoryBot.create(:story,
-                      version: version,
-                      project: project,
-                      status: status,
-                      type: type_feature,
-                      priority: priority)
+    create(:story,
+           version:,
+           project:,
+           status:,
+           type: type_feature,
+           priority:)
   end
 
   before do
     allow(User).to receive(:current).and_return(user)
   end
 
-  subject { instance.call(attributes: attributes) }
+  subject { instance.call(attributes:) }
 
   describe "remaining_hours" do
     before do

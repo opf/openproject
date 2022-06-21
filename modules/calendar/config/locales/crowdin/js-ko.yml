@@ -1,0 +1,8 @@
+#English strings go here
+ko:
+  js:
+    calendar:
+      create_new: '새 달력 만들기'
+      title: '달력'
+      too_many: '총 %{count}개 작업 패키지가 있지만, %{max}개만 표시할 수 있습니다.'
+      unsaved_title: '이름 없는 캘린더'

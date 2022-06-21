@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,19 +29,19 @@
 require_relative '../../../legacy_spec_helper'
 
 describe Redmine::UnifiedDiff do
-  it 'should subversion diff' do
+  it 'subversions diff' do
     diff = Redmine::UnifiedDiff.new(read_diff_fixture('subversion.diff'))
     # number of files
     assert_equal 4, diff.size
     assert diff.detect { |file| file.file_name =~ %r{\Aconfig/settings.yml} }
   end
 
-  it 'should truncate diff' do
+  it 'truncates diff' do
     diff = Redmine::UnifiedDiff.new(read_diff_fixture('subversion.diff'), max_lines: 20)
     assert_equal 2, diff.size
   end
 
-  it 'should inline partials' do
+  it 'inlines partials' do
     diff = Redmine::UnifiedDiff.new(read_diff_fixture('partials.diff'))
     assert_equal 1, diff.size
     diff = diff.first
@@ -75,7 +73,7 @@ describe Redmine::UnifiedDiff do
     assert_equal [0, -38], diff[16].offsets
   end
 
-  it 'should side by side partials' do
+  it 'sides by side partials' do
     diff = Redmine::UnifiedDiff.new(read_diff_fixture('partials.diff'), type: 'sbs')
     assert_equal 1, diff.size
     diff = diff.first
@@ -99,7 +97,7 @@ describe Redmine::UnifiedDiff do
     assert_equal [0, -38], diff[10].offsets
   end
 
-  it 'should line starting with dashes' do
+  it 'lines starting with dashes' do
     diff = Redmine::UnifiedDiff.new(<<~DIFF
       --- old.txt Wed Nov 11 14:24:58 2009
       +++ new.txt Wed Nov 11 14:25:02 2009
@@ -125,7 +123,7 @@ describe Redmine::UnifiedDiff do
     assert_equal 1, diff.size
   end
 
-  it 'should one line new files' do
+  it 'ones line new files' do
     diff = Redmine::UnifiedDiff.new(<<~DIFF
       diff -r 000000000000 -r ea98b14f75f0 README1
       --- /dev/null

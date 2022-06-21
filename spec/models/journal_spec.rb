@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,13 +37,13 @@ describe Journal,
   end
 
   describe '#notifications' do
-    let(:work_package) { FactoryBot.create(:work_package) }
+    let(:work_package) { create(:work_package) }
     let(:journal) { work_package.journals.first }
     let!(:notification) do
-      FactoryBot.create(:notification,
-                        journal: journal,
-                        resource: work_package,
-                        project: work_package.project)
+      create(:notification,
+             journal:,
+             resource: work_package,
+             project: work_package.project)
     end
 
     it 'has a notifications association' do

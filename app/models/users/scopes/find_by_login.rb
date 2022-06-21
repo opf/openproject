@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +40,7 @@ module Users::Scopes
       # version. Exact matches will be given priority.
       def find_by_login(login)
         # First look for an exact match
-        user = find_by(login: login)
+        user = find_by(login:)
         # Fail over to case-insensitive if none was found
         user || by_login(login).first
       end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -35,6 +33,7 @@ describe ::API::V3::Users::CreateFormAPI, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.create_user_form }
+  let(:body) { response.body }
 
   before do
     login_as(current_user)
@@ -43,10 +42,9 @@ describe ::API::V3::Users::CreateFormAPI, content_type: :json do
   end
 
   subject(:response) { last_response }
-  let(:body) { response.body }
 
   context 'with authorized user' do
-    shared_let(:current_user) { FactoryBot.create :user, global_permission: :manage_user }
+    shared_let(:current_user) { create :user, global_permission: :manage_user }
 
     describe 'empty params' do
       let(:payload) do
@@ -130,10 +128,10 @@ describe ::API::V3::Users::CreateFormAPI, content_type: :json do
 
     describe 'with custom fields' do
       let!(:custom_field) do
-        FactoryBot.create(:string_user_custom_field)
+        create(:string_user_custom_field)
       end
       let!(:list_custom_field) do
-        FactoryBot.create(:list_user_custom_field)
+        create(:list_user_custom_field)
       end
       let(:custom_option_href) { api_v3_paths.custom_option(list_custom_field.custom_options.first.id) }
 
@@ -142,9 +140,9 @@ describe ::API::V3::Users::CreateFormAPI, content_type: :json do
           email: 'cfuser@example.com',
           status: 'invited',
           "customField#{custom_field.id}": "A custom value",
-          "_links": {
+          _links: {
             "customField#{list_custom_field.id}": {
-              "href": custom_option_href
+              href: custom_option_href
             }
           }
         }
@@ -186,7 +184,7 @@ describe ::API::V3::Users::CreateFormAPI, content_type: :json do
   end
 
   context 'with unauthorized user' do
-    shared_let(:current_user) { FactoryBot.create :user }
+    shared_let(:current_user) { create :user }
     let(:payload) do
       {}
     end

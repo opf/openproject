@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,13 +30,13 @@ require 'spec_helper'
 
 describe WorkPackages::CreateService, 'integration', type: :model do
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: permissions)
+    create(:role,
+           permissions:)
   end
 
   let(:permissions) do
@@ -44,24 +44,24 @@ describe WorkPackages::CreateService, 'integration', type: :model do
   end
 
   let(:type) do
-    FactoryBot.create(:type,
-                      custom_fields: [custom_field])
+    create(:type,
+           custom_fields: [custom_field])
   end
   let(:default_type) do
-    FactoryBot.create(:type_standard)
+    create(:type_standard)
   end
-  let(:project) { FactoryBot.create(:project, types: [type, default_type]) }
+  let(:project) { create(:project, types: [type, default_type]) }
   let(:parent) do
-    FactoryBot.create(:work_package,
-                      project: project,
-                      type: type)
+    create(:work_package,
+           project:,
+           type:)
   end
-  let(:instance) { described_class.new(user: user) }
-  let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
-  let(:other_status) { FactoryBot.create(:status) }
-  let(:default_status) { FactoryBot.create(:default_status) }
-  let(:priority) { FactoryBot.create(:priority) }
-  let(:default_priority) { FactoryBot.create(:default_priority) }
+  let(:instance) { described_class.new(user:) }
+  let(:custom_field) { create(:work_package_custom_field) }
+  let(:other_status) { create(:status) }
+  let(:default_status) { create(:default_status) }
+  let(:priority) { create(:priority) }
+  let(:default_priority) { create(:default_priority) }
   let(:attributes) { {} }
   let(:new_work_package) do
     service_result
@@ -85,9 +85,9 @@ describe WorkPackages::CreateService, 'integration', type: :model do
   describe '#call' do
     let(:attributes) do
       { subject: 'blubs',
-        project: project,
+        project:,
         done_ratio: 50,
-        parent: parent,
+        parent:,
         start_date: Date.today,
         due_date: Date.today + 3.days }
     end
@@ -135,10 +135,10 @@ describe WorkPackages::CreateService, 'integration', type: :model do
 
     describe 'setting the attachments' do
       let!(:other_users_attachment) do
-        FactoryBot.create(:attachment, container: nil, author: FactoryBot.create(:user))
+        create(:attachment, container: nil, author: create(:user))
       end
       let!(:users_attachment) do
-        FactoryBot.create(:attachment, container: nil, author: user)
+        create(:attachment, container: nil, author: user)
       end
 
       it 'reports on invalid attachments and sets the new if everything is valid' do
@@ -152,7 +152,7 @@ describe WorkPackages::CreateService, 'integration', type: :model do
 
         # The parent work package
         expect(WorkPackage.count)
-          .to eql 1
+          .to be 1
 
         expect(other_users_attachment.reload.container)
           .to be_nil

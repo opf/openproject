@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +45,7 @@ module ErrorMessageHelper
 
     object.errors.merge!(errors)
 
-    render_error_messages_partial(error_messages, object: object)
+    render_error_messages_partial(error_messages, object:)
   end
 
   def extract_objects_from_params(params)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 shared_examples_for 'property' do |name|
   it "has the #{name} property" do
-    is_expected
+    expect(subject)
       .to be_json_eql(value.to_json)
       .at_path(name.to_s)
   end
@@ -36,8 +36,8 @@ end
 
 shared_examples_for 'formattable property' do |name|
   it "has the #{name} property" do
-    is_expected
-      .to be_json_eql(value.to_json)
+    expect(subject)
+      .to be_json_eql(value.to_s.to_json)
       .at_path("#{name}/raw")
   end
 end

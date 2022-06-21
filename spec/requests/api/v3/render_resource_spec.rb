@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,14 +33,14 @@ describe 'API v3 Render resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project, public: false) }
-  let(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let(:user) { FactoryBot.create(:user, member_in_project: project) }
+  let(:project) { create(:project, public: false) }
+  let(:work_package) { create(:work_package, project:) }
+  let(:user) { create(:user, member_in_project: project) }
   let(:content_type) { 'text/plain, charset=UTF-8' }
-  let(:path) { api_v3_paths.render_markup plain: plain, link: context }
+  let(:path) { api_v3_paths.render_markup plain:, link: context }
   let(:context) { nil }
 
-  before(:each) do
+  before do
     login_as(user)
     post path, params, 'CONTENT_TYPE' => content_type
   end
@@ -82,8 +82,8 @@ describe 'API v3 Render resource', type: :request do
             let(:href) { "/work_packages/#{id}" }
             let(:text) do
               '<p class="op-uc-p">Hello World! Have a look at <a '\
-                  "class=\"issue work_package preview-trigger op-uc-link\" "\
-                  "href=\"#{href}\">##{id}</a></p>"
+                "class=\"issue work_package preview-trigger op-uc-link\" "\
+                "href=\"#{href}\">##{id}</a></p>"
             end
 
             context 'with work package context' do
@@ -124,7 +124,7 @@ describe 'API v3 Render resource', type: :request do
             end
 
             describe 'work package not visible' do
-              let(:invisible_work_package) { FactoryBot.create(:work_package) }
+              let(:invisible_work_package) { create(:work_package) }
               let(:context) { api_v3_paths.work_package invisible_work_package.id }
 
               it_behaves_like 'invalid render context',

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,9 +39,17 @@ describe API::V3::CostsApiUserPermissionCheck do
     include API::V3::CostsApiUserPermissionCheck
   end
 
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:work_package) { FactoryBot.build_stubbed(:work_package, project: project) }
+  let(:user) { build_stubbed(:user) }
+  let(:view_time_entries) { false }
+  let(:view_own_time_entries) { false }
+  let(:view_hourly_rates) { false }
+  let(:view_own_hourly_rate) { false }
+  let(:view_cost_rates) { false }
+  let(:view_own_cost_entries) { false }
+  let(:view_cost_entries) { false }
+  let(:view_budgets) { false }
+  let(:project) { build_stubbed(:project) }
+  let(:work_package) { build_stubbed(:work_package, project:) }
 
   before do
     allow(subject)
@@ -53,15 +61,6 @@ describe API::V3::CostsApiUserPermissionCheck do
   end
 
   subject { CostsApiUserPermissionCheckTestClass.new }
-
-  let(:view_time_entries) { false }
-  let(:view_own_time_entries) { false }
-  let(:view_hourly_rates) { false }
-  let(:view_own_hourly_rate) { false }
-  let(:view_cost_rates) { false }
-  let(:view_own_cost_entries) { false }
-  let(:view_cost_entries) { false }
-  let(:view_budgets) { false }
 
   before do
     %i[view_time_entries
@@ -83,13 +82,13 @@ describe API::V3::CostsApiUserPermissionCheck do
     describe :overall_costs_visible? do
       shared_examples_for 'not visible' do
         it 'is not visible' do
-          is_expected.to_not be_overall_costs_visible
+          expect(subject).not_to be_overall_costs_visible
         end
       end
 
       shared_examples_for 'is visible' do
         it 'is not visible' do
-          is_expected.to be_overall_costs_visible
+          expect(subject).to be_overall_costs_visible
         end
       end
 
@@ -143,13 +142,13 @@ describe API::V3::CostsApiUserPermissionCheck do
     describe :labor_costs_visible? do
       shared_examples_for 'not visible' do
         it 'is not visible' do
-          is_expected.to_not be_labor_costs_visible
+          expect(subject).not_to be_labor_costs_visible
         end
       end
 
       shared_examples_for 'is visible' do
         it 'is not visible' do
-          is_expected.to be_labor_costs_visible
+          expect(subject).to be_labor_costs_visible
         end
       end
 
@@ -175,13 +174,13 @@ describe API::V3::CostsApiUserPermissionCheck do
     describe :material_costs_visible? do
       shared_examples_for 'not visible' do
         it 'is not visible' do
-          is_expected.to_not be_material_costs_visible
+          expect(subject).not_to be_material_costs_visible
         end
       end
 
       shared_examples_for 'is visible' do
         it 'is not visible' do
-          is_expected.to be_material_costs_visible
+          expect(subject).to be_material_costs_visible
         end
       end
 
@@ -207,13 +206,13 @@ describe API::V3::CostsApiUserPermissionCheck do
     describe :costs_by_type_visible? do
       shared_examples_for 'not visible' do
         it 'is not visible' do
-          is_expected.to_not be_costs_by_type_visible
+          expect(subject).not_to be_costs_by_type_visible
         end
       end
 
       shared_examples_for 'is visible' do
         it 'is not visible' do
-          is_expected.to be_costs_by_type_visible
+          expect(subject).to be_costs_by_type_visible
         end
       end
 
@@ -237,13 +236,13 @@ describe API::V3::CostsApiUserPermissionCheck do
     context :spent_time_visible do
       shared_examples_for 'not visible' do
         it 'is not visible' do
-          is_expected.to_not be_spent_time_visible
+          expect(subject).not_to be_spent_time_visible
         end
       end
 
       shared_examples_for 'is visible' do
         it 'is not visible' do
-          is_expected.to be_spent_time_visible
+          expect(subject).to be_spent_time_visible
         end
       end
 

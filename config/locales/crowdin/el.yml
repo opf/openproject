@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ el:
       start_trial: 'Έναρξη δωρεάν δοκιμαστικής περιόδου'
       book_now: 'Κάντε κράτηση τώρα'
       get_quote: 'Λάβετε μια προσφορά'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Εμφάνιση μέχρι
     is_active: εμφανίζεται αυτή τη στιγμή
@@ -157,7 +166,7 @@ el:
     edit: 'Επεξεργασία της προσαρμοσμένης ενέργειας %{name}'
     execute: 'Εκτέλεση %{name}'
     upsale:
-      title: 'Οι προσαρμοσμένες ενέργειες είναι μια λειτουργία της Έκδοσης για Επιχειρήσεις'
+      title: 'Custom actions'
       description: 'Οι προσαρμοσμένες ενέργειες εξομαλύνουν την καθημερινή εργασία συνδυάζοντας ένα σύνολο μεμονωμένων βημάτων σε ένα κουμπί.'
   custom_fields:
     text_add_new_custom_field: >
@@ -256,7 +265,7 @@ el:
       irreversible: "Αυτή η ενέργεια είναι μη αναστρέψιμη"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Ανάθεση εργασίας σε άτομα που δεν είναι μέλη του έργου.
+      title: Placeholder users
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -446,9 +455,12 @@ el:
         code: 'Κατάσταση'
         explanation: 'Περιγραφή κατάστασης'
         codes:
+          not_started: 'Not started'
           on_track: 'Eντός πορείας'
           at_risk: 'Σε κίνδυνο'
           off_track: 'Eκτός πορείας'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Στήλες"
         relations_to_type_column: "Συσχετίσεις με %{type}"
@@ -459,7 +471,6 @@ el:
       repository:
         url: "URL"
       role:
-        assignable: "Τα πακέτα εργασίας μπορούν να ανατεθούν σε χρήστες και ομάδες που έχουν αυτό το ρόλο στο αντίστοιχο έργο"
         permissions: "Δικαιώματα"
       time_entry:
         activity: "Δραστηριότητα"
@@ -505,20 +516,23 @@ el:
         begin_deletion: "Ξεκινήστε την διαγραφή"
         children: "Υποστοιχεία"
         done_ratio: "Πρόοδος (%)"
+        duration: "Duration"
         end_insertion: "Λήξη της εισαγωγής"
         end_deletion: "Λήξη της διαγραφής"
-        version: "Έκδοση"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Γονέας"
         parent_issue: "Γονέας"
         parent_work_package: "Γονέας"
         priority: "Προτεραιότητα"
         progress: "Πρόοδος (%)"
+        readonly: "Read only"
         schedule_manually: "Χειροκίνητος προγραμματισμός"
         spent_hours: "Χρόνος που δαπανήθηκε"
         spent_time: "Χρόνος που δαπανήθηκε"
         subproject: "Υποέργο"
         time_entries: "Καταγραφή χρόνου"
         type: "Τύπος"
+        version: "Έκδοση"
         watcher: "Παρατηρητής"
       'doorkeeper/application':
         uid: "Ταυτότητα Πελάτη"
@@ -550,6 +564,7 @@ el:
         even: "πρέπει να είναι άρτιος."
         exclusion: "είναι δεσμευμένο."
         file_too_large: "είναι πολύ μεγάλο (το μέγιστο μέγεθος είναι %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "πρέπει να είναι μεγαλύτερο από %{count}."
@@ -718,6 +733,9 @@ el:
           attributes:
             due_date:
               not_start_date: "δεν είναι στην ημερομηνία έναρξης, παρόλο που απαιτείται από τα ορόσημα."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
             parent:
               cannot_be_milestone: "δεν μπορεί να είναι ορόσημο."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -748,6 +766,8 @@ el:
               group_without_name: "Δεν επιτρέπονται ομάδες χωρίς όνομα."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -875,9 +895,11 @@ el:
     updated_on: "Τροποποιήθηκε"
     uploader: "Μεταφορτώθηκε από"
     user: "Χρήστης"
+    value: "Value"
     version: "Έκδοση"
     work_package: "Εργασία"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token αντιγράφου ασφαλείας"
     label_create_token: "Δημιουργία token αντιγράφου ασφαλείας"
     label_delete_token: "Διαγραφή token αντιγράφου ασφαλείας"
@@ -1215,6 +1237,7 @@ el:
   error_enterprise_token_invalid_domain: "Η έκδοση Enterprise δεν είναι ενεργή. Ο τομέας του διακριτικού Enterprise (%{actual}) δεν ταιριάζει με το όνομα κεντρικού υπολογιστή του συστήματος (%{expected})."
   error_failed_to_delete_entry: 'Αποτυχία διαγραφής αυτής της καταχώρησης.'
   error_in_dependent: "Παρουσιάστηκε σφάλμα στην προσπάθεια αλλαγής του εξαρτώμενου αντικειμένου: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Η επιλεγμένη τιμή δεν είναι έγκυρη."
   error_journal_attribute_not_present: "Το ημερολόγιο δεν περιέχει το χαρακτηριστικό %{attribute}."
   error_pdf_export_too_many_columns: "Επιλέχθηκαν πάρα πολλές στήλες για εξαγωγή σε PDF. Παρακαλούμε μειώστε τον αριθμό των στηλών."
@@ -1324,7 +1347,9 @@ el:
   menus:
     admin:
       mail_notification: "Ειδοποιήσεις email"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Άνοιγμα μενού γρήγορης προσθήκης"
   my_account:
@@ -1499,6 +1524,7 @@ el:
   label_diff: "διαφορά"
   label_diff_inline: "inline"
   label_diff_side_by_side: "αντικριστά"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "απενεργοποιημένο"
   label_display: "Εμφάνιση"
   label_display_per_page: "Ανά σελίδα: %{value}"
@@ -1824,7 +1850,7 @@ el:
   label_used_by_types: "Χρησιμοποιείται από τύπους"
   label_used_in_projects: "Χρησιμοποιείται σε έργα"
   label_user: "Χρήστης"
-  label_user_and_permission: "Χρήστες & Δικαιώματα"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Χρήστης %{name}"
   label_user_activity: "δραστηριότητα του %{value}"
   label_user_anonymous: "Ανώνυμος"
@@ -1973,8 +1999,11 @@ el:
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Για να αλλάξετε τον κωδικό πρόσβασης, πατήστε τον ακόλουθο σύνδεσμο:"
-  mail_body_register: "Καλώς ήρθατε στο OpenProject. Παρακαλώ ενεργοποιήστε το λογαριασμό σας κάνοντας κλικ σε αυτόν τον σύνδεσμο:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Email πρόσκλησης μέλους του έργου"
   mail_body_register_user: "Αγαπητέ/ή %{name},"
   mail_body_register_links_html: |
@@ -1991,6 +2020,7 @@ el:
   mail_subject_account_activation_request: "Αίτηση ενεργοποίησης του λογαριασμού %{value}"
   mail_subject_backup_ready: "Το αντίγραφο ασφαλείας σας είναι έτοιμο"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ο %{value} κωδικός σας"
   mail_subject_register: "Ενεργοποίηση του %{value} λογαριασμού σας"
   mail_subject_reminder: "%{count} πακέτο(-α) εργασίας με προθεσμία στις επόμενες %{days} ημέρες"
@@ -2116,7 +2146,7 @@ el:
     heading_getting_started: "Λάβετε μια επισκόπηση"
     text_getting_started_description: "Λάβετε μια γρήγορη επισκόπηση της διαχείρισης έργων και της ομαδικής συνεργασίας με το OpenProject."
     text_show_again: "Μπορείτε να επανεκκινήσετε αυτό το βίντεο από το μενού βοήθειας"
-    welcome: "Καλώς ορίσατε στο OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Παρακαλούμε επιλέξτε την γλώσσα σας"
   permission_add_work_package_notes: "Προσθήκη σημειώσεων"
   permission_add_work_packages: "Προσθήκη πακέτων εργασίας"
@@ -2132,6 +2162,7 @@ el:
   permission_comment_news: "Σχολιασμός νέων"
   permission_commit_access: "Πρόσβαση ανάγνωσης/εγγραφής στο αποθετήριο (δέσμευση)"
   permission_copy_projects: "Αντιγραφή έργων"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Διαγραφή παρατηρητών"
   permission_delete_work_packages: "Διαγραφή πακέτων εργασίας"
   permission_delete_messages: "Διαγραφή μηνυμάτων"
@@ -2174,7 +2205,6 @@ el:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Επιλογή ενοτήτων έργου"
   permission_manage_types: "Επιλέξτε τύπους"
-  permission_view_calendar: "Προβολή ημερολογίου"
   permission_view_changesets: "Προβολή αποθετηρίου των αναθεωρήσεων στο OpenProject"
   permission_view_commit_author_statistics: "Εμφάνιση στατιστικών συγγραφέων δέσμευσης"
   permission_view_work_package_watchers: "Προβολή λίστας παρατηρητών"
@@ -2186,6 +2216,8 @@ el:
   permission_view_timelines: "Προβολή χρονοδιαγραμμάτων"
   permission_view_wiki_edits: "Προβολή ιστορικού wiki"
   permission_view_wiki_pages: "Προβολή wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Τα πακέτα εργασίας μπορούν να ανατεθούν σε χρήστες και ομάδες που έχουν αυτό το ρόλο στο αντίστοιχο έργο"
   placeholders:
     default: "-"
   project:
@@ -2210,7 +2242,6 @@ el:
       archived: "Αρχειοθετημένο"
   project_module_activity: "Δραστηριότητα"
   project_module_forums: "Φόρουμ"
-  project_module_calendar: "Ημερολόγιο"
   project_module_work_package_tracking: "Παρακολούθηση πακέτου εργασίας"
   project_module_news: "Νέα"
   project_module_repository: "Αποθετήριο"
@@ -2224,7 +2255,7 @@ el:
     assigned_to_role: "Ρόλος ανάθεσης"
     member_of_group: "Ομάδα ανάθεσης"
     assignee_or_group: "Ανάθεση σε ή ανήκει σε ομάδα"
-    subproject_id: "Συμπεριλαμβανομένου του Υποέργου"
+    subproject_id: "Including subproject"
     only_subproject_id: "Μόνο υποέργο"
     name_or_identifier: "Όνομα ή αναγνωριστικό"
   repositories:
@@ -2338,6 +2369,9 @@ el:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) επιτρεπόμενες προελεύσεις"
   setting_apiv3_cors_origins_text_html: >
     Εάν είναι ενεργοποιημένο το CORS, αυτές είναι οι πηγές που επιτρέπεται να έχουν πρόσβαση στο OpenProject API. <br/> Παρακαλώ ελέγξτε το <a href="%{origin_link}" target="_blank">Τεκμηρίωση στην κεφαλίδα προέλευσης</a> για τον τρόπο καθορισμού των αναμενόμενων τιμών.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Τεκμηρίωση"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2352,7 +2386,7 @@ el:
   setting_smtp_authentication: "SMTP ταυτοποίηση"
   setting_smtp_user_name: "Ονόμα χρήστη SMTP"
   setting_smtp_password: "Κωδικός SMTP"
-  setting_smtp_domain: "SMTP HELLO domain"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Ημέρες που εμφανίζονται στη δραστηριότητα έργου"
   setting_app_subtitle: "Υπότιτλος εφαρμογής"
   setting_app_title: "Τίτλος εφαρμογής"
@@ -2546,7 +2580,6 @@ el:
   text_work_packages_destroy_confirmation: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;"
   text_work_packages_ref_in_commit_messages: "Αναφορά και επιδιόρθωση πακέτων εργασίας σε μηνύματα δέσμευσης"
   text_journal_added: "%{label} %{value} προστέθηκε"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "Το %{label} ενημερώθηκε"
@@ -2860,6 +2893,7 @@ el:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "ΕΕΕΕ-ΜΜ-ΗΗ (ISO 8601 ημερομηνία μόνο)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 διάρκεια"
       invalid_content_type: "Αναμενόταν το CONTENT-TYPE να είναι '%{content_type}' αλλά δόθηκε '%{actual}'."
       invalid_format: "Μη έγκυρη μορφοποίηση για την ιδιότητα '%{property}': Αναμενόταν μορφοποίηση με τη μορφή '%{expected_format}', αλλά δόθηκε '%{actual}'."
@@ -2871,6 +2905,7 @@ el:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Η τρέχουσα κατάσταση λογαριασμού χρήστη δεν επιτρέπει αυτή τη λειτουργία."
       missing_content_type: "δεν έχει καθοριστεί"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Δεν υπάρχει σώμα αιτήματος."
       missing_or_malformed_parameter: "Η παράμετρος αναζήτησης '%{parameter}' λείπει ή δεν δημιουργήθηκε σωστά."
       multipart_body_error: "Το σώμα αιτήματος δεν περιέχει τα αναμενόμενα multipart κομμάτια."
@@ -2894,6 +2929,7 @@ el:
       schema: 'Σχήμα'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Πριν την εξουσιοδότηση'
@@ -2902,8 +2938,11 @@ el:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Λείπει μία υποχρεωτική παράμετρος από το αίτημα, περιλαμβάνει μια μη υποστηριζόμενη τιμή παραμέτρου ή είναι παραμορφωμένη με κάποιο άλλο τρόπο.'
-        invalid_redirect_uri: "Το URI ανακατεύθυνσης που ζητήθηκε είναι παραμορφωμένο ή δεν ταιριάζει με το URI ανακατεύθυνσης του πελάτη."
+        invalid_request:
+          unknown: 'Λείπει μία υποχρεωτική παράμετρος από το αίτημα, περιλαμβάνει μια μη υποστηριζόμενη τιμή παραμέτρου ή είναι παραμορφωμένη με κάποιο άλλο τρόπο.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Ο πελάτης δεν έχει εξουσιοδότηση να εκτελέσει αυτό το αίτημα χρησιμοποιώντας αυτή τη μέθοδο.'
         access_denied: 'Ο ιδιοκτήτης του πόρου ή ο διακομιστής ταυτοποίησης απέρριψε το αίτημα.'
         invalid_scope: 'Το ζητούμενο φυσικό αντικείμενο δεν είναι έγκυρο, είναι άγνωστο ή είναι παραμορφωμένο.'
@@ -2916,6 +2955,7 @@ el:
         admin_authenticator_not_configured: 'Η πρόσβαση στον πίνακα διαχείρισης απαγορεύεται επειδή το Doorkeeper.configure.admin_authenticator δεν είναι διαμορφωμένο.'
         #Access grant errors
         unsupported_response_type: 'Ο διακομιστής ταυτοποίησης δεν υποστηρίζει αυτό τον τύπο απόκρισης.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Η ταυτοποίηση πελάτη απέτυχε λόγω άγνωστου πελάτη, έλλειψης ταυτοποίησης πελάτη ή μη υποστηριζόμενης μεθόδου ταυτοποίησης.'
         invalid_grant: 'Η χορηγούμενη επιχορήγηση εξουσιοδότησης είναι άκυρη, έχει λήξει, ανακληθεί, δεν αντιστοιχεί στο URI ανακατεύθυνσης που χρησιμοποιήθηκε στην αίτηση εξουσιοδότησης ή έχει εκδοθεί σε άλλο πελάτη.'
@@ -2924,6 +2964,10 @@ el:
           revoked: "Το token πρόσβασης ανακλήθηκε"
           expired: "Το token πρόσβασης έληξε"
           unknown: "Το token πρόσβασης δεν είναι έγκυρο"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Ο περιηγητής είναι απαρχαιωμένος και δεν υποστηρίζεται."
     message: "Μπορεί να συναντήσετε σφάλματα και υποβαθμισμένη εμπειρία χρήστη σε αυτή τη σελίδα."
@@ -2977,4 +3021,36 @@ el:
     authorization_error: "Παρουσιάστηκε ένα σφάλμα εξουσιοδότησης."
     revoke_my_application_confirmation: "Είστε βέβαιοι ότι θέλετε να αφαιρέσετε αυτή την εφαρμογή; Αυτό θα ανακαλέσει %{token_count} που είναι ενεργά για αυτή."
     my_registered_applications: "Καταγεγραμμένες εφαρμογές OAuth"
+  oauth_client:
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authentication. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid"
+        invalid_request: >
+          OAuth2 server responded with 'invalid_request'. This error appears if you try to authorize multiple times.
+        invalid_response: "OAuth2 server provided an invalid response"
   you: εσείς

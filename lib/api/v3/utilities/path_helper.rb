@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -94,6 +92,10 @@ module API
             "#{root_path}api/v3"
           end
 
+          def self.same_origin?(url)
+            url.to_s.start_with? root_url
+          end
+
           index :action
           show :action
 
@@ -150,12 +152,8 @@ module API
             "#{work_package(work_package_id)}/available_projects"
           end
 
-          def self.available_projects_on_create(type_id)
-            if type_id.to_i.zero?
-              "#{work_packages}/available_projects"
-            else
-              "#{work_packages}/available_projects?for_type=#{type_id}"
-            end
+          def self.available_projects_on_create
+            "#{work_packages}/available_projects"
           end
 
           def self.available_relation_candidates(work_package_id)
@@ -196,6 +194,30 @@ module API
 
           def self.custom_option(id)
             "#{root}/custom_options/#{id}"
+          end
+
+          def self.day(date)
+            "#{days}/#{date}"
+          end
+
+          def self.days
+            "#{root}/days"
+          end
+
+          def self.days_week
+            "#{days}/week"
+          end
+
+          def self.days_week_day(day)
+            "#{days_week}/#{day}"
+          end
+
+          def self.days_non_working
+            "#{root}/days/non_working"
+          end
+
+          def self.days_non_working_day(date)
+            "#{days_non_working}/#{date}"
           end
 
           index :help_text
@@ -479,7 +501,7 @@ module API
                 "#{project_id}-#{type_id}"
               end
 
-              filter = [{ id: { operator: '=', values: values } }]
+              filter = [{ id: { operator: '=', values: } }]
 
               path + "?filters=#{CGI.escape(filter.to_s)}"
             end
@@ -497,14 +519,15 @@ module API
             "#{project(project_id)}/work_packages"
           end
 
-          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil)
+          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil, select: nil)
             query_params = {
               filters: filters&.to_json,
               sortBy: sort_by&.to_json,
               groupBy: group_by,
               pageSize: page_size,
-              offset: offset
-            }.reject { |_, v| v.blank? }
+              offset:,
+              select:
+            }.compact_blank
 
             if query_params.any?
               "#{send(path)}?#{query_params.to_query}"

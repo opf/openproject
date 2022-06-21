@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +30,7 @@ require 'spec_helper'
 
 # rubocop:disable RSpec/NestedGroups
 describe Projects::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
 
@@ -52,13 +50,13 @@ describe Projects::SetAttributesService, type: :model do
   end
   let(:project_valid) { true }
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: project,
-                        contract_class: contract_class)
+                        contract_class:)
   end
   let(:call_attributes) { {} }
   let(:project) do
-    FactoryBot.build_stubbed(:project)
+    build_stubbed(:project)
   end
 
   describe 'call' do
@@ -185,10 +183,10 @@ describe Projects::SetAttributesService, type: :model do
 
       describe 'types default value' do
         let(:other_types) do
-          [FactoryBot.build_stubbed(:type)]
+          [build_stubbed(:type)]
         end
         let(:default_types) do
-          [FactoryBot.build_stubbed(:type)]
+          [build_stubbed(:type)]
         end
 
         before do
@@ -316,10 +314,10 @@ describe Projects::SetAttributesService, type: :model do
 
         context 'with the project having a status before' do
           let(:project_status) do
-            FactoryBot.build_stubbed(:project_status)
+            build_stubbed(:project_status)
           end
           let(:project) do
-            FactoryBot.build_stubbed(:project, status: project_status)
+            build_stubbed(:project, status: project_status)
           end
 
           context 'with a value provided' do

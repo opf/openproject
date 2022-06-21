@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,10 +56,10 @@ module API
             v3_path = API::V3::Principals::PrincipalType.for(represented.send(name))
 
             instance_exec(&self.class.associated_resource_default_link(name,
-                                                                       v3_path: v3_path,
+                                                                       v3_path:,
                                                                        skip_link: -> { false },
                                                                        title_attribute: :name,
-                                                                       getter: getter))
+                                                                       getter:))
           }
         end
 
@@ -69,7 +67,7 @@ module API
           ->(fragment:, **) {
             ::API::Decorators::LinkObject
               .new(represented,
-                   property_name: property_name,
+                   property_name:,
                    namespace: namespaces,
                    getter: :"#{name}_id",
                    setter: :"#{name}_id=")
@@ -85,7 +83,7 @@ module API
             next if instance.nil?
 
             ::API::V3::Principals::PrincipalRepresenterFactory
-              .create(represented.send(name), current_user: current_user)
+              .create(represented.send(name), current_user:)
           }
         end
       end

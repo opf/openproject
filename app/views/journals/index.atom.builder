@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
       xml.updated change.created_at.xmlschema
       xml.author do
         xml.name change.user.name
-        xml.email(change.user.mail) if change.user.is_a?(User) && !change.user.mail.blank? && !change.user.pref.hide_mail
+        xml.email(change.user.mail) if change.user.is_a?(User) && change.user.mail.present? && !change.user.pref.hide_mail
       end
       xml.content "type" => "html" do
         xml.text! '<ul>'
@@ -53,7 +53,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
           xml.text!(content_tag(:li, change_content)) if change_content.present?
         end
         xml.text! '</ul>'
-        xml.text! format_text(change, :notes, only_path: false) unless change.notes.blank?
+        xml.text! format_text(change, :notes, only_path: false) if change.notes.present?
       end
     end
   end

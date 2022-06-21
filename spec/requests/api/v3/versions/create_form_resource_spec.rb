@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -34,11 +32,11 @@ describe ::API::V3::Versions::CreateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:permissions) { [:manage_versions] }
 
@@ -65,7 +63,7 @@ describe ::API::V3::Versions::CreateFormAPI, content_type: :json do
 
     it 'does not create a version' do
       expect(Version.count)
-        .to eql 0
+        .to be 0
     end
 
     context 'with empty parameters' do
@@ -111,8 +109,8 @@ describe ::API::V3::Versions::CreateFormAPI, content_type: :json do
     end
 
     context 'with all parameters' do
-      let!(:int_cf) { FactoryBot.create(:int_version_custom_field) }
-      let!(:list_cf) { FactoryBot.create(:list_version_custom_field) }
+      let!(:int_cf) { create(:int_version_custom_field) }
+      let!(:list_cf) { create(:list_version_custom_field) }
       let(:parameters) do
         {
           name: 'New version',
@@ -120,10 +118,10 @@ describe ::API::V3::Versions::CreateFormAPI, content_type: :json do
             raw: 'A new description'
           },
           "customField#{int_cf.id}": 5,
-          "startDate": "2018-01-01",
-          "endDate": "2018-01-09",
-          "status": "closed",
-          "sharing": "descendants",
+          startDate: "2018-01-01",
+          endDate: "2018-01-09",
+          status: "closed",
+          sharing: "descendants",
           _links: {
             definingProject: {
               href: api_v3_paths.project(project.id)

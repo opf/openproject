@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,11 +29,11 @@
 require 'spec_helper'
 
 describe AddWorkPackageNoteService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:work_package) { FactoryBot.build_stubbed(:work_package) }
+  let(:user) { build_stubbed(:user) }
+  let(:work_package) { build_stubbed(:work_package) }
   let(:instance) do
-    described_class.new(user: user,
-                        work_package: work_package)
+    described_class.new(user:,
+                        work_package:)
   end
 
   describe '.contract' do
@@ -71,7 +69,7 @@ describe AddWorkPackageNoteService, type: :model do
       allow(work_package).to receive(:save_journals).and_return true
     end
 
-    subject { instance.call('blubs', send_notifications: send_notifications) }
+    subject { instance.call('blubs', send_notifications:) }
 
     it 'is successful' do
       expect(subject).to be_success
@@ -95,7 +93,7 @@ describe AddWorkPackageNoteService, type: :model do
       end
 
       it 'does not persist the changes' do
-        expect(work_package).to_not receive(:save_journals)
+        expect(work_package).not_to receive(:save_journals)
 
         subject
       end
@@ -116,7 +114,7 @@ describe AddWorkPackageNoteService, type: :model do
       end
 
       it 'is unsuccessful' do
-        expect(subject).to_not be_success
+        expect(subject).not_to be_success
       end
 
       it 'leaves the value unchanged' do

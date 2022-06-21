@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -35,18 +33,18 @@ describe ::API::V3::Notifications::NotificationsAPI,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { FactoryBot.create(:project) }
-  shared_let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  shared_let(:project) { create(:project) }
+  shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:recipient) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages]
+    create :user,
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages]
   end
   shared_let(:notification) do
-    FactoryBot.create :notification,
-                      recipient: recipient,
-                      resource: work_package,
-                      project: project
+    create :notification,
+           recipient:,
+           resource: work_package,
+           project:
   end
 
   let(:send_read) do
@@ -78,7 +76,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
   end
 
   describe 'admin user' do
-    let(:current_user) { FactoryBot.build(:admin) }
+    let(:current_user) { build(:admin) }
 
     it 'returns a 404 response' do
       send_read

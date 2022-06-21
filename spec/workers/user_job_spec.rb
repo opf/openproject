@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +38,7 @@ describe UserJob do
   end
 
   subject do
-    test_job.new(user: user, foo: 'foo').perform_now
+    test_job.new(user:, foo: 'foo').perform_now
   end
 
   describe 'with system user' do
@@ -50,18 +48,18 @@ describe UserJob do
       given_user, current_user, admin = subject
       expect(given_user).to eq current_user
       expect(given_user).to eq user.id
-      expect(admin).to eq true
+      expect(admin).to be true
     end
   end
 
   describe 'with a regular user' do
-    let(:user) { FactoryBot.build_stubbed :user }
+    let(:user) { build_stubbed :user }
 
     it 'uses that user' do
       given_user, current_user, admin = subject
       expect(given_user).to eq current_user
       expect(given_user).to eq user.id
-      expect(admin).to eq false
+      expect(admin).to be false
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,13 +37,13 @@ describe 'API v3 Query Sort Bys resource', type: :request do
     let(:path) { api_v3_paths.query_sort_by(column_name, direction) }
     let(:column_name) { 'status' }
     let(:direction) { 'desc' }
-    let(:project) { FactoryBot.create(:project) }
-    let(:role) { FactoryBot.create(:role, permissions: permissions) }
+    let(:project) { create(:project) }
+    let(:role) { create(:role, permissions:) }
     let(:permissions) { [:view_work_packages] }
     let(:user) do
-      FactoryBot.create(:user,
-                        member_in_project: project,
-                        member_through_role: role)
+      create(:user,
+             member_in_project: project,
+             member_through_role: role)
     end
 
     before do
@@ -76,7 +76,7 @@ describe 'API v3 Query Sort Bys resource', type: :request do
 
       it 'returns 404' do
         expect(last_response.status)
-          .to eql(404)
+          .to be(404)
       end
     end
 
@@ -85,7 +85,7 @@ describe 'API v3 Query Sort Bys resource', type: :request do
 
       it 'returns 404' do
         expect(last_response.status)
-          .to eql(404)
+          .to be(404)
       end
     end
 
@@ -94,7 +94,7 @@ describe 'API v3 Query Sort Bys resource', type: :request do
 
       it 'returns 404' do
         expect(last_response.status)
-          .to eql(404)
+          .to be(404)
       end
     end
   end

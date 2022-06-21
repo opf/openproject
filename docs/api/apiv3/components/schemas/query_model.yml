@@ -16,10 +16,12 @@ properties:
     description: Query name
     readOnly: true
   filters:
-    type: "[]QueryFilterInstance"
+    type: array
     description: A set of QueryFilters which will be applied to the work packages
       to determine the resulting work packages
     readOnly: false
+    items:
+      $ref: './query_filter_instance_schema_model.yml'
   sums:
     type: boolean
     description: Should sums (of supported properties) be shown?
@@ -30,10 +32,12 @@ properties:
     readOnly: true
     deprecated: true
   timelineLabels:
-    type: QueryTimelineLabels
+    type: array
     description: Which labels are shown in the timeline, empty when default
     readOnly: true
     deprecated: true
+    items:
+      type: string
   timelineZoomLevel:
     type: string
     description: Which zoom level should the timeline be rendered in?

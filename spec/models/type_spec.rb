@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,9 +29,9 @@
 require 'spec_helper'
 
 describe ::Type, type: :model do
-  let(:type) { FactoryBot.build(:type) }
-  let(:type2) { FactoryBot.build(:type) }
-  let(:project) { FactoryBot.build(:project, no_types: true) }
+  let(:type) { build(:type) }
+  let(:type2) { build(:type) }
+  let(:project) { build(:project, no_types: true) }
 
   describe '.enabled_in(project)' do
     before do
@@ -49,10 +47,10 @@ describe ::Type, type: :model do
   end
 
   describe '.statuses' do
-    let(:subject) { type.statuses }
+    subject { type.statuses }
 
     context 'when new' do
-      let(:type) { FactoryBot.build(:type) }
+      let(:type) { build(:type) }
 
       it 'returns an empty relation' do
         expect(subject).to be_empty
@@ -60,7 +58,7 @@ describe ::Type, type: :model do
     end
 
     context 'when existing but no statuses' do
-      let(:type) { FactoryBot.create(:type) }
+      let(:type) { create(:type) }
 
       it 'returns an empty relation' do
         expect(subject).to be_empty
@@ -68,17 +66,17 @@ describe ::Type, type: :model do
     end
 
     context 'when existing with workflow' do
-      let(:role) { FactoryBot.create(:role) }
-      let(:statuses) { (1..2).map { |_i| FactoryBot.create(:status) } }
+      let(:role) { create(:role) }
+      let(:statuses) { (1..2).map { |_i| create(:status) } }
 
-      let!(:type) { FactoryBot.create(:type) }
+      let!(:type) { create(:type) }
       let!(:workflow_a) do
-        FactoryBot.create(:workflow, role_id: role.id,
-                                     type_id: type.id,
-                                     old_status_id: statuses[0].id,
-                                     new_status_id: statuses[1].id,
-                                     author: false,
-                                     assignee: false)
+        create(:workflow, role_id: role.id,
+                          type_id: type.id,
+                          old_status_id: statuses[0].id,
+                          new_status_id: statuses[1].id,
+                          author: false,
+                          assignee: false)
       end
 
       it 'returns the statuses relation' do
@@ -86,8 +84,9 @@ describe ::Type, type: :model do
       end
 
       context 'with default status' do
-        let!(:default_status) { FactoryBot.create(:default_status) }
-        let(:subject) { type.statuses(include_default: true) }
+        let!(:default_status) { create(:default_status) }
+
+        subject { type.statuses(include_default: true) }
 
         it 'returns the workflow and the default status' do
           expect(subject.pluck(:id)).to contain_exactly(default_status.id, statuses[0].id, statuses[1].id)
@@ -108,6 +107,34 @@ describe ::Type, type: :model do
       expect(Workflow)
         .to have_received(:copy)
         .with(type2, nil, type, nil)
+    end
+  end
+
+  describe '#work_package_attributes' do
+    subject { type.work_package_attributes }
+
+    context 'for the duration field', with_flag: { work_packages_duration_field_active: true } do
+      it 'does not return true field' do
+        expect(subject).not_to have_key("duration")
+      end
+
+      context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
+        it 'does not return the field' do
+          expect(subject).not_to have_key("duration")
+        end
+      end
+    end
+
+    context 'for the ignore_non_working_days field', with_flag: { work_packages_duration_field_active: true } do
+      it 'does not return duration' do
+        expect(subject).not_to have_key("ignore_non_working_days")
+      end
+
+      context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
+        it 'does not return the duration field' do
+          expect(subject).not_to have_key("ignore_non_working_days")
+        end
+      end
     end
   end
 end

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -113,25 +113,27 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   </div>
 
-  <cost-unit-subform obj-id="cost_entry"
-                     obj-name="cost_entry[overridden_costs]"
-                     data-placeholder="<%= t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)) %>" %>
-    <div class="form--field">
-      <label for="cost_entry_costs_edit" class="form--label"><%= CostEntry.human_attribute_name(:costs) %></label>
-      <span class="form--field-container">
-          <%= hidden_field_tag :currency, Setting.plugin_costs['costs_currency'], id: 'cost_entry_currency' %>
-        <% if User.current.allowed_to?(:view_cost_rates, @cost_entry.project) %>
-            <%= hidden_field_tag :cost_value, unitless_currency_number(@cost_entry.real_costs), id: 'cost_entry_cost_value' %>
-          <a href="#"
-             id="cost_entry_costs"
-             class="costs--edit-planned-costs-btn icon-context icon-edit"
-             title="<%= t(:help_click_to_edit) %>">
-              <span id="cost_entry_costs_text">
-                <%= number_to_currency(@cost_entry.real_costs) %>
-              </span>
-            </a>
-          </span>
-          <% else %>
+  <div class="form--field">
+    <label for="cost_entry_costs_edit" class="form--label"><%= CostEntry.human_attribute_name(:costs) %></label>
+    <% if User.current.allowed_to?(:view_cost_rates, @cost_entry.project) %>
+    <span class="form--field-container">
+      <a href="#"
+         id="cost_entry_costs"
+         class="costs--edit-planned-costs-btn icon-context icon-edit"
+         role="button"
+         title="<%= t(:help_click_to_edit) %>">
+            <%= number_to_currency(@cost_entry.real_costs) %>
+        </a>
+      <%= render partial: '/budgets/items/budget_override_cost_form',
+                 locals: {
+                   field_name: "cost_entry[overridden_costs]",
+                   cost_value: unitless_currency_number(@cost_entry.real_costs),
+                 }
+      %>
+
+      </span>
+    <% else %>
+    <span class="form--field-container">
           <%= f.text_field :overridden_costs,
                            value: @cost_entry.overridden_costs ? unitless_currency_number(@cost_entry.overridden_costs).strip : '',
                            placeholder: t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)),
@@ -140,13 +142,12 @@ See COPYRIGHT and LICENSE files for more details.
                            id: 'cost_entry_cost_value',
                            container_class: '-middle',
                            size: 7 %>
-          </span>
-          <div class="form--field-instructions">
-            <p><%= t(:help_override_rate) %></p>
-          </div>
-          <% end %>
-        </div>
-  </cost-unit-subform>
+        </span>
+      <div class="form--field-instructions">
+        <p><%= t(:help_override_rate) %></p>
+      </div>
+    <% end %>
+  </div>
 
   <div class="form--field">
     <%= f.text_field :comments, size: 100, container_class: '-wide' %>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 shared_examples_for 'has ISO 8601 date only' do
   it 'exists' do
-    is_expected.to have_json_path(json_path)
+    expect(subject).to have_json_path(json_path)
   end
 
   it 'indicates date only as ISO 8601' do
@@ -46,7 +46,7 @@ end
 
 shared_examples_for 'has UTC ISO 8601 date and time' do
   it 'exists' do
-    is_expected.to have_json_path(json_path)
+    expect(subject).to have_json_path(json_path)
   end
 
   it 'indicates date and time as ISO 8601' do

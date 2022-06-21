@@ -151,7 +151,7 @@ module XlsExport::WorkPackage::Exporter
     end
 
     def work_package_relations(work_package)
-      work_package.relations.direct.non_hierarchy.visible
+      work_package.relations.visible
     end
   end
 end

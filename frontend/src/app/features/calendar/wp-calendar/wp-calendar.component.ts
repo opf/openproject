@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  EventClickArg,
   FullCalendarComponent,
   ToolbarInput,
 } from '@fullcalendar/angular';
@@ -24,21 +25,32 @@ import { OpTitleService } from 'core-app/core/html/op-title.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import {
   CalendarOptions,
+  DateSelectArg,
+  EventDropArg,
   EventInput,
 } from '@fullcalendar/core';
 import { debounceTime } from 'rxjs/operators';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { Subject } from 'rxjs';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import interactionPlugin, { EventResizeDoneArg } from '@fullcalendar/interaction';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
+import {
+  CalendarViewEvent,
+  OpWorkPackagesCalendarService,
+} from 'core-app/features/calendar/op-work-packages-calendar.service';
+import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 
 @Component({
   templateUrl: './wp-calendar.template.html',
   styleUrls: ['./wp-calendar.sass'],
   selector: 'op-wp-calendar',
   providers: [
+    OpWorkPackagesCalendarService,
     OpCalendarService,
   ],
 })
@@ -70,12 +82,18 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     private sanitizer:DomSanitizer,
     private configuration:ConfigurationService,
     readonly calendar:OpCalendarService,
+    readonly workPackagesCalendar:OpWorkPackagesCalendarService,
     readonly currentProject:CurrentProjectService,
+    readonly halEditing:HalResourceEditingService,
+    readonly halNotification:HalResourceNotificationService,
   ) {
     super();
   }
 
   ngOnInit():void {
+    this.wpTableFilters.hidden.push(
+      'project',
+    );
     this.calendar.resize$
       .pipe(
         this.untilDestroyed(),
@@ -100,7 +118,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       successCallback(events);
     } else {
       this
-        .calendar
+        .workPackagesCalendar
         .currentWorkPackages$
         .subscribe((collection:WorkPackageCollectionResource) => {
           const events = this.updateResults((collection));
@@ -108,7 +126,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         });
     }
 
-    void this.calendar.updateTimeframe(fetchInfo, this.currentProject.identifier || undefined);
+    void this.workPackagesCalendar.updateTimeframe(fetchInfo, this.currentProject.identifier || undefined);
   }
 
   // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
@@ -123,7 +141,35 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       headerToolbar: this.buildHeader(),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       events: this.calendarEventsFunction.bind(this),
-      plugins: [dayGridPlugin],
+      plugins: [
+        dayGridPlugin,
+        interactionPlugin,
+      ],
+      // DnD configuration
+      selectable: true,
+      select: this.handleDateClicked.bind(this) as unknown,
+      eventResizableFromStart: true,
+      editable: true,
+      eventDidMount: (evt:CalendarViewEvent) => {
+        const { el, event } = evt;
+        const workPackage = event.extendedProps.workPackage as WorkPackageResource;
+        el.dataset.workPackageId = workPackage.id as string;
+      },
+      eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
+      eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
+      eventClick: (evt:EventClickArg) => {
+        const workPackageId = (evt.event.extendedProps.workPackage as WorkPackageResource).id as string;
+        // Currently the calendar widget is shown on multiple pages,
+        // but only the calendar module itself is a partitioned query space which can deal with a split screen request
+        if (this.$state.includes('calendar')) {
+          this.workPackagesCalendar.openSplitView(workPackageId);
+        } else {
+          void this.$state.go(
+            'work-packages.show',
+            { workPackageId },
+          );
+        }
+      },
     };
 
     if (this.static) {
@@ -133,7 +179,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     void this.configuration.initialized
       .then(() => {
         this.calendarOptions$.next(
-          this.calendar.calendarOptions(additionalOptions),
+          this.workPackagesCalendar.calendarOptions(additionalOptions),
         );
       });
   }
@@ -149,28 +195,39 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     };
   }
 
+  public openContextMenu(event:MouseEvent):void {
+    const eventContainer = (event.target as HTMLElement).closest('.fc-event') as HTMLElement|undefined;
+    if (!eventContainer) {
+      return;
+    }
+
+    const workPackageId = eventContainer.dataset.workPackageId as string;
+    this.workPackagesCalendar.showEventContextMenu({ workPackageId, event });
+  }
+
   private setupWorkPackagesListener():void {
-    this.calendar.workPackagesListener$(() => {
+    this.workPackagesCalendar.workPackagesListener$(() => {
       this.alreadyLoaded = true;
       this.ucCalendar.getApi().refetchEvents();
     });
   }
 
   private updateResults(collection:WorkPackageCollectionResource) {
-    this.calendar.warnOnTooManyResults(collection, this.static);
+    this.workPackagesCalendar.warnOnTooManyResults(collection, this.static);
     return this.mapToCalendarEvents(collection.elements);
   }
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]) {
     const events = workPackages.map((workPackage:WorkPackageResource) => {
-      const startDate = this.calendar.eventDate(workPackage, 'start');
-      const endDate = this.calendar.eventDate(workPackage, 'due');
+      const startDate = this.workPackagesCalendar.eventDate(workPackage, 'start');
+      const endDate = this.workPackagesCalendar.eventDate(workPackage, 'due');
 
       const exclusiveEnd = moment(endDate).add(1, 'days').format('YYYY-MM-DD');
 
       return {
         title: workPackage.subject,
         start: startDate,
+        editable: this.workPackagesCalendar.eventDurationEditable(workPackage),
         end: exclusiveEnd,
         allDay: true,
         className: `__hl_background_type_${workPackage.type.id}`,
@@ -183,5 +240,32 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
 
   private get initialView():string|undefined {
     return this.static ? 'dayGridWeek' : undefined;
+  }
+
+  private async updateEvent(info:EventResizeDoneArg|EventDropArg):Promise<void> {
+    const changeset = this.workPackagesCalendar.updateDates(info);
+
+    try {
+      const result = await this.halEditing.save(changeset);
+      this.halNotification.showSave(result.resource, result.wasNew);
+    } catch (e) {
+      this.halNotification.handleRawError(e, changeset.projectedResource);
+      info.revert();
+    }
+  }
+
+  private handleDateClicked(info:DateSelectArg) {
+    const defaults = {
+      startDate: info.startStr,
+      dueDate: this.workPackagesCalendar.getEndDateFromTimestamp(info.end),
+    };
+
+    void this.$state.go(
+      splitViewRoute(this.$state, 'new'),
+      {
+        defaults,
+        tabIdentifier: 'overview',
+      },
+    );
   }
 }

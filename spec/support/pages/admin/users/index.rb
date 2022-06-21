@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,12 +37,12 @@ module Pages
         end
 
         def expect_listed(*users)
-          rows = page.all 'td.username'
+          rows = page.all 'td.username a'
           expect(rows.map(&:text)).to include(*users.map(&:login))
         end
 
         def expect_order(*users)
-          rows = page.all 'td.username'
+          rows = page.all 'td.username a'
           expect(rows.map(&:text)).to eq(users.map(&:login))
         end
 
@@ -107,9 +107,9 @@ module Pages
 
         private
 
-        def within_user_row(user, &block)
+        def within_user_row(user, &)
           row = find('tr.user', text: user.login)
-          within row, &block
+          within(row, &)
         end
       end
     end

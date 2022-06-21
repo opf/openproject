@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,48 +29,53 @@
 require 'spec_helper'
 
 describe IndividualPrincipalHooksHelper, type: :helper do
-  let(:user) { FactoryBot.build(:user) }
-  let(:placeholder_user) { FactoryBot.build(:placeholder_user) }
+  let(:user) { build(:user) }
+  let(:placeholder_user) { build(:placeholder_user) }
 
   describe '#individual_principal_key' do
     it 'returns the class name in underscore format' do
-      expect(helper.individual_principal_key(user)).to eql(:user)
-      expect(helper.individual_principal_key(placeholder_user)).to eql(:placeholder_user)
+      expect(helper.individual_principal_key(user)).to be(:user)
+      expect(helper.individual_principal_key(placeholder_user)).to be(:placeholder_user)
     end
   end
 
   describe '#call_individual_principals_memberships_hook' do
-    context 'with user and without context' do
-      before do
-        expect(helper).to receive(:call_hook).with(:view_users_memberships_table_foo,
-                                                   user: user)
-      end
+    before do
+      allow(helper)
+        .to receive(:call_hook)
+    end
 
+    context 'with user and without context' do
       it 'call call_hook with the correct arguments' do
         helper.call_individual_principals_memberships_hook(user, 'foo')
+
+        expect(helper)
+          .to have_received(:call_hook)
+                .with(:view_users_memberships_table_foo,
+                      user:)
       end
     end
 
     context 'with placeholder user and without context' do
-      before do
-        expect(helper).to receive(:call_hook).with(:view_placeholder_users_memberships_table_foo,
-                                                   placeholder_user: placeholder_user)
-      end
-
       it 'call call_hook with the correct arguments' do
         helper.call_individual_principals_memberships_hook(placeholder_user, 'foo')
+
+        expect(helper)
+          .to have_received(:call_hook)
+                .with(:view_placeholder_users_memberships_table_foo,
+                      placeholder_user:)
       end
     end
 
     context 'with user and with context' do
-      before do
-        expect(helper).to receive(:call_hook).with(:view_users_memberships_table_foo,
-                                                   user: user,
-                                                   yay: 'yo')
-      end
-
       it 'call call_hook with the correct arguments' do
         helper.call_individual_principals_memberships_hook(user, 'foo', yay: 'yo')
+
+        expect(helper)
+          .to have_received(:call_hook)
+                .with(:view_users_memberships_table_foo,
+                      user:,
+                      yay: 'yo')
       end
     end
   end

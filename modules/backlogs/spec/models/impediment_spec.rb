@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,49 +29,49 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Impediment, type: :model do
-  let(:user) { @user ||= FactoryBot.create(:user) }
-  let(:role) { @role ||= FactoryBot.create(:role) }
-  let(:type_feature) { @type_feature ||= FactoryBot.create(:type_feature) }
-  let(:type_task) { @type_task ||= FactoryBot.create(:type_task) }
-  let(:issue_priority) { @issue_priority ||= FactoryBot.create(:priority, is_default: true) }
-  let(:status) { FactoryBot.create(:status) }
+  let(:user) { @user ||= create(:user) }
+  let(:role) { @role ||= create(:role) }
+  let(:type_feature) { @type_feature ||= create(:type_feature) }
+  let(:type_task) { @type_task ||= create(:type_task) }
+  let(:issue_priority) { @issue_priority ||= create(:priority, is_default: true) }
+  let(:status) { create(:status) }
   let(:task) do
-    FactoryBot.build(:task, type: type_task,
-                            project: project,
-                            author: user,
-                            priority: issue_priority,
-                            status: status)
+    build(:task, type: type_task,
+                 project:,
+                 author: user,
+                 priority: issue_priority,
+                 status:)
   end
   let(:feature) do
-    FactoryBot.build(:work_package, type: type_feature,
-                                    project: project,
-                                    author: user,
-                                    priority: issue_priority,
-                                    status: status)
+    build(:work_package, type: type_feature,
+                         project:,
+                         author: user,
+                         priority: issue_priority,
+                         status:)
   end
-  let(:version) { FactoryBot.create(:version, project: project) }
+  let(:version) { create(:version, project:) }
 
   let(:project) do
     unless @project
-      @project = FactoryBot.build(:project, types: [type_feature, type_task])
-      @project.members = [FactoryBot.build(:member, principal: user,
-                                                    project: @project,
-                                                    roles: [role])]
+      @project = build(:project, types: [type_feature, type_task])
+      @project.members = [build(:member, principal: user,
+                                         project: @project,
+                                         roles: [role])]
     end
     @project
   end
 
   let(:impediment) do
-    FactoryBot.build(:impediment, author: user,
-                                  version: version,
-                                  assigned_to: user,
-                                  priority: issue_priority,
-                                  project: project,
-                                  type: type_task,
-                                  status: status)
+    build(:impediment, author: user,
+                       version:,
+                       assigned_to: user,
+                       priority: issue_priority,
+                       project:,
+                       type: type_task,
+                       status:)
   end
 
-  before(:each) do
+  before do
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
       .and_return({ 'points_burn_direction' => 'down',
@@ -106,18 +106,18 @@ describe Impediment, type: :model do
         end
       end
 
-      describe 'WITH only prior blockers defined' do
-        before(:each) do
+      describe 'WITH loading from the backend' do
+        before do
           feature.version = version
           feature.save
           task.version = version
           task.save
 
-          # Using the default association method block_ids (without s) here
-          impediment.block_ids = [feature.id, task.id]
+          impediment.blocks_ids = [feature.id, task.id]
+          impediment.save
         end
 
-        it { expect(impediment.blocks_ids).to eql [feature.id, task.id] }
+        it { expect(described_class.find(impediment.id).blocks_ids).to eql [feature.id, task.id] }
       end
     end
   end

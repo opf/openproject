@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,15 +37,16 @@ describe "WorkPackages::Export attachments" do
     let(:read_permission) { :export_work_packages }
     let(:update_permission) { :export_work_packages }
 
-    let(:export) { FactoryBot.create(:work_packages_export) }
+    let(:export) { create(:work_packages_export) }
 
-    let(:missing_permissions_user) { FactoryBot.create(:user) }
-    let(:other_user) { FactoryBot.create(:user) }
+    let(:missing_permissions_user) { create(:user) }
+    let(:other_user) { create(:user) }
 
-    let(:other_user_attachment) { FactoryBot.create(:attachment, container: export, author: other_user) }
+    let(:other_user_attachment) { create(:attachment, container: export, author: other_user) }
 
     describe '#get' do
       subject(:response) { last_response }
+
       let(:get_path) { api_v3_paths.attachment attachment.id }
 
       before do

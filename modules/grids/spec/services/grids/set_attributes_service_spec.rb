@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +29,7 @@
 require 'spec_helper'
 
 describe Grids::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
 
@@ -51,14 +49,14 @@ describe Grids::SetAttributesService, type: :model do
   end
   let(:grid_valid) { true }
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: grid,
-                        contract_class: contract_class)
+                        contract_class:)
   end
   let(:call_attributes) { {} }
   let(:grid_class) { Grids::Grid }
   let(:grid) do
-    FactoryBot.build_stubbed(grid_class.name.demodulize.underscore.to_sym, widgets: [])
+    build_stubbed(grid_class.name.demodulize.underscore.to_sym, widgets: [])
   end
 
   describe 'call' do
@@ -97,18 +95,18 @@ describe Grids::SetAttributesService, type: :model do
     context 'with additional widgets' do
       let(:widgets) do
         [
-          FactoryBot.build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 3,
-                                   end_row: 5,
-                                   start_column: 1,
-                                   end_column: 3)
+          build_stubbed(:grid_widget,
+                        identifier: 'work_packages_assigned',
+                        start_row: 3,
+                        end_row: 5,
+                        start_column: 1,
+                        end_column: 3)
         ]
       end
 
       let(:call_attributes) do
         {
-          widgets: widgets
+          widgets:
         }
       end
 
@@ -118,7 +116,7 @@ describe Grids::SetAttributesService, type: :model do
 
       it 'adds the new widgets' do
         expect(grid.widgets.length)
-          .to eql 1
+          .to be 1
       end
 
       it 'does not persist the new widget' do
@@ -142,17 +140,17 @@ describe Grids::SetAttributesService, type: :model do
         context 'with the grid being a new record' do
           let(:existing_widgets) do
             [
-              FactoryBot.build(:grid_widget,
-                               identifier: 'work_packages_assigned',
-                               start_row: 3,
-                               end_row: 5,
-                               start_column: 1,
-                               end_column: 3)
+              build(:grid_widget,
+                    identifier: 'work_packages_assigned',
+                    start_row: 3,
+                    end_row: 5,
+                    start_column: 1,
+                    end_column: 3)
             ]
           end
 
           let(:grid) do
-            FactoryBot.build(
+            build(
               :grid,
               widgets: existing_widgets
             )
@@ -160,14 +158,14 @@ describe Grids::SetAttributesService, type: :model do
 
           it 'leaves the prohibited widget' do
             expect(grid.widgets.length)
-              .to eql 1
+              .to be 1
           end
         end
 
         context 'with the grid not being a new record' do
           it 'leaves the prohibited widget' do
             expect(grid.widgets.length)
-              .to eql 1
+              .to be 1
           end
         end
       end
@@ -176,16 +174,16 @@ describe Grids::SetAttributesService, type: :model do
     context 'with empty widget params' do
       let(:existing_widgets) do
         [
-          FactoryBot.build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 3,
-                                   end_row: 5,
-                                   start_column: 1,
-                                   end_column: 3)
+          build_stubbed(:grid_widget,
+                        identifier: 'work_packages_assigned',
+                        start_row: 3,
+                        end_row: 5,
+                        start_column: 1,
+                        end_column: 3)
         ]
       end
       let(:grid) do
-        FactoryBot.build_stubbed(
+        build_stubbed(
           grid_class.name.demodulize.underscore.to_sym,
           widgets: existing_widgets
         )
@@ -203,10 +201,10 @@ describe Grids::SetAttributesService, type: :model do
 
       it 'does not remove the widget right away' do
         expect(grid.widgets.length)
-          .to eql 1
+          .to be 1
       end
 
-      it 'marks the  widget for destruction' do
+      it 'marks the widget for destruction' do
         expect(grid.widgets[0])
           .to be_marked_for_destruction
       end
@@ -222,17 +220,17 @@ describe Grids::SetAttributesService, type: :model do
         context 'with the grid being a new record' do
           let(:existing_widgets) do
             [
-              FactoryBot.build(:grid_widget,
-                               identifier: 'work_packages_assigned',
-                               start_row: 3,
-                               end_row: 5,
-                               start_column: 1,
-                               end_column: 3)
+              build(:grid_widget,
+                    identifier: 'work_packages_assigned',
+                    start_row: 3,
+                    end_row: 5,
+                    start_column: 1,
+                    end_column: 3)
             ]
           end
 
           let(:grid) do
-            FactoryBot.build(
+            build(
               :grid,
               widgets: existing_widgets
             )
@@ -247,7 +245,7 @@ describe Grids::SetAttributesService, type: :model do
         context 'with the grid not being a new record' do
           it 'leaves the prohibited widget' do
             expect(grid.widgets.length)
-              .to eql 1
+              .to be 1
           end
         end
       end
@@ -256,16 +254,16 @@ describe Grids::SetAttributesService, type: :model do
     context 'without widget params' do
       let(:existing_widgets) do
         [
-          FactoryBot.build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 3,
-                                   end_row: 5,
-                                   start_column: 1,
-                                   end_column: 3)
+          build_stubbed(:grid_widget,
+                        identifier: 'work_packages_assigned',
+                        start_row: 3,
+                        end_row: 5,
+                        start_column: 1,
+                        end_column: 3)
         ]
       end
       let(:grid) do
-        FactoryBot.build_stubbed(
+        build_stubbed(
           grid_class.name.demodulize.underscore.to_sym,
           widgets: existing_widgets
         )
@@ -279,7 +277,7 @@ describe Grids::SetAttributesService, type: :model do
 
       it 'does not remove the widget' do
         expect(grid.widgets.length)
-          .to eql 1
+          .to be 1
       end
 
       it 'does not mark the widget for destruction' do
@@ -298,17 +296,17 @@ describe Grids::SetAttributesService, type: :model do
         context 'with the grid being a new record' do
           let(:existing_widgets) do
             [
-              FactoryBot.build(:grid_widget,
-                               identifier: 'work_packages_assigned',
-                               start_row: 3,
-                               end_row: 5,
-                               start_column: 1,
-                               end_column: 3)
+              build(:grid_widget,
+                    identifier: 'work_packages_assigned',
+                    start_row: 3,
+                    end_row: 5,
+                    start_column: 1,
+                    end_column: 3)
             ]
           end
 
           let(:grid) do
-            FactoryBot.build(
+            build(
               :grid,
               widgets: existing_widgets
             )
@@ -323,7 +321,7 @@ describe Grids::SetAttributesService, type: :model do
         context 'with the grid not being a new record' do
           it 'leaves the prohibited widget' do
             expect(grid.widgets.length)
-              .to eql 1
+              .to be 1
           end
         end
       end
@@ -332,33 +330,33 @@ describe Grids::SetAttributesService, type: :model do
     context 'with updates to an existing widget' do
       let(:widgets) do
         [
-          FactoryBot.build_stubbed(:grid_widget,
-                                   id: existing_widgets[0].id,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 3,
-                                   end_row: 5,
-                                   start_column: 1,
-                                   end_column: 3)
+          build_stubbed(:grid_widget,
+                        id: existing_widgets[0].id,
+                        identifier: 'work_packages_assigned',
+                        start_row: 3,
+                        end_row: 5,
+                        start_column: 1,
+                        end_column: 3)
         ]
       end
       let(:existing_widgets) do
         [
-          FactoryBot.build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 2,
-                                   end_row: 5,
-                                   start_column: 1,
-                                   end_column: 3)
+          build_stubbed(:grid_widget,
+                        identifier: 'work_packages_assigned',
+                        start_row: 2,
+                        end_row: 5,
+                        start_column: 1,
+                        end_column: 3)
         ]
       end
       let(:grid) do
-        FactoryBot.build_stubbed(
+        build_stubbed(
           grid_class.name.demodulize.underscore.to_sym,
           widgets: existing_widgets
         )
       end
 
-      let(:call_attributes) { { widgets: widgets } }
+      let(:call_attributes) { { widgets: } }
 
       before do
         subject
@@ -378,62 +376,62 @@ describe Grids::SetAttributesService, type: :model do
     context 'with additions and updates to existing widgets' do
       let(:widgets) do
         [
-          FactoryBot.build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 3,
-                                   end_row: 5,
-                                   start_column: 1,
-                                   end_column: 3),
-          FactoryBot.build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_watched',
-                                   start_row: 1,
-                                   end_row: 2,
-                                   start_column: 1,
-                                   end_column: 2),
-          FactoryBot.build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_calendar',
-                                   start_row: 2,
-                                   end_row: 4,
-                                   start_column: 1,
-                                   end_column: 2),
-          FactoryBot.build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_calendar',
-                                   start_row: 1,
-                                   end_row: 2,
-                                   start_column: 4,
-                                   end_column: 4)
+          build_stubbed(:grid_widget,
+                        identifier: 'work_packages_assigned',
+                        start_row: 3,
+                        end_row: 5,
+                        start_column: 1,
+                        end_column: 3),
+          build_stubbed(:grid_widget,
+                        identifier: 'work_packages_watched',
+                        start_row: 1,
+                        end_row: 2,
+                        start_column: 1,
+                        end_column: 2),
+          build_stubbed(:grid_widget,
+                        identifier: 'work_packages_calendar',
+                        start_row: 2,
+                        end_row: 4,
+                        start_column: 1,
+                        end_column: 2),
+          build_stubbed(:grid_widget,
+                        identifier: 'work_packages_calendar',
+                        start_row: 1,
+                        end_row: 2,
+                        start_column: 4,
+                        end_column: 4)
         ]
       end
       let(:existing_widgets) do
         [
-          FactoryBot.build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 2,
-                                   end_row: 5,
-                                   start_column: 1,
-                                   end_column: 3),
-          FactoryBot.build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 1,
-                                   end_row: 2,
-                                   start_column: 3,
-                                   end_column: 4),
-          FactoryBot.build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_calendar',
-                                   start_row: 1,
-                                   end_row: 2,
-                                   start_column: 1,
-                                   end_column: 2)
+          build_stubbed(:grid_widget,
+                        identifier: 'work_packages_assigned',
+                        start_row: 2,
+                        end_row: 5,
+                        start_column: 1,
+                        end_column: 3),
+          build_stubbed(:grid_widget,
+                        identifier: 'work_packages_assigned',
+                        start_row: 1,
+                        end_row: 2,
+                        start_column: 3,
+                        end_column: 4),
+          build_stubbed(:grid_widget,
+                        identifier: 'work_packages_calendar',
+                        start_row: 1,
+                        end_row: 2,
+                        start_column: 1,
+                        end_column: 2)
         ]
       end
       let(:grid) do
-        FactoryBot.build_stubbed(
+        build_stubbed(
           grid_class.name.demodulize.underscore.to_sym,
           widgets: existing_widgets
         )
       end
 
-      let(:call_attributes) { { widgets: widgets } }
+      let(:call_attributes) { { widgets: } }
 
       before do
         subject

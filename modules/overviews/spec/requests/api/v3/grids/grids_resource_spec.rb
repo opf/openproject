@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,46 +33,38 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+  current_user do
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:permissions) { %i[] }
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:grid) do
-    FactoryBot.create(:overview,
-                      project: project,
-                      widgets: widgets)
+    create(:overview,
+           project:,
+           widgets:)
   end
   let(:widgets) do
-    [FactoryBot.create(:grid_widget,
-                       identifier: 'custom_text',
-                       start_column: 1,
-                       end_column: 3,
-                       start_row: 1,
-                       end_row: 3,
-                       options: {
-                         text: custom_text
-                       })]
+    [create(:grid_widget,
+            identifier: 'custom_text',
+            start_column: 1,
+            end_column: 3,
+            start_row: 1,
+            end_row: 3,
+            options: {
+              text: custom_text
+            })]
   end
   let(:custom_text) { "Some text a user wrote" }
-
-  before do
-    login_as(current_user)
-  end
 
   subject(:response) { last_response }
 
   describe '#get api/v3/grids/:id' do
     let(:path) { api_v3_paths.grid(grid.id) }
 
-    let(:stored_grids) do
-      grid
-    end
-
     before do
-      stored_grids
+      grid
 
       get path
     end
@@ -107,8 +99,31 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       let(:path) { api_v3_paths.grid(grid.id + 1) }
 
       it 'responds with 404 NOT FOUND' do
-        expect(subject.status).to eql 404
+        expect(subject.status).to be 404
       end
+    end
+  end
+
+  shared_examples_for 'creates a grid resource' do
+    it 'responds with 201 CREATED' do
+      expect(subject.status).to eq(201)
+    end
+
+    it 'returns the created grid block' do
+      expect(subject.body)
+        .to be_json_eql('Grid'.to_json)
+              .at_path('_type')
+
+      if params["rowCount"]
+        expect(subject.body)
+          .to be_json_eql(params['rowCount'].to_json)
+                .at_path('rowCount')
+      end
+    end
+
+    it 'persists the grid' do
+      expect(Grids::Grid.count)
+        .to be(1)
     end
   end
 
@@ -117,131 +132,71 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
     let(:permissions) { %i[manage_overview] }
 
-    let(:stored_grids) do
-    end
-
     let(:params) do
       {
-        "rowCount": 10,
-        "columnCount": 15,
-        "_links": {
-          "scope": {
-            "href": project_overview_path(project)
+        rowCount: 10,
+        columnCount: 15,
+        _links: {
+          scope: {
+            href: project_overview_path(project)
           }
         }
       }.with_indifferent_access
     end
 
     before do
-      stored_grids
-
       post path, params.to_json
     end
 
-    it 'responds with 201 CREATED' do
-      expect(subject.status).to eq(201)
-    end
+    it_behaves_like 'creates a grid resource'
 
-    it 'returns the created grid block' do
-      expect(subject.body)
-        .to be_json_eql('Grid'.to_json)
-        .at_path('_type')
-      expect(subject.body)
-        .to be_json_eql(params['rowCount'].to_json)
-        .at_path('rowCount')
-    end
-
-    it 'persists the grid' do
-      expect(Grids::Grid.count)
-        .to eql(1)
-    end
-
-    context 'if lacking the manage_overview permission' do
+    context 'if lacking the manage_overview permission and not changing the default values' do
+      # Creating a grid should be possible for every member in the project to avoid having an empty page for the project
+      # which is why this test case is the same as the one above.
+      # But this is only true if only the scope is provided and no other attribute.
       let(:permissions) { %i[] }
-
       let(:params) do
         {
-          "_links": {
-            "scope": {
-              "href": project_overview_path(project)
+          _links: {
+            scope: {
+              href: project_overview_path(project)
             }
           }
         }.with_indifferent_access
       end
 
-      it 'responds with 201 CREATED' do
-        expect(subject.status).to eq(201)
+      it_behaves_like 'creates a grid resource'
+    end
+
+    context 'if lacking the manage_overview permission and changing the default values' do
+      # Creating a grid should be possible for every member in the project to avoid having an empty page for the project
+      # which is why this test case is the same as the one above.
+      # But this is only true if only the scope is provided and no other attribute.
+      # In this test, the rowCount and columnCount is changed
+      let(:permissions) { %i[] }
+
+      it 'responds with 422' do
+        expect(subject.status).to eq(422)
       end
 
-      it 'returns the created grid block' do
-        expect(subject.body)
-          .to be_json_eql('Grid'.to_json)
-          .at_path('_type')
-        expect(subject.body)
-          .to be_json_eql(Overviews::GridRegistration.defaults[:row_count].to_json)
-          .at_path('rowCount')
-      end
-
-      it 'persists the grid' do
+      it 'persists no grid' do
         expect(Grids::Grid.count)
-          .to eql(1)
-      end
-
-      context 'if deviating from the default page parameters' do
-        let(:params) do
-          {
-            "_links": {
-              "scope": {
-                "href": project_overview_path(project)
-              }
-            }
-          }.with_indifferent_access
-        end
-
-        it 'responds with 201 CREATED' do
-          expect(subject.status).to eq(201)
-        end
-
-        it 'returns the created grid block' do
-          expect(subject.body)
-            .to be_json_eql('Grid'.to_json)
-                  .at_path('_type')
-          expect(subject.body)
-            .to be_json_eql(Overviews::GridRegistration.defaults[:row_count].to_json)
-                  .at_path('rowCount')
-        end
-
-        it 'persists the grid' do
-          expect(Grids::Grid.count)
-            .to eql(1)
-        end
+          .to be(0)
       end
     end
 
-    context 'if lacking the manage_overview permission and deviating from the default page' do
-      let(:permissions) { %i[] }
-
-      let(:stored_grids) do
-      end
-
-      let(:params) do
-        {
-          "rowCount": Overviews::GridRegistration.defaults[:row_count] + 1,
-          "_links": {
-            "scope": {
-              "href": project_overview_path(project)
-            }
-          }
-        }.with_indifferent_access
+    context 'if not being a member in the project' do
+      current_user do
+        create(:user)
       end
 
       it 'responds with 422' do
         expect(subject.status).to eq(422)
       end
 
-      it 'does not persists the grid' do
+      it 'persists no grid' do
         expect(Grids::Grid.count)
-          .to eql(0)
+          .to be(0)
       end
     end
   end

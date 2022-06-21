@@ -20,6 +20,8 @@ delete:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -34,6 +36,8 @@ delete:
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -49,6 +53,10 @@ delete:
         *Note: A client without sufficient permissions shall not be able to test for the existence of
         a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
       headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
   tags:
   - Groups
   description: Deletes the group.
@@ -100,6 +108,8 @@ get:
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -161,20 +171,12 @@ patch:
       description: OK
       headers: {}
     '400':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-                message: The request body was not a single JSON object.
-      description: Occurs when the client did not send a valid JSON object in the
-        request body.
-      headers: {}
+      $ref: "../components/responses/invalid_request_body.yml"
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -189,6 +191,8 @@ patch:
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -205,9 +209,15 @@ patch:
         *Note: A client without sufficient permissions shall not be able to test for the existence of
         a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
       headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
     '422':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -245,7 +255,7 @@ patch:
             _links:
               properties:
                 members:
-                  type: arrray
+                  type: array
                   items:
                     type: object
                     properties:

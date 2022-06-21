@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ describe OpenProject::Webhooks do
       OpenProject::Webhooks.unregister_hook('testhook1')
     end
 
-    it 'should succeed' do
+    it 'succeeds' do
       OpenProject::Webhooks.register_hook('testhook1') {}
     end
   end
@@ -46,7 +46,7 @@ describe OpenProject::Webhooks do
       OpenProject::Webhooks.unregister_hook('testhook3')
     end
 
-    it 'should succeed' do
+    it 'succeeds' do
       expect(OpenProject::Webhooks.find('testhook3')).to equal(hook)
     end
   end
@@ -58,7 +58,7 @@ describe OpenProject::Webhooks do
       OpenProject::Webhooks.register_hook('testhook2', &probe)
     end
 
-    it 'should result in the hook no longer being found' do
+    it 'results in the hook no longer being found' do
       OpenProject::Webhooks.unregister_hook('testhook2')
       expect(OpenProject::Webhooks.find('testhook2')).to be_nil
     end

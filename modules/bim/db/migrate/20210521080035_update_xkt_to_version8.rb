@@ -2,7 +2,7 @@ class UpdateXktToVersion8 < ActiveRecord::Migration[6.1]
   SEEDED_MODEL_DATA = { 'Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)' => 'hospital_architecture',
                         'Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)' => 'hospital_structural',
                         'Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)' => 'hospital_mechanical' }.freeze
-  
+
   def up
     # Queue every IFC model for a new transformation.
     Rails.logger.info "Migrate all IFC models to the latest XKT version"

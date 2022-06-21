@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,24 +30,24 @@ require 'spec_helper'
 
 shared_examples_for 'version contract' do
   let(:current_user) do
-    FactoryBot.build_stubbed(:user) do |user|
+    build_stubbed(:user) do |user|
       allow(user)
         .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && version_project == permission_project ||
-          root_permissions.include?(permission) && root_project == permission_project
+        (permissions.include?(permission) && version_project == permission_project) ||
+          (root_permissions.include?(permission) && root_project == permission_project)
       end
     end
   end
-  let(:root_project) { FactoryBot.build_stubbed(:project) }
+  let(:root_project) { build_stubbed(:project) }
   let(:version_project) do
-    FactoryBot.build_stubbed(:project, wiki: project_wiki).tap do |p|
+    build_stubbed(:project, wiki: project_wiki).tap do |p|
       allow(p)
         .to receive(:root)
         .and_return(root_project)
     end
   end
   let(:project_wiki) do
-    FactoryBot.build_stubbed(:wiki, pages: wiki_pages).tap do |wiki|
+    build_stubbed(:wiki, pages: wiki_pages).tap do |wiki|
       allow(wiki)
         .to receive(:find_page)
         .with(version_wiki_page_title)
@@ -58,8 +58,8 @@ shared_examples_for 'version contract' do
     double('page found')
   end
   let(:wiki_pages) do
-    [FactoryBot.build_stubbed(:wiki_page),
-     FactoryBot.build_stubbed(:wiki_page)]
+    [build_stubbed(:wiki_page),
+     build_stubbed(:wiki_page)]
   end
   let(:version_name) { 'Version name' }
   let(:version_description) { 'Version description' }
@@ -159,7 +159,7 @@ shared_examples_for 'version contract' do
     end
 
     context 'if sharing is system and the user an admin' do
-      let(:current_user) { FactoryBot.build_stubbed(:admin) }
+      let(:current_user) { build_stubbed(:admin) }
 
       before do
         version.sharing = 'system'
@@ -196,6 +196,7 @@ shared_examples_for 'version contract' do
 
     context 'if sharing is tree and the user has no manage permission on the root project' do
       let(:root_permissions) { [] }
+
       before do
         version.sharing = 'tree'
       end

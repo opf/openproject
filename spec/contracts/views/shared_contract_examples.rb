@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ shared_examples_for 'view contract' do |disabled_permission_checks|
   include_context 'ModelContract shared context'
 
   let(:current_user) do
-    FactoryBot.build_stubbed(:user) do |user|
+    build_stubbed(:user) do |user|
       allow(user)
         .to receive(:allowed_to?) do |permission, permission_project, **_args|
         permissions.include?(permission) && query_project == permission_project
@@ -41,21 +41,21 @@ shared_examples_for 'view contract' do |disabled_permission_checks|
     end
   end
   let(:view_query) do
-    FactoryBot.build_stubbed(:query,
-                             user: query_user,
-                             public: query_public,
-                             project: query_project)
+    build_stubbed(:query,
+                  user: query_user,
+                  public: query_public,
+                  project: query_project)
   end
   let(:permissions) { %i[view_work_packages save_queries] }
   let(:query_public) { false }
   let(:query_user) { current_user }
   let(:query_visible) { true }
-  let(:query_project) { FactoryBot.build_stubbed(:project) }
+  let(:query_project) { build_stubbed(:project) }
 
   before do
     next unless view_query
 
-    visible_scope = instance_double('ActiveRecord::Relation')
+    visible_scope = instance_double(ActiveRecord::Relation)
 
     allow(Query)
       .to receive(:visible)

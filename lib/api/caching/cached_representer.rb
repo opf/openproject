@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -231,14 +229,14 @@ module API
           self._cached_representer_config = cached_representer_configuration.deep_merge(config)
         end
 
-        def link(name, options = {}, &block)
+        def link(name, options = {}, &)
           rel_hash = name.is_a?(Hash) ? name : { rel: name }
-          super(rel_hash.merge(options), &block)
+          super(rel_hash.merge(options), &)
         end
 
-        def links(name, options = {}, &block)
+        def links(name, options = {}, &)
           rel_hash = name.is_a?(Hash) ? name : { rel: name }
-          super(rel_hash.merge(options), &block)
+          super(rel_hash.merge(options), &)
         end
       end
     end

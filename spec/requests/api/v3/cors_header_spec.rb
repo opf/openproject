@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -68,7 +68,6 @@ describe 'API v3 CORS headers',
           with_settings: { apiv3_cors_enabled: true } do
     context 'with allowed origin set to specific values',
             with_settings: { apiv3_cors_origins: %w[https://foo.example.com bla.test] } do
-
       it_behaves_like 'outputs CORS headers', '/api/v3'
       it_behaves_like 'outputs CORS headers', '/oauth/token'
       it_behaves_like 'outputs CORS headers', '/oauth/authorize'

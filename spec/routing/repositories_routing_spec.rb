@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -90,6 +90,7 @@ describe RepositoriesController, type: :routing do
                      format: 'html',
                      project_id: 'testproject')
     }
+
     it {
       expect(get('/projects/testproject/repository?rev=FSubCommit-a&branch=master&tag=FSubCommit-a'))
         .to route_to(controller: 'repositories',
@@ -100,6 +101,7 @@ describe RepositoriesController, type: :routing do
                      format: 'html',
                      project_id: 'testproject')
     }
+
     it {
       expect(get('/projects/testproject/repository/revisions/FSubCommit-a/sub'))
         .to route_to(controller: 'repositories',
@@ -270,6 +272,7 @@ describe RepositoriesController, type: :routing do
                      project_id: 'testproject',
                      repo_path: 'path/to/file.c')
     }
+
     it {
       expect(get('/projects/testproject/repository/revisions/5/annotate/path/to/file.c'))
         .to route_to(controller: 'repositories',

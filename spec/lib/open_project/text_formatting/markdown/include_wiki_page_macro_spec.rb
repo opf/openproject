@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,24 +38,27 @@ describe 'OpenProject include wiki page macro' do
   end
 
   let(:project) do
-    FactoryBot.build_stubbed :project
+    build_stubbed :project
   end
 
   let(:input) {}
-  subject { format_text(input, project: project) }
+
+  subject { format_text(input, project:) }
 
   def error_html(exception_msg)
     "<p class=\"op-uc-p\"><macro class=\"macro-unavailable\" data-macro-name=\"include_wiki_page\">" \
-          "Error executing the macro include_wiki_page (#{exception_msg})</macro></p>"
+      "Error executing the macro include_wiki_page (#{exception_msg})</macro></p>"
   end
 
   context 'old macro syntax no longer works' do
     let(:input) { '{{include(whatever)}}' }
+
     it { is_expected.to be_html_eql("<p class=\"op-uc-p\">#{input}</p>") }
   end
 
   context 'with the new but also no longer supported syntax' do
     let(:input) { '<macro class="include_wiki_page" data-page="included"></macro>' }
+
     it { is_expected.to be_html_eql(error_html("The macro does no longer exist.")) }
   end
 end

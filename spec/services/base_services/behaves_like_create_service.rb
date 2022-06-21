@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,9 +38,9 @@ shared_examples 'BaseServices create service' do
 
   let(:set_attributes_class) { "#{namespace}::SetAttributesService".constantize }
 
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:instance) do
-    described_class.new(user: user, contract_class: contract_class)
+    described_class.new(user:, contract_class:)
   end
   let(:call_attributes) { { name: 'Some name', identifier: 'Some identifier' } }
   let(:set_attributes_success) do
@@ -56,16 +54,16 @@ shared_examples 'BaseServices create service' do
                       success: set_attributes_success,
                       errors: set_attributes_errors
   end
-  let!(:model_instance) { FactoryBot.build_stubbed(factory) }
+  let!(:model_instance) { build_stubbed(factory) }
   let!(:set_attributes_service) do
     service = double('set_attributes_service_instance')
 
     allow(set_attributes_class)
       .to(receive(:new))
-      .with(user: user,
+      .with(user:,
             model: model_instance,
-            contract_class: contract_class,
-            contract_options: contract_options)
+            contract_class:,
+            contract_options:)
       .and_return(service)
 
     allow(service)
@@ -117,7 +115,7 @@ shared_examples 'BaseServices create service' do
       let(:set_attributes_success) { false }
 
       it 'is unsuccessful' do
-        expect(subject).to_not be_success
+        expect(subject).not_to be_success
       end
     end
 
@@ -126,7 +124,7 @@ shared_examples 'BaseServices create service' do
       let(:errors) { double('errors') }
 
       it 'is unsuccessful' do
-        expect(subject).to_not be_success
+        expect(subject).not_to be_success
       end
 
       it "returns the model's errors" do

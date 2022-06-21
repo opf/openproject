@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,7 +64,7 @@ class Groups::UpdateService < ::BaseServices::Update
   def remove_member_roles(member_role_ids)
     ::Groups::CleanupInheritedRolesService
       .new(model, current_user: user)
-      .call(member_role_ids: member_role_ids)
+      .call(member_role_ids:)
   end
 
   def member_roles_to_prune(users)

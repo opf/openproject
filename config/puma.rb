@@ -33,6 +33,8 @@ preload_app! if ENV["RAILS_ENV"] == 'production'
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart unless ENV["RAILS_ENV"] == 'production'
 
+plugin :appsignal if ENV['APPSIGNAL_ENABLED'] == 'true'
+
 # activate statsd plugin only if a host is configured explicitly
 if OpenProject::Configuration.statsd_host.present?
   module ConfigurationViaOpenProject

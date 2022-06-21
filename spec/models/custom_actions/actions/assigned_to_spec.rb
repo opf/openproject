@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,8 +32,8 @@ describe CustomActions::Actions::AssignedTo, type: :model do
   let(:key) { :assigned_to }
   let(:type) { :associated_property }
   let(:allowed_values) do
-    users = [FactoryBot.build_stubbed(:user),
-             FactoryBot.build_stubbed(:group)]
+    users = [build_stubbed(:user),
+             build_stubbed(:group)]
     allow(Principal)
       .to receive_message_chain(:not_locked, :select, :ordered_by_name)
       .and_return(users)
@@ -43,6 +43,7 @@ describe CustomActions::Actions::AssignedTo, type: :model do
      { value: users.first.id, label: users.first.name },
      { value: users.last.id, label: users.last.name }]
   end
+
   it_behaves_like 'base custom action'
   it_behaves_like 'associated custom action' do
     describe '#allowed_values' do
@@ -56,8 +57,9 @@ describe CustomActions::Actions::AssignedTo, type: :model do
   end
 
   describe 'current_user special value' do
-    let(:work_package) { FactoryBot.build_stubbed(:work_package) }
-    let(:user) { FactoryBot.build_stubbed(:user) }
+    let(:work_package) { build_stubbed(:work_package) }
+    let(:user) { build_stubbed(:user) }
+
     subject { described_class.new }
 
     before do

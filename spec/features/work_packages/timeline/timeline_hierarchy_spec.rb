@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,30 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package timeline hierarchies', js: true, selenium: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create(:project) }
+RSpec.describe 'Work package timeline hierarchies', js: true, selenium: true do
+  let(:user) { create :admin }
+  let!(:wp_root) do
+    create :work_package,
+           project:
+  end
+  let!(:wp_leaf) do
+    create :work_package,
+           project:,
+           parent: wp_root,
+           start_date: Date.today,
+           due_date: (Date.today + 5.days)
+  end
+  let!(:query) do
+    query              = build(:query, user:, project:)
+    query.column_names = ['subject']
+    query.filters.clear
+    query.show_hierarchies = true
+    query.timeline_visible = true
+
+    query.save!
+    query
+  end
+  let(:project) { create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
@@ -39,30 +60,6 @@ RSpec.feature 'Work package timeline hierarchies', js: true, selenium: true do
 
   before do
     login_as(user)
-  end
-
-  let!(:wp_root) do
-    FactoryBot.create :work_package,
-                      project: project
-  end
-
-  let!(:wp_leaf) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      parent: wp_root,
-                      start_date: Date.today,
-                      due_date: (Date.today + 5.days)
-  end
-
-  let!(:query) do
-    query              = FactoryBot.build(:query, user: user, project: project)
-    query.column_names = ['subject']
-    query.filters.clear
-    query.show_hierarchies = true
-    query.timeline_visible = true
-
-    query.save!
-    query
   end
 
   it 'hides the row in both hierarchy and timeline' do
@@ -90,16 +87,16 @@ RSpec.feature 'Work package timeline hierarchies', js: true, selenium: true do
 
   context 'with a relation being rendered to a hidden row' do
     let!(:wp_other) do
-      FactoryBot.create :work_package,
-                        project: project,
-                        start_date: Date.today + 5.days,
-                        due_date: (Date.today + 10.days)
+      create :work_package,
+             project:,
+             start_date: Date.today + 5.days,
+             due_date: (Date.today + 10.days)
     end
     let!(:relation) do
-      FactoryBot.create(:relation,
-                        from: wp_leaf,
-                        to: wp_other,
-                        relation_type: Relation::TYPE_FOLLOWS)
+      create(:relation,
+             from: wp_leaf,
+             to: wp_other,
+             relation_type: Relation::TYPE_FOLLOWS)
     end
 
     it 'does not render the relation when hierarchy is collapsed' do

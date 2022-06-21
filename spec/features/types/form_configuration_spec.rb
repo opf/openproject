@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,17 +29,17 @@
 require 'spec_helper'
 
 describe 'form configuration', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
-  let(:type) { FactoryBot.create :type }
+  shared_let(:admin) { create :admin }
+  let(:type) { create :type }
 
-  let(:project) { FactoryBot.create :project, types: [type] }
-  let(:category) { FactoryBot.create :category, project: project }
+  let(:project) { create :project, types: [type] }
+  let(:category) { create :category, project: }
   let(:work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      done_ratio: 10,
-                      category: category
+    create :work_package,
+           project:,
+           type:,
+           done_ratio: 10,
+           category:
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -52,6 +52,7 @@ describe 'form configuration', type: :feature, js: true do
 
     describe 'default configuration' do
       let(:dialog) { ::Components::ConfirmationDialog.new }
+
       before do
         login_as(admin)
         visit edit_type_tab_path(id: type.id, tab: "form_configuration")
@@ -117,7 +118,7 @@ describe 'form configuration', type: :feature, js: true do
         wp_page.expect_hidden_field(:done_ratio)
 
         groups = page.all('.attributes-group--header-text').map(&:text)
-        expect(groups).to eq %w[FILES]
+        expect(groups).to eq ['FILES']
         expect(page)
           .to have_selector('.work-packages--details--description', text: work_package.description)
       end
@@ -199,7 +200,7 @@ describe 'form configuration', type: :feature, js: true do
 
         # Test the actual type backend
         type.reload
-        expect(type.attribute_groups.map { |el| el.key })
+        expect(type.attribute_groups.map(&:key))
           .to include('Cool Stuff', :estimates_and_time, 'Whatever', 'New Group')
 
         # Visit work package with that type
@@ -247,7 +248,7 @@ describe 'form configuration', type: :feature, js: true do
 
     describe 'required custom field' do
       let(:custom_fields) { [custom_field] }
-      let(:custom_field) { FactoryBot.create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
+      let(:custom_field) { create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
       let(:cf_identifier) { "custom_field_#{custom_field.id}" }
       let(:cf_identifier_api) { "customField#{custom_field.id}" }
 
@@ -277,7 +278,7 @@ describe 'form configuration', type: :feature, js: true do
       let(:project_settings_page) { Pages::Projects::Settings.new(project) }
 
       let(:custom_fields) { [custom_field] }
-      let(:custom_field) { FactoryBot.create(:integer_issue_custom_field, name: 'MyNumber') }
+      let(:custom_field) { create(:integer_issue_custom_field, name: 'MyNumber') }
       let(:cf_identifier) { "custom_field_#{custom_field.id}" }
       let(:cf_identifier_api) { "customField#{custom_field.id}" }
 
@@ -302,7 +303,7 @@ describe 'form configuration', type: :feature, js: true do
         expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
       end
 
-      context 'inactive in project' do
+      context 'if inactive in project' do
         it 'can be added to the type, but is not shown' do
           # Visit work package with that type
           wp_page.visit!
@@ -318,7 +319,7 @@ describe 'form configuration', type: :feature, js: true do
           expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
 
           id_checkbox = find("#project_work_package_custom_field_ids_#{custom_field.id}")
-          expect(id_checkbox).to_not be_checked
+          expect(id_checkbox).not_to be_checked
           id_checkbox.set(true)
 
           click_button 'Save'
@@ -334,11 +335,11 @@ describe 'form configuration', type: :feature, js: true do
         end
       end
 
-      context 'active in project' do
+      context 'if active in project' do
         let(:project) do
-          FactoryBot.create :project,
-                            types: [type],
-                            work_package_custom_fields: custom_fields
+          create :project,
+                 types: [type],
+                 work_package_custom_fields: custom_fields
         end
 
         it 'can be added to type and is visible' do
@@ -364,7 +365,7 @@ describe 'form configuration', type: :feature, js: true do
   describe "without EE token" do
     let(:dialog) { ::Components::ConfirmationDialog.new }
 
-    it "should disable adding and renaming groups" do
+    it "must disable adding and renaming groups" do
       with_enterprise_token(nil)
       login_as(admin)
       visit edit_type_tab_path(id: type.id, tab: "form_configuration")

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -35,21 +33,21 @@ describe ::API::V3::Views::ViewsAPI,
          type: :request do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:permitted_user) { FactoryBot.create(:user) }
-  shared_let(:role) { FactoryBot.create(:role, permissions: %w[view_work_packages]) }
+  shared_let(:permitted_user) { create(:user) }
+  shared_let(:role) { create(:role, permissions: %w[view_work_packages]) }
   shared_let(:project) do
-    FactoryBot.create(:project,
-                      members: { permitted_user => role })
+    create(:project,
+           members: { permitted_user => role })
   end
   shared_let(:private_user_query) do
-    FactoryBot.create(:query,
-                      project: project,
-                      public: false,
-                      user: permitted_user)
+    create(:query,
+           project:,
+           public: false,
+           user: permitted_user)
   end
   shared_let(:view) do
-    FactoryBot.create :view_work_packages_table,
-                      query: private_user_query
+    create :view_work_packages_table,
+           query: private_user_query
   end
 
   let(:send_request) do
@@ -83,9 +81,9 @@ describe ::API::V3::Views::ViewsAPI,
 
   context 'with a user not allowed to see the query' do
     current_user do
-      FactoryBot.create(:user,
-                        member_in_project: project,
-                        member_through_role: role)
+      create(:user,
+             member_in_project: project,
+             member_through_role: role)
     end
 
     it 'returns a 404 response' do

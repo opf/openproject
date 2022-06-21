@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe CustomOption, type: :model do
   let(:custom_field) do
-    cf = FactoryBot.build(:wp_custom_field, field_format: 'list')
+    cf = build(:wp_custom_field, field_format: 'list')
     cf.custom_options.build(value: 'some value')
 
     cf
@@ -54,14 +54,14 @@ describe CustomOption, type: :model do
   describe '.destroy' do
     context 'with more than one option for the cf' do
       before do
-        FactoryBot.create(:custom_option, custom_field: custom_field)
+        create(:custom_option, custom_field:)
       end
 
       it 'removes the option' do
         custom_option.destroy
 
         expect(CustomOption.where(id: custom_option.id).count)
-          .to eql 0
+          .to be 0
       end
 
       it "updates the custom_field's timestamp" do
@@ -84,7 +84,7 @@ describe CustomOption, type: :model do
 
       it 'does not remove the custom option' do
         expect(CustomOption.where(id: custom_option.id).count)
-          .to eql 1
+          .to be 1
       end
     end
   end

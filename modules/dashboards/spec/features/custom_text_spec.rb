@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,24 +31,23 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Project description widget on dashboard', type: :feature, js: true do
-  let!(:type) { FactoryBot.create :type_task, name: 'Task' }
+  let!(:type) { create :type_task, name: 'Task' }
   let!(:project) do
-    FactoryBot.create :project, types: [type]
+    create :project, types: [type]
   end
 
   let(:permissions) do
     %i[view_dashboards
        manage_dashboards
-       add_work_packages
-      ]
+       add_work_packages]
   end
 
   let(:role) do
-    FactoryBot.create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
 
   let(:user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions)
+    create(:user, member_in_project: project, member_with_permissions: permissions)
   end
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
@@ -137,7 +136,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
       editor.drag_attachment image_fixture.path, 'Image uploaded'
 
       within custom_text_widget.area do
-        expect(page).to have_selector('attachment-list-item', text: 'image.png')
+        expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
         expect(page).to have_no_selector('notifications-upload-progress')
 
         field.save!
@@ -150,14 +149,14 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
           .to have_selector('#content img', count: 1)
 
         expect(page)
-          .to have_no_selector('attachment-list-item', text: 'image.png')
+          .to have_no_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
       end
     end
   end
 
   context 'for a user lacking edit permissions' do
     let!(:dashboard) do
-      FactoryBot.create(:dashboard_with_custom_text, project: project)
+      create(:dashboard_with_custom_text, project:)
     end
 
     let(:permissions) do

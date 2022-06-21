@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -31,8 +29,8 @@ require 'spec_helper'
 require 'rack/test'
 
 describe "/api/v3/queries/:id/order", type: :request do
-  let(:user) { FactoryBot.create :admin }
-  let(:query) { FactoryBot.create(:query, name: "A Query", user: user) }
+  let(:user) { create :admin }
+  let(:query) { create(:query, name: "A Query", user:) }
   let(:path) { "/api/v3/queries/#{query.id}/order" }
 
   subject(:body) { JSON.parse(last_response.body) }
@@ -43,8 +41,8 @@ describe "/api/v3/queries/:id/order", type: :request do
   end
 
   describe 'with order present' do
-    let(:wp1) { FactoryBot.create :work_package }
-    let(:wp2) { FactoryBot.create :work_package }
+    let(:wp1) { create :work_package }
+    let(:wp2) { create :work_package }
 
     before do
       query.ordered_work_packages.create(work_package_id: wp1.id, position: 0)
@@ -61,8 +59,8 @@ describe "/api/v3/queries/:id/order", type: :request do
   end
 
   describe '#patch' do
-    let!(:wp1) { FactoryBot.create :work_package }
-    let!(:wp2) { FactoryBot.create :work_package }
+    let!(:wp1) { create :work_package }
+    let!(:wp2) { create :work_package }
 
     let(:timestamp) { ::API::V3::Utilities::DateTimeFormatter.format_datetime(query.updated_at) }
 

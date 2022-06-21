@@ -1,17 +1,16 @@
 import {
+  applyTransaction,
   EntityState,
+  EntityStore,
   ID,
-  QueryEntity,
 } from '@datorama/akita';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import {
   ApiV3ListParameters,
   listParamsString,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { Observable } from 'rxjs';
-import {
-  filter,
-} from 'rxjs/operators';
+import { IHalResourceLinks } from 'core-app/core/state/hal-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 export interface CollectionResponse {
   ids:ID[];
@@ -20,10 +19,6 @@ export interface CollectionResponse {
 export interface CollectionState<T> extends EntityState<T> {
   /** Loaded notification collections */
   collections:Record<string, CollectionResponse>;
-}
-
-export interface CollectionService<T> {
-  query:QueryEntity<CollectionState<T>>;
 }
 
 export interface CollectionItem {
@@ -55,48 +50,92 @@ export function collectionKey(params:ApiV3ListParameters):string {
 }
 
 /**
- * Retrieve a collection from the given parameter set.
+ * Insert a collection into the given entity store
  *
- * @param service
- * @param params
+ * @param store An entity store for the collection
+ * @param collection A loaded collection
+ * @param collectionUrl The key to insert the collection at
  */
-export function selectCollectionAsHrefs$<T extends CollectionItem>(service:CollectionService<T>, params:ApiV3ListParameters):Observable<CollectionResponse> {
-  return service
-    .query
-    .select((state) => {
-      const collection = collectionKey(params);
-      return state?.collections[collection];
-    })
-    .pipe(
-      filter((collection) => !!collection),
-    );
+export function insertCollectionIntoState<T extends { id:ID }>(
+  store:EntityStore<CollectionState<T>>,
+  collection:IHALCollection<T>,
+  collectionUrl:string,
+):void {
+  const { elements } = collection._embedded as { elements:undefined|T[] };
+
+  // Some JSON endpoints return no elements result if there are no elements
+  const ids = elements?.map((el) => el.id) || [];
+
+  applyTransaction(() => {
+    // Avoid inserting when elements is not defined
+    if (elements && elements.length > 0) {
+      store.upsertMany(elements);
+    }
+
+    store.update(({ collections }) => (
+      {
+        collections: {
+          ...collections,
+          [collectionUrl]: {
+            ids,
+          },
+        },
+      }
+    ));
+  });
+}
+
+export function removeEntityFromCollectionAndState<T extends { id:ID }>(
+  store:EntityStore<CollectionState<T>>,
+  entityId:ID,
+  collectionUrl:string,
+):void {
+  applyTransaction(() => {
+    store.remove(entityId);
+    store.update(({ collections }) => (
+      {
+        collections: {
+          ...collections,
+          [collectionUrl]: {
+            ...collections[collectionUrl],
+            ids: (collections[collectionUrl]?.ids || []).filter((id) => id !== entityId),
+          },
+        },
+      }
+    ));
+  });
+}
+
+export function collectionFrom<T>(elements:T[]):IHALCollection<T> {
+  const count = elements.length;
+
+  return {
+    _type: 'Collection',
+    count,
+    total: count,
+    pageSize: count,
+    offset: 1,
+    _embedded: {
+      elements,
+    },
+  };
 }
 
 /**
- * Retrieve the entities from the collection a given the ID collection
- *
- * @param service
- * @param collection
+ * Takes a collection of elements that do not have an ID, and extract the ID from self link.
+ * @param collection a IHALCollection with elements that have a self link
+ * @returns the same collection with elements extended with an ID dervied from the self link.
  */
-export function selectEntitiesFromIDCollection<T extends CollectionItem>(service:CollectionService<T>, collection:CollectionResponse):T[] {
-  const ids = collection?.ids || [];
+export function extendCollectionElementsWithId<T extends { _links:IHalResourceLinks }>(
+  collection:IHALCollection<T>,
+):IHALCollection<T&{ id:ID }> {
+  const elements = collection._embedded.elements.map((element) => ({ ...element, id: idFromLink(element._links.self.href) }));
 
-  return ids
-    .map((id) => service.query.getEntity(id))
-    .filter((item) => !!item) as T[];
-}
-
-/**
- * Retrieve the entities from the collection a given parameter set produces.
- *
- * @param service
- * @param state
- * @param params
- */
-export function selectCollectionAsEntities$<T extends CollectionItem>(service:CollectionService<T>, params:ApiV3ListParameters):T[] {
-  const state = service.query.getValue();
-  const key = collectionKey(params);
-  const collection = state.collections[key];
-
-  return selectEntitiesFromIDCollection(service, collection);
+  return {
+    ...collection,
+    _embedded: {
+      ...collection._embedded,
+      elements,
+    },
+  };
 }

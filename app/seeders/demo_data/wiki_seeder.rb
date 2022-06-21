@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -51,8 +49,8 @@ module DemoData
       Array(text).each do |data|
         create_wiki_page!(
           data,
-          project: project,
-          user: user
+          project:,
+          user:
         )
       end
 
@@ -63,7 +61,7 @@ module DemoData
       wiki_page = WikiPage.create!(
         wiki: project.wiki,
         title: data[:title],
-        parent: parent
+        parent:
       )
 
       print_status '.'
@@ -77,8 +75,8 @@ module DemoData
         Array(data[:children]).each do |child_data|
           create_wiki_page!(
             child_data,
-            project: project,
-            user: user,
+            project:,
+            user:,
             parent: wiki_page
           )
         end

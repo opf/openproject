@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe Grids::Query, type: :model do
-  let(:user) { FactoryBot.create(:user) }
-  let(:other_user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
+  let(:other_user) { create(:user) }
   let!(:my_page_grid) do
-    FactoryBot.create(:my_page, user: user)
+    create(:my_page, user:)
   end
   let!(:other_my_page_grid) do
-    FactoryBot.create(:my_page, user: other_user)
+    create(:my_page, user: other_user)
   end
   let(:instance) { described_class.new }
 

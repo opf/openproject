@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -35,7 +33,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
   let(:path) { api_v3_paths.user(user.id) }
 
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
   let(:parameters) { {} }
 
   before do
@@ -47,7 +45,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
     patch path, parameters.to_json
   end
 
-  shared_context 'successful update' do |expected_attributes|
+  shared_examples 'successful update' do |expected_attributes|
     it 'responds with the represented updated user' do
       send_request
 
@@ -71,12 +69,14 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
     describe 'attribute change' do
       let(:parameters) { { email: 'foo@example.org', language: 'de' } }
+
       it_behaves_like 'successful update', mail: 'foo@example.org', language: 'de'
     end
 
     describe 'attribute collision' do
       let(:parameters) { { email: 'foo@example.org' } }
-      let(:collision) { FactoryBot.create(:user, mail: 'foo@example.org') }
+      let(:collision) { create(:user, mail: 'foo@example.org') }
+
       before do
         collision
       end
@@ -98,13 +98,13 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'admin user' do
-    let(:current_user) { FactoryBot.build(:admin) }
+    let(:current_user) { build(:admin) }
 
     it_behaves_like 'update flow'
 
     describe 'password update' do
       let(:password) { 'my!new!password123' }
-      let(:parameters) { { password: password } }
+      let(:parameters) { { password: } }
 
       it 'updates the users password correctly' do
         send_request
@@ -112,7 +112,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
         updated_user = User.find(user.id)
         matches = updated_user.check_password?(password)
-        expect(matches).to eq(true)
+        expect(matches).to be(true)
       end
     end
 
@@ -122,20 +122,20 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
       it 'responds with 404' do
         send_request
-        expect(last_response.status).to eql(404)
+        expect(last_response.status).to be(404)
       end
     end
   end
 
   describe 'user with global manage_user permission' do
-    shared_let(:global_manage_user) { FactoryBot.create :user, global_permission: :manage_user }
+    shared_let(:global_manage_user) { create :user, global_permission: :manage_user }
     let(:current_user) { global_manage_user }
 
     it_behaves_like 'update flow'
 
     describe 'password update' do
       let(:password) { 'my!new!password123' }
-      let(:parameters) { { password: password } }
+      let(:parameters) { { password: } }
 
       it 'rejects the users password update' do
         send_request
@@ -153,7 +153,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'unauthorized user' do
-    let(:current_user) { FactoryBot.build(:user) }
+    let(:current_user) { build(:user) }
     let(:parameters) { { email: 'new@example.org' } }
 
     it 'returns an erroneous response' do

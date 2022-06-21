@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,9 +29,9 @@
 require 'spec_helper'
 
 describe WorkflowsController, type: :controller do
-  let(:current_user) { FactoryBot.build_stubbed(:admin) }
+  let(:current_user) { build_stubbed(:admin) }
   let!(:role) do
-    FactoryBot.build_stubbed(:role).tap do |r|
+    build_stubbed(:role).tap do |r|
       allow(Role)
         .to receive(:find)
         .with(r.id.to_s)
@@ -41,7 +39,7 @@ describe WorkflowsController, type: :controller do
     end
   end
   let!(:type) do
-    FactoryBot.build_stubbed(:type) do |t|
+    build_stubbed(:type) do |t|
       allow(Type)
         .to receive(:find)
         .with(t.id.to_s)
@@ -82,7 +80,7 @@ describe WorkflowsController, type: :controller do
 
       allow(Workflows::BulkUpdateService)
         .to receive(:new)
-        .with(role: role, type: type)
+        .with(role:, type:)
         .and_return(service)
 
       service
@@ -93,7 +91,7 @@ describe WorkflowsController, type: :controller do
         .with(status_params)
         .and_return(call_result)
     end
-    let(:call_result) { ServiceResult.new success: true }
+    let(:call_result) { ServiceResult.success }
     let(:params) do
       {
         role_id: role.id,
@@ -103,7 +101,7 @@ describe WorkflowsController, type: :controller do
     end
 
     before do
-      post :update, params: params
+      post :update, params:
     end
 
     it 'redirects to edit' do

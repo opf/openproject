@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,11 +31,11 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe CostReportsController, type: :controller do
   include OpenProject::Reporting::PluginSpecHelper
 
-  let(:user) { FactoryBot.build(:user) }
-  let(:project) { FactoryBot.build(:valid_project) }
+  let(:user) { build(:user) }
+  let(:project) { build(:valid_project) }
 
   describe "GET show" do
-    before(:each) do
+    before do
       is_member project, user, [:view_cost_entries]
       allow(User).to receive(:current).and_return(user)
     end
@@ -46,7 +46,7 @@ describe CostReportsController, type: :controller do
         get :show, params: { id: 1, unit: -1 }
       end
 
-      it "should respond with a 404 error" do
+      it "responds with a 404 error" do
         expect(response.code).to eql("404")
       end
     end

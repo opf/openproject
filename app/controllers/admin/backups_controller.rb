@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +34,7 @@ class Admin::BackupsController < ApplicationController
   layout 'admin'
 
   before_action :check_enabled
-  before_action :require_admin
+  before_action :authorize_global
 
   before_action :check_password_confirmation, only: %i[perform_token_reset]
 
@@ -95,7 +93,7 @@ class Admin::BackupsController < ApplicationController
   def find_backup(status: :success, user: current_user)
     Backup
       .joins(:job_status)
-      .where(job_status: { user: user, status: status })
+      .where(job_status: { user:, status: })
       .last
   end
 
@@ -107,16 +105,16 @@ class Admin::BackupsController < ApplicationController
 
   def token_reset_flash_message(token)
     [
-      t('my.access_token.notice_reset_token', type: 'Backup').html_safe,
+      t('my.access_token.notice_reset_token', type: 'Backup'),
       content_tag(:strong, token.plain_value),
       t('my.access_token.token_value_warning')
     ]
   end
 
-  def token_reset_failed!(e)
-    Rails.logger.error "Failed to reset user ##{current_user.id}'s Backup key: #{e}"
+  def token_reset_failed!(error)
+    Rails.logger.error "Failed to reset user ##{current_user.id}'s Backup token: #{error}"
 
-    flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
+    flash[:error] = t('my.access_token.failed_to_reset_token', error: error.message)
   end
 
   def may_include_attachments?

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -32,7 +30,7 @@ require 'contracts/work_packages/shared_base_contract'
 
 describe WorkPackages::UpdateContract do
   let(:work_package_project) do
-    FactoryBot.build_stubbed(:project, public: false).tap do |p|
+    build_stubbed(:project, public: false).tap do |p|
       allow(Project)
         .to receive(:find)
         .with(p.id)
@@ -40,10 +38,10 @@ describe WorkPackages::UpdateContract do
     end
   end
   let(:work_package) do
-    FactoryBot.build_stubbed(:work_package,
-                             project: work_package_project,
-                             type: type,
-                             status: status).tap do |wp|
+    build_stubbed(:work_package,
+                  project: work_package_project,
+                  type:,
+                  status:).tap do |wp|
       wp_scope = double('wp scope')
 
       allow(WorkPackage)
@@ -57,9 +55,9 @@ describe WorkPackages::UpdateContract do
       end
     end
   end
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:type) { FactoryBot.build_stubbed(:type) }
-  let(:status) { FactoryBot.build_stubbed(:status) }
+  let(:user) { build_stubbed(:user) }
+  let(:type) { build_stubbed(:type) }
+  let(:status) { build_stubbed(:status) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
   before do
@@ -73,8 +71,8 @@ describe WorkPackages::UpdateContract do
 
   it_behaves_like 'work package contract' do
     let(:work_package) do
-      FactoryBot.build_stubbed(:work_package,
-                               project: work_package_project)
+      build_stubbed(:work_package,
+                    project: work_package_project)
     end
   end
 
@@ -108,6 +106,7 @@ describe WorkPackages::UpdateContract do
 
   describe 'authorization' do
     let(:attributes) { {} }
+
     before do
       work_package.attributes = attributes
       contract.validate
@@ -161,14 +160,14 @@ describe WorkPackages::UpdateContract do
   end
 
   describe 'project_id' do
-    let(:target_project) { FactoryBot.create(:project, types: [type]) }
+    let(:target_project) { create(:project, types: [type]) }
     let(:target_permissions) { [:move_work_packages] }
 
     before do
       allow(user)
         .to receive(:allowed_to?) do |permission, context|
-        permissions.include?(permission) && context == work_package_project ||
-          target_permissions.include?(permission) && context == target_project
+        (permissions.include?(permission) && context == work_package_project) ||
+          (target_permissions.include?(permission) && context == target_project)
       end
 
       allow(work_package)
@@ -191,6 +190,7 @@ describe WorkPackages::UpdateContract do
 
     context 'if the user lacks the permissions' do
       let(:target_permissions) { [] }
+
       it 'is invalid' do
         expect(contract.errors.symbols_for(:project_id)).to match_array([:error_readonly])
       end
@@ -198,7 +198,7 @@ describe WorkPackages::UpdateContract do
   end
 
   describe 'version' do
-    let(:version) { FactoryBot.build_stubbed(:version) }
+    let(:version) { build_stubbed(:version) }
 
     before do
       allow(work_package)
@@ -245,11 +245,12 @@ describe WorkPackages::UpdateContract do
 
   describe 'with children' do
     context 'changing to milestone' do
-      let(:milestone) { FactoryBot.build_stubbed :type, is_milestone: true }
+      let(:milestone) { build_stubbed :type, is_milestone: true }
+      let(:children) { [build_stubbed(:work_package)] }
 
       before do
         work_package.type = milestone
-        allow(work_package).to receive_message_chain(:children, :any?).and_return true
+        allow(work_package).to receive(:children).and_return children
         contract.validate
       end
 
@@ -260,7 +261,7 @@ describe WorkPackages::UpdateContract do
   end
 
   describe 'parent_id' do
-    let(:parent) { FactoryBot.create(:work_package) }
+    let(:parent) { create(:work_package) }
 
     before do
       work_package.parent_id = parent.id
@@ -342,8 +343,8 @@ describe WorkPackages::UpdateContract do
 
   describe 'readonly status' do
     context 'with the status being readonly', with_ee: %i[readonly_work_packages] do
-      let(:status) { FactoryBot.build_stubbed(:status, is_readonly: true) }
-      let(:new_priority) { FactoryBot.build_stubbed(:priority) }
+      let(:status) { build_stubbed(:status, is_readonly: true) }
+      let(:new_priority) { build_stubbed(:priority) }
 
       before do
         work_package.priority = new_priority

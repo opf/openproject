@@ -4,12 +4,12 @@ pt:
       ldap_groups/synchronized_group:
         dn: 'ND'
         auth_source: 'Conexão LDAP'
-        sync_users: 'Sincronizar usuário'
+        sync_users: 'Sincronizar usuários'
       ldap_groups/synchronized_filter:
         filter_string: 'Filtro LDAP'
         auth_source: 'Conexão LDAP'
         group_name_attribute: "Atributo de nome de grupo"
-        sync_users: 'Sincronizar usuário'
+        sync_users: 'Sincronizar usuários'
         base_dn: "Procurar DN base"
     models:
       ldap_groups/synchronized_group: 'Grupo LDAP sincronizado'

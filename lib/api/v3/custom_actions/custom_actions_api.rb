@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ module API
 
             get do
               ::API::V3::CustomActions::CustomActionRepresenter.new(custom_action,
-                                                                    current_user: current_user)
+                                                                    current_user:)
             end
 
             namespace 'execute' do
@@ -56,7 +56,7 @@ module API
                     struct = OpenStruct.new
 
                     representer = ::API::V3::CustomActions::CustomActionExecuteRepresenter.new(struct,
-                                                                                               current_user: current_user)
+                                                                                               current_user:)
                     representer.from_hash(Hash(request_body))
                   end
                 end
@@ -77,14 +77,14 @@ module API
                 ::CustomActions::UpdateWorkPackageService
                   .new(user: current_user,
                        action: custom_action)
-                  .call(work_package: work_package) do |call|
+                  .call(work_package:) do |call|
                   call.on_success do
                     work_package.reload
 
                     status 200
                     body(::API::V3::WorkPackages::WorkPackageRepresenter.create(
                            work_package,
-                           current_user: current_user,
+                           current_user:,
                            embed_links: true
                          ))
                   end

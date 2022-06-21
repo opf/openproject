@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe Color, type: :model do
-  describe '- Relations ' do
+  describe '- Relations' do
     describe '#planning_element_types' do
       it 'can read planning_element_types w/ the help of the has_many association' do
-        color                 = FactoryBot.create(:color)
-        planning_element_type = FactoryBot.create(:type,
-                                                  color_id: color.id)
+        color                 = create(:color)
+        planning_element_type = create(:type,
+                                       color_id: color.id)
 
         color.reload
 
@@ -43,9 +43,9 @@ describe Color, type: :model do
       end
 
       it 'nullifies dependent planning_element_types' do
-        color                 = FactoryBot.create(:color)
-        planning_element_type = FactoryBot.create(:type,
-                                                  color_id: color.id)
+        color                 = create(:color)
+        planning_element_type = create(:type,
+                                       color_id: color.id)
 
         color.reload
         color.destroy
@@ -56,7 +56,7 @@ describe Color, type: :model do
     end
   end
 
-  describe '- Validations ' do
+  describe '- Validations' do
     let(:attributes) do
       { name: 'Color No. 1',
         hexcode: '#FFFFFF' }

@@ -1,5 +1,9 @@
 user: openproject
 group: openproject
+description: OpenProject
+homepage: "https://www.openproject.org"
+maintainer: "operations+packaging@openproject.com"
+license: "GPL"
 targets:
   debian-9: &debian9
     build_dependencies:
@@ -21,7 +25,13 @@ targets:
     <<: *debian9
   ubuntu-20.04:
     <<: *debian9
+  ubuntu-22.04:
+    <<: *debian9
   centos-7: &centos7
+    env:
+      - BUNDLE_BUILD__PG="--with-pg-config=/usr/pgsql-13/bin/pg_config"
+      - NODE_ENV=production
+      - NPM_CONFIG_PRODUCTION=false
     dependencies:
       - epel-release
       - ImageMagick
@@ -29,6 +39,9 @@ targets:
       - poppler-utils
   centos-8:
     <<: *centos7
+    env:
+      - NODE_ENV=production
+      - NPM_CONFIG_PRODUCTION=false
   sles-12:
     build_dependencies:
       - sqlite3-devel
@@ -44,7 +57,6 @@ wizards:
   - https://github.com/pkgr/addon-postgres
   - https://github.com/pkgr/addon-apache2.git
   - ./packaging/addons/repositories
-  - https://github.com/pkgr/addon-smtp.git
   - https://github.com/pkgr/addon-memcached.git
   - ./packaging/addons/openproject
 buildpack: https://github.com/opf/heroku-buildpack-multi.git#master

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,19 +31,19 @@ require 'spec_helper'
 describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
 
   let(:self_link) { '/a/self/link' }
   let(:embedded) { true }
   let(:new_record) { true }
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:principal) { FactoryBot.build_stubbed(:group) }
+  let(:project) { build_stubbed(:project) }
+  let(:principal) { build_stubbed(:group) }
   let(:assigned_project) { nil }
   let(:assigned_principal) { nil }
   let(:allowed_roles) do
     if new_record
-      [FactoryBot.build_stubbed(:role),
-       FactoryBot.build_stubbed(:role)]
+      [build_stubbed(:role),
+       build_stubbed(:role)]
     end
   end
 
@@ -73,9 +73,9 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
   end
   let(:representer) do
     described_class.create(contract,
-                           self_link: self_link,
+                           self_link:,
                            form_embedded: embedded,
-                           current_user: current_user)
+                           current_user:)
   end
 
   context 'generation' do
@@ -83,7 +83,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
 
     describe '_type' do
       it 'is indicated as Schema' do
-        is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
+        expect(subject).to be_json_eql('Schema'.to_json).at_path('_type')
       end
     end
 
@@ -162,7 +162,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
               let(:href) do
                 filters = [{ 'principal' => { 'operator' => '!', 'values' => [principal.id.to_s] } }]
 
-                api_v3_paths.path_for(:memberships_available_projects, filters: filters)
+                api_v3_paths.path_for(:memberships_available_projects, filters:)
               end
             end
           end
@@ -215,7 +215,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
                 statuses = [Principal.statuses[:locked].to_s]
                 filters = [{ 'status' => { 'operator' => '!', 'values' => statuses } }]
 
-                api_v3_paths.path_for(:principals, filters: filters)
+                api_v3_paths.path_for(:principals, filters:)
               end
             end
           end
@@ -231,7 +231,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
 
                 filters = [status_filter, member_filter]
 
-                api_v3_paths.path_for(:principals, filters: filters)
+                api_v3_paths.path_for(:principals, filters:)
               end
             end
           end

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +32,7 @@ require 'services/base_services/behaves_like_update_service'
 describe Groups::UpdateService, type: :model do
   it_behaves_like 'BaseServices update service' do
     let(:add_service_result) do
-      ServiceResult.new success: true
+      ServiceResult.success
     end
     let!(:add_users_service) do
       add_service = instance_double(Groups::AddUsersService)
@@ -52,9 +50,9 @@ describe Groups::UpdateService, type: :model do
     end
 
     context 'with newly created group_users' do
-      let(:old_group_user) { FactoryBot.build_stubbed(:group_user, user_id: 3) }
+      let(:old_group_user) { build_stubbed(:group_user, user_id: 3) }
       let(:new_group_user) do
-        FactoryBot.build_stubbed(:group_user, user_id: 5).tap do |gu|
+        build_stubbed(:group_user, user_id: 5).tap do |gu|
           allow(gu)
             .to receive(:saved_changes?)
             .and_return(true)
@@ -84,7 +82,7 @@ describe Groups::UpdateService, type: :model do
 
       context 'with the AddUsersService being unsuccessful' do
         let(:add_service_result) do
-          ServiceResult.new success: false
+          ServiceResult.failure
         end
 
         it 'is failure' do

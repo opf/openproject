@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,22 +65,32 @@ class WorkPackages::CopyService
 
   def create(attributes, send_notifications)
     WorkPackages::CreateService
-      .new(user: user,
-           contract_class: contract_class)
-      .call(**attributes.merge(send_notifications: send_notifications).symbolize_keys)
+      .new(user:,
+           contract_class:)
+      .call(**attributes.merge(send_notifications:).symbolize_keys)
   end
 
-  def copied_attributes(wp, override)
-    wp
-      .attributes
-      .slice(*writable_work_package_attributes(wp))
-      .merge('parent_id' => wp.parent_id,
-             'custom_field_values' => wp.custom_value_attributes)
-      .merge(override)
+  def copied_attributes(work_package, override)
+    overwritten_attributes = override.stringify_keys
+
+    attributes = work_package
+                   .attributes
+                   .slice(*writable_work_package_attributes(work_package))
+                   .merge('parent_id' => work_package.parent_id,
+                          'custom_field_values' => work_package.custom_value_attributes)
+                   .merge(overwritten_attributes)
+
+    if overwritten_attributes.has_key?('start_date') &&
+      overwritten_attributes.has_key?('due_date') &&
+      !overwritten_attributes.has_key?('duration')
+      attributes.delete('duration')
+    end
+
+    attributes
   end
 
-  def writable_work_package_attributes(wp)
-    instantiate_contract(wp, user).writable_attributes
+  def writable_work_package_attributes(work_package)
+    instantiate_contract(work_package, user).writable_attributes
   end
 
   def remove_author_watcher(copied)

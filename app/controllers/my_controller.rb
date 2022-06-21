@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,8 +32,6 @@ class MyController < ApplicationController
   include ActionView::Helpers::TagHelper
 
   layout 'my'
-
-  helper_method :gon
 
   before_action :require_login
   before_action :set_current_user
@@ -74,7 +70,7 @@ class MyController < ApplicationController
 
   # When making changes here, also check AccountController.change_password
   def change_password
-    change_password_flow(user: @user, params: params, update_legacy: false) do
+    change_password_flow(user: @user, params:, update_legacy: false) do
       redirect_to action: 'password'
     end
   end

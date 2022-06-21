@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:current_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   before do
@@ -65,14 +65,14 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     context 'without a page link' do
       let(:params) do
         {
-          "rowCount": 5,
-          "columnCount": 5,
-          "widgets": [{
-            "identifier": "work_packages_assigned",
-            "startRow": 2,
-            "endRow": 4,
-            "startColumn": 2,
-            "endColumn": 5
+          rowCount: 5,
+          columnCount: 5,
+          widgets: [{
+            identifier: "work_packages_assigned",
+            startRow: 2,
+            endRow: 4,
+            startColumn: 2,
+            endColumn: 5
           }]
         }.with_indifferent_access
       end
@@ -83,7 +83,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
       it 'does not create a grid' do
         expect(Grids::Grid.count)
-          .to eql(0)
+          .to be(0)
       end
 
       it 'returns the errors' do

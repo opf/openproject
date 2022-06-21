@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,74 +38,74 @@ describe 'OpenProject child pages macro' do
   end
 
   let(:project) do
-    FactoryBot.create :valid_project,
-                      enabled_module_names: %w[wiki]
+    create :valid_project,
+           enabled_module_names: %w[wiki]
   end
+  let(:input) {}
   let(:member_project) do
-    FactoryBot.create :valid_project,
-                      identifier: 'member-project',
-                      enabled_module_names: %w[wiki]
+    create :valid_project,
+           identifier: 'member-project',
+           enabled_module_names: %w[wiki]
   end
   let(:invisible_project) do
-    FactoryBot.create :valid_project,
-                      identifier: 'other-project',
-                      enabled_module_names: %w[wiki]
+    create :valid_project,
+           identifier: 'other-project',
+           enabled_module_names: %w[wiki]
   end
-  let(:role) { FactoryBot.create(:role, permissions: [:view_wiki_pages]) }
+  let(:role) { create(:role, permissions: [:view_wiki_pages]) }
   let(:user) do
-    FactoryBot.create(:user, member_in_projects: [project, member_project], member_through_role: role)
+    create(:user, member_in_projects: [project, member_project], member_through_role: role)
   end
 
   let(:current_page) do
-    FactoryBot.create :wiki_page,
-                      title: 'Current page',
-                      wiki: project.wiki,
-                      content: FactoryBot.build(:wiki_content, text: input)
+    create :wiki_page,
+           title: 'Current page',
+           wiki: project.wiki,
+           content: build(:wiki_content, text: input)
   end
 
   let(:middle_page) do
-    FactoryBot.create :wiki_page,
-                      title: 'Node from same project',
-                      wiki: project.wiki,
-                      parent_id: current_page.id,
-                      content: FactoryBot.build(:wiki_content, text: '# Node Page from same project')
+    create :wiki_page,
+           title: 'Node from same project',
+           wiki: project.wiki,
+           parent_id: current_page.id,
+           content: build(:wiki_content, text: '# Node Page from same project')
   end
 
   let(:node_page_invisible_project) do
-    FactoryBot.create :wiki_page,
-                      title: 'Node page from invisible project',
-                      wiki: invisible_project.wiki,
-                      content: FactoryBot.build(:wiki_content, text: '# Page from invisible project')
+    create :wiki_page,
+           title: 'Node page from invisible project',
+           wiki: invisible_project.wiki,
+           content: build(:wiki_content, text: '# Page from invisible project')
   end
 
   let(:leaf_page) do
-    FactoryBot.create :wiki_page,
-                      title: 'Leaf page from same project',
-                      parent_id: middle_page.id,
-                      wiki: project.wiki,
-                      content: FactoryBot.build(:wiki_content, text: '# Leaf page from same project')
+    create :wiki_page,
+           title: 'Leaf page from same project',
+           parent_id: middle_page.id,
+           wiki: project.wiki,
+           content: build(:wiki_content, text: '# Leaf page from same project')
   end
 
   let(:leaf_page_invisible_project) do
-    FactoryBot.create :wiki_page,
-                      title: 'Leaf page from invisible project',
-                      parent_id: node_page_invisible_project.id,
-                      wiki: invisible_project.wiki,
-                      content: FactoryBot.build(:wiki_content, text: '# Leaf page from invisible project')
+    create :wiki_page,
+           title: 'Leaf page from invisible project',
+           parent_id: node_page_invisible_project.id,
+           wiki: invisible_project.wiki,
+           content: build(:wiki_content, text: '# Leaf page from invisible project')
   end
 
   let(:leaf_page_member_project) do
-    FactoryBot.create :wiki_page,
-                      title: 'Leaf page from member project',
-                      wiki: member_project.wiki,
-                      content: FactoryBot.build(:wiki_content, text: '# Leaf page from member project')
+    create :wiki_page,
+           title: 'Leaf page from member project',
+           wiki: member_project.wiki,
+           content: build(:wiki_content, text: '# Leaf page from member project')
   end
 
   before do
     login_as(user)
   end
 
-  let(:input) {}
   subject { format_text(current_page.content, :text) }
 
   before do
@@ -117,21 +117,24 @@ describe 'OpenProject child pages macro' do
 
   def error_html(exception_msg)
     "<p class=\"op-uc-p\"><macro class=\"macro-unavailable\" data-macro-name=\"child_pages\">" \
-          "Error executing the macro child_pages (#{exception_msg})</macro></p>"
+      "Error executing the macro child_pages (#{exception_msg})</macro></p>"
   end
 
   context 'with invalid page' do
     let(:input) { '<macro class="child_pages" data-page="Invalid"></macro>' }
+
     it { is_expected.to be_html_eql(error_html("Cannot find the wiki page 'Invalid'.")) }
   end
 
   context 'old macro syntax no longer works' do
     let(:input) { '{{child_pages(whatever)}}' }
+
     it { is_expected.to be_html_eql("<p class=\"op-uc-p\">#{input}</p>") }
   end
 
   context 'when nothing passed' do
     let(:input) { '<macro class="child_pages"></macro>' }
+
     it { is_expected.not_to match(current_page.title) }
     it { is_expected.to match(middle_page.title) }
     it { is_expected.to match(leaf_page.title) }
@@ -141,6 +144,7 @@ describe 'OpenProject child pages macro' do
 
   context 'when only include_parent passed' do
     let(:input) { '<macro class="child_pages" data-include-parent="true"></macro>' }
+
     it { is_expected.to match(current_page.title) }
     it { is_expected.to match(middle_page.title) }
     it { is_expected.to match(leaf_page.title) }
@@ -148,6 +152,7 @@ describe 'OpenProject child pages macro' do
 
   context 'when page title from same project passed' do
     let(:input) { '<macro class="child_pages" data-page="Node from same project"></macro>' }
+
     it { is_expected.not_to match(current_page.title) }
     it { is_expected.not_to match(middle_page.title) }
     it { is_expected.to match(leaf_page.title) }
@@ -155,6 +160,7 @@ describe 'OpenProject child pages macro' do
 
   context 'when page slug from same project passed' do
     let(:input) { '<macro class="child_pages" data-page="node-from-same-project"></macro>' }
+
     it { is_expected.not_to match(current_page.title) }
     it { is_expected.not_to match(middle_page.title) }
     it { is_expected.to match(leaf_page.title) }
@@ -162,13 +168,15 @@ describe 'OpenProject child pages macro' do
 
   context 'when page title from same project with include_parent passed' do
     let(:input) { '<macro class="child_pages" data-page="Node from same project" data-include-parent="true"></macro>' }
-    it { is_expected.to_not match(current_page.title) }
+
+    it { is_expected.not_to match(current_page.title) }
     it { is_expected.to match(middle_page.title) }
     it { is_expected.to match(leaf_page.title) }
   end
 
   context 'when page slug from invisible project passed' do
     let(:input) { '<macro class="child_pages" data-page="other-project:leaf-page-from-other-project"></macro>' }
+
     it { is_expected.to be_html_eql(error_html("Cannot find the wiki page 'other-project:leaf-page-from-other-project'.")) }
   end
 
@@ -176,7 +184,9 @@ describe 'OpenProject child pages macro' do
     let(:input) do
       '<macro class="child_pages" data-page="member-project:leaf-page-from-member-project" data-include-parent="true"></macro>'
     end
+
     before { leaf_page_member_project }
+
     it { is_expected.to match(leaf_page_member_project.title) }
   end
 end

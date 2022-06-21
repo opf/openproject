@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,20 +29,20 @@
 require 'spec_helper'
 
 describe 'Meetings deletion', type: :feature do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %w[meetings] }
+  let(:project) { create :project, enabled_module_names: %w[meetings] }
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:other_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
 
-  let!(:meeting) { FactoryBot.create :meeting, project: project, title: 'Own awesome meeting!', author: user }
-  let!(:other_meeting) { FactoryBot.create :meeting, project: project, title: 'Other awesome meeting!', author: other_user }
+  let!(:meeting) { create :meeting, project:, title: 'Own awesome meeting!', author: user }
+  let!(:other_meeting) { create :meeting, project:, title: 'Other awesome meeting!', author: other_user }
 
   before do
     login_as(user)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,4 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::SetAttributesService < ::BaseServices::SetAttributes; end
+class Queries::SetAttributesService < ::BaseServices::SetAttributes
+  def set_attributes(params)
+    set_ordered_work_packages params.delete(:ordered_work_packages)
+    super
+  end
+
+  def set_default_attributes(_params)
+    if model.include_subprojects.nil?
+      model.include_subprojects = Setting.display_subprojects_work_packages?
+    end
+
+    set_default_user
+  end
+
+  def set_default_user
+    model.change_by_system do
+      model.user = user
+    end
+  end
+
+  def set_ordered_work_packages(ordered_hash)
+    return if ordered_hash.nil? || model.persisted?
+
+    available = WorkPackage.where(id: ordered_hash.keys.map(&:to_s)).pluck(:id).to_set
+
+    ordered_hash.each do |key, position|
+      # input keys are symbols due to hashie::mash, and AR doesn't like that
+      wp_id = key.to_s.to_i
+      next unless available.include?(wp_id)
+
+      model.ordered_work_packages.build(work_package_id: wp_id, position:)
+    end
+  end
+end

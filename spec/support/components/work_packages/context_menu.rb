@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,12 +32,12 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
 
-      def open_for(work_package)
+      def open_for(work_package, card_view: false)
         # Close
         find('body').send_keys :escape
         sleep 0.5
 
-        if page.has_selector?('#wp-view-toggle-button', text: 'Cards')
+        if card_view || page.has_selector?('#wp-view-toggle-button', text: 'Cards')
           page.find(".op-wp-single-card-#{work_package.id}").right_click
         else
           page.find(".wp-row-#{work_package.id}-table").right_click
@@ -55,20 +55,20 @@ module Components
       end
 
       def choose(target)
-        find("#{selector} .menu-item", text: target).click
+        find("#{selector} .menu-item", text: target, exact_text: true).click
       end
 
       def expect_no_options(*options)
         expect_open
         options.each do |text|
-          expect(page).to have_no_selector("#{selector} .menu-item", text: text)
+          expect(page).to have_no_selector("#{selector} .menu-item", text:)
         end
       end
 
       def expect_options(options)
         expect_open
         options.each do |text|
-          expect(page).to have_selector("#{selector} .menu-item", text: text)
+          expect(page).to have_selector("#{selector} .menu-item", text:)
         end
       end
 

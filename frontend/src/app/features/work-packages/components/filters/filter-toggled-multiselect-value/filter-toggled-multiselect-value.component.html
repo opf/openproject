@@ -1,24 +1,20 @@
-<div class="inline-label ng-select-container"
-     id="div-values-{{filter.id}}">
-
-  <ng-select #ngSelectInstance
-             [ngModel]="filter.values"
-             (change)="setValues($event)"
-             (add)="repositionDropdown()"
-             (remove)="repositionDropdown()"
-             (open)="repositionDropdown()"
-             [compareWith]="compareByHrefOrString"
-             [clearSearchOnAdd]="true"
-             [placeholder]="text.placeholder"
-             [ngClass]="{'-required-highlighting' : isEmpty}"
-             class="advanced-filters--ng-select -multi-select"
-             [id]="'values-' + filter.id"
-             [items]="availableOptions"
-             [multiple]="true"
-             [closeOnSelect]="false"
-             [hideSelected]="true"
-             appendTo="body"
-             bindLabel="name"
-             [virtualScroll]="true">
-  </ng-select>
+<div
+  class="inline-label ng-select-container"
+  id="div-values-{{filter.id}}"
+>
+  <op-autocompleter
+    appendTo="body"
+    class="advanced-filters--ng-select -multi-select"
+    [id]="'values-' + filter.id"
+    [items]="availableOptions"
+    [classes]="{'-required-highlighting' : value.length === 0}"
+    [virtualScroll]
+    [closeOnSelect]="false"
+    [placeholder]="text.placeholder"
+    [hideSelected]="true"
+    [multiple]="true"
+    [model]="value"
+    bindLabel="name"
+    (change)="setValues($event)"
+  ></op-autocompleter>
 </div>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,18 +32,18 @@ describe 'Delete viewpoint in model viewer',
          with_config: { edition: 'bim' },
          type: :feature,
          js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
-  let(:user) { FactoryBot.create :admin }
+  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let(:user) { create :admin }
 
-  let!(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let!(:bcf) { FactoryBot.create :bcf_issue, work_package: work_package }
-  let!(:viewpoint) { FactoryBot.create :bcf_viewpoint, issue: bcf, viewpoint_name: 'minimal_hidden_except_one' }
+  let!(:work_package) { create(:work_package, project:) }
+  let!(:bcf) { create :bcf_issue, work_package: }
+  let!(:viewpoint) { create :bcf_viewpoint, issue: bcf, viewpoint_name: 'minimal_hidden_except_one' }
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_minimal_converted,
-                      title: 'minimal',
-                      project: project,
-                      uploader: user)
+    create(:ifc_model_minimal_converted,
+           title: 'minimal',
+           project:,
+           uploader: user)
   end
 
   let(:model_tree) { ::Components::XeokitModelTree.new }

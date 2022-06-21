@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +34,7 @@ module WorkPackages
     attribute :subject
     attribute :description
     attribute :status_id,
-              writeable: ->(*) {
+              writable: ->(*) {
                 # If we did not change into the status,
                 # mark unwritable if status and version is closed
                 model.status_id_change || !closed_version_and_status?
@@ -54,13 +52,13 @@ module WorkPackages
     attribute :project_id
 
     attribute :done_ratio,
-              writeable: ->(*) {
+              writable: ->(*) {
                 model.leaf? && Setting.work_package_done_ratio == 'field'
               }
 
     attribute :estimated_hours
     attribute :derived_estimated_hours,
-              writeable: false
+              writable: false
 
     attribute :parent_id,
               permission: :manage_subtasks
@@ -82,9 +80,13 @@ module WorkPackages
     end
 
     attribute :schedule_manually
+    attribute :ignore_non_working_days,
+              writable: ->(*) {
+                OpenProject::FeatureDecisions.work_packages_duration_field_active?
+              }
 
     attribute :start_date,
-              writeable: ->(*) {
+              writable: ->(*) {
                 model.leaf? || model.schedule_manually?
               } do
       if !model.schedule_manually? && start_before_soonest_start?
@@ -96,8 +98,13 @@ module WorkPackages
     end
 
     attribute :due_date,
-              writeable: ->(*) {
+              writable: ->(*) {
                 model.leaf? || model.schedule_manually?
+              }
+
+    attribute :duration,
+              writable: ->(*) {
+                OpenProject::FeatureDecisions.work_packages_duration_field_active?
               }
 
     attribute :budget
@@ -116,8 +123,8 @@ module WorkPackages
 
     validate :validate_parent_exists
     validate :validate_parent_in_same_project
-    validate :validate_parent_not_subtask
     validate :validate_parent_not_self
+    validate :validate_parent_not_subtask
 
     validate :validate_status_exists
     validate :validate_status_transition
@@ -130,13 +137,23 @@ module WorkPackages
 
     validate :validate_assigned_to_exists
 
+    validates :duration,
+              # only_integer: true, cannot be used as that will not compare with the value
+              # before the type cast. So even a float value will pass the validation as it is silently
+              # floored.
+              numericality: { greater_than: 0 },
+              allow_nil: true
+
+    validate :validate_duration_integer
+    validate :validate_duration_matches_dates
+
     def initialize(work_package, user, options: {})
       super
 
       @can = WorkPackagePolicy.new(user)
     end
 
-    def assignable_statuses(include_default = false)
+    def assignable_statuses(include_default: false)
       # Do not allow skipping statuses without intermediately saving the work package.
       # We therefore take the original status of the work_package, while preserving all
       # other changes to it (e.g. type, assignee, etc.)
@@ -200,7 +217,7 @@ module WorkPackages
 
     def validate_enabled_type
       # Checks that the issue can not be added/moved to a disabled type
-      if type_context_changed? && !model.project.types.include?(model.type)
+      if type_context_changed? && model.project.types.exclude?(model.type)
         errors.add :type_id, :inclusion
       end
     end
@@ -247,8 +264,11 @@ module WorkPackages
 
     # have to validate ourself as the parent relation is created after saving
     def validate_parent_not_subtask
-      if model.parent_id_changed? && model.parent && invalid_relations_with_new_hierarchy.exists?
-        errors.add :base, :cant_link_a_work_package_with_a_descendant
+      if model.parent_id_changed? &&
+         model.parent_id &&
+         errors.exclude?(:parent) &&
+         WorkPackage.relatable(model, Relation::TYPE_PARENT).where(id: model.parent_id).empty?
+        errors.add :parent, :cant_link_a_work_package_with_a_descendant
       end
     end
 
@@ -281,7 +301,7 @@ module WorkPackages
     end
 
     def validate_version_is_assignable
-      if model.version_id && !model.assignable_versions.map(&:id).include?(model.version_id)
+      if model.version_id && model.assignable_versions.map(&:id).exclude?(model.version_id)
         errors.add :version_id, :inclusion
       end
     end
@@ -295,12 +315,26 @@ module WorkPackages
     def validate_people_visible(attribute, id_attribute, list)
       id = model[id_attribute]
 
-      return if id.nil? || !model.changed.include?(id_attribute)
+      return if id.nil? || model.changed.exclude?(id_attribute)
 
       unless principal_visible?(id, list)
         errors.add attribute,
                    I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                           property: I18n.t("attributes.#{attribute}"))
+      end
+    end
+
+    def validate_duration_integer
+      errors.add :duration, :not_an_integer if model.duration_before_type_cast != model.duration
+    end
+
+    def validate_duration_matches_dates
+      return unless calculated_duration && model.duration
+
+      if calculated_duration > model.duration
+        errors.add :duration, :smaller_than_dates
+      elsif calculated_duration < model.duration
+        errors.add :duration, :larger_than_dates
       end
     end
 
@@ -323,7 +357,7 @@ module WorkPackages
     end
 
     def principal_visible?(id, list)
-      list.exists?(id: id)
+      list.exists?(id:)
     end
 
     def start_before_soonest_start?
@@ -344,7 +378,7 @@ module WorkPackages
     end
 
     def category_not_of_project?
-      model.category && !model.project.categories.include?(model.category)
+      model.category && model.project.categories.exclude?(model.category)
     end
 
     def status_changed?
@@ -359,25 +393,6 @@ module WorkPackages
       assignable_statuses.exists?(model.status_id)
     end
 
-    def invalid_relations_with_new_hierarchy
-      query = Relation.from_parent_to_self_and_descendants(model)
-                      .or(Relation.from_self_and_descendants_to_ancestors(model))
-                      .direct
-
-      # Ignore the immediate relation from the old parent to the model
-      # since that will still exist before saving.
-      old_parent_id = model.parent_id_was
-
-      if old_parent_id.present?
-        query
-          .where.not(hierarchy: 1)
-          .where.not(from_id: old_parent_id)
-          .where.not(to_id: model.id)
-      else
-        query
-      end
-    end
-
     def type_context_changed?
       model.project && !type_inexistent? && (model.type_id_changed? || model.project_id_changed?)
     end
@@ -388,7 +403,7 @@ module WorkPackages
 
     # Returns a scope of status the user is able to apply
     def new_statuses_allowed_from(status)
-      return Status.where('1=0') if status.nil?
+      return Status.none if status.nil?
 
       current_status = Status.where(id: status.id)
 
@@ -432,6 +447,12 @@ module WorkPackages
     # We're in a readonly status and did not move into that status right now.
     def already_in_readonly_status?
       model.readonly_status? && !model.status_id_change
+    end
+
+    def calculated_duration
+      return nil unless model.due_date && model.start_date
+
+      model.due_date - model.start_date + 1
     end
   end
 end

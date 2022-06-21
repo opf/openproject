@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -110,7 +110,7 @@ module ::OpenProject::Plugins
         puts "Regenerating frontend plugin registry #{file_register}."
         context = ::OpenProject::Plugins::FrontendLinking::ErbContext.new plugins
         result = template.result(context.get_binding)
-        File.open(file_register, 'w') { |file| file.write(result) }
+        File.write(file_register, result)
       end
 
       ##
@@ -123,7 +123,7 @@ module ::OpenProject::Plugins
         puts "Regenerating frontend plugin sass #{file_register}."
         context = ::OpenProject::Plugins::FrontendLinking::ErbContext.new plugins
         result = template.result(context.get_binding)
-        File.open(file_register, 'w') { |file| file.write(result) }
+        File.write(file_register, result)
       end
 
       ##

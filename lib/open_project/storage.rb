@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +46,7 @@ module OpenProject
         # SCM vendors
         OpenProject::SCM::Manager.managed_paths.each do |vendor, path|
           paths[vendor] = {
-            path: path,
+            path:,
             label: I18n.t(:label_managed_repositories_vendor, vendor: vendor.to_s.camelize)
           }
         end
@@ -93,7 +91,7 @@ module OpenProject
         stat = Sys::Filesystem.stat(dir)
 
         {
-          dir: dir,
+          dir:,
           free: stat.bytes_free,
           used: stat.bytes_used,
           percent_used: stat.percent_used,

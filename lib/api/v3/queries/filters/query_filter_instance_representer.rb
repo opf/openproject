@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -90,7 +88,7 @@ module API
                         end
 
                         link_object = {
-                          href: href,
+                          href:,
                           title: value_object.name
                         }
 
@@ -124,7 +122,7 @@ module API
 
           property :name,
                    exec_context: :decorator,
-                   writeable: false
+                   writable: false
 
           def _type
             "#{converted_name.camelize}QueryFilter"
@@ -159,7 +157,7 @@ module API
           end
 
           def query_filter_instance_links_representer(represented)
-            ::API::V3::Queries::Filters::QueryFilterInstanceLinksRepresenter.new represented, current_user: current_user
+            ::API::V3::Queries::Filters::QueryFilterInstanceLinksRepresenter.new represented, current_user:
           end
 
           def represented_is_boolean_list?(represented)

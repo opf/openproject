@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,35 +29,35 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe WorkPackages::UpdateAncestorsService do
-  let(:user) { FactoryBot.create :user }
+  let(:user) { create :user }
 
   let(:sibling_remaining_hours) { 7.0 }
   let(:work_package_remaining_hours) { 5.0 }
 
   let!(:grandparent) do
-    FactoryBot.create :work_package
+    create :work_package
   end
   let!(:parent) do
-    FactoryBot.create :work_package,
-                      parent: grandparent
+    create :work_package,
+           parent: grandparent
   end
   let!(:sibling) do
-    FactoryBot.create :work_package,
-                      parent: parent,
-                      remaining_hours: sibling_remaining_hours
+    create :work_package,
+           parent:,
+           remaining_hours: sibling_remaining_hours
   end
 
   context 'for a new ancestors' do
     let!(:work_package) do
-      FactoryBot.create :work_package,
-                        remaining_hours: work_package_remaining_hours,
-                        parent: parent
+      create :work_package,
+             remaining_hours: work_package_remaining_hours,
+             parent:
     end
 
     subject do
       described_class
-        .new(user: user,
-             work_package: work_package)
+        .new(user:,
+             work_package:)
         .call(%i(parent))
     end
 
@@ -82,9 +82,9 @@ describe WorkPackages::UpdateAncestorsService do
 
   context 'for the previous ancestors' do
     let!(:work_package) do
-      FactoryBot.create :work_package,
-                        remaining_hours: work_package_remaining_hours,
-                        parent: parent
+      create :work_package,
+             remaining_hours: work_package_remaining_hours,
+             parent:
     end
 
     subject do
@@ -92,8 +92,8 @@ describe WorkPackages::UpdateAncestorsService do
       work_package.save!
 
       described_class
-        .new(user: user,
-             work_package: work_package)
+        .new(user:,
+             work_package:)
         .call(%i(parent))
     end
 

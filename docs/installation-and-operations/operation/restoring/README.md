@@ -160,11 +160,10 @@ mkdir /var/lib/openproject/{pgdata,assets}
 Next we need to initialize the database.
 
 ```
-docker run --rm -v /var/lib/openproject/pgdata:/var/openproject/pgdata -it openproject/community:11
+docker run --rm -v /var/lib/openproject/pgdata:/var/openproject/pgdata -it openproject/community:12
 ```
 
-As soon as you see `CREATE ROLE` and `Migrating to ToV710AggregatedMigrations (10000000000000)`
-or lots of `create_table` in the container's output you can kill it by pressing Ctrl + C.
+As soon as you see `Database setup finished.` in the container's output you can kill it by pressing Ctrl + C.
 It may take a moment to shut down.
 This then has initialized the database under `/var/lib/openproject/pgdata` on your docker host.
 
@@ -173,7 +172,7 @@ This then has initialized the database under `/var/lib/openproject/pgdata` on yo
 Now we can restore the database. For this we mount the initialized `pgdata` folder using the postgres docker container.
 
 ```
-docker run --rm -d --name postgres -v /var/lib/openproject/pgdata:/var/lib/postgresql/data postgres:9.6
+docker run --rm -d --name postgres -v /var/lib/openproject/pgdata:/var/lib/postgresql/data postgres:13
 ```
 
 Once the container is ready you can copy your SQL dump onto it and start `psql`.

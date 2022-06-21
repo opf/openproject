@@ -2,18 +2,19 @@ require 'spec_helper'
 
 describe LdapGroups::SynchronizedGroup, type: :model do
   describe 'validations' do
-    subject { FactoryBot.build :ldap_synchronized_group }
+    subject { build :ldap_synchronized_group }
 
     context 'correct attributes' do
       it 'saves the record' do
-        expect(subject.save).to eq true
+        expect(subject.save).to be true
       end
     end
 
     context 'missing attributes' do
       subject { described_class.new }
+
       it 'validates missing attributes' do
-        expect(subject.save).to eq false
+        expect(subject.save).to be false
         expect(subject.errors[:dn]).to include "can't be blank."
         expect(subject.errors[:auth_source]).to include "can't be blank."
         expect(subject.errors[:group]).to include "can't be blank."
@@ -23,12 +24,12 @@ describe LdapGroups::SynchronizedGroup, type: :model do
 
   describe 'manipulating members' do
     let(:users) { [user_1, user_2] }
-    let(:user_1) { FactoryBot.create :user }
-    let(:user_2) { FactoryBot.create :user }
+    let(:user_1) { create :user }
+    let(:user_2) { create :user }
 
     describe '.add_members!' do
-      let(:synchronized_group) { FactoryBot.create :ldap_synchronized_group, group: group }
-      let(:group) { FactoryBot.create :group }
+      let(:synchronized_group) { create :ldap_synchronized_group, group: }
+      let(:group) { create :group }
 
       shared_examples 'it adds users to the synchronized group and the internal one' do
         let(:members) { raise "define me!" }
@@ -66,13 +67,13 @@ describe LdapGroups::SynchronizedGroup, type: :model do
 
     describe '.remove_members!' do
       let(:synchronized_group) do
-        FactoryBot.create(:ldap_synchronized_group, group: group).tap do |sg|
+        create(:ldap_synchronized_group, group:).tap do |sg|
           group.users.each do |user|
-            sg.users.create user: user
+            sg.users.create user:
           end
         end
       end
-      let(:group) { FactoryBot.create :group, members: users }
+      let(:group) { create :group, members: users }
 
       shared_examples 'it removes the users from the synchronized group and the internal one' do
         let(:members) { raise "define me!" }

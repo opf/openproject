@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
 
   let(:self_link) { '/a/self/link' }
   let(:embedded) { true }
@@ -71,9 +71,9 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
   end
   let(:representer) do
     described_class.create(contract,
-                           self_link: self_link,
+                           self_link:,
                            form_embedded: embedded,
-                           current_user: current_user)
+                           current_user:)
   end
 
   context 'generation' do
@@ -81,7 +81,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
 
     describe '_type' do
       it 'is indicated as Schema' do
-        is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
+        expect(subject).to be_json_eql('Schema'.to_json).at_path('_type')
       end
     end
 
@@ -155,13 +155,13 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
         let(:embedded) { true }
 
         it 'contains no link to the allowed values' do
-          is_expected.not_to have_json_path("#{path}/_links/allowedValues")
+          expect(subject).not_to have_json_path("#{path}/_links/allowedValues")
         end
 
         it 'embeds the allowed values' do
           allowed_widgets.each_with_index do |identifier, index|
             href_path = "#{path}/_embedded/allowedValues/#{index}/identifier"
-            is_expected.to be_json_eql(identifier.to_json).at_path(href_path)
+            expect(subject).to be_json_eql(identifier.to_json).at_path(href_path)
           end
         end
       end

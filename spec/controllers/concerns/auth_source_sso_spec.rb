@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,8 @@ describe MyController, type: :controller do
 
   let(:sso_config) do
     {
-      header: header,
-      secret: secret
+      header:,
+      secret:
     }
   end
 
@@ -42,7 +42,7 @@ describe MyController, type: :controller do
   let(:secret) { "42" }
 
   let!(:auth_source) { DummyAuthSource.create name: "Dummy LDAP" }
-  let!(:user) { FactoryBot.create :user, login: login, auth_source_id: auth_source.id, last_login_on: 5.days.ago }
+  let!(:user) { create :user, login:, auth_source_id: auth_source.id, last_login_on: 5.days.ago }
   let(:login) { "h.wurst" }
   let(:header_login_value) { login }
   let(:header_value) { "#{header_login_value}#{secret ? ':' : ''}#{secret}" }
@@ -56,18 +56,12 @@ describe MyController, type: :controller do
   end
 
   shared_examples "auth source sso failure" do
-    def attrs(user)
-      user.attributes.slice(:login, :mail, :auth_source_id)
-    end
-
     it "redirects to AccountController#sso to show the error" do
       expect(response).to redirect_to "/sso"
 
       failure = session[:auth_source_sso_failure]
 
       expect(failure).to be_present
-      expect(attrs(failure[:user])).to eq attrs(user)
-
       expect(failure[:login]).to eq login
       expect(failure[:back_url]).to eq "http://test.host/my/account"
       expect(failure[:ttl]).to eq 1
@@ -76,8 +70,8 @@ describe MyController, type: :controller do
     context 'when the config is marked optional' do
       let(:sso_config) do
         {
-          header: header,
-          secret: secret,
+          header:,
+          secret:,
           optional: true
         }
       end
@@ -136,10 +130,10 @@ describe MyController, type: :controller do
 
     context 'when the user is invited' do
       let!(:user) do
-        FactoryBot.create :user, login: login, status: Principal.statuses[:invited], auth_source_id: auth_source.id
+        create :user, login:, status: Principal.statuses[:invited], auth_source_id: auth_source.id
       end
 
-      it "should log in given user and activate it" do
+      it "logs in given user and activate it" do
         expect(response).to redirect_to my_account_path
         expect(user.reload).to be_active
         expect(session[:user_id]).to eq user.id
@@ -149,28 +143,28 @@ describe MyController, type: :controller do
     context "with no auth source sso configured" do
       let(:sso_config) { nil }
 
-      it "should redirect to login" do
+      it "redirects to login" do
         expect(response).to redirect_to("/login?back_url=http%3A%2F%2Ftest.host%2Fmy%2Faccount")
       end
     end
 
     context "with a non-active user user" do
-      let(:user) { FactoryBot.create :user, login: login, auth_source_id: auth_source.id, status: 2 }
+      let(:user) { create :user, login:, auth_source_id: auth_source.id, status: 2 }
 
-      it_should_behave_like "auth source sso failure"
+      it_behaves_like "auth source sso failure"
     end
 
     context "with an invalid user" do
       let(:auth_source) { DummyAuthSource.create name: "Onthefly LDAP", onthefly_register: true }
 
-      let!(:duplicate) { FactoryBot.create :user, mail: "login@DerpLAP.net" }
+      let!(:duplicate) { create :user, mail: "login@DerpLAP.net" }
       let(:login) { "dummy_dupuser" }
 
       let(:user) do
-        FactoryBot.build :user, login: login, mail: duplicate.mail, auth_source_id: auth_source.id
+        build :user, login:, mail: duplicate.mail, auth_source_id: auth_source.id
       end
 
-      it_should_behave_like "auth source sso failure"
+      it_behaves_like "auth source sso failure"
     end
   end
 
@@ -198,14 +192,14 @@ describe MyController, type: :controller do
       expect(user.reload.last_login_on).to be_within(1.second).of(last_login)
 
       # Session values are kept
-      expect(session[:should_be_kept]).to eq true
+      expect(session[:should_be_kept]).to be true
     end
   end
 
   context 'when the logged-in user differs from the header' do
-    let(:other_user) { FactoryBot.create :user, login: 'other_user' }
+    let(:other_user) { create :user, login: 'other_user' }
     let(:session_update_time) { 1.minute.ago }
-    let(:service) { Users::LogoutService.new(controller: controller) }
+    let(:service) { Users::LogoutService.new(controller:) }
 
     before do
       session[:user_id] = other_user.id

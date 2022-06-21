@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -39,7 +39,7 @@ ru:
               parent_child_relationship_across_projects: "недействителен, поскольку пакет работ '%{work_package_name}' - это невыполненное задание и, следовательно, не может иметь родителя за пределами текущего проекта."
               type_must_be_one_of_the_following: "Тип должен быть одним из следующих: %{type_names}."
             version_id:
-              task_version_must_be_the_same_as_story_version: "должен быть таким же, как этап родительской истории."
+              task_version_must_be_the_same_as_story_version: "должен совпадать с версией родительской истории."
         sprint:
           cannot_end_before_it_starts: "Спринт не может заканчиваться до того, как начнется."
   backlogs:
@@ -91,7 +91,7 @@ ru:
   backlogs_sprints: "Спринты"
   backlogs_story: "История"
   backlogs_story_type: "Типы историй"
-  backlogs_task: "Задание"
+  backlogs_task: "Задача"
   backlogs_task_type: "Тип задачи"
   backlogs_velocity_missing: "Нельзя рассчитать скорость для этого проекта"
   backlogs_velocity_varies: "Скорость спринтов значительно различается"

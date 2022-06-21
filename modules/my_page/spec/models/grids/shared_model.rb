@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,13 +31,13 @@ shared_examples_for 'grid attributes' do
     it '#row_count' do
       instance.row_count = 5
       expect(instance.row_count)
-        .to eql 5
+        .to be 5
     end
 
     it '#column_count' do
       instance.column_count = 5
       expect(instance.column_count)
-        .to eql 5
+        .to be 5
     end
 
     it '#name' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,29 +30,29 @@ require 'spec_helper'
 
 describe Workflows::BulkUpdateService, 'integration', type: :model do
   let(:type) do
-    FactoryBot.create(:type)
+    create(:type)
   end
   let(:role) do
-    FactoryBot.create(:role)
+    create(:role)
   end
   let(:status1) do
-    FactoryBot.create(:status)
+    create(:status)
   end
   let(:status2) do
-    FactoryBot.create(:status)
+    create(:status)
   end
   let(:status3) do
-    FactoryBot.create(:status)
+    create(:status)
   end
   let(:status4) do
-    FactoryBot.create(:status)
+    create(:status)
   end
   let(:status5) do
-    FactoryBot.create(:status)
+    create(:status)
   end
 
   let(:instance) do
-    described_class.new(role: role, type: type)
+    described_class.new(role:, type:)
   end
 
   describe '#call' do
@@ -73,7 +73,7 @@ describe Workflows::BulkUpdateService, 'integration', type: :model do
         subject
 
         expect(Workflow.where(type_id: type.id, role_id: role.id).count)
-          .to eql 3
+          .to be 3
 
         refute_nil Workflow.where(role_id: role.id, type_id: type.id, old_status_id: status3.id, new_status_id: status2.id).first
         assert_nil Workflow.where(role_id: role.id, type_id: type.id, old_status_id: status5.id, new_status_id: status4.id).first
@@ -92,7 +92,7 @@ describe Workflows::BulkUpdateService, 'integration', type: :model do
         subject
 
         expect(Workflow.where(type_id: type.id, role_id: role.id).count)
-          .to eql 4
+          .to be 4
 
         w = Workflow.where(role_id: role.id, type_id: type.id, old_status_id: status4.id, new_status_id: status5.id).first
         assert !w.author
@@ -118,11 +118,11 @@ describe Workflows::BulkUpdateService, 'integration', type: :model do
         Workflow.create!(role_id: role.id, type_id: type.id, old_status_id: status3.id, new_status_id: status2.id)
       end
 
-      it 'should clear all workflows' do
+      it 'clears all workflows' do
         subject
 
         expect(Workflow.where(type_id: type.id, role_id: role.id).count)
-          .to eql 0
+          .to be 0
       end
     end
 
@@ -135,11 +135,11 @@ describe Workflows::BulkUpdateService, 'integration', type: :model do
         Workflow.create!(role_id: role.id, type_id: type.id, old_status_id: status3.id, new_status_id: status2.id)
       end
 
-      it 'should clear all workflows' do
+      it 'clears all workflows' do
         subject
 
         expect(Workflow.where(type_id: type.id, role_id: role.id).count)
-          .to eql 0
+          .to be 0
       end
     end
   end

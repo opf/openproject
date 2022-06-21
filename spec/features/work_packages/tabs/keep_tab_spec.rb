@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,11 +28,11 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Keep current details tab', js: true, selenium: true do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project) }
-  let!(:wp1) { FactoryBot.create(:work_package, project: project) }
-  let!(:wp2) { FactoryBot.create(:work_package, project: project) }
+RSpec.describe 'Keep current details tab', js: true, selenium: true do
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
+  let!(:wp1) { create(:work_package, project:) }
+  let!(:wp2) { create(:work_package, project:) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:split) { Pages::WorkPackagesTable.new(project) }
@@ -42,7 +42,7 @@ RSpec.feature 'Keep current details tab', js: true, selenium: true do
     wp_table.visit!
   end
 
-  scenario 'Remembers the tab while navigating the page' do
+  it 'Remembers the tab while navigating the page' do
     wp_table.expect_work_package_listed(wp1)
     wp_table.expect_work_package_listed(wp2)
 

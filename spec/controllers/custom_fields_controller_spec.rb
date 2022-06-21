@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe CustomFieldsController, type: :controller do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
-  let(:custom_field) { FactoryBot.build_stubbed(:custom_field) }
+  let(:custom_field) { build_stubbed(:custom_field) }
 
   before do
     login_as admin
@@ -74,7 +74,7 @@ describe CustomFieldsController, type: :controller do
       end
 
       before do
-        post :create, params: params
+        post :create, params:
       end
 
       it 'responds with error' do
@@ -95,7 +95,7 @@ describe CustomFieldsController, type: :controller do
       end
 
       before do
-        post :create, params: params
+        post :create, params:
       end
 
       it 'responds ok' do

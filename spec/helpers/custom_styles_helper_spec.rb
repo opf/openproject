@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,12 +42,12 @@ describe CustomStylesHelper, type: :helper do
 
     context 'no CustomStyle present' do
       it 'is falsey' do
-        is_expected.to be_falsey
+        expect(subject).to be_falsey
       end
     end
 
     context 'CustomStyle present' do
-      let(:current_theme) { FactoryBot.build_stubbed(:custom_style) }
+      let(:current_theme) { build_stubbed(:custom_style) }
 
       context 'without EE' do
         before do
@@ -56,7 +56,7 @@ describe CustomStylesHelper, type: :helper do
 
         context 'no BIM edition' do
           it 'is falsey' do
-            is_expected.to be_falsey
+            expect(subject).to be_falsey
           end
         end
 
@@ -64,7 +64,7 @@ describe CustomStylesHelper, type: :helper do
           let(:bim_edition?) { true }
 
           it 'is truthy' do
-            is_expected.to be_truthy
+            expect(subject).to be_truthy
           end
         end
       end
@@ -76,7 +76,7 @@ describe CustomStylesHelper, type: :helper do
 
         context 'no BIM edition' do
           it 'is truthy' do
-            is_expected.to be_truthy
+            expect(subject).to be_truthy
           end
         end
 
@@ -84,22 +84,22 @@ describe CustomStylesHelper, type: :helper do
           let(:bim_edition?) { true }
 
           it 'is truthy' do
-            is_expected.to be_truthy
+            expect(subject).to be_truthy
           end
         end
       end
     end
   end
 
-  shared_examples(:apply_when_ee_present) do
+  shared_examples('apply when ee present') do
     context 'no CustomStyle present' do
       it 'is falsey' do
-        is_expected.to be_falsey
+        expect(subject).to be_falsey
       end
     end
 
     context 'CustomStyle present' do
-      let(:current_theme) { FactoryBot.build_stubbed(:custom_style) }
+      let(:current_theme) { build_stubbed(:custom_style) }
 
       before do
         allow(current_theme).to receive(:favicon).and_return(true)
@@ -112,7 +112,7 @@ describe CustomStylesHelper, type: :helper do
         end
 
         it 'is falsey' do
-          is_expected.to be_falsey
+          expect(subject).to be_falsey
         end
       end
 
@@ -122,7 +122,7 @@ describe CustomStylesHelper, type: :helper do
         end
 
         it 'is truthy' do
-          is_expected.to be_truthy
+          expect(subject).to be_truthy
         end
       end
     end
@@ -131,12 +131,12 @@ describe CustomStylesHelper, type: :helper do
   describe '.apply_custom_favicon?' do
     subject { helper.apply_custom_favicon? }
 
-    it_behaves_like :apply_when_ee_present
+    it_behaves_like 'apply when ee present'
   end
 
   describe '.apply_custom_touch_icon?' do
     subject { helper.apply_custom_touch_icon? }
 
-    it_behaves_like :apply_when_ee_present
+    it_behaves_like 'apply when ee present'
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,6 +59,7 @@ describe GlobalRole, type: :model do
         subject { @role.permissions }
 
         it { is_expected.to be_an_instance_of(Array) }
+
         it 'has no items' do
           expect(subject.size).to eq(0)
         end

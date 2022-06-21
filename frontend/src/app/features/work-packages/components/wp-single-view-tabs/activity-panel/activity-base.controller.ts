@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -101,7 +101,8 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
         this.reloadActivities();
       });
 
-    this.wpSingleViewService.query
+    this
+      .wpSingleViewService
       .selectNotificationsCount$
       .pipe(
         this.untilDestroyed(),
@@ -113,7 +114,9 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   }
 
   private scrollIfNotificationPresent() {
-    this.storeService.query.hasNotifications$
+    this
+      .storeService
+      .hasNotifications$
       .pipe(take(1))
       .subscribe((hasNotification) => {
         if (hasNotification) {
@@ -166,7 +169,6 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   protected hasUnreadNotification(activityHref:string):Observable<boolean> {
     return this
       .storeService
-      .query
       .selectNotifications$
       .pipe(
         map((notifications) => (

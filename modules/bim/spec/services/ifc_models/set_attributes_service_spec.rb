@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,11 +29,11 @@
 require 'spec_helper'
 
 describe Bim::IfcModels::SetAttributesService, type: :model do
-  shared_let(:project) { FactoryBot.create(:project, enabled_module_names: %i[bim]) }
-  shared_let(:other_project) { FactoryBot.create(:project, enabled_module_names: %i[bim]) }
-  shared_let(:user) { FactoryBot.create(:user, member_in_project: project, member_with_permissions: %i[manage_ifc_models]) }
+  shared_let(:project) { create(:project, enabled_module_names: %i[bim]) }
+  shared_let(:other_project) { create(:project, enabled_module_names: %i[bim]) }
+  shared_let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[manage_ifc_models]) }
 
-  let(:other_user) { FactoryBot.build_stubbed(:user) }
+  let(:other_user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
 
@@ -55,14 +53,14 @@ describe Bim::IfcModels::SetAttributesService, type: :model do
   end
   let(:model_valid) { true }
   let(:instance) do
-    described_class.new(user: user,
-                        model: model,
-                        contract_class: contract_class)
+    described_class.new(user:,
+                        model:,
+                        contract_class:)
   end
   let(:call_attributes) { {} }
   let(:ifc_file) { FileHelpers.mock_uploaded_file(name: "model_2.ifc", content_type: 'application/binary', binary: true) }
   let(:model) do
-    FactoryBot.create(:ifc_model, project: project, uploader: other_user)
+    create(:ifc_model, project:, uploader: other_user)
   end
 
   before do
@@ -109,7 +107,7 @@ describe Bim::IfcModels::SetAttributesService, type: :model do
 
     context 'for a new record' do
       let(:model) do
-        Bim::IfcModels::IfcModel.new project: project
+        Bim::IfcModels::IfcModel.new project:
       end
 
       context 'with an ifc_attachment' do

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -133,14 +131,14 @@ module WorkPackagesHelper
 
       link_to(link_text.html_safe,
               work_package_link,
-              title: title,
+              title:,
               class: css_class)
     else
       link_text = [hidden_link, link].reject(&:empty?).join
 
       html_link = link_to(link_text.html_safe,
                           work_package_link,
-                          title: title,
+                          title:,
                           class: css_class)
 
       [[prefix, html_link].reject(&:empty?).join(' - '),
@@ -148,7 +146,7 @@ module WorkPackagesHelper
     end.html_safe
   end
 
-  def work_package_list(work_packages, &_block)
+  def work_package_list(work_packages, &)
     ancestors = []
     work_packages.each do |work_package|
       while ancestors.any? && !work_package.is_descendant_of?(ancestors.last)

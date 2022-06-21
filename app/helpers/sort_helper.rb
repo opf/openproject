@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -90,7 +88,10 @@ module SortHelper
 
     def available_criteria=(criteria)
       unless criteria.is_a?(Hash)
-        criteria = criteria.inject({}) { |h, k| h[k] = k; h }
+        criteria = criteria.inject({}) do |h, k|
+          h[k] = k
+          h
+        end
       end
       @available_criteria = criteria
     end
@@ -115,7 +116,7 @@ module SortHelper
 
     def to_sql
       sql = to_a.join(', ')
-      sql.blank? ? nil : sql
+      sql.presence
     end
 
     def to_a
@@ -131,8 +132,8 @@ module SortHelper
         .to_h
     end
 
-    def map_each(&block)
-      to_a.map(&block)
+    def map_each(&)
+      to_a.map(&)
     end
 
     def add!(key, asc)
@@ -321,7 +322,7 @@ module SortHelper
     options[:title] = sort_header_title(column, caption, options)
 
     within_sort_header_tag_hierarchy(options, sort_class(column)) do
-      sort_link(column, caption, default_order, param: param, lang: lang, title: options[:title])
+      sort_link(column, caption, default_order, param:, lang:, title: options[:title])
     end
   end
 
@@ -341,11 +342,11 @@ module SortHelper
     end
   end
 
-  def within_sort_header_tag_hierarchy(options, classes, &block)
+  def within_sort_header_tag_hierarchy(options, classes, &)
     content_tag 'th', options do
       content_tag 'div', class: 'generic-table--sort-header-outer' do
         content_tag 'div', class: 'generic-table--sort-header' do
-          content_tag 'span', class: classes, &block
+          content_tag('span', class: classes, &)
         end
       end
     end

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +48,7 @@ module API
         @description = description
         @deprecated = deprecated
 
-        super(nil, current_user: current_user)
+        super(nil, current_user:)
       end
 
       attr_accessor :type,
@@ -87,6 +85,7 @@ module API
                            setter: nil,
                            getter: ->(*) do
                              next unless description.present?
+
                              ::API::Decorators::Formattable.new(description)
                            end
 

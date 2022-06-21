@@ -1,7 +1,13 @@
 #English strings go here
 ar:
-  permission_view_team_planner: "View team planner"
-  permission_manage_team_planner: "Manage team planner"
-  project_module_team_planner_view: "Team planner"
+  permission_view_team_planner: "عرض مخطط الفريق"
+  permission_manage_team_planner: "إدارة مخطط الفريق"
+  project_module_team_planner_view: "مخطط الفريق"
   team_planner:
-    label_team_planner: "Team planner"
+    label_team_planner: "مخطط الفريق"
+    label_create_new_team_planner: "إنشاء مخطط فريق جديد"
+    label_team_planner_plural: "مخططي الفريق"
+    label_assignees: "المعينون"
+    upsale:
+      title: "مخطط الفريق"
+      description: "يمنحك مخطط الفريق نظرة عامة كاملة على ما يعمل عليه كل عضو في الفريق ، أسبوعًا واحدًا في كل مرة. انقل حزم العمل وتمديدها وتقليصها بصريًا ، بل واسحبها من موظف إلى آخر لتنظيم عبء العمل. يمكنك أيضًا إنشاء حزم عمل جديدة أو إضافة مجموعات موجودة ، كل ذلك من داخل مخطط الفريق!"

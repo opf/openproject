@@ -57,13 +57,14 @@ x-op-backend: &backend
 services:
   backend:
     <<: *backend
+    tty: true
+    stdin_open: true
     command: run-app
     ports:
       - "3000:3000"
     depends_on:
       - db
       - cache
-      - worker
 
   worker:
     <<: *backend
@@ -90,11 +91,13 @@ services:
       - backend
 
   db:
-    image: postgres:10
+    image: postgres:13
     <<: *restart_policy
     stop_grace_period: "3s"
     volumes:
       - "pgdata:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: ${DB_USERNAME:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
@@ -111,12 +114,12 @@ services:
 ######### Testing stuff below ############
 
   db-test:
-    image: postgres:10
+    image: postgres:13
     stop_grace_period: "3s"
     volumes:
       - "pgdata-test:/var/lib/postgresql/data"
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_DB: openproject
       POSTGRES_USER: openproject

@@ -1,0 +1,23 @@
+.op-project-list
+  &--item-action
+    display: flex
+
+  &--child-toggle
+    opacity: 0
+    width: 0
+    height: 0
+    margin-left: auto
+
+  &--item-action:hover &--child-toggle,
+  &--child-toggle:focus
+    opacity: 1
+    width: auto
+    height: auto
+    
+  &--tooltip
+    max-width: 100%
+
+  &--item-title
+    text-overflow: ellipsis
+    white-space: nowrap
+    overflow: hidden

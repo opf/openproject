@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe UpdateQueryFromParamsService,
          type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:query) { FactoryBot.build_stubbed(:query) }
+  let(:user) { build_stubbed(:user) }
+  let(:query) { build_stubbed(:query) }
 
   let(:instance) { described_class.new(query, user) }
 
@@ -55,7 +55,7 @@ describe UpdateQueryFromParamsService,
             subject
 
             expect(query.group_by).to eql('status')
-            expect(query.show_hierarchies).to eql(false)
+            expect(query.show_hierarchies).to be(false)
             expect(subject).to be_success
           end
         end
@@ -68,7 +68,7 @@ describe UpdateQueryFromParamsService,
           subject
 
           expect(query.group_by).to eql('status')
-          expect(query.show_hierarchies).to eql(true)
+          expect(query.show_hierarchies).to be(true)
           expect(subject).not_to be_success
         end
       end
@@ -84,9 +84,9 @@ describe UpdateQueryFromParamsService,
           subject
 
           expect(query.filters.length)
-            .to eql(1)
+            .to be(1)
           expect(query.filters[0].name)
-            .to eql(:status_id)
+            .to be(:status_id)
           expect(query.filters[0].operator)
             .to eql('=')
           expect(query.filters[0].values)

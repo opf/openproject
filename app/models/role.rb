@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +48,7 @@ class Role < ApplicationRecord
 
   has_many :member_roles, dependent: :destroy
   has_many :members, through: :member_roles
-  has_many :role_permissions
+  has_many :role_permissions, dependent: :destroy
 
   default_scope -> {
     includes(:role_permissions)
@@ -197,9 +195,9 @@ class Role < ApplicationRecord
 
   def add_permission(permission)
     if persisted?
-      role_permissions.create(permission: permission)
+      role_permissions.create(permission:)
     else
-      role_permissions.build(permission: permission)
+      role_permissions.build(permission:)
     end
   end
 end

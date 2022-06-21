@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ describe 'BCF 2.1 auth resource', type: :request, content_type: :json do
   include Rack::Test::Methods
 
   let(:current_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   subject(:response) { last_response }
@@ -51,10 +51,10 @@ describe 'BCF 2.1 auth resource', type: :request, content_type: :json do
     it_behaves_like 'bcf api successful response' do
       let(:expected_body) do
         {
-          "oauth2_auth_url": "http://localhost:3000/oauth/authorize",
-          "oauth2_token_url": "http://localhost:3000/oauth/token",
-          "http_basic_supported": false,
-          "supported_oauth2_flows": %w(authorization_code_grant client_credentials)
+          oauth2_auth_url: "http://localhost:3000/oauth/authorize",
+          oauth2_token_url: "http://localhost:3000/oauth/token",
+          http_basic_supported: false,
+          supported_oauth2_flows: %w(authorization_code_grant client_credentials)
         }
       end
     end

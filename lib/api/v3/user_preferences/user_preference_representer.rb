@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -99,13 +97,13 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) do
                    represented.notification_settings.map do |setting|
-                     NotificationSettingRepresenter.new(setting, current_user: current_user)
+                     NotificationSettingRepresenter.new(setting, current_user:)
                    end
                  end,
                  setter: ->(fragment:, **) do
                    represented.notification_settings = fragment.map do |setting_fragment|
                      NotificationSettingRepresenter
-                       .new(OpenStruct.new, current_user: current_user)
+                       .new(OpenStruct.new, current_user:)
                        .from_hash(setting_fragment.with_indifferent_access)
                        .to_h
                    end

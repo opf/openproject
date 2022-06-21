@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,10 +51,10 @@ namespace :copyright do
   def copyright_file(options = {})
     path = 'COPYRIGHT_short'
     if options[:path]
-      path = File.join(options[:path], 'COPYRIGHT_short') if File.exists?(File.join(options[:path],
-                                                                                              'COPYRIGHT_short'))
-      path = File.join(options[:path], 'COPYRIGHT_short.md') if File.exists?(File.join(options[:path],
-                                                                                              'COPYRIGHT_short.md'))
+      path = File.join(options[:path], 'COPYRIGHT_short') if File.exist?(File.join(options[:path],
+                                                                                   'COPYRIGHT_short'))
+      path = File.join(options[:path], 'COPYRIGHT_short.md') if File.exist?(File.join(options[:path],
+                                                                                      'COPYRIGHT_short.md'))
     end
     path
   end
@@ -111,7 +109,7 @@ namespace :copyright do
   def rewrite_copyright(ending, additional_excludes, format, path, options = {})
     regexp = options[:regex] || copyright_regexp(format)
     path = '.' if path.nil?
-    copyright = options[:copyright] || short_copyright(format, path: path)
+    copyright = options[:copyright] || short_copyright(format, path:)
     file_list = options[:file_list] || Dir[File.absolute_path(path) + "/**/*.#{ending}"]
     excluded = exluded_paths.concat(additional_excludes)
 
@@ -128,9 +126,7 @@ namespace :copyright do
         puts "#{file_name} does not match regexp. Missing copyright notice?"
       end
 
-      File.open(file_name, 'w') do |file|
-        file.write file_content
-      end
+      File.write(file_name, file_content)
     end
   end
 
@@ -140,12 +136,12 @@ namespace :copyright do
     file_list = %w{Gemfile Rakefile config.ru .travis.yml .gitignore}.map do |f|
       File.absolute_path f
     end
-    rewrite_copyright('rb', [], :rb, args[:arg1], file_list: file_list)
+    rewrite_copyright('rb', [], :rb, args[:arg1], file_list:)
   end
 
   desc 'Update the copyright on .rb source files'
   task :update_rb, :arg1 do |_task, args|
-    excluded = (%w(acts_as_tree rfpdf verification).map { |dir| "lib/plugins/#{dir}" })
+    excluded = (%w(acts_as_tree rfpdf verification).map { |dir| "lib_static/plugins/#{dir}" })
 
     rewrite_copyright('rb', excluded, :rb, args[:arg1])
   end

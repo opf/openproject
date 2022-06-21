@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,29 +27,30 @@
 #++
 
 shared_context 'with a project with an arrangement of custom fields' do
-  shared_let(:version_cf) { FactoryBot.create(:version_project_custom_field) }
-  shared_let(:bool_cf) { FactoryBot.create(:bool_project_custom_field) }
-  shared_let(:user_cf) { FactoryBot.create(:user_project_custom_field) }
-  shared_let(:int_cf) { FactoryBot.create(:int_project_custom_field) }
-  shared_let(:float_cf) { FactoryBot.create(:float_project_custom_field) }
-  shared_let(:text_cf) { FactoryBot.create(:text_project_custom_field) }
-  shared_let(:string_cf) { FactoryBot.create(:string_project_custom_field) }
-  shared_let(:date_cf) { FactoryBot.create(:date_project_custom_field) }
+  shared_let(:version_cf) { create(:version_project_custom_field) }
+  shared_let(:bool_cf) { create(:bool_project_custom_field) }
+  shared_let(:user_cf) { create(:user_project_custom_field) }
+  shared_let(:int_cf) { create(:int_project_custom_field) }
+  shared_let(:float_cf) { create(:float_project_custom_field) }
+  shared_let(:text_cf) { create(:text_project_custom_field) }
+  shared_let(:string_cf) { create(:string_project_custom_field) }
+  shared_let(:date_cf) { create(:date_project_custom_field) }
 
-  shared_let(:system_version) { FactoryBot.create(:version, sharing: 'system') }
+  shared_let(:system_version) { create(:version, sharing: 'system') }
 
   shared_let(:role) do
-    FactoryBot.create(:role)
+    create(:role)
   end
 
   shared_let(:other_user) do
-    FactoryBot.create(:user,
-                      firstname: 'Other',
-                      lastname: 'User')
+    create(:user,
+           firstname: 'Other',
+           lastname: 'User')
   end
 
   shared_let(:project) do
-    FactoryBot.create(:project, members: { other_user => role }).tap do |p|
+    create(:project, members: { other_user => role }).tap do |p|
+      p.description = "The description of the project"
       p.send(:"custom_field_#{int_cf.id}=", 5)
       p.send(:"custom_field_#{bool_cf.id}=", true)
       p.send(:"custom_field_#{version_cf.id}=", system_version)
@@ -72,9 +73,9 @@ shared_context 'with an instance of the described exporter' do
   end
 
   let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i(view_projects))
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %i(view_projects))
   end
   let(:query) { Queries::Projects::ProjectQuery.new }
   let(:instance) do

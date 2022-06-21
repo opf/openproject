@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,9 +29,9 @@
 require 'spec_helper'
 
 describe Projects::Scopes::ActivatedTimeActivity, type: :model do
-  let!(:activity) { FactoryBot.create(:time_entry_activity) }
-  let!(:project) { FactoryBot.create(:project) }
-  let!(:other_project) { FactoryBot.create(:project) }
+  let!(:activity) { create(:time_entry_activity) }
+  let!(:project) { create(:project) }
+  let!(:other_project) { create(:project) }
 
   describe '.activated_time_activity' do
     subject { Project.activated_time_activity(activity) }
@@ -41,7 +39,7 @@ describe Projects::Scopes::ActivatedTimeActivity, type: :model do
     context 'without project specific overrides' do
       context 'and being active' do
         it 'returns all projects' do
-          is_expected
+          expect(subject)
             .to match_array [project, other_project]
         end
       end
@@ -52,7 +50,7 @@ describe Projects::Scopes::ActivatedTimeActivity, type: :model do
         end
 
         it 'returns no projects' do
-          is_expected
+          expect(subject)
             .to be_empty
         end
       end
@@ -66,7 +64,7 @@ describe Projects::Scopes::ActivatedTimeActivity, type: :model do
 
       context 'and being active' do
         it 'returns the project the activity is activated in' do
-          is_expected
+          expect(subject)
             .to match_array [project]
         end
       end
@@ -77,7 +75,7 @@ describe Projects::Scopes::ActivatedTimeActivity, type: :model do
         end
 
         it 'returns only the projects the activity is activated in' do
-          is_expected
+          expect(subject)
             .to match_array [project]
         end
       end

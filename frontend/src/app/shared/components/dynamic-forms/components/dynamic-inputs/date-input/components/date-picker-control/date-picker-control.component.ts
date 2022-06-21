@@ -1,12 +1,17 @@
 import {
-  AfterViewInit, ChangeDetectorRef, Component, forwardRef, Input, NgZone,
+  AfterViewInit,
+  Component,
+  forwardRef,
+  Input,
 } from '@angular/core';
 import * as moment from 'moment';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { OpSingleDatePickerComponent } from 'core-app/shared/components/op-date-picker/op-single-date-picker/op-single-date-picker.component';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
+/* eslint-disable-next-line change-detection-strategy/on-push */
 @Component({
   selector: 'op-date-picker-control',
   templateUrl: '../../../../../../op-date-picker/op-single-date-picker/op-single-date-picker.component.html',
@@ -20,30 +25,24 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 })
 export class DatePickerControlComponent extends OpSingleDatePickerComponent implements ControlValueAccessor, AfterViewInit {
   // Avoid Angular warning (It looks like you're using the disabled attribute with a reactive form directive...)
+  /* eslint-disable-next-line @angular-eslint/no-input-rename */
   @Input('disable') disabled:boolean;
 
-  onControlChange = (_:any) => { };
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  onControlChange:(_?:unknown) => void = () => { };
 
-  onControlTouch = () => { };
-
-  constructor(
-    timezoneService:TimezoneService,
-    configurationService:ConfigurationService,
-    private ngZone:NgZone,
-    private changeDetectorRef:ChangeDetectorRef,
-  ) {
-    super(timezoneService, configurationService);
-  }
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  onControlTouch:(_?:unknown) => void = () => { };
 
   writeValue(date:string):void {
     this.initialDate = this.formatter(date);
   }
 
-  registerOnChange(fn:(_:any) => void):void {
+  registerOnChange(fn:(_:unknown) => void):void {
     this.onControlChange = fn;
   }
 
-  registerOnTouched(fn:any):void {
+  registerOnTouched(fn:(_:unknown) => void):void {
     this.onControlTouch = fn;
   }
 
@@ -69,19 +68,19 @@ export class DatePickerControlComponent extends OpSingleDatePickerComponent impl
     this.onControlTouch();
   }
 
-  closeOnOutsideClick(event:any) {
+  closeOnOutsideClick(event:MouseEvent):void {
     super.closeOnOutsideClick(event);
     this.onControlTouch();
   }
 
-  public parser(data:any) {
+  public parser(data:string):string|null {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       return data;
     }
     return null;
   }
 
-  public formatter(data:any):string {
+  public formatter(data:string):string {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       const d = this.timezoneService.parseDate(data);
 

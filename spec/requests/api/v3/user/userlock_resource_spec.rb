@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,11 +33,12 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
-  let(:user) { FactoryBot.create(:user, status: User.statuses[:active]) }
+  let(:current_user) { build_stubbed(:user) }
+  let(:user) { create(:user, status: User.statuses[:active]) }
   let(:model) { ::API::V3::Users::UserModel.new(user) }
   let(:representer) { ::API::V3::Users::UserRepresenter.new(model) }
   let(:lock_path) { api_v3_paths.user_lock user.id }
+
   subject(:response) { last_response }
 
   describe '#post' do
@@ -50,23 +51,24 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
 
     # Locking is only available for admins
     context 'when logged in as admin' do
-      let(:current_user) { FactoryBot.build_stubbed(:admin) }
+      let(:current_user) { build_stubbed(:admin) }
 
       context 'user account can be locked' do
-        it 'should respond with 200' do
+        it 'responds with 200' do
           expect(subject.status).to eq(200)
         end
 
-        it 'should respond with an updated lock status in the user model' do
+        it 'responds with an updated lock status in the user model' do
           expect(parse_json(subject.body, 'status')).to eq 'locked'
         end
       end
 
       context 'user account is incompatible' do
         let(:user) do
-          FactoryBot.create(:user, status: User.statuses[:registered])
+          create(:user, status: User.statuses[:registered])
         end
-        it 'should fail for invalid transitions' do
+
+        it 'fails for invalid transitions' do
           expect(subject.status).to eq(400)
         end
       end
@@ -74,11 +76,12 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
 
     context 'requesting nonexistent user' do
       let(:lock_path) { api_v3_paths.user_lock 9999 }
+
       it_behaves_like 'not found'
     end
 
     context 'non-admin user' do
-      it 'should respond with 403' do
+      it 'responds with 403' do
         expect(subject.status).to eq(403)
       end
     end
@@ -94,30 +97,31 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
 
     # Unlocking is only available for admins
     context 'when logged in as admin' do
-      let(:current_user) { FactoryBot.build_stubbed(:admin) }
+      let(:current_user) { build_stubbed(:admin) }
 
       context 'user account can be unlocked' do
-        it 'should respond with 200' do
+        it 'responds with 200' do
           expect(subject.status).to eq(200)
         end
 
-        it 'should respond with an updated lock status in the user model' do
+        it 'responds with an updated lock status in the user model' do
           expect(parse_json(subject.body, 'status')).to eq 'active'
         end
       end
 
       context 'user account is incompatible' do
         let(:user) do
-          FactoryBot.create(:user, status: User.statuses[:registered])
+          create(:user, status: User.statuses[:registered])
         end
-        it 'should fail for invalid transitions' do
+
+        it 'fails for invalid transitions' do
           expect(subject.status).to eq(400)
         end
       end
     end
 
     context 'non-admin user' do
-      it 'should respond with 403' do
+      it 'responds with 403' do
         expect(subject.status).to eq(403)
       end
     end

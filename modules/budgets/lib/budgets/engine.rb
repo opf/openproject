@@ -42,17 +42,14 @@ module Budgets
       mount ::API::V3::Budgets::BudgetsByProjectAPI
     end
 
-    initializer 'budgets.register_latest_project_activity' do
-      Project.register_latest_project_activity on: 'Budget',
-                                               attribute: :updated_at
-    end
-
-    initializer 'budgets.register_hooks' do
-      # TODO: avoid hooks as this is part of the core now
-      require 'budgets/hooks/work_package_hook'
+    config.to_prepare do
+      Budgets::Hooks::WorkPackageHook
     end
 
     config.to_prepare do
+      OpenProject::ProjectActivity.register on: 'Budget',
+                                            attribute: :updated_at
+
       # Add to the budget to the costs group
       ::Type.add_default_mapping(:costs, :budget)
 
@@ -60,7 +57,9 @@ module Budgets
         project.nil? || project.module_enabled?(:budgets)
       }
 
-      Queries::Register.filter Query, Queries::WorkPackages::Filter::BudgetFilter
+      ::Queries::Register.register(::Query) do
+        filter Queries::WorkPackages::Filter::BudgetFilter
+      end
     end
   end
 end

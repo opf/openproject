@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -191,13 +189,12 @@ class WorkPackage::PDFExport::WorkPackageToPdf < ::Exports::Exporter
     make_plain_custom_fields { |row| data << row }
 
     pdf.font style: :normal, size: 9
-    pdf.table(data, column_widths: column_widths)
+    pdf.table(data, column_widths:)
 
     # Render formattable custom values
     work_package.custom_field_values
                 .select { |cv| cv.custom_field.formattable? }
                 .each do |custom_value|
-
       write_formattable! work_package,
                          markdown: custom_value.value,
                          label: custom_value.custom_field.name

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -55,17 +55,18 @@ export class WidgetProjectDescriptionComponent extends AbstractWidgetComponent i
     super(i18n, injector);
   }
 
-  ngOnInit() {
-    this.project$ = this
-      .apiV3Service
-      .projects
-      .id(this.currentProject.id!)
-      .get();
-
-    this.cdRef.detectChanges();
+  ngOnInit():void {
+    if (this.currentProject.id) {
+      this.project$ = this
+        .apiV3Service
+        .projects
+        .id(this.currentProject.id)
+        .get();
+      this.cdRef.detectChanges();
+    }
   }
 
-  public get isEditable() {
+  public get isEditable():boolean {
     return false;
   }
 }

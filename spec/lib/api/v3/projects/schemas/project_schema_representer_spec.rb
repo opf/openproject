@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.build_stubbed(:user).tap do |user|
+    build_stubbed(:user).tap do |user|
       allow(user)
         .to receive(:allowed_to_globally?) do |permission|
         global_permissions.include?(permission)
@@ -45,7 +45,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
   let(:new_record) { true }
   let(:model_id) { 1 }
   let(:custom_field) do
-    FactoryBot.build_stubbed(:int_project_custom_field)
+    build_stubbed(:int_project_custom_field)
   end
   let(:allowed_status) { ['some status'] }
   let(:contract) do
@@ -87,9 +87,9 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
   let(:representer) do
     described_class.create(contract,
-                           self_link: self_link,
+                           self_link:,
                            form_embedded: embedded,
-                           current_user: current_user)
+                           current_user:)
   end
 
   context 'generation' do
@@ -97,7 +97,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
     describe '_type' do
       it 'is indicated as Schema' do
-        is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
+        expect(subject).to be_json_eql('Schema'.to_json).at_path('_type')
       end
     end
 

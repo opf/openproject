@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,14 +43,14 @@ describe 'API v3 String Objects resource' do
     end
 
     it 'return 410 GONE' do
-      expect(subject.status).to eql(410)
+      expect(subject.status).to be(410)
     end
 
     context 'nil string' do
       let(:path) { '/api/v3/string_objects?value' }
 
       it 'return 410 GONE' do
-        expect(subject.status).to eql(410)
+        expect(subject.status).to be(410)
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,20 +35,20 @@ describe 'API v3 Work package resource',
   include API::V3::Utilities::PathHelper
 
   let(:project) do
-    FactoryBot.create(:project, identifier: 'test_project', public: false)
+    create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i[add_work_packages view_project view_work_packages] }
 
   current_user do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
 
   describe 'POST /api/v3/work_packages' do
     let(:path) { api_v3_paths.work_packages }
     let(:other_user) { nil }
-    let(:status) { FactoryBot.build(:status, is_default: true) }
-    let(:priority) { FactoryBot.build(:priority, is_default: true) }
+    let(:status) { build(:status, is_default: true) }
+    let(:priority) { build(:priority, is_default: true) }
     let(:type) { project.types.first }
     let(:parameters) do
       {
@@ -75,7 +75,7 @@ describe 'API v3 Work package resource',
     end
 
     describe 'notifications' do
-      let(:other_user) { FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions) }
+      let(:other_user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
 
       it 'creates a notification' do
         expect(Notification.where(recipient: other_user, resource: WorkPackage.last))
@@ -101,30 +101,30 @@ describe 'API v3 Work package resource',
       end
     end
 
-    it 'should return Created(201)' do
+    it 'returns Created(201)' do
       expect(last_response.status).to eq(201)
     end
 
-    it 'should create a work package' do
+    it 'creates a work package' do
       expect(WorkPackage.all.count).to eq(1)
     end
 
-    it 'should use the given parameters' do
+    it 'uses the given parameters' do
       expect(WorkPackage.first.subject).to eq(parameters[:subject])
     end
 
-    it 'should be associated with the provided project' do
+    it 'is associated with the provided project' do
       expect(WorkPackage.first.project).to eq(project)
     end
 
-    it 'should be associated with the provided type' do
+    it 'is associated with the provided type' do
       expect(WorkPackage.first.type).to eq(type)
     end
 
     context 'no permissions' do
-      let(:current_user) { FactoryBot.create(:user) }
+      let(:current_user) { create(:user) }
 
-      it 'should hide the endpoint' do
+      it 'hides the endpoint' do
         expect(last_response.status).to eq(403)
       end
     end
@@ -134,7 +134,7 @@ describe 'API v3 Work package resource',
       # view_project is actually provided by being a member of the project
       let(:permissions) { [:view_project] }
 
-      it 'should point out the missing permission' do
+      it 'points out the missing permission' do
         expect(last_response.status).to eq(403)
       end
     end
@@ -144,7 +144,7 @@ describe 'API v3 Work package resource',
 
       it_behaves_like 'multiple errors', 422
 
-      it 'should not create a work package' do
+      it 'does not create a work package' do
         expect(WorkPackage.all.count).to eq(0)
       end
     end
@@ -168,7 +168,7 @@ describe 'API v3 Work package resource',
         let(:message) { "Subject can't be blank" }
       end
 
-      it 'should not create a work package' do
+      it 'does not create a work package' do
         expect(WorkPackage.all.count).to eq(0)
       end
     end
@@ -180,22 +180,22 @@ describe 'API v3 Work package resource',
         # mind the () for the super call, those are required in rspec's super
         let(:parameters) { super().merge(scheduleManually: true) }
 
-        it 'should set the scheduling mode to true' do
-          expect(work_package.schedule_manually).to eq true
+        it 'sets the scheduling mode to true' do
+          expect(work_package.schedule_manually).to be true
         end
       end
 
       context 'with false' do
         let(:parameters) { super().merge(scheduleManually: false) }
 
-        it 'should set the scheduling mode to false' do
-          expect(work_package.schedule_manually).to eq false
+        it 'sets the scheduling mode to false' do
+          expect(work_package.schedule_manually).to be false
         end
       end
 
       context 'with scheduleManually absent' do
-        it 'should set the scheduling mode to false (default)' do
-          expect(work_package.schedule_manually).to eq false
+        it 'sets the scheduling mode to false (default)' do
+          expect(work_package.schedule_manually).to be false
         end
       end
     end
@@ -219,13 +219,13 @@ describe 'API v3 Work package resource',
         let(:message) { "Subject can't be blank" }
       end
 
-      it 'should not create a work package' do
+      it 'does not create a work package' do
         expect(WorkPackage.all.count).to eq(0)
       end
     end
 
     context 'claiming attachments' do
-      let(:attachment) { FactoryBot.create(:attachment, container: nil, author: current_user) }
+      let(:attachment) { create(:attachment, container: nil, author: current_user) }
       let(:parameters) do
         {
           subject: 'subject',

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,16 +29,16 @@
 require 'spec_helper'
 
 describe 'Reset form configuration', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
-  let(:type) { FactoryBot.create :type }
+  shared_let(:admin) { create :admin }
+  let(:type) { create :type }
 
-  let(:project) { FactoryBot.create :project, types: [type] }
+  let(:project) { create :project, types: [type] }
   let(:form) { ::Components::Admin::TypeConfigurationForm.new }
   let(:dialog) { ::Components::ConfirmationDialog.new }
 
   describe "with EE token and CFs" do
     let(:custom_fields) { [custom_field] }
-    let(:custom_field) { FactoryBot.create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
+    let(:custom_field) { create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
     let(:cf_identifier) { "custom_field_#{custom_field.id}" }
     let(:cf_identifier_api) { "customField#{custom_field.id}" }
 

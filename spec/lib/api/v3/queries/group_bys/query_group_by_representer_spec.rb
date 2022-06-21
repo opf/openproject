@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::GroupBys::QueryGroupByRepresenter, clear_cache: true do
+describe ::API::V3::Queries::GroupBys::QueryGroupByRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:column) { Query.available_columns.detect { |column| column.name == :status } }
@@ -46,19 +46,19 @@ describe ::API::V3::Queries::GroupBys::QueryGroupByRepresenter, clear_cache: tru
     end
 
     it 'has _type QueryGroupBy' do
-      is_expected
+      expect(subject)
         .to be_json_eql('QueryGroupBy'.to_json)
         .at_path('_type')
     end
 
     it 'has id attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql('status'.to_json)
         .at_path('id')
     end
 
     it 'has name attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql('Status'.to_json)
         .at_path('name')
     end
@@ -75,13 +75,13 @@ describe ::API::V3::Queries::GroupBys::QueryGroupByRepresenter, clear_cache: tru
       end
 
       it 'has id attribute' do
-        is_expected
+        expect(subject)
           .to be_json_eql('assignee'.to_json)
           .at_path('id')
       end
 
       it 'has name attribute' do
-        is_expected
+        expect(subject)
           .to be_json_eql('Assignee'.to_json)
           .at_path('name')
       end

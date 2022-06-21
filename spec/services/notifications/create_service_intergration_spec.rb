@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,28 +29,28 @@
 require 'spec_helper'
 
 describe Notifications::CreateService, 'integration', type: :model do
-  let(:work_package) { FactoryBot.create(:work_package) }
+  let(:work_package) { create(:work_package) }
   let(:project) { work_package.project }
   let(:journal) { work_package.journals.first }
   let(:instance) { described_class.new(user: actor) }
   let(:attributes) { {} }
   let(:actor) { current_user }
-  let(:recipient) { FactoryBot.create(:user) }
+  let(:recipient) { create(:user) }
   let(:service_result) do
     instance
       .call(**attributes)
   end
 
-  current_user { FactoryBot.create(:user) }
+  current_user { create(:user) }
 
   describe '#call' do
     let(:attributes) do
       {
-        recipient: recipient,
-        project: project,
+        recipient:,
+        project:,
         resource: work_package,
-        journal: journal,
-        actor: actor,
+        journal:,
+        actor:,
         read_ian: false,
         reason: :mentioned,
         mail_reminder_sent: nil,

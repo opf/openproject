@@ -162,7 +162,7 @@ With managed repositories, OpenProject takes care of the lifetime of repositorie
 
 ## Preliminary Setup
 
-In the remainder of this document, we assume that you run OpenProject using a separate process, which listens for requests on http://localhost:3000 that you serve over Apache using a proxy.
+In the remainder of this document, we assume that you run OpenProject using a separate process, which listens for requests on `http://localhost:3000` that you serve over Apache using a proxy.
 
 We let Apache serve Subversion and git repositories (with the help of some modules) and
 authenticate against the OpenProject user database.

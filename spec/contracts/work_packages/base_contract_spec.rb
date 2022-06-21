@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,18 +27,19 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
 describe WorkPackages::BaseContract do
   let(:work_package) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
-                             type: type,
-                             done_ratio: 50,
-                             estimated_hours: 6.0,
-                             project: project)
+    build_stubbed(:work_package,
+                  type:,
+                  done_ratio: 50,
+                  estimated_hours: 6.0,
+                  project:)
   end
-  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:type) { build_stubbed(:type) }
   let(:member) do
-    u = FactoryBot.build_stubbed(:user)
+    u = build_stubbed(:user)
 
     allow(u)
       .to receive(:allowed_to?)
@@ -53,7 +54,7 @@ describe WorkPackages::BaseContract do
 
     u
   end
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
   let(:current_user) { member }
   let!(:assignable_assignees_scope) do
     scope = double 'assignable assignees scope'
@@ -79,6 +80,8 @@ describe WorkPackages::BaseContract do
   let(:changed_values) { [] }
 
   subject(:contract) { described_class.new(work_package, current_user) }
+
+  include_context 'ModelContract shared context'
 
   shared_examples_for 'invalid if changed' do |attribute|
     before do
@@ -186,7 +189,7 @@ describe WorkPackages::BaseContract do
 
     context 'work_package has a closed version and status' do
       before do
-        version = FactoryBot.build_stubbed(:version, status: 'closed')
+        version = build_stubbed(:version, status: 'closed')
 
         work_package.version = version
         allow(work_package.status)
@@ -195,7 +198,7 @@ describe WorkPackages::BaseContract do
       end
 
       it 'is not writable' do
-        expect(contract.writable?(:status)).to be_falsey
+        expect(contract).not_to be_writable(:status)
       end
 
       context 'if we only switched into that status now' do
@@ -206,7 +209,7 @@ describe WorkPackages::BaseContract do
         end
 
         it 'is writable' do
-          expect(contract.writable?(:status)).to be_truthy
+          expect(contract).to be_writable(:status)
         end
       end
     end
@@ -225,9 +228,9 @@ describe WorkPackages::BaseContract do
     end
 
     context 'transitions' do
-      let(:roles) { [FactoryBot.build_stubbed(:role)] }
+      let(:roles) { [build_stubbed(:role)] }
       let(:valid_transition_result) { true }
-      let(:new_status) { FactoryBot.build_stubbed(:status) }
+      let(:new_status) { build_stubbed(:status) }
       let(:from_id) { work_package.status_id }
       let(:to_id) { new_status.id }
       let(:status_change) { work_package.status = new_status }
@@ -291,7 +294,7 @@ describe WorkPackages::BaseContract do
         let(:valid_transition_result) { false }
         let(:status_change) do
           work_package.status = new_status
-          work_package.type = FactoryBot.build_stubbed(:type)
+          work_package.type = build_stubbed(:type)
         end
 
         it 'is valid' do
@@ -426,7 +429,9 @@ describe WorkPackages::BaseContract do
 
       before do
         work_package.schedule_manually = schedule_manually
-        work_package.parent = FactoryBot.build_stubbed(:work_package)
+        allow(work_package)
+          .to receive(:parent)
+          .and_return(build_stubbed(:work_package))
         allow(work_package)
           .to receive(:soonest_start)
           .and_return(Date.today + 4.days)
@@ -434,7 +439,7 @@ describe WorkPackages::BaseContract do
         work_package.start_date = Date.today + 2.days
       end
 
-      context 'scheduled automatically' do
+      context 'when scheduled automatically' do
         it 'notes the error' do
           contract.validate
 
@@ -446,20 +451,15 @@ describe WorkPackages::BaseContract do
         end
       end
 
-      context 'scheduled manually' do
+      context 'when scheduled manually' do
         let(:schedule_manually) { true }
 
-        it 'is valid' do
-          contract.validate
-
-          expect(contract.errors[:start_date])
-            .to be_empty
-        end
+        it_behaves_like 'contract is valid'
       end
     end
   end
 
-  describe 'finish date' do
+  describe 'due date' do
     it_behaves_like 'a parent unwritable property', :due_date, schedule_sensitive: true
     it_behaves_like 'a date attribute', :due_date
 
@@ -473,6 +473,115 @@ describe WorkPackages::BaseContract do
 
       expect(contract.errors[:due_date])
         .to include message
+    end
+  end
+
+  describe 'duration', with_flag: { work_packages_duration_field_active: true } do
+    context 'when setting the duration' do
+      before do
+        work_package.duration = 5
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when setting the duration with the feature disabled', with_flag: { work_packages_duration_field_active: false } do
+      before do
+        work_package.duration = 5
+      end
+
+      it_behaves_like 'contract is invalid', duration: :error_readonly
+    end
+
+    context 'when setting the duration to 0' do
+      before do
+        work_package.duration = 0
+      end
+
+      it_behaves_like 'contract is invalid', duration: :greater_than
+    end
+
+    context 'when setting the duration to a floating point' do
+      before do
+        work_package.duration = 4.5
+      end
+
+      it_behaves_like 'contract is invalid', duration: :not_an_integer
+    end
+
+    context 'when setting the duration to a negative value' do
+      before do
+        work_package.duration = -5
+      end
+
+      it_behaves_like 'contract is invalid', duration: :greater_than
+    end
+
+    context 'when setting duration as well as the dates' do
+      before do
+        work_package.duration = 6
+        work_package.start_date = Time.zone.today - 4.days
+        work_package.due_date = Time.zone.today + 1.day
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when setting duration as well as the dates and the duration is too small' do
+      before do
+        work_package.duration = 5
+        work_package.start_date = Time.zone.today - 4.days
+        work_package.due_date = Time.zone.today + 1.day
+      end
+
+      it_behaves_like 'contract is invalid', duration: :smaller_than_dates
+    end
+
+    context 'when setting duration as well as the dates and the duration is too big' do
+      before do
+        work_package.duration = 7
+        work_package.start_date = Time.zone.today - 4.days
+        work_package.due_date = Time.zone.today + 1.day
+      end
+
+      it_behaves_like 'contract is invalid', duration: :larger_than_dates
+    end
+
+    context 'when setting duration as well as the dates to the same date' do
+      before do
+        work_package.duration = 1
+        work_package.start_date = Time.zone.today
+        work_package.due_date = Time.zone.today
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+  end
+
+  describe 'ignore_non_working_days' do
+    context 'when setting the value to true', with_flag: { work_packages_duration_field_active: true } do
+      before do
+        work_package.ignore_non_working_days = true
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when setting the value to false', with_flag: { work_packages_duration_field_active: true } do
+      before do
+        work_package.ignore_non_working_days = false
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when setting the value to false and with the feature disabled',
+            with_flag: { work_packages_duration_field_active: false } do
+      before do
+        work_package.ignore_non_working_days = false
+      end
+
+      it_behaves_like 'contract is invalid', ignore_non_working_days: :error_readonly
     end
   end
 
@@ -501,8 +610,8 @@ describe WorkPackages::BaseContract do
   describe 'version' do
     subject(:contract) { described_class.new(work_package, current_user) }
 
-    let(:assignable_version) { FactoryBot.build_stubbed(:version) }
-    let(:invalid_version) { FactoryBot.build_stubbed(:version) }
+    let(:assignable_version) { build_stubbed(:version) }
+    let(:invalid_version) { build_stubbed(:version) }
 
     before do
       allow(work_package)
@@ -533,7 +642,7 @@ describe WorkPackages::BaseContract do
     end
 
     context 'for a closed version' do
-      let(:assignable_version) { FactoryBot.build_stubbed(:version, status: 'closed') }
+      let(:assignable_version) { build_stubbed(:version, status: 'closed') }
 
       context 'when reopening a work package' do
         before do
@@ -564,8 +673,7 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'parent' do
-    let(:child) { FactoryBot.build_stubbed(:stubbed_work_package) }
-    let(:parent) { FactoryBot.build_stubbed(:stubbed_work_package) }
+    let(:parent) { build_stubbed(:work_package) }
 
     before do
       work_package.parent = parent
@@ -576,47 +684,36 @@ describe WorkPackages::BaseContract do
 
       # while we do validate the parent
       # the errors are still put on :base so that the messages can be reused
-      contract.errors.symbols_for(:base)
+      contract.errors.symbols_for(:parent)
     end
 
     context 'when self assigning' do
       let(:parent) { work_package }
 
-      it 'returns an error for the aparent' do
-        expect(contract.validate).to eq false
-        expect(contract.errors.symbols_for(:parent)).to eq [:cannot_be_self_assigned]
+      it 'returns an error for the parent' do
+        expect(subject)
+          .to eq [:cannot_be_self_assigned]
       end
     end
 
-    context 'a relation exists between the parent and its ancestors and the work package and its descendants' do
-      let(:parent) { child }
-
+    context 'when the intended parent is not relatable' do
       before do
-        from_parent_stub = double('from parent stub')
-        allow(Relation)
-          .to receive(:from_parent_to_self_and_descendants)
-          .with(work_package)
-          .and_return(from_parent_stub)
+        scope = instance_double(ActiveRecord::Relation)
 
-        from_descendants_stub = double('from descendants stub')
-        allow(Relation)
-          .to receive(:from_self_and_descendants_to_ancestors)
-          .with(work_package)
-          .and_return(from_descendants_stub)
+        allow(WorkPackage)
+          .to receive(:relatable)
+                .with(work_package, Relation::TYPE_PARENT)
+                .and_return(scope)
 
-        allow(from_parent_stub)
-          .to receive(:or)
-          .with(from_descendants_stub)
-          .and_return(from_parent_stub)
-
-        allow(from_parent_stub)
-          .to receive_message_chain(:direct, :exists?)
-          .and_return(true)
+        allow(scope)
+          .to receive(:where)
+                .with(id: parent.id)
+                .and_return([])
       end
 
       it 'is invalid' do
-        expect(subject.include?(:cant_link_a_work_package_with_a_descendant))
-          .to be_truthy
+        expect(subject)
+          .to include(:cant_link_a_work_package_with_a_descendant)
       end
     end
   end
@@ -639,7 +736,7 @@ describe WorkPackages::BaseContract do
       end
 
       describe 'changing the type' do
-        let(:other_type) { FactoryBot.build_stubbed(:type) }
+        let(:other_type) { build_stubbed(:type) }
 
         it 'is invalid' do
           work_package.type = other_type
@@ -652,7 +749,7 @@ describe WorkPackages::BaseContract do
       end
 
       describe 'changing the project (and that one not having the type)' do
-        let(:other_project) { FactoryBot.build_stubbed(:project) }
+        let(:other_project) { build_stubbed(:project) }
 
         it 'is invalid' do
           work_package.project = other_project
@@ -695,7 +792,7 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'category' do
-    let(:category) { FactoryBot.build_stubbed(:category) }
+    let(:category) { build_stubbed(:category) }
 
     context "one of the project's categories" do
       before do
@@ -759,8 +856,8 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'priority' do
-    let (:active_priority) { FactoryBot.build_stubbed(:priority) }
-    let (:inactive_priority) { FactoryBot.build_stubbed(:priority, active: false) }
+    let (:active_priority) { build_stubbed(:priority) }
+    let (:inactive_priority) { build_stubbed(:priority, active: false) }
 
     context 'active priority' do
       before do
@@ -817,22 +914,22 @@ describe WorkPackages::BaseContract do
   end
 
   describe '#assignable_statuses' do
-    let(:role) { FactoryBot.build_stubbed(:role) }
-    let(:type) { FactoryBot.build_stubbed(:type) }
-    let(:assignee_user) { FactoryBot.build_stubbed(:user) }
-    let(:author_user) { FactoryBot.build_stubbed(:user) }
-    let(:current_status) { FactoryBot.build_stubbed(:status) }
-    let(:version) { FactoryBot.build_stubbed(:version) }
+    let(:role) { build_stubbed(:role) }
+    let(:type) { build_stubbed(:type) }
+    let(:assignee_user) { build_stubbed(:user) }
+    let(:author_user) { build_stubbed(:user) }
+    let(:current_status) { build_stubbed(:status) }
+    let(:version) { build_stubbed(:version) }
     let(:work_package) do
-      FactoryBot.build_stubbed(:work_package,
-                               assigned_to: assignee_user,
-                               author: author_user,
-                               status: current_status,
-                               version: version,
-                               type: type)
+      build_stubbed(:work_package,
+                    assigned_to: assignee_user,
+                    author: author_user,
+                    status: current_status,
+                    version:,
+                    type:)
     end
     let!(:default_status) do
-      status = FactoryBot.build_stubbed(:status)
+      status = build_stubbed(:status)
 
       allow(Status)
         .to receive(:default)
@@ -877,8 +974,8 @@ describe WorkPackages::BaseContract do
       end
 
       context 'if the current status is closed and the version is closed as well' do
-        let(:version) { FactoryBot.build_stubbed(:version, status: 'closed') }
-        let(:current_status) { FactoryBot.build_stubbed(:status, is_closed: true) }
+        let(:version) { build_stubbed(:version, status: 'closed') }
+        let(:current_status) { build_stubbed(:status, is_closed: true) }
 
         it 'only allows the current status' do
           expect(contract.assignable_statuses.to_sql)
@@ -925,7 +1022,7 @@ describe WorkPackages::BaseContract do
     end
 
     context 'with the status having changed' do
-      let(:new_status) { FactoryBot.build_stubbed(:status) }
+      let(:new_status) { build_stubbed(:status) }
 
       before do
         allow(work_package).to receive(:persisted?).and_return(true)
@@ -992,8 +1089,8 @@ describe WorkPackages::BaseContract do
   end
 
   describe '#assignable_priorities' do
-    let(:active_priority) { FactoryBot.build(:priority, active: true) }
-    let(:inactive_priority) { FactoryBot.build(:priority, active: false) }
+    let(:active_priority) { build(:priority, active: true) }
+    let(:inactive_priority) { build(:priority, active: false) }
 
     before do
       active_priority.save!

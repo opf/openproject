@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Statuses::StatusRepresenter do
-  let(:status) { FactoryBot.build_stubbed(:status) }
+  let(:status) { build_stubbed(:status) }
   let(:representer) { described_class.new(status, current_user: double('current_user')) }
 
   context 'generation' do
@@ -53,8 +53,9 @@ describe ::API::V3::Statuses::StatusRepresenter do
         it { is_expected.to be_json_eql(status.is_default.to_json).at_path('isDefault') }
         it { is_expected.to be_json_eql(status.is_readonly.to_json).at_path('isReadonly') }
         it { is_expected.to be_json_eql(status.position.to_json).at_path('position') }
+
         it {
-          is_expected.to be_json_eql(status.default_done_ratio.to_json).at_path('defaultDoneRatio')
+          expect(subject).to be_json_eql(status.default_done_ratio.to_json).at_path('defaultDoneRatio')
         }
       end
     end

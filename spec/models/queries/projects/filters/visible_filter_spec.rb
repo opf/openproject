@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,6 +49,7 @@ describe Queries::Projects::Filters::VisibleFilter, type: :model do
           .to receive(:pluck)
                 .and_return([[5, 5], [8, 8]])
       end
+
       context 'without values' do
         let(:values) { [] }
 

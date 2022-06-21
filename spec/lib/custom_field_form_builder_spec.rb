@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,8 +35,8 @@ describe CustomFieldFormBuilder do
   let(:builder) { described_class.new(:user, resource, helper, builder_options) }
   let(:builder_options) do
     {
-      custom_value: custom_value,
-      custom_field: custom_field
+      custom_value:,
+      custom_field:
     }
   end
 
@@ -46,17 +44,17 @@ describe CustomFieldFormBuilder do
     let(:options) { { class: 'custom-class' } }
 
     let(:custom_field) do
-      FactoryBot.build_stubbed(:custom_field)
+      build_stubbed(:custom_field)
     end
     let(:custom_value) do
-      FactoryBot.build_stubbed(:custom_value, customized: resource, custom_field: custom_field)
+      build_stubbed(:custom_value, customized: resource, custom_field:)
     end
     let(:typed_value) do
       custom_value.typed_value
     end
 
     let(:resource) do
-      FactoryBot.build_stubbed(:user)
+      build_stubbed(:user)
     end
 
     before do
@@ -79,7 +77,7 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--check-box"
                  id="user#{custom_field.id}"
@@ -99,7 +97,7 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class -augmented-datepicker form--text-field"
                  id="user#{custom_field.id}"
@@ -118,7 +116,7 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <textarea class="custom-class form--text-area"
                     id="user#{custom_field.id}"
@@ -140,7 +138,7 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{custom_field.id}"
@@ -159,7 +157,7 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{custom_field.id}"
@@ -178,7 +176,7 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{custom_field.id}"
@@ -190,18 +188,18 @@ describe CustomFieldFormBuilder do
 
     context 'for a list custom field' do
       let(:custom_field) do
-        FactoryBot.build_stubbed(:list_wp_custom_field,
-                                 custom_options: [custom_option])
+        build_stubbed(:list_wp_custom_field,
+                      custom_options: [custom_option])
       end
       let(:custom_option) do
-        FactoryBot.build_stubbed(:custom_option, value: 'my_option')
+        build_stubbed(:custom_option, value: 'my_option')
       end
 
       it_behaves_like 'wrapped in container', 'select-container' do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{custom_field.id}"
@@ -217,7 +215,7 @@ describe CustomFieldFormBuilder do
           custom_field.is_required = true
         end
 
-        it 'should output element' do
+        it 'outputs element' do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{custom_field.id}"
@@ -235,7 +233,7 @@ describe CustomFieldFormBuilder do
           custom_option.default_value = true
         end
 
-        it 'should output element' do
+        it 'outputs element' do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{custom_field.id}"
@@ -248,9 +246,9 @@ describe CustomFieldFormBuilder do
     end
 
     context 'for a user custom field' do
-      let(:project) { FactoryBot.build_stubbed(:project) }
-      let(:user1) { FactoryBot.build_stubbed(:user) }
-      let(:user2) { FactoryBot.build_stubbed(:user) }
+      let(:project) { build_stubbed(:project) }
+      let(:user1) { build_stubbed(:user) }
+      let(:user2) { build_stubbed(:user) }
 
       let(:resource) { project }
 
@@ -270,7 +268,7 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{custom_field.id}"
@@ -288,7 +286,7 @@ describe CustomFieldFormBuilder do
           custom_field.is_required = true
         end
 
-        it 'should output element' do
+        it 'outputs element' do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{custom_field.id}"
@@ -304,9 +302,9 @@ describe CustomFieldFormBuilder do
     end
 
     context 'for a version custom field' do
-      let(:project) { FactoryBot.build_stubbed(:project) }
-      let(:version1) { FactoryBot.build_stubbed(:version) }
-      let(:version2) { FactoryBot.build_stubbed(:version) }
+      let(:project) { build_stubbed(:project) }
+      let(:version1) { build_stubbed(:version) }
+      let(:version2) { build_stubbed(:version) }
 
       let(:resource) { project }
 
@@ -325,7 +323,7 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{custom_field.id}"
@@ -343,7 +341,7 @@ describe CustomFieldFormBuilder do
           custom_field.is_required = true
         end
 
-        it 'should output element' do
+        it 'outputs element' do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{custom_field.id}"

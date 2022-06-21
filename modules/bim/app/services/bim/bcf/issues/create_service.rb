@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,23 +35,23 @@ module Bim::Bcf
         wp_call = get_work_package params
         return wp_call if wp_call.failure?
 
-        super issue_params(work_package: wp_call.result, params: params), service_result
+        super issue_params(work_package: wp_call.result, params:), service_result
       end
 
       def issue_params(work_package:, params:)
-        { work_package: work_package }
+        { work_package: }
           .merge(params.slice(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES))
       end
 
       def get_work_package(params)
         wp_links = remove_work_package_links! Array(params[:reference_links])
 
-        if !wp_links.empty?
+        if wp_links.empty?
+          create_work_package params
+        else
           params.delete :reference_links
 
-          use_work_package links: wp_links, params: params
-        else
-          create_work_package params
+          use_work_package links: wp_links, params:
         end
       end
 
@@ -62,13 +60,13 @@ module Bim::Bcf
         return work_package_not_found_result if work_package.nil?
 
         ::WorkPackages::UpdateService
-          .new(user: user, model: work_package)
+          .new(user:, model: work_package)
           .call(**params)
       end
 
       def create_work_package(params)
         ::WorkPackages::CreateService
-          .new(user: user)
+          .new(user:)
           .call(**params)
       end
 
@@ -89,7 +87,7 @@ module Bim::Bcf
       end
 
       def work_package_not_found_result
-        ServiceResult.new(errors: Bim::Bcf::Issue.new.errors).tap do |r|
+        ServiceResult.failure(errors: Bim::Bcf::Issue.new.errors).tap do |r|
           r.errors.add :work_package, :does_not_exist
         end
       end

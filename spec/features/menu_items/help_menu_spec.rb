@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-feature 'Help menu items' do
-  let(:user) { FactoryBot.create :admin }
+describe 'Help menu items' do
+  let(:user) { create :admin }
   let(:help_item) { find('.op-app-help .op-app-menu--item-action') }
 
   before do
@@ -48,10 +48,12 @@ feature 'Help menu items' do
 
   describe 'When force_help_link is set', js: true do
     let(:custom_url) { 'https://mycustomurl.example.org/' }
+
     before do
       allow(OpenProject::Configuration).to receive(:force_help_link)
         .and_return custom_url
     end
+
     it 'renders a link' do
       visit home_path
 

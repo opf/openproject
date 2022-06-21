@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,13 +32,13 @@ require_relative './support/board_page'
 
 describe 'Board reference work package spec', type: :feature, js: true do
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let!(:work_package) { FactoryBot.create :work_package, version: version, subject: 'Foo', project: project }
+  let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:role) { create(:role, permissions:) }
+  let!(:work_package) { create :work_package, version:, subject: 'Foo', project: }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
@@ -54,11 +54,11 @@ describe 'Board reference work package spec', type: :feature, js: true do
       assign_versions
     ]
   end
-  let(:board_view) { FactoryBot.create :board_grid_with_query, project: project }
+  let(:board_view) { create :board_grid_with_query, project: }
 
-  let!(:priority) { FactoryBot.create :default_priority }
-  let!(:status) { FactoryBot.create :default_status }
-  let!(:version) { FactoryBot.create :version, name: 'Foo version', project: project }
+  let!(:priority) { create :default_priority }
+  let!(:status) { create :default_status }
+  let!(:version) { create :version, name: 'Foo version', project: }
 
   before do
     with_enterprise_token :board_view
@@ -95,13 +95,13 @@ describe 'Board reference work package spec', type: :feature, js: true do
   end
 
   context 'with a subproject and work packages within it (Regression #31613)' do
-    let!(:child_project) { FactoryBot.create(:project, parent: project) }
-    let!(:work_package) { FactoryBot.create(:work_package, subject: 'WP SUB', project: child_project) }
+    let!(:child_project) { create(:project, parent: project) }
+    let!(:work_package) { create(:work_package, subject: 'WP SUB', project: child_project) }
 
     let(:user) do
-      FactoryBot.create(:user,
-                        member_in_projects: [project, child_project],
-                        member_through_role: role)
+      create(:user,
+             member_in_projects: [project, child_project],
+             member_through_role: role)
     end
 
     it 'returns the work package when subproject filters is added' do
@@ -119,7 +119,7 @@ describe 'Board reference work package spec', type: :feature, js: true do
 
       # Add subproject filter
       filters.open
-      filters.add_filter_by('Subproject', 'all', nil, 'subprojectId')
+      filters.add_filter_by('subproject', 'all', nil, 'subprojectId')
       sleep 2
 
       # Reference an existing work package

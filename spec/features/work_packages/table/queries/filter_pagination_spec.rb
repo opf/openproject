@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,18 +31,18 @@ require 'features/work_packages/work_packages_page'
 
 describe 'Filter updates pagination', type: :feature, js: true do
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages])
   end
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
 
-  let(:project) { FactoryBot.create(:project) }
-  let(:work_package_1) { FactoryBot.create(:work_package, project: project, assigned_to: user) }
-  let(:work_package_2) { FactoryBot.create(:work_package, project: project) }
+  let(:project) { create(:project) }
+  let(:work_package_1) { create(:work_package, project:, assigned_to: user) }
+  let(:work_package_2) { create(:work_package, project:) }
 
   before do
     allow(Setting).to receive(:per_page_options).and_return '1'

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,13 +30,13 @@ require 'spec_helper'
 
 describe WorkPackages::CopyService, 'integration', type: :model do
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: permissions)
+    create(:role,
+           permissions:)
   end
 
   let(:permissions) do
@@ -44,22 +44,22 @@ describe WorkPackages::CopyService, 'integration', type: :model do
   end
 
   let(:type) do
-    FactoryBot.create(:type_standard,
-                      custom_fields: [custom_field])
+    create(:type_standard,
+           custom_fields: [custom_field])
   end
-  let(:project) { FactoryBot.create(:project, types: [type]) }
+  let(:project) { create(:project, types: [type]) }
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project: project,
-                      type: type)
+    create(:work_package,
+           project:,
+           type:)
   end
-  let(:instance) { described_class.new(work_package: work_package, user: user) }
-  let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
+  let(:instance) { described_class.new(work_package:, user:) }
+  let(:custom_field) { create(:work_package_custom_field) }
   let(:custom_value) do
-    FactoryBot.create(:work_package_custom_value,
-                      custom_field: custom_field,
-                      customized: work_package,
-                      value: false)
+    create(:work_package_custom_value,
+           custom_field:,
+           customized: work_package,
+           value: false)
   end
   let(:source_project) { project }
   let(:source_type) { type }
@@ -79,9 +79,10 @@ describe WorkPackages::CopyService, 'integration', type: :model do
 
   describe '#call' do
     shared_examples_for 'copied work package' do
-      subject { copy.id }
+      subject { copy }
 
-      it { is_expected.not_to eq(work_package.id) }
+      it { expect(subject.id).not_to eq(work_package.id) }
+      it { is_expected.to be_persisted }
     end
 
     context 'with the same project' do
@@ -95,9 +96,9 @@ describe WorkPackages::CopyService, 'integration', type: :model do
 
       describe 'copied watchers' do
         let(:watcher_user) do
-          FactoryBot.create(:user,
-                            member_in_project: source_project,
-                            member_with_permissions: %i(view_work_packages))
+          create(:user,
+                 member_in_project: source_project,
+                 member_with_permissions: %i(view_work_packages))
         end
 
         before do
@@ -112,21 +113,21 @@ describe WorkPackages::CopyService, 'integration', type: :model do
     end
 
     describe 'to a different project' do
-      let(:target_type) { FactoryBot.create(:type, custom_fields: target_custom_fields) }
+      let(:target_type) { create(:type, custom_fields: target_custom_fields) }
       let(:target_project) do
-        p = FactoryBot.create(:project,
-                              types: [target_type],
-                              work_package_custom_fields: target_custom_fields)
+        p = create(:project,
+                   types: [target_type],
+                   work_package_custom_fields: target_custom_fields)
 
-        FactoryBot.create(:member,
-                          project: p,
-                          roles: [target_role],
-                          user: user)
+        create(:member,
+               project: p,
+               roles: [target_role],
+               user:)
 
         p
       end
       let(:target_custom_fields) { [] }
-      let(:target_role) { FactoryBot.create(:role, permissions: target_permissions) }
+      let(:target_role) { create(:role, permissions: target_permissions) }
       let(:target_permissions) { %i(add_work_packages manage_subtasks) }
       let(:attributes) { { project: target_project, type: target_type } }
 
@@ -156,7 +157,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
 
       context 'required custom field in the target project' do
         let(:custom_field) do
-          FactoryBot.create(
+          create(
             :work_package_custom_field,
             field_format: 'text',
             is_required: true,
@@ -171,15 +172,19 @@ describe WorkPackages::CopyService, 'integration', type: :model do
       end
 
       describe '#attributes' do
+        before do
+          target_project.types << work_package.type
+        end
+
         context 'assigned_to' do
-          let(:target_user) { FactoryBot.create(:user) }
+          let(:target_user) { create(:user) }
           let(:target_project_member) do
-            FactoryBot.create(:member,
-                              project: target_project,
-                              principal: target_user,
-                              roles: [FactoryBot.create(:role)])
+            create(:member,
+                   project: target_project,
+                   principal: target_user,
+                   roles: [create(:role, permissions: [:work_package_assigned])])
           end
-          let(:attributes) { { assigned_to_id: target_user.id } }
+          let(:attributes) { { project: target_project, assigned_to_id: target_user.id } }
 
           before do
             target_project_member
@@ -193,8 +198,8 @@ describe WorkPackages::CopyService, 'integration', type: :model do
         end
 
         context 'status' do
-          let(:target_status) { FactoryBot.create(:status) }
-          let(:attributes) { { status_id: target_status.id } }
+          let(:target_status) { create(:status) }
+          let(:attributes) { { project: target_project, status_id: target_status.id } }
 
           it_behaves_like 'copied work package'
 
@@ -207,7 +212,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
           let(:target_date) { Date.today + 14 }
 
           context 'start' do
-            let(:attributes) { { start_date: target_date } }
+            let(:attributes) { { project: target_project, start_date: target_date } }
 
             it_behaves_like 'copied work package'
 
@@ -217,7 +222,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
           end
 
           context 'end' do
-            let(:attributes) { { due_date: target_date } }
+            let(:attributes) { { project: target_project, due_date: target_date } }
 
             it_behaves_like 'copied work package'
 
@@ -229,12 +234,12 @@ describe WorkPackages::CopyService, 'integration', type: :model do
       end
 
       describe 'with children' do
-        let(:instance) { described_class.new(work_package: child, user: user) }
+        let(:instance) { described_class.new(work_package: child, user:) }
         let!(:child) do
-          FactoryBot.create(:work_package, parent: work_package, project: source_project)
+          create(:work_package, parent: work_package, project: source_project)
         end
         let(:grandchild) do
-          FactoryBot.create(:work_package, parent: child, project: source_project)
+          create(:work_package, parent: child, project: source_project)
         end
 
         context 'cross project relations deactivated' do
@@ -289,6 +294,12 @@ describe WorkPackages::CopyService, 'integration', type: :model do
           end
         end
       end
+    end
+
+    describe 'with start and due dates overwritten but not duration' do
+      let(:attributes) { { start_date: Time.zone.today - 5.days, due_date: Time.zone.today + 5.days } }
+
+      it_behaves_like 'copied work package'
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,22 +31,23 @@ require 'spec_helper'
 describe Principals::DeleteJob, type: :model do
   subject(:job) { described_class.perform_now(principal) }
 
-  shared_let(:project) { FactoryBot.create(:project) }
+  shared_let(:project) { create(:project) }
 
   shared_let(:deleted_user) do
-    FactoryBot.create(:deleted_user)
+    create(:deleted_user)
   end
   let(:principal) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:member) do
-    FactoryBot.create(:member,
-                      principal: principal,
-                      project: project,
-                      roles: [role])
+    create(:member,
+           principal:,
+           project:,
+           roles: [role])
   end
+
   shared_let(:role) do
-    FactoryBot.create(:role, permissions: %i[view_work_packages] )
+    create(:role, permissions: %i[view_work_packages])
   end
 
   describe '#perform' do
@@ -55,9 +56,9 @@ describe Principals::DeleteJob, type: :model do
     # Service are handled within the matching spec file.
     shared_examples_for 'work_package handling' do
       let(:work_package) do
-        FactoryBot.create(:work_package,
-                          assigned_to: principal,
-                          responsible: principal)
+        create(:work_package,
+               assigned_to: principal,
+               responsible: principal)
       end
 
       before do
@@ -87,7 +88,7 @@ describe Principals::DeleteJob, type: :model do
     end
 
     shared_examples_for 'labor_budget_item handling' do
-      let(:item) { FactoryBot.build(:labor_budget_item, user: principal) }
+      let(:item) { build(:labor_budget_item, user: principal) }
 
       before do
         item.save!
@@ -100,22 +101,22 @@ describe Principals::DeleteJob, type: :model do
     end
 
     shared_examples_for 'cost_entry handling' do
-      let(:work_package) { FactoryBot.create(:work_package) }
+      let(:work_package) { create(:work_package) }
       let(:entry) do
-        FactoryBot.create(:cost_entry,
-                          user: principal,
-                          project: work_package.project,
-                          units: 100.0,
-                          spent_on: Date.today,
-                          work_package: work_package,
-                          comments: '')
+        create(:cost_entry,
+               user: principal,
+               project: work_package.project,
+               units: 100.0,
+               spent_on: Date.today,
+               work_package:,
+               comments: '')
       end
 
       before do
-        FactoryBot.create(:member,
-                          project: work_package.project,
-                          user: principal,
-                          roles: [FactoryBot.build(:role)])
+        create(:member,
+               project: work_package.project,
+               user: principal,
+               roles: [build(:role)])
         entry
 
         job
@@ -148,9 +149,9 @@ describe Principals::DeleteJob, type: :model do
 
     shared_examples_for 'hourly_rate handling' do
       let(:hourly_rate) do
-        FactoryBot.build(:hourly_rate,
-                         user: principal,
-                         project: project)
+        build(:hourly_rate,
+              user: principal,
+              project:)
       end
 
       before do
@@ -163,7 +164,7 @@ describe Principals::DeleteJob, type: :model do
     end
 
     shared_examples_for 'watcher handling' do
-      let(:watched) { FactoryBot.create(:news, project: project) }
+      let(:watched) { create(:news, project:) }
       let(:watch) do
         Watcher.create(user: principal,
                        watchable: watched)
@@ -195,7 +196,7 @@ describe Principals::DeleteJob, type: :model do
 
     shared_examples_for 'notification handling' do
       let(:notification) do
-        FactoryBot.create(:notification, recipient: principal)
+        create(:notification, recipient: principal)
       end
 
       before do
@@ -209,7 +210,7 @@ describe Principals::DeleteJob, type: :model do
 
     shared_examples_for 'private query handling' do
       let!(:query) do
-        FactoryBot.create(:private_query, user: principal)
+        create(:private_query, user: principal, views: [create(:view_work_packages_table)])
       end
 
       before do
@@ -221,9 +222,9 @@ describe Principals::DeleteJob, type: :model do
 
     shared_examples_for 'issue category handling' do
       let(:category) do
-        FactoryBot.create(:category,
-                          assigned_to: principal,
-                          project: project)
+        create(:category,
+               assigned_to: principal,
+               project:)
       end
 
       before do
@@ -251,17 +252,17 @@ describe Principals::DeleteJob, type: :model do
     end
 
     shared_examples_for 'private cost_query handling' do
-      let!(:query) { FactoryBot.create(:private_cost_query, user: principal) }
+      let!(:query) { create(:private_cost_query, user: principal) }
 
       it 'removes the query' do
         job
 
-        expect(CostQuery.find_by_id(query.id)).to eq(nil)
+        expect(CostQuery.find_by_id(query.id)).to be_nil
       end
     end
 
     shared_examples_for 'public cost_query handling' do
-      let!(:query) { FactoryBot.create(:public_cost_query, user: principal) }
+      let!(:query) { create(:public_cost_query, user: principal) }
 
       before do
         query
@@ -279,8 +280,8 @@ describe Principals::DeleteJob, type: :model do
     end
 
     shared_examples_for 'cost_query handling' do
-      let(:query) { FactoryBot.create(:cost_query) }
-      let(:other_user) { FactoryBot.create(:user) }
+      let(:query) { create(:cost_query) }
+      let(:other_user) { create(:user) }
 
       shared_examples_for "public query rewriting" do
         let(:filter_symbol) { filter.to_s.demodulize.underscore.to_sym }
@@ -343,25 +344,25 @@ describe Principals::DeleteJob, type: :model do
       describe "with the query has a user_id filter" do
         let(:filter) { CostQuery::Filter::UserId }
 
-        it_should_behave_like "public query rewriting"
+        it_behaves_like "public query rewriting"
       end
 
       describe "with the query has a author_id filter" do
         let(:filter) { CostQuery::Filter::AuthorId }
 
-        it_should_behave_like "public query rewriting"
+        it_behaves_like "public query rewriting"
       end
 
       describe "with the query has a assigned_to_id filter" do
         let(:filter) { CostQuery::Filter::AssignedToId }
 
-        it_should_behave_like "public query rewriting"
+        it_behaves_like "public query rewriting"
       end
 
       describe "with the query has an responsible_id filter" do
         let(:filter) { CostQuery::Filter::ResponsibleId }
 
-        it_should_behave_like "public query rewriting"
+        it_behaves_like "public query rewriting"
       end
     end
 
@@ -383,7 +384,7 @@ describe Principals::DeleteJob, type: :model do
     end
 
     context 'with a group' do
-      let(:principal) { FactoryBot.create(:group, members: group_members) }
+      let(:principal) { create(:group, members: group_members) }
       let(:group_members) { [] }
 
       it_behaves_like 'removes the principal'
@@ -392,12 +393,12 @@ describe Principals::DeleteJob, type: :model do
 
       context 'with user only in project through group' do
         let(:user) do
-          FactoryBot.create(:user)
+          create(:user)
         end
         let(:group_members) { [user] }
-        let(:watched) { FactoryBot.create(:news, project: project) }
+        let(:watched) { create(:news, project:) }
         let(:watch) do
-          Watcher.create(user: user,
+          Watcher.create(user:,
                          watchable: watched)
         end
 
@@ -410,7 +411,7 @@ describe Principals::DeleteJob, type: :model do
     end
 
     context 'with a placeholder user' do
-      let(:principal) { FactoryBot.create(:placeholder_user) }
+      let(:principal) { create(:placeholder_user) }
 
       it_behaves_like 'removes the principal'
       it_behaves_like 'work_package handling'

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -35,24 +33,24 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:text_custom_field) do
-    FactoryBot.create(:text_project_custom_field)
+    create(:text_project_custom_field)
   end
   shared_let(:list_custom_field) do
-    FactoryBot.create(:list_project_custom_field)
+    create(:list_project_custom_field)
   end
 
   shared_let(:source_project) do
-    FactoryBot.create :project,
-                      custom_field_values: {
-                        text_custom_field.id => 'source text',
-                        list_custom_field.id => list_custom_field.custom_options.last.id
-                      }
+    create :project,
+           custom_field_values: {
+             text_custom_field.id => 'source text',
+             list_custom_field.id => list_custom_field.custom_options.last.id
+           }
   end
 
   shared_let(:current_user) do
-    FactoryBot.create :user,
-                      member_in_project: source_project,
-                      member_with_permissions: %i[copy_projects view_project view_work_packages]
+    create :user,
+           member_in_project: source_project,
+           member_with_permissions: %i[copy_projects view_project view_work_packages]
   end
 
   let(:path) { api_v3_paths.project_copy_form(source_project.id) }
@@ -77,7 +75,7 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
             .at_path('_type')
 
     expect(Project.count)
-      .to eql 1
+      .to be 1
   end
 
   it 'retains the values from the source project' do
@@ -115,15 +113,15 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
         name: 'My copied project',
         identifier: 'foobar',
         "customField#{text_custom_field.id}": {
-          "raw": "CF text"
+          raw: "CF text"
         },
         statusExplanation: { raw: "A magic dwells in each beginning." },
-        "_links": {
+        _links: {
           "customField#{list_custom_field.id}": {
-            "href": api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
+            href: api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
           },
-          "status": {
-            "href": api_v3_paths.project_status('on_track')
+          status: {
+            href: api_v3_paths.project_status('on_track')
           }
         }
       }
@@ -237,12 +235,11 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
     end
   end
 
-
   context 'without the necessary permission' do
     let(:current_user) do
-      FactoryBot.create :user,
-                        member_in_project: source_project,
-                        member_with_permissions: %i[view_project view_work_packages]
+      create :user,
+             member_in_project: source_project,
+             member_with_permissions: %i[view_project view_work_packages]
     end
 
     it 'returns 403 Not Authorized' do

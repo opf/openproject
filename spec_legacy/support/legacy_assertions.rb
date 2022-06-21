@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -84,8 +82,11 @@ module LegacyAssertionsAndHelpers
     file
   end
 
-  def with_settings(options, &_block)
-    saved_settings = options.keys.inject({}) { |h, k| h[k] = Setting[k].dup; h }
+  def with_legacy_settings(options, &)
+    saved_settings = options.keys.inject({}) do |h, k|
+      h[k] = Setting[k].dup
+      h
+    end
     options.each { |k, v| Setting[k] = v }
     yield
   ensure
@@ -216,7 +217,7 @@ module LegacyAssertionsAndHelpers
       context "should allow http basic auth using a username and password for #{http_method} #{url}" do
         context 'with a valid HTTP authentication' do
           before do
-            @user = FactoryBot.create(:user, password: 'adminADMIN!', password_confirmation: 'adminADMIN!', admin: true) # Admin so they can access the project
+            @user = create(:user, password: 'adminADMIN!', password_confirmation: 'adminADMIN!', admin: true) # Admin so they can access the project
 
             send(http_method, url, params: parameters, headers: credentials(@user.login, 'adminADMIN!'))
           end
@@ -229,7 +230,7 @@ module LegacyAssertionsAndHelpers
 
         context 'with an invalid HTTP authentication' do
           before do
-            @user = FactoryBot.create(:user)
+            @user = create(:user)
 
             send(http_method, url, params: parameters, headers: credentials(@user.login, 'wrong_password'))
           end
@@ -268,8 +269,8 @@ module LegacyAssertionsAndHelpers
       context "should allow http basic auth with a key for #{http_method} #{url}" do
         context 'with a valid HTTP authentication using the API token' do
           before do
-            @user = FactoryBot.create(:user, admin: true)
-            @token = FactoryBot.create(:api_token, user: @user)
+            @user = create(:user, admin: true)
+            @token = create(:api_token, user: @user)
 
             send(http_method, url, params: parameters, headers: credentials(@token.plain_value, 'X'))
           end
@@ -283,8 +284,8 @@ module LegacyAssertionsAndHelpers
 
         context 'with an invalid HTTP authentication' do
           before do
-            @user = FactoryBot.create(:user)
-            @token = FactoryBot.create(:rss_token, user: @user)
+            @user = create(:user)
+            @token = create(:rss_token, user: @user)
 
             send(http_method, url, params: parameters, headers: credentials(@token.value, 'X'))
           end
@@ -312,8 +313,8 @@ module LegacyAssertionsAndHelpers
       context "should allow key based auth using key=X for #{http_method} #{url}" do
         context 'with a valid api token' do
           before do
-            @user = FactoryBot.create(:user, admin: true)
-            @token = FactoryBot.create(:api_token, user: @user)
+            @user = create(:user, admin: true)
+            @token = create(:api_token, user: @user)
             # Simple url parse to add on ?key= or &key=
             request_url = if url.match(/\?/)
                             url + "&key=#{@token.plain_value}"
@@ -332,8 +333,8 @@ module LegacyAssertionsAndHelpers
 
         context 'with an invalid api token' do
           before do
-            @user = FactoryBot.create(:user)
-            @token = FactoryBot.create(:rss_token, user: @user)
+            @user = create(:user)
+            @token = create(:rss_token, user: @user)
             # Simple url parse to add on ?key= or &key=
             request_url = if url.match(/\?/)
                             url + "&key=#{@token.value}"
@@ -352,8 +353,8 @@ module LegacyAssertionsAndHelpers
 
       context "should allow key based auth using X-OpenProject-API-Key header for #{http_method} #{url}" do
         before do
-          @user = FactoryBot.create(:user, admin: true)
-          @token = FactoryBot.create(:api_token, user: @user)
+          @user = create(:user, admin: true)
+          @token = create(:api_token, user: @user)
           send(http_method, url, params: {}, headers: { 'X-OpenProject-API-Key' => @token.plain_value.to_s })
         end
         it { should respond_with success_code }

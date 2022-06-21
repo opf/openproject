@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,29 +44,29 @@ describe Redmine::MenuManager::MenuItem do
   end
 
   # context new menu item
-  it 'should new menu item should require a name' do
+  it 'news menu item should require a name' do
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new
     end
   end
 
-  it 'should new menu item should require an url' do
+  it 'news menu item should require an url' do
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_missing_url)
     end
   end
 
-  it 'should new menu item should require the options' do
+  it 'news menu item should require the options' do
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_missing_options, '/test')
     end
   end
 
-  it 'should new menu item with all required parameters' do
+  it 'news menu item with all required parameters' do
     assert Redmine::MenuManager::MenuItem.new(:test_good_menu, '/test', {})
   end
 
-  it 'should new menu item should require a proc to use for the if condition' do
+  it 'news menu item should require a proc to use for the if condition' do
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test',
                                          if: ['not_a_proc'])
@@ -78,7 +76,7 @@ describe Redmine::MenuManager::MenuItem do
                                               if: Proc.new {})
   end
 
-  it 'should new menu item should allow a hash for extra html options' do
+  it 'news menu item should allow a hash for extra html options' do
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test',
                                          html: ['not_a_hash'])
@@ -88,7 +86,7 @@ describe Redmine::MenuManager::MenuItem do
                                               html: { data: 'foo' })
   end
 
-  it 'should new menu item should require a proc to use the children option' do
+  it 'news menu item should require a proc to use the children option' do
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test',
                                          children: ['not_a_proc'])
@@ -98,13 +96,13 @@ describe Redmine::MenuManager::MenuItem do
                                               children: Proc.new {})
   end
 
-  it 'should new should not allow setting the parent item to the current item' do
+  it 'news should not allow setting the parent item to the current item' do
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test', parent: :test_error)
     end
   end
 
-  it 'should has children' do
+  it 'hases children' do
     parent_item = get_menu_item(:test_menu, :parent)
     assert parent_item.has_children?
     assert_equal 2, parent_item.children.size

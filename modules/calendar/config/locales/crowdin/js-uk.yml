@@ -1,0 +1,8 @@
+#English strings go here
+uk:
+  js:
+    calendar:
+      create_new: 'Створити новий календар'
+      title: 'Календар'
+      too_many: 'Усього існує %{count}  робочих пакетів, з яких лише %{max} можуть бути показані.'
+      unsaved_title: 'Неназваний календар'

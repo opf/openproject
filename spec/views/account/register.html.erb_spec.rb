@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'account/register', type: :view do
-  let(:user) { FactoryBot.build :user, auth_source: nil }
+  let(:user) { build :user, auth_source: nil }
 
   context 'with the email_login setting disabled (default value)' do
     before do
@@ -40,16 +40,16 @@ describe 'account/register', type: :view do
     end
 
     context 'with auth source' do
-      let(:auth_source) { FactoryBot.create :auth_source }
-      let(:user)        { FactoryBot.build :user, auth_source: auth_source }
+      let(:auth_source) { create :auth_source }
+      let(:user)        { build :user, auth_source: }
 
-      it 'should not show a login field' do
+      it 'does not show a login field' do
         expect(rendered).not_to include('user[login]')
       end
     end
 
     context 'without auth source' do
-      it 'should show a login field' do
+      it 'shows a login field' do
         expect(rendered).to include('user[login]')
       end
     end
@@ -64,24 +64,24 @@ describe 'account/register', type: :view do
     end
 
     context 'with auth source' do
-      let(:auth_source) { FactoryBot.create :auth_source }
-      let(:user)        { FactoryBot.build :user, auth_source: auth_source }
+      let(:auth_source) { create :auth_source }
+      let(:user)        { build :user, auth_source: }
 
-      it 'should not show a login field' do
+      it 'does not show a login field' do
         expect(rendered).not_to include('user[login]')
       end
 
-      it 'should show an email field' do
+      it 'shows an email field' do
         expect(rendered).to include('user[mail]')
       end
     end
 
     context 'without auth source' do
-      it 'should not show a login field' do
+      it 'does not show a login field' do
         expect(rendered).not_to include('user[login]')
       end
 
-      it 'should show an email field' do
+      it 'shows an email field' do
         expect(rendered).to include('user[mail]')
       end
     end
@@ -96,30 +96,18 @@ describe 'account/register', type: :view do
       assign(:user, user)
     end
 
-    it 'should render the registration footer from the settings' do
+    it 'renders the registration footer from the settings' do
       render
 
       expect(rendered).to include(footer)
-    end
-
-    context 'with a registration footer in the OpenProject configuration' do
-      before do
-        allow(OpenProject::Configuration).to receive(:registration_footer).and_return("en" => footer.reverse)
-      end
-
-      it 'should render the registration footer from the configuration, overriding the settings' do
-        render
-
-        expect(rendered).to include(footer.reverse)
-      end
     end
   end
 
   context "with consent required", with_settings: {
     consent_required: true,
     consent_info: {
-      en: "You must consent!",
-      de: "Du musst zustimmen!"
+      'en' => "You must consent!",
+      'de' => "Du musst zustimmen!"
     }
   } do
     let(:locale) { raise "you have to define the locale" }

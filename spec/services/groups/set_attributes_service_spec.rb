@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +31,7 @@ require 'spec_helper'
 describe Groups::SetAttributesService, type: :model do
   subject(:service_call) { instance.call(call_attributes) }
 
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
 
@@ -53,13 +51,13 @@ describe Groups::SetAttributesService, type: :model do
   end
   let(:group_valid) { true }
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: group,
-                        contract_class: contract_class)
+                        contract_class:)
   end
   let(:call_attributes) { {} }
   let(:group) do
-    FactoryBot.build_stubbed(:group) do |g|
+    build_stubbed(:group) do |g|
       # To later check that it has not been called
       allow(g)
         .to receive(:save)
@@ -108,13 +106,13 @@ describe Groups::SetAttributesService, type: :model do
           name: 'My new group name'
         }
       end
-      let(:first_user) { FactoryBot.build_stubbed(:user) }
-      let(:second_user) { FactoryBot.build_stubbed(:user) }
-      let(:first_group_user) { FactoryBot.build_stubbed(:group_user, user: first_user) }
-      let(:second_group_user) { FactoryBot.build_stubbed(:group_user, user: second_user) }
+      let(:first_user) { build_stubbed(:user) }
+      let(:second_user) { build_stubbed(:user) }
+      let(:first_group_user) { build_stubbed(:group_user, user: first_user) }
+      let(:second_group_user) { build_stubbed(:group_user, user: second_user) }
 
       let(:group) do
-        FactoryBot.build_stubbed(:group, group_users: [first_group_user, second_group_user])
+        build_stubbed(:group, group_users: [first_group_user, second_group_user])
       end
 
       let(:updated_group) do
@@ -126,14 +124,14 @@ describe Groups::SetAttributesService, type: :model do
         expect(updated_group.group_users.map(&:user_id))
           .to eql [first_user.id, second_user.id]
 
-        expect(updated_group.group_users.any?(&:marked_for_destruction?)).to eq false
+        expect(updated_group.group_users.any?(&:marked_for_destruction?)).to be false
       end
     end
 
     context 'with changes to the users do' do
-      let(:first_user) { FactoryBot.build_stubbed(:user) }
-      let(:second_user) { FactoryBot.build_stubbed(:user) }
-      let(:third_user) { FactoryBot.build_stubbed(:user) }
+      let(:first_user) { build_stubbed(:user) }
+      let(:second_user) { build_stubbed(:user) }
+      let(:third_user) { build_stubbed(:user) }
 
       let(:call_attributes) do
         {
@@ -142,11 +140,11 @@ describe Groups::SetAttributesService, type: :model do
       end
 
       shared_examples_for 'updates the users' do
-        let(:first_group_user) { FactoryBot.build_stubbed(:group_user, user: first_user) }
-        let(:second_group_user) { FactoryBot.build_stubbed(:group_user, user: second_user) }
+        let(:first_group_user) { build_stubbed(:group_user, user: first_user) }
+        let(:second_group_user) { build_stubbed(:group_user, user: second_user) }
 
         let(:group) do
-          FactoryBot.build_stubbed(:group, group_users: [first_group_user, second_group_user])
+          build_stubbed(:group, group_users: [first_group_user, second_group_user])
         end
 
         it 'adds the new users' do

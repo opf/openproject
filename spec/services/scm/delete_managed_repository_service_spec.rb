@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -30,13 +28,13 @@
 require 'spec_helper'
 
 describe SCM::DeleteManagedRepositoryService do
-  let(:user) { FactoryBot.build(:user) }
-  let(:project) { FactoryBot.build(:project) }
-
-  let(:repository) { FactoryBot.build(:repository_subversion) }
-  subject(:service) { SCM::DeleteManagedRepositoryService.new(repository) }
-
+  let(:user) { build(:user) }
   let(:config) { {} }
+  let(:project) { build(:project) }
+
+  let(:repository) { build(:repository_subversion) }
+
+  subject(:service) { SCM::DeleteManagedRepositoryService.new(repository) }
 
   before do
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
@@ -56,7 +54,7 @@ describe SCM::DeleteManagedRepositoryService do
   end
 
   context 'with managed repository, but no config' do
-    let(:repository) { FactoryBot.build(:repository_subversion, scm_type: :managed) }
+    let(:repository) { build(:repository_subversion, scm_type: :managed) }
 
     it 'does allow to delete the repository' do
       expect(repository.managed?).to be true
@@ -98,8 +96,8 @@ describe SCM::DeleteManagedRepositoryService do
     end
 
     context 'and parent project' do
-      let(:parent) { FactoryBot.create(:project) }
-      let(:project) { FactoryBot.create(:project, parent: parent) }
+      let(:parent) { create(:project) }
+      let(:project) { create(:project, parent:) }
       let(:repo_path) do
         Pathname.new(File.join(tmpdir, 'svn', project.identifier))
       end

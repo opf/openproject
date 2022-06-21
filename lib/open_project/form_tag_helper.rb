@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,9 +32,9 @@ module OpenProject
 
     TEXT_LIKE_FIELDS = %w(number_field password_field url_field telephone_field email_field time_field).freeze
 
-    def styled_form_tag(url_for_options = {}, options = {}, &block)
+    def styled_form_tag(url_for_options = {}, options = {}, &)
       apply_css_class_to_options(options, 'form')
-      form_tag(url_for_options, options, &block)
+      form_tag(url_for_options, options, &)
     end
 
     def styled_select_tag(name, styled_option_tags = nil, options = {})
@@ -53,13 +51,13 @@ module OpenProject
       end
     end
 
-    def styled_label_tag(name = nil, content_or_options = nil, options = {}, &block)
+    def styled_label_tag(name = nil, content_or_options = nil, options = {}, &)
       apply_css_class_to_options(
         block_given? && content_or_options.is_a?(Hash) ? content_or_options : (options ||= {}),
         'form--label'
       )
-      options[:title] ||= strip_tags(block_given? ? capture(&block) : content_or_options)
-      label_tag(name, content_or_options, options, &block)
+      options[:title] ||= strip_tags(block_given? ? capture(&) : content_or_options)
+      label_tag(name, content_or_options, options, &)
     end
 
     def styled_file_field_tag(name, options = {})
@@ -114,17 +112,17 @@ module OpenProject
       submit_tag(value, options)
     end
 
-    def styled_button_tag(content_or_options = nil, options = nil, &block)
+    def styled_button_tag(content_or_options = nil, options = nil, &)
       apply_css_class_to_options(
         block_given? && content_or_options.is_a?(Hash) ? content_or_options : (options ||= {}),
         'button'
       )
-      button_tag(content_or_options, options, &block)
+      button_tag(content_or_options, options, &)
     end
 
-    def styled_field_set_tag(legend = nil, options = nil, &block)
+    def styled_field_set_tag(legend = nil, options = nil, &)
       apply_css_class_to_options(options, 'form--fieldset')
-      field_set_tag(legend, options, &block)
+      field_set_tag(legend, options, &)
     end
 
     def styled_search_field_tag(name, value = nil, options = {})
@@ -152,8 +150,8 @@ module OpenProject
 
     private
 
-    def wrap_field(name, options, &block)
-      content_tag(:span, class: field_container_css_class(name, options), &block)
+    def wrap_field(name, options, &)
+      content_tag(:span, class: field_container_css_class(name, options), &)
     end
 
     def apply_css_class_to_options(options, css_class)
@@ -167,7 +165,7 @@ module OpenProject
                   "form--#{selector.tr('_', '-')}-container"
                 end
 
-      classes << ' ' + options.fetch(:container_class, '')
+      classes << (' ' + options.fetch(:container_class, ''))
 
       classes.strip
     end

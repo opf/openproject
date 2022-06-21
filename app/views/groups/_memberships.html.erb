@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% roles = Role.givable %>
 <% projects = Project.active.order(Arel.sql('lft')) %>
+<% memberships = @group.memberships %>
 
 <div class="grid-block">
   <div class="grid-content">
@@ -64,15 +65,19 @@ See COPYRIGHT and LICENSE files for more details.
               </tr>
             </thead>
             <tbody>
-              <% @group.memberships.each do |membership| %>
+              <% memberships.where.not(project: nil).each do |membership| %>
                 <% next if membership.new_record? %>
-                  <tr id="member-<%= membership.id %>" class="class">
-                    <td class="project"><%= link_to membership.project.name, project_members_path(membership.project) %></td>
+                  <tr id="member-<%= membership.id %>" class="member">
+                    <td class="project">
+                      <%= link_to membership.project.name, project_members_path(membership.project) %>
+                    </td>
                     <td class="roles">
-                      <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
+                      <span id="member-<%= membership.id %>-roles">
+                        <%=h membership.roles.sort.collect(&:to_s).join(', ') %>
+                      </span>
                       <%= labelled_tabular_form_for(:membership,
                                                     url: membership_of_group_path(@group, membership),
-                                                    method: :put,
+                                                    method: :patch,
                                                     html: {
                                                       id: "member-#{membership.id}-roles-form",
                                                       style: 'display:none;'
@@ -83,7 +88,8 @@ See COPYRIGHT and LICENSE files for more details.
                                                          role.id,
                                                          membership.roles.include?(role),
                                                          role.name,
-                                                         no_label: true
+                                                         no_label: true,
+                                                         id: nil
                               %>
                               <%= role %>
                             </label>
@@ -104,8 +110,8 @@ See COPYRIGHT and LICENSE files for more details.
                                            class: 'icon icon-remove' %>
                     </td>
                   </tr>
+              <% end %>
             </tbody>
-            <% end %>
           </table>
 
         </div>
@@ -117,19 +123,31 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="grid-content">
     <% if projects.any? %>
       <%= styled_form_tag(memberships_of_group_path(@group), method: :post) do %>
-         <fieldset class="form--fieldset add-membership-form-fieldset">
-            <legend class="form--fieldset-legend"><%=t(:label_project_new)%></legend>
-            <%= label_tag "new_membership_project_id", t(:description_choose_project), class: "hidden-for-sighted" %>
-            <%= styled_select_tag 'new_membership[project_id]', options_for_membership_project_select(@group, projects) %>
-            <div class="form--field -vertical">
-              <%= styled_label_tag nil, "#{t(:label_role_plural)}:" %>
-              <div class="form--field-container -vertical">
-                <%= labeled_check_box_tags 'new_membership[role_ids][]', roles %>
-              </div>
+        <fieldset class="form--fieldset add-membership-form-fieldset">
+          <legend class="form--fieldset-legend"><%=t(:label_project_new)%></legend>
+          <%= label_tag "membership_project_id", t(:description_choose_project), class: "hidden-for-sighted" %>
+
+          <% group_project_ids = @group.projects.ids  %>
+          <% filter = group_project_ids.length > 0 ? [['id', '!', group_project_ids.map(&:to_s)]] : [] %>
+          <%= angular_component_tag 'op-project-autocompleter',
+                                    inputs: {
+                                      apiFilters: filter,
+                                      name: 'membership[project_id]'
+                                    },
+                                    data: {
+                                      'qa-selector': 'membership_project_id'
+                                    },
+                                    class: 'form--field'
+          %>
+          <div class="form--field -vertical">
+            <%= styled_label_tag nil, "#{t(:label_role_plural)}:" %>
+            <div class="form--field-container -vertical">
+              <%= labeled_check_box_tags 'membership[role_ids][]', roles %>
             </div>
-            <div><%= styled_button_tag t(:button_add), class: '-highlight -with-icon icon-checkmark' %></div>
-          </fieldset>
-        <% end %>
+          </div>
+          <div><%= styled_button_tag t(:button_add), class: '-highlight -with-icon icon-checkmark' %></div>
+        </fieldset>
       <% end %>
-    </div>
+    <% end %>
+  </div>
 </div>

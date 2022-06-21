@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,16 +32,17 @@ require_relative './shared_contract_examples'
 describe TimeEntries::UpdateContract do
   it_behaves_like 'time entry contract' do
     let(:time_entry) do
-      FactoryBot.build_stubbed(:time_entry,
-                               project: time_entry_project,
-                               work_package: time_entry_work_package,
-                               user: time_entry_user,
-                               activity: time_entry_activity,
-                               spent_on: time_entry_spent_on,
-                               hours: time_entry_hours,
-                               comments: time_entry_comments)
+      build_stubbed(:time_entry,
+                    project: time_entry_project,
+                    work_package: time_entry_work_package,
+                    user: time_entry_user,
+                    activity: time_entry_activity,
+                    spent_on: time_entry_spent_on,
+                    hours: time_entry_hours,
+                    comments: time_entry_comments)
     end
     subject(:contract) { described_class.new(time_entry, current_user) }
+
     let(:permissions) { %i(edit_time_entries) }
 
     context 'if user is not allowed to edit time entries' do
@@ -56,7 +55,7 @@ describe TimeEntries::UpdateContract do
 
     context 'if project changed' do
       let(:new_project) do
-        FactoryBot.build_stubbed(:project).tap do |p|
+        build_stubbed(:project).tap do |p|
           allow(TimeEntryActivity)
             .to receive(:active_in_project)
             .with(p)
@@ -76,8 +75,8 @@ describe TimeEntries::UpdateContract do
 
           allow(current_user)
             .to receive(:allowed_to?) do |permission, permission_project|
-            new_project_permissions.include?(permission) && p == permission_project ||
-              permissions.include?(permission) && time_entry_project == permission_project
+            (new_project_permissions.include?(permission) && p == permission_project) ||
+              (permissions.include?(permission) && time_entry_project == permission_project)
           end
         end
       end
@@ -140,6 +139,7 @@ describe TimeEntries::UpdateContract do
 
       context 'if has no permission' do
         let(:permissions) { %i[edit_own_time_entries] }
+
         it 'is invalid' do
           expect_valid(false, base: %i(error_unauthorized))
         end

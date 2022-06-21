@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,31 +34,31 @@ describe "POST /api/v3/grids/form for Dashboard Grids", type: :request, content_
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) do
-    FactoryBot.create(:project)
+    create(:project)
   end
 
   let(:current_user) { allowed_user }
+  let(:path) { api_v3_paths.create_grid_form }
+  let(:params) { {} }
 
   shared_let(:allowed_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_dashboards manage_dashboards save_queries manage_public_queries])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %i[view_dashboards manage_dashboards save_queries manage_public_queries])
   end
 
   shared_let(:no_save_query_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_dashboards manage_dashboards])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %i[view_dashboards manage_dashboards])
   end
 
   shared_let(:prohibited_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: [])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: [])
   end
 
-  let(:path) { api_v3_paths.create_grid_form }
-  let(:params) { {} }
   subject(:response) { last_response }
 
   before do
@@ -74,9 +74,9 @@ describe "POST /api/v3/grids/form for Dashboard Grids", type: :request, content_
       let(:params) do
         {
           name: 'foo',
-          '_links': {
-            'scope': {
-              'href': project_dashboards_path(project)
+          _links: {
+            scope: {
+              href: project_dashboards_path(project)
             }
           }
         }
@@ -84,30 +84,30 @@ describe "POST /api/v3/grids/form for Dashboard Grids", type: :request, content_
 
       it 'contains default data in the payload' do
         expected = {
-          "rowCount": 1,
-          "columnCount": 2,
-          "widgets": [{
-            "_type": "GridWidget",
-            "endColumn": 2,
-            "endRow": 2,
-            "identifier": "work_packages_table",
-            "options": {
-              "name": "Work packages table",
-              "queryProps": {
-                "columns[]": %w(id project type subject),
-                "filters": "[{\"status\":{\"operator\":\"o\",\"values\":[]}}]"
+          rowCount: 1,
+          columnCount: 2,
+          widgets: [{
+            _type: "GridWidget",
+            endColumn: 2,
+            endRow: 2,
+            identifier: "work_packages_table",
+            options: {
+              name: "Work packages table",
+              queryProps: {
+                'columns[]': %w(id project type subject),
+                filters: "[{\"status\":{\"operator\":\"o\",\"values\":[]}}]"
               }
             },
-            "startColumn": 1,
-            "startRow": 1
+            startColumn: 1,
+            startRow: 1
           }],
-          "name": 'foo',
-          "options": {},
-          "_links": {
-            "attachments": [],
-            "scope": {
-              'href': project_dashboards_path(project),
-              "type": "text/html"
+          name: 'foo',
+          options: {},
+          _links: {
+            attachments: [],
+            scope: {
+              href: project_dashboards_path(project),
+              type: "text/html"
             }
           }
         }
@@ -134,9 +134,9 @@ describe "POST /api/v3/grids/form for Dashboard Grids", type: :request, content_
       let(:current_user) { prohibited_user }
       let(:params) do
         {
-          '_links': {
-            'scope': {
-              'href': project_dashboards_path(project)
+          _links: {
+            scope: {
+              href: project_dashboards_path(project)
             }
           }
         }
@@ -152,9 +152,9 @@ describe "POST /api/v3/grids/form for Dashboard Grids", type: :request, content_
     context 'with an invalid scope' do
       let(:params) do
         {
-          '_links': {
-            'scope': {
-              'href': project_dashboards_path(project_id: project.id + 1)
+          _links: {
+            scope: {
+              href: project_dashboards_path(project_id: project.id + 1)
             }
           }
         }
@@ -171,20 +171,20 @@ describe "POST /api/v3/grids/form for Dashboard Grids", type: :request, content_
       let(:params) do
         {
           name: 'foo',
-          "_links": {
-            "attachments": [],
-            "scope": {
-              'href': project_dashboards_path(project)
+          _links: {
+            attachments: [],
+            scope: {
+              href: project_dashboards_path(project)
             }
           },
-          "widgets": [
+          widgets: [
             {
-              "_type": "GridWidget",
-              "identifier": "bogus_identifier",
-              "startRow": 1,
-              "endRow": 2,
-              "startColumn": 1,
-              "endColumn": 2
+              _type: "GridWidget",
+              identifier: "bogus_identifier",
+              startRow: 1,
+              endRow: 2,
+              startColumn: 1,
+              endColumn: 2
             }
           ]
         }
@@ -202,9 +202,9 @@ describe "POST /api/v3/grids/form for Dashboard Grids", type: :request, content_
       let(:params) do
         {
           name: 'foo',
-          '_links': {
-            'scope': {
-              'href': project_dashboards_path(project)
+          _links: {
+            scope: {
+              href: project_dashboards_path(project)
             }
           }
         }
@@ -212,16 +212,16 @@ describe "POST /api/v3/grids/form for Dashboard Grids", type: :request, content_
 
       it 'contains default data in the payload that lacks the work_packages_table widget' do
         expected = {
-          "rowCount": 1,
-          "columnCount": 2,
-          "widgets": [],
-          "name": 'foo',
-          "options": {},
-          "_links": {
-            "attachments": [],
-            "scope": {
-              'href': project_dashboards_path(project),
-              "type": "text/html"
+          rowCount: 1,
+          columnCount: 2,
+          widgets: [],
+          name: 'foo',
+          options: {},
+          _links: {
+            attachments: [],
+            scope: {
+              href: project_dashboards_path(project),
+              type: "text/html"
             }
           }
         }

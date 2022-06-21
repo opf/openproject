@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,70 +31,82 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 describe 'My page time entries current user widget spec', type: :feature, js: true, with_mail: false do
-  let!(:type) { FactoryBot.create :type }
-  let!(:project) { FactoryBot.create :project, types: [type] }
-  let!(:activity) { FactoryBot.create :time_entry_activity }
-  let!(:other_activity) { FactoryBot.create :time_entry_activity }
+  let!(:type) { create :type }
+  let!(:project) { create :project, types: [type] }
+  let!(:activity) { create :time_entry_activity }
+  let!(:other_activity) { create :time_entry_activity }
   let!(:work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      author: user
+    create :work_package,
+           project:,
+           type:,
+           author: user,
+           subject: 'First work package'
   end
   let!(:other_work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      author: user
+    create :work_package,
+           project:,
+           type:,
+           author: user,
+           subject: 'Another task'
   end
   let!(:visible_time_entry) do
+    create :time_entry,
+           work_package:,
+           project:,
+           activity:,
+           user:,
+           spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
+           hours: 3,
+           comments: 'My comment'
+  end
+  let!(:visible_time_entry_on_project) do
     FactoryBot.create :time_entry,
-                      work_package: work_package,
-                      project: project,
-                      activity: activity,
-                      user: user,
+                      work_package: nil,
+                      project:,
+                      activity:,
+                      user:,
                       spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
-                      hours: 3,
+                      hours: 1,
                       comments: 'My comment'
   end
   let!(:other_visible_time_entry) do
-    FactoryBot.create :time_entry,
-                      work_package: work_package,
-                      project: project,
-                      activity: activity,
-                      user: user,
-                      spent_on: Date.today.beginning_of_week(:sunday) + 4.days,
-                      hours: 2,
-                      comments: 'My other comment'
+    create :time_entry,
+           work_package:,
+           project:,
+           activity:,
+           user:,
+           spent_on: Date.today.beginning_of_week(:sunday) + 4.days,
+           hours: 2,
+           comments: 'My other comment'
   end
   let!(:last_week_visible_time_entry) do
-    FactoryBot.create :time_entry,
-                      work_package: work_package,
-                      project: project,
-                      activity: activity,
-                      user: user,
-                      spent_on: Date.today - (Date.today.wday + 3).days,
-                      hours: 8,
-                      comments: 'My last week comment'
+    create :time_entry,
+           work_package:,
+           project:,
+           activity:,
+           user:,
+           spent_on: Date.today - (Date.today.wday + 3).days,
+           hours: 8,
+           comments: 'My last week comment'
   end
   let!(:invisible_time_entry) do
-    FactoryBot.create :time_entry,
-                      work_package: work_package,
-                      project: project,
-                      activity: activity,
-                      user: other_user,
-                      hours: 4
+    create :time_entry,
+           work_package:,
+           project:,
+           activity:,
+           user: other_user,
+           hours: 4
   end
   let!(:custom_field) do
-    FactoryBot.create :time_entry_custom_field, field_format: 'text'
+    create :time_entry_custom_field, field_format: 'text'
   end
   let(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_time_entries edit_time_entries view_work_packages log_time])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %i[view_time_entries edit_time_entries view_work_packages log_time])
   end
   let(:my_page) do
     Pages::My::Page.new
@@ -119,7 +131,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     entries_area.expect_to_span(1, 1, 2, 2)
 
     expect(page)
-      .to have_content "Total: 5.00"
+      .to have_content "Total: 6.00"
 
     expect(page)
       .to have_content visible_time_entry.spent_on.strftime('%-m/%-d')
@@ -150,7 +162,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     end
 
     expect(page)
-      .to have_content "Total: 5.00"
+      .to have_content "Total: 6.00"
 
     within entries_area.area do
       find(".te-calendar--time-entry", match: :first).hover
@@ -174,6 +186,12 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     expect(page)
       .not_to have_selector('.ng-spinner-loader')
+
+    # Expect filtering works
+    time_logging_modal.work_package_field.autocomplete work_package.subject, select: false
+
+    expect(page).to have_selector('[data-qa-selector="op-autocompleter-item-subject"]', text: work_package.subject)
+    expect(page).to have_no_selector('[data-qa-selector="op-autocompleter-item-subject"]', text: other_work_package.subject)
 
     time_logging_modal.update_work_package_field other_work_package.subject
 
@@ -199,15 +217,15 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     end
 
     expect(page)
-      .to have_content "Total: 9.00"
+      .to have_content "Total: 10.00"
 
     expect(TimeEntry.count)
-      .to eql 5
+      .to be 6
 
     ## Editing an entry
 
     within entries_area.area do
-      find("td.fc-timegrid-col:nth-of-type(3) .te-calendar--time-entry").click
+      all("td.fc-timegrid-col:nth-of-type(3) .te-calendar--time-entry").first.click
     end
 
     time_logging_modal.is_visible true
@@ -231,7 +249,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
 
     within entries_area.area do
-      find("td.fc-timegrid-col:nth-of-type(3) .te-calendar--time-entry").hover
+      all("td.fc-timegrid-col:nth-of-type(3) .te-calendar--time-entry").first.hover
     end
 
     expect(page)
@@ -247,7 +265,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
       .to have_selector('.ui-tooltip', text: "Comment: Some comment")
 
     expect(page)
-      .to have_content "Total: 12.00"
+      .to have_content "Total: 13.00"
 
     ## Hiding weekdays
     entries_area.click_menu_item I18n.t('js.grid.configure')
@@ -279,7 +297,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     within entries_area.area do
       expect(page)
-       .not_to have_selector("td.fc-timegrid-col:nth-of-type(5) .te-calendar--time-entry")
+        .not_to have_selector("td.fc-timegrid-col:nth-of-type(5) .te-calendar--time-entry")
     end
 
     expect(TimeEntry.where(id: other_visible_time_entry.id))

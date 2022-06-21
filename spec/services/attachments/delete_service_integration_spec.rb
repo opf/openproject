@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -30,20 +28,20 @@
 require 'spec_helper'
 
 describe Attachments::DeleteService, 'integration', with_settings: { journal_aggregation_time_minutes: 0 } do
-  subject(:call) { described_class.new(model: attachment, user: user).call }
+  subject(:call) { described_class.new(model: attachment, user:).call }
 
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
-  let(:project) { FactoryBot.create(:project) }
-  let(:attachment) { FactoryBot.create(:attachment, container: container, author: author) }
+  let(:project) { create(:project) }
+  let(:attachment) { create(:attachment, container:, author:) }
   let(:author) { user }
 
   describe '#call' do
     context 'when container is journalized' do
-      let(:container) { FactoryBot.create(:work_package, project: project) }
+      let(:container) { create(:work_package, project:) }
       let(:permissions) { %i[edit_work_packages] }
 
       shared_examples 'successful deletion' do
@@ -102,8 +100,8 @@ describe Attachments::DeleteService, 'integration', with_settings: { journal_agg
     end
 
     context 'when not journalized' do
-      let(:container) { FactoryBot.create(:message, forum: forum) }
-      let(:forum) { FactoryBot.create(:forum, project: project)}
+      let(:container) { create(:message, forum:) }
+      let(:forum) { create(:forum, project:) }
       let(:permissions) { %i[delete_messages edit_messages] }
 
       shared_examples 'successful deletion' do
@@ -168,7 +166,7 @@ describe Attachments::DeleteService, 'integration', with_settings: { journal_agg
       end
 
       context 'with the user not being the attachment author' do
-        let(:author) { FactoryBot.create(:user) }
+        let(:author) { create(:user) }
 
         it 'fails' do
           expect(call)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,17 +32,17 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let(:all_permissions) { %i[view_work_packages edit_work_packages] }
   let(:permissions) { all_permissions }
 
-  let(:container) { FactoryBot.build_stubbed(:stubbed_work_package) }
+  let(:container) { build_stubbed(:work_package) }
   let(:author) { current_user }
   let(:attachment) do
-    FactoryBot.build_stubbed(:attachment,
-                             container: container,
-                             author: author) do |attachment|
+    build_stubbed(:attachment,
+                  container:,
+                  author:) do |attachment|
       allow(attachment)
         .to receive(:filename)
         .and_return('some_file_of_mine.txt')
@@ -50,7 +50,7 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
   end
 
   let(:representer) do
-    ::API::V3::Attachments::AttachmentRepresenter.new(attachment, current_user: current_user)
+    ::API::V3::Attachments::AttachmentRepresenter.new(attachment, current_user:)
   end
 
   before do
@@ -100,7 +100,7 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
     end
 
     context 'for a wiki page container' do
-      let(:container) { FactoryBot.build_stubbed(:wiki_page) }
+      let(:container) { build_stubbed(:wiki_page) }
 
       it_behaves_like 'has a titled link' do
         let(:link) { 'container' }
@@ -163,7 +163,7 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
       end
 
       it 'has the DELETE method' do
-        is_expected.to be_json_eql('delete'.to_json).at_path('_links/delete/method')
+        expect(subject).to be_json_eql('delete'.to_json).at_path('_links/delete/method')
       end
 
       context 'user is not allowed to edit the container' do
@@ -185,7 +185,7 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
         end
 
         context 'user is not the author' do
-          let(:author) { FactoryBot.build_stubbed(:user) }
+          let(:author) { build_stubbed(:user) }
 
           it_behaves_like 'has no link' do
             let(:link) { 'delete' }

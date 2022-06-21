@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,15 +33,15 @@ describe WorkPackage::Exports::CSV, 'integration', type: :model do
     login_as current_user
   end
 
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
   let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i(view_work_packages))
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %i(view_work_packages))
   end
   let(:query) do
-    Query.new(name: '_').tap do |query|
+    Query.new_default(name: '_').tap do |query|
       query.column_names = %i(subject assigned_to updated_at estimated_hours)
     end
   end
@@ -58,13 +56,13 @@ describe WorkPackage::Exports::CSV, 'integration', type: :model do
   # ISO-8859-1. Since this can happen, though, it is more sensible to encode everything
   # in UTF-8 which gets rid of this problem altogether.
   let!(:work_package) do
-    FactoryBot.create(
+    create(
       :work_package,
       subject: "Ruby encodes ß as '\\xDF' in ISO-8859-1.",
       description: "\u2022 requires unicode.",
       assigned_to: current_user,
       derived_estimated_hours: 15.0,
-      project: project
+      project:
     )
   end
 

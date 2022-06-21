@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,8 +41,8 @@ module API
                  getter: polymorphic_resource_getter(name),
                  setter: polymorphic_resource_setter(as),
                  link: polymorphic_link(name, link_title_attribute, skip_link),
-                 uncacheable_link: uncacheable_link,
-                 skip_render: skip_render)
+                 uncacheable_link:,
+                 skip_render:)
       end
 
       private
@@ -58,7 +56,7 @@ module API
           next if resource.nil?
 
           representer = representer_fn.call(resource)
-          representer.create(resource, current_user: current_user)
+          representer.create(resource, current_user:)
         end
       end
 
@@ -90,7 +88,7 @@ module API
             .new(represented,
                  path: path_name,
                  property_name: name,
-                 title_attribute: title_attribute,
+                 title_attribute:,
                  getter: :"#{name}_id")
             .to_hash
         end

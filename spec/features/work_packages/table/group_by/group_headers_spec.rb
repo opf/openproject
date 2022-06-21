@@ -1,20 +1,20 @@
 require 'spec_helper'
 
 describe 'Work Package table group headers', js: true do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
-  let(:project) { FactoryBot.create(:project) }
-  let(:category) { FactoryBot.create :category, project: project, name: 'Foo' }
-  let(:category2) { FactoryBot.create :category, project: project, name: 'Bar' }
+  let(:project) { create(:project) }
+  let(:category) { create :category, project:, name: 'Foo' }
+  let(:category2) { create :category, project:, name: 'Bar' }
 
-  let!(:wp_cat1) { FactoryBot.create(:work_package, project: project, category: category) }
-  let!(:wp_cat2) { FactoryBot.create(:work_package, project: project, category: category2) }
-  let!(:wp_none) { FactoryBot.create(:work_package, project: project) }
+  let!(:wp_cat1) { create(:work_package, project:, category:) }
+  let!(:wp_cat2) { create(:work_package, project:, category: category2) }
+  let!(:wp_none) { create(:work_package, project:) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
   let!(:query) do
-    query              = FactoryBot.build(:query, user: user, project: project)
+    query              = build(:query, user:, project:)
     query.column_names = ['subject', 'category']
     query.show_hierarchies = false
 

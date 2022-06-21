@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,21 +32,21 @@ require_relative './shared_examples'
 describe UserMailer, type: :mailer do
   subject(:deliveries) { ActionMailer::Base.deliveries }
 
-  let(:type_standard) { FactoryBot.build_stubbed(:type_standard) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:type_standard) { build_stubbed(:type_standard) }
+  let(:user) { build_stubbed(:user) }
   let(:journal) do
-    FactoryBot.build_stubbed(:work_package_journal).tap do |j|
+    build_stubbed(:work_package_journal).tap do |j|
       allow(j)
         .to receive(:data)
-              .and_return(FactoryBot.build_stubbed(:journal_work_package_journal))
+              .and_return(build_stubbed(:journal_work_package_journal))
     end
   end
   let(:work_package) do
-    FactoryBot.build_stubbed(:work_package,
-                             type: type_standard)
+    build_stubbed(:work_package,
+                  type: type_standard)
   end
 
-  let(:recipient) { FactoryBot.build_stubbed(:user) }
+  let(:recipient) { build_stubbed(:user) }
   let(:current_time) { Time.current }
 
   around do |example|
@@ -93,7 +91,7 @@ describe UserMailer, type: :mailer do
 
   describe '#test_mail' do
     let(:test_email) { 'bob.bobbi@example.com' }
-    let(:recipient) { FactoryBot.build_stubbed(:user, firstname: 'Bob', lastname: 'Bobbi', mail: test_email) }
+    let(:recipient) { build_stubbed(:user, firstname: 'Bob', lastname: 'Bobbi', mail: test_email) }
 
     before do
       described_class.test_mail(recipient).deliver_now
@@ -118,10 +116,16 @@ describe UserMailer, type: :mailer do
             with_settings: { user_format: :lastname_coma_firstname } do
       it_behaves_like 'mail is sent'
     end
+
+    context 'with the recipient being the system user' do
+      let(:recipient) { User.system }
+
+      it_behaves_like 'mail is not sent'
+    end
   end
 
   describe '#wiki_content_added' do
-    let(:wiki_content) { FactoryBot.create(:wiki_content) }
+    let(:wiki_content) { create(:wiki_content) }
 
     before do
       described_class.wiki_content_added(recipient, wiki_content).deliver_now
@@ -131,16 +135,22 @@ describe UserMailer, type: :mailer do
   end
 
   describe '#wiki_content_updated' do
-    let(:wiki_content) { FactoryBot.create(:wiki_content) }
+    let(:wiki_content) { create(:wiki_content) }
+    let(:wiki_content_journal) { build_stubbed(:wiki_content_journal) }
 
     before do
+      allow(wiki_content).to receive(:journals).and_return([wiki_content_journal])
       described_class.wiki_content_updated(recipient, wiki_content).deliver_now
     end
 
     it_behaves_like 'mail is sent'
 
     it 'links to the latest version diff page' do
-      expect(deliveries.first.body.encoded).to include 'diff/1'
+      expect(deliveries.first.body.encoded).to include "diff/#{wiki_content.version}"
+    end
+
+    it 'uses the author from the journal' do
+      expect(deliveries.first.body.encoded).to include wiki_content_journal.user.name
     end
   end
 
@@ -151,7 +161,7 @@ describe UserMailer, type: :mailer do
 
     context 'for a message without a parent' do
       let(:message) do
-        FactoryBot.build_stubbed(:message).tap do |msg|
+        build_stubbed(:message).tap do |msg|
           allow(msg)
             .to receive(:project)
                   .and_return(msg.forum.project)
@@ -179,11 +189,11 @@ describe UserMailer, type: :mailer do
 
     context 'for a message with a parent' do
       let(:parent) do
-        FactoryBot.build_stubbed(:message)
+        build_stubbed(:message)
       end
 
       let(:message) do
-        FactoryBot.build_stubbed(:message, parent: parent).tap do |msg|
+        build_stubbed(:message, parent:).tap do |msg|
           allow(msg)
             .to receive(:project)
                   .and_return(msg.forum.project)
@@ -220,8 +230,59 @@ describe UserMailer, type: :mailer do
     end
   end
 
+  describe '#incoming_email_error' do
+    let(:logs) { ['info: foo', 'error: bar'] }
+    let(:recipient) { user }
+    let(:current_time) { "2022-11-03 9:15".to_time }
+    let(:incoming_email) do
+      Mail.new(subject: mail_subject, message_id:, body:, from:)
+    end
+
+    let(:mail_subject) { 'New work package 42' }
+    let(:message_id) { '<000501c8d452$a95cd7e0$0a00a8c0@osiris>' }
+    let(:from) { 'l.lustig@openproject.com' }
+    let(:body) { "Project: demo-project" }
+
+    let(:outgoing_email) { deliveries.first }
+
+    before do
+      described_class
+        .incoming_email_error(user, incoming_email, logs)
+        .deliver_now
+    end
+
+    it_behaves_like 'mail is sent' do
+      it "references the incoming email's subject in its own" do
+        expect(outgoing_email.subject).to eql "Re: #{mail_subject}"
+      end
+
+      it "it's a reply to the incoming email" do
+        expect(message_id).to include outgoing_email.in_reply_to
+        expect(message_id).to include outgoing_email.references
+      end
+
+      it "contains the incoming email's quoted content" do
+        expect(html_body).to include body
+      end
+
+      it 'contains the date the mail was received' do
+        expect(html_body).to include "11/03/2022 09:15 AM"
+      end
+
+      it 'contains the email address from which the email was sent' do
+        expect(html_body).to include from
+      end
+
+      it 'contains the logs' do
+        logs.each do |log|
+          expect(html_body).to include log
+        end
+      end
+    end
+  end
+
   describe '#news_added' do
-    let(:news) { FactoryBot.build_stubbed(:news) }
+    let(:news) { build_stubbed(:news) }
 
     before do
       described_class.news_added(recipient, news).deliver_now
@@ -241,8 +302,8 @@ describe UserMailer, type: :mailer do
   end
 
   describe '#news_comment_added' do
-    let(:news) { FactoryBot.build_stubbed(:news) }
-    let(:comment) { FactoryBot.build_stubbed(:comment, commented: news) }
+    let(:news) { build_stubbed(:news) }
+    let(:comment) { build_stubbed(:comment, commented: news) }
 
     before do
       described_class.news_comment_added(recipient, comment).deliver_now
@@ -258,7 +319,7 @@ describe UserMailer, type: :mailer do
   end
 
   describe '#password_lost' do
-    let(:token) { FactoryBot.build_stubbed(:recovery_token) }
+    let(:token) { build_stubbed(:recovery_token) }
     let(:recipient) { token.user }
 
     before do
@@ -277,7 +338,7 @@ describe UserMailer, type: :mailer do
   end
 
   describe '#user_signed_up' do
-    let(:token) { FactoryBot.build_stubbed(:invitation_token) }
+    let(:token) { build_stubbed(:invitation_token) }
     let(:recipient) { token.user }
 
     before do
@@ -304,7 +365,7 @@ describe UserMailer, type: :mailer do
                                "en" => 'english header'
                              } } do
       let(:recipient) do
-        FactoryBot.build_stubbed(:user, language: 'de')
+        build_stubbed(:user, language: 'de')
       end
 
       before do
@@ -335,7 +396,7 @@ describe UserMailer, type: :mailer do
                                "en" => 'english header'
                              } } do
       let(:recipient) do
-        FactoryBot.build_stubbed(:user, language: '')
+        build_stubbed(:user, language: '')
       end
 
       before do

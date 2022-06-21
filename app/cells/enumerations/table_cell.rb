@@ -1,5 +1,3 @@
-require_dependency 'enumerations/row_cell'
-
 module Enumerations
   class TableCell < ::TableCell
     def initial_sort
@@ -26,6 +24,7 @@ module Enumerations
       link_to new_enumeration_path(type: model.name),
               aria: { label: t(:label_enumeration_new) },
               class: 'wp-inline-create--add-link',
+              data: { 'qa-selector': "create-enumeration-#{model.name.underscore.dasherize}" },
               title: t(:label_enumeration_new) do
         op_icon('icon icon-add')
       end

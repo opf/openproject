@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,15 +67,14 @@ module Pages
         within(selected_filter) do
           return unless values.any?
 
-          case
-          when name == 'name_and_identifier'
+          if name == 'name_and_identifier'
             set_name_and_identifier_filter(values)
-          when boolean_filter?(name)
+          elsif boolean_filter?(name)
             set_toggle_filter(values)
-          when name == 'created_at'
+          elsif name == 'created_at'
             select(human_operator, from: 'operator')
             set_created_at_filter(human_operator, values)
-          when name =~ /cf_\d+/
+          elsif name =~ /cf_\d+/
             select(human_operator, from: 'operator')
             set_custom_field_filter(selected_filter, human_operator, values)
           end

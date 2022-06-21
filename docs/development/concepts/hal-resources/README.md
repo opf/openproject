@@ -237,5 +237,5 @@ In order to turn the JSON properties from `_embedded` and `_links` into writable
 
 ## Discussions
 
-- Due to the dynamic properties of the HAL resource, it traditionally has an index map to `any` which is the source of many typing issues and in turn, quite a number of bugs: https://github.com/opf/openproject/blob/76823ca58179a87afbb5fc0925c3453780dec381/frontend/src/app/modules/hal/resources/hal-resource.ts#L56-L60
+- Due to the dynamic properties of the HAL resource, it traditionally has an index map to `any` which is the source of many typing issues and in turn, quite a number of bugs: [hal-resource.ts](https://github.com/opf/openproject/blob/76823ca58179a87afbb5fc0925c3453780dec381/frontend/src/app/modules/hal/resources/hal-resource.ts#L56-L60)
 - The way HAL resources work by embedding and allowing to load 

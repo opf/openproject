@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,52 +34,52 @@ describe 'Assignee action board',
          type: :feature,
          js: true do
   let(:bobself_user) do
-    FactoryBot.create(:user,
-                      firstname: 'Bob',
-                      lastname: 'Self',
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           firstname: 'Bob',
+           lastname: 'Self',
+           member_in_project: project,
+           member_through_role: role)
   end
-  let(:admin) { FactoryBot.create(:admin) }
-  let(:type) { FactoryBot.create(:type_standard) }
-  let(:project) { FactoryBot.create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:project_without_members) { FactoryBot.create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:admin) { create(:admin) }
+  let(:type) { create(:type_standard) }
+  let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:project_without_members) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:role) { create(:role, permissions:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:other_board_index) { Pages::BoardIndex.new(project_without_members) }
 
   let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages
-       edit_work_packages view_work_packages manage_public_queries]
+       edit_work_packages view_work_packages manage_public_queries work_package_assigned]
   end
 
-  let!(:priority) { FactoryBot.create :default_priority }
+  let!(:priority) { create :default_priority }
 
   # Set up other assignees
 
   let!(:foobar_user) do
-    FactoryBot.create(:user,
-                      firstname: 'Foo',
-                      lastname: 'Bar',
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           firstname: 'Foo',
+           lastname: 'Bar',
+           member_in_project: project,
+           member_through_role: role)
   end
 
   let!(:group) do
-    FactoryBot.create(:group, name: 'Grouped').tap do |group|
-      FactoryBot.create(:member,
-                        principal: group,
-                        project: project,
-                        roles: [role])
+    create(:group, name: 'Grouped').tap do |group|
+      create(:member,
+             principal: group,
+             project:,
+             roles: [role])
     end
   end
 
   let!(:work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      assigned_to: bobself_user,
-                      subject: 'Some Task'
+    create :work_package,
+           project:,
+           assigned_to: bobself_user,
+           subject: 'Some Task'
   end
 
   context 'in a project with members' do
@@ -149,7 +149,8 @@ describe 'Assignee action board',
       board_page.expect_card 'Bob Self', 'Some Task', present: false
 
       # Expect to have changed the avatar
-      expect(page).to have_selector('[data-qa-selector="op-wp-single-card--content-assignee"] .op-avatar_mini', text: 'FB', wait: 10)
+      expect(page).to have_selector('[data-qa-selector="op-wp-single-card--content-assignee"] .op-avatar_mini', text: 'FB',
+                                                                                                                wait: 10)
 
       work_package.reload
       expect(work_package.assigned_to).to eq(foobar_user)
@@ -161,7 +162,8 @@ describe 'Assignee action board',
       board_page.expect_card 'Bob Self', 'Some Task', present: false
 
       # Expect to have changed the avatar
-      expect(page).to have_selector('[data-qa-selector="op-wp-single-card--content-assignee"] .op-avatar_mini', text: 'GG', wait: 10)
+      expect(page).to have_selector('[data-qa-selector="op-wp-single-card--content-assignee"] .op-avatar_mini', text: 'GG',
+                                                                                                                wait: 10)
 
       work_package.reload
       expect(work_package.assigned_to).to eq(group)

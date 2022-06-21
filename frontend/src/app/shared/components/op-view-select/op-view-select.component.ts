@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ import {
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
@@ -53,11 +53,10 @@ import { IView } from 'core-app/core/state/views/view.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 
-export type ViewType = 'WorkPackagesTable'|'Bim'|'TeamPlanner';
+export type ViewType = 'WorkPackagesTable'|'Bim'|'TeamPlanner'|'WorkPackagesCalendar';
 
 export const opViewSelectSelector = 'op-view-select';
 
-@DatasetInputs
 @Component({
   selector: opViewSelectSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -75,7 +74,7 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
     no_results: this.I18n.t('js.work_packages.query.text_no_results'),
   };
 
-  public $views:Observable<IOpSidemenuItem[]>;
+  public views$:Observable<IOpSidemenuItem[]>;
 
   @Input() menuItems:string[] = [];
 
@@ -87,9 +86,9 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
 
   private apiViewType:string;
 
-  private $viewCategories = new BehaviorSubject<IOpSidemenuItem[]>([]);
+  private viewCategories$ = new BehaviorSubject<IOpSidemenuItem[]>([]);
 
-  private $search = new BehaviorSubject<string>('');
+  private search$ = new BehaviorSubject<string>('');
 
   private initialized = false;
 
@@ -104,11 +103,13 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
     readonly viewsService:ViewsResourceService,
   ) {
     super();
+
+    populateInputsFromDataset(this);
   }
 
   public set search(input:string) {
-    if (this.$search.value !== input) {
-      this.$search.next(input);
+    if (this.search$.value !== input) {
+      this.search$.next(input);
     }
   }
 
@@ -121,23 +122,22 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       .onActivate(...this.menuItems)
       .subscribe(() => this.initializeAutocomplete());
 
-    this.$views = combineLatest(
-      this.$search,
-      this.$viewCategories,
-    )
-      .pipe(
-        map(([searchText, categories]) => categories
-          .map((category) => {
-            if (ViewSelectComponent.matchesText(category.title, searchText)) {
-              return category;
-            }
+    this.views$ = combineLatest([
+      this.search$,
+      this.viewCategories$,
+    ]).pipe(
+      map(([searchText, categories]) => categories
+        .map((category) => {
+          if (ViewSelectComponent.matchesText(category.title, searchText)) {
+            return category;
+          }
 
-            const filteredChildren = category.children
-              ?.filter((query) => ViewSelectComponent.matchesText(query.title, searchText));
-            return { title: category.title, children: filteredChildren, collapsible: true };
-          })
-          .filter((category) => category.children && category.children.length > 0)),
-      );
+          const filteredChildren = category.children
+            ?.filter((query) => ViewSelectComponent.matchesText(query.title, searchText));
+          return { title: category.title, children: filteredChildren, collapsible: true };
+        })
+        .filter((category) => category.children && category.children.length > 0)),
+    );
   }
 
   private initializeAutocomplete():void {
@@ -181,33 +181,40 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       params.filters?.push(
         ['project', '=', [this.projectId]],
       );
+    } else {
+      params.filters?.push(
+        ['project', '!*', []],
+      );
     }
 
-    this.viewsService
-      .fetchViews(params)
+    this.viewsService.fetchViews(params)
       .pipe(this.untilDestroyed())
       .subscribe((queryCollection) => {
-        queryCollection._embedded.elements.forEach((view) => {
-          let cat = 'private';
-          if (view.public) {
-            cat = 'public';
-          }
-          if (view.starred) {
-            cat = 'starred';
-          }
+        queryCollection
+          ._embedded
+          .elements
+          .sort((a, b) => a._links.query.title.localeCompare(b._links.query.title))
+          .forEach((view) => {
+            let cat = 'private';
+            if (view.public) {
+              cat = 'public';
+            }
+            if (view.starred) {
+              cat = 'starred';
+            }
 
-          categories[cat].push(this.toOpSideMenuItem(view));
-        });
+            categories[cat].push(this.toOpSideMenuItem(view));
+          });
 
         const staticQueries = this.opStaticQueries.getStaticQueriesForView(this.viewType);
-        const newQueryLink = this.opStaticQueries.getCreateNewQueryForView(this.viewType);
-        this.$viewCategories.next([
+        const viewCategories = [
           { title: this.text.scope_starred, children: categories.starred, collapsible: true },
           { title: this.text.scope_default, children: staticQueries, collapsible: true },
           { title: this.text.scope_global, children: categories.public, collapsible: true },
           { title: this.text.scope_private, children: categories.private, collapsible: true },
-          { title: this.text.scope_new, children: newQueryLink, collapsible: true },
-        ]);
+        ];
+
+        this.viewCategories$.next(viewCategories);
       });
   }
 

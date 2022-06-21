@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,9 +50,9 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
     query
   end
 
-  let(:instance) { described_class.new(query, self_link: self_link, current_user: user, form_embedded: form_embedded) }
+  let(:instance) { described_class.new(query, self_link:, current_user: user, form_embedded:) }
   let(:user) do
-    FactoryBot.build_stubbed(:user).tap do |user|
+    build_stubbed(:user).tap do |user|
       allow(user)
         .to receive(:allowed_to?)
         .and_return(false)
@@ -338,7 +338,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
 
         context 'when embedding' do
           let(:form_embedded) { true }
-          let(:type) { FactoryBot.build_stubbed(:type) }
+          let(:type) { build_stubbed(:type) }
           let(:available_values) do
             [Queries::WorkPackages::Columns::PropertyColumn.new(:bogus1),
              Queries::WorkPackages::Columns::PropertyColumn.new(:bogus2),
@@ -385,7 +385,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
 
         context 'when embedding' do
           let(:form_embedded) { true }
-          let(:type) { FactoryBot.build_stubbed(:type) }
+          let(:type) { build_stubbed(:type) }
           let(:available_values) do
             [Queries::WorkPackages::Columns::PropertyColumn.new(:bogus1, highlightable: true),
              Queries::WorkPackages::Columns::PropertyColumn.new(:bogus2, highlightable: true)]
@@ -419,18 +419,18 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:href) { api_v3_paths.query_filter_instance_schemas }
 
           it 'contains the link to the filter schemas' do
-            is_expected
+            expect(subject)
               .to be_json_eql(href.to_json)
               .at_path("#{path}/_links/allowedValuesSchemas/href")
           end
         end
 
         context 'when project query' do
-          let(:project) { FactoryBot.build_stubbed(:project) }
+          let(:project) { build_stubbed(:project) }
           let(:href) { api_v3_paths.query_project_filter_instance_schemas(project.id) }
 
           it 'contains the link to the filter schemas' do
-            is_expected
+            expect(subject)
               .to be_json_eql(href.to_json)
               .at_path("#{path}/_links/allowedValuesSchemas/href")
           end
@@ -532,18 +532,18 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:href) { api_v3_paths.query_filter_instance_schemas }
 
           it 'contains a collection of filter schemas' do
-            is_expected
+            expect(subject)
               .to be_json_eql(href.to_json)
               .at_path("#{path}/_links/self/href")
           end
         end
 
         context 'when project query' do
-          let(:project) { FactoryBot.build_stubbed(:project) }
+          let(:project) { build_stubbed(:project) }
           let(:href) { api_v3_paths.query_project_filter_instance_schemas(project.id) }
 
           it 'contains a collection of filter schemas' do
-            is_expected
+            expect(subject)
               .to be_json_eql(href.to_json)
               .at_path("#{path}/_links/self/href")
           end

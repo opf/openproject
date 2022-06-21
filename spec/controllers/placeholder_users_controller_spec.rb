@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,11 +30,11 @@ require 'spec_helper'
 require 'work_package'
 
 describe PlaceholderUsersController, type: :controller do
-  shared_let(:placeholder_user) { FactoryBot.create(:placeholder_user) }
+  shared_let(:placeholder_user) { create(:placeholder_user) }
 
   shared_examples 'do not allow non-admins' do
     it 'responds with unauthorized status' do
-      expect(response).to_not be_successful
+      expect(response).not_to be_successful
       expect(response.status).to eq 403
     end
   end
@@ -97,12 +97,12 @@ describe PlaceholderUsersController, type: :controller do
       end
 
       before do
-        post :create, params: params
+        post :create, params:
       end
 
       context 'without ee' do
         it 'returns with an error' do
-          expect { post :create, params: params }.not_to change { PlaceholderUser.count }
+          expect { post :create, params: }.not_to change { PlaceholderUser.count }
           expect(response).to be_successful
 
           expect(assigns(:errors).details[:base])
@@ -111,16 +111,16 @@ describe PlaceholderUsersController, type: :controller do
       end
 
       context 'with ee', with_ee: %i[placeholder_users] do
-        it 'should be assigned their new values' do
+        it 'is assigned their new values' do
           user_from_db = PlaceholderUser.last
           expect(user_from_db.name).to eq('UX Developer')
         end
 
-        it 'should show a success notice' do
+        it 'shows a success notice' do
           expect(flash[:notice]).to eql(I18n.t(:notice_successful_create))
         end
 
-        it 'should not send an email' do
+        it 'does not send an email' do
           expect(ActionMailer::Base.deliveries.empty?).to be_truthy
         end
 
@@ -134,7 +134,7 @@ describe PlaceholderUsersController, type: :controller do
             }
           end
 
-          it 'should redirect to the new page' do
+          it 'redirects to the new page' do
             expect(response).to redirect_to(new_placeholder_user_url)
           end
         end
@@ -148,7 +148,7 @@ describe PlaceholderUsersController, type: :controller do
             }
           end
 
-          it 'should redirect to the edit page' do
+          it 'redirects to the edit page' do
             user_from_db = PlaceholderUser.last
             expect(response).to redirect_to(edit_placeholder_user_url(user_from_db))
           end
@@ -163,8 +163,8 @@ describe PlaceholderUsersController, type: :controller do
             }
           end
 
-          it 'should render the edit form with a validation error message' do
-            expect(assigns(:'placeholder_user').errors.messages[:name].first).to include('is too long')
+          it 'renders the edit form with a validation error message' do
+            expect(assigns(:placeholder_user).errors.messages[:name].first).to include('is too long')
             expect(response).to render_template 'placeholder_users/new'
           end
         end
@@ -182,19 +182,19 @@ describe PlaceholderUsersController, type: :controller do
       end
 
       before do
-        put :update, params: params
+        put :update, params:
       end
 
-      it 'should redirect to the edit page' do
+      it 'redirects to the edit page' do
         expect(response).to redirect_to(edit_placeholder_user_url(placeholder_user))
       end
 
-      it 'should be assigned their new values' do
+      it 'is assigned their new values' do
         user_from_db = PlaceholderUser.find(placeholder_user.id)
         expect(user_from_db.name).to eq('UX Guru')
       end
 
-      it 'should not send an email' do
+      it 'does not send an email' do
         expect(ActionMailer::Base.deliveries.empty?).to be_truthy
       end
 
@@ -208,8 +208,8 @@ describe PlaceholderUsersController, type: :controller do
           }
         end
 
-        it 'should render the edit form with a validation error message' do
-          expect(assigns(:'placeholder_user').errors.messages[:name].first).to include('is too long')
+        it 'renders the edit form with a validation error message' do
+          expect(assigns(:placeholder_user).errors.messages[:name].first).to include('is too long')
           expect(response).to render_template 'placeholder_users/edit'
         end
       end
@@ -220,7 +220,7 @@ describe PlaceholderUsersController, type: :controller do
         get :deletion_info, params: { id: placeholder_user.id }
       end
 
-      it 'should render the deletion info response' do
+      it 'renders the deletion info response' do
         expect(response).to be_successful
         expect(response).to render_template 'placeholder_users/deletion_info'
       end
@@ -231,7 +231,7 @@ describe PlaceholderUsersController, type: :controller do
         delete :destroy, params: { id: placeholder_user.id }
       end
 
-      it 'should trigger the deletion' do
+      it 'triggers the deletion' do
         expect(response).to redirect_to action: :index
         expect(flash[:info]).to include I18n.t(:notice_deletion_scheduled)
 
@@ -242,18 +242,18 @@ describe PlaceholderUsersController, type: :controller do
   end
 
   context 'as an admin' do
-    current_user { FactoryBot.create :admin }
+    current_user { create :admin }
 
     it_behaves_like 'authorized flows'
   end
 
   context 'as a user with global permission' do
-    current_user { FactoryBot.create :user, global_permission: %i[manage_placeholder_user] }
+    current_user { create :user, global_permission: %i[manage_placeholder_user] }
     it_behaves_like 'authorized flows'
   end
 
   context 'as an unauthorized user' do
-    current_user { FactoryBot.create :user }
+    current_user { create :user }
 
     describe 'GET new' do
       before do
@@ -293,7 +293,7 @@ describe PlaceholderUsersController, type: :controller do
       end
 
       before do
-        post :create, params: params
+        post :create, params:
       end
 
       it_behaves_like 'do not allow non-admins'
@@ -310,7 +310,7 @@ describe PlaceholderUsersController, type: :controller do
       end
 
       before do
-        put :update, params: params
+        put :update, params:
       end
 
       it_behaves_like 'do not allow non-admins'
@@ -334,7 +334,7 @@ describe PlaceholderUsersController, type: :controller do
   end
 
   context 'as a user that may not delete the placeholder' do
-    current_user { FactoryBot.create :user }
+    current_user { create :user }
 
     before do
       allow(PlaceholderUsers::DeleteContract)
@@ -347,7 +347,7 @@ describe PlaceholderUsersController, type: :controller do
       end
 
       it 'responds with unauthorized status' do
-        expect(response).to_not be_successful
+        expect(response).not_to be_successful
         expect(response.status).to eq 403
       end
     end
@@ -358,10 +358,9 @@ describe PlaceholderUsersController, type: :controller do
       end
 
       it 'responds with unauthorized status' do
-        expect(response).to_not be_successful
+        expect(response).not_to be_successful
         expect(response.status).to eq 403
       end
     end
   end
 end
-

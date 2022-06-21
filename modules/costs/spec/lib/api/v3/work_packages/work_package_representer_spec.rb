@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,49 +31,50 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:role) do
-    FactoryBot.create(:role, permissions: %i[view_time_entries
-                                             view_cost_entries
-                                             view_cost_rates
-                                             view_work_packages])
+    create(:role,
+           permissions: %i[view_time_entries
+                           view_cost_entries
+                           view_cost_rates
+                           view_work_packages])
   end
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
 
   let(:cost_entry_1) do
-    FactoryBot.create(:cost_entry,
-                      work_package: work_package,
-                      project: project,
-                      units: 3,
-                      spent_on: Date.today,
-                      user: user,
-                      comments: 'Entry 1')
+    create(:cost_entry,
+           work_package:,
+           project:,
+           units: 3,
+           spent_on: Time.zone.today,
+           user:,
+           comments: 'Entry 1')
   end
   let(:cost_entry_2) do
-    FactoryBot.create(:cost_entry,
-                      work_package: work_package,
-                      project: project,
-                      units: 3,
-                      spent_on: Date.today,
-                      user: user,
-                      comments: 'Entry 2')
+    create(:cost_entry,
+           work_package:,
+           project:,
+           units: 3,
+           spent_on: Time.zone.today,
+           user:,
+           comments: 'Entry 2')
   end
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project_id: project.id)
+    create(:work_package,
+           project_id: project.id)
   end
   let(:representer) do
-    described_class.new(work_package,
-                        current_user: user,
-                        embed_links: true)
+    described_class.create(work_package,
+                           current_user: user,
+                           embed_links: true)
   end
 
-  before(:each) do
+  before do
     allow(User).to receive(:current).and_return user
   end
 
@@ -99,16 +100,16 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       it 'embeds the costsByType' do
-        is_expected.to have_json_path('_embedded/costsByType')
+        expect(subject).to have_json_path('_embedded/costsByType')
       end
 
       describe 'spentTime' do
         context 'time entry with single hour' do
           let(:time_entry) do
-            FactoryBot.create(:time_entry,
-                              project: work_package.project,
-                              work_package: work_package,
-                              hours: 1.0)
+            create(:time_entry,
+                   project: work_package.project,
+                   work_package:,
+                   hours: 1.0)
           end
 
           before { time_entry }
@@ -118,10 +119,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'time entry with multiple hours' do
           let(:time_entry) do
-            FactoryBot.create(:time_entry,
-                              project: work_package.project,
-                              work_package: work_package,
-                              hours: 42.5)
+            create(:time_entry,
+                   project: work_package.project,
+                   work_package:,
+                   hours: 42.5)
           end
 
           before { time_entry }
@@ -139,30 +140,30 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'only view_own_time_entries permission' do
           let(:own_time_entries_role) do
-            FactoryBot.create(:role, permissions: %i[view_own_time_entries
-                                                     view_work_packages])
+            create(:role, permissions: %i[view_own_time_entries
+                                          view_work_packages])
           end
 
           let(:user2) do
-            FactoryBot.create(:user,
-                              member_in_project: project,
-                              member_through_role: own_time_entries_role)
+            create(:user,
+                   member_in_project: project,
+                   member_through_role: own_time_entries_role)
           end
 
           let!(:own_time_entry) do
-            FactoryBot.create(:time_entry,
-                              project: work_package.project,
-                              work_package: work_package,
-                              hours: 2,
-                              user: user2)
+            create(:time_entry,
+                   project: work_package.project,
+                   work_package:,
+                   hours: 2,
+                   user: user2)
           end
 
           let!(:other_time_entry) do
-            FactoryBot.create(:time_entry,
-                              project: work_package.project,
-                              work_package: work_package,
-                              hours: 1,
-                              user: user)
+            create(:time_entry,
+                   project: work_package.project,
+                   work_package:,
+                   hours: 1,
+                   user:)
           end
 
           before do
@@ -200,7 +201,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a laborCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('laborCosts')
+            expect(subject).to be_json_eql('6,000.00 EUR'.to_json).at_path('laborCosts')
           end
         end
 
@@ -218,13 +219,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a laborCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('laborCosts')
+            expect(subject).to be_json_eql('6,000.00 EUR'.to_json).at_path('laborCosts')
           end
         end
 
         context 'without the user having permission' do
           it 'has no attribute' do
-            is_expected.not_to have_json_path('laborCosts')
+            expect(subject).not_to have_json_path('laborCosts')
           end
         end
       end
@@ -252,7 +253,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a materialCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('materialCosts')
+            expect(subject).to be_json_eql('6,000.00 EUR'.to_json).at_path('materialCosts')
           end
         end
 
@@ -270,13 +271,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a materialCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('materialCosts')
+            expect(subject).to be_json_eql('6,000.00 EUR'.to_json).at_path('materialCosts')
           end
         end
 
         context 'without the user having permission' do
           it 'has no attribute' do
-            is_expected.not_to have_json_path('materialCosts')
+            expect(subject).not_to have_json_path('materialCosts')
           end
         end
       end
@@ -304,7 +305,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a overallCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
+            expect(subject).to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
           end
         end
 
@@ -322,7 +323,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a overallCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
+            expect(subject).to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
           end
         end
 
@@ -340,7 +341,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a overallCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
+            expect(subject).to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
           end
         end
 
@@ -358,13 +359,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a overallCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
+            expect(subject).to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
           end
         end
 
         context 'without the user having permission' do
           it 'has no attribute' do
-            is_expected.not_to have_json_path('overallCosts')
+            expect(subject).not_to have_json_path('overallCosts')
           end
         end
       end
@@ -386,7 +387,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                                                   work_package.project)
           .and_return true
 
-        is_expected.to have_json_path('_links/timeEntries/href')
+        expect(subject).to have_json_path('_links/timeEntries/href')
       end
 
       it 'has spentTime link when user only has view_own_time_entries permission' do
@@ -395,7 +396,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                                                   work_package.project)
           .and_return true
 
-        is_expected.to have_json_path('_links/timeEntries/href')
+        expect(subject).to have_json_path('_links/timeEntries/href')
       end
     end
   end

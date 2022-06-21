@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Models acting as list (acts_as_list)' do
-  it 'should include the patch' do
+  it 'includes the patch' do
     expect(ActiveRecord::Acts::List::InstanceMethods.included_modules).to include(OpenProject::Patches::ActsAsList)
   end
 
@@ -42,25 +42,25 @@ describe 'Models acting as list (acts_as_list)' do
       ActsAsListPatchIncluder.new
     end
 
-    it 'should move to top when wanting to move highest' do
+    it 'moves to top when wanting to move highest' do
       expect(includer).to receive :move_to_top
 
       includer.move_to = 'highest'
     end
 
-    it 'should move to bottom when wanting to move lowest' do
+    it 'moves to bottom when wanting to move lowest' do
       expect(includer).to receive :move_to_bottom
 
       includer.move_to = 'lowest'
     end
 
-    it 'should move higher when wanting to move higher' do
+    it 'moves higher when wanting to move higher' do
       expect(includer).to receive :move_higher
 
       includer.move_to = 'higher'
     end
 
-    it 'should move lower when wanting to move lower' do
+    it 'moves lower when wanting to move lower' do
       expect(includer).to receive :move_lower
 
       includer.move_to = 'lower'

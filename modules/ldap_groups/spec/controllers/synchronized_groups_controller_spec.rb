@@ -1,8 +1,8 @@
 require_relative '../spec_helper'
 
 describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], type: :controller do
-  let(:user) { FactoryBot.create :user }
-  let(:admin) { FactoryBot.create :admin }
+  let(:user) { create :user }
+  let(:admin) { create :admin }
 
   before do
     allow(User).to receive(:current).and_return(logged_in_user)
@@ -55,7 +55,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
       end
 
       context 'when entry exists' do
-        let!(:group) { FactoryBot.build_stubbed :ldap_synchronized_group }
+        let!(:group) { build_stubbed :ldap_synchronized_group }
         let(:id) { 'foo' }
 
         it 'renders the page' do
@@ -95,6 +95,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
 
   describe '#create' do
     let(:save_result) { false }
+
     before do
       allow_any_instance_of(::LdapGroups::SynchronizedGroup).to receive(:save).and_return(save_result)
       post :create, params: { synchronized_group: params }
@@ -125,6 +126,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
 
         context 'and saving succeeds' do
           let(:save_result) { true }
+
           it 'renders 200' do
             expect(flash[:notice]).to be_present
             expect(response).to redirect_to action: :index
@@ -165,7 +167,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
       end
 
       context 'when entry exists' do
-        let!(:group) { FactoryBot.build_stubbed :ldap_synchronized_group }
+        let!(:group) { build_stubbed :ldap_synchronized_group }
         let(:id) { 'foo' }
 
         it 'renders the page' do
@@ -206,7 +208,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
       end
 
       context 'when entry exists' do
-        let!(:group) { FactoryBot.build_stubbed :ldap_synchronized_group }
+        let!(:group) { build_stubbed :ldap_synchronized_group }
         let(:id) { 'foo' }
 
         before do

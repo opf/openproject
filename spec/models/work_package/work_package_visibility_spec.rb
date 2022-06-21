@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,17 +29,17 @@
 require 'spec_helper'
 
 describe 'WorkPackage-Visibility', type: :model do
-  shared_let(:admin) { FactoryBot.create :admin }
-  let(:anonymous) { FactoryBot.create(:anonymous) }
-  let(:user) { FactoryBot.create(:user) }
-  let(:public_project) { FactoryBot.create(:project, public: true) }
-  let(:private_project) { FactoryBot.create(:project, public: false) }
-  let(:other_project) { FactoryBot.create(:project, public: true) }
-  let(:view_work_packages) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-  let(:view_work_packages_role2) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  shared_let(:admin) { create :admin }
+  let(:anonymous) { create(:anonymous) }
+  let(:user) { create(:user) }
+  let(:public_project) { create(:project, public: true) }
+  let(:private_project) { create(:project, public: false) }
+  let(:other_project) { create(:project, public: true) }
+  let(:view_work_packages) { create(:role, permissions: [:view_work_packages]) }
+  let(:view_work_packages_role2) { create(:role, permissions: [:view_work_packages]) }
 
   describe 'of public projects' do
-    subject { FactoryBot.create(:work_package, project: public_project) }
+    subject { create(:work_package, project: public_project) }
 
     it 'is viewable by anonymous, with the view_work_packages permissison' do
       # it is not really clear, where these kind of "preconditions" belong to: This setting
@@ -51,7 +51,7 @@ describe 'WorkPackage-Visibility', type: :model do
   end
 
   describe 'of private projects' do
-    subject { FactoryBot.create(:work_package, project: private_project) }
+    subject { create(:work_package, project: private_project) }
 
     it 'is visible for the admin, even if the project is private' do
       expect(WorkPackage.visible(admin)).to match_array [subject]
@@ -62,10 +62,10 @@ describe 'WorkPackage-Visibility', type: :model do
     end
 
     it 'is visible for members of the project, with the view_work_packages permissison' do
-      FactoryBot.create(:member,
-                        user: user,
-                        project: private_project,
-                        role_ids: [view_work_packages.id])
+      create(:member,
+             user:,
+             project: private_project,
+             role_ids: [view_work_packages.id])
 
       expect(WorkPackage.visible(user)).to match_array [subject]
     end
@@ -73,11 +73,11 @@ describe 'WorkPackage-Visibility', type: :model do
     it 'is only returned once for members with two roles having view_work_packages permission' do
       subject
 
-      FactoryBot.create(:member,
-                        user: user,
-                        project: private_project,
-                        role_ids: [view_work_packages.id,
-                                   view_work_packages_role2.id])
+      create(:member,
+             user:,
+             project: private_project,
+             role_ids: [view_work_packages.id,
+                        view_work_packages_role2.id])
 
       expect(WorkPackage.visible(user).pluck(:id)).to match_array [subject.id]
     end
@@ -87,11 +87,11 @@ describe 'WorkPackage-Visibility', type: :model do
     end
 
     it 'is not visible for members of the project, without the view_work_packages permissison' do
-      no_permission = FactoryBot.create(:role, permissions: [:no_permission])
-      FactoryBot.create(:member,
-                        user: user,
-                        project: private_project,
-                        role_ids: [no_permission.id])
+      no_permission = create(:role, permissions: [:no_permission])
+      create(:member,
+             user:,
+             project: private_project,
+             role_ids: [no_permission.id])
 
       expect(WorkPackage.visible(user)).to match_array []
     end

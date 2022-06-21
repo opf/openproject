@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,8 +65,8 @@ module AuthenticationHelpers
     # Will make the return value available in the specs as current_user (using a let block)
     # and treat that user as the one currently being logged in
     # @block [Proc] The user to log in.
-    def current_user(&block)
-      let(:current_user, &block)
+    def current_user(&)
+      let(:current_user, &)
 
       before { login_as current_user }
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Types::TypeRepresenter do
-  let(:type) { FactoryBot.build_stubbed(:type, color: FactoryBot.build_stubbed(:color)) }
+  let(:type) { build_stubbed(:type, color: build_stubbed(:color)) }
   let(:representer) { described_class.new(type, current_user: double('current_user')) }
 
   include API::V3::Utilities::PathHelper
@@ -46,50 +46,50 @@ describe ::API::V3::Types::TypeRepresenter do
     end
 
     it 'indicates its id' do
-      is_expected.to be_json_eql(type.id.to_json).at_path('id')
+      expect(subject).to be_json_eql(type.id.to_json).at_path('id')
     end
 
     it 'indicates its name' do
-      is_expected.to be_json_eql(type.name.to_json).at_path('name')
+      expect(subject).to be_json_eql(type.name.to_json).at_path('name')
     end
 
     it 'indicates its color' do
-      is_expected.to be_json_eql(type.color.hexcode.to_json).at_path('color')
+      expect(subject).to be_json_eql(type.color.hexcode.to_json).at_path('color')
     end
 
     context 'no color set' do
-      let(:type) { FactoryBot.build_stubbed(:type, color: nil) }
+      let(:type) { build_stubbed(:type, color: nil) }
 
       it 'indicates a missing color' do
-        is_expected.to be_json_eql(nil.to_json).at_path('color')
+        expect(subject).to be_json_eql(nil.to_json).at_path('color')
       end
     end
 
     it 'indicates its position' do
-      is_expected.to be_json_eql(type.position.to_json).at_path('position')
+      expect(subject).to be_json_eql(type.position.to_json).at_path('position')
     end
 
     it 'indicates that it is not the default type' do
-      is_expected.to be_json_eql(false.to_json).at_path('isDefault')
+      expect(subject).to be_json_eql(false.to_json).at_path('isDefault')
     end
 
     context 'as default type' do
-      let(:type) { FactoryBot.build_stubbed(:type, is_default: true) }
+      let(:type) { build_stubbed(:type, is_default: true) }
 
       it 'indicates that it is the default type' do
-        is_expected.to be_json_eql(true.to_json).at_path('isDefault')
+        expect(subject).to be_json_eql(true.to_json).at_path('isDefault')
       end
     end
 
     it 'indicates that it is not a milestone' do
-      is_expected.to be_json_eql(false.to_json).at_path('isMilestone')
+      expect(subject).to be_json_eql(false.to_json).at_path('isMilestone')
     end
 
     context 'as milestone' do
-      let(:type) { FactoryBot.build_stubbed(:type, is_milestone: true) }
+      let(:type) { build_stubbed(:type, is_milestone: true) }
 
       it 'indicates that it is a milestone' do
-        is_expected.to be_json_eql(true.to_json).at_path('isMilestone')
+        expect(subject).to be_json_eql(true.to_json).at_path('isMilestone')
       end
     end
 

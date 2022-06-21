@@ -5,3 +5,9 @@ pt:
   project_module_team_planner_view: "Planejador de equipe"
   team_planner:
     label_team_planner: "Planejador de equipe"
+    label_create_new_team_planner: "Criar novo planejador de equipe"
+    label_team_planner_plural: "Planejador de equipe"
+    label_assignees: "Atribuídos para"
+    upsale:
+      title: "Planejador de equipe"
+      description: "Planejador de equipe dá a você uma visão geral do que cada membro da equipe está trabalhando, uma semana por vez. Mover, esticar e encolher pacotes de trabalho visualmente e até arrastá-los de um membro para outro da equipe para organizar a carga de trabalho. Você pode até mesmo criar novos pacotes de trabalho ou adicionar os já existentes, tudo isso direto no planejador de equipe!"

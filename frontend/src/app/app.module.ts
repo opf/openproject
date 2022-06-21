@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +37,7 @@ import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu
 import { States } from 'core-app/core/states/states.service';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSpotModule } from 'core-app/spot/spot.module';
 import { OpDragScrollDirective } from 'core-app/shared/directives/op-drag-scroll/op-drag-scroll.directive';
 import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
@@ -60,7 +61,6 @@ import { OpenprojectAugmentingModule } from 'core-app/core/augmenting/openprojec
 import { OpenprojectInviteUserModalModule } from 'core-app/features/invite-user-modal/invite-user-modal.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { RevitAddInSettingsButtonService } from 'core-app/features/bim/revit_add_in/revit-add-in-settings-button.service';
-import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openproject-enterprise.module';
 import { MainMenuToggleComponent } from 'core-app/core/main-menu/main-menu-toggle.component';
@@ -109,6 +109,8 @@ export function initializeServices(injector:Injector) {
     BrowserModule,
     // Commons
     OPSharedModule,
+    // Design System
+    OpSpotModule,
     // State module
     OpenProjectStateModule,
     // Router module
@@ -171,9 +173,6 @@ export function initializeServices(injector:Injector) {
 
     // Invite user modal
     OpenprojectInviteUserModalModule,
-
-    // Autocompleters
-    OpenprojectAutocompleterModule,
 
     // Tabs
     OpenprojectTabsModule,

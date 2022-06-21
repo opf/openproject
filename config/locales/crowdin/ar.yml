@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ ar:
       start_trial: 'Start free trial'
       book_now: 'Book now'
       get_quote: 'Get a quote'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: أظهِر حتّى
     is_active: معروض حاليًا
@@ -161,7 +170,7 @@ ar:
     edit: 'تعديل إجراء مخصص %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'الإجراءات المخصصة هي إحدى ميزات Enterprise Edition'
+      title: 'Custom actions'
       description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +269,7 @@ ar:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Placeholder users
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -454,9 +463,12 @@ ar:
         code: 'الحالة'
         explanation: 'Status description'
         codes:
+          not_started: 'Not started'
           on_track: 'On track'
           at_risk: 'At risk'
           off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "الأعمدة"
         relations_to_type_column: "Relations to %{type}"
@@ -467,7 +479,6 @@ ar:
       repository:
         url: "الرابط"
       role:
-        assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
         permissions: "السماحيات"
       time_entry:
         activity: "النشاط"
@@ -513,20 +524,23 @@ ar:
         begin_deletion: "البدء بالحذف"
         children: "Subelements"
         done_ratio: "التقدم (%)"
+        duration: "Duration"
         end_insertion: "نهاية الإدراج"
         end_deletion: "نهاية الحذف"
-        version: "الإصدار"
+        ignore_non_working_days: "Ignore non working days"
         parent: "الجذر"
         parent_issue: "الجذر"
         parent_work_package: "الجذر"
         priority: "الأولوية"
         progress: "التقدم (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "الوقت المستهلك"
         spent_time: "الوقت المستهلك"
         subproject: "مشروع فرعي"
         time_entries: "وقت السجل"
         type: "النّوع"
+        version: "الإصدار"
         watcher: "المشاهد"
       'doorkeeper/application':
         uid: "Client ID"
@@ -558,6 +572,7 @@ ar:
         even: "يجب أن يكون زوجي."
         exclusion: "محجوز."
         file_too_large: "إنه كبير جدا(الحجم الأكبر هو%{count} بايت)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "يجب أن يكون أكبر من %{count}."
@@ -726,6 +741,9 @@ ar:
           attributes:
             due_date:
               not_start_date: "ليس في تاريخ البدء، وعلى الرغم من أن هذا المطلوب للمعالم."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
             parent:
               cannot_be_milestone: "لا يمكن أن يكون معلما."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -756,6 +774,8 @@ ar:
               group_without_name: "Unnamed groups are not allowed."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -899,9 +919,11 @@ ar:
     updated_on: "تم التحديث بتاريخ"
     uploader: "Uploader"
     user: "المستخدم"
+    value: "Value"
     version: "الإصدار"
     work_package: "مجموعة العمل"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -1287,6 +1309,7 @@ ar:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "تم تحديد عدد كبير جداً من الأعمدة لتصدير PDF. الرجاء تقليل عدد الأعمدة."
@@ -1396,7 +1419,9 @@ ar:
   menus:
     admin:
       mail_notification: "إشعارات البريد الإلكتروني"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1571,6 +1596,7 @@ ar:
   label_diff: "dIFF"
   label_diff_inline: "سطري"
   label_diff_side_by_side: "جنبًا إلى جنب"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "غير مُفعّل"
   label_display: "عرض"
   label_display_per_page: "في الصفحة الواحدة: %{value}"
@@ -1896,7 +1922,7 @@ ar:
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
   label_user: "المستخدم"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "نشاط %{value}'s"
   label_user_anonymous: "مجهول"
@@ -2049,8 +2075,11 @@ ar:
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "لتغيير كلمة المرور الخاصة بك، انقر فوق الارتباط التالي:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2067,6 +2096,7 @@ ar:
   mail_subject_account_activation_request: "طلب تنشيط حساب %{value}"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "كلمة المرور %{value}"
   mail_subject_register: "تنشيط الحساب الخاص بك %{value}"
   mail_subject_reminder: "الحزمة (الحزم) %{count} العمل الواجب في الأيام القادمة %{days}"
@@ -2197,7 +2227,7 @@ ar:
     heading_getting_started: "Get an overview"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "يمكنك إعادة تشغيل هذا الفيديو من قائمة المساعدة"
-    welcome: "مرحبًا بكم في أوبِن بروجِكت"
+    welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "إضافة ملاحظات"
   permission_add_work_packages: "إضافة مجموعات عمل"
@@ -2213,6 +2243,7 @@ ar:
   permission_comment_news: "أخبار التعليق"
   permission_commit_access: "الوصول للقراءة/الكتابة إلى المستودع (الالتزام)"
   permission_copy_projects: "نسخ المشاريع"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "حذف مراقبات"
   permission_delete_work_packages: "حذف مجموعات العمل"
   permission_delete_messages: "حذف الرسائل"
@@ -2255,7 +2286,6 @@ ar:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "حدد وحدات المشروع"
   permission_manage_types: "حدد أنواع"
-  permission_view_calendar: "عرض التقويم"
   permission_view_changesets: "عرض مستودع التنقيحات في أوبينبروجيكت"
   permission_view_commit_author_statistics: "عرض إحصائيات المؤلِّف المنفّذة"
   permission_view_work_package_watchers: "عرض قائمة المراقبين"
@@ -2267,6 +2297,8 @@ ar:
   permission_view_timelines: "عرض الخطوط الزمنية"
   permission_view_wiki_edits: "عرض تاريخ wiki"
   permission_view_wiki_pages: "عرض wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholders:
     default: "-"
   project:
@@ -2291,7 +2323,6 @@ ar:
       archived: "Archived"
   project_module_activity: "النشاط"
   project_module_forums: "منتديات"
-  project_module_calendar: "التقويم"
   project_module_work_package_tracking: "تتبع مجموعة العمل"
   project_module_news: "الأخبار"
   project_module_repository: "مستودع البيانات"
@@ -2305,7 +2336,7 @@ ar:
     assigned_to_role: "دور الموكل إليه"
     member_of_group: "مجموعة الموكل إليه"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
@@ -2417,6 +2448,9 @@ ar:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "التوثيق"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2431,7 +2465,7 @@ ar:
   setting_smtp_authentication: "مصادقة SMTP"
   setting_smtp_user_name: "اسم المستخدم SMTP"
   setting_smtp_password: "كلمة مرور SMTP"
-  setting_smtp_domain: "مرحبا SMTP المجال"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "الأيام المعروضة على نشاط المشروع"
   setting_app_subtitle: "العنوان الفرعي للتطبيق"
   setting_app_title: "عنوان التطبيق"
@@ -2624,7 +2658,6 @@ ar:
   text_work_packages_destroy_confirmation: "هل أنت متأكد من أنك تريد حذف العناصر المحددة؟"
   text_work_packages_ref_in_commit_messages: "تحديد المراجع وتثبيت مجموعات العمل في رسائل commit"
   text_journal_added: "%{value} %{label} أضيف"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} تم تحديثه"
@@ -2947,6 +2980,7 @@ ar:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 التاريخ فقط)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "المدة ISO 8601"
       invalid_content_type: "يتوقع أن يكون نوع المحتوى هو '%{content_type}' ولكن حصلت على '%{actual}'."
       invalid_format: "تنسيق غير صالح للخاصية '%{property}': توقع تنسيق مثل '%{expected_format}'، ولكن حصلت على '%{actual}'."
@@ -2958,6 +2992,7 @@ ar:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "حالة حساب المستخدم الحالي لا تسمح بهذه العملية."
       missing_content_type: "غير محدّد"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "لا توجد أي هيئة الطلب."
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "لم يتضمن نص الطلب على أجزاء متعددة الأجزاء المتوقعة."
@@ -2981,6 +3016,7 @@ ar:
       schema: 'مخطّط'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'
@@ -2989,8 +3025,11 @@ ar:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_request:
+          unknown: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
@@ -3003,6 +3042,7 @@ ar:
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
         #Access grant errors
         unsupported_response_type: 'The authorization server does not support this response type.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
@@ -3011,6 +3051,10 @@ ar:
           revoked: "The access token was revoked"
           expired: "The access token expired"
           unknown: "The access token is invalid"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Your browser is outdated and unsupported."
     message: "You may run into errors and degraded experience on this page."
@@ -3068,4 +3112,36 @@ ar:
     authorization_error: "An authorization error has occurred."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
+  oauth_client:
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authentication. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid"
+        invalid_request: >
+          OAuth2 server responded with 'invalid_request'. This error appears if you try to authorize multiple times.
+        invalid_response: "OAuth2 server provided an invalid response"
   you: you

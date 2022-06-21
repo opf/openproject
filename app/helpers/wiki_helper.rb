@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +37,7 @@ module WikiHelper
         end
 
     s + wiki_page_options_for_select_of_level(pages.group_by(&:parent),
-                                              ids: ids)
+                                              ids:)
   end
 
   def breadcrumb_for_page(page, action = nil)
@@ -74,13 +72,13 @@ module WikiHelper
 
     pages[parent].inject([]) do |s, page|
       s << wiki_page_option(page, level, ids)
-      s += wiki_page_options_for_select_of_level(pages, parent: page, level: level + 1, ids: ids)
+      s += wiki_page_options_for_select_of_level(pages, parent: page, level: level + 1, ids:)
       s
     end
   end
 
   def wiki_page_option(page, level, ids)
-    indent = level.positive? ? ('&nbsp;' * level * 2 + '&#187; ') : ''
+    indent = level.positive? ? (('&nbsp;' * level * 2) + '&#187; ') : ''
     id = ids ? page.id : page.title
     [(indent + h(page.title)).html_safe, id]
   end

@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 Gem::Specification.new do |s|
   s.name        = 'openproject-job_status'
   s.version     = '1.0.0'
@@ -8,4 +6,5 @@ Gem::Specification.new do |s|
   s.summary     = 'OpenProject Job status'
   s.description = 'Listing and status of background jobs'
   s.license     = 'GPLv3'
+  s.metadata['rubygems_mfa_required'] = 'true'
 end

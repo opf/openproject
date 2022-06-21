@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +35,7 @@ module Pages
 
     def initialize(project = nil)
       @project = project
+      super()
     end
 
     def expect_work_package_listed(*work_packages)
@@ -71,13 +72,17 @@ module Pages
       Pages::FullWorkPackage.new(work_package, project)
     end
 
-    def open_full_screen_by_details(work_package)
+    def open_split_view_by_info_icon(work_package)
       element = card(work_package)
       scroll_to_element(element)
       element.hover
       element.find('[data-qa-selector="op-wp-single-card--details-button"]').click
 
       ::Pages::SplitWorkPackage.new(work_package, project)
+    end
+
+    def drag_and_drop_work_package(from:, to:)
+      drag_and_drop_list(from: from, to: to, elements: 'wp-single-card', handler: '.op-wp-single-card--content')
     end
 
     def select_work_package(work_package)
@@ -133,7 +138,7 @@ module Pages
 
     def expect_work_package_selected(work_package, selected)
       selector = "wp-single-card[data-work-package-id='#{work_package.id}']"
-      checked_selector = "wp-single-card[data-work-package-id='#{work_package.id}'] [data-qa-checked='true']"
+      checked_selector = "wp-single-card[data-work-package-id='#{work_package.id}'] [data-qa-selected='true']"
 
       expect(page).to have_selector(selector)
       expect(page).to (selected ? have_selector(checked_selector) : have_no_selector(checked_selector))

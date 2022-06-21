@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,12 +44,12 @@ describe OpenProject::JournalFormatter::Attachment do
   let(:instance) { klass.new(journal) }
   let(:id) { 1 }
   let(:journal) do
-    OpenStruct.new(id: id)
+    OpenStruct.new(id:)
   end
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
   let(:attachment) do
-    FactoryBot.create(:attachment,
-                      author: user)
+    create(:attachment,
+           author: user)
   end
   let(:key) { "attachments_#{attachment.id}" }
 

@@ -117,7 +117,7 @@ omniauth provider if additional ones are configured.
 OpenProject uses gravatar images with a `404` fallback by default to render an internal, initials-based avatar.
 You can override this behavior by setting `gravatar_fallback_image` to a different value to always render Gravatars
 
-For supported values, please see https://en.gravatar.com/site/implement/images/
+For supported values, please see [en.gravatar.com/site/implement/images/](https://en.gravatar.com/site/implement/images/)
 
 
 ### Attachments storage
@@ -442,14 +442,58 @@ web:
 
 **Note:** Timeouts only are supported when using at least 2 workers.
 
-As usual these values can be overriden via the environment.
+As usual these values can be overridden via the environment.
 
 ```
-OPENPROJECT_WEB_WORKERs=2
-OPENPROJECT_WEB_TIMEOUT=60 # overriden by: RACK_TIMEOUT_SERVICE_TIMEOUT
-OPENPROJECT_WEB_WAIT__TIMEOUT=10 # overriden by: RACK_TIMEOUT_WAIT_TIMEOUT
-OPENPROJECT_WEB_MIN__THREADS=4 # overriden by: RAILS_MIN_THREADS
-OPENPROJECT_WEB_MAX__THREADS=16 # overriden by: RAILS_MAX_THREADS
+OPENPROJECT_WEB_WORKERS=2
+OPENPROJECT_WEB_TIMEOUT=60 # overridden by: RACK_TIMEOUT_SERVICE_TIMEOUT
+OPENPROJECT_WEB_WAIT__TIMEOUT=10 # overridden by: RACK_TIMEOUT_WAIT_TIMEOUT
+OPENPROJECT_WEB_MIN__THREADS=4 # overridden by: RAILS_MIN_THREADS
+OPENPROJECT_WEB_MAX__THREADS=16 # overridden by: RAILS_MAX_THREADS
+```
+
+### Two-factor authentication
+
+**Note::** These configuration variables are only applied in an Enterprise Edition
+
+You can set the available 2FA strategies and/or enforce or disable 2FA system-wide.
+
+**Enforcing 2FA authentication system-wide**
+
+To enforce every user requires 2FA, you can use the checkbox under System settings > Authentication > Two-factor authentication.
+However, if you also want to ensure administrators cannot uncheck this, use the following variable
+
+```
+OPENPROJECT_2FA_ENFORCED="true"
+```
+
+**Setting available strategies**
+
+By default, the TOTP strategy for phone authenticator apps is active.
+
+
+If you have a [MessageBird account](https://www.messagebird.com/),
+you can setup a SMS 2FA by activating that strategy like so:
+
+```
+OPENPROJECT_2FA_ACTIVE__STRATEGIES="[totp,message_bird]"
+OPENPROJECT_2FA_MESSAGE__BIRD_APIKEY="your api key here"
+```
+
+You can also use Amazon SNS to send SMS for authentication:
+
+```
+OPENPROJECT_2FA_ACTIVE__STRATEGIES="[totp,sns]"
+OPENPROJECT_2FA_SNS_ACCESS__KEY__ID="YOUR KEY ID"
+OPENPROJECT_2FA_SNS_SECRET__ACCESS__KEY="YOUR SECRET KEY"
+OPENPROJECT_2FA_SNS_REGION="AWS REGION"
+```
+
+To disable 2FA altogether and remove all menus from the system, so that users cannot register their 2FA devices:
+
+```
+OPENPROJECT_2FA_DISABLED="true"
+OPENPROJECT_2FA_ACTIVE__STRATEGIES="[]
 ```
 
 ### statsd
@@ -471,8 +515,8 @@ statsd:
 Or via the environment:
 
 ```
-OPENPROJECT_STATSD_HOST=127.0.0.1 # overriden by: STATSD_HOST
-OPENPRJOECT_STATSD_PORT=8125 # overriden by: STATSD_PORT
+OPENPROJECT_STATSD_HOST=127.0.0.1 # overridden by: STATSD_HOST
+OPENPRJOECT_STATSD_PORT=8125 # overridden by: STATSD_PORT
 ```
 
 | ----------- | :---------- |

@@ -216,7 +216,7 @@ In case you are on Windows using WSL2 rather than Linux directly, running tests 
 
 **1) Download the chrome web driver**
 
-You can find the driver for your Chrome version here: https://chromedriver.chromium.org/downloads
+You can find the driver for your Chrome version [here](https://chromedriver.chromium.org/downloads)
 
 **2) Add the driver to your `PATH`**
 
@@ -229,7 +229,7 @@ It will be called something like "Ethernet adapter vEthernet (WSL)".
 
 **4) Download Selenium hub**
 
-Download version 3.141.59 (at the time of writing) here: https://www.selenium.dev/downloads/
+Download version 3.141.59 (at the time of writing) [here](https://www.selenium.dev/downloads/)
 
 The download is a JAR, i.e. a Java application. You will also need to download and install a Java Runtime Environment in at least version 8 to be able to run it.
 
@@ -298,7 +298,7 @@ You can run the specs with the following commands:
 
 * `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935. Use this to control in what order the tests are run to identify order-dependent failures. You will find the seed that Github Actions CI used in their log output.
 
-  
+
 
 ## Legacy specs
 
@@ -344,18 +344,44 @@ First migrate and dump your current development schema with `RAILS_ENV=developme
 
 Then you can just use `RAILS_ENV=test ./bin/rails parallel:prepare` to prepare test databases.
 
-
-
 #### RSpec specs
 
 Run all unit and system tests in parallel with `RAILS_ENV=test ./bin/rails parallel:spec`
 
+#### Running specific tests
+
+If you want to run specific tests (e.g., only those from the team planner module), you can use this command:
+
+```bash
+RAILS_ENV=test bundle exec parallel_rspec -- modules/team_planner/spec
+```
+
+## Automatically run tests when files are modified
+
+To run tests automatically when a file is modified, you can use [watchexec](watchexec https://github.com/watchexec/watchexec) like this:
+
+```
+watchexec --exts rb,erb -- bin/rspec spec/some/path/to/a_particular_spec.rb
+```
+
+This command instructs `watchexec` to watch `.rb` and `.erb` files for modifications in the current folder and its subfolders. Whenever a file modification is reported, the command `bin/rspec spec/some/path/to/a_particular_spec.rb` will be executed.
+
+Stop `watchexec` by pressing `Ctrl+C`.
+
+Set an alias to make it easier to call:
+```
+alias wrspec='watchexec --exts rb,erb -- bin/rspec'
+
+wrspec spec/some/path/to/a_particular_spec.rb
+```
+
+To easily change the RSpec examples being run without relaunching `watchexec` every time, you can focus a particular example or example group with `focus: true`, `fit`, `fdescribe`, and `fcontext`. More details available on [RSpec documentation](https://relishapp.com/rspec/rspec-core/docs/filtering/filter-run-when-matching).
 
 
 ## Manual acceptance tests
 
 * Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
-* Assuming you do not have a version of Edge already installed on your computer, you can grab a VM with preinstalled IE's directly from Microsoft: http://www.modern.ie/en-us/virtualization-tools#downloads
+* Assuming you do not have a version of Edge already installed on your computer, you can grab a VM with preinstalled IE's directly from [Microsoft](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/)
 
 
 
@@ -372,7 +398,7 @@ One way is to disable the Angular CLI that serves some of the assets when develo
 # Precompile the application
 ./bin/rails assets:precompile
 
-# Start the application server while disabling the CLI asset host 
+# Start the application server while disabling the CLI asset host
 OPENPROJECT_CLI_PROXY='' ./bin/rails s -b 0.0.0.0 -p 3000
 ```
 
@@ -386,7 +412,7 @@ you can access both from inside a VM with nat/bridged networking as follows:
 
 ```bash
 # Start ng serve middleware binding to all interfaces
-npm run serve-public
+npm run serve:public
 
 # Start your openproject server with the CLI proxy configuration set
 OPENPROJECT_CLI_PROXY='http://<your local ip>:4200' ./bin/rails s -b 0.0.0.0 -p 3000

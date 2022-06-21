@@ -1,6 +1,6 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,17 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 
 @Injectable()
 export class CostBudgetSubformAugmentService {
-
   constructor(private halNotification:HalResourceNotificationService,
-              private http:HttpClient) {
+    private http:HttpClient) {
   }
 
-  listen() {
+  listen():void {
     jQuery('costs-budget-subform').each((i, match) => {
       const el = jQuery(match);
 
@@ -45,7 +44,7 @@ export class CostBudgetSubformAugmentService {
       const templateEl = el.find('.budget-row-template');
       templateEl.detach();
       const template = templateEl[0].outerHTML;
-      let rowIndex = parseInt(el.attr('item-count') as string);
+      let rowIndex = parseInt(el.attr('item-count') as string, 10);
 
       // Refresh row on changes
       el.on('change', '.budget-item-value', (evt) => {
@@ -60,7 +59,7 @@ export class CostBudgetSubformAugmentService {
       });
 
       // Add new row handler
-      el.find('.budget-add-row').click((evt) => {
+      el.find('.budget-add-row').on('click', (evt) => {
         evt.preventDefault();
         const row = jQuery(template.replace(/INDEX/g, rowIndex.toString()));
         row.show();
@@ -75,30 +74,32 @@ export class CostBudgetSubformAugmentService {
   /**
    * Refreshes the given row after updating values
    */
-  public refreshRow(el:JQuery, row_identifier:string) {
-    const row = el.find('#' + row_identifier);
+  public refreshRow(el:JQuery, row_identifier:string):void {
+    const row = el.find(`#${row_identifier}`);
     const request = this.buildRefreshRequest(row, row_identifier);
 
     this.http
       .post(
-        el.attr('update-url')!,
+        el.attr('update-url') as string,
         request,
         {
-          headers: { 'Accept': 'application/json' },
-          withCredentials: true
-        })
+          headers: { Accept: 'application/json' },
+          withCredentials: true,
+        },
+      )
       .subscribe(
         (data:any) => {
           _.each(data, (val:string, selector:string) => {
             const element = document.getElementById(selector) as HTMLElement|HTMLInputElement|undefined;
             if (element instanceof HTMLInputElement) {
+              element.disabled = false;
               element.value = val;
             } else if (element) {
               element.textContent = val;
             }
           });
         },
-        (error:any) => this.halNotification.handleRawError(error)
+        (error:any) => this.halNotification.handleRawError(error),
       );
   }
 
@@ -106,15 +107,15 @@ export class CostBudgetSubformAugmentService {
    * Returns the params for the update request
    */
   private buildRefreshRequest(row:JQuery, row_identifier:string) {
-    const request:any = {
+    const request:Record<string, unknown> = {
       element_id: row_identifier,
-      fixed_date: jQuery('#budget_fixed_date').val()
+      fixed_date: jQuery('#budget_fixed_date').val(),
     };
 
     // Augment common values with specific values for this type
-    row.find('.budget-item-value').each((_i:number, el:any) => {
+    row.find('.budget-item-value').each((i:number, el:Element) => {
       const field = jQuery(el);
-      request[field.data('requestKey')] = field.val() || '0';
+      request[field.data('requestKey') as string] = field.val() || '0';
     });
 
     return request;

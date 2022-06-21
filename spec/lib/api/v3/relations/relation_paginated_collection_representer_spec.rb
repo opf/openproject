@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,11 +30,11 @@ require 'spec_helper'
 
 describe ::API::V3::Relations::RelationPaginatedCollectionRepresenter do
   let(:work_package) do
-    FactoryBot.build_stubbed(:work_package)
+    build_stubbed(:work_package)
   end
 
   let(:relations) do
-    FactoryBot.build_stubbed_list(:relation, total).tap do |relations|
+    build_stubbed_list(:relation, total).tap do |relations|
       allow(relations)
         .to receive(:per_page)
               .with(page_size)
@@ -52,13 +52,13 @@ describe ::API::V3::Relations::RelationPaginatedCollectionRepresenter do
   end
 
   let(:user) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
 
   let(:representer) do
     described_class.new(relations,
                         self_link: self_base_link,
-                        page: page,
+                        page:,
                         per_page: page_size,
                         current_user: user)
   end

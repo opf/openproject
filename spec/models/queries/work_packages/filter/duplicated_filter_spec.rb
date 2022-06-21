@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,10 +33,7 @@ describe Queries::WorkPackages::Filter::DuplicatedFilter, type: :model do
     let(:class_key) { :duplicated }
 
     it_behaves_like 'filter for relation' do
-      # WP filter forward id duplicated, backwards is duplicates!
-      # 1 -- duplicates --> 2
-      # then to_id: 2, type :duplicated
-      let(:relation_type) { :duplicates }
+      let(:relation_type) { :duplicated }
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe Reports::ReportsService, type: :model do
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
-  it 'should be initializable with a project' do
+  it 'is initializable with a project' do
     expect { Reports::ReportsService.new(project) }.not_to raise_error
   end
 
-  it 'should raise an error, when given no project' do
+  it 'raises an error, when given no project' do
     expect { Reports::ReportsService.new(nil) }.to raise_error("You must provide a project to report upon")
   end
 end

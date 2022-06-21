@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,14 +28,14 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package show page', selenium: true do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project) }
+RSpec.describe 'Work package show page', selenium: true do
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
   let(:work_package) do
-    FactoryBot.build(:work_package,
-                     project: project,
-                     assigned_to: user,
-                     responsible: user)
+    build(:work_package,
+          project:,
+          assigned_to: user,
+          responsible: user)
   end
 
   before do
@@ -43,7 +43,7 @@ RSpec.feature 'Work package show page', selenium: true do
     work_package.save!
   end
 
-  scenario 'all different angular based work package views', js: true do
+  it 'all different angular based work package views', js: true do
     wp_page = Pages::FullWorkPackage.new(work_package)
 
     wp_page.visit!

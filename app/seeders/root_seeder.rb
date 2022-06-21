@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -101,7 +99,7 @@ class RootSeeder < Seeder
     # #set_language_if_valid here as it
     # would mean to circumvent the default settings
     # for valid_languages.
-    desired_lang = (ENV['LOCALE'] || :en).to_sym
+    desired_lang = ENV.fetch('OPENPROJECT_SEED_LOCALE', :en).to_sym
 
     if all_languages.include?(desired_lang)
       I18n.locale = desired_lang

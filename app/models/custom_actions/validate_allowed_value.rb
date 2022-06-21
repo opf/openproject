@@ -25,7 +25,7 @@ module CustomActions::ValidateAllowedValue
   def validate_allowed_value(errors, attribute)
     return unless values.any?
 
-    allowed_ids = allowed_values.map { |v| v[:value] }
+    allowed_ids = allowed_values.pluck(:value)
     if values.to_set != (allowed_ids & values).to_set
       errors.add attribute,
                  :inclusion,

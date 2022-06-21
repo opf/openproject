@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,9 +34,7 @@ module Queries::Filters::Shared::GroupFilter
 
   module InstanceMethods
     def allowed_values
-      @allowed_values ||= begin
-        ::Group.pluck(:id).map { |g| [g, g.to_s] }
-      end
+      @allowed_values ||= ::Group.pluck(:id).map { |g| [g, g.to_s] }
     end
 
     def available?

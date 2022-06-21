@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,25 +29,25 @@
 require 'spec_helper'
 
 describe Groups::AddUsersService, 'integration', type: :model do
-  subject(:service_call) { instance.call(ids: user_ids, message: message) }
+  subject(:service_call) { instance.call(ids: user_ids, message:) }
 
-  let(:projects) { FactoryBot.create_list :project, 2 }
-  let(:role) { FactoryBot.create :role }
-  let(:admin) { FactoryBot.create :admin }
+  let(:projects) { create_list :project, 2 }
+  let(:role) { create :role }
+  let(:admin) { create :admin }
 
   let!(:group) do
-    FactoryBot.create :group,
-                      member_in_projects: projects,
-                      member_through_role: role
+    create :group,
+           member_in_projects: projects,
+           member_through_role: role
   end
 
-  let(:user1) { FactoryBot.create :user }
-  let(:user2) { FactoryBot.create :user }
+  let(:user1) { create :user }
+  let(:user2) { create :user }
   let(:user_ids) { [user1.id, user2.id] }
   let(:message) { 'Some message' }
 
   let(:instance) do
-    described_class.new(group, current_user: current_user)
+    described_class.new(group, current_user:)
   end
 
   before do
@@ -76,7 +76,8 @@ describe Groups::AddUsersService, 'integration', type: :model do
 
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
-        .with(a_collection_containing_exactly(*ids),
+        .with(current_user,
+              a_collection_containing_exactly(*ids),
               message,
               true)
     end
@@ -95,7 +96,7 @@ describe Groups::AddUsersService, 'integration', type: :model do
       before do
         group
         # The group is now invalid as it has no cv for this field
-        FactoryBot.create(:custom_field, type: 'GroupCustomField', is_required: true, field_format: 'int')
+        create(:custom_field, type: 'GroupCustomField', is_required: true, field_format: 'int')
       end
 
       it_behaves_like 'adds the users to the group and project'
@@ -108,10 +109,10 @@ describe Groups::AddUsersService, 'integration', type: :model do
     context 'when the user was already a member in a project with the same role' do
       let(:previous_project) { projects.first }
       let!(:user_member) do
-        FactoryBot.create(:member,
-                          project: previous_project,
-                          roles: [role],
-                          principal: user1)
+        create(:member,
+               project: previous_project,
+               roles: [role],
+               principal: user1)
       end
 
       it_behaves_like 'adds the users to the group and project'
@@ -134,21 +135,21 @@ describe Groups::AddUsersService, 'integration', type: :model do
     end
 
     context 'when the user was already a member in a project with only one role the group adds' do
-      let(:project) { FactoryBot.create(:project) }
-      let(:roles) { FactoryBot.create_list(:role, 2) }
+      let(:project) { create(:project) }
+      let(:roles) { create_list(:role, 2) }
       let!(:group) do
-        FactoryBot.create :group do |g|
-          FactoryBot.create(:member,
-                            project: project,
-                            principal: g,
-                            roles: roles)
+        create :group do |g|
+          create(:member,
+                 project:,
+                 principal: g,
+                 roles:)
         end
       end
       let!(:user_member) do
-        FactoryBot.create(:member,
-                          project: project,
-                          roles: [roles.first],
-                          principal: user1)
+        create(:member,
+               project:,
+               roles: [roles.first],
+               principal: user1)
       end
 
       it 'adds the users to the group and project' do
@@ -156,8 +157,6 @@ describe Groups::AddUsersService, 'integration', type: :model do
 
         expect(group.users)
           .to match_array([user1, user2])
-        expect(user1.memberships.where(project_id: project).map(&:roles).flatten)
-          .to match_array(roles)
         expect(user1.memberships.where(project_id: project).map(&:roles).flatten)
           .to match_array(roles)
         expect(user2.memberships.where(project_id: project).count).to eq 1
@@ -177,13 +176,13 @@ describe Groups::AddUsersService, 'integration', type: :model do
     end
 
     context 'when the user was already a member in a project with a different role' do
-      let(:other_role) { FactoryBot.create(:role) }
+      let(:other_role) { create(:role) }
       let(:previous_project) { projects.first }
       let!(:user_member) do
-        FactoryBot.create(:member,
-                          project: previous_project,
-                          roles: [other_role],
-                          principal: user1)
+        create(:member,
+               project: previous_project,
+               roles: [other_role],
+               principal: user1)
       end
 
       it 'adds the users to the group and project' do
@@ -208,6 +207,50 @@ describe Groups::AddUsersService, 'integration', type: :model do
 
       it_behaves_like 'sends notification' do
         let(:user) { user_ids }
+      end
+    end
+
+    context 'with global role' do
+      let(:role) { create :global_role }
+      let!(:group) do
+        create :group,
+               global_role: role,
+               global_permission: :add_project
+      end
+
+      it 'adds the users to the group and their membership to the global role' do
+        expect(service_call).to be_success
+
+        expect(group.users).to match_array([user1, user2])
+        expect(user1.memberships.where(project_id: nil).count).to eq 1
+        expect(user1.memberships.flat_map(&:roles)).to match_array [role]
+        expect(user2.memberships.where(project_id: nil).count).to eq 1
+        expect(user2.memberships.flat_map(&:roles)).to match_array [role]
+      end
+
+      context 'when one user already has a global role that the group would add' do
+        let(:global_roles) { create_list(:global_role, 2) }
+        let!(:group) do
+          create :group do |g|
+            create(:member,
+                   project: nil,
+                   principal: g,
+                   roles: global_roles)
+          end
+        end
+        let!(:user_membership) do
+          create(:member,
+                 project: nil,
+                 roles: [global_roles.first],
+                 principal: user1)
+        end
+
+        it 'adds their membership to the global role' do
+          expect(service_call).to be_success
+
+          expect(user1.memberships.where(project_id: nil).flat_map(&:roles)).to match_array global_roles
+          expect(user2.memberships.flat_map(&:roles)).to match_array global_roles
+        end
       end
     end
   end

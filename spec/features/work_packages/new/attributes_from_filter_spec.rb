@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,23 +28,23 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package create uses attributes from filters', js: true, selenium: true do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:type_bug) { FactoryBot.create(:type_bug) }
-  let(:type_task) { FactoryBot.create(:type_task) }
-  let(:project) { FactoryBot.create(:project, types: [type_task, type_bug]) }
-  let(:status) { FactoryBot.create(:default_status) }
+RSpec.describe 'Work package create uses attributes from filters', js: true, selenium: true do
+  let(:user) { create(:admin) }
+  let(:type_bug) { create(:type_bug) }
+  let(:type_task) { create(:type_task) }
+  let(:project) { create(:project, types: [type_task, type_bug]) }
+  let(:status) { create(:default_status) }
 
-  let!(:status) { FactoryBot.create(:default_status) }
-  let!(:priority) { FactoryBot.create :priority, is_default: true }
+  let!(:status) { create(:default_status) }
+  let!(:priority) { create :priority, is_default: true }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:split_view_create) { ::Pages::SplitWorkPackageCreate.new(project: project) }
+  let(:split_view_create) { ::Pages::SplitWorkPackageCreate.new(project:) }
 
-  let(:role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
+  let(:role) { create :existing_role, permissions: %i[view_work_packages work_package_assigned] }
 
   let!(:query) do
-    FactoryBot.build(:query, project: project, user: user).tap do |query|
+    build(:query, project:, user:).tap do |query|
       query.filters.clear
 
       filters.each do |filter|
@@ -67,15 +67,15 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
   end
 
   context 'with a multi-value custom field' do
-    let(:type_task) { FactoryBot.create(:type_task, custom_fields: [custom_field]) }
+    let(:type_task) { create(:type_task, custom_fields: [custom_field]) }
     let!(:project) do
-      FactoryBot.create :project,
-                        types: [type_task],
-                        work_package_custom_fields: [custom_field]
+      create :project,
+             types: [type_task],
+             work_package_custom_fields: [custom_field]
     end
 
     let!(:custom_field) do
-      FactoryBot.create(
+      create(
         :list_wp_custom_field,
         multi_value: true,
         is_filter: true,
@@ -111,11 +111,11 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
 
   context 'with assignee filter' do
     let!(:assignee) do
-      FactoryBot.create(:user,
-                        firstname: 'An',
-                        lastname: 'assignee',
-                        member_in_project: project,
-                        member_through_role: role)
+      create(:user,
+             firstname: 'An',
+             lastname: 'assignee',
+             member_in_project: project,
+             member_through_role: role)
     end
 
     let(:filters) do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe JournalsController, type: :routing do
-  it 'should connect GET /journals/ to journals#index' do
+  it 'connects GET /journals/ to journals#index' do
     expect(get('/journals/')).to route_to(controller: 'journals',
                                           action: 'index')
   end
 
-  it 'should connect GET /journals/:id/diff to journals#idff' do
+  it 'connects GET /journals/:id/diff to journals#idff' do
     expect(get('/journals/123/diff/description'))
       .to route_to(controller: 'journals',
                    action: 'diff',

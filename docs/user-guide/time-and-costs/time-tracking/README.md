@@ -100,6 +100,6 @@ Here, you can click the **Edit button** on the top right corner of the user prof
 
  ![User-profile-edit](User-profile-edit.png)
 
-Alternatively, you can navigate to *Administration -> Users & Permissions -> Users* and click on the respective user name.
+Alternatively, you can navigate to *Administration -> Users and permissions -> Users* and click on the respective user name.
 
 Click on the **Rate history** tab. Find out [here](../../../system-admin-guide/users-permissions/users/#rate-history) how to continue. 

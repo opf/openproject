@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 
 # OpenProject is an open source project management software.
@@ -58,7 +56,7 @@ module DemoData
               role = Role.find_by(name: project_attr[:role])
 
               Member.create!(
-                project: project,
+                project:,
                 principal: group,
                 roles: [role]
               )

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -95,8 +93,8 @@ shared_examples_for 'type service' do
     end
 
     describe 'custom fields' do
-      let(:cf1) { FactoryBot.create :work_package_custom_field, field_format: 'text' }
-      let(:cf2) { FactoryBot.create :work_package_custom_field, field_format: 'text' }
+      let(:cf1) { create :work_package_custom_field, field_format: 'text' }
+      let(:cf2) { create :work_package_custom_field, field_format: 'text' }
       let(:params) do
         {
           attribute_groups: [
@@ -134,8 +132,8 @@ shared_examples_for 'type service' do
         { 'type' => 'query', 'name' => 'group1', 'query' => JSON.dump(query_params) }
       end
       let(:params) { { attribute_groups: [query_group_params] } }
-      let(:query) { FactoryBot.create(:query, user_id: 0) }
-      let(:service_result) { ServiceResult.new(success: true, result: query) }
+      let(:query) { create(:query, user_id: 0) }
+      let(:service_result) { ServiceResult.success(result: query) }
 
       before do
         allow(Query)
@@ -162,15 +160,15 @@ shared_examples_for 'type service' do
           .to eql query
 
         expect(query.filters.length)
-          .to eql 1
+          .to be 1
 
         expect(query.filters[0].name)
-          .to eql :status_id
+          .to be :status_id
       end
 
       context 'when the query service reports an error' do
         let(:success) { false }
-        let(:service_result) { ServiceResult.new(success: false, result: nil) }
+        let(:service_result) { ServiceResult.failure(result: nil) }
 
         it 'reports the error' do
           expect(service_call).to be_failure

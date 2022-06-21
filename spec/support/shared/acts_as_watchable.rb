@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,38 +43,38 @@ MESSAGE
   let(:watcher_role) do
     permissions = is_public_permission ? [] : [watch_permission]
 
-    FactoryBot.create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
-  let(:non_watcher_role) { FactoryBot.create(:role, permissions: []) }
-  let(:non_member_user) { FactoryBot.create(:user) }
+  let(:non_watcher_role) { create(:role, permissions: []) }
+  let(:non_member_user) { create(:user) }
   let(:user_with_permission) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: watcher_role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: watcher_role)
   end
   let(:locked_user_with_permission) do
-    FactoryBot.create(:user,
-                      status: Principal.statuses[:locked],
-                      member_in_project: project,
-                      member_through_role: watcher_role)
+    create(:user,
+           status: Principal.statuses[:locked],
+           member_in_project: project,
+           member_through_role: watcher_role)
   end
 
   let(:user_wo_permission) do
     if is_public_permission
-      FactoryBot.create(:user)
+      create(:user)
     else
-      FactoryBot.create(:user,
-                        member_in_project: project,
-                        member_through_role: non_watcher_role)
+      create(:user,
+             member_in_project: project,
+             member_through_role: non_watcher_role)
     end
   end
-  let(:admin) { FactoryBot.build(:admin) }
-  let(:anonymous_user) { FactoryBot.build(:anonymous) }
+  let(:admin) { build(:admin) }
+  let(:anonymous_user) { build(:anonymous) }
   let(:watching_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: watcher_role).tap do |user|
-      Watcher.create(watchable: model_instance, user: user)
+    create(:user,
+           member_in_project: project,
+           member_through_role: watcher_role).tap do |user|
+      Watcher.create(watchable: model_instance, user:)
     end
   end
 
@@ -101,7 +101,7 @@ MESSAGE
   shared_context 'anonymous role has the permission to watch' do
     let(:anonymous_role) do
       permissions = is_public_permission ? [] : [watch_permission]
-      FactoryBot.build :anonymous_role, permissions: permissions
+      build :anonymous_role, permissions:
     end
 
     before do
@@ -173,7 +173,7 @@ MESSAGE
     subject { model_instance.watched_by?(watching_user) }
 
     it 'is truthy' do
-      is_expected.to be_truthy
+      expect(subject).to be_truthy
     end
 
     context 'when the permission to view work packages has been removed' do
@@ -228,7 +228,7 @@ MESSAGE
 
         expected_users << user_wo_permission if is_public_permission
 
-        is_expected
+        expect(subject)
           .to match_array(expected_users)
       end
 
@@ -243,7 +243,7 @@ MESSAGE
 
           expected_users << user_wo_permission if is_public_permission
 
-          is_expected
+          expect(subject)
             .to match_array(expected_users)
         end
       end
@@ -256,7 +256,7 @@ MESSAGE
       end
 
       it 'contains members allowed to view' do
-        is_expected
+        expect(subject)
           .to match_array([user_with_permission])
       end
 
@@ -266,7 +266,7 @@ MESSAGE
         end
 
         it 'is no longer contained' do
-          is_expected
+          expect(subject)
             .to be_empty
         end
       end

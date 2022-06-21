@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,11 +34,11 @@ module Relations::Scopes
       # Returns all follows relationships of work package ancestors or work package unless
       # the ancestor or a work package between the ancestor and self is manually scheduled.
       def follows_non_manual_ancestors(work_package)
-        ancestor_relations_non_manual = hierarchy_or_reflexive
-                                          .where(to_id: work_package.id)
-                                          .where.not(from_id: from_manual_ancestors(work_package).select(:from_id))
+        ancestor_relations_non_manual = WorkPackageHierarchy
+                                          .where(descendant_id: work_package.id)
+                                          .where.not(ancestor_id: from_manual_ancestors(work_package).select(:ancestor_id))
 
-        where(from_id: ancestor_relations_non_manual.select(:from_id))
+        where(from_id: ancestor_relations_non_manual.select(:ancestor_id))
           .follows
       end
 
@@ -49,8 +47,8 @@ module Relations::Scopes
       def from_manual_ancestors(work_package)
         manually_schedule_ancestors = work_package.ancestors.where(schedule_manually: true)
 
-        hierarchy_or_reflexive
-          .where(to_id: manually_schedule_ancestors.select(:id))
+        WorkPackageHierarchy
+          .where(descendant_id: manually_schedule_ancestors.select(:id))
       end
     end
   end

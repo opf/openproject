@@ -5,49 +5,49 @@ require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
 describe 'subject inplace editor', js: true, selenium: true do
-  let(:project) { FactoryBot.create :project_with_types, name: 'Root', public: true }
-  let(:subproject1) { FactoryBot.create :project_with_types, name: 'Child', parent: project }
-  let(:subproject2) { FactoryBot.create :project_with_types, name: 'Aunt', parent: project }
+  let(:project) { create :project_with_types, name: 'Root', public: true }
+  let(:subproject1) { create :project_with_types, name: 'Child', parent: project }
+  let(:subproject2) { create :project_with_types, name: 'Aunt', parent: project }
 
   let!(:version) do
-    FactoryBot.create(:version,
-                      name: '1. First version',
-                      status: 'open',
-                      sharing: 'tree',
-                      start_date: '2019-02-02',
-                      effective_date: '2019-02-03',
-                      project: project)
+    create(:version,
+           name: '1. First version',
+           status: 'open',
+           sharing: 'tree',
+           start_date: '2019-02-02',
+           effective_date: '2019-02-03',
+           project:)
   end
   let!(:version2) do
-    FactoryBot.create(:version,
-                      status: 'open',
-                      sharing: 'tree',
-                      name: '2. Second version',
-                      start_date: '2020-02-02',
-                      effective_date: '2020-02-03',
-                      project: subproject1)
+    create(:version,
+           status: 'open',
+           sharing: 'tree',
+           name: '2. Second version',
+           start_date: '2020-02-02',
+           effective_date: '2020-02-03',
+           project: subproject1)
   end
   let!(:version3) do
-    FactoryBot.create(:version,
-                      status: 'open',
-                      sharing: 'tree',
-                      start_date: nil,
-                      effective_date: nil,
-                      name: '3. Third version',
-                      project: subproject2)
+    create(:version,
+           status: 'open',
+           sharing: 'tree',
+           start_date: nil,
+           effective_date: nil,
+           name: '3. Third version',
+           project: subproject2)
   end
 
   let(:property_name) { :version }
-  let(:work_package) { FactoryBot.create :work_package, project: project }
+  let(:work_package) { create :work_package, project: }
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages edit_work_packages manage_versions assign_versions]
+    create :user,
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages edit_work_packages manage_versions assign_versions]
   end
   let(:second_user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages edit_work_packages assign_versions]
+    create :user,
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages edit_work_packages assign_versions]
   end
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }

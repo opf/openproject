@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +36,7 @@ describe RbStoriesController, type: :routing do
                                                                           project_id: 'project_42',
                                                                           sprint_id: '21')
     }
+
     it {
       expect(put('/projects/project_42/sprints/21/stories/85')).to route_to(controller: 'rb_stories',
                                                                             action: 'update',

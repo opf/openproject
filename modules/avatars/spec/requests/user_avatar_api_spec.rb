@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,12 +33,11 @@ describe 'API v3 User avatar resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryBot.create(:admin) }
-  let(:other_user) { FactoryBot.create(:user) }
+  let(:current_user) { create(:admin) }
+  let(:setup) { nil }
+  let(:other_user) { create(:user) }
 
   subject(:response) { last_response }
-
-  let(:setup) { nil }
 
   before do
     login_as current_user
@@ -93,8 +92,8 @@ describe 'API v3 User avatar resource', type: :request, content_type: :json do
       let(:local_avatars) { true }
 
       let(:other_user) do
-        u = FactoryBot.create :user
-        u.attachments = [FactoryBot.build(:avatar_attachment, author: u)]
+        u = create :user
+        u.attachments = [build(:avatar_attachment, author: u)]
         u
       end
 

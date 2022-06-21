@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,8 +39,6 @@ class MeetingContentsController < ApplicationController
   helper :watchers
   helper :meetings
 
-  helper_method :gon
-
   before_action :find_meeting, :find_content
   before_action :authorize
 
@@ -56,7 +54,7 @@ class MeetingContentsController < ApplicationController
 
     # go to an old version if a version id is given
     @journaled_version = true
-    @content = @content.at_version params[:id] unless params[:id].blank?
+    @content = @content.at_version params[:id] if params[:id].present?
     render 'meeting_contents/show'
   end
 

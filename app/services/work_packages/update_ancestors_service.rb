@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,8 +36,7 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def call(attributes)
-    modified = update_ancestors(attributes)
-    modified += update_former_ancestors(attributes)
+    modified = update_current_and_former_ancestors(attributes)
 
     set_journal_note(modified)
 
@@ -48,7 +45,7 @@ class WorkPackages::UpdateAncestorsService
       modified.all? { |wp| wp.save(validate: false) }
     end
 
-    result = ServiceResult.new(success: success, result: work_package)
+    result = ServiceResult.new(success:, result: work_package)
 
     modified.each do |wp|
       result.add_dependent!(ServiceResult.new(success: !wp.changed?, result: wp))
@@ -59,22 +56,31 @@ class WorkPackages::UpdateAncestorsService
 
   private
 
-  def update_ancestors(attributes)
-    work_package.ancestors.includes(:status).select do |ancestor|
+  def update_current_and_former_ancestors(attributes)
+    to_update = get_current_ancestors
+
+    if (%i(parent_id parent) & attributes).any?
+      to_update += get_former_ancestors
+      to_update.uniq!
+    end
+
+    to_update.select do |ancestor|
       inherit_attributes(ancestor, attributes)
 
       ancestor.changed?
     end
   end
 
-  def update_former_ancestors(attributes)
-    return [] unless (%i(parent_id parent) & attributes).any? && previous_parent_id
+  def get_current_ancestors
+    work_package.ancestors.includes(:status)
+  end
+
+  def get_former_ancestors
+    return [] unless previous_parent_id
 
     parent = WorkPackage.find(previous_parent_id)
 
-    ([parent] + parent.ancestors).each do |ancestor|
-      inherit_attributes!(ancestor)
-    end.select(&:changed?)
+    [parent] + parent.ancestors
   end
 
   def inherit_attributes!(ancestor)
@@ -85,8 +91,16 @@ class WorkPackages::UpdateAncestorsService
   def inherit_attributes(ancestor, attributes)
     return unless attributes_justify_inheritance?(attributes)
 
+    # Estimated hours need to be calculated before the done_ratio below.
+    # The aggregation only depends on estimated hours.
     derive_estimated_hours(ancestor) if inherit?(attributes, :estimated_hours)
-    inherit_done_ratio(ancestor) if inherit?(attributes, :done_ratio)
+
+    # Progress (done_ratio or also: percentDone) depends on both
+    # the completion of sub-WPs, as well as the estimated hours
+    # as a weight factor. So changes in estimated hours also have
+    # to trigger a recalculation of done_ratio.
+    #
+    inherit_done_ratio(ancestor) if inherit?(attributes, :done_ratio) || inherit?(attributes, :estimated_hours)
   end
 
   def inherit?(attributes, attribute)
@@ -105,11 +119,9 @@ class WorkPackages::UpdateAncestorsService
     return if WorkPackage.use_status_for_done_ratio? && ancestor.status && ancestor.status.default_done_ratio
 
     # done ratio = weighted average ratio of leaves
-    ratio = aggregate_done_ratio(ancestor)
+    ratio = (aggregate_done_ratio(ancestor) || 0)
 
-    if ratio
-      ancestor.done_ratio = ratio.round
-    end
+    ancestor.done_ratio = ratio.round
   end
 
   ##
@@ -188,6 +200,7 @@ class WorkPackages::UpdateAncestorsService
   def related_for_work_package(work_package, relation_type)
     scope = work_package
             .send(relation_type)
+            .where.not(id: work_package.id)
 
     if send("#{relation_type}_joins")
       scope = scope.joins(send("#{relation_type}_joins"))

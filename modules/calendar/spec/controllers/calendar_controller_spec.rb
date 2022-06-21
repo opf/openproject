@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe Calendar::CalendarController, type: :controller do
+describe ::Calendar::CalendarsController, type: :controller do
   let(:project) do
-    FactoryBot.build_stubbed(:project).tap do |p|
+    build_stubbed(:project).tap do |p|
       allow(Project)
         .to receive(:find)
         .with(p.id.to_s)
@@ -39,13 +39,14 @@ describe Calendar::CalendarController, type: :controller do
   end
   let(:permissions) { [:view_calendar] }
   let(:user) do
-    FactoryBot.build_stubbed(:user).tap do |user|
+    build_stubbed(:user).tap do |user|
       allow(user)
-        .to receive(:allowed_to?) do |permission, p, global:|
-        permission[:controller] == 'calendar/calendar' &&
+        .to receive(:allowed_to?) do |permission, p|
+        permission[:controller] == 'calendar/calendars' &&
           permission[:action] == 'index' &&
           (p.nil? || p == project)
       end
+      allow(user).to receive(:allowed_to_globally?).and_return(false)
     end
   end
 
@@ -57,18 +58,10 @@ describe Calendar::CalendarController, type: :controller do
 
       it { is_expected.to be_successful }
 
-      it { is_expected.to render_template('calendar/calendar/index') }
+      it { is_expected.to render_template('calendar/calendars/index') }
     end
 
-    context 'cross-project' do
-      before do
-        get :index
-      end
-
-      it_behaves_like 'calendar#index'
-    end
-
-    context 'project' do
+    context 'with project' do
       before do
         get :index, params: { project_id: project.id }
       end

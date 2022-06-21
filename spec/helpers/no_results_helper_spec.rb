@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,14 +30,14 @@ require 'spec_helper'
 
 describe NoResultsHelper do
   before do
-    allow(helper).to receive(:t).with('.no_results_title_text', cascade: true) { "Nothing here!" }
-    allow(helper).to receive(:t).with('.no_results_content_text') { "Add some foo" }
+    allow(helper).to receive(:t).with('.no_results_title_text', cascade: true).and_return("Nothing here!")
+    allow(helper).to receive(:t).with('.no_results_content_text').and_return("Add some foo")
   end
 
   describe '#no_results_box' do
     it "contains the just the title" do
       expect(helper.no_results_box).to have_content 'Nothing here!'
-      expect(helper.no_results_box).to_not have_link 'Add some foo'
+      expect(helper.no_results_box).not_to have_link 'Add some foo'
     end
 
     it "contains the title and content link" do

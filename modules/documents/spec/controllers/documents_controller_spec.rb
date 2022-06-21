@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,46 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require "#{File.dirname(__FILE__)}/../spec_helper"
 
 describe DocumentsController do
   render_views
 
-  let(:admin) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project, name: "Test Project") }
-  let(:user) { FactoryBot.create(:user) }
-  let(:role) { FactoryBot.create(:role, permissions: [:view_documents]) }
+  let(:admin) { create(:admin) }
+  let(:project) { create(:project, name: "Test Project") }
+  let(:user) { create(:user) }
+  let(:role) { create(:role, permissions: [:view_documents]) }
 
   let(:default_category) do
-    FactoryBot.create(:document_category, project: project, name: "Default Category")
+    create(:document_category, project:, name: "Default Category")
   end
 
-  let(:document) do
-    FactoryBot.create(:document, title: "Sample Document", project: project, category: default_category)
+  let!(:document) do
+    create(:document, title: "Sample Document", project:, category: default_category)
   end
 
   current_user { admin }
 
   describe "index" do
-    let(:long_description) do
-      <<-LOREM.strip_heredoc
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.\
-        Ut egestas, mi vehicula varius varius, ipsum massa fermentum orci,\
-        eget tristique ante sem vel mi. Nulla facilisi.\
-        Donec enim libero, luctus ac sagittis sit amet, vehicula sagittis magna.\
-        Duis ultrices molestie ante, eget scelerisque sem iaculis vitae.\
-        Etiam fermentum mauris vitae metus pharetra condimentum fermentum est pretium.\
-        Proin sollicitudin elementum quam quis pharetra.\
-        Aenean facilisis nunc quis elit volutpat mollis.\
-        Aenean eleifend varius euismod. Ut dolor est, congue eget dapibus eget, elementum eu odio.\
-        Integer et lectus neque, nec scelerisque nisi. EndOfLineHere
-
-        Praesent a nunc lorem, ac porttitor eros.
-      LOREM
-    end
-
     before do
-      document.update(description: long_description)
       get :index, params: { project_id: project.identifier }
     end
 
@@ -77,12 +59,6 @@ describe DocumentsController do
     it "group documents by category, if no other sorting is given" do
       expect(assigns(:grouped)).not_to be_nil
       expect(assigns(:grouped).keys.map(&:name)).to eql [default_category.name]
-    end
-
-    it "renders documents with long descriptions properly" do
-      expect(response.body).to have_selector('.wiki p', visible: :all)
-      expect(response.body).to have_selector('.wiki p', visible: :all, text: (document.description.split("\n").first + '...'))
-      expect(response.body).to have_selector('.wiki p', visible: :all, text: /EndOfLineHere.../)
     end
   end
 
@@ -98,10 +74,10 @@ describe DocumentsController do
 
   describe "create" do
     let(:document_attributes) do
-      FactoryBot.attributes_for(:document,
-                                title: "New Document",
-                                project_id: project.id,
-                                category_id: default_category.id)
+      attributes_for(:document,
+                     title: "New Document",
+                     project_id: project.id,
+                     category_id: default_category.id)
     end
 
     before do
@@ -113,7 +89,7 @@ describe DocumentsController do
         post :create,
              params: {
                project_id: project.identifier,
-               document: FactoryBot.attributes_for(
+               document: attributes_for(
                  :document,
                  title: "New Document",
                  project_id: project.id,
@@ -130,19 +106,19 @@ describe DocumentsController do
     end
 
     describe "with attachments" do
-      let(:uncontainered) { FactoryBot.create :attachment, container: nil, author: admin }
+      let(:uncontainered) { create :attachment, container: nil, author: admin }
 
       before do
         notify_project = project
-        FactoryBot.create(:member, project: notify_project, user: user, roles: [role])
+        create(:member, project: notify_project, user:, roles: [role])
 
         post :create,
              params: {
                project_id: notify_project.identifier,
-               document: FactoryBot.attributes_for(:document,
-                                                   title: "New Document",
-                                                   project_id: notify_project.id,
-                                                   category_id: default_category.id),
+               document: attributes_for(:document,
+                                        title: "New Document",
+                                        project_id: notify_project.id,
+                                        category_id: default_category.id),
                attachments: { '1' => { id: uncontainered.id } }
              }
       end
@@ -150,7 +126,7 @@ describe DocumentsController do
       it "adds an attachment" do
         document = Document.last
 
-        expect(document.attachments.count).to eql 1
+        expect(document.attachments.count).to be 1
         attachment = document.attachments.first
         expect(uncontainered.reload).to eql attachment
       end

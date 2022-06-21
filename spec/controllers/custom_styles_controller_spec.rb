@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,10 +34,11 @@ describe CustomStylesController, type: :controller do
   end
 
   context 'with admin' do
-    let(:user) { FactoryBot.build(:admin) }
+    let(:user) { build(:admin) }
 
     describe '#show' do
       subject { get :show }
+
       render_views
 
       context 'when active token exists' do
@@ -64,6 +65,7 @@ describe CustomStylesController, type: :controller do
 
     describe "#upsale" do
       subject { get :upsale }
+
       render_views
 
       it 'renders upsale' do
@@ -86,7 +88,7 @@ describe CustomStylesController, type: :controller do
         expect(CustomStyle).to receive(:create).and_return(custom_style)
         expect(custom_style).to receive(:valid?).and_return(valid)
 
-        post :create, params: params
+        post :create, params:
       end
 
       context 'valid custom_style input' do
@@ -108,7 +110,7 @@ describe CustomStylesController, type: :controller do
     end
 
     describe "#update" do
-      let(:custom_style) { FactoryBot.build(:custom_style_with_logo) }
+      let(:custom_style) { build(:custom_style_with_logo) }
       let(:params) do
         {
           custom_style: { logo: 'foo', favicon: 'bar', icon_touch: 'yay' }
@@ -122,7 +124,7 @@ describe CustomStylesController, type: :controller do
           expect(CustomStyle).to receive(:current).and_return(custom_style)
           expect(custom_style).to receive(:update).and_return(valid)
 
-          post :update, params: params
+          post :update, params:
         end
 
         context 'valid custom_style input' do
@@ -150,7 +152,7 @@ describe CustomStylesController, type: :controller do
           expect(CustomStyle).to receive(:create!).and_return(custom_style)
           expect(custom_style).to receive(:update).and_return(valid)
 
-          post :update, params: params
+          post :update, params:
         end
 
         context 'valid custom_style input' do
@@ -182,7 +184,7 @@ describe CustomStylesController, type: :controller do
       end
 
       context "when logo is present" do
-        let(:custom_style) { FactoryBot.build(:custom_style_with_logo) }
+        let(:custom_style) { build(:custom_style_with_logo) }
 
         it 'will send a file' do
           expect(response.status).to eq(200)
@@ -193,23 +195,23 @@ describe CustomStylesController, type: :controller do
         let(:custom_style) { nil }
 
         it 'renders with error' do
-          expect(controller).to_not receive(:send_file)
+          expect(controller).not_to receive(:send_file)
           expect(response.status).to eq(404)
         end
       end
 
       context "when no logo is present" do
-        let(:custom_style) { FactoryBot.build_stubbed(:custom_style) }
+        let(:custom_style) { build_stubbed(:custom_style) }
 
         it 'renders with error' do
-          expect(controller).to_not receive(:send_file)
+          expect(controller).not_to receive(:send_file)
           expect(response.status).to eq(404)
         end
       end
     end
 
     describe "#logo_delete" do
-      let(:custom_style) { FactoryBot.build(:custom_style_with_logo) }
+      let(:custom_style) { build(:custom_style_with_logo) }
 
       before do
         with_enterprise_token(:define_custom_style)
@@ -249,7 +251,7 @@ describe CustomStylesController, type: :controller do
       end
 
       context "when favicon is present" do
-        let(:custom_style) { FactoryBot.build(:custom_style_with_favicon) }
+        let(:custom_style) { build(:custom_style_with_favicon) }
 
         it 'will send a file' do
           expect(response.status).to eq(200)
@@ -260,23 +262,23 @@ describe CustomStylesController, type: :controller do
         let(:custom_style) { nil }
 
         it 'renders with error' do
-          expect(controller).to_not receive(:send_file)
+          expect(controller).not_to receive(:send_file)
           expect(response.status).to eq(404)
         end
       end
 
       context "when no favicon is present" do
-        let(:custom_style) { FactoryBot.build(:custom_style) }
+        let(:custom_style) { build(:custom_style) }
 
         it 'renders with error' do
-          expect(controller).to_not receive(:send_file)
+          expect(controller).not_to receive(:send_file)
           expect(response.status).to eq(404)
         end
       end
     end
 
     describe "#favicon_delete" do
-      let(:custom_style) { FactoryBot.build(:custom_style_with_favicon) }
+      let(:custom_style) { build(:custom_style_with_favicon) }
 
       before do
         with_enterprise_token(:define_custom_style)
@@ -316,7 +318,7 @@ describe CustomStylesController, type: :controller do
       end
 
       context "when touch icon is present" do
-        let(:custom_style) { FactoryBot.build(:custom_style_with_touch_icon) }
+        let(:custom_style) { build(:custom_style_with_touch_icon) }
 
         it 'will send a file' do
           expect(response.status).to eq(200)
@@ -327,23 +329,23 @@ describe CustomStylesController, type: :controller do
         let(:custom_style) { nil }
 
         it 'renders with error' do
-          expect(controller).to_not receive(:send_file)
+          expect(controller).not_to receive(:send_file)
           expect(response.status).to eq(404)
         end
       end
 
       context "when no touch icon is present" do
-        let(:custom_style) { FactoryBot.build(:custom_style) }
+        let(:custom_style) { build(:custom_style) }
 
         it 'renders with error' do
-          expect(controller).to_not receive(:send_file)
+          expect(controller).not_to receive(:send_file)
           expect(response.status).to eq(404)
         end
       end
     end
 
     describe "#touch_icon_delete" do
-      let(:custom_style) { FactoryBot.build(:custom_style_with_touch_icon) }
+      let(:custom_style) { build(:custom_style_with_touch_icon) }
 
       before do
         with_enterprise_token(:define_custom_style)
@@ -383,7 +385,7 @@ describe CustomStylesController, type: :controller do
       before do
         with_enterprise_token(:define_custom_style)
 
-        post :update_colors, params: params
+        post :update_colors, params:
       end
 
       it "saves DesignColor instances" do
@@ -411,7 +413,7 @@ describe CustomStylesController, type: :controller do
   end
 
   context 'regular user' do
-    let(:user) { FactoryBot.build(:user) }
+    let(:user) { build(:user) }
 
     describe '#get' do
       before do
@@ -437,7 +439,7 @@ describe CustomStylesController, type: :controller do
       end
 
       context "when logo is present" do
-        let(:custom_style) { FactoryBot.build(:custom_style_with_logo) }
+        let(:custom_style) { build(:custom_style_with_logo) }
 
         it 'will send a file' do
           expect(response.status).to eq(200)
@@ -448,7 +450,7 @@ describe CustomStylesController, type: :controller do
         let(:custom_style) { nil }
 
         it 'renders with error' do
-          expect(controller).to_not receive(:send_file)
+          expect(controller).not_to receive(:send_file)
           expect(response.status).to eq(404)
         end
       end

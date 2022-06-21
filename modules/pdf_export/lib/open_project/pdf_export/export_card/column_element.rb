@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -164,9 +164,9 @@ module OpenProject::PDFExport::ExportCard
                               width: @orientation[:width] * width_ratio,
                               at: offset,
                               style: :bold,
-                              overflow: overflow,
+                              overflow:,
                               size: font_size,
-                              min_font_size: min_font_size,
+                              min_font_size:,
                               align: :left })
 
         # Get abbraviated text
@@ -174,9 +174,9 @@ module OpenProject::PDFExport::ExportCard
                     width: @orientation[:width] * (1 - width_ratio),
                     at: offset,
                     style: font_style,
-                    overflow: overflow,
+                    overflow:,
                     size: font_size,
-                    min_font_size: min_font_size,
+                    min_font_size:,
                     align: text_align }
         text = abbreviated_text(display_value, options)
         offset = [@orientation[:x_offset] + (@orientation[:width] * width_ratio),
@@ -187,21 +187,21 @@ module OpenProject::PDFExport::ExportCard
                                     width: @orientation[:width] * (1 - width_ratio),
                                     at: offset,
                                     style: font_style,
-                                    overflow: overflow,
+                                    overflow:,
                                     size: font_size,
-                                    min_font_size: min_font_size,
+                                    min_font_size:,
                                     align: text_align })
       else
         options = { height: @orientation[:height],
                     width: @orientation[:width],
                     at: offset,
                     style: font_style,
-                    overflow: overflow,
-                    min_font_size: min_font_size,
+                    overflow:,
+                    min_font_size:,
                     align: text_align }
 
         text = abbreviated_text(display_value, options)
-        texts = [{ text: label_text(value), styles: [:bold], size: font_size }, { text: text, size: font_size }]
+        texts = [{ text: label_text(value), styles: [:bold], size: font_size }, { text:, size: font_size }]
 
         # Label and Content Textbox
         offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
@@ -209,8 +209,8 @@ module OpenProject::PDFExport::ExportCard
                                                width: @orientation[:width],
                                                at: offset,
                                                style: font_style,
-                                               overflow: overflow,
-                                               min_font_size: min_font_size,
+                                               overflow:,
+                                               min_font_size:,
                                                align: text_align })
       end
     end

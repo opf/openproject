@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ lt:
       start_trial: 'Pradėti bandomąjį laikotarpį'
       book_now: 'Užsakyti dabar'
       get_quote: 'Gauti pasiūlymą'
+      buttons:
+        upgrade: "Užsisakykite dabar"
+        contact: "Susisiekite su mumis dėl demonstracijos"
+      enterprise_info_html: "yra Enterprise <strong class='icon-medal'></strong> savybė."
+      upgrade_info: "Prašome atsinaujinti į mokamą planą, kad aktyvuotumėte ir pradėtumėte ji naudoti savo komandoje."
+    journal_aggregation:
+      explanation:
+        text: "Visi atskiri naudotojo veiksmai (t.y. darbų paketo atnaujinimas du kartus) yra sugrupuojami į vieną veiksmą, jei laiko tarpas tarp jų yra mažesnis už šį nustatymą. Programoje jie bus rodomi kaip vienas veiksmas. Tiek pat bus pavėlinti ir pranešimai. Dėl to sumažės siunčiamų el.laiškų skaičius ir taipogi įtakos %{webhook_link} delsimą."
+        link: "tinklo jungtis"
   announcements:
     show_until: Rodyti iki
     is_active: šiuo metu rodoma
@@ -158,7 +167,7 @@ lt:
     edit: 'Redaguoti pasirinktinį veiksmą %{name}'
     execute: 'Vykdyti %{name}'
     upsale:
-      title: 'Pasirinktiniai veiksmai yra „Enterprise Edition“ funkcija'
+      title: 'Pasirinktiniai veiksmai'
       description: 'Pasirinktiniai veiksmai supaprastina kasdienį darbą suderindami atskirus žingsnius į vieną mygtuką.'
   custom_fields:
     text_add_new_custom_field: >
@@ -257,7 +266,7 @@ lt:
       irreversible: "Šis veiksmas negrįžtamas"
       confirmation: "Naikinimo patvirtinimui įveskite statytinio naudotojo vardą %{name}."
     upsale:
-      title: Priskirkite darbus žmonėms, kurie nėra projekto nariai.
+      title: Statytiniai naudotojai
       description: >
         Gali būti keletas scenarijų kuriuose jūs norite priskirti darbus žmogui, kuris nėra projekto narys. Paprasčiausiai, žmogus gali dar nebūti priimtas į darbą. Arba jūs nenorite duoti žmogui prieigos prie projekto informacijos, tačiau norite sekti šiam žmogui priskirtas užduotis.
   prioritiies:
@@ -449,9 +458,12 @@ lt:
         code: 'Būsena'
         explanation: 'Būsenos aprašymas'
         codes:
+          not_started: 'Nepradėta'
           on_track: 'Teisingame kelyje'
           at_risk: 'Rizikingas'
           off_track: 'Pasiklydęs'
+          finished: 'Baigta'
+          discontinued: 'Nutrauktas'
       query:
         column_names: "Stulpeliai"
         relations_to_type_column: "Ryšiai su %{type}"
@@ -462,7 +474,6 @@ lt:
       repository:
         url: "URL"
       role:
-        assignable: "Darbų paketai gali būti priskirti naudotojams ir grupėms pagal vaidmenį atitinkamame projekte"
         permissions: "Leidimai"
       time_entry:
         activity: "Veikla"
@@ -508,20 +519,23 @@ lt:
         begin_deletion: "Ištrynimo pradžioje"
         children: "Subelementai"
         done_ratio: "Progresas (%)"
+        duration: "Duration"
         end_insertion: "Įterpimo pabaigoje"
         end_deletion: "Ištrynimo pabaigoje"
-        version: "Versija"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Tėvas"
         parent_issue: "Tėvas"
         parent_work_package: "Tėvas"
         priority: "Pirmenybė"
         progress: "Progresas (%)"
+        readonly: "Read only"
         schedule_manually: "Rankinis laiko parinkimas"
         spent_hours: "Praleista laiko"
         spent_time: "Praleista laiko"
         subproject: "Sub-projektas"
         time_entries: "Registruoti laiką"
         type: "Tipas"
+        version: "Versija"
         watcher: "Stebėtojas"
       'doorkeeper/application':
         uid: "Kliento ID"
@@ -553,6 +567,7 @@ lt:
         even: "turi būti lyginis."
         exclusion: "yra rezervuotas."
         file_too_large: "per didelis (didžiausias leistinas dydis yra %{count} baitų)."
+        filter_does_not_exist: "filtras neegzistuoja."
         format: "neatitinka laukiamo formato '%{expected}'."
         format_nested: "neatitinka laukiamo formato '%{expected}' kelyje „%{path}“."
         greater_than: "turi būti didesnis už %{count}."
@@ -721,6 +736,9 @@ lt:
           attributes:
             due_date:
               not_start_date: "nėra pradžios data, nors tai reikalinga svarbiems etapams."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
             parent:
               cannot_be_milestone: "negali būti svarbus etapas."
               cannot_be_self_assigned: "negalima priskirti sau pačiam"
@@ -751,6 +769,8 @@ lt:
               group_without_name: "Bevardės grupės nėra leidžiamos."
         user:
           attributes:
+            base:
+              user_limit_reached: "Pasiekta naudotoj riba. Su dabartiniu planu daugiau paskyrų kurti nebegalima."
             password_confirmation:
               confirmation: "Slaptažodžio patvirtinimas nesutampa su įvestu slaptažodžiu."
               format: "%{message}"
@@ -886,9 +906,11 @@ lt:
     updated_on: "Atnaujinta"
     uploader: "Įkėlėjas"
     user: "Naudotojas"
+    value: "Reikšmė"
     version: "Versija"
     work_package: "Darbų paketas"
   backup:
+    failed: "Nepavyko sukurti atsarginės kopijos"
     label_backup_token: "Atsarginės kopijos žetonas"
     label_create_token: "Sukurti atsarginės kopijos žetoną"
     label_delete_token: "Pašalinti atsarginės kopijos žetoną"
@@ -1250,6 +1272,7 @@ lt:
   error_enterprise_token_invalid_domain: "Enterprise Edition neaktyvi. Jūsų Enterprise rakto domenas (%{actual}) nesutampa su jūsų sistemos serverio vardu (%{expected})."
   error_failed_to_delete_entry: 'Šio įrašo nepavyko panaikinti.'
   error_in_dependent: "Klaida bandant pakeisti priklausomą objektą: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Klaida bandant sukurti priklausomą objektą: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Netinkama parinkta reikšmė."
   error_journal_attribute_not_present: "Žurnale nėra atributo %{attribute}."
   error_pdf_export_too_many_columns: "PDF eksportavimui pasirinkta per daug stulpelių. Prašome sumažinti stulpelių skaičių."
@@ -1359,7 +1382,9 @@ lt:
   menus:
     admin:
       mail_notification: "El. pašto priminimai"
-      incoming_outgoing: "Įeinantis ir išeinantis"
+      mails_and_notifications: "E-paštas ir pranešimai"
+      aggregation_and_retention: 'Agregavimas ir palikimas'
+      api_and_webhooks: "API ir tinklo jungtys"
     quick_add:
       label: "Atidaryti greitą pridėjimo meniu"
   my_account:
@@ -1534,6 +1559,7 @@ lt:
   label_diff: "skirt."
   label_diff_inline: "įterptas"
   label_diff_side_by_side: "šalia"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "neleidžiama"
   label_display: "Rodymas"
   label_display_per_page: "%{value} įrašų puslapyje"
@@ -1859,7 +1885,7 @@ lt:
   label_used_by_types: "Naudojama šių tipų"
   label_used_in_projects: "Naudojama šių projektų"
   label_user: "Vartotojas"
-  label_user_and_permission: "Naudotojai ir leidimai"
+  label_user_and_permission: "Naudotojai ir teisės"
   label_user_named: "Naudotojas %{name}"
   label_user_activity: "%{value} veikla"
   label_user_anonymous: "Anonimas"
@@ -2010,8 +2036,11 @@ lt:
   mail_body_backup_token_info: Ankstesnis žetonas nebegalioja.
   mail_body_backup_waiting_period: Naujas atsarginės kopijos žetonas bus tinkamas po %{hours} valandų.
   mail_body_backup_token_warning: Jei tai buvote ne jūs, nedelsiant prisijunkite prie OpenProject ir atšaukite jį dar kartą.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Norėdami pakeisti slaptažodį, spauskite nuorodą:"
-  mail_body_register: "Sveikinimai nuo OpenProject. Prašome aktyvuoti savo paskyrą. Tam paspauskite šią nuorodą:"
+  mail_body_register: "Jus sveikina %{app_title}. Prašome aktyvuoti jūsų paskyrą spaudžiant šią nuorodą:"
   mail_body_register_header_title: "Projekto nario kvietimo el. laiškas"
   mail_body_register_user: "Brangus %{name}, "
   mail_body_register_links_html: |
@@ -2028,6 +2057,7 @@ lt:
   mail_subject_account_activation_request: "%{value} paskyros aktyvavimo prašymas"
   mail_subject_backup_ready: "Jūsų atsarginė kopija paruošta"
   mail_subject_backup_token_reset: "Rezervinės kopijos žetonas atstatytas"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Jūsų slaptažodis %{value}"
   mail_subject_register: "Jūsų %{value} paskyros aktyvavimas"
   mail_subject_reminder: "%{count} darbų paketas(-ai, -ų) baigiasi per ateinančias %{days} dienas(-ai, -ų)"
@@ -2156,7 +2186,7 @@ lt:
     heading_getting_started: "Gauti aprašymą"
     text_getting_started_description: "Gauti greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject."
     text_show_again: "Jūs galite paleisti šį video iš naujo iš pagalbos meniu"
-    welcome: "Sveiki atvykę į OpenProject"
+    welcome: "Jus sveikina %{app_title}"
     select_language: "Pasirinkite kalbą"
   permission_add_work_package_notes: "Pridėti pastabų"
   permission_add_work_packages: "Pridėti darbų paketų"
@@ -2172,6 +2202,7 @@ lt:
   permission_comment_news: "Komentuoti naujienas"
   permission_commit_access: "Skaitymo/rašymo prieiga į repozitoriją"
   permission_copy_projects: "Kopijuoti projekus"
+  permission_create_backup: "Kurti atsarginę kopiją"
   permission_delete_work_package_watchers: "Pašalinti stebėtojus"
   permission_delete_work_packages: "Pašalinti darbų paketus"
   permission_delete_messages: "Pašalinti pranešimus"
@@ -2214,7 +2245,6 @@ lt:
   permission_select_custom_fields: "Parinkite savo laukus"
   permission_select_project_modules: "Parinkti projekto modulius"
   permission_manage_types: "Pasirinkti tipus"
-  permission_view_calendar: "Peržiūrėti kalendorių"
   permission_view_changesets: "Rodyti repozitorijos pakeitimus OpenProject"
   permission_view_commit_author_statistics: "Peržiūrėti autorių pakeitimų pateikimo statistiką"
   permission_view_work_package_watchers: "Peržiūrėti stebėtojų sąrašą"
@@ -2226,6 +2256,8 @@ lt:
   permission_view_timelines: "Peržiūrėti laiko juostas"
   permission_view_wiki_edits: "Peržiūrėti wiki istoriją"
   permission_view_wiki_pages: "Peržiūrėti wiki"
+  permission_work_package_assigned: "Tapti paskirtuoju/atsakinguoju"
+  permission_work_package_assigned_explanation: "Darbų paketai gali būti priskirti naudotojams ir grupėms pagal vaidmenį atitinkamame projekte"
   placeholders:
     default: "-"
   project:
@@ -2250,7 +2282,6 @@ lt:
       archived: "Suarchyvuotas"
   project_module_activity: "Veikla"
   project_module_forums: "Forumai"
-  project_module_calendar: "Kalendorius"
   project_module_work_package_tracking: "Darbų paketo sekimas"
   project_module_news: "Naujienos"
   project_module_repository: "Repozitorija"
@@ -2376,6 +2407,9 @@ lt:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) leidžiami kilmės domenai"
   setting_apiv3_cors_origins_text_html: >
     Jei CORS yra įgalinta, tai yra kilmės domenai, kuriems leidžiama pasiekti OpenProject API. <br/> Kaip nurodyti reikšmes aprašoma <a href="%{origin_link}" target="_blank">Origin antraštės dokumentacijoje</a>.
+  setting_apiv3_max_page_size: "Maksimalus API puslapio dydis"
+  setting_apiv3_max_page_instructions_html: >
+    Nustatykite maksimalų API atsakymo puslapio dydį. Bus neįmanoma vykdyti API užklausas, kurios grąžina daugiau reikšmių viename puslapyje. <br/> <strong>Įspėjimas</strong> Prašome keisti šią reikšmę jei jums to tikrai reikia. Nustatyta didelė reikšmė stipriai įtakos greitaveiką, o maža reikšmė mažesnė už puslapiavimo parinktis reikš klaida puslapiuojamuose vaizduose.
   setting_apiv3_docs: "Dokumentacija"
   setting_apiv3_docs_enabled: "Įjungti dokumentų puslapį"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2390,7 +2424,7 @@ lt:
   setting_smtp_authentication: "SMTP autentifikacija"
   setting_smtp_user_name: "SMTP vartotojo vardas"
   setting_smtp_password: "SMTP slaptažodis"
-  setting_smtp_domain: "SMTP HELLO domenas"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Projekto veiklos atvaizduojamų dienų skaičius"
   setting_app_subtitle: "Programos paantraštė"
   setting_app_title: "Programos pavadinimas"
@@ -2583,7 +2617,6 @@ lt:
   text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
   text_work_packages_ref_in_commit_messages: "Darbų paketų susiejimas ir taisymas pavedimų žinutėse"
   text_journal_added: "%{label} %{value} pridėtas"
-  text_journal_aggregation_time_explanation: "Visi atskiri naudotojo veiksmai (t.y. darbų paketo atnaujinimas du kartus) yra sugrupuojami į vieną veiksmą, jei laiko tarpas tarp jų yra mažesnis už šį nustatymą. Programoje jie bus rodomi kaip vienas veiksmas. Tiek pat bus pavėlinti ir pranešimai. Dėl to sumažės siunčiamų el.laiškų skaičius."
   text_journal_changed_html: "%{label} pakeista iš %{old} %{linebreak}<strong>į</strong> %{new}"
   text_journal_changed_plain: "%{label} pakeista iš %{old} %{linebreak}į %{new}"
   text_journal_changed_no_detail: "%{label} atnaujintas"
@@ -2901,6 +2934,7 @@ lt:
         work_package: "Jūsų ieškomas darbo paketas nerastas arba ištrintas."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (bet kokia ISO 8601 data/laikas)"
         duration: "ISO 8601 trukmė"
       invalid_content_type: "Laukiamas turinio tipas turi būti „%{content_type}“, bet gautas „%{actual}“."
       invalid_format: "Netinkamas formatas ypatybei '%{property}': tikėtasi panašaus į '%{expected_format}', bet gautas '%{actual}'."
@@ -2912,6 +2946,7 @@ lt:
         select: "Prašomas %{invalid} pasirinkimas yra nepalaikomas. Palaikomi pasirinkimai yra %{supported}."
       invalid_user_status_transition: "Esama vartotojo paskyros būsena neleidžia šios operacijos."
       missing_content_type: "nenurodyta"
+      missing_property: "Trūkstama savybė '%{property}'."
       missing_request_body: "Nėra užklausos turinio."
       missing_or_malformed_parameter: "Užklausos '%{parameter}' parametras neegzistuoja arba yra neteisingai suformuluotas."
       multipart_body_error: "Užklausos turinys neturi laukiamų dalių."
@@ -2935,6 +2970,7 @@ lt:
       schema: 'Schema'
     undisclosed:
       parent: Nerodomas -- pasirinktas tėvinis projektas yra nematomas nes trūksta teisių.
+      ancestor: Nerodoma - tėvas nematomas dėl teisių trūkumo.
   doorkeeper:
     pre_authorization:
       status: 'Išankstinė autorizacija'
@@ -2943,8 +2979,11 @@ lt:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Užklausoje trūksta privalomo parametro, yra nepalaikoma parametro reikšmė arba jis kažkaip kitaip netinkamas.'
-        invalid_redirect_uri: "Paprašytas peradresavimo URI yra netinkamas arba neatitinka kliento peradresavimo URI."
+        invalid_request:
+          unknown: 'Užklausoje trūksta privalomo parametro, yra nepalaikoma parametro reikšmė arba jis kažkaip kitaip netinkamas.'
+          missing_param: 'Trūksta privalomo parametro: %{value}.'
+          request_not_authorized: 'Užklausa turi būti autorizuota. Trūksta privalomo užklausos autorizavimo parametro arba jis netinkamas.'
+        invalid_redirect_uri: "Paprašytas peradresavimo uri yra netinkamas arba neatitinka kliento peradresavimo URI."
         unauthorized_client: 'Klientui neleidžiama vykdyti šios užklausos naudojant šį metodą.'
         access_denied: 'Resurso savininkas arba autorizacijos serveris neleido užklausos.'
         invalid_scope: 'Užklausos apimtis yra netinkama, nežinoma arba blogai suformuota.'
@@ -2957,6 +2996,7 @@ lt:
         admin_authenticator_not_configured: "Prieiga prie administravimo skydelio uždrausta, nes\nDoorkeeper.configure.admin_authenticator nėra sukonfigūruotas."
         #Access grant errors
         unsupported_response_type: 'Autorizacijos serveris nepalaiko šito atsako tipo.'
+        unsupported_response_mode: 'Autorizacijos serveris nepalaiko šito atsako režimo.'
         #Access token errors
         invalid_client: 'Kliento autentikacija nepavyko, nes klientas nežinomas, neįtraukta kliento autentikacija arba nepalaikomas autentikacijos metodas.'
         invalid_grant: 'Pateikta autorizavimo teisė yra netinkama, pasibaigusi, atšaukta, neatitinka peradresavimo URI, naudojamo autorizacijos užklausoje, arba buvo išduota kitam klientui.'
@@ -2965,6 +3005,10 @@ lt:
           revoked: "Prieigos žetonas buvo atšauktas"
           expired: "Baigėsi prieigos žetono galiojimas"
           unknown: "Netinkamas prieigos žetonas"
+        revoke:
+          unauthorized: "Jūs neturite teisių atšaukti šį žetoną."
+        forbidden_token:
+          missing_scope: 'Prieigai prie šio resurso reikia apimties „%{oauth_scopes}“.'
   unsupported_browser:
     title: "Jūsų naršyklė pasenusi ir nepalaikoma."
     message: "Šiame puslapyje jums gali kilti problemų ar jis gali prastai veikti."
@@ -3020,4 +3064,36 @@ lt:
     authorization_error: "Įvyko autorizacijos klaida."
     revoke_my_application_confirmation: "Ar tikrai norite išimti šią aplikaciją? Tai atšauks %{token_count} aktyvių žetonų."
     my_registered_applications: "Registruotos OAuth aplikacijos"
+  oauth_client:
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authentication. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid"
+        invalid_request: >
+          OAuth2 server responded with 'invalid_request'. This error appears if you try to authorize multiple times.
+        invalid_response: "OAuth2 server provided an invalid response"
   you: jūs

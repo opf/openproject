@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,18 +40,18 @@ class CostQuery::Filter::PermissionFilter < Report::Filter::Base
 
   def permission_for(type)
     "((#{permission_statement :"view_own_#{type}_entries"} AND user_id = #{User.current.id}) " \
-    "OR #{permission_statement :"view_#{type}_entries"})"
+      "OR #{permission_statement :"view_#{type}_entries"})"
   end
 
   def display_costs
     "(#{permission_statement :view_hourly_rates} " \
-    "AND #{permission_statement :view_cost_rates}) " \
-    'OR ' \
-    "(#{permission_statement :view_own_hourly_rate} " \
-    "AND type = 'TimeEntry' AND user_id = #{User.current.id}) " \
-    'OR ' \
-    "(#{permission_statement :view_cost_rates} " \
-    "AND type = 'CostEntry' AND user_id = #{User.current.id})"
+      "AND #{permission_statement :view_cost_rates}) " \
+      'OR ' \
+      "(#{permission_statement :view_own_hourly_rate} " \
+      "AND type = 'TimeEntry' AND user_id = #{User.current.id}) " \
+      'OR ' \
+      "(#{permission_statement :view_cost_rates} " \
+      "AND type = 'CostEntry' AND user_id = #{User.current.id})"
   end
 
   def sql_statement

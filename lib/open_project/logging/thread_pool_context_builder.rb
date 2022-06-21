@@ -15,7 +15,7 @@ module OpenProject
 
         {
           connection_pool: ActiveRecord::Base.connection_pool.stat,
-          thread_info: thread_info
+          thread_info:
         }
       end
     end

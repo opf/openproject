@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,25 +32,6 @@ describe ApplicationHelper, type: :helper do
   include ApplicationHelper
   include WorkPackagesHelper
 
-  describe 'format_activity_description' do
-    it 'truncates given text' do
-      text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lore'
-      expect(format_activity_description(text).size).to eq(120)
-    end
-
-    it 'replaces escaped line breaks with html line breaks and should be html_safe' do
-      text = "Lorem ipsum dolor sit \namet, consetetur sadipscing elitr, sed diam nonumy eirmod\r tempor invidunt"
-      text_html = 'Lorem ipsum dolor sit <br />amet, consetetur sadipscing elitr, sed diam nonumy eirmod<br /> tempor invidunt'
-      expect(format_activity_description(text)).to be_html_eql(text_html)
-      expect(format_activity_description(text).html_safe?).to be_truthy
-    end
-
-    it 'escapes potentially harmful code' do
-      text = "Lorem ipsum dolor <script>alert('pwnd');</script> tempor invidunt"
-      expect(format_activity_description(text).include?('&lt;script&gt;alert(&#39;pwnd&#39;);&lt;/script&gt;')).to be_truthy
-    end
-  end
-
   describe 'footer_content' do
     context 'no additional footer content' do
       before do
@@ -72,6 +53,7 @@ describe ApplicationHelper, type: :helper do
         expect(footer_content.include?(I18n.t(:text_powered_by,
                                               link: link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_truthy
       }
+
       it { expect(footer_content.include?("<span class=\"footer_openproject\">footer</span>")).to be_truthy }
     end
 
@@ -97,19 +79,19 @@ describe ApplicationHelper, type: :helper do
   end
 
   describe '.link_to_if_authorized' do
-    let(:project) { FactoryBot.create :valid_project }
+    let(:project) { create :valid_project }
     let(:project_member) do
-      FactoryBot.create :user,
-                        member_in_project: project,
-                        member_through_role: FactoryBot.create(:role,
-                                                               permissions: %i[view_work_packages edit_work_packages
-                                                                               browse_repository view_changesets view_wiki_pages])
+      create :user,
+             member_in_project: project,
+             member_through_role: create(:role,
+                                         permissions: %i[view_work_packages edit_work_packages
+                                                         browse_repository view_changesets view_wiki_pages])
     end
     let(:issue) do
-      FactoryBot.create :work_package,
-                        project: project,
-                        author: project_member,
-                        type: project.types.first
+      create :work_package,
+             project:,
+             author: project_member,
+             type: project.types.first
     end
 
     context 'if user is authorized' do
@@ -166,6 +148,7 @@ describe ApplicationHelper, type: :helper do
       before do
         @links = other_formats_links { |f| f.link_to 'Atom', url: { controller: :projects, action: :index } }
       end
+
       it {
         expect(@links).to be_html_eql("<p class=\"other-formats\">Also available in:<span><a class=\"icon icon-atom\" href=\"/projects.atom\" rel=\"nofollow\">Atom</a></span></p>")
       }
@@ -176,6 +159,7 @@ describe ApplicationHelper, type: :helper do
         allow(Setting).to receive(:feeds_enabled?).and_return(false)
         @links = other_formats_links { |f| f.link_to 'Atom', url: { controller: :projects, action: :index } }
       end
+
       it { expect(@links).to be_nil }
     end
   end
@@ -189,7 +173,7 @@ describe ApplicationHelper, type: :helper do
 
     context 'with project' do
       before do
-        @project = FactoryBot.build(:project)
+        @project = build(:project)
       end
 
       context 'right now' do

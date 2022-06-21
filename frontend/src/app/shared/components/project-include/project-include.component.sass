@@ -1,0 +1,46 @@
+@import '../../../spot/styles/sass/variables'
+@import 'helpers'
+
+\::ng-deep .spot-drop-modal--body
+
+  @media screen and #{$spot-mq-drop-modal-in-context}
+    width: 460px
+
+.op-project-include
+  &--header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin: $spot-spacing-1
+
+  &--title
+    margin: 0
+    padding: 0
+    @include spot-subheader-big 
+
+  &--body
+    flex-shrink: 1
+    flex-basis: 100%
+    overflow: hidden
+
+    @media screen and #{$spot-mq-drop-modal-in-context}
+      max-height: 70vh
+
+  &--list
+    @include styled-scroll-bar
+    overflow-y: auto
+    flex-shrink: 1
+    flex-basis: 100%
+
+  &--loading
+    padding: $spot-spacing-1
+
+  &--include-all
+    display: flex
+    align-items: center
+    cursor: pointer
+
+    &-text
+      // A true center aligned text does not look center aligned
+      padding-top: 1px
+      margin-left: $spot-spacing-0_5

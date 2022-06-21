@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +31,7 @@ require 'spec_helper'
 describe 'CSP appends on login form from oauth',
          type: :rails_request do
   let!(:redirect_uri) { 'https://foobar.com' }
-  let!(:oauth_app) { FactoryBot.create(:oauth_application, redirect_uri: redirect_uri) }
+  let!(:oauth_app) { create(:oauth_application, redirect_uri:) }
   let(:oauth_path) do
     "/oauth/authorize?response_type=code&client_id=#{oauth_app.uid}&redirect_uri=#{CGI.escape(redirect_uri)}&scope=api_v3"
   end

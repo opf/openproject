@@ -34,54 +34,54 @@ describe ::API::V3::Views::ViewsAPI,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:permitted_user) { FactoryBot.create(:user) }
+  shared_let(:permitted_user) { create(:user) }
   shared_let(:role) do
-    FactoryBot.create(:role, permissions: [:view_work_packages])
+    create(:role, permissions: [:view_work_packages])
   end
   shared_let(:project) do
-    FactoryBot.create(:project,
-                      members: { permitted_user => role })
+    create(:project,
+           members: { permitted_user => role })
   end
   shared_let(:user_private_project_query) do
-    FactoryBot.create(:query,
-                      user: permitted_user,
-                      project: project,
-                      public: false)
+    create(:query,
+           user: permitted_user,
+           project:,
+           public: false)
   end
   shared_let(:user_private_project_view) do
-    FactoryBot.create(:view_work_packages_table,
-                      query: user_private_project_query)
+    create(:view_work_packages_table,
+           query: user_private_project_query)
   end
   shared_let(:other_user_private_project_query) do
-    FactoryBot.create(:query,
-                      project: project,
-                      public: false)
+    create(:query,
+           project:,
+           public: false)
   end
   shared_let(:other_user_private_project_view) do
-    FactoryBot.create(:view_work_packages_table,
-                      query: other_user_private_project_query)
+    create(:view_work_packages_table,
+           query: other_user_private_project_query)
   end
   shared_let(:user_public_project_query) do
-    FactoryBot.create(:query,
-                      project: project,
-                      public: true)
+    create(:query,
+           project:,
+           public: true)
   end
   shared_let(:user_public_project_view) do
-    FactoryBot.create(:view_work_packages_table,
-                      query: user_public_project_query)
+    create(:view_work_packages_table,
+           query: user_public_project_query)
   end
   shared_let(:other_project) do
-    FactoryBot.create(:project,
-                      members: { permitted_user => role })
+    create(:project,
+           members: { permitted_user => role })
   end
   shared_let(:user_private_other_project_query) do
-    FactoryBot.create(:query,
-                      user: permitted_user,
-                      project: other_project)
+    create(:query,
+           user: permitted_user,
+           project: other_project)
   end
   shared_let(:user_private_other_project_view) do
-    FactoryBot.create(:view_work_packages_table,
-                      query: user_private_other_project_query)
+    create(:view_work_packages_table,
+           query: user_private_other_project_query)
   end
 
   let(:views) do
@@ -94,7 +94,7 @@ describe ::API::V3::Views::ViewsAPI,
   let(:filters) { nil }
 
   let(:send_request) do
-    get api_v3_paths.path_for :views, filters: filters
+    get api_v3_paths.path_for :views, filters:
   end
 
   let(:parsed_response) { JSON.parse(last_response.body) }
@@ -143,15 +143,15 @@ describe ::API::V3::Views::ViewsAPI,
 
   context 'with a type filter' do
     let(:other_user_private_project_query) do
-      FactoryBot.create(:query,
-                        user: permitted_user,
-                        project: project,
-                        public: false)
+      create(:query,
+             user: permitted_user,
+             project:,
+             public: false)
     end
 
     let(:user_private_project_team_planner_view) do
-      FactoryBot.create(:view_team_planner,
-                        query: other_user_private_project_query)
+      create(:view_team_planner,
+             query: other_user_private_project_query)
     end
 
     let(:views) do
@@ -182,7 +182,7 @@ describe ::API::V3::Views::ViewsAPI,
   end
 
   context 'for a user without any visible queries' do
-    current_user { FactoryBot.create(:user) }
+    current_user { create(:user) }
 
     it_behaves_like 'API V3 collection response', 0, 0, 'Views::WorkPackagesTable'
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,30 +28,30 @@
 
 require 'spec_helper'
 
-feature 'group memberships through groups page', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
-  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
+describe 'group memberships through groups page', type: :feature, js: true do
+  shared_let(:admin) { create :admin }
+  let!(:project) { create :project, name: 'Project 1', identifier: 'project1' }
 
   let!(:peter) do
-    FactoryBot.create :user,
-                      firstname: 'Peter',
-                      lastname: 'Pan',
-                      mail: 'foo@example.org',
-                      member_in_project: project,
-                      member_through_role: role,
-                      preferences: { hide_mail: false }
+    create :user,
+           firstname: 'Peter',
+           lastname: 'Pan',
+           mail: 'foo@example.org',
+           member_in_project: project,
+           member_through_role: role,
+           preferences: { hide_mail: false }
   end
 
   let!(:hannibal) do
-    FactoryBot.create :user,
-                      firstname: 'Pan',
-                      lastname: 'Hannibal',
-                      mail: 'foo@example.com',
-                      member_in_project: project,
-                      member_through_role: role,
-                      preferences: { hide_mail: true }
+    create :user,
+           firstname: 'Pan',
+           lastname: 'Hannibal',
+           mail: 'foo@example.com',
+           member_in_project: project,
+           member_through_role: role,
+           preferences: { hide_mail: true }
   end
-  let(:role) { FactoryBot.create(:role, permissions: %i(add_work_packages)) }
+  let(:role) { create(:role, permissions: %i(add_work_packages)) }
   let(:members_page) { Pages::Members.new project.identifier }
 
   before do
@@ -60,7 +60,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
     expect_angular_frontend_initialized
   end
 
-  scenario 'filters users based on some name attribute' do
+  it 'filters users based on some name attribute' do
     members_page.open_filters!
 
     members_page.search_for_name 'pan'

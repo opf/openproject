@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ describe Rack::Deflater, type: :request do
     get api_v3_paths.configuration
 
     expect(last_response.headers['Etag']).to eql etag
-    expect(last_response.headers['Content-Length'].to_i).to_not eql content_length
+    expect(last_response.headers['Content-Length'].to_i).not_to eql content_length
     expect(last_response.headers['Content-Encoding']).to eql 'gzip'
   end
 end

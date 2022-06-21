@@ -1,185 +1,92 @@
 # /api/v3/users
 ---
 get:
+  summary: List Users
+  operationId: list_Users
+  description: Lists users. Only administrators or users with manage_user global permission have permission to do this.
+  tags:
+    - Users
   parameters:
-  - description: Page number inside the requested collection.
-    example: '25'
-    in: query
-    name: offset
-    required: false
-    schema:
-      default: 1
-      type: integer
-  - description: Number of elements to display per page.
-    example: '25'
-    in: query
-    name: pageSize
-    required: false
-    schema:
-      type: integer
-  - description: |-
-      JSON specifying filter conditions.
-      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
-
-      + status: Status the user has
-
-      + group: Name of the group in which to-be-listed users are members.
-
-      + name: Filter users in whose first or last names, or email addresses the given string occurs.
-
-      + login: User's login
-    example: '[{ "status": { "operator": "=", "values": ["invited"] } }, { "group":
+    - description: Page number inside the requested collection.
+      example: '25'
+      in: query
+      name: offset
+      required: false
+      schema:
+        default: 1
+        type: integer
+    - description: Number of elements to display per page.
+      example: '25'
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+    - description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
+        endpoint. Currently supported filters are:
+        
+        + status: Status the user has
+        
+        + group: Name of the group in which to-be-listed users are members.
+        
+        + name: Filter users in whose first or last names, or email addresses the given string occurs.
+        
+        + login: User's login
+      example: '[{ "status": { "operator": "=", "values": ["invited"] } }, { "group":
       { "operator": "=", "values": ["1"] } }, { "name": { "operator": "=", "values":
       ["h.wurst@openproject.com"] } }]'
-    in: query
-    name: filters
-    required: false
-    schema:
-      type: string
-  - description: |-
-      JSON specifying sort criteria.
-      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
-    example: '[["status", "asc"]]'
-    in: query
-    name: sortBy
-    required: false
-    schema:
-      type: string
+      in: query
+      name: filters
+      required: false
+      schema:
+        type: string
+    - description: |-
+        JSON specifying sort criteria.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
+      example: '[["status", "asc"]]'
+      in: query
+      name: sortBy
+      required: false
+      schema:
+        type: string
+    - description: |-
+        Comma separated list of properties to include.
+      example: 'total,elements/name,elements/self,self'
+      in: query
+      name: select
+      required: false
+      schema:
+        type: string
   responses:
     '200':
       content:
         application/hal+json:
-          examples:
-            response:
-              value:
-                _embedded:
-                  elements:
-                  - _links:
-                      delete:
-                        href: "/api/v3/users/1"
-                        method: DELETE
-                        title: Delete j.sheppard
-                      lock:
-                        href: "/api/v3/users/1/lock"
-                        method: POST
-                        title: Set lock on j.sheppard
-                      self:
-                        href: "/api/v3/users/1"
-                        title: John Sheppard - j.sheppard
-                      showUser:
-                        href: "/users/1"
-                        type: text/html
-                      update:
-                        href: "/api/v3/users/1"
-                        method: PATCH
-                        title: Update j.sheppard
-                    _type: User
-                    admin: true
-                    avatar: https://example.org/users/1/avatar
-                    createdAt: '2014-05-21T08:51:20Z'
-                    email: shep@mail.com
-                    firstName: John
-                    id: 1
-                    language: en
-                    lastName: Sheppard
-                    login: j.sheppard
-                    status: active
-                    updatedAt: '2014-05-21T08:51:20Z'
-                _links:
-                  self:
-                    href: "/api/v3/users"
-                _type: Collection
-                count: 1
-                total: 2
           schema:
-            "$ref": "../components/schemas/users_model.yml"
+            $ref: '../components/schemas/user_collection_model.yml'
       description: OK
-      headers: {}
     '400':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
-                message: Unknown sort column.
-      description: Returned if the client sends an unknown sort column.
-      headers: {}
+      $ref: "../components/responses/invalid_request_body.yml"
     '403':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not allowed to list users.
-      description: |-
-        Returned if the client does not have sufficient permissions.
-
-        **Required permission:** Administrator
-      headers: {}
-  tags:
-  - Users
-  description: Lists users. Only administrators or users with manage_user global permission
-    have permission to do this.
-  operationId: List_Users
-  summary: List Users
-post:
-  responses:
-    '201':
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/user_model.yml"
-      description: Created
-      headers: {}
-    '400':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-                message: The request body was not a single JSON object.
-      description: Occurs when the client did not send a valid JSON object in the
-        request body.
-      headers: {}
-    '403':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not allowed to create new users.
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to list users.
       description: |-
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** Administrator
-      headers: {}
-    '422':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _embedded:
-                  details:
-                    attribute: email
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
-                message: The email address is already taken.
-      description: |-
-        Returned if:
 
-        * a constraint for a property was violated (`PropertyConstraintViolation`)
-      headers: {}
+post:
+  summary: Create User
+  operationId: create_user
   tags:
-  - Users
+    - Users
   description: |-
     Creates a new user. Only administrators and users with manage_user global permission are allowed to do so.
     When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
@@ -189,37 +96,50 @@ post:
     1) "active" - In this case a password has to be provided in addition to the other attributes.
     
     2) "invited" - In this case nothing but the email address is required. The rest is optional. An invitation will be sent to the user.
-    
-  operationId: Create_User
   requestBody:
     content:
       application/json:
         schema:
+          $ref: '../components/schemas/user_create_model.yml'
+  responses:
+    '201':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/user_model.yml'
+      description: Created
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
           example:
-            admin: false
-            email: h.wurst@openproject.com
-            firstName: Hans
-            language: de
-            lastName: Wurst
-            login: h.wurst
-            password: hunter5
-            status: active
-          properties:
-            admin:
-              type: boolean
-            email:
-              type: string
-            firstName:
-              type: string
-            language:
-              type: string
-            lastName:
-              type: string
-            login:
-              type: string
-            password:
-              type: string
-            status:
-              type: string
-          type: object
-  summary: Create User
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to create new users.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Administrator
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: email
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: The email address is already taken.
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,11 +43,11 @@ describe 'rendering the login buttons for all providers' do
     render partial: 'hooks/login/providers', handlers: [:erb], formats: [:html]
   end
 
-  it 'should show the mock_auth button with the name as its label' do
+  it 'shows the mock_auth button with the name as its label' do
     expect(rendered).to match /#{providers[0][:name]}/
   end
 
-  it 'should show the test_auth button with the given display_name as its label' do
+  it 'shows the test_auth button with the given display_name as its label' do
     expect(rendered).to match /#{providers[1][:display_name]}/
   end
 

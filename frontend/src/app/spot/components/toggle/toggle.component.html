@@ -1,0 +1,14 @@
+<label
+  *ngFor="let option of options"
+  [ngClass]="{ 'button': true, 'form--field-inline-button': true, '-active': value === option.value }"
+  data-qa-selector="spot-toggle--option"
+>
+  <input
+    class="spot-toggle--option-input"
+    type="radio"
+    [name]="name"
+    [value]="option.value"
+    [(ngModel)]="value"
+  />
+  {{ option.title }}
+</label>

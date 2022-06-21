@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,44 +31,44 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe CostEntry, type: :model do
   include Cost::PluginSpecHelper
 
-  let(:project) { FactoryBot.create(:project_with_types) }
-  let(:project2) { FactoryBot.create(:project_with_types) }
+  let(:project) { create(:project_with_types) }
+  let(:project2) { create(:project_with_types) }
   let(:work_package) do
-    FactoryBot.create(:work_package, project: project,
-                                     type: project.types.first,
-                                     author: user)
+    create(:work_package, project:,
+                          type: project.types.first,
+                          author: user)
   end
   let(:work_package2) do
-    FactoryBot.create(:work_package, project: project2,
-                                     type: project2.types.first,
-                                     author: user)
+    create(:work_package, project: project2,
+                          type: project2.types.first,
+                          author: user)
   end
-  let(:user) { FactoryBot.create(:user) }
-  let(:user2) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
+  let(:user2) { create(:user) }
   let(:klass) { CostEntry }
   let(:cost_entry) do
     member
-    FactoryBot.build(:cost_entry, cost_type: cost_type,
-                                  project: project,
-                                  work_package: work_package,
-                                  spent_on: date,
-                                  units: units,
-                                  user: user,
-                                  comments: 'lorem')
+    build(:cost_entry, cost_type:,
+                       project:,
+                       work_package:,
+                       spent_on: date,
+                       units:,
+                       user:,
+                       comments: 'lorem')
   end
 
   let(:cost_entry2) do
-    FactoryBot.build(:cost_entry, cost_type: cost_type,
-                                  project: project,
-                                  work_package: work_package,
-                                  spent_on: date,
-                                  units: units,
-                                  user: user,
-                                  comments: 'lorem')
+    build(:cost_entry, cost_type:,
+                       project:,
+                       work_package:,
+                       spent_on: date,
+                       units:,
+                       user:,
+                       comments: 'lorem')
   end
 
   let(:cost_type) do
-    cost_type = FactoryBot.create(:cost_type)
+    cost_type = create(:cost_type)
     [first_rate, second_rate, third_rate].each do |rate|
       rate.cost_type = cost_type
       rate.save!
@@ -77,23 +77,23 @@ describe CostEntry, type: :model do
     cost_type
   end
   let(:first_rate) do
-    FactoryBot.build(:cost_rate, valid_from: date - 6.days,
-                                 rate: 10.0)
+    build(:cost_rate, valid_from: date - 6.days,
+                      rate: 10.0)
   end
   let(:second_rate) do
-    FactoryBot.build(:cost_rate, valid_from: date - 4.days,
-                                 rate: 100.0)
+    build(:cost_rate, valid_from: date - 4.days,
+                      rate: 100.0)
   end
   let(:third_rate) do
-    FactoryBot.build(:cost_rate, valid_from: date - 2.days,
-                                 rate: 1000.0)
+    build(:cost_rate, valid_from: date - 2.days,
+                      rate: 1000.0)
   end
   let(:member) do
-    FactoryBot.create(:member, project: project,
-                               roles: [role],
-                               principal: user)
+    create(:member, project:,
+                    roles: [role],
+                    principal: user)
   end
-  let(:role) { FactoryBot.create(:role, permissions: []) }
+  let(:role) { create(:role, permissions: []) }
   let(:units) { 5.0 }
   let(:date) { Date.today }
 
@@ -152,9 +152,9 @@ describe CostEntry, type: :model do
   describe 'instance' do
     describe '#costs' do
       let(:fourth_rate) do
-        FactoryBot.build(:cost_rate, valid_from: date - 1.days,
-                                     rate: 10000.0,
-                                     cost_type: cost_type)
+        build(:cost_rate, valid_from: date - 1.day,
+                          rate: 10000.0,
+                          cost_type:)
       end
 
       describe 'WHEN updating the number of units' do
@@ -162,7 +162,7 @@ describe CostEntry, type: :model do
           cost_entry.spent_on = first_rate.valid_from + 1.day
         end
 
-        it 'should update costs' do
+        it 'updates costs' do
           (0..5).each do |units|
             cost_entry.units = units
             cost_entry.save!
@@ -216,7 +216,7 @@ describe CostEntry, type: :model do
       describe "WHEN a rate's valid from is updated" do
         before do
           cost_entry.save!
-          first_rate.update_attribute(:valid_from, date - 1.days)
+          first_rate.update_attribute(:valid_from, date - 1.day)
           cost_entry.reload
         end
 
@@ -229,7 +229,7 @@ describe CostEntry, type: :model do
           cost_entry.save!
         end
 
-        it 'should take the then active rate to calculate' do
+        it 'takes the then active rate to calculate' do
           (5.days.ago.to_date..Date.today).each do |time|
             cost_entry.spent_on = time
             cost_entry.save!

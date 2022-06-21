@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,9 +32,9 @@ require 'support/pages/work_packages/abstract_work_package_create'
 module Pages
   class SplitWorkPackageCreate < AbstractWorkPackageCreate
     def initialize(project:, original_work_package: nil, parent_work_package: nil)
-      super(original_work_package: original_work_package,
-            parent_work_package: parent_work_package,
-            project: project)
+      super(original_work_package:,
+            parent_work_package:,
+            project:)
     end
 
     def container

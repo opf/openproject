@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -47,7 +45,7 @@ module RandomData
 
         rand(5).times do
           print_status '.'
-          Message.create forum: forum,
+          Message.create forum:,
                          author: user,
                          subject: message.subject,
                          content: Faker::Lorem.paragraph(5, true, 3),

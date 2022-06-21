@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -126,7 +126,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     component: WorkPackageFilterContainerComponent,
   };
 
-  ngOnInit() {
+  ngOnInit():void {
     super.ngOnInit();
 
     this.showToolbarSaveButton = !!this.$state.params.query_props;
@@ -136,6 +136,13 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       const toState = transition.to();
       this.showToolbarSaveButton = !!params.query_props;
       this.setPartition(toState);
+
+      const query = this.querySpace.query.value;
+      if (query && this.shouldUpdateHtmlTitle()) {
+        // Update the title if we're in the list state alone
+        this.titleService.setFirstPart(this.queryTitle(query));
+      }
+
       this.cdRef.detectChanges();
     });
 
@@ -192,7 +199,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     this.queryParamListener.removeQueryChangeListener();
   }
 
-  public changeChangesFromTitle(val:string) {
+  public changeChangesFromTitle(val:string):void {
     if (this.currentQuery && isPersistedResource(this.currentQuery)) {
       this.updateTitleName(val);
     } else {
@@ -202,7 +209,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     }
   }
 
-  updateTitleName(val:string) {
+  updateTitleName(val:string):void {
     this.toolbarDisabled = true;
     this.currentQuery!.name = val;
     this.wpListService
@@ -210,17 +217,13 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       .finally(() => { this.toolbarDisabled = false; });
   }
 
-  updateTitle(query?:QueryResource) {
+  updateTitle(query?:QueryResource):void {
     // Too early for loaded query
     if (!query) {
       return;
     }
 
-    if (isPersistedResource(query)) {
-      this.selectedTitle = query.name;
-    } else {
-      this.selectedTitle = this.staticQueryName(query);
-    }
+    this.selectedTitle = this.queryTitle(query);
 
     this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
 
@@ -253,7 +256,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   protected inviteModal = InviteUserModalComponent;
 
-  openInviteUserModal() {
+  openInviteUserModal():void {
     const inviteModal = this.opModalService.show(this.inviteModal, 'global');
     inviteModal.closingEvent.subscribe((modal:any) => {
       console.log('Modal closed!', modal);
@@ -302,5 +305,9 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   protected loadInitialQuery():void {
     const isFirstLoad = !this.querySpace.initialized.hasValue();
     this.loadingIndicator = this.loadQuery(isFirstLoad);
+  }
+
+  private queryTitle(query:QueryResource):string {
+    return isPersistedResource(query) ? query.name : this.staticQueryName(query);
   }
 }

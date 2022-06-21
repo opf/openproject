@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,34 +32,34 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
   let(:member) do
-    FactoryBot.build_stubbed(:member,
-                             member_roles: [member_role1, member_role2, member_role2, marked_member_role],
-                             principal: principal,
-                             project: project)
+    build_stubbed(:member,
+                  member_roles: [member_role1, member_role2, member_role2, marked_member_role],
+                  principal:,
+                  project:)
   end
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
   let(:roles) { [role1, role2] }
-  let(:role1) { FactoryBot.build_stubbed(:role) }
-  let(:member_role1) { FactoryBot.build_stubbed(:member_role, role: role1) }
-  let(:role2) { FactoryBot.build_stubbed(:role) }
-  let(:member_role2) { FactoryBot.build_stubbed(:member_role, role: role2) }
-  let(:marked_role) { FactoryBot.build_stubbed(:role) }
+  let(:role1) { build_stubbed(:role) }
+  let(:member_role1) { build_stubbed(:member_role, role: role1) }
+  let(:role2) { build_stubbed(:role) }
+  let(:member_role2) { build_stubbed(:member_role, role: role2) }
+  let(:marked_role) { build_stubbed(:role) }
   let(:marked_member_role) do
-    FactoryBot.build_stubbed(:member_role, role: marked_role).tap do |mr|
+    build_stubbed(:member_role, role: marked_role).tap do |mr|
       allow(mr)
         .to receive(:marked_for_destruction?)
         .and_return(true)
     end
   end
   let(:principal) { user }
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:group) { FactoryBot.build_stubbed(:group) }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
+  let(:group) { build_stubbed(:group) }
+  let(:current_user) { build_stubbed(:user) }
   let(:permissions) do
     [:manage_members]
   end
   let(:representer) do
-    described_class.create(member, current_user: current_user, embed_links: true)
+    described_class.create(member, current_user:, embed_links: true)
   end
 
   subject { representer.to_json }
@@ -207,11 +207,11 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
       let(:embedded_path) { '_embedded/project' }
 
       it 'has the project embedded' do
-        is_expected
+        expect(subject)
           .to be_json_eql('Project'.to_json)
           .at_path("#{embedded_path}/_type")
 
-        is_expected
+        expect(subject)
           .to be_json_eql(project.name.to_json)
           .at_path("#{embedded_path}/name")
       end
@@ -220,7 +220,7 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
         let(:project) { nil }
 
         it 'has no project embedded' do
-          is_expected
+          expect(subject)
             .not_to have_json_path(embedded_path)
         end
       end
@@ -231,11 +231,11 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
 
       context 'for a user principal' do
         it 'has the user embedded' do
-          is_expected
+          expect(subject)
             .to be_json_eql('User'.to_json)
             .at_path("#{embedded_path}/_type")
 
-          is_expected
+          expect(subject)
             .to be_json_eql(user.name.to_json)
             .at_path("#{embedded_path}/name")
         end
@@ -245,11 +245,11 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
         let(:principal) { group }
 
         it 'has the group embedded' do
-          is_expected
+          expect(subject)
             .to be_json_eql('Group'.to_json)
             .at_path("#{embedded_path}/_type")
 
-          is_expected
+          expect(subject)
             .to be_json_eql(group.name.to_json)
             .at_path("#{embedded_path}/name")
         end
@@ -260,19 +260,19 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
       let(:embedded_path) { '_embedded/roles' }
 
       it 'has an array of roles embedded that excludes member_roles marked for destruction' do
-        is_expected
+        expect(subject)
           .to be_json_eql('Role'.to_json)
           .at_path("#{embedded_path}/0/_type")
 
-        is_expected
+        expect(subject)
           .to be_json_eql(role1.name.to_json)
           .at_path("#{embedded_path}/0/name")
 
-        is_expected
+        expect(subject)
           .to be_json_eql('Role'.to_json)
           .at_path("#{embedded_path}/1/_type")
 
-        is_expected
+        expect(subject)
           .to be_json_eql(role2.name.to_json)
           .at_path("#{embedded_path}/1/name")
       end

@@ -1,7 +1,7 @@
 module ::TwoFactorAuthentication
   module My
     class RememberCookieController < ::ApplicationController
-      # Remmeber token functionality
+      # Remember token functionality
       include ::TwoFactorAuthentication::RememberToken
 
       # Ensure user is logged in

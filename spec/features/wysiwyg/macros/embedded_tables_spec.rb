@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,16 +30,16 @@ require 'spec_helper'
 
 describe 'Wysiwyg embedded work package tables',
          type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   let(:user) { admin }
-  let(:type_task) { FactoryBot.create :type_task }
-  let(:type_bug) { FactoryBot.create :type_bug }
+  let(:type_task) { create :type_task }
+  let(:type_bug) { create :type_bug }
   let(:project) do
-    FactoryBot.create(:project, types: [type_task, type_bug], enabled_module_names: %w[wiki work_package_tracking])
+    create(:project, types: [type_task, type_bug], enabled_module_names: %w[wiki work_package_tracking])
   end
   let(:editor) { ::Components::WysiwygEditor.new }
-  let!(:wp_task) { FactoryBot.create(:work_package, project: project, type: type_task) }
-  let!(:wp_bug) { FactoryBot.create(:work_package, project: project, type: type_bug) }
+  let!(:wp_task) { create(:work_package, project:, type: type_task) }
+  let!(:wp_bug) { create(:work_package, project:, type: type_bug) }
 
   let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
   let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }

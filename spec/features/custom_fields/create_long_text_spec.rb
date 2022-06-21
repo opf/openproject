@@ -2,13 +2,13 @@ require 'spec_helper'
 require 'support/pages/custom_fields'
 
 describe 'custom fields', js: true do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
   let(:cf_page) { Pages::CustomFields.new }
   let(:editor) { ::Components::WysiwygEditor.new '#default_value_long_text' }
-  let(:type) { FactoryBot.create :type_task }
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[work_package_tracking], types: [type] }
+  let(:type) { create :type_task }
+  let(:project) { create :project, enabled_module_names: %i[work_package_tracking], types: [type] }
 
-  let(:wp_page) { Pages::FullWorkPackageCreate.new project: project }
+  let(:wp_page) { Pages::FullWorkPackageCreate.new project: }
 
   let(:default_text) do
     <<~MARKDOWN

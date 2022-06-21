@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,13 +69,14 @@ module Pages
     # @param user_name [String] The full name of the user.
     # @param as [String] The role as which the user should be added.
     def add_user!(user_name, as:)
-      click_on 'Add member'
-      SeleniumHubWaiter.wait
+      retry_block do
+        click_on 'Add member'
 
-      select_principal! user_name if user_name
-      select_role! as if as
+        select_principal! user_name if user_name
+        select_role! as if as
 
-      click_on 'Add'
+        click_on 'Add'
+      end
     end
 
     def remove_user!(user_name)
@@ -92,7 +93,7 @@ module Pages
     end
 
     def has_added_group?(name, visible: true)
-      has_added_user? name, visible: visible, css: "tr.group"
+      has_added_user? name, visible:, css: "tr.group"
     end
 
     ##
@@ -106,12 +107,12 @@ module Pages
     def has_user?(name, roles: nil, group_membership: nil, group: false)
       css = group ? "tr.group" : "tr"
       has_selector?(css, text: user_name_to_text(name)) &&
-        (roles.nil? || has_roles?(name, roles, group: group)) &&
+        (roles.nil? || has_roles?(name, roles, group:)) &&
         (group_membership.nil? || group_membership == has_group_membership?(name))
     end
 
     def has_group?(name, roles: nil)
-      has_user?(name, roles: roles, group: true)
+      has_user?(name, roles:, group: true)
     end
 
     def find_user(name)
@@ -187,7 +188,7 @@ module Pages
 
     def search_principal!(query)
       search_autocomplete page.find("members-autocompleter"),
-                          query: query,
+                          query:,
                           results_selector: '.ng-dropdown-panel-items'
     end
 

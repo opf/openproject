@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +47,7 @@ end
 describe Redmine do
   include RedmineMenuTestHelper
 
-  it 'should top_menu' do
+  it 'top_menus' do
     assert_number_of_items_in_menu :top_menu, 4
     assert_menu_contains_item_named :top_menu, :work_packages
     assert_menu_contains_item_named :top_menu, :news
@@ -57,7 +55,7 @@ describe Redmine do
     assert_menu_contains_item_named :top_menu, :help
   end
 
-  it 'should account_menu' do
+  it 'account_menus' do
     assert_number_of_items_in_menu :account_menu, 4
     assert_menu_contains_item_named :account_menu, :administration
     assert_menu_contains_item_named :account_menu, :my_account
@@ -65,15 +63,15 @@ describe Redmine do
     assert_menu_contains_item_named :account_menu, :logout
   end
 
-  it 'should application_menu' do
+  it 'application_menus' do
     assert_number_of_items_in_menu :application_menu, 0
   end
 
-  it 'should admin_menu' do
+  it 'admin_menus' do
     assert_number_of_items_in_menu :admin_menu, 0
   end
 
-  it 'should project_menu' do
+  it 'project_menus' do
     assert_number_of_items_in_menu :project_menu, 12
     assert_menu_contains_item_named :project_menu, :overview
     assert_menu_contains_item_named :project_menu, :activity

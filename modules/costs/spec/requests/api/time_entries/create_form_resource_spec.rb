@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -34,23 +32,23 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project) }
-  let(:active_activity) { FactoryBot.create(:time_entry_activity) }
+  let(:project) { create(:project) }
+  let(:active_activity) { create(:time_entry_activity) }
   let(:in_project_inactive_activity) do
-    FactoryBot.create(:time_entry_activity).tap do |tea|
+    create(:time_entry_activity).tap do |tea|
       TimeEntryActivitiesProject.insert(project_id: project.id, activity_id: tea.id, active: false)
     end
   end
-  let(:custom_field) { FactoryBot.create(:time_entry_custom_field) }
+  let(:custom_field) { create(:time_entry_custom_field) }
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:work_package) do
-    FactoryBot.create(:work_package, project: project)
+    create(:work_package, project:)
   end
-  let(:other_user) { FactoryBot.create(:user) }
+  let(:other_user) { create(:user) }
   let(:permissions) { %i[log_time view_work_packages] }
 
   let(:path) { api_v3_paths.create_time_entry_form }
@@ -77,7 +75,7 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
 
     it 'does not create a time_entry' do
       expect(TimeEntry.count)
-        .to eql 0
+        .to be 0
     end
 
     context 'with empty parameters' do
@@ -124,7 +122,7 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
           },
           spentOn: Date.today.to_s,
           hours: 'PT5H',
-          "comment": {
+          comment: {
             raw: "some comment"
           },
           "customField#{custom_field.id}": {

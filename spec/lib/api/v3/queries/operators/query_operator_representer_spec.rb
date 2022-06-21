@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,19 +46,19 @@ describe ::API::V3::Queries::Operators::QueryOperatorRepresenter do
     end
 
     it 'has _type QueryOperator' do
-      is_expected
+      expect(subject)
         .to be_json_eql('QueryOperator'.to_json)
         .at_path('_type')
     end
 
     it 'has id attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql(operator.to_sym.to_json)
         .at_path('id')
     end
 
     it 'has name attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql(I18n.t(:label_not_contains).to_json)
         .at_path('name')
     end

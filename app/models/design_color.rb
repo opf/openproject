@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,6 +27,7 @@
 #++
 
 class DesignColor < ApplicationRecord
+  before_validation :normalize_hexcode
   after_commit -> do
     # CustomStyle.current.updated_at determines the cache key for inline_css
     # in which the CSS color variables will be overwritten. That is why we need
@@ -39,11 +40,9 @@ class DesignColor < ApplicationRecord
     end
   end
 
-  before_validation :normalize_hexcode
-
-  validates_uniqueness_of :variable
-  validates_presence_of :hexcode, :variable
-  validates_format_of :hexcode, with: /\A#[0-9A-F]{6}\z/, unless: lambda { |e| e.hexcode.blank? }
+  validates :variable, uniqueness: true
+  validates :hexcode, :variable, presence: true
+  validates :hexcode, format: { with: /\A#[0-9A-F]{6}\z/, unless: lambda { |e| e.hexcode.blank? } }
 
   class << self
     def setables

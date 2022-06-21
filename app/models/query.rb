@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,8 +41,12 @@ class Query < ApplicationRecord
   serialize :column_names, Array
   serialize :sort_criteria, Array
 
-  validates :name, presence: true
-  validates_length_of :name, maximum: 255
+  validates :name,
+            presence: true,
+            length: { maximum: 255 }
+
+  validates :include_subprojects,
+            inclusion: [true, false]
 
   validate :validate_work_package_filters
   validate :validate_columns
@@ -63,6 +65,7 @@ class Query < ApplicationRecord
       query.add_default_filter
       query.set_default_sort
       query.show_hierarchies = true
+      query.include_subprojects = Setting.display_subprojects_work_packages?
     end
   end
 
@@ -93,7 +96,7 @@ class Query < ApplicationRecord
   end
 
   def add_default_filter
-    return unless filters.blank?
+    return if filters.present?
 
     add_filter('status_id', 'o', [''])
   end
@@ -134,7 +137,7 @@ class Query < ApplicationRecord
 
   def validate_show_hierarchies
     if show_hierarchies && group_by.present?
-      errors.add :show_hierarchies, :group_by_hierarchies_exclusive, group_by: group_by
+      errors.add :show_hierarchies, :group_by_hierarchies_exclusive, group_by:
     end
   end
 
@@ -187,11 +190,11 @@ class Query < ApplicationRecord
 
   def available_columns
     if @available_columns &&
-       (@available_columns_project == (project && project.cache_key || 0))
+       (@available_columns_project == ((project && project.cache_key) || 0))
       return @available_columns
     end
 
-    @available_columns_project = project && project.cache_key || 0
+    @available_columns_project = (project && project.cache_key) || 0
     @available_columns = ::Query.available_columns(project)
   end
 
@@ -251,7 +254,7 @@ class Query < ApplicationRecord
 
   def column_names=(names)
     col_names = Array(names)
-                .reject(&:blank?)
+                .compact_blank
                 .map(&:to_sym)
 
     # Set column_names to blank/nil if it is equal to the default columns
@@ -335,7 +338,7 @@ class Query < ApplicationRecord
 
     statement_filters
       .map { |filter| "(#{filter.where})" }
-      .reject(&:empty?)
+      .compact_blank
       .join(' AND ')
   end
 
@@ -364,12 +367,12 @@ class Query < ApplicationRecord
   end
 
   def project_limiting_filter
-    return if subproject_filters_involved?
+    return if project_filter_set?
 
     subproject_filter = Queries::WorkPackages::Filter::SubprojectFilter.create!
     subproject_filter.context = self
 
-    subproject_filter.operator = if Setting.display_subprojects_work_packages?
+    subproject_filter.operator = if include_subprojects?
                                    '*'
                                  else
                                    '!*'
@@ -381,10 +384,14 @@ class Query < ApplicationRecord
 
   ##
   # Determine whether there are explicit filters
-  # on whether work packages from subprojects are used
-  def subproject_filters_involved?
+  # on whether work packages from
+  # * subprojects
+  # * other projects
+  # are used.
+  def project_filter_set?
     filters.any? do |filter|
-      filter.is_a?(::Queries::WorkPackages::Filter::SubprojectFilter)
+      filter.is_a?(::Queries::WorkPackages::Filter::SubprojectFilter) ||
+        filter.is_a?(::Queries::WorkPackages::Filter::ProjectFilter)
     end
   end
 

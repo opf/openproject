@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe ProjectsController, type: :controller do
-  shared_let(:admin) { FactoryBot.create :admin }
-  let(:non_member) { FactoryBot.create :non_member }
+  shared_let(:admin) { create :admin }
+  let(:non_member) { create :non_member }
 
   before do
     allow(@controller).to receive(:set_localization)
@@ -48,14 +48,14 @@ describe ProjectsController, type: :controller do
     end
 
     context 'by non-admin user with add_project permission' do
-      let(:non_member_user) { FactoryBot.create :user }
+      let(:non_member_user) { create :user }
 
       before do
         non_member.add_permission! :add_project
         login_as non_member_user
       end
 
-      it 'should accept get' do
+      it 'accepts get' do
         get :new
         expect(response).to be_successful
         expect(response).to render_template 'new'
@@ -64,10 +64,10 @@ describe ProjectsController, type: :controller do
   end
 
   describe 'index.html' do
-    let(:project_a) { FactoryBot.create(:project, name: 'Project A', public: false, active: true) }
-    let(:project_b) { FactoryBot.create(:project, name: 'Project B', public: false, active: true) }
-    let(:project_c) { FactoryBot.create(:project, name: 'Project C', public: true, active: true) }
-    let(:project_d) { FactoryBot.create(:project, name: 'Project D', public: true, active: false) }
+    let(:project_a) { create(:project, name: 'Project A', public: false, active: true) }
+    let(:project_b) { create(:project, name: 'Project B', public: false, active: true) }
+    let(:project_c) { create(:project, name: 'Project C', public: true, active: true) }
+    let(:project_d) { create(:project, name: 'Project D', public: true, active: false) }
 
     let(:projects) { [project_a, project_b, project_c, project_d] }
 
@@ -91,7 +91,7 @@ describe ProjectsController, type: :controller do
     end
 
     context 'as admin' do
-      let(:user) { FactoryBot.build(:admin) }
+      let(:user) { build(:admin) }
 
       it_behaves_like 'successful index'
 
@@ -113,7 +113,7 @@ describe ProjectsController, type: :controller do
     end
 
     context 'as user' do
-      let(:user) { FactoryBot.create(:user, member_in_project: project_b) }
+      let(:user) { create(:user, member_in_project: project_b) }
 
       it_behaves_like 'successful index'
 
@@ -127,10 +127,10 @@ describe ProjectsController, type: :controller do
   describe '#destroy' do
     render_views
 
-    let(:project) { FactoryBot.build_stubbed(:project) }
+    let(:project) { build_stubbed(:project) }
     let(:request) { delete :destroy, params: { id: project.id } }
 
-    let(:service_result) { ::ServiceResult.new(success: success) }
+    let(:service_result) { ::ServiceResult.new(success:) }
 
     before do
       allow(Project).to receive(:find).and_return(project)
@@ -165,9 +165,9 @@ describe ProjectsController, type: :controller do
   end
 
   describe 'with an existing project' do
-    let(:project) { FactoryBot.create :project, identifier: 'blog' }
+    let(:project) { create :project, identifier: 'blog' }
 
-    it 'should get destroy info' do
+    it 'gets destroy info' do
       get :destroy_info, params: { id: project.id }
       expect(response).to be_successful
       expect(response).to render_template 'destroy_info'
@@ -177,7 +177,7 @@ describe ProjectsController, type: :controller do
   end
 
   describe '#copy' do
-    let(:project) { FactoryBot.create :project, identifier: 'blog' }
+    let(:project) { create :project, identifier: 'blog' }
 
     it "renders 'copy'" do
       get 'copy', params: { id: project.id }
@@ -186,7 +186,7 @@ describe ProjectsController, type: :controller do
     end
 
     context 'as non authorized user' do
-      let(:user) { FactoryBot.build_stubbed :user }
+      let(:user) { build_stubbed :user }
 
       before do
         login_as user

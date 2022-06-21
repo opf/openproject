@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,29 +29,29 @@
 require 'spec_helper'
 
 describe Principal, type: :model do
-  let(:user) { FactoryBot.build(:user) }
-  let(:group) { FactoryBot.build(:group) }
+  let(:user) { build(:user) }
+  let(:group) { build(:group) }
 
   def self.should_return_groups_and_users_if_active(method, *params)
-    it 'should return a user' do
+    it 'returns a user' do
       user.save!
 
       expect(Principal.send(method, *params).where(id: user.id)).to eq([user])
     end
 
-    it 'should return a group' do
+    it 'returns a group' do
       group.save!
 
       expect(Principal.send(method, *params).where(id: group.id)).to eq([group])
     end
 
-    it 'should not return the anonymous user' do
+    it 'does not return the anonymous user' do
       User.anonymous
 
       expect(Principal.send(method, *params).where(id: user.id)).to eq([])
     end
 
-    it 'should not return an inactive user' do
+    it 'does not return an inactive user' do
       user.status = User.statuses[:locked]
 
       user.save!
@@ -63,7 +63,7 @@ describe Principal, type: :model do
   describe 'active' do
     should_return_groups_and_users_if_active(:active)
 
-    it 'should not return a registered user' do
+    it 'does not return a registered user' do
       user.status = User.statuses[:registered]
 
       user.save!
@@ -75,7 +75,7 @@ describe Principal, type: :model do
   describe 'not_locked' do
     should_return_groups_and_users_if_active(:not_locked)
 
-    it 'should return a registered user' do
+    it 'returns a registered user' do
       user.status = User.statuses[:registered]
 
       user.save!

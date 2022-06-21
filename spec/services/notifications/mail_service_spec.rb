@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,23 +34,23 @@ describe Notifications::MailService, type: :model do
   subject(:call) { instance.call }
 
   let(:recipient) do
-    FactoryBot.build_stubbed(:user,
-                             preference: FactoryBot.build_stubbed(:user_preference,
-                                                                  settings: {
-                                                                    immediate_reminders: {
-                                                                      mentioned: immediate_reminders_mentioned
-                                                                    }
-                                                                  }))
+    build_stubbed(:user,
+                  preference: build_stubbed(:user_preference,
+                                            settings: {
+                                              immediate_reminders: {
+                                                mentioned: immediate_reminders_mentioned
+                                              }
+                                            }))
   end
   let(:actor) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let(:instance) { described_class.new(notification) }
   let(:immediate_reminders_mentioned) { true }
 
   context 'with a work package journal notification' do
     let(:journal) do
-      FactoryBot.build_stubbed(:work_package_journal).tap do |j|
+      build_stubbed(:work_package_journal).tap do |j|
         allow(j)
           .to receive(:initial?)
                 .and_return(journal_initial)
@@ -61,12 +59,12 @@ describe Notifications::MailService, type: :model do
     let(:read_ian) { false }
     let(:reason) { :mentioned }
     let(:notification) do
-      FactoryBot.build_stubbed(:notification,
-                               journal: journal,
-                               recipient: recipient,
-                               actor: actor,
-                               reason: reason,
-                               read_ian: read_ian)
+      build_stubbed(:notification,
+                    journal:,
+                    recipient:,
+                    actor:,
+                    reason:,
+                    read_ian:)
     end
     let(:journal_initial) { false }
 
@@ -129,8 +127,8 @@ describe Notifications::MailService, type: :model do
 
   context 'with a wiki_content journal notification' do
     let(:journal) do
-      FactoryBot.build_stubbed(:wiki_content_journal,
-                               journable: FactoryBot.build_stubbed(:wiki_content)).tap do |j|
+      build_stubbed(:wiki_content_journal,
+                    journable: build_stubbed(:wiki_content)).tap do |j|
         allow(j)
           .to receive(:initial?)
                 .and_return(journal_initial)
@@ -138,11 +136,11 @@ describe Notifications::MailService, type: :model do
     end
     let(:read_ian) { false }
     let(:notification) do
-      FactoryBot.build_stubbed(:notification,
-                               journal: journal,
-                               recipient: recipient,
-                               actor: actor,
-                               read_ian: read_ian)
+      build_stubbed(:notification,
+                    journal:,
+                    recipient:,
+                    actor:,
+                    read_ian:)
     end
     let(:notification_setting) { %w(wiki_content_added wiki_content_updated) }
     let(:mail) do
@@ -215,18 +213,18 @@ describe Notifications::MailService, type: :model do
 
   context 'with a news journal notification' do
     let(:journal) do
-      FactoryBot.build_stubbed(:news_journal,
-                               journable: FactoryBot.build_stubbed(:news)).tap do |j|
+      build_stubbed(:news_journal,
+                    journable: build_stubbed(:news)).tap do |j|
         allow(j)
           .to receive(:initial?)
                 .and_return(journal_initial)
       end
     end
     let(:notification) do
-      FactoryBot.build_stubbed(:notification,
-                               journal: journal,
-                               recipient: recipient,
-                               actor: actor)
+      build_stubbed(:notification,
+                    journal:,
+                    recipient:,
+                    actor:)
     end
     let(:mail) do
       mail = instance_double(ActionMailer::MessageDelivery)
@@ -278,17 +276,17 @@ describe Notifications::MailService, type: :model do
 
   context 'with a message journal notification' do
     let(:journal) do
-      FactoryBot.build_stubbed(:message_journal,
-                               journable: FactoryBot.build_stubbed(:message))
+      build_stubbed(:message_journal,
+                    journable: build_stubbed(:message))
     end
     let(:read_ian) { false }
     let(:notification) do
-      FactoryBot.build_stubbed(:notification,
-                               journal: journal,
-                               resource: journal.journable,
-                               recipient: recipient,
-                               actor: actor,
-                               read_ian: read_ian)
+      build_stubbed(:notification,
+                    journal:,
+                    resource: journal.journable,
+                    recipient:,
+                    actor:,
+                    read_ian:)
     end
     let(:mail) do
       mail = instance_double(ActionMailer::MessageDelivery)
@@ -333,14 +331,14 @@ describe Notifications::MailService, type: :model do
 
   context 'with a different journal notification' do
     let(:journal) do
-      FactoryBot.build_stubbed(:journal,
-                               journable: FactoryBot.build_stubbed(:work_package))
+      build_stubbed(:journal,
+                    journable: build_stubbed(:work_package))
     end
     let(:notification) do
-      FactoryBot.build_stubbed(:notification,
-                               journal: journal,
-                               recipient: recipient,
-                               actor: actor)
+      build_stubbed(:notification,
+                    journal:,
+                    recipient:,
+                    actor:)
     end
 
     # did that before

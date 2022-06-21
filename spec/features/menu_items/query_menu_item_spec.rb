@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,14 +31,14 @@ require 'features/page_objects/notification'
 require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
-RSpec.feature 'Query menu items', js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project }
+RSpec.describe 'Query menu items', js: true do
+  let(:user) { create :admin }
+  let(:project) { create :project }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:notification) { PageObjects::Notifications.new(page) }
   let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
-  let(:status) { FactoryBot.create :status }
+  let(:status) { create :status }
 
   def visit_index_page(query)
     work_packages_page.select_query(query)
@@ -52,16 +52,16 @@ RSpec.feature 'Query menu items', js: true do
 
   context 'with identical names' do
     let(:query_a) do
-      FactoryBot.create :query_with_view_work_packages_table,
-                        public: true,
-                        name: 'some query.',
-                        project: project
+      create :query_with_view_work_packages_table,
+             public: true,
+             name: 'some query.',
+             project:
     end
     let(:query_b) do
-      FactoryBot.create :query_with_view_work_packages_table,
-                        public: true,
-                        name: query_a.name,
-                        project: project
+      create :query_with_view_work_packages_table,
+             public: true,
+             name: query_a.name,
+             project:
     end
 
     it 'can be shown' do
@@ -74,10 +74,14 @@ RSpec.feature 'Query menu items', js: true do
 
   context 'with dots in their name' do
     let(:query) do
-      FactoryBot.create :query_with_view_work_packages_table,
-                        public: true,
-                        name: 'OP 3.0',
-                        project: project
+      create :query_with_view_work_packages_table,
+             public: true,
+             name: 'OP 3.0',
+             project:
+    end
+
+    after do
+      work_packages_page.ensure_loaded
     end
 
     it 'can be added', js: true, selenium: true do
@@ -91,26 +95,22 @@ RSpec.feature 'Query menu items', js: true do
       notification.expect_success('Successful update')
       expect(page).to have_selector('.op-sidemenu--item', text: query.name)
     end
-
-    after do
-      work_packages_page.ensure_loaded
-    end
   end
 
   describe 'renaming a menu item' do
     let(:query_a) do
-      FactoryBot.create :query_with_view_work_packages_table,
-                        public: true,
-                        name: 'bbbb',
-                        project: project,
-                        user: user
+      create :query_with_view_work_packages_table,
+             public: true,
+             name: 'bbbb',
+             project:,
+             user:
     end
     let(:query_b) do
-      FactoryBot.create :query_with_view_work_packages_table,
-                        public: true,
-                        name: 'zzzz',
-                        project: project,
-                        user: user
+      create :query_with_view_work_packages_table,
+             public: true,
+             name: 'zzzz',
+             project:,
+             user:
     end
 
     let(:new_name) { 'aaaaa' }

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -32,9 +30,6 @@ shared_examples 'represents the notification' do
     expect(last_response.status).to eq(200)
     expect(last_response.body)
       .to(be_json_eql('Notification'.to_json).at_path('_type'))
-
-    expect(last_response.body)
-      .to(be_json_eql(notification.subject.to_json).at_path('subject'))
 
     expect(last_response.body)
       .to(be_json_eql(notification.read_ian.to_json).at_path('readIAN'))

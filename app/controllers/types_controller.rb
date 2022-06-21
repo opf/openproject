@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +32,6 @@ class TypesController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  helper_method :gon
 
   def index
     @types = ::Type.page(page_param).per_page(per_page_param)
@@ -138,8 +135,8 @@ class TypesController < ApplicationController
 
   def redirect_to_type_tab_path(type, notice)
     tab = params["tab"] || "settings"
-    redirect_to(edit_type_tab_path(type, tab: tab),
-                notice: notice)
+    redirect_to(edit_type_tab_path(type, tab:),
+                notice:)
   end
 
   def default_breadcrumb

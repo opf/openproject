@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ module Pages
 
         def expect_not_listed(*users)
           rows = page.all 'td.name'
-          expect(rows.map(&:text)).to_not include(*users.map(&:name))
+          expect(rows.map(&:text)).not_to include(*users.map(&:name))
         end
 
         def expect_non_listed
@@ -98,11 +98,9 @@ module Pages
 
         private
 
-        def within_placeholder_user_row(placeholder_user)
+        def within_placeholder_user_row(placeholder_user, &)
           row = find('tr.placeholder_user td.name', text: placeholder_user.name).ancestor('tr')
-          within row do
-            yield
-          end
+          within(row, &)
         end
       end
     end

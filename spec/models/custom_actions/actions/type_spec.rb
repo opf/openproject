@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,8 @@ describe CustomActions::Actions::Type, type: :model do
   let(:priority) { 20 }
   let(:type) { :associated_property }
   let(:allowed_values) do
-    types = [FactoryBot.build_stubbed(:type),
-             FactoryBot.build_stubbed(:type)]
+    types = [build_stubbed(:type),
+             build_stubbed(:type)]
     allow(Type)
       .to receive_message_chain(:select, :order)
             .and_return(types)

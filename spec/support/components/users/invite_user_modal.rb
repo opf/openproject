@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -100,7 +100,7 @@ module Components
 
       def open_select_in_step(query = '')
         search_autocomplete modal_element.find('.ng-select-container'),
-                            query: query,
+                            query:,
                             results_selector: 'body'
       end
 
@@ -139,8 +139,8 @@ module Components
 
       def autocomplete(query, select_text: query)
         select_autocomplete modal_element.find('.ng-select-container'),
-                            query: query,
-                            select_text: select_text,
+                            query:,
+                            select_text:,
                             results_selector: 'body'
       end
 

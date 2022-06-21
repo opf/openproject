@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe 'Toggle watching', type: :feature, js: true do
-  let(:project) { FactoryBot.create(:project) }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_messages view_wiki_pages]) }
-  let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  let(:news) { FactoryBot.create(:news, project: project) }
-  let(:forum) { FactoryBot.create(:forum, project: project) }
-  let(:message) { FactoryBot.create(:message, forum: forum) }
+  let(:project) { create(:project) }
+  let(:role) { create(:role, permissions: %i[view_messages view_wiki_pages]) }
+  let(:user) { create(:user, member_in_project: project, member_through_role: role) }
+  let(:news) { create(:news, project:) }
+  let(:forum) { create(:forum, project:) }
+  let(:message) { create(:message, forum:) }
   let(:wiki) { project.wiki }
-  let(:wiki_page) { FactoryBot.create(:wiki_page_with_content, wiki: wiki) }
+  let(:wiki_page) { create(:wiki_page_with_content, wiki:) }
 
   before do
     allow(User).to receive(:current).and_return user

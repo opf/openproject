@@ -81,7 +81,7 @@ import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.ser
 *
 * - initialPayload @Input:
 *   Allows to provide and initial payload to the form settings request. Checkout
-*   the [forms documentation](https://docs.openproject.org/api/forms/).
+*   the [forms documentation](https://www.openproject.org/docs/api/forms/).
 *
 * - model @Input:
 *   Allows to change model of the form.

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ shared_context 'filter tests' do
   let(:operator) { '=' }
   let(:instance_key) { described_class.key }
   let(:instance) do
-    described_class.create!(name: instance_key, context: context, operator: operator, values: values)
+    described_class.create!(name: instance_key, context:, operator:, values:)
   end
   let(:name) { model.human_attribute_name((instance_key || expected_class_key).to_s.gsub('_id', '')) }
   let(:model) { WorkPackage }
@@ -41,8 +41,8 @@ end
 shared_examples_for 'basic query filter' do
   include_context 'filter tests'
 
-  let(:context) { FactoryBot.build_stubbed(:query, project: project) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:context) { build_stubbed(:query, project:) }
+  let(:project) { build_stubbed(:project) }
   let(:expected_class_key) { defined?(:class_key) ? class_key : raise('needs to be defined') }
   let(:type) { raise 'needs to be defined' }
   let(:human_name) { nil }
@@ -470,9 +470,9 @@ end
 shared_examples_for 'filter by work package id' do
   include_context 'filter tests'
 
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
   let(:query) do
-    FactoryBot.build_stubbed(:query, project: project)
+    build_stubbed(:query, project:)
   end
 
   it_behaves_like 'basic query filter' do
@@ -543,7 +543,7 @@ shared_examples_for 'filter by work package id' do
     end
 
     describe '#value_object' do
-      let(:visible_wp) { FactoryBot.build_stubbed(:work_package) }
+      let(:visible_wp) { build_stubbed(:work_package) }
 
       it 'returns the work package for the values' do
         allow(WorkPackage)
@@ -565,8 +565,8 @@ shared_examples_for 'filter by work package id' do
     end
 
     describe '#valid_values!' do
-      let(:visible_wp) { FactoryBot.build_stubbed(:work_package) }
-      let(:invisible_wp) { FactoryBot.build_stubbed(:work_package) }
+      let(:visible_wp) { build_stubbed(:work_package) }
+      let(:invisible_wp) { build_stubbed(:work_package) }
 
       context 'within a project' do
         it 'removes all non existing/non visible ids' do
@@ -609,8 +609,8 @@ shared_examples_for 'filter by work package id' do
     end
 
     describe '#validate' do
-      let(:visible_wp) { FactoryBot.build_stubbed(:work_package) }
-      let(:invisible_wp) { FactoryBot.build_stubbed(:work_package) }
+      let(:visible_wp) { build_stubbed(:work_package) }
+      let(:invisible_wp) { build_stubbed(:work_package) }
 
       context 'within a project' do
         it 'is valid if only visible wps are values' do
@@ -701,15 +701,25 @@ end
 
 shared_examples_for 'filter for relation' do
   describe '#where' do
-    let!(:filter_value_wp) { FactoryBot.create(:work_package) }
+    let!(:filter_value_wp) { create(:work_package) }
     let(:wp_relation_type) { defined?(:relation_type) ? relation_type : raise('needs to be defined') }
     let!(:related_wp) do
-      relation = Hash.new
-      relation[wp_relation_type] = [filter_value_wp]
-      FactoryBot.create(:work_package, relation)
+      create(:work_package).tap do |wp|
+        if Relation.canonical_type(wp_relation_type) == wp_relation_type
+          create(:relation,
+                 from: wp,
+                 to: filter_value_wp,
+                 relation_type: wp_relation_type)
+        else
+          create(:relation,
+                 to: wp,
+                 from: filter_value_wp,
+                 relation_type: wp_relation_type)
+        end
+      end
     end
 
-    let!(:unrelated_wp) { FactoryBot.create(:work_package) }
+    let!(:unrelated_wp) { create(:work_package) }
 
     before do
       instance.values = [filter_value_wp.id.to_s]

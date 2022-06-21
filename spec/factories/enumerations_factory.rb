@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,7 @@ FactoryBot.define do
 
       # reuse existing priority with the given name
       # this prevents a validation error (name has to be unique)
-      initialize_with { IssuePriority.find_or_create_by(name: name) }
+      initialize_with { IssuePriority.find_or_create_by(name:) }
 
       factory :priority_normal do
         name { 'Normal' }

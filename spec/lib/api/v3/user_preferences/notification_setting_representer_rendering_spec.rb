@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,18 +33,18 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
 
   subject(:generated) { representer.to_json }
 
-  let(:project) { FactoryBot.build_stubbed :project }
-  let(:notification_setting) { FactoryBot.build_stubbed(:notification_setting, project: project) }
+  let(:project) { build_stubbed :project }
+  let(:notification_setting) { build_stubbed(:notification_setting, project:) }
 
   let(:representer) do
     described_class.create notification_setting,
-                           current_user: current_user,
-                           embed_links: embed_links
+                           current_user:,
+                           embed_links:
   end
 
   let(:embed_links) { true }
 
-  current_user { FactoryBot.build_stubbed(:user) }
+  current_user { build_stubbed(:user) }
 
   describe '_links' do
     describe 'self' do

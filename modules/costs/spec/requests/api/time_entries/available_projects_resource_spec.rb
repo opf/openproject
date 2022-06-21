@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,53 +34,53 @@ describe 'API v3 time entries available projects resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:project_with_log_permission) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: [:log_time])],
-                        project: p,
-                        user: current_user)
+    create(:project).tap do |p|
+      create(:member,
+             roles: [create(:role, permissions: [:log_time])],
+             project: p,
+             user: current_user)
     end
   end
   let(:project_with_edit_permission) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: [:edit_time_entries])],
-                        project: p,
-                        user: current_user)
+    create(:project).tap do |p|
+      create(:member,
+             roles: [create(:role, permissions: [:edit_time_entries])],
+             project: p,
+             user: current_user)
     end
   end
   let(:project_with_edit_own_permission) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: [:edit_own_time_entries])],
-                        project: p,
-                        user: current_user)
+    create(:project).tap do |p|
+      create(:member,
+             roles: [create(:role, permissions: [:edit_own_time_entries])],
+             project: p,
+             user: current_user)
     end
   end
   let(:project_with_view_permission) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: [:view_time_entries])],
-                        project: p,
-                        user: current_user)
+    create(:project).tap do |p|
+      create(:member,
+             roles: [create(:role, permissions: [:view_time_entries])],
+             project: p,
+             user: current_user)
     end
   end
   let(:project_without_permission) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: [])],
-                        project: p,
-                        user: current_user)
+    create(:project).tap do |p|
+      create(:member,
+             roles: [create(:role, permissions: [])],
+             project: p,
+             user: current_user)
     end
   end
   let(:project_without_membership) do
-    FactoryBot.create(:project)
+    create(:project)
   end
 
   subject(:response) { last_response }
@@ -94,6 +94,7 @@ describe 'API v3 time entries available projects resource', type: :request do
        project_without_permission,
        project_without_membership]
     end
+    let(:path) { api_v3_paths.path_for(:time_entries_available_projects, sort_by: [%w(id asc)]) }
 
     before do
       projects
@@ -101,8 +102,6 @@ describe 'API v3 time entries available projects resource', type: :request do
 
       get path
     end
-
-    let(:path) { api_v3_paths.path_for(:time_entries_available_projects, sort_by: [%w(id asc)]) }
 
     it 'responds 200 OK' do
       expect(subject.status).to eq(200)

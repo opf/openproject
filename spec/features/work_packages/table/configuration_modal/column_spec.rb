@@ -1,17 +1,17 @@
 require 'spec_helper'
 
 describe 'Work Package table configuration modal columns spec', js: true do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
-  let(:project) { FactoryBot.create(:project) }
-  let!(:wp_1) { FactoryBot.create(:work_package, project: project) }
+  let(:project) { create(:project) }
+  let!(:wp_1) { create(:work_package, project:) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:columns) { ::Components::WorkPackages::Columns.new }
-  let!(:work_package) { FactoryBot.create :work_package, project: project }
+  let!(:work_package) { create :work_package, project: }
 
   let!(:query) do
-    query = FactoryBot.build(:query, user: user, project: project)
+    query = build(:query, user:, project:)
     query.column_names = %w[id subject]
 
     query.save!
@@ -48,7 +48,7 @@ describe 'Work Package table configuration modal columns spec', js: true do
 
     context 'with three columns', driver: :firefox_de do
       let!(:query) do
-        query = FactoryBot.build(:query, user: user, project: project)
+        query = build(:query, user:, project:)
         query.column_names = %w[id project subject]
 
         query.save!

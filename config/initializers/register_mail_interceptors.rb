@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +28,8 @@
 
 # Register interceptors defined in app/mailers/user_mailer.rb
 # Do this here, so they aren't registered multiple times due to reloading in development mode.
-
-ApplicationMailer.register_interceptor(DefaultHeadersInterceptor)
-# following needs to be the last interceptor
-ApplicationMailer.register_interceptor(DoNotSendMailsWithoutReceiverInterceptor)
+Rails.application.reloader.to_prepare do
+  ApplicationMailer.register_interceptor Interceptors::DefaultHeaders
+  # following needs to be the last interceptor
+  ApplicationMailer.register_interceptor Interceptors::DoNotSendMailsWithoutRecipient
+end

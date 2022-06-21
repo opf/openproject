@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,15 +33,15 @@ describe 'API v3 Budget resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project, public: false) }
+  let(:project) { create(:project, public: false) }
+  let!(:budget) { create(:budget, project:) }
   let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: [:view_budgets])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: [:view_budgets])
   end
-  subject(:response) { last_response }
 
-  let!(:budget) { FactoryBot.create(:budget, project: project) }
+  subject(:response) { last_response }
 
   describe 'budgets/:id' do
     let(:get_path) { api_v3_paths.budget budget.id }
@@ -54,8 +54,8 @@ describe 'API v3 Budget resource' do
       end
 
       context 'valid id' do
-        it 'should return HTTP 200' do
-          expect(response.status).to eql(200)
+        it 'returns HTTP 200' do
+          expect(response.status).to be(200)
         end
       end
 
@@ -90,8 +90,8 @@ describe 'API v3 Budget resource' do
         get get_path
       end
 
-      it 'should return HTTP 200' do
-        expect(response.status).to eql(200)
+      it 'returns HTTP 200' do
+        expect(response.status).to be(200)
       end
     end
 

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +29,8 @@
 module API
   module Decorators
     class UnpaginatedCollection < ::API::Decorators::Collection
-      def initialize(models, self_link:, current_user:)
-        super(models, model_count(models), self_link: self_link, current_user: current_user)
+      def initialize(models, self_link:, current_user:, query: {})
+        super(models, model_count(models), self_link: make_self_link(self_link, query), current_user:)
       end
 
       def model_count(models)
@@ -44,6 +42,14 @@ module API
         else
           models
         end.count
+      end
+
+      private
+
+      def make_self_link(self_link_base, query)
+        return self_link_base if query.empty?
+
+        "#{self_link_base}?#{query.to_query}"
       end
     end
   end

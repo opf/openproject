@@ -6,9 +6,9 @@ description: In-app notification settings in OpenProject
 robots: index, follow
 keywords: notifications settings
 ---
-## Notification settings
+# Notification settings
 
-To access the in-app notification settings. Please left-click the **Notification settings** button in the upper right side of the [notification center](../) or navigate via **My account > Notification settings**.
+To access the in-app notification settings. Please left-click the **Notification settings** button in the upper right side of the [notification center](..) or navigate via **My account > Notification settings**.
 
 ![notification-settings](notification-settings.png)
 
@@ -28,8 +28,4 @@ When someone [mentions](../../work-packages/edit-work-package/#-notification-men
 
 Additionally, you can also add **project specific notification settings** by clicking on the link **Add settings for project**.
 
-
-
-By default you do not receive any notifications about your own changes. In addition to the in-app notifications, you will also get a once-a-day summary of all notifications as **[Email reminders](../../../getting-started/my-account#email-reminders)**. 
-
-___
+By default you do not receive any notifications about your own changes. In addition to the in-app notifications, you will also get a once-a-day summary of all notifications as **[Email reminders](../../../getting-started/my-account#email-reminders)**.

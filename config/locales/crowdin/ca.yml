@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -63,16 +63,25 @@ ca:
         main-menu-bg-color: "Color de fons del menú lateral de l'esquerra."
       theme_warning: Canviant el tema substituireu el vostre estil personalitzat. El disseny es perdrà. N'esteu segurs que voleu continuar?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "Actualitza a l'edició Enterprise"
       add_token: "Puja un token de suport de l'Enterprise Edition"
       replace_token: "Reemplaça el token de suport actual"
-      order: "Order Enterprise on-premises Edition"
+      order: "Ordena l'edició Enterpise on-premises"
       paste: "Enganxeu el vostre token de suport de l'Enterprise Edition"
       required_for_feature: "Aquesta característica només està disponible amb un token de suport de l'Enterprise Edition."
       enterprise_link: "Per a més informació, cliqueu aquí."
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: 'Inicia la prova gratuïta'
+      book_now: 'Reserva ara'
+      get_quote: 'Obtenir un pressupost'
+      buttons:
+        upgrade: "Actualitza ara"
+        contact: "Contacta amb nosaltres per una demostració"
+      enterprise_info_html: "és una secció <strong class='icon-medal'></strong> Enterprise"
+      upgrade_info: "Si us plau, actualitza a una versió de pagament per tal d'activar i començar a utilitzar aquesta funcionalitat en el teu equip."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Mostra fins
     is_active: actualment mostrant
@@ -159,7 +168,7 @@ ca:
     edit: 'Edita l''acció personalitzada %{name}'
     execute: 'Executa %{name}'
     upsale:
-      title: 'Accions personalitzades és una característica de l''Edició Enterprise'
+      title: 'Custom actions'
       description: 'Les accions personalitzades agilitzen el treball quotidià combinant un conjunt de passos individuals en un sol botó.'
   custom_fields:
     text_add_new_custom_field: >
@@ -258,7 +267,7 @@ ca:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Placeholder users
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -447,9 +456,12 @@ ca:
         code: 'Estat'
         explanation: 'Descripció de l''estat'
         codes:
+          not_started: 'Not started'
           on_track: 'Pel bon camí'
           at_risk: 'En risc'
           off_track: 'En mal camí'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Columnes"
         relations_to_type_column: "Relacions a %{type}"
@@ -460,7 +472,6 @@ ca:
       repository:
         url: "URL"
       role:
-        assignable: "Els paquets de treball es poden assignar als usuaris i als grups que tinguin aquest rol en el seu respectiu projecte"
         permissions: "Permisos"
       time_entry:
         activity: "Activitat"
@@ -506,20 +517,23 @@ ca:
         begin_deletion: "Inici de la supressió"
         children: "Sub-elements"
         done_ratio: "Progrés (%)"
+        duration: "Duration"
         end_insertion: "Final de la inserció"
         end_deletion: "Final de la supressió"
-        version: "Versió"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Pare"
         parent_issue: "Pare"
         parent_work_package: "Pare"
         priority: "Prioritat"
         progress: "Progrés (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Temps invertit"
         spent_time: "Temps invertit"
         subproject: "Subprojecte"
         time_entries: "Temps de registre"
         type: "Tipus"
+        version: "Versió"
         watcher: "Observador"
       'doorkeeper/application':
         uid: "ID de Client"
@@ -551,6 +565,7 @@ ca:
         even: "ha de ser parell."
         exclusion: "està reservat."
         file_too_large: "és massa gran (la mida màxima és de %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "no coincideix  amb el format esperat '%{expected}'."
         format_nested: "no coincideix  amb el format esperat '%{expected}' a la ruta '%{path}'."
         greater_than: "ha de ser més gran que %{count}."
@@ -719,6 +734,9 @@ ca:
           attributes:
             due_date:
               not_start_date: "no és en la data d'inici, tot i que és necessari per les fites."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
             parent:
               cannot_be_milestone: "no pot ser una fita."
               cannot_be_self_assigned: "no pot ser assignat a si mateix."
@@ -749,6 +767,8 @@ ca:
               group_without_name: "Unnamed groups are not allowed."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "La confirmació de la contrasenya no coincideix."
               format: "%{message}"
@@ -876,9 +896,11 @@ ca:
     updated_on: "Actualitzat el"
     uploader: "Puja"
     user: "Usuari"
+    value: "Value"
     version: "Versió"
     work_package: "Paquet de treball"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -1216,6 +1238,7 @@ ca:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
@@ -1325,7 +1348,9 @@ ca:
   menus:
     admin:
       mail_notification: "Avisos de correu electrònic"
-      incoming_outgoing: "Entrada i Sortida"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1500,6 +1525,7 @@ ca:
   label_diff: "diferencies"
   label_diff_inline: "en línia"
   label_diff_side_by_side: "costat per costat"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "desactivada"
   label_display: "Mostrar"
   label_display_per_page: "Per pàgina: %{value}"
@@ -1825,7 +1851,7 @@ ca:
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
   label_user: "Usuari"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "Activitat de %{value}"
   label_user_anonymous: "Anònim"
@@ -1974,8 +2000,11 @@ ca:
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Per a canviar la contrasenya, feu clic en l'enllaç següent:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -1992,6 +2021,7 @@ ca:
   mail_subject_account_activation_request: "Sol·licitud d'activació del compte de %{value}"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "La vostra contrasenya %{value}"
   mail_subject_register: "L'activació del compte %{value}"
   mail_subject_reminder: "%{count} paquet(s) de treball pendents en els següents %{days} dies"
@@ -2118,7 +2148,7 @@ ca:
     heading_getting_started: "Get an overview"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "Pot reprendre aquest vídeo des del menú d'ajuda"
-    welcome: "Welcome to OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Afegir notes"
   permission_add_work_packages: "Afegir paquets de treball"
@@ -2134,6 +2164,7 @@ ca:
   permission_comment_news: "Comentar noticies"
   permission_commit_access: "Accés de lectura/escriptura al repositori (commit)"
   permission_copy_projects: "Copiar projectes"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Suprimir observadors"
   permission_delete_work_packages: "Eliminar paquets de treball"
   permission_delete_messages: "Esborrar missatges"
@@ -2176,7 +2207,6 @@ ca:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Selecciona els mòduls del projecte"
   permission_manage_types: "Seleccioneu tipus"
-  permission_view_calendar: "Visualitzar calendari"
   permission_view_changesets: "Veure les revisions del repositori a OpenProject"
   permission_view_commit_author_statistics: "Veure les estadístiques de commits de l'autor"
   permission_view_work_package_watchers: "Veure la llista d'observadors"
@@ -2188,6 +2218,8 @@ ca:
   permission_view_timelines: "Veure els terminis"
   permission_view_wiki_edits: "Visualitza l'historial de la wiki"
   permission_view_wiki_pages: "Visualitzar la wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Els paquets de treball es poden assignar als usuaris i als grups que tinguin aquest rol en el seu respectiu projecte"
   placeholders:
     default: "-"
   project:
@@ -2212,7 +2244,6 @@ ca:
       archived: "Archived"
   project_module_activity: "Activitat"
   project_module_forums: "Fòrums"
-  project_module_calendar: "Calendari"
   project_module_work_package_tracking: "Paquet de treball de seguiment"
   project_module_news: "Notícies"
   project_module_repository: "Repositori"
@@ -2226,7 +2257,7 @@ ca:
     assigned_to_role: "Rol de l'assignat"
     member_of_group: "Grup de l'assignat"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
@@ -2338,6 +2369,9 @@ ca:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Documentació"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2352,7 +2386,7 @@ ca:
   setting_smtp_authentication: "Autenticació SMTP"
   setting_smtp_user_name: "Nom d'usuari SMTP"
   setting_smtp_password: "Contrasenya SMTP"
-  setting_smtp_domain: "domini HELLO SMTP"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Dies a mostrar a l'activitat del projecte"
   setting_app_subtitle: "Subtítol de l'aplicació"
   setting_app_title: "Títol de l'aplicació"
@@ -2545,7 +2579,6 @@ ca:
   text_work_packages_destroy_confirmation: "¿Està segur que desitja eliminar el(s) paquet(s) de treball seleccionat(s)?"
   text_work_packages_ref_in_commit_messages: "Referència i arregla els paquets de treball en els missatges dels commits"
   text_journal_added: "S'ha afegit %{label} %{value}"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "S'ha actualitzat %{label}"
@@ -2860,6 +2893,7 @@ ca:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "AAAA-MM-DD ( només dates ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "durada ISO 8601"
       invalid_content_type: "El TIPUS-DE-CONTINGUT esperat és '%{content_type}' però s'ha trobat \"%{actual}\"."
       invalid_format: "Format no vàlid per a la propietat '%{property}': el format esperat és com \"%{expected_format}\", però s'ha trobat \"%{actual}\"."
@@ -2871,6 +2905,7 @@ ca:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "L'estat de compte de l'usuari actual no permet aquesta operació."
       missing_content_type: "no especificat"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Hi havia cos a la petició."
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "El cos de la sol·licitud no conté les parts de multiparts que s'esperava."
@@ -2894,6 +2929,7 @@ ca:
       schema: 'Esquema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'
@@ -2902,8 +2938,11 @@ ca:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_request:
+          unknown: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
@@ -2916,6 +2955,7 @@ ca:
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
         #Access grant errors
         unsupported_response_type: 'The authorization server does not support this response type.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
@@ -2924,6 +2964,10 @@ ca:
           revoked: "The access token was revoked"
           expired: "The access token expired"
           unknown: "The access token is invalid"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Your browser is outdated and unsupported."
     message: "You may run into errors and degraded experience on this page."
@@ -2977,4 +3021,36 @@ ca:
     authorization_error: "An authorization error has occurred."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
+  oauth_client:
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authentication. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid"
+        invalid_request: >
+          OAuth2 server responded with 'invalid_request'. This error appears if you try to authorize multiple times.
+        invalid_response: "OAuth2 server provided an invalid response"
   you: you

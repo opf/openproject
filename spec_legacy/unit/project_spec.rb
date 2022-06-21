@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,37 +59,37 @@ describe Project, type: :model do
     it { is_expected.to have_and_belong_to_many :work_package_custom_fields      }
   end
 
-  it 'should members should be active users' do
+  it 'memberses should be active users' do
     Project.all.each do |project|
       assert_nil project.members.detect { |m| !(m.principal.is_a?(User) && m.principal.active?) }
     end
   end
 
-  it 'should users should be active users' do
+  it 'userses should be active users' do
     Project.all.each do |project|
       assert_nil project.users.detect { |u| !(u.is_a?(User) && u.active?) }
     end
   end
 
-  it 'should parent' do
+  it 'parents' do
     p = Project.find(6).parent
     assert p.is_a?(Project)
     assert_equal 5, p.id
   end
 
-  it 'should ancestors' do
+  it 'ancestorses' do
     a = Project.find(6).ancestors
     assert a.first.is_a?(Project)
     assert_equal [1, 5], a.map(&:id).sort
   end
 
-  it 'should root' do
+  it 'roots' do
     r = Project.find(6).root
     assert r.is_a?(Project)
     assert_equal 1, r.id
   end
 
-  it 'should children' do
+  it 'childrens' do
     c = Project.find(1).children
     assert c.first.is_a?(Project)
     # ignore ordering, since it depends on database collation configuration
@@ -99,12 +97,12 @@ describe Project, type: :model do
     assert_equal [3, 4, 5], c.map(&:id).sort!
   end
 
-  it 'should descendants' do
+  it 'descendantses' do
     d = Project.find(1).descendants.pluck(:id)
     assert_equal [3, 4, 5, 6], d.sort
   end
 
-  it 'should users by role' do
+  it 'userses by role' do
     users_by_role = Project.find(1).users_by_role
     assert_kind_of Hash, users_by_role
     role = Role.find(1)
@@ -112,7 +110,7 @@ describe Project, type: :model do
     assert users_by_role[role].include?(User.find(2))
   end
 
-  it 'should rolled up types' do
+  it 'rolleds up types' do
     parent = Project.find(1)
     parent.types = ::Type.find([1, 2])
     child = parent.children.find(3)
@@ -126,7 +124,7 @@ describe Project, type: :model do
     assert_equal [2, 3], child.rolled_up_types.map(&:id)
   end
 
-  it 'should rolled up types should ignore archived subprojects' do
+  it 'rolleds up types should ignore archived subprojects' do
     parent = Project.find(1)
     parent.types = ::Type.find([1, 2])
     child = parent.children.find(3)
@@ -142,8 +140,8 @@ describe Project, type: :model do
   end
 
   context 'with modules',
-          with_settings: { default_projects_modules: ['work_package_tracking', 'repository'] } do
-    it 'should enabled module names' do
+          with_legacy_settings: { default_projects_modules: ['work_package_tracking', 'repository'] } do
+    it 'enableds module names' do
       project = Project.new
 
       project.enabled_module_names = %w(work_package_tracking news)
@@ -151,7 +149,7 @@ describe Project, type: :model do
     end
   end
 
-  it 'should enabled module names should not recreate enabled modules' do
+  it 'enableds module names should not recreate enabled modules' do
     project = Project.find(1)
     # Remove one module
     modules = project.enabled_modules.to_a.slice(0..-2)
@@ -164,7 +162,7 @@ describe Project, type: :model do
     assert_equal project.enabled_module_ids.sort, modules.map(&:id).sort
   end
 
-  it 'should close completed versions' do
+  it 'closes completed versions' do
     Version.update_all("status = 'open'")
     project = Project.find(1)
     refute_nil project.versions.detect { |v| v.completed? && v.status == 'open' }

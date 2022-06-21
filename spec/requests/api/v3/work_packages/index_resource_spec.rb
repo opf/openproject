@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,25 +35,25 @@ describe 'API v3 Work package resource',
   include API::V3::Utilities::PathHelper
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project_id: project.id,
-                      description: 'lorem ipsum')
+    create(:work_package,
+           project_id: project.id,
+           description: 'lorem ipsum')
   end
   let(:project) do
-    FactoryBot.create(:project, identifier: 'test_project', public: false)
+    create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
   current_user do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
 
   describe 'GET /api/v3/work_packages' do
     subject { last_response }
 
     let(:path) { api_v3_paths.work_packages }
-    let(:other_work_package) { FactoryBot.create(:work_package) }
+    let(:other_work_package) { create(:work_package) }
     let(:work_packages) { [work_package, other_work_package] }
 
     before do
@@ -62,36 +62,36 @@ describe 'API v3 Work package resource',
     end
 
     it 'succeeds' do
-      expect(subject.status).to eql 200
+      expect(subject.status).to be 200
     end
 
     it 'returns visible work packages' do
       expect(subject.body).to be_json_eql(1.to_json).at_path('total')
     end
 
-    it 'embedds the work package schemas' do
+    it 'embeds the work package schemas' do
       expect(subject.body)
         .to be_json_eql(api_v3_paths.work_package_schema(project.id, work_package.type.id).to_json)
               .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
     end
 
     context 'with filtering by typeahead' do
-      let(:path) { api_v3_paths.path_for :work_packages, filters: filters }
+      let(:path) { api_v3_paths.path_for :work_packages, filters: }
       let(:filters) do
         [
           {
-            "typeahead": {
-              "operator": "**",
-              "values": "lorem ipsum"
+            typeahead: {
+              operator: "**",
+              values: "lorem ipsum"
             }
           }
         ]
       end
 
-      let(:lorem_ipsum_work_package) { FactoryBot.create(:work_package, project: project, subject: "lorem ipsum") }
-      let(:lorem_project) { FactoryBot.create(:project, members: { current_user => role }, name: "lorem other") }
-      let(:ipsum_work_package) { FactoryBot.create(:work_package, subject: "other ipsum", project: lorem_project) }
-      let(:other_lorem_work_package) { FactoryBot.create(:work_package, subject: "lorem", project: lorem_project) }
+      let(:lorem_ipsum_work_package) { create(:work_package, project:, subject: "lorem ipsum") }
+      let(:lorem_project) { create(:project, members: { current_user => role }, name: "lorem other") }
+      let(:ipsum_work_package) { create(:work_package, subject: "other ipsum", project: lorem_project) }
+      let(:other_lorem_work_package) { create(:work_package, subject: "lorem", project: lorem_project) }
       let(:work_packages) { [work_package, lorem_ipsum_work_package, ipsum_work_package, other_lorem_work_package] }
 
       it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
@@ -101,11 +101,11 @@ describe 'API v3 Work package resource',
 
     context 'with a user not seeing any work packages' do
       include_context 'with non-member permissions from non_member_permissions'
-      let(:current_user) { FactoryBot.create(:user) }
+      let(:current_user) { create(:user) }
       let(:non_member_permissions) { [:view_work_packages] }
 
       it 'succeeds' do
-        expect(subject.status).to eql 200
+        expect(subject.status).to be 200
       end
 
       it 'returns no work packages' do
@@ -133,19 +133,19 @@ describe 'API v3 Work package resource',
       end
       let(:path) { "#{api_v3_paths.work_packages}?#{props}" }
       let(:other_visible_work_package) do
-        FactoryBot.create(:work_package,
-                          project: project)
+        create(:work_package,
+               project:)
       end
       let(:another_visible_work_package) do
-        FactoryBot.create(:work_package,
-                          project: project)
+        create(:work_package,
+               project:)
       end
 
       let(:work_packages) { [work_package, other_work_package, other_visible_work_package, another_visible_work_package] }
 
       it 'succeeds' do
         expect(subject.status)
-          .to eql 200
+          .to be 200
       end
 
       it 'returns visible and filtered work packages' do
@@ -210,10 +210,11 @@ describe 'API v3 Work package resource',
       context 'non hash' do
         let(:props) do
           eprops = [{
-                      filters: [{ id: { operator: '=', values: [work_package.id.to_s, other_visible_work_package.id.to_s] } }].to_json,
-                      sortBy: [%w(id asc)].to_json,
-                      pageSize: 1
-                    }].to_json
+            filters: [{ id: { operator: '=',
+                              values: [work_package.id.to_s, other_visible_work_package.id.to_s] } }].to_json,
+            sortBy: [%w(id asc)].to_json,
+            pageSize: 1
+          }].to_json
 
           {
             eprops: Base64.encode64(Zlib::Deflate.deflate(eprops))

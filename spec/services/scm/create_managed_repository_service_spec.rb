@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -30,13 +28,13 @@
 require 'spec_helper'
 
 describe SCM::CreateManagedRepositoryService do
-  let(:user) { FactoryBot.build(:user) }
-  let(:project) { FactoryBot.build(:project) }
-
-  let(:repository) { FactoryBot.build(:repository_subversion) }
-  subject(:service) { SCM::CreateManagedRepositoryService.new(repository) }
-
+  let(:user) { build(:user) }
   let(:config) { {} }
+  let(:project) { build(:project) }
+
+  let(:repository) { build(:repository_subversion) }
+
+  subject(:service) { SCM::CreateManagedRepositoryService.new(repository) }
 
   before do
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
@@ -152,7 +150,7 @@ describe SCM::CreateManagedRepositoryService do
     end
 
     let(:repository) do
-      repo = FactoryBot.build(:repository_subversion, scm_type: :managed)
+      repo = build(:repository_subversion, scm_type: :managed)
       repo.project = project
       repo.configure(:managed, nil)
       repo
@@ -166,6 +164,7 @@ describe SCM::CreateManagedRepositoryService do
     context 'with a remote callback' do
       let(:returned_url) { 'file:///tmp/some/url/to/repo' }
       let(:root_url) { '/tmp/some/url/to/repo' }
+
       before do
         stub_request(:post, url)
           .to_return(
@@ -203,7 +202,7 @@ describe SCM::CreateManagedRepositoryService do
         let(:url) { 'https://myreposerver.example.com/api/' }
         let(:config) do
           {
-            subversion: { manages: url, insecure: insecure }
+            subversion: { manages: url, insecure: }
           }
         end
 

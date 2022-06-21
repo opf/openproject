@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'admin/enterprises/_current', type: :view do
-  let(:current_user) { FactoryBot.create :admin }
+  let(:current_user) { create :admin }
   let(:ee_token) { "v1_expired_with_7_days_reprieve_at_2021_09_01.token" }
   let(:current_time) { DateTime.now }
 
@@ -42,7 +42,7 @@ describe 'admin/enterprises/_current', type: :view do
     assign :current_token, token
 
     Timecop.travel(current_date) do
-      render :partial => "enterprises/current"
+      render partial: "enterprises/current"
     end
   end
 

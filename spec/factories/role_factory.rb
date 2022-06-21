@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,33 +32,29 @@ FactoryBot.define do
   factory :role do
     permissions { [] }
     sequence(:name) { |n| "role_#{n}" }
-    assignable { true }
 
     factory :non_member do
       name { 'Non member' }
       builtin { Role::BUILTIN_NON_MEMBER }
-      assignable { false }
-      initialize_with { Role.where(name: name).first_or_initialize }
+      initialize_with { Role.where(name:).first_or_initialize }
     end
 
     factory :anonymous_role do
       name { 'Anonymous' }
       builtin { Role::BUILTIN_ANONYMOUS }
-      assignable { false }
-      initialize_with { Role.where(name: name).first_or_initialize }
+      initialize_with { Role.where(name:).first_or_initialize }
     end
 
     factory :existing_role do
-      name { 'Role ' + Digest::MD5.hexdigest(permissions.map(&:to_s).join('/'))[0..4] }
-      assignable { true }
+      name { "Role #{Digest::MD5.hexdigest(permissions.map(&:to_s).join('/'))[0..4]}" }
       permissions { [] }
 
       initialize_with do
         role =
-          if Role.where(name: name).exists?
-            Role.find_by(name: name)
+          if Role.where(name:).exists?
+            Role.find_by(name:)
           else
-            Role.create name: name, assignable: assignable
+            Role.create name: name
           end
 
         role.add_permission!(*permissions.reject { |p| role.permissions.include?(p) })

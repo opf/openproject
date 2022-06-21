@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,12 +33,12 @@ describe Activities::WorkPackageActivityProvider, type: :model do
   let(:work_package_edit_event)   { 'work_package-edit' }
   let(:work_package_closed_event) { 'work_package-closed' }
 
-  let(:user) { FactoryBot.create :admin }
-  let(:role) { FactoryBot.create :role }
-  let(:status_closed) { FactoryBot.create :closed_status }
+  let(:user) { create :admin }
+  let(:role) { create :role }
+  let(:status_closed) { create :closed_status }
   let(:work_package) do
     User.execute_as(user) do
-      FactoryBot.create :work_package
+      create :work_package
     end
   end
   let!(:work_packages) { [work_package] }
@@ -62,13 +62,14 @@ describe Activities::WorkPackageActivityProvider, type: :model do
     end
 
     context 'should be selected and ordered correctly' do
-      let!(:work_packages) { (1..5).map { (FactoryBot.create :work_package, author: user).id.to_s } }
+      let!(:work_packages) { (1..5).map { (create :work_package, author: user).id.to_s } }
 
       let(:subject) do
         Activities::WorkPackageActivityProvider
           .find_events(event_scope, user, Date.yesterday, Date.tomorrow, limit: 3)
           .map { |a| a.journable_id.to_s }
       end
+
       it { is_expected.to eq(work_packages.reverse.first(3)) }
     end
 
@@ -87,7 +88,7 @@ describe Activities::WorkPackageActivityProvider, type: :model do
 
       it 'only returns a single event (as it is aggregated)' do
         expect(subject.count)
-          .to eql(1)
+          .to be(1)
       end
 
       it 'has the closed event type' do
@@ -97,38 +98,38 @@ describe Activities::WorkPackageActivityProvider, type: :model do
     end
 
     context 'for a non admin user' do
-      let(:project) { FactoryBot.create(:project) }
-      let(:child_project1) { FactoryBot.create(:project, parent: project) }
-      let(:child_project2) { FactoryBot.create(:project, parent: project) }
-      let(:child_project3) { FactoryBot.create(:project, parent: project) }
-      let(:child_project4) { FactoryBot.create(:project, parent: project, public: true) }
+      let(:project) { create(:project) }
+      let(:child_project1) { create(:project, parent: project) }
+      let(:child_project2) { create(:project, parent: project) }
+      let(:child_project3) { create(:project, parent: project) }
+      let(:child_project4) { create(:project, parent: project, public: true) }
 
-      let(:parent_work_package) { FactoryBot.create(:work_package, project: project) }
-      let(:child1_work_package) { FactoryBot.create(:work_package, project: child_project1) }
-      let(:child2_work_package) { FactoryBot.create(:work_package, project: child_project2) }
-      let(:child3_work_package) { FactoryBot.create(:work_package, project: child_project3) }
-      let(:child4_work_package) { FactoryBot.create(:work_package, project: child_project4) }
+      let(:parent_work_package) { create(:work_package, project:) }
+      let(:child1_work_package) { create(:work_package, project: child_project1) }
+      let(:child2_work_package) { create(:work_package, project: child_project2) }
+      let(:child3_work_package) { create(:work_package, project: child_project3) }
+      let(:child4_work_package) { create(:work_package, project: child_project4) }
 
       let!(:work_packages) do
         [parent_work_package, child1_work_package, child2_work_package, child3_work_package, child4_work_package]
       end
 
       let(:user) do
-        FactoryBot.create(:user).tap do |u|
-          FactoryBot.create(:member,
-                            user: u,
-                            project: project,
-                            roles: [FactoryBot.create(:role, permissions: [:view_work_packages])])
-          FactoryBot.create(:member,
-                            user: u,
-                            project: child_project1,
-                            roles: [FactoryBot.create(:role, permissions: [:view_work_packages])])
-          FactoryBot.create(:member,
-                            user: u,
-                            project: child_project2,
-                            roles: [FactoryBot.create(:role, permissions: [])])
+        create(:user).tap do |u|
+          create(:member,
+                 user: u,
+                 project:,
+                 roles: [create(:role, permissions: [:view_work_packages])])
+          create(:member,
+                 user: u,
+                 project: child_project1,
+                 roles: [create(:role, permissions: [:view_work_packages])])
+          create(:member,
+                 user: u,
+                 project: child_project2,
+                 roles: [create(:role, permissions: [])])
 
-          FactoryBot.create(:non_member, permissions: [:view_work_packages])
+          create(:non_member, permissions: [:view_work_packages])
         end
       end
 
@@ -137,7 +138,7 @@ describe Activities::WorkPackageActivityProvider, type: :model do
         project.reload
 
         Activities::WorkPackageActivityProvider
-          .find_events(event_scope, user, Date.yesterday, Date.tomorrow, project: project, with_subprojects: true)
+          .find_events(event_scope, user, Date.yesterday, Date.tomorrow, project:, with_subprojects: true)
       end
 
       it 'returns only visible work packages' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,31 +35,31 @@ describe 'bcf view management',
          with_config: { edition: 'bim' },
          type: :feature,
          js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
   let(:bcf_page) { ::Pages::IfcModels::ShowDefault.new(project) }
   let(:role) do
-    FactoryBot.create :role,
-                      permissions: %w[
-                        view_work_packages
-                        save_queries
-                        save_public_queries
-                        view_ifc_models
-                        save_bcf_queries
-                        manage_public_bcf_queries
-                      ]
+    create :role,
+           permissions: %w[
+             view_work_packages
+             save_queries
+             save_public_queries
+             view_ifc_models
+             save_bcf_queries
+             manage_public_bcf_queries
+           ]
   end
 
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role
+    create :user,
+           member_in_project: project,
+           member_through_role: role
   end
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_minimal_converted,
-                      project: project,
-                      uploader: user,
-                      is_default: true)
+    create(:ifc_model_minimal_converted,
+           project:,
+           uploader: user,
+           is_default: true)
   end
 
   before do

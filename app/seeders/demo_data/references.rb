@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -72,7 +70,7 @@ module DemoData
 
       str.gsub(/##attachment(\.id)?:"[^"]+"/) do |match|
         file = match.split(":", 2).last[1..-2] # strip quotes of part behind :
-        attachment = attachments.where(file: file).first!
+        attachment = attachments.where(file:).first!
 
         if match.include?(".id")
           attachment.id
@@ -93,7 +91,7 @@ module DemoData
         str,
         model: Query,
         find_by: :name,
-        project: project,
+        project:,
         link: ->(query) { query_link query }
       )
     end
@@ -110,7 +108,7 @@ module DemoData
         model: WorkPackage,
         tag: "wp",
         find_by: :subject,
-        project: project,
+        project:,
         link: ->(wp) { work_package_link wp }
       )
     end
@@ -122,7 +120,7 @@ module DemoData
         str,
         model: Sprint,
         find_by: :name,
-        project: project,
+        project:,
         link: ->(sprint) { sprint_link sprint }
       )
     end

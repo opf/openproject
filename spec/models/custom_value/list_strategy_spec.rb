@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,9 +30,9 @@ require 'spec_helper'
 
 describe CustomValue::ListStrategy do
   let(:instance) { described_class.new(custom_value) }
-  let(:custom_field) { FactoryBot.create :list_wp_custom_field }
+  let(:custom_field) { create :list_wp_custom_field }
   let(:custom_value) do
-    double("CustomField", value: value, custom_field: custom_field, customized: customized)
+    double("CustomField", value:, custom_field:, customized:)
   end
 
   let(:customized) { double('customized') }
@@ -45,7 +45,7 @@ describe CustomValue::ListStrategy do
 
       it 'returns the CustomOption and sets it for later retrieval' do
         expect(CustomOption)
-          .to_not receive(:where)
+          .not_to receive(:where)
 
         expect(subject.parse_value(value)).to eql value.id.to_s
 
@@ -68,7 +68,7 @@ describe CustomValue::ListStrategy do
 
       it 'is nil and does not look for the CustomOption' do
         expect(CustomOption)
-          .to_not receive(:where)
+          .not_to receive(:where)
 
         expect(subject.parse_value(value)).to be_nil
 
@@ -81,7 +81,7 @@ describe CustomValue::ListStrategy do
 
       it 'is nil and does not look for the CustomOption' do
         expect(CustomOption)
-          .to_not receive(:where)
+          .not_to receive(:where)
 
         expect(subject.parse_value(value)).to be_nil
 
@@ -100,7 +100,7 @@ describe CustomValue::ListStrategy do
         instance.parse_value(value)
 
         expect(CustomOption)
-          .to_not receive(:where)
+          .not_to receive(:where)
 
         expect(subject).to eql value.to_s
       end
@@ -138,14 +138,15 @@ describe CustomValue::ListStrategy do
       let(:value) { custom_field.custom_options.first.id.to_s }
 
       it 'accepts' do
-        is_expected.to be_nil
+        expect(subject).to be_nil
       end
     end
 
     context 'value is not included' do
       let(:value) { 'cat' }
+
       it 'rejects' do
-        is_expected.to eql(:inclusion)
+        expect(subject).to be(:inclusion)
       end
     end
   end

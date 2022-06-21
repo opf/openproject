@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,20 +28,20 @@
 
 require 'spec_helper'
 
-feature 'group memberships through groups page', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+describe 'group memberships through groups page', type: :feature, js: true do
+  shared_let(:admin) { create :admin }
   let!(:project) do
-    FactoryBot.create :project, name: 'Project 1', identifier: 'project1', members: project_members
+    create :project, name: 'Project 1', identifier: 'project1', members: project_members
   end
 
-  let!(:peter)    { FactoryBot.create :user, firstname: 'Peter', lastname: 'Pan' }
-  let!(:hannibal) { FactoryBot.create :user, firstname: 'Hannibal', lastname: 'Smith' }
+  let!(:peter)    { create :user, firstname: 'Peter', lastname: 'Pan' }
+  let!(:hannibal) { create :user, firstname: 'Hannibal', lastname: 'Smith' }
   let(:group) do
-    FactoryBot.create(:group, lastname: 'A-Team', members: group_members)
+    create(:group, lastname: 'A-Team', members: group_members)
   end
 
-  let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
-  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
+  let!(:manager)   { create :role, name: 'Manager' }
+  let!(:developer) { create :role, name: 'Developer' }
 
   let(:members_page) { Pages::Members.new project.identifier }
   let(:group_page)   { Pages::Groups.new.group(group.id) }
@@ -52,7 +52,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
     allow(User).to receive(:current).and_return admin
   end
 
-  scenario 'adding a user to a group adds the user to the project as well' do
+  it 'adding a user to a group adds the user to the project as well' do
     members_page.visit!
     expect(members_page).not_to have_user 'Hannibal Smith'
 
@@ -75,7 +75,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
     let(:group_members) { [peter, hannibal] }
     let(:project_members) { { group => [manager] } }
 
-    scenario 'removing a user from the group removes them from the project too' do
+    it 'removing a user from the group removes them from the project too' do
       members_page.visit!
       expect(members_page).to have_user 'Hannibal Smith'
 
@@ -89,7 +89,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
       expect(members_page).not_to have_user 'Hannibal Smith'
     end
 
-    scenario 'removing the group from a project' do
+    it 'removing the group from a project' do
       group_page.visit!
       group_page.open_projects_tab!
       expect(group_page).to have_project 'Project 1'
@@ -102,10 +102,10 @@ feature 'group memberships through groups page', type: :feature, js: true do
 
   describe 'with the group in two projects' do
     let!(:project2) do
-      FactoryBot.create :project,
-                        name: 'Project 2',
-                        identifier: 'project2',
-                        members: project_members
+      create :project,
+             name: 'Project 2',
+             identifier: 'project2',
+             members: project_members
     end
     let(:members_page1) { Pages::Members.new project.identifier }
     let(:members_page2) { Pages::Members.new project2.identifier }

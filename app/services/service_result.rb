@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,9 +30,40 @@ class ServiceResult
   attr_accessor :success,
                 :result,
                 :errors,
-                :message_type,
                 :state,
                 :dependent_results
+
+  # Creates a successful ServiceResult.
+  def self.success(errors: nil,
+                   message: nil,
+                   message_type: nil,
+                   state: ::Shared::ServiceState.new,
+                   dependent_results: [],
+                   result: nil)
+    new(success: true,
+        errors:,
+        message:,
+        message_type:,
+        state:,
+        dependent_results:,
+        result:)
+  end
+
+  # Creates a failed ServiceResult.
+  def self.failure(errors: nil,
+                   message: nil,
+                   message_type: nil,
+                   state: ::Shared::ServiceState.new,
+                   dependent_results: [],
+                   result: nil)
+    new(success: false,
+        errors:,
+        message:,
+        message_type:,
+        state:,
+        dependent_results:,
+        result:)
+  end
 
   def initialize(success: false,
                  errors: nil,
@@ -49,6 +78,7 @@ class ServiceResult
 
     initialize_errors(errors)
     @message = message
+    @message_type = message_type
 
     self.dependent_results = dependent_results
   end
@@ -70,17 +100,13 @@ class ServiceResult
 
   ##
   # Rollback the state if possible
-  def rollback!
-    state.rollback!
-  end
+  delegate :rollback!, to: :state
 
   ##
   # Print messages to flash
   def apply_flash_message!(flash)
-    type = get_message_type
-
-    if message && type
-      flash[type] = message
+    if message
+      flash[message_type] = message
     end
   end
 
@@ -133,18 +159,13 @@ class ServiceResult
     self.dependent_results += inner_results
   end
 
-  def on_success(&block)
-    tap(&block) if success?
+  def on_success(&)
+    tap(&) if success?
     self
   end
 
-  def on_failure(&block)
-    tap(&block) if failure?
-    self
-  end
-
-  def tap
-    yield(self)
+  def on_failure(&)
+    tap(&) if failure?
     self
   end
 
@@ -189,9 +210,9 @@ class ServiceResult
     end
   end
 
-  def get_message_type
-    if message_type.present?
-      message_type.to_sym
+  def message_type
+    if @message_type
+      @message_type.to_sym
     elsif success?
       :notice
     else

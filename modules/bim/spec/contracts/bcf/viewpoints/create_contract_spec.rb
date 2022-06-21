@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,12 +34,8 @@ describe Bim::Bcf::Viewpoints::CreateContract do
                             issue: viewpoint_issue,
                             json_viewpoint: viewpoint_json_viewpoint)
   end
-  let(:permissions) { [:manage_bcf] }
-
-  subject(:contract) { described_class.new(viewpoint, current_user) }
-
   let(:current_user) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let!(:allowed_to) do
     allow(current_user)
@@ -57,13 +53,16 @@ describe Bim::Bcf::Viewpoints::CreateContract do
     }
   end
   let(:viewpoint_issue) do
-    FactoryBot.build_stubbed(:bcf_issue).tap do |issue|
+    build_stubbed(:bcf_issue).tap do |issue|
       allow(issue)
         .to receive(:project)
         .and_return(project)
     end
   end
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
+  let(:permissions) { [:manage_bcf] }
+
+  subject(:contract) { described_class.new(viewpoint, current_user) }
 
   def expect_valid(valid, symbols = {})
     expect(contract.validate).to eq(valid)
@@ -192,7 +191,7 @@ describe Bim::Bcf::Viewpoints::CreateContract do
       context 'without snapshot' do
         let(:viewpoint_json_viewpoint) do
           {
-            "index": 10
+            index: 10
           }
         end
 
@@ -217,23 +216,23 @@ describe Bim::Bcf::Viewpoints::CreateContract do
     describe 'orthogonal_camera' do
       let(:valid_json) do
         {
-          "orthogonal_camera": {
-            "camera_view_point": {
-              "x": 12.3456789,
-              "y": 1.2345,
-              "z": -1234.1234
+          orthogonal_camera: {
+            camera_view_point: {
+              x: 12.3456789,
+              y: 1.2345,
+              z: -1234.1234
             },
-            "camera_direction": {
-              "x": -1.0,
-              "y": -2.0,
-              "z": -3.0
+            camera_direction: {
+              x: -1.0,
+              y: -2.0,
+              z: -3.0
             },
-            "camera_up_vector": {
-              "x": 0.223629,
-              "y": 0.209889,
-              "z": 0.951807
+            camera_up_vector: {
+              x: 0.223629,
+              y: 0.209889,
+              z: 0.951807
             },
-            "view_to_world_scale": 2.0
+            view_to_world_scale: 2.0
           }
         }.stringify_keys
       end
@@ -303,23 +302,23 @@ describe Bim::Bcf::Viewpoints::CreateContract do
     describe 'perspective_camera' do
       let(:valid_json) do
         {
-          "perspective_camera": {
-            "camera_view_point": {
-              "x": 12.3456789,
-              "y": 1.2345,
-              "z": -1234.1234
+          perspective_camera: {
+            camera_view_point: {
+              x: 12.3456789,
+              y: 1.2345,
+              z: -1234.1234
             },
-            "camera_direction": {
-              "x": -1.0,
-              "y": -2.0,
-              "z": -3.0
+            camera_direction: {
+              x: -1.0,
+              y: -2.0,
+              z: -3.0
             },
-            "camera_up_vector": {
-              "x": 0.223629,
-              "y": 0.209889,
-              "z": 0.951807
+            camera_up_vector: {
+              x: 0.223629,
+              y: 0.209889,
+              z: 0.951807
             },
-            "field_of_view": 180.0
+            field_of_view: 180.0
           }
         }.stringify_keys
       end
@@ -389,29 +388,29 @@ describe Bim::Bcf::Viewpoints::CreateContract do
     describe 'lines' do
       let(:valid_json) do
         {
-          "lines": [
+          lines: [
             {
-              "start_point": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+              start_point: {
+                x: 1.0,
+                y: 1.0,
+                z: 1.0
               },
-              "end_point": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+              end_point: {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0
               }
             },
             {
-              "start_point": {
-                "x": 2.0,
-                "y": 3.0,
-                "z": 4.0
+              start_point: {
+                x: 2.0,
+                y: 3.0,
+                z: 4.0
               },
-              "end_point": {
-                "x": -1.0,
-                "y": -2.0,
-                "z": -3.0
+              end_point: {
+                x: -1.0,
+                y: -2.0,
+                z: -3.0
               }
             }
           ]
@@ -484,29 +483,29 @@ describe Bim::Bcf::Viewpoints::CreateContract do
     describe 'clipping_planes' do
       let(:valid_json) do
         {
-          "clipping_planes": [
+          clipping_planes: [
             {
-              "location": {
-                "x": 0.5,
-                "y": 0.5,
-                "z": 0.5
+              location: {
+                x: 0.5,
+                y: 0.5,
+                z: 0.5
               },
-              "direction": {
-                "x": 1.0,
-                "y": 0.0,
-                "z": 0.0
+              direction: {
+                x: 1.0,
+                y: 0.0,
+                z: 0.0
               }
             },
             {
-              "location": {
-                "x": 4.5,
-                "y": 0.5,
-                "z": 1.5
+              location: {
+                x: 4.5,
+                y: 0.5,
+                z: 1.5
               },
-              "direction": {
-                "x": 1.0,
-                "y": -5.5,
-                "z": 0.6
+              direction: {
+                x: 1.0,
+                y: -5.5,
+                z: 0.6
               }
             }
           ]
@@ -579,7 +578,7 @@ describe Bim::Bcf::Viewpoints::CreateContract do
     describe 'bitmaps' do
       let(:viewpoint_json_viewpoint) do
         {
-          "bitmaps": [
+          bitmaps: [
             "something"
           ]
         }.stringify_keys
@@ -593,55 +592,55 @@ describe Bim::Bcf::Viewpoints::CreateContract do
     describe 'components' do
       let(:valid_json) do
         {
-          "components":
+          components:
             {
-              "selection": [
+              selection: [
                 {
-                  "ifc_guid": "2MF28NhmDBiRVyFakgdbCT",
-                  "originating_system": "Example CAD Application",
-                  "authoring_tool_id": "EXCAD/v1.0"
+                  ifc_guid: "2MF28NhmDBiRVyFakgdbCT",
+                  originating_system: "Example CAD Application",
+                  authoring_tool_id: "EXCAD/v1.0"
                 },
                 {
-                  "ifc_guid": "4MF28NhmDBiRVyFakgdbCT",
-                  "originating_system": "Example CAD Application",
-                  "authoring_tool_id": "EXCAD/v1.0"
+                  ifc_guid: "4MF28NhmDBiRVyFakgdbCT",
+                  originating_system: "Example CAD Application",
+                  authoring_tool_id: "EXCAD/v1.0"
                 }
               ],
-              "coloring": [
+              coloring: [
                 {
-                  "color": "#ff0000",
-                  "components": [
+                  color: "#ff0000",
+                  components: [
                     {
-                      "ifc_guid": "3$cshxZO9AJBebsni$z9Yk"
+                      ifc_guid: "3$cshxZO9AJBebsni$z9Yk"
                     },
                     {
-                      "ifc_guid": "4$cshxZO9AJBebsni$z9Yk"
+                      ifc_guid: "4$cshxZO9AJBebsni$z9Yk"
                     }
                   ]
                 },
                 {
-                  "color": "#ff0333",
-                  "components": [
+                  color: "#ff0333",
+                  components: [
                     {
-                      "ifc_guid": "3$cshxZO9AJBebsni$z9Y8"
+                      ifc_guid: "3$cshxZO9AJBebsni$z9Y8"
                     },
                     {
-                      "ifc_guid": "4$cshxZO9AJBebsni$z9Y8"
+                      ifc_guid: "4$cshxZO9AJBebsni$z9Y8"
                     }
                   ]
                 }
               ],
-              "visibility": {
-                "default_visibility": false,
-                "exceptions": [
+              visibility: {
+                default_visibility: false,
+                exceptions: [
                   {
-                    "ifc_guid": "4$cshxZO9AJBebsni$z9Yk"
+                    ifc_guid: "4$cshxZO9AJBebsni$z9Yk"
                   }
                 ],
-                "view_setup_hints": {
-                  "spaces_visible": true,
-                  "space_boundaries_visible": false,
-                  "openings_visible": true
+                view_setup_hints: {
+                  spaces_visible: true,
+                  space_boundaries_visible: false,
+                  openings_visible: true
                 }
               }
             }

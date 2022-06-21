@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
-import { filterNilValue, Query } from '@datorama/akita';
-import { CurrentUserState, CurrentUserStore } from './current-user.store';
+import {
+  filterNilValue,
+  Query,
+} from '@datorama/akita';
+import {
+  CurrentUserState,
+  CurrentUserStore,
+} from './current-user.store';
 
 @Injectable()
 export class CurrentUserQuery extends Query<CurrentUserState> {

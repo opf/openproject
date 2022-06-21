@@ -1,52 +1,54 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
+require 'support/components/ng_select_autocomplete_helpers'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'Moving a work package through Rails view', js: true do
+  include ::Components::NgSelectAutocompleteHelpers
+
   let(:dev_role) do
-    FactoryBot.create :role,
-                      permissions: %i[view_work_packages add_work_packages]
+    create :role,
+           permissions: %i[view_work_packages add_work_packages]
   end
   let(:mover_role) do
-    FactoryBot.create :role,
-                      permissions: %i[view_work_packages move_work_packages manage_subtasks add_work_packages]
+    create :role,
+           permissions: %i[view_work_packages move_work_packages manage_subtasks add_work_packages]
   end
   let(:dev) do
-    FactoryBot.create :user,
-                      firstname: 'Dev',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: dev_role
+    create :user,
+           firstname: 'Dev',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_through_role: dev_role
   end
   let(:mover) do
-    FactoryBot.create :admin,
-                      firstname: 'Manager',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: mover_role
+    create :admin,
+           firstname: 'Manager',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_through_role: mover_role
   end
 
-  let(:type) { FactoryBot.create :type, name: 'Bug' }
-  let(:type2) { FactoryBot.create :type, name: 'Risk' }
+  let(:type) { create :type, name: 'Bug' }
+  let(:type2) { create :type, name: 'Risk' }
 
-  let!(:project) { FactoryBot.create(:project, name: 'Source', types: [type, type2]) }
-  let!(:project2) { FactoryBot.create(:project, name: 'Target', types: [type, type2]) }
+  let!(:project) { create(:project, name: 'Source', types: [type, type2]) }
+  let!(:project2) { create(:project, name: 'Target', types: [type, type2]) }
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      author: dev,
-                      project: project,
-                      type: type,
-                      status: status)
+    create(:work_package,
+           author: dev,
+           project:,
+           type:,
+           status:)
   end
   let(:work_package2) do
-    FactoryBot.create(:work_package,
-                      author: dev,
-                      project: project,
-                      type: type,
-                      status: work_package2_status)
+    create(:work_package,
+           author: dev,
+           project:,
+           type:,
+           status: work_package2_status)
   end
-  let(:status) { FactoryBot.create(:status) }
+  let(:status) { create(:status) }
   let(:work_package2_status) { status }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
@@ -65,12 +67,12 @@ describe 'Moving a work package through Rails view', js: true do
   describe 'moving a work package and its children' do
     let(:work_packages) { [work_package, child_wp] }
     let(:child_wp) do
-      FactoryBot.create(:work_package,
-                        author: dev,
-                        parent: work_package,
-                        project: project,
-                        type: type,
-                        status: status)
+      create(:work_package,
+             author: dev,
+             parent: work_package,
+             project:,
+             type:,
+             status:)
     end
 
     context 'with permission' do
@@ -82,28 +84,31 @@ describe 'Moving a work package through Rails view', js: true do
 
         # On work packages move page
         expect(page).to have_selector('#new_project_id')
-        select 'Target', from: 'new_project_id'
-        click_on 'Move and follow'
+        select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+                            query: 'Target',
+                            select_text: 'Target',
+                            results_selector: 'body'
+        SeleniumHubWaiter.wait
+
+        # Clicking move and follow might be broken due to the location.href
+        # in the refresh-on-form-changes component
+        retry_block do
+          click_on 'Move and follow'
+          page.find('.inline-edit--container.subject', text: work_package.subject, wait: 10)
+          page.find('#projects-menu', text: 'Target')
+        end
       end
 
       it 'moves parent and child wp to a new project' do
-        expect_angular_frontend_initialized
-        expect(page).to have_selector('.inline-edit--container.subject', text: work_package.subject, wait: 10)
-        expect(page).to have_selector('#projects-menu', text: 'Target')
-
         # Should move its children
         child_wp.reload
         expect(child_wp.project_id).to eq(project2.id)
       end
 
       context 'when the target project does not have the type' do
-        let!(:project2) { FactoryBot.create(:project, name: 'Target', types: [type2]) }
+        let!(:project2) { create(:project, name: 'Target', types: [type2]) }
 
         it 'does moves the work package and changes the type' do
-          expect_angular_frontend_initialized
-          expect(page).to have_selector('.inline-edit--container.subject', text: work_package.subject, wait: 10)
-          expect(page).to have_selector('#projects-menu', text: 'Target')
-
           # Should NOT have moved
           child_wp.reload
           work_package.reload
@@ -127,7 +132,7 @@ describe 'Moving a work package through Rails view', js: true do
 
   describe 'moving an unmovable (e.g. readonly status) and a movable work package', with_ee: %i[readonly_work_packages] do
     let(:work_packages) { [work_package, work_package2] }
-    let(:work_package2_status) { FactoryBot.create(:status, is_readonly: true) }
+    let(:work_package2_status) { create(:status, is_readonly: true) }
 
     before do
       loading_indicator_saveguard
@@ -138,7 +143,10 @@ describe 'Moving a work package through Rails view', js: true do
       context_menu.choose 'Bulk change of project'
 
       # On work packages move page
-      select project2.name, from: 'new_project_id'
+      select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+                          query: project2.name,
+                          select_text: project2.name,
+                          results_selector: 'body'
       click_on 'Move and follow'
     end
 
@@ -189,4 +197,3 @@ describe 'Moving a work package through Rails view', js: true do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

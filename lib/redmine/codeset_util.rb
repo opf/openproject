@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,17 +51,17 @@ module Redmine
         str.force_encoding('UTF-8')
         return str
       end
-      enc = encoding.blank? ? 'UTF-8' : encoding
-      if enc.upcase != 'UTF-8'
-        str.force_encoding(enc)
-        str = str.encode('UTF-8', invalid: :replace,
-                                  undef: :replace, replace: '?')
-      else
+      enc = encoding.presence || 'UTF-8'
+      if enc.upcase == 'UTF-8'
         str.force_encoding('UTF-8')
         if !str.valid_encoding?
           str = str.encode('US-ASCII', invalid: :replace,
                                        undef: :replace, replace: '?').encode('UTF-8')
         end
+      else
+        str.force_encoding(enc)
+        str = str.encode('UTF-8', invalid: :replace,
+                                  undef: :replace, replace: '?')
       end
       str
     end
@@ -70,13 +70,13 @@ module Redmine
       str ||= ''
       str = str.dup if str.frozen?
       str.force_encoding('UTF-8')
-      if encoding.upcase != 'UTF-8'
+      if encoding.upcase == 'UTF-8'
+        replace_invalid_utf8(str)
+      else
         str.encode(encoding,
                    invalid: :replace,
                    undef: :replace,
                    replace: '?')
-      else
-        replace_invalid_utf8(str)
       end
     end
   end

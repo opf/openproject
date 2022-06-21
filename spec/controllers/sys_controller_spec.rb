@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,28 +30,28 @@ require 'spec_helper'
 
 describe SysController, type: :controller, with_settings: { sys_api_enabled: true } do
   let(:commit_role) do
-    FactoryBot.create(:role, permissions: %i[commit_access browse_repository])
+    create(:role, permissions: %i[commit_access browse_repository])
   end
-  let(:browse_role) { FactoryBot.create(:role, permissions: [:browse_repository]) }
-  let(:guest_role) { FactoryBot.create(:role, permissions: []) }
+  let(:browse_role) { create(:role, permissions: [:browse_repository]) }
+  let(:guest_role) { create(:role, permissions: []) }
   let(:valid_user_password) { 'Top Secret Password' }
   let(:valid_user) do
-    FactoryBot.create(:user,
-                      login: 'johndoe',
-                      password: valid_user_password,
-                      password_confirmation: valid_user_password)
+    create(:user,
+           login: 'johndoe',
+           password: valid_user_password,
+           password_confirmation: valid_user_password)
   end
 
   let(:api_key) { '12345678' }
 
   let(:public) { false }
-  let(:project) { FactoryBot.create(:project, public: public) }
+  let(:project) { create(:project, public:) }
   let!(:repository_project) do
-    FactoryBot.create(:project, public: false, members: { valid_user => [browse_role] })
+    create(:project, public: false, members: { valid_user => [browse_role] })
   end
 
-  before(:each) do
-    FactoryBot.create(:non_member, permissions: [:browse_repository])
+  before do
+    create(:non_member, permissions: [:browse_repository])
     DeletedUser.first # creating it first in order to avoid problems with should_receive
 
     allow(Setting).to receive(:sys_api_key).and_return(api_key)
@@ -62,11 +62,11 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
   end
 
   describe 'svn' do
-    let!(:repository) { FactoryBot.create(:repository_subversion, project: project) }
+    let!(:repository) { create(:repository_subversion, project:) }
 
     describe 'repo_auth' do
       context 'for valid login, but no access to repo_auth' do
-        before(:each) do
+        before do
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -78,18 +78,18 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
                                       method: 'GET' }
         end
 
-        it 'should respond 403 not allowed' do
+        it 'responds 403 not allowed' do
           expect(response.code).to eq('403')
           expect(response.body).to eq('Not allowed')
         end
       end
 
       context 'for valid login and user has read permission (role reporter) for project' do
-        before(:each) do
-          FactoryBot.create(:member,
-                            user: valid_user,
-                            roles: [browse_role],
-                            project: project)
+        before do
+          create(:member,
+                 user: valid_user,
+                 roles: [browse_role],
+                 project:)
 
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -98,7 +98,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
             )
         end
 
-        it 'should respond 200 okay dokay for GET' do
+        it 'responds 200 okay dokay for GET' do
           post 'repo_auth', params: { key: api_key,
                                       repository: project.identifier,
                                       method: 'GET' }
@@ -106,7 +106,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
           expect(response.code).to eq('200')
         end
 
-        it 'should respond 403 not allowed for POST' do
+        it 'responds 403 not allowed for POST' do
           post 'repo_auth', params: { key: api_key,
                                       repository: project.identifier,
                                       method: 'POST' }
@@ -116,11 +116,11 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       end
 
       context 'for valid login and user has rw permission (role developer) for project' do
-        before(:each) do
-          FactoryBot.create(:member,
-                            user: valid_user,
-                            roles: [commit_role],
-                            project: project)
+        before do
+          create(:member,
+                 user: valid_user,
+                 roles: [commit_role],
+                 project:)
           valid_user.save
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -129,7 +129,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
             )
         end
 
-        it 'should respond 200 okay dokay for GET' do
+        it 'responds 200 okay dokay for GET' do
           post 'repo_auth', params: { key: api_key,
                                       repository: project.identifier,
                                       method: 'GET' }
@@ -137,7 +137,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
           expect(response.code).to eq('200')
         end
 
-        it 'should respond 200 okay dokay for POST' do
+        it 'responds 200 okay dokay for POST' do
           post 'repo_auth', params: { key: api_key,
                                       repository: project.identifier,
                                       method: 'POST' }
@@ -147,11 +147,11 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       end
 
       context 'for invalid login and user has role manager for project' do
-        before(:each) do
-          FactoryBot.create(:member,
-                            user: valid_user,
-                            roles: [commit_role],
-                            project: project)
+        before do
+          create(:member,
+                 user: valid_user,
+                 roles: [commit_role],
+                 project:)
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -163,13 +163,13 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
                                       method: 'GET' }
         end
 
-        it 'should respond 401 auth required' do
+        it 'responds 401 auth required' do
           expect(response.code).to eq('401')
         end
       end
 
       context 'for valid login and user is not member for project' do
-        before(:each) do
+        before do
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -181,7 +181,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
                                       method: 'GET' }
         end
 
-        it 'should respond 403 not allowed' do
+        it 'responds 403 not allowed' do
           expect(response.code).to eq('403')
         end
       end
@@ -189,12 +189,12 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       context 'for valid login and project is public' do
         let(:public) { true }
 
-        before(:each) do
-          random_project = FactoryBot.create(:project, public: false)
-          FactoryBot.create(:member,
-                            user: valid_user,
-                            roles: [browse_role],
-                            project: random_project)
+        before do
+          random_project = create(:project, public: false)
+          create(:member,
+                 user: valid_user,
+                 roles: [browse_role],
+                 project: random_project)
 
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -207,26 +207,26 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
                                       method: 'GET' }
         end
 
-        it 'should respond 200 OK' do
+        it 'responds 200 OK' do
           expect(response.code).to eq('200')
         end
       end
 
       context 'for invalid credentials' do
-        before(:each) do
+        before do
           post 'repo_auth', params: { key: api_key,
                                       repository: 'any-repo',
                                       method: 'GET' }
         end
 
-        it 'should respond 401 auth required' do
+        it 'responds 401 auth required' do
           expect(response.code).to eq('401')
           expect(response.body).to eq('Authorization required')
         end
       end
 
       context 'for invalid api key' do
-        it 'should respond 403 for valid username/password' do
+        it 'responds 403 for valid username/password' do
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -241,7 +241,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
             .to eq('Access denied. Repository management WS is disabled or key is invalid.')
         end
 
-        it 'should respond 403 for invalid username/password' do
+        it 'responds 403 for invalid username/password' do
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               'invalid',
@@ -261,10 +261,11 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
   end
 
   describe 'git' do
-    let!(:repository) { FactoryBot.create(:repository_git, project: project) }
+    let!(:repository) { create(:repository_git, project:) }
+
     describe 'repo_auth' do
       context 'for valid login, but no access to repo_auth' do
-        before(:each) do
+        before do
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -279,18 +280,18 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
                                       location: '/git' }
         end
 
-        it 'should respond 403 not allowed' do
+        it 'responds 403 not allowed' do
           expect(response.code).to eq('403')
           expect(response.body).to eq('Not allowed')
         end
       end
 
       context 'for valid login and user has read permission (role reporter) for project' do
-        before(:each) do
-          FactoryBot.create(:member,
-                            user: valid_user,
-                            roles: [browse_role],
-                            project: project)
+        before do
+          create(:member,
+                 user: valid_user,
+                 roles: [browse_role],
+                 project:)
 
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -299,7 +300,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
             )
         end
 
-        it 'should respond 200 okay dokay for read-only access' do
+        it 'responds 200 okay dokay for read-only access' do
           post 'repo_auth', params: { key: api_key,
                                       repository: project.identifier,
                                       method: 'GET',
@@ -310,7 +311,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
           expect(response.code).to eq('200')
         end
 
-        it 'should respond 403 not allowed for write (push)' do
+        it 'responds 403 not allowed for write (push)' do
           post 'repo_auth', params: { key: api_key,
                                       repository: project.identifier,
                                       method: 'POST',
@@ -323,11 +324,11 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       end
 
       context 'for valid login and user has rw permission (role developer) for project' do
-        before(:each) do
-          FactoryBot.create(:member,
-                            user: valid_user,
-                            roles: [commit_role],
-                            project: project)
+        before do
+          create(:member,
+                 user: valid_user,
+                 roles: [commit_role],
+                 project:)
           valid_user.save
 
           request.env['HTTP_AUTHORIZATION'] =
@@ -337,7 +338,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
             )
         end
 
-        it 'should respond 200 okay dokay for GET' do
+        it 'responds 200 okay dokay for GET' do
           post 'repo_auth', params: { key: api_key,
                                       repository: project.identifier,
                                       method: 'GET',
@@ -348,7 +349,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
           expect(response.code).to eq('200')
         end
 
-        it 'should respond 200 okay dokay for POST' do
+        it 'responds 200 okay dokay for POST' do
           post 'repo_auth', params: { key: api_key,
                                       repository: project.identifier,
                                       method: 'POST',
@@ -361,11 +362,11 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       end
 
       context 'for invalid login and user has role manager for project' do
-        before(:each) do
-          FactoryBot.create(:member,
-                            user: valid_user,
-                            roles: [commit_role],
-                            project: project)
+        before do
+          create(:member,
+                 user: valid_user,
+                 roles: [commit_role],
+                 project:)
 
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -381,14 +382,14 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
                                       location: '/git' }
         end
 
-        it 'should respond 401 auth required' do
+        it 'responds 401 auth required' do
           expect(response.code).to eq('401')
         end
       end
 
       context 'for valid login and user is not member for project' do
-        before(:each) do
-          project = FactoryBot.create(:project, public: false)
+        before do
+          project = create(:project, public: false)
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -403,19 +404,20 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
                                       location: '/git' }
         end
 
-        it 'should respond 403 not allowed' do
+        it 'responds 403 not allowed' do
           expect(response.code).to eq('403')
         end
       end
 
       context 'for valid login and project is public' do
         let(:public) { true }
-        before(:each) do
-          random_project = FactoryBot.create(:project, public: false)
-          FactoryBot.create(:member,
-                            user: valid_user,
-                            roles: [browse_role],
-                            project: random_project)
+
+        before do
+          random_project = create(:project, public: false)
+          create(:member,
+                 user: valid_user,
+                 roles: [browse_role],
+                 project: random_project)
 
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -430,13 +432,13 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
                                       location: '/git' }
         end
 
-        it 'should respond 200 OK' do
+        it 'responds 200 OK' do
           expect(response.code).to eq('200')
         end
       end
 
       context 'for invalid credentials' do
-        before(:each) do
+        before do
           post 'repo_auth', params: { key: api_key,
                                       repository: 'any-repo',
                                       method: 'GET',
@@ -445,14 +447,14 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
                                       location: '/git' }
         end
 
-        it 'should respond 401 auth required' do
+        it 'responds 401 auth required' do
           expect(response.code).to eq('401')
           expect(response.body).to eq('Authorization required')
         end
       end
 
       context 'for invalid api key' do
-        it 'should respond 403 for valid username/password' do
+        it 'responds 403 for valid username/password' do
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -471,7 +473,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
             .to eq('Access denied. Repository management WS is disabled or key is invalid.')
         end
 
-        it 'should respond 403 for invalid username/password' do
+        it 'responds 403 for invalid username/password' do
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               'invalid',
@@ -500,22 +502,22 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
     end
     let(:cache_expiry) { OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER }
 
-    it 'should call user_login only once when called twice' do
+    it 'calls user_login only once when called twice' do
       expect(controller).to receive(:user_login).once.and_return(valid_user)
       2.times { controller.send(:cached_user_login, valid_user.login, valid_user_password) }
     end
 
-    it 'should return the same as user_login for valid creds' do
+    it 'returns the same as user_login for valid creds' do
       expect(controller.send(:cached_user_login, valid_user.login, valid_user_password))
         .to eq(controller.send(:user_login, valid_user.login, valid_user_password))
     end
 
-    it 'should return the same as user_login for invalid creds' do
+    it 'returns the same as user_login for invalid creds' do
       expect(controller.send(:cached_user_login, 'invalid', 'invalid'))
         .to eq(controller.send(:user_login, 'invalid', 'invalid'))
     end
 
-    it 'should use cache' do
+    it 'uses cache' do
       allow(Rails.cache).to receive(:fetch).and_call_original
       expect(Rails.cache).to receive(:fetch).with(cache_key, expires_in: cache_expiry) \
         .and_return(Marshal.dump(valid_user.id.to_s))
@@ -527,7 +529,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
         allow(Setting).to receive(:repository_authentication_caching_enabled?).and_return(false)
       end
 
-      it 'should not use a cache' do
+      it 'does not use a cache' do
         allow(Rails.cache).to receive(:fetch).and_wrap_original do |m, *args, &block|
           expect(args.first).not_to eq(cache_key)
           m.call(*args, &block)
@@ -544,8 +546,8 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
 
       def request_storage
         get 'update_required_storage', params: { key: apikey,
-                                                 id: id,
-                                                 force: force }
+                                                 id:,
+                                                 force: }
       end
 
       context 'missing project' do
@@ -559,8 +561,9 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       end
 
       context 'available project, but missing repository' do
-        let(:project) { FactoryBot.build_stubbed(:project) }
+        let(:project) { build_stubbed(:project) }
         let(:id) { project.id }
+
         before do
           allow(Project).to receive(:find).and_return(project)
           request_storage
@@ -573,10 +576,10 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       end
 
       context 'stubbed repository' do
-        let(:project) { FactoryBot.build_stubbed(:project) }
+        let(:project) { build_stubbed(:project) }
         let(:id) { project.id }
         let(:repository) do
-          FactoryBot.build_stubbed(:repository_subversion, url: url, root_url: url)
+          build_stubbed(:repository_subversion, url:, root_url: url)
         end
 
         before do
@@ -614,10 +617,10 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
           let(:root_url) { repo_dir }
           let(:url) { "file://#{root_url}" }
 
-          let(:project) { FactoryBot.create(:project) }
+          let(:project) { create(:project) }
           let(:id) { project.id }
           let(:repository) do
-            FactoryBot.create(:repository_subversion, project: project, url: url, root_url: url)
+            create(:repository_subversion, project:, url:, root_url: url)
           end
 
           before do

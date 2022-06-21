@@ -1,13 +1,33 @@
 #!/bin/bash
 
+get_architecture() {	
+	if command -v uname > /dev/null; then
+		ARCHITECTURE=$(uname -m)
+		case $ARCHITECTURE in
+			aarch64|arm64)
+				echo "arm64"				
+				return 0
+				;;
+		esac
+	fi
+
+	echo "x64"
+	return 0
+}
+
 set -e
 set -o pipefail
+ARCHITECTURE=$(get_architecture)
 
 # install node + npm
-curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xzf - -C /usr/local --strip-components=1
+curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCHITECTURE}.tar.gz | tar xzf - -C /usr/local --strip-components=1
 
 wget --quiet -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+
+# sources for dotnet runtime
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/debian/10/prod.list
 
 apt-get update -qq
 apt-get install -y \
@@ -21,17 +41,14 @@ apt-get install -y \
 	postgresql-client-9.6 \
 	postgresql-13 \
 	postgresql-client-13 \
-	imagemagick
+	imagemagick \
+	dotnet-runtime-3.1 # required for BIM edition
 
 # remove any existing cluster
 service postgresql stop
 rm -rf /var/lib/postgresql/{9.6,13}
 
 # Specifics for BIM edition
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-wget -q https://packages.microsoft.com/config/debian/9/prod.list -O /etc/apt/sources.list.d/microsoft-prod.list
-apt-get update -qq
-apt-get install -y dotnet-runtime-3.1
 
 tmpdir=$(mktemp -d)
 cd $tmpdir

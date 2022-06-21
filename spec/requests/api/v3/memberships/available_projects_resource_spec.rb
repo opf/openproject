@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,47 +34,49 @@ describe 'API v3 memberships available projects resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:own_member) do
-    FactoryBot.create(:member,
-                      roles: [FactoryBot.create(:role, permissions: permissions)],
-                      project: project,
-                      user: current_user)
+    create(:member,
+           roles: [create(:role, permissions:)],
+           project:,
+           user: current_user)
   end
   let(:permissions) { %i[view_members manage_members] }
   let(:manage_project) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: permissions)],
-                        project: p,
-                        user: current_user)
+    create(:project).tap do |p|
+      create(:member,
+             roles: [create(:role, permissions:)],
+             project: p,
+             user: current_user)
     end
   end
   let(:membered_project) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: permissions)],
-                        project: p,
-                        user: current_user)
+    create(:project).tap do |p|
+      create(:member,
+             roles: [create(:role, permissions:)],
+             project: p,
+             user: current_user)
 
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: permissions)],
-                        project: p,
-                        user: other_user)
+      create(:member,
+             roles: [create(:role, permissions:)],
+             project: p,
+             user: other_user)
     end
   end
   let(:unauthorized_project) do
-    FactoryBot.create(:public_project)
+    create(:public_project)
   end
 
   subject(:response) { last_response }
 
   describe 'GET api/v3/memberships/available_projects' do
     let(:projects) { [manage_project, unauthorized_project] }
+    let(:path) { api_v3_paths.memberships_available_projects }
+    let(:filter_path) { "#{api_v3_paths.memberships_available_projects}?#{{ filters: filters.to_json }.to_query}" }
 
     before do
       projects
@@ -82,9 +84,6 @@ describe 'API v3 memberships available projects resource', type: :request do
 
       get path
     end
-
-    let(:path) { api_v3_paths.memberships_available_projects }
-    let(:filter_path) { "#{api_v3_paths.memberships_available_projects}?#{{ filters: filters.to_json }.to_query}" }
 
     context 'without params' do
       it 'responds 200 OK' do

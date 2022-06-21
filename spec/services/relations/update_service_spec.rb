@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,20 +38,20 @@ describe Relations::UpdateService do
   let(:delay) { 3 }
 
   let(:work_package1) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
-                             due_date: work_package1_due_date,
-                             start_date: work_package1_start_date)
+    build_stubbed(:work_package,
+                  due_date: work_package1_due_date,
+                  start_date: work_package1_start_date)
   end
   let(:work_package2) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
-                             due_date: work_package2_due_date,
-                             start_date: work_package2_start_date)
+    build_stubbed(:work_package,
+                  due_date: work_package2_due_date,
+                  start_date: work_package2_start_date)
   end
   let(:instance) do
-    described_class.new(user: user, model: relation)
+    described_class.new(user:, model: relation)
   end
   let(:relation) do
-    relation = FactoryBot.build_stubbed(:relation)
+    relation = build_stubbed(:relation)
 
     allow(relation)
       .to receive(:follows?)
@@ -65,18 +63,18 @@ describe Relations::UpdateService do
     {
       to: work_package1,
       from: work_package2,
-      delay: delay
+      delay:
     }
   end
 
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:model_valid) { true }
   let(:contract_valid) { true }
   let(:contract) { double('contract') }
   let(:symbols_for_base) { [] }
 
   subject do
-    instance.call(attributes: attributes)
+    instance.call(attributes:)
   end
 
   before do
@@ -96,10 +94,10 @@ describe Relations::UpdateService do
   context 'when all valid and it is a follows relation' do
     let(:set_schedule_service) { double('set schedule service') }
     let(:set_schedule_work_package2_result) do
-      ServiceResult.new success: true, result: work_package2, errors: work_package2.errors
+      ServiceResult.success result: work_package2, errors: work_package2.errors
     end
     let(:set_schedule_result) do
-      sr = ServiceResult.new success: true, result: work_package2, errors: work_package2.errors
+      sr = ServiceResult.success result: work_package2, errors: work_package2.errors
       sr.dependent_results << set_schedule_work_package2_result
       sr
     end
@@ -109,7 +107,7 @@ describe Relations::UpdateService do
     before do
       expect(WorkPackages::SetScheduleService)
         .to receive(:new)
-        .with(user: user, work_package: work_package1)
+        .with(user:, work_package: work_package1)
         .and_return(set_schedule_service)
 
       expect(set_schedule_service)

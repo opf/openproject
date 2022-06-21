@@ -1,8 +1,6 @@
-# encoding: utf-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +37,7 @@ module OpenProject
       found_version = Gem.loaded_specs[gem].version
       if found_version > Gem::Version.new(version)
         raise "OpenProject expects to patch gem '#{gem}' at version #{version} " \
-              "but found version #{found_version.to_s}. Please check whether the patch is still valid."
+              "but found version #{found_version}. Please check whether the patch is still valid."
       end
 
       block.call

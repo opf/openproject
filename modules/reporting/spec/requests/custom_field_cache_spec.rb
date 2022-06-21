@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,10 +34,10 @@ describe 'Custom field filter and group by caching', type: :request do
   include OpenProject::Reporting::SpecHelper::CustomFieldFilterHelper
   include OpenProject::Reporting::SpecHelper::ConfigurationHelper
 
-  let(:project) { FactoryBot.create(:valid_project) }
-  let(:user) { FactoryBot.create(:admin) }
-  let(:custom_field) { FactoryBot.build(:work_package_custom_field) }
-  let(:custom_field2) { FactoryBot.build(:work_package_custom_field) }
+  let(:project) { create(:valid_project) }
+  let(:user) { create(:admin) }
+  let(:custom_field) { build(:work_package_custom_field) }
+  let(:custom_field2) { build(:work_package_custom_field) }
 
   before do
     allow(User).to receive(:current).and_return(user)

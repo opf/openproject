@@ -1,11 +1,10 @@
 import {
   Component, ElementRef, Input,
 } from '@angular/core';
-import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 export const wpTableEntrySelector = 'wp-embedded-table-entry';
 
-@DatasetInputs
 @Component({
   selector: wpTableEntrySelector,
   template: `
@@ -25,5 +24,6 @@ export class WorkPackageEmbeddedTableEntryComponent {
   @Input() public initialLoadingIndicator = true;
 
   constructor(readonly elementRef:ElementRef) {
+    populateInputsFromDataset(this);
   }
 }

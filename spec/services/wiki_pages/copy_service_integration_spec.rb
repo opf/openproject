@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,36 +30,36 @@ require 'spec_helper'
 
 describe WikiPages::CopyService, 'integration', type: :model do
   let(:user) do
-    FactoryBot.create(:user) do |user|
-      FactoryBot.create(:member,
-                        project: source_project,
-                        principal: user,
-                        roles: [role])
+    create(:user) do |user|
+      create(:member,
+             project: source_project,
+             principal: user,
+             roles: [role])
 
-      FactoryBot.create(:member,
-                        project: sink_project,
-                        principal: user,
-                        roles: [role])
+      create(:member,
+             project: sink_project,
+             principal: user,
+             roles: [role])
     end
   end
 
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: permissions)
+    create(:role,
+           permissions:)
   end
 
   let(:permissions) do
     %i(view_wiki edit_wiki_pages)
   end
-  let(:source_wiki) { FactoryBot.create(:wiki) }
+  let(:source_wiki) { create(:wiki) }
   let(:source_project) { source_wiki.project }
 
-  let(:sink_wiki) { FactoryBot.create(:wiki) }
+  let(:sink_wiki) { create(:wiki) }
   let(:sink_project) { sink_wiki.project }
 
-  let(:wiki_page) { FactoryBot.create(:wiki_page_with_content) }
+  let(:wiki_page) { create(:wiki_page_with_content) }
 
-  let(:instance) { described_class.new(model: wiki_page, user: user) }
+  let(:instance) { described_class.new(model: wiki_page, user:) }
 
   let(:attributes) { {} }
 

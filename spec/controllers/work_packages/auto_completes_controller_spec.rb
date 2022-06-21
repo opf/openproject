@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,34 +29,34 @@
 require 'spec_helper'
 
 describe WorkPackages::AutoCompletesController, type: :controller do
-  let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:user) { create(:user) }
+  let(:project) { create(:project) }
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: [:view_work_packages])
+    create(:role,
+           permissions: [:view_work_packages])
   end
   let(:member) do
-    FactoryBot.create(:member,
-                      project: project,
-                      principal: user,
-                      roles: [role])
+    create(:member,
+           project:,
+           principal: user,
+           roles: [role])
   end
   let(:work_package_1) do
-    FactoryBot.create(:work_package,
-                      subject: "Can't print recipes",
-                      project: project)
+    create(:work_package,
+           subject: "Can't print recipes",
+           project:)
   end
 
   let(:work_package_2) do
-    FactoryBot.create(:work_package,
-                      subject: 'Error when updating a recipe',
-                      project: project)
+    create(:work_package,
+           subject: 'Error when updating a recipe',
+           project:)
   end
 
   let(:work_package_3) do
-    FactoryBot.create(:work_package,
-                      subject: 'Lorem ipsum',
-                      project: project)
+    create(:work_package,
+           subject: 'Lorem ipsum',
+           project:)
   end
 
   before do
@@ -172,9 +172,9 @@ describe WorkPackages::AutoCompletesController, type: :controller do
     describe 'returns work package for given id' do
       render_views
       let(:work_package_4) do
-        FactoryBot.create(:work_package,
-                          subject: "<script>alert('danger!');</script>",
-                          project: project)
+        create(:work_package,
+               subject: "<script>alert('danger!');</script>",
+               project:)
       end
       let(:expected_values) { work_package_4 }
 
@@ -190,26 +190,27 @@ describe WorkPackages::AutoCompletesController, type: :controller do
       it_behaves_like 'successful response'
       it_behaves_like 'contains expected values'
 
-      it 'should escape html' do
+      it 'escapes html' do
         expect(response.body).not_to include '<script>'
       end
     end
 
     describe 'in different projects' do
       let(:project_2) do
-        FactoryBot.create(:project,
-                          parent: project)
+        create(:project,
+               parent: project)
       end
+      let(:expected_values) { work_package_4 }
       let(:member_2) do
-        FactoryBot.create(:member,
-                          project: project_2,
-                          principal: user,
-                          roles: [role])
+        create(:member,
+               project: project_2,
+               principal: user,
+               roles: [role])
       end
       let(:work_package_4) do
-        FactoryBot.create(:work_package,
-                          subject: 'Foo Bar Baz',
-                          project: project_2)
+        create(:work_package,
+               subject: 'Foo Bar Baz',
+               project: project_2)
       end
 
       before do
@@ -224,8 +225,6 @@ describe WorkPackages::AutoCompletesController, type: :controller do
             },
             format: :json
       end
-
-      let(:expected_values) { work_package_4 }
 
       it_behaves_like 'successful response'
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,23 +33,23 @@ describe 'API v3 Category resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { FactoryBot.create(:role, permissions: []) }
-  let(:private_project) { FactoryBot.create(:project, public: false) }
-  let(:public_project) { FactoryBot.create(:project, public: true) }
-  let(:anonymous_user) { FactoryBot.create(:user) }
+  let(:role) { create(:role, permissions: []) }
+  let(:private_project) { create(:project, public: false) }
+  let(:public_project) { create(:project, public: true) }
+  let(:anonymous_user) { create(:user) }
   let(:privileged_user) do
-    FactoryBot.create(:user,
-                      member_in_project: private_project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: private_project,
+           member_through_role: role)
   end
 
-  let!(:categories) { FactoryBot.create_list(:category, 3, project: private_project) }
-  let!(:other_categories) { FactoryBot.create_list(:category, 2, project: public_project) }
+  let!(:categories) { create_list(:category, 3, project: private_project) }
+  let!(:other_categories) { create_list(:category, 2, project: public_project) }
   let!(:user_categories) do
-    FactoryBot.create_list(:category,
-                           2,
-                           project: private_project,
-                           assigned_to: privileged_user)
+    create_list(:category,
+                2,
+                project: private_project,
+                assigned_to: privileged_user)
   end
 
   describe 'categories by project' do
@@ -57,6 +57,7 @@ describe 'API v3 Category resource' do
 
     context 'logged in user' do
       let(:get_path) { api_v3_paths.categories_by_project private_project.id }
+
       before do
         allow(User).to receive(:current).and_return privileged_user
 
@@ -68,6 +69,7 @@ describe 'API v3 Category resource' do
 
     context 'not logged in user' do
       let(:get_path) { api_v3_paths.categories_by_project private_project.id }
+
       before do
         allow(User).to receive(:current).and_return anonymous_user
 
@@ -83,6 +85,7 @@ describe 'API v3 Category resource' do
 
     context 'logged in user' do
       let(:get_path) { api_v3_paths.category categories.first.id }
+
       before do
         allow(User).to receive(:current).and_return privileged_user
 
@@ -90,13 +93,14 @@ describe 'API v3 Category resource' do
       end
 
       context 'valid priority id' do
-        it 'should return HTTP 200' do
-          expect(response.status).to eql(200)
+        it 'returns HTTP 200' do
+          expect(response.status).to be(200)
         end
       end
 
       context 'invalid priority id' do
         let(:get_path) { api_v3_paths.category 'bogus' }
+
         it_behaves_like 'param validation error' do
           let(:id) { 'bogus' }
           let(:type) { 'Category' }
@@ -106,6 +110,7 @@ describe 'API v3 Category resource' do
 
     context 'not logged in user' do
       let(:get_path) { api_v3_paths.category 'bogus' }
+
       before do
         allow(User).to receive(:current).and_return anonymous_user
 

@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'support/pages/custom_fields'
 
 describe 'custom fields', js: true do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
   let(:cf_page) { Pages::CustomFields.new }
 
   before do
@@ -69,7 +69,7 @@ describe 'custom fields', js: true do
 
   context "with an existing list custom field" do
     let!(:custom_field) do
-      FactoryBot.create(
+      create(
         :list_wp_custom_field,
         name: "Platform",
         possible_values: ["Playstation", "Xbox", "Nintendo", "PC"]
@@ -149,10 +149,10 @@ describe 'custom fields', js: true do
 
     context "with work packages using the options" do
       before do
-        FactoryBot.create_list(
+        create_list(
           :work_package_custom_value,
           3,
-          custom_field: custom_field,
+          custom_field:,
           value: custom_field.custom_options[1].id
         )
       end
@@ -168,7 +168,7 @@ describe 'custom fields', js: true do
 
         rows = all(".custom-option-value input")
 
-        expect(rows.size).to eql(3)
+        expect(rows.size).to be(3)
 
         expect(rows[0].value).to eql("Playstation")
         expect(rows[1].value).to eql("Nintendo")

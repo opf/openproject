@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,19 +32,19 @@ require_relative './support/board_page'
 
 describe 'Work Package boards spec', type: :feature, js: true do
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
   # The identifier is important to test https://community.openproject.com/wp/29754
-  let(:project) { FactoryBot.create(:project, identifier: 'boards', enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:project) { create(:project, identifier: 'boards', enabled_module_names: %i[work_package_tracking board_view]) }
   let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:admin) { FactoryBot.create :admin }
-  let!(:priority) { FactoryBot.create :default_priority }
-  let!(:status) { FactoryBot.create :default_status }
+  let(:role) { create(:role, permissions:) }
+  let(:admin) { create :admin }
+  let!(:priority) { create :default_priority }
+  let!(:status) { create :default_status }
   let(:board_index) { Pages::BoardIndex.new(project) }
-  let!(:board_view) { FactoryBot.create :board_grid_with_query, name: 'My board', project: project }
+  let!(:board_view) { create :board_grid_with_query, name: 'My board', project: }
   let(:project_html_title) { ::Components::HtmlTitle.new project }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
 
@@ -52,6 +52,12 @@ describe 'Work Package boards spec', type: :feature, js: true do
     with_enterprise_token :board_view
     project
     login_as(user)
+  end
+
+  before do
+    with_enterprise_token :board_view
+    project
+    login_as(admin)
   end
 
   it 'navigates from boards to the WP full view and back' do
@@ -102,7 +108,7 @@ describe 'Work Package boards spec', type: :feature, js: true do
     item = page.find('#menu-sidebar li[data-name="board_view"]', wait: 10)
     item.find('.toggler').click
 
-    subitem = page.find('.main-menu--children-sub-item', text: 'My board', wait: 10)
+    subitem = page.find('[data-qa-selector="op-sidemenu--item-action--Myboard"]', wait: 10)
     # Ends with boards due to lazy route
     expect(subitem[:href]).to end_with "/projects/#{project.identifier}/boards"
 
@@ -140,12 +146,6 @@ describe 'Work Package boards spec', type: :feature, js: true do
 
     expect(page).to have_current_path /details\/#{wp.id}\/relations/
     split_view.expect_tab 'Relations'
-  end
-
-  before do
-    with_enterprise_token :board_view
-    project
-    login_as(admin)
   end
 
   it 'navigates to boards after deleting WP(see #33756)' do

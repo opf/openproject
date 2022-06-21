@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe Wiki, type: :model do
-  let(:project) { FactoryBot.create(:project, disable_modules: 'wiki') }
+  let(:project) { create(:project, disable_modules: 'wiki') }
   let(:start_page) { 'The wiki start page' }
-  let(:wiki) { project.create_wiki start_page: start_page }
+  let(:wiki) { project.create_wiki start_page: }
 
   describe 'creation' do
     it_behaves_like 'acts_as_watchable included' do
-      let(:model_instance) { FactoryBot.create(:wiki) }
+      let(:model_instance) { create(:wiki) }
       let(:watch_permission) { :view_wiki_pages }
       let(:project) { model_instance.project }
     end
@@ -69,7 +69,7 @@ describe Wiki, type: :model do
 
   describe '#slug' do
     context 'with an umlaut' do
-      let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki, title: 'Übersicht') }
+      let(:wiki_page) { create(:wiki_page, wiki:, title: 'Übersicht') }
 
       it 'normalizes' do
         expect(wiki_page.slug).to eq 'ubersicht'
@@ -79,7 +79,7 @@ describe Wiki, type: :model do
 
   describe '#find_page' do
     let(:title) { 'Übersicht' }
-    let!(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki, title: title) }
+    let!(:wiki_page) { create(:wiki_page, wiki:, title:) }
     let(:search_string) { 'Übersicht' }
 
     subject { wiki.find_page(search_string) }

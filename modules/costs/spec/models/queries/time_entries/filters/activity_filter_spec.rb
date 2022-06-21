@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +29,8 @@
 require 'spec_helper'
 
 describe Queries::TimeEntries::Filters::ActivityFilter, type: :model do
-  let(:time_entry_activity1) { FactoryBot.build_stubbed(:time_entry_activity) }
-  let(:time_entry_activity2) { FactoryBot.build_stubbed(:time_entry_activity) }
+  let(:time_entry_activity1) { build_stubbed(:time_entry_activity) }
+  let(:time_entry_activity2) { build_stubbed(:time_entry_activity) }
   let(:activities) { [time_entry_activity1, time_entry_activity2] }
   let(:plucked_allowed_values) do
     activities.map { |x| [x.name, x.id] }
@@ -40,7 +38,7 @@ describe Queries::TimeEntries::Filters::ActivityFilter, type: :model do
 
   before do
     allow(::TimeEntryActivity)
-      .to receive_message_chain(:shared)
+      .to receive(:shared)
       .and_return(activities)
 
     allow(::TimeEntryActivity)

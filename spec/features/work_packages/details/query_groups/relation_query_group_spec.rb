@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,30 +31,29 @@ require 'spec_helper'
 describe 'Work package with relation query group', js: true, selenium: true do
   include_context 'ng-select-autocomplete helpers'
 
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project, types: [type] }
+  let(:user) { create :admin }
+  let(:project) { create :project, types: [type] }
   let(:relation_type) { :parent }
   let(:relation_target) { work_package }
-  let(:new_relation) do
-    rel = Hash.new
-    rel[relation_type] = relation_target
-    rel
-  end
   let(:type) do
-    FactoryBot.create :type_with_relation_query_group,
-                      relation_filter: relation_type
+    create :type_with_relation_query_group,
+           relation_filter: relation_type
   end
   let!(:work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type
+    create :work_package,
+           project:,
+           type:
   end
   let!(:related_work_package) do
-    FactoryBot.create :work_package,
-                      new_relation.merge(
-                        project: project,
-                        type: type
-                      )
+    create(:work_package,
+           project:,
+           type:).tap do |wp|
+      if relation_type == :parent
+        wp.update(parent: relation_target)
+      else
+        create(:follows_relation, from: wp, to: relation_target)
+      end
+    end
   end
 
   let(:work_packages_page) { ::Pages::SplitWorkPackage.new(work_package) }
@@ -108,20 +107,21 @@ describe 'Work package with relation query group', js: true, selenium: true do
     end
   end
 
-  describe 'follower table with project filters', clear_cache: true do
+  describe 'follower table with project filters' do
     let(:visit) { false }
-    let!(:project2) { FactoryBot.create(:project, types: [type]) }
-    let!(:project3) { FactoryBot.create(:project, types: [type]) }
+    let!(:project2) { create(:project, types: [type]) }
+    let!(:project3) { create(:project, types: [type]) }
     let(:relation_type) { :follows }
     let!(:related_work_package) do
-      FactoryBot.create :work_package,
-                        project: project2,
-                        type: type,
-                        follows: [work_package]
+      create(:work_package,
+             project: project2,
+             type:).tap do |wp|
+        create(:follows_relation, from: wp, to: work_package)
+      end
     end
 
     let(:type) do
-      FactoryBot.create :type_with_relation_query_group, relation_filter: relation_type
+      create :type_with_relation_query_group, relation_filter: relation_type
     end
     let(:query_text) { 'Embedded Table for follows'.upcase }
 
@@ -134,15 +134,15 @@ describe 'Work package with relation query group', js: true, selenium: true do
     end
 
     context 'with a user who has permission in one project' do
-      let(:role) { FactoryBot.create(:role, permissions: permissions) }
+      let(:role) { create(:role, permissions:) }
       let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_work_package_relations] }
       let(:user) do
-        FactoryBot.create(:user,
-                          member_in_project: project,
-                          member_through_role: role)
+        create(:user,
+               member_in_project: project,
+               member_through_role: role)
       end
       let!(:project2_member) do
-        member = FactoryBot.build(:member, user: user, project: project2)
+        member = build(:member, user:, project: project2)
         member.roles = [role]
         member.save!
       end
@@ -165,12 +165,12 @@ describe 'Work package with relation query group', js: true, selenium: true do
     end
 
     context 'with a user who has no permission in any project' do
-      let(:role) { FactoryBot.create(:role, permissions: permissions) }
+      let(:role) { create(:role, permissions:) }
       let(:permissions) { [:view_work_packages] }
       let(:user) do
-        FactoryBot.create(:user,
-                          member_in_project: project,
-                          member_through_role: role)
+        create(:user,
+               member_in_project: project,
+               member_through_role: role)
       end
 
       it 'hides that group automatically without showing an error' do
@@ -186,10 +186,10 @@ describe 'Work package with relation query group', js: true, selenium: true do
 
   context 'follower table' do
     let(:relation_type) { :follows }
-    let(:relation_target) { [work_package] }
+    let(:relation_target) { work_package }
     let!(:independent_work_package) do
-      FactoryBot.create :work_package,
-                        project: project
+      create :work_package,
+             project:
     end
 
     before do
@@ -211,7 +211,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
 
     it 'add existing, remove it, add it from relations tab, remove from relations tab' do
       embedded_table.table_container.find('button', text: I18n.t('js.relation_buttons.add_existing')).click
-      container = embedded_table.table_container.find('.wp-relations-create--form', wait: 10)
+      embedded_table.table_container.find('.wp-relations-create--form', wait: 10)
       autocomplete = page.find("[data-qa-selector='wp-relations-autocomplete']")
       select_autocomplete autocomplete,
                           results_selector: '.ng-dropdown-panel-items',

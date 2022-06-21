@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'repositories/stats', type: :view do
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
   before do
     assign(:project, project)
@@ -41,7 +41,7 @@ describe 'repositories/stats', type: :view do
       render
     end
 
-    it 'should embed the commits per author graph' do
+    it 'embeds the commits per author graph' do
       expect(rendered).to include('commits_per_author')
     end
   end
@@ -52,7 +52,7 @@ describe 'repositories/stats', type: :view do
       render
     end
 
-    it 'should NOT embed the commits per author graph' do
+    it 'does not embed the commits per author graph' do
       expect(rendered).not_to include('commits_per_author')
     end
   end

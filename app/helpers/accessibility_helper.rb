@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +59,7 @@ module AccessibilityHelper
   private
 
   def locale_exists?(key, locale = I18n.locale)
-    I18n.t(key, locale: locale, raise: true)
+    I18n.t(key, locale:, raise: true)
   rescue StandardError
     false
   end

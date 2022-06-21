@@ -15,29 +15,25 @@ module Overviews
     end
 
     initializer 'overviews.permissions' do
-      OpenProject::AccessControl.permission(:view_project)
-        .controller_actions
-        .push('overviews/overviews/show')
+      Rails.application.reloader.to_prepare do
+        OpenProject::AccessControl.permission(:view_project)
+          .controller_actions
+          .push('overviews/overviews/show')
 
-      OpenProject::AccessControl.map do |ac_map|
-        ac_map.project_module nil do |map|
-          map.permission :manage_overview,
-                         'overviews/overviews': ['show'],
-                         public: true
+        OpenProject::AccessControl.map do |ac_map|
+          ac_map.project_module nil do |map|
+            map.permission :manage_overview,
+                           { 'overviews/overviews': ['show'] },
+                           require: :member
+          end
         end
       end
     end
 
-    initializer 'overviews.patches' do
-      unless ::OpenProject::TextFormatting::Formats::Markdown::TextileConverter
-               .included_modules
-               .include?(Overviews::Patches::TextileConverterPatch)
-        ::OpenProject::TextFormatting::Formats::Markdown::TextileConverter.include(Overviews::Patches::TextileConverterPatch)
-      end
-    end
+    patch_with_namespace :OpenProject, :TextFormatting, :Formats, :Markdown, :TextileConverter
 
     initializer 'overviews.conversion' do
-      require Rails.root.join('config', 'constants', 'ar_to_api_conversions')
+      require Rails.root.join('config/constants/ar_to_api_conversions')
 
       Constants::ARToAPIConversions.add('grids/overview': 'grid')
     end

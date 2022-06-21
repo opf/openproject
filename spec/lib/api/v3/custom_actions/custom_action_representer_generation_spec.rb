@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +31,8 @@ require 'spec_helper'
 describe ::API::V3::CustomActions::CustomActionRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:custom_action) { FactoryBot.build_stubbed(:custom_action) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:custom_action) { build_stubbed(:custom_action) }
+  let(:user) { build_stubbed(:user) }
 
   let(:representer) do
     described_class.new(custom_action, current_user: user, embed_links: true)
@@ -42,19 +42,19 @@ describe ::API::V3::CustomActions::CustomActionRepresenter do
 
   context 'properties' do
     it 'has a _type property' do
-      is_expected
+      expect(subject)
         .to be_json_eql('CustomAction'.to_json)
         .at_path('_type')
     end
 
     it 'has a name property' do
-      is_expected
+      expect(subject)
         .to be_json_eql(custom_action.name.to_json)
         .at_path('name')
     end
 
     it 'has a description property' do
-      is_expected
+      expect(subject)
         .to be_json_eql(custom_action.description.to_json)
         .at_path('description')
     end

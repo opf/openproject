@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'Meetings locking', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %w[meetings] }
-  let(:user) { FactoryBot.create :admin }
-  let!(:meeting) { FactoryBot.create :meeting }
-  let!(:agenda) { FactoryBot.create :meeting_agenda, meeting: meeting }
+  let(:project) { create :project, enabled_module_names: %w[meetings] }
+  let(:user) { create :admin }
+  let!(:meeting) { create :meeting }
+  let!(:agenda) { create :meeting_agenda, meeting: }
 
   before do
     login_as(user)

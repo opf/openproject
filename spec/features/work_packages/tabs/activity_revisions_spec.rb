@@ -8,16 +8,16 @@ describe 'Activity tab', js: true, selenium: true do
     work_package.update(attributes.merge(updated_at: at))
 
     note_journal = work_package.journals.last
-    note_journal.update(created_at: at, user: user)
+    note_journal.update(created_at: at, user:)
   end
 
-  let(:project) { FactoryBot.create :project_with_types, public: true }
+  let(:project) { create :project_with_types, public: true }
   let!(:work_package) do
-    work_package = FactoryBot.create(:work_package,
-                                     project: project,
-                                     created_at: 5.days.ago.to_date.to_s(:db),
-                                     subject: initial_subject,
-                                     journal_notes: initial_comment)
+    work_package = create(:work_package,
+                          project:,
+                          created_at: 5.days.ago.to_date.to_fs(:db),
+                          subject: initial_subject,
+                          journal_notes: initial_comment)
 
     note_journal = work_package.journals.last
     note_journal.update(created_at: 5.days.ago.to_date.to_s)
@@ -38,9 +38,9 @@ describe 'Activity tab', js: true, selenium: true do
     attributes = { subject: 'New subject', description: 'Some not so long description.' }
 
     alter_work_package_at(work_package,
-                          attributes: attributes,
-                          at: 3.days.ago.to_date.to_s(:db),
-                          user: user)
+                          attributes:,
+                          at: 3.days.ago.to_date.to_fs(:db),
+                          user:)
 
     work_package.journals.last
   end
@@ -49,26 +49,26 @@ describe 'Activity tab', js: true, selenium: true do
     attributes = { journal_notes: 'Another comment by a different user' }
 
     alter_work_package_at(work_package,
-                          attributes: attributes,
-                          at: 1.days.ago.to_date.to_s(:db),
-                          user: FactoryBot.create(:admin))
+                          attributes:,
+                          at: 1.day.ago.to_date.to_fs(:db),
+                          user: create(:admin))
 
     work_package.journals.last
   end
 
   let!(:revision) do
-    repo = FactoryBot.build(:repository_subversion,
-                            project: project)
+    repo = build(:repository_subversion,
+                 project:)
 
     Setting.enabled_scm = Setting.enabled_scm << repo.vendor
 
     repo.save!
 
-    changeset = FactoryBot.build(:changeset,
-                                 comments: 'A comment on a changeset',
-                                 committed_on: 2.days.ago.to_date.to_s(:db),
-                                 repository: repo,
-                                 committer: 'cool@person.org')
+    changeset = build(:changeset,
+                      comments: 'A comment on a changeset',
+                      committed_on: 2.days.ago.to_date.to_fs(:db),
+                      repository: repo,
+                      committer: 'cool@person.org')
 
     work_package.changesets << changeset
 
@@ -134,14 +134,14 @@ describe 'Activity tab', js: true, selenium: true do
 
     context 'with permission' do
       let(:role) do
-        FactoryBot.create(:role, permissions: %i[view_work_packages
-                                                 view_changesets
-                                                 add_work_package_notes])
+        create(:role, permissions: %i[view_work_packages
+                                      view_changesets
+                                      add_work_package_notes])
       end
       let(:user) do
-        FactoryBot.create(:user,
-                          member_in_project: project,
-                          member_through_role: role)
+        create(:user,
+               member_in_project: project,
+               member_through_role: role)
       end
       let(:activities) do
         [initial_note, note_1, revision, note_2]
@@ -149,11 +149,13 @@ describe 'Activity tab', js: true, selenium: true do
 
       context 'with ascending comments' do
         let(:comments_in_reverse) { false }
+
         it_behaves_like 'shows activities in order'
       end
 
       context 'with reversed comments' do
         let(:comments_in_reverse) { true }
+
         it_behaves_like 'shows activities in order'
       end
 
@@ -213,12 +215,12 @@ describe 'Activity tab', js: true, selenium: true do
 
     context 'with no permission' do
       let(:role) do
-        FactoryBot.create(:role, permissions: [:view_work_packages])
+        create(:role, permissions: [:view_work_packages])
       end
       let(:user) do
-        FactoryBot.create(:user,
-                          member_in_project: project,
-                          member_through_role: role)
+        create(:user,
+               member_in_project: project,
+               member_through_role: role)
       end
       let(:activities) do
         [initial_note, note_1, note_2]
@@ -226,6 +228,7 @@ describe 'Activity tab', js: true, selenium: true do
 
       context 'with ascending comments' do
         let(:comments_in_reverse) { false }
+
         it_behaves_like 'shows activities in order'
       end
 
@@ -237,11 +240,13 @@ describe 'Activity tab', js: true, selenium: true do
 
   context 'split screen' do
     let(:work_package_page) { Pages::SplitWorkPackage.new(work_package, project) }
+
     it_behaves_like 'activity tab'
   end
 
   context 'full screen' do
     let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
+
     it_behaves_like 'activity tab'
   end
 end

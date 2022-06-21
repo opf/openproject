@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,31 +29,31 @@
 require 'spec_helper'
 
 describe Principals::Scopes::PossibleAssignee, type: :model do
-  let(:project) { FactoryBot.create(:project) }
-  let(:other_project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
+  let(:other_project) { create(:project) }
   let(:role_assignable) { true }
-  let(:role) { FactoryBot.create(:role, assignable: role_assignable) }
+  let(:role) { create(:role, permissions: (role_assignable ? [:work_package_assigned] : [])) }
   let(:user_status) { :active }
   let!(:member_user) do
-    FactoryBot.create(:user,
-                      status: user_status,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           status: user_status,
+           member_in_project: project,
+           member_through_role: role)
   end
   let!(:member_placeholder_user) do
-    FactoryBot.create(:placeholder_user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:placeholder_user,
+           member_in_project: project,
+           member_through_role: role)
   end
   let!(:member_group) do
-    FactoryBot.create(:group,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:group,
+           member_in_project: project,
+           member_through_role: role)
   end
   let!(:other_project_member_user) do
-    FactoryBot.create(:group,
-                      member_in_project: other_project,
-                      member_through_role: role)
+    create(:group,
+           member_in_project: other_project,
+           member_through_role: role)
   end
 
   describe '.possible_assignee' do
@@ -64,7 +62,7 @@ describe Principals::Scopes::PossibleAssignee, type: :model do
     context 'with the role being assignable' do
       context 'with the user status being active' do
         it 'returns non locked users, groups and placeholder users that are members' do
-          is_expected
+          expect(subject)
             .to match_array([member_user,
                              member_placeholder_user,
                              member_group])
@@ -75,7 +73,7 @@ describe Principals::Scopes::PossibleAssignee, type: :model do
         let(:user_status) { :registered }
 
         it 'returns non locked users, groups and placeholder users that are members' do
-          is_expected
+          expect(subject)
             .to match_array([member_user,
                              member_placeholder_user,
                              member_group])
@@ -86,7 +84,7 @@ describe Principals::Scopes::PossibleAssignee, type: :model do
         let(:user_status) { :invited }
 
         it 'returns non locked users, groups and placeholder users that are members' do
-          is_expected
+          expect(subject)
             .to match_array([member_user,
                              member_placeholder_user,
                              member_group])
@@ -97,7 +95,7 @@ describe Principals::Scopes::PossibleAssignee, type: :model do
         let(:user_status) { :locked }
 
         it 'returns non locked users, groups and placeholder users that are members' do
-          is_expected
+          expect(subject)
             .to match_array([member_placeholder_user,
                              member_group])
         end
@@ -108,7 +106,7 @@ describe Principals::Scopes::PossibleAssignee, type: :model do
       let(:role_assignable) { false }
 
       it 'returns nothing' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end

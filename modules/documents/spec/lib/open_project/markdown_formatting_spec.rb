@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,11 +39,11 @@ describe OpenProject::TextFormatting,
   end
 
   shared_let(:project) do
-    FactoryBot.create :project, enabled_module_names: %w[documents]
+    create :project, enabled_module_names: %w[documents]
   end
 
   shared_let(:document) do
-    FactoryBot.create :document, project: project, title: 'My document'
+    create :document, project:, title: 'My document'
   end
 
   subject do
@@ -63,8 +63,8 @@ describe OpenProject::TextFormatting,
   end
 
   context 'when visible' do
-    let(:role) { FactoryBot.create :role, permissions: %i[view_documents view_project] }
-    let(:user) { FactoryBot.create :user, member_in_project: project, member_through_role: role }
+    let(:role) { create :role, permissions: %i[view_documents view_project] }
+    let(:user) { create :user, member_in_project: project, member_through_role: role }
 
     let(:expected) do
       <<~HTML
@@ -88,7 +88,7 @@ describe OpenProject::TextFormatting,
   end
 
   context 'when not visible' do
-    let(:user) { FactoryBot.create :user }
+    let(:user) { create :user }
 
     let(:expected) do
       <<~HTML

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Rate, type: :model do
-  let(:rate) { FactoryBot.build(:rate) }
+  let(:rate) { build(:rate) }
 
   describe '#valid?' do
     describe 'WHEN no rate is supplied' do
@@ -37,7 +37,7 @@ describe Rate, type: :model do
         rate.rate = nil
       end
 
-      it 'should not be valid' do
+      it 'is not valid' do
         expect(rate).not_to be_valid
         expect(rate.errors[:rate]).to eq([I18n.t('activerecord.errors.messages.not_a_number')])
       end
@@ -48,7 +48,7 @@ describe Rate, type: :model do
         rate.rate = 'test'
       end
 
-      it 'should not be valid' do
+      it 'is not valid' do
         expect(rate).not_to be_valid
         expect(rate.errors[:rate]).to eq([I18n.t('activerecord.errors.messages.not_a_number')])
       end
@@ -83,7 +83,7 @@ describe Rate, type: :model do
         rate.valid_from = '2012-02-30'
       end
 
-      it 'should not be valid' do
+      it 'is not valid' do
         expect(rate).not_to be_valid
         expect(rate.errors[:valid_from]).to eq([I18n.t('activerecord.errors.messages.not_a_date')])
       end
@@ -94,7 +94,7 @@ describe Rate, type: :model do
         rate.valid_from = nil
       end
 
-      it 'should not be valid' do
+      it 'is not valid' do
         expect(rate).not_to be_valid
         expect(rate.errors[:valid_from]).to eq([I18n.t('activerecord.errors.messages.not_a_date')])
       end

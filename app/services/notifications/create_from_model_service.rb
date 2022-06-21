@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,10 +60,10 @@ class Notifications::CreateFromModelService
 
   def create_notification(recipient_id, reasons)
     notification_attributes = {
-      recipient_id: recipient_id,
-      project: project,
-      resource: resource,
-      journal: journal,
+      recipient_id:,
+      project:,
+      resource:,
+      journal:,
       actor: user_with_fallback,
       reason: reasons.first,
       read_ian: strategy.supports_ian? ? false : nil,

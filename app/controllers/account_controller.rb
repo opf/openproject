@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -80,7 +78,7 @@ class AccountController < ApplicationController
 
       @user = @token.user
       if request.post?
-        call = ::Users::ChangePasswordService.new(current_user: @user, session: session).call(params)
+        call = ::Users::ChangePasswordService.new(current_user: @user, session:).call(params)
         call.apply_flash_message!(flash) if call.errors.empty?
 
         if call.success?
@@ -181,7 +179,7 @@ class AccountController < ApplicationController
   end
 
   def send_activation_email!(user)
-    new_token = Token::Invitation.create!(user: user)
+    new_token = Token::Invitation.create!(user:)
     UserMailer.user_signed_up(new_token).deliver_later
   end
 
@@ -190,15 +188,7 @@ class AccountController < ApplicationController
 
     user = token.user
 
-    if not user.registered?
-      if user.active?
-        flash[:notice] = I18n.t(:notice_account_already_activated)
-      else
-        flash[:error] = I18n.t(:notice_activation_failed)
-      end
-
-      redirect_to home_url
-    else
+    if user.registered?
       user.activate
 
       if user.save
@@ -209,6 +199,14 @@ class AccountController < ApplicationController
       end
 
       redirect_to signin_path
+    else
+      if user.active?
+        flash[:notice] = I18n.t(:notice_account_already_activated)
+      else
+        flash[:error] = I18n.t(:notice_activation_failed)
+      end
+
+      redirect_to home_url
     end
   end
 
@@ -259,7 +257,7 @@ class AccountController < ApplicationController
     # Retrieve user_id from session
     @user = User.find(params[:password_change_user_id])
 
-    change_password_flow(user: @user, params: params, show_user_name: true) do
+    change_password_flow(user: @user, params:, show_user_name: true) do
       password_authentication(@user.login, params[:new_password])
     end
   rescue ActiveRecord::RecordNotFound
@@ -269,7 +267,8 @@ class AccountController < ApplicationController
 
   def auth_source_sso_failed
     failure = session.delete :auth_source_sso_failure
-    user = failure[:user]
+    login = failure[:login]
+    user = find_or_create_sso_user(login, save: false)
 
     if user.try(:new_record?)
       return onthefly_creation_failed user, login: user.login, auth_source_id: user.auth_source_id
@@ -391,7 +390,7 @@ class AccountController < ApplicationController
       error = !user.anonymous? || flash[:error]
       instructions = error ? :after_error : :after_registration
 
-      render :exit, locals: { instructions: instructions }
+      render :exit, locals: { instructions: }
     end
   end
 
@@ -440,7 +439,7 @@ class AccountController < ApplicationController
 
   def login_user_if_active(user, just_registered:)
     if user.active?
-      successful_authentication(user, just_registered: just_registered)
+      successful_authentication(user, just_registered:)
       return
     end
 
@@ -476,15 +475,15 @@ class AccountController < ApplicationController
   # Call if an account is inactive - either registered or locked
   def account_inactive(user, flash_now: true)
     if user.registered?
-      account_not_activated(flash_now: flash_now)
+      account_not_activated(flash_now:)
     else
-      flash_and_log_invalid_credentials(flash_now: flash_now)
+      flash_and_log_invalid_credentials(flash_now:)
     end
   end
 
   # Log an attempt to log in to an account in "registered" state and show a flash message.
   def account_not_activated(flash_now: true)
-    flash_error_message(log_reason: 'NOT ACTIVATED', flash_now: flash_now) do
+    flash_error_message(log_reason: 'NOT ACTIVATED', flash_now:) do
       if Setting::SelfRegistration.by_email?
         'account.error_inactive_activation_by_mail'
       else
@@ -511,7 +510,7 @@ class AccountController < ApplicationController
     # Changing this to not use api_request? to determine whether a request is an API
     # request can have security implications regarding CSRF. See handle_unverified_request
     # for more information.
-    head 410 if api_request?
+    head :gone if api_request?
   end
 
   def invalid_token_and_redirect

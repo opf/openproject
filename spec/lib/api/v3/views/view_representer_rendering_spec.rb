@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,9 +33,9 @@ describe ::API::V3::Views::ViewRepresenter, 'rendering' do
 
   subject(:generated) { representer.to_json }
 
-  let(:query) { FactoryBot.build_stubbed(:query, public: query_public, starred: query_starred) }
-  let(:view) { FactoryBot.build_stubbed(:view_work_packages_table, query: query) }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:query) { build_stubbed(:query, public: query_public, starred: query_starred) }
+  let(:view) { build_stubbed(:view_work_packages_table, query:) }
+  let(:current_user) { build_stubbed(:user) }
   let(:query_public) { true }
   let(:query_starred) { true }
 
@@ -43,8 +43,8 @@ describe ::API::V3::Views::ViewRepresenter, 'rendering' do
 
   let(:representer) do
     described_class.create view,
-                           current_user: current_user,
-                           embed_links: embed_links
+                           current_user:,
+                           embed_links:
   end
 
   describe 'properties' do

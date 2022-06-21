@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe Status, type: :model do
-  let(:stubbed_status) { FactoryBot.build_stubbed(:status) }
+  let(:stubbed_status) { build_stubbed(:status) }
 
   describe 'default status' do
     context 'when default exists' do
-      let!(:status) { FactoryBot.create(:default_status) }
+      let!(:status) { create(:default_status) }
 
       it 'returns that one' do
         expect(described_class.default).to eq(status)
@@ -42,12 +42,12 @@ describe Status, type: :model do
 
       it 'can not be set read only (Regression #33750)', with_ee: %i[readonly_work_packages] do
         status.is_readonly = true
-        expect(status.save).to eq false
+        expect(status.save).to be false
         expect(status.errors[:is_readonly]).to include(I18n.t("activerecord.errors.models.status.readonly_default_exlusive"))
       end
 
       it 'is removed from the existing default status upon creation of a new one' do
-        new_default = FactoryBot.create(:status)
+        new_default = create(:status)
         new_default.is_default = true
         new_default.save
 
@@ -65,7 +65,7 @@ describe Status, type: :model do
   end
 
   describe '#is_readonly' do
-    let!(:status) { FactoryBot.build(:status, is_readonly: true) }
+    let!(:status) { build(:status, is_readonly: true) }
 
     context 'when EE enabled', with_ee: %i[readonly_work_packages] do
       it 'is still marked read only' do
@@ -98,8 +98,8 @@ describe Status, type: :model do
   end
 
   describe '.update_done_ratios' do
-    let(:status) { FactoryBot.create(:status, default_done_ratio: 50) }
-    let(:work_package) { FactoryBot.create(:work_package, status: status) }
+    let(:status) { create(:status, default_done_ratio: 50) }
+    let(:work_package) { create(:work_package, status:) }
 
     context 'with Setting.work_package_done_ratio using the field', with_settings: { work_package_done_ratio: 'field' } do
       it 'changes nothing' do
@@ -123,14 +123,14 @@ describe Status, type: :model do
 
   describe '#destroy' do
     it 'cannot be destroyed if the status is in use' do
-      work_package = FactoryBot.create(:work_package)
+      work_package = create(:work_package)
 
       expect { work_package.status.destroy }
         .to raise_error(RuntimeError, "Can't delete status")
     end
 
     it 'cleans up the workflows' do
-      workflow = FactoryBot.create(:workflow)
+      workflow = create(:workflow)
 
       expect { workflow.old_status.destroy }
         .to change { Workflow.exists?(id: workflow.id) }

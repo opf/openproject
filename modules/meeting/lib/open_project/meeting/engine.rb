@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -80,12 +80,10 @@ module OpenProject::Meeting
       mount ::API::V3::Meetings::MeetingContentsAPI
     end
 
-    initializer 'meeting.register_latest_project_activity' do
-      Project.register_latest_project_activity on: 'Meeting',
-                                               attribute: :updated_at
-    end
-
     config.to_prepare do
+      OpenProject::ProjectActivity.register on: 'Meeting',
+                                            attribute: :updated_at
+
       PermittedParams.permit(:search, :meetings)
     end
 

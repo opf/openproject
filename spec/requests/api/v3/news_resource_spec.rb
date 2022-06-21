@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,23 +34,23 @@ describe 'API v3 news resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
   let(:news) do
-    FactoryBot.create(:news, project: project, author: current_user)
+    create(:news, project:, author: current_user)
   end
   let(:other_news) do
-    FactoryBot.create(:news, project: project, author: other_user)
+    create(:news, project:, author: other_user)
   end
   let(:other_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
   let(:invisible_news) do
-    FactoryBot.create(:news, project: other_project, author: other_user)
+    create(:news, project: other_project, author: other_user)
   end
-  let(:project) { FactoryBot.create(:project) }
-  let(:other_project) { FactoryBot.create(:project) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:project) { create(:project) }
+  let(:other_project) { create(:project) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i(view_news) }
 
   subject(:response) { last_response }
@@ -131,7 +131,7 @@ describe 'API v3 news resource', type: :request do
 
     it 'returns 200 OK' do
       expect(subject.status)
-        .to eql(200)
+        .to be(200)
     end
 
     it 'returns the news' do
@@ -149,7 +149,7 @@ describe 'API v3 news resource', type: :request do
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
   end

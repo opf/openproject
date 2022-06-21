@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -59,18 +59,11 @@ export class EmptyStateComponent {
     no_selection: this.I18n.t('js.notifications.center.empty_state.no_selection'),
   };
 
-  private hasNotifications$ = this.storeService.query.hasNotifications$;
+  hasNotifications$ = this.storeService.hasNotifications$;
 
-  private totalCount$ = this.bellService.unread$;
+  totalCount$ = this.bellService.unread$;
 
-  dataChanged$ = combineLatest([
-    this.hasNotifications$,
-    this.totalCount$,
-  ])
-    .pipe(
-      distinctUntilChanged(),
-      debounceTime(350),
-    );
+  loading$ = this.storeService.query.selectLoading();
 
   constructor(
     readonly I18n:I18nService,

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
+require_relative '../spec_helper'
 
 describe 'hourly rates on user edit', type: :feature, js: true do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
   def view_rates
     visit edit_user_path(user, tab: 'rates')
   end
 
   before do
-    allow(User).to receive(:current).and_return user
+    login_as user
   end
 
   context 'with no rates' do
@@ -50,7 +50,7 @@ describe 'hourly rates on user edit', type: :feature, js: true do
   end
 
   context 'with rates' do
-    let!(:rate) { FactoryBot.create(:default_hourly_rate, user: user) }
+    let!(:rate) { create(:default_hourly_rate, user:) }
 
     before do
       view_rates
@@ -62,10 +62,10 @@ describe 'hourly rates on user edit', type: :feature, js: true do
 
     describe 'deleting all rates' do
       before do
-        click_link 'Update'         # go to update view for rates
+        click_link 'Update' # go to update view for rates
         SeleniumHubWaiter.wait
-        find('.icon-delete').click  # delete last existing rate
-        click_on 'Save'             # save change
+        find('.icon-delete').click # delete last existing rate
+        click_on 'Save' # save change
       end
 
       # regression test: clicking save used to result in a error
@@ -75,6 +75,30 @@ describe 'hourly rates on user edit', type: :feature, js: true do
 
         expect(page).to have_no_text 'Current rate'
       end
+    end
+  end
+
+  describe 'updating rates as German user', driver: :firefox_de do
+    let(:user) { create :admin, language: 'de' }
+    let!(:rate) { create(:default_hourly_rate, user:, rate: 1.0) }
+
+    it 'allows editing without reinterpreting the number (Regression #42219)' do
+      visit edit_hourly_rate_path(user)
+
+      # Expect the german locale output
+      expect(page).to have_field("user[existing_rate_attributes][#{rate.id}][rate]", with: '1,00')
+
+      click_link 'Satz hinzufügen'
+
+      fill_in "user_new_rate_attributes_1_valid_from", with: (Time.zone.today + 1.day).iso8601
+      fill_in "user_new_rate_attributes_1_rate", with: '5,12'
+
+      click_button 'Speichern'
+
+      view_rates
+
+      expect(page).to have_selector('.currency', text: '1,00')
+      expect(page).to have_selector('.currency', text: '5,12')
     end
   end
 end

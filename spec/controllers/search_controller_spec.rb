@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,60 +30,60 @@ require 'spec_helper'
 
 describe SearchController, type: :controller do
   shared_let(:project) do
-    FactoryBot.create(:project,
-                      name: 'eCookbook')
+    create(:project,
+           name: 'eCookbook')
   end
 
   shared_let(:other_project) do
-    FactoryBot.create(:project,
-                      name: 'Other project')
+    create(:project,
+           name: 'Other project')
   end
 
   shared_let(:subproject) do
-    FactoryBot.create(:project,
-                      name: 'Child project',
-                      parent: project)
+    create(:project,
+           name: 'Child project',
+           parent: project)
   end
 
   shared_let(:role) do
-    FactoryBot.create(:role, permissions: %i[view_wiki_pages view_work_packages])
+    create(:role, permissions: %i[view_wiki_pages view_work_packages])
   end
 
   shared_let(:user) do
-    FactoryBot.create(:user,
-                      member_in_projects: [project, subproject],
-                      member_through_role: role)
+    create(:user,
+           member_in_projects: [project, subproject],
+           member_through_role: role)
   end
 
   shared_let(:wiki_page) do
-    FactoryBot.create(:wiki_page,
-                      title: "How to solve an issue",
-                      wiki: project.wiki)
+    create(:wiki_page,
+           title: "How to solve an issue",
+           wiki: project.wiki)
   end
 
   shared_let(:work_package_1) do
-    FactoryBot.create(:work_package,
-                      subject: 'This is a test issue',
-                      project: project)
+    create(:work_package,
+           subject: 'This is a test issue',
+           project:)
   end
 
   shared_let(:work_package_2) do
-    FactoryBot.create(:work_package,
-                      subject: 'Issue test 2',
-                      project: project,
-                      status: FactoryBot.create(:closed_status))
+    create(:work_package,
+           subject: 'Issue test 2',
+           project:,
+           status: create(:closed_status))
   end
 
   shared_let(:work_package_3) do
-    FactoryBot.create(:work_package,
-                      subject: 'Issue test 3',
-                      project: subproject)
+    create(:work_package,
+           subject: 'Issue test 3',
+           project: subproject)
   end
 
   shared_let(:work_package_4) do
-    FactoryBot.create(:work_package,
-                      subject: 'Issue test 4',
-                      project: other_project)
+    create(:work_package,
+           subject: 'Issue test 4',
+           project: other_project)
   end
 
   shared_examples_for 'successful search' do
@@ -131,12 +131,12 @@ describe SearchController, type: :controller do
         it { expect(assigns(:results)).to include(work_package_2) }
         it { expect(assigns(:results)).to include(work_package_3) }
         it { expect(assigns(:results)).to include(wiki_page) }
-        it { expect(assigns(:results)).to_not include(work_package_4) }
+        it { expect(assigns(:results)).not_to include(work_package_4) }
       end
 
       describe '#results_count' do
         it { expect(assigns(:results_count)).to be_a(Hash) }
-        it { expect(assigns(:results_count)['work_packages']).to eql(3) }
+        it { expect(assigns(:results_count)['work_packages']).to be(3) }
       end
 
       describe '#view' do
@@ -161,7 +161,7 @@ describe SearchController, type: :controller do
         it { expect(assigns(:results)).to include(work_package_2) }
         it { expect(assigns(:results)).to include(work_package_3) }
         it { expect(assigns(:results)).to include(wiki_page) }
-        it { expect(assigns(:results)).to_not include(work_package_4) }
+        it { expect(assigns(:results)).not_to include(work_package_4) }
       end
     end
 
@@ -175,38 +175,37 @@ describe SearchController, type: :controller do
         it { expect(assigns(:results)).to include(work_package_1) }
         it { expect(assigns(:results)).to include(work_package_2) }
         it { expect(assigns(:results)).to include(wiki_page) }
-        it { expect(assigns(:results)).to_not include(work_package_3) }
-        it { expect(assigns(:results)).to_not include(work_package_4) }
+        it { expect(assigns(:results)).not_to include(work_package_3) }
+        it { expect(assigns(:results)).not_to include(work_package_4) }
       end
     end
 
     context 'when searching for a note' do
       let!(:note_1) do
-        FactoryBot.create :work_package_journal,
-                          journable_id: work_package_1.id,
-                          notes: 'Test note 1',
-                          version: 2
+        create :work_package_journal,
+               journable_id: work_package_1.id,
+               notes: 'Test note 1',
+               version: 2
+      end
+      let!(:note_2) do
+        create :work_package_journal,
+               journable_id: work_package_1.id,
+               notes: 'Special note 2',
+               version: 3
       end
 
       before { allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) }
 
-      let!(:note_2) do
-        FactoryBot.create :work_package_journal,
-                          journable_id: work_package_1.id,
-                          notes: 'Special note 2',
-                          version: 3
+      before do
+        get :index, params: { q: 'note' }
       end
 
       describe 'second note predecessor' do
         subject { note_2.send :predecessor }
 
         it { is_expected.to eq note_1 }
-        it { expect(note_1.data).not_to be nil }
-        it { expect(subject.data).not_to be nil }
-      end
-
-      before do
-        get :index, params: { q: 'note' }
+        it { expect(note_1.data).not_to be_nil }
+        it { expect(subject.data).not_to be_nil }
       end
 
       it_behaves_like 'successful search'

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,13 +46,13 @@ describe ::API::V3::Queries::Filters::QueryFilterRepresenter do
     end
 
     it 'has _type QueryFilter' do
-      is_expected
+      expect(subject)
         .to be_json_eql('QueryFilter'.to_json)
         .at_path('_type')
     end
 
     it 'has id attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql('subject'.to_json)
         .at_path('id')
     end
@@ -69,16 +69,16 @@ describe ::API::V3::Queries::Filters::QueryFilterRepresenter do
       end
 
       it 'has id attribute' do
-        is_expected
+        expect(subject)
           .to be_json_eql('assignee'.to_json)
           .at_path('id')
       end
     end
 
     context 'for a custom field filter' do
-      let(:custom_field) { FactoryBot.build_stubbed(:list_wp_custom_field) }
+      let(:custom_field) { build_stubbed(:list_wp_custom_field) }
       let(:filter) do
-        Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field: custom_field
+        Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field:
       end
 
       before do
@@ -99,7 +99,7 @@ describe ::API::V3::Queries::Filters::QueryFilterRepresenter do
       end
 
       it 'has id attribute' do
-        is_expected
+        expect(subject)
           .to be_json_eql("customField#{custom_field.id}".to_json)
           .at_path('id')
       end

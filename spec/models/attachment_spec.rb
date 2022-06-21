@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,29 +28,29 @@
 require 'spec_helper'
 
 describe Attachment, type: :model do
-  let(:stubbed_author) { FactoryBot.build_stubbed(:user) }
-  let(:author) { FactoryBot.create :user }
+  let(:stubbed_author) { build_stubbed(:user) }
+  let(:author) { create :user }
   let(:long_description) { 'a' * 300 }
-  let(:work_package) { FactoryBot.create :work_package }
-  let(:stubbed_work_package) { FactoryBot.build_stubbed :stubbed_work_package }
-  let(:file) { FactoryBot.create :uploaded_jpg, name: 'test.jpg' }
-  let(:second_file) { FactoryBot.create :uploaded_jpg, name: 'test2.jpg' }
+  let(:work_package) { create :work_package }
+  let(:stubbed_work_package) { build_stubbed :work_package }
+  let(:file) { create :uploaded_jpg, name: 'test.jpg' }
+  let(:second_file) { create :uploaded_jpg, name: 'test2.jpg' }
   let(:container) { stubbed_work_package }
 
   let(:attachment) do
-    FactoryBot.build(
+    build(
       :attachment,
-      author: author,
-      container: container,
+      author:,
+      container:,
       content_type: nil, # so that it is detected
-      file: file
+      file:
     )
   end
   let(:stubbed_attachment) do
-    FactoryBot.build_stubbed(
+    build_stubbed(
       :attachment,
       author: stubbed_author,
-      container: container
+      container:
     )
   end
 
@@ -150,7 +150,7 @@ describe Attachment, type: :model do
 
   describe 'create' do
     it('creates a jpg file called test') do
-      expect(File.exists?(attachment.diskfile.path)).to eq true
+      expect(File.exist?(attachment.diskfile.path)).to be true
     end
 
     it('has the content type "image/jpeg"') do
@@ -169,15 +169,15 @@ describe Attachment, type: :model do
   end
 
   describe 'two attachments with same file name' do
-    let(:second_file) { FactoryBot.create :uploaded_jpg, name: file.original_filename }
+    let(:second_file) { create :uploaded_jpg, name: file.original_filename }
 
     it 'does not interfere' do
       a1 = Attachment.create!(container: work_package,
-                              file: file,
-                              author: author)
+                              file:,
+                              author:)
       a2 = Attachment.create!(container: work_package,
                               file: second_file,
-                              author: author)
+                              author:)
 
       expect(a1.diskfile.path)
         .not_to eql a2.diskfile.path
@@ -191,7 +191,7 @@ describe Attachment, type: :model do
     before do
       attachment.save!
 
-      expect(File.exists?(attachment.file.path)).to eq true
+      expect(File.exist?(attachment.file.path)).to be true
 
       attachment.destroy
       attachment.run_callbacks(:commit)
@@ -200,29 +200,28 @@ describe Attachment, type: :model do
     end
 
     it "deletes the attachment's file" do
-      expect(File.exists?(attachment.file.path)).to eq false
+      expect(File.exist?(attachment.file.path)).to be false
     end
   end
 
   # We just use with_direct_uploads here to make sure the
   # FogAttachment class is defined and Fog is mocked.
-  # rubocop:disable RSpec/MultipleMemoizedHelpers
   describe "#external_url", with_direct_uploads: true do
-    let(:author) { FactoryBot.create :user }
+    let(:author) { create :user }
 
     let(:image_path) { Rails.root.join("spec/fixtures/files/image.png") }
     let(:text_path) { Rails.root.join("spec/fixtures/files/testfile.txt") }
     let(:binary_path) { Rails.root.join("spec/fixtures/files/textfile.txt.gz") }
 
-    let(:image_attachment) { FogAttachment.new author: author, file: File.open(image_path) }
-    let(:text_attachment) { FogAttachment.new author: author, file: File.open(text_path) }
-    let(:binary_attachment) { FogAttachment.new author: author, file: File.open(binary_path) }
+    let(:image_attachment) { FogAttachment.new author:, file: File.open(image_path) }
+    let(:text_attachment) { FogAttachment.new author:, file: File.open(text_path) }
+    let(:binary_attachment) { FogAttachment.new author:, file: File.open(binary_path) }
 
     shared_examples "it has a temporary download link" do
       let(:url_options) { {} }
       let(:query) { attachment.external_url(**url_options).to_s.split("?").last }
 
-      it "should have a default expiry time" do
+      it "has a default expiry time" do
         expect(query).to include "X-Amz-Expires="
         expect(query).not_to include "X-Amz-Expires=3600"
       end
@@ -230,7 +229,7 @@ describe Attachment, type: :model do
       context "with a custom expiry time" do
         let(:url_options) { { expires_in: 1.hour } }
 
-        it "should use that time" do
+        it "uses that time" do
           expect(query).to include "X-Amz-Expires=3600"
         end
       end
@@ -295,19 +294,18 @@ describe Attachment, type: :model do
     describe "for a binary file" do
       before { binary_attachment.save! }
 
-      it "should make S3 use content_disposition 'attachment; filename=...'" do
+      it "makes S3 use content_disposition 'attachment; filename=...'" do
         expect(binary_attachment.content_disposition).to eq "attachment; filename=textfile.txt.gz"
         expect(binary_attachment.external_url.to_s).to include "response-content-disposition=attachment"
       end
     end
   end
-  # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe 'full text extraction job on commit' do
     let(:created_attachment) do
-      FactoryBot.create(:attachment,
-                        author: author,
-                        container: container)
+      create(:attachment,
+             author:,
+             container:)
     end
 
     shared_examples_for 'runs extraction' do
@@ -337,7 +335,7 @@ describe Attachment, type: :model do
     end
 
     context 'for a work package' do
-      let(:work_package) { FactoryBot.create(:work_package) }
+      let(:work_package) { create(:work_package) }
       let(:container) { work_package }
 
       context 'on create' do
@@ -350,7 +348,7 @@ describe Attachment, type: :model do
     end
 
     context 'for a wiki page' do
-      let(:wiki_page) { FactoryBot.create(:wiki_page) }
+      let(:wiki_page) { create(:wiki_page) }
       let(:container) { wiki_page }
 
       context 'on create' do

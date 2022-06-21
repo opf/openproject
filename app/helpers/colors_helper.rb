@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,7 +61,7 @@ module ColorsHelper
   def colored_text(color)
     background = color.contrasting_color(dark_color: '#333', light_color: 'transparent')
     style = "background-color: #{background}; color: #{color.hexcode}"
-    content_tag(:span, color.hexcode, class: 'color--text-preview', style: style)
+    content_tag(:span, color.hexcode, class: 'color--text-preview', style:)
   end
 
   #

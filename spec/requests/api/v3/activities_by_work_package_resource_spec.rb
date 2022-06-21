@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,12 +34,12 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
 
   describe 'activities' do
     let(:project) { work_package.project }
-    let(:work_package) { FactoryBot.create(:work_package) }
+    let(:work_package) { create(:work_package) }
     let(:comment) { 'This is a test comment!' }
     let(:current_user) do
-      FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+      create(:user, member_in_project: project, member_through_role: role)
     end
-    let(:role) { FactoryBot.create(:role, permissions: permissions) }
+    let(:role) { create(:role, permissions:) }
     let(:permissions) { %i(view_work_packages add_work_package_notes) }
 
     before do
@@ -52,20 +52,20 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
       end
 
       it 'succeeds' do
-        expect(last_response.status).to eql 200
+        expect(last_response.status).to be 200
       end
 
       context 'not allowed to see work package' do
-        let(:current_user) { FactoryBot.create(:user) }
+        let(:current_user) { create(:user) }
 
         it 'fails with HTTP Not Found' do
-          expect(last_response.status).to eql 404
+          expect(last_response.status).to be 404
         end
       end
     end
 
     describe 'POST /api/v3/work_packages/:id/activities' do
-      let(:work_package) { FactoryBot.create(:work_package) }
+      let(:work_package) { create(:work_package) }
 
       shared_context 'create activity' do
         before do
@@ -96,7 +96,7 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
         include_context 'create activity'
 
         it 'responds with error' do
-          expect(last_response.status).to eql 422
+          expect(last_response.status).to be 422
         end
 
         it 'notes the error' do

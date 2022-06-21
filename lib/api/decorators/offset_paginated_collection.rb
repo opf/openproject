@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +29,7 @@
 module API
   module Decorators
     class OffsetPaginatedCollection < ::API::Decorators::Collection
-      include ::API::Utilities::PageSizeHelper
+      include ::API::Utilities::UrlPropsParsingHelper
 
       def self.per_page_default(relation)
         relation.base_class.per_page
@@ -41,12 +39,13 @@ module API
         @self_link_base = self_link
         @query = query
         @page = page.to_i > 0 ? page.to_i : 1
-        @per_page = resulting_page_size(per_page, models)
+        resolved_page_size = resolve_page_size(per_page)
+        @per_page = resulting_page_size(resolved_page_size, models)
 
         full_self_link = make_page_link(page: @page, page_size: @per_page)
         paged = paged_models(models)
 
-        super(paged, total_count(models), self_link: full_self_link, current_user: current_user, groups: groups)
+        super(paged, total_count(models), self_link: full_self_link, current_user:, groups:)
       end
 
       link :jumpTo do

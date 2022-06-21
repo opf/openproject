@@ -15,7 +15,7 @@ keywords: Kerberos, authentication
 **Note**: This documentation is valid for the OpenProject Enterprise Edition only.
 </div>
 
-[Kerberos](https://web.mit.edu/kerberos/) allows you to authenticate user requests to a service within a computer network. You can integrate it with OpenProject with the use of [Kerberos Apache module](http://modauthkerb.sourceforge.net/) (`mod_auth_kerb`) plugging into the OpenProject packaged installation using Apache web server.
+[Kerberos](https://web.mit.edu/kerberos/) allows you to authenticate user requests to a service within a computer network. You can integrate it with OpenProject with the use of [Kerberos Apache module](https://github.com/S2-/mod_auth_kerb) (`mod_auth_kerb`) plugging into the OpenProject packaged installation using Apache web server.
 
 This guide will also apply for Docker-based installation, if you have an outer proxying server such as Apache2 that you can configure to use Kerberos. This guide however focuses on the packaged installation of OpenProject.
 
@@ -61,7 +61,11 @@ sudo apt-get install libapache2-mod-auth-kerb
 
 You will then need to add the generated keytab to be used for the OpenProject installation. OpenProject allows you to specify additional directives for your installation VirtualHost.
 
-We are going to create a new file `/etc/openproject/addons/apache2/includes/vhost/kerberos.conf` with the following contents:
+We are going to create a new file `/etc/openproject/addons/apache2/custom/vhost/kerberos.conf` with the following contents.
+
+<div class="alert alert-info" role="alert">
+**Please note**: The following kerberos configuration is only an example. We cannot provide any support or help with regards to the Kerberos side of configuration. OpenProject will simply handle the incoming header containing the logged in user.
+</div>
 
 ```
   <Location />
@@ -72,7 +76,7 @@ We are going to create a new file `/etc/openproject/addons/apache2/includes/vhos
 
     # The realm used for Kerberos, you will want to
     # change this to your actual domain
-    KrbAuthRealm EXAMPLE.COM
+    KrbAuthRealms EXAMPLE.COM
 
     # Path to the Keytab generated in the previous step
     Krb5Keytab /etc/openproject/openproject.keytab
@@ -91,52 +95,7 @@ We are going to create a new file `/etc/openproject/addons/apache2/includes/vhos
 
 ## Step 3: Configuration of OpenProject to use Apache header
 
-As the last step, you need to tell OpenProject to look for the `X-Authenticated-User` header and the `MyPassword` secret value.
-
-You can do that in two ways:
-
-
-
-#### Configure using the configuration.yml
-
-In your OpenProject packaged installation, you can modify the `/opt/openproject/config/configuration.yml` file. This will contain the complete OpenProject configuration and can be extended  to include a section for the header checking.
-
-
-
-```yaml
-production:
-  # <-- other configuration -->
-
-  auth_source_sso:
-    # The header name is configured here
-    header: X-Authenticated-User
-
-    # The secret is configurable here
-    # You can comment it out to disable if your outer server
-    # fully controls this header value and you trust it.
-    secret: MyPassword
-
-    # Uncomment to make the header optional.
-    # optional: true
-
-    # Specify a logout URL that gets redirected
-    # after the OpenProject internal logout flow
-    # logout_url: https://sso.example.com/logout
-```
-
-Be sure to choose the correct indentation and base key. The `auth_source_sso` key should be indented two spaces (and all other keys accordingly) and the configuration should belong to the `production` group.
-
-
-The configuration can be provided in one of three ways:
-
-* `configuration.yml` file (1.1)
-* Environment variables (1.2)
-* `settings.yml` file (1.3)
-
-Whatever means are chosen, the plugin simply passes all options to omniauth-saml. See [their configuration
-documentation](https://github.com/omniauth/omniauth-saml#usage) for further details.
-
-The three options are mutually exclusive. I.e. if settings are already provided via the `configuration.yml` file, settings in a `settings.yml` file will be ignored. Environment variables will override the `configuration.yml` based configuration, though.
+As the last step, you need to tell OpenProject to look for the `X-Authenticated-User` header and the `MyPassword` secret value. The easiest way to do that is using ENV variables
 
 #### Configure using environment variables
 
@@ -147,14 +106,13 @@ openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_HEADER="X-Authenticated-Use
 openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_SECRET="MyPassword"
 ```
 
-  In case you want to make the header optional, i.e. the header may or may not be present for a subset of users going through Apache, you can set the following value:
+In case you want to make the header optional, i.e. the header may or may not be present for a subset of users going through Apache, you can set the following value:
 
   ```bash
   openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_OPTIONAL=true
   ```
 
-Please note that every underscore (`_`) in the original configuration key has to be replaced by a duplicate underscore
-(`__`) in the environment variable as the single underscore denotes namespaces.
+Please note the differences between single underscores (`_`) and double underscores (`__`) in these environment variables, as the single underscore denotes namespaces.
 
 
 

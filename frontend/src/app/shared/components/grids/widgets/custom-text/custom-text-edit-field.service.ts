@@ -9,6 +9,7 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Injectable()
 export class CustomTextEditFieldService extends EditFieldHandler {
@@ -143,9 +144,9 @@ export class CustomTextEditFieldService extends EditFieldHandler {
         type: 'full',
         macros: 'resource',
       } as ICKEditorContext),
-      canAddAttachments: value.grid.canAddAttachments,
-      uploadAttachments: (files:UploadFile[]) => value.grid.uploadAttachments(files),
+      canAddAttachments: value.grid.canAddAttachments as boolean,
       _links: {
+        attachments: (value.grid as HalResource).attachments as { href?:string },
         schema: {
           href: schemaHref,
         },

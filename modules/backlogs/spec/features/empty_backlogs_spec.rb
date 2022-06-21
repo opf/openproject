@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,10 +31,10 @@ require 'spec_helper'
 describe 'Empty backlogs project',
          type: :feature,
          js: true do
-  let(:project) { FactoryBot.create(:project, types: [story, task], enabled_module_names: %w(backlogs)) }
-  let(:story) { FactoryBot.create(:type_feature) }
-  let(:task) { FactoryBot.create(:type_task) }
-  let(:status) { FactoryBot.create(:status, is_default: true) }
+  let(:project) { create(:project, types: [story, task], enabled_module_names: %w(backlogs)) }
+  let(:story) { create(:type_feature) }
+  let(:task) { create(:type_task) }
+  let(:status) { create(:status, is_default: true) }
 
   before do
     project
@@ -50,9 +50,9 @@ describe 'Empty backlogs project',
   end
 
   context 'as admin' do
-    let(:current_user) { FactoryBot.create(:admin) }
+    let(:current_user) { create(:admin) }
 
-    it 'should show a no results box with action' do
+    it 'shows a no results box with action' do
       expect(page).to have_selector '.generic-table--no-results-container', text: I18n.t(:backlogs_empty_title)
       expect(page).to have_selector '.generic-table--no-results-description', text: I18n.t(:backlogs_empty_action_text)
 
@@ -62,10 +62,10 @@ describe 'Empty backlogs project',
   end
 
   context 'as regular member' do
-    let(:role) { FactoryBot.create(:role, permissions: %i(view_master_backlog)) }
-    let(:current_user) { FactoryBot.create :user, member_in_project: project, member_through_role: role }
+    let(:role) { create(:role, permissions: %i(view_master_backlog)) }
+    let(:current_user) { create :user, member_in_project: project, member_through_role: role }
 
-    it 'should only show a no results box' do
+    it 'onlies show a no results box' do
       expect(page).to have_selector '.generic-table--no-results-container', text: I18n.t(:backlogs_empty_title)
       expect(page).to have_no_selector '.generic-table--no-results-description'
     end

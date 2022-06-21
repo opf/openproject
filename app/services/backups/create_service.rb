@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +29,7 @@
 module Backups
   class CreateService < ::BaseServices::Create
     def initialize(user:, backup_token:, include_attachments: true, contract_class: ::Backups::CreateContract)
-      super user: user, contract_class: contract_class, contract_options: { backup_token: backup_token }
+      super user: user, contract_class: contract_class, contract_options: { backup_token: }
 
       @include_attachments = include_attachments
     end
@@ -44,7 +42,7 @@ module Backups
       if call.success?
         BackupJob.perform_later(
           backup: call.result,
-          user: user,
+          user:,
           include_attachments: include_attachments?
         )
       end

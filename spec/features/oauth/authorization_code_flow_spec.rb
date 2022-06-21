@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,10 +31,10 @@ require 'spec_helper'
 describe 'OAuth authorization code flow',
          type: :feature,
          js: true do
-  let!(:user) { FactoryBot.create(:user) }
+  let!(:user) { create(:user) }
   let!(:redirect_uri) { 'urn:ietf:wg:oauth:2.0:oob' }
   let!(:allowed_redirect_uri) { redirect_uri }
-  let!(:app) { FactoryBot.create(:oauth_application, name: 'Cool API app!', redirect_uri: allowed_redirect_uri) }
+  let!(:app) { create(:oauth_application, name: 'Cool API app!', redirect_uri: allowed_redirect_uri) }
   let(:client_secret) { app.plaintext_secret }
 
   def oauth_path(client_id, redirect_url)
@@ -44,8 +44,8 @@ describe 'OAuth authorization code flow',
   def get_and_test_token(code)
     parameters = {
       client_id: app.uid,
-      client_secret: client_secret,
-      code: code,
+      client_secret:,
+      code:,
       grant_type: :authorization_code,
       redirect_uri: app.redirect_uri
     }
@@ -106,7 +106,7 @@ describe 'OAuth authorization code flow',
     expect(page).to have_selector('.flash.notice')
     expect(page).to have_no_selector("[id^=oauth-application-grant]")
 
-    expect(current_path).to match "/my/access_token"
+    expect(page).to have_current_path /\/my\/access_token/
 
     # And all grants have been revoked
     authorized = ::Doorkeeper::Application.authorized_for(user)
@@ -137,6 +137,7 @@ describe 'OAuth authorization code flow',
     context 'with real urls as allowed redirect uris' do
       let!(:redirect_uri) { "https://foo.com/foo" }
       let!(:allowed_redirect_uri) { "#{redirect_uri} https://bar.com/bar" }
+
       it 'can authorize and manage an OAuth application grant' do
         visit oauth_path app.uid, redirect_uri
 
@@ -181,7 +182,7 @@ describe 'OAuth authorization code flow',
       find('input.button[value="Authorize"]').click
 
       # Expect redirect to stubbed URL
-      expect(page).to have_current_path(/#{Regexp.escape(redirect_uri)}\?code\=.+$/, url: true)
+      expect(page).to have_current_path(/#{Regexp.escape(redirect_uri)}\?code=.+$/, url: true)
       expect(page).to have_text 'Welcome to stubbed response'
 
       # Get auth token from URL query
@@ -198,7 +199,7 @@ describe 'OAuth authorization code flow',
       login_with user.login, 'adminADMIN!', visit_signin_path: false
 
       # Expect redirect to stubbed URL
-      expect(page).to have_current_path(/#{Regexp.escape(redirect_uri)}\?code\=.+$/, url: true)
+      expect(page).to have_current_path(/#{Regexp.escape(redirect_uri)}\?code=.+$/, url: true)
       expect(page).to have_text 'Welcome to stubbed response'
 
       # Get auth token from URL query

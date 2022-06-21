@@ -31,10 +31,13 @@ de:
           no_results: 'Für Projekte wurden keine benutzerdefinierten Felder definiert.'
         project_status:
           title: 'Projekt-Status'
+          not_started: 'Nicht gestartet'
           on_track: 'Planmäßig'
           off_track: 'Unplanmäßig'
           at_risk: 'Gefährdet'
           not_set: 'Nicht gesetzt'
+          finished: 'Abgeschlossen'
+          discontinued: 'Eingestellt'
         subprojects:
           title: 'Unterprojekte'
           no_results: 'Keine Unterprojekte.'

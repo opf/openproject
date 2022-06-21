@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Enterprise Guide
+  title: Enterprise guide
   priority: 960
 description: OpenProject Enterprise guide.
 robots: index, follow
@@ -31,7 +31,7 @@ Find a detailed feature comparison [here](https://www.openproject.org/pricing/#f
 | [Subscribe](./enterprise-cloud-guide/book-cloud)             | How to book Enterprise cloud?                                |
 | [Backups](./enterprise-cloud-guide/backups)                  | How do backups work in the cloud?                            |
 | [Support](./enterprise-cloud-guide/support)                  | How to get support as Enterprise cloud user?                 |
-| [GDPR](./enterprise-cloud-guide/GDPR)                        | Review and sign a Data Processing Agreement (DPA).           |
+| [GDPR](./enterprise-cloud-guide/gdpr-compliance)                        | Review and sign a Data Processing Agreement (DPA).           |
 
 
 

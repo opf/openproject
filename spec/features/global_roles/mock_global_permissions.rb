@@ -8,7 +8,7 @@ def mock_global_permissions(permissions)
   end.uniq
 
   allow(OpenProject::AccessControl).to receive(:modules).and_wrap_original do |m, *args|
-    m.call(*args) + mapped_modules.map { |name| { order: 0, name: name } }
+    m.call(*args) + mapped_modules.map { |name| { order: 0, name: } }
   end
   allow(OpenProject::AccessControl).to receive(:permissions).and_wrap_original do |m, *args|
     m.call(*args) + mapped
@@ -22,6 +22,9 @@ def mock_permissions(name, options = {})
   ::OpenProject::AccessControl::Permission.new(
     name,
     { does_not: :matter },
-    { project_module: 'Foo', public: false, global: false }.merge(options)
+    project_module: 'Foo',
+    public: false,
+    global: false,
+    **options
   )
 end

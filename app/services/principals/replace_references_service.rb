@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,18 +36,18 @@ module Principals
       rewrite_default_journals(from, to)
       rewrite_customizable_journals(from, to)
 
-      ServiceResult.new success: true
+      ServiceResult.success
     end
 
     private
 
-    # rubocop:disable Rails/SkipsModelValidations
     def rewrite_active_models(from, to)
       rewrite_author(from, to)
       rewrite_user(from, to)
       rewrite_assigned_to(from, to)
       rewrite_responsible(from, to)
       rewrite_actor(from, to)
+      rewrite_owner(from, to)
     end
 
     def rewrite_custom_value(from, to)
@@ -109,6 +107,12 @@ module Principals
       end
     end
 
+    def rewrite_owner(from, to)
+      [::Doorkeeper::Application].each do |klass|
+        klass.where(owner_id: from.id).update_all(owner_id: to.id)
+      end
+    end
+
     def rewrite_assigned_to(from, to)
       [WorkPackage].each do |klass|
         klass.where(assigned_to_id: from.id).update_all(assigned_to_id: to.id)
@@ -120,7 +124,6 @@ module Principals
         klass.where(responsible_id: from.id).update_all(responsible_id: to.id)
       end
     end
-    # rubocop:enable Rails/SkipsModelValidations
 
     def journal_classes
       [Journal] + Journal::BaseJournal.subclasses

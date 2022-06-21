@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,18 +28,18 @@
 
 require 'spec_helper'
 
-feature 'invite user via email', type: :feature, js: true do
-  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1', members: project_members }
-  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
+describe 'invite user via email', type: :feature, js: true do
+  let!(:project) { create :project, name: 'Project 1', identifier: 'project1', members: project_members }
+  let!(:developer) { create :role, name: 'Developer' }
   let(:project_members) { {} }
 
   let(:members_page) { Pages::Members.new project.identifier }
 
   current_user do
-    FactoryBot.create(:user,
-                      global_permissions: [:manage_user],
-                      member_in_project: project,
-                      member_with_permissions: %i[view_members manage_members])
+    create(:user,
+           global_permissions: [:manage_user],
+           member_in_project: project,
+           member_with_permissions: %i[view_members manage_members])
   end
 
   context 'with a new user' do
@@ -52,7 +52,7 @@ feature 'invite user via email', type: :feature, js: true do
       Capybara.raise_server_errors = @old_value
     end
 
-    scenario 'adds the invited user to the project' do
+    it 'adds the invited user to the project' do
       members_page.visit!
       click_on 'Add member'
 
@@ -75,13 +75,13 @@ feature 'invite user via email', type: :feature, js: true do
 
   context 'with a registered user' do
     let!(:user) do
-      FactoryBot.create :user, mail: 'hugo@openproject.com',
-                               login: 'hugo@openproject.com',
-                               firstname: 'Hugo',
-                               lastname: 'Hurried'
+      create :user, mail: 'hugo@openproject.com',
+                    login: 'hugo@openproject.com',
+                    firstname: 'Hugo',
+                    lastname: 'Hurried'
     end
 
-    scenario 'user lookup by email' do
+    it 'user lookup by email' do
       members_page.visit!
       click_on 'Add member'
 
@@ -97,7 +97,7 @@ feature 'invite user via email', type: :feature, js: true do
       let(:project_members) { { user => developer } }
 
       shared_examples 'no user to invite is found' do
-        scenario 'no matches found' do
+        it 'no matches found' do
           members_page.visit!
           click_on 'Add member'
 

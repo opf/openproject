@@ -63,7 +63,7 @@ module OpenProject::TwoFactorAuthentication
       end
 
       def message_bird_client
-        ::MessageBird::Client.new(configuration_params[:apikey])
+        ::MessageBird::Client.new(configuration_params['apikey'])
       end
 
       ##
@@ -136,7 +136,7 @@ module OpenProject::TwoFactorAuthentication
       ##
       # Fallback language
       def fallback_language
-        :"en-us"
+        :'en-us'
       end
 
       ##
@@ -160,10 +160,10 @@ module OpenProject::TwoFactorAuthentication
         end
 
         I18n.t "two_factor_authentication.text_otp_delivery_message_#{channel}",
-               pause: pause,
+               pause:,
                token: token_value,
                app_title: Setting.app_title, locale: locale_key,
-               fallback: fallback, raise: raise_on_missing
+               fallback:, raise: raise_on_missing
       end
 
       ##

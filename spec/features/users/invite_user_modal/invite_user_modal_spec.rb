@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,31 +29,31 @@
 require 'spec_helper'
 
 describe 'Invite user modal', type: :feature, js: true do
-  shared_let(:project) { FactoryBot.create :project }
-  shared_let(:work_package) { FactoryBot.create :work_package, project: project }
+  shared_let(:project) { create :project }
+  shared_let(:work_package) { create :work_package, project: }
 
-  let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
+  let(:permissions) { %i[view_work_packages edit_work_packages manage_members work_package_assigned] }
   let(:global_permissions) { %i[] }
   let(:modal) do
-    ::Components::Users::InviteUserModal.new project: project,
-                                             principal: principal,
-                                             role: role,
-                                             invite_message: invite_message
+    ::Components::Users::InviteUserModal.new project:,
+                                             principal:,
+                                             role:,
+                                             invite_message:
   end
   let!(:role) do
-    FactoryBot.create :role,
-                      name: 'Member',
-                      permissions: permissions
+    create :role,
+           name: 'Member',
+           permissions:
   end
-  let(:invite_message) { "Welcome to the team. **You'll like it here**."}
+  let(:invite_message) { "Welcome to the team. **You'll like it here**." }
   let(:mail_membership_recipients) { [] }
   let(:mail_invite_recipients) { [] }
 
   current_user do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role,
-                      global_permissions: global_permissions
+    create :user,
+           member_in_project: project,
+           member_through_role: role,
+           global_permissions:
   end
 
   shared_examples 'invites the principal to the project' do
@@ -97,6 +97,38 @@ describe 'Invite user modal', type: :feature, js: true do
     end
   end
 
+  describe 'inviting a placeholder on a WP create', with_ee: %i[placeholder_users] do
+    let!(:principal) { create :placeholder_user, name: 'EXISTING PLACEHOLDER' }
+    let(:wp_page) { Pages::FullWorkPackageCreate.new(project:) }
+    let(:assignee_field) { wp_page.edit_field :assignee }
+    let(:subject_field) { wp_page.edit_field :subject }
+    let!(:status) { FactoryBot.create :default_status }
+    let!(:priority) { FactoryBot.create :default_priority }
+    let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_members work_package_assigned] }
+
+    it 'selects the placeholder' do
+      wp_page.visit!
+      subject_field.expect_active!
+      subject_field.set_value 'foobar'
+      assignee_field.expect_active!
+
+      assignee_field.openSelectField
+      find('.ng-dropdown-footer button', text: 'Invite', wait: 10).click
+
+      modal.run_all_steps
+      expect(page).to have_selector('.ng-value-label', text: principal.name)
+
+      wp_page.save!
+      wp_page.expect_and_dismiss_toaster(message: 'Successful creation.')
+
+      assignee_field.expect_inactive!
+      assignee_field.expect_state_text principal
+
+      work_package = WorkPackage.last
+      expect(work_package.assigned_to).to eq principal
+    end
+  end
+
   describe 'inviting a principal to a project' do
     describe 'through the assignee field' do
       let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
@@ -112,9 +144,9 @@ describe 'Invite user modal', type: :feature, js: true do
 
       context 'with an existing user' do
         let!(:principal) do
-          FactoryBot.create :user,
-                            firstname: 'Nonproject firstname',
-                            lastname: 'nonproject lastname'
+          create :user,
+                 firstname: 'Nonproject firstname',
+                 lastname: 'nonproject lastname'
         end
 
         it_behaves_like 'invites the principal to the project' do
@@ -124,10 +156,10 @@ describe 'Invite user modal', type: :feature, js: true do
       end
 
       context 'with a user to be invited' do
-        let(:principal) { FactoryBot.build :invited_user }
+        let(:principal) { build :invited_user }
 
         context 'when the current user has permissions to create a user' do
-          let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
+          let(:permissions) { %i[view_work_packages edit_work_packages manage_members work_package_assigned] }
           let(:global_permissions) { %i[manage_user] }
 
           it_behaves_like 'invites the principal to the project' do
@@ -139,6 +171,7 @@ describe 'Invite user modal', type: :feature, js: true do
 
         context 'when the current user does not have permissions to invite a user to the instance by email' do
           let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
+
           it 'does not show the invite user option' do
             modal.project_step
             ngselect = modal.open_select_in_step principal.mail
@@ -151,17 +184,17 @@ describe 'Invite user modal', type: :feature, js: true do
           let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
           let(:global_permissions) { %i[manage_user] }
 
-          let(:project_no_permissions) { FactoryBot.create :project }
+          let(:project_no_permissions) { create :project }
           let(:role_no_permissions) do
-            FactoryBot.create :role,
-                              permissions: %i[view_work_packages edit_work_packages]
+            create :role,
+                   permissions: %i[view_work_packages edit_work_packages]
           end
 
           let!(:membership_no_permission) do
-            FactoryBot.create :member,
-                              user: current_user,
-                              project: project_no_permissions,
-                              roles: [role_no_permissions]
+            create :member,
+                   user: current_user,
+                   project: project_no_permissions,
+                   roles: [role_no_permissions]
           end
 
           it 'disables projects for which you do not have rights' do
@@ -171,9 +204,9 @@ describe 'Invite user modal', type: :feature, js: true do
         end
 
         context 'with a project that is archived' do
-          let!(:archived_project) { FactoryBot.create :project, active: false }
+          let!(:archived_project) { create :project, active: false }
           # Use admin to ensure all projects are visible
-          let(:current_user) { FactoryBot.create :admin }
+          let(:current_user) { create :admin }
 
           it 'disables projects for which you do not have rights' do
             ngselect = modal.open_select_in_step
@@ -183,12 +216,13 @@ describe 'Invite user modal', type: :feature, js: true do
       end
 
       describe 'inviting placeholders' do
-        let(:principal) { FactoryBot.build :placeholder_user, name: 'MY NEW PLACEHOLDER' }
+        let(:principal) { build :placeholder_user, name: 'MY NEW PLACEHOLDER' }
 
         context 'an enterprise system', with_ee: %i[placeholder_users] do
+          let(:permissions) { %i[view_work_packages edit_work_packages manage_members work_package_assigned] }
+
           describe 'create a new placeholder' do
             context 'with permissions to manage placeholders' do
-              let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
               let(:global_permissions) { %i[manage_placeholder_user] }
 
               it_behaves_like 'invites the principal to the project' do
@@ -199,7 +233,6 @@ describe 'Invite user modal', type: :feature, js: true do
             end
 
             context 'without permissions to manage placeholders' do
-              let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
               it 'does not allow to invite a new placeholder' do
                 modal.project_step
 
@@ -212,8 +245,7 @@ describe 'Invite user modal', type: :feature, js: true do
           end
 
           context 'with an existing placeholder' do
-            let(:principal) { FactoryBot.create :placeholder_user, name: 'EXISTING PLACEHOLDER' }
-            let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
+            let(:principal) { create :placeholder_user, name: 'EXISTING PLACEHOLDER' }
             let(:global_permissions) { %i[] }
 
             it_behaves_like 'invites the principal to the project' do
@@ -234,8 +266,8 @@ describe 'Invite user modal', type: :feature, js: true do
       end
 
       describe 'inviting groups' do
-        let(:group_user) { FactoryBot.create(:user) }
-        let(:principal) { FactoryBot.create :group, name: 'MY NEW GROUP', members: [group_user] }
+        let(:group_user) { create(:user) }
+        let(:principal) { create :group, name: 'MY NEW GROUP', members: [group_user] }
 
         it_behaves_like 'invites the principal to the project' do
           let(:added_principal) { principal }

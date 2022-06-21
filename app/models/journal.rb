@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +39,7 @@ class Journal < ApplicationRecord
   register_journal_formatter :schedule_manually, OpenProject::JournalFormatter::ScheduleManually
 
   # Make sure each journaled model instance only has unique version ids
-  validates_uniqueness_of :version, scope: %i[journable_id journable_type]
+  validates :version, uniqueness: { scope: %i[journable_id journable_type] }
 
   belongs_to :user
   belongs_to :journable, polymorphic: true
@@ -114,7 +112,7 @@ class Journal < ApplicationRecord
                        nil
                      else
                        self.class
-                         .where(journable_type: journable_type, journable_id: journable_id)
+                         .where(journable_type:, journable_id:)
                          .where("#{self.class.table_name}.version < ?", version)
                          .order(version: :desc)
                          .first

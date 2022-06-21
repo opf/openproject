@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -53,10 +51,6 @@ module PlaceholderUsers
 
     def desc_by_default
       [:created_at]
-    end
-
-    def user_allowed_service
-      @user_allowed_service ||= Authorization::UserAllowedService.new(options[:current_user])
     end
   end
 end

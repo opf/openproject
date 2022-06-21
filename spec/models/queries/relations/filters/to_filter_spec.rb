@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +32,7 @@ describe Queries::Relations::Filters::ToFilter, type: :model do
   include_context 'filter tests'
   let(:values) { ['1'] }
   let(:model) { Relation }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
 
   it_behaves_like 'basic query filter' do
     let(:class_key) { :to_id }
@@ -59,6 +57,7 @@ describe Queries::Relations::Filters::ToFilter, type: :model do
     before do
       login_as(current_user)
     end
+
     let(:visible_sql) { WorkPackage.visible(current_user).select(:id).to_sql }
 
     context 'for "="' do

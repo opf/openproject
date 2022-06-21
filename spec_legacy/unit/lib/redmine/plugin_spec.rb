@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +38,7 @@ describe Redmine::Plugin do
     @klass.clear
   end
 
-  it 'should register' do
+  it 'registers' do
     @klass.register :foo do
       name 'Foo plugin'
       url 'http://example.net/plugins/foo'
@@ -64,7 +62,7 @@ describe Redmine::Plugin do
     assert_equal '0.0.1', plugin.version
   end
 
-  it 'should requires openproject' do
+  it 'requireses openproject' do
     test = self
     version = OpenProject::VERSION.to_semver
 
@@ -87,7 +85,7 @@ describe Redmine::Plugin do
     end
   end
 
-  it 'should requires redmine plugin' do
+  it 'requireses redmine plugin' do
     test = self
     other_version = '0.5.0'
 

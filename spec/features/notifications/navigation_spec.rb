@@ -1,28 +1,28 @@
 require 'spec_helper'
 
 describe "Notification center navigation", type: :feature, js: true do
-  shared_let(:project) { FactoryBot.create :project }
-  shared_let(:work_package) { FactoryBot.create :work_package, project: project }
-  shared_let(:second_work_package) { FactoryBot.create :work_package, project: project }
+  shared_let(:project) { create :project }
+  shared_let(:work_package) { create :work_package, project: }
+  shared_let(:second_work_package) { create :work_package, project: }
   shared_let(:recipient) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages]
+    create :user,
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages]
   end
   shared_let(:notification) do
-    FactoryBot.create :notification,
-                      recipient: recipient,
-                      project: project,
-                      resource: work_package,
-                      journal: work_package.journals.last
+    create :notification,
+           recipient:,
+           project:,
+           resource: work_package,
+           journal: work_package.journals.last
   end
 
   shared_let(:second_notification) do
-    FactoryBot.create :notification,
-                      recipient: recipient,
-                      project: project,
-                      resource: second_work_package,
-                      journal: second_work_package.journals.last
+    create :notification,
+           recipient:,
+           project:,
+           resource: second_work_package,
+           journal: second_work_package.journals.last
   end
 
   let(:center) { ::Pages::Notifications::Center.new }
@@ -30,36 +30,6 @@ describe "Notification center navigation", type: :feature, js: true do
   let(:split_screen) { ::Pages::Notifications::SplitScreen.new work_package }
 
   current_user { recipient }
-
-  describe 'the back button brings me back to where I came from' do
-    let(:navigation_helper) { ::Notifications::NavigationHelper.new(center, notification, work_package) }
-
-    it 'when coming from a rails based page' do
-      visit home_path
-
-      navigation_helper.open_and_close_the_center
-      expect(page).to have_current_path home_path
-
-      navigation_helper.open_center_and_navigate_within
-      expect(page).to have_current_path home_path
-
-      navigation_helper.open_center_and_navigate_out
-      expect(page).to have_current_path home_path
-    end
-
-    it 'when coming from an angular page' do
-      visit project_work_package_path(project, work_package, state: 'activity')
-
-      navigation_helper.open_and_close_the_center
-      expect(page).to have_current_path project_work_package_path(project, work_package, state: 'activity')
-
-      navigation_helper.open_center_and_navigate_within
-      expect(page).to have_current_path project_work_package_path(project, work_package, state: 'activity')
-
-      navigation_helper.open_center_and_navigate_out
-      expect(page).to have_current_path project_work_package_path(project, work_package, state: 'activity')
-    end
-  end
 
   describe 'the path updates accordingly' do
     it 'when navigating between the tabs' do

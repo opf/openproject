@@ -60,7 +60,7 @@ We have made **extensions to our API v3** to create, read, update and delete gro
 - List users of a group
 
 ### API V3 endpoints for placeholder users
-**We have added endpoints to our API v3 for fetching placeholder users so that placeholder users can be managed or read by a machine.
+We have added endpoints to our API v3 for fetching placeholder users so that placeholder users can be managed or read by a machine.
 
 ### Copy project via API v3
 
@@ -213,7 +213,7 @@ We update hosted OpenProject environments (Enterprise cloud) automatically.
 
 ## Support
 
-You will find useful information in the OpenProject [Documentation](../../../) or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
+You will find useful information in the OpenProject [Documentation](https://www.openproject.org/docs/) or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
 
 ## Credits
 

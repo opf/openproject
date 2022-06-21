@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,15 +32,15 @@ require_relative '../support/shared/become_member'
 describe Group, type: :model do
   include BecomeMember
 
-  let(:user) { FactoryBot.build(:user) }
-  let(:status) { FactoryBot.create(:status) }
-  let(:role) { FactoryBot.create :role, permissions: [:view_work_packages] }
+  let(:user) { build(:user) }
+  let(:status) { create(:status) }
+  let(:role) { create :role, permissions: [:view_work_packages] }
 
   let(:projects) do
-    projects = FactoryBot.create_list :project_with_types, 20
+    projects = create_list :project_with_types, 20
 
     projects.each do |project|
-      add_user_to_project! user: group, project: project, role: role
+      add_user_to_project! user: group, project:, role:
     end
 
     projects
@@ -48,13 +48,13 @@ describe Group, type: :model do
 
   let!(:work_packages) do
     projects.flat_map do |project|
-      work_packages = FactoryBot.create_list(
+      work_packages = create_list(
         :work_package,
         1,
         type: project.types.first,
         author: user,
-        project: project,
-        status: status
+        project:,
+        status:
       )
 
       work_packages.first.tap do |wp|
@@ -64,8 +64,8 @@ describe Group, type: :model do
     end
   end
 
-  let(:users) { FactoryBot.create_list :user, 100 }
-  let(:group) { FactoryBot.build(:group, members: users) }
+  let(:users) { create_list :user, 100 }
+  let(:group) { build(:group, members: users) }
 
   describe '#destroy' do
     describe 'work packages assigned to the group' do
@@ -85,7 +85,7 @@ describe Group, type: :model do
 
         @seconds = Time.now.to_i - start
 
-        expect(@seconds < 10).to eq true
+        expect(@seconds < 10).to be true
       end
 
       it 'reassigns the work package to nobody and cleans up the journals' do

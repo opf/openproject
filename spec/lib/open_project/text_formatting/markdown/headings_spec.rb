@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -112,7 +112,7 @@ describe OpenProject::TextFormatting,
         end
 
         let(:expected) do
-          <<~EXPECTED.strip_heredoc
+          <<~EXPECTED
             <h1 class="op-uc-h1" id="20090209">
               2009\\02\\09
               <a class="op-uc-link_permalink icon-link op-uc-link" href="#20090209" aria-hidden="true"></a>

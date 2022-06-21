@@ -27,10 +27,10 @@ module OpenProject::TwoFactorAuthentication
 
       def service_params
         {
-          url: URI(configuration_params[:service_url]),
+          url: URI(configuration_params['service_url']),
           request_base: {
-            user: configuration_params[:username],
-            pass: configuration_params[:password],
+            user: configuration_params['username'],
+            pass: configuration_params['password'],
             # The API supports XML and plain.
             # In the latter case, only the status code is returned.
             output: 'plain'
@@ -94,10 +94,10 @@ module OpenProject::TwoFactorAuthentication
 
         Rails.logger.error do
           "[2FA] REST DT delivery failed for user #{user.login} " \
-                            "(Error #{response.body})"
+            "(Error #{response.body})"
         end
 
-        raise I18n.t('two_factor_authentication.restdt.delivery_failed_with_code', code: code)
+        raise I18n.t('two_factor_authentication.restdt.delivery_failed_with_code', code:)
       end
 
       def self.validate_params(params)

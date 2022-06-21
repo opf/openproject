@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ describe 'common/_validation_error', type: :view do
   before do
     view.content_for(:error_details, 'Clear this!')
 
-    render partial: 'common/validation_error.html.erb',
+    render partial: 'common/validation_error',
            locals: { error_messages: error_message,
                      classes: 'Foo',
                      object_name: 'Test' }

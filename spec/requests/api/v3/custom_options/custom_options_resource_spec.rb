@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,23 +34,23 @@ describe 'API v3 Custom Options resource' do
   include API::V3::Utilities::PathHelper
 
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
-  let(:project) { FactoryBot.create(:project) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:project) { create(:project) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { [:view_work_packages] }
   let(:custom_field) do
-    cf = FactoryBot.create(:list_wp_custom_field)
+    cf = create(:list_wp_custom_field)
 
     project.work_package_custom_fields << cf
 
     cf
   end
   let(:custom_option) do
-    FactoryBot.create(:custom_option,
-                      custom_field: custom_field)
+    create(:custom_option,
+           custom_field:)
   end
 
   subject(:response) { last_response }
@@ -68,7 +68,7 @@ describe 'API v3 Custom Options resource' do
     context 'when being allowed' do
       it 'is successful' do
         expect(subject.status)
-          .to eql(200)
+          .to be(200)
       end
 
       it 'returns the custom option' do
@@ -91,19 +91,19 @@ describe 'API v3 Custom Options resource' do
 
       it 'is 404' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
 
     context 'when custom option not in project' do
       let(:custom_field) do
         # not added to project
-        FactoryBot.create(:list_wp_custom_field)
+        create(:list_wp_custom_field)
       end
 
       it 'is 404' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
 
@@ -112,7 +112,7 @@ describe 'API v3 Custom Options resource' do
 
       it 'is 404' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
   end

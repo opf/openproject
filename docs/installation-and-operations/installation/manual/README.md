@@ -61,7 +61,7 @@ sudo passwd openproject #(enter desired password)
 
 ## Install and setup the database server (PostgreSQL)
 
-OpenProject requires PostgreSQL v9.5+. If you system package is too old, you can check https://www.postgresql.org/download/ to get a newer version installed. In our case, Ubuntu 18.04 comes with a recent-enough version so we can use the system packages:
+OpenProject requires PostgreSQL v9.5+. If you system package is too old, you can check [postgresql.org](https://www.postgresql.org/download/) to get a newer version installed. In our case, Ubuntu 18.04 comes with a recent-enough version so we can use the system packages:
 
 ```bash
 [root@host] apt-get install postgresql postgresql-contrib libpq-dev
@@ -95,7 +95,7 @@ Lastly, revert to the previous system user:
 ## Installation of Ruby
 
 The are several possibilities to install Ruby on your machine. We will
-use [rbenv](http://rbenv.org/). Please be aware that the actual installation of a specific Ruby version takes some
+use [rbenv](https://github.com/rbenv/rbenv). Please be aware that the actual installation of a specific Ruby version takes some
 time to finish.
 
 ```bash
@@ -106,16 +106,16 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 3.0.3
+[openproject@host] rbenv install 3.1.2
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 3.0.3
+[openproject@host] rbenv global 3.1.2
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 3.0.3p157 (2021-11-24 revision 3fb7d2cadc) [x86_64-darwin20]
+ruby 3.1.2p20 (2022-04-12 revision 4491bb740a) [x86_64-linux]
 ```
 
 ## Installation of Node
@@ -132,7 +132,7 @@ time to finish.
 [openproject@host] echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.profile
 [openproject@host] echo 'eval "$(nodenv init -)"' >> ~/.profile
 [openproject@host] source ~/.profile
-[openproject@host] git clone git://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
+[openproject@host] git clone https://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
 
 [openproject@host] nodenv install 14.16.0
 [openproject@host] nodenv rehash
@@ -142,13 +142,13 @@ time to finish.
 To check our Node installation we run `node --version`. It should output something very similar to:
 
 ```
-v14.16.0
+v16.15.1
 ```
 
 ## Installation of OpenProject
 
 We will install the OpenProject Community Edition. It contains the recommended set of plugins for use
-with OpenProject. For more information, see https://github.com/opf/openproject.
+with OpenProject. For more information, see [github.com/opf/openproject](https://github.com/opf/openproject).
 
 
 ```bash
@@ -214,11 +214,12 @@ rails_cache_store: :memcache
 ```
 
 __NOTE:__ You should validate your `yml` files, for example with
-http://www.yamllint.com/. Both, the `database.yml` and `configuration.yml`
+[yamlchecker.com](https://yamlchecker.com/). Both, the `database.yml` and `configuration.yml`
 file are sensitive to whitespace. It is pretty easy to write
 invalid `yml` files without seeing the error. Validating those files
 prevents you from such errors.
 
+To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be automatically loaded to the application's environment.
 
 ## Finish the installation of OpenProject
 
@@ -232,9 +233,9 @@ prevents you from such errors.
 
 **NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `LOCALE` environment variable on the call to `db:seed`. E.g.
 ```bash
-[openproject@all] RAILS_ENV="production" LOCALE=fr ./bin/rake db:seed
+[openproject@all] RAILS_ENV="production" OPENPROJECT_SEED_LOCALE=fr ./bin/rake db:seed
 ```
-will seed the database in the french language.
+will seed the database in the french language. A large portion of the seed data is only available in english, however.
 
 ### Secret token
 
@@ -381,7 +382,7 @@ Your OpenProject installation is ready to run. Please refer to the [Operation gu
 This step is optional.
 
 OpenProject can be extended by various plug-ins, which extend OpenProject's capabilities.
-For general information and a list of all plug-ins known to us, refer to to the [plug-in page](https://community.openproject.org/projects/openproject/wiki/OpenProject_Plug-Ins).
+For general information and a list of all plug-ins known to us, refer to to the [plug-in page](../../../system-admin-guide/integrations/).
 
 OpenProject plug-ins are separated in ruby gems. You can install them by listing them in a file called `Gemfile.plugins`. An example `Gemfile.plugins` file looks like this:
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,11 +35,11 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
   let(:page) { 1 }
   let(:page_size) { 2 }
   let(:actual_count) { 3 }
-  let(:current_user) { FactoryBot.build_stubbed :user }
+  let(:current_user) { build_stubbed :user }
 
   let(:placeholders) do
-    placeholders = FactoryBot.build_stubbed_list(:placeholder_user,
-                                          actual_count)
+    placeholders = build_stubbed_list(:placeholder_user,
+                                      actual_count)
     allow(placeholders)
       .to receive(:per_page)
       .with(page_size)
@@ -61,8 +61,8 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
     described_class.new(placeholders,
                         self_link: self_base_link,
                         per_page: page_size,
-                        page: page,
-                        current_user: current_user)
+                        page:,
+                        current_user:)
   end
 
   context 'generation' do

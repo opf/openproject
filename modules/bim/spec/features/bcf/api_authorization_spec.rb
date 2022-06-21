@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,10 +32,10 @@ describe 'authorization for BCF api',
          with_config: { edition: 'bim' },
          type: :feature,
          js: true do
-  let!(:user) { FactoryBot.create(:admin) }
+  let!(:user) { create(:admin) }
   let(:client_secret) { app.plaintext_secret }
   let(:scope) { 'bcf_v2_1' }
-  let!(:project) { FactoryBot.create(:project, enabled_module_names: [:bim]) }
+  let!(:project) { create(:project, enabled_module_names: [:bim]) }
 
   def oauth_path(client_id)
     "/oauth/authorize?response_type=code&client_id=#{client_id}&redirect_uri=urn:ietf:wg:oauth:2.0:oob&scope=#{scope}"
@@ -100,8 +100,8 @@ describe 'authorization for BCF api',
 
     parameters = {
       client_id: app.uid,
-      client_secret: client_secret,
-      code: code,
+      client_secret:,
+      code:,
       grant_type: :authorization_code,
       redirect_uri: app.redirect_uri.split.first
     }
@@ -143,7 +143,7 @@ describe 'authorization for BCF api',
 
     # With the access token, access is allowed
     response = api_session.get("/api/bcf/2.1/projects/#{project.id}",
-                               headers: { 'Authorization': "Bearer #{access_token}" })
+                               headers: { Authorization: "Bearer #{access_token}" })
     expect(response).to eq 200
     expect(api_session.response.body)
       .to be_json_eql({ project_id: project.id, name: project.name }.to_json)

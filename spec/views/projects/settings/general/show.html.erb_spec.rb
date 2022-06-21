@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'projects/settings/general/show', type: :view do
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
 
   describe 'project copy permission' do
     before do
@@ -61,7 +61,7 @@ describe 'projects/settings/general/show', type: :view do
   end
 
   context 'User.current is admin' do
-    let(:admin) { FactoryBot.build_stubbed :admin }
+    let(:admin) { build_stubbed :admin }
 
     before do
       assign(:project, project)
@@ -78,7 +78,7 @@ describe 'projects/settings/general/show', type: :view do
   end
 
   context 'User.current is non-admin' do
-    let(:non_admin) { FactoryBot.build_stubbed :user }
+    let(:non_admin) { build_stubbed :user }
 
     before do
       assign(:project, project)

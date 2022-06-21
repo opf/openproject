@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,38 +34,38 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
   include API::V3::Utilities::PathHelper
 
   current_user do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions).tap do |u|
-      FactoryBot.create(:global_member,
-                        principal: u,
-                        roles: [FactoryBot.create(:global_role, permissions: global_permissions)])
+    create(:user, member_in_project: project, member_with_permissions: permissions).tap do |u|
+      create(:global_member,
+             principal: u,
+             roles: [create(:global_role, permissions: global_permissions)])
     end
   end
   let(:project_with_add_subproject_permission) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        user: current_user,
-                        project: p,
-                        roles: [FactoryBot.create(:role, permissions: [:add_subprojects])])
+    create(:project).tap do |p|
+      create(:member,
+             user: current_user,
+             project: p,
+             roles: [create(:role, permissions: [:add_subprojects])])
     end
   end
   let(:child_project_with_add_subproject_permission) do
-    FactoryBot.create(:project, parent: project).tap do |p|
-      FactoryBot.create(:member,
-                        user: current_user,
-                        project: p,
-                        roles: [FactoryBot.create(:role, permissions: [:add_subprojects])])
+    create(:project, parent: project).tap do |p|
+      create(:member,
+             user: current_user,
+             project: p,
+             roles: [create(:role, permissions: [:add_subprojects])])
     end
   end
   let(:project_without_add_subproject_permission) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        user: current_user,
-                        project: p,
-                        roles: [FactoryBot.create(:role, permissions: [])])
+    create(:project).tap do |p|
+      create(:member,
+             user: current_user,
+             project: p,
+             roles: [create(:role, permissions: [])])
     end
   end
   let!(:project) do
-    FactoryBot.create(:project, public: false)
+    create(:project, public: false)
   end
   let(:permissions) { %i[edit_project add_subprojects] }
   let(:global_permissions) { %i[add_project] }
@@ -88,7 +88,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
     context 'without a project candidate' do
       it 'returns 200 OK' do
         expect(subject.status)
-          .to eql 200
+          .to be 200
       end
 
       it 'returns projects for which the user has the add_subprojects permission' do
@@ -115,7 +115,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
 
       it 'returns 200 OK' do
         expect(subject.status)
-          .to eql 200
+          .to be 200
       end
 
       it 'returns projects for which the user has the add_subprojects permission but' +
@@ -139,7 +139,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
 
       it 'returns 403' do
         expect(subject.status)
-          .to eql 403
+          .to be 403
       end
     end
 
@@ -149,7 +149,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
 
       it 'returns 200' do
         expect(subject.status)
-          .to eql 200
+          .to be 200
       end
     end
 
@@ -159,7 +159,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
 
       it 'returns 200' do
         expect(subject.status)
-          .to eql 200
+          .to be 200
       end
     end
 
@@ -169,7 +169,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
 
       it 'returns 200' do
         expect(subject.status)
-          .to eql 200
+          .to be 200
       end
     end
   end

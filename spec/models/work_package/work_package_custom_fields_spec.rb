@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,19 +30,19 @@ require 'spec_helper'
 
 describe WorkPackage, type: :model do
   describe '#custom_fields' do
-    let(:type) { FactoryBot.create(:type_standard) }
-    let(:project) { FactoryBot.create(:project, types: [type]) }
+    let(:type) { create(:type_standard) }
+    let(:project) { create(:project, types: [type]) }
     let(:work_package) do
-      FactoryBot.build(:work_package,
-                       project: project,
-                       type: type)
+      build(:work_package,
+            project:,
+            type:)
     end
     let(:custom_field) do
-      FactoryBot.create(:work_package_custom_field,
-                        name: 'Database',
-                        field_format: 'list',
-                        possible_values: %w(MySQL PostgreSQL Oracle),
-                        is_required: cf_required)
+      create(:work_package_custom_field,
+             name: 'Database',
+             field_format: 'list',
+             possible_values: %w(MySQL PostgreSQL Oracle),
+             is_required: cf_required)
     end
 
     let(:cf_required) { true }
@@ -157,7 +157,7 @@ describe WorkPackage, type: :model do
               subject { work_package.errors[custom_field_key] }
 
               it {
-                is_expected.to include(I18n.t("activerecord.errors.messages.#{error_key}"))
+                expect(subject).to include(I18n.t("activerecord.errors.messages.#{error_key}"))
               }
             end
 
@@ -210,7 +210,7 @@ describe WorkPackage, type: :model do
           subject { work_package.errors.full_messages.first }
 
           it 'matches' do
-            is_expected.to eq("Database #{I18n.t('activerecord.errors.messages.inclusion')}")
+            expect(subject).to eq("Database #{I18n.t('activerecord.errors.messages.inclusion')}")
           end
         end
       end
@@ -226,6 +226,7 @@ describe WorkPackage, type: :model do
 
         context 'save' do
           subject { work_package.typed_custom_value_for(custom_field.id) }
+
           it { is_expected.to eq('PostgreSQL') }
         end
       end
@@ -245,10 +246,10 @@ describe WorkPackage, type: :model do
     end
 
     describe 'work package type change' do
-      let (:custom_field_2) { FactoryBot.create(:work_package_custom_field) }
+      let (:custom_field_2) { create(:work_package_custom_field) }
       let(:type_feature) do
-        FactoryBot.create(:type_feature,
-                          custom_fields: [custom_field_2])
+        create(:type_feature,
+               custom_fields: [custom_field_2])
       end
 
       before do
@@ -272,15 +273,16 @@ describe WorkPackage, type: :model do
           end
 
           subject { WorkPackage.find(work_package.id).typed_custom_value_for(custom_field) }
+
           it { is_expected.to eq('PostgreSQL') }
         end
       end
 
       context 'w/o initial type' do
         let(:work_package_without_type) do
-          FactoryBot.build_stubbed(:work_package,
-                                   project: project,
-                                   type: type)
+          build_stubbed(:work_package,
+                        project:,
+                        type:)
         end
 
         describe 'pre-condition' do
@@ -308,7 +310,7 @@ describe WorkPackage, type: :model do
 
         subject do
           wp = WorkPackage.new.tap do |i|
-            i.attributes = { project: project }
+            i.attributes = { project: }
           end
           wp.attributes = attribute_hash
 
@@ -322,10 +324,10 @@ describe WorkPackage, type: :model do
     describe "custom field type 'text'" do
       let(:value) { 'text' * 1024 }
       let(:custom_field) do
-        FactoryBot.create(:work_package_custom_field,
-                          name: 'Test Text',
-                          field_format: 'text',
-                          is_required: true)
+        create(:work_package_custom_field,
+               name: 'Test Text',
+               field_format: 'text',
+               is_required: true)
       end
 
       include_context 'project with custom field'
@@ -336,6 +338,7 @@ describe WorkPackage, type: :model do
         let(:relevant_journal) do
           work_package.journals.find { |j| j.customizable_journals.size > 0 }
         end
+
         subject { relevant_journal.customizable_journals.first.value }
 
         before do
@@ -356,7 +359,7 @@ describe WorkPackage, type: :model do
 
         it 'sets the default values for custom_field_values' do
           expect(work_package.custom_field_values.length)
-            .to eql 1
+            .to be 1
 
           expect(work_package.custom_field_values[0].value)
             .to eql custom_field.custom_options[1].id.to_s
@@ -366,7 +369,7 @@ describe WorkPackage, type: :model do
       context 'for a custom field without default value' do
         it 'sets the default values for custom_field_values' do
           expect(work_package.custom_field_values.length)
-            .to eql 1
+            .to be 1
 
           expect(work_package.custom_field_values[0].value)
             .to be_nil
@@ -376,11 +379,11 @@ describe WorkPackage, type: :model do
 
     describe 'validation error interpolation' do
       let :custom_field do
-        FactoryBot.create :work_package_custom_field,
-                          name: 'PIN',
-                          field_format: 'text',
-                          max_length: 4,
-                          is_required: true
+        create :work_package_custom_field,
+               name: 'PIN',
+               field_format: 'text',
+               max_length: 4,
+               is_required: true
       end
 
       include_context 'project with custom field'

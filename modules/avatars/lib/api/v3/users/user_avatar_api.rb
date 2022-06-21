@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +41,7 @@ module API
           cache_seconds = @user == current_user ? nil : avatar_link_expires_in
 
           if (local_avatar = local_avatar?(@user))
-            respond_with_attachment(local_avatar, cache_seconds: cache_seconds)
+            respond_with_attachment(local_avatar, cache_seconds:)
           elsif avatar_manager.gravatar_enabled?
             set_cache_headers!(cache_seconds) if cache_seconds
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe ::Users::LoginService, type: :model do
-  let(:input_user) { FactoryBot.build_stubbed(:user) }
+  let(:input_user) { build_stubbed(:user) }
   let(:controller) { double('ApplicationController') }
   let(:session) { {} }
   let(:flash) { ActionDispatch::Flash::FlashHash.new }
 
-  let(:instance) { described_class.new(controller: controller) }
+  let(:instance) { described_class.new(controller:) }
 
   subject { instance.call(input_user) }
 
@@ -80,7 +80,7 @@ describe ::Users::LoginService, type: :model do
           subject
 
           expect(session[:foo]).to be_present
-          expect(session[:what]).to eq nil
+          expect(session[:what]).to be_nil
           expect(session[:user_id]).to eq input_user.id
         end
       end

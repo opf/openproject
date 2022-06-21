@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,13 +45,13 @@ module API
             CostEntryCollectionRepresenter.new(cost_entries,
                                                cost_entries.count,
                                                self_link: path,
-                                               current_user: current_user)
+                                               current_user:)
           end
         end
 
         resources :summarized_costs_by_type do
           get do
-            WorkPackageCostsByTypeRepresenter.new(@work_package, current_user: current_user)
+            WorkPackageCostsByTypeRepresenter.new(@work_package, current_user:)
           end
         end
       end

@@ -5,7 +5,7 @@ shared_examples_for "an action checked for required login" do
       action
     end
 
-    it "should be success" do
+    it "is success" do
       expect(response).to be_successful
     end
   end
@@ -16,14 +16,14 @@ shared_examples_for "an action checked for required login" do
       action
     end
 
-    it "should redirect to the login page" do
+    it "redirects to the login page" do
       expect(response).to redirect_to signin_path(back_url: redirect_path)
     end
   end
 end
 
 shared_examples_for "an action requiring login" do
-  let(:current) { FactoryBot.create(:user) }
+  let(:current) { create(:user) }
 
   before do
     allow(User).to receive(:current).and_return(current)
@@ -49,7 +49,7 @@ shared_examples_for "an action requiring login" do
 end
 
 shared_examples_for "an action requiring admin" do
-  let(:current) { FactoryBot.create(:admin) }
+  let(:current) { create(:admin) }
 
   before do
     allow(User).to receive(:current).and_return(current)
@@ -67,7 +67,7 @@ shared_examples_for "an action requiring admin" do
 
   describe "with being logged in as a normal user" do
     before do
-      allow(User).to receive(:current).and_return FactoryBot.create(:user)
+      allow(User).to receive(:current).and_return create(:user)
 
       action
     end
@@ -91,10 +91,10 @@ shared_examples_for "an action requiring admin" do
 end
 shared_context "there are users with and without avatars" do
   let(:base_path) { File.expand_path 'fixtures', __dir__ }
-  let(:user_without_avatar) { FactoryBot.create :user }
+  let(:user_without_avatar) { create :user }
   let(:user_with_avatar) do
-    u = FactoryBot.create :user
-    u.attachments = [FactoryBot.build(:avatar_attachment, author: u)]
+    u = create :user
+    u.attachments = [build(:avatar_attachment, author: u)]
     u
   end
   let(:avatar_file) do
@@ -125,7 +125,7 @@ shared_examples_for "an action with an invalid user" do
   end
 end
 
-shared_examples_for "an action with stubbed User.find" do
+shared_context "an action with stubbed User.find" do
   before do
     allow(user).to receive(:save).and_return true if user
     allow(User).to receive(:find) { |id, _args| id.to_s == "0" ? nil : user }

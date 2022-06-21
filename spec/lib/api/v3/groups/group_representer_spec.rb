@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,16 +34,16 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
   subject(:generated) { representer.to_json }
 
   let(:group) do
-    FactoryBot.build_stubbed(:group).tap do |g|
+    build_stubbed(:group).tap do |g|
       allow(g)
         .to receive(:users)
         .and_return(members)
     end
   end
   let(:current_user_admin) { false }
-  let(:current_user) { FactoryBot.build_stubbed(:user, admin: current_user_admin) }
-  let(:representer) { described_class.new(group, current_user: current_user, embed_links: embed_links) }
-  let(:members) { 2.times.map { FactoryBot.build_stubbed(:user) } }
+  let(:current_user) { build_stubbed(:user, admin: current_user_admin) }
+  let(:representer) { described_class.new(group, current_user:, embed_links:) }
+  let(:members) { 2.times.map { build_stubbed(:user) } }
   let(:permissions) { [:manage_members] }
   let(:embed_links) { true }
 
@@ -139,12 +139,12 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
     describe 'createdAt' do
       context 'without admin' do
         it 'hides the createdAt property' do
-          is_expected.not_to have_json_path('createdAt')
+          expect(subject).not_to have_json_path('createdAt')
         end
       end
 
       context 'with an admin' do
-        let(:current_user) { FactoryBot.build_stubbed(:admin) }
+        let(:current_user) { build_stubbed(:admin) }
 
         it_behaves_like 'has UTC ISO 8601 date and time' do
           let(:date) { group.created_at }
@@ -156,12 +156,12 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
     describe 'updatedAt' do
       context 'without admin' do
         it 'hides the updatedAt property' do
-          is_expected.not_to have_json_path('updatedAt')
+          expect(subject).not_to have_json_path('updatedAt')
         end
       end
 
       context 'with an admin' do
-        let(:current_user) { FactoryBot.build_stubbed(:admin) }
+        let(:current_user) { build_stubbed(:admin) }
 
         it_behaves_like 'has UTC ISO 8601 date and time' do
           let(:date) { group.updated_at }
@@ -178,11 +178,11 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
       context 'with the necessary permissions' do
         it 'has an array of users embedded' do
           members.each_with_index do |user, index|
-            is_expected
+            expect(subject)
               .to be_json_eql('User'.to_json)
               .at_path("#{embedded_path}/#{index}/_type")
 
-            is_expected
+            expect(subject)
               .to be_json_eql(user.name.to_json)
               .at_path("#{embedded_path}/#{index}/name")
           end

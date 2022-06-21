@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,10 +30,10 @@ require 'spec_helper'
 
 shared_examples_for 'API V3 digest' do
   it 'defines an algorithm' do
-    is_expected.to be_json_eql(algorithm.to_json).at_path("#{path}/algorithm")
+    expect(subject).to be_json_eql(algorithm.to_json).at_path("#{path}/algorithm")
   end
 
   it 'has a hash' do
-    is_expected.to be_json_eql(hash.to_json).at_path("#{path}/hash")
+    expect(subject).to be_json_eql(hash.to_json).at_path("#{path}/hash")
   end
 end

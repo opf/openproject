@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +34,7 @@ module TimeEntries::Scopes
       def of_user_and_day(user, date, excluding: nil)
         scope = TimeEntry
                   .where(spent_on: date,
-                         user: user)
+                         user:)
 
         if excluding
           scope = scope.where.not(id: excluding.id)

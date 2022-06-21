@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ describe 'Authentication Stages', type: :feature do
 
   let(:user_password) { 'bob' * 4 }
   let(:user) do
-    FactoryBot.create(
+    create(
       :user,
       force_password_change: false,
       first_login: false,
@@ -87,7 +87,6 @@ describe 'Authentication Stages', type: :feature do
 
     it 'redirects to authentication stage after automatic registration and before login' do
       visit signin_path
-      click_on "Create a new account"
 
       within("#new_user") do
         fill_in "user_login", with: "h.wurst"
@@ -113,7 +112,6 @@ describe 'Authentication Stages', type: :feature do
 
     it 'redirects to authentication stage after registration via omniauth too' do
       visit signin_path
-      click_on "Create a new account"
 
       within("#new_user") do
         click_on "Omniauth Developer"
@@ -137,7 +135,7 @@ describe 'Authentication Stages', type: :feature do
     end
   end
 
-  it 'redirects to registered authentication stage before actual login if succesful' do
+  it 'redirects to registered authentication stage before actual login if successful' do
     expect { login! }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
 
     expect(current_path).to eql "/login/stage_test"
@@ -238,7 +236,7 @@ describe 'Authentication Stages', type: :feature do
       OpenProject::Authentication::Stage.deregister :two_step
     end
 
-    it 'redirects to both registered authentication stages before actual login if succesful' do
+    it 'redirects to both registered authentication stages before actual login if successful' do
       expect { login! }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
 
       expect(current_path).to eql "/login/stage_test"

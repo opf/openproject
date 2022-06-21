@@ -26,7 +26,7 @@ openproject run bundle exec rake redmine:email:receive_imap host='imap.gmail.com
 
 **Docker installation**
 
-The docker installation has a ["cron-like" daemon](https://github.com/opf/openproject/blob/dev/docker/cron) that will imitate the above cron job. You need to specify the following ENV variables (e.g., to your env list file)
+The docker installation has a ["cron-like" daemon](https://github.com/opf/openproject/blob/dev/docker/prod/cron) that will imitate the above cron job. You need to specify the following ENV variables (e.g., to your env list file)
 
 - `IMAP_SSL` set to true or false depending on whether the ActionMailer IMAP connection requires implicit TLS/SSL
 - `IMAP_PORT` `IMAP_HOST` set to the IMAP host and port of your connection
@@ -123,7 +123,7 @@ If a matching account is found, the mail handler impersonates the user to create
 If no matching account is found, the mail is rejected. To override this behavior and allow unknown mail address
 to create work packages, set the option `no_permission_check=1` and specify with `unknown_user=accept`
 
-**Note**: This feature only provides a mapping of mail to user account, it does not authenticate the user based on the mail. Since you can easily spoof mail addresses, you should not rely on the authenticity of work packages created that way.
+**Note**: This feature only provides a mapping of mail to user account, it does not authenticate the user based on the mail. Since you can easily spoof mail addresses, you should not rely on the authenticity of work packages created that way. At the moment in the OpenProject Enterprise Cloud work package generation by emails can only be triggered by registered email addresses.
 
 **Users with mail suffixes**
 

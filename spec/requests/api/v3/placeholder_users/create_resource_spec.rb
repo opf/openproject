@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -34,24 +32,23 @@ require_relative './create_shared_examples'
 describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
          'create',
          type: :request do
-
   current_user { user }
 
   describe 'admin user' do
-    let(:user) { FactoryBot.build(:admin) }
+    let(:user) { build(:admin) }
 
     it_behaves_like 'create placeholder user request flow'
   end
 
   describe 'user with manage_placeholder_user permission' do
-    let(:user) { FactoryBot.create(:user, global_permission: %i[manage_placeholder_user]) }
+    let(:user) { create(:user, global_permission: %i[manage_placeholder_user]) }
 
     it_behaves_like 'create placeholder user request flow'
   end
 
   describe 'unauthorized user' do
     include_context 'create placeholder user request context'
-    let(:user) { FactoryBot.build(:user) }
+    let(:user) { build(:user) }
 
     it 'returns an erroneous response' do
       send_request

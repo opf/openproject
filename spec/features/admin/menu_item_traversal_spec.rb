@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Menu item traversal', type: :feature do
-  shared_let(:admin) { FactoryBot.create(:admin) }
+  shared_let(:admin) { create(:admin) }
 
   describe 'EnterpriseToken management' do
     before do
@@ -50,7 +50,7 @@ describe 'Menu item traversal', type: :feature do
   end
 
   describe 'route authorization', with_settings: { login_required?: false } do
-    let(:user) { FactoryBot.create :user }
+    let(:user) { create :user }
     let(:anon) { User.anonymous }
 
     let(:check_link) do
@@ -70,7 +70,7 @@ describe 'Menu item traversal', type: :feature do
         visit link
 
         expect(current_url).to include link
-        expect(page).to have_http_status(200)
+        expect(page).to have_http_status(:ok)
         expect(page).to have_no_text(I18n.t(:notice_not_authorized))
         expect(page).to have_selector '#menu-sidebar .selected'
       }

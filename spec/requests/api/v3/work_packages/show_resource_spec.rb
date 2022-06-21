@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,23 +36,23 @@ describe 'API v3 Work package resource',
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
-  let(:closed_status) { FactoryBot.create(:closed_status) }
+  let(:closed_status) { create(:closed_status) }
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project_id: project.id,
-                      description: 'lorem ipsum')
+    create(:work_package,
+           project_id: project.id,
+           description: 'lorem ipsum')
   end
   let(:project) do
-    FactoryBot.create(:project, identifier: 'test_project', public: false)
+    create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:unauthorize_user) { FactoryBot.create(:user) }
-  let(:type) { FactoryBot.create(:type) }
+  let(:unauthorize_user) { create(:user) }
+  let(:type) { create(:type) }
 
   before do
     login_as(current_user)
@@ -62,26 +62,27 @@ describe 'API v3 Work package resource',
     let(:get_path) { api_v3_paths.work_package work_package.id }
 
     context 'when acting as a user with permission to view work package' do
-      before(:each) do
+      before do
         login_as(current_user)
         get get_path
       end
 
-      it 'should respond with 200' do
+      it 'responds with 200' do
         expect(last_response.status).to eq(200)
       end
 
       describe 'response body' do
         subject { last_response.body }
+
         let!(:other_wp) do
-          FactoryBot.create(:work_package,
-                            project_id: project.id,
-                            status: closed_status)
+          create(:work_package,
+                 project_id: project.id,
+                 status: closed_status)
         end
         let(:work_package) do
-          FactoryBot.create(:work_package,
-                            project_id: project.id,
-                            description: description).tap do |wp|
+          create(:work_package,
+                 project_id: project.id,
+                 description:).tap do |wp|
             wp.children << children
           end
         end
@@ -118,8 +119,8 @@ describe 'API v3 Work package resource',
           subject { JSON.parse(last_response.body)['description'] }
 
           it 'renders to html' do
-            is_expected.to have_selector('h1')
-            is_expected.to have_selector('h2')
+            expect(subject).to have_selector('h1')
+            expect(subject).to have_selector('h2')
 
             # resolves links
             expect(subject['html'])
@@ -133,17 +134,17 @@ describe 'API v3 Work package resource',
         describe 'derived dates' do
           let(:children) do
             # This will be in another project but the user is still allowed to see the dates
-            [FactoryBot.create(:work_package,
-                               start_date: Date.today,
-                               due_date: Date.today + 5.days)]
+            [create(:work_package,
+                    start_date: Date.today,
+                    due_date: Date.today + 5.days)]
           end
 
           it 'has derived dates' do
-            is_expected
+            expect(subject)
               .to be_json_eql(Date.today.to_json)
                     .at_path('derivedStartDate')
 
-            is_expected
+            expect(subject)
               .to be_json_eql((Date.today + 5.days).to_json)
                     .at_path('derivedDueDate')
           end
@@ -151,18 +152,18 @@ describe 'API v3 Work package resource',
 
         describe 'relations' do
           let(:directly_related_wp) do
-            FactoryBot.create(:work_package, project_id: project.id)
+            create(:work_package, project_id: project.id)
           end
           let(:transitively_related_wp) do
-            FactoryBot.create(:work_package, project_id: project.id)
+            create(:work_package, project_id: project.id)
           end
 
           let(:work_package) do
-            FactoryBot.create(:work_package,
-                              project_id: project.id,
-                              description: 'lorem ipsum').tap do |wp|
-              FactoryBot.create(:relation, relates: 1, from: wp, to: directly_related_wp)
-              FactoryBot.create(:relation, relates: 1, from: directly_related_wp, to: transitively_related_wp)
+            create(:work_package,
+                   project_id: project.id,
+                   description: 'lorem ipsum').tap do |wp|
+              create(:relation, relation_type: Relation::TYPE_RELATES, from: wp, to: directly_related_wp)
+              create(:relation, relation_type: Relation::TYPE_RELATES, from: directly_related_wp, to: transitively_related_wp)
             end
           end
 
@@ -187,7 +188,7 @@ describe 'API v3 Work package resource',
     end
 
     context 'when acting as a user without permission to view work package' do
-      before(:each) do
+      before do
         allow(User).to receive(:current).and_return unauthorize_user
         get get_path
       end
@@ -197,7 +198,7 @@ describe 'API v3 Work package resource',
     end
 
     context 'when acting as an anonymous user' do
-      before(:each) do
+      before do
         allow(User).to receive(:current).and_return User.anonymous
         get get_path
       end

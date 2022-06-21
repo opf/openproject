@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,17 +29,17 @@
 require 'spec_helper'
 
 describe 'creating a child directly after the wp itself was created', js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create(:project, types: [type]) }
+  let(:user) { create :admin }
+  let(:project) { create(:project, types: [type]) }
   let(:wp_page) { Pages::FullWorkPackageCreate.new }
 
-  let!(:status) { FactoryBot.create(:status, is_default: true) }
-  let!(:priority) { FactoryBot.create(:priority, is_default: true) }
-  let(:type) { FactoryBot.create(:type, custom_fields: [custom_field]) }
+  let!(:status) { create(:status, is_default: true) }
+  let!(:priority) { create(:priority, is_default: true) }
+  let(:type) { create(:type, custom_fields: [custom_field]) }
   let(:custom_field) do
-    FactoryBot.create :work_package_custom_field,
-                      field_format: 'int',
-                      is_for_all: true
+    create :work_package_custom_field,
+           field_format: 'int',
+           is_for_all: true
   end
   let(:relations_tab) { find('.op-tab-row--link', text: 'RELATIONS') }
 
@@ -65,7 +65,7 @@ describe 'creating a child directly after the wp itself was created', js: true d
 
     # Add child
     scroll_to_and_click relations_tab
-    find('.wp-inline-create--add-link.wp-inline-create--split-link').click
+    find('[data-qa-selector="op-wp-inline-create"]').click
     fill_in 'wp-new-inline-edit--field-subject', with: 'A child WP'
     find('#wp-new-inline-edit--field-subject').native.send_keys(:return)
 

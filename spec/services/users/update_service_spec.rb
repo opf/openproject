@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -40,15 +38,16 @@ describe Users::UpdateService do
 
   describe 'updating attributes' do
     let(:instance) { described_class.new(model: update_user, user: current_user) }
-    let(:current_user) { FactoryBot.build_stubbed(:admin) }
-    let(:update_user) { FactoryBot.create(:user, mail: 'correct@example.org') }
-    subject { instance.call(attributes: attributes) }
+    let(:current_user) { build_stubbed(:admin) }
+    let(:update_user) { create(:user, mail: 'correct@example.org') }
+
+    subject { instance.call(attributes:) }
 
     context 'when invalid' do
       let(:attributes) { { mail: 'invalid' } }
 
       it 'fails to update' do
-        expect(subject).to_not be_success
+        expect(subject).not_to be_success
 
         update_user.reload
         expect(update_user.mail).to eq('correct@example.org')
@@ -68,9 +67,29 @@ describe Users::UpdateService do
       end
 
       context 'if current_user is no admin' do
-        let(:current_user) { FactoryBot.build_stubbed(:user) }
+        let(:current_user) { build_stubbed(:user) }
+
         it 'is unsuccessful' do
-          expect(subject).to_not be_success
+          expect(subject).not_to be_success
+        end
+      end
+    end
+
+    context 'when valid status' do
+      let(:attributes) { { status: Principal.statuses[:locked] } }
+
+      it 'updates the user' do
+        expect(subject).to be_success
+
+        update_user.reload
+        expect(update_user).to be_locked
+      end
+
+      context 'if current_user is no admin' do
+        let(:current_user) { build_stubbed(:user) }
+
+        it 'is unsuccessful' do
+          expect(subject).not_to be_success
         end
       end
     end

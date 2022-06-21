@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe Workflow, type: :model do
-  let(:status_0) { FactoryBot.create(:status) }
-  let(:status_1) { FactoryBot.create(:status) }
-  let(:role) { FactoryBot.create(:role) }
-  let(:type) { FactoryBot.create(:type) }
+  let(:status_0) { create(:status) }
+  let(:status_1) { create(:status) }
+  let(:role) { create(:role) }
+  let(:type) { create(:type) }
 
   describe '#self.copy' do
-    let(:role_target) { FactoryBot.create(:role) }
-    let(:type_target) { FactoryBot.create(:type) }
+    let(:role_target) { create(:role) }
+    let(:type_target) { create(:type) }
 
     shared_examples_for 'copied workflow' do
       before { Workflow.copy(type, role, type_target, role_target) }
@@ -58,36 +58,39 @@ describe Workflow, type: :model do
 
     describe 'workflow w/o author or assignee' do
       let!(:workflow_src) do
-        FactoryBot.create(:workflow,
-                          old_status: status_0,
-                          new_status: status_1,
-                          type_id: type.id,
-                          role: role)
+        create(:workflow,
+               old_status: status_0,
+               new_status: status_1,
+               type_id: type.id,
+               role:)
       end
+
       it_behaves_like 'copied workflow'
     end
 
     describe 'workflow with author' do
       let!(:workflow_src) do
-        FactoryBot.create(:workflow,
-                          old_status: status_0,
-                          new_status: status_1,
-                          type_id: type.id,
-                          role: role,
-                          author: true)
+        create(:workflow,
+               old_status: status_0,
+               new_status: status_1,
+               type_id: type.id,
+               role:,
+               author: true)
       end
+
       it_behaves_like 'copied workflow'
     end
 
     describe 'workflow with assignee' do
       let!(:workflow_src) do
-        FactoryBot.create(:workflow,
-                          old_status: status_0,
-                          new_status: status_1,
-                          type_id: type.id,
-                          role: role,
-                          assignee: true)
+        create(:workflow,
+               old_status: status_0,
+               new_status: status_1,
+               type_id: type.id,
+               role:,
+               assignee: true)
       end
+
       it_behaves_like 'copied workflow'
     end
   end

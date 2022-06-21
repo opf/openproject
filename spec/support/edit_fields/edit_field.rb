@@ -1,6 +1,7 @@
 class EditField
   include Capybara::DSL
   include RSpec::Matchers
+  include ::Components::NgSelectAutocompleteHelpers
 
   attr_reader :selector,
               :property_name,
@@ -47,7 +48,7 @@ class EditField
   end
 
   def expect_state_text(text)
-    expect(context).to have_selector(@selector, text: text)
+    expect(context).to have_selector(@selector, text:)
   end
   alias :expect_text :expect_state_text
 
@@ -133,14 +134,28 @@ class EditField
   # For fields of type select, will check for an option with that value.
   def set_value(content)
     scroll_to_element(input_element)
-    if field_type.end_with?('-autocompleter')
-      page.find('.ng-dropdown-panel .ng-option', visible: :all, text: content).click
+    if autocompleter_field?
+      autocomplete(content)
     else
       # A normal fill_in would cause the focus loss on the input for empty strings.
       # Thus the form would be submitted.
       # https://github.com/erikras/redux-form/issues/686
       input_element.fill_in with: content, fill_options: { clear: :backspace }
     end
+  end
+
+  def autocomplete(query, select: true)
+    raise ArgumentError.new('Is not an autocompleter field') unless autocompleter_field?
+
+    if select
+      select_autocomplete field_container, query: query, results_selector: 'body'
+    else
+      search_autocomplete field_container, query:, results_selector: 'body'
+    end
+  end
+
+  def autocompleter_field?
+    field_type.end_with?('-autocompleter')
   end
 
   ##
@@ -223,24 +238,23 @@ class EditField
   end
 
   def field_type
-    @field_type ||= begin
-      case property_name.to_s
-      when 'version'
-        'version-autocompleter'
-      when 'assignee',
+    @field_type ||= case property_name.to_s
+                    when 'version'
+                      'version-autocompleter'
+                    when 'assignee',
            'responsible',
            'priority',
            'status',
-           'project',
            'type',
            'category',
            'workPackage'
-        'create-autocompleter'
-      when 'activity'
-        'activity-autocompleter'
-      else
-        :input
-      end.to_s
-    end
+                      'create-autocompleter'
+                    when 'project'
+                      'op-autocompleter'
+                    when 'activity'
+                      'activity-autocompleter'
+                    else
+                      :input
+                    end.to_s
   end
 end

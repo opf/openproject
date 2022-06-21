@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,28 +27,21 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Observable } from 'rxjs';
-import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable({ providedIn: 'root' })
 export class OpenProjectBackupService {
-  constructor(protected http:HttpClient,
-    protected halResource:HalResourceService) {
+  constructor(
+    protected apiV3Service:ApiV3Service,
+  ) {
   }
 
   public triggerBackup(backupToken:string, includeAttachments = true):Observable<HalResource> {
     return this
-      .http
-      .request<HalResource>(
-      'post',
-      '/api/v3/backups',
-      {
-        body: { backupToken, attachments: includeAttachments },
-        withCredentials: true,
-        responseType: 'json' as any,
-      },
-    );
+      .apiV3Service
+      .backups
+      .post(backupToken, includeAttachments);
   }
 }

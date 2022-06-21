@@ -4,7 +4,7 @@ OpenProject's admin interface only allows you to configure providers from a pre-
 This includes Google and Azure right now.
 
 You can still use an arbitrary provider. But for the time being there is no user interface for this.
-That means you will have to do it directly using the console on the server.
+That means you will have to do it directly using the console on the server or via environment variables.
 
 <div class="alert alert-info" role="alert">
 
@@ -83,9 +83,49 @@ Clicking on it will start the login process.
 
 _**Note**: This is an Enterprise Edition feature. If you do not see the button you will have to activate the Enterprise Edition first._
 
+## Environment variables
+
+Rather than setting these options via the rails console, you can also define them through the
+[OpenProject configuration](https://www.openproject.org/docs/installation-and-operations/configuration/) which can
+also be defined through
+[environment variables](https://www.openproject.org/docs/installation-and-operations/configuration/environment/).
+
+The variable names can be derived from the options seen above. All variables will start with the prefix
+`OPENPROJECT_OPENID__CONNECT_` followed by the provider name. For instance the okta example from above would
+be defined via environment variables like this:
+
+```
+OPENPROJECT_OPENID__CONNECT_OKTA_DISPLAY__NAME="Okta"
+OPENPROJECT_OPENID__CONNECT_OKTA_HOST="mypersonal.okta.com"
+OPENPROJECT_OPENID__CONNECT_OKTA_IDENTIFIER="<identifier or client id>"
+# etc.
+```
+
+**Note**: Underscores in option names must be escaped by doubling them. So make sure to really do use two consecutive
+underscores in `DISPLAY__NAME`, `TOKEN__ENDPOINT` and so forth.
+
 ## More options
 
 You can see a list of possible options [here](https://github.com/m0n9oose/omniauth_openid_connect#options-overview).
+
+### Known providers and multiple connection per provider
+
+There are a number of known providers where the endpoints are configured automatically based on the provider name in the configuration. All that is required are the client ID (identifier) and secret in that case.
+
+If you want to configure multiple connections using the same provider you can prefix an arbitrary name with the
+provider name followed by a period. For instance, if you want to configure 2 AzureAD connections and 1 Google connection it would look like this:
+
+```
+Setting.plugin_openproject_openid_connect = Hash(Setting.plugin_openproject_openid_connect || {}).deep_merge({
+  "providers" => {
+    "azure.dept1" =>  { "display_name"=>"Department 1","identifier"=>"...","secret"=>"..." },
+    "azure.dept2" =>  { "display_name"=>"Department 2","identifier"=>"...","secret"=>"..." },
+    "google" =>  { "display_name"=>"Google","identifier"=>"...","secret"=>"..." }
+  }
+})
+```
+
+At the time of writing the known providers are: `azure`, `google`, `okta`
 
 ### Claims
 

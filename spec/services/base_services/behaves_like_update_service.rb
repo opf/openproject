@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,16 +37,16 @@ shared_examples 'BaseServices update service' do
 
   let(:set_attributes_class) { "#{namespace}::SetAttributesService".constantize }
 
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     double('contract_class', '<=': true)
   end
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: model_instance,
-                        contract_class: contract_class)
+                        contract_class:)
   end
-  let(:call_attributes) { { some: 'hash'} }
+  let(:call_attributes) { { some: 'hash' } }
   let(:set_attributes_success) do
     true
   end
@@ -60,15 +58,15 @@ shared_examples 'BaseServices update service' do
                       success: set_attributes_success,
                       errors: set_attributes_errors
   end
-  let!(:model_instance) { FactoryBot.build_stubbed(factory) }
+  let!(:model_instance) { build_stubbed(factory) }
   let!(:set_attributes_service) do
     service = double('set_attributes_service_instance')
 
     allow(set_attributes_class)
       .to receive(:new)
-      .with(user: user,
+      .with(user:,
             model: model_instance,
-            contract_class: contract_class,
+            contract_class:,
             contract_options: {})
       .and_return(service)
 
@@ -115,7 +113,7 @@ shared_examples 'BaseServices update service' do
         expect(subject).to be_failure
         expect(subject).to eql set_attributes_result
 
-        expect(model_instance).to_not receive(:save)
+        expect(model_instance).not_to receive(:save)
 
         expect(subject.errors).to eql set_attributes_errors
       end

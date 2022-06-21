@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,81 +29,76 @@
 require 'spec_helper'
 
 describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
-  let(:project) { FactoryBot.create(:project) }
-  let(:origin) { FactoryBot.create(:work_package, project: project) }
+  let(:project) { create(:project) }
+  let(:origin) { create(:work_package, project:) }
   let(:predecessor) do
-    FactoryBot.create(:work_package, project: project).tap do |pre|
-      FactoryBot.create(:follows_relation, from: origin, to: pre)
+    create(:work_package, project:).tap do |pre|
+      create(:follows_relation, from: origin, to: pre)
     end
   end
   let(:parent) do
-    FactoryBot.create(:work_package, project: project).tap do |par|
-      FactoryBot.create(:hierarchy_relation, from: par, to: origin)
+    create(:work_package, project:).tap do |par|
+      origin.update(parent: par)
     end
   end
   let(:grandparent) do
-    FactoryBot.create(:work_package, project: project).tap do |grand|
-      FactoryBot.create(:hierarchy_relation, from: grand, to: parent)
+    create(:work_package, project:).tap do |grand|
+      parent.update(parent: grand)
     end
   end
   let(:successor) do
-    FactoryBot.create(:work_package, project: project).tap do |suc|
-      FactoryBot.create(:follows_relation, from: suc, to: origin)
+    create(:work_package, project:).tap do |suc|
+      create(:follows_relation, from: suc, to: origin)
     end
   end
   let(:successor2) do
-    FactoryBot.create(:work_package, project: project).tap do |suc|
-      FactoryBot.create(:follows_relation, from: suc, to: origin)
+    create(:work_package, project:).tap do |suc|
+      create(:follows_relation, from: suc, to: origin)
     end
   end
   let(:successor_parent) do
-    FactoryBot.create(:work_package, project: project).tap do |par|
-      FactoryBot.create(:hierarchy_relation, from: par, to: successor)
+    create(:work_package, project:).tap do |par|
+      successor.update(parent: par)
     end
   end
   let(:successor_child) do
-    FactoryBot.create(:work_package, project: project).tap do |chi|
-      FactoryBot.create(:hierarchy_relation, from: successor, to: chi)
-    end
+    create(:work_package, project:, parent: successor)
+  end
+  let(:successor_grandchild) do
+    create(:work_package, project:, parent: successor_child)
   end
   let(:successor_child2) do
-    FactoryBot.create(:work_package, project: project).tap do |chi|
-      FactoryBot.create(:hierarchy_relation, from: successor, to: chi)
-    end
+    create(:work_package, project:, parent: successor)
   end
   let(:successor_successor) do
-    FactoryBot.create(:work_package, project: project).tap do |suc|
-      FactoryBot.create(:follows_relation, from: suc, to: successor)
+    create(:work_package, project:).tap do |suc|
+      create(:follows_relation, from: suc, to: successor)
     end
   end
   let(:parent_successor) do
-    FactoryBot.create(:work_package, project: project).tap do |suc|
-      FactoryBot.create(:follows_relation, from: suc, to: parent)
+    create(:work_package, project:).tap do |suc|
+      create(:follows_relation, from: suc, to: parent)
     end
   end
   let(:parent_successor_parent) do
-    FactoryBot.create(:work_package, project: project).tap do |par|
-      FactoryBot.create(:hierarchy_relation, from: par, to: parent_successor)
+    create(:work_package, project:).tap do |par|
+      parent_successor.update(parent: par)
     end
   end
   let(:parent_successor_child) do
-    FactoryBot.create(:work_package, project: project).tap do |chi|
-      FactoryBot.create(:hierarchy_relation, from: parent_successor, to: chi)
-    end
+    create(:work_package, project:, parent: parent_successor)
   end
   let(:blocker) do
-    FactoryBot.create(:work_package, project: project).tap do |blo|
-      FactoryBot.create(:relation, relation_type: 'blocks', from: blo, to: origin)
+    create(:work_package, project:).tap do |blo|
+      create(:relation, relation_type: 'blocks', from: blo, to: origin)
     end
   end
   let(:includer) do
-    FactoryBot.create(:work_package, project: project).tap do |inc|
-      FactoryBot.create(:relation, relation_type: 'includes', from: inc, to: origin)
+    create(:work_package, project:).tap do |inc|
+      create(:relation, relation_type: 'includes', from: inc, to: origin)
     end
   end
   let(:existing_work_packages) { [] }
-
-  subject {}
 
   describe '.for_scheduling' do
     it 'is a AR scope' do
@@ -207,11 +202,11 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       end
     end
 
-    context 'for a work package with a successor which has parent and child and a successor of its own which is also a child of parent' do
+    context 'for a work package with a successor having a parent and child and a successor of its own which is a child itself' do
       let!(:existing_work_packages) { [successor, successor_child, successor_parent, successor_successor] }
 
       before do
-        FactoryBot.create(:hierarchy_relation, from: successor_parent, to: successor_successor)
+        successor_successor.update(parent: successor_parent)
       end
 
       context 'with all scheduled automatically' do
@@ -248,7 +243,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       let!(:existing_work_packages) { [successor, successor_parent] }
 
       before do
-        FactoryBot.create(:follows_relation, from: successor_parent, to: origin)
+        create(:follows_relation, from: successor_parent, to: origin)
       end
 
       context 'with all scheduled automatically' do
@@ -280,7 +275,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
       end
 
-      context 'both scheduled manually' do
+      context 'with both scheduled manually' do
         before do
           successor.update_column(:schedule_manually, true)
           successor_parent.update_column(:schedule_manually, true)
@@ -419,6 +414,106 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
           expect(WorkPackage.for_scheduling([origin]))
             .to match_array([successor])
         end
+      end
+    end
+
+    context 'for a work package with a successor that has a child and grandchild' do
+      let!(:existing_work_packages) { [successor, successor_child, successor_grandchild] }
+
+      context 'with all scheduled automatically' do
+        it 'consists of both successors' do
+          expect(WorkPackage.for_scheduling([origin]))
+            .to match_array([successor, successor_child, successor_grandchild])
+        end
+      end
+
+      context 'with the successor\'s child scheduled manually' do
+        before do
+          successor_child.update_column(:schedule_manually, true)
+        end
+
+        it 'contains the successor' do
+          expect(WorkPackage.for_scheduling([origin]))
+            .to match_array [successor]
+        end
+      end
+    end
+
+    context 'for a work package with a successor that has a child and two grandchildren' do
+      let(:successor_grandchild2) do
+        create(:work_package, project:, parent: successor_child)
+      end
+
+      let!(:existing_work_packages) { [successor, successor_child, successor_grandchild, successor_grandchild2] }
+
+      context 'with all scheduled automatically' do
+        it 'consists of the successor with its descendants' do
+          expect(WorkPackage.for_scheduling([origin]))
+            .to match_array([successor, successor_child, successor_grandchild, successor_grandchild2])
+        end
+      end
+
+      context 'with one of the successor\'s grandchildren scheduled manually' do
+        before do
+          successor_grandchild.update_column(:schedule_manually, true)
+        end
+
+        it 'contains the successor and the non automatically scheduled descendants' do
+          expect(WorkPackage.for_scheduling([origin]))
+            .to match_array([successor, successor_child, successor_grandchild2])
+        end
+      end
+
+      context 'with both of the successor\'s grandchildren scheduled manually' do
+        before do
+          successor_grandchild.update_column(:schedule_manually, true)
+          successor_grandchild2.update_column(:schedule_manually, true)
+        end
+
+        it 'includes successor' do
+          expect(WorkPackage.for_scheduling([origin]))
+            .to match_array([successor])
+        end
+      end
+
+      context 'with both of the successor\'s grandchildren and child scheduled manually' do
+        before do
+          successor_child.update_column(:schedule_manually, true)
+          successor_grandchild.update_column(:schedule_manually, true)
+          successor_grandchild2.update_column(:schedule_manually, true)
+        end
+
+        it 'is empty' do
+          expect(WorkPackage.for_scheduling([origin]))
+            .to be_empty
+        end
+      end
+
+      context 'with the successor\'s child scheduled manually' do
+        before do
+          successor_child.update_column(:schedule_manually, true)
+        end
+
+        it 'contains the successor' do
+          expect(WorkPackage.for_scheduling([origin]))
+            .to match_array [successor]
+        end
+      end
+    end
+
+    context 'for a work package with a sibling and a successor that also has a sibling' do
+      let(:sibling) do
+        create(:work_package, project:, parent:)
+      end
+      let(:successor_sibling) do
+        create(:work_package, project:, parent: successor_parent)
+      end
+
+      let!(:existing_work_packages) { [parent, sibling, successor, successor_parent, successor_sibling] }
+
+      it 'contains the successor and the parents but not the siblings' do
+        expect(WorkPackage.for_scheduling([origin]))
+          .to match_array([successor, parent, successor_parent])
       end
     end
   end

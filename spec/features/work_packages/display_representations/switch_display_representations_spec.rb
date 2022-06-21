@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,28 +31,28 @@ require 'spec_helper'
 describe 'Switching work package view',
          with_ee: %i[conditional_highlighting],
          js: true do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:highlighting) { ::Components::WorkPackages::Highlighting.new }
   let(:cards) { ::Pages::WorkPackageCards.new(project) }
   let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
 
-  let(:priority1) { FactoryBot.create :issue_priority, color: FactoryBot.create(:color, hexcode: '#123456') }
-  let(:priority2) { FactoryBot.create :issue_priority, color: FactoryBot.create(:color, hexcode: '#332211') }
-  let(:status) { FactoryBot.create :status, color: FactoryBot.create(:color, hexcode: '#654321') }
+  let(:priority1) { create :issue_priority, color: create(:color, hexcode: '#123456') }
+  let(:priority2) { create :issue_priority, color: create(:color, hexcode: '#332211') }
+  let(:status) { create :status, color: create(:color, hexcode: '#654321') }
 
   let(:wp_1) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      priority: priority1,
-                      status: status
+    create :work_package,
+           project:,
+           priority: priority1,
+           status:
   end
   let(:wp_2) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      priority: priority2,
-                      status: status
+    create :work_package,
+           project:,
+           priority: priority2,
+           status:
   end
 
   before do

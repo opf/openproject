@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clear_cache: true do
+describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:filter) { Queries::WorkPackages::Filter::StatusFilter.create! }
@@ -43,24 +43,24 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
 
     filter
   end
-  let(:custom_field) { FactoryBot.build_stubbed(:list_wp_custom_field) }
+  let(:custom_field) { build_stubbed(:list_wp_custom_field) }
   let(:instance) do
     described_class.new(filter,
-                        self_link: self_link,
+                        self_link:,
                         current_user: user,
-                        form_embedded: form_embedded)
+                        form_embedded:)
   end
   let(:form_embedded) { false }
   let(:self_link) { 'bogus_self_path' }
   let(:project) { nil }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:json_cacheable) { true }
   let(:json_cache_key) { 'some key' }
   let(:dependency) do
     double('dependency',
-           to_hash: { 'lorem': 'ipsum' },
+           to_hash: { lorem: 'ipsum' },
            json_cacheable?: json_cacheable,
-           json_cache_key: json_cache_key)
+           json_cache_key:)
   end
 
   context 'generation' do
@@ -70,7 +70,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
           .to receive(:create)
           .with(filter,
                 operator,
-                form_embedded: form_embedded)
+                form_embedded:)
           .and_return(dependency)
       end
     end
@@ -185,11 +185,11 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
         describe 'dependencies' do
           it 'is the hash' do
             expected = {
-              api_v3_paths.query_operator(CGI.escape('=')) => { "lorem": "ipsum" },
-              api_v3_paths.query_operator(CGI.escape('c')) => { "lorem": "ipsum" },
-              api_v3_paths.query_operator(CGI.escape('!')) => { "lorem": "ipsum" },
-              api_v3_paths.query_operator(CGI.escape('*')) => { "lorem": "ipsum" },
-              api_v3_paths.query_operator(CGI.escape('o')) => { "lorem": "ipsum" }
+              api_v3_paths.query_operator(CGI.escape('=')) => { lorem: "ipsum" },
+              api_v3_paths.query_operator(CGI.escape('c')) => { lorem: "ipsum" },
+              api_v3_paths.query_operator(CGI.escape('!')) => { lorem: "ipsum" },
+              api_v3_paths.query_operator(CGI.escape('*')) => { lorem: "ipsum" },
+              api_v3_paths.query_operator(CGI.escape('o')) => { lorem: "ipsum" }
             }
 
             expect(subject)
@@ -202,8 +202,8 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
 
             it 'is the hash' do
               expected = {
-                api_v3_paths.query_operator(CGI.escape('=')) => { "lorem": "ipsum" },
-                api_v3_paths.query_operator(CGI.escape('!')) => { "lorem": "ipsum" }
+                api_v3_paths.query_operator(CGI.escape('=')) => { lorem: "ipsum" },
+                api_v3_paths.query_operator(CGI.escape('!')) => { lorem: "ipsum" }
               }
 
               expect(subject)
@@ -223,7 +223,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
           .to receive(:create)
           .with(filter,
                 operator,
-                form_embedded: form_embedded)
+                form_embedded:)
           .and_return(dependency)
       end
     end

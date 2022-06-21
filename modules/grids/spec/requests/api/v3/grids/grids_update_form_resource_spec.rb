@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,10 +34,11 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:current_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   let(:params) { {} }
+
   subject(:response) { last_response }
 
   before do
@@ -54,7 +55,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql 404
+          .to be 404
       end
     end
   end

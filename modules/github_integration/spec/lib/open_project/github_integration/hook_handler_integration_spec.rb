@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,16 +47,16 @@ describe OpenProject::GithubIntegration::HookHandler do
     }
   end
   let(:host_name) { 'example.net' }
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: %i[view_work_packages add_work_package_notes])
+    create(:role,
+           permissions: %i[view_work_packages add_work_package_notes])
   end
   let(:project) do
-    FactoryBot.create(:project, members: { user => role })
+    create(:project, members: { user => role })
   end
 
-  let(:work_packages) { FactoryBot.create_list :work_package, 4, project: project }
+  let(:work_packages) { create_list :work_package, 4, project: }
   let(:journal_counts_before) { work_packages.map { |wp| wp.journals.count } }
   let(:journal_counts_after) { work_packages.map { |wp| wp.journals.count } }
 
@@ -265,13 +265,13 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when opened mentioning all work_packages with a user having access only to some' do
-      let(:project_without_permission) { FactoryBot.create(:project) }
+      let(:project_without_permission) { create(:project) }
       let(:work_packages) do
         [
-          FactoryBot.create(:work_package, project: project),
-          FactoryBot.create(:work_package, project: project_without_permission),
-          FactoryBot.create(:work_package, project: project_without_permission),
-          FactoryBot.create(:work_package, project: project)
+          create(:work_package, project:),
+          create(:work_package, project: project_without_permission),
+          create(:work_package, project: project_without_permission),
+          create(:work_package, project:)
         ]
       end
 
@@ -566,7 +566,7 @@ describe OpenProject::GithubIntegration::HookHandler do
   context 'when receiving a webhook for a check_run event' do
     let(:event) { 'check_run' }
     # github_id comes from the fixture files
-    let(:github_pull_request) { FactoryBot.create(:github_pull_request, :open, github_id: 606508565) }
+    let(:github_pull_request) { create(:github_pull_request, :open, github_id: 606508565) }
 
     before { github_pull_request }
 
@@ -579,7 +579,7 @@ describe OpenProject::GithubIntegration::HookHandler do
       it_behaves_like 'it does not create a pull request'
 
       it 'does not create a check run' do
-        expect { process_webhook }.to(change(GithubCheckRun, :count).by(0))
+        expect { process_webhook }.not_to(change(GithubCheckRun, :count))
       end
     end
 
@@ -595,7 +595,7 @@ describe OpenProject::GithubIntegration::HookHandler do
         expect { process_webhook }.to(change(GithubCheckRun, :count).by(1))
         check_run = GithubCheckRun.last
         expect(check_run).to have_attributes(
-          github_pull_request: github_pull_request,
+          github_pull_request:,
           github_app_owner_avatar_url: 'https://avatars.githubusercontent.com/u/9919?v=4',
           status: 'queued',
           details_url: 'https://github.com/test_user/webhooks_playground/runs/2241417510',
@@ -616,7 +616,7 @@ describe OpenProject::GithubIntegration::HookHandler do
         expect { process_webhook }.to(change(GithubCheckRun, :count).by(1))
         check_run = GithubCheckRun.last
         expect(check_run).to have_attributes(
-          github_pull_request: github_pull_request,
+          github_pull_request:,
           github_app_owner_avatar_url: 'https://avatars.githubusercontent.com/u/9919?v=4',
           status: 'completed',
           details_url: 'https://github.com/test_user/webhooks_playground/runs/2241431836',
@@ -637,7 +637,7 @@ describe OpenProject::GithubIntegration::HookHandler do
         expect { process_webhook }.to(change(GithubCheckRun, :count).by(1))
         check_run = GithubCheckRun.last
         expect(check_run).to have_attributes(
-          github_pull_request: github_pull_request,
+          github_pull_request:,
           github_app_owner_avatar_url: 'https://avatars.githubusercontent.com/u/9919?v=4',
           name: 'test',
           status: 'completed',

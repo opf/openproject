@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,46 +28,46 @@
 
 require 'spec_helper'
 
-feature 'Administrating memberships via the project settings', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+describe 'Administrating memberships via the project settings', type: :feature, js: true do
+  shared_let(:admin) { create :admin }
   let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: manager)
+    create(:user,
+           member_in_project: project,
+           member_through_role: manager)
   end
-  let!(:project) { FactoryBot.create :project }
+  let!(:project) { create :project }
 
   let!(:peter) do
-    FactoryBot.create :user,
-                      status: User.statuses[:active],
-                      firstname: 'Peter',
-                      lastname: 'Pan',
-                      mail: 'foo@example.org',
-                      preferences: { hide_mail: false }
+    create :user,
+           status: User.statuses[:active],
+           firstname: 'Peter',
+           lastname: 'Pan',
+           mail: 'foo@example.org',
+           preferences: { hide_mail: false }
   end
   let!(:hannibal) do
-    FactoryBot.create :user,
-                      status: User.statuses[:invited],
-                      firstname: 'Hannibal',
-                      lastname: 'Smith',
-                      mail: 'boo@bar.org',
-                      preferences: { hide_mail: true }
+    create :user,
+           status: User.statuses[:invited],
+           firstname: 'Hannibal',
+           lastname: 'Smith',
+           mail: 'boo@bar.org',
+           preferences: { hide_mail: true }
   end
-  let!(:developer_placeholder) { FactoryBot.create :placeholder_user, name: 'Developer 1' }
+  let!(:developer_placeholder) { create :placeholder_user, name: 'Developer 1' }
   let!(:crash) do
-    FactoryBot.create :user,
-                      firstname: "<script>alert('h4x');</script>",
-                      lastname: "<script>alert('h4x');</script>"
+    create :user,
+           firstname: "<script>alert('h4x');</script>",
+           lastname: "<script>alert('h4x');</script>"
   end
   let!(:group) do
-    FactoryBot.create(:group, lastname: 'A-Team', members: [peter, hannibal])
+    create(:group, lastname: 'A-Team', members: [peter, hannibal])
   end
 
-  let!(:manager)   { FactoryBot.create :role, name: 'Manager', permissions: [:manage_members] }
-  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
-  let(:member1) { FactoryBot.create(:member, principal: peter, project: project, roles: [manager]) }
-  let(:member2) { FactoryBot.create(:member, principal: hannibal, project: project, roles: [developer]) }
-  let(:member3) { FactoryBot.create(:member, principal: group, project: project, roles: [manager]) }
+  let!(:manager)   { create :role, name: 'Manager', permissions: [:manage_members] }
+  let!(:developer) { create :role, name: 'Developer' }
+  let(:member1) { create(:member, principal: peter, project:, roles: [manager]) }
+  let(:member2) { create(:member, principal: hannibal, project:, roles: [developer]) }
+  let(:member3) { create(:member, principal: group, project:, roles: [manager]) }
 
   let!(:existing_members) { [] }
 
@@ -84,7 +84,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
   context 'with members in the project' do
     let!(:existing_members) { [member1, member2, member3] }
 
-    scenario 'sorting the page' do
+    it 'sorting the page' do
       members_page.expect_sorted_by 'name'
       expect(members_page.contents('name')).to eq [group.name, hannibal.name, peter.name]
 
@@ -114,7 +114,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     end
   end
 
-  scenario 'Adding and Removing a Group as Member' do
+  it 'Adding and Removing a Group as Member' do
     members_page.add_user! 'A-Team', as: 'Manager'
 
     expect(members_page).to have_added_group('A-Team')
@@ -126,7 +126,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     expect(page).to have_text 'There are currently no members part of this project.'
   end
 
-  scenario 'Adding and removing a User as Member' do
+  it 'Adding and removing a User as Member' do
     members_page.add_user! 'Hannibal Smith', as: 'Manager'
 
     expect(members_page).to have_added_user 'Hannibal Smith'
@@ -138,7 +138,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     expect(page).to have_text 'There are currently no members part of this project.'
   end
 
-  scenario 'Adding and removing a Placeholder as Member' do
+  it 'Adding and removing a Placeholder as Member' do
     members_page.add_user! developer_placeholder.name, as: developer.name
 
     expect(members_page).to have_added_user developer_placeholder.name
@@ -150,7 +150,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     expect(page).to have_text 'There are currently no members part of this project.'
   end
 
-  scenario 'Entering a Username as Member in firstname, lastname order' do
+  it 'Entering a Username as Member in firstname, lastname order' do
     members_page.open_new_member!
     SeleniumHubWaiter.wait
 
@@ -158,7 +158,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     expect(members_page).to have_search_result 'Hannibal Smith'
   end
 
-  scenario 'Entering a Username as Member in lastname, firstname order' do
+  it 'Entering a Username as Member in lastname, firstname order' do
     members_page.open_new_member!
     SeleniumHubWaiter.wait
 
@@ -166,7 +166,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     expect(members_page).to have_search_result 'Hannibal Smith'
   end
 
-  scenario 'Escaping should work properly when entering a name' do
+  it 'Escaping should work properly when entering a name' do
     members_page.open_new_member!
     SeleniumHubWaiter.wait
 

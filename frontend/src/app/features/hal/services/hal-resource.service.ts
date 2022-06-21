@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -65,6 +65,7 @@ import {
 } from 'core-app/features/hal/resources/hal-resource';
 import { initializeHalProperties } from '../helpers/hal-resource-builder';
 import { HalError } from 'core-app/features/hal/services/hal-error';
+import { getPaginatedCollections } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
 export interface HalResourceFactoryConfigInterface {
   cls?:any;
@@ -142,46 +143,23 @@ export class HalResourceService {
    * Return all potential pages to the request, when the elements returned from API is smaller
    * than the expected.
    *
-   * @param href
-   * @param expected The expected number of elements
-   * @param params
-   * @param headers
-   * @return {Promise<CollectionResource[]>}
+   * @param href The URL to request
+   * @param params Parameters to pass to each paged request
+   * @param headers Headers to pass to each paged request
+   * @return {Observable<CollectionResource[]>}
    */
-  public async getAllPaginated<T extends CollectionResource>(
+  public getAllPaginated<T extends CollectionResource>(
     href:string,
-    expected:number,
     params:Record<string, string|number> = {},
     headers:HTTPClientHeaders = {},
-  ):Promise<T[]> {
-    // Total number retrieved
-    let retrieved = 0;
-    // Current offset page
-    let page = 1;
-    // Accumulated results
-    const allResults:T[] = [];
-    // If possible, request all at once.
-    const requestParams = { ...params };
-    requestParams.pageSize = expected;
-
-    while (retrieved < expected) {
-      requestParams.offset = page;
-
-      const promise = this.request<T>('get', href, this.toEprops(requestParams), headers).toPromise();
-      // eslint-disable-next-line no-await-in-loop
-      const results = await promise;
-
-      if (results.count === 0) {
-        throw new Error('No more results for this query, but expected more.');
-      }
-
-      allResults.push(results);
-
-      retrieved += results.count;
-      page += 1;
-    }
-
-    return allResults;
+  ):Observable<T[]> {
+    return getPaginatedCollections(
+      (pageParams) => {
+        const requestParams = { ...params, ...pageParams };
+        return this.request<CollectionResource<T>>('get', href, this.toEprops(requestParams), headers);
+      },
+      (params.pageSize as number|undefined) || -1,
+    ) as Observable<T[]>;
   }
 
   /**

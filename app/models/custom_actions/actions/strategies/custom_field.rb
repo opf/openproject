@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,11 +31,7 @@ module CustomActions::Actions::Strategies::CustomField
     work_package.send(:"#{custom_field.accessor_name}=", values) if work_package.respond_to?(:"#{custom_field.accessor_name}=")
   end
 
-  def required?
-    custom_field.required?
-  end
+  delegate :required?, to: :custom_field
 
-  def multi_value?
-    custom_field.multi_value?
-  end
+  delegate :multi_value?, to: :custom_field
 end

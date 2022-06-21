@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,36 +29,37 @@
 require 'spec_helper'
 
 describe WorkPackages::MovesController, type: :controller, with_settings: { journal_aggregation_time_minutes: 0 } do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
   let(:role) do
-    FactoryBot.create :role,
-                      permissions: %i(move_work_packages
-                                      view_work_packages
-                                      add_work_packages
-                                      edit_work_packages
-                                      assign_versions
-                                      manage_subtasks)
+    create :role,
+           permissions: %i(move_work_packages
+                           view_work_packages
+                           add_work_packages
+                           edit_work_packages
+                           assign_versions
+                           manage_subtasks
+                           work_package_assigned)
   end
-  let(:type) { FactoryBot.create :type }
-  let(:type_2) { FactoryBot.create :type }
-  let!(:status) { FactoryBot.create :default_status }
-  let(:target_status) { FactoryBot.create :status }
-  let(:priority) { FactoryBot.create :priority }
-  let(:target_priority) { FactoryBot.create :priority }
+  let(:type) { create :type }
+  let(:type_2) { create :type }
+  let!(:status) { create :default_status }
+  let(:target_status) { create :status }
+  let(:priority) { create :priority }
+  let(:target_priority) { create :priority }
   let(:project) do
-    FactoryBot.create(:project,
-                      public: false,
-                      types: [type, type_2])
+    create(:project,
+           public: false,
+           types: [type, type_2])
   end
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project_id: project.id,
-                      type: type,
-                      author: user,
-                      priority: priority)
+    create(:work_package,
+           project_id: project.id,
+           type:,
+           author: user,
+           priority:)
   end
 
-  let(:current_user) { FactoryBot.create(:user) }
+  let(:current_user) { create(:user) }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -117,14 +118,14 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
   end
 
   describe '#create' do
-    let!(:source_member) { FactoryBot.create(:member, user: current_user, project: project, roles: [role]) }
-    let!(:target_member) { FactoryBot.create(:member, user: current_user, project: target_project, roles: [role]) }
-    let(:target_project) { FactoryBot.create(:project, public: false) }
+    let!(:source_member) { create(:member, user: current_user, project:, roles: [role]) }
+    let!(:target_member) { create(:member, user: current_user, project: target_project, roles: [role]) }
+    let(:target_project) { create(:project, public: false) }
     let(:work_package_2) do
-      FactoryBot.create(:work_package,
-                        project_id: project.id,
-                        type: type_2,
-                        priority: priority)
+      create(:work_package,
+             project_id: project.id,
+             type: type_2,
+             priority:)
     end
 
     describe 'an issue to another project' do
@@ -149,8 +150,8 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
         end
 
         it "redirects to the project's work packages page" do
-          is_expected.to be_redirect
-          is_expected.to redirect_to(project_work_packages_path(project))
+          expect(subject).to be_redirect
+          expect(subject).to redirect_to(project_work_packages_path(project))
         end
       end
 
@@ -171,8 +172,8 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
         end
 
         it 'redirects to the work package page' do
-          is_expected.to be_redirect
-          is_expected.to redirect_to(work_package_path(work_package))
+          expect(subject).to be_redirect
+          expect(subject).to redirect_to(work_package_path(work_package))
         end
       end
     end
@@ -293,7 +294,7 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
 
           it 'redirects to the work package copy' do
             copy = WorkPackage.order(id: :desc).first
-            is_expected.to redirect_to(work_package_path(copy))
+            expect(subject).to redirect_to(work_package_path(copy))
           end
         end
 
@@ -333,14 +334,14 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
         context "with changing the work package's attribute" do
           let(:start_date) { Date.today }
           let(:due_date) { Date.today + 1 }
-          let(:target_version) { FactoryBot.create(:version, project: target_project) }
+          let(:target_version) { create(:version, project: target_project) }
           let(:target_user) do
-            user = FactoryBot.create :user
+            user = create :user
 
-            FactoryBot.create(:member,
-                              user: user,
-                              project: target_project,
-                              roles: [role])
+            create(:member,
+                   user:,
+                   project: target_project,
+                   roles: [role])
 
             user
           end
@@ -356,8 +357,8 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
                    responsible_id: target_user.id,
                    status_id: target_status,
                    version_id: target_version.id,
-                   start_date: start_date,
-                   due_date: due_date
+                   start_date:,
+                   due_date:
                  }
           end
 
@@ -431,10 +432,10 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
 
         context 'parent and child work package' do
           let!(:child_wp) do
-            FactoryBot.create(:work_package,
-                              type: type,
-                              project: project,
-                              parent: work_package)
+            create(:work_package,
+                   type:,
+                   project:,
+                   parent: work_package)
           end
 
           before do
@@ -460,20 +461,20 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
 
         context 'child work package from one project to other' do
           let(:to_project) do
-            FactoryBot.create(:project,
-                              types: [type])
+            create(:project,
+                   types: [type])
           end
           let!(:member) do
-            FactoryBot.create(:member,
-                              user: current_user,
-                              roles: [role],
-                              project: to_project)
+            create(:member,
+                   user: current_user,
+                   roles: [role],
+                   project: to_project)
           end
           let!(:child_wp) do
-            FactoryBot.create(:work_package,
-                              type: type,
-                              project: project,
-                              parent: work_package)
+            create(:work_package,
+                   type:,
+                   project:,
+                   parent: work_package)
           end
 
           shared_examples_for 'successful move' do

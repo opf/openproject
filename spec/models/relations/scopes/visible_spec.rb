@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,28 +29,28 @@
 require 'spec_helper'
 
 describe Relations::Scopes::Visible, type: :model do
-  let(:from) { FactoryBot.create(:work_package, project: project1) }
-  let(:intermediary) { FactoryBot.create(:work_package, project: project1) }
-  let(:to) { FactoryBot.create(:work_package, project: project2) }
-  let(:project1) { FactoryBot.create(:project) }
-  let(:project2) { FactoryBot.create(:project) }
+  let(:from) { create(:work_package, project: project1) }
+  let(:intermediary) { create(:work_package, project: project1) }
+  let(:to) { create(:work_package, project: project2) }
+  let(:project1) { create(:project) }
+  let(:project2) { create(:project) }
   let(:type) { 'relates' }
-  let!(:relation1) { FactoryBot.create(:relation, from: from, to: intermediary, relation_type: type) }
-  let!(:relation2) { FactoryBot.create(:relation, from: intermediary, to: to, relation_type: type) }
-  let(:user) { FactoryBot.create(:user) }
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let!(:relation1) { create(:relation, from:, to: intermediary, relation_type: type) }
+  let!(:relation2) { create(:relation, from: intermediary, to:, relation_type: type) }
+  let(:user) { create(:user) }
+  let(:role) { create(:role, permissions: [:view_work_packages]) }
   let(:member_project1) do
-    FactoryBot.create(:member,
-                      project: project1,
-                      user: user,
-                      roles: [role])
+    create(:member,
+           project: project1,
+           user:,
+           roles: [role])
   end
 
   let(:member_project2) do
-    FactoryBot.create(:member,
-                      project: project2,
-                      user: user,
-                      roles: [role])
+    create(:member,
+           project: project2,
+           user:,
+           roles: [role])
   end
 
   describe '.visible' do

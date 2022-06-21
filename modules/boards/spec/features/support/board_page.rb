@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,6 +34,8 @@ module Pages
     include ::Components::NgSelectAutocompleteHelpers
 
     def initialize(board)
+      super()
+
       @board = board
     end
 
@@ -65,8 +67,8 @@ module Pages
       page.all('[data-qa-selector="op-board-list"]').count
     end
 
-    def within_list(name, &block)
-      page.within(list_selector(name), &block)
+    def within_list(name, &)
+      page.within(list_selector(name), &)
     end
 
     def list_selector(name)
@@ -131,7 +133,9 @@ module Pages
     # Expect the given titled card in the list name to be present (expect=true) or not (expect=false)
     def expect_card(list_name, card_title, present: true)
       within_list(list_name) do
-        expect(page).to have_conditional_selector(present, '[data-qa-selector="op-wp-single-card--content-subject"]', text: card_title)
+        expect(page).to have_conditional_selector(present,
+                                                  '[data-qa-selector="op-wp-single-card--content-subject"]',
+                                                  text: card_title)
       end
     end
 
@@ -152,7 +156,9 @@ module Pages
     def expect_movable(list_name, card_title, movable: true)
       within_list(list_name) do
         expect(page).to have_selector('[data-qa-selector="op-wp-single-card"]', text: card_title)
-        expect(page).to have_conditional_selector(movable, '[data-qa-selector="op-wp-single-card"][data-qa-draggable]', text: card_title)
+        expect(page).to have_conditional_selector(movable,
+                                                  '[data-qa-selector="op-wp-single-card"][data-qa-draggable]',
+                                                  text: card_title)
       end
     end
 
@@ -160,23 +166,7 @@ module Pages
       source = page.all("#{list_selector(from)} [data-qa-selector='op-wp-single-card']")[index]
       target = page.find list_selector(to)
 
-      scroll_to_element(source)
-      page
-        .driver
-        .browser
-        .action
-        .move_to(source.native)
-        .click_and_hold(source.native)
-        .perform
-
-      scroll_to_element(target)
-      page
-        .driver
-        .browser
-        .action
-        .move_to(target.native)
-        .release
-        .perform
+      drag_n_drop_element(from: source, to: target)
     end
 
     def add_list(option: nil, query: option)
@@ -199,7 +189,7 @@ module Pages
     def add_list_with_new_value(name)
       open_and_fill_add_list_modal name
 
-      page.find('.op-select-footer--label', text: 'Create ' + name).click
+      page.find('.op-select-footer--label', text: "Create #{name}").click
     end
 
     def save
@@ -276,7 +266,9 @@ module Pages
     end
 
     def back_to_index
-      find('[data-qa-selector="op-back-button"]').click
+      within '#main-menu' do
+        click_link 'Boards'
+      end
     end
 
     def expect_editable_board(editable)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -87,7 +87,7 @@ module Pages
         click_on 'Save'
 
         model_listed true, new_name
-        expect(current_path).to eq bcf_project_ifc_models_path(project)
+        expect(page).to have_current_path bcf_project_ifc_models_path(project), ignore_query: true
       end
 
       def delete_model(model_name)
@@ -96,7 +96,7 @@ module Pages
         page.driver.browser.switch_to.alert.accept
 
         model_listed false, model_name
-        expect(current_path).to eq bcf_project_ifc_models_path(project)
+        expect(page).to have_current_path bcf_project_ifc_models_path(project), ignore_query: true
       end
 
       def show_model(model)

@@ -1,46 +1,49 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
+require 'support/components/ng_select_autocomplete_helpers'
 
 describe 'Copy work packages through Rails view', js: true do
-  shared_let(:type) { FactoryBot.create :type, name: 'Bug' }
-  shared_let(:type2) { FactoryBot.create :type, name: 'Risk' }
+  include ::Components::NgSelectAutocompleteHelpers
 
-  shared_let(:project) { FactoryBot.create(:project, name: 'Source', types: [type, type2]) }
-  shared_let(:project2) { FactoryBot.create(:project, name: 'Target', types: [type, type2]) }
+  shared_let(:type) { create :type, name: 'Bug' }
+  shared_let(:type2) { create :type, name: 'Risk' }
+
+  shared_let(:project) { create(:project, name: 'Source', types: [type, type2]) }
+  shared_let(:project2) { create(:project, name: 'Target', types: [type, type2]) }
 
   shared_let(:dev) do
-    FactoryBot.create :user,
-                      firstname: 'Dev',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages]
+    create :user,
+           firstname: 'Dev',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages]
   end
   shared_let(:mover) do
-    FactoryBot.create :user,
-                      firstname: 'Manager',
-                      lastname: 'Guy',
-                      member_in_projects: [project, project2],
-                      member_with_permissions: %i[view_work_packages
-                                                  copy_work_packages
-                                                  move_work_packages
-                                                  manage_subtasks
-                                                  assign_versions
-                                                  add_work_packages]
+    create :user,
+           firstname: 'Manager',
+           lastname: 'Guy',
+           member_in_projects: [project, project2],
+           member_with_permissions: %i[view_work_packages
+                                       copy_work_packages
+                                       move_work_packages
+                                       manage_subtasks
+                                       assign_versions
+                                       add_work_packages]
   end
 
   shared_let(:work_package) do
-    FactoryBot.create(:work_package,
-                      author: dev,
-                      project: project,
-                      type: type)
+    create(:work_package,
+           author: dev,
+           project:,
+           type:)
   end
   shared_let(:work_package2) do
-    FactoryBot.create(:work_package,
-                      author: dev,
-                      project: project,
-                      type: type)
+    create(:work_package,
+           author: dev,
+           project:,
+           type:)
   end
-  shared_let(:version) { FactoryBot.create :version, project: project2 }
+  shared_let(:version) { create :version, project: project2 }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
@@ -67,11 +70,12 @@ describe 'Copy work packages through Rails view', js: true do
         context_menu.choose 'Bulk copy'
 
         expect(page).to have_selector('#new_project_id')
-        select project2.name, from: 'new_project_id'
-
-        sleep 1
-
-        expect(page).to have_select('Project', selected: 'Target')
+        expect_page_reload do
+          select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+                              query: project2.name,
+                              select_text: project2.name,
+                              results_selector: 'body'
+        end
       end
 
       it 'sets the version on copy and leaves a note' do
@@ -95,11 +99,11 @@ describe 'Copy work packages through Rails view', js: true do
 
       context 'with a work package having a child' do
         let!(:child) do
-          FactoryBot.create(:work_package,
-                            author: dev,
-                            project: project,
-                            type: type,
-                            parent: work_package)
+          create(:work_package,
+                 author: dev,
+                 project:,
+                 type:,
+                 parent: work_package)
         end
 
         it 'moves parent and child wp to a new project with the hierarchy amended' do
@@ -124,11 +128,11 @@ describe 'Copy work packages through Rails view', js: true do
 
       context 'when the target project does not have the type' do
         let!(:child) do
-          FactoryBot.create(:work_package,
-                            author: dev,
-                            project: project,
-                            type: type,
-                            parent: work_package)
+          create(:work_package,
+                 author: dev,
+                 project:,
+                 type:,
+                 parent: work_package)
         end
 
         before do

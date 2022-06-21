@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +39,8 @@ describe ::Sessions::UserSession do
   end
 
   describe '#update' do
-    let(:session) { FactoryBot.create :user_session }
+    let(:session) { create :user_session }
+
     subject { described_class.find_by(session_id: session.session_id) }
 
     it 'can not update' do
@@ -52,7 +53,7 @@ describe ::Sessions::UserSession do
   end
 
   describe '#destroy' do
-    let(:sessions) { FactoryBot.create :user_session }
+    let(:sessions) { create :user_session }
 
     it 'can not destroy' do
       expect { subject.destroy }.to raise_error(ActiveRecord::ReadOnlyRecord)
@@ -61,8 +62,8 @@ describe ::Sessions::UserSession do
   end
 
   describe '.for_user' do
-    let(:user) { FactoryBot.create :user }
-    let!(:sessions) { FactoryBot.create_list :user_session, 2, user: user }
+    let(:user) { create :user }
+    let!(:sessions) { create_list :user_session, 2, user: }
 
     subject { described_class.for_user(user) }
 
@@ -78,7 +79,7 @@ describe ::Sessions::UserSession do
   end
 
   describe '.non_user' do
-    let!(:session) { FactoryBot.create :user_session, user: nil }
+    let!(:session) { create :user_session, user: nil }
 
     subject { described_class.non_user }
 

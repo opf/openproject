@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Version, type: :model do
-  subject(:version) { FactoryBot.build(:version, name: 'Test Version') }
+  subject(:version) { build(:version, name: 'Test Version') }
 
   it { is_expected.to be_valid }
 
@@ -41,8 +41,8 @@ describe Version, type: :model do
     expect(version.errors[:effective_date].size).to eq(1)
   end
 
-  context '#to_s_for_project' do
-    let(:other_project) { FactoryBot.build(:project) }
+  describe '#to_s_for_project' do
+    let(:other_project) { build(:project) }
 
     it 'returns only the version for the same project' do
       expect(version.to_s_for_project(version.project)).to eq(version.name.to_s)
@@ -76,9 +76,9 @@ describe Version, type: :model do
     end
   end
 
-  context '#<=>' do
-    let(:version1) { FactoryBot.build_stubbed(:version) }
-    let(:version2) { FactoryBot.build_stubbed(:version) }
+  describe '#<=>' do
+    let(:version1) { build_stubbed(:version) }
+    let(:version2) { build_stubbed(:version) }
 
     it 'is 0 if name and project are equal' do
       version1.project = version2.project
@@ -93,7 +93,7 @@ describe Version, type: :model do
       version2.name = 'AAAA'
       version2.project.name = 'BBBB'
 
-      expect(version1 <=> version2).to eql -1
+      expect(version1 <=> version2).to be -1
     end
 
     it "is 1 if the project name is alphabetically after the other's project name" do
@@ -102,7 +102,7 @@ describe Version, type: :model do
       version2.name = 'BBBB'
       version2.project.name = 'AAAA'
 
-      expect(version1 <=> version2).to eql 1
+      expect(version1 <=> version2).to be 1
     end
 
     it "is -1 if the project name is equal
@@ -111,7 +111,7 @@ describe Version, type: :model do
       version1.name = 'AAAA'
       version2.name = 'BBBB'
 
-      expect(version1 <=> version2).to eql -1
+      expect(version1 <=> version2).to be -1
     end
 
     it "is 1 if the project name is equal
@@ -120,7 +120,7 @@ describe Version, type: :model do
       version1.name = 'BBBB'
       version2.name = 'AAAA'
 
-      expect(version1 <=> version2).to eql 1
+      expect(version1 <=> version2).to be 1
     end
 
     it 'is 0 if name and project are equal except for case' do
@@ -136,7 +136,7 @@ describe Version, type: :model do
       version2.name = 'AAAA'
       version2.project.name = 'BBBB'
 
-      expect(version1 <=> version2).to eql -1
+      expect(version1 <=> version2).to be -1
     end
 
     it "is 1 if the project name is alphabetically after the other's project name ignoring case" do
@@ -145,7 +145,7 @@ describe Version, type: :model do
       version2.name = 'BBBB'
       version2.project.name = 'aaaa'
 
-      expect(version1 <=> version2).to eql 1
+      expect(version1 <=> version2).to be 1
     end
 
     it "is -1 if the project name is equal
@@ -154,7 +154,7 @@ describe Version, type: :model do
       version1.name = 'aaaa'
       version2.name = 'BBBB'
 
-      expect(version1 <=> version2).to eql -1
+      expect(version1 <=> version2).to be -1
     end
 
     it "is 1 if the project name is equal
@@ -163,44 +163,44 @@ describe Version, type: :model do
       version1.name = 'BBBB'
       version2.name = 'aaaa'
 
-      expect(version1 <=> version2).to eql 1
+      expect(version1 <=> version2).to be 1
     end
   end
 
-  context '#projects' do
+  describe '#projects' do
     let(:grand_parent_project) do
-      FactoryBot.build(:project, name: 'grand_parent_project')
+      build(:project, name: 'grand_parent_project')
     end
     let(:parent_project) do
-      FactoryBot.build(:project, parent: grand_parent_project, name: 'parent_project')
+      build(:project, parent: grand_parent_project, name: 'parent_project')
     end
     let(:sibling_parent_project) do
-      FactoryBot.build(:project, parent: grand_parent_project, name: 'sibling_parent_project')
+      build(:project, parent: grand_parent_project, name: 'sibling_parent_project')
     end
     let(:child_project) do
-      FactoryBot.build(:project, parent: parent_project, name: 'child_project')
+      build(:project, parent: parent_project, name: 'child_project')
     end
     let(:sibling_project) do
-      FactoryBot.build(:project, parent: parent_project, name: 'sibling_project')
+      build(:project, parent: parent_project, name: 'sibling_project')
     end
     let(:unrelated_project) do
-      FactoryBot.build(:project, name: 'unrelated_project')
+      build(:project, name: 'unrelated_project')
     end
 
     let(:unshared_version) do
-      FactoryBot.build(:version, project: parent_project, sharing: 'none')
+      build(:version, project: parent_project, sharing: 'none')
     end
     let(:hierarchy_shared_version) do
-      FactoryBot.build(:version, project: parent_project, sharing: 'hierarchy')
+      build(:version, project: parent_project, sharing: 'hierarchy')
     end
     let(:descendants_shared_version) do
-      FactoryBot.build(:version, project: parent_project, sharing: 'descendants')
+      build(:version, project: parent_project, sharing: 'descendants')
     end
     let(:system_shared_version) do
-      FactoryBot.build(:version, project: parent_project, sharing: 'system')
+      build(:version, project: parent_project, sharing: 'system')
     end
     let(:tree_shared_version) do
-      FactoryBot.build(:version, project: parent_project, sharing: 'tree')
+      build(:version, project: parent_project, sharing: 'tree')
     end
 
     def save_all_projects

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,17 +30,17 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 require_relative 'support/pages/cost_report_page'
 
 describe "updating a cost report's cost type", type: :feature, js: true do
-  let(:project) { FactoryBot.create :project_with_types, members: { user => FactoryBot.create(:role) } }
+  let(:project) { create :project_with_types, members: { user => create(:role) } }
   let(:user) do
-    FactoryBot.create(:admin)
+    create(:admin)
   end
 
   let(:cost_type) do
-    FactoryBot.create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
+    create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
   end
 
   let!(:cost_entry) do
-    FactoryBot.create :cost_entry, user: user, project: project, cost_type: cost_type
+    create :cost_entry, user:, project:, cost_type:
   end
 
   let(:report_page) { ::Pages::CostReportPage.new project }

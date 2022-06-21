@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,9 +40,9 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
   let(:values) { [] }
 
   describe 'where filter results' do
-    let(:work_package) { FactoryBot.create(:work_package, assigned_to: assignee) }
-    let(:assignee) { FactoryBot.create(:user) }
-    let(:group) { FactoryBot.create(:group, members: group_members) }
+    let(:work_package) { create(:work_package, assigned_to: assignee) }
+    let(:assignee) { create(:user) }
+    let(:group) { create(:group, members: group_members) }
     let(:group_members) { [] }
 
     subject { WorkPackage.where(instance.where) }
@@ -51,7 +51,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       let(:values) { [assignee.id.to_s] }
 
       it 'returns the work package' do
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
     end
@@ -66,7 +66,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       end
 
       it 'returns the work package' do
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
     end
@@ -77,11 +77,11 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       before do
         allow(User)
           .to receive(:current)
-          .and_return(FactoryBot.create(:user))
+          .and_return(create(:user))
       end
 
       it 'does not return the work package' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
@@ -91,7 +91,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       let(:values) { [group.id.to_s] }
 
       it 'returns the work package' do
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
     end
@@ -101,7 +101,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       let(:group_members) { [assignee] }
 
       it 'returns the work package' do
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
     end
@@ -110,7 +110,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       let(:values) { [group.id.to_s] }
 
       it 'does not return the work package' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
@@ -118,11 +118,11 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
     context "for a user value with the user's group being assignee" do
       let(:values) { [user.id.to_s] }
       let(:assignee) { group }
-      let(:user) { FactoryBot.create(:user) }
-      let!(:group) { FactoryBot.create(:group, members: user) }
+      let(:user) { create(:user) }
+      let!(:group) { create(:group, members: user) }
 
       it 'returns the work package' do
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
     end
@@ -130,10 +130,10 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
     context "for a user value with the user not being member of the assigned group" do
       let(:values) { [user.id.to_s] }
       let(:assignee) { group }
-      let(:user) { FactoryBot.create(:user) }
+      let(:user) { create(:user) }
 
       it 'does not return the work package' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
@@ -142,7 +142,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       let(:values) { ['0'] }
 
       it 'does not return the work package' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
@@ -154,7 +154,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
     let(:human_name) { I18n.t('query_fields.assignee_or_group') }
 
     describe '#valid_values!' do
-      let(:user) { FactoryBot.build_stubbed(:user) }
+      let(:user) { build_stubbed(:user) }
       let(:loader) do
         loader = double('loader')
 

@@ -18,7 +18,7 @@ This guide should leave you with a set of archives that you can use to restore, 
 
 ## Installation of pgloader
 
-We ship a custom version of pgloader (named `pgloader-ccl`), which embeds some memory optimizations useful when you are migrating from a large MySQL database. This also allows us to provide a unified migration experience for all installation types. This package is available for all the currently supported distributions at https://packager.io/gh/opf/pgloader-ccl.
+We ship a custom version of pgloader (named `pgloader-ccl`), which embeds some memory optimizations useful when you are migrating from a large MySQL database. This also allows us to provide a unified migration experience for all installation types. This package is available for all the currently supported distributions at [https://packager.io/gh/opf/pgloader-ccl](https://packager.io/gh/opf/pgloader-ccl).
 
 ### Ubuntu 18.04
 
@@ -70,7 +70,7 @@ sudo zypper install pgloader-ccl
 
 If you have not yet installed and set up a PostgreSQL installation database, please set up a PostgreSQL database now. 
 
-OpenProject requires at least PostgreSQL 9.5 installed. Please check <https://www.postgresql.org/download/> if your distributed package is too old.
+OpenProject requires at least PostgreSQL 9.5 installed. Please check [www.postgresql.org/download](https://www.postgresql.org/download/) if your distributed package is too old.
 
 ```bash
 [root@host] apt-get install postgresql postgresql-contrib libpq-dev

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +58,7 @@ module BasicData
           name: I18n.t(values[5]),
           position: values[0],
           is_default: values[1],
-          color_id: color_id,
+          color_id:,
           is_in_roadmap: values[3],
           is_milestone: values[4],
           description: type_description(values[5])
@@ -110,7 +108,7 @@ module BasicData
     private
 
     def find_query_by_name(name)
-      Query.find_by(name: name).id
+      Query.find_by(name:).id
     end
   end
 end

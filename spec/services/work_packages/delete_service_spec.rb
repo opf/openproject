@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,22 +30,23 @@ require 'spec_helper'
 
 describe WorkPackages::DeleteService do
   let(:user) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let(:work_package) do
-    FactoryBot.build_stubbed(:work_package, type: FactoryBot.build_stubbed(:type))
+    build_stubbed(:work_package, type: build_stubbed(:type))
   end
   let(:instance) do
     described_class
-      .new(user: user,
+      .new(user:,
            model: work_package)
   end
   let(:destroyed_result) { true }
   let(:destroy_allowed) { true }
+
   subject { instance.call }
 
   before do
-    expect(work_package)
+    allow(work_package)
       .to receive(:reload)
       .and_return(work_package)
 
@@ -87,7 +86,7 @@ describe WorkPackages::DeleteService do
   context 'when the work package could not be destroyed' do
     let(:destroyed_result) { false }
 
-    it 'it is no success' do
+    it 'is no success' do
       expect(subject)
         .not_to be_success
     end
@@ -95,26 +94,23 @@ describe WorkPackages::DeleteService do
 
   context 'with ancestors' do
     let(:parent) do
-      FactoryBot.build_stubbed(:work_package)
+      build_stubbed(:work_package)
     end
     let(:grandparent) do
-      FactoryBot.build_stubbed(:work_package)
+      build_stubbed(:work_package)
     end
     let(:expect_inherited_attributes_service_calls) do
       inherited_service_instance = double(WorkPackages::UpdateAncestorsService)
 
-      service_result = ServiceResult.new(success: true,
-                                         result: work_package)
+      service_result = ServiceResult.success(result: work_package)
 
-      service_result.dependent_results += [ServiceResult.new(success: true,
-                                                             result: parent),
-                                           ServiceResult.new(success: true,
-                                                             result: grandparent)]
+      service_result.dependent_results += [ServiceResult.success(result: parent),
+                                           ServiceResult.success(result: grandparent)]
 
       expect(WorkPackages::UpdateAncestorsService)
         .to receive(:new)
-        .with(user: user,
-              work_package: work_package)
+        .with(user:,
+              work_package:)
         .and_return(inherited_service_instance)
 
       expect(inherited_service_instance)
@@ -146,10 +142,10 @@ describe WorkPackages::DeleteService do
 
   context 'with descendants' do
     let(:child) do
-      FactoryBot.build_stubbed(:work_package)
+      build_stubbed(:work_package)
     end
     let(:grandchild) do
-      FactoryBot.build_stubbed(:work_package)
+      build_stubbed(:work_package)
     end
     let(:descendants) do
       [child, grandchild]

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,28 +28,6 @@
 
 module MailNotificationHelper
   include ::ColorsHelper
-
-  def logo_tag(**options)
-    current_logo = CustomStyle.current.logo unless CustomStyle.current.nil?
-
-    if current_logo.present?
-      logo_file = current_logo.local_file
-      logo = File.read(logo_file)
-      content_type = MIME::Types.type_for(logo_file.path).first.content_type
-    else
-      logo = File.read(Rails.root.join('app/assets/images/logo_openproject_narrow.svg'))
-      content_type = "image/svg+xml"
-    end
-
-    email_image_tag(logo, content_type, **options)
-  end
-
-  def email_image_tag(image, content_type, **options)
-    image_string = image.to_s
-    base64_string = Base64.strict_encode64(image_string)
-
-    image_tag "data:#{content_type};base64,#{base64_string}", **options
-  end
 
   def unique_reasons_of_notifications(notifications)
     notifications
@@ -105,6 +81,6 @@ module MailNotificationHelper
               "line-height:#{number}; max-width:0; min-width:0; height:#{number}; width:0; font-size:#{number}"
             end
 
-    content_tag('td', '&nbsp;'.html_safe, style: style)
+    content_tag('td', '&nbsp;'.html_safe, style:)
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,18 +32,39 @@ class Mails::MemberJob < ApplicationJob
   def perform(current_user:,
               member:,
               message: nil)
-    if member.project.nil?
-      send_updated_global(current_user, member, message)
-    elsif member.principal.is_a?(Group)
-      every_group_user_member(member) do |user_member|
-        send_for_group_user(current_user, user_member, member, message)
-      end
-    elsif member.principal.is_a?(User)
-      send_for_project_user(current_user, member, message)
+    case member.principal
+    when Group
+      perform_for_group(current_user:, member:, message:)
+    when User
+      perform_for_user(current_user:, member:, message:)
     end
   end
 
   private
+
+  def perform_for_group(current_user:,
+                        member:,
+                        message: nil)
+    every_group_user_member(member) do |user_member|
+      if member.project.nil?
+        next unless roles_changed?(user_member, member)
+
+        send_updated_global(current_user, user_member, message)
+      else
+        send_for_group_user(current_user, user_member, member, message)
+      end
+    end
+  end
+
+  def perform_for_user(current_user:,
+                       member:,
+                       message: nil)
+    if member.project.nil?
+      send_updated_global(current_user, member, message)
+    else
+      send_for_project_user(current_user, member, message)
+    end
+  end
 
   def send_for_group_user(_current_user, _member, _group, _message)
     raise NotImplementedError, "subclass responsibility"
@@ -77,12 +98,12 @@ class Mails::MemberJob < ApplicationJob
       .deliver_now
   end
 
-  def every_group_user_member(member, &block)
+  def every_group_user_member(member, &)
     Member
       .of(member.project)
       .where(principal: member.principal.users)
       .includes(:project, :principal, :roles, :member_roles)
-      .each(&block)
+      .each(&)
   end
 
   def sending_disabled?(setting, current_user, user_id, message)
@@ -92,7 +113,11 @@ class Mails::MemberJob < ApplicationJob
     return false if message.present?
 
     NotificationSetting
-      .where(project_id: nil, user_id: user_id)
+      .where(project_id: nil, user_id:)
       .exists?("membership_#{setting}" => false)
+  end
+
+  def roles_changed?(user_member, group_member)
+    Members::RolesDiff.new(user_member, group_member).roles_changed?
   end
 end

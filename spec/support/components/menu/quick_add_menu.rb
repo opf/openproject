@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,6 @@ require_relative './dropdown'
 
 module Components
   class QuickAddMenu < Dropdown
-
     def expect_visible
       expect(trigger_element).to be_present
     end
@@ -39,11 +38,11 @@ module Components
     end
 
     def expect_add_project(present: true)
-      expect_link 'New project', present: present
+      expect_link 'New project', present:
     end
 
     def expect_user_invite(present: true)
-      expect_link 'Invite user', present: present
+      expect_link 'Invite user', present:
     end
 
     def expect_work_package_type(*names, present: true)
@@ -52,7 +51,7 @@ module Components
       end
 
       names.each do |name|
-        expect_link name, present: present
+        expect_link name, present:
       end
     end
 

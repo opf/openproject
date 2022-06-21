@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,15 +30,15 @@ require 'spec_helper'
 require_relative './mock_global_permissions'
 
 describe 'Global role: No module', type: :feature, js: true do
-  let(:admin) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create :project }
-  let!(:role) { FactoryBot.create(:role) }
+  let(:admin) { create(:admin) }
+  let(:project) { create :project }
+  let!(:role) { create(:role) }
 
   before do
     login_as(admin)
   end
 
-  scenario 'Global Rights Modules do not exist as Project -> Settings -> Modules' do
+  it 'Global Rights Modules do not exist as Project -> Settings -> Modules' do
     # Scenario:
     # Given there is the global permission "glob_test" of the module "global"
     mock_global_permissions [['global_perm1', { project_module: :global }]]

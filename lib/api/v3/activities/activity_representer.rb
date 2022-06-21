@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-API::V3::Utilities::DateTimeFormatter
-
 module API
   module V3
     module Activities
@@ -40,7 +36,7 @@ module API
         include ActivityPropertyFormatters
 
         self_link path: :activity,
-                  title_getter: ->(*) { nil }
+                  title_getter: ->(*) {}
 
         link :workPackage do
           {
@@ -92,10 +88,6 @@ module API
 
         def current_user_allowed_to_edit?
           represented.editable_by?(current_user)
-        end
-
-        def render_details(journal, no_html: false)
-          journal.details.map { |d| journal.render_detail(d, no_html: no_html) }
         end
       end
     end

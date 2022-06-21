@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe 'Closed status and version in full view', js: true do
-  let(:type) { FactoryBot.create(:type) }
-  let(:status) { FactoryBot.create(:closed_status) }
+  let(:type) { create(:type) }
+  let(:status) { create(:closed_status) }
 
-  let(:project) { FactoryBot.create(:project, types: [type]) }
+  let(:project) { create(:project, types: [type]) }
 
-  let(:version) { FactoryBot.create :version, status: 'closed', project: project }
-  let(:work_package) { FactoryBot.create :work_package, project: project, status: status, version: version }
+  let(:version) { create :version, status: 'closed', project: }
+  let(:work_package) { create :work_package, project:, status:, version: }
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
 
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
   before do
     login_as(user)
@@ -23,7 +23,7 @@ describe 'Closed status and version in full view', js: true do
     status.click
 
     wp_page.expect_and_dismiss_toaster type: :error,
-                                            message: I18n.t('js.work_packages.message_work_package_status_blocked')
+                                       message: I18n.t('js.work_packages.message_work_package_status_blocked')
 
     expect(page).to have_selector('[data-qa-selector="op-wp-status-button"] button[disabled]')
   end

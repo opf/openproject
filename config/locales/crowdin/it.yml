@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ it:
       start_trial: 'Inizia la prova gratuita'
       book_now: 'Prenota ora'
       get_quote: 'Richiedi un preventivo'
+      buttons:
+        upgrade: "Aggiorna ora"
+        contact: "Contattaci per una demo"
+      enterprise_info_html: "è una funzione Enterprise <strong class='icon-medal'></strong>."
+      upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
+    journal_aggregation:
+      explanation:
+        text: "Le singole azioni di un utente (es. l'aggiornamento di una macro-attività due volte) vengono aggregate in un'unica azione se il tempo intercorso tra esse è inferiore al periodo minimo di tempo impostato. Verranno visualizzate quindi come un'unica azione all'interno dell'applicazione. Questo ritarderà anche le notifiche della stessa quantità di tempo, riducendo così il numero di email inviate, e influirà anche sul ritardo di %{webhook_link}."
+        link: "webhook"
   announcements:
     show_until: Mostra fino a
     is_active: attualmente visualizzato
@@ -158,7 +167,7 @@ it:
     edit: 'Modifica l''azione personalizzata %{name}'
     execute: 'Esegui %{name}'
     upsale:
-      title: 'Le azioni personalizzate sono una funzionalità dell'' Enterprise Edition'
+      title: 'Azioni personalizzate'
       description: 'La linea personalizzata delle azioni lavora quotidianamente combinando un set di passi individuali in un bottone.'
   custom_fields:
     text_add_new_custom_field: >
@@ -257,7 +266,7 @@ it:
       irreversible: "Questa azione è irreversibile"
       confirmation: "Inserisci il nome utente del segnaposto %{name} per confermare l'eliminazione."
     upsale:
-      title: Assegna lavoro alle persone che non sono membri del progetto.
+      title: Utenti segnaposto
       description: >
         Ci sono diversi scenari in cui vuoi assegnare lavoro a persone che non sono membri del tuo progetto. Potrebbe semplicemente essere che devi ancora assumere le persone adatte al lavoro. O che non vuoi dare accesso a quella persona alle informazioni del progetto ma vuoi comunque monitorare le mansioni che gli hai assegnato.
   prioritiies:
@@ -314,10 +323,10 @@ it:
       other: '%{count} macro-attività discendenti'
     bulk:
       could_not_be_saved: "Le seguenti macro-attività non possono essere salvate:"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
-      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
-      descendant: "descendant of selected"
+      none_could_be_saved: "Nessuna delle %{total} macro-attività può essere aggiornata."
+      x_out_of_y_could_be_saved: "%{failing} di %{total} macro-attività non possono essere aggiornate, mentre %{success} possono essere aggiornate."
+      selected_because_descendants: "Sono selezionate %{selected} macro-attività ma in totale sono interessate %{total} macro-attività, compresi i relativi figli."
+      descendant: "figlio della macro-attività selezionata"
     move:
       no_common_statuses_exists: "Nessuno stato disponibile per tutte le macro-attività selezionate. Non è possibile cambiare lo stato."
       unsupported_for_multiple_projects: 'Il comando sposta/copia multiplo non è supportato per macroattività da più progetti'
@@ -447,9 +456,12 @@ it:
         code: 'Stato'
         explanation: 'Descrizione stato'
         codes:
+          not_started: 'Non iniziato'
           on_track: 'Nei limiti'
           at_risk: 'A rischio'
           off_track: 'Fuori limite'
+          finished: 'Terminato'
+          discontinued: 'Interrotto'
       query:
         column_names: "Colonne"
         relations_to_type_column: "Relazioni con %{type}"
@@ -460,7 +472,6 @@ it:
       repository:
         url: "URL"
       role:
-        assignable: "È possibile assegnare macro-attività ad utenti e gruppi che hanno questo ruolo nel rispettivo progetto"
         permissions: "Permessi"
       time_entry:
         activity: "Attività"
@@ -506,20 +517,23 @@ it:
         begin_deletion: "Inizio cancellazione"
         children: "Sottoelementi"
         done_ratio: "Avanzamento (%)"
+        duration: "Duration"
         end_insertion: "Fine inserimento"
         end_deletion: "Fine cancellazione"
-        version: "Versione"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Superiore"
         parent_issue: "Superiore"
         parent_work_package: "Superiore"
         priority: "Priorità"
         progress: "Avanzamento (%)"
+        readonly: "Read only"
         schedule_manually: "Programmazione manuale"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
         subproject: "Sottoprogetto"
         time_entries: "Registra l'orario effettuato"
         type: "Tipo"
+        version: "Versione"
         watcher: "Osservatore"
       'doorkeeper/application':
         uid: "Client ID"
@@ -551,6 +565,7 @@ it:
         even: "deve essere pari."
         exclusion: "è riservato."
         file_too_large: "è troppo grande (la dimensione massima è %{count} Byte)."
+        filter_does_not_exist: "il filtro non esiste"
         format: "non corrisponde al formato previsto '%{expected}'."
         format_nested: "non corrisponde al formato previsto '%{expected}' al percorso '%{path}'."
         greater_than: "deve essere maggiore di %{count}."
@@ -719,6 +734,9 @@ it:
           attributes:
             due_date:
               not_start_date: "non è sulla data di inizio, nonostante sia obbligatorio per i traguardi."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
             parent:
               cannot_be_milestone: "non può essere un traguardo."
               cannot_be_self_assigned: "non può essere assegnato a se stesso."
@@ -738,7 +756,7 @@ it:
               does_not_exist: "La categoria specificata non esiste."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "deve essere >=0."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: 'La macro-attività è in uno stato di sola lettura perciò i suoi attributi non possono essere modificati.'
         type:
           attributes:
             attribute_groups:
@@ -749,6 +767,8 @@ it:
               group_without_name: "Non sono ammessi gruppi senza nome."
         user:
           attributes:
+            base:
+              user_limit_reached: "Limite utenti raggiunto. Non è possibile creare ulteriori account nel piano corrente."
             password_confirmation:
               confirmation: "Le password non corrispondono."
               format: "%{message}"
@@ -876,9 +896,11 @@ it:
     updated_on: "Aggiornato il"
     uploader: "Caricatore"
     user: "Utente"
+    value: "Valore"
     version: "Versione"
     work_package: "Macro-attività"
   backup:
+    failed: "Backup fallito"
     label_backup_token: "Token di backup"
     label_create_token: "Crea token di backup"
     label_delete_token: "Elimina token di backup"
@@ -1216,6 +1238,7 @@ it:
   error_enterprise_token_invalid_domain: "L'Enterprise Edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
   error_failed_to_delete_entry: 'Cancellazione voce non riuscita.'
   error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Errore nel tentativo di creare un oggetto dipendente: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valore selezionato non valido."
   error_journal_attribute_not_present: "Il diario non contiene l'attributo %{attribute}."
   error_pdf_export_too_many_columns: "Troppe colonne selezionate per l'esportazione in PDF. Ridurre il numero di colonne."
@@ -1325,7 +1348,9 @@ it:
   menus:
     admin:
       mail_notification: "Notifiche email"
-      incoming_outgoing: "Entrate & Uscite"
+      mails_and_notifications: "Email e notifiche"
+      aggregation_and_retention: 'Aggregazione e mantenimento'
+      api_and_webhooks: "API e webhooks"
     quick_add:
       label: "Apri menu di aggiunta rapida"
   my_account:
@@ -1500,6 +1525,7 @@ it:
   label_diff: "diff"
   label_diff_inline: "inline"
   label_diff_side_by_side: "Affiancate"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "disabilitato"
   label_display: "Visualizza"
   label_display_per_page: "Per pagina: %{value}"
@@ -1825,7 +1851,7 @@ it:
   label_used_by_types: "Utilizzato dai tipi"
   label_used_in_projects: "Utilizzato nei progetti"
   label_user: "Utente"
-  label_user_and_permission: "Utenti & Permessi"
+  label_user_and_permission: "Utenti e autorizzazioni"
   label_user_named: "Utente %{name}"
   label_user_activity: "attività di %{value}"
   label_user_anonymous: "Anonimo"
@@ -1974,8 +2000,11 @@ it:
   mail_body_backup_token_info: Il token precedente non è più valido.
   mail_body_backup_waiting_period: Il nuovo token sarà abilitato tra %{hours} ore.
   mail_body_backup_token_warning: Se non sei stato tu, accedi immediatamente a OpenProject e ripristinalo di nuovo.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Per cambiare la password, clicca nel link seguente:"
-  mail_body_register: "Benvenuto in OpenProject. Attiva il tuo account cliccando su questo link:"
+  mail_body_register: "Benvenuto in %{app_title}. Attiva il tuo account cliccando su questo link:"
   mail_body_register_header_title: "Email di invito come membro del progetto"
   mail_body_register_user: "Gentile %{name}, "
   mail_body_register_links_html: |
@@ -1992,6 +2021,7 @@ it:
   mail_subject_account_activation_request: "%{value} richiesta di attivazione account"
   mail_subject_backup_ready: "Il tuo backup è pronto"
   mail_subject_backup_token_reset: "Resetta il token di backup"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "La tua %{value} password"
   mail_subject_register: "La tua %{value} attivazione dell'account"
   mail_subject_reminder: "%{count} macro-attività in scadenza nei prossimi %{days} giorni"
@@ -2118,7 +2148,7 @@ it:
     heading_getting_started: "Fatti un'idea"
     text_getting_started_description: "Veloce panoramica sulla gestione dei progetti e il lavoro di squadra in OpenProject."
     text_show_again: "È possibile riavviare questo video dal menu Guida"
-    welcome: "Benvenuto in OpenProject"
+    welcome: "Benvenuto in %{app_title}"
     select_language: "Per favore seleziona la tua lingua"
   permission_add_work_package_notes: "Aggiungi nota"
   permission_add_work_packages: "Aggiungere macro-attività (work package)"
@@ -2134,6 +2164,7 @@ it:
   permission_comment_news: "Commentare le novità"
   permission_commit_access: "Accesso in lettura/scrittura all'archivio (commit)"
   permission_copy_projects: "Copiare progetti"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Eliminare osservatori"
   permission_delete_work_packages: "Cancellare macro-attività"
   permission_delete_messages: "Cancellare messaggi"
@@ -2176,7 +2207,6 @@ it:
   permission_select_custom_fields: "Seleziona campi personalizzati"
   permission_select_project_modules: "Seleziona moduli del progetto"
   permission_manage_types: "Seleziona i tipi"
-  permission_view_calendar: "Vedi calendario"
   permission_view_changesets: "Visualizza l'archivio revisioni in OpenProject"
   permission_view_commit_author_statistics: "Visualizza le statistiche dell'autore delle modifiche confermate"
   permission_view_work_package_watchers: "Vedi la lista degli osservatori"
@@ -2188,6 +2218,8 @@ it:
   permission_view_timelines: "Visualizza le cronologie"
   permission_view_wiki_edits: "Visualizza il registro della wiki"
   permission_view_wiki_pages: "Visualizza la wiki"
+  permission_work_package_assigned: "Diventa assegnatario/responsabile"
+  permission_work_package_assigned_explanation: "È possibile assegnare macro-attività ad utenti e gruppi che hanno questo ruolo nel rispettivo progetto"
   placeholders:
     default: "-"
   project:
@@ -2212,7 +2244,6 @@ it:
       archived: "Archiviato"
   project_module_activity: "Attività"
   project_module_forums: "Forum"
-  project_module_calendar: "Calendario"
   project_module_work_package_tracking: "Monitoraggio macro-attività"
   project_module_news: "Notizie"
   project_module_repository: "Archivio"
@@ -2226,7 +2257,7 @@ it:
     assigned_to_role: "Ruolo dell'incaricato"
     member_of_group: "Gruppo dell'incaricato"
     assignee_or_group: "Assegnatario o gruppo di appartenenza"
-    subproject_id: "Compreso Il sottoprogetto"
+    subproject_id: "Including subproject"
     only_subproject_id: "Solo sottoprogetto"
     name_or_identifier: "Nome o identificativo"
   repositories:
@@ -2340,6 +2371,9 @@ it:
   setting_apiv3_cors_origins: "Origini di condivisione CORS (Cross-Origin Resource Sharing) API V3 consentite"
   setting_apiv3_cors_origins_text_html: >
     Se CORS è abilitato, queste sono le origini che possono accedere alle API di OpenProject. <br/> Controlla la <a href="%{origin_link}" target="_blank">Documentazione sull'intestazione dell'origine</a> per sapere come specificare i valori previsti.
+  setting_apiv3_max_page_size: "Dimensione massima della pagina API"
+  setting_apiv3_max_page_instructions_html: >
+    Imposta la dimensione massima della pagina con cui l'API risponderà. Non sarà possibile eseguire richieste API che restituiscono più valori su una singola pagina. <br/> <strong>Attenzione:</strong> Si prega di modificare questo valore solo se sei sicuro del motivo per cui ne hai bisogno. La definizione di un valore elevato comporterà un impatto significativo sulle prestazioni, mentre un valore inferiore alle opzioni per pagina causerà errori nelle viste paginate.
   setting_apiv3_docs: "Documentazione"
   setting_apiv3_docs_enabled: "Abilita pagina di documenti"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2354,7 +2388,7 @@ it:
   setting_smtp_authentication: "Autenticazione SMTP"
   setting_smtp_user_name: "Nome utente SMTP"
   setting_smtp_password: "Password SMTP"
-  setting_smtp_domain: "Dominio HELLO SMTP"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Intervallo di giorni visualizzati sulle attività del progetto"
   setting_app_subtitle: "Sottotitolo applicazione"
   setting_app_title: "Titolo applicazione"
@@ -2547,7 +2581,6 @@ it:
   text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
   text_work_packages_ref_in_commit_messages: "Macro-attivita che sono correlate e/o modificate nei messaggi di conferma"
   text_journal_added: "%{label} %{value} aggiunto"
-  text_journal_aggregation_time_explanation: "Le azioni individuali di un utente (ad es. l'aggiornamento di un pacchetto di lavoro due volte) sono aggregati in un'unica azione se la loro differenza di età è inferiore al periodo di tempo specificato. Verranno visualizzate come un'unica azione all'interno dell'applicazione. Questo ritarderà anche le notifiche della stessa quantità di tempo, riducendo il numero di e-mail inviate."
   text_journal_changed_html: "%{label} modificato da %{old} %{linebreak}<strong>a</strong> %{new}"
   text_journal_changed_plain: "%{label} modificato da %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "%{label} aggiornata"
@@ -2862,6 +2895,7 @@ it:
         work_package: "La macro-attività che stai cercando non può essere trovata o è stata eliminata."
       expected:
         date: "AAAA-MM-GG (solo date ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (qualsiasi formato data e ora compatibile con ISO 8601)"
         duration: "Durata ISO 8601"
       invalid_content_type: "Il CONTENT-TYPE avrebbe dovuto essere '%{content_type}', ma si è ottenuto '%{actual}'."
       invalid_format: "Formato non valido per la proprietà '%{property}': previsto un formato del tipo '%{expected_format}', rispetto al tipo attuale '%{actual}'."
@@ -2873,6 +2907,7 @@ it:
         select: "La selezione richiesta di %{invalid} non è supportata. Le selezioni supportate sono %{supported}."
       invalid_user_status_transition: "L'attuale stato dell'account utente non consente questa operazione."
       missing_content_type: "non specificato"
+      missing_property: "Proprietà mancante '%{property}'."
       missing_request_body: "Corpo della richiesta mancante."
       missing_or_malformed_parameter: "Il parametro della query '%{parameter}' è assente o non valido."
       multipart_body_error: "Il corpo della richiesta non contiene le multipart previste."
@@ -2896,6 +2931,7 @@ it:
       schema: 'Schema'
     undisclosed:
       parent: Non divulgato - Il genitore selezionato è invisibile a causa della mancanza dei permessi.
+      ancestor: Non divulgato - L'antenato è invisibile a causa della mancanza dei permessi.
   doorkeeper:
     pre_authorization:
       status: 'Pre-autorizzazione'
@@ -2904,8 +2940,11 @@ it:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'La richiesta manca un parametro obbligatorio, include un valore non supportato in un parametro, o non è scritto correttamente.'
-        invalid_redirect_uri: "Il reindirizzamento dell'URI richiesto non è valido o non corrisponde all'URI di reindirizzamento del client."
+        invalid_request:
+          unknown: 'La richiesta manca un parametro obbligatorio, include un valore non supportato in un parametro, o non è scritto correttamente.'
+          missing_param: 'Manca il parametro obbligatorio: %{value}.'
+          request_not_authorized: 'La richiesta deve essere autorizzata. Il parametro richiesto per autorizzare la richiesta è assente o non valido.'
+        invalid_redirect_uri: "L'uri di reindirizzamento richiesto è scritto male o non corrisponde all'URI di reindirizzamento del client."
         unauthorized_client: 'Il client non è autorizzato ad eseguire questa richiesta usando questo metodo.'
         access_denied: 'Il proprietario della risorsa o il server di autorizzazione hanno rifiutato la richiesta.'
         invalid_scope: 'L''ambito richiesto non è valido, è sconosciuto o non è scritto bene.'
@@ -2918,6 +2957,7 @@ it:
         admin_authenticator_not_configured: 'Impossibile accedere al pannello di amministrazione a causa della mancata configurazione di Doorkeeper.configure.admin_authenticator.'
         #Access grant errors
         unsupported_response_type: 'Il server di autorizzazione non supporta questo tipo di risposta.'
+        unsupported_response_mode: 'Il server di autorizzazione non supporta questa modalità di risposta.'
         #Access token errors
         invalid_client: 'L''autenticazione del client non è riuscita a causa di client sconosciuti, della mancata inclusione dell''autenticazione nel client, o del mancato supporto del metodo di autenticazione.'
         invalid_grant: 'Il permesso di autorizzazione fornito non è valido, è scaduto, è revocato, non corrisponde all''URI di reindirizzamento utilizzato nella richiesta di autorizzazione oppure è stato rilasciato per un altro client.'
@@ -2926,6 +2966,10 @@ it:
           revoked: "Il token di accesso è stato revocato"
           expired: "Il token di accesso è scaduto"
           unknown: "Il token di accesso non è valido"
+        revoke:
+          unauthorized: "Non sei autorizzato a revocare questo token. "
+        forbidden_token:
+          missing_scope: 'L''accesso a questa risorsa richiede l''ambito "%{oauth_scopes}".'
   unsupported_browser:
     title: "Il tuo browser è obsoleto e non supportato."
     message: "Puoi incorrere in errori ed esperienza non ottimizzata su questa pagina."
@@ -2979,4 +3023,36 @@ it:
     authorization_error: "Si è verificato un errore di autorizzazione."
     revoke_my_application_confirmation: "Vuoi davvero rimuovere questa applicazione? Questo revocherà %{token_count} attivo per essa."
     my_registered_applications: "Applicazioni OAuth registrate"
+  oauth_client:
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authentication. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid"
+        invalid_request: >
+          OAuth2 server responded with 'invalid_request'. This error appears if you try to authorize multiple times.
+        invalid_response: "OAuth2 server provided an invalid response"
   you: tu

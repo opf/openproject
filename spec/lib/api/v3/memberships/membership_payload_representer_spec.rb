@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe ::API::V3::Memberships::MembershipPayloadRepresenter do
-  let(:membership) { FactoryBot.build_stubbed(:member) }
+  let(:membership) { build_stubbed(:member) }
 
-  current_user { FactoryBot.build_stubbed(:user) }
+  current_user { build_stubbed(:user) }
 
   describe 'generation' do
     subject(:json) { representer.to_json }
@@ -41,8 +41,8 @@ describe ::API::V3::Memberships::MembershipPayloadRepresenter do
         let(:meta) { OpenStruct.new notifiation_message: 'Come to the dark side' }
         let(:representer) do
           described_class.create(membership,
-                                 meta: meta,
-                                 current_user: current_user)
+                                 meta:,
+                                 current_user:)
         end
 
         it_behaves_like 'formattable property', :'_meta/notificationMessage' do
@@ -54,8 +54,8 @@ describe ::API::V3::Memberships::MembershipPayloadRepresenter do
         let(:meta) { OpenStruct.new send_notifications: true }
         let(:representer) do
           described_class.create(membership,
-                                 meta: meta,
-                                 current_user: current_user)
+                                 meta:,
+                                 current_user:)
         end
 
         it_behaves_like 'property', :'_meta/sendNotifications' do
@@ -71,7 +71,7 @@ describe ::API::V3::Memberships::MembershipPayloadRepresenter do
     let(:representer) do
       described_class.create(OpenStruct.new,
                              meta: OpenStruct.new,
-                             current_user: current_user)
+                             current_user:)
     end
 
     describe '_meta' do

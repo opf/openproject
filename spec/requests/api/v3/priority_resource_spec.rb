@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,15 +33,15 @@ describe 'API v3 Priority resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-  let(:project) { FactoryBot.create(:project, public: false) }
+  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:project) { create(:project, public: false) }
   let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
 
-  let!(:priorities) { FactoryBot.create_list(:priority, 2) }
+  let!(:priorities) { create_list(:priority, 2) }
 
   describe 'priorities' do
     subject(:response) { last_response }
@@ -83,8 +83,8 @@ describe 'API v3 Priority resource' do
       end
 
       context 'valid priority id' do
-        it 'should return HTTP 200' do
-          expect(response.status).to eql(200)
+        it 'returns HTTP 200' do
+          expect(response.status).to be(200)
         end
       end
 

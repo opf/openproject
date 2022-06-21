@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,45 +28,50 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec:MultipleMemoizedHelpers
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:member) { FactoryBot.build_stubbed(:user) }
+  let(:member) { build_stubbed(:user) }
   let(:current_user) { member }
   let(:embed_links) { true }
   let(:representer) do
-    described_class.create(work_package, current_user: current_user, embed_links: embed_links)
+    described_class.create(work_package, current_user:, embed_links:)
   end
   let(:parent) { nil }
-  let(:priority) { FactoryBot.build_stubbed(:priority, updated_at: Time.now) }
+  let(:priority) { build_stubbed(:priority, updated_at: Time.zone.now) }
   let(:assignee) { nil }
   let(:responsible) { nil }
   let(:schedule_manually) { nil }
-  let(:start_date) { Date.today.to_datetime }
-  let(:due_date) { Date.today.to_datetime }
+  let(:start_date) { Time.zone.today.to_datetime }
+  let(:due_date) { Time.zone.today.to_datetime }
   let(:type_milestone) { false }
   let(:estimated_hours) { nil }
   let(:derived_estimated_hours) { nil }
   let(:spent_hours) { 0 }
-  let(:derived_start_date) { Date.today - 4.days }
-  let(:derived_due_date) { Date.today - 5.days }
-  let(:budget) { FactoryBot.build_stubbed(:budget, project: project) }
+  let(:derived_start_date) { Time.zone.today - 4.days }
+  let(:derived_due_date) { Time.zone.today - 5.days }
+  let(:budget) { build_stubbed(:budget, project:) }
+  let(:duration) { nil }
+  let(:ignore_non_working_days) { true }
   let(:work_package) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
-                             schedule_manually: schedule_manually,
-                             start_date: start_date,
-                             due_date: due_date,
-                             done_ratio: 50,
-                             parent: parent,
-                             type: type,
-                             project: project,
-                             priority: priority,
-                             assigned_to: assignee,
-                             responsible: responsible,
-                             estimated_hours: estimated_hours,
-                             derived_estimated_hours: derived_estimated_hours,
-                             budget: budget,
-                             status: status) do |wp|
+    build_stubbed(:work_package,
+                  schedule_manually:,
+                  start_date:,
+                  due_date:,
+                  duration:,
+                  done_ratio: 50,
+                  parent:,
+                  type:,
+                  project:,
+                  priority:,
+                  assigned_to: assignee,
+                  responsible:,
+                  estimated_hours:,
+                  derived_estimated_hours:,
+                  budget:,
+                  ignore_non_working_days:,
+                  status:) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
         .and_return(available_custom_fields)
@@ -96,11 +101,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       add_work_packages
       view_time_entries
       view_changesets
+      view_file_links
+      manage_file_links
       delete_work_packages
     ]
   end
   let(:permissions) { all_permissions }
-  let(:project) { FactoryBot.build_stubbed(:project_with_types) }
+  let(:project) { build_stubbed(:project_with_types) }
   let(:type) do
     type = project.types.first
 
@@ -108,7 +115,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
     type
   end
-  let(:status) { FactoryBot.build_stubbed(:status, updated_at: Time.now) }
+  let(:status) { build_stubbed(:status, updated_at: Time.zone.now) }
   let(:available_custom_fields) { [] }
 
   before(:each) do
@@ -117,6 +124,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     allow(current_user)
       .to receive(:allowed_to?) do |permission, _context|
       permissions.include?(permission)
+    end
+  end
+
+  describe '.new' do
+    it 'is prevented as .create is to be used' do
+      expect { described_class.new(work_package, current_user:, embed_links:) }
+        .to raise_error NoMethodError
     end
   end
 
@@ -133,7 +147,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it_behaves_like 'API V3 formattable', 'description' do
         let(:format) { 'markdown' }
         let(:raw) { work_package.description }
-        let(:html) { '<p class="op-uc-p">' + work_package.description + '</p>' }
+        let(:html) { "<p class=\"op-uc-p\">#{work_package.description}</p>" }
       end
 
       describe 'scheduleManually' do
@@ -285,6 +299,54 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
+      describe 'duration', with_flag: { work_packages_duration_field_active: true } do
+        let(:duration) { 6 }
+
+        it { is_expected.to be_json_eql('P6D'.to_json).at_path('duration') }
+
+        context 'no duration' do
+          let(:duration) { nil }
+
+          it 'renders as null' do
+            is_expected.to be_json_eql(nil.to_json).at_path('duration')
+          end
+        end
+
+        context 'when the work_package is a milestone' do
+          let(:type_milestone) { true }
+
+          it 'has no duration' do
+            is_expected.to_not have_json_path('duration')
+          end
+        end
+
+        context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
+          it 'has no duration' do
+            is_expected.to_not have_json_path('duration')
+          end
+        end
+      end
+
+      describe 'ignoreNonWorkingDays', with_flag: { work_packages_duration_field_active: true } do
+        let(:ignore_non_working_days) { true }
+
+        context 'with the value being `true`' do
+          it { is_expected.to be_json_eql(true.to_json).at_path('ignoreNonWorkingDays') }
+        end
+
+        context 'with the value being `false`' do
+          let(:ignore_non_working_days) { false }
+
+          it { is_expected.to be_json_eql(false.to_json).at_path('ignoreNonWorkingDays') }
+        end
+
+        context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
+          it 'has no ignoreNonWorkingDays' do
+            is_expected.to_not have_json_path('ignoreNonWorkingDays')
+          end
+        end
+      end
+
       describe 'createdAt' do
         it_behaves_like 'has UTC ISO 8601 date and time' do
           let(:date) { work_package.created_at }
@@ -307,6 +369,31 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         it { is_expected.to have_json_type(Integer).at_path('lockVersion') }
 
         it { is_expected.to be_json_eql(work_package.lock_version.to_json).at_path('lockVersion') }
+      end
+
+      describe 'readonly' do
+        context 'no status' do
+          let(:status) { nil }
+          it 'renders nothing' do
+            is_expected.not_to have_json_path('readonly')
+          end
+        end
+
+        context 'false', with_ee: %i[readonly_work_packages] do
+          let(:status) { build_stubbed :status, is_readonly: false }
+
+          it 'renders as false' do
+            is_expected.to be_json_eql(false.to_json).at_path('readonly')
+          end
+        end
+
+        context 'true', with_ee: %i[readonly_work_packages] do
+          let(:status) { build_stubbed :status, is_readonly: true }
+
+          it 'renders as true' do
+            is_expected.to be_json_eql(true.to_json).at_path('readonly')
+          end
+        end
       end
     end
 
@@ -346,7 +433,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'custom fields' do
-      let(:available_custom_fields) { [FactoryBot.build_stubbed(:int_wp_custom_field)] }
+      let(:available_custom_fields) { [build_stubbed(:int_wp_custom_field)] }
       it 'uses a CustomFieldInjector' do
         expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_value_representer)
           .and_call_original
@@ -437,7 +524,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'assignee' do
         context 'is user' do
-          let(:assignee) { FactoryBot.build_stubbed(:user) }
+          let(:assignee) { build_stubbed(:user) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'assignee' }
@@ -447,7 +534,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'is group' do
-          let(:assignee) { FactoryBot.build_stubbed(:group) }
+          let(:assignee) { build_stubbed(:group) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'assignee' }
@@ -457,7 +544,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'is placeholder user' do
-          let(:assignee) { FactoryBot.build_stubbed(:placeholder_user) }
+          let(:assignee) { build_stubbed(:placeholder_user) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'assignee' }
@@ -467,7 +554,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'is deleted user' do
-          let(:assignee) { FactoryBot.build_stubbed(:deleted_user) }
+          let(:assignee) { build_stubbed(:deleted_user) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'assignee' }
@@ -485,7 +572,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'responsible' do
         context 'is user' do
-          let(:responsible) { FactoryBot.build_stubbed(:user) }
+          let(:responsible) { build_stubbed(:user) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'responsible' }
@@ -495,7 +582,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'is group' do
-          let(:responsible) { FactoryBot.build_stubbed(:group) }
+          let(:responsible) { build_stubbed(:group) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'responsible' }
@@ -505,7 +592,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'is placeholder user' do
-          let(:responsible) { FactoryBot.build_stubbed(:placeholder_user) }
+          let(:responsible) { build_stubbed(:placeholder_user) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'responsible' }
@@ -515,7 +602,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'is deleted user' do
-          let(:responsible) { FactoryBot.build_stubbed(:deleted_user) }
+          let(:responsible) { build_stubbed(:deleted_user) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'responsible' }
@@ -551,7 +638,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'version set' do
-          let!(:version) { FactoryBot.create :version, project: project }
+          let!(:version) { create :version, project: }
 
           before do
             work_package.version = version
@@ -597,7 +684,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'category set' do
-          let!(:category) { FactoryBot.build_stubbed :category }
+          let!(:category) { build_stubbed :category }
 
           before do
             work_package.category = category
@@ -707,6 +794,28 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
+      describe 'fileLinks' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'fileLinks' }
+          let(:href) { api_v3_paths.file_links(work_package.id) }
+        end
+
+        it_behaves_like 'has an untitled action link' do
+          let(:permission) { :manage_file_links }
+          let(:link) { 'addFileLink' }
+          let(:href) { api_v3_paths.file_links(work_package.id) }
+          let(:method) { 'post' }
+        end
+
+        context 'if user has no permission to view file links' do
+          let(:permissions) { all_permissions - %i[view_file_links] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'fileLinks' }
+          end
+        end
+      end
+
       context 'when the user is not watching the work package' do
         it 'should have a link to watch' do
           expect(subject)
@@ -720,7 +829,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       context 'when the user is watching the work package' do
-        let(:watchers) { [FactoryBot.build_stubbed(:watcher, watchable: work_package, user: current_user)] }
+        let(:watchers) { [build_stubbed(:watcher, watchable: work_package, user: current_user)] }
 
         before do
           allow(work_package)
@@ -860,9 +969,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'linked relations' do
-        let(:project) { FactoryBot.create(:project, public: false) }
-        let(:forbidden_project) { FactoryBot.create(:project, public: false) }
-        let(:user) { FactoryBot.create(:user, member_in_project: project) }
+        let(:project) { create(:project, public: false) }
+        let(:forbidden_project) { create(:project, public: false) }
+        let(:user) { create(:user, member_in_project: project) }
 
         before do
           login_as(user)
@@ -871,14 +980,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         describe 'parent' do
           let(:visible_parent) do
-            FactoryBot.build_stubbed(:stubbed_work_package) do |wp|
+            build_stubbed(:work_package) do |wp|
               allow(wp)
                 .to receive(:visible?)
                 .and_return(true)
             end
           end
           let(:invisible_parent) do
-            FactoryBot.build_stubbed(:stubbed_work_package) do |wp|
+            build_stubbed(:work_package) do |wp|
               allow(wp)
                 .to receive(:visible?)
                       .and_return(false)
@@ -911,9 +1020,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'ancestors' do
-          let(:root) { FactoryBot.build_stubbed(:work_package, project: project) }
+          let(:root) { build_stubbed(:work_package, project:) }
           let(:intermediate) do
-            FactoryBot.build_stubbed(:work_package, parent: root, project: project)
+            build_stubbed(:work_package, parent: root, project:)
           end
 
           context 'when ancestors are visible' do
@@ -944,20 +1053,20 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'children' do
-          let(:work_package) { FactoryBot.create(:work_package, project: project) }
+          let(:work_package) { create(:work_package, project:) }
           let!(:forbidden_work_package) do
-            FactoryBot.create(:work_package,
-                              project: forbidden_project,
-                              parent: work_package)
+            create(:work_package,
+                   project: forbidden_project,
+                   parent: work_package)
           end
 
           it { expect(subject).not_to have_json_path('_links/children') }
 
           describe 'visible and invisible children' do
             let!(:child) do
-              FactoryBot.create(:work_package,
-                                project: project,
-                                parent: work_package)
+              create(:work_package,
+                     project:,
+                     parent: work_package)
             end
 
             it { expect(subject).to have_json_size(1).at_path('_links/children') }
@@ -1054,7 +1163,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
         context 'when admin' do
-          let(:current_user) { FactoryBot.build_stubbed :admin }
+          let(:current_user) { build_stubbed :admin }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'configureForm' }
@@ -1066,9 +1175,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'customActions' do
         it 'has a collection of customActions' do
-          unassign_action = FactoryBot.build_stubbed(:custom_action,
-                                                     actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
-                                                     name: 'Unassign')
+          unassign_action = build_stubbed(:custom_action,
+                                          actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+                                          name: 'Unassign')
           allow(work_package)
             .to receive(:custom_actions)
             .and_return([unassign_action])
@@ -1110,14 +1219,20 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'relations' do
         let(:relation) do
-          FactoryBot.build_stubbed(:relation,
-                                   from: work_package)
+          build_stubbed(:relation,
+                        from: work_package)
         end
 
         before do
+          scope = instance_double('ActiveRecord::Relation')
+
           allow(work_package)
-            .to receive_message_chain(:visible_relations, :direct, :non_hierarchy, :includes)
-            .and_return([relation])
+            .to receive(:visible_relations)
+                  .with(current_user)
+                  .and_return(scope)
+          allow(scope)
+            .to receive(:includes)
+                  .and_return([relation])
         end
 
         it 'embeds a collection' do
@@ -1143,11 +1258,42 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
+      describe 'fileLinks' do
+        let(:storage) { build_stubbed(:storage) }
+        let(:file_link) { build_stubbed(:file_link, storage:, container: work_package) }
+
+        before do
+          allow(work_package).to receive(:file_links).and_return([file_link])
+        end
+
+        it 'embeds a collection' do
+          is_expected
+            .to be_json_eql('Collection'.to_json)
+                  .at_path('_embedded/fileLinks/_type')
+        end
+
+        it 'embeds with an href containing the work_package' do
+          is_expected
+            .to be_json_eql(api_v3_paths.file_links(work_package.id).to_json)
+                  .at_path('_embedded/fileLinks/_links/self/href')
+        end
+
+        it 'embeds the visible file links' do
+          is_expected
+            .to be_json_eql(1.to_json)
+                  .at_path('_embedded/fileLinks/total')
+
+          is_expected
+            .to be_json_eql(api_v3_paths.file_link(file_link.id).to_json)
+                  .at_path('_embedded/fileLinks/_embedded/elements/0/_links/self/href')
+        end
+      end
+
       describe 'customActions' do
         it 'has an array of customActions' do
-          unassign_action = FactoryBot.build_stubbed(:custom_action,
-                                                     actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
-                                                     name: 'Unassign')
+          unassign_action = build_stubbed(:custom_action,
+                                          actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+                                          name: 'Unassign')
           allow(work_package)
             .to receive(:custom_actions)
             .and_return([unassign_action])
@@ -1173,9 +1319,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe '#json_cache_key' do
-        let(:category) { FactoryBot.build_stubbed(:category) }
-        let(:assigned_to) { FactoryBot.build_stubbed(:user) }
-        let(:responsible) { FactoryBot.build_stubbed(:user) }
+        let(:category) { build_stubbed(:category) }
+        let(:assigned_to) { build_stubbed(:user) }
+        let(:responsible) { build_stubbed(:user) }
 
         before do
           work_package.category = category
@@ -1215,7 +1361,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         it 'changes when the work_package is updated' do
-          work_package.updated_at = Time.now + 20.seconds
+          work_package.updated_at = 20.seconds.from_now
 
           expect(representer.json_cache_key)
             .not_to eql former_cache_key
@@ -1232,3 +1378,4 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
   end
 end
+# rubocop:enable RSpec:MultipleMemoizedHelpers

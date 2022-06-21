@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +58,7 @@ module OpenProject::GithubIntegration::Services
     end
 
     def find_or_initialize(github_html_url)
-      GithubPullRequest.find_or_initialize_by(github_html_url: github_html_url)
+      GithubPullRequest.find_or_initialize_by(github_html_url:)
     end
 
     def github_user_id(payload)

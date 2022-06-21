@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
-  let(:user) { FactoryBot.create :user }
+  let(:user) { create :user }
   let(:estimated_hours) { [nil, nil, nil] }
   let(:done_ratios) { [0, 0, 0] }
   let(:statuses) { %i(open open open) }
-  let(:open_status) { FactoryBot.create :status }
-  let(:closed_status) { FactoryBot.create :closed_status }
+  let(:open_status) { create :status }
+  let(:closed_status) { create :closed_status }
   let(:aggregate_done_ratio) { 0.0 }
 
   context 'for the new ancestor chain' do
@@ -66,20 +66,24 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
 
     let(:children) do
       (statuses.size - 1).downto(0).map do |i|
-        FactoryBot.create :work_package,
-                          parent: parent,
-                          status: statuses[i] == :open ? open_status : closed_status,
-                          estimated_hours: estimated_hours[i],
-                          done_ratio: done_ratios[i]
+        create :work_package,
+               parent:,
+               status: statuses[i] == :open ? open_status : closed_status,
+               estimated_hours: estimated_hours[i],
+               done_ratio: done_ratios[i]
       end
     end
-    let(:parent) { FactoryBot.create :work_package, status: open_status }
+    let(:parent) { create :work_package, status: open_status }
 
     subject do
+      # In the call we only use estimated_hours (instead of also adding
+      # done_ratio) in order to test that changes in estimated hours
+      # trigger a recalculation of done_ration, because estimated hours
+      # act as weights in this calculation.
       described_class
-        .new(user: user,
+        .new(user:,
              work_package: children.first)
-        .call(%i(done_ratio estimated_hours))
+        .call(%i(estimated_hours))
     end
 
     context 'with no estimated hours and no progress' do
@@ -191,23 +195,23 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
     let(:sibling_estimated_hours) { 7.0 }
 
     let!(:grandparent) do
-      FactoryBot.create :work_package
+      create :work_package
     end
     let!(:parent) do
-      FactoryBot.create :work_package,
-                        parent: grandparent
+      create :work_package,
+             parent: grandparent
     end
     let!(:sibling) do
-      FactoryBot.create :work_package,
-                        parent: parent,
-                        status: sibling_status,
-                        estimated_hours: sibling_estimated_hours,
-                        done_ratio: sibling_done_ratio
+      create :work_package,
+             parent:,
+             status: sibling_status,
+             estimated_hours: sibling_estimated_hours,
+             done_ratio: sibling_done_ratio
     end
 
     let!(:work_package) do
-      FactoryBot.create :work_package,
-                        parent: parent
+      create :work_package,
+             parent:
     end
 
     subject do
@@ -215,8 +219,8 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
       work_package.save!
 
       described_class
-        .new(user: user,
-             work_package: work_package)
+        .new(user:,
+             work_package:)
         .call(%i(parent))
     end
 
@@ -261,17 +265,17 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
     let(:estimated_hours) { 7.0 }
 
     let!(:grandparent) do
-      FactoryBot.create :work_package
+      create :work_package
     end
     let!(:parent) do
-      FactoryBot.create :work_package,
-                        parent: grandparent
+      create :work_package,
+             parent: grandparent
     end
     let!(:work_package) do
-      FactoryBot.create :work_package,
-                        status: status,
-                        estimated_hours: estimated_hours,
-                        done_ratio: done_ratio
+      create :work_package,
+             status:,
+             estimated_hours:,
+             done_ratio:
     end
 
     shared_examples_for 'updates the attributes within the new hierarchy' do
@@ -317,8 +321,8 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
         work_package.parent_id_was
 
         described_class
-          .new(user: user,
-               work_package: work_package)
+          .new(user:,
+               work_package:)
           .call(%i(parent))
       end
 
@@ -332,12 +336,86 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
         work_package.parent_id_was
 
         described_class
-          .new(user: user,
-               work_package: work_package)
+          .new(user:,
+               work_package:)
           .call(%i(parent_id))
       end
 
       it_behaves_like 'updates the attributes within the new hierarchy'
+    end
+  end
+
+  context 'with a common ancestor' do
+    let(:status) { open_status }
+    let(:done_ratio) { 50 }
+    let(:estimated_hours) { 7.0 }
+
+    let!(:grandparent) do
+      create :work_package,
+             derived_estimated_hours: estimated_hours,
+             done_ratio:
+    end
+    let!(:old_parent) do
+      create :work_package,
+             parent: grandparent,
+             derived_estimated_hours: estimated_hours,
+             done_ratio:
+    end
+    let!(:new_parent) do
+      create :work_package,
+             parent: grandparent
+    end
+    let!(:work_package) do
+      create :work_package,
+             parent: old_parent,
+             status:,
+             estimated_hours:,
+             done_ratio:
+    end
+
+    subject do
+      work_package.parent = new_parent
+      # In this test case, derived_estimated_hours and done_ratio will not
+      # inherently change on grandparent.  However, if work_package has siblings
+      # then changing its parent could cause derived_estimated_hours and/or
+      # done_ratio on grandparent to inherently change.  To verify that
+      # grandparent can be properly updated in that case without making this
+      # test dependent on the implementation details of the
+      # derived_estimated_hours and done_ratio calculations, force
+      # derived_estimated_hours and done_ratio to change at the same time as the
+      # parent.
+      work_package.estimated_hours = (estimated_hours + 1)
+      work_package.done_ratio = (done_ratio + 1)
+      work_package.save!
+
+      described_class
+        .new(user:,
+             work_package:)
+        .call(%i(parent))
+    end
+
+    before do
+      subject
+    end
+
+    it 'is successful' do
+      expect(subject)
+        .to be_success
+    end
+
+    it 'returns both the former and new ancestors in the dependent results without duplicates' do
+      expect(subject.dependent_results.map(&:result))
+        .to match_array [new_parent, grandparent, old_parent]
+    end
+
+    it 'updates the done_ratio of the former parent' do
+      expect(old_parent.reload(select: :done_ratio).done_ratio)
+        .to be 0
+    end
+
+    it 'updates the estimated_hours of the former parent' do
+      expect(old_parent.reload(select: :derived_estimated_hours).derived_estimated_hours)
+        .to be_nil
     end
   end
 end

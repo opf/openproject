@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,8 @@ describe CustomField, type: :model do
     CustomField.destroy_all
   end
 
-  let(:field)  { FactoryBot.build :custom_field }
-  let(:field2) { FactoryBot.build :custom_field }
+  let(:field)  { build :custom_field }
+  let(:field2) { build :custom_field }
 
   describe '#name' do
     it { is_expected.to validate_presence_of(:name) }
@@ -79,6 +79,7 @@ describe CustomField, type: :model do
         field.field_format = 'text'
         field.min_length = nil
       end
+
       it { expect(field).not_to be_valid }
     end
 
@@ -88,6 +89,7 @@ describe CustomField, type: :model do
         field.field_format = 'text'
         field.max_length = nil
       end
+
       it { expect(field).not_to be_valid }
     end
 
@@ -97,6 +99,7 @@ describe CustomField, type: :model do
         field.field_format = 'text'
         field.min_length = 'a'
       end
+
       it { expect(field).not_to be_valid }
     end
 
@@ -106,6 +109,7 @@ describe CustomField, type: :model do
         field.field_format = 'text'
         field.max_length = 'a'
       end
+
       it { expect(field).not_to be_valid }
     end
 
@@ -116,6 +120,7 @@ describe CustomField, type: :model do
         field.min_length = 2
         field.max_length = 1
       end
+
       it { expect(field).not_to be_valid }
     end
 
@@ -125,6 +130,7 @@ describe CustomField, type: :model do
         field.field_format = 'text'
         field.min_length = -2
       end
+
       it { expect(field).not_to be_valid }
     end
 
@@ -134,6 +140,7 @@ describe CustomField, type: :model do
         field.field_format = 'text'
         field.max_length = -2
       end
+
       it { expect(field).not_to be_valid }
     end
 
@@ -177,7 +184,7 @@ describe CustomField, type: :model do
   end
 
   describe '#accessor_name' do
-    let(:field) { FactoryBot.build_stubbed :custom_field }
+    let(:field) { build_stubbed :custom_field }
 
     it 'is formatted as expected' do
       expect(field.accessor_name).to eql("custom_field_#{field.id}")
@@ -185,9 +192,9 @@ describe CustomField, type: :model do
   end
 
   describe '#possible_values_options' do
-    let(:project) { FactoryBot.build_stubbed(:project) }
-    let(:user1) { FactoryBot.build_stubbed(:user) }
-    let(:user2) { FactoryBot.build_stubbed(:user) }
+    let(:project) { build_stubbed(:project) }
+    let(:user1) { build_stubbed(:user) }
+    let(:user2) { build_stubbed(:user) }
 
     context 'for a user custom field' do
       before do
@@ -228,8 +235,8 @@ describe CustomField, type: :model do
     end
 
     context 'for a list custom field' do
-      let(:option1) { FactoryBot.build_stubbed(:custom_option) }
-      let(:option2) { FactoryBot.build_stubbed(:custom_option) }
+      let(:option1) { build_stubbed(:custom_option) }
+      let(:option2) { build_stubbed(:custom_option) }
 
       before do
         field.field_format = 'list'
@@ -245,7 +252,7 @@ describe CustomField, type: :model do
     end
 
     context 'for a version custom field' do
-      let(:versions) { [FactoryBot.build_stubbed(:version), FactoryBot.build_stubbed(:version)] }
+      let(:versions) { [build_stubbed(:version), build_stubbed(:version)] }
 
       before do
         field.field_format = 'version'
@@ -263,7 +270,7 @@ describe CustomField, type: :model do
       end
 
       context 'with a time entry provided' do
-        let(:time_entry) { FactoryBot.build_stubbed(:time_entry, project: project) }
+        let(:time_entry) { build_stubbed(:time_entry, project:) }
 
         it 'returns the project\'s shared_versions' do
           allow(project)
@@ -328,9 +335,9 @@ describe CustomField, type: :model do
   end
 
   describe 'nested attributes for custom options' do
-    let(:option) { FactoryBot.build(:custom_option) }
+    let(:option) { build(:custom_option) }
     let(:options) { [option] }
-    let(:field) { FactoryBot.build :custom_field, field_format: 'list', custom_options: options }
+    let(:field) { build :custom_field, field_format: 'list', custom_options: options }
 
     before do
       field.save!
@@ -367,7 +374,7 @@ describe CustomField, type: :model do
 
   describe '#multi_value_possible?' do
     context 'with a wp list cf' do
-      let(:field) { FactoryBot.build_stubbed :list_wp_custom_field }
+      let(:field) { build_stubbed :list_wp_custom_field }
 
       it 'is true' do
         expect(field)
@@ -376,7 +383,7 @@ describe CustomField, type: :model do
     end
 
     context 'with a wp user cf' do
-      let(:field) { FactoryBot.build_stubbed :user_wp_custom_field }
+      let(:field) { build_stubbed :user_wp_custom_field }
 
       it 'is true' do
         expect(field)
@@ -385,7 +392,7 @@ describe CustomField, type: :model do
     end
 
     context 'with a wp int cf' do
-      let(:field) { FactoryBot.build_stubbed :int_wp_custom_field }
+      let(:field) { build_stubbed :int_wp_custom_field }
 
       it 'is true' do
         expect(field)
@@ -394,7 +401,7 @@ describe CustomField, type: :model do
     end
 
     context 'with a project list cf' do
-      let(:field) { FactoryBot.build_stubbed :list_project_custom_field }
+      let(:field) { build_stubbed :list_project_custom_field }
 
       it 'is true' do
         expect(field)
@@ -403,7 +410,7 @@ describe CustomField, type: :model do
     end
 
     context 'with a project user cf' do
-      let(:field) { FactoryBot.build_stubbed :user_project_custom_field }
+      let(:field) { build_stubbed :user_project_custom_field }
 
       it 'is true' do
         expect(field)
@@ -412,7 +419,7 @@ describe CustomField, type: :model do
     end
 
     context 'with a project int cf' do
-      let(:field) { FactoryBot.build_stubbed :int_project_custom_field }
+      let(:field) { build_stubbed :int_project_custom_field }
 
       it 'is true' do
         expect(field)
@@ -421,7 +428,7 @@ describe CustomField, type: :model do
     end
 
     context 'with a time_entry user cf' do
-      let(:field) { FactoryBot.build_stubbed :time_entry_custom_field, field_format: 'user' }
+      let(:field) { build_stubbed :time_entry_custom_field, field_format: 'user' }
 
       it 'is true' do
         expect(field)
@@ -430,7 +437,7 @@ describe CustomField, type: :model do
     end
 
     context 'with a time_entry list cf' do
-      let(:field) { FactoryBot.build_stubbed :time_entry_custom_field, field_format: 'list' }
+      let(:field) { build_stubbed :time_entry_custom_field, field_format: 'list' }
 
       it 'is true' do
         expect(field)

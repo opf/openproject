@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,13 +30,14 @@ require 'spec_helper'
 
 describe ::Query::SortCriteria, type: :model do
   let(:query) do
-    FactoryBot.build_stubbed :query,
-                             show_hierarchies: false
+    build_stubbed :query,
+                  show_hierarchies: false
   end
 
   let(:available_criteria) { query.sortable_key_by_column_name }
 
   let(:instance) { described_class.new query.sortable_columns }
+
   subject { instance.to_a }
 
   before do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Costs::QueryCurrencyColumn, type: :model do
   let(:project) do
-    FactoryBot.build_stubbed(:project).tap do |p|
+    build_stubbed(:project).tap do |p|
       allow(p)
         .to receive(:costs_enabled?)
         .and_return(costs_enabled)
@@ -45,7 +45,7 @@ describe Costs::QueryCurrencyColumn, type: :model do
 
     context 'with costs enabled' do
       it 'returns the four costs columns' do
-        is_expected
+        expect(subject)
           .to match_array %i[budget material_costs labor_costs overall_costs]
       end
     end
@@ -54,14 +54,14 @@ describe Costs::QueryCurrencyColumn, type: :model do
       let(:costs_enabled) { false }
 
       it 'returns no columns' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
 
     context 'with no context' do
       it 'returns the four costs columns' do
-        is_expected
+        expect(subject)
           .to match_array %i[budget material_costs labor_costs overall_costs]
       end
     end

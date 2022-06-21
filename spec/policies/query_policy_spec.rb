@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe QueryPolicy, type: :controller do
-  let(:user)    { FactoryBot.build_stubbed(:user) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:query)   { FactoryBot.build_stubbed(:query, project: project, user: user) }
+  let(:user)    { build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
+  let(:query)   { build_stubbed(:query, project:, user:) }
 
   describe '#allowed?' do
     let(:subject) { described_class.new(user) }
@@ -44,7 +44,8 @@ describe QueryPolicy, type: :controller do
 
     shared_examples 'viewing queries' do |global|
       context (global ? 'in global context' : 'in project context').to_s do
-        let(:other_user) { FactoryBot.build_stubbed(:user) }
+        let(:other_user) { build_stubbed(:user) }
+
         if global
           let(:project) { nil }
         end
@@ -57,10 +58,10 @@ describe QueryPolicy, type: :controller do
 
         context 'query belongs to a different user' do
           let(:query) do
-            FactoryBot.build_stubbed(:query,
-                                     project: project,
-                                     user: user,
-                                     public: false)
+            build_stubbed(:query,
+                          project:,
+                          user:,
+                          public: false)
           end
 
           it 'is true if the query is private and the owner views it' do
@@ -121,7 +122,7 @@ describe QueryPolicy, type: :controller do
                                                     global: project.nil?)
             .and_return true
 
-          query.user = FactoryBot.build_stubbed(:user)
+          query.user = build_stubbed(:user)
 
           expect(subject.allowed?(query, action)).to be_falsy
         end
@@ -145,7 +146,7 @@ describe QueryPolicy, type: :controller do
                                                     project,
                                                     global: project.nil?)
             .and_return true
-          query.user = FactoryBot.build_stubbed(:user)
+          query.user = build_stubbed(:user)
           query.public = true
 
           expect(subject.allowed?(query, action)).to be_truthy
@@ -158,7 +159,7 @@ describe QueryPolicy, type: :controller do
                                                     project,
                                                     global: project.nil?)
             .and_return false
-          query.user = FactoryBot.build_stubbed(:user)
+          query.user = build_stubbed(:user)
           query.public = true
 
           expect(subject.allowed?(query, action)).to be_falsy
@@ -171,7 +172,7 @@ describe QueryPolicy, type: :controller do
                                                     project,
                                                     global: project.nil?)
             .and_return true
-          query.user = FactoryBot.build_stubbed(:user)
+          query.user = build_stubbed(:user)
           query.public = false
 
           expect(subject.allowed?(query, action)).to be_falsy
@@ -199,7 +200,7 @@ describe QueryPolicy, type: :controller do
         it 'is true if the user has the save_query permission in the project' do
           allow(user).to receive(:allowed_to?).with(:save_queries,
                                                     project,
-                                                    global: global)
+                                                    global:)
             .and_return true
 
           expect(subject.allowed?(query, action)).to be_truthy
@@ -209,7 +210,7 @@ describe QueryPolicy, type: :controller do
            'AND the query is persisted' do
           allow(user).to receive(:allowed_to?).with(:save_queries,
                                                     project,
-                                                    global: global)
+                                                    global:)
             .and_return true
 
           allow(query).to receive(:new_record?).and_return false
@@ -248,7 +249,7 @@ describe QueryPolicy, type: :controller do
                                                     project,
                                                     global: project.nil?)
             .and_return true
-          query.user = FactoryBot.build_stubbed(:user)
+          query.user = build_stubbed(:user)
           query.public = false
 
           expect(subject.allowed?(query, :publicize)).to be_falsy
@@ -276,7 +277,7 @@ describe QueryPolicy, type: :controller do
                                                     global: project.nil?)
             .and_return true
 
-          query.user = FactoryBot.build_stubbed(:user)
+          query.user = build_stubbed(:user)
           query.public = true
 
           expect(subject.allowed?(query, :depublicize)).to be_truthy
@@ -337,7 +338,7 @@ describe QueryPolicy, type: :controller do
                                                     global: project.nil?)
                            .and_return true
 
-          query.user = FactoryBot.build_stubbed(:user)
+          query.user = build_stubbed(:user)
           query.public = false
           expect(subject.allowed?(query, :reorder_work_packages)).to be_falsey
         end
@@ -369,7 +370,7 @@ describe QueryPolicy, type: :controller do
                                                     project,
                                                     global: project.nil?)
                            .and_return true
-          query.user = FactoryBot.build_stubbed(:user)
+          query.user = build_stubbed(:user)
           query.public = false
 
           expect(subject.allowed?(query, :reorder_work_packages)).to be_falsey
@@ -377,21 +378,21 @@ describe QueryPolicy, type: :controller do
       end
     end
 
-    it_should_behave_like 'action on persisted', :update, global: true
-    it_should_behave_like 'action on persisted', :update, global: false
-    it_should_behave_like 'action on persisted', :destroy, global: true
-    it_should_behave_like 'action on persisted', :destroy, global: false
-    it_should_behave_like 'action on unpersisted', :create, global: true
-    it_should_behave_like 'action on unpersisted', :create, global: false
-    it_should_behave_like 'publicize', global: false
-    it_should_behave_like 'publicize', global: true
-    it_should_behave_like 'depublicize', global: false
-    it_should_behave_like 'depublicize', global: true
-    it_should_behave_like 'action on persisted', :star, global: false
-    it_should_behave_like 'action on persisted', :star, global: true
-    it_should_behave_like 'action on persisted', :unstar, global: false
-    it_should_behave_like 'action on persisted', :unstar, global: true
-    it_should_behave_like 'viewing queries', global: true
-    it_should_behave_like 'viewing queries', global: false
+    it_behaves_like 'action on persisted', :update, global: true
+    it_behaves_like 'action on persisted', :update, global: false
+    it_behaves_like 'action on persisted', :destroy, global: true
+    it_behaves_like 'action on persisted', :destroy, global: false
+    it_behaves_like 'action on unpersisted', :create, global: true
+    it_behaves_like 'action on unpersisted', :create, global: false
+    it_behaves_like 'publicize', global: false
+    it_behaves_like 'publicize', global: true
+    it_behaves_like 'depublicize', global: false
+    it_behaves_like 'depublicize', global: true
+    it_behaves_like 'action on persisted', :star, global: false
+    it_behaves_like 'action on persisted', :star, global: true
+    it_behaves_like 'action on persisted', :unstar, global: false
+    it_behaves_like 'action on persisted', :unstar, global: true
+    it_behaves_like 'viewing queries', global: true
+    it_behaves_like 'viewing queries', global: false
   end
 end

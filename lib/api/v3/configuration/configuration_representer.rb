@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -71,7 +69,7 @@ module API
 
         property :start_of_week,
                  getter: ->(*) {
-                   Setting.start_of_week.to_i unless Setting.start_of_week.blank?
+                   Setting.start_of_week.to_i if Setting.start_of_week.present?
                  },
                  render_nil: true
 
@@ -88,7 +86,7 @@ module API
 
         def user_preferences
           UserPreferences::UserPreferenceRepresenter.new(current_user.pref,
-                                                         current_user: current_user)
+                                                         current_user:)
         end
 
         def date_format
@@ -135,10 +133,11 @@ module API
           end
         end
 
-        def reformated(setting, &block)
-          format = setting.gsub(/%\w/, &block)
-
-          format.blank? ? nil : format
+        def reformated(setting, &)
+          setting
+            .to_s
+            .gsub(/%\w/, &)
+            .presence
         end
       end
     end

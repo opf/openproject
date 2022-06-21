@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +42,7 @@ describe Notifications::CreateFromModelService,
   let(:user_property) { nil }
   let(:work_package) do
     wp_attributes = {
-      project: project,
+      project:,
       author: other_user,
       responsible: other_user,
       assigned_to: other_user,
@@ -52,18 +50,18 @@ describe Notifications::CreateFromModelService,
     }
 
     if %i[responsible assigned_to].include?(user_property)
-      FactoryBot.create(:work_package,
-                        **wp_attributes.merge(user_property => recipient))
+      create(:work_package,
+             **wp_attributes.merge(user_property => recipient))
     elsif user_property == :watcher
-      FactoryBot.create(:work_package,
-                        **wp_attributes).tap do |wp|
+      create(:work_package,
+             **wp_attributes).tap do |wp|
         Watcher.new(watchable: wp, user: recipient).save(validate: false)
       end
     else
       # Initialize recipient to have the same behaviour as if the recipient is assigned/responsible
       recipient
-      FactoryBot.create(:work_package,
-                        **wp_attributes)
+      create(:work_package,
+             **wp_attributes)
     end
   end
   let(:resource) { work_package }
@@ -74,12 +72,12 @@ describe Notifications::CreateFromModelService,
     work_package.journals.last
   end
   let(:journal_2_with_status) do
-    work_package.status = FactoryBot.create(:status)
+    work_package.status = create(:status)
     work_package.save(validate: false)
     work_package.journals.last
   end
   let(:journal_2_with_priority) do
-    work_package.priority = FactoryBot.create(:priority)
+    work_package.priority = create(:priority)
     work_package.save(validate: false)
     work_package.journals.last
   end
@@ -105,7 +103,7 @@ describe Notifications::CreateFromModelService,
     let(:user_property) { :assigned_to }
     let(:recipient_notification_settings) do
       [
-        FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+        build(:notification_setting, **notification_settings_all_false.merge(involved: true))
       ]
     end
 
@@ -123,7 +121,7 @@ describe Notifications::CreateFromModelService,
     context 'when assignee has in app notifications disabled' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_true)
+          build(:notification_setting, **notification_settings_all_true)
         ]
       end
 
@@ -142,7 +140,7 @@ describe Notifications::CreateFromModelService,
     context 'assignee has all notifications disabled' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false)
+          build(:notification_setting, **notification_settings_all_false)
         ]
       end
 
@@ -152,7 +150,7 @@ describe Notifications::CreateFromModelService,
     context 'assignee has all in app notifications enabled but only involved for mail' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+          build(:notification_setting, **notification_settings_all_false.merge(involved: true))
         ]
       end
 
@@ -175,7 +173,7 @@ describe Notifications::CreateFromModelService,
     end
 
     context 'assignee is placeholder user' do
-      let(:recipient) { FactoryBot.create :placeholder_user }
+      let(:recipient) { create :placeholder_user }
 
       it_behaves_like 'creates no notification'
     end
@@ -183,7 +181,7 @@ describe Notifications::CreateFromModelService,
     context 'when assignee has all notifications enabled but made the change himself' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_true)
+          build(:notification_setting, **notification_settings_all_true)
         ]
       end
       let(:author) { recipient }
@@ -196,7 +194,7 @@ describe Notifications::CreateFromModelService,
     let(:user_property) { :responsible }
     let(:recipient_notification_settings) do
       [
-        FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+        build(:notification_setting, **notification_settings_all_false.merge(involved: true))
       ]
     end
 
@@ -214,7 +212,7 @@ describe Notifications::CreateFromModelService,
     context 'when responsible has all notifications disabled' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false)
+          build(:notification_setting, **notification_settings_all_false)
         ]
       end
 
@@ -228,7 +226,7 @@ describe Notifications::CreateFromModelService,
     end
 
     context 'when responsible is placeholder user' do
-      let(:recipient) { FactoryBot.create :placeholder_user }
+      let(:recipient) { create :placeholder_user }
 
       it_behaves_like 'creates no notification'
     end
@@ -236,7 +234,7 @@ describe Notifications::CreateFromModelService,
     context 'when responsible has all notifications enabled but made the change himself' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_true)
+          build(:notification_setting, **notification_settings_all_true)
         ]
       end
       let(:author) { recipient }
@@ -249,7 +247,7 @@ describe Notifications::CreateFromModelService,
     let(:user_property) { :watcher }
     let(:recipient_notification_settings) do
       [
-        FactoryBot.build(:notification_setting, **notification_settings_all_true)
+        build(:notification_setting, **notification_settings_all_true)
       ]
     end
 
@@ -267,7 +265,7 @@ describe Notifications::CreateFromModelService,
     context 'when watcher has in app notifications disabled' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(watched: true))
+          build(:notification_setting, **notification_settings_all_false.merge(watched: true))
         ]
       end
 
@@ -286,7 +284,7 @@ describe Notifications::CreateFromModelService,
     context 'when watcher has all notifications disabled' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false)
+          build(:notification_setting, **notification_settings_all_false)
         ]
       end
 
@@ -302,7 +300,7 @@ describe Notifications::CreateFromModelService,
     context 'when watcher has all notifications enabled but made the change himself' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_true)
+          build(:notification_setting, **notification_settings_all_true)
         ]
       end
       let(:author) { recipient }
@@ -316,7 +314,7 @@ describe Notifications::CreateFromModelService,
 
     let(:recipient_notification_settings) do
       [
-        FactoryBot.build(:notification_setting, **notification_settings_all_true)
+        build(:notification_setting, **notification_settings_all_true)
       ]
     end
 
@@ -334,7 +332,7 @@ describe Notifications::CreateFromModelService,
     context 'with in app notifications disabled' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_true)
+          build(:notification_setting, **notification_settings_all_true)
         ]
       end
 
@@ -353,7 +351,7 @@ describe Notifications::CreateFromModelService,
     context 'with all disabled' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false)
+          build(:notification_setting, **notification_settings_all_false)
         ]
       end
 
@@ -363,8 +361,8 @@ describe Notifications::CreateFromModelService,
     context 'with all disabled as a default but enabled in the project' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false),
-          FactoryBot.build(:notification_setting, project: project, **notification_settings_all_true)
+          build(:notification_setting, **notification_settings_all_false),
+          build(:notification_setting, project:, **notification_settings_all_true)
         ]
       end
 
@@ -383,8 +381,8 @@ describe Notifications::CreateFromModelService,
     context 'with all enabled as a default but disabled in the project' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_true),
-          FactoryBot.build(:notification_setting, project: project, **notification_settings_all_false)
+          build(:notification_setting, **notification_settings_all_true),
+          build(:notification_setting, project:, **notification_settings_all_false)
         ]
       end
 
@@ -400,7 +398,7 @@ describe Notifications::CreateFromModelService,
     context 'when recipient has all notifications enabled but made the change himself' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_true)
+          build(:notification_setting, **notification_settings_all_true)
         ]
       end
       let(:author) { recipient }
@@ -413,7 +411,7 @@ describe Notifications::CreateFromModelService,
     context 'when the user configured to be notified on work package creation' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false
+          build(:notification_setting, **notification_settings_all_false
                                                            .merge(work_package_created: true))
         ]
       end
@@ -433,7 +431,7 @@ describe Notifications::CreateFromModelService,
     context 'when the user configured to be notified on work package status changes' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false
+          build(:notification_setting, **notification_settings_all_false
                                                            .merge(work_package_processed: true))
         ]
       end
@@ -444,8 +442,8 @@ describe Notifications::CreateFromModelService,
     context 'when the user configured to be notified on work package priority changes' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_prioritized: true)),
+          build(:notification_setting, **notification_settings_all_false
+                                                           .merge(work_package_prioritized: true))
         ]
       end
 
@@ -455,7 +453,7 @@ describe Notifications::CreateFromModelService,
     context 'when the user did not configure to be notified' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false)
+          build(:notification_setting, **notification_settings_all_false)
         ]
       end
 
@@ -469,8 +467,8 @@ describe Notifications::CreateFromModelService,
     context 'when the user has commented notifications activated' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_commented: true)),
+          build(:notification_setting, **notification_settings_all_false
+                                                           .merge(work_package_commented: true))
         ]
       end
 
@@ -489,7 +487,7 @@ describe Notifications::CreateFromModelService,
     context 'when the user has commented notifications deactivated' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false)
+          build(:notification_setting, **notification_settings_all_false)
         ]
       end
 
@@ -503,7 +501,7 @@ describe Notifications::CreateFromModelService,
     context 'with the user having commented notifications activated' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false
+          build(:notification_setting, **notification_settings_all_false
                                                            .merge(work_package_commented: true))
         ]
       end
@@ -518,7 +516,7 @@ describe Notifications::CreateFromModelService,
     context 'when the user has processed notifications activated' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false
+          build(:notification_setting, **notification_settings_all_false
                                                            .merge(work_package_processed: true))
         ]
       end
@@ -538,7 +536,7 @@ describe Notifications::CreateFromModelService,
     context 'when the user has processed notifications deactivated' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false)
+          build(:notification_setting, **notification_settings_all_false)
         ]
       end
 
@@ -552,7 +550,7 @@ describe Notifications::CreateFromModelService,
     context 'with the user having processed notifications activated' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false
+          build(:notification_setting, **notification_settings_all_false
                                                            .merge(work_package_processed: true))
         ]
       end
@@ -567,7 +565,7 @@ describe Notifications::CreateFromModelService,
     context 'when the user has prioritized notifications activated' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false
+          build(:notification_setting, **notification_settings_all_false
                                                            .merge(work_package_prioritized: true))
         ]
       end
@@ -587,7 +585,7 @@ describe Notifications::CreateFromModelService,
     context 'when the user has prioritized notifications deactivated' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false)
+          build(:notification_setting, **notification_settings_all_false)
         ]
       end
 
@@ -601,7 +599,7 @@ describe Notifications::CreateFromModelService,
     context 'with the user having prioritized notifications activated' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false
+          build(:notification_setting, **notification_settings_all_false
                                                            .merge(work_package_prioritized: true))
         ]
       end
@@ -616,7 +614,7 @@ describe Notifications::CreateFromModelService,
     context 'when the user has scheduled notifications activated' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false
+          build(:notification_setting, **notification_settings_all_false
                                                            .merge(work_package_scheduled: true))
         ]
       end
@@ -636,7 +634,7 @@ describe Notifications::CreateFromModelService,
     context 'when the user has scheduled notifications deactivated' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false)
+          build(:notification_setting, **notification_settings_all_false)
         ]
       end
 
@@ -650,7 +648,7 @@ describe Notifications::CreateFromModelService,
     context 'with the user having scheduled notifications activated' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false
+          build(:notification_setting, **notification_settings_all_false
                                                            .merge(work_package_scheduled: true))
         ]
       end
@@ -665,7 +663,7 @@ describe Notifications::CreateFromModelService,
     context 'when the user has scheduled notifications activated' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false
+          build(:notification_setting, **notification_settings_all_false
                                                            .merge(work_package_scheduled: true))
         ]
       end
@@ -685,7 +683,7 @@ describe Notifications::CreateFromModelService,
     context 'when the user has scheduled notifications deactivated' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false)
+          build(:notification_setting, **notification_settings_all_false)
         ]
       end
 
@@ -718,7 +716,7 @@ describe Notifications::CreateFromModelService,
   context 'when user is mentioned' do
     let(:recipient_notification_settings) do
       [
-        FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(mentioned: true))
+        build(:notification_setting, **notification_settings_all_false.merge(mentioned: true))
       ]
     end
 
@@ -740,7 +738,7 @@ describe Notifications::CreateFromModelService,
         context 'user disabled mention notifications' do
           let(:recipient_notification_settings) do
             [
-              FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(mentioned: false))
+              build(:notification_setting, **notification_settings_all_false.merge(mentioned: false))
             ]
           end
 
@@ -749,7 +747,7 @@ describe Notifications::CreateFromModelService,
       end
 
       context 'group is not allowed to view the work package' do
-        let(:group_role) { FactoryBot.create(:role, permissions: []) }
+        let(:group_role) { create(:role, permissions: []) }
         let(:permissions) { [] }
 
         it_behaves_like 'creates no notification'
@@ -860,7 +858,7 @@ describe Notifications::CreateFromModelService,
         context "when the recipient turned off mention notifications" do
           let(:recipient_notification_settings) do
             [
-              FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(mentioned: false))
+              build(:notification_setting, **notification_settings_all_false.merge(mentioned: false))
             ]
           end
 
@@ -891,12 +889,12 @@ describe Notifications::CreateFromModelService,
       end
 
       context 'for groups' do
-        let(:group_role) { FactoryBot.create(:role, permissions: %i[view_work_packages]) }
+        let(:group_role) { create(:role, permissions: %i[view_work_packages]) }
         let(:group) do
-          FactoryBot.create(:group, members: recipient) do |group|
+          create(:group, members: recipient) do |group|
             Members::CreateService
               .new(user: User.system, contract_class: EmptyContract)
-              .call(project: project, principal: group, roles: [group_role])
+              .call(project:, principal: group, roles: [group_role])
           end
         end
 
@@ -958,10 +956,10 @@ describe Notifications::CreateFromModelService,
 
       context 'when there is a notification for mentioned on the journal' do
         let!(:mentioned_notification) do
-          FactoryBot.create :notification,
-                            journal: journal_2_with_notes,
-                            resource: journal_2_with_notes.journable,
-                            reason: :mentioned
+          create :notification,
+                 journal: journal_2_with_notes,
+                 resource: journal_2_with_notes.journable,
+                 reason: :mentioned
         end
 
         it_behaves_like 'creates no notification'

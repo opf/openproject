@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,25 +30,25 @@ require 'spec_helper'
 
 describe Notifications::Scopes::UnsentRemindersBefore, type: :model do
   describe '.unsent_reminders_before' do
-    subject(:scope) { ::Notification.unsent_reminders_before(recipient: recipient, time: time) }
+    subject(:scope) { ::Notification.unsent_reminders_before(recipient:, time:) }
 
     let(:recipient) do
-      FactoryBot.create(:user)
+      create(:user)
     end
     let(:time) do
       Time.current
     end
 
     let(:notification) do
-      FactoryBot.create(:notification,
-                        recipient: notification_recipient,
-                        read_ian: notification_read_ian,
-                        mail_reminder_sent: notification_mail_reminder_sent,
-                        created_at: notification_created_at)
+      create(:notification,
+             recipient: notification_recipient,
+             read_ian: notification_read_ian,
+             mail_reminder_sent: notification_mail_reminder_sent,
+             created_at: notification_created_at)
     end
     let(:notification_mail_reminder_sent) { false }
     let(:notification_read_ian) { false }
-    let(:notification_created_at) { Time.current - 10.minutes }
+    let(:notification_created_at) { 10.minutes.ago }
     let(:notification_recipient) { recipient }
 
     let!(:notifications) { notification }
@@ -68,13 +68,13 @@ describe Notifications::Scopes::UnsentRemindersBefore, type: :model do
     end
 
     context 'with a unread and not reminded notification that was created after the time and for the user' do
-      let(:notification_created_at) { Time.current + 10.minutes }
+      let(:notification_created_at) { 10.minutes.from_now }
 
       it_behaves_like 'is empty'
     end
 
     context 'with a unread and not reminded notification that was created before the time and for different user' do
-      let(:notification_recipient) { FactoryBot.create(:user) }
+      let(:notification_recipient) { create(:user) }
 
       it_behaves_like 'is empty'
     end
