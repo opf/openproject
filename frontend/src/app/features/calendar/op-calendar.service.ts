@@ -12,8 +12,6 @@ export class OpCalendarService extends UntilDestroyedMixin {
 
   resizeObs:ResizeObserver;
 
-  weekdaysPromise = this.weekdayService.loadWeekdays().toPromise();
-
   constructor(
     readonly weekdayService:WeekdayService,
   ) {
@@ -32,12 +30,11 @@ export class OpCalendarService extends UntilDestroyedMixin {
     this.resizeObs.observe(v.nativeElement);
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  async applyNonWorkingDay(data:{ date?:Date, el:HTMLElement }) {
-    await this.weekdaysPromise;
-
-    if (data.date && this.weekdayService.isNonWorkingDay(data.date)) {
-      data.el.classList.add('fc-non-working-day');
+  applyNonWorkingDay({ date }:{ date?:Date }):string[] {
+    if (date && this.weekdayService.isNonWorkingDay(date)) {
+      return ['fc-non-working-day'];
     }
+
+    return [];
   }
 }
