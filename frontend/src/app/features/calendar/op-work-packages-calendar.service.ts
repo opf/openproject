@@ -1,5 +1,4 @@
 import {
-  ElementRef,
   Injectable,
   Injector,
 } from '@angular/core';
@@ -22,10 +21,7 @@ import { splitViewRoute } from 'core-app/features/work-packages/routing/split-vi
 import { StateService } from '@uirouter/angular';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import {
-  Observable,
-  Subject,
-} from 'rxjs';
+import { Observable } from 'rxjs';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -54,7 +50,6 @@ import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 
 export interface CalendarViewEvent {

@@ -32,6 +32,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
     this.resizeObs.observe(v.nativeElement);
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async applyNonWorkingDay(data:{ date?:Date, el:HTMLElement }) {
     await this.weekdaysPromise;
 
