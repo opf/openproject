@@ -45,7 +45,7 @@ import {
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
-import { IFileLinkListItemIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
+import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -68,7 +68,7 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
   public infoTimestampText:string;
 
-  public fileLinkIcon:IFileLinkListItemIcon;
+  public fileLinkIcon:IFileIcon;
 
   public text = {
     title: {
@@ -100,7 +100,7 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
     if (this.originData.lastModifiedByName) {
       this.principalRendererService.render(
         this.avatar.nativeElement,
-        { name: this.originData.lastModifiedByName, href: '/users/1' },
+        { name: this.originData.lastModifiedByName, href: '/external_users/1' },
         { hide: true, link: false },
         { hide: false, size: 'mini' },
       );
