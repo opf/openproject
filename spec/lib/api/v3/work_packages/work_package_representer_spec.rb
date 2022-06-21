@@ -1377,5 +1377,25 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
   end
+
+  describe 'parsing' do
+    describe 'duration', with_flag: { work_packages_duration_field_active: true } do
+      subject { representer }
+
+      it 'parses form iso8601 format' do
+        subject.duration = 'P6D'
+        expect(subject.represented.duration).to eq(6)
+      end
+
+      context 'when the work_package is a milestone' do
+        let(:type_milestone) { true }
+
+        it 'raises an error' do
+          expect { subject.duration = 'P6D' }
+            .to raise_error NoMethodError, /Milestone typed work packages don't have a duration/
+        end
+      end
+    end
+  end
 end
 # rubocop:enable RSpec:MultipleMemoizedHelpers

@@ -593,6 +593,16 @@ module API
           # noop
         end
 
+        def duration=(value)
+          if represented.milestone?
+            raise NoMethodError, I18n.t('activerecord.errors.messages.duration_for_milestones_not_writable')
+          end
+
+          represented.duration = datetime_formatter.parse_duration_to_days(value,
+                                                                           'duration',
+                                                                           allow_nil: true)
+        end
+
         def ordered_custom_actions
           # As the custom actions are sometimes set as an array
           represented.custom_actions(current_user).to_a.sort_by(&:position)
