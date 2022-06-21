@@ -160,7 +160,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
 
         allow(loader)
           .to receive(:user_values)
-          .and_return([[user.name, user.id.to_s]])
+          .and_return([[nil, user.id.to_s]])
         allow(loader)
           .to receive(:group_values)
           .and_return([])
