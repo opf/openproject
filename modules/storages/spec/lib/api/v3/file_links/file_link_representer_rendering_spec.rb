@@ -83,6 +83,7 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
       end
     end
 
+    # ToDo: Replace with :shared_with_me
     describe 'permission' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'permission' }

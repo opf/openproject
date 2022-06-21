@@ -40,9 +40,11 @@ module API
 
         property :id
 
-        # property :shared_with_me, cache_if: -> { false }, getter: -> (*) { true }
-        # property :shared_with_me, cache_if: -> { false }
-        property :shared_with_me, uncacheable: true, writable: false
+        # ToDo: Show this property ONLY for the api/v3/work_package/<id>/file_links
+        property :shared_with_me,
+                 uncacheable: true,
+                 writable: false,
+                 if: ->(represented:, **) { !represented.shared_with_me.nil? }
 
         date_time_property :created_at
 

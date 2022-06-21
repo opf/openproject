@@ -51,21 +51,22 @@ module API
           # the OAuth2 Server and the database, then we just return
           # the database contents.
           get do
-
+            # Get the list of all FileLinks for the work package.
+            # This could be a huge array in some cases...
             file_links = visible_file_links_scope.where(container_id: @work_package.id).all
 
             # Start a synchronization process to get updated file metadata from Nextcloud.
             # We assume that a valid OAuthClientToken is available for the current user.
             # This is ensured by StorageAPI/StorageRepresenter which handle the case
             # of a missing authorization.
+            # Error handling: FileLinkSyncService returns the entire list with :shared_with_me = false
+            # so all files will appear, but non is accessible to the user.
             service_result = ::Storages::FileLinkSyncService
-                            .new(user: current_user, file_links:)
-                            .call
-            unless (service_result.success)
-              # ToDo: Create a JSON error return message saying that we couldn't sync?
-              # Or just fail silently and show the outdated information from the DB?
-            end
+                               .new(user: current_user, file_links:)
+                               .call
+            # We ignore the service_result, because we'll return the same list of objects
 
+            # Convert to JSON
             ::API::V3::FileLinks::FileLinkCollectionRepresenter.new(
               file_links,
               self_link: api_v3_paths.work_package_file_links(@work_package.id),

@@ -44,7 +44,7 @@ class Storages::FileLinkSyncService
     groups = @file_links.group_by(&:storage_id)
     puts groups
 
-    @file_links.each { |file_link| file_link.shared_with_me = true }
+    # @file_links.each { |file_link| file_link.shared_with_me = true }
     return ServiceResult.new(success: true, result: @file_links)
   end
 
