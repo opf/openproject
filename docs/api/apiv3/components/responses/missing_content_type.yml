@@ -5,4 +5,3 @@ content:
     schema:
       type: string
 description: Occurs when the client did not send a Content-Type header
-headers: {}
