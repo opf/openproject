@@ -530,7 +530,7 @@ ru:
         parent_work_package: "Родитель"
         priority: "Приоритет"
         progress: "Прогресс (%)"
-        readonly: "Read only"
+        readonly: "Только для чтения"
         schedule_manually: "Ручное планирование"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"

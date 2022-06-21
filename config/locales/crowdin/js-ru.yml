@@ -372,7 +372,7 @@ ru:
     label_learn_more_link: "Узнать больше"
     label_less_or_equal: "<="
     label_less_than_ago: "менее нескольких дней назад"
-    label_link_files_in_storage: "Link files in %{storageType}"
+    label_link_files_in_storage: "Связать файлы в %{storageType}"
     label_loading: "Загрузка..."
     label_login_to_storage: "Войти в %{storageType}"
     label_mail_notification: "Уведомления по email"
@@ -389,7 +389,7 @@ ru:
     label_no_start_date: "без даты начала"
     label_no_storage_connection: "Нет подключения к %{storageType}"
     label_no_value: "Нет значения"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
+    label_no_file_links: "Чтобы связать файлы с этим рабочим пакетом, пожалуйста, сделайте это через %{storageType}."
     label_none: "Ничего"
     label_not_contains: "не содержит"
     label_not_equals: "не"
@@ -398,8 +398,8 @@ ru:
     label_open_context_menu: "Открыть контекстное меню"
     label_open_storage: "Открыть %{storageType}"
     label_open_work_packages: "открыто"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
+    label_open_file_link: 'Открыть файл в хранилище'
+    label_open_file_link_location: 'Открыть файл в расположении'
     label_password: "Пароль"
     label_previous: "Предыдущие"
     label_per_page: "На странице:"
@@ -412,7 +412,7 @@ ru:
     label_remove: "Удалить"
     label_remove_column: "Удалить столбец"
     label_remove_columns: "Удалить выбранные столбцы"
-    label_remove_file_link: "Remove file link"
+    label_remove_file_link: "Удалить ссылку на файл"
     label_remove_row: "Удалить строку"
     label_report: "Отчет"
     label_repository_plural: "Репозитории"
