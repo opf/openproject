@@ -5,12 +5,13 @@ import {
 import {
   CalendarOptions,
   DatesSetArg,
+  DayCellContentArg,
   DayCellMountArg,
-  DayHeaderMountArg,
+  DayHeaderContentArg,
   EventApi,
   EventDropArg,
-  SlotLabelMountArg,
-  SlotLaneMountArg,
+  SlotLabelContentArg,
+  SlotLaneContentArg,
 } from '@fullcalendar/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -59,7 +60,7 @@ export interface CalendarViewEvent {
 
 // The CalenderOptions typings are missing daygrid hooks
 interface CalendarOptionsWithDayGrid extends CalendarOptions {
-  dayGridDidMount:(data:DayCellMountArg) => void;
+  dayGridClassNames:(data:DayCellMountArg) => void;
 }
 
 @Injectable()
@@ -122,7 +123,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     if (this.isMilestone(workPackage)) {
       return workPackage.date;
     }
-    return workPackage[`${type}Date`];
+    return workPackage[`${type}Date`] as string;
   }
 
   isMilestone(workPackage:WorkPackageResource):boolean {
@@ -325,11 +326,11 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       initialDate: this.initialDate,
       initialView: this.initialView,
       datesSet: (dates) => this.updateDateParam(dates),
-      dayHeaderDidMount: (data:DayHeaderMountArg) => this.calendarService.applyNonWorkingDay(data),
-      dayCellDidMount: (data:DayCellMountArg) => this.calendarService.applyNonWorkingDay(data),
-      dayGridDidMount: (data:DayCellMountArg) => this.calendarService.applyNonWorkingDay(data),
-      slotLaneDidMount: (data:SlotLaneMountArg) => this.calendarService.applyNonWorkingDay(data),
-      slotLabelDidMount: (data:SlotLabelMountArg) => this.calendarService.applyNonWorkingDay(data),
+      dayHeaderClassNames: (data:DayHeaderContentArg) => this.calendarService.applyNonWorkingDay(data),
+      dayCellClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data),
+      dayGridClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data),
+      slotLaneClassNames: (data:SlotLaneContentArg) => this.calendarService.applyNonWorkingDay(data),
+      slotLabelClassNames: (data:SlotLabelContentArg) => this.calendarService.applyNonWorkingDay(data),
     };
   }
 
