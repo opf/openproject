@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title(t(:label_calendar_plural)) -%>
+<div id="split_view_tab" data-turbo-action="replace" data-controller="split-view">
+  Overview!
 
-<%= turbo_frame_tag 'split_view', data: { 'turbo-action': 'advance' } do %>
-<% end %>
+  <macro class="macro--wp-quickinfo" data-id="1899"></macro>
+</div>

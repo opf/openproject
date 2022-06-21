@@ -29,11 +29,11 @@ module OpenProject::Calendar
              name: 'OpenProject Calendar' do
       project_module :calendar_view, dependencies: :work_package_tracking do
         permission :view_calendar,
-                   { 'calendar/calendars': %i[index show] },
+                   { 'calendar/calendars': %i[index show details overview relations] },
                    dependencies: %i[view_work_packages],
                    contract_actions: { calendar: %i[read] }
         permission :manage_calendars,
-                   { 'calendar/calendars': %i[index show new destroy] },
+                   { 'calendar/calendars': %i[index show new destroy details overview relations] },
                    dependencies: %i[view_calendar add_work_packages edit_work_packages save_queries manage_public_queries],
                    contract_actions: { calendar: %i[create update destroy] }
       end

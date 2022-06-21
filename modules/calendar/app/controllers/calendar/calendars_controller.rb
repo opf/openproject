@@ -39,7 +39,21 @@ module ::Calendar
     end
 
     def show
-      render layout: 'angular/angular'
+      respond_to do |format|
+        format.html { render layout: 'angular/angular' }
+      end
+    end
+
+    def details
+      render layout: 'angular/angular', locals: { tab: :overview }
+    end
+
+    def overview
+      render template: 'calendar/calendars/details', layout: 'angular/angular', locals: { tab: :overview }
+    end
+
+    def relations
+      render template: 'calendar/calendars/details', layout: 'angular/angular', locals: { tab: :relations }
     end
 
     def destroy
@@ -65,8 +79,8 @@ module ::Calendar
 
     def find_calendar
       @view = Query
-                .visible(current_user)
-                .find(params[:id])
+        .visible(current_user)
+        .find(params[:id])
     rescue ActiveRecord::RecordNotFound
       render_404
     end

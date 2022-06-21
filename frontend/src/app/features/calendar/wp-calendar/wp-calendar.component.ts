@@ -84,6 +84,7 @@ import {
 import { teamPlannerPageRefresh } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { calendarRefreshRequest } from 'core-app/features/calendar/calendar.actions';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import * as Turbo from '@hotwired/turbo';
 
 @EffectHandler
 @Component({
@@ -266,7 +267,13 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         // Currently the calendar widget is shown on multiple pages,
         // but only the calendar module itself is a partitioned query space which can deal with a split screen request
         if (this.$state.includes('calendar')) {
-          this.workPackagesCalendar.openSplitView(workPackageId);
+          const url = new URL(window.location.href)
+          url.pathname += `/split/${workPackageId}`;
+          const frame = document.querySelector('turbo-frame#split_view') as any;
+          frame.src = url.toString();
+          frame.reload();
+          //Turbo.visit(url.toString(), { action: 'advance' });
+          // this.workPackagesCalendar.openSplitView(workPackageId);
         } else {
           void this.$state.go(
             'work-packages.show',
