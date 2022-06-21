@@ -155,16 +155,16 @@ class Storages::FileLinkSyncService
   # @param origin_file_info_hash Hash with updated information from Nextcloud
   # "24" => {
   #    "id" : 24,                 # origin_file_id
-  #    "ctime" : 0,               # Linux epoch file creation
-  #    "mtime" : 1655301278,      # Linux epoch file modification
-  #    "mimetype" : "application/pdf",
-  #    "name" : "Nextcloud Manual.pdf", # "Canonical" name, could changed by owner
-  #    "owner_id" : "admin",      # ID at Nextcloud side
-  #    "owner_name" : "admin",    # Name at Nextcloud side
-  #    "size" : 12706214,         # Not used yet in OpenProject
+  #    "ctime" : 0,               # Linux epoch file creation +overwrite
+  #    "mtime" : 1655301278,      # Linux epoch file modification +overwrite
+  #    "mimetype" : "application/pdf",  # +overwrite
+  #    "name" : "Nextcloud Manual.pdf", # "Canonical" name, could changed by owner +overwrite
+  #    "owner_id" : "admin",      # ID at Nextcloud side +overwrite
+  #    "owner_name" : "admin",    # Name at Nextcloud side +overwrite
+  #    "size" : 12706214,         # Not used yet in OpenProject +overwrite
   #    "status" : "OK",           # Not used yet
   #    "statuscode" : 200,        # Not used yet
-  #    "trashed" : false          # ToDo: How to handle "trashed" files?
+  #    "trashed" : false          # ToDo: How to handle "trashed" files? -> delete from array of models, check not in CollectopmRepresenter
   # }
   #
   # ToDo:

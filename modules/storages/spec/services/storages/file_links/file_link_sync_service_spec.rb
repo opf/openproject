@@ -56,12 +56,31 @@ describe ::Storages::FileLinkSyncService, type: :model do
   let(:file_links) { [file_link1, file_link2] }
   let(:instance) { described_class.new(user:, file_links:) }
 
+  let(:file_link1_200_json) {
+    {
+      id: 24,
+      status: "OK", statuscode: 200,
+      ctime: 0, mtime: 1655301234,
+      mimetype: "application/pdf",
+      name: "Nextcloud Manual.pdf",
+      owner_id: "admin", owner_name: "admin",
+      size: 12706214,
+      trashed: false
+    }.to_json
+  }
+  let(:file_link1_403_json) {
+    {
+      status: "Forbidden",
+      statuscode: 403
+    }.to_json
+  }
+
   # Test the main function of the service, which is to
   # the OAuth2 provider URL (Nextcloud) according to RFC specs.
   describe '#call when disconnected to any Nextcloud instance' do
     subject { instance.call }
 
-    context 'with no connection to Nextcloud' do
+    fcontext 'with no connection to Nextcloud' do
       before do
         # Simulate a complete disconnection on both hosts
         stub_request(:any, host1).to_timeout
@@ -72,50 +91,56 @@ describe ::Storages::FileLinkSyncService, type: :model do
         expect(subject).to be_a ServiceResult
         expect(subject.success).to be_falsey
         expect(subject.result).to eql file_links
+        expect(subject.result[0].origin_permission).to eql :view
+
       end
       # Test that no :shared_with_me appears
     end
 
-    context 'with connection to Nextcloud, no updates, but all links :shared_with_me' do
+    context 'with connection to Nextcloud1, updates from Nextcloud1 and permission from Nextcloud1' do
       # Simulate a successful authorization and :shared_with_me data for file_link1
       before do
-        file_link1_json = {
-          id: 24,
-          status: "OK", statuscode: 200,
-          ctime: 0, mtime: 1655301234,
-          mimetype: "application/pdf",
-          name: "Nextcloud Manual.pdf",
-          owner_id: "admin", owner_name: "admin",
-          size: 12706214,
-          trashed: false
-        }.to_json
         stub_request(:get, File.join(host1, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
-          .to_return(status: 200, body: file_link1_json)
+          .to_return(status: 200, body: file_link1_200_json)
       end
 
-      # Test that :shared_with_me is present
+      it 'has a origin_permission link' do
+        expect(subject.success).to be_truthy
+        expect(subject.result[0].origin_permission).to eql :view
+      end
 
       it 'updates the file_link information' do
         expect(subject).to be_a ServiceResult
         expect(subject.success).to be_truthy
-        expect(subject.result[0].origin_updated_at ).to eql Time.at(1655301234)
+        expect(subject.result[0].origin_updated_at).to eql Time.at(1655301234) # Check mtime update
       end
     end
 
     context 'with connection to Nextcloud, no updates, only file_link1 :shared_with_me' do
       before do
         file_link1_403_json = { status: "Forbidden", statuscode: 403 }.to_json
-
       end
     end
 
     context 'with connection and updated information from Nextcloud' do
-      # ToDo
+      # ToDo check that all these different fields are being updated
     end
 
     context 'with expired OAuth2 token, refresh and updated information from Nextcloud' do
       # ToDo
     end
 
+    context 'with expired OAuth2 token and refresh failed' do
+      # ToDo -> Error
+    end
+
+    # ToDo:
+    # - sync_single_file: Check for all different attributes
+    # - Existing FileLink attributes should not be overwritte by nil
+    # - creation_date and creation_user not overwritable
+    # - Name may be overwritten by user with whom the FileLink has been shared
+    # -
+
   end
 end
+

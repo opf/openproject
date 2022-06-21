@@ -84,7 +84,6 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
       end
     end
 
-    # ToDo: Replace with :shared_with_me
     describe 'permission' do
       context 'with permission granted' do
         it_behaves_like 'has a titled link' do
@@ -104,13 +103,11 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
         end
       end
 
-      context 'with permission Unknown' do
-        let(:origin_permission) { :unknown }
+      context 'with permission not defined (nil)' do
+        let(:origin_permission) { nil }
 
-        it_behaves_like 'has a titled link' do
+        it_behaves_like 'has no link' do
           let(:link) { 'permission' }
-          let(:href) { 'urn:openproject-org:api:v3:file-links:permission:Unknown ' }
-          let(:title) { 'Unknown' }
         end
       end
 
