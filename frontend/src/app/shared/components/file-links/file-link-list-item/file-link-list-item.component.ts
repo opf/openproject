@@ -37,7 +37,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
 import {
   getIconForMimeType,
@@ -54,8 +53,6 @@ import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileLinkListItemComponent implements OnInit, AfterViewInit {
-  @Input() public resource:HalResource;
-
   @Input() public fileLink:IFileLink;
 
   @Input() public index:number;
@@ -75,6 +72,7 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
       openFile: this.i18n.t('js.label_open_file_link'),
       openFileLocation: this.i18n.t('js.label_open_file_link_location'),
       removeFileLink: this.i18n.t('js.label_remove_file_link'),
+      downloadFileLink: '',
     },
   };
 
@@ -94,6 +92,8 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
     }
 
     this.fileLinkIcon = getIconForMimeType(this.originData.mimeType);
+
+    this.text.title.downloadFileLink = this.i18n.t('js.label_download_file', { fileName: this.fileLink.originData.name });
   }
 
   ngAfterViewInit():void {
