@@ -1,10 +1,12 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
-export const enterpriseBannerSelector = 'enterprise-banner-bootstrap';
+export const enterpriseBannerrBootstrapSelector = 'enterprise-banner-bootstrap';
 
 @Component({
-  selector: enterpriseBannerSelector,
+  selector: enterpriseBannerrBootstrapSelector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
   template: `
     <op-enterprise-banner
       [textMessage]="textMessage"

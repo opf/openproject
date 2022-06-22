@@ -26,11 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, ElementRef, HostBinding, Input } from '@angular/core';
+import { DatasetInputs } from '../dataset-inputs.decorator';
 
+export const noResultsSelector = 'op-no-results';
+
+@DatasetInputs
 @Component({
   templateUrl: './no-results.component.html',
-  selector: 'no-results',
+  selector: noResultsSelector,
 })
 
 export class NoResultsComponent {
@@ -41,4 +45,8 @@ export class NoResultsComponent {
   @Input() showIcon = true;
 
   @HostBinding('class.generic-table--no-results-container') setHostClass = true;
+
+  constructor(
+    readonly elementRef:ElementRef,
+  ) {}
 }

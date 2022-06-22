@@ -9,9 +9,9 @@
 </widget-header>
 
 <div class="grid--widget-content">
-  <no-results *ngIf="noMembers"
+  <op-no-results *ngIf="noMembers"
               [title]="text.noResults">
-  </no-results>
+  </op-no-results>
   <div class="op-members-widget--attributes-map -minimal-keys">
     <ng-container *ngFor="let usersByRole of usersByRole">
       <div class="attributes-map--key">

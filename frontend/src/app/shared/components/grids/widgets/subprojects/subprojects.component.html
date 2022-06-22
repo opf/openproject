@@ -9,9 +9,9 @@
 </widget-header>
 
 <div class="grid--widget-content">
-  <no-results *ngIf="noEntries"
+  <op-no-results *ngIf="noEntries"
               [title]="text.noResults">
-  </no-results>
+  </op-no-results>
   <span *ngFor="let project of projects; let last = last">
     <a [href]="projectPath(project)"
        [textContent]="projectName(project)">
