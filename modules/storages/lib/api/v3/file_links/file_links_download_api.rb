@@ -30,16 +30,30 @@ module API
   module V3
     module FileLinks
       class FileLinksDownloadAPI < ::API::OpenProjectAPI
+        helpers do
+          def parse_response_body(body)
+            begin
+              json = JSON.parse body
+            rescue JSON::ParserError
+              return nil
+            end
+
+            json.dig('ocs', 'data', 'url')
+          end
+        end
+
         resources :download do
           get do
+            oauth_client_information = @file_link.storage.oauth_client
+
             token_result = ::OAuthClients::ConnectionManager
-                             .new(user: User.current, oauth_client: @file_link.storage.oauth_client)
+                             .new(user: User.current, oauth_client: oauth_client_information)
                              .get_access_token
 
             raise API::Errors::InternalError.new(I18n.t('http.request.missing_authorization')) if token_result.failure?
 
             response = API::V3::Storages::StorageRequestFactory
-                         .new(oauth_client:)
+                         .new(oauth_client: oauth_client_information)
                          .download_command
                          .call(
                            access_token: token_result.result.access_token,
@@ -50,7 +64,7 @@ module API
             # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
             raise API::Errors::InternalError.new(I18n.t('http.request.failed_authorization')) if response.result.body.blank?
 
-            download_url = JSON.parse(response.result.body).dig('ocs', 'data', 'url')
+            download_url = parse_response_body response.result.body
 
             if download_url.blank?
               Rails.logger.error "Received unexpected json response: #{response.result.body}"

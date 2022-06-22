@@ -101,6 +101,12 @@ module API
           }
         end
 
+        link :staticOriginDownload do
+          {
+            href: api_v3_paths.file_link_download(represented.id)
+          }
+        end
+
         associated_resource :storage
 
         associated_resource :storageUrl,

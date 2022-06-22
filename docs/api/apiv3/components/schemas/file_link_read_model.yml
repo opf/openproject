@@ -46,6 +46,7 @@ properties:
       - staticOriginOpen
       - originOpenLocation
       - staticOriginOpenLocation
+      - staticOriginDownload
     properties:
       self:
         allOf:
@@ -120,13 +121,6 @@ properties:
           - $ref: './link.yml'
           - description: |-
               A static uri to open the location of the origin file on the storage. Responds with a redirect.
-              
-              **Resource**: N/A
-      originDownload:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              The uri to download the origin file from the origin.
               
               **Resource**: N/A
       staticOriginDownload:
@@ -213,7 +207,5 @@ example:
       href: https://nextcloud.deathstar.rocks/index.php/f/5503?openfile=0
     staticOriginOpenLocation:
       href: /api/v3/file_links/1337/open?location=true
-    originDownload:
-      href: https://nextcloud.deathstar.rocks/index.php/f/5503?openfile=0
     staticOriginDownload:
       href: /api/v3/file_links/1337/download
