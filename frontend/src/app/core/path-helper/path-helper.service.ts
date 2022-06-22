@@ -120,6 +120,10 @@ export class PathHelperService {
     return `${this.staticBase}/projects`;
   }
 
+  public projectsNewPath() {
+    return `${this.staticBase}/projects/new`;
+  }
+
   public projectPath(projectIdentifier:string) {
     return `${this.projectsPath()}/${projectIdentifier}`;
   }

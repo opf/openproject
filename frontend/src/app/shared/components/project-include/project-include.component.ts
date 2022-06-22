@@ -36,7 +36,7 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { IProject } from 'core-app/core/state/projects/project.model';
 
-import { IProjectData } from './project-data';
+import { IProjectData } from '../project-list/project-data';
 import { insertInList } from './insert-in-list';
 import { recursiveSort } from './recursive-sort';
 import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';

@@ -1,6 +1,6 @@
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
-import { IProjectData } from './project-data';
+import { IProjectData } from '../project-list/project-data';
 
 // Helper function that recursively inserts a project into the hierarchy at the right place
 export const insertInList = (

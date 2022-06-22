@@ -7,9 +7,9 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { IProjectData } from './project-data';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
+import { IProjectData } from './project-data';
 
 @Component({
   selector: '[op-project-list]',
@@ -86,7 +86,7 @@ export class OpProjectListComponent {
       if (isLast && !project.children.length) {
         return SpotDropAlignmentOption.RightCenter;
       }
-       
+
       return SpotDropAlignmentOption.BottomLeft;
     }
 

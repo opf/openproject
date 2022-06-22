@@ -37,6 +37,11 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   private
 
   def render_projects_dropdown
+    content_tag(:li, class: 'op-app-menu--item') do
+      angular_component_tag('project-menu-autocomplete')
+    end
+
+=begin
     label = !!(@project && !@project.name.empty?) ? @project.name : t(:label_select_project)
     render_menu_dropdown_with_items(
       label:,
@@ -54,6 +59,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
         angular_component_tag('project-menu-autocomplete')
       end
     end
+=end
   end
 
   def project_items

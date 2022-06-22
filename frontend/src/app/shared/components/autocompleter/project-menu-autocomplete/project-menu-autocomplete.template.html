@@ -1,9 +1,78 @@
-<div
+<spot-drop-modal
+  [open]="dropModalOpen"
+  (closed)="close()"
+  alignment="bottom-left"
+>
+  <a id="projects-menu"
+     accesskey="5"
+     aria-haspopup="true"
+     class="op-app-menu--item-action"
+     href="#"
+     slot="trigger"
+     (click)="dropModalOpen = !dropModalOpen">
+    <span
+      class="op-app-menu--item-title ellipsis"
+      [textContent]="currentProjectName()"
+    ></span>
+    <i class="op-app-menu--item-dropdown-indicator button--dropdown-indicator"></i>
+  </a>
+
+  <ng-container slot="body">
+    <h1
+      class="spot-subheader-big"
+      [textContent]="text.project.plural"
+    ></h1>
+    <form
+      class="spot-container"
+    >
+      <spot-text-field>
+        <span
+          slot="before"
+          class="spot-icon spot-icon_search"
+        ></span>
+      </spot-text-field>
+
+      <ng-container>
+        <ul
+          op-project-list
+          [projects]="projects"
+        ></ul>
+      </ng-container>
+
+      <div class="spot-action-bar">
+        <div class="spot-action-bar--right">
+          <a
+            class="button button_no-margin"
+            [href]="allProjectsPath()"
+          >
+            <i class="button--icon spot-icon spot-icon_unordered-list"></i>
+            <span
+              class="button--text"
+              [textContent]="text.project.list"
+            ></span>
+          </a>
+          <a
+            class="button button_no-margin -highlight"
+            [href]="newProjectPath()"
+          >
+            <i class="button--icon spot-icon spot-icon_add"></i>
+            <span
+              class="button--text"
+              [textContent]="text.project.singular"
+            ></span>
+          </a>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+</spot-drop-modal>
+
+<!--<div
   class="dropdown dropdown-relative project-search-results"
   id="project_autocompletion_wrapper"
 >
-  <div class="project-menu-autocomplete--wrapper">
-    <div class="project-menu-autocomplete--input-container">
+  <div class="project-menu-autocomplete&#45;&#45;wrapper">
+    <div class="project-menu-autocomplete&#45;&#45;input-container">
       <label
         for="project_autocompletion_input"
         class="hidden-for-sighted"
@@ -13,15 +82,15 @@
         type="text"
         id="project_autocompletion_input"
         name="project_autocompletion_input"
-        class="ui-autocomplete--input project-menu-autocomplete--input"
+        class="ui-autocomplete&#45;&#45;input project-menu-autocomplete&#45;&#45;input"
         [attr.placeholder]="loadingText"
       />
-      <i class="project-menu-autocomplete--search-icon icon-search"></i>
+      <i class="project-menu-autocomplete&#45;&#45;search-icon icon-search"></i>
     </div>
     <p
-      class="project-menu-autocomplete--no-results"
+      class="project-menu-autocomplete&#45;&#45;no-results"
       hidden
       [textContent]="text.no_results"
     ></p>
   </div>
-</div>
+</div>-->
