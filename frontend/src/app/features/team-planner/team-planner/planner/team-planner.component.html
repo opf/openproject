@@ -43,7 +43,7 @@
       ></full-calendar>
 
       <div
-        [textContent]="calendar.tooManyResultsText"
+        [textContent]="workPackagesCalendar.tooManyResultsText"
         class="op-wp-calendar--notification">
       </div>
 
@@ -116,8 +116,8 @@
         [showStartDate]="!isWpStartDateInCurrentView(wp)"
         [showEndDate]="!isWpEndDateInCurrentView(wp)"
         (stateLinkClicked)="openStateLink($event)"
-        (cardClicked)="calendar.onCardClicked($event)"
-        (cardContextMenu)="calendar.showEventContextMenu($event)"
+        (cardClicked)="workPackagesCalendar.onCardClicked($event)"
+        (cardContextMenu)="workPackagesCalendar.showEventContextMenu($event)"
       ></wp-single-card>
     </ng-template>
 

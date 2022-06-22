@@ -32,10 +32,19 @@ describe ::API::V3::Storages::StorageRepresenter, 'rendering' do
   let(:storage) { build_stubbed(:storage) }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(storage, current_user: user) }
+  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
 
   subject(:generated) { representer.to_json }
 
   describe '_links' do
+    before do
+      # Mock the ConnectionManager to return :connected
+      allow(::OAuthClients::ConnectionManager)
+        .to receive(:new).and_return(connection_manager)
+      allow(connection_manager)
+        .to receive(:authorization_state).and_return(:connected)
+    end
+
     describe 'self' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'self' }
@@ -53,8 +62,8 @@ describe ::API::V3::Storages::StorageRepresenter, 'rendering' do
 
     describe 'connectionState' do
       it_behaves_like 'has a titled link' do
-        let(:link) { 'connectionState' }
-        let(:href) { 'urn:openproject-org:api:v3:storages:connection:Connected' }
+        let(:link) { 'authorizationState' }
+        let(:href) { 'urn:openproject-org:api:v3:storages:authorization:Connected' }
         let(:title) { 'Connected' }
       end
     end

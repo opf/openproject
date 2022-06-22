@@ -2990,6 +2990,10 @@ lol:
     revoke_my_application_confirmation: "crwdns499969:0%{token_count}crwdne499969:0"
     my_registered_applications: "crwdns499971:0crwdne499971:0"
   oauth_client:
+    urn_connection_status:
+      connected: "crwdns819016:0crwdne819016:0"
+      error: "crwdns819018:0crwdne819018:0"
+      failed_authorization: "crwdns819020:0crwdne819020:0"
     labels:
       label_oauth_integration: "crwdns818694:0crwdne818694:0"
       label_redirect_uri: "crwdns818696:0crwdne818696:0"
@@ -3015,10 +3019,15 @@ lol:
         crwdns818728:0crwdne818728:0
       oauth_state_not_present: "crwdns818730:0crwdne818730:0"
       oauth_state_not_present_explanation: >
-        crwdns818732:0crwdne818732:0
+        crwdns819022:0crwdne819022:0
       rack_oauth2:
-        client_secret_invalid: "crwdns818734:0crwdne818734:0"
+        client_secret_invalid: "crwdns819024:0crwdne819024:0"
         invalid_request: >
-          crwdns818736:0crwdne818736:0
-        invalid_response: "crwdns818738:0crwdne818738:0"
+          crwdns819026:0crwdne819026:0
+        invalid_response: "crwdns819028:0crwdne819028:0"
+        invalid_grant: "crwdns819030:0crwdne819030:0"
+        invalid_client: "crwdns819032:0crwdne819032:0"
+        unauthorized_client: "crwdns819034:0crwdne819034:0"
+        unsupported_grant_type: "crwdns819036:0crwdne819036:0"
+        invalid_scope: "crwdns819038:0crwdne819038:0"
   you: crwdns499973:0crwdne499973:0
