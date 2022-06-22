@@ -63,6 +63,7 @@ describe 'Copy work packages through Rails view', js: true do
   describe 'copying work packages' do
     context 'with permission' do
       let(:current_user) { mover }
+      let(:wp_table_target) { ::Pages::WorkPackagesTable.new(project2) }
 
       before do
         wp_table.expect_work_package_count 2
@@ -83,7 +84,8 @@ describe 'Copy work packages through Rails view', js: true do
         notes.set_markdown 'A note on copy'
         click_on 'Copy and follow'
 
-        wp_table.expect_work_package_count 2
+        wp_table_target.expect_current_path
+        wp_table_target.expect_work_package_count 2
         expect(page).to have_selector('#projects-menu', text: 'Target')
 
         # Should not move the sources
@@ -109,8 +111,8 @@ describe 'Copy work packages through Rails view', js: true do
         it 'moves parent and child wp to a new project with the hierarchy amended' do
           click_on 'Copy and follow'
 
-          expect_angular_frontend_initialized
-          wp_table.expect_work_package_count 3
+          wp_table_target.expect_current_path
+          wp_table_target.expect_work_package_count 3
           expect(page).to have_selector('#projects-menu', text: 'Target')
 
           # Should not move the sources
