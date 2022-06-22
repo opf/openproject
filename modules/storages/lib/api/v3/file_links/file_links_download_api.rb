@@ -32,8 +32,32 @@ module API
       class FileLinksDownloadAPI < ::API::OpenProjectAPI
         resources :download do
           get do
-            url = "https://example.org"
-            redirect url, body: "The requested resource can be downloaded from #{url}"
+            token_result = ::OAuthClients::ConnectionManager
+                             .new(user: User.current, oauth_client: @file_link.storage.oauth_client)
+                             .get_access_token
+
+            raise API::Errors::InternalError.new(I18n.t('http.request.missing_authorization')) if token_result.failure?
+
+            response = API::V3::Storages::StorageRequestFactory
+                         .new(oauth_client:)
+                         .download_command
+                         .call(
+                           access_token: token_result.result.access_token,
+                           file_id: @file_link.origin_id
+                         )
+
+            raise API::Errors::InternalError.new(response.result) if response.failure?
+            # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
+            raise API::Errors::InternalError.new(I18n.t('http.request.failed_authorization')) if response.result.body.blank?
+
+            download_url = JSON.parse(response.result.body).dig('ocs', 'data', 'url')
+
+            if download_url.blank?
+              Rails.logger.error "Received unexpected json response: #{response.result.body}"
+              raise API::Errors::InternalError.new(I18n.t('http.response.unexpected'))
+            end
+
+            redirect download_url, body: "The requested resource can be downloaded from #{download_url}"
             status 303
           end
         end
