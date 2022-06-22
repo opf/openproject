@@ -85,16 +85,11 @@ export abstract class ResourceCollectionService<T> {
   }
 
   /**
-   * Lookup a single entity from the store
+   * Checks, if the store already has a resource loaded by id.
    * @param id
    */
-  lookupMultiple(id:ID):Observable<T> {
-    return this
-      .query
-      .selectEntity(id)
-      .pipe(
-        filter((entity) => entity !== undefined),
-      ) as Observable<T>;
+  exists(id:ID):boolean {
+    return this.query.hasEntity(id);
   }
 
   /**

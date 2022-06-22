@@ -28,10 +28,10 @@
 
 import {
   fileIconMappings,
-  IFileLinkListItemIcon,
+  IFileIcon,
 } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
 
-export function getIconForMimeType(mimeType?:string):IFileLinkListItemIcon {
+export function getIconForMimeType(mimeType?:string):IFileIcon {
   if (mimeType && fileIconMappings[mimeType]) {
     return fileIconMappings[mimeType];
   }
