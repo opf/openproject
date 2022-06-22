@@ -68,7 +68,7 @@ describe Queries::WorkPackages::Filter::AuthorFilter, type: :model do
         it 'is true if there is another user selectable' do
           allow(principal_loader)
             .to receive(:user_values)
-            .and_return([[user_1.name, user_1.id.to_s]])
+            .and_return([[nil, user_1.id.to_s]])
 
           expect(instance).to be_available
         end
@@ -84,7 +84,7 @@ describe Queries::WorkPackages::Filter::AuthorFilter, type: :model do
         it 'is true if there is another user selectable' do
           allow(principal_loader)
             .to receive(:user_values)
-            .and_return([[user_1.name, user_1.id.to_s]])
+            .and_return([[nil, user_1.id.to_s]])
 
           expect(instance).to be_available
         end
@@ -104,11 +104,11 @@ describe Queries::WorkPackages::Filter::AuthorFilter, type: :model do
         it 'returns the me value and the available users' do
           allow(principal_loader)
             .to receive(:user_values)
-            .and_return([[user_1.name, user_1.id.to_s]])
+            .and_return([[nil, user_1.id.to_s]])
 
           expect(instance.allowed_values)
             .to match_array([[I18n.t(:label_me), 'me'],
-                             [user_1.name, user_1.id.to_s]])
+                             [nil, user_1.id.to_s]])
         end
       end
 
@@ -118,10 +118,10 @@ describe Queries::WorkPackages::Filter::AuthorFilter, type: :model do
         it 'returns the available users' do
           allow(principal_loader)
             .to receive(:user_values)
-            .and_return([[user_1.name, user_1.id.to_s]])
+            .and_return([[nil, user_1.id.to_s]])
 
           expect(instance.allowed_values)
-            .to match_array([[user_1.name, user_1.id.to_s]])
+            .to match_array([[nil, user_1.id.to_s]])
         end
       end
     end
