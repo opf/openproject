@@ -26,7 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, ElementRef, HostBinding, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+} from '@angular/core';
 import { DatasetInputs } from '../dataset-inputs.decorator';
 
 export const noResultsSelector = 'op-no-results';
@@ -35,6 +41,7 @@ export const noResultsSelector = 'op-no-results';
 @Component({
   templateUrl: './no-results.component.html',
   selector: noResultsSelector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class NoResultsComponent {

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export const enterpriseBannerrBootstrapSelector = 'enterprise-banner-bootstrap';
@@ -26,7 +31,7 @@ export class EnterpriseBannerBootstrapComponent implements OnInit {
     protected i18n:I18nService) {
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     const $element = jQuery(this.elementRef.nativeElement);
 
     this.textMessage = $element.attr('text-message')!;
