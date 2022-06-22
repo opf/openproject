@@ -256,7 +256,7 @@ vi:
   users:
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      no_results_title_text: Người dùng này hiện tại chưa là thành viên của bất kỳ nhóm nào
     memberships:
       no_results_title_text: Người dùng này không phải là thành viên của dự án.
   placeholder_users:
@@ -1621,9 +1621,9 @@ vi:
   label_managed_repositories_vendor: "Managed %{vendor} repositories"
   label_max_size: "Maximum size"
   label_me: "me"
-  label_member_new: "New member"
+  label_member_new: "Thành viên mới"
   label_member_all_admin: "(All roles due to admin status)"
-  label_member_plural: "Members"
+  label_member_plural: "Thành viên"
   lable_membership_added: 'Thành viên đã thêm'
   lable_membership_updated: 'Thành viên đã cập nhật'
   label_menu_badge:
@@ -2166,7 +2166,7 @@ vi:
   permission_manage_forums: "Manage forums"
   permission_manage_categories: "Manage work package categories"
   permission_manage_work_package_relations: "Manage work package relations"
-  permission_manage_members: "Manage members"
+  permission_manage_members: "Quản lý thành viên"
   permission_manage_news: "Manage news"
   permission_manage_project_activities: "Manage project activities"
   permission_manage_public_queries: "Quản lý truy vấn công cộng"
@@ -2187,7 +2187,7 @@ vi:
   permission_view_work_package_watchers: "View watchers list"
   permission_view_work_packages: "View work packages"
   permission_view_messages: "View messages"
-  permission_view_members: "View members"
+  permission_view_members: "Xem thành viên"
   permission_view_reportings: "View reportings"
   permission_view_time_entries: "View spent time"
   permission_view_timelines: "View timelines"

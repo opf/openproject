@@ -441,7 +441,7 @@ vi:
     label_warning: "Warning"
     label_work_package: "Work Package"
     label_work_package_parent: "Parent work package"
-    label_work_package_plural: "Work Packages"
+    label_work_package_plural: "Quy trình xử lý"
     label_watch: "Theo dõi"
     label_watch_work_package: "Xem gói công việc"
     label_watcher_added_successfully: "Đã thêm nhận xét thành công."
@@ -1162,12 +1162,12 @@ vi:
           group: 'Nhóm này hiện là một phần của %{project}. Trong khi đó, bạn có thể lên kế hoạch cho nhóm đó và chỉ định các gói làm việc cho từng trường hợp.'
         next_button: 'Tiếp tục'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Dự án bao gồm'
       title: 'Các dự án'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Xóa lựa chọn'
       apply: 'Áp dụng'
       selected_filter:
-        all: 'All projects'
+        all: 'Tất cả các dự án'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
       include_subprojects: 'Include all sub-projects'
