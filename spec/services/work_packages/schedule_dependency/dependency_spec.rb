@@ -72,12 +72,6 @@ RSpec.describe WorkPackages::ScheduleDependency::Dependency do
     create(:work_package, subject: "child of #{work_package.subject}", parent: work_package)
   end
 
-  shared_examples 'returns empty array' do
-    it 'returns empty array' do
-      expect(subject.dependent_ids).to eq([])
-    end
-  end
-
   describe '#dependent_ids' do
     context 'when the work_package has a follower' do
       let!(:follower) { create_follower_of(work_package) }
@@ -214,14 +208,14 @@ RSpec.describe WorkPackages::ScheduleDependency::Dependency do
     end
   end
 
-  describe '#max_date_of_followed' do
+  describe '#soonest_start_date' do
     let(:work_package_used_in_dependency) { work_package }
     let(:work_package) { create(:work_package, subject: 'moved', due_date: Time.zone.today) }
 
     context 'with a moved predecessor' do
       it 'returns the soonest start date from the predecessors' do
         follower = create_follower_of(work_package)
-        expect(dependency_for(follower).max_date_of_followed).to eq(work_package.due_date + 1.day)
+        expect(dependency_for(follower).soonest_start_date).to eq(work_package.due_date + 1.day)
       end
     end
 
@@ -229,7 +223,7 @@ RSpec.describe WorkPackages::ScheduleDependency::Dependency do
       it 'returns the soonest start date from the predecessors' do
         follower = create_follower_of(work_package)
         unmoved_follower_predecessor = create_predecessor_of(follower, due_date: Time.zone.today + 4.days)
-        expect(dependency_for(follower).max_date_of_followed).to eq(unmoved_follower_predecessor.due_date + 1.day)
+        expect(dependency_for(follower).soonest_start_date).to eq(unmoved_follower_predecessor.due_date + 1.day)
       end
     end
   end

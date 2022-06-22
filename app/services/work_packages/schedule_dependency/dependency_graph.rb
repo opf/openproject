@@ -31,7 +31,7 @@ class WorkPackages::ScheduleDependency::DependencyGraph
 
   def initialize(dependencies)
     @dependencies = dependencies
-    @dependent_ids = dependencies.to_h { |dep| [dep.work_package.id, dep.dependent_ids.uniq] }
+    @dependent_ids = dependencies.to_h { |dep| [dep.work_package.id, dep.dependent_ids] }
   end
 
   def schedule_order
