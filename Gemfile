@@ -58,7 +58,7 @@ gem 'acts_as_list', '~> 1.0.1'
 gem 'acts_as_tree', '~> 2.9.0'
 gem 'awesome_nested_set', '~> 3.5.0'
 gem 'closure_tree', '~> 7.4.0'
-gem 'rubytree', '~> 1.0.0'
+gem 'rubytree', '~> 2.0.0'
 # Only used in down migrations now.
 # Is to be removed once the referencing migrations have been squashed.
 gem 'typed_dag', '~> 2.0.2', require: false

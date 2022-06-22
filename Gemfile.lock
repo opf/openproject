@@ -885,9 +885,8 @@ GEM
       nokogiri (>= 1.10.5)
       rexml
     ruby2_keywords (0.0.5)
-    rubytree (1.0.2)
-      json (~> 2.6.1)
-      structured_warnings (~> 0.4.0)
+    rubytree (2.0.0)
+      json (~> 2.0, > 2.3.1)
     rubyzip (2.3.2)
     sanitize (6.0.0)
       crass (~> 1.0.2)
@@ -1152,7 +1151,7 @@ DEPENDENCIES
   ruby-duration (~> 3.2.0)
   ruby-prof
   ruby-progressbar (~> 1.11.0)
-  rubytree (~> 1.0.0)
+  rubytree (~> 2.0.0)
   sanitize (~> 6.0.0)
   sassc-rails
   secure_headers (~> 6.3.0)
