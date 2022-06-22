@@ -9,7 +9,7 @@
      class="op-app-menu--item-action"
      href="#"
      slot="trigger"
-     (click)="dropModalOpen = !dropModalOpen">
+     (click)="toggleDropModal()">
     <span
       class="op-app-menu--item-title ellipsis"
       [textContent]="currentProjectName()"
@@ -22,22 +22,25 @@
       class="spot-subheader-big"
       [textContent]="text.project.plural"
     ></h1>
-    <form
+    <div
       class="spot-container"
     >
-      <spot-text-field>
+      <spot-text-field
+        [placeholder]="text.search_placeholder"
+        [(ngModel)]="searchText"
+        [ngModelOptions]="{standalone: true}"
+      >
         <span
           slot="before"
           class="spot-icon spot-icon_search"
         ></span>
       </spot-text-field>
 
-      <ng-container>
-        <ul
-          op-project-list
-          [projects]="projects"
-        ></ul>
-      </ng-container>
+      <ul
+        op-project-list
+        [projects]="projects$ | async"
+        [searchText]="searchText"
+      ></ul>
 
       <div class="spot-action-bar">
         <div class="spot-action-bar--right">
@@ -63,7 +66,7 @@
           </a>
         </div>
       </div>
-    </form>
+    </div>
   </ng-container>
 </spot-drop-modal>
 
