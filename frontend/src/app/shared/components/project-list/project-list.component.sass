@@ -1,3 +1,5 @@
+@import '../../app/spot/styles/sass/variables'
+
 .op-project-list
   &--item-action
     display: flex
@@ -13,7 +15,7 @@
     opacity: 1
     width: auto
     height: auto
-    
+
   &--tooltip
     max-width: 100%
 
@@ -21,3 +23,7 @@
     text-overflow: ellipsis
     white-space: nowrap
     overflow: hidden
+    color: $spot-color-basic-gray-1
+
+    &_link:hover
+      color: var(--content-link-hover-active-color)

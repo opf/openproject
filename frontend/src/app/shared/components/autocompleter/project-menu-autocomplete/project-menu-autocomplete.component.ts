@@ -47,14 +47,6 @@ import { loadAvailableProjects } from 'core-app/shared/components/autocompleter/
 import { IProjectAutocompleteItem } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocomplete-item';
 import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 
-export interface IProjectMenuEntry {
-  id:number;
-  name:string;
-  identifier:string;
-  parents:IProjectMenuEntry[];
-  level:number;
-}
-
 export const projectMenuAutocompleteSelector = 'project-menu-autocomplete';
 
 @Component({
@@ -156,21 +148,4 @@ export class ProjectMenuAutocompleteComponent implements OnInit {
         }),
       );
   }
-
-  /*
-  onItemSelected(project:IProjectMenuEntry):void {
-    window.location.href = this.projectLink(project.identifier);
-  }
-
-  projectLink(identifier:string):string {
-    const currentMenuItem = jQuery('meta[name="current_menu_item"]').attr('content');
-    let url = this.PathHelper.projectPath(identifier);
-
-    if (currentMenuItem) {
-      url += `?jump=${encodeURIComponent(currentMenuItem)}`;
-    }
-
-    return url;
-  }
-  */
 }
