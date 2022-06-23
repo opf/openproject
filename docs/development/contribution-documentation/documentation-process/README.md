@@ -87,7 +87,7 @@ In the modal window select the repository you forked in step 5. Also select a fo
 
 ![select repository to be cloned](select-repository-to-be-cloned.png)
 
-In the next screen select **For my own purposes** and confirm with **Continue**.
+In the next screen select **To contribute to the parent project** and confirm with **Continue**.
 
 ![define how to use the fork](define-how-to-use-the-fork.png)
 
