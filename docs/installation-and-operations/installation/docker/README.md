@@ -30,7 +30,7 @@ First, you must clone the [openproject-deploy](https://github.com/opf/openprojec
 git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/12 openproject
 ```
 
-Then, go into the compose folder:
+Then, change into the compose folder, this folder will be the location where you enter all following commands:
 
 ```bash
 cd openproject/compose
@@ -52,7 +52,13 @@ After a while, OpenProject should be up and running on `http://localhost:8080`. 
 
 Note that the `docker-compose.yml` file present in the repository can be adjusted to your convenience. For instance you could mount specific configuration files, override environment variables, or switch off services you don't need. Please refer to the official [Docker Compose documentation](https://docs.docker.com/compose/extends/) for more details.
 
-You can stop the Compose stack by running:
+You can stop the Compose stack and keep your data by running:
+
+```
+docker-compose stop
+```
+
+You can stop and remove the Compose stack which removes ALL your data by running:
 
 ```
 docker-compose down
