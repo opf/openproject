@@ -127,9 +127,9 @@ A pull request is a workflow to ask for a review from the OpenProject team. With
 
 Here select the latest release branch e.g. release/12.1 in the first dropdown. In the second select the branch you have changed.
 
-![comparing changes](comparing-changes.png)
+![create pull request](create-pull-request.png)
 
- In the description field of the pull request enter a summary for the changes you made. If there is already a work package on community.openproject.org you can also add this to the description. This adds a relation between your pull request and the work package.
+In the description field of the pull request enter a summary for the changes you made. If there is already a work package on https://community.openproject.org you can also add this to the description. This adds a relation between your pull request and the work package.
 
 ## Step 14: Request review
 
