@@ -1,16 +1,16 @@
 ---
 sidebar_navigation:
-  title: Enterprise on-premises edition guide
+  title: Enterprise on-premises guide
   priority: 999
 description: OpenProject Enterprise on-premises guide.
 robots: index, follow
 keywords: enterprise edition, enterprise on-premises, self-hosted version, server
 ---
-# Enterprise on-premises edition guide
+# Enterprise on-premises guide
 
-Welcome to the OpenProject **Enterprise on-premises edition guide**.
+Welcome to the OpenProject **Enterprise on-premises guide**.
 
-Here you find support for the [OpenProject Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/). The Enterprise on-premises edition extends the Community edition and provides **premium features**, additional **security feature**s as well as **professional support**.
+Here you find support for the [OpenProject Enterprise on-premises](https://www.openproject.org/enterprise-edition/) edition. The Enterprise on-premises extends the Community edition and provides **premium features**, additional **security feature**s as well as **professional support**.
 
 The Enterprise on-premises edition builds on top of the free Community edition. An upgrade is possible at any time. Please have a look at the detailed [feature comparison](https://www.openproject.org/pricing/#features) between the different versions of OpenProject.
 
