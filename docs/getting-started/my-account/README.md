@@ -171,7 +171,7 @@ OpenProject uses Gravatar as default profile image. It displays a preview of you
 Also, you can upload a **Custom Avatar** by choosing a Avatar to be uploaded from a file. Press the blue **Update** button to change your profile picture.
 
 <div class="alert alert-info" role="alert">
-Note: The optimum size to upload a new profile picture is 128 by 128 pixel. Larger files will be cropped.
+**Note**: The optimum size to upload a new profile picture is 128 by 128 pixel. Larger files will be cropped.
 </div>
 ![change your avatar](change-avatar.png)
 
@@ -186,5 +186,5 @@ To delete your account, select **Delete account** from the side menu and enter y
 ![delete your account](delete-account.png)
 
 <div class="alert alert-info" role="alert">
-Important: Deleting a user account is permanent and cannot be reversed.
+**Important**: Deleting a user account is permanent and cannot be reversed.
 </div>
