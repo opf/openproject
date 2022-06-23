@@ -9,14 +9,15 @@ keywords: contribution, documentation, documentation process
 
 # Documentation process for internal team members
 
-This guide describes how to internal team members with write permissions can contribute to the OpenProject documentation.
+This guide describes how internal team members with write permissions can contribute to the OpenProject documentation.
 
 
 ## Prerequisites
 
-- [ ] User account on GitHub.com with write permissions on the [OpenProject repository](https://github.com/opf/openproject)
-- [ ] Typora editor installed
-- [ ] GitHub Desktop installed
+- [ ] [The contributor has a user account on GitHub.com](https://www.openproject.org/docs/development/contribution-documentation/documentation-process/#step-1-create-user-account-on-githubcom)
+- [ ] The contributor has write permissions on the [OpenProject repository](https://github.com/opf/openproject)
+- [ ] [Software Typora editor installed](https://www.openproject.org/docs/development/contribution-documentation/documentation-process/#step-2-install-typora)
+- [ ] [Software GitHub Desktop installed](https://www.openproject.org/docs/development/contribution-documentation/documentation-process/#step-3-install-github-desktop)
 
 ## Step 1: Clone the OpenProject repository in GitHub Desktop
 
@@ -24,17 +25,19 @@ Before you can make changes you need to create a local clone of the OpenProject 
 
 ![clone repository](clone-repository.png)
 
-
-
 In the modal window select the repository ""*opf/openproject*"". Also select a folder on your computer for the cloned repository. Click **Clone**.
 
 ![select cloned repository](select-cloned-repository.png)
 
 ## Step 2: Update local repository (fetch origin)
 
+<div class="alert alert-warning" role="alert">
+
 Important: Before you make changes always update your local repository.
 
-1. Select the branch you want to work on, e.g.`release/12.1`.
+</div>
+
+1. Select the branch you want to work on, e.g.`release/12.1` in the main toolbar.
 2. Click on the button **Fetch origin** in the main toolbar.
 
 ![fetch origin in github desktop](fetch-origin-in-github-desktop.png)
