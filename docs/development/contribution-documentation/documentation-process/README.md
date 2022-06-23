@@ -149,7 +149,7 @@ In the description field of the pull request enter a summary for the changes you
 
 Select the label "documentation". 
 
-![add documentation label for pull request](add-documentation-label-pull-requests.png) 
+![add documentation label for pull request](add-documentation-label-pull-requests.png)
 
 In the field "Reviewers" select "opf/doc-writers". 
 
