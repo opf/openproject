@@ -47,7 +47,9 @@ Important: Before you make changes always update your local repository.
 1. Select the latest release branch e.g.`release/12.1` as the current branch. 
     ![create new branch - step 1](create-new-branch-step-1.png)
 
-2. In the same drop down click on "New branch". In this window insert a branch name that describes your changes.
+2. In the same drop down click on "New branch".
+
+3. In the next modal window insert a branch name that describes your changes. Also select the branch you want to work on, e.g. `release/12.1`. The click the button **Create branch**.
 
 ![create a new branch step 2](create-new-branch-step-2.png)
 
@@ -75,25 +77,25 @@ At the moment your change is only available in your local repository. To make it
 
 ## Step 8: Create a pull request
 
-A pull request is a workflow to ask for a review from the OpenProject team. With a pull request you basically ask to check your changes and to copy it over to the OpenProject repository (opf/openproject). After you pushed your local changes to your own repository click the button **Create Pull Request**.
+A pull request is a workflow to ask for a review from the OpenProject team. With a pull request you basically ask a team member to check your changes and to merge it to the branch you want your change to merged to, e.g. `release/12.1` . After you pushed your local changes to your own repository click the button **Create Pull Request**.
 
 ![](create-pull-request-github-desktop.png)
 
 
 
-Here select the latest release branch e.g. release/12.1 in the first dropdown. In the second select the branch you have changed.
+In the first dropdown select the base branch you want your work to be merged in e.g. `release/12.1`. In the second dropdown select the branch you created in step 3 which contains your changes.
 
-ToDO: Add screenshot
+![comparing-changes.png](comparing-changes.png)
 
 In the description field of the pull request enter a summary for the changes you made. If there is already a work package on https://community.openproject.org you can also add this to the description. This adds a relation between your pull request and the work package.
 
 ## Step 9: Request review
 
-Select the label "documentation". 
+Select the label "*documentation*". 
 
 ![add documentation label for pull request](add-documentation-label-pull-requests.png) 
 
-In the field "Reviewers" select "opf/doc-writers". 
+In the field "*Reviewers*" select "*opf/doc-writers".* 
 
 ![select reviewer for documentation](select-reviewer-for-documentation.png)
 
@@ -101,3 +103,8 @@ In the field "Reviewers" select "opf/doc-writers".
 
 ... and hopefully it is all LGTM which means "Looks good to me(rge). Congrats to your first contribution to the OpenProject documentation. We appreciate your effort :-)
 
+## Additional notes for working on the legal docs
+
+* We always deploy the [main branch](https://github.com/opf/legal/tree/main) on our [website](https://www.openproject.org/legal/). This deployment needs to be manually triggered by the marketing team.
+* If you want to make minor changes you don't need a review do this directly in the main branch without creating a new branch and new pull request.
+* If you need a review you need to create a new branch from the main branch. The branch `release/12.1` only exists in the repository opf/openproject (OpenProject software).
