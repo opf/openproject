@@ -37,10 +37,7 @@ import { CommonModule } from '@angular/common';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { DragulaModule } from 'ng2-dragula';
 import { DynamicModule } from 'ng-dynamic-component';
-import {
-  StateService,
-  UIRouterModule,
-} from '@uirouter/angular';
+import { UIRouterModule } from '@uirouter/angular';
 import { OpSpotModule } from 'core-app/spot/spot.module';
 import { CurrentUserModule } from 'core-app/core/current-user/current-user.module';
 import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
@@ -91,19 +88,18 @@ import { OpProjectIncludeComponent } from './components/project-include/project-
 import { OpProjectListComponent } from './components/project-include/project-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
+import { UIRouterGlobals } from '@uirouter/core';
+import { ErrorReporterBase } from 'core-app/core/errors/error-reporter-base';
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
   const currentProject = injector.get(CurrentProjectService);
-  const routerState = injector.get(StateService);
+  const uiRouterGlobals = injector.get(UIRouterGlobals);
 
-  window.ErrorReporter.addContext((scope) => {
-    if (currentProject.inProjectContext) {
-      scope.setTag('project', currentProject.identifier);
-    }
-
-    scope.setExtra('router state', routerState.current.name);
-  });
+  (window.ErrorReporter as ErrorReporterBase).addHook(() => ({
+    project: currentProject.identifier || 'global',
+    'router state': uiRouterGlobals.current.name || 'unknown',
+  }));
 
   const hookService = injector.get(HookService);
   hookService.register('openProjectAngularBootstrap', () => [
