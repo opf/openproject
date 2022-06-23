@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Support for contribution
-  priority: 996
+  priority: 600
 description: What to do if you need help or support for your contribution
 robots: index, follow
 keywords: help, support, documentation process, documentation

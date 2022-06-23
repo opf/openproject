@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Internal docs contributor
-  priority: 999
+  priority: 800
 description: Quick guide for internal team members that have write permissions
 robots: index, follow
 keywords: contribution, documentation, documentation process
@@ -42,7 +42,7 @@ Important: Before you make changes always update your local repository.
 ## Step 3: Create a new Git branch for your change
 
 1. Select the latest release branch e.g.`release/12.1` as the current branch. 
-  ![create new branch - step 1](create-new-branch-step-1.png)
+    ![create new branch - step 1](create-new-branch-step-1.png)
 
 2. In the same drop down click on "New branch". In this window insert a branch name that describes your changes.
 
