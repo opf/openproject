@@ -344,6 +344,10 @@ en:
     edit:
       settings: "Settings"
       form_configuration: "Form configuration"
+      more_info_text: |
+        Enterprise Edition allows you to customize form configuration with these additional features:
+        * Add new attribute groups
+        * Rename attribute groups
       projects: "Projects"
       enabled_projects: "Enabled projects"
       edit_query: "Edit table"
