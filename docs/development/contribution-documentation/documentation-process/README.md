@@ -97,7 +97,7 @@ Select the latest release branch e.g. `release/12.1` as the current branch.
 
 ![create new branch - step 1](create-new-branch-step-1.png)
 
-In the same drop down click on "New branch". In this window insert a branch name that describes your changes and select the latest release branch e.g. `release/12.1` the created branch is based on.
+In the same drop down click on "New branch". In this window **insert a branch name that describes your changes** and **select the latest release branch** e.g. `release/12.1` the created branch is based on.
 
 ![create new branch - step 2](create-new-branch-step-2.png)
 
@@ -139,11 +139,11 @@ At the moment your change is only available in your local repository. To make it
 
 A pull request is a workflow to ask for a review from the OpenProject team. With a pull request you basically ask to check your changes and to copy it over to the OpenProject repository (opf/openproject). Navigate to [https://github.com/opf/openproject/pulls/compare](https://github.com/opf/openproject/pulls/compare).
 
-Here select the latest release branch e.g. `release/12.1` in the first dropdown. In the second select the branch you have changed.
+Here select the latest release branch e.g. `release/12.1` in the **"base:"** dropdown on the left side. In the **"compare:"** dropdown select the branch you have changed.
 
-![comparing changes](comparing-changes.png)
 
-In the description field of the pull request enter a summary for the changes you made. If there is already a work package on https://community.openproject.org you can also add this to the description. This adds a relation between your pull request and the work package.
+
+In the description field of the pull request enter a summary for the changes you made. If there is already a work package on https://community.openproject.org you can also add this to the description with its complete URL. This adds a relation between your pull request and the work package.
 
 ## Step 16: Request review
 
@@ -173,7 +173,7 @@ In GitHub Desktop choose menu "Repository -> Repository settings". This will ope
 
 #### B) Fetch origin
 
-In GitHub Desktop select the new branch at Current branch (e.g. `origin/release/12.1` and press **Fetch Upstream [2]**
+In GitHub Desktop **at Current branch select the new branch** (e.g. `origin/release/12.1` and press **Fetch Upstream [2]**
 
 ![rebase-your-fork-step-2](rebase-your-fork-step-2.png)
 
