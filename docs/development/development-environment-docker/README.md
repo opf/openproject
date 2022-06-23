@@ -35,7 +35,7 @@ More details and options follow in the next section.
 
 <div class="alert alert-info" role="alert">
 
-docker-compose needs access to at least 4GB of RAM. E.g. for Mac, this requires
+**Note**: docker-compose needs access to at least 4GB of RAM. E.g. for Mac, this requires
 to [increase the default limit of the virtualized host.](https://docs.docker.com/docker-for-mac/)
 
 Signs of lacking memory include an "Exit status 137" in the frontend container.
