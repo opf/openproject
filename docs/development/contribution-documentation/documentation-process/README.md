@@ -119,7 +119,11 @@ At the moment your change is only available in your local repository. To make it
 
 ## Step 13: Create a pull request
 
-A pull request is a workflow to ask for a review from the OpenProject team. With a pull request you basically ask to check your changes and to copy it over to the OpenProject repository (opf/openproject). Navigate to [https://github.com/opf/openproject/pulls/compare](https://github.com/opf/openproject/pulls/compare).
+A pull request is a workflow to ask for a review from the OpenProject team. With a pull request you basically ask to check your changes and to copy it over to the OpenProject repository (opf/openproject). After you pushed your local changes to your own repository click the button **Create Pull Request**.
+
+![](create-pull-request-github-desktop.png)
+
+
 
 Here select the latest release branch e.g. release/12.1 in the first dropdown. In the second select the branch you have changed.
 
