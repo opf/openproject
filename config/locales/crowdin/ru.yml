@@ -1480,7 +1480,7 @@ ru:
   label_blocked_by: "заблокировано"
   label_blocks: "блоки"
   label_blog: "Блог"
-  label_forums_locked: "Заперто"
+  label_forums_locked: "Заблокировано"
   label_forum_new: "Новый форум"
   label_forum_plural: "Форумы"
   label_forum_sticky: "Стикер"
@@ -2265,7 +2265,7 @@ ru:
     destroy:
       confirmation: "Если вы продолжите, проект %{identifier} и все связанные с ним данные будут перманентно уничтожены."
       info: "Удаление проекта – действие необратимое."
-      project_verification: "Введите имя проекта %{name} для проверки удаления."
+      project_verification: "Введите название проекта %{name} для проверки удаления."
       subprojects_confirmation: "Его подпроекты: %{value} также будут удалены."
       title: "Удаление проекта %{name}"
     identifier:
@@ -3068,9 +3068,9 @@ ru:
     my_registered_applications: "Зарегистрированные OAuth приложения"
   oauth_client:
     urn_connection_status:
-      connected: "Connected"
-      error: "Error"
-      failed_authorization: "Authorization failed"
+      connected: "Подключён"
+      error: "Ошибка"
+      failed_authorization: "Ошибка авторизации"
     labels:
       label_oauth_integration: "Интеграция с OAuth2"
       label_redirect_uri: "URI переадресации"
@@ -3096,15 +3096,15 @@ ru:
         Эта ошибка появляется если вы выбрали неправильный response_type в OAuth2 провайдере. Response_type должен быть 'code' или аналогичным.
       oauth_state_not_present: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."
       oauth_state_not_present_explanation: >
-        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+        OAuth2 'state' используется для указания OpenProject где продолжить после успешной авторизации OAuth2. Отсутствие 'state' - внутренняя ошибка, которая может появиться при настройке. Обратитесь к системному администратору.
       rack_oauth2:
-        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        client_secret_invalid: "Секрет клиента недействителен"
         invalid_request: >
-          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
-        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
-        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
-        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
-        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
-        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
-        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+          Сервер авторизации OAuth2 ответил 'invalid_request'. Эта ошибка появляется, если вы пытаетесь авторизоваться несколько раз или в случае технических проблем.
+        invalid_response: "Сервер авторизации OAuth2 указал неверный ответ (invalid_response)"
+        invalid_grant: "Сервер авторизации OAuth2 просит вас повторно авторизоваться (invalid_grant)."
+        invalid_client: "Сервер авторизации OAuth2 не распознает OpenProject (invalid_client)."
+        unauthorized_client: "Сервер авторизации OAuth2 отвергает тип гранта (unauthorized_client)"
+        unsupported_grant_type: "Сервер авторизации OAuth2 просит вас повторно авторизоваться (unsupported_grant_type)."
+        invalid_scope: "Вам не разрешён доступ к запрошенному ресурсу (invalid_scope)."
   you: вы
