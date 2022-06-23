@@ -19,6 +19,7 @@ export const enterpriseBannerSelector = 'op-enterprise-banner';
 @DatasetInputs
 @Component({
   selector: enterpriseBannerSelector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./enterprise-banner.component.sass'],
   templateUrl: './enterprise-banner.component.html',
 })
@@ -34,6 +35,8 @@ export class EnterpriseBannerComponent implements OnInit {
   @Input() public moreInfoText:string;
 
   @Input() public moreInfoLink:string;
+
+  @Input() public messageIsHtml = false;
 
   public link:string;
 
