@@ -15,9 +15,8 @@ This guide describes how to internal team members with write permissions can con
 ## Prerequisites
 
 - [ ] User account on GitHub.com with write permissions on the [OpenProject repository](https://github.com/opf/openproject)
-- [ ] Desktop tools installed
-  - [ ] Typora editor
-  - [ ] GitHub Desktop
+- [ ] Typora editor installed
+- [ ] GitHub Desktop installed
 
 ## Step 1: Clone the OpenProject repository in GitHub Desktop
 
@@ -27,29 +26,31 @@ Before you can make changes you need to create a local clone of the OpenProject 
 
 
 
-In the modal window select the repository. Also select a folder on your computer for the cloned repository. Click **Clone**.
+In the modal window select the repository ""*opf/openproject*"". Also select a folder on your computer for the cloned repository. Click **Clone**.
 
-![](select-repository-to-be-cloned.png)
+![select cloned repository](select-cloned-repository.png)
 
 ## Step 2: Update local repository (fetch origin)
 
-Important: Before you make changes always update your local repository. Click on the button **Fetch origin** in the main toolbar.
+Important: Before you make changes always update your local repository.
+
+1. Select the branch you want to work on, e.g.`release/12.1`.
+2. Click on the button **Fetch origin** in the main toolbar.
 
 ![fetch origin in github desktop](fetch-origin-in-github-desktop.png)
 
 ## Step 3: Create a new Git branch for your change
 
-Select the latest release branch e.g.`release/12.1` as the current branch. 
+1. Select the latest release branch e.g.`release/12.1` as the current branch. 
+  ![create new branch - step 1](create-new-branch-step-1.png)
 
-![create new branch - step 1](create-new-branch-step-1.png)
+2. In the same drop down click on "New branch". In this window insert a branch name that describes your changes.
 
-In the same drop down click on "New branch". In this window insert a branch name that describes your changes and select the latest release branch e.g. `release/12.1` the created branch is based on.
-
-![create new branch - step 2](create-new-branch-step-2.png)
+![create a new branch step 2](create-new-branch-step-2.png)
 
 ## Step 4: Open the files you want to change in Typora
 
-In Typora open the files you want to change (File -> Open). In the file picker navigate to the local folder you selected in the step 6.
+In Typora open the files you want to change (File -> Open). In the file picker navigate to the local folder you selected in the step 1.
 
 ## Step 5: Make the changes in Typora and save the file
 
