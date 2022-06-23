@@ -39,10 +39,11 @@ describe 'Showing of file links in work package', with_flag: { storages_module_a
   let(:project_storage) { create(:project_storage, project:, storage:) }
   let(:file_link) { create(:file_link, container: work_package, storage:) }
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
+  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
 
   before do
-    allow(::API::V3::Storages::StorageAuthorizer)
-      .to receive(:authorize).and_return(:connected)
+    allow(connection_manager).to receive(:authorization_state).and_return(:connected)
+    allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
     project_storage
     file_link
 
