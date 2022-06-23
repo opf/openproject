@@ -1,0 +1,99 @@
+---
+sidebar_navigation:
+  title: Internal docs contributor
+  priority: 999
+description: Quick guide for internal team members that have write permissions
+robots: index, follow
+keywords: contribution, documentation, documentation process
+---
+
+# Documentation process for internal team members
+
+This guide describes how to internal team members with write permissions can contribute to the OpenProject documentation.
+
+
+## Prerequisites
+
+- [ ] User account on GitHub.com with write permissions on the [OpenProject repository](https://github.com/opf/openproject)
+- [ ] Desktop tools installed
+  - [ ] Typora editor
+  - [ ] GitHub Desktop
+
+## Step 1: Clone the OpenProject repository in GitHub Desktop
+
+Before you can make changes you need to create a local clone of the OpenProject repository on your local computer. Open GitHub Desktop and navigate to "File -> Clone repository".
+
+![clone repository](clone-repository.png)
+
+
+
+In the modal window select the repository. Also select a folder on your computer for the cloned repository. Click **Clone**.
+
+![](select-repository-to-be-cloned.png)
+
+## Step 2: Update local repository (fetch origin)
+
+Important: Before you make changes always update your local repository. Click on the button **Fetch origin** in the main toolbar.
+
+![fetch origin in github desktop](fetch-origin-in-github-desktop.png)
+
+## Step 3: Create a new Git branch for your change
+
+Select the latest release branch e.g.`release/12.1` as the current branch. 
+
+![create new branch - step 1](create-new-branch-step-1.png)
+
+In the same drop down click on "New branch". In this window insert a branch name that describes your changes and select the latest release branch e.g. `release/12.1` the created branch is based on.
+
+![create new branch - step 2](create-new-branch-step-2.png)
+
+## Step 4: Open the files you want to change in Typora
+
+In Typora open the files you want to change (File -> Open). In the file picker navigate to the local folder you selected in the step 6.
+
+## Step 5: Make the changes in Typora and save the file
+
+The Typora editor makes it quite easy to make changes to the file. After you made your changes do not forgot to save.
+
+## Step 6: Commit the change to your local repository in GitHub Desktop
+
+Open GitHub Desktop. Here you can see all the changes you made in your local repository.
+
+![commit history in github desktop](commit-history-in-github-desktop.png)
+
+Add a commit message that best describes your change. This description should allow other users to easily understand the change you made.
+
+## Step 7: Push your changes to GitHub.com
+
+At the moment your change is only available in your local repository. To make it available on GitHub.com you need upload (push) by pressing the button "Push origin".
+
+![push origin in github desktop](push-origin-in-github-desktop.png)
+
+## Step 8: Create a pull request
+
+A pull request is a workflow to ask for a review from the OpenProject team. With a pull request you basically ask to check your changes and to copy it over to the OpenProject repository (opf/openproject). After you pushed your local changes to your own repository click the button **Create Pull Request**.
+
+![](create-pull-request-github-desktop.png)
+
+
+
+Here select the latest release branch e.g. release/12.1 in the first dropdown. In the second select the branch you have changed.
+
+ToDO: Add screenshot
+
+In the description field of the pull request enter a summary for the changes you made. If there is already a work package on https://community.openproject.org you can also add this to the description. This adds a relation between your pull request and the work package.
+
+## Step 9: Request review
+
+Select the label "documentation". 
+
+![add documentation label for pull request](add-documentation-label-pull-requests.png) 
+
+In the field "Reviewers" select "opf/doc-writers". 
+
+![select reviewer for documentation](select-reviewer-for-documentation.png)
+
+## Step 10: Wait for feedback from the reviewers
+
+... and hopefully it is all LGTM which means "Looks good to me(rge). Congrats to your first contribution to the OpenProject documentation. We appreciate your effort :-)
+
