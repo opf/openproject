@@ -120,7 +120,7 @@ export class PathHelperService {
     return `${this.staticBase}/projects`;
   }
 
-  public projectsNewPath() {
+  public projectsNewPath():string {
     return `${this.staticBase}/projects/new`;
   }
 

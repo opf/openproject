@@ -52,12 +52,19 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import {
+  ApiV3ListFilter,
+  listParamsString,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 import { IProjectAutocompleteItem } from './project-autocomplete-item';
 import { flattenProjectTree } from './flatten-project-tree';
-import { loadAvailableProjects } from 'core-app/shared/components/autocompleter/project-autocompleter/load-projects';
+import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
+import { IProject } from 'core-app/core/state/projects/project.model';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { buildTree } from 'core-app/shared/components/autocompleter/project-autocompleter/insert-in-list';
+import { recursiveSort } from 'core-app/shared/components/autocompleter/project-autocompleter/recursive-sort';
 
 export const projectsAutocompleterSelector = 'op-project-autocompleter';
 
@@ -147,15 +154,49 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
   }
 
   public getAvailableProjects(searchTerm:string):Observable<IProjectAutocompleteItem[]> {
-    return loadAvailableProjects(
-      searchTerm,
-      this.apiFilters,
-      this.url,
-      this.mapResultsFn,
-      this.http,
-    ).pipe(
-      map((projectTreeItems) => flattenProjectTree(projectTreeItems)),
-    );
+    return getPaginatedResults<IProject>(
+      (params) => {
+        const filters:ApiV3ListFilter[] = [...this.apiFilters];
+
+        if (searchTerm.length) {
+          filters.push(['name_and_identifier', '~', [searchTerm]]);
+        }
+
+        const url = new URL(this.url, window.location.origin);
+        const fullParams = {
+          filters,
+          select: [
+            'elements/id',
+            'elements/name',
+            'elements/identifier',
+            'elements/self',
+            'elements/ancestors',
+            'total',
+            'count',
+            'pageSize',
+          ],
+          ...params,
+        };
+        const collectionURL = `${listParamsString(fullParams)}&${url.searchParams.toString()}`;
+        url.searchParams.forEach((key) => url.searchParams.delete(key));
+        return this.http.get<IHALCollection<IProject>>(url.toString() + collectionURL);
+      },
+    )
+      .pipe(
+        map((projects) => projects.map((project) => ({
+          id: project.id,
+          href: project._links.self.href,
+          name: project.name,
+          disabled: false,
+          ancestors: project._links.ancestors,
+          children: [],
+        }))),
+        map(this.mapResultsFn),
+        map((projects) => projects.sort((a, b) => a.ancestors.length - b.ancestors.length)),
+        map((projects) => buildTree(projects)),
+        map((projects) => recursiveSort(projects)),
+        map((projectTreeItems) => flattenProjectTree(projectTreeItems)),
+      );
   }
 
   writeValue(value:IProjectAutocompleterData|null):void {

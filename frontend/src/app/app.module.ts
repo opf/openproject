@@ -86,6 +86,7 @@ import { OpenProjectInAppNotificationsModule } from 'core-app/features/in-app-no
 import { OpenProjectBackupService } from './core/backup/op-backup.service';
 import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct-file-upload.service';
 import { OpenProjectStateModule } from 'core-app/core/state/openproject-state.module';
+import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -179,6 +180,9 @@ export function initializeServices(injector:Injector) {
 
     // Notifications
     OpenProjectInAppNotificationsModule,
+
+    // Loading
+    OpenprojectContentLoaderModule,
   ],
   providers: [
     { provide: States, useValue: new States() },

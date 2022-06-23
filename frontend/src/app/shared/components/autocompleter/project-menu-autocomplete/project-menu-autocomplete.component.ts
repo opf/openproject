@@ -28,24 +28,22 @@
 
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
 } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { BehaviorSubject } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import {
   debounceTime,
   map,
   shareReplay,
-  switchMap,
 } from 'rxjs/operators';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { loadAvailableProjects } from 'core-app/shared/components/autocompleter/project-autocompleter/load-projects';
-import { IProjectAutocompleteItem } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocomplete-item';
-import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { IProject } from 'core-app/core/state/projects/project.model';
+import { insertInList } from 'core-app/shared/components/project-include/insert-in-list';
+import { IProjectData } from 'core-app/shared/components/project-list/project-data';
+import { recursiveSort } from 'core-app/shared/components/project-include/recursive-sort';
+import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
 
 export const projectMenuAutocompleteSelector = 'project-menu-autocomplete';
 
@@ -53,30 +51,45 @@ export const projectMenuAutocompleteSelector = 'project-menu-autocomplete';
   templateUrl: './project-menu-autocomplete.template.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: projectMenuAutocompleteSelector,
+  providers: [
+    SearchableProjectListService,
+  ],
 })
-export class ProjectMenuAutocompleteComponent implements OnInit {
+export class ProjectMenuAutocompleteComponent {
   dropModalOpen = false;
 
-  private _searchText = '';
+  projects$ = combineLatest([
+    this.searchableProjectListService.allProjects$,
+    this.searchableProjectListService.searchText$.pipe(debounceTime(200)),
+  ]).pipe(
+    map(
+      ([projects, searchText]:[IProject[], string]) => projects
+        .filter(
+          (project) => {
+            if (searchText.length) {
+              const matches = project.name.toLowerCase().includes(searchText.toLowerCase()) || project.identifier.toLowerCase().includes(searchText.toLowerCase());
 
-  public get searchText():string {
-    return this._searchText;
-  }
+              if (!matches) {
+                return false;
+              }
+            }
 
-  public set searchText(val:string) {
-    this._searchText = val;
-    this.searchText$.next(val);
-  }
+            return true;
+          },
+        )
+        .sort((a, b) => a._links.ancestors.length - b._links.ancestors.length)
+        .reduce(
+          (list, project) => {
+            const { ancestors } = project._links;
 
-  public searchText$ = new BehaviorSubject('');
-
-  projects$ = this
-    .searchText$
-    .pipe(
-      debounceTime(200),
-      switchMap((term) => this.loadProjects(term)),
-      shareReplay(),
-    );
+            return insertInList(projects, project, list, ancestors);
+          },
+          [] as IProjectData[],
+        ),
+    ),
+    map((projects) => recursiveSort(projects)),
+    shareReplay(),
+  );
 
   public text = {
     project: {
@@ -88,22 +101,29 @@ export class ProjectMenuAutocompleteComponent implements OnInit {
     search_placeholder: this.I18n.t('js.include_projects.search_placeholder'),
   };
 
+  public loading$ = combineLatest([
+    this.searchableProjectListService.fetchingProjects$,
+    this.projects$,
+  ]).pipe(
+    map(([isFetching, projects]) => isFetching || projects.length === 0),
+  );
+
   constructor(
     protected pathHelper:PathHelperService,
     protected I18n:I18nService,
     protected currentProject:CurrentProjectService,
-    protected apiV3Service:ApiV3Service,
-    protected http:HttpClient,
+    readonly searchableProjectListService:SearchableProjectListService,
   ) {}
-
-  ngOnInit():void {
-  }
 
   toggleDropModal():void {
     this.dropModalOpen = !this.dropModalOpen;
+    if (this.dropModalOpen) {
+      this.searchableProjectListService.loadAllProjects();
+    }
   }
 
   close():void {
+    this.searchableProjectListService.searchText = '';
     this.dropModalOpen = false;
   }
 
@@ -122,30 +142,5 @@ export class ProjectMenuAutocompleteComponent implements OnInit {
   newProjectPath():string {
     const parentParam = this.currentProject.id ? `?parent_id=${this.currentProject.id}` : '';
     return `${this.pathHelper.projectsNewPath()}${parentParam}`;
-  }
-
-  private loadProjects(searchString:string) {
-    const apiFilters:ApiV3ListFilter[] = [];
-    const apiUrl = this.apiV3Service.projects.path;
-    const mapResultsFn = (projects:IProjectAutocompleteItem[]) => projects;
-
-    return loadAvailableProjects(
-      searchString,
-      apiFilters,
-      apiUrl,
-      mapResultsFn,
-      this.http,
-    )
-      .pipe(
-        map((projects) => {
-          return projects.map((project) => ({
-            id: project.id,
-            href: project.href,
-            name: project.name,
-            found: true,
-            children: project.children,
-          }));
-        }),
-      );
   }
 }
