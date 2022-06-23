@@ -1474,7 +1474,7 @@ ru:
   label_blocked_by: "заблокировано"
   label_blocks: "блоки"
   label_blog: "Блог"
-  label_forums_locked: "Заперто"
+  label_forums_locked: "Заблокировано"
   label_forum_new: "Новый форум"
   label_forum_plural: "Форумы"
   label_forum_sticky: "Стикер"
@@ -2254,7 +2254,7 @@ ru:
     destroy:
       confirmation: "Если вы продолжите, проект %{identifier} и все связанные с ним данные будут перманентно уничтожены."
       info: "Удаление проекта – действие необратимое."
-      project_verification: "Введите имя проекта %{name} для проверки удаления."
+      project_verification: "Введите название проекта %{name} для проверки удаления."
       subprojects_confirmation: "Его подпроекты: %{value} также будут удалены."
       title: "Удаление проекта %{name}"
     identifier:

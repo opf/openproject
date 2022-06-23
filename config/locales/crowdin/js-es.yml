@@ -161,14 +161,14 @@ es:
           not_set: '(Página no establecida aún)'
           hint: |
             Para incluir el contenido de otra página wiki, especifique el título o slug.
-            Para incluir la página wiki de otro proyecto, sepárelas con un signo de dos puntos, como en el ejemplo siguiente.
+            Para incluir la página wiki de otro proyecto, sepárelas con dos puntos, como en el ejemplo siguiente.
         work_package_button:
           button: 'Insertar botón para crear paquete de trabajo'
           type: 'Tipo de paquete de trabajo'
           button_style: 'Usar estilo de botón'
-          button_style_hint: 'Opcional: active esta opción para que la macro se muestre como un botón, en lugar de mostrarse como un vínculo.'
+          button_style_hint: 'Opcional: active esta opción para que la macro se muestre como un botón y no como un vínculo.'
           without_type: 'Crear paquete de trabajo'
-          with_type: 'Crear paquete de trabajo (escriba lo siguiente: %{typename})'
+          with_type: 'Crear paquete de trabajo (escriba: %{typename})'
         embedded_table:
           button: 'Insertar tabla de paquetes de trabajo'
           text: '[Placeholder] Tabla de paquetes de trabajo insertada'
@@ -186,7 +186,7 @@ es:
         reset_to_defaults: 'Restablecer valores predeterminados'
       enterprise:
         text_reprieve_days_left: "%{days} días hasta el fin del período de gracia"
-        text_expired: "caducado"
+        text_expired: "expirado"
         trial:
           confirmation: "Confirmación de dirección de correo electrónico"
           confirmation_info: >
@@ -202,12 +202,12 @@ es:
             label_subscriber: "Suscriptor"
             label_maximum_users: "Máximo de usuarios activos"
             label_starts_at: "Empieza el"
-            label_expires_at: "Caduca el"
+            label_expires_at: "Expira el"
             receive_newsletter: Quiero recibir el <a target="_blank" href="%{link}">boletín</a> de OpenProject.
             taken_domain: Solo puede existir una prueba activa por dominio.
             taken_email: Cada usuario solo puede crear una prueba.
           email_not_received: "¿No ha recibido el correo electrónico? Para volver a enviarlo, use el enlace de la derecha."
-          try_another_email: "O bien pruebe con otra dirección."
+          try_another_email: "O bien pruebe con otra dirección de correo electrónico."
           next_steps: "Pasos siguientes"
           resend_link: "Reenviar"
           resend_success: "El correo electrónico ha sido reenviado. Consulte su correo electrónico y haga clic en el enlace de confirmación proporcionado."
@@ -301,7 +301,7 @@ es:
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"
     label_add_columns: "Añadir columnas"
-    label_add_comment: "Agregar comentario"
+    label_add_comment: "Añadir comentario"
     label_add_comment_title: "Escriba un comentario y agregue @ para notificar a otras personas"
     label_add_row_after: "Añadir fila debajo"
     label_add_row_before: "Añadir fila encima"
@@ -319,7 +319,7 @@ es:
     label_board: "Tablero"
     label_board_locked: "Bloqueado"
     label_board_plural: "Tableros"
-    label_board_sticky: "Adhesivo"
+    label_board_sticky: "Fijo"
     label_change: "Cambiar"
     label_create: "Crear"
     label_create_work_package: "Crear un nuevo paquete de trabajo"
@@ -393,7 +393,7 @@ es:
     label_on: "en"
     label_open_menu: "Abrir menú"
     label_open_context_menu: "Abrir menú contextual"
-    label_open_work_packages: "abierto"
+    label_open_work_packages: "abrir"
     label_password: "Contraseña"
     label_previous: "Anterior"
     label_per_page: "Por pagina:"
@@ -407,7 +407,7 @@ es:
     label_remove_column: "Eliminar columna"
     label_remove_columns: "Eliminar columnas seleccionadas"
     label_remove_row: "Eliminar fila"
-    label_report: "Informe"
+    label_report: "Reportar"
     label_repository_plural: "Repositorios"
     label_save_as: "Guardad como"
     label_select_watcher: "Selecciona un observador..."
@@ -418,10 +418,10 @@ es:
     label_sorted_by: "ordenados por"
     label_sort_higher: "Mover hacia arriba"
     label_sort_lower: "Mover hacia abajo"
-    label_sorting: "Ordenando"
-    label_spent_time: "Tiempo empleado"
+    label_sorting: "Orden"
+    label_spent_time: "Tiempo dedicado"
     label_star_query: "Favorecido"
-    label_press_enter_to_save: "Presione Entrar para guardar los cambios."
+    label_press_enter_to_save: "Presione enter para guardar los cambios."
     label_public_query: "Público"
     label_sum: "Suma"
     label_sum_for: "Suma para"
@@ -429,7 +429,7 @@ es:
     label_subject: "Asunto"
     label_this_week: "esta semana"
     label_today: "Hoy"
-    label_time_entry_plural: "Tiempo empleado"
+    label_time_entry_plural: "Tiempo dedicado"
     label_up: "Arriba"
     label_user_plural: "Usuarios"
     label_activity_show_only_comments: "Solo mostrar las actividades con comentarios"
@@ -701,9 +701,9 @@ es:
       change_parent: "Cambiar principal"
       remove_parent: "Eliminar principal"
       hierarchy_indent: "Aumentar sangría de jerarquía"
-      hierarchy_outdent: "Anular sangría de jerarquía"
+      hierarchy_outdent: "Disminuir sangría de jerarquía"
       group_by_wp_type: "Agrupar por tipo de paquete de trabajo"
-      group_by_relation_type: "Grupo por tipo de relación"
+      group_by_relation_type: "Agrupar por tipo de relación"
       add_parent: "Añadir principal existente"
       add_new_child: "Crear nuevo sub-elemento"
       create_new: "Crear nuevo"
@@ -719,7 +719,7 @@ es:
       add_predecessor: "Añadir predecesor"
       remove: "Eliminar la relación"
       save: "Guardar relación"
-      abort: "Abandonar"
+      abort: "Anular"
     relations_autocomplete:
       placeholder: "Escriba para buscar"
       parent_placeholder: "Elija un nuevo principal o presione escape para cancelar."
@@ -729,16 +729,16 @@ es:
       typeToSearchText: "Escriba para buscar"
     repositories:
       select_tag: 'Seleccionar etiqueta'
-      select_branch: 'Seleccione Sucursal'
+      select_branch: 'Seleccione rama'
     field_value_enter_prompt: "Introduzca un valor para '%{field}'"
     project_menu_details: "Detalles"
     scheduling:
       manual: 'Programación manual'
       automatic: 'Programación automática'
     sort:
-      sorted_asc: 'Orden ascendiente aplicado '
-      sorted_dsc: 'Orden descendiente aplicado '
-      sorted_no: 'Ningún tipo de orden aplicado '
+      sorted_asc: 'Orden ascendiente aplicado, '
+      sorted_dsc: 'Orden descendiente aplicado, '
+      sorted_no: 'Ningún tipo de orden aplicado, '
       sorting_disabled: 'ordenación deshabilitada'
       activate_asc: 'activar para aplicar orden ascendiente'
       activate_dsc: 'activar para aplicar orden descendiente'
@@ -814,13 +814,13 @@ es:
       underline: "Subrayado"
       deleted: "Borrado"
       code: "Codigo en línea"
-      heading1: "Cabecera 1"
-      heading2: "Cabecera 2"
-      heading3: "Cabecera 3"
+      heading1: "Título 1"
+      heading2: "Título 2"
+      heading3: "Título 3"
       unordered_list: "Lista Desordenada"
       ordered_list: "Lista Ordenada"
-      quote: "Comentario"
-      unquote: "Quitar la Cita"
+      quote: "Cita"
+      unquote: "Quitar la cita"
       preformatted_text: "Texto Preformateado"
       wiki_link: "Vincular a una página Wiki"
       image: "Imagen"
