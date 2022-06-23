@@ -85,8 +85,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
       emptyStorageButton:string,
       connectionErrorHeader:string,
       connectionErrorContent:string,
-      authenticationFailureHeader:string,
-      authenticationFailureContent:string,
+      authorizationFailureHeader:string,
+      authorizationFailureContent:string,
       loginButton:string,
     },
     actions:{
@@ -149,7 +149,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   private deriveStorageInformation(fileLinkCount:number):void {
     switch (this.storage._links.authorizationState.href) {
       case storageFailedAuthorization:
-        this.setAuthenticationFailureState(fileLinkCount);
+        this.setAuthorizationFailureState(fileLinkCount);
         break;
       case storageAuthorizationError:
         this.setConnectionErrorState();
@@ -168,9 +168,9 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     }
   }
 
-  private setAuthenticationFailureState(fileLinkCount:number):void {
-    this.informationBoxHeader = this.text.infoBox.authenticationFailureHeader;
-    this.informationBoxContent = this.text.infoBox.authenticationFailureContent;
+  private setAuthorizationFailureState(fileLinkCount:number):void {
+    this.informationBoxHeader = this.text.infoBox.authorizationFailureHeader;
+    this.informationBoxContent = this.text.infoBox.authorizationFailureContent;
     this.informationBoxButton = this.text.infoBox.loginButton;
     this.informationBoxIcon = 'import';
     this.showInformationBox$.next(true);
@@ -204,8 +204,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
         emptyStorageButton: this.i18n.t('js.label_open_storage', { storageType }),
         connectionErrorHeader: this.i18n.t('js.label_no_storage_connection', { storageType }),
         connectionErrorContent: this.i18n.t('js.label_storage_connection_error', { storageType }),
-        authenticationFailureHeader: this.i18n.t('js.label_login_to_storage', { storageType }),
-        authenticationFailureContent: this.i18n.t('js.label_storage_not_connected', { storageType }),
+        authorizationFailureHeader: this.i18n.t('js.label_login_to_storage', { storageType }),
+        authorizationFailureContent: this.i18n.t('js.label_storage_not_connected', { storageType }),
         loginButton: this.i18n.t('js.label_storage_login', { storageType }),
       },
       actions: {
