@@ -2,6 +2,7 @@
   [open]="dropModalOpen"
   (closed)="close()"
   alignment="bottom-left"
+  class="op-project-list-modal"
 >
   <a id="projects-menu"
      accesskey="5"
@@ -18,12 +19,14 @@
   </a>
 
   <ng-container slot="body">
-    <h1
-      class="spot-subheader-big"
-      [textContent]="text.project.plural"
-    ></h1>
+    <div class="op-project-list-modal--header">
+      <h1
+        class="op-project-list-modal--title"
+        [textContent]="text.project.plural"
+      ></h1>
+    </div>
     <div
-      class="spot-container"
+      class="op-project-list-modal--body spot-container"
     >
       <spot-text-field
         [placeholder]="text.search_placeholder"

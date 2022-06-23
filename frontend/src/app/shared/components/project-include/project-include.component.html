@@ -2,6 +2,7 @@
   [open]="opened"
   alignment="bottom-right"
   (closed)="opened = false"
+  class="op-project-list-modal"
 >
   <button
     slot="trigger"
@@ -20,8 +21,8 @@
   </button>
 
   <ng-container slot="body">
-    <div class="op-project-include--header">
-      <h1 class="op-project-include--title">{{ text.title }}</h1>
+    <div class="op-project-list-modal--header op-project-include--header">
+      <h1 class="op-project-list-modal--title">{{ text.title }}</h1>
       <spot-toggle
         [options]="displayModeOptions"
         [(ngModel)]="displayMode"
@@ -29,7 +30,7 @@
     </div>
     <form
       (submit)="onSubmit($event)"
-      class="spot-container op-project-include--body"
+      class="spot-container op-project-list-modal--body"
     >
       <spot-text-field
         [disabled]="(loading$ | async)"
@@ -57,7 +58,7 @@
           (update)="selectedProjects = $event"
           data-qa-selector="project-include-list"
         ></ul>
-      </ng-container> 
+      </ng-container>
 
       <div class="spot-action-bar">
         <div class="spot-action-bar--left">
@@ -79,7 +80,7 @@
           >
             {{ text.clear_selection }}
           </button>
-          <button 
+          <button
             [disabled]="(loading$ | async)"
             class="button -highlight"
           >
