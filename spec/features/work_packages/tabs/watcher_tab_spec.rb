@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Watcher tab', js: true, selenium: true do
-  include ::Components::NgSelectAutocompleteHelpers
+  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }

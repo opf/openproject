@@ -25,15 +25,14 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
-require 'features/support/components/ui_autocomplete'
+require 'support/components/autocompleter/autocomplete_helpers'
 
 module Components
   module Projects
     class TopMenu
       include Capybara::DSL
       include RSpec::Matchers
-      include ::Components::UIAutocompleteHelpers
+      include ::Components::Autocompleter::AutocompleteHelpers
 
       def toggle
         page.find('#projects-menu').click
@@ -63,6 +62,7 @@ module Components
       def search_and_select(query)
         select_autocomplete autocompleter,
                             results_selector: autocompleter_results_selector,
+                            item_selector: autocompleter_item_selector,
                             query:
       end
 
@@ -74,12 +74,16 @@ module Components
         page.find autocompleter_selector
       end
 
+      def autocompleter_item_selector
+        '[data-qa-selector="op-project-list--item-title"]'
+      end
+
       def autocompleter_results_selector
-        '.project-menu-autocomplete--results'
+        '[data-qa-selector="op-project-menu-autocomplete--list"]'
       end
 
       def autocompleter_selector
-        '#project_autocompletion_input'
+        '[data-qa-selector="op-project-menu-autocomplete--body"]'
       end
     end
   end

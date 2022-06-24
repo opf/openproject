@@ -1,6 +1,7 @@
 <li
   class="spot-list--item"
   *ngFor="let project of projects; index as i; first as isFirst; last as isLast"
+  data-qa-selector="op-project-list--item"
 >
   <label
     *ngIf="multiSelect"
@@ -24,6 +25,7 @@
         ></spot-checkbox>
         <div
           class="spot-list--item-title op-project-list--item-title"
+          data-qa-selector="op-project-list--item-title"
           [opSearchHighlight]="searchText"
           [title]="project.name"
         >{{ project.name }}</div>
@@ -40,11 +42,12 @@
   </label>
 
   <label
-    class="spot-list--item-action op-project-list--item-action"
     *ngIf="!multiSelect"
+    class="spot-list--item-action op-project-list--item-action"
   >
     <a
       class="spot-list--item-title op-project-list--item-title op-project-list--item-title_link"
+      data-qa-selector="op-project-list--item-title"
       [opSearchHighlight]="searchText"
       [title]="project.name"
       [href]="extendedProjectUrl(project.id)"

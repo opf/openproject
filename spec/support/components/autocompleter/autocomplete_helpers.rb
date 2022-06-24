@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Components
-  module UIAutocompleteHelpers
+module Components::Autocompleter
+  module AutocompleteHelpers
     def search_autocomplete(element, query:, results_selector: nil)
       # Open the element
       element.click
@@ -38,7 +38,7 @@ module Components
       ##
       # Find the open dropdown
       list =
-        page.find(results_selector || '.ui-autocomplete')
+        page.find(results_selector || '.ng-dropdown-panel-items')
 
       scroll_to_element(list)
       list
@@ -56,13 +56,9 @@ module Components
       query_element = if item_selector
                         target_dropdown.find(item_selector, text:)
                       else
-                        target_dropdown.find('.ui-menu-item', text:)
+                        target_dropdown.find('.ng-option', text:)
                       end
       query_element.click
     end
   end
-end
-
-shared_context 'ui-autocomplete helpers' do
-  include ::Components::UIAutocompleteHelpers
 end

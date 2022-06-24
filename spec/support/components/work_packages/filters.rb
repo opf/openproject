@@ -27,7 +27,7 @@
 #++
 
 require_relative '../../shared/selenium_workarounds'
-require_relative '../ng_select_autocomplete_helpers'
+require_relative '../autocompleter/ng_select_autocomplete_helpers'
 
 module Components
   module WorkPackages
@@ -35,7 +35,7 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
       include SeleniumWorkarounds
-      include ::Components::NgSelectAutocompleteHelpers
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       def open
         SeleniumHubWaiter.wait

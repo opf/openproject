@@ -31,7 +31,7 @@ require 'support/pages/work_packages/work_package_cards'
 
 module Pages
   class TeamPlanner < ::Pages::WorkPackageCards
-    include ::Components::NgSelectAutocompleteHelpers
+    include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
     attr_reader :filters
 

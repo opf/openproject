@@ -1,7 +1,7 @@
 class EditField
   include Capybara::DSL
   include RSpec::Matchers
-  include ::Components::NgSelectAutocompleteHelpers
+  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
   attr_reader :selector,
               :property_name,

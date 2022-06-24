@@ -27,6 +27,7 @@
     </div>
     <div
       class="op-project-list-modal--body spot-container"
+      data-qa-selector="op-project-menu-autocomplete--body"
     >
       <spot-text-field
         [disabled]="(loading$ | async)"
@@ -46,6 +47,7 @@
           [projects]="projects$ | async"
           [searchText]="searchableProjectListService.searchText"
           [multiSelect]="false"
+          data-qa-selector="op-project-menu-autocomplete--list"
         ></ul>
       </ng-container>
 

@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/components/ng_select_autocomplete_helpers'
+require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 require 'support/pages/page'
 
 module Pages
   class Members < Page
-    include ::Components::NgSelectAutocompleteHelpers
+    include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
     attr_reader :project_identifier
 
