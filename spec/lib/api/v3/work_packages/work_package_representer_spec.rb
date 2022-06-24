@@ -1395,15 +1395,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         subject.duration = 'P6D'
         expect(subject.represented.duration).to eq(6)
       end
-
-      context 'when the work_package is a milestone' do
-        let(:type_milestone) { true }
-
-        it 'raises an error' do
-          expect { subject.duration = 'P6D' }
-            .to raise_error NoMethodError, /Milestone typed work packages don't have a duration/
-        end
-      end
     end
   end
 end

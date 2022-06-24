@@ -594,10 +594,6 @@ module API
         end
 
         def duration=(value)
-          if represented.milestone?
-            raise NoMethodError, I18n.t('activerecord.errors.messages.duration_for_milestones_not_writable')
-          end
-
           represented.duration = datetime_formatter.parse_duration_to_days(value,
                                                                            'duration',
                                                                            allow_nil: true)
