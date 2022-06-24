@@ -155,8 +155,14 @@
 
   &--inline-buttons
     opacity: 0
-    padding-left: 40px
+    padding-left: 30px
     padding-right: 4px
+    white-space: nowrap
+
+    // For selected cards the padding needs to be smaller
+    // Otherwise the left-side color shading can overflow the card (e.g. in small cards in the team planner)
+    .op-wp-single-card_selected &
+      padding-left: 15px
 
     .op-icon--wrapper:not(&_selected)
       background: $spot-color-basic-white
