@@ -60,7 +60,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
     {
       id: 24,
       status: "OK", statuscode: 200,
-      ctime: 0, mtime: 1655301234,
+      ctime: 1655334567, mtime: 1655301234,
       mimetype: "application/pdf",
       name: "Nextcloud Manual.pdf",
       owner_id: "admin", owner_name: "admin",
@@ -77,10 +77,10 @@ describe ::Storages::FileLinkSyncService, type: :model do
 
   # Test the main function of the service, which is to
   # the OAuth2 provider URL (Nextcloud) according to RFC specs.
-  describe '#call when disconnected to any Nextcloud instance' do
+  describe '#call' do
     subject { instance.call }
 
-    fcontext 'with no connection to Nextcloud' do
+    context 'with no connection to Nextcloud' do
       before do
         # Simulate a complete disconnection on both hosts
         stub_request(:any, host1).to_timeout
@@ -91,39 +91,48 @@ describe ::Storages::FileLinkSyncService, type: :model do
         expect(subject).to be_a ServiceResult
         expect(subject.success).to be_falsey
         expect(subject.result).to eql file_links
-        expect(subject.result[0].origin_permission).to eql :view
-
+        expect(subject.result[0].origin_permission).to eql nil
+        expect(subject.result[1].origin_permission).to eql nil
       end
       # Test that no :shared_with_me appears
     end
 
-    context 'with connection to Nextcloud1, updates from Nextcloud1 and permission from Nextcloud1' do
-      # Simulate a successful authorization and :shared_with_me data for file_link1
+    context 'with connection to Nextcloud1, permission from Nextcloud1 and some updates' do
       before do
         stub_request(:get, File.join(host1, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
           .to_return(status: 200, body: file_link1_200_json)
       end
 
-      it 'has a origin_permission link' do
-        expect(subject.success).to be_truthy
-        expect(subject.result[0].origin_permission).to eql :view
-      end
-
+      # Just test a single update (mtime). Detailed update testing is further below.
       it 'updates the file_link information' do
         expect(subject).to be_a ServiceResult
         expect(subject.success).to be_truthy
-        expect(subject.result[0].origin_updated_at).to eql Time.at(1655301234) # Check mtime update
+        expect(subject.result[0].origin_updated_at).to eql Time.at(1655301234) # updated
+        expect(subject.result[1].origin_updated_at).to eql Time.at(1655322371) # remains the same
+      end
+
+      it 'updates the origin_permission' do
+        expect(subject.success).to be_truthy
+        expect(subject.result[0].origin_permission).to eql :view # updated
+        expect(subject.result[1].origin_permission).to eql nil   # remains the same
       end
     end
 
-    context 'with connection to Nextcloud, no updates, only file_link1 :shared_with_me' do
+    context 'with connection to Nextcloud, getting 403 for both FileLinks' do
       before do
-        file_link1_403_json = { status: "Forbidden", statuscode: 403 }.to_json
+        stub_request(:get, File.join(host1, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
+          .to_return(status: 200, body: file_link1_403_json)
+      end
+
+      it 'does not have origin_permission' do
+        expect(subject.success).to be_truthy
+        expect(subject.result[0].origin_permission).to eql :not_allowed
+        expect(subject.result[1].origin_permission).to eql :not_allowed
       end
     end
 
-    context 'with connection and updated information from Nextcloud' do
-      # ToDo check that all these different fields are being updated
+    context 'with some FileLinks readable and other FileLinks not readable, ' do
+      # ToDo Check that a Nextcloud response about a non-visible file is reflected in the permissions returned by API
     end
 
     context 'with expired OAuth2 token, refresh and updated information from Nextcloud' do
@@ -134,13 +143,73 @@ describe ::Storages::FileLinkSyncService, type: :model do
       # ToDo -> Error
     end
 
+    context 'with connection and updated information from Nextcloud' do
+      # ToDo check that all these different fields are being updated
+    end
+
     # ToDo:
     # - sync_single_file: Check for all different attributes
     # - Existing FileLink attributes should not be overwritte by nil
     # - creation_date and creation_user not overwritable
     # - Name may be overwritten by user with whom the FileLink has been shared
     # -
+  end
 
+  # Test the update of fields of a single FileLink based on information returned from Nextcloud.
+  describe '#sync_single_file' do
+    let(:file_link1_all_modified_hash) {
+      {
+        id: 24,
+        status: "OK", statuscode: 200,
+        ctime: 1755334567, mtime: 1755301234,
+        mimetype: "application/text",
+        name: "Readme.txt",
+        owner_id: "fraber", owner_name: "fraber",
+        size: 1270,
+        trashed: true
+      }
+    }
+    subject { instance.sync_single_file(file_link1, file_link1_all_modified_hash) }
+
+    #    "ctime" : 0,               # Linux epoch file creation +overwrite
+    #    "mtime" : 1655301278,      # Linux epoch file modification +overwrite
+    #    "mimetype" : "application/pdf",  # +overwrite
+    #    "name" : "Nextcloud Manual.pdf", # "Canonical" name, could changed by owner +overwrite
+    #    "owner_id" : "admin",      # ID at Nextcloud side +overwrite
+    #    "owner_name" : "admin",    # Name at Nextcloud side +overwrite
+    #    "size" : 12706214,         # Not used yet in OpenProject +overwrite
+    #    "status" : "OK",           # Not used yet
+    #    "statuscode" : 200,        # Not used yet
+    #    "trashed" : false          # ToDo: How to handle "trashed" files? -> delete from array of models, check not in CollectopmRepresenter
+    # }
+    fcontext 'with complete information to write (happy path)' do
+      it 'updates all important fieldsleaves the list of file_links unchanged' do
+        expect(subject).to be_a ::Storages::FileLink
+        expect(subject.created_at).to eql Time.at(1755334567)
+      end
+      # Test that no :shared_with_me appears
+    end
   end
 end
 
+#       t.references :creator,
+#                    null: false,
+#                    index: true,
+#                    foreign_key: { to_table: :users }
+#       t.bigint :container_id, null: false
+#       t.string :container_type, null: false
+#
+#       t.string :origin_id
+#       t.string :origin_name
+#       t.string :origin_created_by_name
+#       t.string :origin_last_modified_by_name
+#       t.string :origin_mime_type
+#       t.timestamp :origin_created_at
+#       t.timestamp :origin_updated_at
+#
+#       t.timestamps
+#
+#       # i.e. show all file links per WP.
+#       t.index %i[container_id container_type]
+#       # i.e. show all work packages per file.
+#       t.index %i[origin_id storage_id]

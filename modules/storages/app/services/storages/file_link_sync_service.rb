@@ -29,45 +29,32 @@
 # Handle synchronization of FileLinks with external data store such as Storages
 class Storages::FileLinkSyncService
 
+  # @param file_links An array of FileLink objects
   def initialize(user:, file_links:)
     @user = user
     @file_links = file_links
   end
 
   # Synchronize the files on a network storage with the locally "cached" FileLinks.
+  # We assume a OAuthClientToken is present, because this is called after the storage endpoint.
   # ToDo: Handle (and test! both in Spec and with a real Nextcloud) the case
   # of sync having to request a refresh token. How do we get a scope then?
   # ToDo: Produce error conditions and handle them upstream
   # @return FileLinks in ServiceResult.result
   def call
-    # ToDo: WIP
-    groups = @file_links.group_by(&:storage_id)
-    puts groups
+    # Reset permissions to false by default.
+    @file_links.each { |file_link| file_link.origin_permission = nil }
 
-    # @file_links.each { |file_link| file_link.shared_with_me = true }
-    return ServiceResult.new(success: true, result: @file_links)
-  end
+    # Group by storage_id, creating a hash storage_id => [file_links]
+    storage_file_link_hash = @file_links.group_by(&:storage_id)
 
-  def call2
-    # Get the list of all Storages associated with the WorkPackage
-    storages_ids = ::Storages::ProjectStorage
-                     .where(project_id: @work_package.project_id)
-                     .pluck(:storage_id)
-
-    storages_ids.each do | storage_id |
-      # Get all files associated with the storage and:
-      # - Get updated information from Nextcloud
-      # - Update the file information in the database
-      # We use the _origin_ file_id with communication with Nextcloud.
-      origin_file_ids = ::Storages::FileLink
-                          .where(storage_id: storage_id)
-                          .pluck(:origin_id)
-      # ToDo: Filter on container_id
-
+    # Iterate over storages to send the list of file_links to Nextcloud for updates
+    storage_file_link_hash.each do | storage_id, storage_file_links |
+      # For that one storage_id get the Nextcloud connection infrastructure
       # Get the OAuthClientToken that will authenticate us against Nextcloud
       oauth_client = OAuthClient.find_by(integration_id: storage_id)
       conman = ::OAuthClients::ConnectionManager.new(user: @user, oauth_client: oauth_client)
-      service_result = conman.get_access_token(scope:)
+      service_result = conman.get_access_token # Nextcloud really just ignores scope
       oauth_client_token = service_result.result
 
       # Return the error codes from ConnectionManager.get_access_token to calling method
@@ -75,24 +62,103 @@ class Storages::FileLinkSyncService
       return service_result unless service_result.success
 
       # Get info about files. Result is either an Exception or Net::HTTPOK with body
-      response = request_fileinfos(oauth_client_token, origin_file_ids)
-      files_info = parse_filesinfo_response(response)
-      if response.code != '200' || files_info == :error || files_info.class.to_s != 'Hash'
-        # ToDo: handle error condition
-        # ToDo: Exit the current loop
+      storage_origin_file_ids = storage_file_links.map{ |file_link| file_link.origin_id }
+
+      loop_count = 2
+      parsed_response = :not_authorized
+      while parsed_response == :not_authorized && loop_count > 0 do
+        loop_count -= 1
+        http_response = request_fileinfos(oauth_client_token, storage_origin_file_ids)
+        parsed_response = parse_filesinfo_response(http_response) # symbol for errors, Hash for 200 result
+        service_result = conman.refresh_token if parsed_response == :not_authorized && loop_count > 0
+        # ToDo: Check something with service_result?
       end
 
-      # Deal with the data returned by Nextcloud
-      # ToDo: Error if file_info->ocs->data doesn't exist
-      # Extract a hash { origin_file_id => StatusHash } from the response
-      files_info_data = files_info["ocs"]["data"]
+      if parsed_response.class.to_s != "Hash"
+        storage_file_links.each { |file_link| file_link.origin_permission = :error }
+        break
+      end
 
       # Iterate through the list of files and update the file meta-data
+      files_info_data = parsed_response["ocs"]["data"]
       files_info_data.each do | origin_file_id, origin_file_info_hash |
         # ToDo: Check for Exceptions when parsing integers?
-        sync_single_file(storage_id, origin_file_id, origin_file_info_hash)
+        # ToDo: Search storage_file_links for the origin_file_id instead of find_by.
+        file_link = ::Storages::FileLink.find_by(origin_id: origin_file_id, storage_id: storage_id)
+        sync_single_file(file_link, origin_file_info_hash)
+        # ToDo: Check that the origin_file_info_hash has statuscode = 200 and perm=:view only if 200
+        file_link.origin_permission = :view # ToDo: Doesn't appear in Representer
+        # Save is OK, because Nectcloud answers with "canoncial" data
+        file_link.save # Only saves if some field was dirty
       end
+    end # End of storage_id loop....
+
+    # ToDo: Kick out trashed items from result list
+    # ToDo: Build list of returned FileLinks from lists per storage_id
+    return ServiceResult.new(success: true, result: nil)
+  end
+
+  # Write the updated information from Nextcloud to a single file
+  # @param storage Storage of the file
+  # @param origin_file_id Nextcloud ID of the file
+  # @param origin_file_info_hash Hash with updated information from Nextcloud
+  # "24" => {
+  #    "id" : 24,                 # origin_file_id
+  #    "ctime" : 0,               # Linux epoch file creation +overwrite
+  #    "mtime" : 1655301278,      # Linux epoch file modification +overwrite
+  #    "mimetype" : "application/pdf",  # +overwrite
+  #    "name" : "Nextcloud Manual.pdf", # "Canonical" name, could changed by owner +overwrite
+  #    "owner_id" : "admin",      # ID at Nextcloud side +overwrite
+  #    "owner_name" : "admin",    # Name at Nextcloud side +overwrite
+  #    "size" : 12706214,         # Not used yet in OpenProject +overwrite
+  #    "status" : "OK",           # Not used yet
+  #    "statuscode" : 200,        # Not used yet
+  #    "trashed" : false          # ToDo: How to handle "trashed" files? -> delete from array of models, check not in CollectopmRepresenter
+  # }
+  #
+  # ToDo:
+  # In case of permission errors (depending on the current user) we get:
+  # "24" => {
+  # 				"status" => "Forbidden",
+  # 				"statuscode" => 403,
+  # }
+  #
+  # In case of completely deleted file or other errors we might also get:
+  # "24" = {
+  # 			"status" => "Not Found",
+  # 			"statuscode" => 404,
+  # }
+  #
+  # ToDo: What happens if nothing at all or an empty hash comes back for an origin_file_id
+  def sync_single_file(file_link, origin_file_info_hash)
+    return if file_link.nil?
+
+    if file_link.origin_mime_type != origin_file_info_hash["mimetype"]
+      file_link.origin_mime_type = origin_file_info_hash["mimetype"]
     end
+
+    if file_link.origin_created_by_name != origin_file_info_hash["owner_name"]
+      file_link.origin_created_by_name = origin_file_info_hash["owner_name"]
+    end
+
+    ctime = origin_file_info_hash["ctime"].to_i
+    if ctime != 0 && file_link.origin_created_at.to_i != ctime
+      file_link.origin_created_at = Time.at(ctime)
+    end
+
+    mtime = origin_file_info_hash["mtime"].to_i
+    if mtime != 0 && file_link.origin_updated_at.to_i != mtime
+      file_link.origin_updated_at = Time.at(mtime)
+    end
+
+    # ToDo: Change origin_name based on Nextcloud name
+
+    # ToDo: Check if trashed has "true " as boolean or string value
+    if origin_file_info_hash["trashed"] = "true"
+      # ToDo: Handle deleted file
+    end
+
+    return file_link # file_link.save returns true/false...
   end
 
   private
@@ -141,78 +207,14 @@ class Storages::FileLinkSyncService
   def parse_filesinfo_response(response)
     return :error if response.is_a? StandardError
     return :error if response['content-type'].split(';').first.strip.downcase != 'application/json'
+    return :not_authorized if response.code == "401" # Nextcloud response if token has expired
+    return :error if response.code != "200" # Interpret any other response as an error
     begin
-      json = JSON.parse(response.body) #.dig('ocs', 'data', 'version', 'major')
+      response_hash = JSON.parse(response.body) #.dig('ocs', 'data', 'version', 'major')
     rescue JSON::ParserError
       return :error
     end
-    json
+    response_hash
   end
 
-  # Write the updated information from Nextcloud to a single file
-  # @param storage Storage of the file
-  # @param origin_file_id Nextcloud ID of the file
-  # @param origin_file_info_hash Hash with updated information from Nextcloud
-  # "24" => {
-  #    "id" : 24,                 # origin_file_id
-  #    "ctime" : 0,               # Linux epoch file creation +overwrite
-  #    "mtime" : 1655301278,      # Linux epoch file modification +overwrite
-  #    "mimetype" : "application/pdf",  # +overwrite
-  #    "name" : "Nextcloud Manual.pdf", # "Canonical" name, could changed by owner +overwrite
-  #    "owner_id" : "admin",      # ID at Nextcloud side +overwrite
-  #    "owner_name" : "admin",    # Name at Nextcloud side +overwrite
-  #    "size" : 12706214,         # Not used yet in OpenProject +overwrite
-  #    "status" : "OK",           # Not used yet
-  #    "statuscode" : 200,        # Not used yet
-  #    "trashed" : false          # ToDo: How to handle "trashed" files? -> delete from array of models, check not in CollectopmRepresenter
-  # }
-  #
-  # ToDo:
-  # In case of permission errors (depending on the current user) we get:
-  # "24" => {
-  # 				"status" => "Forbidden",
-  # 				"statuscode" => 403,
-  # }
-  #
-  # In case of completely deleted file or other errors we might also get:
-  # "24" = {
-  # 			"status" => "Not Found",
-  # 			"statuscode" => 404,
-  # }
-  #
-  # ToDo: Check what happens if nothing at all or an empty hash comes back for an origin_file_id
-  def sync_single_file(storage_id, origin_file_id, origin_file_info_hash)
-    file_link = ::Storages::FileLink.find_by(origin_id: origin_file_id, storage_id: storage_id)
-    if file_link.nil?
-      # ToDo: Create new FileLine
-      return
-    end
-
-    if file_link.origin_mime_type != origin_file_info_hash["mimetype"]
-      file_link.origin_mime_type = origin_file_info_hash["mimetype"]
-    end
-
-    if file_link.origin_created_by_name != origin_file_info_hash["owner_name"]
-      file_link.origin_created_by_name = origin_file_info_hash["owner_name"]
-    end
-
-    ctime = origin_file_info_hash["ctime"].to_i
-    if ctime != 0 && file_link.origin_created_at.to_i != ctime
-      file_link.origin_created_at = Time.at(ctime)
-    end
-
-    mtime = origin_file_info_hash["mtime"].to_i
-    if mtime != 0 && file_link.origin_updated_at.to_i != mtime
-      file_link.origin_updated_at = Time.at(mtime)
-    end
-
-    # ToDo: Change origin_name based on Nextclou name
-
-    # ToDo: Check if trashed has "true " as boolean or string value
-    if origin_file_info_hash["trashed"] = true
-      # ToDo: Handle deleted file
-    end
-
-    file_link.save
-  end
 end

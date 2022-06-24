@@ -54,6 +54,7 @@ module API
             # Get the list of all FileLinks for the work package.
             # This could be a huge array in some cases...
             file_links = visible_file_links_scope.where(container_id: @work_package.id).all
+            # ToDo: Filter on container_type = "WorkPackage"
 
             # Start a synchronization process to get updated file metadata from Nextcloud.
             # We assume that a valid OAuthClientToken is available for the current user.
@@ -64,11 +65,13 @@ module API
             service_result = ::Storages::FileLinkSyncService
                                .new(user: current_user, file_links:)
                                .call
-            # We ignore the service_result, because we'll return the same list of objects
+
+            # Check service_result.success
+            result_file_links = service_result.result
 
             # Convert to JSON
             ::API::V3::FileLinks::FileLinkCollectionRepresenter.new(
-              file_links,
+              result_file_links,
               self_link: api_v3_paths.work_package_file_links(@work_package.id),
               current_user:
             )
