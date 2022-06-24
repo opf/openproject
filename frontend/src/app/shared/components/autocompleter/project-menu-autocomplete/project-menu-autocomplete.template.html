@@ -64,6 +64,7 @@
             ></span>
           </a>
           <a
+            *ngIf="canCreateNewProjects$ | async"
             class="button button_no-margin -highlight"
             [href]="newProjectPath()"
           >

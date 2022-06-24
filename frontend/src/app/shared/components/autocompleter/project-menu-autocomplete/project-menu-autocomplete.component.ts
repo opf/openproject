@@ -44,6 +44,7 @@ import { insertInList } from 'core-app/shared/components/project-include/insert-
 import { IProjectData } from 'core-app/shared/components/project-list/project-data';
 import { recursiveSort } from 'core-app/shared/components/project-include/recursive-sort';
 import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 
 export const projectMenuAutocompleteSelector = 'project-menu-autocomplete';
 
@@ -57,6 +58,8 @@ export const projectMenuAutocompleteSelector = 'project-menu-autocomplete';
 })
 export class ProjectMenuAutocompleteComponent {
   dropModalOpen = false;
+
+  canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create');
 
   projects$ = combineLatest([
     this.searchableProjectListService.allProjects$,
@@ -113,6 +116,7 @@ export class ProjectMenuAutocompleteComponent {
     protected I18n:I18nService,
     protected currentProject:CurrentProjectService,
     readonly searchableProjectListService:SearchableProjectListService,
+    readonly currentUserService:CurrentUserService,
   ) {}
 
   toggleDropModal():void {
