@@ -50,32 +50,6 @@ describe 'layouts/base', type: :view do
     allow(view).to receive(:current_user).and_return current_user
   end
 
-  describe 'projects menu visibility' do
-    context 'when the user is not logged in' do
-      let(:current_user) { anonymous }
-
-      before do
-        render
-      end
-
-      it 'the projects menu should not be displayed' do
-        expect(rendered).not_to have_text('Select a project')
-      end
-    end
-
-    context 'when the user is logged in' do
-      let(:current_user) { user }
-
-      before do
-        render
-      end
-
-      it 'the projects menu should be displayed' do
-        expect(rendered).to have_text('Select a project')
-      end
-    end
-  end
-
   describe 'Sign in button' do
     let(:current_user) { anonymous }
 

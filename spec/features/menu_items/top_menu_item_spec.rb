@@ -124,7 +124,7 @@ describe 'Top menu items', js: true, selenium: true do
       end
 
       it 'visits the projects page' do
-        click_link_in_open_menu(all_projects)
+        page.find_link(all_projects).click
 
         expect(page).to have_current_path(projects_path)
       end

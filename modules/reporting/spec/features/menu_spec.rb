@@ -69,7 +69,7 @@ describe 'project menu', type: :feature do
         it 'leads to cost reports' do
           click_on 'Time and costs'
 
-          expect(page).to have_selector('.op-app-menu--item-title', text: 'Ponyo')
+          expect(page).to have_current_path("/projects/ponyo/cost_reports")
         end
       end
 

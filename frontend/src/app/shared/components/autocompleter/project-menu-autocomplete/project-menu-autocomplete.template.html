@@ -27,13 +27,13 @@
     </div>
     <div
       class="op-project-list-modal--body spot-container"
-      data-qa-selector="op-project-menu-autocomplete--body"
     >
       <spot-text-field
         [disabled]="(loading$ | async)"
         [placeholder]="text.search_placeholder"
         [(ngModel)]="searchableProjectListService.searchText"
         [ngModelOptions]="{standalone: true}"
+        data-qa-selector="op-project-menu-autocomplete--search"
       >
         <span
           slot="before"

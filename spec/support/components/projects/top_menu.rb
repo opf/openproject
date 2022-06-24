@@ -51,7 +51,7 @@ module Components
       end
 
       def search(query)
-        search_autocomplete(autocompleter, query:)
+        search_autocomplete(autocompleter, query:, results_selector: autocompleter_results_selector)
       end
 
       def clear_search
@@ -62,7 +62,7 @@ module Components
       def search_and_select(query)
         select_autocomplete autocompleter,
                             results_selector: autocompleter_results_selector,
-                            item_selector: autocompleter_item_selector,
+                            item_selector: autocompleter_item_title_selector,
                             query:
       end
 
@@ -74,7 +74,31 @@ module Components
         page.find autocompleter_selector
       end
 
+      def expect_result(name)
+        within search_results do
+          expect(page).to have_selector(autocompleter_item_title_selector, text: name)
+        end
+      end
+
+      def expect_no_result(name)
+        within search_results do
+          expect(page).to have_no_selector(autocompleter_item_title_selector, text: name)
+        end
+      end
+
+      def expect_item_with_hierarchy_level(hierarchy_level:, item_name:)
+        within search_results do
+          hierarchy_selector  = hierarchy_level.times.collect { autocompleter_item_selector }.join(' ')
+          expect(page)
+            .to have_selector("#{hierarchy_selector} #{autocompleter_item_title_selector}", text: item_name)
+        end
+      end
+
       def autocompleter_item_selector
+        '[data-qa-selector="op-project-list--item"]'
+      end
+
+      def autocompleter_item_title_selector
         '[data-qa-selector="op-project-list--item-title"]'
       end
 
@@ -83,7 +107,7 @@ module Components
       end
 
       def autocompleter_selector
-        '[data-qa-selector="op-project-menu-autocomplete--body"]'
+        '[data-qa-selector="op-project-menu-autocomplete--search"] input'
       end
     end
   end
