@@ -31,7 +31,15 @@ module WorkPackages
     class AllDays
       # Returns number of days between two dates.
       def duration(from_date, to_date)
+        return no_duration if from_date.nil? || to_date.nil?
+
         (from_date..to_date).count
+      end
+
+      private
+
+      def no_duration
+        OpenProject::FeatureDecisions.work_packages_duration_field_active? ? nil : 1
       end
     end
   end

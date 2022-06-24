@@ -32,10 +32,16 @@ module WorkPackages
       # Returns number of working days between two dates, excluding weekend days
       # and non working days.
       def duration(from_date, to_date)
+        return no_duration if from_date.nil? || to_date.nil?
+
         (from_date..to_date).count { working?(_1) }
       end
 
       private
+
+      def no_duration
+        OpenProject::FeatureDecisions.work_packages_duration_field_active? ? nil : 1
+      end
 
       def working?(date)
         working_week_day?(date) && working_specific_date?(date)

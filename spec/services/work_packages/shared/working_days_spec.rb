@@ -90,6 +90,30 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
       include_examples 'it returns duration', 1, Date.new(2022, 12, 24), Date.new(2022, 12, 25)
       include_examples 'it returns duration', 8, Date.new(2022, 12, 24), Date.new(2023, 1, 2)
     end
+
+    context 'without from date', with_flag: { work_packages_duration_field_active: true } do
+      it 'returns nil' do
+        expect(subject.duration(nil, sunday_2022_07_31)).to be_nil
+      end
+
+      context 'when work packages duration field is inactive', with_flag: { work_packages_duration_field_active: false } do
+        it 'returns 1' do
+          expect(subject.duration(nil, sunday_2022_07_31)).to eq(1)
+        end
+      end
+    end
+
+    context 'without to date', with_flag: { work_packages_duration_field_active: true } do
+      it 'returns nil' do
+        expect(subject.duration(sunday_2022_07_31, nil)).to be_nil
+      end
+
+      context 'when work packages duration field is inactive', with_flag: { work_packages_duration_field_active: false } do
+        it 'returns 1' do
+          expect(subject.duration(sunday_2022_07_31, nil)).to eq(1)
+        end
+      end
+    end
   end
 end
 # rubocop:enable Naming/VariableNumber
