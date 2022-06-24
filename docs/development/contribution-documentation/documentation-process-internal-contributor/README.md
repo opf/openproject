@@ -14,14 +14,14 @@ This guide describes how internal team members with write permissions can contri
 
 ## Prerequisites
 
-- [ ] [The contributor has a user account on GitHub.com](https://www.openproject.org/docs/development/contribution-documentation/documentation-process/#step-1-create-user-account-on-githubcom)
-- [ ] The contributor has write permissions on the [OpenProject repository](https://github.com/opf/openproject)
-- [ ] [Software Typora editor installed](https://www.openproject.org/docs/development/contribution-documentation/documentation-process/#step-2-install-typora)
-- [ ] [Software GitHub Desktop installed](https://www.openproject.org/docs/development/contribution-documentation/documentation-process/#step-3-install-github-desktop)
+1. [The contributor has a user account on GitHub.com](https://www.openproject.org/docs/development/contribution-documentation/documentation-process/#step-1-create-user-account-on-githubcom)
+2. The contributor has write permissions on the [OpenProject repository](https://github.com/opf/openproject)
+3. [Software Typora editor installed](https://www.openproject.org/docs/development/contribution-documentation/documentation-process/#step-2-install-typora)
+4. [Software GitHub Desktop installed](https://www.openproject.org/docs/development/contribution-documentation/documentation-process/#step-3-install-github-desktop)
 
 ## Step 1: Clone the OpenProject repository in GitHub Desktop
 
-Before you can make changes you need to create a local clone of the OpenProject repository on your local computer. Open GitHub Desktop and navigate to "File -> Clone repository".
+Before you can make changes you need to create a local clone of the OpenProject repository on your local computer. Open GitHub Desktop and navigate to **File -> Clone repository**.
 
 ![clone repository](clone-repository.png)
 
@@ -47,7 +47,7 @@ Important: Before you make changes always update your local repository.
 1. Select the latest release branch e.g.`release/12.1` as the current branch. 
     ![create new branch - step 1](create-new-branch-step-1.png)
 
-2. In the same drop down click on "New branch".
+2. In the same drop down click on **New branch**.
 
 3. In the next modal window insert a branch name that describes your changes. Also select the branch you want to work on, e.g. `release/12.1`. The click the button **Create branch**.
 
@@ -71,7 +71,7 @@ Add a commit message that best describes your change. This description should al
 
 ## Step 7: Push your changes to GitHub.com
 
-At the moment your change is only available in your local repository. To make it available on GitHub.com you need upload (push) by pressing the button "Push origin".
+At the moment your change is only available in your local repository. To make it available on GitHub.com you need upload (push) by pressing the button **Push origin**.
 
 ![push origin in github desktop](push-origin-in-github-desktop.png)
 
