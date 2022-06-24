@@ -3,12 +3,17 @@ require:
   - rubocop-rspec
   - ./lib_static/rubocop/cop/open_project/use_service_result_factory_methods.rb
 
+inherit_mode:
+  merge:
+    # adding files to Exclude should merge with inherited instead of replacing
+    - Exclude
+
 AllCops:
   TargetRubyVersion: 3.1
   # Enable any new cops in new versions by default
   NewCops: enable
   Exclude:
-    - db/schema.rb
+    - '**/node_modules/**/*'
 
 Gemspec/RequiredRubyVersion:
   Exclude:
