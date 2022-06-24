@@ -43,7 +43,8 @@ describe WorkPackage, type: :model do
              type:,
              description: 'Description',
              priority:,
-             status:)
+             status:,
+             duration: 1)
     end
     let(:current_user) { create(:user) }
 
@@ -53,7 +54,7 @@ describe WorkPackage, type: :model do
       work_package
     end
 
-    context 'on work package creation' do
+    context 'for work package creation' do
       it { expect(Journal.all.count).to eq(1) }
 
       it 'has a journal entry' do
@@ -89,18 +90,14 @@ describe WorkPackage, type: :model do
       end
     end
 
-    context 'nothing is changed' do
-      before do
-        work_package.save!
-      end
-
-      it { expect(Journal.all.count).to eq(1) }
+    context 'when nothing is changed' do
+      it { expect { work_package.save! }.not_to change(Journal, :count) }
     end
 
-    context 'different newlines', with_settings: { journal_aggregation_time_minutes: 0 } do
+    context 'for different newlines', with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:description) { "Description\n\nwith newlines\n\nembedded" }
       let(:changed_description) { description.gsub("\n", "\r\n") }
-      let!(:work_package_1) do
+      let!(:work_package1) do
         create(:work_package,
                project_id: project.id,
                type:,
@@ -109,23 +106,23 @@ describe WorkPackage, type: :model do
       end
 
       before do
-        work_package_1.description = changed_description
+        work_package1.description = changed_description
       end
 
       context 'when a new journal is created tracking a simultaneously applied change' do
         before do
-          work_package_1.subject += 'changed'
-          work_package_1.save!
+          work_package1.subject += 'changed'
+          work_package1.save!
         end
 
         describe 'does not track the changed newline characters' do
-          subject { work_package_1.journals.last.data.description }
+          subject { work_package1.journals.last.data.description }
 
           it { is_expected.to eq(description) }
         end
 
         describe 'tracks only the other change' do
-          subject { work_package_1.journals.last.details }
+          subject { work_package1.journals.last.details }
 
           it { is_expected.to have_key :subject }
           it { is_expected.not_to have_key :description }
@@ -133,48 +130,49 @@ describe WorkPackage, type: :model do
       end
 
       context 'when there is a legacy journal containing non-escaped newlines' do
-        let!(:work_package_journal_1) do
+        let!(:work_package_journal1) do
           create(:work_package_journal,
-                 journable_id: work_package_1.id,
+                 journable_id: work_package1.id,
                  version: 2,
                  data: build(:journal_work_package_journal,
                              description:))
         end
-        let!(:work_package_journal_2) do
+        let!(:work_package_journal2) do
           create(:work_package_journal,
-                 journable_id: work_package_1.id,
+                 journable_id: work_package1.id,
                  version: 3,
                  data: build(:journal_work_package_journal,
                              description: changed_description))
         end
 
-        subject { work_package_1.journals.reload.last.details }
+        subject { work_package1.journals.reload.last.details }
 
         it { is_expected.not_to have_key :description }
       end
     end
 
-    context 'on work package change', with_settings: { journal_aggregation_time_minutes: 0 } do
+    describe 'on work package change', with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:parent_work_package) do
         create(:work_package,
                project_id: project.id,
                type:,
                priority:)
       end
-      let(:type_2) { create :type }
-      let(:status_2) { create :status }
-      let(:priority_2) { create :priority }
+      let(:type2) { create :type }
+      let(:status2) { create :status }
+      let(:priority2) { create :priority }
 
       before do
-        project.types << type_2
+        project.types << type2
 
         work_package.subject = 'changed'
         work_package.description = 'changed'
-        work_package.type = type_2
-        work_package.status = status_2
-        work_package.priority = priority_2
+        work_package.type = type2
+        work_package.status = status2
+        work_package.priority = priority2
         work_package.start_date = Date.new(2013, 1, 24)
         work_package.due_date = Date.new(2013, 1, 31)
+        work_package.duration = 8
         work_package.estimated_hours = 40.0
         work_package.assigned_to = User.current
         work_package.responsible = User.current
@@ -184,7 +182,7 @@ describe WorkPackage, type: :model do
         work_package.save!
       end
 
-      context 'last created journal' do
+      context 'for last created journal' do
         subject { work_package.journals.reload.last.details }
 
         it 'contains all changes' do
@@ -209,33 +207,49 @@ describe WorkPackage, type: :model do
       end
 
       describe 'journaled value for' do
-        context 'description' do
+        describe 'description' do
           let(:property) { 'description' }
 
-          context 'old_value' do
+          context 'for old value' do
             let(:expected_value) { 'Description' }
 
             it_behaves_like 'old value'
           end
 
-          context 'new value' do
+          context 'for new value' do
             let(:expected_value) { 'changed' }
 
             it_behaves_like 'new value'
           end
         end
 
-        context 'schedule_manually' do
+        describe 'schedule_manually' do
           let(:property) { 'schedule_manually' }
 
-          context 'old_value' do
+          context 'for old value' do
             let(:expected_value) { false }
 
             it_behaves_like 'old value'
           end
 
-          context 'new value' do
+          context 'for new value' do
             let(:expected_value) { true }
+
+            it_behaves_like 'new value'
+          end
+        end
+
+        describe 'duration' do
+          let(:property) { 'duration' }
+
+          context 'for old value' do
+            let(:expected_value) { 1 }
+
+            it_behaves_like 'old value'
+          end
+
+          context 'for new value' do
+            let(:expected_value) { 8 }
 
             it_behaves_like 'new value'
           end
@@ -271,7 +285,7 @@ describe WorkPackage, type: :model do
       end
     end
 
-    context 'attachments', with_settings: { journal_aggregation_time_minutes: 0 } do
+    describe 'attachments', with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:attachment) { build :attachment }
       let(:attachment_id) { "attachments_#{attachment.id}" }
 
@@ -280,7 +294,7 @@ describe WorkPackage, type: :model do
         work_package.save!
       end
 
-      context 'new attachment' do
+      context 'for new attachment' do
         subject { work_package.journals.reload.last.details }
 
         it { is_expected.to have_key attachment_id }
@@ -288,20 +302,12 @@ describe WorkPackage, type: :model do
         it { expect(subject[attachment_id]).to eq([nil, attachment.filename]) }
       end
 
-      context 'attachment saved w/o change' do
-        before do
-          @original_journal_count = work_package.journals.reload.count
-
-          attachment.save!
-        end
-
-        subject { work_package.journals.reload.count }
-
-        it { is_expected.to eq(@original_journal_count) }
+      context 'when attachment saved w/o change' do
+        it { expect { attachment.save! }.not_to change(Journal, :count) }
       end
     end
 
-    context 'custom values', with_settings: { journal_aggregation_time_minutes: 0 } do
+    describe 'custom values', with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:custom_field) { create :work_package_custom_field }
       let(:custom_value) do
         build :custom_value,
@@ -311,7 +317,7 @@ describe WorkPackage, type: :model do
 
       let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}" }
 
-      shared_context 'work package with custom value' do
+      shared_context 'for work package with custom value' do
         before do
           project.work_package_custom_fields << custom_field
           type.custom_fields << custom_field
@@ -321,8 +327,8 @@ describe WorkPackage, type: :model do
         end
       end
 
-      context 'new custom value' do
-        include_context 'work package with custom value'
+      context 'for new custom value' do
+        include_context 'for work package with custom value'
 
         subject { work_package.journals.reload.last.details }
 
@@ -331,8 +337,8 @@ describe WorkPackage, type: :model do
         it { expect(subject[custom_field_id]).to eq([nil, custom_value.value]) }
       end
 
-      context 'custom value modified' do
-        include_context 'work package with custom value'
+      context 'for custom value modified' do
+        include_context 'for work package with custom value'
 
         let(:modified_custom_value) do
           create :custom_value,
@@ -352,8 +358,8 @@ describe WorkPackage, type: :model do
         it { expect(subject[custom_field_id]).to eq([custom_value.value.to_s, modified_custom_value.value.to_s]) }
       end
 
-      context 'work package saved w/o change' do
-        include_context 'work package with custom value'
+      context 'when work package saved w/o change' do
+        include_context 'for work package with custom value'
 
         let(:unmodified_custom_value) do
           create :custom_value,
@@ -362,20 +368,14 @@ describe WorkPackage, type: :model do
         end
 
         before do
-          @original_journal_count = work_package.journals.reload.count
-
           work_package.custom_values = [unmodified_custom_value]
-
-          work_package.save!
         end
 
-        subject { work_package.journals.reload.count }
-
-        it { is_expected.to eq(@original_journal_count) }
+        it { expect { work_package.save! }.not_to change(Journal, :count) }
       end
 
-      context 'custom value removed' do
-        include_context 'work package with custom value'
+      context 'when custom value removed' do
+        include_context 'for work package with custom value'
 
         before do
           work_package.custom_values.delete(custom_value)
@@ -389,7 +389,7 @@ describe WorkPackage, type: :model do
         it { expect(subject[custom_field_id]).to eq([custom_value.value, nil]) }
       end
 
-      context 'custom value did not exist before' do
+      context 'when custom value did not exist before' do
         let(:custom_field) do
           create :work_package_custom_field,
                  is_required: false,
@@ -404,20 +404,20 @@ describe WorkPackage, type: :model do
         end
 
         describe 'empty values are recognized as unchanged' do
-          include_context 'work package with custom value'
+          include_context 'for work package with custom value'
 
           it { expect(work_package.journals.reload.last.customizable_journals).to be_empty }
         end
 
         describe 'empty values handled as non existing' do
-          include_context 'work package with custom value'
+          include_context 'for work package with custom value'
 
           it { expect(work_package.journals.reload.last.customizable_journals.count).to eq(0) }
         end
       end
     end
 
-    context 'on only journal notes adding' do
+    context 'for only journal notes adding' do
       before do
         work_package.add_journal(User.current, 'some notes')
         work_package.save
@@ -432,7 +432,7 @@ describe WorkPackage, type: :model do
       end
     end
 
-    context 'on mixed journal notes and attribute adding' do
+    context 'for mixed journal notes and attribute adding' do
       before do
         work_package.add_journal(User.current, 'some notes')
         work_package.subject = 'blubs'
@@ -448,7 +448,7 @@ describe WorkPackage, type: :model do
       end
     end
 
-    context 'updated within aggregation time' do
+    context 'when updated within aggregation time' do
       subject(:journals) { work_package.journals }
 
       let(:current_user) { user1 }
@@ -471,7 +471,7 @@ describe WorkPackage, type: :model do
         work_package.save!
       end
 
-      context 'by author of last change' do
+      context 'as author of last change' do
         let(:new_author) { user1 }
 
         it 'leads to a single journal' do
@@ -479,7 +479,7 @@ describe WorkPackage, type: :model do
         end
 
         it 'is the initial journal' do
-          expect(subject.first.initial?).to be_truthy
+          expect(subject.first).to be_initial
         end
 
         it 'contains the changes of both updates with the later overwriting the former' do
@@ -514,8 +514,8 @@ describe WorkPackage, type: :model do
             end
 
             it 'has one initial journal and one non-initial journal' do
-              expect(subject.first.initial?).to be_truthy
-              expect(subject.second.initial?).to be_falsey
+              expect(subject.first).to be_initial
+              expect(subject.second).not_to be_initial
             end
           end
 
@@ -541,7 +541,7 @@ describe WorkPackage, type: :model do
         end
       end
 
-      context 'by a different author' do
+      context 'as a different author' do
         let(:new_author) { user2 }
 
         it 'leads to two journals' do
@@ -558,12 +558,12 @@ describe WorkPackage, type: :model do
       end
     end
 
-    context 'updated after aggregation timeout expired', with_settings: { journal_aggregation_time_minutes: 1 } do
+    context 'when updated after aggregation timeout expired', with_settings: { journal_aggregation_time_minutes: 1 } do
       subject(:journals) { work_package.journals }
 
       before do
-        work_package.journals.last.update_columns(created_at: Time.now - 2.minutes,
-                                                  updated_at: Time.now - 2.minutes)
+        work_package.journals.last.update_columns(created_at: 2.minutes.ago,
+                                                  updated_at: 2.minutes.ago)
 
         work_package.status = build(:status)
         work_package.save!
@@ -574,10 +574,10 @@ describe WorkPackage, type: :model do
       end
     end
 
-    context 'updating with aggregation disabled', with_settings: { journal_aggregation_time_minutes: 0 } do
+    context 'when updating with aggregation disabled', with_settings: { journal_aggregation_time_minutes: 0 } do
       subject(:journals) { work_package.journals }
 
-      context 'WP updated within milliseconds' do
+      context 'when WP updated within milliseconds' do
         before do
           work_package.status = build(:status)
           work_package.save!
@@ -590,7 +590,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  context 'on #destroy' do
+  describe 'on #destroy' do
     let(:project) { create(:project) }
     let(:type) { create(:type) }
     let(:custom_field) do

@@ -80,7 +80,7 @@ module WorkPackage::Journalized
     register_journal_formatter(:cost_association) do |value, journable, field|
       association = journable.class.reflect_on_association(field.to_sym)
       if association
-        record = association.class_name.constantize.find_by_id(value.to_i)
+        record = association.class_name.constantize.find_by(id: value.to_i)
         record&.subject
       end
     end
@@ -103,5 +103,6 @@ module WorkPackage::Journalized
                                   :author_id, :responsible_id
     register_on_journal_formatter :datetime, :start_date, :due_date
     register_on_journal_formatter :plaintext, :subject
+    register_on_journal_formatter :day_count, :duration
   end
 end
