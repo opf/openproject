@@ -161,9 +161,11 @@ In the field "Reviewers" select "opf/doc-writers".
 
 
 
-## Appendix A: Rebase your fork when the release branch changes
+## Appendix A: How to import a new release branch into your fork
 
-*(e.g. from `release/12.0` to `release 12.1`)*
+*(e.g. Release changes from `release/12.0` to `release 12.1`)*
+
+If a new release branch is generated on the upstream (opf) repository, the fork will NOT automatically fetch and merge and generate this release branch. With the following 'workaround' we get the new branch from the upstream (opf) repository and push it to our new origin (forked repository). 
 
 #### A) Change Remote Repository to UPSTREAM
 
@@ -171,19 +173,19 @@ In GitHub Desktop choose menu "Repository -> Repository settings". This will ope
 
 ![rebase-your-fork-step-1](rebase-your-fork-step-1.png)
 
-#### B) Fetch origin
+#### B) Fetch origin (in this case repository 'opf')
 
 In GitHub Desktop **at Current branch select the new branch** (e.g. `origin/release/12.1` and press **Fetch Upstream [2]**
 
 ![rebase-your-fork-step-2](rebase-your-fork-step-2.png)
 
-#### C) Change remote repository back to your forked repository
+#### C) Change remote repository back to the forked repository (ORIGIN)
 
 In Github Desktop choose menu "Repository -> Repository settings". This will open a new window (screenshot below). Enter the URL of your forked OpenProject repository (e.g. https://github.com/adam-op/openproject.git). Confirm with **Save**
 
 ![rebase-your-fork-step-3](rebase-your-fork-step-3.png)
 
-#### D) Push to your FORK
+#### D) PUSH to the forked repository (ORIGIN)
 
 In GitHub Desktop choose menu "Repository -> Push".
 
