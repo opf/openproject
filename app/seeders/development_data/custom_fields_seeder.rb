@@ -99,8 +99,6 @@ module DevelopmentData
       print_status '.'
 
       cfs
-    rescue StandardError => e
-      binding.pry
     end
 
     def extend_group(type, group)
