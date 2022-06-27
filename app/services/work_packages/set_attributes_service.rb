@@ -36,18 +36,10 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     set_static_attributes(attributes)
 
     model.change_by_system do
-      set_default_attributes(attributes)
-      update_project_dependent_attributes
+      set_calculated_attributes(attributes)
     end
 
     set_custom_attributes(attributes)
-
-    model.change_by_system do
-      update_dates
-      update_duration
-      reassign_invalid_status_if_type_changed
-      set_templated_description
-    end
   end
 
   def set_static_attributes(attributes)
@@ -58,9 +50,19 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     work_package.attributes = assignable_attributes
   end
 
-  def set_default_attributes(attributes)
-    return unless work_package.new_record?
+  def set_calculated_attributes(attributes)
+    if work_package.new_record?
+      set_default_attributes(attributes)
+    else
+      update_dates
+    end
+    update_duration
+    update_project_dependent_attributes
+    reassign_invalid_status_if_type_changed
+    set_templated_description
+  end
 
+  def set_default_attributes(attributes)
     set_default_priority
     set_default_author
     set_default_status
