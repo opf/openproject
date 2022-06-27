@@ -54,7 +54,7 @@ module Projects
     end
 
     def log_standard_error(e)
-      logger.error('Encountered an error when trying to delete project '\
+      logger.error('Encountered an error when trying to delete project ' \
                    "'#{project}' : #{e.message} #{e.backtrace.join("\n")}")
     end
 

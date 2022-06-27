@@ -81,8 +81,8 @@ describe 'API v3 Render resource', type: :request do
             let(:id) { work_package.id }
             let(:href) { "/work_packages/#{id}" }
             let(:text) do
-              '<p class="op-uc-p">Hello World! Have a look at <a '\
-                "class=\"issue work_package preview-trigger op-uc-link\" "\
+              '<p class="op-uc-p">Hello World! Have a look at <a ' \
+                "class=\"issue work_package preview-trigger op-uc-link\" " \
                 "href=\"#{href}\">##{id}</a></p>"
             end
 
