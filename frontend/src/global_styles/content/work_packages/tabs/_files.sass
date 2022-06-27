@@ -71,6 +71,20 @@
       .op-files-tab--file-list-item-floating-actions
         padding-right: 0
 
+      .op-files-tab--file-list-item-floating-text
+        @include spot-body-small()
+
+        padding-right: $spot-spacing-0-25
+        color: #1A67A3
+
+        .spot-icon:first-child:not(:last-child)
+          width: $spot-spacing-1-5
+          height: $spot-spacing-1-5
+          margin-right: $spot-spacing-0-25
+
+      &.disabled
+        opacity: 0.5
+
   &--storage-info-box
     margin-top: 0.875rem
     display: grid

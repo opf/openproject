@@ -70,12 +70,15 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
   public fileLinkIcon:IFileIcon;
 
+  public showFloatingActions:boolean;
+
   public text = {
     title: {
       openFile: this.i18n.t('js.label_open_file_link'),
       openFileLocation: this.i18n.t('js.label_open_file_link_location'),
       removeFileLink: this.i18n.t('js.label_remove_file_link'),
     },
+    floatingText: '',
   };
 
   constructor(
@@ -94,6 +97,8 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
     }
 
     this.fileLinkIcon = getIconForMimeType(this.originData.mimeType);
+
+    this.derivePermissionState();
   }
 
   ngAfterViewInit():void {
@@ -104,6 +109,26 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
         { hide: true, link: false },
         { hide: false, size: 'mini' },
       );
+    }
+  }
+
+  private derivePermissionState():void {
+    switch (this.fileLink._links.permission.href) {
+      case 'urn:openproject-org:api:v3:file-links:permission:View':
+        this.showFloatingActions = true;
+        this.text.floatingText = '';
+        break;
+      case 'urn:openproject-org:api:v3:file-links:permission:NotAllowed':
+        this.showFloatingActions = false;
+        this.text.floatingText = this.i18n.t('js.label_file_link_no_permission');
+        break;
+      case 'urn:openproject-org:api:v3:file-links:permission:Error':
+        this.showFloatingActions = false;
+        this.text.floatingText = this.i18n.t('js.label_file_link_error');
+        break;
+      default:
+        this.showFloatingActions = true;
+        this.text.floatingText = '';
     }
   }
 }
