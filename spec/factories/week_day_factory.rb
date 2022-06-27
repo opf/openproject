@@ -42,7 +42,7 @@ FactoryBot.define do
     end
   end
 
-  # Factory to create all 7 week days at once
+  # Factory to create all 7 week days at once, Saturday and Sunday being weekend days
   factory :week_days, class: 'Array' do
     # Skip the create callback to be able to use non-AR models. Otherwise FactoryBot will
     # try to call #save! on any created object.
