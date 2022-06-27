@@ -37,7 +37,7 @@ class WorkPackages::Exports::ScheduleService
     export_storage = WorkPackages::Export.create
     job = schedule_export(export_storage, mime_type, params, query)
 
-    ServiceResult.new success: true, result: job.job_id
+    ServiceResult.success result: job.job_id
   end
 
   private

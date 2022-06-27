@@ -10,7 +10,7 @@ module Components
 
       # Insert the text to find
       within(element) do
-        ng_enter_query(query)
+        ng_enter_query(element, query)
       end
       sleep(0.5)
 
@@ -33,8 +33,8 @@ module Components
 
     ##
     # Insert the query, typing
-    def ng_enter_query(query)
-      input = page.find('input', visible: :all).native
+    def ng_enter_query(element, query)
+      input = element.find('input[type=text]', visible: :all).native
       input.clear
 
       query = query.to_s

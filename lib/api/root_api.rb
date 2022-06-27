@@ -92,7 +92,7 @@ module API
 
         # Raise if missing header
         content_type = request.content_type
-        error!('Missing content-type header', 406) unless content_type.present?
+        error!('Missing content-type header', 406, { 'Content-Type' => 'text/plain' }) if content_type.blank?
 
         # Allow JSON and JSON+HAL per default
         # and anything that each endpoint may optionally add to that

@@ -258,7 +258,7 @@ module API
                  skip_render: true
 
         property :starred,
-                 writeable: true
+                 writable: true
 
         property :results,
                  exec_context: :decorator,
@@ -269,7 +269,7 @@ module API
                  }
 
         property :id,
-                 writeable: false
+                 writable: false
         property :name
 
         date_time_property :created_at
@@ -390,7 +390,7 @@ module API
 
           ::API::Utilities::ResourceLinkParser.parse_id(
             href,
-            property: (expected_namespace && expected_namespace.split("/").last) || "filter_value",
+            property: expected_namespace&.split("/")&.last || "filter_value",
             expected_version: "3",
             expected_namespace:
           )

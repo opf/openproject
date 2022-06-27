@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe 'Showing of file links in work package', :enable_storages, type: :feature, js: true do
+describe 'Showing of file links in work package', with_flag: { storages_module_active: true }, type: :feature, js: true do
   let(:permissions) { %i(view_work_packages edit_work_packages view_file_links) }
   let(:project) { create(:project) }
   let(:current_user) do
@@ -39,8 +39,12 @@ describe 'Showing of file links in work package', :enable_storages, type: :featu
   let(:project_storage) { create(:project_storage, project:, storage:) }
   let(:file_link) { create(:file_link, container: work_package, storage:) }
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
+  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
 
   before do
+    allow(connection_manager).to receive(:authorization_state).and_return(:connected)
+    allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+    project_storage
     file_link
 
     login_as current_user
@@ -48,13 +52,9 @@ describe 'Showing of file links in work package', :enable_storages, type: :featu
   end
 
   context 'if work package has associated file links' do
-    before do
-      project_storage
-    end
-
     it "must show associated file links" do
       expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]', count: 2)
-      expect(page.find('[data-qa-selector="op-files-tab--file-link-list"]'))
+      expect(page.find('[data-qa-selector="op-files-tab--file-list"]'))
         .to have_selector('[data-qa-selector="op-files-tab--file-list-item"]', text: file_link.origin_name, count: 1)
     end
   end
@@ -62,16 +62,14 @@ describe 'Showing of file links in work package', :enable_storages, type: :featu
   context 'if user has no permission to see file links' do
     let(:permissions) { %i(view_work_packages edit_work_packages) }
 
-    before do
-      project_storage
-    end
-
     it 'must not show a file links section' do
       expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]', count: 1)
     end
   end
 
   context 'if project has no storage' do
+    let(:project_storage) { {} }
+
     it 'must not show a file links section' do
       expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]', count: 1)
     end

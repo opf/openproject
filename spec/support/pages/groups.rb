@@ -115,15 +115,17 @@ module Pages
     end
 
     def select_project!(project_name)
-      select(project_name, from: 'membership_project_id')
+      select_autocomplete page.find('[data-qa-selector="membership_project_id"]'),
+                          query: project_name,
+                          select_text: project_name,
+                          results_selector: 'body'
     end
 
     def add_user!(user_name)
       open_users_tab!
       SeleniumHubWaiter.wait
 
-      container = page.find('.new-group-members--autocomplete')
-      select_autocomplete container,
+      select_autocomplete page.find('.new-group-members--autocomplete'),
                           query: user_name
       click_on 'Add'
     end

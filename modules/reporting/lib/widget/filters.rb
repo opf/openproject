@@ -84,6 +84,7 @@ class Widget::Filters < ::Widget::Base
     html = ''.html_safe
     render_widget Label, f, to: html
     render_widget Operators, f, to: html
+
     if f_cls.heavy?
       render_widget Heavy, f, to: html
     elsif engine::Operator.string_operators.all? { |o| f_cls.available_operators.include? o }
@@ -98,6 +99,8 @@ class Widget::Filters < ::Widget::Base
       end
     elsif f_cls.is_multiple_choice?
       render_widget MultiChoice, f, to: html
+    elsif f_cls == CostQuery::Filter::ProjectId
+      render_widget Project, f, to: html, lazy: true
     else
       render_widget MultiValues, f, to: html, lazy: true
     end

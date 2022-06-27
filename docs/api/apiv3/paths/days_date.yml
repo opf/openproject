@@ -26,13 +26,4 @@ get:
           schema:
             $ref: '../components/schemas/day_model.yml'
     '400':
-      description: |-
-        Returned if the client sends invalid request parameters.
-      content:
-        application/hal+json:
-          schema:
-            $ref: '../components/schemas/error_response.yml'
-          example:
-            _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-            message: The date is invalid.
+      $ref: "../components/responses/invalid_request_body.yml"

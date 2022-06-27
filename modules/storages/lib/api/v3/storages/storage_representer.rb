@@ -33,15 +33,21 @@
 module API
   module V3
     module Storages
-      URN_TYPE_NEXTCLOUD = "#{::API::V3::URN_PREFIX}storages:Nextcloud".freeze
-      URN_CONNECTION_CONNECTED = "#{::API::V3::URN_PREFIX}storages:connection:Connected".freeze
-      URN_CONNECTION_AUTH_FAILED = "#{::API::V3::URN_PREFIX}storages:connection:FailedAuthentication".freeze
-      URN_CONNECTION_ERROR = "#{::API::V3::URN_PREFIX}storages:connection:Error".freeze
+      URN_CONNECTION_CONNECTED = "#{::API::V3::URN_PREFIX}storages:authorization:Connected".freeze
+      URN_CONNECTION_AUTH_FAILED = "#{::API::V3::URN_PREFIX}storages:authorization:FailedAuthorization".freeze
+      URN_CONNECTION_ERROR = "#{::API::V3::URN_PREFIX}storages:authorization:Error".freeze
 
       class StorageRepresenter < ::API::Decorators::Single
         # LinkedResource module defines helper methods to describe attributes
         include API::Decorators::LinkedResource
         include API::Decorators::DateProperty
+
+        def initialize(model, current_user:, embed_links: nil)
+          @connection_manager =
+            ::OAuthClients::ConnectionManager.new(user: current_user, oauth_client: model.oauth_client)
+
+          super
+        end
 
         property :id
 
@@ -51,28 +57,38 @@ module API
 
         date_time_property :updated_at
 
-        # A link back to the specific object ("represented")
         self_link
 
         link :type do
           {
-            href: URN_TYPE_NEXTCLOUD,
+            href: "#{::API::V3::URN_PREFIX}storages:Nextcloud",
             title: 'Nextcloud'
           }
         end
 
         link :origin do
-          {
-            href: represented.host
-          }
+          { href: represented.host }
         end
 
-        link :connectionState do
-          # TODO: replace with service to check real connection state
-          {
-            href: URN_CONNECTION_CONNECTED,
-            title: 'Connected'
-          }
+        link :authorizationState do
+          state = @connection_manager.authorization_state
+          urn = case state
+                when :connected
+                  URN_CONNECTION_CONNECTED
+                when :failed_authorization
+                  URN_CONNECTION_AUTH_FAILED
+                else
+                  URN_CONNECTION_ERROR
+                end
+          title = I18n.t(:"oauth_client.urn_connection_status.#{state}")
+
+          { href: urn, title: }
+        end
+
+        link :authorize do
+          next unless @connection_manager.authorization_state == :failed_authorization
+
+          { href: @connection_manager.redirect_to_oauth_authorize, title: 'Authorize' }
         end
 
         def _type

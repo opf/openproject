@@ -91,7 +91,7 @@ describe 'user deletion:', type: :feature, js: true do
              password_confirmation: user_password)
     end
 
-    it 'can delete other users if the setting permitts it', selenium: true do
+    it 'can delete other users if the setting permits it', selenium: true do
       Setting.users_deletable_by_admins = 1
       visit edit_user_path(user)
 

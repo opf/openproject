@@ -27,7 +27,7 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { from } from 'rxjs';
 import {
   catchError,
@@ -41,7 +41,7 @@ import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { FileLinksStore } from 'core-app/core/state/file-links/file-links.store';
-import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
+import { insertCollectionIntoState, removeEntityFromCollectionAndState } from 'core-app/core/state/collection-store';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import {
   CollectionStore,
@@ -89,5 +89,22 @@ export class FileLinksResourceService extends ResourceCollectionService<IFileLin
 
   protected createStore():CollectionStore<IFileLink> {
     return new FileLinksStore();
+  }
+
+  remove(collectionKey:string, fileLink:IFileLink):void {
+    if (!fileLink._links.delete) {
+      return;
+    }
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    this.http
+      .delete<void>(fileLink._links.delete.href, { withCredentials: true, headers })
+      .pipe(
+        catchError((error) => {
+          this.toastService.addError(error);
+          throw error;
+        }),
+      )
+      .subscribe(() => removeEntityFromCollectionAndState(this.store, fileLink.id, collectionKey));
   }
 }

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
+describe 'OAuthClient callback endpoint', with_flag: { storages_module_active: true }, type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -131,7 +131,7 @@ describe 'OAuthClient callback endpoint', :enable_storages, type: :request do
         allow(::OAuthClients::ConnectionManager)
           .to receive(:new).and_return(connection_manager)
         allow(connection_manager)
-          .to receive(:code_to_token).with(code).and_return(ServiceResult.new(success: false))
+          .to receive(:code_to_token).with(code).and_return(ServiceResult.failure)
 
         uri.query = URI.encode_www_form([['code', code], ['state', state]])
         get uri.to_s

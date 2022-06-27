@@ -99,7 +99,7 @@ describe 'Attribute help texts', js: true do
 
         # Expect files section to be present
         expect(modal.modal_container).to have_selector('.form--fieldset-legend', text: 'ATTACHMENTS')
-        expect(modal.modal_container).to have_selector('.work-package--attachments--filename')
+        expect(modal.modal_container).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
 
         modal.close!
 

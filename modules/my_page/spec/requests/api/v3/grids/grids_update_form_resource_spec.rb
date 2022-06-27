@@ -54,29 +54,8 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
       post path, params.to_json, 'CONTENT_TYPE' => 'application/json'
     end
 
-    it 'returns 200 OK' do
-      expect(subject.status)
-        .to be 200
-    end
-
-    it 'is of type form' do
-      expect(subject.body)
-        .to be_json_eql("Form".to_json)
-        .at_path('_type')
-    end
-
-    it 'contains a Schema disallowing setting scope' do
-      expect(subject.body)
-        .to be_json_eql("Schema".to_json)
-        .at_path('_embedded/schema/_type')
-
-      expect(subject.body)
-        .to be_json_eql(false.to_json)
-        .at_path('_embedded/schema/scope/writable')
-    end
-
-    it 'contains the current data in the payload' do
-      expected = {
+    let(:expected_payload) do
+      {
         rowCount: 7,
         columnCount: 4,
         options: {},
@@ -108,9 +87,32 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
           }
         }
       }
+    end
+
+    it 'returns 200 OK' do
+      expect(subject.status)
+        .to be 200
+    end
+
+    it 'is of type form' do
+      expect(subject.body)
+        .to be_json_eql("Form".to_json)
+        .at_path('_type')
+    end
+
+    it 'contains a Schema disallowing setting scope' do
+      expect(subject.body)
+        .to be_json_eql("Schema".to_json)
+        .at_path('_embedded/schema/_type')
 
       expect(subject.body)
-        .to be_json_eql(expected.to_json)
+        .to be_json_eql(false.to_json)
+        .at_path('_embedded/schema/scope/writable')
+    end
+
+    it 'contains the current data in the payload' do
+      expect(subject.body)
+        .to be_json_eql(expected_payload.to_json)
         .at_path('_embedded/payload')
     end
 
@@ -131,7 +133,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
         }
       end
 
-      it 'has a validation error on scope as the value is not writeable' do
+      it 'has a validation error on scope as the value is not writable' do
         expect(subject.body)
           .to be_json_eql("Scope was attempted to be written but is not writable.".to_json)
           .at_path('_embedded/validationErrors/scope/message')

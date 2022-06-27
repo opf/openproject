@@ -191,12 +191,11 @@ module API
         def all_cfs_of_project
           @all_cfs_of_project ||= represented
                                   .group_by(&:project_id)
-                                  .map { |id, wps| [id, wps.map(&:available_custom_fields).flatten.uniq] }
-                                  .to_h
+                                  .transform_values { |wps| wps.map(&:available_custom_fields).flatten.uniq }
         end
 
         def paged_models(models)
-          models.page(@page).per_page(@per_page).pluck(:id)
+          super.pluck(:id)
         end
 
         def _type

@@ -44,7 +44,7 @@ export interface IFileLinkHalResourceLinks extends IHalResourceLinks {
   staticOriginOpenLocation:IHalResourceLink;
 }
 
-interface IFileLinkOriginData {
+export interface IFileLinkOriginData {
   name:string;
   mimeType?:string;
   size?:number;

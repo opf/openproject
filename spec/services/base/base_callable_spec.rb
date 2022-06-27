@@ -33,7 +33,7 @@ describe ::BaseServices::BaseCallable, type: :model do
     Class.new(::BaseServices::BaseCallable) do
       def perform(*)
         state.test = 'foo'
-        ServiceResult.new(success: true, result: 'something')
+        ServiceResult.success(result: 'something')
       end
 
       def rollback
@@ -46,7 +46,7 @@ describe ::BaseServices::BaseCallable, type: :model do
     Class.new(::BaseServices::BaseCallable) do
       def perform(*)
         state.test2 = 'foo'
-        ServiceResult.new(success: true, result: 'something')
+        ServiceResult.success(result: 'something')
       end
 
       def rollback

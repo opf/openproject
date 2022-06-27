@@ -202,7 +202,7 @@ describe('DynamicFieldsService', () => {
 
     expect(formlyFields[1].templateOptions!.label).toBe('Name', 'should set the correct label');
     expect(isObservable(formlyFields[0].templateOptions!.options)).toBeTruthy('should add options as observables');
-    expect(formlyFields[0].className).toContain('Subproject of', 'should add the specific input type properties');
+    expect(formlyFields[0].type).toEqual('projectInput', 'should set the appropriate field type');
     expect(formlyFields[0].templateOptions!.locale).toBeTruthy('should add the specific input templateOptions');
 
     expect(formGroup).toBeTruthy();

@@ -259,7 +259,8 @@ describe 'Work package navigation', js: true, selenium: true do
 
       full_view.ensure_page_loaded
       full_view.switch_to_tab(tab: 'FILES')
-      expect(page).to have_selector('.work-package--attachments--filename', text: 'attachment-first.pdf', wait: 10)
+      expect(page)
+        .to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'attachment-first.pdf', wait: 10)
     end
   end
 

@@ -92,7 +92,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @Input() public addTag?:boolean = false;
 
-  @Input() public id?:string;
+  @Input() public id = '';
 
   @Input() public accesskey?:number;
 
@@ -154,7 +154,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @Input() public selectableGroupAsModel?:boolean = true;
 
-  @Input() public searchFn ? = null;
+  @Input() public searchFn:(term:string, item:any) => boolean;
 
   @Input() public trackByFn ? = null;
 
@@ -280,7 +280,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
         this.cdRef.detectChanges();
         const component = (this.ngSelectInstance) as any;
         if (component && component.dropdownPanel) {
-          component.dropdownPanel._updatePosition();
+          // component.dropdownPanel._updatePosition();
         }
       }, 25);
     }

@@ -78,7 +78,7 @@ module Grids::Copy
       if mapper
         mapper.call(value, params).map { |id| [option, id] }
       else
-        ServiceResult.new success: true, result: [option, value]
+        ServiceResult.success result: [option, value]
       end
     end
 
@@ -101,7 +101,7 @@ module Grids::Copy
       existing_query_id = state.query_id_lookup[query_id.to_i] if state.query_id_lookup
 
       if existing_query_id
-        ServiceResult.new(result: existing_query_id, success: true)
+        ServiceResult.success(result: existing_query_id)
       else
         duplicate_query(query_id, params).map(&:id)
       end
@@ -112,7 +112,7 @@ module Grids::Copy
         .new(state, filters)
         .map_filters!
 
-      ServiceResult.new success: true, result: filters
+      ServiceResult.success result: filters
     end
 
     def duplicate_query(query_id, params)

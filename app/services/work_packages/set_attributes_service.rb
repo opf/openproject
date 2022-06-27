@@ -90,7 +90,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
                                 elsif parent_start_earlier_than_due?
                                   work_package.parent.start_date
                                 elsif Setting.work_package_startdate_is_adddate?
-                                  Date.today
+                                  Time.zone.today
                                 end
   end
 
@@ -111,7 +111,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
 
     # And the new type has a default text
     default_description = work_package.type&.description
-    return unless default_description.present?
+    return if default_description.blank?
 
     # And the current description matches ANY current default text
     return unless work_package.description.blank? || default_description?
@@ -155,6 +155,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     model.change_by_system do
       set_version_to_nil
       reassign_category
+      set_parent_to_nil
 
       reassign_type unless work_package.type_id_changed?
     end
@@ -191,6 +192,14 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
        work_package.project &&
        work_package.project.shared_versions.exclude?(work_package.version)
       work_package.version = nil
+    end
+  end
+
+  def set_parent_to_nil
+    if !Setting.cross_project_work_package_relations? &&
+      !work_package.parent_changed?
+
+      work_package.parent = nil
     end
   end
 
@@ -269,7 +278,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def assignable_statuses
-    instantiate_contract(work_package, user).assignable_statuses(true)
+    instantiate_contract(work_package, user).assignable_statuses(include_default: true)
   end
 
   def min_child_date
@@ -303,6 +312,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def date_changed_but_not_duration?
-    (work_package.start_date_changed? || work_package.due_date_changed?) && !work_package.duration_changed?
+    (work_package.start_date_changed? || work_package.due_date_changed? || work_package.duration.nil?) &&
+      !work_package.duration_changed?
   end
 end

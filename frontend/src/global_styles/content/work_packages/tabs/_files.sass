@@ -26,97 +26,118 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-.op-files-tab
-  &--file-list-item
-    display: grid
-    grid-template-columns: 1fr 1fr
-    height: 40px
+.op-files-tab,
+.op-attachments-list
+  .op-files-tab--file-list
+    .op-files-tab--file-list-item
+      .op-files-tab--file-list-item-action
+        padding-left: 0
+        padding-right: 0
 
-    &.inactive
-      opacity: 0.5
+        &:hover .op-files-tab--file-list-item-title
+          text-decoration: underline
 
-    &--content
-      align-self: center
-      width: 100%
-      white-space: nowrap
-      overflow: hidden
-      text-overflow: ellipsis
+        .op-files-tab--file-list-item-title
+          @include spot-body-small(bold)
 
-      &.file-name
-        font-size: 14px
+          line-height: $spot-spacing-1-5
+          word-break: normal
+          overflow: hidden
+          text-overflow: ellipsis
+          padding-right: $spot_spacing-0-5
 
-      &.file-info
-        text-align: right
-        font-size: 12px
+        .op-files-tab--file-list-item-text
+          @include spot-caption()
 
-    &--file-info-timestamp
-      margin-right: 8px
+          color: #9A9A9A
+          line-height: $spot-spacing-1-5
+          flex-shrink: 0
+
+          &:not(:last-child)
+            margin-right: $spot-spacing-0-5
+
+        .spot-icon:first-child:not(:last-child)
+          width: $spot-spacing-1-5
+          height: $spot-spacing-1-5
+
+        .op-files-tab--file-list-item-avatar
+          flex-shrink: 0
+          display: inline-flex
+          justify-content: center
+          align-items: center
+          width: $spot-spacing-1-5
+          height: $spot-spacing-1-5
+
+      .op-files-tab--file-list-item-floating-actions
+        padding-right: 0
 
   &--storage-info-box
-    margin-top: 14px
+    margin-top: 0.875rem
     display: grid
+    align-items: center
     grid-template: "icon text" "button button" / auto 1fr
 
-    .icon-box
-      height: 54px
-      width: 54px
+    .spot-icon.big
+      color: #9A9A9A
       grid-area: icon
-      display: flex
-      justify-content: center
-      align-items: center
-
-      .icon
-        color: #878787
-        font-size: 36px
+      width: 3.375rem
+      height: 3.375rem
+      font-size: 1.25rem
+      margin-right: $spot_spacing-0-5
 
     .text-box
       grid-area: text
 
       .text-box-header
-        font-size: 16px
         font-weight: 700
-        line-height: 24px
+        line-height: $spot-spacing-1-5
 
       .text-box-content
-        font-size: 14px
-        font-weight: 400
-        line-height: 20px
-        color: #878787
+        @include spot-body-small()
+
+        color: #9A9A9A
 
     .button-box
       grid-area: button
       display: flex
       justify-content: end
 
-      .action-button
-        padding: 4px 12px
-        font-size: 14px
-        line-height: 20px
+      > .button_no-margin
+        margin-top: $spot_spacing-0-75
 
-  &--color
-    &-red
+  &--icon
+    &_pdf
       color: #B93A33
 
-    &-blue
-      color: #00BDF3
-
-    &-blue-deep
-      color: #006E8F
-
-    &-blue-dark
+    &_img
       color: #0081C7
 
-    &-turquoise
-      color: #87E2C1
+    &_mov
+      color: #7C006E
 
-    &-green
-      color: #007528
-
-    &-grey-dark
+    &_txt
       color: #9A9A9A
 
-    &-grey
-      color: #878787
+    &_doc
+      color: #006E8F
 
-    &-orange
+    &_sheet
+      color: #007528
+
+    &_presentation
       color: #EF9E56
+
+    &_form
+      color: #87E2C1
+
+    &_dir
+      color: #00BDF3
+
+    &_default
+      color: #9A9A9A
+
+    &_clip
+      color: #333333
+
+    &_nextcloud
+      color: #1A67A3

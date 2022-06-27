@@ -45,12 +45,10 @@ class WorkPackages::SetScheduleService
       altered += schedule_following
     end
 
-    result = ServiceResult.new(success: true,
-                               result: work_packages.first)
+    result = ServiceResult.success(result: work_packages.first)
 
     altered.each do |wp|
-      result.add_dependent!(ServiceResult.new(success: true,
-                                              result: wp))
+      result.add_dependent!(ServiceResult.success(result: wp))
     end
 
     result
@@ -176,9 +174,9 @@ class WorkPackages::SetScheduleService
 
   def date_rescheduling_delta(predecessor)
     if predecessor.due_date.present?
-      predecessor.due_date - (predecessor.due_date_was || predecessor.due_date)
+      predecessor.due_date - (predecessor.due_date_before_last_save || predecessor.due_date_was || predecessor.due_date)
     elsif predecessor.start_date.present?
-      predecessor.start_date - (predecessor.start_date_was || predecessor.start_date)
+      predecessor.start_date - (predecessor.start_date_before_last_save || predecessor.start_date_was || predecessor.start_date)
     else
       0
     end

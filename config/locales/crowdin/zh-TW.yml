@@ -522,18 +522,20 @@ zh-TW:
         duration: "Duration"
         end_insertion: "結束插入"
         end_deletion: "結束刪除"
-        version: "版本"
+        ignore_non_working_days: "Ignore non working days"
         parent: "上層目錄："
         parent_issue: "上層目錄："
         parent_work_package: "上層目錄："
         priority: "優先等級"
         progress: "進度 (%)"
+        readonly: "Read only"
         schedule_manually: "手動排程"
         spent_hours: "耗時"
         spent_time: "耗時"
         subproject: "子專案"
         time_entries: "日誌的時間"
         type: "類型"
+        version: "版本"
         watcher: "監看者"
       'doorkeeper/application':
         uid: "用戶端 ID"
@@ -3002,6 +3004,10 @@ zh-TW:
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "已註冊的 OAuth 應用程式"
   oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
       label_redirect_uri: "Redirect URI"
@@ -3027,10 +3033,15 @@ zh-TW:
         This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
       oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
       oauth_state_not_present_explanation: >
-        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authentication. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
       rack_oauth2:
-        client_secret_invalid: "Client secret is invalid"
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
         invalid_request: >
-          OAuth2 server responded with 'invalid_request'. This error appears if you try to authorize multiple times.
-        invalid_response: "OAuth2 server provided an invalid response"
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
   you: you

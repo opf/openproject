@@ -26,30 +26,28 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export interface IFileLinkListItemIcon {
-  icon:'image1'|'movie'|'file-text'|'export-pdf-descr'|'file-doc'|'file-sheet'|'file-presentation'|'folder'|'ticket'
-  color:'red'|'blue'|'blue-deep'|'blue-dark'|'turquoise'|'green'|'grey-dark'|'grey'|'orange'
-}
+import { debugLog } from 'core-app/shared/helpers/debug_output';
+import {
+  ErrorReporterBase,
+  MessageSeverity,
+} from 'core-app/core/errors/error-reporter-base';
 
-const mimeTypeIconMap:{ [mimeType:string]:IFileLinkListItemIcon; } = {
-  'image/*': { icon: 'image1', color: 'blue-dark' },
-  'text/plain': { icon: 'file-text', color: 'grey-dark' },
-  'application/pdf': { icon: 'export-pdf-descr', color: 'red' },
-  'application/vnd.oasis.opendocument.text': { icon: 'file-doc', color: 'blue-deep' },
-  'application/vnd.oasis.opendocument.spreadsheet': { icon: 'file-sheet', color: 'green' },
-  'application/vnd.oasis.opendocument.presentation': { icon: 'file-presentation', color: 'turquoise' },
-  'application/x-op-directory': { icon: 'folder', color: 'blue' },
-  default: { icon: 'ticket', color: 'grey-dark' },
-};
-
-export function getIconForMimeType(mimeType?:string):IFileLinkListItemIcon {
-  if (mimeType?.startsWith('image/')) {
-    return mimeTypeIconMap['image/*'];
+export class LocalReporter extends ErrorReporterBase {
+  public captureMessage(msg:string, severity:MessageSeverity = 'info'):void {
+    this.handleOfflineMessage('captureMessage', [msg, severity]);
   }
 
-  if (mimeType && mimeTypeIconMap[mimeType]) {
-    return mimeTypeIconMap[mimeType];
+  public captureException(err:Error|string):void {
+    this.handleOfflineMessage('captureException', [err]);
+    throw (err as Error);
   }
 
-  return mimeTypeIconMap.default;
+  /**
+   * Remember a message or error for later handling
+   * @param type
+   * @param args
+   */
+  private handleOfflineMessage(type:'captureMessage'|'captureException', args:unknown[]) {
+    debugLog('[ErrorReporter] Would queue message %O %O, but is not configured.', type, args);
+  }
 }

@@ -144,7 +144,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
           it 'redirects to index if token request failed' do
             allow_any_instance_of(::TwoFactorAuthentication::TokenService)
               .to receive(:request)
-              .and_return(ServiceResult.new(success: false))
+              .and_return(ServiceResult.failure)
 
             get :confirm, params: { device_id: device.id }
             expect(response).to redirect_to action: :index
@@ -183,7 +183,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
             allow_any_instance_of(::TwoFactorAuthentication::TokenService)
               .to receive(:verify)
               .with('1234')
-              .and_return(ServiceResult.new(success: true))
+              .and_return(ServiceResult.success)
 
             post :confirm, params: { device_id: device.id, otp: '1234' }
             expect(response).to redirect_to action: :index
@@ -200,7 +200,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
               allow_any_instance_of(::TwoFactorAuthentication::TokenService)
                   .to receive(:verify)
                           .with('1234')
-                          .and_return(ServiceResult.new(success: true))
+                          .and_return(ServiceResult.success)
 
               post :confirm, params: { device_id: device.id, otp: '1234' }
               expect(response).to redirect_to action: :index

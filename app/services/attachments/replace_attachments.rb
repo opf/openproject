@@ -34,13 +34,11 @@ module Attachments
       private
 
       def set_attributes(attributes)
-        call = super
-
-        if call.success? && call.result.attachments_replacements
-          call.result.attachments = call.result.attachments_replacements
+        super.tap do |call|
+          if call.success? && call.result.attachments_replacements
+            call.result.attachments = call.result.attachments_replacements
+          end
         end
-
-        call
       end
     end
   end

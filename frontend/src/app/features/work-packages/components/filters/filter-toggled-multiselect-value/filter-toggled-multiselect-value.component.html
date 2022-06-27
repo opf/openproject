@@ -1,6 +1,7 @@
-<div class="inline-label ng-select-container"
-     id="div-values-{{filter.id}}">
-
+<div
+  class="inline-label ng-select-container"
+  id="div-values-{{filter.id}}"
+>
   <op-autocompleter
     appendTo="body"
     class="advanced-filters--ng-select -multi-select"
@@ -13,6 +14,7 @@
     [hideSelected]="true"
     [multiple]="true"
     [model]="value"
+    bindLabel="name"
     (change)="setValues($event)"
   ></op-autocompleter>
 </div>

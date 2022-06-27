@@ -26,23 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_context "with storages module enabled" do
-  let(:storages_module_active) { true }
+# Method to wait for the body to be refreshed
+# due to a page reload
 
-  before do
-    allow(OpenProject::FeatureDecisions).to receive(:storages_module_active?).and_return(storages_module_active)
+def expect_page_reload
+  current_render = Time.parse page.find('body')['data-rendered-at']
+
+  yield
+
+  expect(page).to have_selector('body') do |body|
+    Time.parse(body['data-rendered-at']) > current_render
   end
-end
-
-RSpec.shared_context "with storages module disabled" do
-  let(:storages_module_active) { false }
-end
-
-RSpec.configure do |rspec|
-  # examples tagged with `:enable_storages` will automatically have context
-  # included and storages module enabled
-  rspec.include_context "with storages module enabled", :enable_storages
-  # examples tagged with `disable_storages` will automatically have context
-  # included and storages module disabled
-  rspec.include_context "with storages module disabled", :disable_storages
 end

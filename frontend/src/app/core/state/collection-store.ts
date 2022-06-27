@@ -85,6 +85,27 @@ export function insertCollectionIntoState<T extends { id:ID }>(
   });
 }
 
+export function removeEntityFromCollectionAndState<T extends { id:ID }>(
+  store:EntityStore<CollectionState<T>>,
+  entityId:ID,
+  collectionUrl:string,
+):void {
+  applyTransaction(() => {
+    store.remove(entityId);
+    store.update(({ collections }) => (
+      {
+        collections: {
+          ...collections,
+          [collectionUrl]: {
+            ...collections[collectionUrl],
+            ids: (collections[collectionUrl]?.ids || []).filter((id) => id !== entityId),
+          },
+        },
+      }
+    ));
+  });
+}
+
 export function collectionFrom<T>(elements:T[]):IHALCollection<T> {
   const count = elements.length;
 

@@ -81,7 +81,7 @@ describe('DynamicFormService', () => {
         },
       },
       {
-        type: 'selectInput',
+        type: 'projectInput',
         expressionProperties: {},
         key: '_links.parent',
         templateOptions: {
@@ -140,6 +140,8 @@ describe('DynamicFormService', () => {
     dynamicFormService
       .getSettingsFromBackend$(testFormUrl)
       .subscribe((dynamicFormConfigResponse) => {
+        console.log(dynamicFormConfig.fields);
+        console.log(dynamicFormConfigResponse.fields.map(f => f.type));
         expect(dynamicFormConfigResponse.fields.length).toEqual(dynamicFormConfig.fields.length, 'should return one dynamic field per schema field');
         expect(
           dynamicFormConfigResponse.fields.every((field, index) => field.type === dynamicFormConfig.fields[index].type),
