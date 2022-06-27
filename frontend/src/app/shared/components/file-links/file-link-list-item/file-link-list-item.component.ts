@@ -46,6 +46,11 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
 import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
+import {
+  fileLinkViewAllowed,
+  fileLinkViewError,
+  fileLinkViewNotAllowed,
+} from 'core-app/shared/components/file-links/file-links-constants.const';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -72,13 +77,18 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
   public showFloatingActions:boolean;
 
+  public floatingText:string;
+
   public text = {
     title: {
       openFile: this.i18n.t('js.label_open_file_link'),
       openFileLocation: this.i18n.t('js.label_open_file_link_location'),
       removeFileLink: this.i18n.t('js.label_remove_file_link'),
     },
-    floatingText: '',
+    floatingText: {
+      noViewPermission: this.i18n.t('js.label_file_link_no_permission'),
+      error: this.i18n.t('js.label_file_link_error'),
+    },
   };
 
   constructor(
@@ -114,21 +124,21 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
   private derivePermissionState():void {
     switch (this.fileLink._links.permission.href) {
-      case 'urn:openproject-org:api:v3:file-links:permission:View':
+      case fileLinkViewAllowed:
         this.showFloatingActions = true;
-        this.text.floatingText = '';
+        this.floatingText = '';
         break;
-      case 'urn:openproject-org:api:v3:file-links:permission:NotAllowed':
+      case fileLinkViewNotAllowed:
         this.showFloatingActions = false;
-        this.text.floatingText = this.i18n.t('js.label_file_link_no_permission');
+        this.floatingText = this.text.floatingText.noViewPermission;
         break;
-      case 'urn:openproject-org:api:v3:file-links:permission:Error':
+      case fileLinkViewError:
         this.showFloatingActions = false;
-        this.text.floatingText = this.i18n.t('js.label_file_link_error');
+        this.floatingText = this.text.floatingText.error;
         break;
       default:
         this.showFloatingActions = true;
-        this.text.floatingText = '';
+        this.floatingText = '';
     }
   }
 }

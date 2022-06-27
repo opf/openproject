@@ -34,6 +34,12 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
+import {
+  fileLinkViewAllowed,
+  storageAuthorizationError,
+  storageConnected,
+  storageFailedAuthorization,
+} from 'core-app/shared/components/file-links/file-links-constants.const';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -127,6 +133,10 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     window.open(this.storage._links.origin.href);
   }
 
+  public isDisabled(fileLink:IFileLink):boolean {
+    return fileLink._links.permission.href !== fileLinkViewAllowed;
+  }
+
   private get collectionKey():string {
     return isNewResource(this.resource) ? 'new' : this.fileLinkSelfLink;
   }
@@ -138,13 +148,13 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   private deriveStorageInformation(fileLinkCount:number):void {
     switch (this.storage._links.authorizationState.href) {
-      case 'urn:openproject-org:api:v3:storages:authorization:FailedAuthentication':
+      case storageFailedAuthorization:
         this.setAuthenticationFailureState(fileLinkCount);
         break;
-      case 'urn:openproject-org:api:v3:storages:authorization:Error':
+      case storageAuthorizationError:
         this.setConnectionErrorState();
         break;
-      case 'urn:openproject-org:api:v3:storages:authorization:Connected':
+      case storageConnected:
         if (fileLinkCount === 0) {
           this.setEmptyFileLinkListState();
         } else {
