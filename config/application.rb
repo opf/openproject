@@ -58,6 +58,9 @@ module OpenProject
     # Use default logging formatter so that PID and timestamp are not suppressed.
     config.log_formatter = ::Logger::Formatter.new
 
+    # Set up the cache store based on our configuration
+    config.cache_store = OpenProject::Configuration.cache_store_configuration
+
     # Set up STDOUT logging if requested
     if ENV["RAILS_LOG_TO_STDOUT"].present?
       logger           = ActiveSupport::Logger.new(STDOUT)
