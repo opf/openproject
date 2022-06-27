@@ -57,7 +57,7 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
     ::OpenProject.logger.error e
     attachment.destroy
   ensure
-    File.unlink(local_file.path) if File.exist?(local_file.path)
+    FileUtils.rm_rf(local_file.path)
   end
 
   def set_attributes_from_file(attachment, local_file)

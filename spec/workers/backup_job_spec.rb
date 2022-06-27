@@ -179,7 +179,7 @@ describe BackupJob, type: :model do
     end
 
     after do
-      FileUtils.rm dummy_path if File.exist? dummy_path
+      FileUtils.rm_rf dummy_path
     end
 
     it_behaves_like "it creates a backup", remote_storage: true

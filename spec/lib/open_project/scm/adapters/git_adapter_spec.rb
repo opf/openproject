@@ -432,7 +432,7 @@ describe OpenProject::SCM::Adapters::Git do
             annotate = adapter.annotate('sources/watchers_controller.rb')
             expect(annotate).to be_kind_of(OpenProject::SCM::Adapters::Annotate)
             expect(annotate.lines.length).to eq(41)
-            expect(annotate.lines[4].strip).to eq('# This program is free software; '\
+            expect(annotate.lines[4].strip).to eq('# This program is free software; ' \
                                                   'you can redistribute it and/or')
             expect(annotate.revisions[4].identifier).to eq('7234cb2750b63f47bff735edc50a1c0a433c2518')
             expect(annotate.revisions[4].author).to eq('jsmith')

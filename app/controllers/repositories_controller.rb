@@ -348,7 +348,7 @@ class RepositoriesController < ApplicationController
     end
 
     changes_by_day = Change.includes(:changeset)
-                     .where(["#{Changeset.table_name}.repository_id = ? "\
+                     .where(["#{Changeset.table_name}.repository_id = ? " \
                              "AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?",
                              repository.id, @date_from, @date_to])
                      .references(:changesets)

@@ -291,7 +291,7 @@ GEM
     awesome_nested_set (3.5.0)
       activerecord (>= 4.0.0, < 7.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.600.0)
+    aws-partitions (1.601.0)
     aws-sdk-core (3.131.2)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
@@ -593,7 +593,7 @@ GEM
       open4 (~> 1.0)
     launchy (2.5.0)
       addressable (~> 2.7)
-    lefthook (1.0.1)
+    lefthook (1.0.3)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.7.1)
@@ -684,7 +684,7 @@ GEM
     openproject-token (2.2.0)
       activemodel
     parallel (1.22.1)
-    parallel_tests (3.11.0)
+    parallel_tests (3.11.1)
       parallel
     parser (3.1.2.0)
       ast (~> 2.4.1)
@@ -697,7 +697,7 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    pg (1.4.0)
+    pg (1.4.1)
     plaintext (0.3.4)
       activesupport (> 2.2.1)
       nokogiri (~> 1.10, >= 1.10.4)
@@ -856,7 +856,7 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.11.0)
-    rubocop (1.30.1)
+    rubocop (1.31.0)
       parallel (~> 1.10)
       parser (>= 3.1.0.0)
       rainbow (>= 2.2.2, < 4.0)
@@ -867,7 +867,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.18.0)
       parser (>= 3.1.1.0)
-    rubocop-rails (2.15.0)
+    rubocop-rails (2.15.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.7.0, < 2.0)
@@ -969,7 +969,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
-    unicode-display_width (2.1.0)
+    unicode-display_width (2.2.0)
     uri_template (0.7.0)
     validate_email (0.1.6)
       activemodel (>= 3.0)
