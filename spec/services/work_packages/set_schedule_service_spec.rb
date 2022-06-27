@@ -142,12 +142,7 @@ describe WorkPackages::SetScheduleService do
           .to eql(due_date),
               "Expected work package ##{wp.id} '#{wp.subject}' to have due date #{due_date}, got #{result.due_date}"
 
-        duration = if start_date && due_date
-                     (due_date - start_date + 1).to_i
-                   else
-                     # This needs to change to nil once duration can be set
-                     1
-                   end
+        duration = WorkPackages::Shared::AllDays.new.duration(start_date, due_date)
 
         expect(result.duration)
           .to eql(duration),

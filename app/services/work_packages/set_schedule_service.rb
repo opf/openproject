@@ -184,11 +184,8 @@ class WorkPackages::SetScheduleService
   def set_dates(work_package, start_date, due_date)
     work_package.start_date = start_date
     work_package.due_date = due_date
-    work_package.duration = if start_date && due_date
-                              due_date - start_date + 1
-                            else
-                              # This needs to change to nil once duration can be set
-                              1
-                            end
+    work_package.duration = WorkPackages::Shared::Days
+                              .for(work_package)
+                              .duration(start_date, due_date)
   end
 end
