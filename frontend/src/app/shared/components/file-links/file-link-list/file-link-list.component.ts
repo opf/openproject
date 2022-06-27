@@ -44,6 +44,8 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { CookieService } from 'ngx-cookie-service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'op-file-link-list',
@@ -94,10 +96,13 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     }
   };
 
+  private informationActionUrl = '#';
+
   constructor(
     private readonly i18n:I18nService,
     private readonly fileLinkResourceService:FileLinksResourceService,
     private readonly currentUserService:CurrentUserService,
+    private readonly cookieService:CookieService,
   ) {
     super();
   }
@@ -130,7 +135,13 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   }
 
   public openStorageLocation():void {
-    window.open(this.storage._links.origin.href);
+    const nonce = uuidv4();
+
+    this.cookieService.set(`oauth_state_${nonce}`, window.location.href, {
+      path: '/',
+    });
+
+    window.location.href = `${this.informationActionUrl}&state=${nonce}`;
   }
 
   public isDisabled(fileLink:IFileLink):boolean {
@@ -173,6 +184,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     this.informationBoxContent = this.text.infoBox.authorizationFailureContent;
     this.informationBoxButton = this.text.infoBox.loginButton;
     this.informationBoxIcon = 'import';
+    this.informationActionUrl = this.storage._links.authorize?.href as string;
     this.showInformationBox$.next(true);
     this.showFileLinks$.next(fileLinkCount > 0);
   }
@@ -182,6 +194,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     this.informationBoxContent = this.text.infoBox.connectionErrorContent;
     this.informationBoxButton = this.text.infoBox.loginButton;
     this.informationBoxIcon = 'remove-link';
+    this.informationActionUrl = this.storage._links.origin.href;
     this.showInformationBox$.next(true);
     this.showFileLinks$.next(false);
   }
