@@ -90,8 +90,8 @@ module Pages
 
       drag_n_drop_element from: moved_element,
                           to: target_element,
-                          offset_x: before_or_after == :before ? 0 : +50,
-                          offset_y: +40
+                          offset_x: before_or_after == :before ? -40 : +30,
+                          offset_y: 0
     end
 
     def drag_to_column(dragged_task, story, col_number)
