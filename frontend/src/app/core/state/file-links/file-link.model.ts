@@ -42,6 +42,7 @@ export interface IFileLinkHalResourceLinks extends IHalResourceLinks {
   staticOriginOpen:IHalResourceLink;
   originOpenLocation:IHalResourceLink;
   staticOriginOpenLocation:IHalResourceLink;
+  staticOriginDownload:IHalResourceLink;
 }
 
 export interface IFileLinkOriginData {

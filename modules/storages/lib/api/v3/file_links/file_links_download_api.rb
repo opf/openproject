@@ -65,6 +65,7 @@ module API
             raise API::Errors::InternalError.new(I18n.t('http.request.failed_authorization')) if response.result.body.blank?
 
             download_url = parse_response_body response.result.body
+            # download_url = 'https://nextcloud.ripley.minifox.fr/remote.php/direct/s3EbjrmfAS4wFTmPhksdbMN2ZwBv3Ehu2drrUbUvBryLdZQAr1eCwjMlaLdJ'
 
             if download_url.blank?
               Rails.logger.error "Received unexpected json response: #{response.result.body}"
