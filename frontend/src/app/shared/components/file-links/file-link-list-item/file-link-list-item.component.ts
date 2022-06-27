@@ -46,11 +46,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
 import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
-import {
-  fileLinkViewAllowed,
-  fileLinkViewError,
-  fileLinkViewNotAllowed,
-} from 'core-app/shared/components/file-links/file-links-constants.const';
+import { fileLinkViewAllowed } from 'core-app/shared/components/file-links/file-links-constants.const';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -71,15 +67,13 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
   @ViewChild('avatar') avatar:ElementRef;
 
-  public infoTimestampText:string;
+  infoTimestampText:string;
 
-  public fileLinkIcon:IFileIcon;
+  fileLinkIcon:IFileIcon;
 
-  public showFloatingActions:boolean;
+  showFloatingActions:boolean;
 
-  public floatingText:string;
-
-  public text = {
+  text = {
     title: {
       openFile: this.i18n.t('js.label_open_file_link'),
       openFileLocation: this.i18n.t('js.label_open_file_link_location'),
@@ -87,7 +81,6 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
     },
     floatingText: {
       noViewPermission: this.i18n.t('js.label_file_link_no_permission'),
-      error: this.i18n.t('js.label_file_link_error'),
     },
   };
 
@@ -108,7 +101,7 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
     this.fileLinkIcon = getIconForMimeType(this.originData.mimeType);
 
-    this.derivePermissionState();
+    this.showFloatingActions = this.fileLink._links.permission.href === fileLinkViewAllowed;
   }
 
   ngAfterViewInit():void {
@@ -119,26 +112,13 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
         { hide: true, link: false },
         { hide: false, size: 'mini' },
       );
-    }
-  }
-
-  private derivePermissionState():void {
-    switch (this.fileLink._links.permission.href) {
-      case fileLinkViewAllowed:
-        this.showFloatingActions = true;
-        this.floatingText = '';
-        break;
-      case fileLinkViewNotAllowed:
-        this.showFloatingActions = false;
-        this.floatingText = this.text.floatingText.noViewPermission;
-        break;
-      case fileLinkViewError:
-        this.showFloatingActions = false;
-        this.floatingText = this.text.floatingText.error;
-        break;
-      default:
-        this.showFloatingActions = true;
-        this.floatingText = '';
+    } else {
+      this.principalRendererService.render(
+        this.avatar.nativeElement,
+        { name: 'Not Available', href: '/placeholder_users/1' },
+        { hide: true, link: false },
+        { hide: false, size: 'mini' },
+      );
     }
   }
 }

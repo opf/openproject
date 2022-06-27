@@ -400,7 +400,6 @@ en:
     label_export: "Export"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
     label_file_link_no_permission: "You have no permission to see this file."
-    label_file_link_error: "Error fetching view permissions."
     label_filename: "File"
     label_filesize: "Size"
     label_general: "General"
