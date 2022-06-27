@@ -4,19 +4,21 @@
   alignment="bottom-left"
   class="op-project-list-modal"
 >
-  <a id="projects-menu"
-     accesskey="5"
-     aria-haspopup="true"
-     class="op-app-menu--item-action"
-     href="#"
-     slot="trigger"
-     (click)="toggleDropModal()">
+  <button
+    id="projects-menu"
+    accesskey="5"
+    aria-haspopup="true"
+    class="op-app-menu--item-action"
+    type="button"
+    slot="trigger"
+    (click)="toggleDropModal()"
+  >
     <span
       class="op-app-menu--item-title ellipsis"
       [textContent]="currentProjectName()"
     ></span>
     <i class="op-app-menu--item-dropdown-indicator button--dropdown-indicator"></i>
-  </a>
+  </button>
 
   <ng-container slot="body">
     <div class="op-project-list-modal--header">
