@@ -77,6 +77,7 @@ describe 'Copy work packages through Rails view', js: true do
                               select_text: project2.name,
                               results_selector: 'body'
         end
+        sleep(1) # wait for the change of target project to finish updating the page
       end
 
       it 'sets the version on copy and leaves a note' do
