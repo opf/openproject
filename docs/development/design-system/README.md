@@ -73,6 +73,19 @@ keywords: Design system, styles, design, components
 | Administration -> Groups               | Rails                  |                                                         |
 | Administration -> Custom actions       | Rails                  |                                                         |
 
+## Patterns
+
+| Style definitions (Figma)                                    | Status                         | Implementation examples                                      |
+| ------------------------------------------------------------ | ------------------------------ | ------------------------------ |
+| [Action modal](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=861%3A10487) | Working draft, designed, documented |  |
+| [Dialogues](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3400) | Working draft, designed, no documentation yet |  |
+| [Headers](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=861%3A10487) | Working draft, designed, no documentation yet | In all pages |
+| [List and List Primitives](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=386%3A3606) | Working draft, designed, documented |  |
+| [Main sidebar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3262) | Working draft, designed, no documentation yet | In almost all pages |
+| [Notifications](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3362) | Working draft, designed, no documentation yet | [Notification Center](https://community.openproject.org/notifications) |
+
+## Functions
+
 ### Project selector list
 
 | Places where we use this style                               | Current implementation | Migration to design system                              |
@@ -94,18 +107,6 @@ keywords: Design system, styles, design, components
 | Add a project filter into a new cost report                  | Angular                | [12.2](https://community.openproject.org/versions/1494) |
 | Edit the project filters from the work package table configuration | Angular                | [12.2](https://community.openproject.org/versions/1494) |
 | Navigation bar project selector                              | Angular                | [12.2](https://community.openproject.org/versions/1494) |
-
-## Patterns
-
-| Style definitions (Figma)                                    | Status                         | Implementation examples                                      |
-| ------------------------------------------------------------ | ------------------------------ | ------------------------------ |
-| [Action modal](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=861%3A10487) | Working draft, designed, documented |  |
-| [Dialogues](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3400) | Working draft, designed, no documentation yet |  |
-| [Headers](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=861%3A10487) | Working draft, designed, no documentation yet | In all pages |
-| [List and List Primitives](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=386%3A3606) | Working draft, designed, documented |  |
-| [Main sidebar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3262) | Working draft, designed, no documentation yet | In almost all pages |
-| [Notifications](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3362) | Working draft, designed, no documentation yet | [Notification Center](https://community.openproject.org/notifications) |
-
 
 ## Contribute
 
