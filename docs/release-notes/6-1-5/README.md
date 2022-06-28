@@ -26,8 +26,7 @@ your OpenProject installation to this version.
     ([\#24477](https://community.openproject.com/projects/openproject/work_packages/24477/activity)).
   - The work package toolbar menu was not visible on small screens
     ([\#24679](https://community.openproject.com/projects/openproject/work_packages/24679/activity)).
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-7">Work
-    package</span> split screen on mobile was not displayed correctly
+  - Work package split screen on mobile was not displayed correctly
     ([\#24699](https://community.openproject.com/projects/openproject/work_packages/24699/activity)).
   - An error message related to remaining hours was shown when editing
     child work packages

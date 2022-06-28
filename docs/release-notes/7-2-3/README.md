@@ -17,8 +17,7 @@ Some customers depend on returning only the work packages assigned to
 the single user. This bugfix release restores the original behavior.
 
 If you want to filter for this exact behavior, a new filter named
-*<span class="pl-s"><span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-95">Assignee</span>
-or belonging group</span>* is now added that returns:
+*Assignee or belonging group* is now added that returns:
 
   - **when filtering for a single user**: Work packages assigned to this
     user, and any group it belongs to

@@ -26,11 +26,11 @@ newest version.
   - Fixed: Top menu entries are misaligned in mobile views
     \[[\#28678](https://community.openproject.com/wp/28678)\]
   - Fixed: Unable to save
-    Sub-<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-45">Project</span>
+    Sub-Project
     with Custom Field of
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-10">Version</span>
+    Version
     using parent
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-10">Version</span>
+    Version
     \[[\#28421](https://community.openproject.com/wp/28421)\]
   - Fixed: Toolbar container styling corrected
     \[[\#28645](https://community.openproject.com/wp/28645)\]

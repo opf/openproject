@@ -67,8 +67,7 @@ fields).
 
 OpenProject 7.2 includes several usability improvements.
 
-For example, we removed the *Show all* button.
-<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-45">Project</span>
+For example, we removed the *Show all* button. Project
 members can see the number of relations a work package has, by looking
 at the label shown next to the *Relations* tab.
 

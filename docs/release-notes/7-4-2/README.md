@@ -26,7 +26,7 @@
     \[[\#27158](https://community.openproject.com/wp/27158)\]
   - Locked users shown as matches when adding watchers
     \[[\#27127](https://community.openproject.com/wp/27127)\]
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-10">Version</span>
+  - Version
     sorting by name also sorts by their effective date
 
 For further information on the 7.4.2 release, please refer to

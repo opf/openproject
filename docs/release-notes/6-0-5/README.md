@@ -41,7 +41,7 @@ OpenProject 6.0.5 contains several bug fixes and improvements.
       - There was a translation missing when displaying changes in the
         work package description
         ([\#23917](https://community.openproject.com/work_packages/23917/activity)).
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-8">Wiki</span>
+  - Wiki
       - An internal error occurred when renaming wiki pages to certain
         reserved names
         ([\#23961](https://community.openproject.com/work_packages/23961/activity)).
@@ -52,11 +52,11 @@ OpenProject 6.0.5 contains several bug fixes and improvements.
       - New users who created a hosted OpenProject instance had wrong
         email settings
         ([\#23856](https://community.openproject.com/work_packages/23856/activity)).
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-37">Repository</span>
+  - Repository
       - There was an instance when the Git repository was producing an
         error 500
         ([\#23953](https://community.openproject.com/work_packages/23953/activity)).
-      - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-37">Repository</span>
+      - Repository
         commit which referenced work packages were not shown on the work
         package
         ([\#24026](https://community.openproject.com/work_packages/24026/activity)).
@@ -71,7 +71,7 @@ OpenProject 6.0.5 contains several bug fixes and improvements.
       - An error occurred when using the cost report with Chinese
         language settings due to a missing translation
         ([\#23998](https://community.openproject.com/work_packages/23998/activity)).
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-92">Backlogs</span>
+  - Backlogs
       - Clicking on an empty story point field in the backlogs to assign
         story points to a work package was not possible
         ([\#23994](https://community.openproject.com/work_packages/23994/activity)).

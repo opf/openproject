@@ -11,9 +11,7 @@
 
 OpenProject 5.0.17 contains several bug fixes:
 
-  - The work package attribute
-    “<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-73">Estimated
-    time</span>” could not be set back to zero once set
+  - The work package attribute “Estimated time” could not be set back to zero once set
     ([\#22829](https://community.openproject.com/work_packages/22829/activity)).
   - The documents widget on MyPage could not be removed once added
     ([\#22814](https://community.openproject.com/work_packages/22814/activity)).

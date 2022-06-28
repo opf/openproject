@@ -29,7 +29,7 @@ OpenProject 6.1.1 contains several bug fixes and improvements.
         ([\#24427](https://community.openproject.com/projects/openproject/work_packages/24427/activity)).
       - Line breaks were not displayed in the work package description
         ([\#24428](https://community.openproject.com/projects/openproject/work_packages/24428/activity)).
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-17">Timeline</span>
+  - Timeline
       - Timelines which were displayed in aggregation were not shown
         when loaded initially.
   - Projects

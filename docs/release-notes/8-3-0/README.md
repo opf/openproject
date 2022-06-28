@@ -18,14 +18,11 @@ newest version.
 
  
 
-**Modernized
-<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-57"><span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-57">My
-page</span></span> grid implementation**
+**Modernized My page grid implementation**
 
 OpenProject 8.3. introduces a grid-style dashboard that is now being
 rolled out to
-the *<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-57"><span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-57">My
-page</span></span>*. Additional pages will be converted to this grid in
+the *My page*. Additional pages will be converted to this grid in
 the future, and additional common widgets will be
 created.
 
@@ -37,8 +34,7 @@ The global search functionality of OpenProject has been extended to
 auto-suggest work package results and provides improved action buttons
 to search globally or in the current project.
 
-![OpenProject
-Search](Search-1024x626.png)
+![OpenProject Search](Search-1024x626.png)
 
 **Autocompletion of work package attributes**
 
@@ -71,7 +67,6 @@ The Openproject APIv3 can now be authenticated using the OAuth2
 standard. To register an OAuth applications, visit the new module under
 Administration \> OAuth applications.
 
- 
 
 #### Bug fixes and changes
 
@@ -122,9 +117,7 @@ Administration \> OAuth applications.
     \[[\#29122](https://community.openproject.com/wp/29122)\]
   - Fixed: Very large custom field is killing web browser
     \[[\#29136](https://community.openproject.com/wp/29136)\]
-  - Fixed:
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-80"><span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-80">Delete</span></span>
-    projects in delayed job
+  - Fixed: Delete projects in delayed job
     \[[\#29214](https://community.openproject.com/wp/29214)\]
   - Fixed: SVN fails to get changesets in subfolders which start at a
     revision greater than 1

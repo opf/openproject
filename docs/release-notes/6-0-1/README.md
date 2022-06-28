@@ -9,9 +9,7 @@
 
 # OpenProject 6.0.1
 
-**OpenProject 6.0.1 contains the following changes for the
-<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-8">Wiki</span>
-module:**
+**OpenProject 6.0.1 contains the following changes for the Wiki module:**
 
 In OpenProject versions prior to 6.0.0., specific characters of
 [wiki](../../user-guide/wiki/) titles were removed
@@ -42,24 +40,22 @@ automatically.
 **Additionally, the following errors have been fixed in OpenProject
 6.0.1:**
 
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-99">Activity</span>
+  - Activity
     on work package was not instantly updated when making changes to a
     work package
     ([\#23675](https://community.openproject.com/work_packages/23675/activity)).
   - Copy function was missing from fullscreen work package page
     ([\#23685](https://community.openproject.com/work_packages/23685/activity)).
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-13">Type</span>
+  - Type
     and status could not be selected when copying a work package
     ([\#23690](https://community.openproject.com/work_packages/23690/activity)).
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-82">Custom
-    field</span> of type “List” could not be changed (always switched
+  - Custom field of type “List” could not be changed (always switched
     back to previous value)
     ([\#23696](https://community.openproject.com/work_packages/23696/activity)).
   - Grouped versions from other projects (inherited) in work package
     list were not displayed correctly
     ([\#23697](https://community.openproject.com/work_packages/23697/activity)).
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-7">Work
-    package</span> export (XLS, PDF, CSV) ignored filters, sorting and
+  - Work package export (XLS, PDF, CSV) ignored filters, sorting and
     grouping
     ([\#23713](https://community.openproject.com/work_packages/23713/activity)).
   - Collapsing groups in work package page did not collapse related rows
@@ -69,7 +65,7 @@ automatically.
     ([\#23719](https://community.openproject.com/work_packages/23719/activity)).
   - Custom fields were not displayed in queries
     ([\#23725](https://community.openproject.com/work_packages/23725/activity)).
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-17">Timeline</span>
+  - Timeline
     graph was not displayed when timeline was embedded (e.g. on overview
     page)
     ([\#23689](https://community.openproject.com/work_packages/23689/activity)).
