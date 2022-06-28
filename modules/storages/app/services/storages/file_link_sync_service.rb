@@ -53,10 +53,20 @@ class Storages::FileLinkSyncService
       oauth_client = OAuthClient.find_by(integration_id: storage_id)
       connection_manager = ::OAuthClients::ConnectionManager.new(user: @user, oauth_client:)
       service_result = connection_manager.get_access_token # No scope for Nextcloud...
-      oauth_client_token = service_result.result
 
-      # Return the error codes from ConnectionManager.get_access_token to calling method
-      return service_result unless service_result.success
+      # Return the errors from ConnectionManager.get_access_token to calling method
+      unless service_result.success do
+        # We should never get here, because the storages endpoint enforces OAuth auhorization
+        service_result.errors.add(
+          :base,
+          "User not authorized to access storage. \
+           Did you authorize OpenProject to connect to your storage with OAuth2?"
+        )
+
+        return service_result
+      end
+
+      oauth_client_token = service_result.result
 
       # Get info about files. Result is either an Exception or Net::HTTPOK with body
       storage_origin_file_ids = storage_file_links.map(&:origin_id)
