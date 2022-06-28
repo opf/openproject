@@ -72,6 +72,9 @@ OpenProject::Application.configure do
       :stderr
     end
 
+  # Highlight code that triggered database queries in logs.
+  config.active_record.verbose_query_logs = true
+
   # Disable asset digests
   config.assets.compile = true
   config.assets.compress = false

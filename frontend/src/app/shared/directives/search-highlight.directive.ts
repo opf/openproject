@@ -43,7 +43,7 @@ export class OpSearchHighlightDirective implements AfterViewChecked {
     const end = content.slice(startIndex + query.length);
 
     const newNode = document.createElement('span');
-    newNode.innerHTML = `${start}<span class="op-search-highlight">${result}</span>${end}`;
+    newNode.innerHTML = `${_.escape(start)}<span class="op-search-highlight">${_.escape(result)}</span>${_.escape(end)}`;
     el.replaceChild(newNode, textNode);
   }
 

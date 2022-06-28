@@ -33,10 +33,10 @@ import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { FileLinkListComponent } from 'core-app/shared/components/file-links/file-link-list/file-link-list.component';
 import {
   FileLinkListItemComponent,
-} from 'core-app/shared/components/file-links/file-link-list/file-link-list-item.component';
+} from 'core-app/shared/components/file-links/file-link-list-item/file-link-list-item.component';
 import {
   StorageInformationComponent,
-} from 'core-app/shared/components/file-links/file-link-list/storage-information.component';
+} from 'core-app/shared/components/file-links/storage-information/storage-information.component';
 
 @NgModule({
   imports: [
@@ -50,7 +50,6 @@ import {
   ],
   exports: [
     FileLinkListComponent,
-    FileLinkListItemComponent,
   ],
 })
 export class OpenprojectFileLinksModule {

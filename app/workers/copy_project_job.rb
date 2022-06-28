@@ -138,11 +138,11 @@ class CopyProjectJob < ApplicationJob
   rescue ActiveRecord::RecordNotFound => e
     logger.error("Entity missing: #{e.message} #{e.backtrace.join("\n")}")
   rescue StandardError => e
-    logger.error('Encountered an error when trying to copy project '\
+    logger.error('Encountered an error when trying to copy project ' \
                  "'#{source_project_id}' : #{e.message} #{e.backtrace.join("\n")}")
   ensure
     unless errors.empty?
-      logger.error('Encountered an errors while trying to copy related objects for '\
+      logger.error('Encountered an errors while trying to copy related objects for ' \
                    "project '#{source_project_id}': #{errors.inspect}")
     end
   end

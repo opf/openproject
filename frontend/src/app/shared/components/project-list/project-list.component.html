@@ -1,8 +1,10 @@
 <li
   class="spot-list--item"
   *ngFor="let project of projects; index as i; first as isFirst; last as isLast"
+  data-qa-selector="op-project-list--item"
 >
   <label
+    *ngIf="multiSelect"
     class="spot-list--item-action op-project-list--item-action"
     [ngClass]="{ 'spot-list--item-action_disabled': isDisabled(project) }"
   >
@@ -23,7 +25,8 @@
         ></spot-checkbox>
         <div
           class="spot-list--item-title op-project-list--item-title"
-          [opSearchHighlight]="searchText" 
+          data-qa-selector="op-project-list--item-title"
+          [opSearchHighlight]="searchText"
           [title]="project.name"
         >{{ project.name }}</div>
       </ng-container>
@@ -38,6 +41,19 @@
     </spot-tooltip>
   </label>
 
+  <label
+    *ngIf="!multiSelect"
+    class="spot-list--item-action op-project-list--item-action"
+  >
+    <a
+      class="spot-list--item-title op-project-list--item-title op-project-list--item-title_link"
+      data-qa-selector="op-project-list--item-title"
+      [opSearchHighlight]="searchText"
+      [title]="project.name"
+      [href]="extendedProjectUrl(project.id)"
+    >{{ project.name }}</a>
+  </label>
+
   <ul
     *ngIf="project.children.length"
     op-project-list
@@ -46,6 +62,7 @@
     [includeSubprojects]="includeSubprojects"
     [parentChecked]="parentChecked || isChecked(project.href)"
     [searchText]="searchText"
+    [multiSelect]="multiSelect"
     (update)="updateSelected($event)"
   ></ul>
 </li>

@@ -31,7 +31,7 @@ require_relative './board_page'
 
 module Pages
   class Board < Page
-    include ::Components::NgSelectAutocompleteHelpers
+    include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
     def initialize(board)
       super()

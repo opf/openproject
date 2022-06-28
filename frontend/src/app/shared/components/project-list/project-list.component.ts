@@ -7,9 +7,10 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { IProjectData } from './project-data';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
+import { IProjectData } from './project-data';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Component({
   selector: '[op-project-list]',
@@ -36,6 +37,8 @@ export class OpProjectListComponent {
 
   @Input() parentChecked = false;
 
+  @Input() multiSelect = true;
+
   public get currentProjectHref():string|null {
     return this.currentProjectService.apiv3Path;
   }
@@ -48,6 +51,7 @@ export class OpProjectListComponent {
   constructor(
     readonly I18n:I18nService,
     readonly currentProjectService:CurrentProjectService,
+    readonly pathHelper:PathHelperService,
   ) { }
 
   public isDisabled(project:IProjectData):boolean {
@@ -86,10 +90,21 @@ export class OpProjectListComponent {
       if (isLast && !project.children.length) {
         return SpotDropAlignmentOption.RightCenter;
       }
-       
+
       return SpotDropAlignmentOption.BottomLeft;
     }
 
     return SpotDropAlignmentOption.TopLeft;
+  }
+
+  extendedProjectUrl(projectId:string):string {
+    const currentMenuItem = document.querySelector('meta[name="current_menu_item"]') as HTMLMetaElement;
+    let url = this.pathHelper.projectPath(projectId);
+
+    if (currentMenuItem) {
+      url += `?jump=${encodeURIComponent(currentMenuItem.content)}`;
+    }
+
+    return url;
   }
 }

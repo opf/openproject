@@ -77,9 +77,9 @@ cs:
     button_show_view: "Celá obrazovka"
     button_log_time: "Čas protokolu"
     button_more: "Více"
-    button_open_details: "Otevřít zobrazení podrobností"
+    button_open_details: "Otevřít podrobností - panel"
     button_close_details: "Zavřít zobrazení podrobností"
-    button_open_fullscreen: "Otevřít celoobrazovkový pohled"
+    button_open_fullscreen: "Otevřít podrobnosti - fullscreen"
     button_show_cards: "Zobrazit zobrazení karty"
     button_show_list: "Zobrazit seznam"
     button_quote: "Citovat"
@@ -96,7 +96,7 @@ cs:
         inline: 'Zvýraznit inlini:'
         entire_card_by: 'Celá karta od'
       remove_from_list: 'Odstranit kartu ze seznamu'
-    caption_rate_history: "Historie kurzů"
+    caption_rate_history: "Historie sazeb"
     clipboard:
       browser_error: "Váš prohlížeč nepodporuje, kopírování do schránky. Ručně zkopírujte vybraný text."
       copied_successful: "Úspěšně zkopírováno do schránky!"
@@ -302,7 +302,7 @@ cs:
     label_add_column_before: "Přidat sloupec před"
     label_add_columns: "Přidat sloupce"
     label_add_comment: "Přidat komentář"
-    label_add_comment_title: "Zadejte komentář a napište @ pro upozornění ostatních lidí"
+    label_add_comment_title: "Zde můžete komentovat a pomocí @ označit uživatele"
     label_add_row_after: "Přidat řádek za"
     label_add_row_before: "Přidat řádek před"
     label_add_selected_columns: "Přidat vybrané sloupce"
@@ -555,7 +555,7 @@ cs:
         text_update_date: "%{date} od"
         total_count_warning: "Zobrazení posledních oznámení %{newest_count} . Nezobrazuje se ještě %{more_count}"
         empty_state:
-          no_notification: "Vypadá to, že jste všichno dohnali..."
+          no_notification: "Vypadá to, že jste všechno pročetli..."
           no_notification_with_current_filter: "Změna zainteresovanost nebo se vraťte zpět do složky Doručená pošta pro zobrazení oznámení"
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
@@ -578,7 +578,7 @@ cs:
             description: 'Dostat upozornění, kdykoli mě někdo kdekoli zmíní'
           involved:
             title: 'Přiřazeno mně nebo odpovědný'
-            description: 'Přijímat oznámení pro všechny aktivity v pracovních balíčcích, pro které jsem pověřen nebo jsem zodpovědný'
+            description: 'Přijímat oznámení pro všechny aktivity v pracovních balíčcích, pro které jsem ŘeŠitel nebo Zodpovědný'
           watched: 'Aktualizace u sledovaných položek'
           work_package_commented: 'Všechny nové komentáře'
           work_package_created: 'Nový pracovní balíček'
@@ -628,16 +628,16 @@ cs:
       settings:
         daily:
           add_time: 'Přidat čas'
-          enable: 'Povolit denní  připomenutí e-mailem'
+          enable: 'Zapnout denní posílání oznámení e-mailem'
           explanation: 'Tyto připomínky obdržíte pouze pro nepřečtená oznámení a pouze v hodinách, které zadáte. %{no_time_zone}'
           no_time_zone: 'Dokud nenastavíte časové pásmo pro svůj účet, budou časy interpretovány v UTC.'
           time_label: 'Čas %{counter}:'
-          title: 'Poslat mi denní připomenutí e-mailem pro nepřečtená oznámení'
+          title: 'Posílat mi denní souhrn nepřečtených oznámení e-mailem '
         workdays:
-          title: 'Dostávat připomenutí e-mailem v těchto dnech'
+          title: 'posílat e-mailem v těchto dnech'
         immediate:
           title: 'Pošlete mi připomenutí e-mailem'
-          mentioned: 'Okamžitě, když mě někdo @zmiňuje'
+          mentioned: 'V momente  když mě někdo @zmiňuje'
         alerts:
           title: 'E-mailová upozornění pro ostatní položky (které nejsou pracovní balíčky)'
           explanation: >
@@ -1017,7 +1017,7 @@ cs:
         relations: Vztahy
         watchers: Sledující
         files: Soubory
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
+        files_tab_migration_help: ' Prostřednictvím nové karty nyní můžete přiložit soubory k pracovním balíčkům'
       time_relative:
         days: "dnů"
         weeks: "týdny"
@@ -1040,12 +1040,12 @@ cs:
         delete: "Odstranit"
       filter: "Filtr"
       unselected_title: "Pracovní balíček"
-      search_query_label: "Vyhledat uložené pohledy"
+      search_query_label: "Vyhledat uložené zobrazení"
       search_query_title: "Kliknutím zahájíte vyhledávání uložených pohledů"
       placeholder_query_title: "Nastavit titulek pro toto zobrazení"
     modals:
       label_settings: "Přejmenovat zobrazení"
-      label_name: "Jméno"
+      label_name: "Název"
       label_delete_page: "Odstranit aktuální stránku"
       button_apply: "Použít"
       button_save: "Uložit"

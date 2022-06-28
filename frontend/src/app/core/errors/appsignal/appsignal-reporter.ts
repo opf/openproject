@@ -71,7 +71,6 @@ export class AppsignalReporter extends ErrorReporterBase {
         revision,
       });
 
-      this.client.use(imported.consolePlugin());
       this.client.use(imported.networkPlugin());
     });
   }

@@ -85,7 +85,7 @@ import { OpFormBindingDirective } from './components/forms/form-field/form-bindi
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { OpProjectIncludeComponent } from './components/project-include/project-include.component';
-import { OpProjectListComponent } from './components/project-include/project-list.component';
+import { OpProjectListComponent } from './components/project-list/project-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { UIRouterGlobals } from '@uirouter/core';

@@ -27,19 +27,22 @@
 //++
 
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
+  EventEmitter,
+  forwardRef,
+  HostBinding,
   Injector,
   Input,
-  forwardRef,
-  EventEmitter,
   Output,
-  HostBinding,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -49,16 +52,19 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { ApiV3ListFilter, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
-import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { IProject } from 'core-app/core/state/projects/project.model';
+import {
+  ApiV3ListFilter,
+  listParamsString,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 import { IProjectAutocompleteItem } from './project-autocomplete-item';
-import { buildTree } from './insert-in-list';
-import { recursiveSort } from './recursive-sort';
 import { flattenProjectTree } from './flatten-project-tree';
+import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
+import { IProject } from 'core-app/core/state/projects/project.model';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { buildTree } from 'core-app/shared/components/autocompleter/project-autocompleter/insert-in-list';
+import { recursiveSort } from 'core-app/shared/components/autocompleter/project-autocompleter/recursive-sort';
 
 export const projectsAutocompleterSelector = 'op-project-autocompleter';
 

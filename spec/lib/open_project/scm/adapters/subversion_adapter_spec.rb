@@ -358,7 +358,7 @@ describe OpenProject::SCM::Adapters::Subversion do
       describe '.cat' do
         it 'outputs the given file' do
           out = adapter.cat('subversion_test/[folder_with_brackets]/README.txt', 11)
-          expect(out).to eq('This file should be accessible for Redmine, '\
+          expect(out).to eq('This file should be accessible for Redmine, ' \
                             "although its folder contains square\nbrackets.\n")
         end
 

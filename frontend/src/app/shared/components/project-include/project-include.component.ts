@@ -13,7 +13,6 @@ import {
 import {
   debounceTime,
   distinctUntilChanged,
-  finalize,
   map,
   mergeMap,
   shareReplay,
@@ -21,31 +20,28 @@ import {
 } from 'rxjs/operators';
 
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import {
-  ApiV3ListFilter,
-  ApiV3ListParameters,
-  listParamsString,
-} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { WorkPackageViewIncludeSubprojectsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-include-subprojects.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { IProject } from 'core-app/core/state/projects/project.model';
 
-import { IProjectData } from './project-data';
+import { IProjectData } from '../project-list/project-data';
 import { insertInList } from './insert-in-list';
 import { recursiveSort } from './recursive-sort';
-import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
+import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
 
 @Component({
   selector: 'op-project-include',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './project-include.component.html',
   styleUrls: ['./project-include.component.sass'],
+  providers: [
+    SearchableProjectListService,
+  ],
 })
 export class OpProjectIncludeComponent extends UntilDestroyedMixin implements OnInit {
   @HostBinding('class.op-project-include') className = true;
@@ -82,19 +78,6 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
   }
 
   public displayMode$ = new BehaviorSubject('all');
-
-  private _searchText = '';
-
-  public get searchText():string {
-    return this._searchText;
-  }
-
-  public set searchText(val:string) {
-    this._searchText = val;
-    this.searchText$.next(val);
-  }
-
-  public searchText$ = new BehaviorSubject('');
 
   private _includeSubprojects = true;
 
@@ -143,13 +126,11 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
 
   public numberOfProjectsInFilter$ = this.projectsInFilter$.pipe(map((selected) => selected.length));
 
-  public allProjects$ = new BehaviorSubject<IProject[]>([]);
-
   public projects$ = combineLatest([
-    this.allProjects$,
+    this.searchableProjectListService.allProjects$,
     this.displayMode$.pipe(distinctUntilChanged()),
     this.includeSubprojects$,
-    this.searchText$.pipe(debounceTime(200)),
+    this.searchableProjectListService.searchText$.pipe(debounceTime(200)),
   ])
     .pipe(
       debounceTime(50),
@@ -203,43 +184,20 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       shareReplay(),
     );
 
-  public fetchingProjects$ = new BehaviorSubject(false);
   public loading$ = combineLatest([
-    this.fetchingProjects$,
+    this.searchableProjectListService.fetchingProjects$,
     this.projects$,
   ]).pipe(
     map(([isFetching, projects]) => isFetching || projects.length === 0)
   );
 
-  public get params():ApiV3ListParameters {
-    const filters:ApiV3ListFilter[] = [
-      ['active', '=', ['t']],
-    ];
-
-    return {
-      filters,
-      pageSize: -1,
-      select: [
-        'elements/id',
-        'elements/name',
-        'elements/identifier',
-        'elements/self',
-        'elements/ancestors',
-        'total',
-        'count',
-        'pageSize',
-      ],
-    };
-  }
-
   constructor(
-    readonly apiV3Service:ApiV3Service,
     readonly I18n:I18nService,
-    readonly http:HttpClient,
     readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly wpIncludeSubprojects:WorkPackageViewIncludeSubprojectsService,
     readonly halResourceService:HalResourceService,
     readonly currentProjectService:CurrentProjectService,
+    readonly searchableProjectListService:SearchableProjectListService,
   ) {
     super();
   }
@@ -263,34 +221,17 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     this.opened = !this.opened;
 
     if (this.opened) {
-      this.loadAllProjects();
+      this.searchableProjectListService.loadAllProjects();
       this.projectsInFilter$
         .pipe(
           take(1),
         )
         .subscribe((selectedProjects) => {
           this.displayMode = 'all';
-          this.searchText = '';
+          this.searchableProjectListService.searchText = '';
           this.selectedProjects = selectedProjects as string[];
         });
     }
-  }
-
-  public loadAllProjects():void {
-    this.fetchingProjects$.next(true);
-
-    getPaginatedResults<IProject>(
-      (params) => {
-        const collectionURL = listParamsString({ ...this.params, ...params });
-        return this.http.get<IHALCollection<IProject>>(this.apiV3Service.projects.path + collectionURL);
-      },
-    )
-      .pipe(
-        finalize(() => this.fetchingProjects$.next(false)),
-      )
-      .subscribe((projects) => {
-        this.allProjects$.next(projects);
-      });
   }
 
   public clearSelection():void {

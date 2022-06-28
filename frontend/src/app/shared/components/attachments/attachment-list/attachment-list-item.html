@@ -27,13 +27,6 @@
     ></div>
   </a>
   <div class="spot-list--item-floating-actions op-files-tab--file-list-item-floating-actions">
-    <a
-      class="spot-link"
-      [title]="(author$ | async)?.name"
-      [href]="(author$ | async)?._links.showUser.href"
-    >
-      <span class="spot-icon spot-icon_user"></span>
-    </a>
     <button
       *ngIf="!!this.attachment._links.delete"
       class="spot-link"
