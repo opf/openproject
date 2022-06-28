@@ -42,18 +42,30 @@
     </spot-tooltip>
   </label>
 
-  <label
-    *ngIf="!multiSelect"
-    class="spot-list--item-action op-project-list--item-action"
-  >
+  <ng-container *ngIf="!multiSelect">
     <a
-      class="spot-list--item-title op-project-list--item-title op-project-list--item-title_link"
-      data-qa-selector="op-project-list--item-title"
-      [opSearchHighlight]="searchText"
+      *ngIf="!project.disabled"
+      class="spot-list--item-action op-project-list--item-action"
+      [ngClass]="{ 'spot-list--item-action_disabled': project.disabled }"
       [title]="project.name"
       [href]="extendedProjectUrl(project.id)"
-    >{{ project.name }}</a>
-  </label>
+    >
+      <span
+        class="spot-list--item-title op-project-list--item-title"
+        data-qa-selector="op-project-list--item-title"
+        [opSearchHighlight]="searchText"
+      >{{ project.name }}</span>
+    </a>
+
+    <span
+      *ngIf="project.disabled"
+      class="spot-list--item-action spot-list--item-action_disabled spot-list--item-action_disabled"
+    >
+      <span
+        class="spot-list--item-title op-project-list--item-title"
+      >{{ project.name }}</span>
+    </span>
+  </ng-container>
 
   <ul
     *ngIf="project.children.length"

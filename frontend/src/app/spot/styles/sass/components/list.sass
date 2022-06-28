@@ -30,9 +30,14 @@
         background-color: $spot-color-basic-gray-6
         text-decoration: none
 
+      &:focus
+        @include spot-focus
+
       &_disabled
-        color: $spot-color-basic-gray-3
-        cursor: default
+        &,
+        &:hover
+          color: $spot-color-basic-gray-3
+          cursor: default
 
     &-floating-wrapper
       position: relative
