@@ -32,12 +32,16 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
+import { v4 as uuidv4 } from 'uuid';
+
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import {
-  fileLinkViewAllowed,
+  fileLinkViewAllowed, nextcloud,
   storageAuthorizationError,
   storageConnected,
   storageFailedAuthorization,
@@ -47,10 +51,6 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { StorageActionButton } from 'core-app/shared/components/file-links/file-link-list/storage-action-button';
-
-import { BehaviorSubject, Observable } from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
-import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'op-file-link-list',
@@ -78,9 +78,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   buttons = new BehaviorSubject<StorageActionButton[]>([]);
 
-  private readonly storageTypeMap:{ [urn:string]:string; } = {
-    'urn:openproject-org:api:v3:storages:Nextcloud': 'Nextcloud',
-  };
+  private readonly storageTypeMap:Record<string, string> = {};
 
   text:{
     infoBox:{
@@ -112,6 +110,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   }
 
   ngOnInit():void {
+    this.initializeStorageTypes();
     this.initializeLocales();
 
     this.fileLinks$ = this.fileLinkResourceService.collection(this.collectionKey);
@@ -243,6 +242,12 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
           window.open(this.storageLocation, '_blank');
         },
       ),
+      new StorageActionButton(
+        this.text.infoBox.emptyStorageButton,
+        () => {
+          window.open(this.storageLocation, '_blank');
+        },
+      ),
     ]);
 
     this.showInformationBox$.next(true);
@@ -272,5 +277,9 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
         linkFile: this.i18n.t('js.label_link_files_in_storage', { storageType }),
       },
     };
+  }
+
+  private initializeStorageTypes() {
+    this.storageTypeMap[nextcloud] = this.i18n.t('js.label_nextcloud');
   }
 }
