@@ -83,6 +83,29 @@ keywords: Design system, styles, design, components
 | [Main sidebar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3262) | Working draft, designed, no documentation yet | In almost all pages |
 | [Notifications](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3362) | Working draft, designed, no documentation yet | [Notification Center](https://community.openproject.org/notifications) |
 
+## Functions
+
+### Project selector list
+
+| Places where we use this style                               | Current implementation | Migration to design system                              |
+| ------------------------------------------------------------ | ---------------------- | ------------------------------------------------------- |
+| Select parent project on create new project                  | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Select parent project on copying a project                   | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Change the parent project information on the project settings | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Change project of a work package on split screen             | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Change project of a work package on full view                | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Change project of a work package on work package list column | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Project filter on the boards (as include project is not implemented yet) | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Create a new work package from outside of any project        | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Notification settings                                        | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Invite user modal                                            | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| *Administration > Users > Specific User > Projects*: New project selection | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| *Administration > Placeholder users > Specific placeholder users > Projects*: New project selection | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| *Administration > Groups > Specific groups > Projects*: New project selection | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| *Administration > Custom actions* > New custom action        | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Add a project filter into a new cost report                  | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Edit the project filters from the work package table configuration | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Navigation bar project selector                              | Angular                | [12.2](https://community.openproject.org/versions/1494) |
 
 ## Contribute
 
