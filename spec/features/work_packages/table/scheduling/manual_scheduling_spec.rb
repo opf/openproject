@@ -98,6 +98,7 @@ describe 'Manual scheduling', js: true do
 
       start_date.toggle_scheduling_mode
       start_date.expect_scheduling_mode manually: true
+      start_date.expect_calendar
 
       # Expect not editable
       start_date.within_modal do

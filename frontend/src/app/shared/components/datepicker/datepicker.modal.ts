@@ -55,10 +55,8 @@ import {
 } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
 import { DatepickerModalService } from 'core-app/shared/components/datepicker/datepicker.modal.service';
-import {
-  map,
-  take,
-} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 
 export type DateKeys = 'date'|'start'|'end';
 
@@ -247,6 +245,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         inline: true,
         onReady: (selectedDates, dateStr, instance) => {
           this.toggleDisabledState(instance);
+          this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
         },
         onChange: (dates:Date[]) => {
           this.handleDatePickerChange(dates);
