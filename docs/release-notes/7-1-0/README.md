@@ -9,7 +9,7 @@
 
 # OpenProject 7.1.0
 
-OpenProject 7.1.0 improves timeline queries, provides additional
+OpenProject 7.1.0 improves timeline queries, provides additional
 customization options and improves the design. There are also several
 bug fixes included.
 
@@ -89,10 +89,10 @@ bug fixes included.
     the module.
 
 Thanks a lot to the community, in particular to Peter F, Jochen Gehlbach
-and Ole Odendahl for reporting bugs\!
+and Ole Odendahl for reporting bugs\!
 
-For further information on the release, please refer to the [Changelog
-v7.1.0](https://community.openproject.com/versions/836) or take a look
-at [GitHub](https://github.com/opf/openproject/tree/v7.1.0).
+For further information on the release, please refer to the [Changelog
+v7.1.0](https://community.openproject.com/versions/836) or take a look
+at [GitHub](https://github.com/opf/openproject/tree/v7.1.0).
 
 

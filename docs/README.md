@@ -5,7 +5,7 @@ sidebar_navigation:
 description: Help and documentation for OpenProject Community Edition, Enterprise on-premises and Enterprise cloud.
 robots: index, follow
 keywords: help, documentation
----
+--- 
 # OpenProject Documentation
 
 <div class="alert alert-info" role="alert">

@@ -17,9 +17,9 @@ package will contain all necessary fixes.
 ## Security fixes
 
   - Updates rails-html-sanitizer to 1.0.4 to
-    address [CVE-2018-3741](https://seclists.org/oss-sec/2018/q1/262)
+    address [CVE-2018-3741](https://seclists.org/oss-sec/2018/q1/262)
   - Updates loofah to 2.2.2 to
-    address [CVE-2018-8048](https://seclists.org/oss-sec/2018/q1/253)
+    address [CVE-2018-8048](https://seclists.org/oss-sec/2018/q1/253)
   - Updates Ruby 2.4.4 to address the following CVEs:
       - [CVE-2017-17742: HTTP response splitting in
         WEBrick](https://www.ruby-lang.org/en/news/2018/03/28/http-response-splitting-in-webrick-cve-2017-17742/)
@@ -44,12 +44,12 @@ announcement](https://www.ruby-lang.org/en/news/2018/03/28/ruby-2-4-4-released/)
 
   - A separate icon has been included for the Two-factor authentication
     plugin ([\#27150](https://community.openproject.com/wp/27150))
-  - SMTP authentication *none* can now be configured through the system
+  - SMTP authentication *none* can now be configured through the system
     settings. ([\#27284](https://community.openproject.com/wp/27284))
   - For further information on the 7.4.3 release, please refer to
-    the [Changelog
-    v7.4.3](https://community.openproject.com/versions/890)<span style="font-size: 1.125rem;"> or take
+    the [Changelog
+    v7.4.3](https://community.openproject.com/versions/890)<span style="font-size: 1.125rem;"> or take
     a look
-    at </span>[GitHub](https://github.com/opf/openproject/tree/v7.4.3)<span style="font-size: 1.125rem;">.</span>
+    at </span>[GitHub](https://github.com/opf/openproject/tree/v7.4.3)<span style="font-size: 1.125rem;">.</span>
 
 

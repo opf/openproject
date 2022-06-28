@@ -7,7 +7,7 @@
 ---
 
 
-# OpenProject 5.0.13
+# OpenProject 5.0.13
 
 OpenProject 5.0.13 resolves an installation issue for the packaged
 installation.
@@ -15,6 +15,6 @@ installation.
 For further information, please take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.12).
 
- 
+ 
 
 

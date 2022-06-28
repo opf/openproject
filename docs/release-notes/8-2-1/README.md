@@ -16,7 +16,7 @@ newest version.
 
 #### Bug fixes and changes
 
- 
+ 
 
   - Fixed: Long heading in forum overlaps buttons
     \[[\#28839](https://community.openproject.com/wp/28839)\]
@@ -61,10 +61,10 @@ newest version.
     configuration
     documentation](../../system-admin-guide/information#security-badge)
     for more information what this badge does, and what information is
-    requested from our release servers to render the badge. This page
+    requested from our release servers to render the badge. This page
     also provides means to disable this check.
 
- 
+ 
 
 #### Contributions
 

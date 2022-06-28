@@ -7,39 +7,39 @@
 ---
 
 
-# OpenProject 6.0.1
+# OpenProject 6.0.1
 
-**OpenProject 6.0.1 contains the following changes for the
+**OpenProject 6.0.1 contains the following changes for the
 <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-8">Wiki</span>
 module:**
 
 In OpenProject versions prior to 6.0.0., specific characters of
-[wiki](../../user-guide/wiki/) titles were removed
-upon saving – especially dots and spaces. Spaces were replaced with an
+[wiki](../../user-guide/wiki/) titles were removed
+upon saving – especially dots and spaces. Spaces were replaced with an
 underscore, while other characters were removed.  
-Still, linking to these pages was possible with either the original
+Still, linking to these pages was possible with either the original
 title (e.g., ‘\[\[Title with spaces\]\]’), or the processed title (e.g.,
 ‘\[\[title\_with\_spaces\]\]’).  
 Starting
-with [OpenProject 6.0.0](https://www.openproject.org/blog/openproject-6-0-released/), titles
-were allowed to contain arbitrary characters and were linked to using
+with [OpenProject 6.0.0](https://www.openproject.org/blog/openproject-6-0-released/), titles
+were allowed to contain arbitrary characters and were linked to using
 escaped links.
 ([\#20151](https://community.openproject.com/work_packages/20151/activity)).  
-That change caused those links with spaces to wiki pages to break after
+That change caused those links with spaces to wiki pages to break after
 the migration to OpenProject 6.0.0, since they now linked to a new page
 (with actual spaces in its title, since that was allowed now).
 
 This bug was fixed in
-[\#23674](https://community.openproject.com/work_packages/23674) alongside
-a more permanent change to how wiki titles are produced. Titles may
+[\#23674](https://community.openproject.com/work_packages/23674) alongside
+a more permanent change to how wiki titles are produced. Titles may
 still contain arbitrary characters now, but are processed into a
 permalink (URL slug) upon saving.  
-This causes the identifiers of wiki pages with non-ascii characters to
+This causes the identifiers of wiki pages with non-ascii characters to
 be more visually pleasing and easier to link to. When upgrading to
 OpenProject 6.0.1., permalinks for all your pages will be generated
 automatically.
 
-**Additionally, the following errors have been fixed in OpenProject
+**Additionally, the following errors have been fixed in OpenProject
 6.0.1:**
 
   - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-99">Activity</span>
@@ -76,7 +76,7 @@ automatically.
   - Sorting of cost type was not working
     ([\#23213](https://community.openproject.com/work_packages/23213/activity)).
   - Various design errors
-    ([\#23645](https://community.openproject.com/work_packages/23645/activity), \#[23650](https://community.openproject.com/work_packages/23650/activity),
+    ([\#23645](https://community.openproject.com/work_packages/23645/activity), \#[23650](https://community.openproject.com/work_packages/23650/activity),
     [\#23653](https://community.openproject.com/work_packages/23653/activity),
     [\#23660](https://community.openproject.com/work_packages/23660/activity),
     [\#23664](https://community.openproject.com/work_packages/23664/activity),
@@ -87,7 +87,7 @@ Thanks a lot to Guillaume Ferry and Willy Gardiol for [reporting
 bugs](../../development/report-a-bug/).
 
 For further information on the release, please refer to the [Changelog
-v.6.0.1](https://community.openproject.com/versions/807) or take a look
+v.6.0.1](https://community.openproject.com/versions/807) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v6.0.1).
 
 For a free 30 day trial create your own OpenProject instance on

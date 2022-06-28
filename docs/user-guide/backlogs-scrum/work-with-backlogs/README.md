@@ -116,7 +116,7 @@ The remaining story points per sprint are displayed in the chart. Optionally, th
 
 ![Burndown chart graph](17_BurndownChart2.png)
 
-​    
+    
 
 ## Print story cards
 

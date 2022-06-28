@@ -9,7 +9,7 @@
 
 # OpenProject 8.2
 
-OpenProject 8.2 includes several improvements, such as a modernized
+OpenProject 8.2 includes several improvements, such as a modernized
 calendar as well as many usability improvements.
 
 Users of the [Cloud Edition](https://www.openproject.org/hosting/) and

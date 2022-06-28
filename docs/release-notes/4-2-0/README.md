@@ -54,12 +54,12 @@ The option “Spent time” has been renamed “Time sheet”
 
 
 
-## **Improved design**
+## **Improved design**
 
 OpenProject 4.2 contains various design improvements to provide a better
 and cleaner user interface.
 
-For instance, the search and help icon (which now opens in a new window
+For instance, the search and help icon (which now opens in a new window
 ([\#20627](https://community.openproject.org/work_packages/20627)) in
 the header have been reduced in size
 ([\#20540](https://community.openproject.org/work_packages/20540)).
@@ -88,7 +88,7 @@ the project overview to the project settings
 ## **Additional functionalities for API v3**
 
 Several new features have been included in the future OpenProject API.
-The [API v3](../../api/) now enables
+The [API v3](../../api/) now enables
 work package creation
 ([\#19987](https://community.openproject.org/work_packages/19987)), CRUD
 operations for work package attachments

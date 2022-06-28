@@ -9,8 +9,8 @@
 
 # OpenProject 7.0.2
 
-The release contains several bug fixes and an urgent fix for a
-regression concerning the display of the subject attribute in Firefox.
+The release contains several bug fixes and an urgent fix for a
+regression concerning the display of the subject attribute in Firefox.
 
 We recommend the update to the current version.
 
@@ -30,11 +30,11 @@ We recommend the update to the current version.
   - Selectable versions for version filter not sorted
     ([\#25465](https://community.openproject.com/work_packages/25465))
 
-Thanks a lot to the community, in particular to Peter Spiess-Knafl for
+Thanks a lot to the community, in particular to Peter Spiess-Knafl for
 reporting bugs\!
 
-For further information on the release, please refer to the [Changelog
-v7.0.2](https://community.openproject.com/versions/837) or take a look
-at [GitHub](https://github.com/opf/openproject/tree/v7.0.2).
+For further information on the release, please refer to the [Changelog
+v7.0.2](https://community.openproject.com/versions/837) or take a look
+at [GitHub](https://github.com/opf/openproject/tree/v7.0.2).
 
 

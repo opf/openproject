@@ -16,7 +16,7 @@ newest version.
 
 #### Notable changes
 
- 
+ 
 
 **Modernized
 <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-57"><span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-57">My
@@ -24,7 +24,7 @@ page</span></span> grid implementation**
 
 OpenProject 8.3. introduces a grid-style dashboard that is now being
 rolled out to
-the *<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-57"><span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-57">My
+the *<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-57"><span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-57">My
 page</span></span>*. Additional pages will be converted to this grid in
 the future, and additional common widgets will be
 created.
@@ -71,7 +71,7 @@ The Openproject APIv3 can now be authenticated using the OAuth2
 standard. To register an OAuth applications, visit the new module under
 Administration \> OAuth applications.
 
- 
+ 
 
 #### Bug fixes and changes
 
@@ -163,7 +163,7 @@ Administration \> OAuth applications.
 A big thanks to community members for reporting bugs and helping us
 identifying and providing fixes.
 
-Special thanks for reporting and finding bugs go to Nicolas Salguero,
+Special thanks for reporting and finding bugs go to Nicolas Salguero,
 Andy Shilton, Ricardo Vigatti, Michael Johannessen, Wojtek Chrobok, Timo
 Lösch.
 
