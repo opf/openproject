@@ -103,7 +103,7 @@ keywords: Design system, styles, design, components
 | *Administration > Users > Specific User > Projects*: New project selection | Angular                | [12.2](https://community.openproject.org/versions/1494) |
 | *Administration > Placeholder users > Specific placeholder users > Projects*: New project selection | Angular                | [12.2](https://community.openproject.org/versions/1494) |
 | *Administration > Groups > Specific groups > Projects*: New project selection | Angular                | [12.2](https://community.openproject.org/versions/1494) |
-| Administration > Custom actions > New custom action*         | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| *Administration > Custom actions* > New custom action        | Angular                | [12.2](https://community.openproject.org/versions/1494) |
 | Add a project filter into a new cost report                  | Angular                | [12.2](https://community.openproject.org/versions/1494) |
 | Edit the project filters from the work package table configuration | Angular                | [12.2](https://community.openproject.org/versions/1494) |
 | Navigation bar project selector                              | Angular                | [12.2](https://community.openproject.org/versions/1494) |
