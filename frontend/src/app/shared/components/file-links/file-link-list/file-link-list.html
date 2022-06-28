@@ -19,6 +19,7 @@
     <li
       *ngFor="let fileLink of fileLinks$ | async; let i = index;"
       class="spot-list--item op-files-tab--file-list-item"
+      [ngClass]="{ 'disabled': isDisabled(fileLink) }"
       data-qa-selector="op-files-tab--file-list-item"
       op-file-link-list-item
       [fileLink]="fileLink"
