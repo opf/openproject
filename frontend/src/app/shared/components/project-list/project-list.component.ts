@@ -44,6 +44,7 @@ export class OpProjectListComponent {
   }
 
   public text = {
+    does_not_match_search: this.I18n.t('js.include_projects.tooltip.does_not_match_search'),
     include_all_selected: this.I18n.t('js.include_projects.tooltip.include_all_selected'),
     current_project: this.I18n.t('js.include_projects.tooltip.current_project'),
   };
@@ -55,7 +56,15 @@ export class OpProjectListComponent {
   ) { }
 
   public isDisabled(project:IProjectData):boolean {
-    return project.href === this.currentProjectHref || (this.includeSubprojects && this.parentChecked);
+    if (project.disabled) {
+      return true;
+    }
+
+    if (project.href === this.currentProjectHref) {
+      return true;
+    }
+    
+    return this.includeSubprojects && this.parentChecked;
   }
 
   public updateSelected(selected:string[]):void {

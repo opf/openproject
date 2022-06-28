@@ -35,6 +35,7 @@
         slot="body"
         class="spot-body-small"
       >
+        <span *ngIf="project.disabled">{{ text.does_not_match_search }}</span>
         <span *ngIf="includeSubprojects && parentChecked">{{ text.include_all_selected }}</span>
         <span *ngIf="project.href === currentProjectHref">{{ text.current_project }}</span>
       </p>

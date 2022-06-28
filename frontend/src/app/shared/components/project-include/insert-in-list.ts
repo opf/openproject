@@ -16,7 +16,7 @@ export const insertInList = (
         id: project.id,
         name: project.name,
         href: project._links.self.href,
-        found: true,
+        disabled: false,
         children: [],
       },
     ];
@@ -41,7 +41,7 @@ export const insertInList = (
       id: ancestorProject.id,
       name: ancestorProject.name,
       href: ancestorProject._links.self.href,
-      found: false,
+      disabled: true,
       children: insertInList(projects, project, [], ancestors.slice(1)),
     },
   ];
