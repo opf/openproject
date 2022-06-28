@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Agile boards introduction
   priority: 500
 description: Introduction to agile Boards in OpenProject.
-robots: index, follow
 keywords: Agile Boards
 ---
 

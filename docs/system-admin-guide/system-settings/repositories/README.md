@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Repositories settings
   priority: 500
 description: Repositories settings in OpenProject.
-robots: index, follow
 keywords: repository settings
 ---
 # Repositories settings

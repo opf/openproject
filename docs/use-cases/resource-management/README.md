@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Resource Management
   priority: 990
 description: Step-by-step instruction about resource management
-robots: index, follow
 keywords: use-case, resource management
 ---
 

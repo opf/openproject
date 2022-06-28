@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Projects
   priority: 900
 description: Introduction to projects in OpenProject.
-robots: index, follow
 keywords: open project, create project, projects introduction
 ---
 # Projects introduction

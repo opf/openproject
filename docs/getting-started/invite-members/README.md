@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Invite members
   priority: 800
 description: Invite team members to OpenProject.
-robots: index, follow
 keywords: invite members, add users
 ---
 

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Custom fields for projects
   priority: 700
 description: Custom fields for projects.
-robots: index, follow
 keywords: custom fields for projects, show custom fields
 ---
 # Manage and display custom fields in the project list (Premium feature)

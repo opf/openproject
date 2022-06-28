@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Time and costs
   priority: 680
 description: Define cost types and change the currency in OpenProject.
-robots: index, follow
 keywords: cost type, currency, time and costs, budget
 ---
 # Time and costs

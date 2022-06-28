@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Roadmap
   priority: 880
 description: Find out about the Product Roadmap and Release planning in OpenProject
-robots: index, follow
 keywords: roadmap, release planning
 ---
 

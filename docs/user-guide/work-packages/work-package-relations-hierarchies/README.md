@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Work package relations and hierarchies
   priority: 600
 description: How to add or configure work package relations?
-robots: index, follow
 keywords: relations, hierarchies, child, parent, blocked, includes, part of
 ---
 

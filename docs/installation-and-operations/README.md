@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Installation & operations guide
   priority: 940
-robots: index, follow
 ---
 
 # Installation & operations guide

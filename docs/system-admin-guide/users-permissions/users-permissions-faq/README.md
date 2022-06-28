@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Users and permissions FAQ
   priority: 001
 description: Frequently asked questions regarding user, permissions, roles and groups
-robots: index, follow
 keywords: manage users FAQ, permissions, groups, roles, user settings
 ---
 

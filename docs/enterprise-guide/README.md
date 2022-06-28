@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Enterprise guide
   priority: 960
 description: OpenProject Enterprise guide.
-robots: index, follow
 keywords: manage subscription, enterprise edition, cloud edition
 ---
 # Enterprise guide

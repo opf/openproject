@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Documentation style guide
   priority: 700
 description: What styles and formats to follow when contributing to the OpenProject documentation
-robots: index, follow
 keywords: documentation style guide, style guide, format, style
 ---
 

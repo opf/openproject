@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Submit a feature idea
   priority: 990
 description: How to submit an idea for a feature for OpenProject
-robots: index, follow
 keywords: feature requests, ideas, open feature request
 ---
 # Submit a feature idea

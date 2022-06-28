@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Language and display settings
   priority: 960
 description: Display settings in OpenProject.
-robots: index, follow
 keywords: display settings
 ---
 # Language and display settings

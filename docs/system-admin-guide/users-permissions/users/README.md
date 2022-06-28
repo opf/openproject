@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Manage users
   priority: 990
 description: Manage users in OpenProject.
-robots: index, follow
 keywords: manage users, lock, unlock, invite, default language
 ---
 

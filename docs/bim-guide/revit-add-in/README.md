@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Revit add-in
   priority: 100
 description: How to use the OpenProject BIM - Revit add-in.
-robots: index, follow
 keywords: BIM, BCF, IFC, Viewer
 ---
 

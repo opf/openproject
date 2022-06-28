@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Custom fields
   priority: 800
 description: Manage custom fields in OpenProject.
-robots: index, follow
 keywords: manage custom fields
 ---
 # Manage custom fields
@@ -79,4 +78,4 @@ To create a multi-select custom field follow the same steps as you would when [c
 
 When using multi-select custom fields, you can add as many options as required. The cross icon next to an option will remove it from the selection. The check mark will save your changes.
 
-​       ![Sys-admin-add-multi-select-custom-fields](Sys-admin-add-multi-select-custom-fields.png)
+![Sys-admin-add-multi-select-custom-fields](Sys-admin-add-multi-select-custom-fields.png)

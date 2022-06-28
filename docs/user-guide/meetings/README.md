@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Meetings
   priority: 760
 description: Manage meetings with agenda and meeting minutes in OpenProject.
-robots: index, follow
 keywords: meetings
 ---
 

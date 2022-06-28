@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Working with backlogs
   priority: 990
 description: Working with backlogs (scrum)
-robots: index, follow
 keywords: backlogs, scrum, agile, burndown
 ---
 
@@ -116,7 +115,7 @@ The remaining story points per sprint are displayed in the chart. Optionally, th
 
 ![Burndown chart graph](17_BurndownChart2.png)
 
-​    
+    
 
 ## Print story cards
 

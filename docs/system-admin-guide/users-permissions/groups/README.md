@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Groups
   priority: 980
 description: Manage groups in OpenProject.
-robots: index, follow
 keywords: manage groups
 ---
 

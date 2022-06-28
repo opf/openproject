@@ -9,7 +9,7 @@
 
 # OpenProject 7.0.1
 
-This patch release contains several bug fixes. We recommend to update
+This patch release contains several bug fixes. We recommend to update
 your OpenProject installation to this version.
 
 ## Bug fixes (15)
@@ -57,8 +57,8 @@ your OpenProject installation to this version.
 Thanks a lot to the community, in particular to Mike Lewis and Harsha BS
 for reporting and fixing bugs\!
 
-For further information on the release, please refer to the [Changelog
-v7.0.1](https://community.openproject.com/versions/924) or take a look
-at [GitHub](https://github.com/opf/openproject/tree/v7.0.1).
+For further information on the release, please refer to the [Changelog
+v7.0.1](https://community.openproject.com/versions/924) or take a look
+at [GitHub](https://github.com/opf/openproject/tree/v7.0.1).
 
 

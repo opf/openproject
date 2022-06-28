@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Sign in and registration
   priority: 990
 description: Sign in and registration in OpenProject.
-robots: index, follow
 keywords: sign in, login, registration
 ---
 

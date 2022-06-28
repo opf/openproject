@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Search
   priority: 000
 description: How to use the search bar and search feature in OpenProject
-robots: index, follow
 keywords: search, find, filter, search bar
 ---
 

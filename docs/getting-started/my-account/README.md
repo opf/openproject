@@ -3,7 +3,6 @@ sidebar_navigation:
   title: My account
   priority: 400
 description: Learn how to configure account settings.
-robots: index, follow
 keywords: my account, account settings, change language, Deutsch
 ---
 

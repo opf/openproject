@@ -10,23 +10,23 @@
 # OpenProject 7.4.5
 
 <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-10">Version</span>
-7.4.5 of OpenProject has been released. The release contains several bug
+7.4.5 of OpenProject has been released. The release contains several bug
 fixes. We recommend the update to the current version.
 
-  - Fixed: Cookie *secure* flag was not applied in all cases even when
+  - Fixed: Cookie *secure* flag was not applied in all cases even when
     SSL was enabled
     ([\#27763](https://community.openproject.com/wp/27763))
   - Fixed:
     <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-90">Calendar</span>
     widget on
     *<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-57">My
-    page</span>*  overlapped the project dropdown
+    page</span>*  overlapped the project dropdown
     ([\#27765](https://community.openproject.com/wp/27765))
   - Fixed: Removed text formatting other than references in commit
     messages ([\#27769](https://community.openproject.com/wp/27769))
   - Fixed: Flashing of content
-    on *<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-58">My
-    account</span>* on initial page load
+    on *<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-58">My
+    account</span>* on initial page load
     ([\#25795](https://community.openproject.com/wp/25795))
   - Fixed: Chrome where the right column of a two-column work package
     layout (on larger screens) was not receiving any clicks
@@ -47,9 +47,9 @@ fixes. We recommend the update to the current version.
     ([\#26189](https://community.openproject.com/wp/26189))
 
 For more information, please see the [v7.4.5 version in our
-community](https://community.openproject.com/versions/990) or <span style="font-size: 1.125rem;">take
+community](https://community.openproject.com/versions/990) or <span style="font-size: 1.125rem;">take
 a look
-at </span>[GitHub](https://github.com/opf/openproject/tree/v7.4.5)<span style="font-size: 1.125rem;">.</span>
+at </span>[GitHub](https://github.com/opf/openproject/tree/v7.4.5)<span style="font-size: 1.125rem;">.</span>
 
 Special thanks go to all OpenProject contributors for [reporting
 bugs](../../development/report-a-bug/) and helping
@@ -59,6 +59,6 @@ us to reproduce them.
 
 Users can now be requested to consent into the privacy and usage
 policies of your instance. To configure consent, enable the setting in
-the global administration under *System administration * \> *Users*
+the global administration under *System administration * \> *Users*
 
 

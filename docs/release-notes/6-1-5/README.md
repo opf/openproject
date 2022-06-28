@@ -7,9 +7,9 @@
 ---
 
 
-# OpenProject 6.1.5
+# OpenProject 6.1.5
 
-This patch release contains several bug fixes. We recommend to update
+This patch release contains several bug fixes. We recommend to update
 your OpenProject installation to this version.
 
 ## Features (1)
@@ -49,7 +49,7 @@ your OpenProject installation to this version.
     types.
 
 For further information on the release, please refer to the [Changelog
-v.6.1.5](https://community.openproject.com/versions/828) or take a look
+v.6.1.5](https://community.openproject.com/versions/828) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v6.1.5).
 
 

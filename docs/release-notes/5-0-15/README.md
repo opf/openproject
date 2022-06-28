@@ -7,7 +7,7 @@
 ---
 
 
-# OpenProject 5.0.15
+# OpenProject 5.0.15
 
 OpenProject 5.0.15 contains several bug fixes:
 
@@ -21,8 +21,8 @@ OpenProject 5.0.15 contains several bug fixes:
   - Due to an error the search text for queries in the dark theme was
     not visible. This has been fixed
     ([\#22654](https://community.openproject.org/work_packages/22654)).
-  - Several design improvements have been
-    made ([\#21338](https://community.openproject.org/work_packages/21338/activity),
+  - Several design improvements have been
+    made ([\#21338](https://community.openproject.org/work_packages/21338/activity),
     [\#21794](https://community.openproject.org/work_packages/21794/activity)).
 
 In addition, the accessibility has been improved
@@ -30,9 +30,9 @@ In addition, the accessibility has been improved
 [\#22005](https://community.openproject.org/work_packages/22005/activity)).
 
 For further information on the release, please refer to the [Changelog
-v.5.0.15](https://community.openproject.org/versions/783) or take a look
+v.5.0.15](https://community.openproject.org/versions/783) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v5.0.15).
 
- 
+ 
 
 

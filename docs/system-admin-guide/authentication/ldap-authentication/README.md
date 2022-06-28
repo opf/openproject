@@ -3,7 +3,6 @@ sidebar_navigation:
   title: LDAP authentication
   priority: 500
 description: Manage LDAP Authentication in OpenProject.
-robots: index, follow
 keywords: ldap authentication
 ---
 

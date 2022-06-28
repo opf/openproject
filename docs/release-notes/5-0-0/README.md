@@ -16,7 +16,7 @@ allows users to create work packages from the work package list via the
 work package split screen
 ([\#17549](https://community.openproject.com/work_packages/17549/activity)).
 
-Attachments can now be more easily added by using the drag and drop area
+Attachments can now be more easily added by using the drag and drop area
 on the work package split screen.
 
 
@@ -32,7 +32,7 @@ Similar to the work package split screen, the work package full screen
 contains information which can be accessed via different tabs while
 still maintaining the main area for the description and attributes.
 
-In addition, the behavior for watchers has been changed: Email
+In addition, the behavior for watchers has been changed: Email
 notifications are sent out immediately when adding a watcher to a work
 package.
 
@@ -71,14 +71,14 @@ within a short time period are aggregated.
 Work package updates by the same user within this time period are shown
 as one activity entry. Email notifications are sent based on these
 aggregated
-activities ([\#20694](https://community.openproject.com/work_packages/20694/activity),
+activities ([\#20694](https://community.openproject.com/work_packages/20694/activity),
 [\#21035](https://community.openproject.com/work_packages/21035/activity)).
 
 
 
 ## **Enhanced repository management**
 
-**Important:** When updating your existing OpenProject installation,
+**Important:** When updating your existing OpenProject installation,
 please note that you need to adjust the repository configuration.
 Otherwise, repositories will not work properly. Details are included in
 the “OpenProject 5.0 upgrade guide”.
@@ -93,12 +93,12 @@ Additionally, repository settings can be configured project-wise,
 allowing project admins to configure the description and checkout
 information for their projects.
 
-Furthermore, it is possible to see the disk space used by the used
+Furthermore, it is possible to see the disk space used by the used
 repositories in order to get a better overview of the data usage.
 
 
 
-## **Invite project members to OpenProject and add to a project in one step**
+## **Invite project members to OpenProject and add to a project in one step**
 
 With OpenProject 5.0 users can be invited to a project via email without
 first creating an account for them in the admin settings.
@@ -164,15 +164,15 @@ have been deprecated and removed with OpenProject 5.0:
     reduce complexity. Instead of the summary the first row of the
     project description is shown on the project list.
   - Project dependencies have been removed from OpenProject since they
-    didn’t serve  a significant purpose. Additionally, the “second
+    didn’t serve  a significant purpose. Additionally, the “second
     grouping criterion” has been removed from the timelines filters
     ([\#21509](https://community.openproject.com/work_packages/21509/activity)).
   - The column “Set current rate” has been removed from the project
     member table
     ([\#21501](https://community.openproject.com/work_packages/21501/activity)).
-    A user’s hourly rate can be set in the user administration.
+    A user’s hourly rate can be set in the user administration.
 
-The **copy** and **duplicate** functionality on the work package
+The **copy** and **duplicate** functionality on the work package
 fullscreen and split screen has been temporarily excluded. It will be
 re-implemented in the next OpenProject version.
 
@@ -186,7 +186,7 @@ included in OpenProject 5.0:
     ([\#20841](https://community.openproject.com/work_packages/20841/activity)).
   - Status reports are no longer a separate menu entry in the side menu
     but they have been moved to the timeline
-    toolbar ([\#21822](https://community.openproject.com/work_packages/21822/activity)).
+    toolbar ([\#21822](https://community.openproject.com/work_packages/21822/activity)).
 
 ## **Improved design**
 
@@ -203,7 +203,7 @@ and the layout has been improved in many other places as well.
 
 The future OpenProject API (API v3) has been extended by several
 functionalities. For instance, the [API
-v3](../../api/) now includes an
+v3](../../api/) now includes an
 endpoint for the work package index-action.
 
 Please note that the API v3 is still a draft.
@@ -223,15 +223,15 @@ OpenProject Packager edition.
 
   - OpenProject – Local Avatars ([Read more on
     GitHub](https://www.github.com/finnlabs/openproject-local_avatars))
-  - OpenProject – Announcements ([Read more on
+  - OpenProject – Announcements ([Read more on
     GitHub](https://www.github.com/finnlabs/openproject-announcements))
-  - OpenProject – XLS-Export ([Read more on
+  - OpenProject – XLS-Export ([Read more on
     GitHub](https://www.github.com/finnlabs/openproject-xls_export))
-  - OpenProject – Dark-Theme ([Read more on
+  - OpenProject – Dark-Theme ([Read more on
     GitHub](https://www.github.com/finnlabs/openproject-themes-dark))
-  - OpenProject – OpenID-Connect ([Read more on
+  - OpenProject – OpenID-Connect ([Read more on
     GitHub](https://www.github.com/finnlabs/openproject-openid_connect))
-  - OpenProject – OmniAuth OpenID-Connect-Providers ([Read more on
+  - OpenProject – OmniAuth OpenID-Connect-Providers ([Read more on
     GitHub](https://www.github.com/finnlabs/omniauth-openid-connect))
 
 ## **Substantial number of bug fixes**

@@ -7,7 +7,7 @@
 ---
 
 
-# OpenProject 7.4
+# OpenProject 7.4
 
 OpenProject 7.4 includes several improvements: The project list has been
 improved and the project list in the administration and user page have
@@ -29,7 +29,7 @@ list. As a user you can choose to expand or collapse the project
 description. As a result, you can see all projects in one place.  
 As a user of the [Enterprise
 Edition](https://www.openproject.org/enterprise-edition/) or [Cloud
-Edition](https://www.openproject.org/hosting/),  you can also see
+Edition](https://www.openproject.org/hosting/),  you can also see
 project custom fields (e.g. project status, project responsible)
 directly in the list. You can also filter by those project custom
 fields. This provides a good foundation for project portfolio
@@ -122,7 +122,7 @@ We optimized the mobile view for the work package view.
 
 OpenProject 7.4 contains a large number of bugs fixes.
 
-For an extensive overview of bug fixes please refer to the [following
+For an extensive overview of bug fixes please refer to the [following
 list](https://community.openproject.com/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22%5D,%22tzl%22:%22days%22,%22hi%22:true,%22g%22:%22%22,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22version%22,%22o%22:%22%253D%22,%22v%22:%5B%22845%22%5D%7D,%7B%22n%22:%22type%22,%22o%22:%22%253D%22,%22v%22:%5B%221%22%5D%7D,%7B%22n%22:%22subprojectId%22,%22o%22:%22*%22,%22v%22:%5B%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D).
 
 

@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Development workflow
 description: How new features and bug fixes are developed at OpenProject
-robots: index, follow
 keywords: development workflow, gitflow, git flow
 ---
 

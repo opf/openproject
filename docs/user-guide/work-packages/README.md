@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Work packages
   priority: 870
 description: Find out about work packages in OpenProject
-robots: index, follow
 keywords: work packages, tickets
 ---
 

@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Rich text editor
 description: Find out about the CKEditor5 WYSIWYG editor in OpenProject
-robots: index, follow
 keywords: WYSIWYG, CKEditor, Links to OpenProject resources
 ---
 

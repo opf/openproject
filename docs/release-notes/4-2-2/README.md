@@ -13,7 +13,7 @@ OpenProject 4.2.2 contains additional translations for the OpenProject
 core and plugins, for instance complete translations for French
 ([\#20798](https://community.openproject.org/work_packages/20798)).
 
-Additionally, some bugs have been fixed:
+Additionally, some bugs have been fixed:
 
   - Several wrong English translations have been fixed – in the core and
     in plugins
@@ -24,7 +24,7 @@ Additionally, some bugs have been fixed:
     ([\#20892](https://community.openproject.org/work_packages/20892)).
 
 For further information on the release, please refer to the [Changelog
-v.4.2.2](https://community.openproject.org/versions/729) or take a look
+v.4.2.2](https://community.openproject.org/versions/729) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v4.2.2).
 
 </div>

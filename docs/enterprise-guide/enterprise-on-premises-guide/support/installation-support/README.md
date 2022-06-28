@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Installation support
   priority: 980
 description: Installation support for OpenProject Enterprise on-premises.
-robots: index, follow
 keywords: installation support
 ---
 # Installation support for Enterprise on-premises

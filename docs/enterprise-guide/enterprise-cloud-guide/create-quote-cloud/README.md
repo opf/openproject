@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Create quote
   priority: 990
 description: Request a quote within your OpenProject Enterprise cloud
-robots: index, follow
 keywords: quote, request, offer, tender, bid
 ---
 

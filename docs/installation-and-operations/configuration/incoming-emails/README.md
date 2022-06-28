@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Configuring inbound emails
   priority: 7
 description: Configuring inbound emails in OpenProject.
-robots: index, follow
 keywords: incoming, e-mail, inbound, mail
 ---
 

@@ -9,7 +9,7 @@
 
 # OpenProject 4.0.8
 
-OpenProject 4.0.8 has been released which contains a performance bug
+OpenProject 4.0.8 has been released which contains a performance bug
 fix.
 
 We advise everyone to update their OpenProject installation.

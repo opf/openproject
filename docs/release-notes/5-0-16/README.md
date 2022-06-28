@@ -7,7 +7,7 @@
 ---
 
 
-# OpenProject 5.0.16
+# OpenProject 5.0.16
 
 OpenProject 5.0.16 contains several bug
     fixes:
@@ -24,9 +24,9 @@ OpenProject 5.0.16 contains several bug
     package was not based on the type order displayed in the
     administration. This has been adjusted
     ([\#22639](https://community.openproject.org/work_packages/22639/activity)).
-  - Due to an error the project list could not be accessed in the
+  - Due to an error the project list could not be accessed in the
     accessibility mode. This has been fixed.
-  - The star icon in the project list showing which project the user is
+  - The star icon in the project list showing which project the user is
     a member in was missing. It has been added
     ([\#22692](https://community.openproject.org/work_packages/22692/activity)).
   - In the cost report, the cells were not displayed properly when
@@ -59,7 +59,7 @@ This is now fully functional again
 ([\#22390](https://community.openproject.org/work_packages/22390/activity)).
 
 For further information on the release, please refer to the [Changelog
-v.5.0.16](https://community.openproject.org/versions/804) or take a look
+v.5.0.16](https://community.openproject.org/versions/804) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v5.0.16).
 
 
