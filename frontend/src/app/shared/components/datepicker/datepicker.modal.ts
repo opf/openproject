@@ -55,6 +55,10 @@ import {
 } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
 import { DatepickerModalService } from 'core-app/shared/components/datepicker/datepicker.modal.service';
+import {
+  map,
+  take,
+} from 'rxjs/operators';
 
 export type DateKeys = 'date'|'start'|'end';
 
@@ -134,9 +138,15 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
   }
 
   ngAfterViewInit():void {
-    this.initializeDatepicker();
-
-    this.onDataChange();
+    this
+      .datepickerService
+      .precedingWorkPackages$
+      .pipe(
+        take(1),
+      ).subscribe((relation) => {
+        this.initializeDatepicker(this.minimalDateFromPrecedingRelationship(relation));
+        this.onDataChange();
+      });
   }
 
   changeSchedulingMode():void {
@@ -225,7 +235,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     return !this.scheduleManually && !!this.changeset.value('scheduleManually');
   }
 
-  private initializeDatepicker() {
+  private initializeDatepicker(minimalDate?:Date|null) {
     this.datePickerInstance?.destroy();
     this.datePickerInstance = new DatePicker(
       this.injector,
@@ -246,6 +256,10 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           if (this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj)) {
             dayElem.classList.add('flatpickr-non-working-day');
+          }
+
+          if (minimalDate && dayElem.dateObj <= minimalDate) {
+            dayElem.classList.add('flatpickr-disabled');
           }
 
           dayElem.setAttribute('data-iso-date', dayElem.dateObj.toISOString());
@@ -348,5 +362,29 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     } else {
       instance.calendarContainer.classList.add('disabled');
     }
+  }
+
+  private minimalDateFromPrecedingRelationship(relations:{ id:string, dueDate?:string, date?:string }[]):Date|null {
+    if (relations.length === 0) {
+      return null;
+    }
+
+    let minimalDate:Date|null = null;
+
+    relations.forEach((relation) => {
+      if (!relation.dueDate && !relation.date) {
+        return;
+      }
+
+      const relationDate = relation.dueDate || relation.date;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const parsedRelationDate = this.datepickerService.parseDate(relationDate!);
+
+      if (!minimalDate || minimalDate < parsedRelationDate) {
+        minimalDate = parsedRelationDate === '' ? null : parsedRelationDate;
+      }
+    });
+
+    return minimalDate;
   }
 }
