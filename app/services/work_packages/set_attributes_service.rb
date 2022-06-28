@@ -182,7 +182,12 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   def update_duration
     return unless date_changed_but_not_duration?
 
-    work_package.duration = WorkPackages::Shared::Days.for(work_package).duration(work_package.start_date, work_package.due_date)
+    work_package.duration =
+      if work_package.milestone?
+        1
+      else
+        WorkPackages::Shared::Days.for(work_package).duration(work_package.start_date, work_package.due_date)
+      end
   end
 
   def set_version_to_nil
