@@ -83,7 +83,7 @@ cs:
         text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
         link: "webhook"
   announcements:
-    show_until: Ukázat až do
+    show_until: Zobrazit do
     is_active: aktuálně zobrazené
     is_inactive: v současné době nejsou zobrazeny
   attribute_help_texts:
@@ -212,7 +212,7 @@ cs:
       completed: "Smazání projektu %{name} dokončeno"
       completed_text: "Požadavek na smazání projektu '%{name}' byl dokončen."
     index:
-      open_as_gantt: 'Otevřít jako zobrazení Gantt'
+      open_as_gantt: 'Otevřít jako Gantt diagram'
       open_as_gantt_title: "Použijte toto tlačítko pro generování Ganttova zobrazení, které filtruje pracovní balíčky pro projekty viditelné na této stránce."
       open_as_gantt_title_admin: "Nastavení zobrazení (například vybrané typy pracovních balíčků) můžete změnit v administraci pod nastavením projektu."
       no_results_title_text: V současné době nejsou žádné projekty
@@ -269,7 +269,7 @@ cs:
       irreversible: "Tato akce je nevratná"
       confirmation: "Zadejte název zástupného uživatele %{name} pro potvrzení odstranění."
     upsale:
-      title: placeholder uživatel
+      title: Placeholder uživatel
       description: >
         Existuje několik scénářů, kde chcete přiřadit práci lidem, kteří nejsou členy vašeho projektu. Mohlo by se jednoduše stát, že ještě musíte najmout správnou osobu na zaměstnání. Nebo nechcete této osobě umožnit přístup k informacím o projektu, ale přesto chcete sledovat úkoly přidělené této osobě.
   prioritiies:
@@ -451,7 +451,7 @@ cs:
       project:
         identifier: "Identifikátor"
         latest_activity_at: "Poslední aktivita"
-        parent: "Dílčí projekt"
+        parent: "Nadřazený projekt"
         queries: "Dotazy"
         types: "Typy"
         versions: "Verze"
@@ -533,7 +533,7 @@ cs:
         schedule_manually: "Manuální plánování"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
-        subproject: "Dílčí projekt"
+        subproject: "Podprojekt"
         time_entries: "Čas protokolu"
         type: "Typ"
         watcher: "Sledující"
@@ -644,7 +644,7 @@ cs:
           outside: 'je mimo mřížku.'
           end_before_start: 'konečná hodnota musí být větší než počáteční hodnota.'
         notifications:
-          at_least_one_channel: 'Alespoň jeden kanál pro odesílání oznámení musí být specifikován.'
+          at_least_one_channel: 'Pro odesílání notifikací musí být specifikován alespoň jeden kanál'
           attributes:
             read_ian:
               read_on_creation: 'cannot be set to true on notification creation.'
@@ -655,8 +655,8 @@ cs:
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         notification_settings:
-          only_one_global_setting: 'Musí existovat pouze jedno globální nastavení oznámení.'
-          email_alerts_global: 'Nastavení e-mailových oznámení lze nastavit pouze globálně.'
+          only_one_global_setting: 'Musí existovat pouze jedno globální nastavení notifikací.'
+          email_alerts_global: 'Nastavení e-mailových notifikací lze nastavit pouze globálně.'
           format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -821,11 +821,11 @@ cs:
       member: "Člen"
       news: "Novinky"
       notification:
-        one: "Oznámení"
-        few: "Oznámení"
-        many: "Oznámení"
-        other: "Oznámení"
-      placeholder_user: "placeholder uživatel"
+        one: "Notifikace"
+        few: "Notifikací"
+        many: "Notifikací"
+        other: "Notifikace"
+      placeholder_user: "Placeholder uživatel"
       project: "Projekt"
       query: "Vlastní dotaz"
       role:
@@ -838,7 +838,7 @@ cs:
       version: "Verze"
       wiki: "Wiki"
       wiki_page: "Stránka wiki"
-      workflow: "Pracovní vrstva"
+      workflow: "Pracovní postup"
       work_package: "Pracovní balíček"
       'doorkeeper/application': "OAuth aplikace"
   errors:
@@ -1348,7 +1348,7 @@ cs:
   gui_validation_error_plural: "%{count} chyb"
   homescreen:
     additional:
-      projects: "Nejnovější projekty viditelné v této instalaci."
+      projects: "Nejnovější projekty v systému"
       no_visible_projects: "V této instanci nejsou žádné viditelné projekty."
       users: "Poslední registrovaní uživatelé v této instalaci."
     blocks:
@@ -1378,8 +1378,8 @@ cs:
   instructions_after_error: "Zkuste se znovu přihlásit kliknutím na %{signin}. Pokud chyba přetrvává, požádejte správce o pomoc."
   menus:
     admin:
-      mail_notification: "E-mailová upozornění"
-      mails_and_notifications: "E-maily a oznámení"
+      mail_notification: "E-mailové notifikace"
+      mails_and_notifications: "E-maily & Notifikace"
       aggregation_and_retention: 'Aggregation and retention'
       api_and_webhooks: "API & Webhooky"
     quick_add:
@@ -1395,7 +1395,7 @@ cs:
         expiration: "Vyprší"
       indefinite_expiration: "Nikdy"
   notifications:
-    send_notifications: "Odeslat oznámení pro tuto akci"
+    send_notifications: "Pro tuto akci odeslat notifikaci"
     work_packages:
       subject:
         created: "Pracovní balíček byl vytvořen."
@@ -1420,7 +1420,7 @@ cs:
         OpenProject tým
       body_header: 'Verze 12.0 s oznamovacím centrem'
       body_subheader: 'Novinky'
-      subject: 'Důležité změny oznámení s vydáním 12.0'
+      subject: 'Důležité změny notifikací s vydáním 12.0'
   label_accessibility: "Přístupnost"
   label_account: "Účet"
   label_active: "Aktivní"
@@ -1526,7 +1526,7 @@ cs:
   label_copy_same_as_target: "Stejný jako cíl"
   label_copy_source: "Zdroj"
   label_copy_target: "Cíl"
-  label_copy_workflow_from: "Kopírovat průběh práce z"
+  label_copy_workflow_from: "Kopírovat pracovní postup z"
   label_copy_project: "Kopírovat projekt"
   label_core_version: "Verze jádra"
   label_current_status: "Aktuální stav"
@@ -1701,7 +1701,7 @@ cs:
   label_my_account_data: "Data mého účtu"
   label_my_projects: "Moje projekty"
   label_my_queries: "Moje vlastní dotazy"
-  label_name: "Jméno"
+  label_name: "Název"
   label_never: "Nikdy"
   label_new: "Nový"
   label_new_features: "Nové funkce"
@@ -1750,9 +1750,9 @@ cs:
   label_permissions: "Práva"
   label_permissions_report: "Přehled oprávnění"
   label_personalize_page: "Přizpůsobit tuto stránku"
-  label_placeholder_user: "placeholder uživatel"
+  label_placeholder_user: "Placeholder uživatel"
   label_placeholder_user_new: "Nový placeholder uživatel"
-  label_placeholder_user_plural: "placeholder uživatelé"
+  label_placeholder_user_plural: "Placeholder uživatelé"
   label_planning: "Plánování"
   label_please_login: "Přihlaste se prosím"
   label_plugins: "Pluginy"
@@ -1770,7 +1770,7 @@ cs:
   label_profile: "Profil"
   label_project_all: "Všechny projekty"
   label_project_count: "Celkový počet projektů"
-  label_project_copy_notifications: "Během kopie projektu odeslat oznámení e-mailem"
+  label_project_copy_notifications: "Během kopírování projektu odeslat notifikace e-mailem"
   label_project_latest: "Nejnovější projekty"
   label_project_default_type: "Povolit prázdný typ"
   label_project_hierarchy: "Hierarchie projektu"
@@ -1778,7 +1778,7 @@ cs:
   label_project_plural: "Projekty"
   label_project_settings: "Nastavení projektu"
   label_projects_storage_information: "%{count} projekty používající úložiště disků %{storage}"
-  label_project_view_all: "Zobrazit všechny projekty"
+  label_project_view_all: "Zobrazit všechny projekty - seznam"
   label_project_show_details: "Zobrazit detail projektu"
   label_project_hide_details: "Skrýt detail projektu"
   label_public_projects: "Veřejné projekty"
@@ -1850,7 +1850,7 @@ cs:
   label_storage_group: "Souborový systém %{identifier}"
   label_storage_for: "Zahrnuje úložiště pro"
   label_string: "Text"
-  label_subproject: "Dílčí projekt"
+  label_subproject: "Podprojekt"
   label_subproject_new: "Nový podprojekt"
   label_subproject_plural: "Podprojekty"
   label_subtask_plural: "Podúkoly"
@@ -1897,7 +1897,7 @@ cs:
   label_user_settings: "Uživatelská nastavení"
   label_version_new: "Nová verze"
   label_version_plural: "Verze"
-  label_version_sharing_descendants: "S dílčími projekty"
+  label_version_sharing_descendants: "S podprojekty"
   label_version_sharing_hierarchy: "S hierarchií projektu"
   label_version_sharing_none: "Není sdíleno"
   label_version_sharing_system: "Se všemi projekty"
@@ -1940,8 +1940,8 @@ cs:
   label_work_package_types: "Typy pracovních balíčků"
   label_work_package_tracking: "Sledování pracovních balíčků"
   label_work_package_view_all: "Zobrazit všechny pracovní balíčky"
-  label_workflow: "Workflow"
-  label_workflow_plural: "Pracovní vrstvy"
+  label_workflow: "Pracovní postup"
+  label_workflow_plural: "Pracovní postupy"
   label_workflow_summary: "Souhrn"
   label_x_closed_work_packages_abbr:
     one: "1 uzavřeno"
@@ -1993,34 +1993,34 @@ cs:
     digests:
       including_mention_singular: 'včetně zmínky'
       including_mention_plural: 'včetně %{number_mentioned} zmínění'
-      unread_notification_singular: '1 nepřečtené oznámení'
-      unread_notification_plural: '%{number_unread} nepřečtených oznámení'
+      unread_notification_singular: '1 nepřečtená notifikace'
+      unread_notification_plural: '%{number_unread} nepřečtených notifikací'
       you_have: 'Máte'
     logo_alt_text: 'Logo'
     mention:
       subject: "%{user_name} vás zmínil v #%{id} - %{subject}"
     notification:
-      center: 'Centrum oznámení'
+      center: 'Centrum notifikací'
       see_in_center: 'Zobrazit komentář v oznamovacím centru'
       settings: 'Změnit nastavení e-mailu'
     salutation: 'Ahoj %{user}!'
     work_packages:
       created_at: 'Vytvořeno v %{timestamp} uživatelem %{user} '
-      login_to_see_all: 'Přihlaste se pro zobrazení všech oznámení.'
+      login_to_see_all: 'Přihlaste se pro zobrazení všech notifikací.'
       mentioned: 'Byli jste <b>zmíněni v komentáři</b>'
       mentioned_by: '%{user} vás zmínil v komentáři'
       more_to_see:
-        one: 'Existuje ještě 1 pracovní balíček s oznámeními.'
-        few: 'Existuje ještě  %{count}  pracovních balíčků s oznámeními.'
-        many: 'Existuje ještě  %{count}  pracovních balíčků s oznámeními.'
-        other: 'Existuje ještě  %{count}  pracovních balíčků s oznámeními.'
+        one: 'Existuje ještě %{count} pracovní balíček s notifikací.'
+        few: 'Existuje ještě %{count} pracovních balíčků s notifikacema.'
+        many: 'Existuje ještě %{count} pracovních balíčků s notifikacema.'
+        other: 'Existuje ještě %{count} pracovních balíčků s notifikacema.'
       reason:
         watched: 'Sledováno'
         assigned: 'Přiřazen'
         responsible: 'Odpovědný'
         mentioned: 'Zmíněné'
         subscribed: 'vše'
-        prefix: 'Obdrženo z důvodu nastavení oznámení: %{reason}'
+        prefix: 'Obdrženo z důvodu nastavení notifikací: %{reason}'
       see_all: 'Zobrazit vše'
       updated_at: 'Aktualizováno v %{timestamp} uživatelem %{user}'
   mail_body_account_activation_request: "Nový uživatel (%{value}) byl zaregistrován. Účet čeká na Vaše schválení:"
@@ -2232,7 +2232,7 @@ cs:
   permission_move_work_packages: "Přesun pracovních balíčků"
   permission_protect_wiki_pages: "Ochrana stránky wiki"
   permission_rename_wiki_pages: "Přejmenovat stránky wiki"
-  permission_save_queries: "Uložit pohled"
+  permission_save_queries: "Uložit zobrazení"
   permission_select_custom_fields: "Vybrat vlastní pole"
   permission_select_project_modules: "Vyberte moduly projektu"
   permission_manage_types: "Vyberte typy"
@@ -2286,7 +2286,7 @@ cs:
     assigned_to_role: "Řešitelova role"
     member_of_group: "Řešitelova skupina"
     assignee_or_group: "Přiřazený nebo patřící skupině"
-    subproject_id: "Including subproject"
+    subproject_id: "Včetně podprojektu"
     only_subproject_id: "Pouze podprojekt"
     name_or_identifier: "Jméno nebo identifikátor"
   repositories:
@@ -2453,7 +2453,7 @@ cs:
   setting_email_login: "Použít e-mail jako přihlášení"
   setting_enabled_scm: "Povolit SCM"
   setting_enabled_projects_columns: "Viditelné v seznamu projektů"
-  setting_notification_retention_period_days: "Lhůta pro uchovávání oznámení"
+  setting_notification_retention_period_days: "Lhůta pro uchovávání notifikací"
   setting_feeds_enabled: "Povolit kanály"
   setting_feeds_limit: "Limit obsahu kanálů"
   setting_file_max_size_displayed: "Maximální velikost textových souborů zobrazených přímo na stránce"
@@ -2527,8 +2527,8 @@ cs:
         Definujte seznam platných přípon souborů a/nebo mime typů pro nahrané soubory. <br/> Zadejte přípony souborů (např. <code>%{ext_example}</code>) nebo mime typy (např. ., <code>%{mime_example}</code>). <br/> Ponechte prázdné pro nahrání jakéhokoli typu souboru. Povoleno více hodnot (jeden řádek pro každou hodnotu).
     notifications:
       retention_text: >
-        Nastavte počet dní pro který bude oznámení pro uživatele bude udržováno v systému. Všechny události starší budou odstraněny.
-      events_explanation: 'Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože oznámení pro ně mohou být nastavena speciálně pro každého uživatele.'
+        Nastavte počet dní pro který bude notifikace pro uživatele udržováno v systému. Všechny starší události  budou odstraněny.
+      events_explanation: 'Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože notifikace pro ně mohou být nastavena speciálně pro každého uživatele.'
       delay_minutes_explanation: "Odesílání e-mailu může být pozdrženo, aby bylo uživatelům s nakonfigurovaným v oznámení aplikace před odesláním pošty potvrzeno oznámení. Uživatelé, kteří si přečtou oznámení v aplikaci, nedostanou e-mail pro již přečtené oznámení."
     display:
       first_date_of_week_and_year_set: >
@@ -2592,7 +2592,7 @@ cs:
   text_destroy_with_associated: "Existují další objekty, které jsou přiřazeny k pracovním balíčkům a které mají být odstraněny. Tyto objekty jsou následující typy:"
   text_destroy_what_to_do: "Co chcete udělat?"
   text_diff_truncated: "... Toto rozlišení bylo zkráceno, protože přesahuje maximální velikost, kterou lze zobrazit."
-  text_email_delivery_not_configured: "Doručení e-mailu není nakonfigurováno a oznámení jsou zakázána.\nNakonfigurujte váš SMTP server pro jejich povolení."
+  text_email_delivery_not_configured: "Doručení e-mailu není nakonfigurováno a notifikace jsou zakázány.\nNakonfigurujte váš SMTP server pro jejich povolení."
   text_enumeration_category_reassign_to: "Přiřadit je k této hodnotě:"
   text_enumeration_destroy_question: "%{count} objektů je přiřazeno k této hodnotě."
   text_file_repository_writable: "Do adresáře příloh lze zapisovat"
@@ -2720,12 +2720,12 @@ cs:
         explicit_order: "explicitní objednávka"
         project_sortation: "Třídit projekty podle"
         date: "Datum"
-        default: "výchozí"
+        default: "Výchozí"
       column:
         assigned_to: "Řešitel"
         type: "Typ"
         due_date: "Datum ukončení"
-        name: "Jméno"
+        name: "Název"
         status: "Stav"
         start_date: "Datum zahájení"
       columns: "Sloupce"
