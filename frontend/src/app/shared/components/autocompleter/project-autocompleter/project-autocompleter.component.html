@@ -31,7 +31,7 @@
       [opSearchHighlight]="search"
     >{{ item.name }}</div>
     <div
-      *ngIf="item.disabledReason"
+      *ngIf="item.disabled && item.disabledReason"
       class="ng-option-label ellipsis"
       [ngStyle]="{ 'padding-left.px': item.numberOfAncestors * 16 }"
     >{{ item.disabledReason }}</div>

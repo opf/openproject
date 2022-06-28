@@ -104,7 +104,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Input() public apiFilters:ApiV3ListFilter[] = [];
 
-  @Input() public appendTo:string = 'body';
+  @Input() public appendTo:string = '';
 
   // This function allows mapping of the results before they are fed to the tree
   // structuring and destructuring algorithms used internally the this component
