@@ -37,6 +37,7 @@ import {
 import {
   StorageInformationComponent,
 } from 'core-app/shared/components/file-links/storage-information/storage-information.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   imports: [
@@ -50,6 +51,9 @@ import {
   ],
   exports: [
     FileLinkListComponent,
+  ],
+  providers: [
+    CookieService,
   ],
 })
 export class OpenprojectFileLinksModule {

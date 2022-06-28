@@ -74,4 +74,25 @@ describe 'Showing of file links in work package', with_flag: { storages_module_a
       expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]', count: 1)
     end
   end
+
+  context 'if user is not authorized in Nextcloud' do
+    before do
+      allow(connection_manager).to receive(:authorization_state).and_return(:failed_authorization)
+      allow(connection_manager).to receive(:redirect_to_oauth_authorize).and_return('https://example.com/authorize')
+    end
+
+    it 'must show storage information box with login button' do
+      expect(page.find('[data-qa-selector="op-files-tab--storage-information"]')).to have_selector('button', count: 1)
+    end
+  end
+
+  context 'if an error occurred while authorizing to Nextcloud' do
+    before do
+      allow(connection_manager).to receive(:authorization_state).and_return(:error)
+    end
+
+    it 'must show storage information box' do
+      expect(page).to have_selector('[data-qa-selector="op-files-tab--storage-information"]', count: 1)
+    end
+  end
 end

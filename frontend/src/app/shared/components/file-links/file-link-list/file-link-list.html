@@ -4,11 +4,11 @@
   <op-storage-information
     *ngIf="showInformationBox$ | async"
     class="op-files-tab--storage-info-box"
+    data-qa-selector="op-files-tab--storage-information"
     [infoIcon]="informationBoxIcon"
     [infoTextHeader]="informationBoxHeader"
     [infoTextContent]="informationBoxContent"
-    [buttonText]="informationBoxButton"
-    (buttonClickEventEmitter)="openStorageLocation()"
+    [buttons]="buttons | async"
   ></op-storage-information>
 
   <ul

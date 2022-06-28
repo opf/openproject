@@ -18,10 +18,19 @@
 <div
   class="button-box"
 >
-  <button class="button op-files-tab--storage-info-box-button">
-    <op-icon icon-classes="button--icon spot-icon spot-icon_external-link" class="op-icon--wrapper">
-      <i class="button--icon spot-icon spot-icon_external-link"></i>
+  <button *ngFor="let button of buttons"
+    class="button op-files-tab--storage-info-box-button"
+    (click)="button.action()"
+  >
+    <op-icon
+      icon-classes="button--icon spot-icon spot-icon_external-link"
+      class="op-icon--wrapper">
+      <i
+        class="button--icon spot-icon spot-icon_external-link"
+      ></i>
     </op-icon>
-    <span class="button--text">Open Nextcloud</span>
+    <span
+      class="button--text"
+    >{{button.label}}</span>
   </button>
 </div>
