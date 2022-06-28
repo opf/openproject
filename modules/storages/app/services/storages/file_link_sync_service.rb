@@ -42,83 +42,42 @@ class Storages::FileLinkSyncService
   def call(file_links)
     @file_links = file_links
     # Reset permissions to nil (undefined) by default.
+    # ToDo: Make nil default on the level of the model
     @file_links.each { |file_link| file_link.origin_permission = nil }
 
     # Group by storage_id, creating a hash { storage_id => [file_links] }
     storage_file_link_hash = @file_links.group_by(&:storage_id)
 
-    # Iterate over storages and send the list of file_links to Nextcloud
     storage_file_link_hash.each do |storage_id, storage_file_links|
-      # Get the OAuthClientToken that will authenticate us against Nextcloud
-      oauth_client = OAuthClient.find_by(integration_id: storage_id)
-      connection_manager = ::OAuthClients::ConnectionManager.new(user: @user, oauth_client:)
-      service_result = connection_manager.get_access_token # No scope for Nextcloud...
-
-      # Return the errors from ConnectionManager.get_access_token to calling method
-      unless service_result.success do
-        # We should never get here, because the storages endpoint enforces OAuth auhorization
-        service_result.errors.add(
-          :base,
-          "User not authorized to access storage. \
-           Did you authorize OpenProject to connect to your storage with OAuth2?"
-        )
-
-        return service_result
-      end
-
-      oauth_client_token = service_result.result
-
-      # Get info about files. Result is either an Exception or Net::HTTPOK with body
-      storage_origin_file_ids = storage_file_links.map(&:origin_id)
-
-      tries = 2
-      parsed_response = :not_authorized
-      while parsed_response == :not_authorized && tries > 0
-        tries -= 1
-        http_response = request_files_info(oauth_client_token, storage_origin_file_ids)
-        parsed_response = parse_files_info_response(http_response) # symbol for errors, Hash for 200 result
-
-        if parsed_response == :not_authorized && tries > 0
-          refresh_service_result = connection_manager.refresh_token
-          unless refresh_service_result.success?
-            @service_result.merge!(refresh_service_result)
-            break # parsed_response is correctly :not_authorized here
-          end
-        end
-      end
-
-      if parsed_response.class.to_s != "Hash"
-        @service_result.result += storage_file_links.each { |file_link| file_link.origin_permission = :error }
-        @service_result.success = false
-        break
-      end
-
-      storage_file_links.each do |file_link|
-        origin_file_info_hash = parsed_response[file_link.origin_id]
-
-        case origin_file_info_hash['statuscode']
-        when 200 # Successfully found - update infos
-          next if origin_file_info_hash['trashed'] # moved to trash in Nextcloud
-
-          sync_single_file(file_link, origin_file_info_hash)
-          file_link.origin_permission = :view
-          @service_result.result << file_link
-        when 403 # Forbidden - file from other user?
-          file_link.origin_permission = :not_allowed
-          @service_result.result << file_link
-        when 404 # Not found - internal error?
-          file_link.destroy
-        else
-          file_link.origin_permission = :error
-          @service_result.result << file_link
-        end
-
-        # Only saves to database if some field has actually changed.
-        file_link.save unless file_link.destroyed?
-      end
+      # Add new types of storages here. We currently only support Nextcloud
+      sync_nextcloud(storage_id, storage_file_links)
     end
 
     @service_result
+  end
+
+  def set_file_link_permissions(storage_file_links, parsed_response)
+    storage_file_links.each do |file_link|
+      origin_file_info_hash = parsed_response[file_link.origin_id]
+
+      case origin_file_info_hash['statuscode']
+      when 200 # Successfully found - update infos
+        next if origin_file_info_hash['trashed'] # moved to trash in Nextcloud
+
+        sync_single_file(file_link, origin_file_info_hash)
+        file_link.origin_permission = :view
+      when 403 # Forbidden - file from other user
+        file_link.origin_permission = :not_allowed
+      when 404 # Not found - permanently deleted in Nextcloud
+        file_link.destroy
+        next # don't save and don't add file_link to result!
+      else
+        file_link.origin_permission = :error
+      end
+
+      @service_result.result << file_link
+      file_link.save # Only saves to database if some field has actually changed.
+    end
   end
 
   # Write the updated information from Nextcloud to a single file
@@ -138,8 +97,6 @@ class Storages::FileLinkSyncService
   #    "statuscode" : 200,        # Not used yet
   #    "trashed" : false          # Exclude trashed files from result array of FileLinks
   # }
-  #
-  # ToDo:
   # In case of permission errors (depending on the current user) we get:
   # "24" => { "status" => "Forbidden", "statuscode" => 403 }
   # In case of completely deleted file or other errors we might also get:
@@ -157,45 +114,96 @@ class Storages::FileLinkSyncService
 
   private
 
+  # Sync a Nextcloud storage
+  def sync_nextcloud(storage_id, storage_file_links)
+    # Get the OAuthClientToken that will authenticate us against Nextcloud
+    oauth_client = OAuthClient.find_by(integration_id: storage_id)
+    connection_manager = ::OAuthClients::ConnectionManager.new(user: @user, oauth_client:)
+    connection_manager_service_result = connection_manager.get_access_token # No scope for Nextcloud...
+
+    unless connection_manager_service_result.success
+      set_error_for_file_links(storage_file_links)
+      return
+    end
+
+    @oauth_client_token = connection_manager_service_result.result
+
+    # Get info about files. Result is either an Exception or Net::HTTPOK with body
+    storage_origin_file_ids = storage_file_links.map(&:origin_id)
+
+    tries = 2
+    parsed_response = :not_authorized
+    while parsed_response == :not_authorized && tries > 0
+      tries -= 1
+      http_response = request_files_info(storage_origin_file_ids)
+      parsed_response = parse_files_info_response(http_response) # symbol for errors, Hash for 200 result
+
+      if parsed_response == :not_authorized && tries > 0
+        refresh_service_result = connection_manager.refresh_token
+        unless refresh_service_result.success?
+          @service_result.merge!(refresh_service_result)
+          break # parsed_response is correctly :not_authorized here
+        end
+      end
+    end
+
+    if parsed_response.class.to_s != "Hash"
+      set_error_for_file_links(storage_file_links)
+      return
+    end
+
+    set_file_link_permissions(storage_file_links, parsed_response)
+  end
+
+  def set_error_for_file_links(storage_file_links)
+    @service_result.result += storage_file_links.each { |file_link| file_link.origin_permission = :error }
+    @service_result.success = false
+  end
+
   # Check the Nextcloud status of a list of files:
   # The endpoint returns "canonical" infos per file. Canonical means that the attributes are the same
   # as the owner sees them and not the current user. If it was the current user the file name could be
   # different for that user as a shared file can be renamed.
-  # @param oauth_client_token A OAuth2 authentication token also carrying the host
   # @param file_ids An array of Nextcloud IDs of files to check
   # @return A HTTP response or an Exception object
   #
   # curl -H "Accept: application/json" -H "Content-Type:application/json" -H "OCS-APIRequest: true"
   # 		-u USER:PASSWD http://my.nc.org/ocs/v1.php/apps/integration_openproject/filesinfo
   # 		-X POST -d '{"fileIds":[FILE_ID_1,FILE_ID_2,...]}'
-  def request_files_info(oauth_client_token, file_ids)
-    host = oauth_client_token.oauth_client.integration.host
+  def request_files_info(file_ids)
+    host = @oauth_client_token.oauth_client.integration.host
     uri = URI.parse(File.join(host, "/ocs/v1.php/apps/integration_openproject/filesinfo"))
-    request = Net::HTTP::Post.new(uri)
-
-    json_hash = { fileIds: file_ids }
-    request.body = json_hash.to_json
-    request['Content-Type'] = 'application/json'
-    request['OCS-APIRequest'] = 'true'
-    request['Accept'] = 'application/json'
-    request['Authorization'] = "Bearer #{oauth_client_token.access_token}"
-    # request.basic_auth 'admin', 'admin'
-
-    # ToDo: Handle token error requiring a refresh
-
-    req_options = {
-      max_retries: 0,
-      open_timeout: 5, # seconds
-      read_timeout: 3 # seconds
-    }
+    request = build_files_info_request(uri, file_ids)
 
     begin
-      Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      Net::HTTP.start(uri.hostname, uri.port, request_file_info_options) do |http|
         http.request(request)
       end
     rescue StandardError => e
       e
     end
+  end
+
+  def build_files_info_request(uri, file_ids)
+    request = Net::HTTP::Post.new(uri)
+    request.body = { fileIds: file_ids }.to_json
+    {
+      'Content-Type': 'application/json',
+      'OCS-APIRequest': 'true',
+      'Accept': 'application/json',
+      'Authorization': "Bearer #{@oauth_client_token.access_token}"
+    }.each { |header, value| request[header] = value }
+
+    request
+  end
+
+  # HTTP Request options: Keep the request short for the sake of the front-end
+  def request_file_info_options
+    {
+      max_retries: 0,
+      open_timeout: 5, # seconds
+      read_timeout: 3 # seconds
+    }
   end
 
   # Takes a response from querying Nextcloud file IDS (an Exception or a HTTP::Response),
