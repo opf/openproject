@@ -89,7 +89,7 @@ git push origin <your feature branch>
 
 ## Create a Pull Request
 
-Create a pull request against a branch of of the <opf/openproject> repository, containing a **clear description** of what the pull request attempts to change and/or fix.
+Create a pull request against a branch of of the `opf/openproject` repository, containing a **clear description** of what the pull request attempts to change and/or fix.
 
 If your pull request **does not contain a description** for what it does and what it's intentions are, we will reject it. If you are working on a specific work package from the [list](https://community.openproject.com/projects/openproject/work_packages), please include a link to that work package in the description, so we can track your work.
 

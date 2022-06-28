@@ -101,7 +101,7 @@ To export the data from your Gantt chart there are several possibilities:
 
 * [Export via the work package view](../work-packages/edit-work-package/#export-work-packages)
 * [Print (e.g. to PDF)](#how-to-print-a-gantt-chart)
-* [Synchronize data from OpenProject to Excel](../../system-admin-guide/integrations/excel-synchronization/) <-> MS Project
+* [Synchronize data from OpenProject to Excel](../../system-admin-guide/integrations/excel-synchronization/) ←→ MS Project
 
 ### How to print a Gantt chart?
 

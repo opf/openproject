@@ -16,8 +16,6 @@ updating to the newest version.
 
 #### Rails security fixes
 
-#### 
-
 This upgrade include Rails 5.2.2.1 with fixes for [CVE-2019-5418, 
 CVE-2019-5419
 and CVE-2019-5420](https://weblog.rubyonrails.org/2019/3/13/Rails-4-2-5-1-5-1-6-2-have-been-released/).
