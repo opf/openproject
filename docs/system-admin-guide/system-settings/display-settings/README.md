@@ -15,7 +15,7 @@ Choose the languages which you want to activate for your system. Those languages
 ![image-20211209162728606](image-20211209162728606.png)
 
 At the moment there are more than 30 languages available.
-<div>
+<div class="alert alert-info" role="alert">
 **Note**: Many languages are translated by the Community. We highly appreciate if you want to [help translating OpenProject to your language](../../../development/translate-openproject).
 </div>
 You can [choose your language in your user profile](../../../getting-started/my-account/#change-your-language).

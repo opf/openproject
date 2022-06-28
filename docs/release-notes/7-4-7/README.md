@@ -26,7 +26,7 @@ export modal.
   - Fixed: \[2FA\] MessageBird: Originator may not be longer than 11
     characters \[[\#28034](https://community.openproject.com/wp/28034)\]
   - Fixed: \[2FA\] MessageBird:
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-12">User</span>
+    work-package-types/#work-package-form-configuration-premium-featureUser
     language may be
     empty \[[\#28035](https://community.openproject.com/wp/28035)\]
   - Fixed: \[Styling\] Prevent scrolling body when reaching bottom of

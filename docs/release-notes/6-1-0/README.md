@@ -45,8 +45,7 @@ faster
 
 The meeting agenda now has a button to send iCalendar invitations to
 participants.
-<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-62">Meetings</span>
-can therefore easily added to you calendar.
+Meetings can therefore easily added to you calendar.
 
 ## API for users and relations
 

@@ -69,7 +69,7 @@ bug fixes included.
     set to “True” after copying a work package – even when the value was
     set to “False” in the original work package. This has been
     fixed.
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-17">Timeline</span>
+  - Timeline
     relationships between milestones and phases were sometimes not shown
     correctly. This has been addressed.
   - In some cases the hierarchy mode was only applied after clicking the

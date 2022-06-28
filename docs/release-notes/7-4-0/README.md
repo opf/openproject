@@ -68,11 +68,11 @@ prevent users from uploading an avatar or set a gravatar.
 
 ## Wiki macro for work package create buttons
 
-<span style="font-size: 1.125rem;">The ability to quickly create a new
+The ability to quickly create a new
 work package is critical. With OpenProject 7.4 you can use work package
 create buttons to create work packages from any page in OpenProject that
 supports the wiki syntax.  
-</span>Users can therefore create work packages right from the project
+Users can therefore create work packages right from the project
 overview page, from the wiki page or from a meeting.  
 It is even possible to set a default type to allow users to rapidly
 create e.g. bugs or tasks.

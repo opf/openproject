@@ -12,8 +12,7 @@
 OpenProject 5.0.16 contains several bug
     fixes:
 
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-7">Work
-    package</span> links (via \#\# and \#\#\#) in emails sent when
+  - Work package links (via \#\# and \#\#\#) in emails sent when
     watching forums were not displayed properly. This has been fixed
     ([\#22728](https://community.openproject.org/work_packages/22728/activity)).
   - An error on the work package page has been fixed which caused

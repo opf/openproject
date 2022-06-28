@@ -25,5 +25,5 @@ The Enterprise on-premises edition builds on top of the free Community edition. 
 | [Activate Enterprise on-premises](./activate-enterprise-on-premises) | How can I upgrade my Community edition to an Enterprise on-premises edition? |
 | [Support](./support)            | How can I get support or installation support?               |
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/YRF_bavXBts" allow="autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+![](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/5-Reasons-to-upgrade-to-the-OpenProject-Enterprise-Edition.mp4)
 

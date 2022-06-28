@@ -15,8 +15,7 @@ your OpenProject installation to this
 
 ## Bug fixes (7)
 
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-7">Work
-    package</span> filter for subprojects not working
+  - Work package filter for subprojects not working
     ([\#24550](https://community.openproject.com/projects/openproject/work_packages/24550/activity)).
   - Last updated work package information is always shown in UTC
     ([\#24498](https://community.openproject.com/projects/openproject/work_packages/24498/activity)).
@@ -29,8 +28,7 @@ your OpenProject installation to this
     ([\#24407](https://community.openproject.com/projects/openproject/work_packages/24407/activity)).
   - Filter “Show all work packages” on MyPage did not work
     correctly.
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-45">Project</span>
-    filter was lost on the second page of the search results page.
+  - Project filter was lost on the second page of the search results page.
 
 For further information on the release, please refer to the [Changelog
 v.6.1.4](https://community.openproject.com/versions/827) or take a look

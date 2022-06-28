@@ -21,9 +21,7 @@ Additionally, embedded work package now also support relations.
 
 The existing calendar view has been replaced with a new, modern calendar
 view with OpenProject 8.2. This affects all existing calendar views
-(e.g. in a project, on the
-<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-57">My
-page</span>).
+(e.g. in a project, on the My page).
 
 ![Calendar](Calendar-1024x605.png)
 

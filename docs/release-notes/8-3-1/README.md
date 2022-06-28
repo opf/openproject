@@ -25,8 +25,7 @@ and CVE-2019-5420](https://weblog.rubyonrails.org/2019/3/13/Rails-4-2-5-1-5-1-6-
 #### Bug fixes and changes
 
   - Fixed: Long Work Package titles not wrapped in
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-84">Cost
-    Reports</span>
+    Cost Reports
     \[[\#28766](https://community.openproject.com/wp/28766)\]
   - Fixed: Cannot sort by custom field of type “Float” if named
     “Position”

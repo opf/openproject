@@ -25,7 +25,7 @@ updating to the newest version.
     document that contained such blocks
     \[[\#28609](https://community.openproject.com/wp/28609)\]
   - Fixed:
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-37">Repository</span>
+    Repository
     statistics SVG reports were not rendered due to
     Content-Security-Policy forbidding SVG elements \[\#28612\]
   - Fixed: Regression that did not detect work package links within
@@ -35,11 +35,11 @@ updating to the newest version.
     indexes to 8.0.0
     \[[\#28556](https://community.openproject.com/wp/28556)\]
   - Fixed:
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-90">Calendar</span>
+    Calendar
     filter toggles not working properly
     \[[\#28588](https://community.openproject.com/wp/28588)\]
   - Fixed:
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-37">Repository</span>
+    Repository
     unfolding directory tree not working properly
     \[[\#28613](https://community.openproject.com/wp/28613)\]
   - Fixed: Memory leak in repeated work package form requests
@@ -61,7 +61,7 @@ updating to the newest version.
   - Improved: Restored status column on subelements table of a work
     package \[[\#28526](https://community.openproject.com/wp/28526)\]
   - Fixed:
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-13">Type</span>
+    Type
     is invalid when creating new project
     \[[\#28543](https://community.openproject.com/wp/28543)\]
 
