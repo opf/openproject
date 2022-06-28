@@ -29,15 +29,18 @@
 require 'spec_helper'
 
 describe Users::ReplaceMentionsService, 'integration' do
-  subject(:service_call) { instance.call(from: user, to: to_user) }
+  subject(:service_call) { instance.call(from: principal, to: to_user) }
 
   shared_let(:other_user) { create(:user, firstname: 'Frank', lastname: 'Herbert') }
   shared_let(:user) { create(:user, firstname: 'Isaac', lastname: 'Asimov') }
+  shared_let(:group) { create(:group, lastname: 'Sci-Fi') }
   shared_let(:to_user) { create :user, firstname: 'Philip K.', lastname: 'Dick' }
 
   let(:instance) do
     described_class.new
   end
+
+  let(:principal) { user }
 
   it 'is successful' do
     expect(service_call)
@@ -63,6 +66,8 @@ describe Users::ReplaceMentionsService, 'integration' do
     end
 
     context 'with the replaced user in mention tags' do
+      let(:principal) { user }
+
       it_behaves_like 'text replacement', attribute do
         let(:text) do
           <<~TEXT
@@ -86,6 +91,8 @@ describe Users::ReplaceMentionsService, 'integration' do
     end
 
     context 'with a different user in mention tags' do
+      let(:principal) { user }
+
       it_behaves_like 'text replacement', attribute do
         let(:text) do
           <<~TEXT
@@ -109,6 +116,8 @@ describe Users::ReplaceMentionsService, 'integration' do
     end
 
     context 'with the replaced user in a user#ID notation' do
+      let(:principal) { user }
+
       it_behaves_like 'text replacement', attribute do
         let(:text) do
           <<~TEXT
@@ -132,6 +141,8 @@ describe Users::ReplaceMentionsService, 'integration' do
     end
 
     context 'with a different user in a user#ID notation' do
+      let(:principal) { user }
+
       it_behaves_like 'text replacement', attribute do
         let(:text) do
           <<~TEXT
@@ -155,6 +166,8 @@ describe Users::ReplaceMentionsService, 'integration' do
     end
 
     context 'with the replaced user in a user#"LOGIN" notation' do
+      let(:principal) { user }
+
       it_behaves_like 'text replacement', attribute do
         let(:text) do
           <<~TEXT
@@ -178,6 +191,8 @@ describe Users::ReplaceMentionsService, 'integration' do
     end
 
     context 'with a different user in a user#"LOGIN" notation' do
+      let(:principal) { user }
+
       it_behaves_like 'text replacement', attribute do
         let(:text) do
           <<~TEXT
@@ -201,6 +216,8 @@ describe Users::ReplaceMentionsService, 'integration' do
     end
 
     context 'with the replaced user in a user#"MAIL" notation' do
+      let(:principal) { user }
+
       it_behaves_like 'text replacement', attribute do
         let(:text) do
           <<~TEXT
@@ -224,6 +241,8 @@ describe Users::ReplaceMentionsService, 'integration' do
     end
 
     context 'with a different user in a user#"MAIL" notation' do
+      let(:principal) { user }
+
       it_behaves_like 'text replacement', attribute do
         let(:text) do
           <<~TEXT
@@ -245,6 +264,56 @@ describe Users::ReplaceMentionsService, 'integration' do
         end
       end
     end
+
+    context 'with the replaced group in mention tags' do
+      let(:principal) { group }
+
+      it_behaves_like 'text replacement', attribute do
+        let(:text) do
+          <<~TEXT
+            <mention class="mention"
+                     data-id="#{group.id}"
+                     data-type="group"
+                     data-text="@#{group.name}">
+                     @#{group.name}
+            </mention>
+          TEXT
+        end
+        let(:expected_text) do
+          <<~TEXT.squish
+            <mention class="mention"
+                     data-id="#{to_user.id}"
+                     data-type="user"
+                     data-text="@#{to_user.name}">@#{to_user.name}</mention>
+          TEXT
+        end
+      end
+    end
+
+    context 'with the replaced group in a group#ID notation' do
+      let(:principal) { group }
+
+      it_behaves_like 'text replacement', attribute do
+        let(:text) do
+          <<~TEXT
+            Lorem ipsum
+
+            group##{group.id} Lorem ipsum
+
+            Lorem ipsum
+          TEXT
+        end
+        let(:expected_text) do
+          <<~TEXT
+            Lorem ipsum
+
+            user##{to_user.id} Lorem ipsum
+
+            Lorem ipsum
+          TEXT
+        end
+      end
+    end
   end
 
   context 'for work package description' do
@@ -252,8 +321,6 @@ describe Users::ReplaceMentionsService, 'integration' do
   end
 
   context 'for work package description with dangerous mails' do
-    subject(:service_call) { instance.call(from: dangerous_user, to: to_user) }
-
     let(:dangerous_user) do
       build(:user,
             firstname: 'Dangerous',
@@ -262,7 +329,7 @@ describe Users::ReplaceMentionsService, 'integration' do
         user.save(validate: false)
       end
     end
-    let(:user) { dangerous_user }
+    let(:principal) { dangerous_user }
 
     it 'escapes the malicious input' do
       expect { service_call }
@@ -338,15 +405,6 @@ describe Users::ReplaceMentionsService, 'integration' do
 
   context 'for wiki_content_journals text' do
     it_behaves_like 'rewritten mention', :journal_wiki_content_journal, :text
-  end
-
-  context 'for a group for from' do
-    subject(:service_call) { instance.call(from: create(:group), to: to_user) }
-
-    it 'raises an error' do
-      expect { service_call }
-        .to raise_error ArgumentError
-    end
   end
 
   context 'for a group for to' do

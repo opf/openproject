@@ -53,8 +53,8 @@ class Principals::DeleteJob < ApplicationJob
   def replace_mentions(principal)
     # Breaking abstraction here.
     # Doing the replacement is a very costly operation while at the same time,
-    # groups and placeholder users can't be mentioned.
-    return unless principal.is_a?(User)
+    # placeholder users can't be mentioned.
+    return unless principal.is_a?(User) || principal.is_a?(Group)
 
     Users::ReplaceMentionsService
       .new

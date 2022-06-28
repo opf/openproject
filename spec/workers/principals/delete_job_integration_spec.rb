@@ -422,6 +422,7 @@ describe Principals::DeleteJob, type: :model do
       it_behaves_like 'removes the principal'
       it_behaves_like 'work_package handling'
       it_behaves_like 'member handling'
+      it_behaves_like 'mention rewriting'
 
       context 'with user only in project through group' do
         let(:user) do

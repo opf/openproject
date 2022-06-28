@@ -95,7 +95,7 @@ module Users
     attr_accessor :replacements
 
     def check_input(from, to)
-      raise ArgumentError unless from.is_a?(User) && to.is_a?(User)
+      raise ArgumentError unless (from.is_a?(User) || from.is_a?(Group)) && to.is_a?(User)
     end
 
     def rewrite(from, to)
@@ -142,8 +142,24 @@ module Users
     end
 
     def condition_sql(from)
+      mention = '<mention_*data-id="%i"_*</mention>'
+      hash = if from.is_a?(User)
+               'user#((%i)|("%s")|("%s"))\s'
+             else
+               'group#%i\s'
+             end
+
+      hash_values = if from.is_a?(User)
+                      [
+                        sanitize_sql_like(from.mail),
+                        sanitize_sql_like(from.login)
+                      ]
+                    else
+                      []
+                    end
+
       sql = <<~SQL.squish
-        #{table_name}.#{column_name} SIMILAR TO '_*((<mention_*data-id="%i"_*</mention>)|(user#((%i)|("%s")|("%s")\s)))_*'
+        #{table_name}.#{column_name} SIMILAR TO '_*((#{mention})|(#{hash}))_*'
       SQL
 
       if condition
@@ -152,9 +168,7 @@ module Users
 
       sanitize_sql_for_conditions [sql,
                                    from.id,
-                                   from.id,
-                                   sanitize_sql_like(from.mail),
-                                   sanitize_sql_like(from.login)]
+                                   from.id] + hash_values
     end
 
     def mention_tag_replace(from, to)
@@ -170,14 +184,31 @@ module Users
     end
 
     def hash_replace(source, from, to)
+      search = if from.is_a?(User)
+                 'user#((%i)|("%s")|("%s"))\s'
+               else
+                 'group#%i\s'
+               end
+
+      values = if from.is_a?(User)
+                 [
+                   from.id,
+                   sanitize_sql_like(from.login),
+                   sanitize_sql_like(from.mail),
+                   to.id
+                 ]
+               else
+                 [
+                   from.id,
+                   to.id
+                 ]
+               end
+
       regexp_replace(
         source,
-        'user#((%i)|("%s")|("%s")\s)',
+        search,
         'user#%i ',
-        [from.id,
-         sanitize_sql_like(from.login),
-         sanitize_sql_like(from.mail),
-         to.id]
+        values
       )
     end
 
