@@ -54,7 +54,7 @@ cs:
         work_packages_created:
           title: 'Pracovní balíčky vytvořené mnou'
         work_packages_watched:
-          title: 'Mé sledované pracovní balíčky'
+          title: 'Pracovní balíčky, které sleduji'
         work_packages_table:
           title: 'Tabulka pracovních balíčků'
         work_packages_graph:

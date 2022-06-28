@@ -83,7 +83,7 @@ cs:
         text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
         link: "webhook"
   announcements:
-    show_until: Ukázat až do
+    show_until: Zobrazit do
     is_active: aktuálně zobrazené
     is_inactive: v současné době nejsou zobrazeny
   attribute_help_texts:
@@ -212,7 +212,7 @@ cs:
       completed: "Smazání projektu %{name} dokončeno"
       completed_text: "Požadavek na smazání projektu '%{name}' byl dokončen."
     index:
-      open_as_gantt: 'Otevřít jako zobrazení Gantt'
+      open_as_gantt: 'Otevřít jako Gantt diagram'
       open_as_gantt_title: "Použijte toto tlačítko pro generování Ganttova zobrazení, které filtruje pracovní balíčky pro projekty viditelné na této stránce."
       open_as_gantt_title_admin: "Nastavení zobrazení (například vybrané typy pracovních balíčků) můžete změnit v administraci pod nastavením projektu."
       no_results_title_text: V současné době nejsou žádné projekty
@@ -844,7 +844,7 @@ cs:
       version: "Verze"
       wiki: "Wiki"
       wiki_page: "Stránka wiki"
-      workflow: "Pracovní vrstva"
+      workflow: "Pracovní postup"
       work_package: "Pracovní balíček"
       'doorkeeper/application': "OAuth aplikace"
   errors:
@@ -892,7 +892,7 @@ cs:
     lastname: "Příjmení"
     login: "Uživatelské jméno"
     mail: "E-mail"
-    name: "Jméno"
+    name: "Název"
     password: "Heslo"
     priority: "Priorita"
     project: "Projekt"
@@ -1354,7 +1354,7 @@ cs:
   gui_validation_error_plural: "%{count} chyb"
   homescreen:
     additional:
-      projects: "Nejnovější projekty viditelné v této instalaci."
+      projects: "Nejnovější projekty v systému"
       no_visible_projects: "V této instanci nejsou žádné viditelné projekty."
       users: "Poslední registrovaní uživatelé v této instalaci."
     blocks:
@@ -1532,7 +1532,7 @@ cs:
   label_copy_same_as_target: "Stejný jako cíl"
   label_copy_source: "Zdroj"
   label_copy_target: "Cíl"
-  label_copy_workflow_from: "Kopírovat průběh práce z"
+  label_copy_workflow_from: "Kopírovat pracovní postup z"
   label_copy_project: "Kopírovat projekt"
   label_core_version: "Verze jádra"
   label_current_status: "Aktuální stav"
@@ -1708,7 +1708,7 @@ cs:
   label_my_account_data: "Data mého účtu"
   label_my_projects: "Moje projekty"
   label_my_queries: "Moje vlastní dotazy"
-  label_name: "Jméno"
+  label_name: "Název"
   label_never: "Nikdy"
   label_new: "Nový"
   label_new_features: "Nové funkce"
@@ -1947,8 +1947,8 @@ cs:
   label_work_package_types: "Typy pracovních balíčků"
   label_work_package_tracking: "Sledování pracovních balíčků"
   label_work_package_view_all: "Zobrazit všechny pracovní balíčky"
-  label_workflow: "Workflow"
-  label_workflow_plural: "Pracovní vrstvy"
+  label_workflow: "Pracovní postup"
+  label_workflow_plural: "Pracovní postupy"
   label_workflow_summary: "Souhrn"
   label_x_closed_work_packages_abbr:
     one: "1 uzavřeno"
@@ -2731,12 +2731,12 @@ cs:
         explicit_order: "explicitní objednávka"
         project_sortation: "Třídit projekty podle"
         date: "Datum"
-        default: "výchozí"
+        default: "Výchozí"
       column:
         assigned_to: "Řešitel"
         type: "Typ"
         due_date: "Datum ukončení"
-        name: "Jméno"
+        name: "Název"
         status: "Stav"
         start_date: "Datum zahájení"
       columns: "Sloupce"
