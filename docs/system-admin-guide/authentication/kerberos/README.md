@@ -95,6 +95,10 @@ We are going to create a new file `/etc/openproject/addons/apache2/custom/vhost/
     # "X-Authenticated-User" to the logged in username
     # appended with a configurable secret value
     RequestHeader set X-Authenticated-User expr=%{REMOTE_USER}:MyPassword
+    
+    # Ensure the Authorization header is not passed to OpenProject
+    # as this will result in trying to perform basic auth with the API
+    RequestHeader unset Authorization
 
     # Apache directive to ensure a user is authenticated
     Require valid-user
