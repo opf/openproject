@@ -75,6 +75,7 @@
         @include spot-body-small()
 
         padding-right: $spot-spacing-0-25
+        overflow: hidden
         color: var(--primary-color)
 
         .spot-icon:first-child:not(:last-child)
@@ -82,7 +83,7 @@
           height: $spot-spacing-1-5
           margin-right: $spot-spacing-0-25
 
-      &.disabled
+      &.disabled .op-files-tab--file-list-item-action
         opacity: 0.5
 
   &--storage-info-box
@@ -116,8 +117,8 @@
       display: flex
       justify-content: end
 
-      > .button_no-margin
-        margin-top: $spot_spacing-0-75
+    &-button
+      margin: $spot_spacing-0-75 0 0
 
   &--icon
     &_pdf
