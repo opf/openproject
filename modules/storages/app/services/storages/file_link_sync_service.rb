@@ -140,11 +140,6 @@ class Storages::FileLinkSyncService
       return
     end
 
-    if nextcloud_request_result.result.class.to_s != "Hash"
-      set_error_for_file_links(storage_file_links)
-      return
-    end
-
     set_file_link_permissions(storage_file_links, nextcloud_request_result.result)
   end
 
@@ -204,8 +199,8 @@ class Storages::FileLinkSyncService
     {
       'Content-Type': 'application/json',
       'OCS-APIRequest': 'true',
-      'Accept': 'application/json',
-      'Authorization': "Bearer #{@oauth_client_token.access_token}"
+      Accept: 'application/json',
+      Authorization: "Bearer #{@oauth_client_token.access_token}"
     }.each { |header, value| request[header] = value }
 
     request
@@ -225,12 +220,7 @@ class Storages::FileLinkSyncService
   # @returns ServiceResult containing data in result and success=true,
   #   or success=false with result=:error or result=:not_authorized.
   def parse_files_info_response(response)
-    return ServiceResult.failure(result: :error) if
-      response.nil? ||
-      response.is_a?(StandardError) ||
-      !response.key?('content-type') || # Reply without content-type can't be valid.
-      response['content-type'].split(';').first.strip.downcase != 'application/json'
-
+    return ServiceResult.failure(result: :error) if files_info_response_error?(response)
     return ServiceResult.failure(result: :not_authorized) if response.code == "401" # Nextcloud response if token is not valid
     return ServiceResult.failure(result: :error) unless response.code == "200" # Interpret any other response as an error
 
@@ -242,5 +232,12 @@ class Storages::FileLinkSyncService
     end
 
     ServiceResult.success(result: response_hash)
+  end
+
+  def files_info_response_error?(response)
+    response.nil? ||
+      response.is_a?(StandardError) ||
+      !response.key?('content-type') || # Reply without content-type can't be valid.
+      response['content-type'].split(';').first.strip.downcase != 'application/json'
   end
 end

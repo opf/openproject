@@ -46,7 +46,7 @@ module API
           href: URN_PERMISSION_ERROR,
           title: 'Error'
         }
-      }
+      }.freeze
 
       class FileLinkRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource

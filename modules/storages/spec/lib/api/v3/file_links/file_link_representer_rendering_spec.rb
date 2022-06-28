@@ -35,7 +35,7 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
   let(:container) { build_stubbed(:work_package) }
   let(:creator) { build_stubbed(:user, firstname: 'Rey', lastname: 'Palpatine') }
   let(:origin_permission) { :view }
-  let(:file_link) { build_stubbed(:file_link, storage:, container:, creator:, origin_permission: origin_permission) }
+  let(:file_link) { build_stubbed(:file_link, storage:, container:, creator:, origin_permission:) }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(file_link, current_user: user) }
 
