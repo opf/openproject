@@ -74,6 +74,14 @@ module Users
       ]
     end
 
+    def initialize(*classes)
+      self.replacements = if classes.any?
+                            self.class.replacements.select { |r| classes.include?(r[:class]) }
+                          else
+                            self.class.replacements
+                          end
+    end
+
     def call(from:, to:)
       check_input(from, to)
 
@@ -84,91 +92,96 @@ module Users
 
     private
 
+    attr_accessor :replacements
+
     def check_input(from, to)
       raise ArgumentError unless from.is_a?(User) && to.is_a?(User)
     end
 
     def rewrite(from, to)
-      self.class.replacements.each do |replacement|
-        rewrite_column(replacement, from, to)
+      # If we have only one replacement configured for this instance of the service, we do it ourselves.
+      # Otherwise, we instantiate instances of the service's class for every class for which replacements
+      # are to be carried out.
+      # That way, instance variables can be used which prevents having method interfaces with 4 or 5 parameters.
+      if replacements.length == 1
+        rewrite_column(from, to)
+      else
+        replacements.map do |replacement|
+          self.class.new(replacement[:class]).call(from:, to:)
+        end
       end
     end
 
-    def rewrite_column(replacement, from, to)
+    def rewrite_column(from, to)
       sql = <<~SQL.squish
-        UPDATE #{replacement[:class].table_name} sink
-        SET #{replacement[:column]} = source.replacement
+        UPDATE #{table_name} sink
+        SET #{column_name} = source.replacement
         FROM
           (SELECT
-              #{replacement[:class].table_name}.id,
-              #{replace_sql(replacement[:class], "#{replacement[:class].table_name}.#{replacement[:column]}", from, to)} replacement
+              #{table_name}.id,
+              #{replace_sql(from, to)} replacement
            FROM
-             #{replacement[:class].table_name}
+             #{table_name}
            WHERE
-             #{condition_sql(replacement, from)}
+             #{condition_sql(from)}
           ) source
         WHERE
           source.id = sink.id
       SQL
 
-      replacement[:class]
+      klass
         .connection
         .execute sql
     end
 
-    def replace_sql(klass, source, from, to)
-      hash_replace(klass,
-                   mention_tag_replace(klass,
-                                       source,
-                                       from,
+    def replace_sql(from, to)
+      hash_replace(mention_tag_replace(from,
                                        to),
                    from,
                    to)
     end
 
-    def condition_sql(replacement, from)
+    def condition_sql(from)
       sql = <<~SQL.squish
-        #{replacement[:class].table_name}.#{replacement[:column]} SIMILAR TO '_*((<mention_*data-id="%i"_*</mention>)|(user#((%i)|("%s")|("%s")\s)))_*'
+        #{table_name}.#{column_name} SIMILAR TO '_*((<mention_*data-id="%i"_*</mention>)|(user#((%i)|("%s")|("%s")\s)))_*'
       SQL
 
-      if replacement.has_key?(:condition)
-        sql += "AND #{replacement[:condition]}"
+      if condition
+        sql += "AND #{condition}"
       end
 
-      replacement[:class].sanitize_sql_for_conditions [sql,
-                                                       from.id,
-                                                       from.id,
-                                                       replacement[:class].sanitize_sql_like(from.mail),
-                                                       replacement[:class].sanitize_sql_like(from.login)]
+      sanitize_sql_for_conditions [sql,
+                                   from.id,
+                                   from.id,
+                                   sanitize_sql_like(from.mail),
+                                   sanitize_sql_like(from.login)]
     end
 
-    def mention_tag_replace(klass, source, from, to)
+    def mention_tag_replace(from, to)
       regexp_replace(
-        klass,
-        source,
+        "#{table_name}.#{column_name}",
         '<mention.+data-id="%i".+</mention>',
         '<mention class="mention" data-id="%i" data-type="user" data-text="@%s">@%s</mention>',
         [from.id,
          to.id,
-         klass.sanitize_sql_like(to.name),
-         klass.sanitize_sql_like(to.name)]
+         sanitize_sql_like(to.name),
+         sanitize_sql_like(to.name)]
       )
     end
 
-    def hash_replace(klass, source, from, to)
+    def hash_replace(source, from, to)
       regexp_replace(
-        klass,
         source,
         'user#((%i)|("%s")|("%s")\s)',
         'user#%i ',
         [from.id,
-         klass.sanitize_sql_like(from.login),
-         klass.sanitize_sql_like(from.mail),
+         sanitize_sql_like(from.login),
+         sanitize_sql_like(from.mail),
          to.id]
       )
     end
 
-    def regexp_replace(klass, source, search, replacement, values)
+    def regexp_replace(source, search, replacement, values)
       sql = <<~SQL.squish
         REGEXP_REPLACE(
           #{source},
@@ -178,11 +191,35 @@ module Users
         )
       SQL
 
-      klass.sanitize_sql_for_conditions [sql].concat(values)
+      sanitize_sql_for_conditions [sql].concat(values)
+    end
+
+    def sanitize_sql_like(string)
+      klass.sanitize_sql_like(string)
+    end
+
+    def sanitize_sql_for_conditions(string)
+      klass.sanitize_sql_for_conditions string
     end
 
     def journal_classes
       [Journal] + Journal::BaseJournal.subclasses
+    end
+
+    def klass
+      replacements[0][:class]
+    end
+
+    def table_name
+      replacements[0][:class].table_name
+    end
+
+    def column_name
+      replacements[0][:column]
+    end
+
+    def condition
+      replacements[0][:condition]
     end
   end
 end
