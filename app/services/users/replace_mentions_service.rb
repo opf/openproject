@@ -37,8 +37,30 @@ module Users
         { class: Document, column: :description },
         { class: Journal, column: :notes },
         { class: Comment, column: :comments },
-        { class: CustomValue, column: :value },
-        { class: Journal::CustomizableJournal, column: :value },
+        {
+          class: CustomValue,
+          column: :value,
+          condition: <<~SQL.squish
+            EXISTS (
+              SELECT 1
+              FROM #{CustomField.table_name}
+              WHERE field_format = 'text'
+              AND #{CustomValue.table_name}.custom_field_id = custom_fields.id
+            )
+          SQL
+        },
+        {
+          class: Journal::CustomizableJournal,
+          column: :value,
+          condition: <<~SQL.squish
+            EXISTS (
+              SELECT 1
+              FROM #{CustomField.table_name}
+              WHERE field_format = 'text'
+              AND #{Journal::CustomizableJournal.table_name}.custom_field_id = custom_fields.id
+            )
+          SQL
+        },
         { class: MeetingContent, column: :text },
         { class: Journal::MeetingContentJournal, column: :text },
         { class: Message, column: :content },
@@ -68,28 +90,28 @@ module Users
 
     def rewrite(from, to)
       self.class.replacements.each do |replacement|
-        rewrite_column(replacement[:class], replacement[:column], from, to)
+        rewrite_column(replacement, from, to)
       end
     end
 
-    def rewrite_column(klass, column, from, to)
+    def rewrite_column(replacement, from, to)
       sql = <<~SQL.squish
-        UPDATE #{klass.table_name} sink
-        SET #{column} = source.replacement
+        UPDATE #{replacement[:class].table_name} sink
+        SET #{replacement[:column]} = source.replacement
         FROM
           (SELECT
-              #{klass.table_name}.id,
-              #{replace_sql(klass, "#{klass.table_name}.#{column}", from, to)} replacement
+              #{replacement[:class].table_name}.id,
+              #{replace_sql(replacement[:class], "#{replacement[:class].table_name}.#{replacement[:column]}", from, to)} replacement
            FROM
-             #{klass.table_name}
+             #{replacement[:class].table_name}
            WHERE
-             #{condition_sql(klass, column, from)}
+             #{condition_sql(replacement, from)}
           ) source
         WHERE
           source.id = sink.id
       SQL
 
-      klass
+      replacement[:class]
         .connection
         .execute sql
     end
@@ -104,16 +126,20 @@ module Users
                    to)
     end
 
-    def condition_sql(klass, column, from)
+    def condition_sql(replacement, from)
       sql = <<~SQL.squish
-        #{klass.table_name}.#{column} SIMILAR TO '_*((<mention_*data-id="%i"_*</mention>)|(user#((%i)|("%s")|("%s")\s)))_*'
+        #{replacement[:class].table_name}.#{replacement[:column]} SIMILAR TO '_*((<mention_*data-id="%i"_*</mention>)|(user#((%i)|("%s")|("%s")\s)))_*'
       SQL
 
-      klass.sanitize_sql_for_conditions [sql,
-                                         from.id,
-                                         from.id,
-                                         klass.sanitize_sql_like(from.mail),
-                                         klass.sanitize_sql_like(from.login)]
+      if replacement.has_key?(:condition)
+        sql += "AND #{replacement[:condition]}"
+      end
+
+      replacement[:class].sanitize_sql_for_conditions [sql,
+                                                       from.id,
+                                                       from.id,
+                                                       replacement[:class].sanitize_sql_like(from.mail),
+                                                       replacement[:class].sanitize_sql_like(from.login)]
     end
 
     def mention_tag_replace(klass, source, from, to)

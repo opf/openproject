@@ -284,13 +284,13 @@ describe Users::ReplaceMentionsService, 'integration' do
 
   context 'for custom_value value' do
     it_behaves_like 'rewritten mention', :custom_value, :value do
-      let(:additional_properties) { { custom_field: create(:string_wp_custom_field) } }
+      let(:additional_properties) { { custom_field: create(:text_wp_custom_field) } }
     end
   end
 
   context 'for customizable_journal value' do
     it_behaves_like 'rewritten mention', :journal_customizable_journal, :value do
-      let(:additional_properties) { { journal: create(:journal), custom_field: create(:string_wp_custom_field) } }
+      let(:additional_properties) { { journal: create(:journal), custom_field: create(:text_wp_custom_field) } }
     end
   end
 
