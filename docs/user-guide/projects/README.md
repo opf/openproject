@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Projects
   priority: 600
 description: Manage projects in OpenProject.
-robots: index, follow
 keywords: projects
 ---
 # Manage projects

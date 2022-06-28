@@ -3,7 +3,6 @@ sidebar_navigation:
   title: BIM guide
   priority: 975
 description: User guide for the OpenProject BIM Edition.
-robots: index, follow
 keywords: BIM user guide
 ---
 # BIM guide

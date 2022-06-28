@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Enable work package custom fields
   priority: 700
 description: Manage custom fields in a project.
-robots: index, follow
 keywords: custom fields, activate work package custom field
 ---
 # Enable custom fields in projects

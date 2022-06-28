@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Repository
   priority: 400
 description: Manage a repository in a project.
-robots: index, follow
 keywords: repository
 ---
 # Manage a repository

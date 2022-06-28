@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Wiki
   priority: 800
 description: Create and manage a wiki in OpenProject.
-robots: index, follow
 keywords: wiki, documentation
 ---
 

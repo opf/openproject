@@ -4,7 +4,6 @@ sidebar_navigation:
   priority: 940
 title: Attachments settings
 description: Settings for max attachment size and allowed file types
-robots: index, follow
 keywords: Attachments Settings
 
 ---

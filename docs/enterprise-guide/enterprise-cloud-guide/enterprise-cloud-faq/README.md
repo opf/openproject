@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Enterprise cloud FAQ
   priority: 001
 description: Frequently asked questions regarding Enterprise cloud
-robots: index, follow
 keywords: Enterprise cloud FAQ, Cloud Edition, hosted by OpenProject
 ---
 

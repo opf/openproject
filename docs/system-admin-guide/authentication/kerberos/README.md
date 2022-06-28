@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Kerberos
   priority: 800
 description: How to set up integration of Kerberos for authentication with OpenProject.
-robots: index, follow
 keywords: Kerberos, authentication
 
 

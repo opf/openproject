@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Agile boards
   priority: 860
 description: How to get started with Agile boards for Kanban, Scrum and Agile Project Management.
-robots: index, follow
 keywords: agile boards, Kanban, Scrum, agile project management, action boards
 ---
 

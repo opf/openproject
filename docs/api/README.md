@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: API documentation
   priority: 910
-robots: index, follow
 ---
 
 # OpenProject API

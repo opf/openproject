@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Cost tracking
   priority: 798
 description: Time and cost tracking in OpenProject
-robots: index, follow
 keywords: cost tracking, log costs, unit costs
 ---
 

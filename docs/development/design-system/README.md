@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Design system
   priority: 998
 description: OpenProject Design System
-robots: index, follow
 keywords: Design system, styles, design, components
 ---
 # Design System

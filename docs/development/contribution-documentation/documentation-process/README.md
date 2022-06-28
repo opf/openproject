@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Documentation process
   priority: 999
 description: The process, incl. tool setup, of how to contribute to the OpenProject documentation
-robots: index, follow
 keywords: contribution, documentation, documentation process, tool setup
 ---
 

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Enterprise on-premises guide
   priority: 999
 description: OpenProject Enterprise on-premises guide.
-robots: index, follow
 keywords: enterprise edition, enterprise on-premises, self-hosted version, server
 ---
 # Enterprise on-premises guide

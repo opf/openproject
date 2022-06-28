@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Manage sprints
   priority: 900
 description: Create a new sprint in the backlogs view.
-robots: index, follow
 keywords: manage sprints
 ---
 

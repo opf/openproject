@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Integrations
   priority: 002
 description: Integration to OpenProject.
-robots: index, follow
 keywords: projects, integration, Jira
 ---
 # Integrations and Community plugins

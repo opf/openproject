@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Development
   priority: 920
-robots: index, follow
 ---
 
 # Develop OpenProject

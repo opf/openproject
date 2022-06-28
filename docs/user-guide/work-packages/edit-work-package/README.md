@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Edit work packages
   priority: 900
 description: How to edit work packages in OpenProject?
-robots: index, follow
 keywords: edit work packages
 ---
 

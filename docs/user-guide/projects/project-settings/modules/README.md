@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Modules
   priority: 900
 description: Enable modules in a project.
-robots: index, follow
 keywords: modules, select module in project, add
 ---
 # Enable modules in a project

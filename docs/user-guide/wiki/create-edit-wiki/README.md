@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Create and edit wiki
   priority: 799
 description: Create a new wiki page in OpenProject
-robots: index, follow
 keywords: create wiki
 ---
 

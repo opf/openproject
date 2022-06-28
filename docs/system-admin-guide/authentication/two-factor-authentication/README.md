@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Two-factor authentication
   priority: 700
 description: configure two-factor authentication for OpenProject.
-robots: index, follow
 keywords: two-factor authentication
 ---
 # Two-factor authentication (Premium feature)

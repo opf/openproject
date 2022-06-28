@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Time and costs FAQ
   priority: 001
 description: Frequently asked questions regarding time, costs and tracking
-robots: index, follow
 keywords: time and costs FAQ, time tracking, time logging, booking costs
 ---
 

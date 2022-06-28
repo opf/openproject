@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Task board view
   priority: 850
 description: Taskboard in OpenProject.
-robots: index, follow
 keywords: taskboard, task board, user story, epic
 ---
 

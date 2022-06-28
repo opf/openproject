@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Time and costs
   priority: 790
 description: Time tracking and cost reporting in OpenProject.
-robots: index, follow
 keywords: Time tracking, cost reporting
 ---
 

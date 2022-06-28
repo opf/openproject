@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Create work packages
   priority: 990
 description: How to create Work packages in OpenProject?
-robots: index, follow
 keywords: create Work packages
 ---
 

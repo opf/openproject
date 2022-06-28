@@ -1,9 +1,7 @@
 ---
-unnumbered_toc: true
 sidebar_navigation:
   title: Release notes
   priority: 930
-robots: index, follow
 ---
 
 # Release Notes

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: FAQ
   priority: 4
 description: Frequently asked questions regarding operation and upgrading of OpenProject
-robots: index, follow
 keywords: operation FAQ, upgrading, database
 ---
 

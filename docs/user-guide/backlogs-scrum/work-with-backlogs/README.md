@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Working with backlogs
   priority: 990
 description: Working with backlogs (scrum)
-robots: index, follow
 keywords: backlogs, scrum, agile, burndown
 ---
 

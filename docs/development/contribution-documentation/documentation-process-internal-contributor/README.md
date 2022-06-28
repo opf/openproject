@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Internal docs contributor
   priority: 800
 description: Quick guide for internal team members that have write permissions
-robots: index, follow
 keywords: contribution, documentation, documentation process
 ---
 

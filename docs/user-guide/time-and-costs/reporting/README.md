@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Time and cost reporting
   priority: 797
 description: Time and cost reporting
-robots: index, follow
 keywords: time and cost reporting
 ---
 

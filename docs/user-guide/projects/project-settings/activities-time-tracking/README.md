@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Time tracking activities
   priority: 300
 description: Manage activities for time tracking.
-robots: index, follow
 keywords: activities for time tracking, log time settings
 ---
 # Manage activities for time tracking

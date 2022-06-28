@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Project templates
   priority: 498
 description: How to create project templates.
-robots: index, follow
 keywords: project templates
 ---
 # Project templates
