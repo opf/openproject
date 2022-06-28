@@ -91,63 +91,49 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     top_menu.expect_open
 
     # projects are displayed initially
-    within(top_menu.search_results) do
-      expect(page).to have_selector('.ui-menu-item-wrapper', text: project.name)
-      # public project is displayed as it is public
-      expect(page).to have_selector('.ui-menu-item-wrapper', text: public_project.name)
-      # only projects the user is member in are displayed
-      expect(page).to have_no_selector('.ui-menu-item-wrapper', text: non_member_project.name)
-    end
+    top_menu.expect_result project.name
+    # public project is displayed as it is public
+    top_menu.expect_result public_project.name
+    # only projects the user is member in are displayed
+    top_menu.expect_no_result non_member_project.name
 
     # Filter for projects
     top_menu.search '<strong'
 
     # Expect highlights
     within(top_menu.search_results) do
-      expect(page).to have_selector('mark', text: '<strong')
+      expect(page).to have_selector('.op-search-highlight', text: '<strong')
       expect(page).to have_no_selector('strong')
     end
 
     # Expect fuzzy matches for plain
     top_menu.search 'Plain pr'
-    within(top_menu.search_results) do
-      expect(page).to have_selector('.ui-menu-item-wrapper', text: 'Plain project')
-      expect(page).to have_no_selector('.ui-menu-item-wrapper', text: 'Plain other project')
-    end
+    top_menu.expect_result 'Plain project'
+    top_menu.expect_no_result 'Plain other project'
 
     # Expect hierarchy
     top_menu.clear_search
 
-    within(top_menu.search_results) do
-      expect(page).to have_selector('.ui-menu-item-wrapper', text: 'Plain project')
-      expect(page).to have_selector('.ui-menu-item-wrapper', text: '<strong>foobar</strong>')
-      expect(page).to have_selector('.ui-menu-item-wrapper', text: '» Plain other project')
-    end
+    top_menu.expect_result 'Plain project'
+    top_menu.expect_result '<strong>foobar</strong>'
+    top_menu.expect_item_with_hierarchy_level hierarchy_level: 2, item_name: 'Plain other project'
 
     # Show hierarchy of project
     top_menu.search 'Plain other project'
 
-    within(top_menu.search_results) do
-      expect(page).to have_selector('.ui-state-disabled .ui-menu-item-wrapper', text: '<strong>foobar</strong>')
-      expect(page).to have_selector('.ui-menu-item-wrapper.ui-state-active', text: '» Plain other project')
-    end
+    # TODO: test for foobar being disabled
+    top_menu.expect_result '<strong>foobar</strong>'
+    top_menu.expect_item_with_hierarchy_level hierarchy_level: 2, item_name: 'Plain other project'
 
     # find terms at the end of project names
     top_menu.search 'END'
-    within(top_menu.search_results) do
-      expect(page).to have_selector(
-        '.ui-menu-item-wrapper',
-        text: 'Very long project name with term at the END'
-      )
-    end
+    top_menu.expect_result 'Very long project name with term at the END'
 
     # Find literal matches exclusively if present
     top_menu.search 'INK15'
-    within(top_menu.search_results) do
-      expect(page).to have_selector('.ui-menu-item-wrapper', text: 'INK15 - Bar')
-      expect(page).to have_no_selector('.ui-menu-item-wrapper', text: 'INK14 - Foo')
-      expect(page).to have_no_selector('.ui-menu-item-wrapper', text: 'INK16 - Baz')
-    end
+    top_menu.expect_result 'INK15 - Bar'
+    top_menu.expect_no_result 'INK14 - Foo'
+    top_menu.expect_no_result 'INK16 - Baz'
 
     # Visit a project
     top_menu.search_and_select '<strong'

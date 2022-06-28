@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Search', type: :feature, js: true, with_settings: { per_page_options: '5' }, with_mail: false do
-  include ::Components::NgSelectAutocompleteHelpers
+  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:admin) { create :admin }
   let(:user) { admin }

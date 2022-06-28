@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 require_relative '../common/modal'
-require_relative '../ng_select_autocomplete_helpers'
+require_relative '../autocompleter/ng_select_autocomplete_helpers'
 
 module Components
   module Users
     class InviteUserModal < ::Components::Common::Modal
-      include ::Components::NgSelectAutocompleteHelpers
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       attr_accessor :project, :principal, :role, :invite_message
 

@@ -32,7 +32,7 @@ require 'support/pages/work_packages/split_work_package'
 module Pages
   module Notifications
     class SplitScreen < ::Pages::SplitWorkPackage
-      include ::Components::NgSelectAutocompleteHelpers
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       def initialize(work_package, project = nil)
         super work_package, project

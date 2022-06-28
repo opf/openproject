@@ -27,7 +27,7 @@
 #++
 
 require 'support/pages/page'
-require 'support/components/ng_select_autocomplete_helpers'
+require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
 module Pages
   class Groups < Page
@@ -69,7 +69,7 @@ module Pages
   end
 
   class Group < Pages::Page
-    include ::Components::NgSelectAutocompleteHelpers
+    include ::Components::Autocompleter::NgSelectAutocompleteHelpers
     attr_reader :id
 
     def initialize(id)
