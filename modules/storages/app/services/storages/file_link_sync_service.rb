@@ -120,7 +120,6 @@ class Storages::FileLinkSyncService
     oauth_client = OAuthClient.find_by(integration_id: storage_id)
     connection_manager = ::OAuthClients::ConnectionManager.new(user: @user, oauth_client:)
     connection_manager_service_result = connection_manager.get_access_token # No scope for Nextcloud...
-
     unless connection_manager_service_result.success
       set_error_for_file_links(storage_file_links)
       return
@@ -128,31 +127,46 @@ class Storages::FileLinkSyncService
 
     @oauth_client_token = connection_manager_service_result.result
 
-    # Get info about files. Result is either an Exception or Net::HTTPOK with body
     storage_origin_file_ids = storage_file_links.map(&:origin_id)
-
-    tries = 2
-    parsed_response = :not_authorized
-    while parsed_response == :not_authorized && tries > 0
-      tries -= 1
-      http_response = request_files_info(storage_origin_file_ids)
-      parsed_response = parse_files_info_response(http_response) # symbol for errors, Hash for 200 result
-
-      if parsed_response == :not_authorized && tries > 0
-        refresh_service_result = connection_manager.refresh_token
-        unless refresh_service_result.success?
-          @service_result.merge!(refresh_service_result)
-          break # parsed_response is correctly :not_authorized here
-        end
-      end
+    nextcloud_request_result = nextcloud_request_with_token_refresh(connection_manager) do
+      response = request_files_info(storage_origin_file_ids)
+      # Extract ServiceResult with result = :error, :not_authorized or object with data
+      parse_files_info_response(response)
     end
+    @service_result.merge!(nextcloud_request_result) # Pass errors from Nextcloud into service result
 
-    if parsed_response.class.to_s != "Hash"
+    if nextcloud_request_result.failure?
       set_error_for_file_links(storage_file_links)
       return
     end
 
-    set_file_link_permissions(storage_file_links, parsed_response)
+    if nextcloud_request_result.result.class.to_s != "Hash"
+      set_error_for_file_links(storage_file_links)
+      return
+    end
+
+    set_file_link_permissions(storage_file_links, nextcloud_request_result.result)
+  end
+
+  # @returns ServiceResult with result to be :error or any type of object with data
+  def nextcloud_request_with_token_refresh(connection_manager)
+    # `yield` needs to returns a ServiceResult:
+    #   success: result= any object with data
+    #   failure: result= :error or :not_authorized
+    yield_service_result = yield
+
+    if yield_service_result.failure? && yield_service_result.result == :not_authorized
+      refresh_service_result = connection_manager.refresh_token
+      if refresh_service_result.failure?
+        failed_service_result = ServiceResult.failure(result: :error)
+        failed_service_result.merge!(refresh_service_result)
+        return failed_service_result
+      end
+
+      yield_service_result = yield # Should contain result=<data> in case of success
+    end
+
+    yield_service_result
   end
 
   def set_error_for_file_links(storage_file_links)
@@ -208,20 +222,25 @@ class Storages::FileLinkSyncService
 
   # Takes a response from querying Nextcloud file IDS (an Exception or a HTTP::Response),
   # parses the returned JSON and
-  # @return array of file information or an :error symbol
+  # @returns ServiceResult containing data in result and success=true,
+  #   or success=false with result=:error or result=:not_authorized.
   def parse_files_info_response(response)
-    return :error if response.is_a? StandardError
-    return :error unless response.key?('content-type') # Reply without content-type can't be valid.
-    return :error if response['content-type'].split(';').first.strip.downcase != 'application/json'
-    return :not_authorized if response.code == "401" # Nextcloud response if token has expired
-    return :error if response.code != "200" # Interpret any other response as an error
+    return ServiceResult.failure(result: :error) if
+      response.nil? ||
+      response.is_a?(StandardError) ||
+      !response.key?('content-type') || # Reply without content-type can't be valid.
+      response['content-type'].split(';').first.strip.downcase != 'application/json'
+
+    return ServiceResult.failure(result: :not_authorized) if response.code == "401" # Nextcloud response if token is not valid
+    return ServiceResult.failure(result: :error) unless response.code == "200" # Interpret any other response as an error
 
     begin
       response_hash = JSON.parse(response.body).dig('ocs', 'data')
-    rescue JSON::ParserError
-      return :error
+    rescue JSON::ParserError => e
+      return ServiceResult.failure(result: :error)
+                          .errors.add(:base, "JSON parser error: #{e.message}")
     end
 
-    response_hash
+    ServiceResult.success(result: response_hash)
   end
 end

@@ -276,7 +276,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
             .to receive(:refresh_token)
             .and_return(
               ServiceResult.failure.tap do |result|
-                result.errors.add(:base, "Error")
+                result.errors.add(:base, "Error from Nextcloud")
               end
             )
           allow(connection_manager)
@@ -286,7 +286,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
         it 'returns a failed ServiceResult with an error' do
           expect(subject).to be_a ServiceResult
           expect(subject.success).to be_falsey
-          expect(subject.message).to include "Error"
+          expect(subject.message).to include "Error from Nextcloud"
         end
       end
 
