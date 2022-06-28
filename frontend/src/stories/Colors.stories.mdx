@@ -1,0 +1,65 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
+import tokens from '../app/spot/styles/tokens/dist/tokens.json';
+
+export const ColorsPreview = ({ tokens }) => <div className="colors">
+  {Object.keys(tokens).filter(key => key.startsWith('spot-color-')).map(name => (
+    <div
+      className="colors--color"
+      key={name}
+    >
+      <div
+        className="colors--preview"
+        style={{ 'backgroundColor': tokens[name] }}
+      />
+      <div className="colors--name">${name}</div>
+      <div className="colors--value">{tokens[name]}</div>
+    </div>
+  ))}
+</div>;
+
+<Meta title="Tokens/Colors" />
+
+# Colors
+
+This is a basic example color palette. You can separate them by types, and also render them out in the docs however you like. In general, using colors that are not defined in your design system should be avoided in your application.
+
+<ColorsPreview tokens={tokens} />
+
+<style>
+{`
+.colors {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -1rem;
+}
+
+.colors--color {
+  border-radius: 2px;
+  border: 1px solid #eeeeee;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 200px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 150px;
+  max-width: 400px;
+  text-align: center;
+}
+
+.colors--preview {
+  flex-basis: 200px;
+}
+
+.colors--name {
+  font-weight: bold;
+  padding: 0.3rem;
+}
+
+.colors--value {
+  padding: 0.3rem;
+  padding-top: 0rem;
+}
+`}
+</style>

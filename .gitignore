@@ -106,6 +106,7 @@ npm-debug.log*
 /frontend/npm-debug.log*
 /frontend/dist/
 /frontend/tests/*.gif
+/frontend/storybook-static
 node_modules/
 
 # Storybook data
