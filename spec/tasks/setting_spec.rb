@@ -43,6 +43,8 @@ RSpec.describe Rake::Task, 'setting', :settings_reset do
 
     context 'if setting is overridden from config/configuration.yml file' do
       before do
+        # disable test env detection because loading of the config file is partially disabled in test env
+        allow(Rails.env).to receive(:test?).and_return(false)
         allow(Settings::Definition).to receive(:file_config)
           .and_return('default' => { 'email_delivery_method' => 'initial_file_value' })
         Settings::Definition.send(:override_value_from_file, Settings::Definition['email_delivery_method'])
@@ -77,6 +79,8 @@ RSpec.describe Rake::Task, 'setting', :settings_reset do
 
       context 'if setting is overridden from config/configuration.yml file' do
         before do
+          # disable test env detection because loading of the config file is partially disabled in test env
+          allow(Rails.env).to receive(:test?).and_return(false)
           allow(Settings::Definition).to receive(:file_config)
             .and_return('default' => { 'email_delivery_method' => 'initial_file_value' })
           Settings::Definition.send(:override_value_from_file, Settings::Definition['email_delivery_method'])
