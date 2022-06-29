@@ -53,12 +53,14 @@ module API::V3::FileLinks::StorageUrlHelper
 
     token = parse_direct_download_token body: response.result
     if token.blank?
-      Rails.logger.error "Received unexpected json response: #{response.result.body}"
+      Rails.logger.error "Received unexpected json response: #{response.result}"
       return ServiceResult.failure(result: I18n.t('http.response.unexpected'))
     end
 
-    "#{storage.host}/apps/integration_openproject/direct?token=#{token}&fileName=#{file_link.origin_name}"
+    url = "#{storage.host}/apps/integration_openproject/direct?token=#{token}&fileName=#{file_link.origin_name}"
+    ServiceResult.success(result: url)
   end
+
   # rubocop:enable Metrics/AbcSize
 
   private
