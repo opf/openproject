@@ -19,8 +19,9 @@
   class="button-box"
 >
   <button *ngFor="let button of buttons"
-    class="button op-files-tab--storage-info-box-button"
-    (click)="button.action()"
+          class="button op-files-tab--storage-info-box-button"
+          data-qa-selector="op-files-tab--storage-info-box-button"
+          (click)="button.action()"
   >
     <op-icon
       icon-classes="button--icon spot-icon spot-icon_external-link"
