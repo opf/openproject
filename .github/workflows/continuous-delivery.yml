@@ -4,8 +4,13 @@ on:
     branches:
       - dev
       - release/*
+permissions:
+  contents: read
+
 jobs:
   trigger_downstream_workflow:
+    permissions:
+      contents: none
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
     steps:
