@@ -7,9 +7,7 @@ keywords: Design system, styles, design, components
 ---
 # Design System
 
-<div class="alert alert-info" role="alert">
-**Note**: The initial version of the OpenProject design system is designed, developed and documented in Figma. We will move this documentation to the docs in a later stage.
-</div>
+> **Note**: The initial version of the OpenProject design system is designed, developed and documented in Figma. We will move this documentation to the docs in a later stage.
 
 
 ## Foundation library

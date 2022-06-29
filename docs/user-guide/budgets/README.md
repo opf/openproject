@@ -108,9 +108,7 @@ You will get and overview of planned as well as spent costs and the available co
 ![Budgets-details-view](Budgets-details-view.png)
 
 
-<div class="alert alert-info" role="alert">
-**Note**: The costs are calculated based on the [configuration for cost types](../../system-admin-guide) and the [configured hourly rate](../time-and-costs/time-tracking/#define-hourly-rate-for-labor-costs) in the user profile.
-</div>
+> **Note**: The costs are calculated based on the [configuration for cost types](../../system-admin-guide) and the [configured hourly rate](../time-and-costs/time-tracking/#define-hourly-rate-for-labor-costs) in the user profile.
 
 ## Frequently asked questions (FAQ)
 

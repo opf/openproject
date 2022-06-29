@@ -50,9 +50,7 @@ Handling locking and unlocking of users is also done from the user list. To disa
 
 If you are using [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide) locking a user will make a new user available to add to the system within your booked plan.
 
-<div class="alert alert-info" role="alert">
-**Note**: The previous activities from a locked user will still be displayed in the system.
-</div>
+> **Note**: The previous activities from a locked user will still be displayed in the system.
 
 ![System-admin-guide_lock-users](System-admin-guide_lock-users.png)
 
@@ -215,6 +213,4 @@ You will then be asked to type in the username in order to delete the user perma
 
 ![delete user](image-20200115162533470.png)
 
-<div class="alert alert-info" role="alert">
-**Note**: Deleting a user account is an irreversible action and cannot be reversed. The previous activities from this user will still be displayed in the system but reassigned to "deleted user".
-</div>
+> **Note**: Deleting a user account is an irreversible action and cannot be reversed. The previous activities from this user will still be displayed in the system but reassigned to "deleted user".

@@ -114,7 +114,5 @@ Select **Copy** in the upper right corner.
 
 You can now edit the copied meeting and add the new details. Click the **Save** button to secure your changes.
 
-<div class="alert alert-info" role="alert">
-**Note**: all the settings will be copied, except for the minutes, participants and meeting history. So if you want to keep the minutes as well, you have to copy it separately.
-</div>
+> **Note**: all the settings will be copied, except for the minutes, participants and meeting history. So if you want to keep the minutes as well, you have to copy it separately.
 

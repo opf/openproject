@@ -30,11 +30,8 @@ In the modal window select the repository ""*opf/openproject*"". Also select a f
 
 ## Step 2: Update local repository (fetch origin)
 
-<div class="alert alert-warning" role="alert">
 
-Important: Before you make changes always update your local repository.
-
-</div>
+> **Important**: Before you make changes always update your local repository.
 
 1. Select the branch you want to work on, e.g.`release/12.1` in the main toolbar.
 2. Click on the button **Fetch origin** in the main toolbar.

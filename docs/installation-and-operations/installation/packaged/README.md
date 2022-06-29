@@ -45,10 +45,7 @@ $ uname -i
 x86_64
 ```
 
-<div class="alert alert-info" role="alert">
-**Important note:** Please note that the packaged installation works best when running on a dedicated server or virtual machine, as we cannot ensure that the components installed and configured by the OpenProject installer will work on systems that have been already customized. If you must install OpenProject on a server where other software is running, or with an already configured Apache or NginX server, then you should have a look at the Docker-based installation instead.
-
-</div>
+> **Important note:** Please note that the packaged installation works best when running on a dedicated server or virtual machine, as we cannot ensure that the components installed and configured by the OpenProject installer will work on systems that have been already customized. If you must install OpenProject on a server where other software is running, or with an already configured Apache or NginX server, then you should have a look at the Docker-based installation instead.
 
 ## Ubuntu Installation
 
@@ -309,17 +306,15 @@ OpenProject comes in two editions:
 
 You can find more about the BIM edition on [this page](https://www.openproject.org/bim-project-management/).
 
-<div class="alert alert-info" role="alert">
-This wizard step is only available on the following distributions:
-
-* RHEL/CentOS 8
-* Ubuntu 20.04
-* Ubuntu 18.04
-* Debian 10
-* Debian 11
-
-On older distributions, this wizard step won't be displayed, and the installation will default to the default edition.
-</div>
+> This wizard step is only available on the following distributions:
+> 
+> * RHEL/CentOS 8
+> * Ubuntu 20.04
+> * Ubuntu 18.04
+> * Debian 10
+> * Debian 11
+> 
+> On older distributions, this wizard step won't be displayed, and the installation will default to the default edition.
 
 ## Step 2: PostgreSQL database configuration
 
@@ -393,11 +388,7 @@ In that case, you will be shown three additional dialogs to enter the certificat
 
 **External SSL/TLS termination**
 
-<div class="alert alert-warning" role="alert">
-
-If you terminate SSL externally before the request hits the OpenProject server, you need to follow the following instructions to avoid errors in routing. If you want to use SSL on the server running OpenProject, skip this section.
-
-</div>
+> **Note**: If you terminate SSL externally before the request hits the OpenProject server, you need to follow the following instructions to avoid errors in routing. If you want to use SSL on the server running OpenProject, skip this section.
 
 If you have a separate server that is terminating SSL and only forwarding/proxying to the OpenProject server, you must select "No" in this dialog. However, there are some parameters you need to put into your outer configuration.
 

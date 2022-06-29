@@ -10,9 +10,7 @@ keywords: sign in, login, registration
 
 Here you will get an overview how to sign in and register to an existing OpenProject installation.
 
-<div class="alert alert-info" role="alert">
-**Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/create-cloud-trial/).
-</div>
+> **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/create-cloud-trial/).
 
 
 | Topic                                                        | Content                                                      |
@@ -87,9 +85,7 @@ Make sure to remember your password in order to sign-in again at a later point.
 
 After the creation of your account you are logged into the system. You will then be asked to set your language in the system. Please choose your preferred language from the drop-down list.
 
-<div class="alert alert-info" role="alert">
-**Note**: OpenProject is available in more than 30 languages. If you do not find your preferred language, it first needs to be activated in the system's administration. Please talk to your system administrator so set up the language.
-</div>
+> **Note**: OpenProject is available in more than 30 languages. If you do not find your preferred language, it first needs to be activated in the system's administration. Please talk to your system administrator so set up the language.
 
 ![select language](20191202171349241.png)
 
@@ -107,6 +103,4 @@ You are then asked to enter you email address with which you have registered to 
 
 You will then receive an email with a link to reset your password.
 
-<div class="alert alert-info" role="alert">
-**Note**: If you have [signed-in with a Google account](#sign-in-with-a-google-account), you are not able to reset your password at this point.
-</div>
+> **Note**: If you have [signed-in with a Google account](#sign-in-with-a-google-account), you are not able to reset your password at this point.

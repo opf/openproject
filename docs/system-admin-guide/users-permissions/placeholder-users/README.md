@@ -48,9 +48,7 @@ You will then be asked to type in the placeholder user name to confirm the delet
 
 ![delete-placeholder-users](image-20210305163225643.png)
 
-<div class="alert alert-info" role="alert">
-**Note**: Deleting a placeholder user account is an irreversible action and cannot be revoked. The previous activities from this user will still be displayed in the system but reassigned to "Deleted user".
-</div>
+> **Note**: Deleting a placeholder user account is an irreversible action and cannot be revoked. The previous activities from this user will still be displayed in the system but reassigned to "Deleted user".
 
 ## Create placeholder users
 To add a new placeholder, user click on **+ Placeholder user** in the upper right corner of the [placeholder user list](#placeholder-user-list).

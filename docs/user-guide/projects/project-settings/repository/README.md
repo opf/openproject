@@ -12,9 +12,7 @@ keywords: repository
 You can integrate a SVN or GIT repository in a project in OpenProject and access it directly in the project via the module Repositories.
 </div>
 
-<div class="alert alert-info" role="alert">
-**Note**: Repositories can only be integrated for Community Edition and Enterprise Edition (self hosted) versions.
-</div>
+> **Note**: Repositories can only be integrated for Community Edition and Enterprise Edition (self hosted) versions.
 
 Navigate to -> *Project settings* -> *Repository*.
 
