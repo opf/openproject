@@ -1,6 +1,8 @@
 <label>
   <spot-checkbox
+    [name]="name"
+    [disabled]="disabled"
     [checked]="checked"
-    (change)="selectedChange"
+    (change)="checkedChange"
   ></spot-checkbox>
 </label>
