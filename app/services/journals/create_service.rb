@@ -49,11 +49,11 @@ module Journals
 
     def call(notes: '')
       Journal.transaction do
-        journal = create_journal(notes)
+        predecessor = strip_predecessor(notes)
+        journal = create_journal(predecessor, notes)
 
         return ServiceResult.success unless journal
 
-        destroy_predecessor(journal)
         reload_journals
         touch_journable(journal)
 
@@ -63,22 +63,29 @@ module Journals
 
     private
 
-    def destroy_predecessor(journal)
-      predecessor = journal.previous
+    # If the journalizing happens within the configured aggregation time, is carried out by the same user
+    # and only the predecessor or the journal to be created has notes, the changes are aggregated.
+    # Instead of removing the predecessor, it is stripped of all data to later be filled with the current
+    # snapshot. That way, references to the journal, including ones users have, are kept intact.
+    def strip_predecessor(notes)
+      predecessor = journable.last_journal
 
-      if aggregatable?(predecessor, journal)
-        notify_aggregation_destruction(predecessor, journal)
+      if aggregatable?(predecessor, notes)
+        # TODO: check if this can be moved into the joined sql
+        predecessor.data.delete
+        predecessor.customizable_journals.delete_all
+        predecessor.attachable_journals.delete_all
 
-        predecessor.destroy
-
-        take_over_journal_details(predecessor, journal)
+        predecessor
+      else
+        nil
       end
     end
 
-    def create_journal(notes)
+    def create_journal(predecessor, notes)
       Rails.logger.debug { "Inserting new journal for #{journable_type} ##{journable.id}" }
 
-      create_sql = create_journal_sql(notes)
+      create_sql = create_journal_sql(predecessor, notes)
 
       # We need to ensure that the result is genuine. Otherwise,
       # calling the service repeatedly for the same journable
@@ -134,16 +141,16 @@ module Journals
     #
     # If a journal is created, all entries in the custom_values table associated to the journable are recreated as entries
     # in the customizable_journals table. Again, newlines are normalized.
-    def create_journal_sql(notes)
+    def create_journal_sql(predecessor, notes)
       <<~SQL
         WITH max_journals AS (
-          #{select_max_journal_sql}
+          #{select_max_journal_sql(predecessor)}
         ), changes AS (
           #{select_changed_sql}
         ), insert_data AS (
           #{insert_data_sql(notes)}
         ), inserted_journal AS (
-          #{insert_journal_sql(notes)}
+          #{update_or_insert_journal_sql(predecessor, notes)}
         ), insert_attachable AS (
           #{insert_attachable_sql}
         ), insert_customizable AS (
@@ -152,6 +159,43 @@ module Journals
 
         SELECT * from inserted_journal
       SQL
+    end
+
+    def update_or_insert_journal_sql(predecessor, notes)
+      if predecessor
+        update_journal_sql(predecessor, notes)
+      else
+        insert_journal_sql(notes)
+      end
+    end
+
+    def update_journal_sql(predecessor, notes)
+      # If there is a predecessor, we don't want to create a new one, we simply rewrite it.
+      # The original data of that predecessor (data e.g. work_package_journals, customizable_journals, attachable_journals)
+      # has been deleted before but the notes need to taken over and the timestamps updated as if the
+      # journal would have been created.
+      #
+      # A lot of the data does not need to be set anew, since we only aggregate if that data stays the same
+      # (e.g. the user_id).
+      journal_sql = <<~SQL
+          UPDATE
+            journals
+          SET
+            notes = :notes,
+            created_at = #{journal_timestamp_sql(notes, ':created_at')},
+            updated_at = #{journal_timestamp_sql(notes, ':updated_at')},
+            data_id = insert_data.id
+          FROM insert_data
+          WHERE journals.id = :predecessor_id
+          RETURNING
+            journals.*
+      SQL
+
+      sanitize(journal_sql,
+               notes: notes.present? ? notes : predecessor.notes,
+               created_at: journable_timestamp,
+               updated_at: journable_timestamp,
+               predecessor_id: predecessor.id)
     end
 
     def insert_journal_sql(notes)
@@ -184,15 +228,15 @@ module Journals
         RETURNING *
       SQL
 
-      ::OpenProject::SqlSanitization.sanitize(journal_sql,
-                                              notes:,
-                                              journable_id: journable.id,
-                                              activity_type: journable.activity_type,
-                                              journable_type:,
-                                              user_id: user.id,
-                                              created_at: journable_timestamp,
-                                              updated_at: journable_timestamp,
-                                              data_type: journable.class.journal_class.name)
+      sanitize(journal_sql,
+               notes:,
+               journable_id: journable.id,
+               activity_type: journable.activity_type,
+               journable_type:,
+               user_id: user.id,
+               created_at: journable_timestamp,
+               updated_at: journable_timestamp,
+               data_type: journable.class.journal_class.name)
     end
 
     def insert_data_sql(notes)
@@ -217,8 +261,8 @@ module Journals
         RETURNING *
       SQL
 
-      ::OpenProject::SqlSanitization.sanitize(data_sql,
-                                              journable_id: journable.id)
+      sanitize(data_sql,
+               journable_id: journable.id)
     end
 
     def insert_attachable_sql
@@ -240,9 +284,9 @@ module Journals
           AND attachments.container_type = :journable_class_name
       SQL
 
-      ::OpenProject::SqlSanitization.sanitize(attachable_sql,
-                                              journable_id: journable.id,
-                                              journable_class_name: journable.class.name)
+      sanitize(attachable_sql,
+               journable_id: journable.id,
+               journable_class_name: journable.class.name)
     end
 
     def insert_customizable_sql
@@ -266,13 +310,24 @@ module Journals
           AND custom_values.value != ''
       SQL
 
-      ::OpenProject::SqlSanitization.sanitize(customizable_sql,
-                                              journable_id: journable.id,
-                                              journable_class_name: journable.class.name)
+      sanitize(customizable_sql,
+               journable_id: journable.id,
+               journable_class_name: journable.class.name)
     end
 
-    def select_max_journal_sql
-      max_journal_sql = <<~SQL
+    def select_max_journal_sql(predecessor)
+      journal_version_sql = if predecessor
+                              sanitize "SELECT MAX(version) FROM journals WHERE journable_id = :journable_id AND journable_type = :journable_type AND version < :predecessor_version",
+                                       journable_id: journable.id,
+                                       journable_type:,
+                                       predecessor_version: predecessor.version
+                            else
+                              sanitize "SELECT MAX(version) FROM journals WHERE journable_id = :journable_id AND journable_type = :journable_type",
+                                       journable_id: journable.id,
+                                       journable_type:
+                            end
+
+    max_journal_sql = <<~SQL
         SELECT
           :journable_id journable_id,
           :journable_type journable_type,
@@ -286,12 +341,12 @@ module Journals
         ON
            journals.journable_id = :journable_id
            AND journals.journable_type = :journable_type
-           AND journals.version IN (SELECT MAX(version) FROM journals WHERE journable_id = :journable_id AND journable_type = :journable_type)
+           AND journals.version IN (#{journal_version_sql})
       SQL
 
-      ::OpenProject::SqlSanitization.sanitize(max_journal_sql,
-                                              journable_id: journable.id,
-                                              journable_type:)
+      sanitize(max_journal_sql,
+               journable_id: journable.id,
+               journable_type:)
     end
 
     def select_changed_sql
@@ -332,9 +387,9 @@ module Journals
           OR (attachable_journals.attachment_id IS NULL AND attachments.id IS NOT NULL)
       SQL
 
-      ::OpenProject::SqlSanitization.sanitize(attachable_changes_sql,
-                                              journable_id: journable.id,
-                                              container_type: journable.class.name)
+      sanitize(attachable_changes_sql,
+               journable_id: journable.id,
+               container_type: journable.class.name)
     end
 
     def customizable_changes_sql
@@ -360,9 +415,9 @@ module Journals
               #{normalize_newlines_sql('custom_values.value')})
       SQL
 
-      ::OpenProject::SqlSanitization.sanitize(customizable_changes_sql,
-                                              customized_type: journable.class.name,
-                                              journable_id: journable.id)
+      sanitize(customizable_changes_sql,
+               customized_type: journable.class.name,
+               journable_id: journable.id)
     end
 
     def data_changes_sql
@@ -383,8 +438,8 @@ module Journals
           #{journable_table_name}.id = :journable_id AND (#{data_changes_condition_sql})
       SQL
 
-      ::OpenProject::SqlSanitization.sanitize(data_changes_sql,
-                                              journable_id: journable.id)
+      sanitize(data_changes_sql,
+               journable_id: journable.id)
     end
 
     def only_if_created_sql
@@ -482,12 +537,12 @@ module Journals
       journable.update_columns(timestamps) if timestamps.any?
     end
 
-    def aggregatable?(predecessor, journal)
+    def aggregatable?(predecessor, notes)
       predecessor.present? &&
         Setting.journal_aggregation_time_minutes.to_i > 0 &&
-        predecessor.created_at >= journal.created_at - Setting.journal_aggregation_time_minutes.to_i.minutes &&
-        predecessor.user_id == journal.user_id &&
-        (predecessor.notes.empty? || journal.notes.empty?)
+        predecessor.created_at >= Time.zone.now - Setting.journal_aggregation_time_minutes.to_i.minutes &&
+        predecessor.user_id == user.id &&
+        (predecessor.notes.empty? || notes.empty?)
     end
 
     def notify_aggregation_destruction(predecessor, journal)
@@ -503,5 +558,8 @@ module Journals
         journal.update_columns(version: predecessor.version)
       end
     end
+
+    delegate :sanitize,
+             to: ::OpenProject::SqlSanitization
   end
 end
