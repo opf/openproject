@@ -740,6 +740,7 @@ fr:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "ne peut pas être un jalon."
               cannot_be_self_assigned: "ne peut pas être assigné à lui-même."
@@ -1462,7 +1463,6 @@ fr:
   label_consent_settings: "Accord de l'utilisateur"
   label_wiki_menu_item: Élément de menu wiki
   label_select_main_menu_item: Sélectionner nouvel élément de menu principal
-  label_select_project: "Sélectionner un projet"
   label_required_disk_storage: "Espace disque requis"
   label_send_invitation: Envoyer une invitation
   label_change_plural: "Changements"
@@ -1741,7 +1741,6 @@ fr:
   label_product_version: "Version du produit"
   label_professional_support: "Support professionnel"
   label_profile: "Profil"
-  label_project_all: "Tous les projets"
   label_project_count: "Nombre total de projets"
   label_project_copy_notifications: "Notifier par courriel lors de la copie du projet"
   label_project_latest: "Derniers projets"

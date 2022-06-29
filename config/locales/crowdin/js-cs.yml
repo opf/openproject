@@ -121,7 +121,7 @@ cs:
     description_current_position: "Jste zde: "
     description_select_work_package: "Vyberte pracovní balíček #%{id}"
     description_selected_columns: "Vybrané sloupce"
-    description_subwork_package: "Potomek pracovního balíčku #%{id}"
+    description_subwork_package: "Podřazený pracovního balíčku #%{id}"
     editor:
       preview: 'Přepnout režim náhledu'
       source_code: 'Přepnout zdrojový mód Markdown'
@@ -138,7 +138,7 @@ cs:
           invalid_attribute: "Vybraný atribut '%{name}' neexistuje."
         child_pages:
           button: 'Odkazy na podřízené stránky'
-          include_parent: 'Zahrnout rodiče'
+          include_parent: 'Zahrnout nadřazený'
           text: '[Placeholder] Odkazy na podřízené stránky z'
           page: 'Stránka wiki'
           this_page: 'tato stránka'
@@ -276,7 +276,7 @@ cs:
     hal:
       error:
         update_conflict_refresh: "Klikněte zde pro aktualizaci na nejnovější verzi."
-        edit_prohibited: "Editace %{attribute} je zablokována pro tento pracovní balíček. Buď je tento atribut odvozen od vztahů (např. potomek) nebo není konfigurovatelný."
+        edit_prohibited: "Editace %{attribute} je zablokována pro tento pracovní balíček. Buď je tento atribut odvozen od vztahů (např. podřazený) nebo není konfigurovatelný."
         format:
           date: "%{attribute} není platné datum - RRRR-MM-DD očekáváno."
         general: "Došlo k chybě."
@@ -351,6 +351,7 @@ cs:
     label_expand_project_menu: "Rozbalit nabídku projektu"
     label_export: "Export"
     label_export_preparing: "Export je připraven a bude brzy k stažení."
+    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Soubor"
     label_filesize: "Velikost"
     label_general: "Obecné"
@@ -373,9 +374,9 @@ cs:
     label_learn_more_link: "Více informací"
     label_less_or_equal: "<="
     label_less_than_ago: "před méně jak (dny)"
-    label_link_files_in_storage: "Link files in %{storageType}"
+    label_link_files_in_storage: "Soubory odkazů v %{storageType}"
     label_loading: "Načítání..."
-    label_login_to_storage: "Login to %{storageType}"
+    label_login_to_storage: "Přihlásit se k %{storageType}"
     label_mail_notification: "E-mailová upozornění"
     label_me: "já"
     label_meeting_agenda: "Agenda"
@@ -388,7 +389,7 @@ cs:
     label_no_data: "Žádná data k zobrazení"
     label_no_due_date: "žádné datum dokončení"
     label_no_start_date: "žádné datum začátku"
-    label_no_storage_connection: "No %{storageType} connection"
+    label_no_storage_connection: "Žádné připojení %{storageType}"
     label_no_value: "Žádná hodnota"
     label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "žádný"
@@ -397,27 +398,30 @@ cs:
     label_on: "zapnuto"
     label_open_menu: "Otevřít nabídku"
     label_open_context_menu: "Otevřít kontextovou nabídku"
-    label_open_storage: "Open %{storageType}"
+    label_open_storage: "Otevřít %{storageType}"
     label_open_work_packages: "open"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
+    label_open_file_link: 'Otevřít soubor v úložišti'
+    label_open_file_link_location: 'Otevřít soubor v umístění'
     label_password: "Heslo"
     label_previous: "Předchozí"
     label_per_page: "Na stránku:"
     label_please_wait: "Čekejte prosím"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projekty"
-    label_visibility_settings: "Nastavení viditelnosti"
+    label_visibility_settings: "Viditelnost zobrazení"
     label_quote_comment: "Citovat tento komentář"
     label_recent: "Nedávné"
     label_reset: "Reset"
     label_remove: "Odstranit"
     label_remove_column: "Odstranit sloupec"
     label_remove_columns: "Odstranit vybrané sloupce"
-    label_remove_file_link: "Remove file link"
+    label_remove_file_link: "Odstranit odkaz na soubor"
     label_remove_row: "Odstranit řádek"
     label_report: "Hlášení"
     label_repository_plural: "Repozitáře"
     label_save_as: "Uložit jako"
+    label_select_project: "Select a project"
     label_select_watcher: "Zvolte sledujícího..."
     label_selected_filter_list: "Vybrané filtry"
     label_show_attributes: "Zobrazit všechny atributy"
@@ -429,9 +433,9 @@ cs:
     label_sorting: "Řazení"
     label_spent_time: "Strávený čas"
     label_star_query: "Oblíbená"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
+    label_storage_connection_error: "Některá %{storageType} nastavení nefungují. Zkuste se přihlásit znovu nebo kontaktujte svého správce %{storageType}."
+    label_storage_login: "%{storageType} přihlášení"
+    label_storage_not_connected: "Chcete-li přidat odkaz, podívat se na soubory související s tímto pracovním balíčkem, přihlaste se do %{storageType}."
     label_press_enter_to_save: "Stiskněte Enter pro uložení."
     label_public_query: "Veřejné"
     label_sum: "Suma"
@@ -525,7 +529,7 @@ cs:
           timeline_button: 'Můžete aktivovat <b>Gantt graf</b> pro vytvoření časové osy pro váš projekt.'
           timeline: 'Zde můžete upravit váš projektový plán. Vytvářet nové fáze, milníky a přidat závislosti. Všichni členové týmu mohou kdykoliv zobrazit a aktualizovat aktuální plán.'
         team_planner:
-          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          overview: 'Plánovač týmu vám umožní vizuálně přiřadit úkoly členům týmu a získat přehled o tom, kdo na čem pracuje.'
           calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
           add_assignee: 'Chcete-li začít, přidejte do plánovače týmu řešitele'
           add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
@@ -577,7 +581,7 @@ cs:
             title: 'Jsem @zmíněn'
             description: 'Dostat upozornění, kdykoli mě někdo kdekoli zmíní'
           involved:
-            title: 'Přiřazeno mně nebo odpovědný'
+            title: 'Přiřazeno mně nebo jsem Odpovědný'
             description: 'Přijímat oznámení pro všechny aktivity v pracovních balíčcích, pro které jsem ŘeŠitel nebo Zodpovědný'
           watched: 'Aktualizace u sledovaných položek'
           work_package_commented: 'Všechny nové komentáře'
@@ -692,7 +696,7 @@ cs:
       label_discard: Zrušit výběr
       typeahead_placeholder: Hledání možných přihlížejících
     relation_labels:
-      parent: "Rodič"
+      parent: "Nadřazený"
       children: "Potomci"
       relates: "Související s"
       duplicates: "Duplikáty"
@@ -707,7 +711,7 @@ cs:
       required: "Vyžadováno"
       relation_type: "typ vztahu"
     relations_hierarchy:
-      parent_headline: "Rodič"
+      parent_headline: "Nadřazený"
       hierarchy_headline: "Hierarchie"
       children_headline: "Potomci"
     relation_buttons:
@@ -718,7 +722,7 @@ cs:
       hierarchy_outdent: "Odsadit hierarchii"
       group_by_wp_type: "Seskupit podle typu pracovního balíčku"
       group_by_relation_type: "Seskupit podle typu vztahu"
-      add_parent: "Přidat existujícího rodiče"
+      add_parent: "Přidat existující nadřazený"
       add_new_child: "Vytvořit nového potomka"
       create_new: "Vytvořit nový"
       add_existing: "Přidat existující"
@@ -736,7 +740,7 @@ cs:
       abort: "Zrušit"
     relations_autocomplete:
       placeholder: "Zadejte hledaný text"
-      parent_placeholder: "Vyberte nového rodiče nebo stiskněte ESC pro zrušení."
+      parent_placeholder: "Vyberte nový rnadřazený nebo zrušte stisknutím ESC "
     autocompleter:
       placeholder: "Zadejte hledaný text"
       notFoundText: "Nenalezeny žádné položky"
@@ -771,7 +775,7 @@ cs:
         farRight: 'Dále vpravo'
         showNone: '-- Bez popisku --'
         description: >
-          Vyberte atributy, které chcete vždy zobrazit v příslušných pozicích Ganttova grafu. Všimněte si, že při přejmenování prvku budou namísto těchto atributů zobrazeny jeho popisky s daty.
+          Vyberte atributy, které chcete zobrazit v příslušných pozicích Ganttova diagramu. Všimněte si, že při najetí kursorem myši budou místo těchto atributů zobrazeny jeho popisky s daty.
       button_activate: 'Zobrazit Ganttův diagram'
       button_deactivate: 'Skrýt Ganttův diagram'
       cancel: Zrušit
@@ -850,12 +854,12 @@ cs:
       comment_updated: "Komentář byl úspěšně aktualizován."
       confirm_edit_cancel: "Opravdu chcete zrušit úpravy pracovního balíčku?"
       datepicker_modal:
-        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
-        manually_scheduled: "Manual scheduling enabled, all relations ignored."
-        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
-        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
-        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        automatically_scheduled_parent: "Automaticky naplánováno. Data jsou odvozena od vztahů."
+        manually_scheduled: "Manuální plánování povoleno, všechny vztahy jsou ignorovány."
+        start_date_limited_by_relations: "Dostupná data zahájení a ukončení jsou omezena vztahy."
+        changing_dates_affects_follow_relations: "Změna těchto dat ovlivní data souvisejících pracovních balíčků."
+        click_on_show_relations_to_open_gantt: 'Klikněte na "%{button_name}pro přehled GANTT.'
+        show_relations: 'Zobrazit vztahy'
       description_filter: "Filtr"
       description_enter_text: "Zadejte text"
       description_options_hide: "Skrýt možnosti"
@@ -881,7 +885,7 @@ cs:
         title: 'Nový pracovní balíček'
         header: 'Nový %{type}'
         header_no_type: 'Nový pracovní balíček (ještě není nastaven typ)'
-        header_with_parent: 'Nový %{type} (Potomek %{parent_type} #%{id})'
+        header_with_parent: 'Nový %{type} (podřazený %{parent_type} #%{id})'
         button: 'Vytvořit'
       copy:
         title: 'Kopírovat pracovní balíček'
@@ -921,7 +925,7 @@ cs:
         startDate: "Datum zahájení"
         status: "Stav"
         subject: "Předmět"
-        subproject: "Dílčí projekt"
+        subproject: "Podprojekt"
         title: "Název"
         type: "Typ"
         updatedAt: "Aktualizováno"
@@ -960,7 +964,7 @@ cs:
         confirm_edit_cancel: "Jste si jisti, že chcete zrušit úpravy názvu tohoto pohledu? Titulek bude nastaven zpět na předchozí hodnotu."
         click_to_edit_query_name: "Kliknutím upravíte název tohoto zobrazení."
         rename_query_placeholder: "Název tohoto zobrazení"
-        star_text: "Označte tento pohled jako oblíbený a přidejte do postranního panelu vlevo."
+        star_text: "Označte toto zobrazení jako oblíbené a přidejte do postranního panelu vlevo."
         public_text: >
           Publikujte toto zobrazení, umožňující ostatním uživatelům přístup k vašemu zobrazení. Uživatelé s oprávněním 'Spravovat veřejné zobrazení' mohou upravit nebo odebrat veřejný dotaz. To nemá vliv na viditelnost výsledků pracovního balíčku v tomto zobrazení a v závislosti na jejich oprávněních mohou uživatelé vidět různé výsledky.
         errors:
@@ -1004,7 +1008,7 @@ cs:
           automatic: 'Automaticky'
           manually: 'Ručně'
           warning: 'Při aktivaci režimu automatického řazení ztratíte své předchozí řazení.'
-        columns_help_text: "Použijte vstup výše pro přidání nebo odebrání sloupců do tabulkového pohledu. Přetažením sloupců změníte jejich pořadí."
+        columns_help_text: "Toto pole použijte pro přidání nebo odebrání sloupců v tabulkovém zobrazení. Přetažením sloupců myší změníte jejich pořadí v tabulce."
         upsale:
           attribute_highlighting: 'Potřebujete určité pracovní balíčky, aby vyšly z celkového objemu?'
           relation_columns: 'Potřebujete vidět vztahy v seznamu pracovních balíčků?'
@@ -1035,8 +1039,8 @@ cs:
         save: "Uložit"
         save_as: "Uložit jako..."
         export: "Exportovat ..."
-        visibility_settings: "Nastavení viditelnosti..."
-        page_settings: "Přejmenovat pohled..."
+        visibility_settings: "Viditelnost zobrazení"
+        page_settings: "Přejmenovat zobrazení..."
         delete: "Odstranit"
       filter: "Filtr"
       unselected_title: "Pracovní balíček"
@@ -1116,7 +1120,7 @@ cs:
       search: "Vyhledávání"
       close_search: "Zavřít hledání"
       current_project: "V tomto projektu"
-      current_project_and_all_descendants: "V tomto projektu + dilčí projekty"
+      current_project_and_all_descendants: "V tomto projektu + podprojektech"
       title:
         all_projects: "všechny projekty"
         project_and_subprojects: "a všechny podprojekty"
@@ -1199,9 +1203,9 @@ cs:
         all: 'Všechny projekty'
         selected: 'Pouze vybrané'
       search_placeholder: 'Hledat projekt...'
-      include_subprojects: 'Zahrnout všechny dílčí projekty'
+      include_subprojects: 'Zahrnout všechny podprojekty'
       tooltip:
-        include_all_selected: 'Zahrnout všechny dílčí projekty je vybráno.'
+        include_all_selected: 'Zahrnout všechny podprojekty je zvoleno.'
         current_project: 'Toto je aktuální projekt, ve kterém se nacházíte.'
     forms:
       submit_success_message: 'Formulář byl úspěšně odeslán'

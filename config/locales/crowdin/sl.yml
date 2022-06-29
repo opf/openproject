@@ -739,6 +739,7 @@ sl:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "ne more biti mejnik."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1493,7 +1494,6 @@ sl:
   label_consent_settings: "Soglasje uporabnika"
   label_wiki_menu_item: Element menija Wiki
   label_select_main_menu_item: Izberite nov element v glavnem meniju
-  label_select_project: "Izberi projekt"
   label_required_disk_storage: "Potrebna kapaciteta diska"
   label_send_invitation: Pošlji povabilo
   label_change_plural: "Spremembe"
@@ -1772,7 +1772,6 @@ sl:
   label_product_version: "Različica izdelka"
   label_professional_support: "Strokovna podpora"
   label_profile: "Profil"
-  label_project_all: "Vsi projekti"
   label_project_count: "Skupno število projektov"
   label_project_copy_notifications: "Med kopijo projekta pošljite obvestila po e-pošti"
   label_project_latest: "Zadnji projekti"
