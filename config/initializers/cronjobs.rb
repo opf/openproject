@@ -8,6 +8,7 @@ OpenProject::Application.configure do |application|
                               ::OAuth::CleanupJob,
                               ::Attachments::CleanupUncontaineredJob,
                               ::Notifications::ScheduleReminderMailsJob,
+                              ::Notifications::CleanupJob,
                               ::Ldap::SynchronizationJob
   end
 end
