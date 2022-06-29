@@ -46,7 +46,7 @@ export class SearchableProjectListService {
       },
     )
       .pipe(
-        finalize(() => setTimeout(() => this.fetchingProjects$.next(false))),
+        finalize(() => this.fetchingProjects$.next(false)),
       )
       .subscribe((projects) => {
         this.allProjects$.next(projects);
