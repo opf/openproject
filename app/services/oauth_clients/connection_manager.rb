@@ -145,6 +145,27 @@ module OAuthClients
       :error
     end
 
+    # @returns ServiceResult with result to be :error or any type of object with data
+    def request_with_token_refresh
+      # `yield` needs to returns a ServiceResult:
+      #   success: result= any object with data
+      #   failure: result= :error or :not_authorized
+      yield_service_result = yield
+
+      if yield_service_result.failure? && yield_service_result.result == :not_authorized
+        refresh_service_result = refresh_token
+        if refresh_service_result.failure?
+          failed_service_result = ServiceResult.failure(result: :error)
+          failed_service_result.merge!(refresh_service_result)
+          return failed_service_result
+        end
+
+        yield_service_result = yield # Should contain result=<data> in case of success
+      end
+
+      yield_service_result
+    end
+
     private
 
     # Check if a OAuthClientToken already exists and return nil otherwise.

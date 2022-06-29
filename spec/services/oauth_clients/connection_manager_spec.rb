@@ -440,4 +440,83 @@ describe ::OAuthClients::ConnectionManager, type: :model do
       end
     end
   end
+
+  describe '#request_with_token_refresh' do
+    let(:yield_service_result) { ServiceResult.success }
+    let(:refresh_service_result) { ServiceResult.success }
+
+    subject do
+      instance.request_with_token_refresh { yield_service_result }
+    end
+
+    before do
+      allow(instance).to receive(:refresh_token).and_return refresh_service_result
+    end
+
+    context 'with yield=:success and refresh not called' do
+      it 'returns a ServiceResult with success, without refresh' do
+        expect(subject.success).to be_truthy
+        expect(instance).not_to have_received(:refresh_token)
+      end
+    end
+
+    context 'with yield=:error and refresh not called' do
+      let(:yield_service_result) { ServiceResult.failure(result: :error) }
+
+      it 'returns a ServiceResult with success, without refresh' do
+        expect(subject.success).to be_falsey
+        expect(subject.result).to be :error
+        expect(instance).not_to have_received(:refresh_token)
+      end
+    end
+
+    context 'with yield=:not_authorized and refresh=:success' do
+      let(:yield_service_result) { ServiceResult.failure(result: :not_authorized) }
+
+      it 'returns a ServiceResult with success, without refresh' do
+        expect(subject.success).to be_falsey
+        expect(subject.result).to be :not_authorized
+        expect(instance).to have_received(:refresh_token)
+      end
+    end
+
+    context 'with yield=:not_authorized and refresh=:failure' do
+      let(:yield_service_result) { ServiceResult.failure(result: :not_authorized) }
+      let(:refresh_service_result) { ServiceResult.failure }
+
+      it 'returns a ServiceResult with success, without refresh' do
+        expect(subject.success).to be_falsey
+        expect(subject.result).to be :error
+        expect(instance).to have_received(:refresh_token)
+      end
+    end
+
+    context 'with yield=:not_authorized first time and success the second time' do
+      let(:yield_double_object) { Object.new }
+      let(:yield_service_result1) { ServiceResult.failure(result: :not_authorized) }
+      let(:yield_service_result2) { ServiceResult.success }
+      let(:refresh_service_result) { ServiceResult.success }
+
+      subject do
+        instance.request_with_token_refresh { yield_double_object.yield_twice_method }
+      end
+
+      before do
+        allow(instance).to receive(:refresh_token).and_return refresh_service_result
+        allow(yield_double_object)
+          .to receive(:yield_twice_method)
+                .and_return(
+                  yield_service_result1,
+                  yield_service_result2
+                )
+      end
+
+      it 'returns a ServiceResult with success, without refresh' do
+        expect(subject.success).to be_truthy
+        expect(subject).to be yield_service_result2
+        expect(instance).to have_received(:refresh_token)
+        expect(yield_double_object).to have_received(:yield_twice_method).twice
+      end
+    end
+  end
 end

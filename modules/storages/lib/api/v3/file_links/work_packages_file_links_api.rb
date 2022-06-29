@@ -65,9 +65,6 @@ module API
                                         .where(container_id: @work_package.id, container_type: 'WorkPackage'))
                            .all
 
-            # ToDo: API allows queries on storages, how to integrate here?
-            # Example: -> grids_api.rb
-
             # Synchronize with Nextcloud. StorageAPI handles OAuth2 for us.
             service_result = ::Storages::FileLinkSyncService
                                .new(user: current_user)

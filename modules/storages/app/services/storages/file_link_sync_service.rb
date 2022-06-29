@@ -56,8 +56,8 @@ class Storages::FileLinkSyncService
     @service_result
   end
 
-  def set_file_link_permissions(storage_file_links, parsed_response)
-    storage_file_links.each do |file_link|
+  def set_file_link_permissions(file_links, parsed_response)
+    file_links.each do |file_link|
       origin_file_info_hash = parsed_response[file_link.origin_id]
 
       case origin_file_info_hash['statuscode']
@@ -128,9 +128,11 @@ class Storages::FileLinkSyncService
     @oauth_client_token = connection_manager_service_result.result
 
     storage_origin_file_ids = storage_file_links.map(&:origin_id)
-    nextcloud_request_result = nextcloud_request_with_token_refresh(connection_manager) do
+    nextcloud_request_result = connection_manager.request_with_token_refresh do
       response = request_files_info(storage_origin_file_ids)
-      # Extract ServiceResult with result = :error, :not_authorized or object with data
+      # Parse HTTP response an return a ServiceResult with:
+      #   success: result= Hash with Nextcloud filesinfo (name of endpoint) data
+      #   failure: result= :error or :not_authorized
       parse_files_info_response(response)
     end
     @service_result.merge!(nextcloud_request_result) # Pass errors from Nextcloud into service result
@@ -141,27 +143,6 @@ class Storages::FileLinkSyncService
     end
 
     set_file_link_permissions(storage_file_links, nextcloud_request_result.result)
-  end
-
-  # @returns ServiceResult with result to be :error or any type of object with data
-  def nextcloud_request_with_token_refresh(connection_manager)
-    # `yield` needs to returns a ServiceResult:
-    #   success: result= any object with data
-    #   failure: result= :error or :not_authorized
-    yield_service_result = yield
-
-    if yield_service_result.failure? && yield_service_result.result == :not_authorized
-      refresh_service_result = connection_manager.refresh_token
-      if refresh_service_result.failure?
-        failed_service_result = ServiceResult.failure(result: :error)
-        failed_service_result.merge!(refresh_service_result)
-        return failed_service_result
-      end
-
-      yield_service_result = yield # Should contain result=<data> in case of success
-    end
-
-    yield_service_result
   end
 
   def set_error_for_file_links(storage_file_links)

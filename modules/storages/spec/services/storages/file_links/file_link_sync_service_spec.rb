@@ -66,7 +66,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
   end
 
   # We're going to mock OAuth2 autentication failures below
-  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
+  let(:connection_manager) { ::OAuthClients::ConnectionManager.new(user:, oauth_client: oauth_client1) }
   let(:authorize_url) { 'https://example.com/authorize' }
   let(:instance) { described_class.new(user:) }
 
@@ -236,6 +236,8 @@ describe ::Storages::FileLinkSyncService, type: :model do
           allow(connection_manager)
             .to receive(:get_access_token)
             .and_return(ServiceResult.success(result: oauth_client_token1))
+          # We can't mock :request_with_token_refresh easily, as it takes a block
+          # of the instance to be tested. So we use a "real" ConnectionManager instance instead.
 
           # Mock Nextcloud to return:
           #   first: a 401 indicating an outdated OAuth2 Bearer token and
@@ -250,6 +252,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
                        headers: { 'Content-Type': 'application/json; charset=utf-8' },
                        body: { ocs: { meta: ocs_meta_s200, data: { '24': file_info1_s200 } } }.to_json)
         end
+        # ToDo: Do I check that refresh_token is only called once?
 
         # Just check that some update has happened.
         it 'updates the file_link information' do

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 file links resource', with_flag: { storages_module_active: true }, type: :request, webmock: true do
+describe 'API v3 file links resource', with_flag: { storages_module_active: true }, type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages view_file_links) }
