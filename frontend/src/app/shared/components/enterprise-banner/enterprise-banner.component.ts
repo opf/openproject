@@ -8,11 +8,10 @@ import {
 } from '@angular/core';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { EnterpriseTrialModalComponent } from 'core-app/features/enterprise/enterprise-modal/enterprise-trial.modal';
-import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
 import { OpModalService } from '../modal/modal.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 export const enterpriseBannerSelector = 'op-enterprise-banner';
 
@@ -46,6 +45,7 @@ export class EnterpriseBannerComponent implements OnInit {
     you_contribute: this.I18n.t('js.admin.enterprise.upsale.you_contribute'),
     button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
     upgrade: this.I18n.t('js.admin.enterprise.upsale.button_upgrade'),
+    more_info_link: `${this.pathHelper.appBasePath}/admin/enterprise`,
   };
 
   image = {
@@ -56,18 +56,12 @@ export class EnterpriseBannerComponent implements OnInit {
     readonly elementRef:ElementRef,
     protected I18n:I18nService,
     protected bannersService:BannersService,
-    readonly eeTrialService:EnterpriseTrialService,
     protected opModalService:OpModalService,
     readonly injector:Injector,
+    readonly pathHelper:PathHelperService,
   ) {}
 
   ngOnInit():void {
     this.link = this.bannersService.getEnterPriseEditionUrl({ referrer: this.opReferrer });
-  }
-
-  public openTrialModal():void {
-    this.eeTrialService.cancelled = true;
-    this.eeTrialService.modalOpen = true;
-    this.opModalService.show(EnterpriseTrialModalComponent, this.injector);
   }
 }

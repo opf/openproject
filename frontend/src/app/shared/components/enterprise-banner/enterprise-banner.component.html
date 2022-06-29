@@ -38,12 +38,12 @@
           {{ text.upgrade }}
         </a>
 
-        <button
+        <a
+          [attr.href]="text.more_info_link"
           target=”_blank”
-          (click)="openTrialModal()"
           class="button -alt-highlight">
           {{ text.button_trial }}
-        </button>
+        </a>
 
       </div>
     </div>
