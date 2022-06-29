@@ -60,9 +60,17 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
     create(:file_link, creator: current_user, container: work_package, storage: another_storage)
   end
 
+  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
+
   subject(:response) { last_response }
 
   before do
+    allow(::OAuthClients::ConnectionManager)
+      .to receive(:new).and_return(connection_manager)
+    allow(connection_manager)
+      .to receive(:authorization_state).and_return(:connected)
+    allow(connection_manager)
+      .to receive(:redirect_to_oauth_authorize).and_return('https://example.com/authorize')
     login_as current_user
   end
 

@@ -736,6 +736,7 @@ el:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "δεν μπορεί να είναι ορόσημο."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1458,7 +1459,6 @@ el:
   label_consent_settings: "Συναίνεση χρήστη"
   label_wiki_menu_item: Αντικείμενο μενού Wiki
   label_select_main_menu_item: Επιλέξτε νέο αντικείμενο κύριου μενού
-  label_select_project: "Επιλογή έργου"
   label_required_disk_storage: "Απαιτούμενος χώρος στον δίσκο"
   label_send_invitation: Αποστολή πρόσκλησης
   label_change_plural: "Αλλαγές"
@@ -1737,7 +1737,6 @@ el:
   label_product_version: "Έκδοση προϊόντος"
   label_professional_support: "Επαγγελματική υποστήριξη"
   label_profile: "Προφίλ"
-  label_project_all: "Όλα τα έργα"
   label_project_count: "Συνολικός αριθμός έργων"
   label_project_copy_notifications: "Αποστολή ειδοποιήσεων με email κατά την διάρκεια της αντιγραφής του έργου"
   label_project_latest: "Τελευταία έργα"

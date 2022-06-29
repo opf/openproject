@@ -28,132 +28,208 @@
 
 require 'rails_helper'
 
+# Scenario: a work package has been moved on the calendar. The moved work
+# package has children, parents, followers, and/or predecessors. The
+# +ScheduleDependency+ created for the moved work package will have one
+# +Dependency+ instance per work package that may need to change due to the
+# move. These dependencies are the subjects under test.
 RSpec.describe WorkPackages::ScheduleDependency::Dependency do
-  subject { described_class.new(work_package, schedule_dependency) }
+  subject(:dependency) { dependency_for(work_package_used_in_dependency) }
 
-  let(:work_package) { create(:work_package, subject: 'subject') }
-  let(:schedule_dependency) { instance_double(WorkPackages::ScheduleDependency) }
-  let(:known_work_packages_by_parent_id) { Hash.new { |h, k| h[k] = [] } }
-  let(:known_work_packages_by_id) { { work_package.id => work_package } }
+  shared_let(:author) { create(:user, firstname: 'Dummy user to reduce number of created users') }
+  shared_let(:project) { create(:project_with_types, name: 'Dummy project to reduce number of created projects') }
+  shared_let(:work_package) { create(:work_package, subject: 'moved', author:, project:) }
 
-  before do
-    allow(schedule_dependency)
-      .to receive(:known_work_packages_by_parent_id)
-      .and_return(known_work_packages_by_parent_id)
-    allow(schedule_dependency)
-      .to receive(:known_work_packages_by_id)
-      .and_return(known_work_packages_by_id)
-    allow(schedule_dependency)
-      .to receive(:scheduled_work_packages_by_id)
-      .and_return(known_work_packages_by_id)
+  let(:schedule_dependency) { WorkPackages::ScheduleDependency.new(work_package) }
+
+  def dependency_for(work_package)
+    dependency = schedule_dependency.dependencies[work_package]
+    if dependency.nil?
+      available = schedule_dependency.dependencies.keys.map(&:subject).map(&:inspect).to_sentence
+      raise ArgumentError, "Unable to find dependency for work package #{work_package.subject.inspect}; " \
+                           "ScheduleDependency instance has dependencies for work packages #{available}"
+    end
+
+    dependency
   end
 
-  def create_predecessor_of(work_package)
-    create(:work_package, subject: "predecessor of #{work_package.subject}").tap do |predecessor|
+  def create_predecessor_of(work_package, **attributes)
+    create(:work_package, subject: "predecessor of #{work_package.subject}", author:, project:, **attributes).tap do |predecessor|
       create(:follows_relation, from: work_package, to: predecessor)
-      known_work_packages_by_id[predecessor.id] = predecessor
     end
   end
 
   def create_follower_of(work_package)
-    create(:work_package, subject: "follower of #{work_package.subject}").tap do |follower|
+    create(:work_package, subject: "follower of #{work_package.subject}", author:, project:).tap do |follower|
       create(:follows_relation, from: follower, to: work_package)
-      known_work_packages_by_id[follower.id] = follower
     end
   end
 
   def create_parent_of(work_package)
-    create(:work_package, subject: "parent of #{work_package.subject}", parent: work_package).tap do |parent|
-      known_work_packages_by_id[parent.id] = parent
-      known_work_packages_by_parent_id[work_package.parent_id] << parent
+    create(:work_package, subject: "parent of #{work_package.subject}", author:, project:).tap do |parent|
+      work_package.update(parent:)
     end
   end
 
   def create_child_of(work_package)
-    create(:work_package, subject: "child of #{work_package.subject}", parent: work_package).tap do |child|
-      known_work_packages_by_id[child.id] = child
-      known_work_packages_by_parent_id[child.parent_id] << child
-    end
+    create(:work_package, subject: "child of #{work_package.subject}", author:, project:, parent: work_package)
   end
 
   describe '#dependent_ids' do
-    context 'when the work_package is not related to anything' do
-      it 'returns empty array' do
-        expect(subject.dependent_ids).to eq([])
-      end
-    end
-
-    context 'when the work_package has a predecessor' do
-      let!(:predecessor) { create_predecessor_of(work_package) }
-
-      it 'returns an array with the predecessor id' do
-        expect(subject.dependent_ids).to eq([predecessor.id])
-      end
-    end
-
     context 'when the work_package has a follower' do
       let!(:follower) { create_follower_of(work_package) }
 
-      it 'returns empty array' do
-        expect(subject.dependent_ids).to eq([])
+      context 'for dependency of the follower' do
+        let(:work_package_used_in_dependency) { follower }
+
+        it 'returns an array with the work package id' do
+          expect(subject.dependent_ids).to eq([work_package.id])
+        end
       end
     end
 
     context 'when the work_package has a parent' do
       let!(:parent) { create_parent_of(work_package) }
 
-      it 'returns empty array' do
-        expect(subject.dependent_ids).to eq([])
+      context 'for dependency of the parent' do
+        let(:work_package_used_in_dependency) { parent }
+
+        it 'returns an array with the work package id' do
+          expect(subject.dependent_ids).to eq([work_package.id])
+        end
       end
     end
 
-    context 'when the work_package has a child' do
-      let!(:child) { create_child_of(work_package) }
+    context 'when the work_package has a follower which has a child' do
+      let!(:follower) { create_follower_of(work_package) }
+      let!(:follower_child) { create_child_of(follower) }
 
-      it 'returns an array with the child id' do
-        expect(subject.dependent_ids).to eq([child.id])
+      context 'for dependency of the child' do
+        let(:work_package_used_in_dependency) { follower_child }
+
+        it 'returns an array with the work_package id' do
+          expect(subject.dependent_ids).to eq([work_package.id])
+        end
+      end
+
+      context 'for dependency of the follower' do
+        let(:work_package_used_in_dependency) { follower }
+
+        it 'returns an array with the work_package id and the follower child id' do
+          expect(subject.dependent_ids).to contain_exactly(work_package.id, follower_child.id)
+        end
       end
     end
 
-    context 'when the work_package has multiple children and predecessors' do
-      let!(:child1) { create_child_of(work_package) }
-      let!(:child2) { create_child_of(work_package) }
-      let!(:predecessor1) { create_predecessor_of(work_package) }
-      let!(:predecessor2) { create_predecessor_of(work_package) }
+    context 'when the work_package has multiple parents and followers' do
+      let!(:first_follower) { create_follower_of(work_package) }
+      let!(:second_follower) { create_follower_of(work_package) }
+      let!(:first_follower_parent) { create_parent_of(first_follower) }
+      let!(:first_follower_grandparent) { create_parent_of(first_follower_parent) }
 
-      it 'returns an array with the children and the predecessors ids' do
-        expect(subject.dependent_ids).to contain_exactly(child1.id, child2.id, predecessor1.id, predecessor2.id)
+      context 'for dependency of the first follower parent' do
+        let(:work_package_used_in_dependency) { first_follower_parent }
+
+        it 'returns an array with the work_package and the first follower ids' do
+          expect(subject.dependent_ids).to contain_exactly(work_package.id, first_follower.id)
+        end
+      end
+
+      context 'for dependency of the first follower grandparent' do
+        let(:work_package_used_in_dependency) { first_follower_grandparent }
+
+        it 'returns an array with the work_package, the first follower, and the first follower parent ids' do
+          expect(subject.dependent_ids).to contain_exactly(work_package.id, first_follower.id, first_follower_parent.id)
+        end
+      end
+
+      context 'for dependency of the second follower' do
+        let(:work_package_used_in_dependency) { second_follower }
+
+        it 'returns an array with the work_package id' do
+          expect(subject.dependent_ids).to contain_exactly(work_package.id)
+        end
       end
     end
 
     context 'with more complex relations' do
-      context 'when has a child which has a child' do
-        let!(:child) { create_child_of(work_package) }
-        let!(:child_child) { create_child_of(child) }
+      context 'when has two consecutive followers' do
+        let!(:follower) { create_follower_of(work_package) }
+        let!(:follower_follower) { create_follower_of(follower) }
 
-        it 'returns an array with both children ids' do
-          expect(subject.dependent_ids).to contain_exactly(child.id, child_child.id)
+        context 'for dependency of the first follower' do
+          let(:work_package_used_in_dependency) { follower }
+
+          it 'returns an array with the work_package id' do
+            expect(subject.dependent_ids).to contain_exactly(work_package.id)
+          end
+        end
+
+        context 'for dependency of the second follower' do
+          let(:work_package_used_in_dependency) { follower_follower }
+
+          it 'returns an array with only the first follower id' do
+            expect(subject.dependent_ids).to contain_exactly(follower.id)
+          end
         end
       end
 
-      context 'when has a predecessor which has a predecessor and a follower' do
-        let!(:predecessor) { create_predecessor_of(work_package) }
-        let!(:predecessor_predecessor) { create_predecessor_of(predecessor) }
-        let!(:predecessor_follower) { create_follower_of(predecessor) }
+      context 'when has a follower which has a predecessor' do
+        let!(:follower) { create_follower_of(work_package) }
+        let!(:follower_predecessor) { create_predecessor_of(follower) }
 
-        it 'returns an array with the first predecessor only (not transient)' do
-          expect(subject.dependent_ids).to contain_exactly(predecessor.id)
+        context 'for dependency of the follower' do
+          let(:work_package_used_in_dependency) { follower }
+
+          it 'returns an array with the work_package id' do
+            expect(subject.dependent_ids).to contain_exactly(work_package.id)
+          end
         end
       end
 
       context 'when has a predecessor which has a parent and a child' do
-        let!(:predecessor) { create_predecessor_of(work_package) }
-        let!(:predecessor_parent) { create_parent_of(predecessor) }
-        let!(:predecessor_child) { create_child_of(predecessor) }
+        let!(:follower) { create_follower_of(work_package) }
+        let!(:follower_parent) { create_parent_of(follower) }
+        let!(:follower_child) { create_child_of(follower) }
 
-        it 'returns an array with the predecessor only (not transient)' do
-          expect(subject.dependent_ids).to contain_exactly(predecessor.id)
+        context 'for dependency of the follower child' do
+          let(:work_package_used_in_dependency) { follower_child }
+
+          it 'returns an array with the work_package id' do
+            expect(subject.dependent_ids).to contain_exactly(work_package.id)
+          end
         end
+
+        context 'for dependency of the follower parent' do
+          let(:work_package_used_in_dependency) { follower_parent }
+
+          it 'returns an array with the work_package, the follower, and the follower child ids' do
+            expect(subject.dependent_ids).to contain_exactly(work_package.id, follower.id, follower_child.id)
+          end
+        end
+      end
+    end
+  end
+
+  describe '#soonest_start_date' do
+    let(:work_package_used_in_dependency) { work_package }
+
+    before do
+      work_package.update(due_date: Time.zone.today)
+    end
+
+    context 'with a moved predecessor' do
+      it 'returns the soonest start date from the predecessors' do
+        follower = create_follower_of(work_package)
+        expect(dependency_for(follower).soonest_start_date).to eq(work_package.due_date + 1.day)
+      end
+    end
+
+    context 'with an unmoved predecessor' do
+      it 'returns the soonest start date from the predecessors' do
+        follower = create_follower_of(work_package)
+        unmoved_follower_predecessor = create_predecessor_of(follower, due_date: Time.zone.today + 4.days)
+        expect(dependency_for(follower).soonest_start_date).to eq(unmoved_follower_predecessor.due_date + 1.day)
       end
     end
   end

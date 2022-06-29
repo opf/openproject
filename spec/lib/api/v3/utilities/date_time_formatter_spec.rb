@@ -56,6 +56,26 @@ describe ::API::V3::Utilities::DateTimeFormatter do
     end
   end
 
+  shared_examples_for 'rejects durations with parsing errors' do
+    it 'rejects parsing non sense' do
+      expect do
+        subject.send(method, 'foo', 'prop')
+      end.to raise_error(API::Errors::PropertyFormatError)
+    end
+
+    it 'rejects parsing pure number strings' do
+      expect do
+        subject.send(method, '5', 'prop')
+      end.to raise_error(API::Errors::PropertyFormatError)
+    end
+
+    it 'rejects parsing pure numbers' do
+      expect do
+        subject.send(method, 5, 'prop')
+      end.to raise_error(API::Errors::PropertyFormatError)
+    end
+  end
+
   describe 'format_date' do
     it 'formats dates' do
       expect(subject.format_date(date)).to eq(date.iso8601)
@@ -185,26 +205,35 @@ describe ::API::V3::Utilities::DateTimeFormatter do
       expect(subject.parse_duration_to_hours('P1D', 'prop')).to eq(24.0)
     end
 
-    it 'rejects parsing non sense' do
-      expect do
-        subject.parse_duration_to_hours('foo', 'prop')
-      end.to raise_error(API::Errors::PropertyFormatError)
-    end
-
-    it 'rejects parsing pure number strings' do
-      expect do
-        subject.parse_duration_to_hours('5', 'prop')
-      end.to raise_error(API::Errors::PropertyFormatError)
-    end
-
-    it 'rejects parsing pure numbers' do
-      expect do
-        subject.parse_duration_to_hours(5, 'prop')
-      end.to raise_error(API::Errors::PropertyFormatError)
+    it_behaves_like 'rejects durations with parsing errors' do
+      let(:method) { :parse_duration_to_hours }
     end
 
     it_behaves_like 'can parse nil' do
       let(:method) { :parse_duration_to_hours }
+      let(:input) { 'PT5H' }
+    end
+  end
+
+  describe 'parse_duration_to_days' do
+    it 'parses ISO 8601 durations of full days' do
+      expect(subject.parse_duration_to_days('P5D', 'prop')).to eq(5)
+    end
+
+    it 'parses ISO 8601 durations of fractional days as whole' do
+      expect(subject.parse_duration_to_days('P5DT18H30M', 'prop')).to eq(5)
+    end
+
+    it 'parses ISO 8601 durations of hours as 0 days' do
+      expect(subject.parse_duration_to_days('PT1H30M', 'prop')).to eq(0)
+    end
+
+    it_behaves_like 'rejects durations with parsing errors' do
+      let(:method) { :parse_duration_to_days }
+    end
+
+    it_behaves_like 'can parse nil' do
+      let(:method) { :parse_duration_to_days }
       let(:input) { 'PT5H' }
     end
   end

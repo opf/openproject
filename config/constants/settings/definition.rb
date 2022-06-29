@@ -141,19 +141,19 @@ module Settings
         @by_name = nil
 
         definition = new(name,
-                         format: format,
-                         default: default,
-                         writable: writable,
-                         allowed: allowed,
-                         env_alias: env_alias)
+                         format:,
+                         default:,
+                         writable:,
+                         allowed:,
+                         env_alias:)
 
         override_value(definition)
 
         all << definition
       end
 
-      def define(&block)
-        instance_exec(&block)
+      def define(&)
+        instance_exec(&)
       end
 
       def [](name)
@@ -215,18 +215,17 @@ module Settings
 
       # Replace values for which an entry in the config file or as an environment variable exists.
       def override_value(definition)
-        # The test setup should govern the configuration
-        override_value_from_file(definition) unless Rails.env.test?
+        override_value_from_file(definition)
         override_value_from_env(definition)
       end
 
       def override_value_from_file(definition)
-        name = definition.name
+        envs = ['default', Rails.env]
+        envs.delete('default') if Rails.env.test? # The test setup should govern the configuration
+        envs.each do |env|
+          next unless file_config.dig(env, definition.name)
 
-        ['default', Rails.env].each do |env|
-          next unless file_config.dig(env, name)
-
-          definition.override_value(file_config.dig(env, name))
+          definition.override_value(file_config.dig(env, definition.name))
         end
       end
 

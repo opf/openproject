@@ -121,7 +121,7 @@ class BackupJob < ::ApplicationJob
 
   def remove_files!(*files)
     Array(files).each do |file|
-      FileUtils.rm file if File.exist? file
+      FileUtils.rm_rf file
     end
   end
 

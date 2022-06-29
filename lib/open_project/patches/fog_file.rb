@@ -9,7 +9,7 @@ module OpenProject::Patches::CarrierwaveSanitizedFile
     def mkdir!(path, directory_permissions)
       options = {}
       options[:mode] = directory_permissions if directory_permissions
-      FileUtils.mkdir_p(File.dirname(path), **options) unless File.exist?(File.dirname(path))
+      FileUtils.mkdir_p(File.dirname(path), **options)
     end
   end
 end

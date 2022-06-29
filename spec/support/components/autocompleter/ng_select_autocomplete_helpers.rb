@@ -1,4 +1,4 @@
-module Components
+module Components::Autocompleter
   module NgSelectAutocompleteHelpers
     def search_autocomplete(element, query:, results_selector: nil, wait_dropdown_open: true)
       SeleniumHubWaiter.wait

@@ -519,16 +519,16 @@ pt:
         begin_deletion: "Início da exclusão"
         children: "Subelementos"
         done_ratio: "Progresso (%)"
-        duration: "Duration"
+        duration: "Duração"
         end_insertion: "Final da inserção"
         end_deletion: "Final da exclusão"
-        ignore_non_working_days: "Ignore non working days"
+        ignore_non_working_days: "Ignorar dias feriados e fim de semana"
         parent: "Pai"
         parent_issue: "Pai"
         parent_work_package: "Pai"
         priority: "Prioridade"
         progress: "Progresso (%)"
-        readonly: "Read only"
+        readonly: "Somente leitura"
         schedule_manually: "Agendamento manual"
         spent_hours: "Tempo gasto"
         spent_time: "Tempo gasto"
@@ -737,8 +737,9 @@ pt:
             due_date:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
             duration:
-              larger_than_dates: "is larger than the interval between the start and the finish date."
-              smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              larger_than_dates: "é maior que o intervalo entre a data de início e de fim."
+              smaller_than_dates: "é menor que o intervalo entre a data de início e a data de término."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "não pode ser um marco."
               cannot_be_self_assigned: "não pode ser atribuído a ele mesmo."
@@ -1461,7 +1462,6 @@ pt:
   label_consent_settings: "Consentimento do usuário"
   label_wiki_menu_item: Item do menu da wiki
   label_select_main_menu_item: Selecione novo item do menu principal
-  label_select_project: "Selecionar um projeto"
   label_required_disk_storage: "Armazenamento em disco necessário"
   label_send_invitation: Enviar Convite
   label_change_plural: "Mudanças"
@@ -1527,7 +1527,7 @@ pt:
   label_diff: "diff"
   label_diff_inline: "em linha"
   label_diff_side_by_side: "lado a lado"
-  label_digital_accessibility: 'Digital accessibility (DE)'
+  label_digital_accessibility: 'Acessibilidade digital (DE)'
   label_disabled: "desativado"
   label_display: "Display"
   label_display_per_page: "Por página: %{value}"
@@ -1740,7 +1740,6 @@ pt:
   label_product_version: "Versão do produto"
   label_professional_support: "Suporte profissional"
   label_profile: "Perfil"
-  label_project_all: "Todos os projetos"
   label_project_count: "Número total de projetos"
   label_project_copy_notifications: "Enviar notificações por email durante a cópia do projeto"
   label_project_latest: "Últimos projetos"
@@ -2002,9 +2001,9 @@ pt:
   mail_body_backup_token_info: O token anterior não é mais válido.
   mail_body_backup_waiting_period: O novo token será habilitado em %{hours} horas.
   mail_body_backup_token_warning: Se não foi você, acesse o OpenProject imediatamente e redefina-o novamente.
-  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
-  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
-  mail_body_incoming_email_error_logs: "Logs"
+  mail_body_incoming_email_error: O e-mail que você enviou para o OpenProject não pôde ser processado.
+  mail_body_incoming_email_error_in_reply_to: "Em %{received_at} %{from_email} escreveu"
+  mail_body_incoming_email_error_logs: "Registros"
   mail_body_lost_password: "Para alterar sua senha, clique no link a seguir:"
   mail_body_register: "Bem-vindo ao %{app_title}. Por favor, ative sua conta clicando neste link:"
   mail_body_register_header_title: "E-mail de convite a membro do projeto"
@@ -2022,7 +2021,7 @@ pt:
   mail_subject_account_activation_request: "solicitação de ativação de conta %{value}"
   mail_subject_backup_ready: "Seu backup está pronto"
   mail_subject_backup_token_reset: "Redefinir token de backup"
-  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
+  mail_subject_incoming_email_error: "O e-mail que você enviou para o OpenProject não pôde ser processado."
   mail_subject_lost_password: "Sua senha %{value}"
   mail_subject_register: "Sua ativação de conta: %{value}"
   mail_subject_reminder: "%{count} pacote(s) de trabalho finalizam nos próximos %{days} dias:"
@@ -2389,7 +2388,7 @@ pt:
   setting_smtp_authentication: "Autenticação SMTP"
   setting_smtp_user_name: "Usuário SMTP"
   setting_smtp_password: "Senha SMTP"
-  setting_smtp_domain: "SMTP HELO domain"
+  setting_smtp_domain: "Domínio SMTP"
   setting_activity_days_default: "Dias exibidos na atividade de projeto"
   setting_app_subtitle: "Subtítulo do aplicativo"
   setting_app_title: "Título da aplicação"
@@ -3025,8 +3024,8 @@ pt:
     my_registered_applications: "Aplicações OAuth registradas"
   oauth_client:
     urn_connection_status:
-      connected: "Connected"
-      error: "Error"
+      connected: "Conectado"
+      error: "Erro"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
@@ -3045,7 +3044,7 @@ pt:
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
       refresh_token_called_without_existing_token: >
         Internal error: Called refresh_token without a previously existing token.
-      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      refresh_token_updated_failed: "Erro durante a atualização do OAuthClientToken"
       oauth_client_not_found_explanation: >
         This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
       oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."

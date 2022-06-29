@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
-require 'support/components/ng_select_autocomplete_helpers'
+require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
 describe 'Copy work packages through Rails view', js: true do
-  include ::Components::NgSelectAutocompleteHelpers
+  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:type) { create :type, name: 'Bug' }
   shared_let(:type2) { create :type, name: 'Risk' }
@@ -77,6 +77,7 @@ describe 'Copy work packages through Rails view', js: true do
                               select_text: project2.name,
                               results_selector: 'body'
         end
+        sleep(1) # wait for the change of target project to finish updating the page
       end
 
       it 'sets the version on copy and leaves a note' do

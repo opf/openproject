@@ -15,7 +15,9 @@ if OpenProject::Appsignal.enabled?
       ],
       ignore_errors: [
         'Grape::Exceptions::MethodNotAllowed',
-        'ActionController::UnknownFormat'
+        'ActionController::UnknownFormat',
+        'ActiveJob::DeserializationError',
+        'Net::SMTPServerBusy'
       ]
     }
 

@@ -31,7 +31,6 @@ class WorkPackages::ScheduleDependency::DependencyGraph
 
   def initialize(dependencies)
     @dependencies = dependencies
-    @dependent_ids = dependencies.to_h { |dep| [dep.work_package.id, dep.dependent_ids.uniq] }
   end
 
   def schedule_order
@@ -54,16 +53,22 @@ class WorkPackages::ScheduleDependency::DependencyGraph
   # Returns true if the given work package depends on the work package of the
   # dependency, either directly or transitively.
   def depends_on?(work_package, dependency)
-    to_process_ids = [work_package.id]
-    processed_ids = Set.new
-    while id = to_process_ids.shift
-      processed_ids.add(id)
-      dependent_ids = @dependent_ids[id]
-      next if dependent_ids.nil?
-      return true if dependent_ids.include?(dependency.work_package.id)
+    full_dependencies_of(work_package.id).include?(dependency.work_package.id)
+  end
 
-      to_process_ids.concat(dependent_ids.without(processed_ids))
+  private
+
+  def full_dependencies_of(work_package_id)
+    @full_dependent_ids ||= {}
+    @full_dependent_ids[work_package_id] ||= begin
+      ids = dependent_ids_for_work_package_id(work_package_id)
+      ids += ids.flat_map { full_dependencies_of(_1) }
+      ids.uniq
     end
-    false
+  end
+
+  def dependent_ids_for_work_package_id(id)
+    @dependent_ids ||= dependencies.to_h { |dep| [dep.work_package.id, dep.dependent_ids] }
+    @dependent_ids[id] || []
   end
 end

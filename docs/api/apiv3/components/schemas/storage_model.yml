@@ -51,18 +51,31 @@ properties:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              Web uri of the storage instance
+              Web uri of the storage instance.
 
               **Resource**: N/A
       authorizationState:
         allOf:
-          - $ref: "./link.yml"
+          - $ref: './link.yml'
           - description: |-
               The urn of the storage connection state. Can be one of:
               
               - urn:openproject-org:api:v3:storages:authorization:Connected
               - urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
               - urn:openproject-org:api:v3:storages:authorization:Error
+              
+              **Resource**: N/A
+      authorize:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The link to the starting point of the authorization cycle for a configured storage provider.
+              
+              # Conditions
+              
+              `authorizationState` is:
+              
+              - urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
               
               **Resource**: N/A
 example:
@@ -80,6 +93,9 @@ example:
       title: Nextcloud
     origin:
       href: https://nextcloud.deathstar.rocks/
-    connectionState:
-      href: urn:openproject-org:api:v3:storages:connection:FailedAuthentication
-      title: Failed Authentication
+    authorizationState:
+      href: urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
+      title: Failed Authorization
+    authorize:
+      href: https://nextcloud.deathstar.rocks/authorize/
+      title: Authorize

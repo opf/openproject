@@ -98,6 +98,12 @@ module API
                                                        duration)
           end
         end
+
+        def self.parse_duration_to_days(duration, property_name, allow_nil: false)
+          return nil if duration.nil? && allow_nil
+
+          parse_duration_to_hours(duration, property_name).to_i / 24
+        end
       end
     end
   end

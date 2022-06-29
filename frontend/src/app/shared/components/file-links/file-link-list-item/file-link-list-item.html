@@ -25,7 +25,10 @@
       class="op-files-tab--file-list-item-avatar"
     ></div>
   </a>
-  <div class="spot-list--item-floating-actions op-files-tab--file-list-item-floating-actions">
+  <div
+    *ngIf="showFloatingActions"
+    class="spot-list--item-floating-actions op-files-tab--file-list-item-floating-actions"
+  >
     <a
       class="spot-link"
       [title]="text.title.downloadFileLink"
@@ -49,5 +52,12 @@
     >
       <span class="spot-icon spot-icon_remove-link"></span>
     </button>
+  </div>
+  <div
+    *ngIf="!showFloatingActions"
+    class="spot-list--item-floating-actions op-files-tab--file-list-item-floating-text"
+  >
+    <span class="spot-icon spot-icon_info2"></span>
+    <span [textContent]="text.floatingText.noViewPermission"></span>
   </div>
 </div>

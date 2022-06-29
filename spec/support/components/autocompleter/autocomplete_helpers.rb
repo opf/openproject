@@ -26,18 +26,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Storages
-      class StorageAuthorizer
-        class << self
-          def authorize(storage)
-            ::OAuthClients::ConnectionManager
-              .new(user: User.current, oauth_client: storage.oauth_client)
-              .authorization_state
-          end
-        end
-      end
+module Components::Autocompleter
+  module AutocompleteHelpers
+    def search_autocomplete(element, query:, results_selector: nil)
+      # Open the element
+      element.click
+      # Insert the text to find
+      element.set(query)
+      sleep(0.5)
+
+      ##
+      # Find the open dropdown
+      list =
+        page.find(results_selector || '.ng-dropdown-panel-items')
+
+      scroll_to_element(list)
+      list
+    end
+
+    def select_autocomplete(element, query:, results_selector: nil, item_selector: nil, select_text: nil)
+      target_dropdown = search_autocomplete(element, results_selector:, query:)
+
+      ##
+      # If a specific select_text is given, use that to locate the match,
+      # otherwise use the query
+      text = select_text.presence || query
+
+      # click the element to select it
+      query_element = if item_selector
+                        target_dropdown.find(item_selector, text:)
+                      else
+                        target_dropdown.find('.ng-option', text:)
+                      end
+      query_element.click
     end
   end
 end

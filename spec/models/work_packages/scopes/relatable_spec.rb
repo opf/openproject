@@ -103,7 +103,7 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
         end
       end
 
-      context "for the '#{current_type}' type with the other project being in a different project "\
+      context "for the '#{current_type}' type with the other project being in a different project " \
               "and having cross project relations disabled", with_settings: { cross_project_work_package_relations: false } do
         let(:relation_type) { current_type }
         let(:unrelated_work_package) { create(:work_package, project: create(:project)) }
@@ -114,7 +114,7 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
         end
       end
 
-      context "for the '#{current_type}' type with the other project being in a different project "\
+      context "for the '#{current_type}' type with the other project being in a different project " \
               "and having cross project relations enabled", with_settings: { cross_project_work_package_relations: true } do
         let(:relation_type) { current_type }
         let(:unrelated_work_package) { create(:work_package, project: create(:project)) }

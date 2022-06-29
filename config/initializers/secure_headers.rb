@@ -32,6 +32,10 @@ Rails.application.config.after_initialize do
       connect_src += [OpenProject::Configuration.sentry_host]
     end
 
+    if OpenProject::Configuration.appsignal_frontend_key
+      connect_src += ['https://appsignal-endpoint.net']
+    end
+
     # Add proxy configuration for Angular CLI to csp
     if FrontendAssetHelper.assets_proxied?
       proxied = ['ws://localhost:*', 'http://localhost:*', FrontendAssetHelper.cli_proxy]

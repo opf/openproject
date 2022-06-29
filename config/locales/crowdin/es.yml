@@ -737,6 +737,7 @@ es:
             duration:
               larger_than_dates: "es más largo que el intervalo entre la fecha de inicio y la final."
               smaller_than_dates: "es más corto que el intervalo entre la fecha de inicio y la final."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "no puede ser un hito."
               cannot_be_self_assigned: "no se puede asignar a su propio usuario."
@@ -1459,7 +1460,6 @@ es:
   label_consent_settings: "Consentimiento del usuario"
   label_wiki_menu_item: Elemento de menú wiki
   label_select_main_menu_item: Seleccione nuevo elemento de menú principal
-  label_select_project: "Seleccione un proyecto"
   label_required_disk_storage: "Almacenamiento en disco requerido"
   label_send_invitation: Enviar invitación
   label_change_plural: "Cambios"
@@ -1738,7 +1738,6 @@ es:
   label_product_version: "Versión del producto"
   label_professional_support: "Soporte profesional"
   label_profile: "Perfil"
-  label_project_all: "Todos los proyectos"
   label_project_count: "Número total de proyectos"
   label_project_copy_notifications: "Enviar notificaciones por correo electrónico durante la copia del proyecto"
   label_project_latest: "Últimos proyectos"
@@ -3024,9 +3023,9 @@ es:
     my_registered_applications: "Aplicaciones OAuth Registradas"
   oauth_client:
     urn_connection_status:
-      connected: "Connected"
+      connected: "Conectado"
       error: "Error"
-      failed_authorization: "Authorization failed"
+      failed_authorization: "Error en la autorización"
     labels:
       label_oauth_integration: "Integración de OAuth2"
       label_redirect_uri: "Redirigir URI"
@@ -3052,15 +3051,15 @@ es:
         Este error aparece si se ha seleccionado el response_type incorrecto en el proveedor OAuth2. El response_type debe ser 'Código' o similar.
       oauth_state_not_present: "El 'estado' del OAuth2 no encontrado en el punto final 'callback' (redirect_uri)."
       oauth_state_not_present_explanation: >
-        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+        El 'estado' se utiliza para indicar a OpenProject donde continuar después de autentificar correctamente el OAuth2. Sin el 'estado' es probable que se produzca un error durante la configuración. Por favor, contacte con su administrador de sistema.
       rack_oauth2:
-        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        client_secret_invalid: "La clave de cliente secreta no es válida (client_secret_invalid)"
         invalid_request: >
-          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
-        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
-        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
-        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
-        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
-        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
-        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+          El servidor de autorización de OAuth2 respondió con 'invalid_request'. Este error aparece si intenta autorizar varias veces o en caso de problemas técnicos.
+        invalid_response: "El servidor de autorización de OAuth2 respondió de forma inválida (invalid_request)"
+        invalid_grant: "El servidor de autorización de OAuth2 necesita que se autorice de nuevo (invalid_grant)"
+        invalid_client: "El servidor de autorización de OAuth2 no reconoce OpenProject (invalid_client)."
+        unauthorized_client: "El servidor de autorización de OAuth2 no acepta el tipo de garantía (unauthorized_client)"
+        unsupported_grant_type: "El servidor de autorización de OAuth2 pide que actualice de nuevo (unsupported_grant_type)"
+        invalid_scope: "No tienes permisos para acceder a este recurso (invalid_scope)."
   you: su usuario

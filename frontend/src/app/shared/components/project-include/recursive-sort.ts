@@ -1,4 +1,4 @@
-import { IProjectData } from './project-data';
+import { IProjectData } from '../project-list/project-data';
 
 // Recursively sort project children and their children by name
 export const recursiveSort = (projects:IProjectData[]):IProjectData[] => projects

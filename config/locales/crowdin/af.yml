@@ -740,6 +740,7 @@ af:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "cannot be a milestone."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1462,7 +1463,6 @@ af:
   label_consent_settings: "User Consent"
   label_wiki_menu_item: Wiki kieslysitem
   label_select_main_menu_item: Kies nuwe hoofkieslysitem
-  label_select_project: "Select a project"
   label_required_disk_storage: "Required disk storage"
   label_send_invitation: Stuur uitnodiging
   label_change_plural: "Veranderinge"
@@ -1741,7 +1741,6 @@ af:
   label_product_version: "Produk weergawe"
   label_professional_support: "Professional support"
   label_profile: "Profiel"
-  label_project_all: "Alle Projekte"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Stuur e-pos kennisgewings gedurende die projek afskrif"
   label_project_latest: "Nuutste projekte"

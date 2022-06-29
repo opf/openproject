@@ -42,6 +42,13 @@ module API
         include API::Decorators::LinkedResource
         include API::Decorators::DateProperty
 
+        def initialize(model, current_user:, embed_links: nil)
+          @connection_manager =
+            ::OAuthClients::ConnectionManager.new(user: current_user, oauth_client: model.oauth_client)
+
+          super
+        end
+
         property :id
 
         property :name
@@ -64,8 +71,7 @@ module API
         end
 
         link :authorizationState do
-          state = ::API::V3::Storages::StorageAuthorizer.authorize represented
-
+          state = @connection_manager.authorization_state
           urn = case state
                 when :connected
                   URN_CONNECTION_CONNECTED
@@ -77,6 +83,12 @@ module API
           title = I18n.t(:"oauth_client.urn_connection_status.#{state}")
 
           { href: urn, title: }
+        end
+
+        link :authorize do
+          next unless @connection_manager.authorization_state == :failed_authorization
+
+          { href: @connection_manager.redirect_to_oauth_authorize, title: 'Authorize' }
         end
 
         def _type
