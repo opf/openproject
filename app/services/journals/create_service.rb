@@ -38,6 +38,7 @@
 #
 # for this purpose.
 
+# rubocop:disable Rails/SquishedSQLHeredocs
 module Journals
   class CreateService
     attr_accessor :journable, :user
@@ -52,10 +53,10 @@ module Journals
         predecessor = strip_predecessor(notes)
         journal = create_journal(predecessor, notes)
 
-        return ServiceResult.success unless journal
-
-        reload_journals
-        touch_journable(journal)
+        if journal
+          reload_journals
+          touch_journable(journal)
+        end
 
         ServiceResult.success result: journal
       end
@@ -77,8 +78,6 @@ module Journals
         predecessor.attachable_journals.delete_all
 
         predecessor
-      else
-        nil
       end
     end
 
@@ -178,20 +177,20 @@ module Journals
       # A lot of the data does not need to be set anew, since we only aggregate if that data stays the same
       # (e.g. the user_id).
       journal_sql = <<~SQL
-          UPDATE
-            journals
-          SET
-            notes = :notes,
-            updated_at = #{journal_timestamp_sql(notes, ':updated_at')},
-            data_id = insert_data.id
-          FROM insert_data
-          WHERE journals.id = :predecessor_id
-          RETURNING
-            journals.*
+        UPDATE
+          journals
+        SET
+          notes = :notes,
+          updated_at = #{journal_timestamp_sql(notes, ':updated_at')},
+          data_id = insert_data.id
+        FROM insert_data
+        WHERE journals.id = :predecessor_id
+        RETURNING
+          journals.*
       SQL
 
       sanitize(journal_sql,
-               notes: notes.present? ? notes : predecessor.notes,
+               notes: notes.presence || predecessor.notes,
                updated_at: journable_timestamp,
                predecessor_id: predecessor.id)
     end
@@ -314,18 +313,7 @@ module Journals
     end
 
     def select_max_journal_sql(predecessor)
-      journal_version_sql = if predecessor
-                              sanitize "SELECT MAX(version) FROM journals WHERE journable_id = :journable_id AND journable_type = :journable_type AND version < :predecessor_version",
-                                       journable_id: journable.id,
-                                       journable_type:,
-                                       predecessor_version: predecessor.version
-                            else
-                              sanitize "SELECT MAX(version) FROM journals WHERE journable_id = :journable_id AND journable_type = :journable_type",
-                                       journable_id: journable.id,
-                                       journable_type:
-                            end
-
-    max_journal_sql = <<~SQL
+      sql = <<~SQL
         SELECT
           :journable_id journable_id,
           :journable_type journable_type,
@@ -339,10 +327,10 @@ module Journals
         ON
            journals.journable_id = :journable_id
            AND journals.journable_type = :journable_type
-           AND journals.version IN (#{journal_version_sql})
+           AND journals.version IN (#{max_journal_sql(predecessor)})
       SQL
 
-      sanitize(max_journal_sql,
+      sanitize(sql,
                journable_id: journable.id,
                journable_type:)
     end
@@ -440,6 +428,26 @@ module Journals
                journable_id: journable.id)
     end
 
+    def max_journal_sql(predecessor)
+      sql = <<~SQL
+        SELECT MAX(version)
+        FROM journals
+        WHERE journable_id = :journable_id
+        AND journable_type = :journable_type
+      SQL
+
+      if predecessor
+        sanitize "#{sql} AND version < :predecessor_version",
+                 journable_id: journable.id,
+                 journable_type:,
+                 predecessor_version: predecessor.version
+      else
+        sanitize sql,
+                 journable_id: journable.id,
+                 journable_type:
+      end
+    end
+
     def only_if_created_sql
       "EXISTS (SELECT * from inserted_journal)"
     end
@@ -525,7 +533,7 @@ module Journals
     end
 
     def touch_journable(journal)
-      return unless journal.notes.present?
+      return if journal.notes.blank?
 
       # Not using touch here on purpose,
       # as to avoid changing lock versions on the journables for this change
@@ -537,18 +545,37 @@ module Journals
 
     def aggregatable?(predecessor, notes)
       predecessor.present? &&
-        Setting.journal_aggregation_time_minutes.to_i > 0 &&
-        predecessor.updated_at >= Time.zone.now - Setting.journal_aggregation_time_minutes.to_i.minutes &&
-        predecessor.user_id == user.id &&
-        (predecessor.notes.empty? || notes.empty?)
+        aggregation_active? &&
+        within_aggregation_time?(predecessor) &&
+        same_user?(predecessor) &&
+        only_one_note(predecessor, notes)
     end
 
+    def aggregation_active?
+      Setting.journal_aggregation_time_minutes.to_i > 0
+    end
+
+    def within_aggregation_time?(predecessor)
+      predecessor.updated_at >= Time.zone.now - Setting.journal_aggregation_time_minutes.to_i.minutes
+    end
+
+    def only_one_note(predecessor, notes)
+      predecessor.notes.empty? || notes.empty?
+    end
+
+    def same_user?(predecessor)
+      predecessor.user_id == user.id
+    end
+
+    # TODO: check if this can be removed
+    # also check for the event and what it effects
     def notify_aggregation_destruction(predecessor, journal)
       OpenProject::Notifications.send(OpenProject::Events::JOURNAL_AGGREGATE_BEFORE_DESTROY,
                                       journal:,
                                       predecessor:)
     end
 
+    # TODO: check if this can be removed
     def take_over_journal_details(predecessor, journal)
       if predecessor.notes.present?
         journal.update_columns(notes: predecessor.notes, version: predecessor.version)
@@ -561,3 +588,4 @@ module Journals
              to: ::OpenProject::SqlSanitization
   end
 end
+# rubocop:enable Rails/SquishedSQLHeredocs

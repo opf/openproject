@@ -612,7 +612,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe 'on #destroy' do
+  describe '#destroy' do
     let(:project) { create(:project) }
     let(:type) { create(:type) }
     let(:custom_field) do
