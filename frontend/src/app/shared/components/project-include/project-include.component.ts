@@ -13,6 +13,7 @@ import {
 import {
   debounceTime,
   distinctUntilChanged,
+  filter,
   map,
   mergeMap,
   shareReplay,
@@ -116,11 +117,11 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
         if (selectedProjectHrefs.includes(currentProjectHref)) {
           return selectedProjectHrefs;
         }
-        const selectedPrjects = [...selectedProjectHrefs];
+        const selectedProjects = [...selectedProjectHrefs];
         if (currentProjectHref) {
-          selectedPrjects.push(currentProjectHref);
+          selectedProjects.push(currentProjectHref);
         }
-        return selectedPrjects;
+        return selectedProjects;
       }),
     );
 
@@ -184,11 +185,11 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       shareReplay(),
     );
 
-  public loading$ = combineLatest([
-    this.searchableProjectListService.fetchingProjects$,
-    this.projects$,
-  ]).pipe(
-    map(([isFetching, projects]) => isFetching || projects.length === 0)
+  public loading$ = this.searchableProjectListService.fetchingProjects$.pipe(
+    filter((fetching) => fetching),
+    take(1),
+    mergeMap(() => this.projects$),
+    mergeMap(() => this.searchableProjectListService.fetchingProjects$),
   );
 
   constructor(

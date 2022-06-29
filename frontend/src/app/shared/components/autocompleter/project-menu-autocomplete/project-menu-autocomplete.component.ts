@@ -37,6 +37,9 @@ import { combineLatest } from 'rxjs';
 import {
   debounceTime,
   map,
+  filter,
+  take,
+  mergeMap,
   shareReplay,
 } from 'rxjs/operators';
 import { IProject } from 'core-app/core/state/projects/project.model';
@@ -104,11 +107,11 @@ export class ProjectMenuAutocompleteComponent {
     search_placeholder: this.I18n.t('js.include_projects.search_placeholder'),
   };
 
-  public loading$ = combineLatest([
-    this.searchableProjectListService.fetchingProjects$,
-    this.projects$,
-  ]).pipe(
-    map(([isFetching, projects]) => isFetching || projects.length === 0),
+  public loading$ = this.searchableProjectListService.fetchingProjects$.pipe(
+    filter((fetching) => fetching),
+    take(1),
+    mergeMap(() => this.projects$),
+    mergeMap(() => this.searchableProjectListService.fetchingProjects$),
   );
 
   constructor(
