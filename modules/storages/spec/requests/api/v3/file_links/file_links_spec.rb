@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 file links resource', :enable_storages, type: :request do
+describe 'API v3 file links resource', with_flag: { storages_module_active: true }, type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages view_file_links) }
@@ -60,9 +60,17 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
     create(:file_link, creator: current_user, container: work_package, storage: another_storage)
   end
 
+  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
+
   subject(:response) { last_response }
 
   before do
+    allow(::OAuthClients::ConnectionManager)
+      .to receive(:new).and_return(connection_manager)
+    allow(connection_manager)
+      .to receive(:authorization_state).and_return(:connected)
+    allow(connection_manager)
+      .to receive(:redirect_to_oauth_authorize).and_return('https://example.com/authorize')
     login_as current_user
   end
 
@@ -96,7 +104,7 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
       end
     end
 
-    context 'if storages feature is inactive', :disable_storages do
+    context 'if storages feature is inactive', with_flag: { storages_module_active: false } do
       it_behaves_like 'not found'
     end
 
@@ -187,7 +195,7 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
         end
       end
 
-      context 'when storages module is inactive', :disable_storages do
+      context 'when storages module is inactive', with_flag: { storages_module_active: false } do
         it_behaves_like 'not found'
       end
     end
@@ -382,7 +390,7 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
       it_behaves_like 'not found'
     end
 
-    context 'when storages module is inactive', :disable_storages do
+    context 'when storages module is inactive', with_flag: { storages_module_active: false } do
       it_behaves_like 'not found'
     end
   end
@@ -419,7 +427,7 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
       it_behaves_like 'not found'
     end
 
-    context 'when storages module is inactive', :disable_storages do
+    context 'when storages module is inactive', with_flag: { storages_module_active: false } do
       it_behaves_like 'not found'
     end
   end
@@ -455,7 +463,7 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
       it_behaves_like 'not found'
     end
 
-    context 'when storages module is inactive', :disable_storages do
+    context 'when storages module is inactive', with_flag: { storages_module_active: false } do
       it_behaves_like 'not found'
     end
   end

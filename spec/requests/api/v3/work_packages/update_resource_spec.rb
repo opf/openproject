@@ -44,7 +44,7 @@ describe 'API v3 Work package resource',
   let(:project) do
     create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions work_package_assigned] }
   let(:type) { create(:type) }
 
@@ -159,7 +159,7 @@ describe 'API v3 Work package resource',
 
         it { expect(response.status).to eq(200) }
 
-        it 'should respond with updated work package subject' do
+        it 'responds with updated work package subject' do
           expect(subject.body).to be_json_eql('Updated subject'.to_json).at_path('subject')
         end
 
@@ -208,7 +208,7 @@ describe 'API v3 Work package resource',
           let(:html) do
             '<p class="op-uc-p"><strong>Some text</strong> <em>describing</em> <strong>something</strong>...</p>'
           end
-          let(:params) { valid_params.merge(description: { raw: raw }) }
+          let(:params) { valid_params.merge(description: { raw: }) }
 
           include_context 'patch request'
 
@@ -226,7 +226,7 @@ describe 'API v3 Work package resource',
 
         it { expect(response.status).to eq(200) }
 
-        it 'should update the scheduling mode' do
+        it 'updates the scheduling mode' do
           expect(subject.body).to be_json_eql(schedule_manually.to_json).at_path('scheduleManually')
         end
       end
@@ -239,7 +239,7 @@ describe 'API v3 Work package resource',
 
         it { expect(response.status).to eq(200) }
 
-        it 'should respond with updated start date' do
+        it 'responds with updated start date' do
           expect(subject.body).to be_json_eql(dateString.to_json).at_path('startDate')
         end
 
@@ -254,7 +254,7 @@ describe 'API v3 Work package resource',
 
         it { expect(response.status).to eq(200) }
 
-        it 'should respond with updated finish date' do
+        it 'responds with updated finish date' do
           expect(subject.body).to be_json_eql(dateString.to_json).at_path('dueDate')
         end
 
@@ -282,7 +282,7 @@ describe 'API v3 Work package resource',
 
           it { expect(response.status).to eq(200) }
 
-          it 'should respond with updated work package status' do
+          it 'responds with updated work package status' do
             expect(subject.body).to be_json_eql(target_status.name.to_json)
                                       .at_path('_embedded/status/name')
           end
@@ -296,7 +296,7 @@ describe 'API v3 Work package resource',
           it_behaves_like 'constraint violation' do
             let(:message) do
               'Status ' + I18n.t('activerecord.errors.models.' \
-                          'work_package.attributes.status_id.status_transition_invalid')
+                                 'work_package.attributes.status_id.status_transition_invalid')
             end
           end
         end
@@ -334,7 +334,7 @@ describe 'API v3 Work package resource',
 
           it { expect(response.status).to eq(200) }
 
-          it 'should respond with updated work package type' do
+          it 'responds with updated work package type' do
             expect(subject.body).to be_json_eql(target_type.name.to_json)
                                       .at_path('_embedded/type/name')
           end
@@ -443,10 +443,15 @@ describe 'API v3 Work package resource',
 
       context 'assignee and responsible' do
         let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[work_package_assigned]) }
+        let(:placeholder_user) do
+          create(:placeholder_user,
+                 member_in_project: project,
+                 member_through_role: role)
+        end
         let(:params) { valid_params.merge(user_parameter) }
         let(:work_package) do
           create(:work_package,
-                 project: project,
+                 project:,
                  assigned_to: current_user,
                  responsible: current_user)
         end
@@ -459,15 +464,9 @@ describe 'API v3 Work package resource',
           let!(:group_member) do
             create(:member,
                    principal: group,
-                   project: project,
+                   project:,
                    roles: [group_role])
           end
-        end
-
-        let(:placeholder_user) do
-          create(:placeholder_user,
-                 member_in_project: project,
-                 member_through_role: role)
         end
 
         shared_examples_for 'handling people' do |property|
@@ -542,7 +541,7 @@ describe 'API v3 Work package resource',
               it_behaves_like 'constraint violation' do
                 let(:message) do
                   I18n.t('api_v3.errors.validation.' \
-                                     'invalid_user_assigned_to_work_package',
+                         'invalid_user_assigned_to_work_package',
                          property: WorkPackage.human_attribute_name(property))
                 end
               end
@@ -568,7 +567,7 @@ describe 'API v3 Work package resource',
               it_behaves_like 'invalid resource link' do
                 let(:message) do
                   I18n.t('api_v3.errors.invalid_resource',
-                         property: property,
+                         property:,
                          expected: "/api/v3/groups/:id' or '/api/v3/users/:id' or '/api/v3/placeholder_users/:id",
                          actual: user_href)
                 end
@@ -587,7 +586,7 @@ describe 'API v3 Work package resource',
       end
 
       context 'version' do
-        let(:target_version) { create(:version, project: project) }
+        let(:target_version) { create(:version, project:) }
         let(:version_link) { api_v3_paths.version target_version.id }
         let(:version_parameter) { { _links: { version: { href: version_link } } } }
         let(:params) { valid_params.merge(version_parameter) }
@@ -599,7 +598,7 @@ describe 'API v3 Work package resource',
 
           it { expect(response.status).to eq(200) }
 
-          it 'should respond with the work package assigned to the version' do
+          it 'responds with the work package assigned to the version' do
             expect(subject.body)
               .to be_json_eql(target_version.name.to_json)
                     .at_path('_embedded/version/name')
@@ -624,7 +623,7 @@ describe 'API v3 Work package resource',
       end
 
       context 'category' do
-        let(:target_category) { create(:category, project: project) }
+        let(:target_category) { create(:category, project:) }
         let(:category_link) { api_v3_paths.category target_category.id }
         let(:category_parameter) { { _links: { category: { href: category_link } } } }
         let(:params) { valid_params.merge(category_parameter) }
@@ -636,7 +635,7 @@ describe 'API v3 Work package resource',
 
           it { expect(response.status).to eq(200) }
 
-          it 'should respond with the work package assigned to the category' do
+          it 'responds with the work package assigned to the category' do
             expect(subject.body)
               .to be_json_eql(target_category.name.to_json)
                     .at_path('_embedded/category/name')
@@ -659,7 +658,7 @@ describe 'API v3 Work package resource',
 
           it { expect(response.status).to eq(200) }
 
-          it 'should respond with the work package assigned to the priority' do
+          it 'responds with the work package assigned to the priority' do
             expect(subject.body)
               .to be_json_eql(target_priority.name.to_json)
                     .at_path('_embedded/priority/name')
@@ -670,7 +669,7 @@ describe 'API v3 Work package resource',
       end
 
       context 'budget' do
-        let(:target_budget) { create(:budget, project: project) }
+        let(:target_budget) { create(:budget, project:) }
         let(:budget_link) { api_v3_paths.budget target_budget.id }
         let(:budget_parameter) { { _links: { budget: { href: budget_link } } } }
         let(:params) { valid_params.merge(budget_parameter) }
@@ -683,7 +682,7 @@ describe 'API v3 Work package resource',
 
           it { expect(response.status).to eq(200) }
 
-          it 'should respond with the work package and its new budget' do
+          it 'responds with the work package and its new budget' do
             expect(subject.body).to be_json_eql(target_budget.subject.to_json)
                                       .at_path('_embedded/budget/subject')
           end
@@ -727,7 +726,7 @@ describe 'API v3 Work package resource',
 
           it { expect(response.status).to eq(200) }
 
-          it 'should respond with the work package assigned to the new value' do
+          it 'responds with the work package assigned to the new value' do
             expect(subject.body)
               .to be_json_eql(value_link.to_json)
                     .at_path("_links/#{custom_field.accessor_name.camelize(:lower)}/href")
@@ -741,6 +740,7 @@ describe 'API v3 Work package resource',
         describe 'single read-only violation' do
           context 'created and updated' do
             let(:tomorrow) { (DateTime.now + 1.day).utc.iso8601 }
+
             include_context 'patch request'
 
             context 'created_at' do

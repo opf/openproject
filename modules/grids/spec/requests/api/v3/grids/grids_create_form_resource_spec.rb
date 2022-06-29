@@ -39,6 +39,7 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
 
   let(:path) { api_v3_paths.create_grid_form }
   let(:params) { {} }
+
   subject(:response) { last_response }
 
   before do
@@ -52,7 +53,7 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
 
     it 'returns 200 OK' do
       expect(subject.status)
-        .to eql 200
+        .to be 200
     end
 
     it 'is of type form' do
@@ -63,12 +64,12 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
 
     it 'contains default data in the payload' do
       expected = {
-        "rowCount": 4,
-        "columnCount": 5,
-        "widgets": [],
-        "options": {},
-        "_links": {
-          "attachments": []
+        rowCount: 4,
+        columnCount: 5,
+        widgets: [],
+        options: {},
+        _links: {
+          attachments: []
         }
       }
 

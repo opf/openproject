@@ -5,7 +5,7 @@ shared_examples_for "an action checked for required login" do
       action
     end
 
-    it "should be success" do
+    it "is success" do
       expect(response).to be_successful
     end
   end
@@ -16,7 +16,7 @@ shared_examples_for "an action checked for required login" do
       action
     end
 
-    it "should redirect to the login page" do
+    it "redirects to the login page" do
       expect(response).to redirect_to signin_path(back_url: redirect_path)
     end
   end
@@ -125,7 +125,7 @@ shared_examples_for "an action with an invalid user" do
   end
 end
 
-shared_examples_for "an action with stubbed User.find" do
+shared_context "an action with stubbed User.find" do
   before do
     allow(user).to receive(:save).and_return true if user
     allow(User).to receive(:find) { |id, _args| id.to_s == "0" ? nil : user }

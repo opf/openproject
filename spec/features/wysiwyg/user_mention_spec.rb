@@ -38,13 +38,13 @@ describe 'Wysiwyg work package user mentions',
   let!(:group_member) do
     create(:member,
            principal: group,
-           project: project,
+           project:,
            roles: [group_role])
   end
   let(:project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
   let!(:work_package) do
     User.execute_as user do
-      create(:work_package, subject: 'Foobar', project: project)
+      create(:work_package, subject: 'Foobar', project:)
     end
   end
 
@@ -55,7 +55,7 @@ describe 'Wysiwyg work package user mentions',
   let(:comment_field) do
     TextEditorField.new wp_page,
                         'comment',
-                        selector: selector
+                        selector:
   end
 
   before do

@@ -38,7 +38,7 @@ module API
         query = Query.new_default(name: '_', project: params[:project])
 
         WorkPackageCollectionFromQueryService
-          .new(query, current_user, scope: scope)
+          .new(query, current_user, scope:)
           .call(params)
       end
 

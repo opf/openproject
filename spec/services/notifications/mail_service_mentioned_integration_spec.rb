@@ -29,15 +29,14 @@
 require 'spec_helper'
 require_relative './mentioned_journals_shared'
 
-
 describe Notifications::MailService, 'Mentioned integration', type: :model do
   include_context 'with a mentioned work package being updated again'
 
   def expect_mentioned_notification
     expect(mentioned_notification).to be_present
     expect(mentioned_notification.reason).to eq 'mentioned'
-    expect(mentioned_notification.read_ian).to eq false
-    expect(mentioned_notification.mail_alert_sent).to eq true
+    expect(mentioned_notification.read_ian).to be false
+    expect(mentioned_notification.mail_alert_sent).to be true
   end
 
   def expect_mentioned_notification_updated
@@ -46,14 +45,14 @@ describe Notifications::MailService, 'Mentioned integration', type: :model do
     expect(mentioned_notification.journal_id).not_to eq old_journal_id
     expect(mentioned_notification.journal).to eq work_package.journals.last
     expect(mentioned_notification.reason).to eq 'mentioned'
-    expect(mentioned_notification.read_ian).to eq false
-    expect(mentioned_notification.mail_alert_sent).to eq true
+    expect(mentioned_notification.read_ian).to be false
+    expect(mentioned_notification.mail_alert_sent).to be true
   end
 
   def expect_assigned_notification
     expect(assigned_notification).to be_present
-    expect(assigned_notification.read_ian).to eq false
-    expect(assigned_notification.mail_alert_sent).to eq false
+    expect(assigned_notification.read_ian).to be false
+    expect(assigned_notification.mail_alert_sent).to be false
   end
 
   it 'will trigger only one mention notification mail when editing attributes afterwards' do

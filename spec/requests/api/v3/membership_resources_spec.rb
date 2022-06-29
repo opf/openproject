@@ -29,7 +29,6 @@
 require 'spec_helper'
 require 'rack/test'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'API v3 memberships resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
@@ -42,8 +41,8 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
   end
   let(:own_member) do
     create(:member,
-           roles: [create(:role, permissions: permissions)],
-           project: project,
+           roles: [create(:role, permissions:)],
+           project:,
            user: current_user)
   end
   let(:permissions) { %i[view_members manage_members] }
@@ -55,7 +54,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     create(:member,
            roles: [other_role],
            principal: other_user,
-           project: project)
+           project:)
   end
   let(:invisible_member) do
     create(:member,
@@ -88,7 +87,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
   describe 'GET api/v3/memberships' do
     let(:members) { [own_member, other_member, invisible_member, global_member] }
     let(:filters) { nil }
-    let(:path) { api_v3_paths.path_for(:memberships, filters: filters, sort_by: [%i(id asc)]) }
+    let(:path) { api_v3_paths.path_for(:memberships, filters:, sort_by: [%i(id asc)]) }
 
     before do
       members
@@ -183,7 +182,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       let(:group_member) do
         create(:member,
                roles: [create(:role)],
-               project: project,
+               project:,
                principal: group)
       end
       let(:members) { [own_member, group_member] }
@@ -214,7 +213,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       let(:placeholder_member) do
         create(:member,
                roles: [create(:role)],
-               project: project,
+               project:,
                principal: placeholder_user)
       end
       let(:members) { [own_member, placeholder_member] }
@@ -262,7 +261,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       let(:own_other_member) do
         create(:member,
-               roles: [create(:role, permissions: permissions)],
+               roles: [create(:role, permissions:)],
                project: other_project,
                user: current_user)
       end
@@ -293,7 +292,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
         create(:member,
                roles: [create(:role)],
                principal: group,
-               project: project)
+               project:)
       end
       let(:members) { [own_member, other_member, group_member, invisible_member] }
 
@@ -434,7 +433,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
 
       it 'creates the member' do
-        expect(Member.find_by(principal: principal, project: project))
+        expect(Member.find_by(principal:, project:))
           .to be_present
       end
 
@@ -535,7 +534,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       it 'creates the memberships for the group members' do
         users.each do |user|
-          expect(Member.find_by(user_id: user.id, project: project))
+          expect(Member.find_by(user_id: user.id, project:))
             .to be_present
         end
       end
@@ -1244,4 +1243,3 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

@@ -101,7 +101,7 @@ describe 'adding a new budget', type: :feature, js: true do
 
     before do
       create :cost_rate, cost_type: cost_type, rate: 50.0
-      create :default_hourly_rate, user: user, rate: 25.0
+      create :default_hourly_rate, user:, rate: 25.0
     end
 
     context 'with german locale' do

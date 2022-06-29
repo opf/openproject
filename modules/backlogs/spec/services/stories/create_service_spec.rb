@@ -35,11 +35,11 @@ describe Stories::CreateService, type: :model do
 
     create(:member,
            principal: user,
-           project: project,
+           project:,
            roles: [role])
     project
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i(add_work_packages manage_subtasks assign_versions) }
   let(:status) { create(:status) }
   let(:type_feature) { create(:type_feature) }
@@ -50,39 +50,39 @@ describe Stories::CreateService, type: :model do
 
   let(:instance) do
     Stories::CreateService
-      .new(user: user)
+      .new(user:)
   end
 
   let(:attributes) do
     {
-      project: project,
-      status: status,
+      project:,
+      status:,
       type: type_feature,
-      priority: priority,
+      priority:,
       parent_id: story.id,
-      remaining_hours: remaining_hours,
+      remaining_hours:,
       subject: 'some subject'
     }
   end
 
-  let(:version) { create(:version, project: project) }
+  let(:version) { create(:version, project:) }
 
   let(:story) do
     project.enabled_module_names += ['backlogs']
 
     create(:story,
-           version: version,
-           project: project,
-           status: status,
+           version:,
+           project:,
+           status:,
            type: type_feature,
-           priority: priority)
+           priority:)
   end
 
   before do
     allow(User).to receive(:current).and_return(user)
   end
 
-  subject { instance.call(attributes: attributes) }
+  subject { instance.call(attributes:) }
 
   describe "remaining_hours" do
     before do

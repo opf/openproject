@@ -33,9 +33,7 @@ class TextEditorField < EditField
     ckeditor.clear
   end
 
-  def click_and_type_slowly(text)
-    ckeditor.click_and_type_slowly text
-  end
+  delegate :click_and_type_slowly, to: :ckeditor
 
   def type(text)
     click_and_type_slowly text

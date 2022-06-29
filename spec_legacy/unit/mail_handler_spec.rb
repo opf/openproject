@@ -32,7 +32,7 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
-  it 'should add work package with attributes override' do
+  it 'adds work package with attributes override' do
     issue = submit_email('ticket_with_attributes.eml', allow_override: 'type,category,priority')
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
@@ -46,17 +46,7 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
-  it 'should add work package with group assignment' do
-    work_package = submit_email('ticket_on_given_project.eml') do |email|
-      email.gsub!('Assigned to: John Smith', 'Assigned to: B Team')
-    end
-    assert work_package.is_a?(WorkPackage)
-    assert !work_package.new_record?
-    work_package.reload
-    assert_equal Group.find(11), work_package.assigned_to
-  end
-
-  it 'should add work package with partial attributes override' do
+  it 'adds work package with partial attributes override' do
     issue = submit_email('ticket_with_attributes.eml', issue: { priority: 'High' }, allow_override: ['type'])
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
@@ -70,7 +60,7 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
-  it 'should add work package with spaces between attribute and separator' do
+  it 'adds work package with spaces between attribute and separator' do
     issue = submit_email('ticket_with_spaces_between_attribute_and_separator.eml', allow_override: 'type,category,priority')
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
@@ -84,7 +74,7 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
-  it 'should add work package with attachment to specific project' do
+  it 'adds work package with attachment to specific project' do
     issue = submit_email('ticket_with_attachment.eml', issue: { project: 'onlinestore' })
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
@@ -100,7 +90,7 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     assert_equal 10790, issue.attachments.first.filesize
   end
 
-  it 'should add work package with custom fields' do
+  it 'adds work package with custom fields' do
     issue = submit_email('ticket_with_custom_fields.eml', issue: { project: 'onlinestore' })
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
@@ -110,73 +100,8 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     assert !issue.description.match(/^searchable field:/i)
   end
 
-  it 'should add work package should match assignee on display name' do # added from redmine  - not sure if it is ok here
-    user = create(:user, firstname: 'Foo', lastname: 'Bar')
-    role = create(:role, name: 'Superhero', permissions: ['work_package_assigned'])
-    create(:member, user: user, project: Project.find(2), role_ids: [role.id])
-    issue = submit_email('ticket_on_given_project.eml') do |email|
-      email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar')
-    end
-    assert issue.is_a?(WorkPackage)
-    assert_equal user, issue.assigned_to
-  end
-
-  it 'should add work package by unknown user' do
-    assert_no_difference 'User.count' do
-      assert_equal false, submit_email('ticket_by_unknown_user.eml', issue: { project: 'ecookbook' })
-    end
-  end
-
-  it 'should add work package by anonymous user' do
-    Role.anonymous.add_permission!(:add_work_packages)
-    assert_no_difference 'User.count' do
-      issue = submit_email('ticket_by_unknown_user.eml', issue: { project: 'ecookbook' }, unknown_user: 'accept')
-      assert issue.is_a?(WorkPackage)
-      assert issue.author.anonymous?
-    end
-  end
-
-  it 'should add work package by anonymous user with no from address' do
-    Role.anonymous.add_permission!(:add_work_packages)
-    assert_no_difference 'User.count' do
-      issue = submit_email('ticket_by_empty_user.eml', issue: { project: 'ecookbook' }, unknown_user: 'accept')
-      assert issue.is_a?(WorkPackage)
-      assert issue.author.anonymous?
-    end
-  end
-
-  it 'should add work package by anonymous user on private project' do
-    Role.anonymous.add_permission!(:add_work_packages)
-    assert_no_difference 'User.count' do
-      assert_no_difference 'WorkPackage.count' do
-        assert_equal false, submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, unknown_user: 'accept')
-      end
-    end
-  end
-
-  it 'should add work package by anonymous user on private project without permission check' do
-    assert_no_difference 'User.count' do
-      assert_difference 'WorkPackage.count' do
-        issue = submit_email('ticket_by_unknown_user.eml',
-                             issue: { project: 'onlinestore' },
-                             no_permission_check: '1',
-                             unknown_user: 'accept')
-        assert issue.is_a?(WorkPackage)
-        assert issue.author.anonymous?
-        assert !issue.project.public?
-        assert issue.root?
-        assert issue.leaf?
-      end
-    end
-  end
-
-  it 'should add work package without from header' do
-    Role.anonymous.add_permission!(:add_work_packages)
-    assert_equal false, submit_email('ticket_without_from_header.eml')
-  end
-
   context 'without default start_date', with_legacy_settings: { work_package_startdate_is_adddate: false } do
-    it 'should add work package with invalid attributes' do
+    it 'adds work package with invalid attributes' do
       issue = submit_email('ticket_with_invalid_attributes.eml', allow_override: 'type,category,priority')
       assert issue.is_a?(WorkPackage)
       assert !issue.new_record?
@@ -190,7 +115,7 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     end
   end
 
-  it 'should add work package with localized attributes' do
+  it 'adds work package with localized attributes' do
     User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'de'
 
     issue = submit_email('ticket_with_localized_attributes.eml', allow_override: 'type,category,priority')
@@ -206,7 +131,7 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
-  it 'should add work package with japanese keywords' do
+  it 'adds work package with japanese keywords' do
     type = ::Type.create!(name: '開発')
     Project.find(1).types << type
     issue = submit_email('japanese_keywords_iso_2022_jp.eml', issue: { project: 'ecookbook' }, allow_override: 'type')
@@ -214,7 +139,7 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     assert_equal type, issue.type
   end
 
-  it 'should add from apple mail' do
+  it 'adds from apple mail' do
     issue = submit_email(
       'apple_mail_with_attachment.eml',
       issue: { project: 'ecookbook' }
@@ -230,7 +155,7 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     assert_equal 'caaf384198bcbc9563ab5c058acd73cd', attachment.digest
   end
 
-  it 'should add work package with iso 8859 1 subject' do
+  it 'adds work package with iso 8859 1 subject' do
     issue = submit_email(
       'subject_as_iso-8859-1.eml',
       issue: { project: 'ecookbook' }
@@ -239,17 +164,8 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     assert_equal 'Testmail from Webmail: ä ö ü...', issue.subject
   end
 
-  it 'should ignore emails from locked users' do
-    User.find(2).locked!
-
-    expect_any_instance_of(MailHandler).to receive(:dispatch).never
-    assert_no_difference 'WorkPackage.count' do
-      assert_equal false, submit_email('ticket_on_given_project.eml')
-    end
-  end
-
-  it 'should ignore auto replied emails' do
-    expect_any_instance_of(MailHandler).to receive(:dispatch).never
+  it 'ignores auto replied emails' do
+    expect_any_instance_of(MailHandler).not_to receive(:dispatch)
     [
       'X-Auto-Response-Suppress: OOF',
       'Auto-Submitted: auto-replied',
@@ -265,7 +181,7 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     end
   end
 
-  it 'should strip tags of html only emails' do
+  it 'strips tags of html only emails' do
     issue = submit_email('ticket_html_only.eml', issue: { project: 'ecookbook' })
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
@@ -274,7 +190,7 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     assert_equal 'This is a html-only email.', issue.description
   end
 
-  it 'should email with long subject line' do
+  it 'emails with long subject line' do
     issue = submit_email('ticket_with_long_subject.eml')
     assert issue.is_a?(WorkPackage)
     assert_equal issue.subject,
@@ -282,7 +198,7 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
 0, 255]
   end
 
-  it 'should new user from attributes should return valid user' do
+  it 'news user from attributes should return valid user' do
     to_test = {
       # [address, name] => [login, firstname, lastname]
       ['jsmith@example.net', nil] => ['jsmith@example.net', 'jsmith', '-'],
@@ -310,21 +226,21 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
 
   context 'with min password length',
           with_legacy_settings: { password_min_length: 15 } do
-    it 'should new user from attributes should respect minimum password length' do
+    it 'news user from attributes should respect minimum password length' do
       user = MailHandler.new_user_from_attributes('jsmith@example.net')
       assert user.valid?
       assert user.password.length >= 15
     end
   end
 
-  it 'should new user from attributes should use default login if invalid' do
+  it 'news user from attributes should use default login if invalid' do
     user = MailHandler.new_user_from_attributes('foo&bar@example.net')
     assert user.valid?
     assert user.login =~ /^user[a-f0-9]+$/
     assert_equal 'foo&bar@example.net', user.mail
   end
 
-  it 'should new user with utf8 encoded fullname should be decoded' do
+  it 'news user with utf8 encoded fullname should be decoded' do
     assert_difference 'User.count' do
       issue = submit_email(
         'fullname_of_sender_as_utf8_encoded.eml',

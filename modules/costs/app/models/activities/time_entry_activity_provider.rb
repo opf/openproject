@@ -100,7 +100,7 @@ class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
                       project_id_filter(event['project_id'])
                     end
 
-    url_helpers.cost_reports_url(event['project_id'], only_path: only_path, **filter_params)
+    url_helpers.cost_reports_url(event['project_id'], only_path:, **filter_params)
   end
 
   def project_id_filter(project_id)

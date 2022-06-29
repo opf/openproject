@@ -12,15 +12,15 @@ describe 'Work Package table hierarchy', js: true do
   end
 
   describe 'hierarchies in same project' do
-    let(:category) { create :category, project: project, name: 'Foo' }
+    let(:category) { create :category, project:, name: 'Foo' }
 
-    let!(:wp_root) { create(:work_package, project: project) }
-    let!(:wp_inter) { create(:work_package, project: project, parent: wp_root) }
-    let!(:wp_leaf) { create(:work_package, project: project, category: category, parent: wp_inter) }
-    let!(:wp_other) { create(:work_package, project: project) }
+    let!(:wp_root) { create(:work_package, project:) }
+    let!(:wp_inter) { create(:work_package, project:, parent: wp_root) }
+    let!(:wp_leaf) { create(:work_package, project:, category:, parent: wp_inter) }
+    let!(:wp_other) { create(:work_package, project:) }
 
     let!(:query) do
-      query              = build(:query, user: user, project: project)
+      query              = build(:query, user:, project:)
       query.column_names = ['subject', 'category']
       query.filters.clear
       query.add_filter('category_id', '=', [category.id])
@@ -90,9 +90,10 @@ describe 'Work Package table hierarchy', js: true do
 
   describe 'with a cross project hierarchy' do
     let(:project2) { create(:project) }
-    let!(:wp_root) { create(:work_package, project: project) }
+    let!(:wp_root) { create(:work_package, project:) }
     let!(:wp_inter) { create(:work_package, project: project2, parent: wp_root) }
     let(:global_table) { Pages::WorkPackagesTable.new }
+
     it 'shows the hierarchy indicator only when the rows are both shown' do
       wp_table.visit!
       wp_table.expect_work_package_listed(wp_root)
@@ -108,12 +109,12 @@ describe 'Work Package table hierarchy', js: true do
   end
 
   describe 'flat table such that the parent appears below the child' do
-    let!(:wp_root) { create(:work_package, project: project) }
-    let!(:wp_inter) { create(:work_package, project: project, parent: wp_root) }
-    let!(:wp_leaf) { create(:work_package, project: project, parent: wp_inter) }
+    let!(:wp_root) { create(:work_package, project:) }
+    let!(:wp_inter) { create(:work_package, project:, parent: wp_root) }
+    let!(:wp_leaf) { create(:work_package, project:, parent: wp_inter) }
 
     let!(:query) do
-      query              = build(:query, user: user, project: project)
+      query              = build(:query, user:, project:)
       query.column_names = ['subject', 'category']
       query.filters.clear
       query.show_hierarchies = false
@@ -156,22 +157,22 @@ describe 'Work Package table hierarchy', js: true do
   describe 'sorting by assignee' do
     include_context 'work package table helpers'
     let(:root_assigned) do
-      create(:work_package, subject: 'root_assigned', project: project, assigned_to: user)
+      create(:work_package, subject: 'root_assigned', project:, assigned_to: user)
     end
     let(:inter_assigned) do
-      create(:work_package, subject: 'inter_assigned', project: project, assigned_to: user, parent: root_assigned)
+      create(:work_package, subject: 'inter_assigned', project:, assigned_to: user, parent: root_assigned)
     end
     let(:inter) do
-      create(:work_package, subject: 'inter', project: project, parent: root_assigned)
+      create(:work_package, subject: 'inter', project:, parent: root_assigned)
     end
     let(:leaf_assigned) do
-      create(:work_package, subject: 'leaf_assigned', project: project, assigned_to: user, parent: inter)
+      create(:work_package, subject: 'leaf_assigned', project:, assigned_to: user, parent: inter)
     end
     let(:leaf) do
-      create(:work_package, subject: 'leaf', project: project, parent: inter)
+      create(:work_package, subject: 'leaf', project:, parent: inter)
     end
     let(:root) do
-      create(:work_package, subject: 'root', project: project)
+      create(:work_package, subject: 'root', project:)
     end
 
     let(:user) do
@@ -180,11 +181,11 @@ describe 'Work Package table hierarchy', js: true do
              member_through_role: role
     end
     let(:permissions) { %i(view_work_packages add_work_packages save_queries) }
-    let(:role) { create :role, permissions: permissions }
+    let(:role) { create :role, permissions: }
     let(:sort_by) { ::Components::WorkPackages::SortBy.new }
 
     let!(:query) do
-      query              = build(:query, user: user, project: project)
+      query              = build(:query, user:, project:)
       query.column_names = ['id', 'subject', 'assigned_to']
       query.filters.clear
       query.sort_criteria = [['assigned_to', 'asc'], ['id', 'asc']]

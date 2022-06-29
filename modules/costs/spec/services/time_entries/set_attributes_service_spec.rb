@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe TimeEntries::SetAttributesService, type: :model do
   let(:user) { build_stubbed(:user) }
-  let(:activity) { build_stubbed(:time_entry_activity, project: project) }
-  let!(:default_activity) { build_stubbed(:time_entry_activity, project: project, is_default: true) }
+  let(:activity) { build_stubbed(:time_entry_activity, project:) }
+  let!(:default_activity) { build_stubbed(:time_entry_activity, project:, is_default: true) }
   let(:work_package) { build_stubbed(:work_package) }
   let(:project) { build_stubbed(:project) }
   let(:spent_on) { Date.today.to_s }
@@ -53,9 +53,9 @@ describe TimeEntries::SetAttributesService, type: :model do
   let(:time_entry_valid) { true }
 
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: time_entry_instance,
-                        contract_class: contract_class)
+                        contract_class:)
   end
   let(:time_entry_instance) { TimeEntry.new }
   let(:contract_class) do
@@ -83,7 +83,7 @@ describe TimeEntries::SetAttributesService, type: :model do
   end
 
   it 'is a success' do
-    is_expected
+    expect(subject)
       .to be_success
   end
 
@@ -115,12 +115,12 @@ describe TimeEntries::SetAttributesService, type: :model do
   context 'with params' do
     let(:params) do
       {
-        work_package: work_package,
-        project: project,
-        activity: activity,
-        spent_on: spent_on,
-        comments: comments,
-        hours: hours
+        work_package:,
+        project:,
+        activity:,
+        spent_on:,
+        comments:,
+        hours:
       }
     end
 
@@ -131,8 +131,8 @@ describe TimeEntries::SetAttributesService, type: :model do
         project_id: project.id,
         activity_id: activity.id,
         spent_on: Date.parse(spent_on),
-        comments: comments,
-        hours: hours
+        comments:,
+        hours:
       }.with_indifferent_access
     end
 
@@ -166,7 +166,7 @@ describe TimeEntries::SetAttributesService, type: :model do
   context 'with project not specified' do
     let(:params) do
       {
-        work_package: work_package
+        work_package:
       }
     end
 
@@ -186,7 +186,7 @@ describe TimeEntries::SetAttributesService, type: :model do
     end
 
     it 'returns failure' do
-      is_expected
+      expect(subject)
         .not_to be_success
     end
 

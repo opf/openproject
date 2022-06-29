@@ -30,7 +30,7 @@ require 'rexml/document'
 require 'open3'
 
 module OpenProject
-  module VERSION #:nodoc:
+  module VERSION # :nodoc:
     MAJOR = 12
     MINOR = 2
     PATCH = 0

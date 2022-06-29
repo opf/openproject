@@ -35,7 +35,7 @@ describe 'users/show', type: :view do
   let(:visibility_custom_value) do
     create(:principal_custom_value,
            customized: user,
-           custom_field: custom_field,
+           custom_field:,
            value: 'TextUserCustomFieldValue')
   end
 

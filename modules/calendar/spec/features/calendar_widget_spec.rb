@@ -27,34 +27,33 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_context'
 require_relative '../../../overviews/spec/support/pages/overview'
 
 describe 'Calendar drag&dop and resizing', type: :feature, js: true do
-  include_context 'with calendar full access'
-
-  let!(:other_user) do
-    create :user,
-           firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[
-             view_work_packages view_calendar
-           ]
+  let(:project) do
+    create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
   end
-
   let!(:work_package) do
     create :work_package,
-           project: project,
+           project:,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
            due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
   end
+
   let(:overview_page) do
     Pages::Overview.new(project)
   end
   let(:wp_full_view) { Pages::FullWorkPackage.new(work_package, project) }
 
+  current_user do
+    create :user,
+           member_in_project: project,
+           member_with_permissions: %w[
+             view_work_packages view_calendar manage_overview
+           ]
+  end
+
   before do
-    login_as current_user
     overview_page.visit!
   end
 

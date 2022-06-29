@@ -47,7 +47,7 @@ module MembersHelper
   ##
   # Decorate the form_for helper for membership of a user or a group to a global
   # role.
-  def global_role_membership_form_for(principal, global_member, options = {}, &block)
+  def global_role_membership_form_for(principal, global_member, options = {}, &)
     args =
       if global_member
         { url: principal_membership_path(principal, global_member), method: :patch }
@@ -55,7 +55,7 @@ module MembersHelper
         { url: principal_memberships_path(principal), method: :post }
       end
 
-    form_for(:principal_roles, args.merge(options), &block)
+    form_for(:principal_roles, args.merge(options), &)
   end
 
   def principal_membership_path(principal, global_member, options = {})

@@ -54,6 +54,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
     before do
       settings_page.visit_repository_settings
     end
+
     shared_examples 'shows enabled scms' do
       it 'displays the vendor selection' do
         expect(scm_vendor_input).not_to be_nil
@@ -69,6 +70,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
 
     context 'with only one enabled scm' do
       let(:enabled_scms) { %w[subversion] }
+
       it_behaves_like 'shows enabled scms'
       it 'does not show git' do
         expect(scm_vendor_input).not_to have_selector('option', text: 'Git')
@@ -85,7 +87,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
     end
 
     shared_examples 'has only the type which is selected' do |type, vendor|
-      it 'should display one type' do
+      it 'displays one type' do
         # There seems to be an issue with how the
         # select is accessed after the async form loading
         # Thus we explicitly find it here to allow some wait
@@ -107,7 +109,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
     shared_examples 'has hidden type' do |type, vendor|
       let(:selector) { find("input[name='scm_type'][value='#{type}']") }
 
-      it 'should display a collapsed type' do
+      it 'displays a collapsed type' do
         expect(selector).not_to be_nil
         expect(selector[:selected]).to be_falsey
         expect(selector).not_to be_disabled
@@ -175,6 +177,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
       context 'and managed repositories' do
         include_context 'with tmpdir'
         let(:config) { { subversion: { manages: tmpdir } } }
+
         it_behaves_like 'has managed and other type', 'existing', 'subversion'
         it_behaves_like 'it can create the managed repository'
         it_behaves_like 'it can create the repository of type with url',
@@ -189,6 +192,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
       it_behaves_like 'has only the type which is selected', 'local', 'git'
       context 'and managed repositories, but not ours' do
         let(:config) { { subversion: { manages: '/tmp/whatever' } } }
+
         it_behaves_like 'has only the type which is selected', 'local', 'git'
       end
 

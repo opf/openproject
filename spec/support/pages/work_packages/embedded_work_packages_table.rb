@@ -28,11 +28,11 @@
 
 require 'support/pages/page'
 require 'support/pages/work_packages/work_packages_table'
-require 'support/components/ng_select_autocomplete_helpers'
+require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
 module Pages
   class EmbeddedWorkPackagesTable < WorkPackagesTable
-    include ::Components::NgSelectAutocompleteHelpers
+    include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
     attr_reader :container
 

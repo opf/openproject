@@ -28,7 +28,6 @@
 
 require 'spec_helper'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe Capabilities::Scopes::Default, type: :model do
   # we focus on the non current user capabilities to make the tests easier to understand
   subject(:scope) { Capability.default.where(principal_id: user.id) }
@@ -40,7 +39,7 @@ describe Capabilities::Scopes::Default, type: :model do
   let(:project_active) { true }
   let!(:project) { create(:project, public: project_public, active: project_active) }
   let(:role) do
-    create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
   let(:global_role) do
     create(:global_role, permissions: global_permissions)
@@ -58,18 +57,18 @@ describe Capabilities::Scopes::Default, type: :model do
     create(:member,
            principal: user,
            roles: [role],
-           project: project)
+           project:)
   end
   let(:non_member_role) do
     create(:non_member,
            permissions: non_member_permissions)
   end
-  let(:own_role) { create(:role, permissions: [] )}
+  let(:own_role) { create(:role, permissions: []) }
   let(:own_member) do
     create(:member,
            principal: current_user,
            roles: [own_role],
-           project: project)
+           project:)
   end
   let(:members) { [] }
 
@@ -330,4 +329,3 @@ describe Capabilities::Scopes::Default, type: :model do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

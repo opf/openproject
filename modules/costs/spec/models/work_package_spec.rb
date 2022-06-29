@@ -37,29 +37,29 @@ describe WorkPackage, type: :model do
 
   let(:project2) { create(:project_with_types, types: project.types) }
   let(:work_package) do
-    create(:work_package, project: project,
-                                     type: project.types.first,
-                                     author: user)
+    create(:work_package, project:,
+                          type: project.types.first,
+                          author: user)
   end
   let!(:cost_entry) do
-    create(:cost_entry, work_package: work_package, project: project, units: 3, spent_on: Date.today, user: user,
-                                   comments: 'test entry')
+    create(:cost_entry, work_package:, project:, units: 3, spent_on: Date.today, user:,
+                        comments: 'test entry')
   end
-  let!(:budget) { create(:budget, project: project) }
+  let!(:budget) { create(:budget, project:) }
 
   def move_to_project(work_package, project)
     WorkPackages::UpdateService
-      .new(model: work_package, user: user)
-      .call(project: project)
+      .new(model: work_package, user:)
+      .call(project:)
   end
 
-  it 'should update cost entries on move' do
+  it 'updates cost entries on move' do
     expect(work_package.project_id).to eql project.id
     expect(move_to_project(work_package, project2)).not_to be_falsey
     expect(cost_entry.reload.project_id).to eql project2.id
   end
 
-  it 'should allow to set budget to nil' do
+  it 'allows to set budget to nil' do
     work_package.budget = budget
     work_package.save!
     expect(work_package.budget).to eql budget

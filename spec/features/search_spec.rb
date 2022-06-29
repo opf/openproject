@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Search', type: :feature, js: true, with_settings: { per_page_options: '5' }, with_mail: false do
-  include ::Components::NgSelectAutocompleteHelpers
+  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:admin) { create :admin }
   let(:user) { admin }
@@ -42,21 +42,21 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       Timecop.freeze("2016-11-21 #{n}:00".to_datetime) do
         subject = "Subject No. #{n} WP"
         create :work_package,
-               subject: subject,
-               project: project
+               subject:,
+               project:
       end
     end
   end
   let(:custom_field_text_value) { 'cf text value' }
   let!(:custom_field_text) do
     create(:text_wp_custom_field,
-           is_filter: is_filter,
-           searchable: searchable).tap do |custom_field|
+           is_filter:,
+           searchable:).tap do |custom_field|
       project.work_package_custom_fields << custom_field
       work_packages.first.type.custom_fields << custom_field
 
       create(:work_package_custom_value,
-             custom_field: custom_field,
+             custom_field:,
              customized: work_packages[0],
              value: custom_field_text_value)
     end
@@ -65,13 +65,13 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
   let!(:custom_field_string) do
     create(:string_wp_custom_field,
            is_for_all: true,
-           is_filter: is_filter,
-           searchable: searchable).tap do |custom_field|
+           is_filter:,
+           searchable:).tap do |custom_field|
       custom_field.save
       work_packages.first.type.custom_fields << custom_field
 
       create(:work_package_custom_value,
-             custom_field: custom_field,
+             custom_field:,
              customized: work_packages[1],
              value: custom_field_string_value)
     end
@@ -101,7 +101,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
   end
 
   describe 'autocomplete' do
-    let!(:other_work_package) { create(:work_package, subject: 'Other work package', project: project) }
+    let!(:other_work_package) { create(:work_package, subject: 'Other work package', project:) }
 
     it 'provides suggestions' do
       global_search.search(query, submit: false)
@@ -334,7 +334,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
         top_menu.expect_current_project subproject.name
 
         select_autocomplete(page.find('.top-menu-search--input'),
-                            query: query,
+                            query:,
                             select_text: 'In this project ↵',
                             wait_dropdown_open: false)
 
@@ -442,10 +442,10 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
   end
 
   describe 'when params escaping' do
-    let(:wp1) { create :work_package, subject: "Foo && Bar", project: project }
-    let(:wp2) { create :work_package, subject: "Foo # Bar", project: project }
-    let(:wp3) { create :work_package, subject: "Foo &# Bar", project: project }
-    let(:wp4) { create :work_package, subject: %(Foo '' "" \(\) Bar), project: project }
+    let(:wp1) { create :work_package, subject: "Foo && Bar", project: }
+    let(:wp2) { create :work_package, subject: "Foo # Bar", project: }
+    let(:wp3) { create :work_package, subject: "Foo &# Bar", project: }
+    let(:wp4) { create :work_package, subject: %(Foo '' "" \(\) Bar), project: }
     let!(:work_packages) { [wp1, wp2, wp3, wp4] }
     let(:table) { Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container')) }
 

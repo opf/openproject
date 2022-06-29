@@ -304,7 +304,7 @@ describe WorkPackages::SetAttributesService, type: :model do
       let(:attributes) { {} }
       let(:work_package) { new_work_package }
       let(:parent) do
-        build_stubbed(:stubbed_work_package,
+        build_stubbed(:work_package,
                       start_date: parent_start_date,
                       due_date: parent_due_date)
       end
@@ -313,6 +313,33 @@ describe WorkPackages::SetAttributesService, type: :model do
 
       context 'with the parent having dates and not providing own dates' do
         let(:call_attributes) { { parent: } }
+
+        it_behaves_like 'service call' do
+          it "sets the start_date to the parent`s start_date" do
+            subject
+
+            expect(work_package.start_date)
+              .to eql parent_start_date
+          end
+
+          it "sets the due_date to the parent`s due_date" do
+            subject
+
+            expect(work_package.due_date)
+              .to eql parent_due_date
+          end
+        end
+      end
+
+      context 'with the parent having dates and not providing own dates and with the parent`s' \
+              'soonest_start being before the start_date (e.g. because the parent is manually scheduled)' do
+        let(:call_attributes) { { parent: } }
+
+        before do
+          allow(parent)
+            .to receive(:soonest_start)
+                  .and_return(parent_start_date + 3.days)
+        end
 
         it_behaves_like 'service call' do
           it "sets the start_date to the parent`s start_date" do
@@ -639,7 +666,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'with start date changed' do
-      let(:work_package) { build_stubbed(:stubbed_work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
+      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
       let(:call_attributes) { { start_date: Time.zone.today + 1.day } }
       let(:attributes) { {} }
 
@@ -668,7 +695,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'with due date changed' do
-      let(:work_package) { build_stubbed(:stubbed_work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
+      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
       let(:call_attributes) { { due_date: Time.zone.today + 1.day } }
       let(:attributes) { {} }
 
@@ -697,7 +724,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'with start date nilled' do
-      let(:work_package) { build_stubbed(:stubbed_work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
+      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
       let(:call_attributes) { { start_date: nil } }
       let(:attributes) { {} }
 
@@ -726,7 +753,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'with due date nilled' do
-      let(:work_package) { build_stubbed(:stubbed_work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
+      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
       let(:call_attributes) { { due_date: nil } }
       let(:attributes) { {} }
 
@@ -755,7 +782,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'with duration explicitly set' do
-      let(:work_package) { build_stubbed(:stubbed_work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
+      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
       let(:call_attributes) { { due_date: Time.zone.today + 2.days, duration: 8 } }
       let(:attributes) { {} }
 
@@ -840,7 +867,7 @@ describe WorkPackages::SetAttributesService, type: :model do
   context 'when switching the type' do
     let(:target_type) { build_stubbed(:type) }
     let(:work_package) do
-      build_stubbed(:stubbed_work_package, start_date: Time.zone.today - 6.days, due_date: Time.zone.today)
+      build_stubbed(:work_package, start_date: Time.zone.today - 6.days, due_date: Time.zone.today)
     end
 
     context 'with a type that is no milestone' do
@@ -899,7 +926,7 @@ describe WorkPackages::SetAttributesService, type: :model do
 
     context 'with a type that is a milestone and with only the start date set' do
       let(:work_package) do
-        build_stubbed(:stubbed_work_package, start_date: Time.zone.today - 6.days)
+        build_stubbed(:work_package, start_date: Time.zone.today - 6.days)
       end
 
       before do
@@ -1096,6 +1123,33 @@ describe WorkPackages::SetAttributesService, type: :model do
           end
         end
       end
+
+      context 'for parent' do
+        let(:parent_work_package) { build_stubbed(:work_package, project:) }
+        let(:work_package) do
+          build_stubbed(:work_package, project:, type: initial_type, parent: parent_work_package)
+        end
+
+        context 'with cross project relations allowed', with_settings: { cross_project_work_package_relations: true } do
+          it 'keeps the parent' do
+            expect(subject)
+              .to be_success
+
+            expect(work_package.parent)
+              .to eql(parent_work_package)
+          end
+        end
+
+        context 'with cross project relations disabled', with_settings: { cross_project_work_package_relations: false } do
+          it 'deletes the parent' do
+            expect(subject)
+              .to be_success
+
+            expect(work_package.parent)
+              .to be_nil
+          end
+        end
+      end
     end
 
     context 'when updating project before calling the service' do
@@ -1198,7 +1252,7 @@ describe WorkPackages::SetAttributesService, type: :model do
 
     context 'when the work package also has a child' do
       let(:child) do
-        build_stubbed(:stubbed_work_package,
+        build_stubbed(:work_package,
                       start_date: child_start_date,
                       due_date: child_due_date)
       end

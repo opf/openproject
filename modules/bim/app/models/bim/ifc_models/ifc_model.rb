@@ -13,7 +13,7 @@ module Bim
                          view_permission: :view_ifc_models
 
       belongs_to :project
-      belongs_to :uploader, class_name: 'User', foreign_key: 'uploader_id'
+      belongs_to :uploader, class_name: 'User'
 
       validates :title, presence: true
       validates :project, presence: true
@@ -35,7 +35,7 @@ module Bim
           filename = file.respond_to?(:original_filename) ? file.original_filename : File.basename(file.path)
           call = ::Attachments::CreateService
             .bypass_whitelist(user: User.current)
-            .call(file: file, container: self, filename: filename, description: name)
+            .call(file:, container: self, filename:, description: name)
 
           call.on_failure { Rails.logger.error "Failed to add #{name} attachment: #{call.message}" }
         end

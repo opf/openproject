@@ -153,7 +153,7 @@ class ProjectsController < ApplicationController
     job = Projects::ExportJob.perform_later(
       export: Projects::Export.create,
       user: current_user,
-      mime_type: mime_type,
+      mime_type:,
       query: @query.to_hash
     )
 

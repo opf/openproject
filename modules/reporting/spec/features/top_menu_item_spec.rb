@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'Top menu items', js: true do
+describe 'Top menu items', js: true do
   let(:user) { create :user }
   let(:open_menu) { true }
 

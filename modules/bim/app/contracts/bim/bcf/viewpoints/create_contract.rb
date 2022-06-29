@@ -76,7 +76,7 @@ module Bim::Bcf
                                        space_boundaries_visible
                                        openings_visible).freeze
 
-      COLOR_REGEXP = /#([0-9a-f]{2})?[0-9a-f]{6}/.freeze
+      COLOR_REGEXP = /#([0-9a-f]{2})?[0-9a-f]{6}/
 
       WHITELISTED_DIMENSIONS = %w(x y z).freeze
 

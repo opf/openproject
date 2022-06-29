@@ -36,6 +36,6 @@ class CustomActions::UpdateService < CustomActions::BaseService
   end
 
   def call(attributes:, &block)
-    super(attributes: attributes, action: action, &block)
+    super(attributes:, action:, &block)
   end
 end

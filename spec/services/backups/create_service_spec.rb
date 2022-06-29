@@ -31,8 +31,8 @@ require 'services/base_services/behaves_like_create_service'
 
 describe Backups::CreateService, type: :model do
   let(:user) { create :admin }
-  let(:service) { described_class.new user: user, backup_token: backup_token.plain_value }
-  let(:backup_token) { create :backup_token, user: user }
+  let(:service) { described_class.new user:, backup_token: backup_token.plain_value }
+  let(:backup_token) { create :backup_token, user: }
 
   it_behaves_like 'BaseServices create service' do
     let(:instance) { service }
@@ -43,20 +43,20 @@ describe Backups::CreateService, type: :model do
     context "with no further options" do
       it "enqueues a BackupJob which includes attachments" do
         expect { service.call }.to have_enqueued_job(BackupJob).with do |args|
-          expect(args["include_attachments"]).to eq true
+          expect(args["include_attachments"]).to be true
         end
       end
     end
 
     context "with include_attachments: false" do
       let(:service) do
-        described_class.new user: user, backup_token: backup_token.plain_value, include_attachments: false
+        described_class.new user:, backup_token: backup_token.plain_value, include_attachments: false
       end
 
       it "enqueues a BackupJob which does not include attachments" do
         expect(BackupJob)
           .to receive(:perform_later)
-          .with(hash_including(include_attachments: false, user: user))
+          .with(hash_including(include_attachments: false, user:))
 
         expect(service.call).to be_success
       end

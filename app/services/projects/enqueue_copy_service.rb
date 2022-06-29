@@ -41,7 +41,7 @@ module Projects
       call = test_copy(params)
 
       if call.success?
-        ServiceResult.new success: true, result: schedule_copy_job(params)
+        ServiceResult.success result: schedule_copy_job(params)
       else
         call
       end
@@ -53,7 +53,7 @@ module Projects
       test_params = params.merge(attributes_only: true)
 
       Projects::CopyService
-        .new(user: user, source: source)
+        .new(user:, source:)
         .call(test_params)
     end
 

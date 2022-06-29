@@ -351,6 +351,7 @@ id:
     label_expand_project_menu: "Expand project menu"
     label_export: "Ekspor"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "File"
     label_filesize: "Size"
     label_general: "Umum"
@@ -373,7 +374,9 @@ id:
     label_learn_more_link: "Pelajari lebih lanjut"
     label_less_or_equal: "<="
     label_less_than_ago: "kemarin lusa"
+    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Loading..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Notifikasi email"
     label_me: "saya"
     label_meeting_agenda: "Agenda"
@@ -386,18 +389,25 @@ id:
     label_no_data: "Tidak ada data untuk ditampilkan"
     label_no_due_date: "no finish date"
     label_no_start_date: "tidak ada tanggal mulai"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Kosongkan"
+    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "kosong"
     label_not_contains: "tidak berisi"
     label_not_equals: "tidak"
     label_on: "pada"
     label_open_menu: "Buka menu"
     label_open_context_menu: "Open context menu"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "buka"
+    label_open_file_link: 'Open file on storage'
+    label_open_file_link_location: 'Open file in location'
     label_password: "Password"
     label_previous: "Sebelumnya"
     label_per_page: "Per halaman:"
     label_please_wait: "Please wait"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Project"
     label_visibility_settings: "Seting penampakan"
     label_quote_comment: "Quote this comment"
@@ -406,10 +416,12 @@ id:
     label_remove: "Remove"
     label_remove_column: "Remove column"
     label_remove_columns: "Hapus kolom terpilih"
+    label_remove_file_link: "Remove file link"
     label_remove_row: "Remove row"
     label_report: "Laporan"
     label_repository_plural: "Repositori"
     label_save_as: "Simpan sebagai"
+    label_select_project: "Select a project"
     label_select_watcher: "Pilih pemantau..."
     label_selected_filter_list: "Filter terpilih"
     label_show_attributes: "Show all attributes"
@@ -421,6 +433,9 @@ id:
     label_sorting: "Mengurutkan"
     label_spent_time: "Durasi"
     label_star_query: "Favored"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Publik"
     label_sum: "Total"
@@ -457,6 +472,7 @@ id:
     label_custom_queries: "Private views"
     label_columns: "Kolom"
     label_attachments: Lampiran
+    label_nextcloud: Nextcloud
     label_drop_files: Drop file di sini
     label_drop_files_hint: atau klik untuk menambahkan
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -834,6 +850,13 @@ id:
       comment_send_failed: "An error has occurred. Could not submit the comment."
       comment_updated: "The comment was successfully updated."
       confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filter"
       description_enter_text: "Masukkan teks"
       description_options_hide: "Sembunyikan opsi"
@@ -1185,3 +1208,5 @@ id:
         remove: 'Remove'
       drop_modal:
         Close: 'Tutup'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

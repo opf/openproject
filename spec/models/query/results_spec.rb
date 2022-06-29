@@ -69,7 +69,7 @@ describe ::Query::Results, type: :model, with_mail: false do
     let(:query) do
       build :query,
             show_hierarchies: false,
-            group_by: group_by,
+            group_by:,
             project: project1
     end
     let(:type1) do
@@ -372,7 +372,7 @@ describe ::Query::Results, type: :model, with_mail: false do
       let(:query) do
         build_stubbed :query,
                       show_hierarchies: false,
-                      group_by: group_by,
+                      group_by:,
                       project: project2
       end
 
@@ -426,7 +426,7 @@ describe ::Query::Results, type: :model, with_mail: false do
       let(:query) do
         build :query,
               show_hierarchies: false,
-              group_by: group_by,
+              group_by:,
               project: project1
       end
       let(:group_by) { 'responsible' }
@@ -478,7 +478,7 @@ describe ::Query::Results, type: :model, with_mail: false do
     let(:query) do
       build_stubbed :query,
                     show_hierarchies: false,
-                    group_by: group_by,
+                    group_by:,
                     sort_criteria: sort_by,
                     project: project1,
                     column_names: columns
@@ -960,7 +960,7 @@ describe ::Query::Results, type: :model, with_mail: false do
         create(:custom_value,
                custom_field: bool_cf,
                customized: work_package1,
-               value: value)
+               value:)
       end
       let(:value) { 't' }
       let(:filter_value) { 't' }

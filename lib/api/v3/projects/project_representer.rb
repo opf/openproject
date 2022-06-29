@@ -210,7 +210,7 @@ module API
                    next unless represented.status&.code
 
                    ::API::V3::Projects::Statuses::StatusRepresenter
-                     .create(represented.status.code, current_user: current_user, embed_links: embed_links)
+                     .create(represented.status.code, current_user:, embed_links:)
                  },
                  link: ->(*) {
                    if represented.status&.code
@@ -238,7 +238,7 @@ module API
                  }
 
         property :status_explanation,
-                 writeable: -> { represented.writable?(:status) },
+                 writable: -> { represented.writable?(:status) },
                  getter: ->(*) {
                    ::API::Decorators::Formattable.new(status&.explanation,
                                                       object: self,

@@ -55,10 +55,10 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   let(:story) do
     story = build(:work_package,
                   subject: 'Story',
-                  project: project,
+                  project:,
                   type: type_feature,
                   version: version1,
-                  status: status,
+                  status:,
                   author: user,
                   priority: issue_priority)
     story
@@ -67,10 +67,10 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   let(:story2) do
     story = build(:work_package,
                   subject: 'Story2',
-                  project: project,
+                  project:,
                   type: type_feature,
                   version: version1,
-                  status: status,
+                  status:,
                   author: user,
                   priority: issue_priority)
     story
@@ -79,10 +79,10 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   let(:story3) do
     story = build(:work_package,
                   subject: 'Story3',
-                  project: project,
+                  project:,
                   type: type_feature,
                   version: version1,
-                  status: status,
+                  status:,
                   author: user,
                   priority: issue_priority)
     story
@@ -93,8 +93,8 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
           subject: 'Task',
           type: type_task,
           version: version1,
-          project: project,
-          status: status,
+          project:,
+          status:,
           author: user,
           priority: issue_priority)
   end
@@ -104,8 +104,8 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
           subject: 'Task2',
           type: type_task,
           version: version1,
-          project: project,
-          status: status,
+          project:,
+          status:,
           author: user,
           priority: issue_priority)
   end
@@ -115,8 +115,8 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
           subject: 'Task3',
           type: type_task,
           version: version1,
-          project: project,
-          status: status,
+          project:,
+          status:,
           author: user,
           priority: issue_priority)
   end
@@ -126,8 +126,8 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
           subject: 'Task4',
           type: type_task,
           version: version1,
-          project: project,
-          status: status,
+          project:,
+          status:,
           author: user,
           priority: issue_priority)
   end
@@ -137,8 +137,8 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
           subject: 'Task5',
           type: type_task,
           version: version1,
-          project: project,
-          status: status,
+          project:,
+          status:,
           author: user,
           priority: issue_priority)
   end
@@ -148,8 +148,8 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
           subject: 'Task6',
           type: type_task,
           version: version1,
-          project: project,
-          status: status,
+          project:,
+          status:,
           author: user,
           priority: issue_priority)
   end
@@ -159,8 +159,8 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
           subject: 'Bug',
           type: type_bug,
           version: version1,
-          project: project,
-          status: status,
+          project:,
+          status:,
           author: user,
           priority: issue_priority)
   end
@@ -170,8 +170,8 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
           subject: 'Bug2',
           type: type_bug,
           version: version1,
-          project: project,
-          status: status,
+          project:,
+          status:,
           author: user,
           priority: issue_priority)
   end
@@ -181,13 +181,13 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
           subject: 'Bug3',
           type: type_bug,
           version: version1,
-          project: project,
-          status: status,
+          project:,
+          status:,
           author: user,
           priority: issue_priority)
   end
 
-  before(:each) do
+  before do
     project.save!
 
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
@@ -224,10 +224,10 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   describe 'WHEN changing version' do
-    let(:instance) { described_class.new(user: user, model: parent) }
+    let(:instance) { described_class.new(user:, model: parent) }
 
     shared_examples_for "changing parent's version changes child's version" do
-      it "SHOULD change the child's version to the parent's version" do
+      it "changes the child's version to the parent's version" do
         parent.save!
         child.parent_id = parent.id
         child.save!
@@ -252,7 +252,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
     end
 
     shared_examples_for "changing parent's version does not change child's version" do
-      it "SHOULD keep the child's version" do
+      it "keeps the child's version" do
         parent.save!
         child.parent_id = parent.id
         child.save!
@@ -275,7 +275,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
     end
 
     describe 'WITH backlogs enabled' do
-      before(:each) do
+      before do
         project.enabled_module_names += ['backlogs']
       end
 
@@ -285,19 +285,19 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
         describe 'WITH a task as child' do
           let(:child) { task2 }
 
-          it_should_behave_like "changing parent's version changes child's version"
+          it_behaves_like "changing parent's version changes child's version"
         end
 
         describe 'WITH a non backlogs work_package as child' do
           let(:child) { bug2 }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
 
         describe 'WITH a story as a child' do
           let(:child) { story2 }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
       end
 
@@ -307,13 +307,13 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
         describe 'WITH a task as child' do
           let(:child) { task2 }
 
-          it_should_behave_like "changing parent's version changes child's version"
+          it_behaves_like "changing parent's version changes child's version"
         end
 
         describe 'WITH a non backlogs work_package as child' do
           let(:child) { bug }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
       end
 
@@ -323,25 +323,25 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
         describe 'WITH a task as child' do
           let(:child) { task }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
 
         describe 'WITH a non backlogs work_package as child' do
           let(:child) { bug2 }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
 
         describe 'WITH a story as a child' do
           let(:child) { story }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
       end
     end
 
     describe 'WITH backlogs disabled' do
-      before(:each) do
+      before do
         project.enabled_module_names = project.enabled_module_names.find_all { |n| n != 'backlogs' }
       end
 
@@ -351,24 +351,24 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
         describe 'WITH a task as child' do
           let(:child) { task2 }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
 
         describe 'WITH a non backlogs work_package as child' do
           let(:child) { bug2 }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
 
         describe 'WITH a story as a child' do
           let(:child) { story2 }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
       end
 
       describe 'WITH a task' do
-        before(:each) do
+        before do
           bug2.save!
           task.parent_id = bug2.id # so that it is considered a task
           task.save!
@@ -379,13 +379,13 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
         describe 'WITH a task as child' do
           let(:child) { task2 }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
 
         describe 'WITH a non backlogs work_package as child' do
           let(:child) { bug }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
       end
 
@@ -395,13 +395,13 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
         describe 'WITH a task as child' do
           let(:child) { task2 }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
 
         describe 'WITH a non backlogs work_package as child' do
           let(:child) { bug }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
       end
 
@@ -411,29 +411,29 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
         describe 'WITH a task as child' do
           let(:child) { task }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
 
         describe 'WITH a non backlogs work_package as child' do
           let(:child) { bug2 }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
 
         describe 'WITH a story as a child' do
           let(:child) { story }
 
-          it_should_behave_like "changing parent's version does not change child's version"
+          it_behaves_like "changing parent's version does not change child's version"
         end
       end
     end
   end
 
   describe 'WHEN changing the parent_id' do
-    let(:instance) { described_class.new(user: user, model: child) }
+    let(:instance) { described_class.new(user:, model: child) }
 
     shared_examples_for "changing the child's parent_issue to the parent changes child's version" do
-      it "SHOULD change the child's version to the parent's version" do
+      it "changes the child's version to the parent's version" do
         child.save!
         standard_child_layout
 
@@ -454,7 +454,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
     end
 
     shared_examples_for "changing the child's parent to the parent leaves child's version" do
-      it "SHOULD keep the child's version" do
+      it "keeps the child's version" do
         child.save!
         standard_child_layout
 
@@ -475,7 +475,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
     end
 
     describe 'WITH backogs enabled' do
-      before(:each) do
+      before do
         story.project.enabled_module_names += ['backlogs']
       end
 
@@ -485,19 +485,19 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
         describe 'WITH a story as child' do
           let(:child) { story2 }
 
-          it_should_behave_like "changing the child's parent to the parent leaves child's version"
+          it_behaves_like "changing the child's parent to the parent leaves child's version"
         end
 
         describe 'WITH a task as child' do
           let(:child) { task2 }
 
-          it_should_behave_like "changing the child's parent_issue to the parent changes child's version"
+          it_behaves_like "changing the child's parent_issue to the parent changes child's version"
         end
 
         describe 'WITH a non-backlogs work_package as child' do
           let(:child) { bug2 }
 
-          it_should_behave_like "changing the child's parent to the parent leaves child's version"
+          it_behaves_like "changing the child's parent to the parent leaves child's version"
         end
       end
 
@@ -513,11 +513,11 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
         let(:parent) { story }
         let(:child) { task2 }
 
-        it_should_behave_like "changing the child's parent_issue to the parent changes child's version"
+        it_behaves_like "changing the child's parent_issue to the parent changes child's version"
       end
 
       describe 'WITH a task as parent' do
-        before(:each) do
+        before do
           story.save!
           task.parent_id = story.id
           task.save!
@@ -532,13 +532,13 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
         describe 'WITH a task as child' do
           let(:child) { task2 }
 
-          it_should_behave_like "changing the child's parent_issue to the parent changes child's version"
+          it_behaves_like "changing the child's parent_issue to the parent changes child's version"
         end
 
         describe 'WITH a non-backlogs work_package as child' do
           let(:child) { bug2 }
 
-          it_should_behave_like "changing the child's parent to the parent leaves child's version"
+          it_behaves_like "changing the child's parent to the parent leaves child's version"
         end
       end
 
@@ -548,13 +548,13 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
         describe 'WITH a task as child' do
           let(:child) { task2 }
 
-          it_should_behave_like "changing the child's parent_issue to the parent changes child's version"
+          it_behaves_like "changing the child's parent_issue to the parent changes child's version"
         end
 
         describe 'WITH a non-backlogs work_package as child' do
           let(:child) { bug2 }
 
-          it_should_behave_like "changing the child's parent to the parent leaves child's version"
+          it_behaves_like "changing the child's parent to the parent leaves child's version"
         end
       end
 
@@ -564,19 +564,19 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
         describe 'WITH a story as child' do
           let(:child) { story2 }
 
-          it_should_behave_like "changing the child's parent to the parent leaves child's version"
+          it_behaves_like "changing the child's parent to the parent leaves child's version"
         end
 
         describe 'WITH a task as child' do
           let(:child) { task2 }
 
-          it_should_behave_like "changing the child's parent to the parent leaves child's version"
+          it_behaves_like "changing the child's parent to the parent leaves child's version"
         end
 
         describe 'WITH a non-backlogs work_package as child' do
           let(:child) { bug2 }
 
-          it_should_behave_like "changing the child's parent to the parent leaves child's version"
+          it_behaves_like "changing the child's parent to the parent leaves child's version"
         end
       end
     end

@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'Meeting search', type: :feature, js: true do
-  include ::Components::NgSelectAutocompleteHelpers
+  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
   let(:project) { create :project }
   let(:user) { create(:user, member_in_project: project, member_through_role: role) }
   let(:role) { create :role, permissions: %i(view_meetings view_work_packages) }
 
-  let!(:meeting) { create(:meeting, project: project) }
+  let!(:meeting) { create(:meeting, project:) }
 
   before do
     login_as user

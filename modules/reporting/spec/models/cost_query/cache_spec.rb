@@ -47,7 +47,7 @@ describe CostQuery::Cache do
 
   def expect_no_reset_on_caches
     all_caches.each do |klass|
-      expect(klass).to_not receive(:reset!)
+      expect(klass).not_to receive(:reset!)
     end
   end
 

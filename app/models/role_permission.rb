@@ -29,5 +29,5 @@
 class RolePermission < ApplicationRecord
   belongs_to :role
 
-  validates_presence_of :permission
+  validates :permission, presence: true
 end

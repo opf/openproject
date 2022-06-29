@@ -30,9 +30,8 @@ require 'spec_helper'
 require_module_spec_helper
 require_relative 'shared_filter_examples'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'API v3 work packages resource with filters for linked storage file',
-         :enable_storages,
+         with_flag: { storages_module_active: true },
          type: :request,
          content_type: :json do
   include API::V3::Utilities::PathHelper
@@ -85,7 +84,7 @@ describe 'API v3 work packages resource with filters for linked storage file',
   end
 
   describe 'GET /api/v3/work_packages' do
-    let(:path) { api_v3_paths.path_for :work_packages, filters: filters }
+    let(:path) { api_v3_paths.path_for :work_packages, filters: }
 
     before do
       get path
@@ -143,7 +142,7 @@ describe 'API v3 work packages resource with filters for linked storage file',
       include_examples 'filter unavailable when storages module is inactive'
 
       context 'if using signaling' do
-        let(:path) { api_v3_paths.path_for :work_packages, select: 'total,count,_type,elements/*', filters: filters }
+        let(:path) { api_v3_paths.path_for :work_packages, select: 'total,count,_type,elements/*', filters: }
 
         it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [work_package1, work_package3] }
@@ -298,4 +297,3 @@ describe 'API v3 work packages resource with filters for linked storage file',
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

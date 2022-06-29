@@ -81,6 +81,6 @@ module MailNotificationHelper
               "line-height:#{number}; max-width:0; min-width:0; height:#{number}; width:0; font-size:#{number}"
             end
 
-    content_tag('td', '&nbsp;'.html_safe, style: style)
+    content_tag('td', '&nbsp;'.html_safe, style:)
   end
 end

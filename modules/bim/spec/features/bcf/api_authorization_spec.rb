@@ -100,8 +100,8 @@ describe 'authorization for BCF api',
 
     parameters = {
       client_id: app.uid,
-      client_secret: client_secret,
-      code: code,
+      client_secret:,
+      code:,
       grant_type: :authorization_code,
       redirect_uri: app.redirect_uri.split.first
     }
@@ -143,7 +143,7 @@ describe 'authorization for BCF api',
 
     # With the access token, access is allowed
     response = api_session.get("/api/bcf/2.1/projects/#{project.id}",
-                               headers: { 'Authorization': "Bearer #{access_token}" })
+                               headers: { Authorization: "Bearer #{access_token}" })
     expect(response).to eq 200
     expect(api_session.response.body)
       .to be_json_eql({ project_id: project.id, name: project.name }.to_json)

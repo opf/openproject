@@ -30,12 +30,12 @@ require 'spec_helper'
 
 describe WorkPackage, type: :model do
   let(:work_package) do
-    create(:work_package, project: project,
-                                     status: status)
+    create(:work_package, project:,
+                          status:)
   end
   let(:work_package2) do
     create(:work_package, project: project2,
-                                     status: status)
+                          status:)
   end
   let(:user) { create(:user) }
 
@@ -61,7 +61,7 @@ describe WorkPackage, type: :model do
   let(:time_entry) do
     create(:time_entry,
            hours: time_entry_hours,
-           work_package: work_package,
+           work_package:,
            project: work_package.project)
   end
   let(:time_entry2) do
@@ -77,7 +77,7 @@ describe WorkPackage, type: :model do
         time_entry
       end
 
-      it 'should be true' do
+      it 'is true' do
         expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_truthy
       end
     end
@@ -89,7 +89,7 @@ describe WorkPackage, type: :model do
         time_entry2
       end
 
-      it 'should be true' do
+      it 'is true' do
         expect(WorkPackage.cleanup_action_required_before_destructing?([work_package, work_package2])).to be_truthy
       end
     end
@@ -99,7 +99,7 @@ describe WorkPackage, type: :model do
         work_package
       end
 
-      it 'should be false' do
+      it 'is false' do
         expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_falsey
       end
     end
@@ -112,7 +112,7 @@ describe WorkPackage, type: :model do
         time_entry
       end
 
-      it "should be have 'TimeEntry' as class to address" do
+      it "is have 'TimeEntry' as class to address" do
         expect(WorkPackage.associated_classes_to_address_before_destruction_of(work_package)).to eq([TimeEntry])
       end
     end
@@ -122,7 +122,7 @@ describe WorkPackage, type: :model do
         work_package
       end
 
-      it 'should be empty' do
+      it 'is empty' do
         expect(WorkPackage.associated_classes_to_address_before_destruction_of(work_package)).to be_empty
       end
     end
@@ -142,7 +142,7 @@ describe WorkPackage, type: :model do
         time_entry.destroy
       end
 
-      it 'should return true' do
+      it 'returns true' do
         expect(action).to be_truthy
       end
     end
@@ -150,11 +150,11 @@ describe WorkPackage, type: :model do
     describe 'w/ "destroy" as action' do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, action: 'destroy') }
 
-      it 'should return true' do
+      it 'returns true' do
         expect(action).to be_truthy
       end
 
-      it 'should not touch the time_entry' do
+      it 'does not touch the time_entry' do
         action
 
         time_entry.reload
@@ -165,11 +165,11 @@ describe WorkPackage, type: :model do
     describe 'w/o an action' do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user) }
 
-      it 'should return true' do
+      it 'returns true' do
         expect(action).to be_truthy
       end
 
-      it 'should not touch the time_entry' do
+      it 'does not touch the time_entry' do
         action
 
         time_entry.reload
@@ -180,11 +180,11 @@ describe WorkPackage, type: :model do
     describe 'w/ "nullify" as action' do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, action: 'nullify') }
 
-      it 'should return true' do
+      it 'returns true' do
         expect(action).to be_truthy
       end
 
-      it 'should set the work_package_id of all time entries to nil' do
+      it 'sets the work_package_id of all time entries to nil' do
         action
 
         time_entry.reload
@@ -208,18 +208,18 @@ describe WorkPackage, type: :model do
           member2
         end
 
-        it 'should return true' do
+        it 'returns true' do
           expect(action).to be_truthy
         end
 
-        it 'should set the work_package_id of all time entries to the new work package' do
+        it 'sets the work_package_id of all time entries to the new work package' do
           action
 
           time_entry.reload
           expect(time_entry.work_package_id).to eq(work_package2.id)
         end
 
-        it "should set the project_id of all time entries to the new work package's project" do
+        it "sets the project_id of all time entries to the new work package's project" do
           action
 
           time_entry.reload
@@ -242,18 +242,18 @@ describe WorkPackage, type: :model do
           member2.save!
         end
 
-        it 'should return true' do
+        it 'returns true' do
           expect(action).to be_truthy
         end
 
-        it 'should set the work_package_id of all time entries to the new work package' do
+        it 'sets the work_package_id of all time entries to the new work package' do
           action
 
           time_entry.reload
           expect(time_entry.work_package_id).to eq(work_package2.id)
         end
 
-        it "should set the project_id of all time entries to the new work package's project" do
+        it "sets the project_id of all time entries to the new work package's project" do
           action
 
           time_entry.reload
@@ -275,11 +275,11 @@ describe WorkPackage, type: :model do
         work_package2
       end
 
-      it 'should return true' do
+      it 'returns true' do
         expect(action).to be_falsey
       end
 
-      it 'should not alter the work_package_id of all time entries' do
+      it 'does not alter the work_package_id of all time entries' do
         action
 
         time_entry.reload
@@ -296,18 +296,18 @@ describe WorkPackage, type: :model do
                                                                       reassign_to_id: 0)
       end
 
-      it 'should return true' do
+      it 'returns true' do
         expect(action).to be_falsey
       end
 
-      it 'should not alter the work_package_id of all time entries' do
+      it 'does not alter the work_package_id of all time entries' do
         action
 
         time_entry.reload
         expect(time_entry.work_package_id).to eq(work_package.id)
       end
 
-      it 'should set an error on work packages' do
+      it 'sets an error on work packages' do
         action
 
         expect(work_package.errors[:base])
@@ -323,18 +323,18 @@ describe WorkPackage, type: :model do
                                                                       action: 'reassign')
       end
 
-      it 'should return true' do
+      it 'returns true' do
         expect(action).to be_falsey
       end
 
-      it 'should not alter the work_package_id of all time entries' do
+      it 'does not alter the work_package_id of all time entries' do
         action
 
         time_entry.reload
         expect(time_entry.work_package_id).to eq(work_package.id)
       end
 
-      it 'should set an error on work packages' do
+      it 'sets an error on work packages' do
         action
 
         expect(work_package.errors[:base])
@@ -349,7 +349,7 @@ describe WorkPackage, type: :model do
                                                                       action: 'bogus')
       end
 
-      it 'should return false' do
+      it 'returns false' do
         expect(action).to be_falsey
       end
     end
@@ -361,7 +361,7 @@ describe WorkPackage, type: :model do
                                                                       nil)
       end
 
-      it 'should return false' do
+      it 'returns false' do
         expect(action).to be_falsey
       end
     end

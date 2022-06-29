@@ -37,7 +37,7 @@ describe CustomActions::Conditions::Type, type: :model do
         types = [build_stubbed(:type),
                  build_stubbed(:type)]
         allow(Type)
-          .to receive_message_chain(:select)
+          .to receive(:select)
           .and_return(types)
 
         expect(instance.allowed_values)

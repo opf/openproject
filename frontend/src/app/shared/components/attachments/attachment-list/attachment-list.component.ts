@@ -32,14 +32,14 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { trackByProperty } from 'core-app/shared/helpers/angular/tracking-functions';
+import { map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
-import { map, switchMap, tap } from 'rxjs/operators';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'op-attachment-list',
@@ -48,8 +48,6 @@ import { Observable } from 'rxjs';
 })
 export class AttachmentListComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public resource:HalResource;
-
-  trackByFileName = trackByProperty('fileName');
 
   $attachments:Observable<IAttachment[]>;
 
@@ -62,7 +60,10 @@ export class AttachmentListComponent extends UntilDestroyedMixin implements OnIn
     return isNewResource(this.resource) ? 'new' : this.attachmentsSelfLink;
   }
 
-  constructor(private readonly attachmentsResourceService:AttachmentsResourceService) {
+  constructor(
+    private readonly timezoneService:TimezoneService,
+    private readonly attachmentsResourceService:AttachmentsResourceService,
+  ) {
     super();
   }
 
@@ -72,12 +73,18 @@ export class AttachmentListComponent extends UntilDestroyedMixin implements OnIn
       this.attachmentsResourceService.requireCollection(this.attachmentsSelfLink);
     }
 
-    this.$attachments = this.attachmentsResourceService.query.select()
+    const compareCreatedAtTimestamps = (a:IAttachment, b:IAttachment):number => {
+      const rightCreatedAt = this.timezoneService.parseDatetime(b.createdAt);
+      const leftCreatedAt = this.timezoneService.parseDatetime(a.createdAt);
+      return rightCreatedAt.isBefore(leftCreatedAt) ? -1 : 1;
+    };
+
+    this.$attachments = this
+      .attachmentsResourceService
+      .collection(this.collectionKey)
       .pipe(
         this.untilDestroyed(),
-        map((state) => state.collections[this.collectionKey]?.ids),
-        switchMap((attachmentIds) => this.attachmentsResourceService.query.selectMany(attachmentIds)),
-
+        map((attachments) => attachments.sort(compareCreatedAtTimestamps)),
         // store attachments for new resources directly into the resource. This way, the POST request to create the
         // resource embeds the attachments and the backend reroutes the anonymous attachments to the resource.
         tap((attachments) => {

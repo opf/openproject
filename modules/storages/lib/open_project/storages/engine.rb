@@ -55,10 +55,12 @@ module OpenProject::Storages
                      if: ->(*) { OpenProject::FeatureDecisions.storages_module_active? } do
         permission :view_file_links,
                    {},
-                   dependencies: %i[view_work_packages]
+                   dependencies: %i[view_work_packages],
+                   contract_actions: { file_links: %i[view] }
         permission :manage_file_links,
                    {},
-                   dependencies: %i[view_file_links]
+                   dependencies: %i[view_file_links],
+                   contract_actions: { file_links: %i[manage] }
         permission :manage_storages_in_project,
                    { 'storages/admin/projects_storages': %i[index new create destroy] },
                    dependencies: %i[]

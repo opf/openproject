@@ -69,8 +69,8 @@ module OpenProject::Bim::BcfXml
     end
 
     def create_work_package
-      attributes = work_package_attributes.merge(project: project)
-      call = WorkPackages::CreateService.new(user: user).call(**attributes)
+      attributes = work_package_attributes.merge(project:)
+      call = WorkPackages::CreateService.new(user:).call(**attributes)
 
       force_overwrite(call.result) if call.success?
 
@@ -84,7 +84,7 @@ module OpenProject::Bim::BcfXml
     def update_work_package
       if import_is_newer?
         WorkPackages::UpdateService
-          .new(user: user, model: issue.work_package)
+          .new(user:, model: issue.work_package)
           .call(work_package_attributes)
       else
         import_is_outdated(issue)
@@ -97,7 +97,7 @@ module OpenProject::Bim::BcfXml
     def work_package_attributes
       attributes = ::Bim::Bcf::Issues::TransformAttributesService
                    .new(project)
-                   .call(extractor_attributes.merge(import_options: import_options))
+                   .call(extractor_attributes.merge(import_options:))
                    .result
                    .merge(send_notifications: false)
                    .symbolize_keys
@@ -108,9 +108,9 @@ module OpenProject::Bim::BcfXml
     end
 
     def extractor_attributes
-      %i(type title description due_date assignee status priority).map do |key|
-        [key, extractor.send(key)]
-      end.to_h
+      %i(type title description due_date assignee status priority).index_with do |key|
+        extractor.send(key)
+      end
     end
 
     ##
@@ -156,7 +156,7 @@ module OpenProject::Bim::BcfXml
 
     def force_overwrite_first_journal(created_at, work_package)
       journal = work_package.journals.first
-      journal.update_columns(created_at: created_at,
+      journal.update_columns(created_at:,
                              user_id: author.id)
 
       wp_journal = journal.data
@@ -164,14 +164,14 @@ module OpenProject::Bim::BcfXml
     end
 
     def force_overwrite_work_package(created_at, work_package)
-      work_package.update_columns(created_at: created_at,
+      work_package.update_columns(created_at:,
                                   author_id: author.id)
     end
 
     ##
     # Try to find the given user by mail in the project
     def find_user_in_project(mail)
-      project.users.find_by(mail: mail)
+      project.users.find_by(mail:)
     end
 
     def create_wp_comment(author, content)
@@ -187,7 +187,7 @@ module OpenProject::Bim::BcfXml
         next if issue.viewpoints.has_uuid?(vp[:uuid])
 
         issue.viewpoints.build(
-          issue: issue,
+          issue:,
           uuid: vp[:uuid],
 
           # Save the viewpoint as json
@@ -218,7 +218,7 @@ module OpenProject::Bim::BcfXml
     end
 
     def initialize_issue
-      ::Bim::Bcf::Issue.new(uuid: topic_uuid, project: project)
+      ::Bim::Bcf::Issue.new(uuid: topic_uuid, project:)
     end
 
     ##
@@ -233,7 +233,7 @@ module OpenProject::Bim::BcfXml
       file_entry = zip.find_entry [topic_uuid, filename].join('/')
 
       if file_entry
-        FileEntry.new(file_entry.get_input_stream, filename: filename)
+        FileEntry.new(file_entry.get_input_stream, filename:)
       end
     end
 
@@ -279,7 +279,7 @@ module OpenProject::Bim::BcfXml
 
     def new_comment_handler(bcf_comment, call, created_at)
       if call.success?
-        call.result.update_columns(created_at: created_at)
+        call.result.update_columns(created_at:)
         bcf_comment.journal = call.result
       else
         Rails.logger.error "Failed to create comment for BCF #{issue.uuid}: #{call.errors.full_messages.join('; ')}"
@@ -318,7 +318,7 @@ module OpenProject::Bim::BcfXml
                  message: I18n.t('bcf.bcf_xml.import.work_package_has_newer_changes',
                                  bcf_uuid: issue.uuid)
 
-      ServiceResult.new(success: false, errors: errors)
+      ServiceResult.failure(errors:)
     end
   end
 end

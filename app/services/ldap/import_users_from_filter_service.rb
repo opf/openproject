@@ -16,14 +16,14 @@ module Ldap
       end
     end
 
-    def get_entries_from_filter(&block)
+    def get_entries_from_filter(&)
       ldap_con = new_ldap_connection
 
       ldap_con.search(
         base: ldap.base_dn,
         filter: filter & ldap.default_filter,
         attributes: ldap.search_attributes(true),
-        &block
+        &
       )
     end
   end

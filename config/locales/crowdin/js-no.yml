@@ -351,6 +351,7 @@
     label_expand_project_menu: "Expand project menu"
     label_export: "Eksportèr"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Fil"
     label_filesize: "Størrelse"
     label_general: "Generell"
@@ -373,7 +374,9 @@
     label_learn_more_link: "Mer informasjon"
     label_less_or_equal: "<="
     label_less_than_ago: "mindre enn dager siden"
+    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Laster..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "E-postvarsler"
     label_me: "meg"
     label_meeting_agenda: "Saksliste"
@@ -386,18 +389,25 @@
     label_no_data: "Ingen data å vise"
     label_no_due_date: "no finish date"
     label_no_start_date: "ingen startdato"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Ingen verdi"
+    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "ingen"
     label_not_contains: "inneholder ikke"
     label_not_equals: "er ikke"
     label_on: "på"
     label_open_menu: "Åpne meny"
     label_open_context_menu: "Open context menu"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "åpne"
+    label_open_file_link: 'Open file on storage'
+    label_open_file_link_location: 'Open file in location'
     label_password: "Passord"
     label_previous: "Forrige"
     label_per_page: "Pr. side:"
     label_please_wait: "Vennligst vent"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Prosjekter"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Quote this comment"
@@ -406,10 +416,12 @@
     label_remove: "Fjern"
     label_remove_column: "Remove column"
     label_remove_columns: "Fjern valgte kolonner"
+    label_remove_file_link: "Remove file link"
     label_remove_row: "Remove row"
     label_report: "Rapport"
     label_repository_plural: "Pakkebrønner"
     label_save_as: "Lagre som"
+    label_select_project: "Select a project"
     label_select_watcher: "Velg en overvåker..."
     label_selected_filter_list: "Valgte filtre"
     label_show_attributes: "Vis alle attributter"
@@ -421,6 +433,9 @@
     label_sorting: "Sortering"
     label_spent_time: "Tid brukt"
     label_star_query: "Favorittisert"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Offentlig"
     label_sum: "Sum"
@@ -457,6 +472,7 @@
     label_custom_queries: "Private views"
     label_columns: "Kolonner"
     label_attachments: Vedlegg
+    label_nextcloud: Nextcloud
     label_drop_files: Drop files here
     label_drop_files_hint: eller klikk for å legge til filer
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -835,6 +851,13 @@
       comment_send_failed: "An error has occurred. Could not submit the comment."
       comment_updated: "The comment was successfully updated."
       confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filter"
       description_enter_text: "Skriv tekst"
       description_options_hide: "Skjul alternativer"
@@ -1188,3 +1211,5 @@
         remove: 'Fjern'
       drop_modal:
         Close: 'Lukk'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

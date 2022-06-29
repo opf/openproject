@@ -39,7 +39,7 @@ describe WorkPackage, type: :model, with_settings: { journal_aggregation_time_mi
       create :work_package,
              author: admin,
              subject: 'I can see you',
-             project: project
+             project:
     end
 
     let(:journal_ids) { [] }

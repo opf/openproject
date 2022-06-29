@@ -48,7 +48,7 @@ module OpenProject::TwoFactorAuthentication
       end
 
       def build_token_text(token)
-        I18n.t('two_factor_authentication.text_otp_delivery_message_sms', app_title: Setting.app_title, token: token)
+        I18n.t('two_factor_authentication.text_otp_delivery_message_sms', app_title: Setting.app_title, token:)
       end
 
       ##
@@ -62,7 +62,7 @@ module OpenProject::TwoFactorAuthentication
         phone
       end
 
-      # rubocop:disable Metric/AbcSize
+      # rubocop:disable Metrics/AbcSize
       def submit
         aws_params = configuration_params.slice 'region', 'access_key_id', 'secret_access_key'
         sns = ::Aws::SNS::Client.new aws_params
@@ -96,7 +96,7 @@ module OpenProject::TwoFactorAuthentication
 
         raise I18n.t('two_factor_authentication.sns.delivery_failed')
       end
-      # rubocop:enable Metric/AbcSize
+      # rubocop:enable Metrics/AbcSize
     end
   end
 end

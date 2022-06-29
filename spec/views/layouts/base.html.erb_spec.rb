@@ -50,32 +50,6 @@ describe 'layouts/base', type: :view do
     allow(view).to receive(:current_user).and_return current_user
   end
 
-  describe 'projects menu visibility' do
-    context 'when the user is not logged in' do
-      let(:current_user) { anonymous }
-
-      before do
-        render
-      end
-
-      it 'the projects menu should not be displayed' do
-        expect(rendered).not_to have_text('Select a project')
-      end
-    end
-
-    context 'when the user is logged in' do
-      let(:current_user) { user }
-
-      before do
-        render
-      end
-
-      it 'the projects menu should be displayed' do
-        expect(rendered).to have_text('Select a project')
-      end
-    end
-  end
-
   describe 'Sign in button' do
     let(:current_user) { anonymous }
 
@@ -183,7 +157,7 @@ describe 'layouts/base', type: :view do
 
     context "EE is active and styles are present" do
       let(:custom_style) { create(:custom_style) }
-      let(:primary_color) { create :"design_color_primary-color" }
+      let(:primary_color) { create :'design_color_primary-color' }
 
       before do
         allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
@@ -214,7 +188,7 @@ describe 'layouts/base', type: :view do
       end
 
       it "does not contain an inline CSS block for styles." do
-        expect(rendered).to_not render_template partial: 'custom_styles/_inline_css'
+        expect(rendered).not_to render_template partial: 'custom_styles/_inline_css'
       end
     end
 
@@ -228,7 +202,7 @@ describe 'layouts/base', type: :view do
       end
 
       it "does not contain an inline CSS block for styles." do
-        expect(rendered).to_not render_template partial: 'custom_styles/_inline_css'
+        expect(rendered).not_to render_template partial: 'custom_styles/_inline_css'
       end
     end
 
@@ -240,7 +214,7 @@ describe 'layouts/base', type: :view do
       end
 
       it "does not contain an inline CSS block for styles." do
-        expect(rendered).to_not render_template partial: 'custom_styles/_inline_css'
+        expect(rendered).not_to render_template partial: 'custom_styles/_inline_css'
       end
     end
   end

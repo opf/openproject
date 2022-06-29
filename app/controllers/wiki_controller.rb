@@ -77,7 +77,7 @@ class WikiController < ApplicationController
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
     slug = wiki_page_title.nil? ? 'wiki' : WikiPage.slug(wiki_page_title)
-    @related_page = WikiPage.find_by(wiki_id: @wiki.id, slug: slug)
+    @related_page = WikiPage.find_by(wiki_id: @wiki.id, slug:)
 
     @pages = @wiki.pages.order(Arel.sql('title')).includes(wiki: :project)
     @pages_by_parent_id = @pages.group_by(&:parent_id)
@@ -105,7 +105,7 @@ class WikiController < ApplicationController
     @content = @page.content
 
     if call.success?
-      call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
+      call_hook(:controller_wiki_edit_after_save, params:, page: @page)
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to_show
     else
@@ -167,7 +167,7 @@ class WikiController < ApplicationController
     @content = @page.content
 
     if call.success?
-      call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
+      call_hook(:controller_wiki_edit_after_save, params:, page: @page)
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to_show
     else

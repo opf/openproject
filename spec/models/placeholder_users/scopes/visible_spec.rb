@@ -34,7 +34,9 @@ describe PlaceholderUsers::Scopes::Visible, type: :model do
     shared_let(:other_project) { create :project }
     shared_let(:role) { create :role, permissions: %i[manage_members] }
 
-    shared_let(:other_project_placeholder) { create :placeholder_user, member_in_project: other_project, member_through_role: role }
+    shared_let(:other_project_placeholder) do
+      create :placeholder_user, member_in_project: other_project, member_through_role: role
+    end
     shared_let(:global_placeholder) { create :placeholder_user }
 
     subject { ::PlaceholderUser.visible.to_a }

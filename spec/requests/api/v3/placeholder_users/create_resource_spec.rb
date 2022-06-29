@@ -32,7 +32,6 @@ require_relative './create_shared_examples'
 describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
          'create',
          type: :request do
-
   current_user { user }
 
   describe 'admin user' do

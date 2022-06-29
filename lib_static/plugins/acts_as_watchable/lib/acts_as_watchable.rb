@@ -63,7 +63,7 @@ module Redmine
 
             scope :watched_by, ->(user_id) {
               includes(:watchers)
-                .where(watchers: { user_id: user_id })
+                .where(watchers: { user_id: })
             }
 
             class_attribute :acts_as_watchable_options
@@ -125,7 +125,7 @@ module Redmine
 
         # Adds user as a watcher
         def add_watcher(user)
-          watchers << Watcher.new(user: user, watchable: self) unless watchers.map(&:user_id).include?(user.id)
+          watchers << Watcher.new(user:, watchable: self) unless watchers.map(&:user_id).include?(user.id)
         end
 
         # Removes user from the watchers list
@@ -155,7 +155,7 @@ module Redmine
         # Returns true if object is watched by +user+
         def watched_by?(user)
           user.present? &&
-            (watchers.loaded? && watchers.map(&:user_id).any? { |uid| uid == user.id } ||
+            ((watchers.loaded? && watchers.map(&:user_id).any? { |uid| uid == user.id }) ||
              watcher_user_ids.any? { |uid| uid == user.id })
         end
 

@@ -100,7 +100,7 @@ describe PermittedParams, type: :model do
       acceptable_params = %w(hide_mail time_zone
                              comments_sorting warn_on_leaving_unsaved)
 
-      acceptable_params.map { |x| [x, 'value'] }.to_h
+      acceptable_params.index_with { |_x| 'value' }
     end
 
     it_behaves_like 'allows params'
@@ -109,7 +109,7 @@ describe PermittedParams, type: :model do
   describe '#news' do
     let(:attribute) { :news }
     let(:hash) do
-      %w(title summary description).map { |x| [x, 'value'] }.to_h
+      %w(title summary description).index_with { |_x| 'value' }.to_h
     end
 
     it_behaves_like 'allows params'
@@ -118,7 +118,7 @@ describe PermittedParams, type: :model do
   describe '#comment' do
     let(:attribute) { :comment }
     let(:hash) do
-      %w(commented author comments).map { |x| [x, 'value'] }.to_h
+      %w(commented author comments).index_with { |_x| 'value' }.to_h
     end
 
     it_behaves_like 'allows params'
@@ -127,7 +127,7 @@ describe PermittedParams, type: :model do
   describe '#watcher' do
     let(:attribute) { :watcher }
     let(:hash) do
-      %w(watchable user user_id).map { |x| [x, 'value'] }.to_h
+      %w(watchable user user_id).index_with { |_x| 'value' }.to_h
     end
 
     it_behaves_like 'allows params'
@@ -136,7 +136,7 @@ describe PermittedParams, type: :model do
   describe '#reply' do
     let(:attribute) { :reply }
     let(:hash) do
-      %w(content subject).map { |x| [x, 'value'] }.to_h
+      %w(content subject).index_with { |_x| 'value' }.to_h
     end
 
     it_behaves_like 'allows params'
@@ -145,7 +145,7 @@ describe PermittedParams, type: :model do
   describe '#wiki' do
     let(:attribute) { :wiki }
     let(:hash) do
-      %w(start_page).map { |x| [x, 'value'] }.to_h
+      %w(start_page).index_with { |_x| 'value' }.to_h
     end
 
     it_behaves_like 'allows params'
@@ -163,7 +163,7 @@ describe PermittedParams, type: :model do
   describe '#category' do
     let(:attribute) { :category }
     let(:hash) do
-      %w(name assigned_to_id).map { |x| [x, 'value'] }.to_h
+      %w(name assigned_to_id).index_with { |_x| 'value' }.to_h
     end
 
     it_behaves_like 'allows params'
@@ -175,7 +175,7 @@ describe PermittedParams, type: :model do
     context 'whitelisted params' do
       let(:hash) do
         %w(name description effective_date due_date
-           start_date wiki_page_title status sharing).map { |x| [x, 'value'] }.to_h
+           start_date wiki_page_title status sharing).index_with { |_x| 'value' }.to_h
       end
 
       it_behaves_like 'allows params'
@@ -199,11 +199,11 @@ describe PermittedParams, type: :model do
 
     context 'no instance passed' do
       let(:allowed_params) do
-        %w(subject content forum_id).map { |x| [x, 'value'] }.to_h
+        %w(subject content forum_id).index_with { |_x| 'value' }.to_h
       end
 
       let(:hash) do
-        allowed_params.merge('evil': 'true', 'sticky': 'true', 'locked': 'true')
+        allowed_params.merge(evil: 'true', sticky: 'true', locked: 'true')
       end
 
       it_behaves_like 'allows params'
@@ -227,7 +227,7 @@ describe PermittedParams, type: :model do
       end
 
       let(:hash) do
-        ActionController::Parameters.new('message' => allowed_params.merge('evil': 'true'))
+        ActionController::Parameters.new('message' => allowed_params.merge(evil: 'true'))
       end
 
       before do
@@ -448,7 +448,7 @@ describe PermittedParams, type: :model do
         allow(user).to receive(:allowed_to?).with(:add_work_package_watchers, project).and_return(allowed_to)
       end
 
-      subject { PermittedParams.new(params, user).update_work_package(project: project).to_h }
+      subject { PermittedParams.new(params, user).update_work_package(project:).to_h }
 
       context 'user is allowed to add watchers' do
         let(:allowed_to) { true }
@@ -521,7 +521,7 @@ describe PermittedParams, type: :model do
       let(:default_permissions) { %w[custom_fields firstname lastname language mail auth_source_id] }
 
       context 'non-admin' do
-        let(:hash) { Hash[all_permissions.zip(all_permissions)] }
+        let(:hash) { all_permissions.zip(all_permissions).to_h }
 
         it 'permits default permissions' do
           expect(subject.keys).to match_array(default_permissions)
@@ -530,7 +530,7 @@ describe PermittedParams, type: :model do
 
       context 'non-admin with global :manage_user permission' do
         let(:user) { create(:user, global_permission: :manage_user) }
-        let(:hash) { Hash[all_permissions.zip(all_permissions)] }
+        let(:hash) { all_permissions.zip(all_permissions).to_h }
 
         it 'permits default permissions and "login"' do
           expect(subject.keys).to match_array(default_permissions + ['login'])

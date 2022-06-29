@@ -1,7 +1,9 @@
+require 'omniauth/openid_connect/providers'
+require 'open_project/openid_connect/engine'
+
 module OpenProject
   module OpenIDConnect
-    require 'omniauth/openid_connect/providers'
-    require 'open_project/openid_connect/engine'
+    CONFIG_KEY = 'openid_connect'.freeze
 
     def providers
       # update base redirect URI in case settings changed
@@ -21,7 +23,7 @@ module OpenProject
                         {}
                       end
       # Settings override configuration.yml
-      Hash(OpenProject::Configuration["openid_connect"]).deep_merge(from_settings)
+      Hash(OpenProject::Configuration[CONFIG_KEY]).deep_merge(from_settings)
     end
     module_function :configuration
   end

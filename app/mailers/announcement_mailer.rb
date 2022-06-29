@@ -43,14 +43,14 @@ class AnnouncementMailer < ApplicationMailer
            subject: localized_subject do |format|
         locals = {
           body: localized(body),
-          user: user,
+          user:,
           header_summary: localized_subject,
           body_header: localized(body_header),
           body_subheader: localized(body_subheader)
         }
 
-        format.html { render locals: locals }
-        format.text { render locals: locals }
+        format.html { render locals: }
+        format.text { render locals: }
       end
     end
   end

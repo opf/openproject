@@ -350,6 +350,7 @@ sl:
     label_expand_project_menu: "Razširi projektni meni"
     label_export: "Izvozi"
     label_export_preparing: "Izvoz je v pripravi in ​​bo kmalu prenesen."
+    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Datoteka"
     label_filesize: "Velikost"
     label_general: "Splošno"
@@ -372,7 +373,9 @@ sl:
     label_learn_more_link: "Več o tem"
     label_less_or_equal: "<="
     label_less_than_ago: "pred manj kot nekaj dnevi"
+    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Nalaganje..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "E-poštna obvestila"
     label_me: "jaz"
     label_meeting_agenda: "Dnevni red"
@@ -385,18 +388,25 @@ sl:
     label_no_data: "Ni podatkov za prikaz"
     label_no_due_date: "brez končnega datuma"
     label_no_start_date: "Brez začetnega datuma"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Brez vrednosti"
+    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "Brez"
     label_not_contains: "ne vsebuje"
     label_not_equals: "ni"
     label_on: "vključeno"
     label_open_menu: "Odpri meni"
     label_open_context_menu: "Odpri kontekstni meni"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "odpri"
+    label_open_file_link: 'Open file on storage'
+    label_open_file_link_location: 'Open file in location'
     label_password: "Geslo"
     label_previous: "Predhodnji"
     label_per_page: "Na stran:"
     label_please_wait: "Prosimo, počakajte"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projekti"
     label_visibility_settings: "Nastavitve vidljivosti"
     label_quote_comment: "Citiraj ta komentar"
@@ -405,10 +415,12 @@ sl:
     label_remove: "Odstrani"
     label_remove_column: "Odstrani stolpec"
     label_remove_columns: "Odstranite izbrane stolpce"
+    label_remove_file_link: "Remove file link"
     label_remove_row: "Odstrani vrstico"
     label_report: "Poročilo"
     label_repository_plural: "Repozitoriji"
     label_save_as: "Shrani kot"
+    label_select_project: "Select a project"
     label_select_watcher: "Izberi opazovalca..."
     label_selected_filter_list: "Izbrani kriteriji"
     label_show_attributes: "Prikaži vse atribute"
@@ -420,6 +432,9 @@ sl:
     label_sorting: "Razvrščanje"
     label_spent_time: "Porabljen čas"
     label_star_query: "Priljubljeno"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Pritisnite enter da shranite. "
     label_public_query: "Javno"
     label_sum: "Vsota"
@@ -456,6 +471,7 @@ sl:
     label_custom_queries: "Zasebni pogledi"
     label_columns: "Stolpci"
     label_attachments: Priponka
+    label_nextcloud: Nextcloud
     label_drop_files: Spustite datoteke tukaj
     label_drop_files_hint: ali kliknite da dodate datoteke
     label_drop_folders_hint: Mape ne morate naložiti kot priponke. Prosim izberite samo eno datoteko. 
@@ -836,6 +852,13 @@ sl:
       comment_send_failed: "Prišlo je do napake. Komentarja ni bilo mogoče shraniti. "
       comment_updated: "Komentar je bil uspešno naložen. "
       confirm_edit_cancel: "Ali ste prepričani, da želite preklicati urejanje delovnega paketa? "
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtriraj"
       description_enter_text: "Vnesite besedilo"
       description_options_hide: "Skrij možnosti"
@@ -1193,3 +1216,5 @@ sl:
         remove: 'Odstrani'
       drop_modal:
         Close: 'Zapri'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

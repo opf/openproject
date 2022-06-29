@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe OpenProject::Reminders::DueIssuesReminder do
   subject do
-    described_class.new(days: days, user_ids: user_ids).tap do |instance|
+    described_class.new(days:, user_ids:).tap do |instance|
       instance.remind_users
     end
   end
@@ -90,6 +90,7 @@ describe OpenProject::Reminders::DueIssuesReminder do
 
       context 'to an unassigned user' do
         let(:user_ids) { [user2.id] }
+
         it 'does not notify' do
           expect(subject.notify_count).to eq 0
         end
@@ -97,6 +98,7 @@ describe OpenProject::Reminders::DueIssuesReminder do
 
       context 'to an assigned user' do
         let(:user_ids) { [user.id] }
+
         it 'does notify' do
           expect(subject.notify_count).to eq 1
           expect(ActionMailer::Base.deliveries.count).to eq 1

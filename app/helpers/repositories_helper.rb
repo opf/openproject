@@ -60,7 +60,7 @@ module RepositoriesHelper
       case change.action
       when 'A'
         # Detects moved/copied files
-        if !change.from_path.blank?
+        if change.from_path.present?
           action = @changeset.file_changes.detect { |c| c.action == 'D' && c.path == change.from_path }
           change.action = action ? 'R' : 'C'
         end
@@ -75,7 +75,7 @@ module RepositoriesHelper
     tree = {}
     changes.each do |change|
       p = tree
-      dirs = change.path.to_s.split('/').select { |d| !d.blank? }
+      dirs = change.path.to_s.split('/').select { |d| d.present? }
       path = ''
       dirs.each do |dir|
         path += with_leading_slash(dir)
@@ -143,7 +143,7 @@ module RepositoriesHelper
                          title: title_text)
         end
 
-        text << raw(" - #{h(c.revision)}") unless c.revision.blank?
+        text << raw(" - #{h(c.revision)}") if c.revision.present?
 
         if c.action == 'M'
           text << raw(' (' + link_to(I18n.t(:label_diff),
@@ -152,7 +152,7 @@ module RepositoriesHelper
                                                                            rev: @changeset.identifier)) + ') ')
         end
 
-        text << raw(' ' + content_tag('span', h(c.from_path), class: 'copied-from')) unless c.from_path.blank?
+        text << raw(' ' + content_tag('span', h(c.from_path), class: 'copied-from')) if c.from_path.present?
 
         output << changes_tree_li_element(c.action, text, style)
       end

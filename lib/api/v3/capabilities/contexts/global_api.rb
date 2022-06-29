@@ -34,7 +34,7 @@ module API
           resources :global do
             get do
               Contexts::GlobalRepresenter.create(nil,
-                                                 current_user: current_user)
+                                                 current_user:)
             end
           end
         end

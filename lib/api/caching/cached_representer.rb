@@ -229,14 +229,14 @@ module API
           self._cached_representer_config = cached_representer_configuration.deep_merge(config)
         end
 
-        def link(name, options = {}, &block)
+        def link(name, options = {}, &)
           rel_hash = name.is_a?(Hash) ? name : { rel: name }
-          super(rel_hash.merge(options), &block)
+          super(rel_hash.merge(options), &)
         end
 
-        def links(name, options = {}, &block)
+        def links(name, options = {}, &)
           rel_hash = name.is_a?(Hash) ? name : { rel: name }
-          super(rel_hash.merge(options), &block)
+          super(rel_hash.merge(options), &)
         end
       end
     end

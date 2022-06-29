@@ -80,7 +80,7 @@ class UserSearchService
       c << ['status = ?', @status]
     end
 
-    unless params[:name].blank?
+    if params[:name].present?
       name = "%#{params[:name].strip.downcase}%"
       c << ['LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?', name, name, name,
             name]

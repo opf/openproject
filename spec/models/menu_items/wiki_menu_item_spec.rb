@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe MenuItems::WikiMenuItem, type: :model do
-  before(:each) do
+  before do
     @project = create(:project, enabled_module_names: %w[activity])
     @current = create(:user, login: 'user1', mail: 'user1@users.com')
 
     allow(User).to receive(:current).and_return(@current)
   end
 
-  it 'should create a default wiki menu item when enabling the wiki' do
+  it 'creates a default wiki menu item when enabling the wiki' do
     expect(MenuItems::WikiMenuItem.all).not_to be_any
 
     @project.enabled_modules << EnabledModule.new(name: 'wiki')
@@ -46,16 +46,16 @@ describe MenuItems::WikiMenuItem, type: :model do
     expect(wiki_item.name).to eql 'wiki'
     expect(wiki_item.title).to eql 'Wiki'
     expect(wiki_item.slug).to eql 'wiki'
-    expect(wiki_item.options[:index_page]).to eql true
-    expect(wiki_item.options[:new_wiki_page]).to eql true
+    expect(wiki_item.options[:index_page]).to be true
+    expect(wiki_item.options[:new_wiki_page]).to be true
   end
 
-  it 'should change title when a wikipage is renamed' do
+  it 'changes title when a wikipage is renamed' do
     wikipage = create(:wiki_page, title: 'Oldtitle')
 
     menu_item_1 = create(:wiki_menu_item, navigatable_id: wikipage.wiki.id,
-                                                     title: 'Item 1',
-                                                     name: wikipage.slug)
+                                          title: 'Item 1',
+                                          name: wikipage.slug)
 
     wikipage.title = 'Newtitle'
     wikipage.save!
@@ -64,7 +64,7 @@ describe MenuItems::WikiMenuItem, type: :model do
     expect(menu_item_1.title).to eq(wikipage.title)
   end
 
-  it 'should not allow duplicate sibling entries' do
+  it 'does not allow duplicate sibling entries' do
     wikipage = create(:wiki_page, title: 'Parent Page')
 
     parent = create(
@@ -78,18 +78,18 @@ describe MenuItems::WikiMenuItem, type: :model do
   end
 
   describe 'it should destroy' do
-    before(:each) do
+    before do
       @project.enabled_modules << EnabledModule.new(name: 'wiki')
       @project.reload
 
       @menu_item_1 = create(:wiki_menu_item, wiki: @project.wiki,
-                                                        name: 'Item 1',
-                                                        title: 'Item 1')
+                                             name: 'Item 1',
+                                             title: 'Item 1')
 
       @menu_item_2 = create(:wiki_menu_item, wiki: @project.wiki,
-                                                        name: 'Item 2',
-                                                        parent_id: @menu_item_1.id,
-                                                        title: 'Item 2')
+                                             name: 'Item 2',
+                                             parent_id: @menu_item_1.id,
+                                             title: 'Item 2')
     end
 
     it 'all children when deleting the parent' do

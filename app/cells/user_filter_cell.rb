@@ -56,7 +56,6 @@ class UserFilterCell < IndividualPrincipalBaseFilterCell
       Queries::Users::UserQuery
     end
 
-
     protected
 
     def apply_filters(params, query)

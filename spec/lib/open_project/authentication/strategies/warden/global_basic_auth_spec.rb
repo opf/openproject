@@ -36,7 +36,7 @@ describe Strategies::GlobalBasicAuth do
 
   let(:config) do
     lambda do
-      Strategies::GlobalBasicAuth.configure! user: user, password: password
+      Strategies::GlobalBasicAuth.configure! user:, password:
     end
   end
 

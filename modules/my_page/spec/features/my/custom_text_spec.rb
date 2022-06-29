@@ -37,7 +37,7 @@ describe 'Custom text widget on my page', type: :feature, js: true do
   let(:project) { create(:project) }
 
   let(:role) do
-    create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
 
   let(:user) do

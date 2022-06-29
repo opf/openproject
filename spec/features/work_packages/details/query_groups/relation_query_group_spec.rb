@@ -41,13 +41,13 @@ describe 'Work package with relation query group', js: true, selenium: true do
   end
   let!(:work_package) do
     create :work_package,
-           project: project,
-           type: type
+           project:,
+           type:
   end
   let!(:related_work_package) do
     create(:work_package,
-           project: project,
-           type: type).tap do |wp|
+           project:,
+           type:).tap do |wp|
       if relation_type == :parent
         wp.update(parent: relation_target)
       else
@@ -115,7 +115,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
     let!(:related_work_package) do
       create(:work_package,
              project: project2,
-             type: type).tap do |wp|
+             type:).tap do |wp|
         create(:follows_relation, from: wp, to: work_package)
       end
     end
@@ -134,7 +134,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
     end
 
     context 'with a user who has permission in one project' do
-      let(:role) { create(:role, permissions: permissions) }
+      let(:role) { create(:role, permissions:) }
       let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_work_package_relations] }
       let(:user) do
         create(:user,
@@ -142,7 +142,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
                member_through_role: role)
       end
       let!(:project2_member) do
-        member = build(:member, user: user, project: project2)
+        member = build(:member, user:, project: project2)
         member.roles = [role]
         member.save!
       end
@@ -165,7 +165,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
     end
 
     context 'with a user who has no permission in any project' do
-      let(:role) { create(:role, permissions: permissions) }
+      let(:role) { create(:role, permissions:) }
       let(:permissions) { [:view_work_packages] }
       let(:user) do
         create(:user,
@@ -189,7 +189,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
     let(:relation_target) { work_package }
     let!(:independent_work_package) do
       create :work_package,
-             project: project
+             project:
     end
 
     before do

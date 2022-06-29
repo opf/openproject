@@ -33,12 +33,12 @@ shared_examples_for 'file_link contract' do
   let(:current_user) { create(:user) }
   let(:role) { create(:existing_role, permissions: [:manage_file_links]) }
   let(:project) { create(:project, members: { current_user => role }) }
-  let(:work_package) { create(:work_package, project: project) }
+  let(:work_package) { create(:work_package, project:) }
   let(:storage) { create(:storage) }
-  let!(:project_storage) { create(:project_storage, project: project, storage: storage) }
+  let!(:project_storage) { create(:project_storage, project:, storage:) }
   let(:file_link) do
     build(:file_link, container: work_package,
-                      storage: storage,
+                      storage:,
                       creator: file_link_creator,
                       **file_link_attributes)
   end
@@ -55,7 +55,7 @@ shared_examples_for 'file_link contract' do
     describe 'storage_id' do
       context 'when empty' do
         let(:storage_id) { "" }
-        let(:file_link) { create(:file_link, container: work_package, storage_id: storage_id) }
+        let(:file_link) { create(:file_link, container: work_package, storage_id:) }
 
         include_examples 'contract is invalid', storage: :blank
       end

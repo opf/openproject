@@ -4,7 +4,6 @@ import {
   tap,
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { ID } from '@datorama/akita';
 import { HttpClient } from '@angular/common/http';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -16,14 +15,13 @@ import {
 } from 'core-app/core/state/collection-store';
 import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 import { CapabilitiesStore } from 'core-app/core/state/capabilities/capabilities.store';
-import { CapabilitiesQuery } from 'core-app/core/state/capabilities/capabilities.query';
+import {
+  CollectionStore,
+  ResourceCollectionService,
+} from 'core-app/core/state/resource-collection.service';
 
 @Injectable()
-export class CapabilitiesResourceService {
-  protected store = new CapabilitiesStore();
-
-  readonly query = new CapabilitiesQuery(this.store);
-
+export class CapabilitiesResourceService extends ResourceCollectionService<ICapability> {
   private get capabilitiesPath():string {
     return this
       .apiV3Service
@@ -36,6 +34,7 @@ export class CapabilitiesResourceService {
     private apiV3Service:ApiV3Service,
     private toastService:ToastService,
   ) {
+    super();
   }
 
   fetchCapabilities(params:ApiV3ListParameters):Observable<IHALCollection<ICapability>> {
@@ -53,7 +52,7 @@ export class CapabilitiesResourceService {
       );
   }
 
-  update(id:ID, project:Partial<ICapability>):void {
-    this.store.update(id, project);
+  protected createStore():CollectionStore<ICapability> {
+    return new CapabilitiesStore();
   }
 }

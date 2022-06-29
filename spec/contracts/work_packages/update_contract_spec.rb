@@ -40,8 +40,8 @@ describe WorkPackages::UpdateContract do
   let(:work_package) do
     build_stubbed(:work_package,
                   project: work_package_project,
-                  type: type,
-                  status: status).tap do |wp|
+                  type:,
+                  status:).tap do |wp|
       wp_scope = double('wp scope')
 
       allow(WorkPackage)
@@ -106,6 +106,7 @@ describe WorkPackages::UpdateContract do
 
   describe 'authorization' do
     let(:attributes) { {} }
+
     before do
       work_package.attributes = attributes
       contract.validate
@@ -165,8 +166,8 @@ describe WorkPackages::UpdateContract do
     before do
       allow(user)
         .to receive(:allowed_to?) do |permission, context|
-        permissions.include?(permission) && context == work_package_project ||
-          target_permissions.include?(permission) && context == target_project
+        (permissions.include?(permission) && context == work_package_project) ||
+          (target_permissions.include?(permission) && context == target_project)
       end
 
       allow(work_package)
@@ -189,6 +190,7 @@ describe WorkPackages::UpdateContract do
 
     context 'if the user lacks the permissions' do
       let(:target_permissions) { [] }
+
       it 'is invalid' do
         expect(contract.errors.symbols_for(:project_id)).to match_array([:error_readonly])
       end

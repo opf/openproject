@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 require_relative '../common/modal'
-require_relative '../ng_select_autocomplete_helpers'
+require_relative '../autocompleter/ng_select_autocomplete_helpers'
 
 module Components
   module Users
     class InviteUserModal < ::Components::Common::Modal
-      include ::Components::NgSelectAutocompleteHelpers
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       attr_accessor :project, :principal, :role, :invite_message
 
@@ -100,7 +100,7 @@ module Components
 
       def open_select_in_step(query = '')
         search_autocomplete modal_element.find('.ng-select-container'),
-                            query: query,
+                            query:,
                             results_selector: 'body'
       end
 
@@ -139,8 +139,8 @@ module Components
 
       def autocomplete(query, select_text: query)
         select_autocomplete modal_element.find('.ng-select-container'),
-                            query: query,
-                            select_text: select_text,
+                            query:,
+                            select_text:,
                             results_selector: 'body'
       end
 

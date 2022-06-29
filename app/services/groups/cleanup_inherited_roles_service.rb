@@ -41,7 +41,7 @@ module Groups
       self.model = group
 
       super user: current_user,
-            contract_class: contract_class
+            contract_class:
     end
 
     private
@@ -65,7 +65,7 @@ module Groups
 
         ::OpenProject::SqlSanitization
           .sanitize sql_query,
-                    member_role_ids: member_role_ids
+                    member_role_ids:
       else
         <<~SQL
           DELETE FROM #{MemberRole.table_name}
@@ -89,7 +89,7 @@ module Groups
     def remove_members(members)
       members.each do |member|
         Members::DeleteService
-          .new(model: member, user: user, contract_class: EmptyContract)
+          .new(model: member, user:, contract_class: EmptyContract)
           .call
       end
     end

@@ -32,6 +32,5 @@ FactoryBot.define do
       (1.year.ago + n.days).to_date
     end
     day_of_week { date.wday }
-    working { date.wday < 6 }
   end
 end

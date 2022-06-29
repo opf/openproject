@@ -59,6 +59,7 @@ describe GlobalRole, type: :model do
         subject { @role.permissions }
 
         it { is_expected.to be_an_instance_of(Array) }
+
         it 'has no items' do
           expect(subject.size).to eq(0)
         end

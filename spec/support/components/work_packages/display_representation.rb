@@ -50,7 +50,7 @@ module Components
       end
 
       def expect_state(text)
-        expect(page).to have_selector('#wp-view-toggle-button', text: text, wait: 10)
+        expect(page).to have_selector('#wp-view-toggle-button', text:, wait: 10)
       end
 
       private
@@ -68,8 +68,8 @@ module Components
         end
       end
 
-      def within_view_context_menu(&block)
-        page.within('#wp-view-context-menu', &block)
+      def within_view_context_menu(&)
+        page.within('#wp-view-context-menu', &)
       end
     end
   end

@@ -31,7 +31,7 @@ class Services::CreateWatcher
     @work_package = work_package
     @user = user
 
-    @watcher = Watcher.new(user: user, watchable: work_package)
+    @watcher = Watcher.new(user:, watchable: work_package)
   end
 
   def run(send_notifications: true, success: ->(*) {}, failure: ->(*) {})
@@ -43,7 +43,7 @@ class Services::CreateWatcher
       OpenProject::Notifications.send(OpenProject::Events::WATCHER_ADDED,
                                       watcher: @watcher,
                                       watcher_setter: User.current,
-                                      send_notifications: send_notifications)
+                                      send_notifications:)
     else
       failure.(@watcher)
     end

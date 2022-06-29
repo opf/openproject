@@ -44,6 +44,7 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
 
   let(:path) { api_v3_paths.create_grid_form }
   let(:params) { {} }
+
   subject(:response) { last_response }
 
   before do
@@ -68,9 +69,9 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
     context 'with /my/page for the scope value' do
       let(:params) do
         {
-          '_links': {
-            'scope': {
-              'href': my_page_path
+          _links: {
+            scope: {
+              href: my_page_path
             }
           }
         }
@@ -78,18 +79,18 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
 
       it 'contains default data in the payload' do
         expected = {
-          "rowCount": 1,
-          "columnCount": 2,
-          "options": {},
-          "widgets": [
+          rowCount: 1,
+          columnCount: 2,
+          options: {},
+          widgets: [
             {
-              "_type": "GridWidget",
+              _type: "GridWidget",
               identifier: 'work_packages_table',
-              "options": {
-                "name": "Work packages assigned to me",
-                "queryProps": {
-                  "columns[]": %w(id project type subject),
-                  "filters": "[{\"status\":{\"operator\":\"o\",\"values\":[]}},{\"assigned_to\":{\"operator\":\"=\",\"values\":[\"me\"]}}]"
+              options: {
+                name: "Work packages assigned to me",
+                queryProps: {
+                  'columns[]': %w(id project type subject),
+                  filters: "[{\"status\":{\"operator\":\"o\",\"values\":[]}},{\"assigned_to\":{\"operator\":\"=\",\"values\":[\"me\"]}}]"
                 }
               },
               startRow: 1,
@@ -98,13 +99,13 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
               endColumn: 2
             },
             {
-              "_type": "GridWidget",
+              _type: "GridWidget",
               identifier: 'work_packages_table',
-              "options": {
-                "name": "Work packages created by me",
-                "queryProps": {
-                  "columns[]": %w(id project type subject),
-                  "filters": "[{\"status\":{\"operator\":\"o\",\"values\":[]}},{\"author\":{\"operator\":\"=\",\"values\":[\"me\"]}}]"
+              options: {
+                name: "Work packages created by me",
+                queryProps: {
+                  'columns[]': %w(id project type subject),
+                  filters: "[{\"status\":{\"operator\":\"o\",\"values\":[]}},{\"author\":{\"operator\":\"=\",\"values\":[\"me\"]}}]"
                 }
               },
               startRow: 1,
@@ -113,11 +114,11 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
               endColumn: 3
             }
           ],
-          "_links": {
-            "attachments": [],
-            "scope": {
-              "href": "/my/page",
-              "type": "text/html"
+          _links: {
+            attachments: [],
+            scope: {
+              href: "/my/page",
+              type: "text/html"
             }
           }
         }
@@ -143,19 +144,19 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
     context 'with an unsupported widget identifier' do
       let(:params) do
         {
-          '_links': {
-            'scope': {
-              'href': my_page_path
+          _links: {
+            scope: {
+              href: my_page_path
             }
           },
-          "widgets": [
+          widgets: [
             {
-              "_type": "GridWidget",
-              "identifier": "bogus_identifier",
-              "startRow": 1,
-              "endRow": 2,
-              "startColumn": 1,
-              "endColumn": 2
+              _type: "GridWidget",
+              identifier: "bogus_identifier",
+              startRow: 1,
+              endRow: 2,
+              startColumn: 1,
+              endColumn: 2
             }
           ]
         }
@@ -172,9 +173,9 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
       let(:params) do
         {
           name: 'My custom grid 1',
-          '_links': {
-            'scope': {
-              'href': my_page_path
+          _links: {
+            scope: {
+              href: my_page_path
             }
           }
         }
@@ -193,9 +194,9 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
           options: {
             foo: 'bar'
           },
-          '_links': {
-            'scope': {
-              'href': my_page_path
+          _links: {
+            scope: {
+              href: my_page_path
             }
           }
         }

@@ -522,18 +522,20 @@ zh-TW:
         duration: "Duration"
         end_insertion: "結束插入"
         end_deletion: "結束刪除"
-        version: "版本"
+        ignore_non_working_days: "Ignore non working days"
         parent: "上層目錄："
         parent_issue: "上層目錄："
         parent_work_package: "上層目錄："
         priority: "優先等級"
         progress: "進度 (%)"
+        readonly: "Read only"
         schedule_manually: "手動排程"
         spent_hours: "耗時"
         spent_time: "耗時"
         subproject: "子專案"
         time_entries: "日誌的時間"
         type: "類型"
+        version: "版本"
         watcher: "監看者"
       'doorkeeper/application':
         uid: "用戶端 ID"
@@ -737,6 +739,7 @@ zh-TW:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "不可以成為一個里程碑"
               cannot_be_self_assigned: "不能指派給自己"
@@ -1443,7 +1446,6 @@ zh-TW:
   label_consent_settings: "使用者同意"
   label_wiki_menu_item: 維基選單項目
   label_select_main_menu_item: 選擇新的主選單項目
-  label_select_project: "選擇專案"
   label_required_disk_storage: "需要磁碟空間"
   label_send_invitation: 發送邀請
   label_change_plural: "更改"
@@ -1509,6 +1511,7 @@ zh-TW:
   label_diff: "比較"
   label_diff_inline: "行內"
   label_diff_side_by_side: "並排"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "已停用"
   label_display: "顯示"
   label_display_per_page: "每頁: %{value}"
@@ -1721,7 +1724,6 @@ zh-TW:
   label_product_version: "產品版本"
   label_professional_support: "專業支援"
   label_profile: "Profile"
-  label_project_all: "所有專案"
   label_project_count: "專案總數"
   label_project_copy_notifications: "在專案複製期間發送電子郵件通知"
   label_project_latest: "最新的專案"
@@ -1982,6 +1984,9 @@ zh-TW:
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "若要變更您的密碼，請按一下以下的連結:"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
@@ -2000,6 +2005,7 @@ zh-TW:
   mail_subject_account_activation_request: "帳號 %{value} 啟用請求"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "你的 %{value} 密碼"
   mail_subject_register: "你的帳號 %{value} 啟用"
   mail_subject_reminder: "%{count} 個工作項目將在 %{days} 天後到期"
@@ -2364,7 +2370,7 @@ zh-TW:
   setting_smtp_authentication: "SMTP 驗證"
   setting_smtp_user_name: "SMTP 使用者名稱"
   setting_smtp_password: "SMTP 密碼"
-  setting_smtp_domain: "SMTP HELLO 網域"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "專案活動顯示的天數"
   setting_app_subtitle: "應用程式副標題"
   setting_app_title: "應用程式標題"
@@ -2996,4 +3002,45 @@ zh-TW:
     authorization_error: "授權錯誤。"
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "已註冊的 OAuth 應用程式"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
   you: you

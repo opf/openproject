@@ -81,6 +81,7 @@ describe 'Project attribute help texts', type: :feature, js: true do
 
   describe 'as admin' do
     let(:user) { create :admin }
+
     it_behaves_like 'allows to view help texts'
 
     it 'shows the help text on the project create form' do

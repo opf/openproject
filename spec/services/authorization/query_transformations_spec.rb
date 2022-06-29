@@ -38,7 +38,7 @@ describe Authorization::QueryTransformations do
       end
     end
 
-    context '#for?' do
+    describe '#for?' do
       it 'is true for the registered name' do
         expect(instance.for?(:on)).to be_truthy
       end
@@ -48,12 +48,12 @@ describe Authorization::QueryTransformations do
       end
     end
 
-    context '#for' do
+    describe '#for' do
       it 'returns an array of transformations for the registered name' do
-        expect(instance.for(:on).length).to eql 1
+        expect(instance.for(:on).length).to be 1
 
-        expect(instance.for(:on)[0].on).to eql :on
-        expect(instance.for(:on)[0].name).to eql :name
+        expect(instance.for(:on)[0].on).to be :on
+        expect(instance.for(:on)[0].name).to be :name
         expect(instance.for(:on)[0].block.call(1, 2, 3)).to match_array [1, 2, 3]
       end
 
@@ -74,7 +74,7 @@ describe Authorization::QueryTransformations do
       end
     end
 
-    context '#for?' do
+    describe '#for?' do
       it 'is true for the registered name' do
         expect(instance.for?(:on)).to be_truthy
       end
@@ -84,16 +84,16 @@ describe Authorization::QueryTransformations do
       end
     end
 
-    context '#for' do
+    describe '#for' do
       it 'returns an array of transformations for the registered name' do
-        expect(instance.for(:on).length).to eql 2
+        expect(instance.for(:on).length).to be 2
 
-        expect(instance.for(:on)[0].on).to eql :on
-        expect(instance.for(:on)[0].name).to eql :transformation2
+        expect(instance.for(:on)[0].on).to be :on
+        expect(instance.for(:on)[0].name).to be :transformation2
         expect(instance.for(:on)[0].block.call(1, 2, 3)).to eql '1, 2, 3'
 
-        expect(instance.for(:on)[1].on).to eql :on
-        expect(instance.for(:on)[1].name).to eql :transformation1
+        expect(instance.for(:on)[1].on).to be :on
+        expect(instance.for(:on)[1].name).to be :transformation1
         expect(instance.for(:on)[1].block.call(1, 2, 3)).to match_array [1, 2, 3]
       end
     end
@@ -110,7 +110,7 @@ describe Authorization::QueryTransformations do
       end
     end
 
-    context '#for?' do
+    describe '#for?' do
       it 'is true for the registered name' do
         expect(instance.for?(:on)).to be_truthy
       end
@@ -120,16 +120,16 @@ describe Authorization::QueryTransformations do
       end
     end
 
-    context '#for' do
+    describe '#for' do
       it 'returns an array of transformations for the registered name' do
-        expect(instance.for(:on).length).to eql 2
+        expect(instance.for(:on).length).to be 2
 
-        expect(instance.for(:on)[0].on).to eql :on
-        expect(instance.for(:on)[0].name).to eql :transformation2
+        expect(instance.for(:on)[0].on).to be :on
+        expect(instance.for(:on)[0].name).to be :transformation2
         expect(instance.for(:on)[0].block.call(1, 2, 3)).to eql '1, 2, 3'
 
-        expect(instance.for(:on)[1].on).to eql :on
-        expect(instance.for(:on)[1].name).to eql :transformation1
+        expect(instance.for(:on)[1].on).to be :on
+        expect(instance.for(:on)[1].name).to be :transformation1
         expect(instance.for(:on)[1].block.call(1, 2, 3)).to match_array [1, 2, 3]
       end
     end

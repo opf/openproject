@@ -31,7 +31,7 @@ require 'spec_helper'
 describe Project, 'customizable', type: :model do
   let(:project) do
     build_stubbed(:project,
-                  custom_values: custom_values)
+                  custom_values:)
   end
   let(:stub_available_custom_fields) do
     custom_fields_stub = double('custom fields stub')
@@ -81,7 +81,7 @@ describe Project, 'customizable', type: :model do
       context 'with a value set' do
         let(:custom_value) do
           build_stubbed(:custom_value,
-                        custom_field: custom_field,
+                        custom_field:,
                         value: true)
         end
         let(:custom_values) { [custom_value] }

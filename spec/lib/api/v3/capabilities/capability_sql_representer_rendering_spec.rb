@@ -60,7 +60,7 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
     ::API::V3::Utilities::SqlRepresenterWalker
       .new(
         scope,
-        current_user: current_user,
+        current_user:,
         url_query: { select: { 'id' => {}, '_type' => {}, 'self' => {}, 'action' => {}, 'context' => {}, 'principal' => {} } }
       )
       .walk(described_class)
@@ -71,22 +71,22 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
     it 'renders as expected' do
       expect(json)
         .to be_json_eql({
-          "id": "memberships/read/p#{context.id}-#{principal.id}",
-          "_type": "Capability",
-          "_links": {
-            "context": {
-              "href": api_v3_paths.project(project.id),
-              "title": project.name
+          id: "memberships/read/p#{context.id}-#{principal.id}",
+          _type: "Capability",
+          _links: {
+            context: {
+              href: api_v3_paths.project(project.id),
+              title: project.name
             },
-            "principal": {
-              "href": api_v3_paths.user(principal.id),
-              "title": principal.name
+            principal: {
+              href: api_v3_paths.user(principal.id),
+              title: principal.name
             },
-            "action": {
-              "href": api_v3_paths.action("memberships/read")
+            action: {
+              href: api_v3_paths.action("memberships/read")
             },
-            "self": {
-               "href": api_v3_paths.capability("memberships/read/p#{context.id}-#{principal.id}")
+            self: {
+              href: api_v3_paths.capability("memberships/read/p#{context.id}-#{principal.id}")
             }
           }
         }.to_json)
@@ -103,22 +103,22 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
     it 'renders as expected' do
       expect(json)
         .to be_json_eql({
-          "id": "memberships/read/p#{context.id}-#{principal.id}",
-          "_type": "Capability",
-          "_links": {
-            "context": {
-              "href": api_v3_paths.project(project.id),
-              "title": project.name
+          id: "memberships/read/p#{context.id}-#{principal.id}",
+          _type: "Capability",
+          _links: {
+            context: {
+              href: api_v3_paths.project(project.id),
+              title: project.name
             },
-            "principal": {
-              "href": api_v3_paths.group(principal.id),
-              "title": principal.name
+            principal: {
+              href: api_v3_paths.group(principal.id),
+              title: principal.name
             },
-            "action": {
-              "href": api_v3_paths.action("memberships/read")
+            action: {
+              href: api_v3_paths.action("memberships/read")
             },
-            "self": {
-              "href": api_v3_paths.capability("memberships/read/p#{context.id}-#{principal.id}")
+            self: {
+              href: api_v3_paths.capability("memberships/read/p#{context.id}-#{principal.id}")
             }
           }
         }.to_json)
@@ -137,22 +137,22 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
     it 'renders as expected' do
       expect(json)
         .to be_json_eql({
-          "id": "users/create/g-#{principal.id}",
-          "_type": "Capability",
-          "_links": {
-            "context": {
-              "href": api_v3_paths.capabilities_contexts_global,
-              "title": 'Global'
+          id: "users/create/g-#{principal.id}",
+          _type: "Capability",
+          _links: {
+            context: {
+              href: api_v3_paths.capabilities_contexts_global,
+              title: 'Global'
             },
-            "principal": {
-              "href": api_v3_paths.user(principal.id),
-              "title": principal.name
+            principal: {
+              href: api_v3_paths.user(principal.id),
+              title: principal.name
             },
-            "action": {
-              "href": api_v3_paths.action("users/create")
+            action: {
+              href: api_v3_paths.action("users/create")
             },
-            "self": {
-              "href": api_v3_paths.capability("users/create/g-#{principal.id}")
+            self: {
+              href: api_v3_paths.capability("users/create/g-#{principal.id}")
             }
           }
         }.to_json)

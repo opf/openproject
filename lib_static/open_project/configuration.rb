@@ -44,7 +44,7 @@ module OpenProject
         Settings::Definition[name].value = value
       end
 
-      def configure_cache(application_config)
+      def cache_store_configuration
         # rails defaults to :file_store, use :mem_cache_store when :memcache is configured in configuration.yml
         # Also use :mem_cache_store for when :dalli_store is configured
         cache_store = self['rails_cache_store'].try(:to_sym)
@@ -63,7 +63,7 @@ module OpenProject
         parameters = cache_store_parameters
         cache_config << parameters unless parameters.empty?
 
-        application_config.cache_store = cache_config
+        cache_config
       end
 
       def cache_store_parameters
@@ -83,7 +83,7 @@ module OpenProject
 
       private
 
-      def method_missing(name, *args, &block)
+      def method_missing(name, *args, &)
         setting_name = name.to_s.sub(/\?$/, '')
 
         definition = Settings::Definition[setting_name]
@@ -91,7 +91,7 @@ module OpenProject
         if definition
           define_config_methods(definition)
 
-          send(name, *args, &block)
+          send(name, *args, &)
         else
           super
         end

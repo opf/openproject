@@ -39,7 +39,7 @@ class Mails::ReminderJob < Mails::DeliverJob
     # Have to cast to array since the update in the subsequent block
     # will result in the notification to not be found via the .unsent_reminders_before scope.
     notification_ids = Notification
-                         .unsent_reminders_before(recipient: recipient, time: Time.current)
+                         .unsent_reminders_before(recipient:, time: Time.current)
                          .visible(recipient)
                          .pluck(:id)
 

@@ -64,7 +64,7 @@ module MailDigestHelper
     value = journal.initial? ? "created" : "updated"
     sanitize(
       I18n.t(:"mail.work_packages.#{value}_at",
-             user: user,
+             user:,
              timestamp: journal.created_at.strftime(
                "#{I18n.t(:'date.formats.default')}, #{I18n.t(:'time.formats.time')}"
              ))

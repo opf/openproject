@@ -49,10 +49,10 @@ describe UserPreferences::ParamsContract do
       },
       time_zone: 'Brasilia',
       warn_on_leaving_unsaved: true,
-      notification_settings: notification_settings
+      notification_settings:
     }
   end
-  let(:contract) { described_class.new(user_preference, current_user, params: params) }
+  let(:contract) { described_class.new(user_preference, current_user, params:) }
 
   describe 'notification settings' do
     context 'when multiple global settings' do

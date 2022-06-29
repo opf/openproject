@@ -49,7 +49,7 @@ describe 'API v3 Project resource update', type: :request, content_type: :json d
     create(:text_project_custom_field)
   end
   let(:custom_value) do
-    CustomValue.create(custom_field: custom_field,
+    CustomValue.create(custom_field:,
                        value: '1234',
                        customized: project)
   end

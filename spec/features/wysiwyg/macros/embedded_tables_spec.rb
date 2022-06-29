@@ -38,8 +38,8 @@ describe 'Wysiwyg embedded work package tables',
     create(:project, types: [type_task, type_bug], enabled_module_names: %w[wiki work_package_tracking])
   end
   let(:editor) { ::Components::WysiwygEditor.new }
-  let!(:wp_task) { create(:work_package, project: project, type: type_task) }
-  let!(:wp_bug) { create(:work_package, project: project, type: type_bug) }
+  let!(:wp_task) { create(:work_package, project:, type: type_task) }
+  let!(:wp_bug) { create(:work_package, project:, type: type_bug) }
 
   let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
   let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }

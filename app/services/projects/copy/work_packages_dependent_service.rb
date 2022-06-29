@@ -76,7 +76,7 @@ module Projects::Copy
       overrides = copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)
 
       service_call = WorkPackages::CopyService
-        .new(user: user,
+        .new(user:,
              work_package: source_work_package,
              contract_class: WorkPackages::CopyProjectContract)
         .call(**overrides)
@@ -101,7 +101,7 @@ module Projects::Copy
         Relation.create(source_relation
                           .attributes
                           .except('id', 'from_id', 'to_id')
-                          .merge(to_id: to_id, from_id: from_id))
+                          .merge(to_id:, from_id:))
       end
     end
 
@@ -116,7 +116,7 @@ module Projects::Copy
 
       {
         project: target,
-        parent_id: parent_id,
+        parent_id:,
         version_id: work_package_version_id(source_work_package),
         assigned_to_id: work_package_assigned_to_id(source_work_package),
         responsible_id: work_package_responsible_id(source_work_package),

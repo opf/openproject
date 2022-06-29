@@ -35,37 +35,38 @@ describe WikiMenuItemsController, type: :controller do
   let(:project) { create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
   let(:wiki) { project.wiki }
 
-  let(:wiki_page) { create(:wiki_page, wiki: wiki) } # first wiki page without child pages
+  let(:wiki_page) { create(:wiki_page, wiki:) } # first wiki page without child pages
   let!(:top_level_wiki_menu_item) do
-    create(:wiki_menu_item, :with_menu_item_options, wiki: wiki, name: wiki_page.slug)
+    create(:wiki_menu_item, :with_menu_item_options, wiki:, name: wiki_page.slug)
   end
 
-  before :each do
+  before do
     # log in user
     allow(User).to receive(:current).and_return current_user
   end
 
   describe '#edit' do
     # more wiki pages with menu items
-    let(:another_wiki_page) { create(:wiki_page, wiki: wiki) } # second wiki page with two child pages
+    let(:another_wiki_page) { create(:wiki_page, wiki:) } # second wiki page with two child pages
     let!(:another_wiki_page_top_level_wiki_menu_item) do
-      create(:wiki_menu_item, wiki: wiki, name: another_wiki_page.slug)
+      create(:wiki_menu_item, wiki:, name: another_wiki_page.slug)
     end
 
     # child pages of another_wiki_page
-    let(:child_page) { create(:wiki_page, parent: another_wiki_page, wiki: wiki) }
-    let!(:child_page_wiki_menu_item) { create(:wiki_menu_item, wiki: wiki, name: child_page.slug) }
-    let(:another_child_page) { create(:wiki_page, parent: another_wiki_page, wiki: wiki) }
+    let(:child_page) { create(:wiki_page, parent: another_wiki_page, wiki:) }
+    let!(:child_page_wiki_menu_item) { create(:wiki_menu_item, wiki:, name: child_page.slug) }
+    let(:another_child_page) { create(:wiki_page, parent: another_wiki_page, wiki:) }
     let!(:another_child_page_wiki_menu_item) do
-      create(:wiki_menu_item, wiki: wiki, name: another_child_page.slug, parent: top_level_wiki_menu_item)
+      create(:wiki_menu_item, wiki:, name: another_child_page.slug, parent: top_level_wiki_menu_item)
     end
 
-    let(:grand_child_page) { create(:wiki_page, parent: child_page, wiki: wiki) }
-    let!(:grand_child_page_wiki_menu_item) { create(:wiki_menu_item, wiki: wiki, name: grand_child_page.slug) }
+    let(:grand_child_page) { create(:wiki_page, parent: child_page, wiki:) }
+    let!(:grand_child_page_wiki_menu_item) { create(:wiki_menu_item, wiki:, name: grand_child_page.slug) }
 
     context 'when no parent wiki menu item has been configured yet' do
       context 'and it is a child page' do
         before { get :edit, params: { project_id: project.id, id: child_page.slug } }
+
         subject { response }
 
         it 'preselects the wiki menu item of the parent page as parent wiki menu item option' do
@@ -91,6 +92,7 @@ describe WikiMenuItemsController, type: :controller do
 
     context 'when a parent wiki menu item has already been configured' do
       before { get :edit, params: { project_id: project.id, id: another_child_page.slug } }
+
       subject { response }
 
       it 'preselects the parent wiki menu item that is already assigned' do
@@ -100,16 +102,17 @@ describe WikiMenuItemsController, type: :controller do
   end
 
   shared_context 'when there is one more wiki page with a child page' do
-    let!(:child_page) { create(:wiki_page, parent: wiki_page, wiki: wiki) }
+    let!(:child_page) { create(:wiki_page, parent: wiki_page, wiki:) }
 
-    let!(:another_wiki_page) { create(:wiki_page, wiki: wiki) } # second wiki page with two child pages
-    let!(:another_child_page) { create(:wiki_page, parent: another_wiki_page, wiki: wiki) }
+    let!(:another_wiki_page) { create(:wiki_page, wiki:) } # second wiki page with two child pages
+    let!(:another_child_page) { create(:wiki_page, parent: another_wiki_page, wiki:) }
   end
 
   describe '#select_main_menu_item' do
     include_context 'when there is one more wiki page with a child page'
 
     before { get :select_main_menu_item, params: { project_id: project, id: wiki_page.id } }
+
     subject { assigns['possible_wiki_pages'] }
 
     context 'when selecting a new wiki page to replace the current main menu item' do

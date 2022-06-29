@@ -39,7 +39,7 @@ describe TimeEntries::Scopes::Visible, type: :model do
 
   let(:work_package) do
     create(:work_package,
-           project: project,
+           project:,
            author: user2)
   end
   let(:user2) do
@@ -47,22 +47,22 @@ describe TimeEntries::Scopes::Visible, type: :model do
   end
   let!(:own_project_time_entry) do
     create(:time_entry,
-           project: project,
-           work_package: work_package,
+           project:,
+           work_package:,
            hours: 2,
-           user: user)
+           user:)
   end
   let!(:project_time_entry) do
     create(:time_entry,
-           project: project,
-           work_package: work_package,
+           project:,
+           work_package:,
            hours: 2,
            user: user2)
   end
   let!(:own_other_project_time_entry) do
     create(:time_entry,
            project: create(:project),
-           user: user)
+           user:)
   end
 
   describe '.visible' do

@@ -29,6 +29,7 @@
 require 'spec_helper'
 require 'rest-client'
 
+# rubocop:disable Rails/HttpPositionalArguments
 describe 'OAuth client credentials flow', type: :request do
   include Rack::Test::Methods
 
@@ -37,10 +38,7 @@ describe 'OAuth client credentials flow', type: :request do
 
   let(:access_token) do
     response = post '/oauth/token',
-                    grant_type: 'client_credentials',
-                    scope: 'api_v3',
-                    client_id: application.uid,
-                    client_secret: client_secret
+                    grant_type: 'client_credentials', scope: 'api_v3', client_id: application.uid, client_secret: client_secret
 
     expect(response).to be_successful
     body = JSON.parse(response.body)
@@ -54,11 +52,6 @@ describe 'OAuth client credentials flow', type: :request do
     expect(response).to be_successful
 
     JSON.parse(response.body)
-  end
-
-  before do
-    expect(access_token).to be_present
-    expect(subject).to be_present
   end
 
   describe 'when application provides client credentials impersonator' do
@@ -78,3 +71,4 @@ describe 'OAuth client credentials flow', type: :request do
     end
   end
 end
+# rubocop:enable Rails/HttpPositionalArguments

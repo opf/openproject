@@ -45,11 +45,9 @@ class Authorization::UserAllowedService
   #   or falls back to Non Member / Anonymous permissions depending if the user is logged
   def call(action, context, global: false)
     if supported_context?(context, global:)
-      ServiceResult.new(success: true,
-                        result: allowed_to?(action, context, global:))
+      ServiceResult.success(result: allowed_to?(action, context, global:))
     else
-      ServiceResult.new(success: false,
-                        result: false)
+      ServiceResult.failure(result: false)
     end
   end
 

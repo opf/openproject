@@ -33,7 +33,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
 
     angular_component_tag 'op-principal',
                           inputs: {
-                            principal: principal,
+                            principal:,
                             hideName: true,
                             size: 'default'
                           }

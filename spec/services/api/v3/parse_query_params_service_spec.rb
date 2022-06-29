@@ -89,6 +89,7 @@ describe ::API::V3::ParseQueryParamsService,
 
       context 'not given' do
         let(:params) { { bla: 'foo' } }
+
         it 'does not set group_by' do
           expect(subject).to be_success
           expect(subject.result).not_to have_key(:group_by)
@@ -181,14 +182,14 @@ describe ::API::V3::ParseQueryParamsService,
 
         it 'is not success' do
           expect(subject)
-            .to_not be_success
+            .not_to be_success
         end
 
         it 'returns the error' do
           message = 'unexpected token at \'faulty["status:desc"]\''
 
           expect(subject.errors.messages[:base].length)
-            .to eql(1)
+            .to be(1)
           expect(subject.errors.messages[:base][0])
             .to end_with(message)
         end
@@ -259,7 +260,7 @@ describe ::API::V3::ParseQueryParamsService,
 
           it 'is not success' do
             expect(subject)
-              .to_not be_success
+              .not_to be_success
           end
 
           it 'returns the error' do
@@ -267,7 +268,7 @@ describe ::API::V3::ParseQueryParamsService,
                       "'faulty[{\"status\":{\"operator\":\"=\",\"values\":[\"1\",\"2\"]}}]'"
 
             expect(subject.errors.messages[:base].length)
-              .to eql(1)
+              .to be(1)
             expect(subject.errors.messages[:base][0])
               .to end_with(message)
           end

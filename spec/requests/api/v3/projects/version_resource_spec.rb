@@ -45,7 +45,7 @@ describe "API v3 project's versions resource" do
   let(:role) { create(:role, permissions: [:view_work_packages]) }
   let(:project) { create(:project, public: false) }
   let(:other_project) { create(:project, public: false) }
-  let(:versions) { create_list(:version, 4, project: project) }
+  let(:versions) { create_list(:version, 4, project:) }
   let(:other_versions) { create_list(:version, 2) }
 
   subject(:response) { last_response }

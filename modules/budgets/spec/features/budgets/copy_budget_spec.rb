@@ -43,24 +43,24 @@ describe 'Copying a budget', type: :feature, js: true do
            subject: budget_subject,
            description: budget_description,
            author: original_author,
-           project: project
+           project:
   end
   let!(:cost_type) do
     create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
   end
-  let!(:cost_type_rate) { create :cost_rate, cost_type: cost_type, rate: 50.0 }
+  let!(:cost_type_rate) { create :cost_rate, cost_type:, rate: 50.0 }
   let!(:default_hourly_rate) { create :default_hourly_rate, user: original_author, rate: 25.0 }
   let!(:material_budget_item) do
     create :material_budget_item,
            units: 3,
-           cost_type: cost_type,
-           budget: budget
+           cost_type:,
+           budget:
   end
   let!(:overwritten_material_budget_item) do
     create :material_budget_item,
            units: 10,
-           cost_type: cost_type,
-           budget: budget,
+           cost_type:,
+           budget:,
            amount: 600000.00
   end
 
@@ -68,7 +68,7 @@ describe 'Copying a budget', type: :feature, js: true do
     create :labor_budget_item,
            hours: 5,
            user: original_author,
-           budget: budget
+           budget:
   end
   let(:budget_page) { Pages::EditBudget.new budget.id }
 

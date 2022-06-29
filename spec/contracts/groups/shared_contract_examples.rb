@@ -40,7 +40,7 @@ shared_examples_for 'group contract' do
     # so GroupUser validations checking for the existence of group and user don't fail
     before do
       group_users_user_ids.each do |id|
-        create :user, id: id
+        create :user, id:
       end
     end
   end

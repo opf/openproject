@@ -51,16 +51,13 @@ module Journals
       Journal.transaction do
         journal = create_journal(notes)
 
-        return ServiceResult.new success: true unless journal
+        return ServiceResult.success unless journal
 
         destroy_predecessor(journal)
-
-        journal
-
         reload_journals
         touch_journable(journal)
 
-        ServiceResult.new success: true, result: journal
+        ServiceResult.success result: journal
       end
     end
 
@@ -79,7 +76,7 @@ module Journals
     end
 
     def create_journal(notes)
-      Rails.logger.debug "Inserting new journal for #{journable_type} ##{journable.id}"
+      Rails.logger.debug { "Inserting new journal for #{journable_type} ##{journable.id}" }
 
       create_sql = create_journal_sql(notes)
 
@@ -188,10 +185,10 @@ module Journals
       SQL
 
       ::OpenProject::SqlSanitization.sanitize(journal_sql,
-                                              notes: notes,
+                                              notes:,
                                               journable_id: journable.id,
                                               activity_type: journable.activity_type,
-                                              journable_type: journable_type,
+                                              journable_type:,
                                               user_id: user.id,
                                               created_at: journable_timestamp,
                                               updated_at: journable_timestamp,
@@ -294,7 +291,7 @@ module Journals
 
       ::OpenProject::SqlSanitization.sanitize(max_journal_sql,
                                               journable_id: journable.id,
-                                              journable_type: journable_type)
+                                              journable_type:)
     end
 
     def select_changed_sql
@@ -495,8 +492,8 @@ module Journals
 
     def notify_aggregation_destruction(predecessor, journal)
       OpenProject::Notifications.send(OpenProject::Events::JOURNAL_AGGREGATE_BEFORE_DESTROY,
-                                      journal: journal,
-                                      predecessor: predecessor)
+                                      journal:,
+                                      predecessor:)
     end
 
     def take_over_journal_details(predecessor, journal)

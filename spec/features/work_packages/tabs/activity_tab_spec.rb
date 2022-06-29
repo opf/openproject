@@ -36,13 +36,13 @@ describe 'Activity tab', js: true, selenium: true do
     work_package.update(attributes.merge(updated_at: at))
 
     note_journal = work_package.journals.last
-    note_journal.update(created_at: at, user: user)
+    note_journal.update(created_at: at, user:)
   end
 
   let(:project) { create :project_with_types, public: true }
   let!(:work_package) do
     work_package = create(:work_package,
-                          project: project,
+                          project:,
                           created_at: 5.days.ago.to_date.to_fs(:db),
                           subject: initial_subject,
                           journal_notes: initial_comment)
@@ -66,9 +66,9 @@ describe 'Activity tab', js: true, selenium: true do
     attributes = { subject: 'New subject', description: 'Some not so long description.' }
 
     alter_work_package_at(work_package,
-                          attributes: attributes,
+                          attributes:,
                           at: 3.days.ago.to_date.to_fs(:db),
-                          user: user)
+                          user:)
 
     work_package.journals.last
   end
@@ -77,7 +77,7 @@ describe 'Activity tab', js: true, selenium: true do
     attributes = { journal_notes: 'Another comment by a different user' }
 
     alter_work_package_at(work_package,
-                          attributes: attributes,
+                          attributes:,
                           at: 1.day.ago.to_date.to_fs(:db),
                           user: create(:admin))
 

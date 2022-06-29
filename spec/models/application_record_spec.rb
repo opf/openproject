@@ -10,7 +10,7 @@ describe ApplicationRecord, type: :model do
 
     let!(:type) do
       create(:type).tap do |type|
-        type.update_column(:updated_at, 1.days.from_now)
+        type.update_column(:updated_at, 1.day.from_now)
       end
     end
 

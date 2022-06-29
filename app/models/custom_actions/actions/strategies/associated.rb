@@ -33,7 +33,7 @@ module CustomActions::Actions::Strategies::Associated
   def allowed_values
     @allowed_values ||= begin
       options = associated
-                .map { |value, label| { value: value, label: label } }
+                .map { |value, label| { value:, label: } }
 
       if required?
         options

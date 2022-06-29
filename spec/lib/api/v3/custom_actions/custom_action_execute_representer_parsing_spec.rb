@@ -33,7 +33,7 @@ describe ::API::V3::CustomActions::CustomActionExecuteRepresenter, 'parsing' do
 
   let(:struct) { OpenStruct.new }
   let(:user) { build_stubbed(:user) }
-  let(:work_package) { build_stubbed(:stubbed_work_package) }
+  let(:work_package) { build_stubbed(:work_package) }
 
   let(:representer) do
     described_class.new(struct, current_user: user)

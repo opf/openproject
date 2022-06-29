@@ -135,8 +135,8 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     def backlogs_before_validation
       if type_id == Task.type
-        self.estimated_hours = remaining_hours if estimated_hours.blank? && !remaining_hours.blank?
-        self.remaining_hours = estimated_hours if remaining_hours.blank? && !estimated_hours.blank?
+        self.estimated_hours = remaining_hours if estimated_hours.blank? && remaining_hours.present?
+        self.remaining_hours = estimated_hours if remaining_hours.blank? && estimated_hours.present?
       end
     end
   end

@@ -49,7 +49,7 @@ describe Grids::MyPage, type: :model do
       let(:user) { create(:user) }
       let(:query) do
         create(:query,
-               user: user)
+               user:)
       end
 
       before do

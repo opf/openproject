@@ -53,14 +53,14 @@ describe Bim::IfcModels::SetAttributesService, type: :model do
   end
   let(:model_valid) { true }
   let(:instance) do
-    described_class.new(user: user,
-                        model: model,
-                        contract_class: contract_class)
+    described_class.new(user:,
+                        model:,
+                        contract_class:)
   end
   let(:call_attributes) { {} }
   let(:ifc_file) { FileHelpers.mock_uploaded_file(name: "model_2.ifc", content_type: 'application/binary', binary: true) }
   let(:model) do
-    create(:ifc_model, project: project, uploader: other_user)
+    create(:ifc_model, project:, uploader: other_user)
   end
 
   before do
@@ -107,7 +107,7 @@ describe Bim::IfcModels::SetAttributesService, type: :model do
 
     context 'for a new record' do
       let(:model) do
-        Bim::IfcModels::IfcModel.new project: project
+        Bim::IfcModels::IfcModel.new project:
       end
 
       context 'with an ifc_attachment' do

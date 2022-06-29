@@ -42,7 +42,7 @@ describe Notifications::CreateFromModelService,
   let(:user_property) { nil }
   let(:work_package) do
     wp_attributes = {
-      project: project,
+      project:,
       author: other_user,
       responsible: other_user,
       assigned_to: other_user,
@@ -362,7 +362,7 @@ describe Notifications::CreateFromModelService,
       let(:recipient_notification_settings) do
         [
           build(:notification_setting, **notification_settings_all_false),
-          build(:notification_setting, project: project, **notification_settings_all_true)
+          build(:notification_setting, project:, **notification_settings_all_true)
         ]
       end
 
@@ -382,7 +382,7 @@ describe Notifications::CreateFromModelService,
       let(:recipient_notification_settings) do
         [
           build(:notification_setting, **notification_settings_all_true),
-          build(:notification_setting, project: project, **notification_settings_all_false)
+          build(:notification_setting, project:, **notification_settings_all_false)
         ]
       end
 
@@ -443,7 +443,7 @@ describe Notifications::CreateFromModelService,
       let(:recipient_notification_settings) do
         [
           build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_prioritized: true)),
+                                                           .merge(work_package_prioritized: true))
         ]
       end
 
@@ -468,7 +468,7 @@ describe Notifications::CreateFromModelService,
       let(:recipient_notification_settings) do
         [
           build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_commented: true)),
+                                                           .merge(work_package_commented: true))
         ]
       end
 
@@ -894,7 +894,7 @@ describe Notifications::CreateFromModelService,
           create(:group, members: recipient) do |group|
             Members::CreateService
               .new(user: User.system, contract_class: EmptyContract)
-              .call(project: project, principal: group, roles: [group_role])
+              .call(project:, principal: group, roles: [group_role])
           end
         end
 

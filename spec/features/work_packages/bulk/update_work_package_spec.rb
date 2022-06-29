@@ -35,16 +35,16 @@ describe 'Bulk update work packages through Rails view', js: true do
   let!(:work_package) do
     create(:work_package,
            author: dev,
-           status: status,
-           project: project,
-           type: type)
+           status:,
+           project:,
+           type:)
   end
   let!(:work_package2) do
     create(:work_package,
            author: dev,
            status: work_package2_status,
-           project: project,
-           type: type)
+           project:,
+           type:)
   end
 
   let!(:status2) { create :default_status }
@@ -159,7 +159,7 @@ describe 'Bulk update work packages through Rails view', js: true do
       end
 
       context 'with a project budget' do
-        let!(:budget) { create(:budget, project: project) }
+        let!(:budget) { create(:budget, project:) }
 
         it 'updates all the work packages' do
           context_menu.open_for work_package

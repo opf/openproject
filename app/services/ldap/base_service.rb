@@ -93,7 +93,7 @@ module Ldap
     # If the login does not match, returns nil
     def user_attributes(login, ldap_con)
       # Return the first matching user
-      entries = find_entries_by(login: login, ldap_con: ldap_con)
+      entries = find_entries_by(login:, ldap_con:)
 
       if entries.count == 0
         Rails.logger.info { "[LDAP user sync] Did not find LDAP entry for #{login}" }

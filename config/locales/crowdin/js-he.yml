@@ -351,6 +351,7 @@ he:
     label_expand_project_menu: "Expand project menu"
     label_export: "ייצוא"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "קובץ"
     label_filesize: "גודל"
     label_general: "כללי"
@@ -373,7 +374,9 @@ he:
     label_learn_more_link: "למידע נוסף"
     label_less_or_equal: "<="
     label_less_than_ago: "less than days ago"
+    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "טוען..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "התראות דוא\"ל"
     label_me: "אני"
     label_meeting_agenda: "סדר היום"
@@ -386,18 +389,25 @@ he:
     label_no_data: "אין נתונים להצגה"
     label_no_due_date: "no finish date"
     label_no_start_date: "אין תאריך התחלה"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "אין ערכים"
+    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "none"
     label_not_contains: "doesn't contain"
     label_not_equals: "is not"
     label_on: "פועל"
     label_open_menu: "פתח תפריט"
     label_open_context_menu: "Open context menu"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "פתוח"
+    label_open_file_link: 'Open file on storage'
+    label_open_file_link_location: 'Open file in location'
     label_password: "סיסמה"
     label_previous: "Previous"
     label_per_page: "לכל עמוד:"
     label_please_wait: "Please wait"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "פרויקטים"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Quote this comment"
@@ -406,10 +416,12 @@ he:
     label_remove: "Remove"
     label_remove_column: "Remove column"
     label_remove_columns: "Remove selected columns"
+    label_remove_file_link: "Remove file link"
     label_remove_row: "Remove row"
     label_report: "דו״ח"
     label_repository_plural: "Repositories"
     label_save_as: "שמירה בשם"
+    label_select_project: "Select a project"
     label_select_watcher: "בחר צופה..."
     label_selected_filter_list: "מסננים נבחרים: %s"
     label_show_attributes: "הצג את כל התכונות"
@@ -421,6 +433,9 @@ he:
     label_sorting: "מיון"
     label_spent_time: "זמן שבוזבז"
     label_star_query: "Favored"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "ציבורי"
     label_sum: "סכום"
@@ -457,6 +472,7 @@ he:
     label_custom_queries: "Private views"
     label_columns: "עמודות"
     label_attachments: קבצים מצורפים
+    label_nextcloud: Nextcloud
     label_drop_files: Drop files here
     label_drop_files_hint: or click to add files
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -837,6 +853,13 @@ he:
       comment_send_failed: "An error has occurred. Could not submit the comment."
       comment_updated: "The comment was successfully updated."
       confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "סינון"
       description_enter_text: "הזן טקסט"
       description_options_hide: "הסתר אפשרויות"
@@ -1194,3 +1217,5 @@ he:
         remove: 'Remove'
       drop_modal:
         Close: 'סגור'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

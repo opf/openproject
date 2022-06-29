@@ -42,9 +42,7 @@ class OpenProject::PluginGenerator < Rails::Generators::Base
   end
 
   def full_name
-    @full_name ||= begin
-      "openproject-#{plugin_name}"
-    end
+    @full_name ||= "openproject-#{plugin_name}"
   end
 
   private
@@ -59,9 +57,7 @@ class OpenProject::PluginGenerator < Rails::Generators::Base
   end
 
   def plugin_dir
-    @plugin_dir ||= begin
-      directory('', plugin_path, recursive: false)
-    end
+    @plugin_dir ||= directory('', plugin_path, recursive: false)
   end
 
   def lib_path
@@ -69,9 +65,7 @@ class OpenProject::PluginGenerator < Rails::Generators::Base
   end
 
   def lib_dir
-    @lib_dir ||= begin
-      directory('lib', lib_path)
-    end
+    @lib_dir ||= directory('lib', lib_path)
   end
 
   def bin_path
@@ -79,8 +73,6 @@ class OpenProject::PluginGenerator < Rails::Generators::Base
   end
 
   def bin_dir
-    @bin_dir ||= begin
-      directory('bin', bin_path)
-    end
+    @bin_dir ||= directory('bin', bin_path)
   end
 end

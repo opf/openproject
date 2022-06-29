@@ -98,7 +98,7 @@ class CustomFieldsController < ApplicationController
       num_deleted = delete_custom_values! @custom_option
 
       flash[:notice] = I18n.t(
-        :notice_custom_options_deleted, option_value: @custom_option.value, num_deleted: num_deleted
+        :notice_custom_options_deleted, option_value: @custom_option.value, num_deleted:
       )
     else
       flash[:error] = @custom_option.errors.full_messages

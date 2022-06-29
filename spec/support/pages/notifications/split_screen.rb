@@ -32,7 +32,7 @@ require 'support/pages/work_packages/split_work_package'
 module Pages
   module Notifications
     class SplitScreen < ::Pages::SplitWorkPackage
-      include ::Components::NgSelectAutocompleteHelpers
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       def initialize(work_package, project = nil)
         super work_package, project
@@ -45,7 +45,7 @@ module Pages
 
       def expect_caught_up
         text = I18n.t('js.notifications.center.empty_state.no_notification')
-        expect(page).to have_selector('[data-qa-selector="op-empty-state"]', text: text)
+        expect(page).to have_selector('[data-qa-selector="op-empty-state"]', text:)
       end
     end
   end

@@ -517,25 +517,27 @@ es:
         begin_deletion: "Inicio de la eliminación"
         children: "Subelementos"
         done_ratio: "Progreso (%)"
-        duration: "Duration"
+        duration: "Duración"
         end_insertion: "Final de la inserción"
         end_deletion: "Final de la eliminación"
-        version: "Versión"
+        ignore_non_working_days: "Ignorar días festivos"
         parent: "Padre"
         parent_issue: "Padre"
         parent_work_package: "Padre"
         priority: "Prioridad"
         progress: "Progreso (%)"
+        readonly: "Solo lectura"
         schedule_manually: "Programación manual"
         spent_hours: "Tiempo empleado"
         spent_time: "Tiempo empleado"
         subproject: "Subproyecto"
         time_entries: "Registro de tiempo"
         type: "Tipo"
+        version: "Versión"
         watcher: "Vigilante"
       'doorkeeper/application':
         uid: "ID de cliente"
-        secret: "Secreto del cliente"
+        secret: "Clave de cliente secreta"
         owner: "Propietario"
         redirect_uri: "Redireccionar URI"
         client_credentials_user_id: "ID de Usuario de Credenciales del Cliente"
@@ -733,8 +735,9 @@ es:
             due_date:
               not_start_date: "no es en fecha de inicio, aunque esto es necesario para hitos."
             duration:
-              larger_than_dates: "is larger than the interval between the start and the finish date."
-              smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              larger_than_dates: "es más largo que el intervalo entre la fecha de inicio y la final."
+              smaller_than_dates: "es más corto que el intervalo entre la fecha de inicio y la final."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "no puede ser un hito."
               cannot_be_self_assigned: "no se puede asignar a su propio usuario."
@@ -1457,7 +1460,6 @@ es:
   label_consent_settings: "Consentimiento del usuario"
   label_wiki_menu_item: Elemento de menú wiki
   label_select_main_menu_item: Seleccione nuevo elemento de menú principal
-  label_select_project: "Seleccione un proyecto"
   label_required_disk_storage: "Almacenamiento en disco requerido"
   label_send_invitation: Enviar invitación
   label_change_plural: "Cambios"
@@ -1523,6 +1525,7 @@ es:
   label_diff: "diff"
   label_diff_inline: "en línea"
   label_diff_side_by_side: "lado a lado"
+  label_digital_accessibility: 'Accesibilidad digital (DE)'
   label_disabled: "deshabilitado"
   label_display: "Mostrar"
   label_display_per_page: "Por página: %{value}"
@@ -1735,7 +1738,6 @@ es:
   label_product_version: "Versión del producto"
   label_professional_support: "Soporte profesional"
   label_profile: "Perfil"
-  label_project_all: "Todos los proyectos"
   label_project_count: "Número total de proyectos"
   label_project_copy_notifications: "Enviar notificaciones por correo electrónico durante la copia del proyecto"
   label_project_latest: "Últimos proyectos"
@@ -1997,6 +1999,9 @@ es:
   mail_body_backup_token_info: El token anterior ya no es válido.
   mail_body_backup_waiting_period: El nuevo token se habilitará en %{hours} horas.
   mail_body_backup_token_warning: Si no lo ha solicitado, inicie sesión en OpenProject de inmediato y vuelva a restablecerlo.
+  mail_body_incoming_email_error: El correo electrónico que enviaste a OpenProject no pudo ser procesado.
+  mail_body_incoming_email_error_in_reply_to: "El %{received_at} %{from_email} escribió"
+  mail_body_incoming_email_error_logs: "Registros"
   mail_body_lost_password: "Para cambiar su contraseña, haga clic en el siguiente enlace:"
   mail_body_register: "Bienvenido a %{app_title}. Por favor, active su cuenta haciendo clic en este enlace:"
   mail_body_register_header_title: "Correo electrónico de invitación al miembro del proyecto"
@@ -2015,6 +2020,7 @@ es:
   mail_subject_account_activation_request: "solicitud de activación de cuenta de %{value}"
   mail_subject_backup_ready: "La copia de seguridad está preparada"
   mail_subject_backup_token_reset: "Resetear token de respaldo"
+  mail_subject_incoming_email_error: "Un correo electrónico que enviaste a OpenProject no pudo ser procesado."
   mail_subject_lost_password: "Su contraseña %{value}"
   mail_subject_register: "La activación de la cuenta %{value}"
   mail_subject_reminder: "%{count} paquete(s) de trabajo pendientes en los siguientes %{days} dias"
@@ -2381,7 +2387,7 @@ es:
   setting_smtp_authentication: "Autenticación SMTP"
   setting_smtp_user_name: "Nombre de usuario SMTP"
   setting_smtp_password: "Contraseña SMTP"
-  setting_smtp_domain: "Dominio SMTP HELLO"
+  setting_smtp_domain: "Dominio SMTP HELO"
   setting_activity_days_default: "Días mostrados en actividad de proyecto"
   setting_app_subtitle: "Subtítulo de aplicación"
   setting_app_title: "Título de aplicación"
@@ -2978,14 +2984,14 @@ es:
         name: "El nombre de tu aplicación. Se mostrará a otros usuarios tras previa autorización."
         redirect_uri_html: >
           Las URLs permitidas a las que los usuarios autorizados serán redirigidos. Una entrada por línea. <br/> Si estás registrando una aplicación de escritorio, usa la siguiente URL.
-        confidential: "Comprueba que la aplicación puede ser usada en donde el secreto de cliente puede seguir siendo confidencial. Las aplicaciones nativas del móvil y las Aplicaciones de Páginas Particulares se consideran No Confidenciales."
+        confidential: "Comprueba que la aplicación puede ser usada en donde la clave de cliente secreta puede seguir siendo confidencial. Las aplicaciones nativas del móvil y las aplicaciones de páginas particulares se consideran no confidenciales."
         scopes: "Marque los ámbitos a los que desea que la aplicación otorgue acceso. Si no se verifica el alcance, api_v3 se supone."
         client_credential_user_id: "ID de usuario opcional para representar a clientes que usan esta aplicación. No necesita rellenarse si permites un acceso público"
         register_intro: "Si estás desarrollando una aplicación de cliente API de OAuth para OpenProject, puedes registrarla usando este formulario para todos los usuarios."
         default_scopes: ""
     client_id: "ID de cliente"
     client_secret_notice: >
-      Esta es la única vez que podremos imprimirte el secreto de cliente, por favor apúntalo y mantenlo en un lugar seguro. Debe tratarse como una contraseña y no puede ser recuperado de OpenProject más adelante.
+      Esta es la única vez que podremos imprimirte la clave de cliente secreta, por favor apúntalo y mantenlo en un lugar seguro. Debe tratarse como una contraseña y no puede ser recuperado de OpenProject más adelante.
     authorization_dialog:
       authorize: "Autorizar"
       cancel: "Cancelar y rechazar autorización."
@@ -3015,4 +3021,45 @@ es:
     authorization_error: "Se ha generado un error de autorización."
     revoke_my_application_confirmation: "¿Seguro que quieres eliminar esta aplicación? Eso suspenderá %{token_count} activos para realizarse."
     my_registered_applications: "Aplicaciones OAuth Registradas"
+  oauth_client:
+    urn_connection_status:
+      connected: "Conectado"
+      error: "Error"
+      failed_authorization: "Error en la autorización"
+    labels:
+      label_oauth_integration: "Integración de OAuth2"
+      label_redirect_uri: "Redirigir URI"
+      label_request_token: "Solicitar token"
+      label_refresh_token: "Regenerar token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "Hay un error en el OAuth2 "
+      oauth_reported: "Proveedor reportado del OAuth2 "
+      oauth_returned_error: "Hay un error en el OAuth2 "
+      oauth_returned_json_error: "Hay un error de JSON en el OAuth2 "
+      oauth_returned_http_error: "Hay un error de red en el OAuth2 "
+      oauth_returned_standard_error: "Hay un error interno en el OAuth2 "
+      wrong_token_type_returned: "Tipo de token incorrecto en el OAuth2, se espera un AccessToken::Bearer"
+      oauth_issue_contact_admin: "Hay un error en el OAuth2. Por favor, consulte con el administrador del sistema."
+      oauth_client_not_found: "Cliente del OAuth2 no encontrado en el punto final 'callback' (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Error interno: Se ha solicitado una regeneración del token sin haber un token existente.
+      refresh_token_updated_failed: "Error durante la actualización del OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        Este error aparece después de haber actualizado el client_id y el client_secret en OpenProject, pero no haber actualizado el campo 'Return URI' en el proveedor OAuth2.
+      oauth_code_not_present: "'Código' OAuth2 no encontrado en el punto final 'callback' (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        Este error aparece si se ha seleccionado el response_type incorrecto en el proveedor OAuth2. El response_type debe ser 'Código' o similar.
+      oauth_state_not_present: "El 'estado' del OAuth2 no encontrado en el punto final 'callback' (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        El 'estado' se utiliza para indicar a OpenProject donde continuar después de autentificar correctamente el OAuth2. Sin el 'estado' es probable que se produzca un error durante la configuración. Por favor, contacte con su administrador de sistema.
+      rack_oauth2:
+        client_secret_invalid: "La clave de cliente secreta no es válida (client_secret_invalid)"
+        invalid_request: >
+          El servidor de autorización de OAuth2 respondió con 'invalid_request'. Este error aparece si intenta autorizar varias veces o en caso de problemas técnicos.
+        invalid_response: "El servidor de autorización de OAuth2 respondió de forma inválida (invalid_request)"
+        invalid_grant: "El servidor de autorización de OAuth2 necesita que se autorice de nuevo (invalid_grant)"
+        invalid_client: "El servidor de autorización de OAuth2 no reconoce OpenProject (invalid_client)."
+        unauthorized_client: "El servidor de autorización de OAuth2 no acepta el tipo de garantía (unauthorized_client)"
+        unsupported_grant_type: "El servidor de autorización de OAuth2 pide que actualice de nuevo (unsupported_grant_type)"
+        invalid_scope: "No tienes permisos para acceder a este recurso (invalid_scope)."
   you: su usuario

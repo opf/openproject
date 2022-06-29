@@ -33,7 +33,7 @@ describe AttributeHelpTextsController, type: :controller do
       let(:relation_columns_allowed) { false }
 
       it 'returns 404' do
-        expect(response.status).to eql 404
+        expect(response.status).to be 404
       end
     end
   end
@@ -56,7 +56,7 @@ describe AttributeHelpTextsController, type: :controller do
       let(:relation_columns_allowed) { false }
 
       it 'returns 404' do
-        expect(response.status).to eql 404
+        expect(response.status).to be 404
       end
     end
 
@@ -142,7 +142,7 @@ describe AttributeHelpTextsController, type: :controller do
       end
 
       it 'returns 404' do
-        expect(response.status).to eql 404
+        expect(response.status).to be 404
       end
     end
   end

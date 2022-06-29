@@ -52,16 +52,16 @@ module OpenProject::PDFExport::ExportCard
       # Initialize groups
       @groups_config.each_with_index do |(_g_key, g_value), i|
         row_count = g_value["rows"].count
-        row_heights = all_heights[:row_heights].reject { |row| row[:group] != i }.map { |row| row[:height] }
+        row_heights = all_heights[:row_heights].reject { |row| row[:group] != i }.pluck(:height)
         group_height = all_heights[:group_heights][i]
         group_orientation = {
           y_offset: @orientation[:height] - current_y_offset,
           x_offset: 0,
           width: @orientation[:width],
           height: group_height,
-          row_heights: row_heights,
-          text_padding: text_padding,
-          group_padding: group_padding
+          row_heights:,
+          text_padding:,
+          group_padding:
         }
         @group_elements << GroupElement.new(@pdf, group_orientation, g_value, @work_package)
 
@@ -94,7 +94,7 @@ module OpenProject::PDFExport::ExportCard
         group_heights << [used_group_height, enforced_group_height].max
       end
 
-      { group_heights: group_heights, row_heights: row_heights }
+      { group_heights:, row_heights: }
     end
 
     def reduce_rows(heights)

@@ -10,7 +10,7 @@ describe "Immediate reminder settings", type: :feature, js: true do
       reminders_settings_page.visit!
 
       # By default the immediate reminder is unchecked
-      expect(pref.immediate_reminders[:mentioned]).to eq false
+      expect(pref.immediate_reminders[:mentioned]).to be false
       reminders_settings_page.expect_immediate_reminder :mentioned, false
 
       reminders_settings_page.set_immediate_reminder :mentioned, true
@@ -23,7 +23,7 @@ describe "Immediate reminder settings", type: :feature, js: true do
 
       reminders_settings_page.expect_immediate_reminder :mentioned, true
 
-      expect(pref.reload.immediate_reminders[:mentioned]).to eq true
+      expect(pref.reload.immediate_reminders[:mentioned]).to be true
     end
   end
 
@@ -53,7 +53,7 @@ describe "Immediate reminder settings", type: :feature, js: true do
 
   describe 'email sending', js: false do
     let(:project) { create(:project) }
-    let(:work_package) { create(:work_package, project: project) }
+    let(:work_package) { create(:work_package, project:) }
     let(:receiver) do
       create(
         :user,

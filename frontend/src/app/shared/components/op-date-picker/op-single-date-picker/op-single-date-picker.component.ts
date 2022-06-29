@@ -34,6 +34,7 @@ import { AbstractDatePickerDirective } from 'core-app/shared/components/op-date-
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 
+/* eslint-disable-next-line change-detection-strategy/on-push */
 @Component({
   selector: 'op-single-date-picker',
   templateUrl: './op-single-date-picker.component.html',
@@ -84,11 +85,11 @@ export class OpSingleDatePickerComponent extends AbstractDatePickerDirective {
     }
 
     this.datePickerInstance = new DatePicker(
+      this.injector,
       `#${this.id}`,
       initialValue,
       options,
       null,
-      this.configurationService,
     );
   }
 }

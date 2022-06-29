@@ -40,7 +40,7 @@ module Accounts::UserLimits
 
         redirect_back fallback_location: redirect_to
       else
-        show_user_limit_warning! flash_now: flash_now
+        show_user_limit_warning! flash_now:
       end
 
       true

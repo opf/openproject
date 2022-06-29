@@ -32,7 +32,7 @@ shared_context 'filter tests' do
   let(:operator) { '=' }
   let(:instance_key) { described_class.key }
   let(:instance) do
-    described_class.create!(name: instance_key, context: context, operator: operator, values: values)
+    described_class.create!(name: instance_key, context:, operator:, values:)
   end
   let(:name) { model.human_attribute_name((instance_key || expected_class_key).to_s.gsub('_id', '')) }
   let(:model) { WorkPackage }
@@ -41,7 +41,7 @@ end
 shared_examples_for 'basic query filter' do
   include_context 'filter tests'
 
-  let(:context) { build_stubbed(:query, project: project) }
+  let(:context) { build_stubbed(:query, project:) }
   let(:project) { build_stubbed(:project) }
   let(:expected_class_key) { defined?(:class_key) ? class_key : raise('needs to be defined') }
   let(:type) { raise 'needs to be defined' }
@@ -472,7 +472,7 @@ shared_examples_for 'filter by work package id' do
 
   let(:project) { build_stubbed(:project) }
   let(:query) do
-    build_stubbed(:query, project: project)
+    build_stubbed(:query, project:)
   end
 
   it_behaves_like 'basic query filter' do

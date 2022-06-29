@@ -350,6 +350,7 @@ zh-TW:
     label_expand_project_menu: "展開專案選單"
     label_export: "匯出"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "檔案"
     label_filesize: "檔案大小"
     label_general: "一般"
@@ -372,7 +373,9 @@ zh-TW:
     label_learn_more_link: "了解更多"
     label_less_or_equal: "<="
     label_less_than_ago: "少於幾天前"
+    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "讀取中..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "電子郵件通知"
     label_me: "我"
     label_meeting_agenda: "會議大綱"
@@ -385,18 +388,25 @@ zh-TW:
     label_no_data: "沒有資料可顯示"
     label_no_due_date: "no finish date"
     label_no_start_date: "無開始日期"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "無值"
+    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "無"
     label_not_contains: "不包含"
     label_not_equals: "不是"
     label_on: "開啟"
     label_open_menu: "開啟選單"
     label_open_context_menu: "打開選單"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "打開"
+    label_open_file_link: 'Open file on storage'
+    label_open_file_link_location: 'Open file in location'
     label_password: "密碼"
     label_previous: "上一個"
     label_per_page: "每頁："
     label_please_wait: "請稍候"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "專案"
     label_visibility_settings: "可見度設定"
     label_quote_comment: "引述這個評論"
@@ -405,10 +415,12 @@ zh-TW:
     label_remove: "刪除"
     label_remove_column: "移除欄"
     label_remove_columns: "移除所選欄"
+    label_remove_file_link: "Remove file link"
     label_remove_row: "移除列"
     label_report: "報表"
     label_repository_plural: "Repositories"
     label_save_as: "保存為"
+    label_select_project: "Select a project"
     label_select_watcher: "選擇一位關注者"
     label_selected_filter_list: "所選的篩選器"
     label_show_attributes: "顯示所有屬性"
@@ -420,6 +432,9 @@ zh-TW:
     label_sorting: "排序"
     label_spent_time: "耗時"
     label_star_query: "喜好"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "按 Enter 即可儲存。"
     label_public_query: "公開"
     label_sum: "總和"
@@ -456,6 +471,7 @@ zh-TW:
     label_custom_queries: "私密檢視"
     label_columns: "欄"
     label_attachments: 附加檔
+    label_nextcloud: Nextcloud
     label_drop_files: 將檔案拖曳至此處
     label_drop_files_hint: 或按一下要添加的檔
     label_drop_folders_hint: 不能將資料夾作為附件上載。請選擇單個檔。
@@ -833,6 +849,13 @@ zh-TW:
       comment_send_failed: "發生錯誤。無法提交評論。"
       comment_updated: "注釋已成功更新。"
       confirm_edit_cancel: "是否確定取消編輯中的工作包"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "篩選器"
       description_enter_text: "輸入文字"
       description_options_hide: "隱藏選項"
@@ -1184,3 +1207,5 @@ zh-TW:
         remove: '刪除'
       drop_modal:
         Close: '關閉'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

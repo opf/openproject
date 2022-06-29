@@ -2,9 +2,12 @@ require 'spec_helper'
 
 describe "Split screen in the notification center", type: :feature, js: true do
   let(:global_html_title) { ::Components::HtmlTitle.new }
+  let(:center) { ::Pages::Notifications::Center.new }
+  let(:split_screen) { ::Pages::Notifications::SplitScreen.new work_package }
+
   shared_let(:project) { create :project }
-  shared_let(:work_package) { create :work_package, project: project }
-  shared_let(:second_work_package) { create :work_package, project: project }
+  shared_let(:work_package) { create :work_package, project: }
+  shared_let(:second_work_package) { create :work_package, project: }
 
   shared_let(:recipient) do
     create :user,
@@ -13,22 +16,19 @@ describe "Split screen in the notification center", type: :feature, js: true do
   end
   shared_let(:notification) do
     create :notification,
-           recipient: recipient,
-           project: project,
+           recipient:,
+           project:,
            resource: work_package,
            journal: work_package.journals.last
   end
 
   shared_let(:second_notification) do
     create :notification,
-           recipient: recipient,
-           project: project,
+           recipient:,
+           project:,
            resource: second_work_package,
            journal: second_work_package.journals.last
   end
-
-  let(:center) { ::Pages::Notifications::Center.new }
-  let(:split_screen) { ::Pages::Notifications::SplitScreen.new work_package }
 
   describe 'basic use case' do
     current_user { recipient }
@@ -112,7 +112,7 @@ describe "Split screen in the notification center", type: :feature, js: true do
     current_user { recipient }
 
     before do
-      Notification.where(recipient: recipient).update_all(read_ian: true)
+      Notification.where(recipient:).update_all(read_ian: true)
       visit home_path
       center.open
     end

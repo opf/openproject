@@ -351,6 +351,7 @@ si:
     label_expand_project_menu: "ව්යාපෘති මෙනුව පුළුල් කරන්න"
     label_export: "අපනයන"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "ගොනුව"
     label_filesize: "ප්‍රමාණය"
     label_general: "පොදු"
@@ -373,7 +374,9 @@ si:
     label_learn_more_link: "වැඩිදුර ඉගෙන ගන්න"
     label_less_or_equal: "<="
     label_less_than_ago: "දින ගණනකට පෙර"
+    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "පැටවීම..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "වි-ල් ස්කිනිම්"
     label_me: "මට"
     label_meeting_agenda: "Agenda"
@@ -386,18 +389,25 @@ si:
     label_no_data: "ප්රදර්ශනය කිරීමට දත්ත නොමැත"
     label_no_due_date: "no finish date"
     label_no_start_date: "ආරම්භක දිනයක් නැත"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "වටිනාකමක් නැත"
+    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "කිසිවක් නැත"
     label_not_contains: "අඩංගු නොවේ"
     label_not_equals: "නැත"
     label_on: "මත"
     label_open_menu: "මෙනුව විවෘත කරන්න"
     label_open_context_menu: "සන්දර්භය මෙනුව විවෘත කරන්න"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "විවෘත"
+    label_open_file_link: 'Open file on storage'
+    label_open_file_link_location: 'Open file in location'
     label_password: "මුරපදය"
     label_previous: "පසුගිය"
     label_per_page: "එක් පිටුවකට:"
     label_please_wait: "කරුණාකර රැඳී සිටින්න"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "ව්‍යාපෘති"
     label_visibility_settings: "දෘශ්යතා සැකසුම්"
     label_quote_comment: "මෙම අදහස උපුටා දක්වන්න"
@@ -406,10 +416,12 @@ si:
     label_remove: "ඉවත් කරන්න"
     label_remove_column: "තීරුව ඉවත් කරන්න"
     label_remove_columns: "තෝරාගත් තීරු ඉවත් කරන්න"
+    label_remove_file_link: "Remove file link"
     label_remove_row: "පේළිය ඉවත් කරන්න"
     label_report: "වාර්තාව"
     label_repository_plural: "ගබඩාවලදී"
     label_save_as: "ලෙස සුරකින්න"
+    label_select_project: "Select a project"
     label_select_watcher: "මුරකරුවෙකු තෝරන්න..."
     label_selected_filter_list: "තෝරාගත් පෙරහන්"
     label_show_attributes: "සියලු ගුණාංග පෙන්වන්න"
@@ -421,6 +433,9 @@ si:
     label_sorting: "තෝරා බේරා ගැනීමේ"
     label_spent_time: "වැය කළ කාලය"
     label_star_query: "අනුග්රහය"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "සුරැකීමට ඔබන්න ඇතුල් කරන්න."
     label_public_query: "පොදු"
     label_sum: "මුදල"
@@ -457,6 +472,7 @@ si:
     label_custom_queries: "පෞද්ගලික අදහස්"
     label_columns: "තීරු"
     label_attachments: ඇමුණුම්
+    label_nextcloud: Nextcloud
     label_drop_files: ගොනු මෙහි අතහැර
     label_drop_files_hint: හෝ ගොනු එකතු කිරීමට ක්ලික් කරන්න
     label_drop_folders_hint: ඔබට ෆෝල්ඩර ඇමුණුමක් ලෙස උඩුගත කළ නොහැක. කරුණාකර තනි ගොනු තෝරන්න.
@@ -835,6 +851,13 @@ si:
       comment_send_failed: "දෝෂයක් සිදුවී ඇත. අදහස ඉදිරිපත් කළ නොහැකි විය."
       comment_updated: "අදහස් දැක්වීම සාර්ථකව යාවත්කාලීන කරන ලදී."
       confirm_edit_cancel: "ඔබට වැඩ පැකේජය සංස්කරණය කිරීම අවලංගු කිරීමට අවශ්ය බව ඔබට විශ්වාසද?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "පෙරහන්"
       description_enter_text: "පෙළ ඇතුලත් කරන්න"
       description_options_hide: "විකල්ප සඟවන්න"
@@ -1188,3 +1211,5 @@ si:
         remove: 'ඉවත් කරන්න'
       drop_modal:
         Close: 'වසන්න'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

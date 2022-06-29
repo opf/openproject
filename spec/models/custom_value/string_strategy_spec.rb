@@ -32,7 +32,7 @@ describe CustomValue::StringStrategy do
   let(:instance) { described_class.new(custom_value) }
   let(:custom_value) do
     double('CustomValue',
-           value: value)
+           value:)
   end
 
   describe '#typed_value' do
@@ -40,16 +40,19 @@ describe CustomValue::StringStrategy do
 
     context 'value is some string' do
       let(:value) { 'foo bar!' }
+
       it { is_expected.to eql(value) }
     end
 
     context 'value is blank' do
       let(:value) { '' }
+
       it { is_expected.to eql(value) }
     end
 
     context 'value is nil' do
       let(:value) { nil }
+
       it { is_expected.to be_nil }
     end
   end
@@ -61,7 +64,7 @@ describe CustomValue::StringStrategy do
       let(:value) { 'foo bar!' }
 
       it 'is the string' do
-        is_expected.to eql value
+        expect(subject).to eql value
       end
     end
 
@@ -69,7 +72,7 @@ describe CustomValue::StringStrategy do
       let(:value) { '' }
 
       it 'is a blank string' do
-        is_expected.to eql value
+        expect(subject).to eql value
       end
     end
 
@@ -77,7 +80,7 @@ describe CustomValue::StringStrategy do
       let(:value) { nil }
 
       it 'is a blank string' do
-        is_expected.to eql ''
+        expect(subject).to eql ''
       end
     end
   end
@@ -87,15 +90,17 @@ describe CustomValue::StringStrategy do
 
     context 'value is some string' do
       let(:value) { 'foo bar!' }
+
       it 'accepts' do
-        is_expected.to be_nil
+        expect(subject).to be_nil
       end
     end
 
     context 'value is empty string' do
       let(:value) { '' }
+
       it 'accepts' do
-        is_expected.to be_nil
+        expect(subject).to be_nil
       end
     end
   end

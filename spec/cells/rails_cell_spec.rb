@@ -32,10 +32,10 @@ describe ::RailsCell do
   let(:action_view) { ActionView::Base.new(ActionView::LookupContext.new(''), {}, controller) }
   let(:model) { double('model', foo: '<strong>Some HTML here!</strong>') }
   let(:context) do
-    { controller: controller }
+    { controller: }
   end
   let(:options) do
-    { context: context }
+    { context: }
   end
 
   let(:test_cell) do
@@ -92,7 +92,7 @@ describe ::RailsCell do
   describe 'delegate to action_view' do
     context 'when action_view set' do
       let(:context) do
-        { controller: controller, action_view: action_view }
+        { controller:, action_view: }
       end
 
       it_behaves_like 'uses action_view helpers'

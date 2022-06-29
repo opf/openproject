@@ -34,8 +34,8 @@ describe 'Loggin (with brute force protection)', type: :feature do
   let(:invalid_password) { password[0..-2] }
   let!(:user) do
     create(:user,
-           login: login,
-           password: password,
+           login:,
+           password:,
            password_confirmation: password)
   end
 
@@ -93,7 +93,7 @@ describe 'Loggin (with brute force protection)', type: :feature do
 
     # resets the failed login count
     expect(User.where(id: user.id).pluck(:failed_login_count).first)
-      .to eql 0
+      .to be 0
   end
 
   it 'does not block if brute force is disabled',

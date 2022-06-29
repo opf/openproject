@@ -32,5 +32,6 @@ shared_context 'with tmpdir' do
       example.run
     end
   end
+
   attr_reader :tmpdir
 end

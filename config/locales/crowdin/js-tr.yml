@@ -351,6 +351,7 @@ tr:
     label_expand_project_menu: "Proje menüsünü genişlet"
     label_export: "Dışarı aktar"
     label_export_preparing: "İhracat hazırlanıyor ve kısa süre içinde indirilecek."
+    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Dosya"
     label_filesize: "Boyutu"
     label_general: "Genel"
@@ -373,7 +374,9 @@ tr:
     label_learn_more_link: "Daha fazla bilgi edin"
     label_less_or_equal: "<="
     label_less_than_ago: "bir haftadan kısa bir süre önce"
+    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Yükleniyor..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "E-posta bildirimleri"
     label_me: "ben"
     label_meeting_agenda: "Ajanda"
@@ -386,18 +389,25 @@ tr:
     label_no_data: "Görüntülenecek veri yok"
     label_no_due_date: "bitiş tarihi yok"
     label_no_start_date: "başlangıç tarihi yok"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Değer yok"
+    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "hiçbiri"
     label_not_contains: "içermiyor"
     label_not_equals: "değildir"
     label_on: "açık"
     label_open_menu: "Menüyü Aç"
     label_open_context_menu: "Bağlam menüsünü aç"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "açık"
+    label_open_file_link: 'Open file on storage'
+    label_open_file_link_location: 'Open file in location'
     label_password: "Parola"
     label_previous: "Önceki"
     label_per_page: "Sayfa başına:"
     label_please_wait: "Lütfen bekleyin"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projeler"
     label_visibility_settings: "Görünürlük ayarları"
     label_quote_comment: "Yorumu alıntıla"
@@ -406,10 +416,12 @@ tr:
     label_remove: "Kaldır"
     label_remove_column: "Sütunu kaldır"
     label_remove_columns: "Seçili sütunları sil"
+    label_remove_file_link: "Remove file link"
     label_remove_row: "Satırı kaldır"
     label_report: "Rapor (bildiri)"
     label_repository_plural: "Depolar"
     label_save_as: "Farklı Kaydet"
+    label_select_project: "Select a project"
     label_select_watcher: "Takipçi seç..."
     label_selected_filter_list: "Seçilen filtreler"
     label_show_attributes: "Tüm öznitelikleri göster"
@@ -421,6 +433,9 @@ tr:
     label_sorting: "Sıralama"
     label_spent_time: "Harcanan zaman"
     label_star_query: "avantajlı"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Kaydetmek için enter tuşuna basın."
     label_public_query: "Herkese Açık"
     label_sum: "toplam\n"
@@ -457,6 +472,7 @@ tr:
     label_custom_queries: "Gizli görünümler"
     label_columns: "Sütunlar"
     label_attachments: Ekler
+    label_nextcloud: Nextcloud
     label_drop_files: Dosyaları buraya bırakın
     label_drop_files_hint: veya eklemek için tıklayın
     label_drop_folders_hint: Klasörleri ek olarak karşıya yükleyemezsiniz. Lütfen tekil dosyalar seçiniz.
@@ -835,6 +851,13 @@ tr:
       comment_send_failed: "Bir hata oluştu. Yorum gönderilemedi."
       comment_updated: "Yorum başarıyla güncelleştirildi."
       confirm_edit_cancel: "İş paketini düzenlemeyi iptal etmek istediğinizden emin misiniz?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtre"
       description_enter_text: "Metin girin"
       description_options_hide: "Seçenekleri gizle"
@@ -1188,3 +1211,5 @@ tr:
         remove: 'Kaldır'
       drop_modal:
         Close: 'Kapat'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

@@ -45,6 +45,7 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
   end
 
   let(:path) { api_v3_paths.user_form(user.id) }
+  let(:body) { response.body }
   let(:payload) do
     {}
   end
@@ -56,7 +57,6 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
   end
 
   subject(:response) { last_response }
-  let(:body) { response.body }
 
   context 'with authorized user' do
     shared_let(:current_user) do
@@ -127,7 +127,7 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
                 .at_path('_embedded/payload/email')
 
         expect(body)
-          .to_not have_json_path('_embedded/payload/firstName')
+          .not_to have_json_path('_embedded/payload/firstName')
 
         expect(body)
           .to be_json_eql(user.lastname.to_json)

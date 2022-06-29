@@ -64,7 +64,5 @@ class DangerZone
   end
 
   ##
-  def disabled?
-    danger_button.disabled?
-  end
+  delegate :disabled?, to: :danger_button
 end

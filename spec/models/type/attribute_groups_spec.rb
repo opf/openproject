@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe ::Type, type: :model do
   let(:type) { build(:type) }
+
   shared_let(:admin) { create :admin }
 
   before do
@@ -101,7 +102,7 @@ describe ::Type, type: :model do
       end
 
       it 'retrieves the query' do
-        expect(type.attribute_groups.length).to eql 1
+        expect(type.attribute_groups.length).to be 1
 
         expect(type.attribute_groups[0].class).to eql Type::QueryGroup
         expect(type.attribute_groups[0].key).to eql 'some group'
@@ -114,13 +115,13 @@ describe ::Type, type: :model do
         type.save!
         type.reload
 
-        expect(type.attribute_groups.length).to eql 1
+        expect(type.attribute_groups.length).to be 1
 
         expect(type.attribute_groups[0].class).to eql Type::QueryGroup
         expect(type.attribute_groups[0].key).to eql 'some group'
         expect(type.attribute_groups[0].query).to eql new_query
 
-        expect(Query.count).to eql 1
+        expect(Query.count).to be 1
       end
     end
   end

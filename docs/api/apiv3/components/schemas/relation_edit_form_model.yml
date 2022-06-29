@@ -59,7 +59,7 @@ example:
       from:
         name: From work package
         type: WorkPackage
-        writeable: false
+        writable: false
       to:
         name: To work package
         type: WorkPackage

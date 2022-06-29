@@ -34,7 +34,7 @@ describe ::Storages::Storage, type: :model do
     { name: "NC 1",
       provider_type: ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
       host: 'https://example.com',
-      creator: creator }
+      creator: }
   end
 
   describe '#create' do
@@ -63,9 +63,9 @@ describe ::Storages::Storage, type: :model do
   describe '#destroy' do
     let(:project) { create(:project) }
     let(:storage) { described_class.create(default_attributes) }
-    let(:project_storage) { create(:project_storage, project: project, storage: storage, creator: creator) }
-    let(:work_package) { create(:work_package, project: project) }
-    let(:file_link) { create(:file_link, storage: storage, container_id: work_package.id) }
+    let(:project_storage) { create(:project_storage, project:, storage:, creator:) }
+    let(:work_package) { create(:work_package, project:) }
+    let(:file_link) { create(:file_link, storage:, container_id: work_package.id) }
 
     before do
       project_storage

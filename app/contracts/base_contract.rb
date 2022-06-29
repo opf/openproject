@@ -67,7 +67,7 @@ class BaseContract < Disposable::Twin
       attribute_aliases[db] = outside
     end
 
-    def property(name, options = {}, &block)
+    def property(name, options = {}, &)
       if (twin = options.delete(:form))
         options[:twin] = twin
       end
@@ -82,7 +82,7 @@ class BaseContract < Disposable::Twin
     def attribute(attribute, options = {}, &block)
       property attribute, options.slice(:readable)
 
-      add_writable(attribute, options[:writeable])
+      add_writable(attribute, options[:writable])
       attribute_permission(attribute, options[:permission])
 
       validate(attribute, &block) if block
@@ -100,17 +100,17 @@ class BaseContract < Disposable::Twin
 
     private
 
-    def add_writable(attribute, writeable)
+    def add_writable(attribute, writable)
       attribute_name = attribute.to_s.gsub /_id\z/, ''
 
-      unless writeable == false
+      unless writable == false
         writable_attributes << attribute_name
         # allow the _id variant as well
         writable_attributes << "#{attribute_name}_id"
       end
 
-      if writeable.respond_to?(:call)
-        writable_conditions << [attribute_name, writeable]
+      if writable.respond_to?(:call)
+        writable_conditions << [attribute_name, writable]
       end
     end
   end
@@ -135,9 +135,7 @@ class BaseContract < Disposable::Twin
   end
 
   def writable_attributes
-    @writable_attributes ||= begin
-      reduce_writable_attributes(collect_writable_attributes)
-    end
+    @writable_attributes ||= reduce_writable_attributes(collect_writable_attributes)
   end
 
   def writable?(attribute)
@@ -183,7 +181,7 @@ class BaseContract < Disposable::Twin
 
   protected
 
-  def collect_ancestor_attribute_aliases
+  def ancestor_attribute_aliases
     @ancestor_attribute_aliases ||= collect_ancestor_attributes(:attribute_aliases)
   end
 
@@ -223,8 +221,8 @@ class BaseContract < Disposable::Twin
     writable = collect_ancestor_attributes(:writable_attributes)
 
     writable.each do |attribute|
-      if collect_ancestor_attribute_aliases[attribute]
-        writable << collect_ancestor_attribute_aliases[attribute].to_s
+      if ancestor_attribute_aliases[attribute]
+        writable << ancestor_attribute_aliases[attribute].to_s
       end
     end
 

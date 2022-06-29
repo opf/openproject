@@ -29,8 +29,8 @@
 require 'open_project/scm/adapters/subversion'
 
 class Repository::Subversion < Repository
-  validates_presence_of :url
-  validates_format_of :url, with: /\A(http|https|svn(\+[^\s:\/\\]+)?|file):\/\/.+\z/i
+  validates :url, presence: true
+  validates :url, format: { with: /\A(http|https|svn(\+[^\s:\/\\]+)?|file):\/\/.+\z/i }
 
   def self.scm_adapter_class
     OpenProject::SCM::Adapters::Subversion
@@ -81,7 +81,7 @@ class Repository::Subversion < Repository
   end
 
   def latest_changesets(path, rev, limit = 10)
-    revisions = scm.revisions(path, rev, nil, limit: limit)
+    revisions = scm.revisions(path, rev, nil, limit:)
     revisions ? changesets.where(revision: revisions.map(&:identifier)).order(Arel.sql('committed_on DESC')).includes(:user) : []
   end
 

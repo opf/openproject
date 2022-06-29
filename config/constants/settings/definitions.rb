@@ -778,6 +778,12 @@ Settings::Definition.define do
       default: nil,
       writable: false
 
+  # Allow separate error reporting for frontend errors
+  add :appsignal_frontend_key,
+      format: :string,
+      default: nil,
+      writable: false
+
   # Allow sentry to collect tracing samples
   # set to 1 to enable default tracing samples (see sentry initializer)
   # set to n >= 1 to enable n times the default tracing
@@ -978,6 +984,10 @@ Settings::Definition.define do
 
   add :work_package_startdate_is_adddate,
       default: false
+
+  add :work_packages_duration_field_active,
+      default: Rails.env.development?,
+      format: :boolean
 
   add :youtube_channel,
       default: 'https://www.youtube.com/c/OpenProjectCommunity',

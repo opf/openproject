@@ -38,10 +38,10 @@ class BaseTypeService
     self.contract_class = ::Types::BaseContract
   end
 
-  def call(params, options, &block)
+  def call(params, options, &)
     result = update(params, options)
 
-    block_with_result(result, &block)
+    block_with_result(result, &)
   end
 
   private
@@ -69,11 +69,11 @@ class BaseTypeService
       end
     end
 
-    ServiceResult.new(success: success,
-                      errors: errors,
+    ServiceResult.new(success:,
+                      errors:,
                       result: type)
   rescue StandardError => e
-    ServiceResult.new(success: false).tap do |result|
+    ServiceResult.failure.tap do |result|
       result.errors.add(:base, e.message)
     end
   end

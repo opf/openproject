@@ -35,7 +35,7 @@ describe WikiPage, type: :model do
     @page = @wiki.pages.first
   end
 
-  it 'should find or new page' do
+  it 'finds or new page' do
     page = @wiki.find_or_new_page('CookBook documentation')
     assert_kind_of WikiPage, page
     assert !page.new_record?
@@ -45,7 +45,7 @@ describe WikiPage, type: :model do
     assert page.new_record?
   end
 
-  it 'should parent title' do
+  it 'parents title' do
     page = WikiPage.find_by(title: 'Another page')
     assert_nil page.parent_title
 
@@ -53,7 +53,7 @@ describe WikiPage, type: :model do
     assert_equal 'CookBook documentation', page.parent_title
   end
 
-  it 'should assign parent' do
+  it 'assigns parent' do
     page = WikiPage.find_by(title: 'Another page')
     page.parent_title = 'CookBook documentation'
     assert page.save
@@ -61,7 +61,7 @@ describe WikiPage, type: :model do
     assert_equal WikiPage.find_by(title: 'CookBook documentation'), page.parent
   end
 
-  it 'should unassign parent' do
+  it 'unassigns parent' do
     page = WikiPage.find_by(title: 'Page with an inline image')
     page.parent_title = ''
     assert page.save
@@ -69,23 +69,23 @@ describe WikiPage, type: :model do
     assert_nil page.parent
   end
 
-  it 'should parent validation' do
+  it 'parents validation' do
     page = WikiPage.find_by(title: 'CookBook documentation')
 
     # A child page
     page.parent_title = 'Page with an inline image'
     assert !page.save
-    assert_includes page.errors[:parent_title], I18n.translate('activerecord.errors.messages.circular_dependency')
+    assert_includes page.errors[:parent_title], I18n.t('activerecord.errors.messages.circular_dependency')
     # The page itself
     page.parent_title = 'CookBook documentation'
     assert !page.save
-    assert_includes page.errors[:parent_title], I18n.translate('activerecord.errors.messages.circular_dependency')
+    assert_includes page.errors[:parent_title], I18n.t('activerecord.errors.messages.circular_dependency')
 
     page.parent_title = 'Another page'
     assert page.save
   end
 
-  it 'should destroy' do
+  it 'destroys' do
     page = WikiPage.find(1)
     content_ids = WikiContent.where(page_id: 1).map(&:id)
     page.destroy
@@ -98,7 +98,7 @@ describe WikiPage, type: :model do
     end
   end
 
-  it 'should destroy should not nullify children' do
+  it 'destroys should not nullify children' do
     page = WikiPage.find(2)
     child_ids = page.child_ids
     assert child_ids.any?

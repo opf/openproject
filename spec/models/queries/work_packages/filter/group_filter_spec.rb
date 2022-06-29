@@ -50,7 +50,7 @@ describe Queries::WorkPackages::Filter::GroupFilter, type: :model do
           .to receive(:exists?)
           .and_return false
 
-        expect(instance).to_not be_available
+        expect(instance).not_to be_available
       end
     end
 

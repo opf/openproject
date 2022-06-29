@@ -43,7 +43,7 @@ class CustomActions::UpdateWorkPackageService
     apply_actions(work_package, action.actions)
 
     result = ::WorkPackages::UpdateService
-             .new(user: user,
+             .new(user:,
                   model: work_package)
              .call
 

@@ -45,7 +45,7 @@ module OpenProject::TextFormatting
           next if has_ancestor?(node, PREFORMATTED_BLOCKS)
 
           self.class.matchers.each do |matcher|
-            matcher.call(node, doc: doc, context: context)
+            matcher.call(node, doc:, context:)
           end
         end
 

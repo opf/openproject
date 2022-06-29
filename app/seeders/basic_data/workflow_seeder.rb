@@ -79,8 +79,8 @@ module BasicData
           statuses_for_type.each do |old_status|
             statuses_for_type.each do |new_status|
               [manager.id, member.id].each do |role_id|
-                Workflow.create type_id: type_id,
-                                role_id: role_id,
+                Workflow.create type_id:,
+                                role_id:,
                                 old_status_id: old_status.id,
                                 new_status_id: new_status.id
               end

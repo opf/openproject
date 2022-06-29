@@ -151,6 +151,10 @@ post:
 
         **Required permission:** view work package
       headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
   tags:
   - Grids
   description: ''

@@ -53,7 +53,7 @@ FactoryBot.define do
       sequence(:name) { |n| "Work packages query #{n}" }
 
       callback(:after_create) do |query|
-        create(:view_work_packages_table, query: query)
+        create(:view_work_packages_table, query:)
       end
     end
 
@@ -61,7 +61,7 @@ FactoryBot.define do
       sequence(:name) { |n| "Team planner query #{n}" }
 
       callback(:after_create) do |query|
-        create(:view_team_planner, query: query)
+        create(:view_team_planner, query:)
       end
     end
 
@@ -69,7 +69,7 @@ FactoryBot.define do
       sequence(:name) { |n| "Calendar query #{n}" }
 
       callback(:after_create) do |query|
-        create(:view_work_packages_calendar, query: query)
+        create(:view_work_packages_calendar, query:)
       end
     end
 

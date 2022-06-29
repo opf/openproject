@@ -36,9 +36,7 @@ module OAuth
         end
       end
 
-      def confidential
-        application.confidential
-      end
+      delegate :confidential, to: :application
 
       def edit_link
         link_to(

@@ -11,11 +11,11 @@ module LdapGroups
 
     def call
       synchronize!
-      ServiceResult.new(success: true)
+      ServiceResult.success
     rescue StandardError => e
       error = "[LDAP groups] Failed to perform LDAP group synchronization: #{e.class}: #{e.message}"
       Rails.logger.error(error)
-      ServiceResult.new(message: error, success: false)
+      ServiceResult.failure(message: error)
     end
 
     def synchronize!

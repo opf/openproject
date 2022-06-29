@@ -36,7 +36,7 @@ class Stories::UpdateService
 
   def call(attributes: {}, prev: nil)
     create_call = WorkPackages::UpdateService
-                  .new(user: user,
+                  .new(user:,
                        model: story)
                   .call(**attributes.symbolize_keys)
 

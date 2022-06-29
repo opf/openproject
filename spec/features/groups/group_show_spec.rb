@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'group show page', type: :feature do
+describe 'group show page', type: :feature do
   let!(:member) { create :user }
   let!(:group) { create :group, lastname: "Bob's Team", members: [member] }
 
@@ -40,7 +40,7 @@ feature 'group show page', type: :feature do
     shared_let(:admin) { create :admin }
     let(:current_user) { admin }
 
-    scenario 'I can visit the group page' do
+    it 'I can visit the group page' do
       visit show_group_path(group)
       expect(page).to have_selector('h2', text: "Bob's Team")
       expect(page).to have_selector('.toolbar-item', text: 'Edit')
@@ -51,7 +51,7 @@ feature 'group show page', type: :feature do
   context 'as a regular user' do
     let(:current_user) { create :user }
 
-    scenario 'I can visit the group page' do
+    it 'I can visit the group page' do
       visit show_group_path(group)
       expect(page).to have_selector('h2', text: "Bob's Team")
       expect(page).to have_no_selector('.toolbar-item')

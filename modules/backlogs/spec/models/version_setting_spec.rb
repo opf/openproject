@@ -37,7 +37,7 @@ describe VersionSetting, type: :model do
 
   describe 'Instance Methods' do
     describe 'WITH display set to left' do
-      before(:each) do
+      before do
         version_setting.display_left!
       end
 
@@ -45,7 +45,7 @@ describe VersionSetting, type: :model do
     end
 
     describe 'WITH display set to right' do
-      before(:each) do
+      before do
         version_setting.display_right!
       end
 
@@ -53,7 +53,7 @@ describe VersionSetting, type: :model do
     end
 
     describe 'WITH display set to none' do
-      before(:each) do
+      before do
         version_setting.display_none!
       end
 

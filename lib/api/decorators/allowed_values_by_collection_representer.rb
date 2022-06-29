@@ -52,14 +52,14 @@ module API
         @link_factory = link_factory
         @allowed_values_getter = allowed_values_getter
 
-        super(type: type,
-              name: name,
-              required: required,
-              has_default: has_default,
-              writable: writable,
-              attribute_group: attribute_group,
-              location: location,
-              current_user: current_user)
+        super(type:,
+              name:,
+              required:,
+              has_default:,
+              writable:,
+              attribute_group:,
+              location:,
+              current_user:)
       end
 
       links :allowedValues do
@@ -93,7 +93,7 @@ module API
                           value_representer
                         end
 
-          representer.create(value, current_user: current_user)
+          representer.create(value, current_user:)
         end
       end
     end

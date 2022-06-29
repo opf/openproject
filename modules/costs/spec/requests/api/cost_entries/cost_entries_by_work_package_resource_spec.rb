@@ -36,20 +36,20 @@ describe 'API v3 Cost Entry resource' do
   let(:current_user) do
     create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:cost_entry) do
+    create(:cost_entry,
+           project:,
+           work_package:,
+           user: current_user)
+  end
+  let(:role) { create(:role, permissions:) }
   let(:work_package_permissions) { [:view_work_packages] }
   let(:cost_entry_permissions) { [:view_cost_entries] }
   let(:permissions) { work_package_permissions + cost_entry_permissions }
   let(:project) { create(:project) }
-  let(:work_package) { create(:work_package, project: project) }
-  subject(:response) { last_response }
+  let(:work_package) { create(:work_package, project:) }
 
-  let(:cost_entry) do
-    create(:cost_entry,
-           project: project,
-           work_package: work_package,
-           user: current_user)
-  end
+  subject(:response) { last_response }
 
   before do
     login_as current_user
@@ -61,15 +61,16 @@ describe 'API v3 Cost Entry resource' do
     let(:get_path) { api_v3_paths.cost_entries_by_work_package work_package.id }
 
     context 'user can see any cost entries' do
-      it 'should return HTTP 200' do
-        expect(response.status).to eql(200)
+      it 'returns HTTP 200' do
+        expect(response.status).to be(200)
       end
     end
 
     context 'user can see own cost entries' do
       let(:cost_entry_permissions) { [:view_own_cost_entries] }
-      it 'should return HTTP 200' do
-        expect(response.status).to eql(200)
+
+      it 'returns HTTP 200' do
+        expect(response.status).to be(200)
       end
     end
 
@@ -87,16 +88,16 @@ describe 'API v3 Cost Entry resource' do
     let(:get_path) { api_v3_paths.summarized_work_package_costs_by_type work_package.id }
 
     context 'user can see any cost entries' do
-      it 'should return HTTP 200' do
-        expect(response.status).to eql(200)
+      it 'returns HTTP 200' do
+        expect(response.status).to be(200)
       end
     end
 
     context 'user can see own cost entries' do
       let(:cost_entry_permissions) { [:view_own_cost_entries] }
 
-      it 'should return HTTP 200' do
-        expect(response.status).to eql(200)
+      it 'returns HTTP 200' do
+        expect(response.status).to be(200)
       end
     end
 

@@ -47,13 +47,13 @@ class WorkPackage < ApplicationRecord
 
   belongs_to :project
   belongs_to :type
-  belongs_to :status, class_name: 'Status', foreign_key: 'status_id'
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
-  belongs_to :assigned_to, class_name: 'Principal', foreign_key: 'assigned_to_id'
-  belongs_to :responsible, class_name: 'Principal', foreign_key: 'responsible_id'
+  belongs_to :status, class_name: 'Status'
+  belongs_to :author, class_name: 'User'
+  belongs_to :assigned_to, class_name: 'Principal'
+  belongs_to :responsible, class_name: 'Principal'
   belongs_to :version
-  belongs_to :priority, class_name: 'IssuePriority', foreign_key: 'priority_id'
-  belongs_to :category, class_name: 'Category', foreign_key: 'category_id'
+  belongs_to :priority, class_name: 'IssuePriority'
+  belongs_to :category, class_name: 'Category'
 
   has_many :time_entries, dependent: :delete_all
 
@@ -128,8 +128,10 @@ class WorkPackage < ApplicationRecord
 
   acts_as_watchable
 
-  before_create :default_assign
+  after_validation :set_attachments_error_details,
+                   if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
   before_save :close_duplicates, :update_done_ratio_from_status
+  before_create :default_assign
 
   acts_as_customizable
 
@@ -154,6 +156,7 @@ class WorkPackage < ApplicationRecord
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
 
+  # makes virtual modal WorkPackageHierarchy available
   has_closure_tree
 
   ##################### WARNING #####################
@@ -172,9 +175,6 @@ class WorkPackage < ApplicationRecord
                      add_on_persisted_permission: :edit_work_packages,
                      modification_blocked: ->(*) { readonly_status? },
                      extract_tsv: true
-
-  after_validation :set_attachments_error_details,
-                   if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
 
   associated_to_ask_before_destruction TimeEntry,
                                        ->(work_packages) {
@@ -237,7 +237,7 @@ class WorkPackage < ApplicationRecord
 
   def add_time_entry(attributes = {})
     attributes.reverse_merge!(
-      project: project,
+      project:,
       work_package: self
     )
     time_entries.build(attributes)
@@ -272,7 +272,7 @@ class WorkPackage < ApplicationRecord
 
   # Returns true if the work_package is overdue
   def overdue?
-    !due_date.nil? && (due_date < Date.today) && !closed?
+    !due_date.nil? && (due_date < Time.zone.today) && !closed?
   end
 
   def milestone?
@@ -288,9 +288,13 @@ class WorkPackage < ApplicationRecord
     end
   end
 
-  def estimated_hours=(h)
-    converted_hours = (h.is_a?(String) ? h.to_hours : h)
-    write_attribute :estimated_hours, !!converted_hours ? converted_hours : h
+  def estimated_hours=(hours)
+    converted_hours = (hours.is_a?(String) ? hours.to_hours : hours)
+    write_attribute :estimated_hours, !!converted_hours ? converted_hours : hours
+  end
+
+  def duration_in_hours
+    duration ? duration * 24 : nil
   end
 
   # aliasing subject to name
@@ -340,7 +344,7 @@ class WorkPackage < ApplicationRecord
   # see Acts::Journalized::Permissions#journal_editable_by
   def journal_editable_by?(journal, user)
     user.allowed_to?(:edit_work_package_notes, project, global: project.present?) ||
-      user.allowed_to?(:edit_own_work_package_notes, project, global: project.present?) && journal.user_id == user.id
+      (user.allowed_to?(:edit_own_work_package_notes, project, global: project.present?) && journal.user_id == user.id)
   end
 
   # Returns a scope for the projects
@@ -375,43 +379,43 @@ class WorkPackage < ApplicationRecord
 
   # Extracted from the ReportsController.
   def self.by_type(project)
-    count_and_group_by project: project,
+    count_and_group_by project:,
                        field: 'type_id',
                        joins: ::Type.table_name
   end
 
   def self.by_version(project)
-    count_and_group_by project: project,
+    count_and_group_by project:,
                        field: 'version_id',
                        joins: Version.table_name
   end
 
   def self.by_priority(project)
-    count_and_group_by project: project,
+    count_and_group_by project:,
                        field: 'priority_id',
                        joins: IssuePriority.table_name
   end
 
   def self.by_category(project)
-    count_and_group_by project: project,
+    count_and_group_by project:,
                        field: 'category_id',
                        joins: Category.table_name
   end
 
   def self.by_assigned_to(project)
-    count_and_group_by project: project,
+    count_and_group_by project:,
                        field: 'assigned_to_id',
                        joins: User.table_name
   end
 
   def self.by_responsible(project)
-    count_and_group_by project: project,
+    count_and_group_by project:,
                        field: 'responsible_id',
                        joins: User.table_name
   end
 
   def self.by_author(project)
-    count_and_group_by project: project,
+    count_and_group_by project:,
                        field: 'author_id',
                        joins: User.table_name
   end
@@ -460,8 +464,8 @@ class WorkPackage < ApplicationRecord
   def add_time_entry_for(user, attributes)
     return if time_entry_blank?(attributes)
 
-    attributes.reverse_merge!(user: user,
-                              spent_on: Date.today)
+    attributes.reverse_merge!(user:,
+                              spent_on: Time.zone.today)
 
     time_entries.build(attributes)
   end
@@ -475,7 +479,7 @@ class WorkPackage < ApplicationRecord
 
     key = 'activity_id'
     id = attributes[key]
-    default_id = if id && !id.blank?
+    default_id = if id&.present?
                    Enumeration.exists? id: id, is_default: true, type: 'TimeEntryActivity'
                  else
                    true
@@ -501,7 +505,7 @@ class WorkPackage < ApplicationRecord
     having_version_from_other_project
       .where(conditions)
       .includes(:project, :version)
-      .references(:versions).each do |issue|
+      .references(:versions).find_each do |issue|
       next if issue.project.nil? || issue.version.nil?
 
       unless issue.project.shared_versions.include?(issue.version)

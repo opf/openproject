@@ -35,7 +35,7 @@ describe 'API v3 UserPreferences resource', type: :request, content_type: :json 
 
   subject(:response) { last_response }
 
-  let(:user) { create(:user, preference: preference) }
+  let(:user) { create(:user, preference:) }
   let(:preference) do
     create(:user_preference,
            settings: {

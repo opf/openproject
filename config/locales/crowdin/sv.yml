@@ -522,18 +522,20 @@ sv:
         duration: "Duration"
         end_insertion: "Slutet av införandet"
         end_deletion: "Slutet av raderingen"
-        version: "Version"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Överordnad"
         parent_issue: "Överordnad"
         parent_work_package: "Överordnad"
         priority: "Prioritet"
         progress: "Progress (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Förbrukad tid"
         spent_time: "Förbrukad tid"
         subproject: "Delprojekt"
         time_entries: "Logga tid"
         type: "Typ"
+        version: "Version"
         watcher: "Bevakare"
       'doorkeeper/application':
         uid: "Client ID"
@@ -737,6 +739,7 @@ sv:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "kan inte vara en milstolpe."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1459,7 +1462,6 @@ sv:
   label_consent_settings: "Användarsamtycken"
   label_wiki_menu_item: Wiki menyalternativ
   label_select_main_menu_item: Välj ny huvudmenypost
-  label_select_project: "Välj ett projekt"
   label_required_disk_storage: "Erfordrat lagringsutrymme"
   label_send_invitation: Skicka inbjudan
   label_change_plural: "Förändringar"
@@ -1525,6 +1527,7 @@ sv:
   label_diff: "diff"
   label_diff_inline: "inline"
   label_diff_side_by_side: "sida vid sida"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "inaktiverad"
   label_display: "Visa"
   label_display_per_page: "Per sida: %{value}"
@@ -1737,7 +1740,6 @@ sv:
   label_product_version: "Produktversion"
   label_professional_support: "Professionell hjälp"
   label_profile: "Profil"
-  label_project_all: "Alla projekt"
   label_project_count: "Totalt antal projekt"
   label_project_copy_notifications: "Skicka e-postaviseringar under projekt kopian"
   label_project_latest: "Senaste projekt"
@@ -1999,6 +2001,9 @@ sv:
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "För att ändra ditt lösenord, klicka på följande länk:"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
@@ -2017,6 +2022,7 @@ sv:
   mail_subject_account_activation_request: "%{value}} kontoaktiveringsbegäran"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ditt %{value} lösenord"
   mail_subject_register: "Din %{value} kontoaktivering"
   mail_subject_reminder: "%{count} arbetspaket förfaller inom de %{days} dagarna"
@@ -2381,7 +2387,7 @@ sv:
   setting_smtp_authentication: "SMTP-autentisering"
   setting_smtp_user_name: "SMTP-användarnamn"
   setting_smtp_password: "SMTP-lösenord"
-  setting_smtp_domain: "SMTP HELLO-domän"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Dagar som visas i projektaktivitet"
   setting_app_subtitle: "Undertitel för applikation"
   setting_app_title: "Programnamn"
@@ -3015,4 +3021,45 @@ sv:
     authorization_error: "Ett auktoriseringsfel har inträffat."
     revoke_my_application_confirmation: "Vill du verkligen ta bort denna applikation? Detta kommer att återkalla %{token_count} aktiv för den."
     my_registered_applications: "Registrerade OAuth applikationer"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
   you: you

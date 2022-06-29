@@ -34,10 +34,8 @@ module Queries::Filters::Shared::ProjectFilter
 
   module InstanceMethods
     def allowed_values
-      @allowed_values ||= begin
-        # We don't care for the first value as we do not display the values visibly
-        ::Project.visible.pluck(:id).map { |id| [id, id.to_s] }
-      end
+      # We don't care for the first value as we do not display the values visibly
+      @allowed_values ||= ::Project.visible.pluck(:id).map { |id| [id, id.to_s] }
     end
 
     def type

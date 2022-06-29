@@ -31,7 +31,7 @@ require_relative './board_page'
 
 module Pages
   class Board < Page
-    include ::Components::NgSelectAutocompleteHelpers
+    include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
     def initialize(board)
       super()
@@ -67,8 +67,8 @@ module Pages
       page.all('[data-qa-selector="op-board-list"]').count
     end
 
-    def within_list(name, &block)
-      page.within(list_selector(name), &block)
+    def within_list(name, &)
+      page.within(list_selector(name), &)
     end
 
     def list_selector(name)

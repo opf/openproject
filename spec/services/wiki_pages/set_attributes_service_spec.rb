@@ -49,9 +49,9 @@ describe WikiPages::SetAttributesService, type: :model do
   end
   let(:wiki_page_valid) { true }
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: wiki_page,
-                        contract_class: contract_class)
+                        contract_class:)
   end
   let(:call_attributes) { {} }
   let(:wiki_page) do

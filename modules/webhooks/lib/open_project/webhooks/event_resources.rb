@@ -11,7 +11,7 @@ module OpenProject::Webhooks
       # Return a complete mapping of all resource modules
       # in the form { label => { event1: label , event2: label } }
       def available_events_map
-        Hash[resource_modules.map { |m| [m.resource_name, m.available_events_map] }]
+        resource_modules.map { |m| [m.resource_name, m.available_events_map] }.to_h
       end
 
       ##
@@ -22,13 +22,11 @@ module OpenProject::Webhooks
       end
 
       def resource_modules
-        @resource_modules ||= begin
-          resources.map do |name|
-            require_relative "./event_resources/#{name}"
-            "OpenProject::Webhooks::EventResources::#{name.to_s.camelize}".constantize
-          rescue LoadError, NameError => e
-            raise ArgumentError, "Failed to initialize resources module for #{name}: #{e}"
-          end
+        @resource_modules ||= resources.map do |name|
+          require_relative "./event_resources/#{name}"
+          "OpenProject::Webhooks::EventResources::#{name.to_s.camelize}".constantize
+        rescue LoadError, NameError => e
+          raise ArgumentError, "Failed to initialize resources module for #{name}: #{e}"
         end
       end
 

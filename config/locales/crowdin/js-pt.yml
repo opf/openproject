@@ -350,6 +350,7 @@ pt:
     label_expand_project_menu: "Expandir menu do projeto"
     label_export: "Exportar"
     label_export_preparing: "A exportação está sendo preparada e será baixada em breve."
+    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Arquivo"
     label_filesize: "Tamanho"
     label_general: "Geral"
@@ -372,7 +373,9 @@ pt:
     label_learn_more_link: "Saiba mais"
     label_less_or_equal: "<="
     label_less_than_ago: "menos do que dias atrás"
+    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Carregando..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Notificações por e-mail"
     label_me: "eu"
     label_meeting_agenda: "Agenda"
@@ -385,18 +388,25 @@ pt:
     label_no_data: "Sem dados para exibir"
     label_no_due_date: "sem data de conclusão"
     label_no_start_date: "nenhuma data de início"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Nenhum valor"
+    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "nenhum"
     label_not_contains: "não contém"
     label_not_equals: "não é"
     label_on: "ligado"
     label_open_menu: "Abrir menu"
     label_open_context_menu: "Abrir menu de contexto"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "aberto"
+    label_open_file_link: 'Open file on storage'
+    label_open_file_link_location: 'Open file in location'
     label_password: "Senha"
     label_previous: "Anterior"
     label_per_page: "Por página:"
     label_please_wait: "Por favor, aguarde"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projetos"
     label_visibility_settings: "Configurações de visibilidade"
     label_quote_comment: "Citar este comentário"
@@ -405,10 +415,12 @@ pt:
     label_remove: "Remover"
     label_remove_column: "Remover coluna"
     label_remove_columns: "Remover colunas selecionadas"
+    label_remove_file_link: "Remove file link"
     label_remove_row: "Remover linha"
     label_report: "Relatório"
     label_repository_plural: "Repositórios"
     label_save_as: "Salvar como"
+    label_select_project: "Select a project"
     label_select_watcher: "Selecione um observador..."
     label_selected_filter_list: "Filtros selecionados"
     label_show_attributes: "Mostrar todos os atributos"
@@ -420,6 +432,9 @@ pt:
     label_sorting: "Ordenação"
     label_spent_time: "Tempo gasto"
     label_star_query: "Favorecido"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Pressione enter para salvar."
     label_public_query: "Público"
     label_sum: "Soma"
@@ -456,6 +471,7 @@ pt:
     label_custom_queries: "Visões privadas"
     label_columns: "Colunas"
     label_attachments: Anexos
+    label_nextcloud: Nextcloud
     label_drop_files: Solte os arquivos aqui
     label_drop_files_hint: ou clique para adicionar arquivos
     label_drop_folders_hint: Você não pode enviar pastas como anexo. Por favor, selecione arquivos individuais.
@@ -834,6 +850,13 @@ pt:
       comment_send_failed: "Ocorreu um erro. Não foi possível enviar o comentário."
       comment_updated: "O comentário foi atualizado com sucesso."
       confirm_edit_cancel: "Tem certeza que deseja cancelar a edição do pacote de trabalho?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtro"
       description_enter_text: "Inserir texto"
       description_options_hide: "Ocultar opções"
@@ -1187,3 +1210,5 @@ pt:
         remove: 'Remover'
       drop_modal:
         Close: 'Fechar'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

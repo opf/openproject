@@ -42,7 +42,7 @@ describe OpenProject::Acts::Watchable::Routes do
       describe 'for a valid id string' do
         let(:id) { '1' }
 
-        it 'should be true' do
+        it 'is true' do
           expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_truthy
         end
       end
@@ -50,7 +50,7 @@ describe OpenProject::Acts::Watchable::Routes do
       describe 'for an invalid id string' do
         let(:id) { 'schmu' }
 
-        it 'should be false' do
+        it 'is false' do
           expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_falsey
         end
       end
@@ -60,7 +60,7 @@ describe OpenProject::Acts::Watchable::Routes do
       describe "routing #{type} watches" do
         let(:type) { type }
 
-        it_should_behave_like 'watched model'
+        it_behaves_like 'watched model'
       end
     end
 
@@ -68,7 +68,7 @@ describe OpenProject::Acts::Watchable::Routes do
       let(:type) { 'schmu' }
       let(:id) { '4' }
 
-      it 'should be false' do
+      it 'is false' do
         expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_falsey
       end
     end

@@ -28,8 +28,8 @@
 
 class Category < ApplicationRecord
   belongs_to :project
-  belongs_to :assigned_to, class_name: 'Principal', foreign_key: 'assigned_to_id'
-  has_many :work_packages, foreign_key: 'category_id', dependent: :nullify
+  belongs_to :assigned_to, class_name: 'Principal'
+  has_many :work_packages, dependent: :nullify
 
   validates :name,
             uniqueness: { scope: [:project_id], case_sensitive: false },

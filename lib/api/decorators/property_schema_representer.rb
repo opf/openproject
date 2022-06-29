@@ -48,7 +48,7 @@ module API
         @description = description
         @deprecated = deprecated
 
-        super(nil, current_user: current_user)
+        super(nil, current_user:)
       end
 
       attr_accessor :type,
@@ -85,6 +85,7 @@ module API
                            setter: nil,
                            getter: ->(*) do
                              next unless description.present?
+
                              ::API::Decorators::Formattable.new(description)
                            end
 

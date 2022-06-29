@@ -270,4 +270,3 @@ class UserMailer < ApplicationMailer
                          'Type' => 'Forum'
   end
 end
-

@@ -32,8 +32,8 @@ describe HourlyRate, type: :model do
   let(:project) { create(:project) }
   let(:user) { create(:user) }
   let(:rate) do
-    build(:hourly_rate, project: project,
-                                   user: user)
+    build(:hourly_rate, project:,
+                        user:)
   end
 
   describe '#user' do

@@ -30,7 +30,7 @@ require_relative '../legacy_spec_helper'
 describe Version, type: :model do
   fixtures :all
 
-  it 'should create' do
+  it 'creates' do
     (v = Version.new.tap do |v|
       v.attributes = { project: Project.find(1), name: '1.1', effective_date: '2011-03-25' }
     end)
@@ -38,20 +38,20 @@ describe Version, type: :model do
     assert_equal 'open', v.status
   end
 
-  it 'should invalid effective date validation' do
+  it 'invalids effective date validation' do
     (v = Version.new.tap do |v|
       v.attributes = { project: Project.find(1), name: '1.1', effective_date: '99999-01-01' }
     end)
     assert !v.save
-    assert_includes v.errors[:effective_date], I18n.translate('activerecord.errors.messages.not_a_date')
+    assert_includes v.errors[:effective_date], I18n.t('activerecord.errors.messages.not_a_date')
   end
 
-  context '#start_date' do
+  describe '#start_date' do
     context 'with a value saved' do
-      it 'should be the value' do
+      it 'is the value' do
         project = Project.find(1)
         (v = Version.new.tap do |v|
-          v.attributes = { project: project, name: 'Progress', start_date: '2010-01-05' }
+          v.attributes = { project:, name: 'Progress', start_date: '2010-01-05' }
         end).save!
 
         add_work_package(v, estimated_hours: 10, start_date: '2010-03-01')
@@ -61,19 +61,19 @@ describe Version, type: :model do
     end
   end
 
-  it 'should progress should be 0 with no assigned issues' do
+  it 'progresses should be 0 with no assigned issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
-      v.attributes = { project: project, name: 'Progress' }
+      v.attributes = { project:, name: 'Progress' }
     end).save!
     assert_equal 0, v.completed_percent
     assert_equal 0, v.closed_percent
   end
 
-  it 'should progress should be 0 with unbegun assigned issues' do
+  it 'progresses should be 0 with unbegun assigned issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
-      v.attributes = { project: project, name: 'Progress' }
+      v.attributes = { project:, name: 'Progress' }
     end).save!
     add_work_package(v)
     add_work_package(v, done_ratio: 0)
@@ -81,24 +81,24 @@ describe Version, type: :model do
     assert_progress_equal 0, v.closed_percent
   end
 
-  it 'should progress should be 100 with closed assigned issues' do
+  it 'progresses should be 100 with closed assigned issues' do
     project = Project.find(1)
     status = Status.where(is_closed: true).first
     (v = Version.new.tap do |v|
-      v.attributes = { project: project, name: 'Progress' }
+      v.attributes = { project:, name: 'Progress' }
     end).save!
-    add_work_package(v, status: status)
-    add_work_package(v, status: status, done_ratio: 20)
-    add_work_package(v, status: status, done_ratio: 70, estimated_hours: 25)
-    add_work_package(v, status: status, estimated_hours: 15)
+    add_work_package(v, status:)
+    add_work_package(v, status:, done_ratio: 20)
+    add_work_package(v, status:, done_ratio: 70, estimated_hours: 25)
+    add_work_package(v, status:, estimated_hours: 15)
     assert_progress_equal 100.0, v.completed_percent
     assert_progress_equal 100.0, v.closed_percent
   end
 
-  it 'should progress should consider done ratio of open assigned issues' do
+  it 'progresses should consider done ratio of open assigned issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
-      v.attributes = { project: project, name: 'Progress' }
+      v.attributes = { project:, name: 'Progress' }
     end).save!
     add_work_package(v)
     add_work_package(v, done_ratio: 20)
@@ -107,10 +107,10 @@ describe Version, type: :model do
     assert_progress_equal 0, v.closed_percent
   end
 
-  it 'should progress should consider closed issues as completed' do
+  it 'progresses should consider closed issues as completed' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
-      v.attributes = { project: project, name: 'Progress' }
+      v.attributes = { project:, name: 'Progress' }
     end).save!
     add_work_package(v)
     add_work_package(v, done_ratio: 20)
@@ -119,55 +119,55 @@ describe Version, type: :model do
     assert_progress_equal 100.0 / 3, v.closed_percent
   end
 
-  it 'should progress should consider estimated hours to weight issues' do
+  it 'progresses should consider estimated hours to weight issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
-      v.attributes = { project: project, name: 'Progress' }
+      v.attributes = { project:, name: 'Progress' }
     end).save!
     add_work_package(v, estimated_hours: 10)
     add_work_package(v, estimated_hours: 20, done_ratio: 30)
     add_work_package(v, estimated_hours: 40, done_ratio: 10)
     add_work_package(v, estimated_hours: 25, status: Status.where(is_closed: true).first)
-    assert_progress_equal (10.0 * 0 + 20.0 * 0.3 + 40 * 0.1 + 25.0 * 1) / 95.0 * 100, v.completed_percent
+    assert_progress_equal ((10.0 * 0) + (20.0 * 0.3) + (40 * 0.1) + (25.0 * 1)) / 95.0 * 100, v.completed_percent
     assert_progress_equal 25.0 / 95.0 * 100, v.closed_percent
   end
 
-  it 'should progress should consider average estimated hours to weight unestimated issues' do
+  it 'progresses should consider average estimated hours to weight unestimated issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
-      v.attributes = { project: project, name: 'Progress' }
+      v.attributes = { project:, name: 'Progress' }
     end).save!
     add_work_package(v, done_ratio: 20)
     add_work_package(v, status: Status.where(is_closed: true).first)
     add_work_package(v, estimated_hours: 10, done_ratio: 30)
     add_work_package(v, estimated_hours: 40, done_ratio: 10)
-    assert_progress_equal (25.0 * 0.2 + 25.0 * 1 + 10.0 * 0.3 + 40.0 * 0.1) / 100.0 * 100, v.completed_percent
+    assert_progress_equal ((25.0 * 0.2) + (25.0 * 1) + (10.0 * 0.3) + (40.0 * 0.1)) / 100.0 * 100, v.completed_percent
     assert_progress_equal 25.0 / 100.0 * 100, v.closed_percent
   end
 
-  context '#estimated_hours' do
+  describe '#estimated_hours' do
     before do
       (@version = Version.new.tap do |v|
         v.attributes = { project_id: 1, name: '#estimated_hours' }
       end).save!
     end
 
-    it 'should return 0 with no assigned issues' do
+    it 'returns 0 with no assigned issues' do
       assert_equal 0, @version.estimated_hours
     end
 
-    it 'should return 0 with no estimated hours' do
+    it 'returns 0 with no estimated hours' do
       add_work_package(@version)
       assert_equal 0, @version.estimated_hours
     end
 
-    it 'should return the sum of estimated hours' do
+    it 'returns the sum of estimated hours' do
       add_work_package(@version, estimated_hours: 2.5)
       add_work_package(@version, estimated_hours: 5)
       assert_equal 7.5, @version.estimated_hours
     end
 
-    it 'should return the sum of leaves estimated hours' do
+    it 'returns the sum of leaves estimated hours' do
       parent = add_work_package(@version)
       add_work_package(@version, estimated_hours: 2.5, parent_id: parent.id)
       add_work_package(@version, estimated_hours: 5, parent_id: parent.id)
@@ -181,7 +181,7 @@ describe Version, type: :model do
     WorkPackage.create!({ project: version.project,
                           priority_id: 5,
                           status_id: 1,
-                          version: version,
+                          version:,
                           subject: 'Test',
                           author: User.first,
                           type: version.project.types.first }.merge(attributes))

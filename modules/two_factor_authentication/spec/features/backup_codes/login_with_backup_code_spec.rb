@@ -13,7 +13,7 @@ describe 'Login with 2FA backup code', with_2fa_ee: true, type: :feature,
            password: user_password,
            password_confirmation: user_password)
   end
-  let!(:device) { create :two_factor_authentication_device_sms, user: user, active: true, default: true }
+  let!(:device) { create :two_factor_authentication_device_sms, user:, active: true, default: true }
 
   context 'when user has no backup code' do
     it 'does not show the backup code link' do

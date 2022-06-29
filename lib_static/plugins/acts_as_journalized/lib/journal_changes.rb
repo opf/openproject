@@ -115,9 +115,9 @@ module JournalChanges
   def merge_reference_journals_by_id(new_journals, old_journals, id_key, value)
     all_associated_journal_ids = new_journals.map { |j| j[id_key] } | old_journals.map { |j| j[id_key] }
 
-    all_associated_journal_ids.each_with_object({}) do |id, result|
-      result[id] = [select_and_combine_journals(old_journals, id, id_key, value),
-                    select_and_combine_journals(new_journals, id, id_key, value)]
+    all_associated_journal_ids.index_with do |id|
+      [select_and_combine_journals(old_journals, id, id_key, value),
+       select_and_combine_journals(new_journals, id, id_key, value)]
     end
   end
 

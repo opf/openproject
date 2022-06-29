@@ -5,8 +5,8 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird, wit
   let(:channel) { :sms }
   let(:locale) { 'en' }
   let(:user) { create :user, language: locale }
-  let(:device) { create :two_factor_authentication_device_sms, user: user, channel: channel }
-  let(:strategy) { described_class.new user: user, device: device, channel: channel }
+  let(:device) { create :two_factor_authentication_device_sms, user:, channel: }
+  let(:strategy) { described_class.new user:, device:, channel: }
 
   before do
     allow(strategy).to receive(:token).and_return '1234'

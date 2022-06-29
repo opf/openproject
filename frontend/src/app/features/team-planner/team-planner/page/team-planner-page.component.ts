@@ -24,6 +24,7 @@ import {
 import { teamPlannerEventAdded } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 
 @EffectHandler
@@ -35,6 +36,7 @@ import { OpCalendarService } from 'core-app/features/calendar/op-calendar.servic
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     QueryParamListenerService,
+    OpWorkPackagesCalendarService,
     OpCalendarService,
     CalendarDragDropService,
   ],

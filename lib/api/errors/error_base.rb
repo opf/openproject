@@ -105,7 +105,7 @@ module API
         @message = message
         @errors = []
 
-        super message: message
+        super message:
       end
     end
   end

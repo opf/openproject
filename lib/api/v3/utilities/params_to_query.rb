@@ -68,7 +68,7 @@ module API
 
             representer.new(scope,
                             self_link: link,
-                            current_user: current_user)
+                            current_user:)
           end
 
           def paths

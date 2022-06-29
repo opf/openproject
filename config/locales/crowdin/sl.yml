@@ -522,18 +522,20 @@ sl:
         duration: "Duration"
         end_insertion: "Konec vstavitve"
         end_deletion: "Konec izbrisa"
-        version: "Različica"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Nadrejeni"
         parent_issue: "Nadrejeni"
         parent_work_package: "Nadrejeni"
         priority: "Prioriteta"
         progress: "Napredek (%)"
+        readonly: "Read only"
         schedule_manually: "Ročno razvrščanje."
         spent_hours: "Porabljen čas"
         spent_time: "Porabljen čas"
         subproject: "Podprojekt"
         time_entries: "Beleži čas"
         type: "Vrsta"
+        version: "Različica"
         watcher: "Opazovalec"
       'doorkeeper/application':
         uid: "ID odjemalca"
@@ -737,6 +739,7 @@ sl:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "ne more biti mejnik."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1491,7 +1494,6 @@ sl:
   label_consent_settings: "Soglasje uporabnika"
   label_wiki_menu_item: Element menija Wiki
   label_select_main_menu_item: Izberite nov element v glavnem meniju
-  label_select_project: "Izberi projekt"
   label_required_disk_storage: "Potrebna kapaciteta diska"
   label_send_invitation: Pošlji povabilo
   label_change_plural: "Spremembe"
@@ -1557,6 +1559,7 @@ sl:
   label_diff: "Razlikovanje"
   label_diff_inline: "znotraj"
   label_diff_side_by_side: "vzporedno"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "Onemogočeno"
   label_display: "Prikaz"
   label_display_per_page: "Na stran: %{value}"
@@ -1769,7 +1772,6 @@ sl:
   label_product_version: "Različica izdelka"
   label_professional_support: "Strokovna podpora"
   label_profile: "Profil"
-  label_project_all: "Vsi projekti"
   label_project_count: "Skupno število projektov"
   label_project_copy_notifications: "Med kopijo projekta pošljite obvestila po e-pošti"
   label_project_latest: "Zadnji projekti"
@@ -2033,6 +2035,9 @@ sl:
   mail_body_backup_token_info: Prejšnji žeton ni več veljaven.
   mail_body_backup_waiting_period: Novi žeton bo omogočen v %{hours} urah.
   mail_body_backup_token_warning: Če to niste bili vi, se takoj prijavite v OpenProject in ponovno ponastavite.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Za spremembo glesla kliknite na naslednjo povezavo:"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-pošta člana projekta za vabilo"
@@ -2051,6 +2056,7 @@ sl:
   mail_subject_account_activation_request: "%{value} zahtevek za aktivacijo računa"
   mail_subject_backup_ready: "Vaša varnostna kopija je pripravljena"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Vaše %{value} geslo"
   mail_subject_register: "Aktivacija %{value} vašega računa"
   mail_subject_reminder: "%{count} zahtevek(zahtevki) zapadejo v naslednjih %{days} dneh"
@@ -2418,7 +2424,7 @@ sl:
   setting_smtp_authentication: "SMTP avtentikacija"
   setting_smtp_user_name: "SMTP uporabniško ime"
   setting_smtp_password: "SMTP geslo"
-  setting_smtp_domain: "SMTP HELLO domena"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Dnevi prikazani na aktivnosti projekta"
   setting_app_subtitle: "Podnaslov aplikacije"
   setting_app_title: "Naslov aplikacije"
@@ -3061,4 +3067,45 @@ sl:
     authorization_error: "Prišlo je do napake v avtorizaciji."
     revoke_my_application_confirmation: "Ali res želite odstraniti to aplikacijo? To bo preklicalo %{token_count} aktivno."
     my_registered_applications: "Registrirane aplikacije OAuth"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
   you: vi

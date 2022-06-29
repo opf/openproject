@@ -46,6 +46,7 @@ describe 'API v3 Status resource' do
   describe 'statuses' do
     describe '#get' do
       let(:get_path) { api_v3_paths.statuses }
+
       subject(:response) { last_response }
 
       context 'logged in user' do

@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe I18n, 'pluralization', type: :helper do
-
   describe 'with slowenian language and the :two plural key missing' do
     before do
       I18n.locale = :sl
@@ -40,7 +39,7 @@ describe I18n, 'pluralization', type: :helper do
       allow(I18n.backend)
         .to(receive(:lookup))
         .with(:sl, :label_x_projects, any_args)
-        .and_return({one: "1 projekt", other: "%{count} projektov", zero: "Brez projektov"})
+        .and_return({ one: "1 projekt", other: "%{count} projektov", zero: "Brez projektov" })
     end
 
     it 'allows to pluralize without exceptions (Regression #37607)', :aggregate_failures do
@@ -62,7 +61,7 @@ describe I18n, 'pluralization', type: :helper do
       allow(I18n.backend)
         .to(receive(:lookup))
         .with(:sl, :label_x_projects, any_args)
-        .and_return({one: "1 projekt", zero: "Brez projektov"})
+        .and_return({ one: "1 projekt", zero: "Brez projektov" })
     end
 
     it 'falls back to english translation (Regression #37607)', :aggregate_failures do

@@ -100,7 +100,7 @@ describe Users::RegisterUserService do
         # Assuming the next returns a result
         expect(instance)
           .to(receive(:ensure_user_limit_not_reached!))
-          .and_return(ServiceResult.new(success: false, result: user, message: 'test stop'))
+          .and_return(ServiceResult.failure(result: user, message: 'test stop'))
 
         expect(user).not_to receive(:activate)
         expect(user).not_to receive(:save)
@@ -137,7 +137,7 @@ describe Users::RegisterUserService do
         # Assuming the next returns a result
         expect(instance)
           .to(receive(:register_by_email_activation))
-          .and_return(ServiceResult.new(success: false, result: user, message: 'test stop'))
+          .and_return(ServiceResult.failure(result: user, message: 'test stop'))
 
         call = instance.call
         expect(call.result).to eq user
@@ -156,7 +156,7 @@ describe Users::RegisterUserService do
       expect(user).to receive(:register)
       expect(user).to receive(:save).and_return true
       expect(UserMailer).to receive_message_chain(:user_signed_up, :deliver_later)
-      expect(Token::Invitation).to receive(:create!).with(user: user)
+      expect(Token::Invitation).to receive(:create!).with(user:)
 
       call = instance.call
 
@@ -173,7 +173,7 @@ describe Users::RegisterUserService do
         # Assuming the next returns a result
         expect(instance)
           .to(receive(:register_automatically))
-          .and_return(ServiceResult.new(success: false, result: user, message: 'test stop'))
+          .and_return(ServiceResult.failure(result: user, message: 'test stop'))
 
         expect(user).not_to receive(:activate)
         expect(user).not_to receive(:save)
@@ -211,7 +211,7 @@ describe Users::RegisterUserService do
       # Assuming the next returns a result
       expect(instance)
         .to(receive(:register_manually))
-        .and_return(ServiceResult.new(success: false, result: user, message: 'test stop'))
+        .and_return(ServiceResult.failure(result: user, message: 'test stop'))
 
       expect(user).not_to receive(:activate)
       expect(user).not_to receive(:save)

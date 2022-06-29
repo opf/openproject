@@ -44,7 +44,7 @@ describe CustomActions::UpdateService do
   let(:contract_errors) { double('contract errors') }
   let(:instance) do
     contract
-    described_class.new(action: action, user: user)
+    described_class.new(action:, user:)
   end
   let(:contract) do
     contract_instance = double('contract instance')

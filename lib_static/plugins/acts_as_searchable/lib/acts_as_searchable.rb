@@ -117,7 +117,7 @@ module Redmine
             sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(' AND ')
 
             if tsv_clauses.present?
-              sql << ' OR ' + tsv_clauses.join(' OR ')
+              sql << (' OR ' + tsv_clauses.join(' OR '))
             end
 
             find_conditions = [sql, *(tokens.map { |w| "%#{w.downcase}%" } * token_clauses.size).sort]

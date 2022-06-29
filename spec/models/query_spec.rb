@@ -87,17 +87,17 @@ describe Query, type: :model do
   describe 'hidden' do
     context 'with a view' do
       before do
-        create(:view_work_packages_table, query: query)
+        create(:view_work_packages_table, query:)
       end
 
       it 'is false' do
-        expect(query.hidden).to eq(false)
+        expect(query.hidden).to be(false)
       end
     end
 
     context 'without a view' do
       it 'is true' do
-        expect(query.hidden).to eq(true)
+        expect(query.hidden).to be(true)
       end
     end
   end
@@ -510,6 +510,7 @@ describe Query, type: :model do
 
       context 'for an unavailable filter' do
         let(:values) { [valid_status.id.to_s] }
+
         before do
           query.add_filter('cf_0815', '=', ['1'])
 
@@ -654,7 +655,7 @@ describe Query, type: :model do
       subject { query.filter_for('status_id') }
 
       it 'exists' do
-        is_expected.to_not be_nil
+        expect(subject).not_to be_nil
       end
 
       it 'has the context set' do
@@ -689,7 +690,7 @@ describe Query, type: :model do
 
     shared_examples_for 'adds a subproject id filter' do |operator|
       it "does not add a visible subproject filter" do
-        expect(detect_subproject_filter(query.filters)).to eq nil
+        expect(detect_subproject_filter(query.filters)).to be_nil
       end
 
       it "adds a #{operator} subproject_id filter to the statement" do

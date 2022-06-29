@@ -16,7 +16,6 @@ class MoveBaseDnIntoFilters < ActiveRecord::Migration[6.1]
                null: false,
                default: false
 
-
     LdapGroups::SynchronizedFilter.reset_column_information
     LdapGroups::SynchronizedGroup.reset_column_information
 

@@ -97,13 +97,13 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) do
                    represented.notification_settings.map do |setting|
-                     NotificationSettingRepresenter.new(setting, current_user: current_user)
+                     NotificationSettingRepresenter.new(setting, current_user:)
                    end
                  end,
                  setter: ->(fragment:, **) do
                    represented.notification_settings = fragment.map do |setting_fragment|
                      NotificationSettingRepresenter
-                       .new(OpenStruct.new, current_user: current_user)
+                       .new(OpenStruct.new, current_user:)
                        .from_hash(setting_fragment.with_indifferent_access)
                        .to_h
                    end

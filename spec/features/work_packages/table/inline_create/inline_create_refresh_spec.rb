@@ -9,7 +9,7 @@ describe 'Refreshing in inline-create row', flaky: true, js: true do
   let(:columns) { ::Components::WorkPackages::Columns.new }
 
   let!(:query) do
-    query              = build(:query, user: user, project: project)
+    query              = build(:query, user:, project:)
     query.column_names = ['subject', 'category']
     query.filters.clear
 

@@ -38,7 +38,7 @@ class Report::SqlStatement
 
     def to_s
       "((\n#{first.gsub("\n", "\n\t")}\n) UNION (\n" \
-      "#{second.gsub("\n", "\n\t")}\n))#{" AS #{as}" if as}\n"
+        "#{second.gsub("\n", "\n\t")}\n))#{" AS #{as}" if as}\n"
     end
 
     def each_subselect
@@ -46,8 +46,8 @@ class Report::SqlStatement
       yield second
     end
 
-    def gsub(*args, &block)
-      to_s.gsub(*args, &block)
+    def gsub(*args, &)
+      to_s.gsub(*args, &)
     end
   end
 
@@ -106,11 +106,11 @@ class Report::SqlStatement
     # FIXME I'm ugly
     @sql ||= begin
       sql = "\n-- BEGIN #{desc}\n" \
-      "-- DB: #{ActiveRecord::Base.connection.current_database}\n" \
-      "SELECT\n#{select.map { |e| "\t#{e}" }.join ",\n"}" \
-      "\nFROM\n\t#{from.gsub("\n", "\n\t")}" \
-      "\n\t#{joins.map { |e| e.gsub("\n", "\n\t") }.join "\n\t"}" \
-      "\nWHERE #{where.join ' AND '}\n"
+            "-- DB: #{ActiveRecord::Base.connection.current_database}\n" \
+            "SELECT\n#{select.map { |e| "\t#{e}" }.join ",\n"}" \
+            "\nFROM\n\t#{from.gsub("\n", "\n\t")}" \
+            "\n\t#{joins.map { |e| e.gsub("\n", "\n\t") }.join "\n\t"}" \
+            "\nWHERE #{where.join ' AND '}\n"
       sql << "GROUP BY #{group_by.join ', '}\nORDER BY #{group_by.join ', '}\n" if group_by?
       sql << "-- END #{desc}\n"
       sql # << " LIMIT 100"
@@ -296,7 +296,7 @@ class Report::SqlStatement
     "#<SqlStatement: #{to_s.inspect}>"
   end
 
-  def gsub(*args, &block)
-    to_s.gsub(*args, &block)
+  def gsub(*args, &)
+    to_s.gsub(*args, &)
   end
 end
