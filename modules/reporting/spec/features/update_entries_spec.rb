@@ -33,13 +33,13 @@ require_relative 'support/components/cost_reports_base_table'
 describe 'Updating entries within the cost report', type: :feature, js: true do
   let(:project) { create :project }
   let(:user) { create :admin, member_in_project: project, member_with_permissions: %i[work_package_assigned] }
-  let(:work_package) { create :work_package, project: project }
+  let(:work_package) { create :work_package, project: }
 
   let!(:time_entry_user) do
     create :time_entry,
-           user: user,
-           work_package: work_package,
-           project: project,
+           user:,
+           work_package:,
+           project:,
            hours: 5
   end
 
@@ -51,11 +51,11 @@ describe 'Updating entries within the cost report', type: :feature, js: true do
 
   let!(:cost_entry_user) do
     create :cost_entry,
-           work_package: work_package,
-           project: project,
+           work_package:,
+           project:,
            units: 3.00,
-           cost_type: cost_type,
-           user: user
+           cost_type:,
+           user:
   end
 
   let(:report_page) { ::Pages::CostReportPage.new project }

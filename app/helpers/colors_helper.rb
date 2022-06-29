@@ -61,7 +61,7 @@ module ColorsHelper
   def colored_text(color)
     background = color.contrasting_color(dark_color: '#333', light_color: 'transparent')
     style = "background-color: #{background}; color: #{color.hexcode}"
-    content_tag(:span, color.hexcode, class: 'color--text-preview', style: style)
+    content_tag(:span, color.hexcode, class: 'color--text-preview', style:)
   end
 
   #

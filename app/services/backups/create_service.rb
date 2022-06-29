@@ -29,7 +29,7 @@
 module Backups
   class CreateService < ::BaseServices::Create
     def initialize(user:, backup_token:, include_attachments: true, contract_class: ::Backups::CreateContract)
-      super user: user, contract_class: contract_class, contract_options: { backup_token: backup_token }
+      super user: user, contract_class: contract_class, contract_options: { backup_token: }
 
       @include_attachments = include_attachments
     end
@@ -42,7 +42,7 @@ module Backups
       if call.success?
         BackupJob.perform_later(
           backup: call.result,
-          user: user,
+          user:,
           include_attachments: include_attachments?
         )
       end

@@ -101,6 +101,7 @@ shared_examples_for 'work package contract' do
 
     context 'if the responsible user is a possible responsible' do
       let(:possible_assignees) { [other_user] }
+
       it_behaves_like 'has no error on', :responsible
     end
 

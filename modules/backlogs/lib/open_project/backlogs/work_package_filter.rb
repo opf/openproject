@@ -32,10 +32,10 @@ require 'task'
 module OpenProject::Backlogs
   class WorkPackageFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
     def allowed_values
-      [[I18n.t(:story, scope: [:backlogs]), 'story'],
-       [I18n.t(:task, scope: [:backlogs]), 'task'],
-       [I18n.t(:impediment, scope: [:backlogs]), 'impediment'],
-       [I18n.t(:any, scope: [:backlogs]), 'any']]
+      [[I18n.t('backlogs.story'), 'story'],
+       [I18n.t('backlogs.task'), 'task'],
+       [I18n.t('backlogs.impediment'), 'impediment'],
+       [I18n.t('backlogs.any'), 'any']]
     end
 
     def available?

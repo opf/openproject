@@ -31,15 +31,15 @@ require 'spec_helper'
 describe Query, "manual sorting ", type: :model do
   shared_let(:user) { create :admin }
   shared_let(:project) { create :project }
-  shared_let(:query) { create :query, user: user, project: project }
+  shared_let(:query) { create :query, user:, project: }
   shared_let(:wp_1) do
     User.execute_as user do
-      create :work_package, project: project
+      create :work_package, project:
     end
   end
   shared_let(:wp_2) do
     User.execute_as user do
-      create :work_package, project: project
+      create :work_package, project:
     end
   end
 
@@ -57,7 +57,7 @@ describe Query, "manual sorting ", type: :model do
       query.ordered_work_packages.build(work_package_id: wp_2.id, position: 1)
 
       expect(::OrderedWorkPackage.where(query_id: query.id).count).to eq 0
-      expect(query.save).to eq true
+      expect(query.save).to be true
       expect(::OrderedWorkPackage.where(query_id: query.id).count).to eq 2
 
       query.reload
@@ -66,11 +66,11 @@ describe Query, "manual sorting ", type: :model do
   end
 
   describe 'with a second query on the same work package' do
-    let(:query2) { create :query, user: user, project: project }
+    let(:query2) { create :query, user:, project: }
 
     before do
-      ::OrderedWorkPackage.create(query: query, work_package: wp_1, position: 0)
-      ::OrderedWorkPackage.create(query: query, work_package: wp_2, position: 1)
+      ::OrderedWorkPackage.create(query:, work_package: wp_1, position: 0)
+      ::OrderedWorkPackage.create(query:, work_package: wp_2, position: 1)
 
       ::OrderedWorkPackage.create(query: query2, work_package: wp_1, position: 4)
       ::OrderedWorkPackage.create(query: query2, work_package: wp_2, position: 3)

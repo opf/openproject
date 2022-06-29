@@ -34,12 +34,12 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
   subject(:generated) { representer.to_json }
 
   let(:project) { build_stubbed :project }
-  let(:notification_setting) { build_stubbed(:notification_setting, project: project) }
+  let(:notification_setting) { build_stubbed(:notification_setting, project:) }
 
   let(:representer) do
     described_class.create notification_setting,
-                           current_user: current_user,
-                           embed_links: embed_links
+                           current_user:,
+                           embed_links:
   end
 
   let(:embed_links) { true }

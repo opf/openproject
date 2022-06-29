@@ -1,7 +1,7 @@
 class EditField
   include Capybara::DSL
   include RSpec::Matchers
-  include ::Components::NgSelectAutocompleteHelpers
+  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
   attr_reader :selector,
               :property_name,
@@ -48,7 +48,7 @@ class EditField
   end
 
   def expect_state_text(text)
-    expect(context).to have_selector(@selector, text: text)
+    expect(context).to have_selector(@selector, text:)
   end
   alias :expect_text :expect_state_text
 
@@ -150,7 +150,7 @@ class EditField
     if select
       select_autocomplete field_container, query: query, results_selector: 'body'
     else
-      search_autocomplete field_container, query: query, results_selector: 'body'
+      search_autocomplete field_container, query:, results_selector: 'body'
     end
   end
 
@@ -238,25 +238,23 @@ class EditField
   end
 
   def field_type
-    @field_type ||= begin
-      case property_name.to_s
-      when 'version'
-        'version-autocompleter'
-      when 'assignee',
+    @field_type ||= case property_name.to_s
+                    when 'version'
+                      'version-autocompleter'
+                    when 'assignee',
            'responsible',
            'priority',
            'status',
            'type',
            'category',
            'workPackage'
-        'create-autocompleter'
-      when 'project'
-        'op-autocompleter'
-      when 'activity'
-        'activity-autocompleter'
-      else
-        :input
-      end.to_s
-    end
+                      'create-autocompleter'
+                    when 'project'
+                      'op-autocompleter'
+                    when 'activity'
+                      'activity-autocompleter'
+                    else
+                      :input
+                    end.to_s
   end
 end

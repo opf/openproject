@@ -78,7 +78,7 @@ class Activities::MessageActivityProvider < Activities::BaseActivityProvider
   end
 
   def url_helper_parameter(event)
-    is_reply = !event['parent_id'].blank?
+    is_reply = event['parent_id'].present?
 
     if is_reply
       { id: event['parent_id'], r: event['journable_id'], anchor: "message-#{event['journable_id']}" }

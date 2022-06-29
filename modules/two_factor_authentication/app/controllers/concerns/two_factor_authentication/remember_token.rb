@@ -40,7 +40,7 @@ module ::TwoFactorAuthentication
       cookies.delete remember_cookie_name
 
       ::TwoFactorAuthentication::RememberedAuthToken
-          .where(user: user)
+          .where(user:)
           .delete_all
     end
 
@@ -56,7 +56,7 @@ module ::TwoFactorAuthentication
 
       ::TwoFactorAuthentication::RememberedAuthToken
         .not_expired
-        .where(user: user)
+        .where(user:)
         .exists?
     end
 
@@ -77,7 +77,7 @@ module ::TwoFactorAuthentication
       return false unless value.present?
 
       ::TwoFactorAuthentication::RememberedAuthToken
-        .where(user: user)
+        .where(user:)
         .find_by_plaintext_value value
     end
 

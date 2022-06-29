@@ -34,7 +34,7 @@ module Accounts::RedirectAfterLogin
     if user.first_login
       user.update_attribute(:first_login, false)
 
-      call_hook :user_first_login, { user: user }
+      call_hook :user_first_login, { user: }
 
       first_login_redirect
     else

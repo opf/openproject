@@ -46,7 +46,7 @@ module Grids
     end
 
     def initialize(user:, source:, contract_class: ::EmptyContract)
-      super user: user, source: source, contract_class: contract_class
+      super user:, source:, contract_class:
     end
 
     protected

@@ -54,14 +54,14 @@ describe CustomOption, type: :model do
   describe '.destroy' do
     context 'with more than one option for the cf' do
       before do
-        create(:custom_option, custom_field: custom_field)
+        create(:custom_option, custom_field:)
       end
 
       it 'removes the option' do
         custom_option.destroy
 
         expect(CustomOption.where(id: custom_option.id).count)
-          .to eql 0
+          .to be 0
       end
 
       it "updates the custom_field's timestamp" do
@@ -84,7 +84,7 @@ describe CustomOption, type: :model do
 
       it 'does not remove the custom option' do
         expect(CustomOption.where(id: custom_option.id).count)
-          .to eql 1
+          .to be 1
       end
     end
   end

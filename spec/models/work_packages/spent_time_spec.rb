@@ -40,7 +40,7 @@ describe WorkPackage, 'spent_time', type: :model do
   end
   let(:child_work_package) do
     create(:work_package,
-           project: project,
+           project:,
            parent: work_package)
   end
   let(:child_work_package_in_other_project) do
@@ -49,18 +49,18 @@ describe WorkPackage, 'spent_time', type: :model do
   end
   let!(:time_entry) do
     create(:time_entry,
-           work_package: work_package,
-           project: project)
+           work_package:,
+           project:)
   end
   let(:time_entry2) do
     create(:time_entry,
-           work_package: work_package,
-           project: project)
+           work_package:,
+           project:)
   end
   let(:child_time_entry) do
     create(:time_entry,
            work_package: child_work_package,
-           project: project)
+           project:)
   end
   let(:child_time_entry_in_other_project) do
     create(:time_entry,
@@ -112,7 +112,7 @@ describe WorkPackage, 'spent_time', type: :model do
       it 'counts the child if that child is in a project in which the user ' +
          'has the necessary permissions' do
         create(:member,
-               user: user,
+               user:,
                project: other_project,
                roles: [role])
 
@@ -124,7 +124,7 @@ describe WorkPackage, 'spent_time', type: :model do
       it 'does not count the child if that child is in a project in which the user ' +
          'lacks the view_time_entries permission' do
         create(:member,
-               user: user,
+               user:,
                project: other_project,
                roles: [role_without_view_time_entries])
         child_time_entry_in_other_project.save!
@@ -137,7 +137,7 @@ describe WorkPackage, 'spent_time', type: :model do
       it 'does not count the child if that child is in a project in which the user ' +
          'lacks the view_work_packages permission' do
         create(:member,
-               user: user,
+               user:,
                project: other_project,
                roles: [role_without_view_work_packages])
         child_time_entry_in_other_project.save!

@@ -14,7 +14,7 @@ describe ::TwoFactorAuthentication::TokenService, with_2fa_ee: true do
 
     let(:result) { subject.request }
 
-    subject { described_class.new user: user }
+    subject { described_class.new user: }
 
     include_context 'with settings' do
       let(:settings) do
@@ -77,7 +77,7 @@ describe ::TwoFactorAuthentication::TokenService, with_2fa_ee: true do
       end
 
       context 'when matching device exists' do
-        let!(:device) { create :two_factor_authentication_device_sms, user: user, default: true }
+        let!(:device) { create :two_factor_authentication_device_sms, user:, default: true }
 
         it 'submits the request' do
           expect(subject).to be_requires_token
@@ -87,7 +87,7 @@ describe ::TwoFactorAuthentication::TokenService, with_2fa_ee: true do
       end
 
       context 'when non-matching device exists' do
-        let!(:device) { create :two_factor_authentication_device_totp, user: user, default: true }
+        let!(:device) { create :two_factor_authentication_device_totp, user:, default: true }
 
         it 'submits the request' do
           expect(subject).to be_requires_token
@@ -99,10 +99,10 @@ describe ::TwoFactorAuthentication::TokenService, with_2fa_ee: true do
 
     context 'when developer and totp strategies are set' do
       let(:active_strategies) { %i[developer totp] }
-      let!(:totp_device) { create :two_factor_authentication_device_totp, user: user, default: true }
-      let!(:sms_device) { create :two_factor_authentication_device_sms, user: user, default: false }
+      let!(:totp_device) { create :two_factor_authentication_device_totp, user:, default: true }
+      let!(:sms_device) { create :two_factor_authentication_device_sms, user:, default: false }
 
-      subject { described_class.new user: user, use_device: use_device }
+      subject { described_class.new user:, use_device: }
 
       context 'with default device/channel' do
         let(:use_device) { nil }

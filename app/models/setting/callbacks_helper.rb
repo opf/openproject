@@ -29,9 +29,9 @@
 class Setting
   module CallbacksHelper
     # register a callback for a setting named #name
-    def register_callback(name, &callback)
+    def register_callback(name, &)
       # register the block with the underlying notifications system
-      notifier.subscribe(notification_event_for(name), &callback)
+      notifier.subscribe(notification_event_for(name), &)
     end
     # register_callback is not used anymore in our code
     # it can be removed along with fire_callbacks in next major version
@@ -41,7 +41,7 @@ class Setting
     # based on the new and old setting objects different events can be triggered
     # currently, that's whenever a setting is set regardless whether the value changed
     def fire_callbacks(name, new_value, old_value)
-      notifier.send(notification_event_for(name), value: new_value, old_value: old_value)
+      notifier.send(notification_event_for(name), value: new_value, old_value:)
     end
 
     private

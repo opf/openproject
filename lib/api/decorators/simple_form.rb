@@ -66,7 +66,7 @@ module API
 
       def payload_representer
         payload_representer_class
-          .create(represented, current_user: current_user)
+          .create(represented, current_user:)
       end
 
       def schema_representer
@@ -75,7 +75,7 @@ module API
         schema_representer_class
           .create(contract,
                   form_embedded: true,
-                  current_user: current_user)
+                  current_user:)
       end
 
       def contract_class

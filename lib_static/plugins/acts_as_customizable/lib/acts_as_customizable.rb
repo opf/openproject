@@ -113,7 +113,7 @@ module Redmine
 
             if existing_cvs.empty?
               new_value = custom_values.build(customized: self,
-                                              custom_field: custom_field,
+                                              custom_field:,
                                               value: custom_field.default_value)
               existing_cvs.push new_value
             end
@@ -179,6 +179,8 @@ module Redmine
         end
 
         def ensure_custom_values_complete
+          return unless custom_values.loaded? && (custom_values.any?(&:changed?) || custom_value_destroyed)
+
           self.custom_values = custom_field_values
         end
 
@@ -343,8 +345,8 @@ module Redmine
 
         def add_custom_value(custom_field_id, value)
           new_custom_value = custom_values.build(customized: self,
-                                                 custom_field_id: custom_field_id,
-                                                 value: value)
+                                                 custom_field_id:,
+                                                 value:)
 
           custom_field_values.push(new_custom_value)
         end

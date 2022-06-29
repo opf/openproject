@@ -522,18 +522,20 @@ lt:
         duration: "Duration"
         end_insertion: "Įterpimo pabaigoje"
         end_deletion: "Ištrynimo pabaigoje"
-        version: "Versija"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Tėvas"
         parent_issue: "Tėvas"
         parent_work_package: "Tėvas"
         priority: "Pirmenybė"
         progress: "Progresas (%)"
+        readonly: "Read only"
         schedule_manually: "Rankinis laiko parinkimas"
         spent_hours: "Praleista laiko"
         spent_time: "Praleista laiko"
         subproject: "Sub-projektas"
         time_entries: "Registruoti laiką"
         type: "Tipas"
+        version: "Versija"
         watcher: "Stebėtojas"
       'doorkeeper/application':
         uid: "Kliento ID"
@@ -737,6 +739,7 @@ lt:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "negali būti svarbus etapas."
               cannot_be_self_assigned: "negalima priskirti sau pačiam"
@@ -1491,7 +1494,6 @@ lt:
   label_consent_settings: "Naudotojo sutikimas"
   label_wiki_menu_item: Wiki meniu punktas
   label_select_main_menu_item: Pasirinkti naują pagrindinio meniu punktą
-  label_select_project: "Pasirinkti projektą"
   label_required_disk_storage: "Reikalinga vieta diske"
   label_send_invitation: Siųsti pakvietimą
   label_change_plural: "Pakeitimai"
@@ -1557,6 +1559,7 @@ lt:
   label_diff: "skirt."
   label_diff_inline: "įterptas"
   label_diff_side_by_side: "šalia"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "neleidžiama"
   label_display: "Rodymas"
   label_display_per_page: "%{value} įrašų puslapyje"
@@ -1769,7 +1772,6 @@ lt:
   label_product_version: "Produkto versija"
   label_professional_support: "Profesionali pagalba"
   label_profile: "Profilis"
-  label_project_all: "Visi projektai"
   label_project_count: "Bendras projektų skaičius"
   label_project_copy_notifications: "Vykstant projekto kopijavimui siųsti pranešimus į el. paštą"
   label_project_latest: "Naujausi projektai"
@@ -2033,6 +2035,9 @@ lt:
   mail_body_backup_token_info: Ankstesnis žetonas nebegalioja.
   mail_body_backup_waiting_period: Naujas atsarginės kopijos žetonas bus tinkamas po %{hours} valandų.
   mail_body_backup_token_warning: Jei tai buvote ne jūs, nedelsiant prisijunkite prie OpenProject ir atšaukite jį dar kartą.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Norėdami pakeisti slaptažodį, spauskite nuorodą:"
   mail_body_register: "Jus sveikina %{app_title}. Prašome aktyvuoti jūsų paskyrą spaudžiant šią nuorodą:"
   mail_body_register_header_title: "Projekto nario kvietimo el. laiškas"
@@ -2051,6 +2056,7 @@ lt:
   mail_subject_account_activation_request: "%{value} paskyros aktyvavimo prašymas"
   mail_subject_backup_ready: "Jūsų atsarginė kopija paruošta"
   mail_subject_backup_token_reset: "Rezervinės kopijos žetonas atstatytas"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Jūsų slaptažodis %{value}"
   mail_subject_register: "Jūsų %{value} paskyros aktyvavimas"
   mail_subject_reminder: "%{count} darbų paketas(-ai, -ų) baigiasi per ateinančias %{days} dienas(-ai, -ų)"
@@ -2417,7 +2423,7 @@ lt:
   setting_smtp_authentication: "SMTP autentifikacija"
   setting_smtp_user_name: "SMTP vartotojo vardas"
   setting_smtp_password: "SMTP slaptažodis"
-  setting_smtp_domain: "SMTP HELLO domenas"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Projekto veiklos atvaizduojamų dienų skaičius"
   setting_app_subtitle: "Programos paantraštė"
   setting_app_title: "Programos pavadinimas"
@@ -3057,4 +3063,45 @@ lt:
     authorization_error: "Įvyko autorizacijos klaida."
     revoke_my_application_confirmation: "Ar tikrai norite išimti šią aplikaciją? Tai atšauks %{token_count} aktyvių žetonų."
     my_registered_applications: "Registruotos OAuth aplikacijos"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
   you: jūs

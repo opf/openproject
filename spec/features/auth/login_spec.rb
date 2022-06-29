@@ -55,8 +55,8 @@ describe 'Login', type: :feature do
     let(:first_login) { false }
     let(:user) do
       create(:user,
-             force_password_change: force_password_change,
-             first_login: first_login,
+             force_password_change:,
+             first_login:,
              login: 'bob',
              mail: 'bob@example.com',
              firstname: 'Bo',

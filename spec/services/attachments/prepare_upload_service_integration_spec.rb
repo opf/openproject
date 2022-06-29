@@ -35,7 +35,7 @@ describe Attachments::PrepareUploadService,
            member_in_project: container.project,
            member_with_permissions: %i[view_work_packages edit_work_packages]
   end
-  let(:instance) { described_class.new(user: user) }
+  let(:instance) { described_class.new(user:) }
 
   let(:file_size) { 6 }
   let(:file_name) { 'document.png' }
@@ -43,8 +43,8 @@ describe Attachments::PrepareUploadService,
 
   let(:call) do
     instance.call filename: file_name,
-                  container: container,
-                  content_type: content_type,
+                  container:,
+                  content_type:,
                   filesize: file_size
   end
 
@@ -82,7 +82,7 @@ describe Attachments::PrepareUploadService,
 
   it 'sets the download count to -1' do
     expect(attachment.downloads)
-      .to eql -1
+      .to be -1
   end
 
   context 'with a special character in the filename' do

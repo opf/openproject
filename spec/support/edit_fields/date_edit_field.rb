@@ -9,7 +9,7 @@ class DateEditField < EditField
                  is_milestone: false,
                  is_table: false)
 
-    super(context, property_name, selector: selector)
+    super(context, property_name, selector:)
     self.milestone = is_milestone
     self.is_table = is_table
   end
@@ -60,8 +60,8 @@ class DateEditField < EditField
     page.find(modal_selector)
   end
 
-  def within_modal(&block)
-    page.within(modal_selector, &block)
+  def within_modal(&)
+    page.within(modal_selector, &)
   end
 
   def input_element
@@ -87,6 +87,12 @@ class DateEditField < EditField
   def expect_inactive!
     expect(context).to have_selector(display_selector, wait: 10)
     expect(page).to have_no_selector("#{modal_selector} #{input_selector}")
+  end
+
+  def expect_calendar
+    within_modal do
+      expect(page).to have_selector(".flatpickr-calendar")
+    end
   end
 
   def update(value, save: true, expect_failure: false)
@@ -134,6 +140,6 @@ class DateEditField < EditField
   end
 
   def action_button(text)
-    page.find("#{modal_selector} [data-qa-selector='op-datepicker-modal--action']", text: text)
+    page.find("#{modal_selector} [data-qa-selector='op-datepicker-modal--action']", text:)
   end
 end

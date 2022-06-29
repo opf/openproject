@@ -33,6 +33,10 @@ module Tableless
     false
   end
 
+  def readonly?
+    true
+  end
+
   class_methods do
     def attribute_names
       @attribute_names ||= attribute_types.keys
@@ -47,7 +51,7 @@ module Tableless
           type = ActiveRecord::Type.lookup(type, default)
         end
 
-        define_attribute(name, type, default: default)
+        define_attribute(name, type, default:)
 
         # Improve Model#inspect output
         @columns_hash[name.to_s] = ActiveRecord::ConnectionAdapters::Column.new(name.to_s, default)

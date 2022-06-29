@@ -55,7 +55,7 @@ FactoryBot.define do
       evaluator.members.each do |user, roles|
         Members::CreateService
           .new(user: User.system, contract_class: EmptyContract)
-          .call(principal: user, project: project, roles: Array(roles))
+          .call(principal: user, project:, roles: Array(roles))
       end
     end
 
@@ -80,7 +80,7 @@ FactoryBot.define do
                   [build(:type)]
                 end
 
-        new(types: types)
+        new(types:)
       end
 
       factory :valid_project do

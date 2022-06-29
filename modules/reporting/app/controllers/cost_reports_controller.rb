@@ -105,7 +105,7 @@ class CostReportsController < ApplicationController
   ##
   # Create a new saved query. Returns the redirect url to an XHR or redirects directly
   def create
-    @query.name = params[:query_name].present? ? params[:query_name] : ::I18n.t(:label_default)
+    @query.name = params[:query_name].presence || ::I18n.t(:label_default)
     @query.public! if make_query_public?
     @query.send("#{user_key}=", current_user.id)
     @query.save!
@@ -379,7 +379,7 @@ class CostReportsController < ApplicationController
 
   def display_report_list
     report_type = params[:report_type] || :public
-    render partial: 'report_list', locals: { report_type: report_type }, layout: !request.xhr?
+    render partial: 'report_list', locals: { report_type: }, layout: !request.xhr?
   end
 
   private
@@ -489,7 +489,7 @@ class CostReportsController < ApplicationController
       groups  = group_params
     end
     cookie = session[report_engine.name.underscore.to_sym] || {}
-    session[report_engine.name.underscore.to_sym] = cookie.merge(filters: filters, groups: groups)
+    session[report_engine.name.underscore.to_sym] = cookie.merge(filters:, groups:)
   end
 
   ##
@@ -501,8 +501,8 @@ class CostReportsController < ApplicationController
         unless filters[:values][filter] == ['<<inactive>>']
           values = Array(filters[:values][filter]).map { |v| v == '<<null>>' ? nil : v }
           q.filter(filter.to_sym,
-                   operator: operator,
-                   values: values)
+                   operator:,
+                   values:)
         end
       end
     end

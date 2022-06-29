@@ -208,7 +208,7 @@ describe Authorization::UserAllowedService do
 
         it 'does not call the db' do
           expect(Authorization)
-            .to_not receive(:roles)
+            .not_to receive(:roles)
 
           instance.call(action, context)
         end
@@ -266,7 +266,7 @@ describe Authorization::UserAllowedService do
       end
 
       it 'is unsuccessful' do
-        expect(instance.call(action, context)).to_not be_success
+        expect(instance.call(action, context)).not_to be_success
       end
     end
 

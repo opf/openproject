@@ -70,7 +70,7 @@ module OpenProject::GithubIntegration
         # and avoid adding reference-comments twice.
         OpenProject::GithubIntegration::Services::UpsertPartialPullRequest.new.call(
           payload,
-          work_packages: work_packages
+          work_packages:
         )
       end
 

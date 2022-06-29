@@ -36,7 +36,7 @@ module API
         include API::Caching::CachedRepresenter
 
         self_link id_attribute: :id,
-                  title_getter: ->(*) { nil }
+                  title_getter: ->(*) {}
 
         property :github_login, as: :login
         property :github_html_url, as: :htmlUrl

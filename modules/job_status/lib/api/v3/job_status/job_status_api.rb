@@ -40,7 +40,7 @@ module API
             end
 
             get do
-              JobStatusRepresenter.new(@job, current_user: current_user)
+              JobStatusRepresenter.new(@job, current_user:)
             end
           end
         end

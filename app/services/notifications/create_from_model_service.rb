@@ -60,10 +60,10 @@ class Notifications::CreateFromModelService
 
   def create_notification(recipient_id, reasons)
     notification_attributes = {
-      recipient_id: recipient_id,
-      project: project,
-      resource: resource,
-      journal: journal,
+      recipient_id:,
+      project:,
+      resource:,
+      journal:,
       actor: user_with_fallback,
       reason: reasons.first,
       read_ian: strategy.supports_ian? ? false : nil,

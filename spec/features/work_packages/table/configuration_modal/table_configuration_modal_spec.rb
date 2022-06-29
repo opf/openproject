@@ -4,13 +4,13 @@ describe 'Work Package table configuration modal', js: true do
   let(:user) { create :admin }
 
   let(:project) { create(:project) }
-  let!(:wp_1) { create(:work_package, project: project) }
+  let!(:wp_1) { create(:work_package, project:) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
 
   let!(:query) do
-    query              = build(:query, user: user, project: project)
+    query              = build(:query, user:, project:)
     query.column_names = ['subject', 'done_ratio']
 
     query.save!

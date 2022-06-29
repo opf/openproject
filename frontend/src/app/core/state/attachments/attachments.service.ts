@@ -31,10 +31,7 @@ import {
   HttpClient,
   HttpHeaders,
 } from '@angular/common/http';
-import {
-  applyTransaction,
-  QueryEntity,
-} from '@datorama/akita';
+import { applyTransaction } from '@datorama/akita';
 import {
   from,
   Observable,
@@ -44,7 +41,7 @@ import {
   map,
   tap,
 } from 'rxjs/operators';
-import { AttachmentsStore } from 'core-app/core/state/attachments/attacments.store';
+import { AttachmentsStore } from 'core-app/core/state/attachments/attachments.store';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -59,21 +56,25 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import isNewResource, { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
+import { insertCollectionIntoState, removeEntityFromCollectionAndState } from 'core-app/core/state/collection-store';
+import {
+  CollectionStore,
+  ResourceCollectionService,
+} from 'core-app/core/state/resource-collection.service';
 
 @Injectable()
-export class AttachmentsResourceService {
-  protected store = new AttachmentsStore();
-
-  public query = new QueryEntity(this.store);
-
-  constructor(private readonly I18n:I18nService,
+export class AttachmentsResourceService extends ResourceCollectionService<IAttachment> {
+  constructor(
+    private readonly I18n:I18nService,
     private readonly http:HttpClient,
     private readonly apiV3Service:ApiV3Service,
     private readonly fileUploadService:OpenProjectFileUploadService,
     private readonly directFileUploadService:OpenProjectDirectFileUploadService,
     private readonly configurationService:ConfigurationService,
-    private readonly toastService:ToastService) { }
+    private readonly toastService:ToastService,
+  ) {
+    super();
+  }
 
   /**
    * This method ensures that a specific collection is fetched, if not available.
@@ -118,22 +119,7 @@ export class AttachmentsResourceService {
     return this.http
       .delete<void>(attachment._links.delete.href, { withCredentials: true, headers })
       .pipe(
-        tap(() => {
-          applyTransaction(() => {
-            this.store.remove(attachment.id);
-            this.store.update(({ collections }) => (
-              {
-                collections: {
-                  ...collections,
-                  [collectionKey]: {
-                    ...collections[collectionKey],
-                    ids: (collections[collectionKey]?.ids || []).filter((id) => id !== attachment.id),
-                  },
-                },
-              }
-            ));
-          });
-        }),
+        tap(() => removeEntityFromCollectionAndState(this.store, attachment.id, collectionKey)),
         catchError((error) => {
           this.toastService.addError(error);
           throw error;
@@ -148,7 +134,7 @@ export class AttachmentsResourceService {
    * @param files The upload files to be attached.
    */
   attachFiles(resource:HalResource, files:UploadFile[]):Observable<IAttachment[]> {
-    const identifier = this.getAttachmentsSelfLink(resource) || HAL_NEW_RESOURCE_ID;
+    const identifier = AttachmentsResourceService.getAttachmentsSelfLink(resource) || HAL_NEW_RESOURCE_ID;
     const href = this.getUploadTarget(resource);
     const isDirectUpload = !!this.getDirectUploadLink(resource);
 
@@ -234,7 +220,7 @@ export class AttachmentsResourceService {
    */
   private getUploadTarget(resource:HalResource):string {
     return this.getDirectUploadLink(resource)
-      || this.getAttachmentsSelfLink(resource)
+      || AttachmentsResourceService.getAttachmentsSelfLink(resource)
       || this.apiV3Service.attachments.path;
   }
 
@@ -252,8 +238,12 @@ export class AttachmentsResourceService {
     return null;
   }
 
-  private getAttachmentsSelfLink(resource:HalResource):string|null {
+  private static getAttachmentsSelfLink(resource:HalResource):string|null {
     const attachments = resource.attachments as unknown&{ href?:string };
     return attachments?.href || null;
+  }
+
+  protected createStore():CollectionStore<IAttachment> {
+    return new AttachmentsStore();
   }
 }

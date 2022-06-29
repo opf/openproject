@@ -16,16 +16,7 @@ get:
           schema:
             $ref: '../components/schemas/week_day_collection_model.yml'
     '400':
-      description: |-
-        Returned if the client sends invalid request parameters
-      content:
-        application/hal+json:
-          schema:
-            $ref: '../components/schemas/error_response.yml'
-          example:
-            _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-            message: The request body was not a single JSON object.
+      $ref: "../components/responses/invalid_request_body.yml"
 
 patch:
   summary: Update week days (NOT IMPLEMENTED)
@@ -50,16 +41,7 @@ patch:
           schema:
             $ref: '../components/schemas/week_day_collection_model.yml'
     '400':
-      description: |-
-        Returned if the client sends invalid request parameters
-      content:
-        application/hal+json:
-          schema:
-            $ref: '../components/schemas/error_response.yml'
-          example:
-            _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-            message: The request body was not a single JSON object.
+      $ref: "../components/responses/invalid_request_body.yml"
     '404':
       description: |-
         Returned if a week day resource can not be found.
@@ -71,3 +53,7 @@ patch:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
             message: The requested resource could not be found.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"

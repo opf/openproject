@@ -504,18 +504,20 @@ lol:
         duration: "crwdns816732:0crwdne816732:0"
         end_insertion: "crwdns495335:0crwdne495335:0"
         end_deletion: "crwdns495337:0crwdne495337:0"
-        version: "crwdns495339:0crwdne495339:0"
+        ignore_non_working_days: "crwdns819002:0crwdne819002:0"
         parent: "crwdns495341:0crwdne495341:0"
         parent_issue: "crwdns495343:0crwdne495343:0"
         parent_work_package: "crwdns495345:0crwdne495345:0"
         priority: "crwdns495347:0crwdne495347:0"
         progress: "crwdns495349:0crwdne495349:0"
+        readonly: "crwdns819004:0crwdne819004:0"
         schedule_manually: "crwdns495351:0crwdne495351:0"
         spent_hours: "crwdns495353:0crwdne495353:0"
         spent_time: "crwdns495355:0crwdne495355:0"
         subproject: "crwdns495357:0crwdne495357:0"
         time_entries: "crwdns495359:0crwdne495359:0"
         type: "crwdns495361:0crwdne495361:0"
+        version: "crwdns495339:0crwdne495339:0"
         watcher: "crwdns495363:0crwdne495363:0"
       'doorkeeper/application':
         uid: "crwdns495365:0crwdne495365:0"
@@ -719,6 +721,7 @@ lol:
             duration:
               larger_than_dates: "crwdns816734:0crwdne816734:0"
               smaller_than_dates: "crwdns816736:0crwdne816736:0"
+              not_available_for_milestones: "crwdns820640:0crwdne820640:0"
             parent:
               cannot_be_milestone: "crwdns495627:0crwdne495627:0"
               cannot_be_self_assigned: "crwdns495629:0crwdne495629:0"
@@ -1430,7 +1433,6 @@ lol:
   label_consent_settings: "crwdns496981:0crwdne496981:0"
   label_wiki_menu_item: crwdns496983:0crwdne496983:0
   label_select_main_menu_item: crwdns496985:0crwdne496985:0
-  label_select_project: "crwdns496987:0crwdne496987:0"
   label_required_disk_storage: "crwdns496989:0crwdne496989:0"
   label_send_invitation: crwdns496991:0crwdne496991:0
   label_change_plural: "crwdns496993:0crwdne496993:0"
@@ -1496,6 +1498,7 @@ lol:
   label_diff: "crwdns497113:0crwdne497113:0"
   label_diff_inline: "crwdns497115:0crwdne497115:0"
   label_diff_side_by_side: "crwdns497117:0crwdne497117:0"
+  label_digital_accessibility: 'crwdns818690:0crwdne818690:0'
   label_disabled: "crwdns497119:0crwdne497119:0"
   label_display: "crwdns497121:0crwdne497121:0"
   label_display_per_page: "crwdns497123:0%{value}crwdne497123:0"
@@ -1708,7 +1711,6 @@ lol:
   label_product_version: "crwdns497535:0crwdne497535:0"
   label_professional_support: "crwdns497537:0crwdne497537:0"
   label_profile: "crwdns497539:0crwdne497539:0"
-  label_project_all: "crwdns497541:0crwdne497541:0"
   label_project_count: "crwdns497543:0crwdne497543:0"
   label_project_copy_notifications: "crwdns497545:0crwdne497545:0"
   label_project_latest: "crwdns497547:0crwdne497547:0"
@@ -1970,6 +1972,9 @@ lol:
   mail_body_backup_token_info: crwdns498119:0crwdne498119:0
   mail_body_backup_waiting_period: crwdns498121:0%{hours}crwdne498121:0
   mail_body_backup_token_warning: crwdns498125:0crwdne498125:0
+  mail_body_incoming_email_error: crwdns816744:0crwdne816744:0
+  mail_body_incoming_email_error_in_reply_to: "crwdns816746:0%{received_at}crwdnd816746:0%{from_email}crwdne816746:0"
+  mail_body_incoming_email_error_logs: "crwdns816748:0crwdne816748:0"
   mail_body_lost_password: "crwdns498129:0crwdne498129:0"
   mail_body_register: "crwdns762262:0%{app_title}crwdne762262:0"
   mail_body_register_header_title: "crwdns498141:0crwdne498141:0"
@@ -1985,6 +1990,7 @@ lol:
   mail_subject_account_activation_request: "crwdns498177:0%{value}crwdne498177:0"
   mail_subject_backup_ready: "crwdns498179:0crwdne498179:0"
   mail_subject_backup_token_reset: "crwdns498183:0crwdne498183:0"
+  mail_subject_incoming_email_error: "crwdns816750:0crwdne816750:0"
   mail_subject_lost_password: "crwdns498185:0%{value}crwdne498185:0"
   mail_subject_register: "crwdns498187:0%{value}crwdne498187:0"
   mail_subject_reminder: "crwdns498191:0%{count}crwdnd498191:0%{days}crwdne498191:0"
@@ -2348,7 +2354,7 @@ lol:
   setting_smtp_authentication: "crwdns498923:0crwdne498923:0"
   setting_smtp_user_name: "crwdns498925:0crwdne498925:0"
   setting_smtp_password: "crwdns498927:0crwdne498927:0"
-  setting_smtp_domain: "crwdns498929:0crwdne498929:0"
+  setting_smtp_domain: "crwdns818692:0crwdne818692:0"
   setting_activity_days_default: "crwdns498931:0crwdne498931:0"
   setting_app_subtitle: "crwdns498933:0crwdne498933:0"
   setting_app_title: "crwdns498935:0crwdne498935:0"
@@ -2982,4 +2988,45 @@ lol:
     authorization_error: "crwdns499967:0crwdne499967:0"
     revoke_my_application_confirmation: "crwdns499969:0%{token_count}crwdne499969:0"
     my_registered_applications: "crwdns499971:0crwdne499971:0"
+  oauth_client:
+    urn_connection_status:
+      connected: "crwdns819016:0crwdne819016:0"
+      error: "crwdns819018:0crwdne819018:0"
+      failed_authorization: "crwdns819020:0crwdne819020:0"
+    labels:
+      label_oauth_integration: "crwdns818694:0crwdne818694:0"
+      label_redirect_uri: "crwdns818696:0crwdne818696:0"
+      label_request_token: "crwdns818698:0crwdne818698:0"
+      label_refresh_token: "crwdns818700:0crwdne818700:0"
+    errors:
+      oauth_authorization_code_grant_had_errors: "crwdns818702:0crwdne818702:0"
+      oauth_reported: "crwdns818704:0crwdne818704:0"
+      oauth_returned_error: "crwdns818706:0crwdne818706:0"
+      oauth_returned_json_error: "crwdns818708:0crwdne818708:0"
+      oauth_returned_http_error: "crwdns818710:0crwdne818710:0"
+      oauth_returned_standard_error: "crwdns818712:0crwdne818712:0"
+      wrong_token_type_returned: "crwdns818714:0crwdne818714:0"
+      oauth_issue_contact_admin: "crwdns818716:0crwdne818716:0"
+      oauth_client_not_found: "crwdns818718:0crwdne818718:0"
+      refresh_token_called_without_existing_token: >
+        crwdns818720:0crwdne818720:0
+      refresh_token_updated_failed: "crwdns818722:0crwdne818722:0"
+      oauth_client_not_found_explanation: >
+        crwdns818724:0crwdne818724:0
+      oauth_code_not_present: "crwdns818726:0crwdne818726:0"
+      oauth_code_not_present_explanation: >
+        crwdns818728:0crwdne818728:0
+      oauth_state_not_present: "crwdns818730:0crwdne818730:0"
+      oauth_state_not_present_explanation: >
+        crwdns819022:0crwdne819022:0
+      rack_oauth2:
+        client_secret_invalid: "crwdns819024:0crwdne819024:0"
+        invalid_request: >
+          crwdns819026:0crwdne819026:0
+        invalid_response: "crwdns819028:0crwdne819028:0"
+        invalid_grant: "crwdns819030:0crwdne819030:0"
+        invalid_client: "crwdns819032:0crwdne819032:0"
+        unauthorized_client: "crwdns819034:0crwdne819034:0"
+        unsupported_grant_type: "crwdns819036:0crwdne819036:0"
+        invalid_scope: "crwdns819038:0crwdne819038:0"
   you: crwdns499973:0crwdne499973:0

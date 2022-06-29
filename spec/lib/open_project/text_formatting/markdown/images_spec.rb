@@ -65,7 +65,7 @@ describe OpenProject::TextFormatting,
 
       let(:only_path) { true }
 
-      let(:options) { { object: work_package, only_path: only_path } }
+      let(:options) { { object: work_package, only_path: } }
 
       context 'for an inlineable attachment referenced by filename' do
         it_behaves_like 'format_text produces' do

@@ -33,7 +33,7 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering' do
 
   let(:placeholder_user) { build_stubbed(:placeholder_user) }
   let(:current_user) { build_stubbed(:user) }
-  let(:representer) { described_class.new(placeholder_user, current_user: current_user) }
+  let(:representer) { described_class.new(placeholder_user, current_user:) }
   let(:memberships_path) do
     filters = [
       {
@@ -44,7 +44,7 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering' do
       }
     ]
 
-    api_v3_paths.path_for(:memberships, filters: filters)
+    api_v3_paths.path_for(:memberships, filters:)
   end
   let(:global_permissions) { [] }
 
@@ -149,11 +149,11 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering' do
       end
 
       it 'hides the updatedAt property' do
-        is_expected.not_to have_json_path('updatedAt')
+        expect(subject).not_to have_json_path('updatedAt')
       end
 
       it 'hides the createdAt property' do
-        is_expected.not_to have_json_path('createdAt')
+        expect(subject).not_to have_json_path('createdAt')
       end
     end
 

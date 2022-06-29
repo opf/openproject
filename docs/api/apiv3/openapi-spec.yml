@@ -454,6 +454,14 @@ components:
       "$ref": "./components/examples/view_work_packages_table.yml"
     ViewTeamPlanner:
       "$ref": "./components/examples/view_team_planner.yml"
+      
+  responses:
+    InvalidRequestBody:
+      "$ref": "./components/responses/invalid_request_body.yml"
+    MissingContentType:
+      "$ref": "./components/responses/missing_content_type.yml"
+    UnsupportedMediaType:
+      "$ref": "./components/responses/unsupported_media_type.yml"
 
   schemas:
     ActivityModel:

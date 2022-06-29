@@ -35,6 +35,7 @@ describe 'API v3 Configuration resource', type: :request do
 
   let(:user) { create(:user) }
   let(:configuration_path) { api_v3_paths.configuration }
+
   subject(:response) { last_response }
 
   before do

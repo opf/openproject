@@ -40,7 +40,7 @@ describe 'Types', type: :feature, js: true do
     login_as(admin)
   end
 
-  scenario 'crud' do
+  it 'crud' do
     index_page.visit!
 
     index_page.click_new

@@ -97,7 +97,7 @@ describe Authentication::OmniauthAuthHashContract do
   end
 
   describe '#validate_authorization_callback' do
-    let(:auth_double) { double('Authorization', approve?: authorized, message: message) }
+    let(:auth_double) { double('Authorization', approve?: authorized, message:) }
 
     before do
       allow(OpenProject::OmniAuth::Authorization)
@@ -109,6 +109,7 @@ describe Authentication::OmniauthAuthHashContract do
     context 'if authorized' do
       let(:authorized) { true }
       let(:message) { nil }
+
       it_behaves_like 'is valid'
     end
 

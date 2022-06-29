@@ -92,6 +92,10 @@ module API
             "#{root_path}api/v3"
           end
 
+          def self.same_origin?(url)
+            url.to_s.start_with? root_url
+          end
+
           index :action
           show :action
 

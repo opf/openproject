@@ -88,7 +88,7 @@ describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
     describe '#allowed_values' do
       let(:project) { nil }
       let(:parent) { build_stubbed(:project, id: 1) }
-      let(:child) { build_stubbed(:project, parent: parent, id: 2) }
+      let(:child) { build_stubbed(:project, parent:, id: 2) }
       let(:visible_projects) { [parent, child] }
 
       it 'is an array of group values' do

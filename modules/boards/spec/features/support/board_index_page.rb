@@ -60,7 +60,7 @@ module Pages
       page.find('.toolbar-item a', text: 'Board').click
 
       text = action == nil ? 'Basic' : action.to_s[0..5]
-      find('[data-qa-selector="op-tile-block-title"]', text: text).click
+      find('[data-qa-selector="op-tile-block-title"]', text:).click
 
       if expect_empty
         expect(page).to have_selector('.boards-list--add-item-text', wait: 10)

@@ -43,7 +43,7 @@ module OpenProject::GithubIntegration
       event_type = request.env['HTTP_X_GITHUB_EVENT']
       event_delivery = request.env['HTTP_X_GITHUB_DELIVERY']
 
-      Rails.logger.debug "Received github webhook #{event_type} (#{event_delivery})"
+      Rails.logger.debug { "Received github webhook #{event_type} (#{event_delivery})" }
 
       return 404 unless KNOWN_EVENTS.include?(event_type) && event_delivery
       return 403 if user.blank?

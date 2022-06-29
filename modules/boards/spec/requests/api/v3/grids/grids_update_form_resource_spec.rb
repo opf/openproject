@@ -44,13 +44,14 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
   end
 
   let(:grid) do
-    create(:board_grid, project: project)
+    create(:board_grid, project:)
   end
+  let(:current_user) { allowed_user }
   let(:path) { api_v3_paths.grid_form(grid.id) }
   let(:params) { {} }
+
   subject(:response) { last_response }
 
-  let(:current_user) { allowed_user }
   before do
     login_as(current_user)
   end
@@ -62,7 +63,7 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
 
     it 'returns 200 OK' do
       expect(subject.status)
-        .to eql 200
+        .to be 200
     end
 
     it 'is of type form' do
@@ -88,11 +89,11 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
         columnCount: 4,
         widgets: [],
         options: {},
-        "_links": {
-          "attachments": [],
-          "scope": {
-            "href": project_work_package_boards_path(project),
-            "type": "text/html"
+        _links: {
+          attachments: [],
+          scope: {
+            href: project_work_package_boards_path(project),
+            type: "text/html"
           }
         }
       }
@@ -111,15 +112,15 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
     context 'with some value for the scope value' do
       let(:params) do
         {
-          '_links': {
-            'scope': {
-              'href': '/some/path'
+          _links: {
+            scope: {
+              href: '/some/path'
             }
           }
         }
       end
 
-      it 'has a validation error on scope as the value is not writeable' do
+      it 'has a validation error on scope as the value is not writable' do
         expect(subject.body)
           .to be_json_eql("Scope was attempted to be written but is not writable.".to_json)
           .at_path('_embedded/validationErrors/scope/message')
@@ -129,14 +130,14 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
     context 'with an unsupported widget identifier' do
       let(:params) do
         {
-          "widgets": [
+          widgets: [
             {
-              "_type": "GridWidget",
-              "identifier": "bogus_identifier",
-              "startRow": 1,
-              "endRow": 2,
-              "startColumn": 1,
-              "endColumn": 2
+              _type: "GridWidget",
+              identifier: "bogus_identifier",
+              startRow: 1,
+              endRow: 2,
+              startColumn: 1,
+              endColumn: 2
             }
           ]
         }
@@ -154,7 +155,7 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql 404
+          .to be 404
       end
     end
 
@@ -163,7 +164,7 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql 404
+          .to be 404
       end
     end
   end

@@ -37,7 +37,7 @@ describe ::API::V3::CostEntries::AggregatedCostEntryRepresenter do
   subject { representer.to_json }
 
   it 'has a type' do
-    is_expected.to be_json_eql('AggregatedCostEntry'.to_json).at_path('_type')
+    expect(subject).to be_json_eql('AggregatedCostEntry'.to_json).at_path('_type')
   end
 
   it_behaves_like 'has a titled link' do
@@ -47,6 +47,6 @@ describe ::API::V3::CostEntries::AggregatedCostEntryRepresenter do
   end
 
   it 'has spent units' do
-    is_expected.to be_json_eql(cost_entry.units.to_json).at_path('spentUnits')
+    expect(subject).to be_json_eql(cost_entry.units.to_json).at_path('spentUnits')
   end
 end

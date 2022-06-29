@@ -36,7 +36,7 @@ describe Projects::UpdateService, 'integration', type: :model do
   end
   let(:role) do
     create(:role,
-           permissions: permissions)
+           permissions:)
   end
   let(:permissions) do
     %i(edit_project)
@@ -47,7 +47,7 @@ describe Projects::UpdateService, 'integration', type: :model do
            "custom_field_#{custom_field.id}" => 1,
            status: project_status)
   end
-  let(:instance) { described_class.new(user: user, model: project) }
+  let(:instance) { described_class.new(user:, model: project) }
   let(:custom_field) { create(:int_project_custom_field) }
   let(:project_status) { nil }
 

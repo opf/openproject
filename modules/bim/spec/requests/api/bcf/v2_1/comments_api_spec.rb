@@ -56,16 +56,16 @@ describe 'BCF 2.1 comments resource', type: :request, content_type: :json, with_
   let(:assignee) { create(:user) }
 
   let(:work_package) do
-    create(:work_package, assigned_to: assignee, due_date: Time.zone.today, project: project)
+    create(:work_package, assigned_to: assignee, due_date: Time.zone.today, project:)
   end
 
-  let(:bcf_issue) { create(:bcf_issue_with_viewpoint, work_package: work_package) }
+  let(:bcf_issue) { create(:bcf_issue_with_viewpoint, work_package:) }
   let(:viewpoint) { bcf_issue.viewpoints.first }
 
   let(:bcf_comment) { create(:bcf_comment, issue: bcf_issue, author: view_only_user) }
   let(:bcf_answer) { create(:bcf_comment, issue: bcf_issue, reply_to: bcf_comment, author: assignee) }
   let(:bcf_comment_to_viewpoint) do
-    create(:bcf_comment, issue: bcf_issue, viewpoint: viewpoint, author: edit_user)
+    create(:bcf_comment, issue: bcf_issue, viewpoint:, author: edit_user)
   end
 
   subject(:response) { last_response }
@@ -564,7 +564,7 @@ describe 'BCF 2.1 comments resource', type: :request, content_type: :json, with_
       let(:updated_comment) do
         create(:bcf_comment,
                issue: bcf_issue,
-               viewpoint: viewpoint,
+               viewpoint:,
                reply_to: bcf_comment,
                author: edit_user)
       end

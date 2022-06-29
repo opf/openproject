@@ -40,6 +40,7 @@ describe ::Sessions::UserSession do
 
   describe '#update' do
     let(:session) { create :user_session }
+
     subject { described_class.find_by(session_id: session.session_id) }
 
     it 'can not update' do
@@ -62,7 +63,7 @@ describe ::Sessions::UserSession do
 
   describe '.for_user' do
     let(:user) { create :user }
-    let!(:sessions) { create_list :user_session, 2, user: user }
+    let!(:sessions) { create_list :user_session, 2, user: }
 
     subject { described_class.for_user(user) }
 

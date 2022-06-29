@@ -38,26 +38,26 @@ describe 'Work Package boards spec', type: :feature, js: true do
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
 
   let!(:wp) do
     create(:work_package,
-           project: project,
-           type: type,
-           priority: priority,
+           project:,
+           type:,
+           priority:,
            status: open_status)
   end
   let!(:wp2) do
     create(:work_package,
-           project: project,
+           project:,
            type: type2,
            priority: priority2,
            status: open_status)
   end
 
-  let!(:priority) { create :priority, color: color }
+  let!(:priority) { create :priority, color: }
   let!(:priority2) { create :priority, color: color2 }
-  let!(:type) { create :type, color: color }
+  let!(:type) { create :type, color: }
   let!(:type2) { create :type, color: color2 }
   let!(:open_status) { create :default_status, name: 'Open' }
 

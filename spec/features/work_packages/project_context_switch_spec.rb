@@ -4,7 +4,7 @@ describe 'Project context switching spec', js: true do
   let(:user) { create :admin }
 
   let(:project) { create(:project) }
-  let(:work_package) { create(:work_package, project: project) }
+  let(:work_package) { create(:work_package, project:) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }

@@ -30,7 +30,7 @@ require_relative './../legacy_spec_helper'
 describe Comment, type: :model do
   include MiniTest::Assertions # refute
 
-  it 'should validations' do
+  it 'validationses' do
     # factory valid
     assert build(:comment).valid?
 
@@ -42,7 +42,7 @@ describe Comment, type: :model do
     refute build(:comment, author: nil).valid?
   end
 
-  it 'should create' do
+  it 'creates' do
     user = create(:user)
     news = create(:news)
     comment = Comment.new(commented: news, author: user, comments: 'some important words')
@@ -50,7 +50,7 @@ describe Comment, type: :model do
     assert_equal 1, news.reload.comments_count
   end
 
-  it 'should create through news' do
+  it 'creates through news' do
     user = create(:user)
     news = create(:news)
     comment = news.new_comment(author: user, comments: 'some important words')
@@ -58,20 +58,20 @@ describe Comment, type: :model do
     assert_equal 1, news.reload.comments_count
   end
 
-  it 'should create comment through news' do
+  it 'creates comment through news' do
     user = create(:user)
     news = create(:news)
     news.post_comment!(author: user, comments: 'some important words')
     assert_equal 1, news.reload.comments_count
   end
 
-  it 'should text' do
+  it 'texts' do
     comment = build(:comment, comments: 'something useful')
     assert_equal 'something useful', comment.text
   end
 
   # TODO: testing #destroy really needed?
-  it 'should destroy' do
+  it 'destroys' do
     # just setup
     news = create(:news)
     comment = build(:comment)

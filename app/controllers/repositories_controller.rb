@@ -348,7 +348,7 @@ class RepositoriesController < ApplicationController
     end
 
     changes_by_day = Change.includes(:changeset)
-                     .where(["#{Changeset.table_name}.repository_id = ? "\
+                     .where(["#{Changeset.table_name}.repository_id = ? " \
                              "AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?",
                              repository.id, @date_from, @date_to])
                      .references(:changesets)
@@ -409,9 +409,9 @@ class RepositoriesController < ApplicationController
     commits_data = commits_by_author.map(&:last)
     changes_data = commits_by_author.map { |r| h[r.first] || 0 }
 
-    fields = fields + [''] * (10 - fields.length) if fields.length < 10
-    commits_data = commits_data + [0] * (10 - commits_data.length) if commits_data.length < 10
-    changes_data = changes_data + [0] * (10 - changes_data.length) if changes_data.length < 10
+    fields = fields + ([''] * (10 - fields.length)) if fields.length < 10
+    commits_data = commits_data + ([0] * (10 - commits_data.length)) if commits_data.length < 10
+    changes_data = changes_data + ([0] * (10 - changes_data.length)) if changes_data.length < 10
 
     # Remove email address in usernames
     fields = fields.map { |c| c.gsub(%r{<.+@.+>}, '') }
@@ -419,7 +419,7 @@ class RepositoriesController < ApplicationController
     graph = SVG::Graph::BarHorizontal.new(
       height: 400,
       width: 800,
-      fields: fields,
+      fields:,
       stack: :side,
       scale_integers: true,
       show_data_values: false,
@@ -495,11 +495,11 @@ end
 
 class Date
   def months_ago(date = Date.today)
-    (date.year - year) * 12 + (date.month - month)
+    ((date.year - year) * 12) + (date.month - month)
   end
 
   def weeks_ago(date = Date.today)
-    (date.year - year) * 52 + (date.cweek - cweek)
+    ((date.year - year) * 52) + (date.cweek - cweek)
   end
 end
 

@@ -43,19 +43,19 @@ describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
   let(:status) { build_stubbed(:status) }
   let(:priority) { build_stubbed(:priority) }
   let(:work_package) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   assigned_to: assignee,
                   due_date: Date.today,
-                  status: status,
-                  priority: priority,
-                  type: type).tap do |wp|
+                  status:,
+                  priority:,
+                  type:).tap do |wp|
       allow(wp)
         .to receive(:journals)
         .and_return(journals)
     end
   end
   let(:current_user) { build_stubbed(:user) }
-  let(:issue) { build_stubbed(:bcf_issue, work_package: work_package) }
+  let(:issue) { build_stubbed(:bcf_issue, work_package:) }
   let(:manage_bcf_allowed) { true }
   let(:statuses) do
     [

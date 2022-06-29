@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package create uses attributes from filters', js: true, selenium: true do
+RSpec.describe 'Work package create uses attributes from filters', js: true, selenium: true do
   let(:user) { create(:admin) }
   let(:type_bug) { create(:type_bug) }
   let(:type_task) { create(:type_task) }
@@ -39,12 +39,12 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
   let!(:priority) { create :priority, is_default: true }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:split_view_create) { ::Pages::SplitWorkPackageCreate.new(project: project) }
+  let(:split_view_create) { ::Pages::SplitWorkPackageCreate.new(project:) }
 
   let(:role) { create :existing_role, permissions: %i[view_work_packages work_package_assigned] }
 
   let!(:query) do
-    build(:query, project: project, user: user).tap do |query|
+    build(:query, project:, user:).tap do |query|
       query.filters.clear
 
       filters.each do |filter|

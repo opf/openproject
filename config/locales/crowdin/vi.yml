@@ -256,7 +256,7 @@ vi:
   users:
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      no_results_title_text: Người dùng này hiện tại chưa là thành viên của bất kỳ nhóm nào
     memberships:
       no_results_title_text: Người dùng này không phải là thành viên của dự án.
   placeholder_users:
@@ -524,18 +524,20 @@ vi:
         duration: "Duration"
         end_insertion: "Kết thúc chèn"
         end_deletion: "Kết thúc quá trình xóa"
-        version: "Phiên bản"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Cha"
         parent_issue: "Cha"
         parent_work_package: "Cha"
         priority: "Độ ưu tiên"
         progress: "Phát triển (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Thời gian"
         spent_time: "Thời gian"
         subproject: "Dự án con"
         time_entries: "Thời gian truy cập"
         type: "Kiểu"
+        version: "Phiên bản"
         watcher: "Người quan sát"
       'doorkeeper/application':
         uid: "ID Khách hàng"
@@ -739,6 +741,7 @@ vi:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "không thể là một cột mốc."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1445,7 +1448,6 @@ vi:
   label_consent_settings: "Sự đồng ý của người dùng"
   label_wiki_menu_item: Khoản mục menu wiki
   label_select_main_menu_item: Chọn mục trình đơn chính mới
-  label_select_project: "Chọn dự án"
   label_required_disk_storage: "Ổ đĩa lưu trữ bắt buộc"
   label_send_invitation: Gửi lời mời
   label_change_plural: "Thay đổi"
@@ -1511,6 +1513,7 @@ vi:
   label_diff: "sự khác nhau"
   label_diff_inline: "nội tuyến"
   label_diff_side_by_side: "bên cạnh nhau"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "vô hiệu hoá"
   label_display: "Hiển thị"
   label_display_per_page: "Mỗi trang: %{value}"
@@ -1625,9 +1628,9 @@ vi:
   label_managed_repositories_vendor: "Managed %{vendor} repositories"
   label_max_size: "Maximum size"
   label_me: "me"
-  label_member_new: "New member"
+  label_member_new: "Thành viên mới"
   label_member_all_admin: "(All roles due to admin status)"
-  label_member_plural: "Members"
+  label_member_plural: "Thành viên"
   lable_membership_added: 'Thành viên đã thêm'
   lable_membership_updated: 'Thành viên đã cập nhật'
   label_menu_badge:
@@ -1723,7 +1726,6 @@ vi:
   label_product_version: "Phiên bản sản phẩm"
   label_professional_support: "Hỗ trợ chuyên nghiệp"
   label_profile: "Hồ sơ"
-  label_project_all: "Tất cả các dự án"
   label_project_count: "Tổng số dự án"
   label_project_copy_notifications: "Gửi email thông báo trong quá trình sao chép dự án"
   label_project_latest: "Dự án mới nhất"
@@ -1984,6 +1986,9 @@ vi:
   mail_body_backup_token_info: Token trước đó không còn hiệu lực.
   mail_body_backup_waiting_period: Mã token sao lưu sẽ được kích hoạt trong %{hours} giờ.
   mail_body_backup_token_warning: Nếu đây không phải là bạn, hãy đăng nhập vào OpenProject ngay lập tức và thiết lập lại lại.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "To change your password, click on the following link:"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
@@ -2002,6 +2007,7 @@ vi:
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_subject_backup_ready: "Bản sao lưu của bạn đã sẵn sàng"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Your %{value} password"
   mail_subject_register: "Your %{value} account activation"
   mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
@@ -2170,7 +2176,7 @@ vi:
   permission_manage_forums: "Manage forums"
   permission_manage_categories: "Manage work package categories"
   permission_manage_work_package_relations: "Manage work package relations"
-  permission_manage_members: "Manage members"
+  permission_manage_members: "Quản lý thành viên"
   permission_manage_news: "Manage news"
   permission_manage_project_activities: "Manage project activities"
   permission_manage_public_queries: "Quản lý truy vấn công cộng"
@@ -2191,7 +2197,7 @@ vi:
   permission_view_work_package_watchers: "View watchers list"
   permission_view_work_packages: "View work packages"
   permission_view_messages: "View messages"
-  permission_view_members: "View members"
+  permission_view_members: "Xem thành viên"
   permission_view_reportings: "View reportings"
   permission_view_time_entries: "View spent time"
   permission_view_timelines: "View timelines"
@@ -2367,7 +2373,7 @@ vi:
   setting_smtp_authentication: "Xác thực SMTP"
   setting_smtp_user_name: "Tên truy cập SMTP"
   setting_smtp_password: "Mật khẩu SMTP"
-  setting_smtp_domain: "Tên miền SMTP HELLO"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Days displayed on project activity"
   setting_app_subtitle: "Application subtitle"
   setting_app_title: "Application title"
@@ -2998,4 +3004,45 @@ vi:
     authorization_error: "An authorization error has occurred."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
   you: bạn

@@ -34,8 +34,8 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
   let(:member) do
     build_stubbed(:member,
                   member_roles: [member_role1, member_role2, member_role2, marked_member_role],
-                  principal: principal,
-                  project: project)
+                  principal:,
+                  project:)
   end
   let(:project) { build_stubbed(:project) }
   let(:roles) { [role1, role2] }
@@ -59,7 +59,7 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
     [:manage_members]
   end
   let(:representer) do
-    described_class.create(member, current_user: current_user, embed_links: true)
+    described_class.create(member, current_user:, embed_links: true)
   end
 
   subject { representer.to_json }
@@ -207,11 +207,11 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
       let(:embedded_path) { '_embedded/project' }
 
       it 'has the project embedded' do
-        is_expected
+        expect(subject)
           .to be_json_eql('Project'.to_json)
           .at_path("#{embedded_path}/_type")
 
-        is_expected
+        expect(subject)
           .to be_json_eql(project.name.to_json)
           .at_path("#{embedded_path}/name")
       end
@@ -220,7 +220,7 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
         let(:project) { nil }
 
         it 'has no project embedded' do
-          is_expected
+          expect(subject)
             .not_to have_json_path(embedded_path)
         end
       end
@@ -231,11 +231,11 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
 
       context 'for a user principal' do
         it 'has the user embedded' do
-          is_expected
+          expect(subject)
             .to be_json_eql('User'.to_json)
             .at_path("#{embedded_path}/_type")
 
-          is_expected
+          expect(subject)
             .to be_json_eql(user.name.to_json)
             .at_path("#{embedded_path}/name")
         end
@@ -245,11 +245,11 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
         let(:principal) { group }
 
         it 'has the group embedded' do
-          is_expected
+          expect(subject)
             .to be_json_eql('Group'.to_json)
             .at_path("#{embedded_path}/_type")
 
-          is_expected
+          expect(subject)
             .to be_json_eql(group.name.to_json)
             .at_path("#{embedded_path}/name")
         end
@@ -260,19 +260,19 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
       let(:embedded_path) { '_embedded/roles' }
 
       it 'has an array of roles embedded that excludes member_roles marked for destruction' do
-        is_expected
+        expect(subject)
           .to be_json_eql('Role'.to_json)
           .at_path("#{embedded_path}/0/_type")
 
-        is_expected
+        expect(subject)
           .to be_json_eql(role1.name.to_json)
           .at_path("#{embedded_path}/0/name")
 
-        is_expected
+        expect(subject)
           .to be_json_eql('Role'.to_json)
           .at_path("#{embedded_path}/1/_type")
 
-        is_expected
+        expect(subject)
           .to be_json_eql(role2.name.to_json)
           .at_path("#{embedded_path}/1/name")
       end

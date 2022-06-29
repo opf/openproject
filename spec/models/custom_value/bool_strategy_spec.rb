@@ -32,7 +32,7 @@ describe CustomValue::BoolStrategy do
   let(:instance) { described_class.new(custom_value) }
   let(:custom_value) do
     double('CustomValue',
-           value: value)
+           value:)
   end
 
   describe '#value_present?' do
@@ -40,26 +40,31 @@ describe CustomValue::BoolStrategy do
 
     context 'value is nil' do
       let(:value) { nil }
+
       it { is_expected.to be false }
     end
 
     context 'value is empty string' do
       let(:value) { '' }
+
       it { is_expected.to be false }
     end
 
     context 'value is present string' do
       let(:value) { '1' }
+
       it { is_expected.to be true }
     end
 
     context 'value is true' do
       let(:value) { true }
+
       it { is_expected.to be true }
     end
 
     context 'value is false' do
       let(:value) { false }
+
       it { is_expected.to be true }
     end
   end
@@ -69,31 +74,37 @@ describe CustomValue::BoolStrategy do
 
     context 'value corresponds to true' do
       let(:value) { '1' }
+
       it { is_expected.to be true }
     end
 
     context 'value corresponds to false' do
       let(:value) { '0' }
+
       it { is_expected.to be false }
     end
 
     context 'value is blank' do
       let(:value) { '' }
+
       it { is_expected.to be_nil }
     end
 
     context 'value is nil' do
       let(:value) { nil }
+
       it { is_expected.to be_nil }
     end
 
     context 'value is true' do
       let(:value) { true }
+
       it { is_expected.to be true }
     end
 
     context 'value is false' do
       let(:value) { false }
+
       it { is_expected.to be false }
     end
   end
@@ -105,7 +116,7 @@ describe CustomValue::BoolStrategy do
       let(:value) { '1' }
 
       it 'is the true string' do
-        is_expected.to eql I18n.t(:general_text_Yes)
+        expect(subject).to eql I18n.t(:general_text_Yes)
       end
     end
 
@@ -113,7 +124,7 @@ describe CustomValue::BoolStrategy do
       let(:value) { '0' }
 
       it 'is the false string' do
-        is_expected.to eql I18n.t(:general_text_No)
+        expect(subject).to eql I18n.t(:general_text_No)
       end
     end
 
@@ -121,7 +132,7 @@ describe CustomValue::BoolStrategy do
       let(:value) { true }
 
       it 'is the true string' do
-        is_expected.to eql I18n.t(:general_text_Yes)
+        expect(subject).to eql I18n.t(:general_text_Yes)
       end
     end
 
@@ -129,7 +140,7 @@ describe CustomValue::BoolStrategy do
       let(:value) { false }
 
       it 'is the false string' do
-        is_expected.to eql I18n.t(:general_text_No)
+        expect(subject).to eql I18n.t(:general_text_No)
       end
     end
 
@@ -137,7 +148,7 @@ describe CustomValue::BoolStrategy do
       let(:value) { nil }
 
       it 'is the false string' do
-        is_expected.to eql I18n.t(:general_text_No)
+        expect(subject).to eql I18n.t(:general_text_No)
       end
     end
 
@@ -145,7 +156,7 @@ describe CustomValue::BoolStrategy do
       let(:value) { '' }
 
       it 'is the false string' do
-        is_expected.to eql I18n.t(:general_text_No)
+        expect(subject).to eql I18n.t(:general_text_No)
       end
     end
   end
@@ -155,29 +166,33 @@ describe CustomValue::BoolStrategy do
 
     context 'value corresponds to true' do
       let(:value) { '1' }
+
       it 'accepts' do
-        is_expected.to be_nil
+        expect(subject).to be_nil
       end
     end
 
     context 'value corresponds to false' do
       let(:value) { '0' }
+
       it 'accepts' do
-        is_expected.to be_nil
+        expect(subject).to be_nil
       end
     end
 
     context 'value is true' do
       let(:value) { true }
+
       it 'accepts' do
-        is_expected.to be_nil
+        expect(subject).to be_nil
       end
     end
 
     context 'value is false' do
       let(:value) { false }
+
       it 'accepts' do
-        is_expected.to be_nil
+        expect(subject).to be_nil
       end
     end
   end
@@ -190,7 +205,7 @@ describe CustomValue::BoolStrategy do
         let(:value) { falsey_value }
 
         it "is 'f'" do
-          is_expected.to eql 'f'
+          expect(subject).to eql 'f'
         end
       end
     end
@@ -199,7 +214,7 @@ describe CustomValue::BoolStrategy do
       let(:value) { nil }
 
       it "is nil" do
-        is_expected.to be_nil
+        expect(subject).to be_nil
       end
     end
 
@@ -207,7 +222,7 @@ describe CustomValue::BoolStrategy do
       let(:value) { '' }
 
       it "is nil" do
-        is_expected.to be_nil
+        expect(subject).to be_nil
       end
     end
 
@@ -216,7 +231,7 @@ describe CustomValue::BoolStrategy do
         let(:value) { truthy_value }
 
         it "is 't'" do
-          is_expected.to eql 't'
+          expect(subject).to eql 't'
         end
       end
     end

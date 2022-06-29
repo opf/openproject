@@ -32,7 +32,7 @@ describe Grids::Query, type: :model do
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
   let!(:my_page_grid) do
-    create(:my_page, user: user)
+    create(:my_page, user:)
   end
   let!(:other_my_page_grid) do
     create(:my_page, user: other_user)

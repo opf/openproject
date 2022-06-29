@@ -46,7 +46,7 @@ class RbExportCardConfigurationsController < RbApplicationController
         send_data(cards_document.render,
                   disposition: 'attachment',
                   type: 'application/pdf',
-                  filename: filename)
+                  filename:)
       end
     end
   end

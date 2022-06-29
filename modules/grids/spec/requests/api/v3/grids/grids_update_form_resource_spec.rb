@@ -38,6 +38,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
   end
 
   let(:params) { {} }
+
   subject(:response) { last_response }
 
   before do
@@ -54,7 +55,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql 404
+          .to be 404
       end
     end
   end

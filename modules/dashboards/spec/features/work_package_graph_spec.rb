@@ -30,7 +30,6 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, js: true, with_mail: false do
   let!(:type) { create :type }
   let!(:other_type) { create :type }
@@ -41,15 +40,15 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
   let!(:closed_status) { create :status, is_closed: true }
   let!(:type_work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            author: user,
            status: open_status,
            responsible: user
   end
   let!(:other_type_work_package) do
     create :work_package,
-           project: project,
+           project:,
            type: other_type,
            author: user,
            status: closed_status,
@@ -58,7 +57,7 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
   let!(:other_project_work_package) do
     create :work_package,
            project: other_project,
-           type: type,
+           type:,
            author: user,
            status: open_status,
            responsible: user
@@ -74,12 +73,12 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
   end
 
   let(:role) do
-    create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
 
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project: project, user: u, roles: [role])
+      create(:member, project:, user: u, roles: [role])
       create(:member, project: other_project, user: u, roles: [role])
     end
   end
@@ -181,4 +180,3 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

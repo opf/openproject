@@ -35,7 +35,7 @@ describe ::API::V3::Queries::QueryRepresenter, 'parsing' do
   let(:project) { build_stubbed(:project) }
   let(:user) { build_stubbed(:user) }
   let(:representer) do
-    described_class.new(query, current_user: current_user, embed_links: true)
+    described_class.new(query, current_user:, embed_links: true)
   end
 
   let(:permissions) { [] }

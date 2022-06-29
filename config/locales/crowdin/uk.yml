@@ -521,18 +521,20 @@ uk:
         duration: "Duration"
         end_insertion: "Кінець вставки"
         end_deletion: "Кінець видалення"
-        version: "Версія"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Джерело"
         parent_issue: "Джерело"
         parent_work_package: "Джерело"
         priority: "Пріоритет"
         progress: "Прогрес (%)"
+        readonly: "Read only"
         schedule_manually: "Ручне планування"
         spent_hours: "Трудовитрати"
         spent_time: "Трудовитрати"
         subproject: "Підпроект"
         time_entries: "Час журналу"
         type: "Тип"
+        version: "Версія"
         watcher: "Спостерігач"
       'doorkeeper/application':
         uid: "Ідентифікатор клієнта"
@@ -736,6 +738,7 @@ uk:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "не може бути важливою подією."
               cannot_be_self_assigned: "– не можна призначити собі."
@@ -1490,7 +1493,6 @@ uk:
   label_consent_settings: "Згода користувача"
   label_wiki_menu_item: Пункт меню Wiki
   label_select_main_menu_item: Виберіть новий пункт головного меню
-  label_select_project: "Вибрати проект"
   label_required_disk_storage: "Необхідне місце на диску"
   label_send_invitation: Надіслати запрошення
   label_change_plural: "Зміни"
@@ -1556,6 +1558,7 @@ uk:
   label_diff: "різниця"
   label_diff_inline: "підключений"
   label_diff_side_by_side: "поряд"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "Вимкнено"
   label_display: "Дисплей"
   label_display_per_page: "На сторінку: %{value}"
@@ -1768,7 +1771,6 @@ uk:
   label_product_version: "Версія продукту"
   label_professional_support: "Професійна підтримка"
   label_profile: "Профіль"
-  label_project_all: "Усі проекти"
   label_project_count: "Загальна кількість проектів"
   label_project_copy_notifications: "Відправлення повідомлень по електронній пошті в ході реалізації проекту копія"
   label_project_latest: "Останні проекти"
@@ -2032,6 +2034,9 @@ uk:
   mail_body_backup_token_info: Попередній маркер більше не дійсний.
   mail_body_backup_waiting_period: Новий маркер почне діяти через %{hours} год.
   mail_body_backup_token_warning: Якщо це були не ви, негайно ввійдіть в OpenProject і знову скиньте його.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Щоб змінити пароль, натисніть на посилання:"
   mail_body_register: "Вітаємо в %{app_title}. Активуйте свій обліковий запис, перейшовши за цим посиланням:"
   mail_body_register_header_title: "Електронний лист із запрошенням стати учасником проєкту"
@@ -2049,6 +2054,7 @@ uk:
   mail_subject_account_activation_request: "Запит на активацію облікового запису %{value}"
   mail_subject_backup_ready: "Ваша резервна копія готова"
   mail_subject_backup_token_reset: "Скидання маркера резервного копіювання"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ваш %{value} пароль"
   mail_subject_register: "Активація облікового запису %{value}"
   mail_subject_reminder: "%{count} призначених на Вас робочих пакетів в найближчі %{days} дні"
@@ -2418,7 +2424,7 @@ uk:
   setting_smtp_authentication: "SMTP аутентифікація"
   setting_smtp_user_name: "SMTP користувач:"
   setting_smtp_password: "SMTP пароль:"
-  setting_smtp_domain: "Домен SMTP HELLO"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Кількість днів, відображених в Діях"
   setting_app_subtitle: "Підзаголовок додатку"
   setting_app_title: "Назва додатку"
@@ -3059,4 +3065,45 @@ uk:
     authorization_error: "Сталася помилка авторизації."
     revoke_my_application_confirmation: "Ви дійсно бажаєте видалити цю програму? Це скасує %{token_count} активація для цього."
     my_registered_applications: "Зареєстровані програми OAuth"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
   you: ви

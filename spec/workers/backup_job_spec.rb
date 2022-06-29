@@ -40,10 +40,10 @@ describe BackupJob, type: :model do
     let(:job_status) do
       create(
         :delayed_job_status,
-        user: user,
+        user:,
         reference: backup,
         status: JobStatus::Status.statuses[status],
-        job_id: job_id
+        job_id:
       )
     end
 
@@ -57,12 +57,14 @@ describe BackupJob, type: :model do
 
     let(:db_dump_success) { false }
 
-    let(:arguments) { [{ backup: backup, user: user, **opts.except(:remote_storage) }] }
+    let(:arguments) { [{ backup:, user:, **opts.except(:remote_storage) }] }
 
     let(:user) { create :admin }
 
     before do
-      previous_backup; backup; status # create
+      previous_backup
+      backup
+      status # create
 
       allow(job).to receive(:arguments).and_return arguments
       allow(job).to receive(:job_id).and_return job_id
@@ -123,7 +125,12 @@ describe BackupJob, type: :model do
         expect(backup_files).to include "openproject.sql"
       end
 
-      if opts[:include_attachments] != false
+      if opts[:include_attachments] == false
+        it "does not include attachments in the backup" do
+          expect(backup_files).not_to include backed_up_attachment(attachment)
+          expect(backup_files).not_to include backed_up_attachment(pending_direct_upload)
+        end
+      else
         it "includes attachments in the backup" do
           expect(backup_files).to include backed_up_attachment(attachment)
         end
@@ -140,11 +147,6 @@ describe BackupJob, type: :model do
           it "does not clean up files afterwards as none were cached" do
             expect(job).to have_received(:remove_paths!).with([])
           end
-        end
-      else
-        it "does not include attachments in the backup" do
-          expect(backup_files).not_to include backed_up_attachment(attachment)
-          expect(backup_files).not_to include backed_up_attachment(pending_direct_upload)
         end
       end
     end
@@ -177,7 +179,7 @@ describe BackupJob, type: :model do
     end
 
     after do
-      FileUtils.rm dummy_path if File.exist? dummy_path
+      FileUtils.rm_rf dummy_path
     end
 
     it_behaves_like "it creates a backup", remote_storage: true

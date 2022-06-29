@@ -1,0 +1,3 @@
+# .git-blame-ignore-revs
+# lint with rubocop --autocorrect (safe cops only)
+48a4f1b6adb1e847a90a61f2ab277f28bcd77608

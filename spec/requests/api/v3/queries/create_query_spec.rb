@@ -45,10 +45,10 @@ describe "POST /api/v3/queries", type: :request do
               href: "/api/v3/queries/filters/status"
             },
             operator: {
-              "href": "/api/v3/queries/operators/="
+              href: "/api/v3/queries/operators/="
             },
             schema: {
-              "href": "/api/v3/queries/filter_instance_schemas/status"
+              href: "/api/v3/queries/filter_instance_schemas/status"
             },
             values: [
               {
@@ -102,18 +102,18 @@ describe "POST /api/v3/queries", type: :request do
       post "/api/v3/queries", params.to_json
     end
 
-    it 'should return 201 (created)' do
+    it 'returns 201 (created)' do
       expect(last_response.status).to eq(201)
     end
 
-    it 'should render the created query' do
+    it 'renders the created query' do
       json = JSON.parse(last_response.body)
 
       expect(json["_type"]).to eq "Query"
       expect(json["name"]).to eq "Dummy Query"
     end
 
-    it 'should create the query correctly' do
+    it 'creates the query correctly' do
       query = Query.find_by(name: params[:name])
 
       expect(query).to be_present

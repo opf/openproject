@@ -36,16 +36,16 @@ describe MeetingContentsController do
   shared_let(:watcher2) { create(:user, member_in_project: project, member_through_role: role) }
   shared_let(:meeting) do
     User.execute_as author do
-      create(:meeting, author: author, project: project)
+      create(:meeting, author:, project:)
     end
   end
   shared_let(:meeting_agenda) do
     User.execute_as author do
-      create(:meeting_agenda, meeting: meeting)
+      create(:meeting_agenda, meeting:)
     end
   end
 
-  before(:each) do
+  before do
     ActionMailer::Base.deliveries = []
     allow_any_instance_of(MeetingContentsController).to receive(:find_content)
     allow(controller).to receive(:authorize)
@@ -80,7 +80,7 @@ describe MeetingContentsController do
         end
 
         it 'does not raise an error' do
-          expect { put 'notify', params: { meeting_id: meeting.id } }.to_not raise_error
+          expect { put 'notify', params: { meeting_id: meeting.id } }.not_to raise_error
         end
 
         it 'produces a flash message containing the mail addresses raising the error' do
@@ -110,7 +110,7 @@ describe MeetingContentsController do
         end
 
         it 'does not raise an error' do
-          expect { put 'notify', params: { meeting_id: meeting.id } }.to_not raise_error
+          expect { put 'notify', params: { meeting_id: meeting.id } }.not_to raise_error
         end
 
         it 'produces a flash message containing the mail addresses raising the error' do

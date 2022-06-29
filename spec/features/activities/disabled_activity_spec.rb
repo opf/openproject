@@ -45,19 +45,19 @@ describe 'Disabled activity', type: :feature do
   let!(:work_package3) { create(:work_package, project: project3) }
   let!(:wiki_page1) do
     create(:wiki_page, wiki: project1.wiki) do |page|
-      create(:wiki_content, page: page)
+      create(:wiki_content, page:)
     end
   end
   let!(:wiki_page2) do
     create(:wiki_page, wiki: project2.wiki) do |page|
-      create(:wiki_content, page: page)
+      create(:wiki_content, page:)
     end
   end
   let!(:wiki_page3) do
     wiki = create(:wiki, project: project3)
 
-    create(:wiki_page, wiki: wiki) do |page|
-      create(:wiki_content, page: page)
+    create(:wiki_page, wiki:) do |page|
+      create(:wiki_content, page:)
     end
   end
 

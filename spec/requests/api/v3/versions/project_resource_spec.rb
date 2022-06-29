@@ -48,7 +48,7 @@ describe "API v3 version's projects resource" do
   let(:project2) { create(:project, public: false) }
   let(:project3) { create(:project, public: false) }
   let(:project4) { create(:project, public: false) }
-  let(:version) { create(:version, project: project, sharing: 'system') }
+  let(:version) { create(:version, project:, sharing: 'system') }
 
   subject(:response) { last_response }
 
@@ -61,13 +61,13 @@ describe "API v3 version's projects resource" do
 
         # this is to be included
         create(:member, user: current_user,
-                                   project: project2,
-                                   roles: [role])
+                        project: project2,
+                        roles: [role])
         # this is to be included as the user is a member of the project, the
         # lack of permissions is irrelevant.
         create(:member, user: current_user,
-                                   project: project3,
-                                   roles: [role_without_permissions])
+                        project: project3,
+                        roles: [role_without_permissions])
         # project4 should NOT be included
         project4
 

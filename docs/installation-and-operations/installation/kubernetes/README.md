@@ -7,8 +7,4 @@ sidebar_navigation: false
 Kubernetes is a container orchestration tool. As such it can use the
 OpenProject docker container in the same manner as shown in the [docker section](../docker/#one-container-per-process-recommended).
 
-You can translate OpenProject's [`docker-compose.yml`](https://github.com/opf/openproject/blob/stable/12/docker-compose.yml)
-for use in Kubernetes using [Kompose](https://github.com/kubernetes/kompose)
-as described in the Kubernetes [documentation](https://kubernetes.io/docs/tasks/configure-pod-container/translate-compose-kubernetes/).
-
-_Note: Make sure you are using kompose version **1.19** or newer for this to work._
+In the [openproject-deploy](https://github.com/opf/openproject-deploy/blob/stable/12/kubernetes/README.md) repository we provide further information and an exemplary set of YAML files defining a complete OpenProject setup on Kubernetes.

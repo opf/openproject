@@ -60,10 +60,10 @@ module TimeEntries
     attribute :tweek
 
     def assignable_activities
-      if !model.project
-        TimeEntryActivity.none
-      else
+      if model.project
         TimeEntryActivity.active_in_project(model.project)
+      else
+        TimeEntryActivity.none
       end
     end
 

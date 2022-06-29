@@ -41,7 +41,7 @@ describe 'account/register', type: :view do
 
     context 'with auth source' do
       let(:auth_source) { create :auth_source }
-      let(:user)        { build :user, auth_source: auth_source }
+      let(:user)        { build :user, auth_source: }
 
       it 'does not show a login field' do
         expect(rendered).not_to include('user[login]')
@@ -65,7 +65,7 @@ describe 'account/register', type: :view do
 
     context 'with auth source' do
       let(:auth_source) { create :auth_source }
-      let(:user)        { build :user, auth_source: auth_source }
+      let(:user)        { build :user, auth_source: }
 
       it 'does not show a login field' do
         expect(rendered).not_to include('user[login]')

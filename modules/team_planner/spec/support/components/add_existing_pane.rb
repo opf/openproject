@@ -72,7 +72,7 @@ module Components
       source = page
                  .find("[data-qa-selector='op-add-existing-pane--wp-#{work_package.id}']")
 
-      drag_by_pixel(element: source, by_x: by_x, by_y: by_y)
+      drag_by_pixel(element: source, by_x:, by_y:)
     end
 
     def card(work_package)

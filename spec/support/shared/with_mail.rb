@@ -1,5 +1,5 @@
 RSpec.configure do |config|
-  config.around(:each) do |example|
+  config.around do |example|
     config = example.metadata[:with_mail]
     if example.metadata.key?(:with_mail) && !config
       value = ActionMailer::Base.perform_deliveries

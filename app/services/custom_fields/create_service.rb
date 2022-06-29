@@ -41,7 +41,7 @@ module CustomFields
     def perform(params)
       super
     rescue StandardError => e
-      ServiceResult.new(success: false, message: e.message)
+      ServiceResult.failure(message: e.message)
     end
 
     def instance(params)

@@ -125,7 +125,7 @@ class GroupsController < ApplicationController
         flash[:info] = I18n.t(:notice_deletion_scheduled)
         redirect_to(action: :index)
       end
-      format.xml { head 202 }
+      format.xml { head :accepted }
     end
   end
 

@@ -18,7 +18,7 @@ describe 'Zen mode', js: true do
   let(:project) { create(:project, types: [type]) }
 
   let(:work_package) do
-    create :work_package, project: project, type: type
+    create :work_package, project:, type:
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }

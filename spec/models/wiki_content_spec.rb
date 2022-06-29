@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe WikiContent, type: :model do
-  let(:content) { create(:wiki_content, page: page, author: author) }
+  let(:content) { create(:wiki_content, page:, author:) }
 
   shared_let(:wiki) { create(:wiki) }
-  shared_let(:page) { create(:wiki_page, wiki: wiki) }
+  shared_let(:page) { create(:wiki_page, wiki:) }
   shared_let(:author) do
     create(:user,
            member_in_project: wiki.project,
@@ -55,7 +55,7 @@ describe WikiContent, type: :model do
 
   describe 'mail sending' do
     context 'when creating' do
-      let(:content) { build(:wiki_content, page: page) }
+      let(:content) { build(:wiki_content, page:) }
 
       it 'sends mails to the wiki`s watchers and project all watchers' do
         expect do
@@ -124,7 +124,7 @@ describe WikiContent, type: :model do
 
     context 'when new' do
       it 'starts with 0' do
-        content = described_class.new(text: 'a', author: author, page: page)
+        content = described_class.new(text: 'a', author:, page:)
 
         expect(content.version)
           .to be 0
@@ -177,7 +177,7 @@ describe WikiContent, type: :model do
 
   describe '#text' do
     it 'doe not truncate to 64k' do
-      content = described_class.create(text: 'a' * 500.kilobyte, author: author, page: page)
+      content = described_class.create(text: 'a' * 500.kilobyte, author:, page:)
       content.reload
       expect(content.text.size)
         .to eql(500.kilobyte)

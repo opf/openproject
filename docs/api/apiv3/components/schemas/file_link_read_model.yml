@@ -169,6 +169,7 @@ example:
         raw: Develop super cool OpenProject API.
         html: "<p>Develop super cool OpenProject API.</p>"
       scheduleManually: false
+      readonly: false
       startDate:
       dueDate:
       createdAt: '2014-08-29T12:40:53Z'

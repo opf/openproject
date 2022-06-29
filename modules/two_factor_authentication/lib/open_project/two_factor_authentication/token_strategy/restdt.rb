@@ -94,10 +94,10 @@ module OpenProject::TwoFactorAuthentication
 
         Rails.logger.error do
           "[2FA] REST DT delivery failed for user #{user.login} " \
-                            "(Error #{response.body})"
+            "(Error #{response.body})"
         end
 
-        raise I18n.t('two_factor_authentication.restdt.delivery_failed_with_code', code: code)
+        raise I18n.t('two_factor_authentication.restdt.delivery_failed_with_code', code:)
       end
 
       def self.validate_params(params)

@@ -54,17 +54,15 @@ module API
           private
 
           def contract
-            @contract ||= begin
-              ::API::V3::WorkPackages::Schema::TypedSchemaContract
+            @contract ||= ::API::V3::WorkPackages::Schema::TypedSchemaContract
                 .new(work_package,
                      User.current)
-            end
           end
 
           def work_package
             @work_package ||= WorkPackage
-                              .new(project: project,
-                                   type: type)
+                              .new(project:,
+                                   type:)
           end
         end
       end

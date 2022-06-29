@@ -80,7 +80,7 @@ describe WorkflowsController, type: :controller do
 
       allow(Workflows::BulkUpdateService)
         .to receive(:new)
-        .with(role: role, type: type)
+        .with(role:, type:)
         .and_return(service)
 
       service
@@ -91,7 +91,7 @@ describe WorkflowsController, type: :controller do
         .with(status_params)
         .and_return(call_result)
     end
-    let(:call_result) { ServiceResult.new success: true }
+    let(:call_result) { ServiceResult.success }
     let(:params) do
       {
         role_id: role.id,
@@ -101,7 +101,7 @@ describe WorkflowsController, type: :controller do
     end
 
     before do
-      post :update, params: params
+      post :update, params:
     end
 
     it 'redirects to edit' do

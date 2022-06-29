@@ -41,8 +41,8 @@ describe ::API::V3::Memberships::MembershipPayloadRepresenter do
         let(:meta) { OpenStruct.new notifiation_message: 'Come to the dark side' }
         let(:representer) do
           described_class.create(membership,
-                                 meta: meta,
-                                 current_user: current_user)
+                                 meta:,
+                                 current_user:)
         end
 
         it_behaves_like 'formattable property', :'_meta/notificationMessage' do
@@ -54,8 +54,8 @@ describe ::API::V3::Memberships::MembershipPayloadRepresenter do
         let(:meta) { OpenStruct.new send_notifications: true }
         let(:representer) do
           described_class.create(membership,
-                                 meta: meta,
-                                 current_user: current_user)
+                                 meta:,
+                                 current_user:)
         end
 
         it_behaves_like 'property', :'_meta/sendNotifications' do
@@ -71,7 +71,7 @@ describe ::API::V3::Memberships::MembershipPayloadRepresenter do
     let(:representer) do
       described_class.create(OpenStruct.new,
                              meta: OpenStruct.new,
-                             current_user: current_user)
+                             current_user:)
     end
 
     describe '_meta' do

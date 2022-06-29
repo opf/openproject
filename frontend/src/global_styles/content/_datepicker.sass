@@ -28,12 +28,31 @@
 
 $datepicker--border-radius: 5px
 
+@mixin disabled-day
+  background: $spot-color-basic-white
+  color: $spot-color-basic-gray-4 !important
+  border-radius: 0
+  background: $spot-color-basic-white
+  pointer-events: none
+  cursor: not-allowed
+
+  &:hover
+    border-color: transparent
+
 .flatpickr-current-month
   display: flex !important
 
-.numInputWrapper
-  position: fixed !important
-  left: 65% !important
+.flatpickr-calendar .numInputWrapper
+  position: fixed
+  left: 65%
+
+
+.flatpickr-day
+  &.flatpickr-disabled
+    @include disabled-day
+  &.flatpickr-non-working-day
+    background: $spot-color-basic-gray-6
+    border-radius: 0
 
 .flatpickr-calendar.inline
   box-shadow: none !important
@@ -41,6 +60,14 @@ $datepicker--border-radius: 5px
 
   .flatpickr-months
     min-height: 45px
+
+    .flatpickr-current-month
+      @include spot-body-small(bold)
+      justify-content: center
+
+    .numInputWrapper
+      position: relative
+      left: 0
 
   .flatpickr-weekwrapper
     display: none
@@ -50,27 +77,44 @@ $datepicker--border-radius: 5px
 
   .flatpickr-weekdaycontainer,
   .flatpickr-days .dayContainer
-    padding: 0 1.25rem
+
+    &:first-of-type
+      padding: 0 1rem 0 0
+    &:last-of-type
+      padding: 0 0 0 1rem
+    &:only-of-type
+      padding: 0
+
+  .flatpickr-prev-month
+    padding-left: 0
+  .flatpickr-next-month
+    padding-right: 0
 
   .flatpickr-days
     .dayContainer
       box-shadow: none
+      min-width: 283px
+      max-width: 283px
+
+      @media screen and (max-width: 679px)
+        min-width: 267px
+        max-width: 267px
 
       .flatpickr-day
         color: $spot-color-basic-black
         height: 30px
         line-height: 28px
+        margin: 0
         border-radius: $datepicker--border-radius
         box-shadow: none !important
 
-        &:nth-child(7n+7),
-        &:nth-child(7n+6)
-          background: $spot-color-basic-gray-6
+        &:hover
           border-radius: 0
 
         &.today
           background: $spot-color-indication-current-date
           border-color: $spot-color-indication-current-date
+          border-radius: $datepicker--border-radius
 
         &.selected,
         &.startRange,
@@ -93,17 +137,14 @@ $datepicker--border-radius: 5px
           border-color: $spot-color-feedback-info-light
           border-radius: 0
 
+        &.flatpickr-disabled:not(.selected),
+        &.flatpickr-non-working-day:not(.selected)
+          border-radius: 0
 
   &.disabled
     .flatpickr-days
       .flatpickr-day
-        color: $spot-color-basic-gray-4
-        background: $spot-color-basic-white
-        pointer-events: none
-        cursor: not-allowed
-
-        &:hover
-          border-color: transparent
+        @include disabled-day
 
         &.selected,
         &.startRange,

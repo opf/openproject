@@ -350,6 +350,7 @@ ro:
     label_expand_project_menu: "Deschideți meniul proiectului"
     label_export: "Exportare"
     label_export_preparing: "Exportul este în curs de pregătire și va fi descărcat în curând."
+    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Fișier"
     label_filesize: "Dimensiune"
     label_general: "General"
@@ -372,7 +373,9 @@ ro:
     label_learn_more_link: "Aflați mai multe"
     label_less_or_equal: "<="
     label_less_than_ago: "acum mai puțin de zile"
+    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Se încarcă..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Notificări prin e-mail"
     label_me: "eu"
     label_meeting_agenda: "Agendă"
@@ -385,18 +388,25 @@ ro:
     label_no_data: "Nu există date de afișat"
     label_no_due_date: "fără dată de finalizare"
     label_no_start_date: "fără dată început"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Nici o valoare"
+    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "niciunul"
     label_not_contains: "nu conține"
     label_not_equals: "nu este"
     label_on: "pe"
     label_open_menu: "Deschidere meniu"
     label_open_context_menu: "Deschideți meniul contextual"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "deschise"
+    label_open_file_link: 'Open file on storage'
+    label_open_file_link_location: 'Open file in location'
     label_password: "Parolă"
     label_previous: "Înapoi"
     label_per_page: "Pe pagină:"
     label_please_wait: "Așteptați"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Proiecte"
     label_visibility_settings: "Setări de vizibilitate"
     label_quote_comment: "Citare comentariu"
@@ -405,10 +415,12 @@ ro:
     label_remove: "Eliminare"
     label_remove_column: "Elimina colana"
     label_remove_columns: "Eliminare coloane selectate"
+    label_remove_file_link: "Remove file link"
     label_remove_row: "Elimina rand"
     label_report: "Raportare"
     label_repository_plural: "Repo-uri"
     label_save_as: "Salvare ca"
+    label_select_project: "Select a project"
     label_select_watcher: "Selectaţi un observator..."
     label_selected_filter_list: "Filtre selectate"
     label_show_attributes: "Afișați toate câmpurile"
@@ -420,6 +432,9 @@ ro:
     label_sorting: "Sortare"
     label_spent_time: "Timp consumat"
     label_star_query: "Favorite"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Apăsați tasta ”Enter” pentru a salva."
     label_public_query: "Public"
     label_sum: "Sumă"
@@ -456,6 +471,7 @@ ro:
     label_custom_queries: "Configurații private"
     label_columns: "Coloane"
     label_attachments: Atașamente
+    label_nextcloud: Nextcloud
     label_drop_files: Trageți fișierele aici
     label_drop_files_hint: sau dați click pentru a adăuga fişiere
     label_drop_folders_hint: Nu puteți încărca dosare ca atașament. Vă rugăm să selectați fișiere individuale.
@@ -835,6 +851,13 @@ ro:
       comment_send_failed: "A apărut o eroare. Comentariul nu a putut fi salvat."
       comment_updated: "Comentariul a fost actualizat cu succes."
       confirm_edit_cancel: "Sunteți sigur că doriți să renunțați la editarea pachetului de lucru?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtrare"
       description_enter_text: "Introduceţi textul"
       description_options_hide: "Ascundere opțiuni"
@@ -1190,3 +1213,5 @@ ro:
         remove: 'Eliminare'
       drop_modal:
         Close: 'Închide'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

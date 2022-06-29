@@ -32,7 +32,7 @@ describe HourlyRatesController do
   shared_let(:admin) { create :admin }
 
   let(:user) { create(:user) }
-  let(:default_rate) { create(:default_hourly_rate, user: user) }
+  let(:default_rate) { create(:default_hourly_rate, user:) }
 
   describe 'PUT update' do
     describe 'WHEN trying to update with an invalid rate value' do
@@ -43,17 +43,18 @@ describe HourlyRatesController do
                                                                             'rate' => '2d5' } } }
         }
       end
+
       before do
         as_logged_in_user admin do
-          post :update, params: params
+          post :update, params:
         end
       end
 
-      it 'should render the edit template' do
+      it 'renders the edit template' do
         expect(response).to render_template('edit')
       end
 
-      it 'should display an error message' do
+      it 'displays an error message' do
         actual_message = assigns(:user).default_rates.first.errors.messages[:rate].first
         expect(actual_message).to eq(I18n.t('activerecord.errors.messages.not_a_number'))
       end

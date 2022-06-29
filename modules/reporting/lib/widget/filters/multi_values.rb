@@ -29,14 +29,14 @@
 class Widget::Filters::MultiValues < Widget::Filters::Base
   def render
     write(content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: 'advanced-filters--filter-value') do
-      select_options = {  "data-remote-url": url_for(action: 'available_values'),
-                          "data-initially-selected": JSON::dump(Array(filter.values).flatten),
+      select_options = {  'data-remote-url': url_for(action: 'available_values'),
+                          'data-initially-selected': JSON::dump(Array(filter.values).flatten),
                           style: 'vertical-align: top;', # FIXME: Do CSS
                           name: "values[#{filter_class.underscore_name}][]",
-                          "data-loading": @options[:lazy] ? 'ajax' : '',
+                          'data-loading': @options[:lazy] ? 'ajax' : '',
                           id: "#{filter_class.underscore_name}_arg_1_val",
                           class: 'form--select filter-value',
-                          "data-filter-name": filter_class.underscore_name }
+                          'data-filter-name': filter_class.underscore_name }
       box_content = ''.html_safe
       label = label_tag "#{filter_class.underscore_name}_arg_1_val",
                         h(filter_class.label) + ' ' + I18n.t(:label_filter_value),
@@ -48,7 +48,7 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
       plus = content_tag :a,
                          href: '#',
                          class: 'form-label filter_multi-select -transparent',
-                         "data-filter-name": filter_class.underscore_name,
+                         'data-filter-name': filter_class.underscore_name,
                          title: I18n.t(:description_multi_select) do
         content_tag :span,
                     '',

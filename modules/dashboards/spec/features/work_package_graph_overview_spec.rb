@@ -42,18 +42,18 @@ describe 'Work package overview graph widget on dashboard',
   let!(:open_work_package) do
     create :work_package,
            subject: 'Spanning work package',
-           project: project,
+           project:,
            status: open_status,
-           type: type,
+           type:,
            author: user,
            responsible: user
   end
   let!(:closed) do
     create :work_package,
            subject: 'Starting work package',
-           project: project,
+           project:,
            status: closed_status,
-           type: type,
+           type:,
            author: user,
            responsible: user
   end
@@ -65,12 +65,12 @@ describe 'Work package overview graph widget on dashboard',
   end
 
   let(:role) do
-    create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
 
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project: project, user: u, roles: [role])
+      create(:member, project:, user: u, roles: [role])
     end
   end
 

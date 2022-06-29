@@ -32,7 +32,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:project) { create(:project_with_types, public: false) }
   let(:path) { api_v3_paths.work_packages_by_project project.id }
   let(:permissions) { %i[add_work_packages view_project] }

@@ -35,7 +35,7 @@ describe WorkPackage, type: :model do
     end
 
     describe 'story points' do
-      before(:each) do
+      before do
         work_package.project.enabled_module_names += ['backlogs']
       end
 
@@ -113,7 +113,7 @@ describe WorkPackage, type: :model do
   end
 
   describe 'definition of done' do
-    before(:each) do
+    before do
       @status_resolved = build(:status, name: 'Resolved', is_default: false)
       @status_open = build(:status, name: 'Open', is_default: true)
       @project = build(:project)
@@ -121,20 +121,20 @@ describe WorkPackage, type: :model do
       @project.types = [build(:type_feature)]
 
       @work_package = build(:work_package, project: @project,
-                                                      status: @status_open,
-                                                      type: build(:type_feature))
+                                           status: @status_open,
+                                           type: build(:type_feature))
     end
 
-    it 'should not be done when having the initial status "open"' do
+    it 'is not done when having the initial status "open"' do
       expect(@work_package.done?).to be_falsey
     end
 
-    it 'should be done when having the status "resolved"' do
+    it 'is done when having the status "resolved"' do
       @work_package.status = @status_resolved
       expect(@work_package.done?).to be_truthy
     end
 
-    it 'should not be done when removing done status from "resolved"' do
+    it 'is not done when removing done status from "resolved"' do
       @work_package.status = @status_resolved
       @project.done_statuses = Array.new
       expect(@work_package.done?).to be_falsey
@@ -145,19 +145,19 @@ describe WorkPackage, type: :model do
     let(:project) { build(:project) }
     let(:work_package) { build(:work_package) }
 
-    it 'should be false without a project' do
+    it 'is false without a project' do
       work_package.project = nil
       expect(work_package).not_to be_backlogs_enabled
     end
 
-    it 'should be true with a project having the backlogs module' do
+    it 'is true with a project having the backlogs module' do
       project.enabled_module_names = project.enabled_module_names + ['backlogs']
       work_package.project = project
 
       expect(work_package).to be_backlogs_enabled
     end
 
-    it 'should be false with a project not having the backlogs module' do
+    it 'is false with a project not having the backlogs module' do
       work_package.project = project
       work_package.project.enabled_module_names = nil
 

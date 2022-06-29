@@ -351,6 +351,7 @@ nl:
     label_expand_project_menu: "Menu project uitvouwen"
     label_export: "Exporteren"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Bestand"
     label_filesize: "Grootte"
     label_general: "Algemeen"
@@ -373,7 +374,9 @@ nl:
     label_learn_more_link: "Meer informatie"
     label_less_or_equal: "<="
     label_less_than_ago: "minder dan dagen geleden"
+    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Laden..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "E-mailnotificaties"
     label_me: "ik"
     label_meeting_agenda: "Agenda"
@@ -386,18 +389,25 @@ nl:
     label_no_data: "Geen gegevens om weer te geven"
     label_no_due_date: "no finish date"
     label_no_start_date: "geen startdatum"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Geen waarde"
+    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "geen"
     label_not_contains: "bevat geen"
     label_not_equals: "is niet"
     label_on: "op"
     label_open_menu: "Menu openen"
     label_open_context_menu: "Toon context menu"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "Open"
+    label_open_file_link: 'Open file on storage'
+    label_open_file_link_location: 'Open file in location'
     label_password: "Wachtwoord"
     label_previous: "Vorige"
     label_per_page: "Per pagina:"
     label_please_wait: "Een ogenblik geduld"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projecten"
     label_visibility_settings: "Zichtbaarheidsinstellingen"
     label_quote_comment: "Citeer dit commentaar"
@@ -406,10 +416,12 @@ nl:
     label_remove: "Verwijder"
     label_remove_column: "Kolom verwijderen"
     label_remove_columns: "Verwijder geselecteerde kolommen"
+    label_remove_file_link: "Remove file link"
     label_remove_row: "Rij verwijderen"
     label_report: "Rapport"
     label_repository_plural: "Repositories"
     label_save_as: "Opslaan als"
+    label_select_project: "Select a project"
     label_select_watcher: "Kies een toezichter..."
     label_selected_filter_list: "Geselecteerde filters"
     label_show_attributes: "Toon alle kenmerken"
@@ -421,6 +433,9 @@ nl:
     label_sorting: "Sortering"
     label_spent_time: "Bestede tijd"
     label_star_query: "Favoriet"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Druk op Enter om te bewaren."
     label_public_query: "Publiek"
     label_sum: "Som"
@@ -457,6 +472,7 @@ nl:
     label_custom_queries: "Privé weergaven"
     label_columns: "Kolommen"
     label_attachments: Bijlagen
+    label_nextcloud: Nextcloud
     label_drop_files: Bestanden hier neerzetten
     label_drop_files_hint: of klik om bestanden toe te voegen
     label_drop_folders_hint: U kunt geen mappen uploaden als bijlage. Selecteer a. u. b. enkele bestanden.
@@ -835,6 +851,13 @@ nl:
       comment_send_failed: "Er is een fout opgetreden. De opmerking is niet ingediend."
       comment_updated: "De opmerking is succesvol bijgewerkt."
       confirm_edit_cancel: "Bent u zeker dat u het bewerken van het werkpakket wilt annuleren?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filter"
       description_enter_text: "Tekst invoeren"
       description_options_hide: "Verberg opties"
@@ -1188,3 +1211,5 @@ nl:
         remove: 'Verwijder'
       drop_modal:
         Close: 'Sluiten'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

@@ -186,6 +186,7 @@ describe Queries::Users::UserQuery, type: :model do
           END DESC
         SQL
       end
+
       it 'is the same as handwriting the query' do
         expected = User
             .user

@@ -43,7 +43,7 @@ class ApplicationMailer < ActionMailer::Base
 
   class << self
     # Activates/deactivates email deliveries during +block+
-    def with_deliveries(temporary_state = true, &_block)
+    def with_deliveries(temporary_state = true, &)
       old_state = ActionMailer::Base.perform_deliveries
       ActionMailer::Base.perform_deliveries = temporary_state
       yield
@@ -121,7 +121,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def send_mail(user, subject)
     with_locale_for(user) do
-      mail to: user.mail, subject: subject
+      mail to: user.mail, subject:
     end
   end
 
@@ -140,12 +140,12 @@ class ApplicationMailer < ActionMailer::Base
                        else
                          "#{object.class.name.demodulize.underscore}-#{object.id}"
                        end
-    hash = 'op'\
-           '.'\
-           "#{object_reference}"\
-           '.'\
-           "#{Time.current.strftime('%Y%m%d%H%M%S')}"\
-           '.'\
+    hash = 'op' \
+           '.' \
+           "#{object_reference}" \
+           '.' \
+           "#{Time.current.strftime('%Y%m%d%H%M%S')}" \
+           '.' \
            "#{recipient.id}"
 
     "#{hash}@#{header_host_value}"
@@ -160,8 +160,8 @@ class ApplicationMailer < ActionMailer::Base
   # It in fact is aimed not not so that similar messages (i.e. those belonging to the same
   # work package and journal) end up being grouped together.
   def references_value(object)
-    hash = 'op'\
-           '.'\
+    hash = 'op' \
+           '.' \
            "#{object.class.name.demodulize.underscore}-#{object.id}"
 
     "#{hash}@#{header_host_value}"

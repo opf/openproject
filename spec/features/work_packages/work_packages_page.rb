@@ -82,7 +82,7 @@ class WorkPackagesPage
 
   def find_subject_field(text = nil)
     if text
-      find('#inplace-edit--write-value--subject', text: text)
+      find('#inplace-edit--write-value--subject', text:)
     else
       find('#inplace-edit--write-value--subject')
     end

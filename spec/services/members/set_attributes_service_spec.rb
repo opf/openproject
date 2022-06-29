@@ -49,9 +49,9 @@ describe Members::SetAttributesService, type: :model do
   end
   let(:member_valid) { true }
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: member,
-                        contract_class: contract_class)
+                        contract_class:)
   end
   let(:call_attributes) { {} }
   let(:member) do

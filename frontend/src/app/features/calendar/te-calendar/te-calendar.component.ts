@@ -20,6 +20,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import timeGrid from '@fullcalendar/timegrid';
 import {
   CalendarOptions,
+  DayCellMountArg,
+  DayHeaderMountArg,
   Duration,
   EventApi,
   EventInput,
@@ -140,9 +142,12 @@ export class TimeEntryCalendarComponent {
     eventWillUnmount: this.beforeEventRemove.bind(this),
     eventClick: this.dispatchEventClick.bind(this),
     eventDrop: this.moveEvent.bind(this),
+    dayHeaderDidMount: (data:DayHeaderMountArg) => this.calendar.applyNonWorkingDay(data),
+    dayCellDidMount: (data:DayCellMountArg) => this.calendar.applyNonWorkingDay(data),
   };
 
-  constructor(readonly states:States,
+  constructor(
+    readonly states:States,
     readonly apiV3Service:ApiV3Service,
     readonly $state:StateService,
     private element:ElementRef,
@@ -157,6 +162,7 @@ export class TimeEntryCalendarComponent {
     private schemaCache:SchemaCacheService,
     private colors:ColorsService,
     private browserDetector:BrowserDetector,
+    private calendar:OpCalendarService,
   ) {}
 
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date },
@@ -170,7 +176,7 @@ export class TimeEntryCalendarComponent {
       });
   }
 
-  protected fetchTimeEntries(start:Date, end:Date) {
+  protected fetchTimeEntries(start:Date, end:Date):Promise<CollectionResource<TimeEntryResource>> {
     if (!this.memoizedTimeEntries
       || this.memoizedTimeEntries.start.getTime() !== start.getTime()
       || this.memoizedTimeEntries.end.getTime() !== end.getTime()) {
@@ -191,14 +197,14 @@ export class TimeEntryCalendarComponent {
     return this.memoizedTimeEntries.entries;
   }
 
-  private buildEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }) {
+  private buildEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }):EventInput[] {
     this.setRatio(entries);
 
     return this.buildTimeEntryEntries(entries)
       .concat(this.buildAuxEntries(entries, fetchInfo));
   }
 
-  private setRatio(entries:TimeEntryResource[]) {
+  private setRatio(entries:TimeEntryResource[]):void {
     const dateSums = this.calculateDateSums(entries);
 
     const maxHours = Math.max(...Object.values(dateSums), 0);
@@ -223,7 +229,7 @@ export class TimeEntryCalendarComponent {
     }
   }
 
-  private buildTimeEntryEntries(entries:TimeEntryResource[]) {
+  private buildTimeEntryEntries(entries:TimeEntryResource[]):EventInput[] {
     const hoursDistribution:{ [key:string]:Moment } = {};
 
     return entries.map((entry) => {
@@ -241,13 +247,11 @@ export class TimeEntryCalendarComponent {
 
       hoursDistribution[entry.spentOn] = start;
 
-      const color = this.colors.toHsl(this.entryName(entry));
-
       return this.timeEntry(entry, hours, start, end);
     }) as EventInput[];
   }
 
-  private buildAuxEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }) {
+  private buildAuxEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }):EventInput[] {
     const dateSums = this.calculateDateSums(entries);
 
     const calendarEntries:EventInput[] = [];
@@ -265,7 +269,7 @@ export class TimeEntryCalendarComponent {
     return calendarEntries;
   }
 
-  private calculateDateSums(entries:TimeEntryResource[]) {
+  private calculateDateSums(entries:TimeEntryResource[]):{ [p: string]: number } {
     const dateSums:{ [key:string]:number } = {};
 
     entries.forEach((entry) => {
@@ -337,7 +341,7 @@ export class TimeEntryCalendarComponent {
       ['user_id', '=', ['me']] as [string, FilterOperator, [string]]];
   }
 
-  private dispatchEventClick(event:CalendarViewEvent) {
+  private dispatchEventClick(event:CalendarViewEvent):void {
     if (event.event.extendedProps.entry) {
       this.editEvent(event.event.extendedProps.entry);
     } else if (event.el.classList.contains(ADD_ENTRY_CLASS_NAME) && !event.el.classList.contains(ADD_ENTRY_PROHIBITED_CLASS_NAME)) {
@@ -345,7 +349,7 @@ export class TimeEntryCalendarComponent {
     }
   }
 
-  private editEvent(entry:TimeEntryResource) {
+  private editEvent(entry:TimeEntryResource):void {
     this
       .timeEntryEdit
       .edit(entry)
@@ -357,7 +361,7 @@ export class TimeEntryCalendarComponent {
       });
   }
 
-  private moveEvent(event:CalendarMoveEvent) {
+  private moveEvent(event:CalendarMoveEvent):void {
     const { entry } = event.event.extendedProps;
 
     // Use end instead of start as when dragging, the event might be too long and would thus be start
@@ -383,11 +387,11 @@ export class TimeEntryCalendarComponent {
       });
   }
 
-  public addEventToday() {
+  public addEventToday():void {
     this.addEvent(moment(new Date()));
   }
 
-  private addEvent(date:Moment) {
+  private addEvent(date:Moment):void {
     if (!this.memoizedCreateAllowed) {
       return;
     }
@@ -403,7 +407,7 @@ export class TimeEntryCalendarComponent {
       });
   }
 
-  private updateEventSet(event:TimeEntryResource, action:'update'|'destroy'|'create') {
+  private updateEventSet(event:TimeEntryResource, action:'update'|'destroy'|'create'):void {
     this.memoizedTimeEntries.entries.then((collection) => {
       const foundIndex = collection.elements.findIndex((x) => x.id === event.id);
 
@@ -429,7 +433,7 @@ export class TimeEntryCalendarComponent {
     });
   }
 
-  private alterEventEntry(event:CalendarViewEvent) {
+  private alterEventEntry(event:CalendarViewEvent):void {
     this.appendAddIcon(event);
     this.appendSum(event);
 
@@ -442,7 +446,7 @@ export class TimeEntryCalendarComponent {
     this.appendFadeout(event);
   }
 
-  private appendAddIcon(event:CalendarViewEvent) {
+  private appendAddIcon(event:CalendarViewEvent):void {
     if (!event.el.classList.contains(ADD_ENTRY_CLASS_NAME)) {
       return;
     }
@@ -453,13 +457,13 @@ export class TimeEntryCalendarComponent {
     event.el.append(addIcon);
   }
 
-  private appendSum(event:CalendarViewEvent) {
+  private appendSum(event:CalendarViewEvent):void {
     if (event.event.extendedProps.sum) {
       event.el.innerHTML = event.event.extendedProps.sum;
     }
   }
 
-  private addTooltip(event:CalendarViewEvent) {
+  private addTooltip(event:CalendarViewEvent):void {
     if (this.browserDetector.isMobile) {
       return;
     }
@@ -474,11 +478,11 @@ export class TimeEntryCalendarComponent {
     });
   }
 
-  private removeTooltip(event:CalendarViewEvent) {
+  private removeTooltip(event:CalendarViewEvent):void {
     jQuery(event.el).tooltip('disable');
   }
 
-  private prependDuration(event:CalendarViewEvent) {
+  private prependDuration(event:CalendarViewEvent):void {
     const timeEntry = event.event.extendedProps.entry;
 
     if (this.timezone.toHours(timeEntry.hours) < 0.5) {
@@ -501,7 +505,7 @@ export class TimeEntryCalendarComponent {
   * which leads to the fc-short class not being applied by full calendar. For other short events, the css rules
   * need to deactivate the fc-fadeout.
    */
-  private appendFadeout(event:CalendarViewEvent) {
+  private appendFadeout(event:CalendarViewEvent):void {
     const timeEntry = event.event.extendedProps.entry;
 
     if (this.timezone.toHours(timeEntry.hours) < 0.5) {
@@ -524,7 +528,7 @@ export class TimeEntryCalendarComponent {
       .append(fadeout);
   }
 
-  private beforeEventRemove(event:CalendarViewEvent) {
+  private beforeEventRemove(event:CalendarViewEvent):void {
     if (!event.event.extendedProps.entry) {
       return;
     }
@@ -532,7 +536,7 @@ export class TimeEntryCalendarComponent {
     this.removeTooltip(event);
   }
 
-  private entryName(entry:TimeEntryResource) {
+  private entryName(entry:TimeEntryResource):string {
     let { name } = entry.project;
     if (entry.workPackage) {
       name += ` - ${this.workPackageName(entry)}`;
@@ -541,11 +545,11 @@ export class TimeEntryCalendarComponent {
     return name || '-';
   }
 
-  private workPackageName(entry:TimeEntryResource) {
+  private workPackageName(entry:TimeEntryResource):string {
     return `#${idFromLink(entry.workPackage.href)}: ${entry.workPackage.name}`;
   }
 
-  private tooltipContentString(entry:TimeEntryResource) {
+  private tooltipContentString(entry:TimeEntryResource):string {
     return `
         <ul class="tooltip--map">
           <li class="tooltip--map--item">
@@ -571,7 +575,7 @@ export class TimeEntryCalendarComponent {
         `;
   }
 
-  private sanitizedValue(value:string) {
+  private sanitizedValue(value:string):string|null {
     return this.sanitizer.sanitize(SecurityContext.HTML, value);
   }
 
@@ -591,7 +595,7 @@ export class TimeEntryCalendarComponent {
     return 1;
   }
 
-  protected setHiddenDays(displayedDays:DisplayedDays) {
+  protected setHiddenDays(displayedDays:DisplayedDays):void {
     const hiddenDays:number[] = Array
       .from(displayedDays, (value, index) => {
         if (!value) {

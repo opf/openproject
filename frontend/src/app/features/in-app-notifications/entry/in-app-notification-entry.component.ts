@@ -24,7 +24,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { take } from 'rxjs/internal/operators/take';
 import { StateService } from '@uirouter/angular';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
+import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 
@@ -38,9 +38,9 @@ import { DeviceService } from 'core-app/core/browser/device.service';
 export class InAppNotificationEntryComponent implements OnInit {
   @HostBinding('class.op-ian-item') className = true;
 
-  @Input() notification:InAppNotification;
+  @Input() notification:INotification;
 
-  @Input() aggregatedNotifications:InAppNotification[];
+  @Input() aggregatedNotifications:INotification[];
 
   workPackage$:Observable<WorkPackageResource>|null = null;
 
@@ -134,7 +134,7 @@ export class InAppNotificationEntryComponent implements OnInit {
     event.stopPropagation();
   }
 
-  markAsRead(event:MouseEvent, notifications:InAppNotification[]):void {
+  markAsRead(event:MouseEvent, notifications:INotification[]):void {
     event.stopPropagation();
     this.storeService.markAsRead(notifications.map((el) => el.id));
   }

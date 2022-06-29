@@ -35,7 +35,7 @@ module API
         include API::Decorators::DateProperty
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
-        self_link title_getter: ->(*) { nil }
+        self_link title_getter: ->(*) {}
 
         defaults render_nil: true
 
@@ -106,7 +106,7 @@ module API
                                      property_name: :time_entries_activity,
                                      namespace: 'time_entries/activities',
                                      getter: :activity_id,
-                                     setter: :"activity_id=")
+                                     setter: :'activity_id=')
                                 .from_hash(fragment)
                             }
 
@@ -116,8 +116,8 @@ module API
 
         def update_allowed?
           current_user_allowed_to(:edit_time_entries, context: represented.project) ||
-            represented.user_id == current_user.id &&
-              current_user_allowed_to(:edit_own_time_entries, context: represented.project)
+            (represented.user_id == current_user.id &&
+              current_user_allowed_to(:edit_own_time_entries, context: represented.project))
         end
 
         def current_user_allowed_to(permission, context:)

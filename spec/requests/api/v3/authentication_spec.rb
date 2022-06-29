@@ -96,26 +96,27 @@ describe API::V3, type: :request do
             get resource
           end
 
-          it 'should return 401 unauthorized' do
+          it 'returns 401 unauthorized' do
             expect(last_response.status).to eq 401
           end
         end
       end
+
       context 'when allowed', with_config: { apiv3_enable_basic_auth: true } do
         context 'without credentials' do
           before do
             get resource
           end
 
-          it 'should return 401 unauthorized' do
+          it 'returns 401 unauthorized' do
             expect(last_response.status).to eq 401
           end
 
-          it 'should return the correct JSON response' do
+          it 'returns the correct JSON response' do
             expect(JSON.parse(last_response.body)).to eq response_401
           end
 
-          it 'should return the WWW-Authenticate header' do
+          it 'returns the WWW-Authenticate header' do
             expect(last_response.header['WWW-Authenticate'])
               .to include 'Basic realm="OpenProject API"'
           end
@@ -129,19 +130,19 @@ describe API::V3, type: :request do
             get resource
           end
 
-          it 'should return 401 unauthorized' do
+          it 'returns 401 unauthorized' do
             expect(last_response.status).to eq 401
           end
 
-          it 'should return the correct JSON response' do
+          it 'returns the correct JSON response' do
             expect(JSON.parse(last_response.body)).to eq response_401
           end
 
-          it 'should return the correct content type header' do
+          it 'returns the correct content type header' do
             expect(last_response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
           end
 
-          it 'should return the WWW-Authenticate header' do
+          it 'returns the WWW-Authenticate header' do
             expect(last_response.header['WWW-Authenticate'])
               .to include 'Basic realm="OpenProject API"'
           end
@@ -154,19 +155,19 @@ describe API::V3, type: :request do
             post '/api/v3/time_entries/form'
           end
 
-          it 'should return 401 unauthorized' do
+          it 'returns 401 unauthorized' do
             expect(last_response.status).to eq 401
           end
 
-          it 'should return the correct JSON response' do
+          it 'returns the correct JSON response' do
             expect(JSON.parse(last_response.body)).to eq response_401
           end
 
-          it 'should return the correct content type header' do
+          it 'returns the correct content type header' do
             expect(last_response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
           end
 
-          it 'should return the WWW-Authenticate header' do
+          it 'returns the WWW-Authenticate header' do
             expect(last_response.header['WWW-Authenticate'])
               .to include 'Basic realm="OpenProject API"'
           end
@@ -181,19 +182,19 @@ describe API::V3, type: :request do
             get resource
           end
 
-          it 'should return 401 unauthorized' do
+          it 'returns 401 unauthorized' do
             expect(last_response.status).to eq 401
           end
 
-          it 'should return the correct JSON response' do
+          it 'returns the correct JSON response' do
             expect(JSON.parse(last_response.body)).to eq response_401
           end
 
-          it 'should return the correct content type header' do
+          it 'returns the correct content type header' do
             expect(last_response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
           end
 
-          it 'should return the WWW-Authenticate header' do
+          it 'returns the WWW-Authenticate header' do
             expect(last_response.header['WWW-Authenticate'])
               .to include 'Session realm="OpenProject API"'
           end
@@ -205,7 +206,7 @@ describe API::V3, type: :request do
             get resource
           end
 
-          it 'should return 200 OK' do
+          it 'returns 200 OK' do
             expect(last_response.status).to eq 200
           end
         end
@@ -274,11 +275,11 @@ describe API::V3, type: :request do
               get resource
             end
 
-            it 'should return 200 OK' do
+            it 'returns 200 OK' do
               expect(last_response.status).to eq 200
             end
 
-            it 'should "login" the anonymous user' do
+            it '"login"s the anonymous user' do
               expect(User.current).to be_anonymous
             end
           end
@@ -289,7 +290,7 @@ describe API::V3, type: :request do
               get resource
             end
 
-            it 'should return 401 unauthorized' do
+            it 'returns 401 unauthorized' do
               expect(last_response.status).to eq 401
             end
           end
@@ -300,7 +301,7 @@ describe API::V3, type: :request do
               get resource
             end
 
-            it 'should return 200 OK' do
+            it 'returns 200 OK' do
               expect(last_response.status).to eq 200
             end
           end
@@ -311,7 +312,7 @@ describe API::V3, type: :request do
               get resource
             end
 
-            it 'should return 200 OK' do
+            it 'returns 200 OK' do
               expect(last_response.status).to eq 200
             end
           end

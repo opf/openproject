@@ -31,7 +31,7 @@ require 'spec_helper'
 describe CustomValue::FormatStrategy do
   let(:custom_value) do
     double('CustomValue',
-           value: value)
+           value:)
   end
 
   describe '#value_present?' do
@@ -39,22 +39,26 @@ describe CustomValue::FormatStrategy do
 
     context 'value is nil' do
       let(:value) { nil }
-      it { is_expected.to eql(false) }
+
+      it { is_expected.to be(false) }
     end
 
     context 'value is empty string' do
       let(:value) { '' }
-      it { is_expected.to eql(false) }
+
+      it { is_expected.to be(false) }
     end
 
     context 'value is present string' do
       let(:value) { 'foo' }
-      it { is_expected.to eql(true) }
+
+      it { is_expected.to be(true) }
     end
 
     context 'value is present integer' do
       let(:value) { 42 }
-      it { is_expected.to eql(true) }
+
+      it { is_expected.to be(true) }
     end
   end
 end

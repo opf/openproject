@@ -40,10 +40,10 @@ describe 'API v3 Revisions by work package resource', type: :request do
            member_through_role: role)
   end
   let(:project) { create(:project, public: false) }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i[view_work_packages view_changesets] }
-  let(:repository) { create(:repository_subversion, project: project) }
-  let(:work_package) { create(:work_package, author: current_user, project: project) }
+  let(:repository) { create(:repository_subversion, project:) }
+  let(:work_package) { create(:work_package, author: current_user, project:) }
   let(:revisions) { [] }
 
   subject(:response) { last_response }
@@ -60,7 +60,7 @@ describe 'API v3 Revisions by work package resource', type: :request do
       get get_path
     end
 
-    it 'should respond with 200' do
+    it 'responds with 200' do
       expect(subject.status).to eq(200)
     end
 
@@ -71,7 +71,7 @@ describe 'API v3 Revisions by work package resource', type: :request do
         build_list(:changeset,
                    5,
                    comments: "This commit references ##{work_package.id}",
-                   repository: repository)
+                   repository:)
       end
 
       it_behaves_like 'API V3 collection response', 5, 5, 'Revision'
@@ -86,7 +86,7 @@ describe 'API v3 Revisions by work package resource', type: :request do
     context 'user unauthorized to view work package' do
       let(:current_user) { create(:user) }
 
-      it 'should respond with 404' do
+      it 'responds with 404' do
         expect(subject.status).to eq(404)
       end
     end
@@ -98,7 +98,7 @@ describe 'API v3 Revisions by work package resource', type: :request do
         build_list(:changeset,
                    2,
                    comments: "This commit references ##{work_package.id}",
-                   repository: repository)
+                   repository:)
       end
 
       context 'with permissions in subproject' do

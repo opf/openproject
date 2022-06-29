@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
+RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:query_menu) { Components::WorkPackages::QueryMenu.new }
@@ -39,7 +39,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
   let(:work_package) do
     create :work_package,
-           project: project,
+           project:,
            start_date: Date.today,
            due_date: (Date.today + 5.days)
   end
@@ -56,18 +56,18 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
     let!(:work_package) do
       create :work_package,
-             project: project,
-             type: type
+             project:,
+             type:
     end
 
     let!(:work_package2) do
       create :work_package,
-             project: project,
+             project:,
              type: type2
     end
 
     let!(:query) do
-      query = build(:query, user: user, project: project)
+      query = build(:query, user:, project:)
       query.column_names = ['id', 'type', 'subject']
       query.filters.clear
       query.timeline_visible = false
@@ -76,13 +76,13 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
       query.save!
       create(:view_work_packages_table,
-             query: query)
+             query:)
 
       query
     end
 
     let!(:query_tl) do
-      query = build(:query, user: user, project: project)
+      query = build(:query, user:, project:)
       query.column_names = ['id', 'type', 'subject']
       query.filters.clear
       query.add_filter('type_id', '=', [type2.id])
@@ -91,7 +91,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
       query.save!
       create(:view_work_packages_table,
-             query: query)
+             query:)
 
       query
     end
@@ -189,7 +189,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
   describe 'with a hierarchy being shown' do
     let!(:child_work_package) do
       create :work_package,
-             project: project,
+             project:,
              parent: work_package,
              start_date: Date.today,
              due_date: (Date.today + 5.days)
@@ -224,21 +224,21 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
   describe 'when table is grouped' do
     let(:project) { create(:project) }
-    let(:category) { create :category, project: project, name: 'Foo' }
-    let(:category2) { create :category, project: project, name: 'Bar' }
+    let(:category) { create :category, project:, name: 'Foo' }
+    let(:category2) { create :category, project:, name: 'Bar' }
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
     let(:relations) { ::Components::WorkPackages::Relations.new(wp_cat1) }
 
     let!(:wp_cat1) do
       create :work_package,
-             project: project,
-             category: category,
+             project:,
+             category:,
              start_date: Date.today,
              due_date: (Date.today + 5.days)
     end
     let!(:wp_cat2) do
       create :work_package,
-             project: project,
+             project:,
              category: category2,
              start_date: Date.today + 5.days,
              due_date: (Date.today + 10.days)
@@ -246,7 +246,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
     let!(:milestone_work_package) do
       create :work_package,
-             project: project,
+             project:,
              type: milestone_type,
              start_date: Date.today - 10.days,
              due_date: Date.today - 10.days,
@@ -255,7 +255,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
     let!(:wp_none) do
       create :work_package,
-             project: project
+             project:
     end
 
     let!(:relation) do
@@ -266,7 +266,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
     end
 
     let!(:query) do
-      query = build(:query, user: user, project: project)
+      query = build(:query, user:, project:)
       query.column_names = ['id', 'subject', 'category']
       query.show_hierarchies = false
       query.timeline_visible = true

@@ -48,12 +48,12 @@ describe 'Work package filtering by responsible', js: true do
 
   let!(:work_package_user_responsible) do
     create :work_package,
-           project: project,
+           project:,
            responsible: other_user
   end
   let!(:work_package_placeholder_user_responsible) do
     create :work_package,
-           project: project,
+           project:,
            responsible: placeholder_user
   end
 

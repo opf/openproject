@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 shared_examples_for 'filter unavailable when storages module is inactive' do
-  context 'when storages module is inactive', :disable_storages do
+  context 'when storages module is inactive', with_flag: { storages_module_active: false } do
     it_behaves_like 'error response',
                     400,
                     'InvalidQuery',

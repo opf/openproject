@@ -354,6 +354,7 @@ hu:
     label_expand_project_menu: "Project menü kibontása"
     label_export: "Exportálás"
     label_export_preparing: "Az exportálás előkészítés alatt áll, és hamarosan letöltésre kerül."
+    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "File"
     label_filesize: "Méret"
     label_general: "Általános"
@@ -376,7 +377,9 @@ hu:
     label_learn_more_link: "További információ"
     label_less_or_equal: "<="
     label_less_than_ago: "kevesebb, nappal ezelött"
+    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Betöltés..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Email értesítés"
     label_me: "Nekem"
     label_meeting_agenda: "Napirend"
@@ -389,18 +392,25 @@ hu:
     label_no_data: "Nincs megjelenítendő adat"
     label_no_due_date: "nincs befejezési dátum"
     label_no_start_date: "nincs kezdő dátuma"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Nincs érték"
+    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "Egyik sem"
     label_not_contains: "nem tartalmaz"
     label_not_equals: "nem"
     label_on: "be"
     label_open_menu: "Menü megnyitása"
     label_open_context_menu: "Context menü megnyitása"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "nyitott"
+    label_open_file_link: 'Open file on storage'
+    label_open_file_link_location: 'Open file in location'
     label_password: "Jelszó"
     label_previous: "Korábbi"
     label_per_page: "Oldalanként:"
     label_please_wait: "Kérem várjon"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projektek"
     label_visibility_settings: "Láthatósági beállítások"
     label_quote_comment: "Hozzászólás idézése"
@@ -409,10 +419,12 @@ hu:
     label_remove: "Eltávolítás"
     label_remove_column: "Oszlop eltávolítása"
     label_remove_columns: "Eltávolítja a kijelölt oszlopokat"
+    label_remove_file_link: "Remove file link"
     label_remove_row: "Sor eltávolítása"
     label_report: "Jelentés"
     label_repository_plural: "Csomagtárolók"
     label_save_as: "Mentés másként"
+    label_select_project: "Select a project"
     label_select_watcher: "Megfigyelők választása..."
     label_selected_filter_list: "Szűrők választása"
     label_show_attributes: "Minden attribútum megjelenítése"
@@ -424,6 +436,9 @@ hu:
     label_sorting: "Rendezés"
     label_spent_time: "Eltöltött idő"
     label_star_query: "Kedvenc"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Nyomjon Entert a mentéshez"
     label_public_query: "Nyilvános"
     label_sum: "Össz."
@@ -460,6 +475,7 @@ hu:
     label_custom_queries: "Privát nézetek"
     label_columns: "Oszlopok"
     label_attachments: Csatolmány
+    label_nextcloud: Nextcloud
     label_drop_files: Húzza a fájlokat ide
     label_drop_files_hint: vagy kattintson a fájlok hozzáadásához
     label_drop_folders_hint: Nem tölthet fel mappákat mellékletként. Válasszon egyetlen fájlt.
@@ -840,6 +856,13 @@ hu:
       comment_send_failed: "Hiba történt. A megjegyzés elküldése meghiúsult."
       comment_updated: "A megjegyzés sikeresen frissítve."
       confirm_edit_cancel: "Biztosan meg kívánja szakítani a munkacsomag szerkesztést?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Szűrő"
       description_enter_text: "Írjon szöveget"
       description_options_hide: "Beállítások elrejtése"
@@ -1193,3 +1216,5 @@ hu:
         remove: 'Eltávolítás'
       drop_modal:
         Close: 'Bezár'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

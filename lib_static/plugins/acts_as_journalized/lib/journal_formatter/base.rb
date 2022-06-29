@@ -80,20 +80,20 @@ module JournalFormatter
     end
 
     def render_ternary_detail_text(label, value, old_value, options)
-      return I18n.t(:text_journal_deleted, label: label, old: old_value) if value.blank?
-      return I18n.t(:text_journal_set_to, label: label, value: value) if old_value.blank?
+      return I18n.t(:text_journal_deleted, label:, old: old_value) if value.blank?
+      return I18n.t(:text_journal_set_to, label:, value:) if old_value.blank?
 
       linebreak = should_linebreak?(old_value.to_s, value.to_s)
 
       if options[:no_html]
         I18n.t(:text_journal_changed_plain,
-               label: label,
+               label:,
                linebreak: linebreak ? "\n" : '',
                old: old_value,
                new: value)
       else
         I18n.t(:text_journal_changed_html,
-               label: label,
+               label:,
                linebreak: linebreak ? "<br/>".html_safe : '',
                old: old_value,
                new: value)
@@ -102,9 +102,9 @@ module JournalFormatter
 
     def render_binary_detail_text(label, value, old_value)
       if value.blank?
-        I18n.t(:text_journal_deleted, label: label, old: old_value)
+        I18n.t(:text_journal_deleted, label:, old: old_value)
       else
-        I18n.t(:text_journal_added, label: label, value: value)
+        I18n.t(:text_journal_added, label:, value:)
       end
     end
 

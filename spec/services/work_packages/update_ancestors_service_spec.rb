@@ -67,7 +67,7 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
     let(:children) do
       (statuses.size - 1).downto(0).map do |i|
         create :work_package,
-               parent: parent,
+               parent:,
                status: statuses[i] == :open ? open_status : closed_status,
                estimated_hours: estimated_hours[i],
                done_ratio: done_ratios[i]
@@ -81,7 +81,7 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
       # trigger a recalculation of done_ration, because estimated hours
       # act as weights in this calculation.
       described_class
-        .new(user: user,
+        .new(user:,
              work_package: children.first)
         .call(%i(estimated_hours))
     end
@@ -203,7 +203,7 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
     end
     let!(:sibling) do
       create :work_package,
-             parent: parent,
+             parent:,
              status: sibling_status,
              estimated_hours: sibling_estimated_hours,
              done_ratio: sibling_done_ratio
@@ -211,7 +211,7 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
 
     let!(:work_package) do
       create :work_package,
-             parent: parent
+             parent:
     end
 
     subject do
@@ -219,8 +219,8 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
       work_package.save!
 
       described_class
-        .new(user: user,
-             work_package: work_package)
+        .new(user:,
+             work_package:)
         .call(%i(parent))
     end
 
@@ -273,9 +273,9 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
     end
     let!(:work_package) do
       create :work_package,
-             status: status,
-             estimated_hours: estimated_hours,
-             done_ratio: done_ratio
+             status:,
+             estimated_hours:,
+             done_ratio:
     end
 
     shared_examples_for 'updates the attributes within the new hierarchy' do
@@ -321,8 +321,8 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
         work_package.parent_id_was
 
         described_class
-          .new(user: user,
-               work_package: work_package)
+          .new(user:,
+               work_package:)
           .call(%i(parent))
       end
 
@@ -336,8 +336,8 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
         work_package.parent_id_was
 
         described_class
-          .new(user: user,
-               work_package: work_package)
+          .new(user:,
+               work_package:)
           .call(%i(parent_id))
       end
 
@@ -353,13 +353,13 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
     let!(:grandparent) do
       create :work_package,
              derived_estimated_hours: estimated_hours,
-             done_ratio: done_ratio
+             done_ratio:
     end
     let!(:old_parent) do
       create :work_package,
              parent: grandparent,
              derived_estimated_hours: estimated_hours,
-             done_ratio: done_ratio
+             done_ratio:
     end
     let!(:new_parent) do
       create :work_package,
@@ -368,9 +368,9 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
     let!(:work_package) do
       create :work_package,
              parent: old_parent,
-             status: status,
-             estimated_hours: estimated_hours,
-             done_ratio: done_ratio
+             status:,
+             estimated_hours:,
+             done_ratio:
     end
 
     subject do
@@ -389,8 +389,8 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
       work_package.save!
 
       described_class
-        .new(user: user,
-             work_package: work_package)
+        .new(user:,
+             work_package:)
         .call(%i(parent))
     end
 

@@ -39,7 +39,7 @@ module Costs
 
     module TableOptions
       def members_table_options(_roles)
-        super.merge current_user: current_user
+        super.merge current_user:
       end
     end
 
@@ -158,9 +158,7 @@ module Costs
         end
       end
 
-      def project
-        table.project
-      end
+      delegate :project, to: :table
 
       def column_css_class(name)
         if name == :current_rate

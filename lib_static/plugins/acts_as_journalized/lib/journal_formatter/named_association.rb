@@ -74,7 +74,7 @@ module JournalFormatter
           k.find_by(id: i)
         end
       else
-        klass.find_by(id: id)
+        klass.find_by(id:)
       end
     end
 

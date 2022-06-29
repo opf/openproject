@@ -14,7 +14,7 @@ import { StateService } from '@uirouter/angular';
 import { UIRouterGlobals } from '@uirouter/core';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 import {
-  InAppNotification,
+  INotification,
   NOTIFICATIONS_MAX_SIZE,
 } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -31,13 +31,13 @@ import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 export class InAppNotificationCenterComponent implements OnInit {
   maxSize = NOTIFICATIONS_MAX_SIZE;
 
-  hasMoreThanPageSize$ = this.storeService.query.hasMoreThanPageSize$;
+  hasMoreThanPageSize$ = this.storeService.hasMoreThanPageSize$;
 
-  hasNotifications$ = this.storeService.query.hasNotifications$;
+  hasNotifications$ = this.storeService.hasNotifications$;
 
-  notifications$ = this.storeService.query.notifications$;
+  notifications$ = this.storeService.notifications$;
 
-  loading$ = this.storeService.query.selectLoading();
+  loading$ = this.storeService.loading$;
 
   private totalCount$ = this.bellService.unread$;
 
@@ -49,7 +49,6 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   totalCountWarning$ = this
     .storeService
-    .query
     .notLoaded$
     .pipe(
       filter((notLoaded) => notLoaded > 0),
@@ -69,7 +68,7 @@ export class InAppNotificationCenterComponent implements OnInit {
     loading: imagePath('notification-center/notification_loading.gif'),
   };
 
-  trackNotificationGroups = (i:number, item:InAppNotification[]):string => item
+  trackNotificationGroups = (i:number, item:INotification[]):string => item
     .map((el) => `${el.id}@${el.updatedAt}`)
     .join(',');
 

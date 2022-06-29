@@ -8,13 +8,13 @@ describe 'Activity tab', js: true, selenium: true do
     work_package.update(attributes.merge(updated_at: at))
 
     note_journal = work_package.journals.last
-    note_journal.update(created_at: at, user: user)
+    note_journal.update(created_at: at, user:)
   end
 
   let(:project) { create :project_with_types, public: true }
   let!(:work_package) do
     work_package = create(:work_package,
-                          project: project,
+                          project:,
                           created_at: 5.days.ago.to_date.to_fs(:db),
                           subject: initial_subject,
                           journal_notes: initial_comment)
@@ -38,9 +38,9 @@ describe 'Activity tab', js: true, selenium: true do
     attributes = { subject: 'New subject', description: 'Some not so long description.' }
 
     alter_work_package_at(work_package,
-                          attributes: attributes,
+                          attributes:,
                           at: 3.days.ago.to_date.to_fs(:db),
-                          user: user)
+                          user:)
 
     work_package.journals.last
   end
@@ -49,7 +49,7 @@ describe 'Activity tab', js: true, selenium: true do
     attributes = { journal_notes: 'Another comment by a different user' }
 
     alter_work_package_at(work_package,
-                          attributes: attributes,
+                          attributes:,
                           at: 1.day.ago.to_date.to_fs(:db),
                           user: create(:admin))
 
@@ -58,7 +58,7 @@ describe 'Activity tab', js: true, selenium: true do
 
   let!(:revision) do
     repo = build(:repository_subversion,
-                 project: project)
+                 project:)
 
     Setting.enabled_scm = Setting.enabled_scm << repo.vendor
 
@@ -135,8 +135,8 @@ describe 'Activity tab', js: true, selenium: true do
     context 'with permission' do
       let(:role) do
         create(:role, permissions: %i[view_work_packages
-                                                 view_changesets
-                                                 add_work_package_notes])
+                                      view_changesets
+                                      add_work_package_notes])
       end
       let(:user) do
         create(:user,
@@ -149,11 +149,13 @@ describe 'Activity tab', js: true, selenium: true do
 
       context 'with ascending comments' do
         let(:comments_in_reverse) { false }
+
         it_behaves_like 'shows activities in order'
       end
 
       context 'with reversed comments' do
         let(:comments_in_reverse) { true }
+
         it_behaves_like 'shows activities in order'
       end
 
@@ -226,6 +228,7 @@ describe 'Activity tab', js: true, selenium: true do
 
       context 'with ascending comments' do
         let(:comments_in_reverse) { false }
+
         it_behaves_like 'shows activities in order'
       end
 
@@ -237,11 +240,13 @@ describe 'Activity tab', js: true, selenium: true do
 
   context 'split screen' do
     let(:work_package_page) { Pages::SplitWorkPackage.new(work_package, project) }
+
     it_behaves_like 'activity tab'
   end
 
   context 'full screen' do
     let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
+
     it_behaves_like 'activity tab'
   end
 end

@@ -31,9 +31,9 @@ import {
   Store,
   StoreConfig,
 } from '@datorama/akita';
-import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
+import { IUserPreference } from 'core-app/features/user-preferences/state/user-preferences.model';
 
-function createInitialState():UserPreferencesModel {
+function createInitialState():IUserPreference {
   return {
     autoHidePopups: true,
     commentSortDescending: false,
@@ -56,7 +56,7 @@ function createInitialState():UserPreferencesModel {
 }
 
 @StoreConfig({ name: 'notification-settings' })
-export class UserPreferencesStore extends Store<UserPreferencesModel> {
+export class UserPreferencesStore extends Store<IUserPreference> {
   constructor() {
     super(createInitialState());
   }

@@ -63,7 +63,7 @@ describe ::API::V3::Versions::CreateFormAPI, content_type: :json do
 
     it 'does not create a version' do
       expect(Version.count)
-        .to eql 0
+        .to be 0
     end
 
     context 'with empty parameters' do
@@ -118,10 +118,10 @@ describe ::API::V3::Versions::CreateFormAPI, content_type: :json do
             raw: 'A new description'
           },
           "customField#{int_cf.id}": 5,
-          "startDate": "2018-01-01",
-          "endDate": "2018-01-09",
-          "status": "closed",
-          "sharing": "descendants",
+          startDate: "2018-01-01",
+          endDate: "2018-01-09",
+          status: "closed",
+          sharing: "descendants",
           _links: {
             definingProject: {
               href: api_v3_paths.project(project.id)

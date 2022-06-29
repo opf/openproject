@@ -28,11 +28,11 @@ require 'spec_helper'
 
 describe WorkPackages::Scopes::Relatable, '.relatable scope' do
   let(:project) { create(:project) }
-  let(:origin) { create(:work_package, project: project) }
-  let(:unrelated_work_package) { create(:work_package, project: project) }
+  let(:origin) { create(:work_package, project:) }
+  let(:unrelated_work_package) { create(:work_package, project:) }
 
   let(:directly_related_work_package) do
-    create(:work_package, project: project).tap do |related_wp|
+    create(:work_package, project:).tap do |related_wp|
       create(:relation,
              relation_type: directly_related_work_package_type,
              from: origin,
@@ -41,7 +41,7 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
   end
   let(:directly_related_work_package_type) { relation_type }
   let(:transitively_related_work_package) do
-    create(:work_package, project: project).tap do |related_wp|
+    create(:work_package, project:).tap do |related_wp|
       create(:relation,
              relation_type: transitively_related_work_package_type,
              from: directly_related_work_package,
@@ -51,23 +51,23 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
   let(:transitively_related_work_package_type) { relation_type }
 
   let(:parent) do
-    create(:work_package, project: project).tap do |p|
+    create(:work_package, project:).tap do |p|
       origin.update(parent: p)
     end
   end
   let(:sibling) do
-    create(:work_package, project: project, parent: parent)
+    create(:work_package, project:, parent:)
   end
   let(:grandparent) do
-    create(:work_package, project: project).tap do |p|
+    create(:work_package, project:).tap do |p|
       parent.update(parent: p)
     end
   end
   let(:aunt) do
-    create(:work_package, project: project, parent: grandparent)
+    create(:work_package, project:, parent: grandparent)
   end
   let(:origin_child) do
-    create(:work_package, project: project, parent: origin)
+    create(:work_package, project:, parent: origin)
   end
   let(:existing_work_packages) { [] }
 
@@ -103,7 +103,7 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
         end
       end
 
-      context "for the '#{current_type}' type with the other project being in a different project "\
+      context "for the '#{current_type}' type with the other project being in a different project " \
               "and having cross project relations disabled", with_settings: { cross_project_work_package_relations: false } do
         let(:relation_type) { current_type }
         let(:unrelated_work_package) { create(:work_package, project: create(:project)) }
@@ -114,7 +114,7 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
         end
       end
 
-      context "for the '#{current_type}' type with the other project being in a different project "\
+      context "for the '#{current_type}' type with the other project being in a different project " \
               "and having cross project relations enabled", with_settings: { cross_project_work_package_relations: true } do
         let(:relation_type) { current_type }
         let(:unrelated_work_package) { create(:work_package, project: create(:project)) }
@@ -230,10 +230,10 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
 
   context "with two parent child pairs connected by a relation" do
     let(:other_parent) do
-      create(:work_package, project: project)
+      create(:work_package, project:)
     end
     let(:other_child) do
-      create(:work_package, project: project, parent: other_parent).tap do |wp|
+      create(:work_package, project:, parent: other_parent).tap do |wp|
         create(:relation, from: wp, to: origin_child, relation_type: other_relation_type)
       end
     end
@@ -302,7 +302,7 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
 
   context 'with an ancestor chain of 3 work packages' do
     let(:grand_grandparent) do
-      create(:work_package, project: project).tap do |par|
+      create(:work_package, project:).tap do |par|
         grandparent.update(parent: par)
       end
     end

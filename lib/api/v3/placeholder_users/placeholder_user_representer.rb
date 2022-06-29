@@ -55,7 +55,6 @@ module API
           }
         end
 
-
         def _type
           'PlaceholderUser'
         end

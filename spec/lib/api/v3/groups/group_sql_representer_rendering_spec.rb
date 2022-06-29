@@ -32,8 +32,8 @@ describe ::API::V3::Groups::GroupSqlRepresenter, 'rendering' do
   subject(:json) do
     ::API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
-           current_user: current_user,
-           url_query: { select: select })
+           current_user:,
+           url_query: { select: })
       .walk(described_class)
       .to_json
   end

@@ -7,7 +7,7 @@ describe 'activity comments', js: true, with_mail: false do
   let(:project) { create :project, public: true }
   let!(:work_package) do
     create(:work_package,
-           project: project,
+           project:,
            journal_notes: initial_comment)
   end
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
@@ -15,7 +15,7 @@ describe 'activity comments', js: true, with_mail: false do
   let(:comment_field) do
     TextEditorField.new wp_page,
                         'comment',
-                        selector: selector
+                        selector:
   end
   let(:initial_comment) { 'the first comment in this WP' }
 
@@ -120,7 +120,7 @@ describe 'activity comments', js: true, with_mail: false do
 
       describe 'autocomplete' do
         describe 'work packages' do
-          let!(:wp2) { create(:work_package, project: project, subject: 'AutoFoo') }
+          let!(:wp2) { create(:work_package, project:, subject: 'AutoFoo') }
 
           it 'can move to the work package by click (Regression #30928)' do
             comment_field.input_element.send_keys("##{wp2.id}")
@@ -219,7 +219,7 @@ describe 'activity comments', js: true, with_mail: false do
     end
 
     describe 'referencing another work package' do
-      let!(:work_package2) { create(:work_package, project: project, type: create(:type)) }
+      let!(:work_package2) { create(:work_package, project:, type: create(:type)) }
 
       it 'can reference another work package with all methods' do
         comment_field.activate!

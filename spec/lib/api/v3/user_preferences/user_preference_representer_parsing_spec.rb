@@ -72,9 +72,9 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
       expect(in_project[:involved]).to be_truthy
       expect(in_project[:mentioned]).to be_nil
 
-      expect(global[:project_id]).to eq nil
-      expect(global[:involved]).to eq false
-      expect(global[:mentioned]).to eq true
+      expect(global[:project_id]).to be_nil
+      expect(global[:involved]).to be false
+      expect(global[:mentioned]).to be true
     end
   end
 

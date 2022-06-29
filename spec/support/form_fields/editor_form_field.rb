@@ -2,7 +2,6 @@ require_relative './form_field'
 
 module FormFields
   class EditorFormField < FormField
-
     attr_reader :editor
 
     def initialize(property, selector: nil)

@@ -33,7 +33,7 @@ describe ::BaseServices::BaseCallable, type: :model do
     Class.new(::BaseServices::BaseCallable) do
       def perform(*)
         state.test = 'foo'
-        ServiceResult.new(success: true, result: 'something')
+        ServiceResult.success(result: 'something')
       end
 
       def rollback
@@ -46,7 +46,7 @@ describe ::BaseServices::BaseCallable, type: :model do
     Class.new(::BaseServices::BaseCallable) do
       def perform(*)
         state.test2 = 'foo'
-        ServiceResult.new(success: true, result: 'something')
+        ServiceResult.success(result: 'something')
       end
 
       def rollback
@@ -57,6 +57,7 @@ describe ::BaseServices::BaseCallable, type: :model do
   end
 
   let(:instance) { test_service.new }
+
   subject { instance.call }
 
   describe 'state' do
@@ -104,7 +105,7 @@ describe ::BaseServices::BaseCallable, type: :model do
 
       expect(state.service_chain.map(&:class)).to eq [test_service, test_service2]
       state.rollback!
-      expect(state.test2).to eq nil
+      expect(state.test2).to be_nil
       expect(state.test).to eq 'rolled back!'
     end
   end

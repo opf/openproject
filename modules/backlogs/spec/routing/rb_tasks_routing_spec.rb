@@ -36,6 +36,7 @@ describe RbTasksController, type: :routing do
                                                                         project_id: 'project_42',
                                                                         sprint_id: '21')
     }
+
     it {
       expect(put('/projects/project_42/sprints/21/tasks/85')).to route_to(controller: 'rb_tasks',
                                                                           action: 'update',

@@ -55,12 +55,12 @@ module OpenProject::TextFormatting
       def self.process_match(m, matched_string, context)
         # Leading string before match
         instance = new(
-          matched_string: matched_string,
+          matched_string:,
           escaped: m[1],
           all: m[2],
           page: m[3],
           title: m[5],
-          context: context
+          context:
         )
 
         instance.process

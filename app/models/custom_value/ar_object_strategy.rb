@@ -30,7 +30,7 @@ class CustomValue::ARObjectStrategy < CustomValue::FormatStrategy
   def typed_value
     return memoized_typed_value if memoized_typed_value
 
-    unless value.blank?
+    if value.present?
       RequestStore.fetch(:"#{ar_class.name.underscore}_custom_value_#{value}") do
         self.memoized_typed_value = ar_object(value)
       end

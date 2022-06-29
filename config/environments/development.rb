@@ -37,8 +37,8 @@ OpenProject::Application.configure do
   # Automatically refresh translations with I18n middleware
   config.middleware.use ::I18n::JS::Middleware
 
-  # Do not eager load code on boot.
-  config.eager_load = false
+  # Do not eager load code on boot by default.
+  config.eager_load = ENV['EAGER_LOAD'].present?
 
   # Asynchronous file watcher
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker

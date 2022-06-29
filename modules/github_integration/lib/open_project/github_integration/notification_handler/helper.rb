@@ -78,7 +78,7 @@ module OpenProject::GithubIntegration
 
         work_packages.each do |work_package|
           ::WorkPackages::UpdateService
-            .new(user: user, model: work_package)
+            .new(user:, model: work_package)
             .call(journal_notes: notes, send_notifications: false)
         end
       end

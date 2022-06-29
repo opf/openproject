@@ -45,6 +45,11 @@ ru:
       setting_up_storages: "Для настройки файловых хранилищ посетите"
       setting_up_storages_non_admin: "Администраторы могут настроить файловые хранилища в Администрировании / Файловых хранилищах."
       all_available_storages_already_added: "Все доступные хранилища уже добавлены в проект."
+      nextcloud:
+        administration: Администрирование
+        oauth2_clients: Клиенты OAuth2
+        oauth_client_id: Скопировать значение из
+        oauth_client_secret: Скопировать значение из
     delete_warning:
       storage: >
         Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.
@@ -55,11 +60,16 @@ ru:
     label_file_links: "Ссылки на файл"
     label_name: "Имя"
     label_host: "Хост"
+    label_oauth_client_details: "Детали клиента OAuth"
     label_provider_type: "Тип поставщика"
     label_new_storage: "Новое хранилище"
     label_storage: "Хранилище"
     label_storages: "Хранилища"
     no_results: "Хранилища пока не настроены."
+    label_oauth_client_id: "OAuth ID клиента"
+    label_oauth_client_secret: "Секрет клиента OAuth"
     provider_types:
       label: "Тип поставщика"
       nextcloud: "Nextcloud"
+    confirm_replace_oauth_client: "Вы уверены? Все пользователи должны будут снова авторизоваться на хранилище."
+    oauth_client_details_missing: "Чтобы завершить установку, пожалуйста, добавьте учетные данные клиента OAuth из вашего хранилища."

@@ -68,7 +68,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
 
   let(:embed_links) { true }
   let(:current_user) { build_stubbed(:user) }
-  let(:representer) { described_class.new(grid, current_user: current_user, embed_links: embed_links) }
+  let(:representer) { described_class.new(grid, current_user:, embed_links:) }
 
   let(:writable) { true }
   let(:scope_path) { 'bogus_scope' }
@@ -98,25 +98,25 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
 
     context 'properties' do
       it 'denotes its type' do
-        is_expected
+        expect(subject)
           .to be_json_eql('Grid'.to_json)
           .at_path('_type')
       end
 
       it 'has an id' do
-        is_expected
+        expect(subject)
           .to be_json_eql(grid.id)
           .at_path('id')
       end
 
       it 'has a rowCount' do
-        is_expected
+        expect(subject)
           .to be_json_eql(4)
           .at_path('rowCount')
       end
 
       it 'has a columnCount' do
-        is_expected
+        expect(subject)
           .to be_json_eql(5)
           .at_path('columnCount')
       end
@@ -138,38 +138,38 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
       it 'has a list of widgets' do
         widgets = [
           {
-            "_type": "GridWidget",
-            "id": grid.widgets[0].id,
-            "identifier": 'work_packages_assigned',
-            "options": {},
-            "startRow": 4,
-            "endRow": 5,
-            "startColumn": 1,
-            "endColumn": 2
+            _type: "GridWidget",
+            id: grid.widgets[0].id,
+            identifier: 'work_packages_assigned',
+            options: {},
+            startRow: 4,
+            endRow: 5,
+            startColumn: 1,
+            endColumn: 2
           },
           {
-            "_type": "GridWidget",
-            "id": grid.widgets[1].id,
-            "identifier": 'work_packages_created',
-            "options": {},
-            "startRow": 1,
-            "endRow": 2,
-            "startColumn": 1,
-            "endColumn": 2
+            _type: "GridWidget",
+            id: grid.widgets[1].id,
+            identifier: 'work_packages_created',
+            options: {},
+            startRow: 1,
+            endRow: 2,
+            startColumn: 1,
+            endColumn: 2
           },
           {
-            "_type": "GridWidget",
-            "id": grid.widgets[2].id,
-            "identifier": 'work_packages_watched',
-            "options": {},
-            "startRow": 2,
-            "endRow": 4,
-            "startColumn": 4,
-            "endColumn": 5
+            _type: "GridWidget",
+            id: grid.widgets[2].id,
+            identifier: 'work_packages_watched',
+            options: {},
+            startRow: 2,
+            endRow: 4,
+            startColumn: 4,
+            endColumn: 5
           }
         ]
 
-        is_expected
+        expect(subject)
           .to be_json_eql(widgets.to_json)
           .at_path('widgets')
       end
@@ -206,7 +206,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
           let(:type) { "text/html" }
 
           it 'has a content type of html' do
-            is_expected
+            expect(subject)
               .to be_json_eql(type.to_json)
               .at_path("_links/#{link}/type")
           end
@@ -236,7 +236,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
 
     context 'embedded' do
       it 'embeds the attachments as collection' do
-        is_expected
+        expect(subject)
           .to be_json_eql('Collection'.to_json)
           .at_path('_embedded/attachments/_type')
       end

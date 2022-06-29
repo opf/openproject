@@ -352,6 +352,7 @@ ja:
     label_expand_project_menu: "プロジェクトメニューを展開"
     label_export: "外部出力"
     label_export_preparing: "エクスポートは準備中です。まもなくダウンロードされます。"
+    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "ファイル"
     label_filesize: "サイズ"
     label_general: "概要"
@@ -374,7 +375,9 @@ ja:
     label_learn_more_link: "もっと詳しく"
     label_less_or_equal: "以下"
     label_less_than_ago: "今日より○日前以降"
+    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "読み込み中..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "電子メールの通知"
     label_me: "自分"
     label_meeting_agenda: "アジェンダ"
@@ -387,18 +390,25 @@ ja:
     label_no_data: "表示できるデータがありません。"
     label_no_due_date: "終了日が未設定"
     label_no_start_date: "開始日なし"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "値なし"
+    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "なし"
     label_not_contains: "含まない"
     label_not_equals: "等しくない"
     label_on: "オン"
     label_open_menu: "メニューを開く"
     label_open_context_menu: "コンテキストメニューを開く"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "未完了"
+    label_open_file_link: 'Open file on storage'
+    label_open_file_link_location: 'Open file in location'
     label_password: "パスワード"
     label_previous: "前へ"
     label_per_page: "1 ページあたり"
     label_please_wait: "しばらくお待ちください"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "プロジェクト"
     label_visibility_settings: "表示の設定"
     label_quote_comment: "このコメントを引用"
@@ -407,10 +417,12 @@ ja:
     label_remove: "削除"
     label_remove_column: "列を削除"
     label_remove_columns: "選択した列を削除"
+    label_remove_file_link: "Remove file link"
     label_remove_row: "行を削除"
     label_report: "レポート"
     label_repository_plural: "リポジトリ"
     label_save_as: "名前をつけて保存"
+    label_select_project: "Select a project"
     label_select_watcher: "ウォッチャーを選択..."
     label_selected_filter_list: "選択されたフィルタ"
     label_show_attributes: "すべての属性を表示"
@@ -422,6 +434,9 @@ ja:
     label_sorting: "ソート中"
     label_spent_time: "作業時間の記録"
     label_star_query: "支持された"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Enterを押して保存します。"
     label_public_query: "公開"
     label_sum: "合計"
@@ -458,6 +473,7 @@ ja:
     label_custom_queries: "プライベートビュー"
     label_columns: "列"
     label_attachments: 添付ファイル
+    label_nextcloud: Nextcloud
     label_drop_files: ここにファイルをドロップ
     label_drop_files_hint: またはクリックしてファイルを追加する
     label_drop_folders_hint: フォルダを添付ファイルとしてアップロードすることはできません。 単一のファイルを選択してください。
@@ -837,6 +853,13 @@ ja:
       comment_send_failed: "エラーが発生しました。コメントを投稿できませんでした。"
       comment_updated: "正常にコメントを更新しました。"
       confirm_edit_cancel: "作業項目の編集をキャンセルしてもよろしいですか？"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "フィルタ"
       description_enter_text: "テキスト"
       description_options_hide: "オプションを非表示"
@@ -1188,3 +1211,5 @@ ja:
         remove: '削除'
       drop_modal:
         Close: '閉じる'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

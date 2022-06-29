@@ -59,8 +59,8 @@ class Authorization::AbstractQuery
   def self.run_transformations(*args)
     query = base_query
 
-    transformator = Authorization::QueryTransformationVisitor.new(transformations: transformations,
-                                                                  args: args)
+    transformator = Authorization::QueryTransformationVisitor.new(transformations:,
+                                                                  args:)
 
     transformator.accept(query)
 

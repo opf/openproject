@@ -8,22 +8,22 @@ describe 'Manual scheduling', js: true do
 
   let!(:parent) do
     create(:work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            subject: 'Parent')
   end
 
   let!(:child) do
     create(:work_package,
-           project: project,
-           parent: parent,
-           type: type,
+           project:,
+           parent:,
+           type:,
            subject: 'Child')
   end
 
   let!(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let!(:query) do
-    query = build(:query, user: user, project: project)
+    query = build(:query, user:, project:)
     query.column_names = %w(subject start_date due_date)
     query.filters.clear
     query.show_hierarchies = false
@@ -98,6 +98,7 @@ describe 'Manual scheduling', js: true do
 
       start_date.toggle_scheduling_mode
       start_date.expect_scheduling_mode manually: true
+      start_date.expect_calendar
 
       # Expect not editable
       start_date.within_modal do

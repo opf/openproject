@@ -17,16 +17,16 @@ describe 'Work Package highlighting fields',
 
   let!(:wp_1) do
     create :work_package,
-           project: project,
+           project:,
            status: status1,
            subject: 'B',
-           due_date: (Date.today - 1.days),
+           due_date: (Date.today - 1.day),
            priority: priority1
   end
 
   let!(:wp_2) do
     create :work_package,
-           project: project,
+           project:,
            status: status2,
            subject: 'A',
            due_date: Date.today,
@@ -39,7 +39,7 @@ describe 'Work Package highlighting fields',
   let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
 
   let!(:query) do
-    query = build(:query, user: user, project: project)
+    query = build(:query, user:, project:)
     query.column_names = %w[id subject status priority due_date]
     query.highlighted_attributes = %i[status priority due_date]
     query.highlighting_mode = :inline

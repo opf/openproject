@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Dashboards::GridRegistration do
   let(:user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
-  let(:grid) { build_stubbed(:dashboard, project: project) }
+  let(:grid) { build_stubbed(:dashboard, project:) }
 
   describe 'from_scope' do
     context 'with a relative URL root', with_config: { rails_relative_url_root: '/foobar' } do
@@ -56,6 +56,7 @@ describe Dashboards::GridRegistration do
 
   describe 'writable?' do
     let(:allowed) { true }
+
     before do
       allow(user)
         .to receive(:allowed_to?)

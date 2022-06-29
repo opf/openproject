@@ -36,7 +36,7 @@ describe 'search/index', type: :helper do
     allow(helper).to receive(:params).and_return(
       q: 'foobar',
       all_words: '1',
-      scope: scope
+      scope:
     )
     assign(:project, project)
   end
@@ -101,7 +101,7 @@ describe 'search/index', type: :helper do
       instance_double(WorkPackage,
                       last_journal: journal,
                       last_loaded_journal: journal,
-                      event_description: event_description,
+                      event_description:,
                       attachment_ids: [42],
                       attachments: [build_stubbed(:attachment, filename: attachment_filename)]).tap do |e|
         scope = instance_double(ActiveRecord::Relation)

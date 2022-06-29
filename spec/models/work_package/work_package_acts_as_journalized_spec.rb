@@ -40,10 +40,10 @@ describe WorkPackage, type: :model do
     let(:work_package) do
       create(:work_package,
              project_id: project.id,
-             type: type,
+             type:,
              description: 'Description',
-             priority: priority,
-             status: status)
+             priority:,
+             status:)
     end
     let(:current_user) { create(:user) }
 
@@ -103,9 +103,9 @@ describe WorkPackage, type: :model do
       let!(:work_package_1) do
         create(:work_package,
                project_id: project.id,
-               type: type,
-               description: description,
-               priority: priority)
+               type:,
+               description:,
+               priority:)
       end
 
       before do
@@ -138,7 +138,7 @@ describe WorkPackage, type: :model do
                  journable_id: work_package_1.id,
                  version: 2,
                  data: build(:journal_work_package_journal,
-                             description: description))
+                             description:))
         end
         let!(:work_package_journal_2) do
           create(:work_package_journal,
@@ -158,8 +158,8 @@ describe WorkPackage, type: :model do
       let(:parent_work_package) do
         create(:work_package,
                project_id: project.id,
-               type: type,
-               priority: priority)
+               type:,
+               priority:)
       end
       let(:type_2) { create :type }
       let(:status_2) { create :status }
@@ -255,7 +255,7 @@ describe WorkPackage, type: :model do
           service.call(description: 'description v4', send_notifications: false)
         end
 
-        it 'should create a journal for the last change' do
+        it 'creates a journal for the last change' do
           last_journal = work_package.journals.order(:id).last
 
           expect(last_journal.data.description).to eql('description v4')
@@ -306,7 +306,7 @@ describe WorkPackage, type: :model do
       let(:custom_value) do
         build :custom_value,
               value: 'false',
-              custom_field: custom_field
+              custom_field:
       end
 
       let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}" }
@@ -337,8 +337,9 @@ describe WorkPackage, type: :model do
         let(:modified_custom_value) do
           create :custom_value,
                  value: 'true',
-                 custom_field: custom_field
+                 custom_field:
         end
+
         before do
           work_package.custom_values = [modified_custom_value]
           work_package.save!
@@ -357,8 +358,9 @@ describe WorkPackage, type: :model do
         let(:unmodified_custom_value) do
           create :custom_value,
                  value: 'false',
-                 custom_field: custom_field
+                 custom_field:
         end
+
         before do
           @original_journal_count = work_package.journals.reload.count
 
@@ -398,7 +400,7 @@ describe WorkPackage, type: :model do
           create :custom_value,
                  value: '',
                  customized: work_package,
-                 custom_field: custom_field
+                 custom_field:
         end
 
         describe 'empty values are recognized as unchanged' do
@@ -473,7 +475,7 @@ describe WorkPackage, type: :model do
         let(:new_author) { user1 }
 
         it 'leads to a single journal' do
-          expect(subject.count).to eql 1
+          expect(subject.count).to be 1
         end
 
         it 'is the initial journal' do
@@ -492,7 +494,7 @@ describe WorkPackage, type: :model do
           let(:notes) { 'This is why I changed it.' }
 
           it 'leads to a single journal with the comment' do
-            expect(subject.count).to eql 1
+            expect(subject.count).to be 1
             expect(subject.first.notes)
               .to eql notes
           end
@@ -506,7 +508,7 @@ describe WorkPackage, type: :model do
             end
 
             it 'returns two journals' do
-              expect(subject.count).to eql 2
+              expect(subject.count).to be 2
               expect(subject.first.notes).to eql notes
               expect(subject.second.notes).to eql second_notes
             end
@@ -527,7 +529,7 @@ describe WorkPackage, type: :model do
             end
 
             it 'leads to a single journal with the comment of the replaced journal and the state of the second' do
-              expect(subject.count).to eql 1
+              expect(subject.count).to be 1
 
               expect(subject.first.notes)
                 .to eql notes
@@ -543,7 +545,7 @@ describe WorkPackage, type: :model do
         let(:new_author) { user2 }
 
         it 'leads to two journals' do
-          expect(subject.count).to eql 2
+          expect(subject.count).to be 2
           expect(subject.first.user)
             .to eql current_user
 
@@ -568,7 +570,7 @@ describe WorkPackage, type: :model do
       end
 
       it 'creates a new journal' do
-        expect(journals.count).to eql 2
+        expect(journals.count).to be 2
       end
     end
 
@@ -582,7 +584,7 @@ describe WorkPackage, type: :model do
         end
 
         it 'creates a new journal' do
-          expect(journals.count).to eql 2
+          expect(journals.count).to be 2
         end
       end
     end
@@ -599,8 +601,8 @@ describe WorkPackage, type: :model do
     end
     let(:work_package) do
       create(:work_package,
-             project: project,
-             type: type,
+             project:,
+             type:,
              custom_field_values: { custom_field.id => 5 },
              attachments: [attachment])
     end

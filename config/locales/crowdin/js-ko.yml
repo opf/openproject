@@ -351,6 +351,7 @@ ko:
     label_expand_project_menu: "프로젝트 메뉴 확장"
     label_export: "내보내기"
     label_export_preparing: "가져오기 준비 중이며 곧 다운로드됩니다."
+    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "파일"
     label_filesize: "크기"
     label_general: "일반"
@@ -373,7 +374,9 @@ ko:
     label_learn_more_link: "자세히 알아보기"
     label_less_or_equal: "<="
     label_less_than_ago: "일 미만 전"
+    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "로드 중..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "이메일 알림"
     label_me: "나"
     label_meeting_agenda: "의제"
@@ -386,18 +389,25 @@ ko:
     label_no_data: "표시할 데이터가 없습니다."
     label_no_due_date: "완료 날짜 없음"
     label_no_start_date: "시작일이 지정되지 않음"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "값 없음"
+    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "없음"
     label_not_contains: "포함하지 않음"
     label_not_equals: "일치하지 않음"
     label_on: "에"
     label_open_menu: "메뉴 열기"
     label_open_context_menu: "콘텍스트 메뉴 열기"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "열기"
+    label_open_file_link: 'Open file on storage'
+    label_open_file_link_location: 'Open file in location'
     label_password: "암호"
     label_previous: "이전"
     label_per_page: "페이지 당:"
     label_please_wait: "잠시 기다려 주세요."
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "프로젝트"
     label_visibility_settings: "표시 여부 설정"
     label_quote_comment: "코멘트 인용"
@@ -406,10 +416,12 @@ ko:
     label_remove: "제거"
     label_remove_column: "열 제거"
     label_remove_columns: "선택된 열 제거"
+    label_remove_file_link: "Remove file link"
     label_remove_row: "행 제거"
     label_report: "보고서"
     label_repository_plural: "리포지토리"
     label_save_as: "다른 이름으로 저장"
+    label_select_project: "Select a project"
     label_select_watcher: "주시하는 사람을 선택"
     label_selected_filter_list: "선택된 필터"
     label_show_attributes: "모든 특성 표시"
@@ -421,6 +433,9 @@ ko:
     label_sorting: "정렬"
     label_spent_time: "소비한 시간"
     label_star_query: "호감"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "저장하려면 Enter를 누르세요."
     label_public_query: "공용"
     label_sum: "합계"
@@ -457,6 +472,7 @@ ko:
     label_custom_queries: "비공개 보기"
     label_columns: "컬럼"
     label_attachments: 첨부 파일
+    label_nextcloud: Nextcloud
     label_drop_files: 여기에 파일을 놓으세요
     label_drop_files_hint: 또는 파일을 추가 하려면 클릭하세요
     label_drop_folders_hint: 폴더를 첨부 파일로 업로드할 수 없습니다. 단일 파일을 선택하세요.
@@ -834,6 +850,13 @@ ko:
       comment_send_failed: "오류가 발생했습니다. 코멘트를 제출할 수 없습니다."
       comment_updated: "코멘트가 성곡적으로 갱신되었습니다."
       confirm_edit_cancel: "편집 중인 작업 패키지를 취소하시겠습니까?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "필터"
       description_enter_text: "텍스트 입력"
       description_options_hide: "옵션 숨기기"
@@ -1185,3 +1208,5 @@ ko:
         remove: '제거'
       drop_modal:
         Close: '닫기'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

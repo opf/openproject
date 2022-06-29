@@ -48,15 +48,15 @@ describe ::Query::Results, 'Sorting of custom field floats', type: :model, with_
   end
   let(:work_package_with_float) do
     create :work_package,
-           type: type,
-           project: project,
+           type:,
+           project:,
            custom_values: { custom_field.id => "6.25" }
   end
 
   let(:work_package_without_float) do
     create :work_package,
-           type: type,
-           project: project
+           type:,
+           project:
   end
 
   let(:custom_field) do
@@ -65,9 +65,9 @@ describe ::Query::Results, 'Sorting of custom field floats', type: :model, with_
 
   let(:query) do
     build(:query,
-          user: user,
+          user:,
           show_hierarchies: false,
-          project: project).tap do |q|
+          project:).tap do |q|
       q.filters.clear
       q.sort_criteria = sort_criteria
     end

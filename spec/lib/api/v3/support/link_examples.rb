@@ -88,13 +88,13 @@ shared_context 'action link shared' do
       :get
     end
 
-    if verb != :get
-      is_expected
+    if verb == :get
+      expect(subject)
+        .not_to have_json_path("_links/#{link}/method")
+    else
+      expect(subject)
         .to be_json_eql(method.to_json)
         .at_path("_links/#{link}/method")
-    else
-      is_expected
-        .not_to have_json_path("_links/#{link}/method")
     end
   end
 
@@ -136,7 +136,7 @@ shared_examples_for 'has an empty link' do
   it { is_expected.to be_json_eql(nil.to_json).at_path("_links/#{link}/href") }
 
   it 'has no embedded resource' do
-    is_expected.not_to have_json_path("_embedded/#{link}")
+    expect(subject).not_to have_json_path("_embedded/#{link}")
   end
 end
 
@@ -152,6 +152,6 @@ shared_examples_for 'has no link' do
   it { is_expected.not_to have_json_path("_links/#{link}") }
 
   it 'has no embedded resource' do
-    is_expected.not_to have_json_path("_embedded/#{link}")
+    expect(subject).not_to have_json_path("_embedded/#{link}")
   end
 end

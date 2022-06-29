@@ -68,9 +68,9 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
   end
   let(:representer) do
     described_class.create(contract,
-                           self_link: self_link,
+                           self_link:,
                            form_embedded: embedded,
-                           current_user: current_user)
+                           current_user:)
   end
 
   context 'generation' do
@@ -78,7 +78,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
 
     describe '_type' do
       it 'is indicated as Schema' do
-        is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
+        expect(subject).to be_json_eql('Schema'.to_json).at_path('_type')
       end
     end
 
@@ -241,14 +241,13 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
 
     context 'custom value' do
       let(:custom_field) { build_stubbed(:time_entry_custom_field) }
+      let(:path) { "customField#{custom_field.id}" }
 
       before do
         allow(contract)
           .to receive(:available_custom_fields)
           .and_return([custom_field])
       end
-
-      let(:path) { "customField#{custom_field.id}" }
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Formattable' }

@@ -38,6 +38,7 @@ describe CustomStylesController, type: :controller do
 
     describe '#show' do
       subject { get :show }
+
       render_views
 
       context 'when active token exists' do
@@ -64,6 +65,7 @@ describe CustomStylesController, type: :controller do
 
     describe "#upsale" do
       subject { get :upsale }
+
       render_views
 
       it 'renders upsale' do
@@ -86,7 +88,7 @@ describe CustomStylesController, type: :controller do
         expect(CustomStyle).to receive(:create).and_return(custom_style)
         expect(custom_style).to receive(:valid?).and_return(valid)
 
-        post :create, params: params
+        post :create, params:
       end
 
       context 'valid custom_style input' do
@@ -122,7 +124,7 @@ describe CustomStylesController, type: :controller do
           expect(CustomStyle).to receive(:current).and_return(custom_style)
           expect(custom_style).to receive(:update).and_return(valid)
 
-          post :update, params: params
+          post :update, params:
         end
 
         context 'valid custom_style input' do
@@ -150,7 +152,7 @@ describe CustomStylesController, type: :controller do
           expect(CustomStyle).to receive(:create!).and_return(custom_style)
           expect(custom_style).to receive(:update).and_return(valid)
 
-          post :update, params: params
+          post :update, params:
         end
 
         context 'valid custom_style input' do
@@ -193,7 +195,7 @@ describe CustomStylesController, type: :controller do
         let(:custom_style) { nil }
 
         it 'renders with error' do
-          expect(controller).to_not receive(:send_file)
+          expect(controller).not_to receive(:send_file)
           expect(response.status).to eq(404)
         end
       end
@@ -202,7 +204,7 @@ describe CustomStylesController, type: :controller do
         let(:custom_style) { build_stubbed(:custom_style) }
 
         it 'renders with error' do
-          expect(controller).to_not receive(:send_file)
+          expect(controller).not_to receive(:send_file)
           expect(response.status).to eq(404)
         end
       end
@@ -260,7 +262,7 @@ describe CustomStylesController, type: :controller do
         let(:custom_style) { nil }
 
         it 'renders with error' do
-          expect(controller).to_not receive(:send_file)
+          expect(controller).not_to receive(:send_file)
           expect(response.status).to eq(404)
         end
       end
@@ -269,7 +271,7 @@ describe CustomStylesController, type: :controller do
         let(:custom_style) { build(:custom_style) }
 
         it 'renders with error' do
-          expect(controller).to_not receive(:send_file)
+          expect(controller).not_to receive(:send_file)
           expect(response.status).to eq(404)
         end
       end
@@ -327,7 +329,7 @@ describe CustomStylesController, type: :controller do
         let(:custom_style) { nil }
 
         it 'renders with error' do
-          expect(controller).to_not receive(:send_file)
+          expect(controller).not_to receive(:send_file)
           expect(response.status).to eq(404)
         end
       end
@@ -336,7 +338,7 @@ describe CustomStylesController, type: :controller do
         let(:custom_style) { build(:custom_style) }
 
         it 'renders with error' do
-          expect(controller).to_not receive(:send_file)
+          expect(controller).not_to receive(:send_file)
           expect(response.status).to eq(404)
         end
       end
@@ -383,7 +385,7 @@ describe CustomStylesController, type: :controller do
       before do
         with_enterprise_token(:define_custom_style)
 
-        post :update_colors, params: params
+        post :update_colors, params:
       end
 
       it "saves DesignColor instances" do
@@ -448,7 +450,7 @@ describe CustomStylesController, type: :controller do
         let(:custom_style) { nil }
 
         it 'renders with error' do
-          expect(controller).to_not receive(:send_file)
+          expect(controller).not_to receive(:send_file)
           expect(response.status).to eq(404)
         end
       end

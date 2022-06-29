@@ -31,14 +31,14 @@
 # the code base.
 module OpenProject::ActiveModelErrorsPatch
   def symbols_and_messages_for(attribute)
-    symbols = details[attribute].map { |e| e[:error] }
+    symbols = details[attribute].pluck(:error)
     messages = full_messages_for(attribute)
 
     symbols.zip(messages)
   end
 
   def symbols_for(attribute)
-    details[attribute].map { |r| r[:error] }
+    details[attribute].pluck(:error)
   end
 end
 

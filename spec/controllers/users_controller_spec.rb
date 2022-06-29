@@ -51,7 +51,7 @@ describe UsersController, type: :controller do
 
       it 'is success' do
         expect(response)
-          .to have_http_status(200)
+          .to have_http_status(:ok)
       end
 
       it 'renders the template' do
@@ -115,16 +115,18 @@ describe UsersController, type: :controller do
         allow(Setting).to receive(:users_deletable_by_self?).and_return(true)
 
         as_logged_in_user user do
-          get :deletion_info, params: params
+          get :deletion_info, params:
         end
       end
 
       it do
         expect(response).to be_successful
       end
+
       it do
         expect(assigns(:user)).to eq(user)
       end
+
       it { expect(response).to render_template('deletion_info') }
     end
 
@@ -136,7 +138,7 @@ describe UsersController, type: :controller do
         allow(Setting).to receive(:users_deletable_by_self?).and_return(false)
 
         as_logged_in_user user do
-          get :deletion_info, params: params
+          get :deletion_info, params:
         end
       end
 
@@ -148,7 +150,7 @@ describe UsersController, type: :controller do
 
       before do
         as_logged_in_user anonymous do
-          get :deletion_info, params: params
+          get :deletion_info, params:
         end
       end
 
@@ -168,16 +170,18 @@ describe UsersController, type: :controller do
         allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
 
         as_logged_in_user admin do
-          get :deletion_info, params: params
+          get :deletion_info, params:
         end
       end
 
       it do
         expect(response).to be_successful
       end
+
       it do
         expect(assigns(:user)).to eq(user)
       end
+
       it { expect(response).to render_template('deletion_info') }
     end
 
@@ -189,7 +193,7 @@ describe UsersController, type: :controller do
         allow(Setting).to receive(:users_deletable_by_admins?).and_return(false)
 
         as_logged_in_user admin do
-          get :deletion_info, params: params
+          get :deletion_info, params:
         end
       end
 
@@ -248,7 +252,7 @@ describe UsersController, type: :controller do
 
     it 'is success' do
       expect(response)
-        .to have_http_status(200)
+        .to have_http_status(:ok)
     end
 
     it 'renders the template' do
@@ -264,6 +268,7 @@ describe UsersController, type: :controller do
 
   describe 'POST destroy' do
     let(:base_params) { { 'id' => user.id.to_s, back_url: my_account_path } }
+
     context 'WHEN the password confirmation is missing' do
       before do
         disable_flash_sweep
@@ -277,6 +282,7 @@ describe UsersController, type: :controller do
       it do
         expect(response).to redirect_to(controller: 'my', action: 'account')
       end
+
       it { expect(flash[:error]).to eq(I18n.t(:notice_password_confirmation_failed)) }
     end
 
@@ -299,6 +305,7 @@ describe UsersController, type: :controller do
         it do
           expect(response).to redirect_to(controller: 'account', action: 'login')
         end
+
         it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
       end
 
@@ -347,7 +354,7 @@ describe UsersController, type: :controller do
 
         it 'redirects with error' do
           expect(response).to redirect_to(controller: 'my', action: 'account')
-          expect(flash[:notice]).to eq(nil)
+          expect(flash[:notice]).to be_nil
           expect(flash[:error]).to eq(I18n.t(:notice_password_confirmation_failed))
         end
       end
@@ -360,13 +367,14 @@ describe UsersController, type: :controller do
           allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
 
           as_logged_in_user admin do
-            post :destroy, params: base_params.merge('_password_confirmation': 'adminADMIN!')
+            post :destroy, params: base_params.merge(_password_confirmation: 'adminADMIN!')
           end
         end
 
         it do
           expect(response).to redirect_to(controller: 'users', action: 'index')
         end
+
         it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
       end
 
@@ -398,7 +406,7 @@ describe UsersController, type: :controller do
         get :change_status_info,
             params: {
               id: registered_user.id,
-              change_action: change_action
+              change_action:
             }
       end
     end
@@ -414,21 +422,25 @@ describe UsersController, type: :controller do
 
     describe 'with valid activate' do
       let(:change_action) { :activate }
+
       it_behaves_like 'valid status info'
     end
 
     describe 'with valid unlock' do
       let(:change_action) { :unlock }
+
       it_behaves_like 'valid status info'
     end
 
     describe 'with valid lock' do
       let(:change_action) { :lock }
+
       it_behaves_like 'valid status info'
     end
 
     describe 'bogus status' do
       let(:change_action) { :wtf }
+
       it 'renders 400' do
         expect(response.status).to eq(400)
         expect(response).not_to render_template 'users/change_status_info'
@@ -444,7 +456,7 @@ describe UsersController, type: :controller do
     describe 'WHEN activating a registered user' do
       let!(:registered_user) do
         create(:user, status: User.statuses[:registered],
-                                 language: 'de')
+                      language: 'de')
       end
 
       let(:user_limit_reached) { false }
@@ -462,11 +474,11 @@ describe UsersController, type: :controller do
         end
       end
 
-      it 'should activate the user' do
+      it 'activates the user' do
         assert registered_user.reload.active?
       end
 
-      it 'should send an email to the correct user in the correct language' do
+      it 'sends an email to the correct user in the correct language' do
         perform_enqueued_jobs
         mail = ActionMailer::Base.deliveries.last
         refute_nil mail
@@ -496,13 +508,13 @@ describe UsersController, type: :controller do
 
     before do
       as_logged_in_user admin do
-        get :index, params: params
+        get :index, params:
       end
     end
 
     it 'to be success' do
       expect(response)
-        .to have_http_status(200)
+        .to have_http_status(:ok)
     end
 
     it 'renders the index' do
@@ -542,7 +554,7 @@ describe UsersController, type: :controller do
     # TODO move this section to a proper place because we test a
     # before_action from the application controller
 
-    after(:each) do
+    after do
       # reset, so following tests are not affected by the change
       User.current = nil
     end
@@ -570,10 +582,10 @@ describe UsersController, type: :controller do
         get :index
       end
 
-      it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
+      it_behaves_like 'index action with disabled session lifetime or inactivity not exceeded'
     end
 
-    context 'enabled ' do
+    context 'enabled' do
       before do
         allow(Setting).to receive(:session_ttl_enabled?).and_return(true)
         allow(Setting).to receive(:session_ttl).and_return('120')
@@ -582,11 +594,11 @@ describe UsersController, type: :controller do
 
       context 'before 120 min of inactivity' do
         before do
-          session[:updated_at] = Time.now - 1.hours
+          session[:updated_at] = Time.now - 1.hour
           get :index
         end
 
-        it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
+        it_behaves_like 'index action with disabled session lifetime or inactivity not exceeded'
       end
 
       context 'after 120 min of inactivity' do
@@ -594,7 +606,8 @@ describe UsersController, type: :controller do
           session[:updated_at] = Time.now - 3.hours
           get :index
         end
-        it_should_behave_like 'index action with enabled session lifetime and inactivity exceeded'
+
+        it_behaves_like 'index action with enabled session lifetime and inactivity exceeded'
       end
 
       context 'without last activity time in the session' do
@@ -603,37 +616,38 @@ describe UsersController, type: :controller do
           session[:updated_at] = nil
           get :index
         end
-        it_should_behave_like 'index action with enabled session lifetime and inactivity exceeded'
+
+        it_behaves_like 'index action with enabled session lifetime and inactivity exceeded'
       end
 
       context 'with ttl = 0' do
         before do
           allow(Setting).to receive(:session_ttl).and_return('0')
-          session[:updated_at] = Time.now - 1.hours
+          session[:updated_at] = Time.now - 1.hour
           get :index
         end
 
-        it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
+        it_behaves_like 'index action with disabled session lifetime or inactivity not exceeded'
       end
 
       context 'with ttl < 0' do
         before do
           allow(Setting).to receive(:session_ttl).and_return('-60')
-          session[:updated_at] = Time.now - 1.hours
+          session[:updated_at] = Time.now - 1.hour
           get :index
         end
 
-        it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
+        it_behaves_like 'index action with disabled session lifetime or inactivity not exceeded'
       end
 
       context 'with ttl < 5 > 0' do
         before do
           allow(Setting).to receive(:session_ttl).and_return('4')
-          session[:updated_at] = Time.now - 1.hours
+          session[:updated_at] = Time.now - 1.hour
           get :index
         end
 
-        it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
+        it_behaves_like 'index action with disabled session lifetime or inactivity not exceeded'
       end
     end
   end
@@ -667,20 +681,20 @@ describe UsersController, type: :controller do
 
       before do
         perform_enqueued_jobs do
-          put :update, params: params
+          put :update, params:
         end
       end
 
-      it 'should redirect to the edit page' do
+      it 'redirects to the edit page' do
         expect(response).to redirect_to(edit_user_url(user))
       end
 
-      it 'should be assigned their new values' do
+      it 'is assigned their new values' do
         user_from_db = User.find(user.id)
         expect(user_from_db.admin).to be_falsey
         expect(user_from_db.firstname).to eql('Changed')
         expect(user_from_db.login).to eql('changedlogin')
-        expect(user_from_db.force_password_change).to eql(true)
+        expect(user_from_db.force_password_change).to be(true)
         expect(user_from_db.pref[:hide_mail]).to be_truthy
         expect(user_from_db.pref[:comments_sorting]).to eql('desc')
       end
@@ -722,7 +736,7 @@ describe UsersController, type: :controller do
 
         it 'is success' do
           expect(response)
-            .to have_http_status(200)
+            .to have_http_status(:ok)
         end
 
         it 'renders the edit template' do
@@ -742,8 +756,8 @@ describe UsersController, type: :controller do
         user.reload
       end
 
-      it 'should ignore setting force_password_change' do
-        expect(user.force_password_change).to eql(false)
+      it 'ignores setting force_password_change' do
+        expect(user.force_password_change).to be(false)
       end
     end
 
@@ -786,7 +800,7 @@ describe UsersController, type: :controller do
   end
 
   describe 'Anonymous should not be able to create a user' do
-    it 'should redirect to the login page' do
+    it 'redirects to the login page' do
       post :create,
            params: {
              user: {
@@ -808,7 +822,7 @@ describe UsersController, type: :controller do
 
       before do
         as_logged_in_user current_user do
-          get :show, params: params
+          get :show, params:
         end
       end
 
@@ -829,7 +843,7 @@ describe UsersController, type: :controller do
 
         it 'responds with 404' do
           expect(response)
-            .to have_http_status(404)
+            .to have_http_status(:not_found)
         end
       end
 
@@ -841,7 +855,7 @@ describe UsersController, type: :controller do
 
         it 'responds with 200' do
           expect(response)
-            .to have_http_status(200)
+            .to have_http_status(:ok)
         end
       end
 
@@ -853,7 +867,7 @@ describe UsersController, type: :controller do
 
         it 'responds with 200' do
           expect(response)
-            .to have_http_status(404)
+            .to have_http_status(:not_found)
         end
       end
 
@@ -862,7 +876,7 @@ describe UsersController, type: :controller do
 
         it 'responds with 200' do
           expect(response)
-            .to have_http_status(200)
+            .to have_http_status(:ok)
         end
 
         it 'assigns the user' do
@@ -888,7 +902,7 @@ describe UsersController, type: :controller do
       end
       let!(:journal_1) do
         create(:work_package_journal,
-               user: user,
+               user:,
                journable_id: work_package.id,
                version: Journal.maximum(:version) + 1,
                data: build(:journal_work_package_journal,
@@ -899,7 +913,7 @@ describe UsersController, type: :controller do
       end
       let!(:journal_2) do
         create(:work_package_journal,
-               user: user,
+               user:,
                journable_id: work_package.id,
                version: Journal.maximum(:version) + 1,
                data: build(:journal_work_package_journal,
@@ -916,17 +930,17 @@ describe UsersController, type: :controller do
         get :show, params: { id: user.id }
       end
 
-      it 'should include the number of reported work packages' do
+      it 'includes the number of reported work packages' do
         label = Regexp.escape(I18n.t(:label_reported_work_packages))
 
         expect(response.body).to have_selector('p', text: /#{label}.*42/)
       end
 
-      it 'should have @events_by_day grouped by day' do
+      it 'has @events_by_day grouped by day' do
         expect(assigns(:events_by_day).keys.first.class).to eq(Date)
       end
 
-      it 'should have more than one event for today' do
+      it 'has more than one event for today' do
         expect(assigns(:events_by_day).first.size).to be > 1
       end
     end
@@ -951,7 +965,7 @@ describe UsersController, type: :controller do
 
     before do
       perform_enqueued_jobs do
-        post :create, params: params
+        post :create, params:
       end
     end
 

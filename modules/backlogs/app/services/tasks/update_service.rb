@@ -36,7 +36,7 @@ class Tasks::UpdateService
 
   def call(attributes: {}, prev: '')
     create_call = WorkPackages::UpdateService
-                  .new(user: user,
+                  .new(user:,
                        model: task)
                   .call(**attributes)
 

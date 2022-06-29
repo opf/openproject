@@ -115,7 +115,7 @@ module OpenProject
       end
 
       def fog_credentials
-        Hash[(Hash(self['fog'])['credentials'] || {}).map { |key, value| [key.to_sym, value] }]
+        (Hash(self['fog'])['credentials'] || {}).map { |key, value| [key.to_sym, value] }.to_h
       end
 
       def fog_directory
@@ -131,7 +131,7 @@ module OpenProject
           [label, array(nodes)]
         end
 
-        Hash[menus]
+        menus.to_h
       end
 
       def disabled_modules

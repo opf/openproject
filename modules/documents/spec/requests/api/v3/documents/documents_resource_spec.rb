@@ -36,11 +36,11 @@ describe 'API v3 documents resource', type: :request do
   let(:current_user) do
     create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:document) { create(:document, project: project) }
+  let(:document) { create(:document, project:) }
   let(:invisible_document) { create(:document, project: other_project) }
   let(:project) { create(:project) }
   let(:other_project) { create(:project) }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i(view_documents) }
 
   subject(:response) { last_response }
@@ -61,7 +61,7 @@ describe 'API v3 documents resource', type: :request do
 
     it 'returns 200 OK' do
       expect(subject.status)
-        .to eql(200)
+        .to be(200)
     end
 
     it 'returns a Collection of visible documents' do
@@ -92,7 +92,7 @@ describe 'API v3 documents resource', type: :request do
 
     it 'returns 200 OK' do
       expect(subject.status)
-        .to eql(200)
+        .to be(200)
     end
 
     it 'returns the document' do
@@ -110,7 +110,7 @@ describe 'API v3 documents resource', type: :request do
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
   end

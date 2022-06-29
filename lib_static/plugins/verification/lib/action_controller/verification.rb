@@ -1,5 +1,5 @@
-module ActionController #:nodoc:
-  module Verification #:nodoc:
+module ActionController # :nodoc:
+  module Verification # :nodoc:
     extend ActiveSupport::Concern
 
     include Rendering
@@ -89,7 +89,7 @@ module ActionController #:nodoc:
 
     private
 
-    def verify_action(options) #:nodoc:
+    def verify_action(options) # :nodoc:
       if prereqs_invalid?(options)
         flash.update(options[:add_flash])              if options[:add_flash]
         response.headers.merge!(options[:add_headers]) if options[:add_headers]

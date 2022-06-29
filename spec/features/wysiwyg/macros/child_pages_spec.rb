@@ -34,6 +34,7 @@ describe 'Wysiwyg child pages spec',
     create :project,
            enabled_module_names: %w[wiki]
   end
+  let(:editor) { ::Components::WysiwygEditor.new }
   let(:role) { create(:role, permissions: %i[view_wiki_pages edit_wiki_pages]) }
   let(:user) do
     create(:user, member_in_project: project, member_through_role: role)
@@ -67,8 +68,6 @@ describe 'Wysiwyg child pages spec',
     child_page.save!
     project.wiki.save!
   end
-
-  let(:editor) { ::Components::WysiwygEditor.new }
 
   before do
     login_as(user)

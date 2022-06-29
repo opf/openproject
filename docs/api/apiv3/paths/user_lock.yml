@@ -56,6 +56,10 @@ delete:
             errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
             message: The specified user does not exist.
       description: Returned if the user does not exist.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
 
 post:
   summary: Lock user
@@ -113,3 +117,7 @@ post:
             errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
             message: The specified user does not exist.
       description: Returned if the user does not exist.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"

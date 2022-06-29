@@ -519,18 +519,20 @@ el:
         duration: "Duration"
         end_insertion: "Λήξη της εισαγωγής"
         end_deletion: "Λήξη της διαγραφής"
-        version: "Έκδοση"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Γονέας"
         parent_issue: "Γονέας"
         parent_work_package: "Γονέας"
         priority: "Προτεραιότητα"
         progress: "Πρόοδος (%)"
+        readonly: "Read only"
         schedule_manually: "Χειροκίνητος προγραμματισμός"
         spent_hours: "Χρόνος που δαπανήθηκε"
         spent_time: "Χρόνος που δαπανήθηκε"
         subproject: "Υποέργο"
         time_entries: "Καταγραφή χρόνου"
         type: "Τύπος"
+        version: "Έκδοση"
         watcher: "Παρατηρητής"
       'doorkeeper/application':
         uid: "Ταυτότητα Πελάτη"
@@ -734,6 +736,7 @@ el:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "δεν μπορεί να είναι ορόσημο."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1456,7 +1459,6 @@ el:
   label_consent_settings: "Συναίνεση χρήστη"
   label_wiki_menu_item: Αντικείμενο μενού Wiki
   label_select_main_menu_item: Επιλέξτε νέο αντικείμενο κύριου μενού
-  label_select_project: "Επιλογή έργου"
   label_required_disk_storage: "Απαιτούμενος χώρος στον δίσκο"
   label_send_invitation: Αποστολή πρόσκλησης
   label_change_plural: "Αλλαγές"
@@ -1522,6 +1524,7 @@ el:
   label_diff: "διαφορά"
   label_diff_inline: "inline"
   label_diff_side_by_side: "αντικριστά"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "απενεργοποιημένο"
   label_display: "Εμφάνιση"
   label_display_per_page: "Ανά σελίδα: %{value}"
@@ -1734,7 +1737,6 @@ el:
   label_product_version: "Έκδοση προϊόντος"
   label_professional_support: "Επαγγελματική υποστήριξη"
   label_profile: "Προφίλ"
-  label_project_all: "Όλα τα έργα"
   label_project_count: "Συνολικός αριθμός έργων"
   label_project_copy_notifications: "Αποστολή ειδοποιήσεων με email κατά την διάρκεια της αντιγραφής του έργου"
   label_project_latest: "Τελευταία έργα"
@@ -1996,6 +1998,9 @@ el:
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Για να αλλάξετε τον κωδικό πρόσβασης, πατήστε τον ακόλουθο σύνδεσμο:"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Email πρόσκλησης μέλους του έργου"
@@ -2014,6 +2019,7 @@ el:
   mail_subject_account_activation_request: "Αίτηση ενεργοποίησης του λογαριασμού %{value}"
   mail_subject_backup_ready: "Το αντίγραφο ασφαλείας σας είναι έτοιμο"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ο %{value} κωδικός σας"
   mail_subject_register: "Ενεργοποίηση του %{value} λογαριασμού σας"
   mail_subject_reminder: "%{count} πακέτο(-α) εργασίας με προθεσμία στις επόμενες %{days} ημέρες"
@@ -2379,7 +2385,7 @@ el:
   setting_smtp_authentication: "SMTP ταυτοποίηση"
   setting_smtp_user_name: "Ονόμα χρήστη SMTP"
   setting_smtp_password: "Κωδικός SMTP"
-  setting_smtp_domain: "SMTP HELLO domain"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Ημέρες που εμφανίζονται στη δραστηριότητα έργου"
   setting_app_subtitle: "Υπότιτλος εφαρμογής"
   setting_app_title: "Τίτλος εφαρμογής"
@@ -3014,4 +3020,45 @@ el:
     authorization_error: "Παρουσιάστηκε ένα σφάλμα εξουσιοδότησης."
     revoke_my_application_confirmation: "Είστε βέβαιοι ότι θέλετε να αφαιρέσετε αυτή την εφαρμογή; Αυτό θα ανακαλέσει %{token_count} που είναι ενεργά για αυτή."
     my_registered_applications: "Καταγεγραμμένες εφαρμογές OAuth"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
   you: εσείς

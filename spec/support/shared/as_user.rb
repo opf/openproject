@@ -36,7 +36,7 @@
 #     post :create, { name: "foo" }
 #   end
 
-def as_logged_in_user(user, &_block)
+def as_logged_in_user(user, &)
   allow(@controller).to receive(:user_setup).and_return(user)
   login_as(user)
 

@@ -1,6 +1,10 @@
 @media screen and (max-width: 679px)
   .op-datepicker-modal
     height: initial
-    width: calc(100vw - 2rem)
+    max-width: 300px
     &--dates-container
-      grid-template-columns: 1fr auto
+      grid-template-columns: 1fr 1fr
+
+    &--date-form
+      &:only-child
+        grid-column: 1 / 3

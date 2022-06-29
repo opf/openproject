@@ -66,7 +66,7 @@ describe 'my',
   end
 
   context 'user' do
-    context '#account' do
+    describe '#account' do
       let(:dialog) { ::Components::PasswordConfirmationDialog.new }
 
       before do

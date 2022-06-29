@@ -518,18 +518,20 @@ ja:
         duration: "Duration"
         end_insertion: "挿入の終わり"
         end_deletion: "削除の終わり"
-        version: "バージョン"
+        ignore_non_working_days: "Ignore non working days"
         parent: "親項目"
         parent_issue: "親項目"
         parent_work_package: "親項目"
         priority: "優先度"
         progress: "進行状況 (%)"
+        readonly: "Read only"
         schedule_manually: "手動スケジュール"
         spent_hours: "作業時間の記録"
         spent_time: "作業時間の記録"
         subproject: "子プロジェクト"
         time_entries: "時間を記録"
         type: "タイプ"
+        version: "バージョン"
         watcher: "ウォッチャー"
       'doorkeeper/application':
         uid: "クライアントID"
@@ -733,6 +735,7 @@ ja:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "はマイルストーンにすることはできません。"
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1439,7 +1442,6 @@ ja:
   label_consent_settings: "ユーザーの同意"
   label_wiki_menu_item: Wikiのメニュー項目
   label_select_main_menu_item: 新しいメインメニュー項目を選択する
-  label_select_project: "プロジェクトの選択"
   label_required_disk_storage: "必要なディスク ストレージ"
   label_send_invitation: 招待状を送信
   label_change_plural: "変更"
@@ -1505,6 +1507,7 @@ ja:
   label_diff: "差分"
   label_diff_inline: "インライン"
   label_diff_side_by_side: "横に並べる"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "無効"
   label_display: "表示"
   label_display_per_page: "1ページあたり： %{value}"
@@ -1717,7 +1720,6 @@ ja:
   label_product_version: "製品バージョ​​ン"
   label_professional_support: "プロフェッショナルサポート"
   label_profile: "プロファイル"
-  label_project_all: "全プロジェクト"
   label_project_count: "プロジェクトの合計数"
   label_project_copy_notifications: "プロジェクトのコピーの時、コピーした内容をメール通知する"
   label_project_latest: "最新のプロジェクト"
@@ -1978,6 +1980,9 @@ ja:
   mail_body_backup_token_info: 以前のトークンは無効になりました。
   mail_body_backup_waiting_period: 新しいトークンは %{hours} 時間後に有効になります。
   mail_body_backup_token_warning: これがあなたでなかった場合、すぐに OpenProject にログインして、再度リセットしてください。
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "パスワードを変更するには、以下のリンクをクリックしてください:"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "プロジェクトへの招待メール"
@@ -1996,6 +2001,7 @@ ja:
   mail_subject_account_activation_request: "%{value} アカウントの承認要求"
   mail_subject_backup_ready: "バックアップの準備ができました"
   mail_subject_backup_token_reset: "バックアップトークンのリセット"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "%{value} パスワード再発行"
   mail_subject_register: "%{value} アカウント登録の確認"
   mail_subject_reminder: "%{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
@@ -2361,7 +2367,7 @@ ja:
   setting_smtp_authentication: "SMTP認証"
   setting_smtp_user_name: "SMTPユーザ名"
   setting_smtp_password: "SMTPパスワード"
-  setting_smtp_domain: "SMTP HELLO ドメイン"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "プロジェクトの活動ページに表示される日数"
   setting_app_subtitle: "アプリケーションのサブタイトル"
   setting_app_title: "アプリケーションのタイトル"
@@ -2993,4 +2999,45 @@ ja:
     authorization_error: "認証エラーが発生しました。"
     revoke_my_application_confirmation: "本当にこのアプリケーションを削除しますか？ これにより %{token_count} が無効になります。"
     my_registered_applications: "登録済みのOAuthアプリケーション"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
   you: あなた

@@ -66,7 +66,7 @@ class MeetingContent < ApplicationRecord
   def at_version(version)
     journals
       .joins("JOIN meeting_contents ON meeting_contents.id = journals.journable_id AND meeting_contents.type='#{self.class}'")
-      .where(version: version)
+      .where(version:)
       .first.data
   end
 

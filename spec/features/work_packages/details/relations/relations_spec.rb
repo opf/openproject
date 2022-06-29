@@ -34,7 +34,7 @@ describe 'Work package relations tab', js: true, selenium: true do
   let(:user) { create :admin }
 
   let(:project) { create :project }
-  let(:work_package) { create(:work_package, project: project) }
+  let(:work_package) { create(:work_package, project:) }
   let(:work_packages_page) { ::Pages::SplitWorkPackage.new(work_package) }
   let(:full_wp) { ::Pages::FullWorkPackage.new(work_package) }
   let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
@@ -64,8 +64,8 @@ describe 'Work package relations tab', js: true, selenium: true do
     let(:type_1) { create :type }
     let(:type_2) { create :type }
 
-    let(:to_1) { create(:work_package, type: type_1, project: project) }
-    let(:to_2) { create(:work_package, type: type_2, project: project) }
+    let(:to_1) { create(:work_package, type: type_1, project:) }
+    let(:to_2) { create(:work_package, type: type_2, project:) }
 
     let!(:relation_1) do
       create :relation,
@@ -149,7 +149,7 @@ describe 'Work package relations tab', js: true, selenium: true do
   describe 'with limited permissions' do
     let(:permissions) { %i(view_work_packages) }
     let(:user_role) do
-      create :role, permissions: permissions
+      create :role, permissions:
     end
 
     let(:user) do
@@ -159,7 +159,7 @@ describe 'Work package relations tab', js: true, selenium: true do
     end
 
     context 'as view-only user, with parent set' do
-      let(:work_package) { create(:work_package, project: project) }
+      let(:work_package) { create(:work_package, project:) }
 
       it 'shows no links to create relations' do
         # No create buttons should exist
@@ -175,7 +175,8 @@ describe 'Work package relations tab', js: true, selenium: true do
         %i(view_work_packages add_work_packages manage_subtasks manage_work_package_relations)
       end
 
-      let!(:relatable) { create(:work_package, project: project) }
+      let!(:relatable) { create(:work_package, project:) }
+
       it 'allows to manage relations' do
         relations.add_relation(type: 'follows', to: relatable)
 

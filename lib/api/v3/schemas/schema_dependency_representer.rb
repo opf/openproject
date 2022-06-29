@@ -40,7 +40,7 @@ module API
           self.on = on
 
           super(dependencies,
-                current_user: current_user)
+                current_user:)
         end
 
         attr_accessor :on

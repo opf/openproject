@@ -55,7 +55,7 @@ describe UpdateQueryFromParamsService,
             subject
 
             expect(query.group_by).to eql('status')
-            expect(query.show_hierarchies).to eql(false)
+            expect(query.show_hierarchies).to be(false)
             expect(subject).to be_success
           end
         end
@@ -68,7 +68,7 @@ describe UpdateQueryFromParamsService,
           subject
 
           expect(query.group_by).to eql('status')
-          expect(query.show_hierarchies).to eql(true)
+          expect(query.show_hierarchies).to be(true)
           expect(subject).not_to be_success
         end
       end
@@ -84,9 +84,9 @@ describe UpdateQueryFromParamsService,
           subject
 
           expect(query.filters.length)
-            .to eql(1)
+            .to be(1)
           expect(query.filters[0].name)
-            .to eql(:status_id)
+            .to be(:status_id)
           expect(query.filters[0].operator)
             .to eql('=')
           expect(query.filters[0].values)

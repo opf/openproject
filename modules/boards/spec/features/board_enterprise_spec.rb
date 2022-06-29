@@ -39,11 +39,11 @@ describe 'Boards enterprise spec', type: :feature, js: true do
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
-  shared_let(:manual_board) { create :board_grid_with_query, name: 'My board', project: project }
+  shared_let(:manual_board) { create :board_grid_with_query, name: 'My board', project: }
   shared_let(:action_board) do
     create(:subproject_board,
            name: 'Subproject board',
-           project: project,
+           project:,
            projects_columns: [])
   end
 

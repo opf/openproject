@@ -51,7 +51,6 @@ module OpenProject::Backlogs
              author_url: 'https://www.openproject.org',
              bundled: true,
              settings: settings do
-
       Rails.application.reloader.to_prepare do
         OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
           add.controller_actions << 'rb_stories/create'
@@ -171,7 +170,7 @@ module OpenProject::Backlogs
                         &::OpenProject::Backlogs::Patches::API::WorkPackageSchemaRepresenter.extension)
 
     add_api_attribute on: :work_package, ar_name: :story_points
-    add_api_attribute on: :work_package, ar_name: :remaining_hours, writeable: ->(*) { model.leaf? }
+    add_api_attribute on: :work_package, ar_name: :remaining_hours, writable: ->(*) { model.leaf? }
 
     add_api_path :backlogs_type do |id|
       # There is no api endpoint for this url

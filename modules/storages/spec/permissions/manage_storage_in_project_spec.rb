@@ -33,7 +33,7 @@ require_module_spec_helper
 # rubocop:disable RSpec/EmptyExampleGroup
 describe Storages::Admin::ProjectsStoragesController,
          'manage_storage_in_project permission',
-         :enable_storages,
+         with_flag: { storages_module_active: true },
          type: :controller do
   include PermissionSpecs
 

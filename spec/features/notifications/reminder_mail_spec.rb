@@ -6,15 +6,15 @@ describe "Reminder email sending", type: :feature, js: true do
   let!(:mute_project) { create :project, members: { current_user => role } }
   let(:role) { create(:role, permissions: %i[view_work_packages]) }
   let(:other_user) { create(:user) }
-  let(:work_package) { create(:work_package, project: project) }
-  let(:watched_work_package) { create(:work_package, project: project, watcher_users: [current_user]) }
-  let(:involved_work_package) { create(:work_package, project: project, assigned_to: current_user) }
+  let(:work_package) { create(:work_package, project:) }
+  let(:watched_work_package) { create(:work_package, project:, watcher_users: [current_user]) }
+  let(:involved_work_package) { create(:work_package, project:, assigned_to: current_user) }
   # The run_at time of the delayed job used for scheduling the reminder mails
   # needs to be within a time frame eligible for sending out mails for the chose
   # time zone. For the time zone Hawaii (UTC-10) this means between 8:00:00 and 8:14:59 UTC.
   # The job is scheduled to run every 15 min so the run_at will in production always move between the quarters of an hour.
   # The current time can be way behind that.
-  let(:current_utc_time) {ActiveSupport::TimeZone['Pacific/Honolulu'].parse("2021-09-30T08:34:10").utc }
+  let(:current_utc_time) { ActiveSupport::TimeZone['Pacific/Honolulu'].parse("2021-09-30T08:34:10").utc }
   let(:job_run_at) { ActiveSupport::TimeZone['Pacific/Honolulu'].parse("2021-09-30T08:00:00").utc }
 
   # Fix the time of the specs to ensure a consistent run

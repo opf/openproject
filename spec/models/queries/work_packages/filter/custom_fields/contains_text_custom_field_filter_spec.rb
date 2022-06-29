@@ -32,9 +32,9 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter,
          'with contains filter (Regression test #28348)',
          type: :model do
   let(:cf_accessor) { "cf_#{custom_field.id}" }
-  let(:query) { build_stubbed(:query, project: project) }
+  let(:query) { build_stubbed(:query, project:) }
   let(:instance) do
-    described_class.create!(name: cf_accessor, operator: operator, values: %w(foo), context: query)
+    described_class.create!(name: cf_accessor, operator:, values: %w(foo), context: query)
   end
 
   let(:project) do
@@ -49,28 +49,28 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter,
 
   let!(:wp_contains) do
     create :work_package,
-           type: type,
-           project: project,
+           type:,
+           project:,
            custom_values: { custom_field.id => 'foo' }
   end
   let!(:wp_not_contains) do
     create :work_package,
-           type: type,
-           project: project,
+           type:,
+           project:,
            custom_values: { custom_field.id => 'bar' }
   end
 
   let!(:wp_empty) do
     create :work_package,
-           type: type,
-           project: project,
+           type:,
+           project:,
            custom_values: { custom_field.id => '' }
   end
 
   let!(:wp_nil) do
     create :work_package,
-           type: type,
-           project: project,
+           type:,
+           project:,
            custom_values: { custom_field.id => nil }
   end
 
@@ -80,7 +80,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter,
     let(:operator) { '~' }
 
     it 'returns the one matching work package' do
-      is_expected
+      expect(subject)
         .to match_array [wp_contains]
     end
   end
@@ -89,7 +89,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter,
     let(:operator) { '!~' }
 
     it 'returns the three non-matching work package' do
-      is_expected
+      expect(subject)
         .to match_array [wp_not_contains, wp_empty, wp_nil]
     end
   end

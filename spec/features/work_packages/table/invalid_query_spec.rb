@@ -10,8 +10,8 @@ describe 'Invalid query spec', js: true do
 
   let(:member) do
     create(:member,
-           user: user,
-           project: project,
+           user:,
+           project:,
            roles: [create(:role)])
   end
   let(:status) do
@@ -23,28 +23,28 @@ describe 'Invalid query spec', js: true do
 
   let(:invalid_query) do
     query = create(:query,
-                   project: project,
-                   user: user)
+                   project:,
+                   user:)
 
     query.add_filter('assigned_to_id', '=', [99999])
     query.columns << 'cf_0815'
     query.group_by = 'cf_0815'
     query.sort_criteria = [%w(cf_0815 desc)]
     query.save(validate: false)
-    create(:view_work_packages_table, query: query)
+    create(:view_work_packages_table, query:)
 
     query
   end
 
   let(:valid_query) do
     create(:query,
-           project: project,
-           user: user)
+           project:,
+           user:)
   end
 
   let(:work_package_assigned) do
     create(:work_package,
-           project: project,
+           project:,
            status: status2,
            assigned_to: user)
   end
@@ -57,7 +57,7 @@ describe 'Invalid query spec', js: true do
     work_package_assigned
   end
 
-  it 'should handle invalid queries' do
+  it 'handles invalid queries' do
     # should load a faulty query and also the drop down
     wp_table.visit_query(invalid_query)
 
@@ -77,13 +77,13 @@ describe 'Invalid query spec', js: true do
 
     # should not load with faulty parameters but can be fixed
 
-    filter_props = [{ 'n': 'assignee', 'o': '=', 'v': ['999999'] },
-                    { 'n': 'status', 'o': '=', 'v': [status.id.to_s, status2.id.to_s] }]
+    filter_props = [{ n: 'assignee', o: '=', v: ['999999'] },
+                    { n: 'status', o: '=', v: [status.id.to_s, status2.id.to_s] }]
     column_props = %w(id subject customField0815)
-    invalid_props = JSON.dump('f': filter_props,
-                              'c': column_props,
-                              'g': 'customField0815',
-                              't': 'customField0815:desc')
+    invalid_props = JSON.dump(f: filter_props,
+                              c: column_props,
+                              g: 'customField0815',
+                              t: 'customField0815:desc')
 
     wp_table.visit_with_params("query_id=#{valid_query.id}&query_props=#{invalid_props}")
 

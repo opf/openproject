@@ -49,7 +49,7 @@ describe ::Storages::ProjectStorages::SetAttributesService, type: :model do
   let(:instance) do
     described_class.new(user: current_user,
                         model: model_instance,
-                        contract_class: contract_class,
+                        contract_class:,
                         contract_options: {})
   end
   let(:model_instance) { ::Storages::ProjectStorage.new }

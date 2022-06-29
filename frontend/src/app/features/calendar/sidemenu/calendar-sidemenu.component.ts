@@ -9,11 +9,10 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 export const opCalendarSidemenuSelector = 'op-calendar-sidemenu';
 
-@DatasetInputs
 @Component({
   selector: opCalendarSidemenuSelector,
   templateUrl: './calendar-sidemenu.component.html',
@@ -53,5 +52,7 @@ export class CalendarSidemenuComponent extends UntilDestroyedMixin {
     readonly I18n:I18nService,
   ) {
     super();
+
+    populateInputsFromDataset(this);
   }
 }

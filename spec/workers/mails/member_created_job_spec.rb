@@ -36,7 +36,7 @@ describe Mails::MemberCreatedJob, type: :model do
     context 'with a group membership' do
       let(:member) do
         build_stubbed(:member,
-                      project: project,
+                      project:,
                       principal: group,
                       member_roles: group_member_roles)
       end
@@ -48,7 +48,7 @@ describe Mails::MemberCreatedJob, type: :model do
       context 'with the user not having had a membership before the group`s membership was added' do
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
-                         role: role,
+                         role:,
                          inherited_from: group_member_roles.first.id)]
         end
 
@@ -64,7 +64,7 @@ describe Mails::MemberCreatedJob, type: :model do
       context 'with the user having had a membership with the same roles before the group`s membership was added' do
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
-                         role: role,
+                         role:,
                          inherited_from: nil)]
         end
 
@@ -75,7 +75,7 @@ describe Mails::MemberCreatedJob, type: :model do
                from another group before the group`s membership was added' do
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
-                         role: role,
+                         role:,
                          inherited_from: group_member_roles.first.id + 5)]
         end
 
@@ -87,7 +87,7 @@ describe Mails::MemberCreatedJob, type: :model do
         let(:other_role) { build_stubbed(:role) }
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
-                         role: role,
+                         role:,
                          inherited_from: group_member_roles.first.id),
            build_stubbed(:member_role,
                          role: other_role,
@@ -110,7 +110,7 @@ describe Mails::MemberCreatedJob, type: :model do
       let(:project) { nil }
       let(:member) do
         build_stubbed(:member,
-                      project: project,
+                      project:,
                       principal: group,
                       member_roles: group_member_roles)
       end
@@ -122,7 +122,7 @@ describe Mails::MemberCreatedJob, type: :model do
       context 'with the user not having had a membership before the group`s membership was added' do
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
-                         role: role,
+                         role:,
                          inherited_from: group_member_roles.first.id)]
         end
 
@@ -138,7 +138,7 @@ describe Mails::MemberCreatedJob, type: :model do
       context 'with the user having had a membership with the same roles before the group`s membership was added' do
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
-                         role: role,
+                         role:,
                          inherited_from: nil)]
         end
 
@@ -149,7 +149,7 @@ describe Mails::MemberCreatedJob, type: :model do
                from another group before the group`s membership was added' do
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
-                         role: role,
+                         role:,
                          inherited_from: group_member_roles.first.id + 5)]
         end
 
@@ -160,7 +160,7 @@ describe Mails::MemberCreatedJob, type: :model do
         let(:other_role) { build_stubbed(:role) }
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
-                         role: role,
+                         role:,
                          inherited_from: group_member_roles.first.id),
            build_stubbed(:member_role,
                          role: other_role,

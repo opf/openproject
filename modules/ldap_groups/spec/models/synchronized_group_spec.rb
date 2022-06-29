@@ -6,14 +6,15 @@ describe LdapGroups::SynchronizedGroup, type: :model do
 
     context 'correct attributes' do
       it 'saves the record' do
-        expect(subject.save).to eq true
+        expect(subject.save).to be true
       end
     end
 
     context 'missing attributes' do
       subject { described_class.new }
+
       it 'validates missing attributes' do
-        expect(subject.save).to eq false
+        expect(subject.save).to be false
         expect(subject.errors[:dn]).to include "can't be blank."
         expect(subject.errors[:auth_source]).to include "can't be blank."
         expect(subject.errors[:group]).to include "can't be blank."
@@ -27,7 +28,7 @@ describe LdapGroups::SynchronizedGroup, type: :model do
     let(:user_2) { create :user }
 
     describe '.add_members!' do
-      let(:synchronized_group) { create :ldap_synchronized_group, group: group }
+      let(:synchronized_group) { create :ldap_synchronized_group, group: }
       let(:group) { create :group }
 
       shared_examples 'it adds users to the synchronized group and the internal one' do
@@ -66,9 +67,9 @@ describe LdapGroups::SynchronizedGroup, type: :model do
 
     describe '.remove_members!' do
       let(:synchronized_group) do
-        create(:ldap_synchronized_group, group: group).tap do |sg|
+        create(:ldap_synchronized_group, group:).tap do |sg|
           group.users.each do |user|
-            sg.users.create user: user
+            sg.users.create user:
           end
         end
       end

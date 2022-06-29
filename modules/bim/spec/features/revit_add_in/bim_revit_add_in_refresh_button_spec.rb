@@ -34,7 +34,7 @@ describe 'BIM Revit Add-in navigation spec',
          js: true,
          driver: :chrome_revit_add_in do
   let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
-  let!(:work_package) { create(:work_package, project: project) }
+  let!(:work_package) { create(:work_package, project:) }
   let(:role) do
     create(:role,
            permissions: %i[view_ifc_models manage_ifc_models add_work_packages edit_work_packages view_work_packages])

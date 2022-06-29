@@ -350,6 +350,7 @@ vi:
     label_expand_project_menu: "Mở rộng menu dự án"
     label_export: "Xuất"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Tệp"
     label_filesize: "Kích cỡ"
     label_general: "Tổng quan"
@@ -372,7 +373,9 @@ vi:
     label_learn_more_link: "Learn more"
     label_less_or_equal: "<="
     label_less_than_ago: "less than days ago"
+    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Loading..."
+    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Thông báo qua email"
     label_me: "me"
     label_meeting_agenda: "Các ý chính"
@@ -385,18 +388,25 @@ vi:
     label_no_data: "Không có dữ liệu để hiển thị"
     label_no_due_date: "không có ngày hoàn thành"
     label_no_start_date: "không có ngày bắt đầu"
+    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Không có giá trị"
+    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "không"
     label_not_contains: "không chứa"
     label_not_equals: "không là"
     label_on: "lúc"
     label_open_menu: "Mở trình đơn"
     label_open_context_menu: "Mở menu ngữ cảnh"
+    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "mở"
+    label_open_file_link: 'Open file on storage'
+    label_open_file_link_location: 'Open file in location'
     label_password: "Mật khẩu"
     label_previous: "Trước đó"
     label_per_page: "Mỗi trang:"
     label_please_wait: "Vui lòng chờ"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Các dự án"
     label_visibility_settings: "Cài đặt hiển thị"
     label_quote_comment: "Trích bình luận này"
@@ -405,10 +415,12 @@ vi:
     label_remove: "Xoá"
     label_remove_column: "Xóa cột"
     label_remove_columns: "Loại bỏ cột được chọn"
+    label_remove_file_link: "Remove file link"
     label_remove_row: "Xóa hàng"
     label_report: "Báo cáo"
     label_repository_plural: "Kho lưu trữ"
     label_save_as: "Lưu thành"
+    label_select_project: "Select a project"
     label_select_watcher: "Chọn một người theo dõi..."
     label_selected_filter_list: "Các bộ lọc đã chọn: %s"
     label_show_attributes: "Hiển thị tất cả các thuộc tính"
@@ -420,6 +432,9 @@ vi:
     label_sorting: "Sắp xếp"
     label_spent_time: "Thời gian"
     label_star_query: "Ưa thích"
+    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
+    label_storage_login: "%{storageType} login"
+    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Nhấn enter để lưu."
     label_public_query: "Công cộng"
     label_sum: "Tổng"
@@ -441,7 +456,7 @@ vi:
     label_warning: "Warning"
     label_work_package: "Work Package"
     label_work_package_parent: "Parent work package"
-    label_work_package_plural: "Work Packages"
+    label_work_package_plural: "Quy trình xử lý"
     label_watch: "Theo dõi"
     label_watch_work_package: "Xem gói công việc"
     label_watcher_added_successfully: "Đã thêm nhận xét thành công."
@@ -456,6 +471,7 @@ vi:
     label_custom_queries: "Mục xem riêng"
     label_columns: "Cột"
     label_attachments: Đính kèm
+    label_nextcloud: Nextcloud
     label_drop_files: Thả các tập tin ở đây
     label_drop_files_hint: hoặc nhấn vào đây để thêm tập tin
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -833,6 +849,13 @@ vi:
       comment_send_failed: "Lỗi đã xảy ra. Không thể gửi bình luận."
       comment_updated: "Các bình luận đã được cập nhật thành công."
       confirm_edit_cancel: "Bạn có chắc bạn muốn hủy bỏ chỉnh sửa work package?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Bộ lọc"
       description_enter_text: "Nhập văn bản"
       description_options_hide: "Hide options"
@@ -1162,12 +1185,12 @@ vi:
           group: 'Nhóm này hiện là một phần của %{project}. Trong khi đó, bạn có thể lên kế hoạch cho nhóm đó và chỉ định các gói làm việc cho từng trường hợp.'
         next_button: 'Tiếp tục'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Dự án bao gồm'
       title: 'Các dự án'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Xóa lựa chọn'
       apply: 'Áp dụng'
       selected_filter:
-        all: 'All projects'
+        all: 'Tất cả các dự án'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
       include_subprojects: 'Include all sub-projects'
@@ -1184,3 +1207,5 @@ vi:
         remove: 'Xoá'
       drop_modal:
         Close: 'Đóng'
+    storages:
+      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

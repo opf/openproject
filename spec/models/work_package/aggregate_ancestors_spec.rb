@@ -35,13 +35,13 @@ describe WorkPackage::Ancestors, type: :model do
 
   let!(:root_work_package) do
     create :work_package,
-           project: project
+           project:
   end
 
   let!(:intermediate) do
     create :work_package,
            parent: root_work_package,
-           project: project
+           project:
   end
   let!(:intermediate_project2) do
     create :work_package,
@@ -51,12 +51,12 @@ describe WorkPackage::Ancestors, type: :model do
   let!(:leaf) do
     create :work_package,
            parent: intermediate,
-           project: project
+           project:
   end
   let!(:leaf_project2) do
     create :work_package,
            parent: intermediate_project2,
-           project: project
+           project:
   end
 
   let(:view_role) do
@@ -82,8 +82,8 @@ describe WorkPackage::Ancestors, type: :model do
   context 'with permission in the first project' do
     before do
       create :member,
-             user: user,
-             project: project,
+             user:,
+             project:,
              roles: [view_role]
     end
 
@@ -120,7 +120,7 @@ describe WorkPackage::Ancestors, type: :model do
     context 'and permission in second project' do
       before do
         create :member,
-               user: user,
+               user:,
                project: project2,
                roles: [view_role]
       end
@@ -142,8 +142,8 @@ describe WorkPackage::Ancestors, type: :model do
   context 'no permissions' do
     before do
       create :member,
-             user: user,
-             project: project,
+             user:,
+             project:,
              roles: [none_role]
     end
 

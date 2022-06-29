@@ -47,7 +47,7 @@ module Webhooks
     end
 
     def event_names=(names)
-      self.events = names.map { |name| events.build(name: name) }
+      self.events = names.map { |name| events.build(name:) }
     end
   end
 end

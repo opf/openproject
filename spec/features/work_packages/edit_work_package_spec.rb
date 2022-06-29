@@ -51,8 +51,8 @@ describe 'edit work package', js: true do
   let(:work_package) do
     work_package = create(:work_package,
                           author: dev,
-                          project: project,
-                          type: type,
+                          project:,
+                          type:,
                           created_at: 5.days.ago.to_date.to_fs(:db))
 
     note_journal = work_package.journals.last
@@ -73,8 +73,8 @@ describe 'edit work package', js: true do
            new_status: status2,
            role: manager_role
   end
-  let(:version) { create :version, project: project }
-  let(:category) { create :category, project: project }
+  let(:version) { create :version, project: }
+  let(:category) { create :category, project: }
 
   let(:visit_before) { true }
 
@@ -99,7 +99,7 @@ describe 'edit work package', js: true do
 
   context 'as an admin without roles' do
     let(:visit_before) { false }
-    let(:work_package) { create(:work_package, project: project, type: type2) }
+    let(:work_package) { create(:work_package, project:, type: type2) }
     let(:admin) { create :admin }
 
     it 'can still use the manager role' do
@@ -260,6 +260,7 @@ describe 'edit work package', js: true do
 
   context 'submitting' do
     let(:subject_field) { wp_page.edit_field(:subject) }
+
     before do
       subject_field.activate!
       subject_field.set_value 'My new subject!'

@@ -33,9 +33,9 @@ module API
         class GridSchemaRepresenter < ::API::Decorators::SchemaRepresenter
           def initialize(represented, self_link: nil, current_user: nil, form_embedded: false)
             super(represented,
-                  self_link: self_link,
-                  current_user: current_user,
-                  form_embedded: form_embedded)
+                  self_link:,
+                  current_user:,
+                  form_embedded:)
           end
 
           schema :id,
@@ -76,7 +76,7 @@ module API
                                          has_default: false,
                                          values_callback: -> do
                                            represented.assignable_widgets.map do |identifier|
-                                             OpenStruct.new(identifier: identifier, grid: represented.model, options: {})
+                                             OpenStruct.new(identifier:, grid: represented.model, options: {})
                                            end
                                          end,
                                          value_representer: ::API::V3::Grids::Widgets::WidgetRepresenter,

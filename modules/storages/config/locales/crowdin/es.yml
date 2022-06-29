@@ -45,6 +45,11 @@ es:
       setting_up_storages: "Para configurar almacenes de archivos, visite"
       setting_up_storages_non_admin: "Los administradores pueden configurar almacenes de archivos en Administración > Almacenes de archivos."
       all_available_storages_already_added: "Ya se añadieron todos los almacenes disponibles al proyecto."
+      nextcloud:
+        administration: Administración
+        oauth2_clients: Clientes OAuth2
+        oauth_client_id: Copiar el valor de
+        oauth_client_secret: Copiar el valor de
     delete_warning:
       storage: >
         ¿Seguro que quiere eliminar este almacén? También se eliminará de todos los proyectos donde se use. Además, se quitarán todos los enlaces de los paquetes de trabajo a los archivos guardados en ese almacén.
@@ -55,11 +60,16 @@ es:
     label_file_links: "Enlaces de archivos"
     label_name: "Nombre"
     label_host: "Host"
+    label_oauth_client_details: "Detalles del cliente OAuth"
     label_provider_type: "Tipo de proveedor"
     label_new_storage: "Nuevo almacén"
     label_storage: "Almacén"
     label_storages: "Almacenes"
     no_results: "Aún no se han configurado almacenes."
+    label_oauth_client_id: "ID de cliente OAuth"
+    label_oauth_client_secret: "Clave secreta de cliente OAuth"
     provider_types:
       label: "Tipo de proveedor"
       nextcloud: "Nextcloud"
+    confirm_replace_oauth_client: "¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo en el almacenamiento."
+    oauth_client_details_missing: "Para completar la configuración, por favor agregue las credenciales del cliente OAuth desde su almacenamiento."

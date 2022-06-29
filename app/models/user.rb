@@ -109,7 +109,7 @@ class User < Principal
             :mail,
             presence: { unless: Proc.new { |user| user.builtin? } }
 
-  validates :login, uniqueness: { if: Proc.new { |user| !user.login.blank? }, case_sensitive: false }
+  validates :login, uniqueness: { if: Proc.new { |user| user.login.present? }, case_sensitive: false }
   validates :mail, uniqueness: { allow_blank: true, case_sensitive: false }
   # Login must contain letters, numbers, underscores only
   validates :login, format: { with: /\A[a-z0-9_\-@.+ ]*\z/i }
@@ -324,7 +324,7 @@ class User < Principal
     else
       return false if current_password.nil?
 
-      current_password.matches_plaintext?(clear_password, update_legacy: update_legacy)
+      current_password.matches_plaintext?(clear_password, update_legacy:)
     end
   end
 
@@ -545,10 +545,10 @@ class User < Principal
     RequestStore[:current_user] || User.anonymous
   end
 
-  def self.execute_as(user, &block)
+  def self.execute_as(user, &)
     previous_user = User.current
     User.current = user
-    OpenProject::LocaleHelper.with_locale_for(user, &block)
+    OpenProject::LocaleHelper.with_locale_for(user, &)
   ensure
     User.current = previous_user
   end
@@ -626,14 +626,8 @@ class User < Principal
 
       if former_passwords_include?(password)
         errors.add(:password,
-                   I18n.t(:reused,
-                          count: Setting[:password_count_former_banned].to_i,
-                          scope: %i[activerecord
-                                    errors
-                                    models
-                                    user
-                                    attributes
-                                    password]))
+                   I18n.t('activerecord.errors.models.user.attributes.password.reused',
+                          count: Setting[:password_count_former_banned].to_i))
       end
     end
   end

@@ -53,7 +53,7 @@ shared_examples 'BaseServices delete service' do
 
   let(:user) { build_stubbed(:user) }
   let(:instance) do
-    described_class.new(user: user, model: model_instance, contract_class: contract_class)
+    described_class.new(user:, model: model_instance, contract_class:)
   end
   let(:call_attributes) { {} }
   let!(:model_instance) { build_stubbed(factory) }

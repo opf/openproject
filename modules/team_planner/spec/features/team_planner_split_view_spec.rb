@@ -32,14 +32,14 @@ require_relative './shared_context'
 describe 'Team planner split view navigation', type: :feature, js: true, with_ee: %i[team_planner_view] do
   include_context 'with team planner full access'
 
-  let!(:view) { create :view_team_planner, query: query }
-  let!(:query) { create :query, user: user, project: project, public: true }
+  let!(:view) { create :view_team_planner, query: }
+  let!(:query) { create :query, user:, project:, public: true }
 
   let(:start_of_week) { Time.zone.today.beginning_of_week(:sunday) }
 
   let!(:work_package1) do
     create :work_package,
-           project: project,
+           project:,
            subject: 'First task',
            assigned_to: user,
            start_date: start_of_week.next_occurring(:tuesday),
@@ -48,7 +48,7 @@ describe 'Team planner split view navigation', type: :feature, js: true, with_ee
 
   let!(:work_package2) do
     create :work_package,
-           project: project,
+           project:,
            subject: 'Another task',
            assigned_to: user,
            start_date: start_of_week.next_occurring(:tuesday),

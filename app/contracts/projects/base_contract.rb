@@ -66,9 +66,7 @@ module Projects
       end
     end
 
-    def assignable_versions
-      model.assignable_versions
-    end
+    delegate :assignable_versions, to: :model
 
     def assignable_status_codes
       Projects::Status.codes.keys

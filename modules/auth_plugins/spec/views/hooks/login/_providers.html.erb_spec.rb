@@ -43,11 +43,11 @@ describe 'rendering the login buttons for all providers' do
     render partial: 'hooks/login/providers', handlers: [:erb], formats: [:html]
   end
 
-  it 'should show the mock_auth button with the name as its label' do
+  it 'shows the mock_auth button with the name as its label' do
     expect(rendered).to match /#{providers[0][:name]}/
   end
 
-  it 'should show the test_auth button with the given display_name as its label' do
+  it 'shows the test_auth button with the given display_name as its label' do
     expect(rendered).to match /#{providers[1][:display_name]}/
   end
 

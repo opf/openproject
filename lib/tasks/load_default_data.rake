@@ -33,7 +33,7 @@ namespace :redmine do
     include Redmine::I18n
     set_language_if_valid('en')
 
-    envlang = ENV['REDMINE_LANG']
+    envlang = ENV.fetch('REDMINE_LANG', nil)
     if !envlang || !set_language_if_valid(envlang)
       puts
       loop do

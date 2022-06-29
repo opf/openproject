@@ -35,7 +35,7 @@ module API
 
         cached_representer disabled: true
 
-        def writeable_attributes
+        def writable_attributes
           super + %w[date]
         end
 

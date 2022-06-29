@@ -53,7 +53,7 @@ module OpenProject
           end
 
           def authenticate_user(id)
-            user = User.find_by(id: id)
+            user = User.find_by(id:)
             if user
               success!(user)
             else

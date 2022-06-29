@@ -10,7 +10,7 @@ describe 'new work package', js: true do
   let!(:status) { create(:status, is_default: true) }
   let!(:priority) { create(:priority, is_default: true) }
   let!(:project) do
-    create(:project, types: types)
+    create(:project, types:)
   end
 
   let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages work_package_assigned] }
@@ -33,7 +33,7 @@ describe 'new work package', js: true do
   let(:toaster) { PageObjects::Notifications.new(page) }
 
   def disable_leaving_unsaved_warning
-    create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
+    create(:user_preference, user:, others: { warn_on_leaving_unsaved: false })
   end
 
   def save_work_package!(expect_success = true)
@@ -182,10 +182,10 @@ describe 'new work package', js: true do
         let(:custom_fields) do
           [custom_field1, custom_field2]
         end
-        let(:type_task) { create(:type_task, custom_fields: custom_fields) }
+        let(:type_task) { create(:type_task, custom_fields:) }
         let(:project) do
           create(:project,
-                 types: types,
+                 types:,
                  work_package_custom_fields: custom_fields)
         end
 
@@ -276,7 +276,7 @@ describe 'new work package', js: true do
 
   context 'full screen' do
     let(:safeguard_selector) { '.work-package--new-state' }
-    let(:existing_wp) { create :work_package, type: type_bug, project: project }
+    let(:existing_wp) { create :work_package, type: type_bug, project: }
     let(:wp_page) { Pages::FullWorkPackage.new(existing_wp) }
 
     before do
@@ -428,16 +428,16 @@ describe 'new work package', js: true do
   context 'creating child work packages' do
     let!(:parent) do
       create(:work_package,
-             project: project,
+             project:,
              author: user,
              start_date: Date.today - 5.days,
              due_date: Date.today + 5.days)
     end
     let(:context_menu) { Components::WorkPackages::ContextMenu.new }
-    let(:split_create_page) { Pages::SplitWorkPackageCreate.new(project: project) }
+    let(:split_create_page) { Pages::SplitWorkPackageCreate.new(project:) }
     let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_subtasks] }
     let(:wp_page) { Pages::FullWorkPackage.new(parent) }
-    let(:wp_page_create) { Pages::FullWorkPackageCreate.new(project: project) }
+    let(:wp_page_create) { Pages::FullWorkPackageCreate.new(project:) }
 
     it 'from within the table' do
       work_packages_page.visit_index

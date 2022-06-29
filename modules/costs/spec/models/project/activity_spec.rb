@@ -37,17 +37,17 @@ describe Projects::Activity, type: :model do
 
   let(:budget) do
     create(:budget,
-           project: project)
+           project:)
   end
 
   let(:budget2) do
     create(:budget,
-           project: project)
+           project:)
   end
 
   let(:work_package) do
     create(:work_package,
-           project: project)
+           project:)
   end
 
   def latest_activity

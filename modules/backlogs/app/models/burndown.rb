@@ -76,7 +76,7 @@ class Burndown
 
     ideal = []
     days.each_with_index do |_d, i|
-      ideal[i] = max - delta * i
+      ideal[i] = max - (delta * i)
     end
 
     make_series name.to_s + '_ideal', unit, ideal

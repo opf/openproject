@@ -51,7 +51,7 @@ module API
             next unless embed_links && container_representer
 
             container_representer
-              .create(represented.container, current_user: current_user)
+              .create(represented.container, current_user:)
           end
         end
 

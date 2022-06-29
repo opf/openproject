@@ -36,6 +36,11 @@ describe ProjectsHelper, type: :helper do
     let(:root) do
       stub_descendant_of
     end
+    let(:child1) { stub_descendant_of(root) }
+    let(:grandchild1) { stub_descendant_of(root, child1) }
+    let(:grandchild2) { stub_descendant_of(root, child1) }
+    let(:grandgrandchild1) { stub_descendant_of(root, child1, grandchild2) }
+    let(:child2) { stub_descendant_of(root) }
 
     def stub_descendant_of(*ancestors)
       wp = build_stubbed(:project)
@@ -53,12 +58,6 @@ describe ProjectsHelper, type: :helper do
 
       wp
     end
-
-    let(:child1) { stub_descendant_of(root) }
-    let(:grandchild1) { stub_descendant_of(root, child1) }
-    let(:grandchild2) { stub_descendant_of(root, child1) }
-    let(:grandgrandchild1) { stub_descendant_of(root, child1, grandchild2) }
-    let(:child2) { stub_descendant_of(root) }
 
     context 'when ordered by hierarchy' do
       let(:projects) do
@@ -105,11 +104,12 @@ describe ProjectsHelper, type: :helper do
 
   describe '#projects_level_list_json' do
     subject { helper.projects_level_list_json(projects).to_json }
+
     let(:projects) { [] }
 
     describe 'with no project available' do
       it 'renders an empty projects document' do
-        is_expected.to have_json_size(0).at_path('projects')
+        expect(subject).to have_json_size(0).at_path('projects')
       end
     end
 
@@ -127,29 +127,29 @@ describe ProjectsHelper, type: :helper do
       end
 
       it 'renders a projects document with the size of 3 of type array' do
-        is_expected.to have_json_size(3).at_path('projects')
+        expect(subject).to have_json_size(3).at_path('projects')
       end
 
       it 'renders all three projects' do
-        is_expected.to be_json_eql('P1'.to_json).at_path('projects/0/name')
-        is_expected.to be_json_eql('P2'.to_json).at_path('projects/1/name')
-        is_expected.to be_json_eql('P3'.to_json).at_path('projects/2/name')
+        expect(subject).to be_json_eql('P1'.to_json).at_path('projects/0/name')
+        expect(subject).to be_json_eql('P2'.to_json).at_path('projects/1/name')
+        expect(subject).to be_json_eql('P3'.to_json).at_path('projects/2/name')
       end
 
       it 'renders the project levels' do
-        is_expected.to be_json_eql(0.to_json).at_path('projects/0/level')
-        is_expected.to be_json_eql(1.to_json).at_path('projects/1/level')
-        is_expected.to be_json_eql(0.to_json).at_path('projects/2/level')
+        expect(subject).to be_json_eql(0.to_json).at_path('projects/0/level')
+        expect(subject).to be_json_eql(1.to_json).at_path('projects/1/level')
+        expect(subject).to be_json_eql(0.to_json).at_path('projects/2/level')
       end
     end
   end
 
-  context '#short_project_description' do
-    let(:project) { build_stubbed(:project, description: ('Abcd ' * 5 + "\n") * 11) }
+  describe '#short_project_description' do
+    let(:project) { build_stubbed(:project, description: (('Abcd ' * 5) + "\n") * 11) }
 
     it 'returns shortened description' do
       expect(helper.short_project_description(project))
-        .to eql((('Abcd ' * 5 + "\n") * 10)[0..-2] + '...')
+        .to eql(((('Abcd ' * 5) + "\n") * 10)[0..-2] + '...')
     end
   end
 end

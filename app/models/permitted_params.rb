@@ -186,7 +186,7 @@ class PermittedParams
   end
 
   def my_account_settings
-    user.merge(pref: pref)
+    user.merge(pref:)
   end
 
   def user_register_via_omniauth
@@ -399,7 +399,7 @@ class PermittedParams
   end
 
   def permitted_attributes(key, additions = {})
-    merged_args = { params: params, current_user: current_user }.merge(additions)
+    merged_args = { params:, current_user: }.merge(additions)
 
     self.class.permitted_attributes[key].map do |permission|
       if permission.respond_to?(:call)

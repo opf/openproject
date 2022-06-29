@@ -132,7 +132,7 @@ module ReportingHelper
     # Reuses rails cache to locate the custom field
     # and then properly cast the value
     CustomValue
-      .new(custom_field_id: cf_id, value: value)
+      .new(custom_field_id: cf_id, value:)
       .typed_value
   end
 

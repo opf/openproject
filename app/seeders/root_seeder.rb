@@ -99,7 +99,7 @@ class RootSeeder < Seeder
     # #set_language_if_valid here as it
     # would mean to circumvent the default settings
     # for valid_languages.
-    desired_lang = (ENV['OPENPROJECT_SEED_LOCALE'] || :en).to_sym
+    desired_lang = ENV.fetch('OPENPROJECT_SEED_LOCALE', :en).to_sym
 
     if all_languages.include?(desired_lang)
       I18n.locale = desired_lang

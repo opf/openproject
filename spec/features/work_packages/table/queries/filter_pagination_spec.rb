@@ -41,8 +41,8 @@ describe 'Filter updates pagination', type: :feature, js: true do
   let(:filters) { Components::WorkPackages::Filters.new }
 
   let(:project) { create(:project) }
-  let(:work_package_1) { create(:work_package, project: project, assigned_to: user) }
-  let(:work_package_2) { create(:work_package, project: project) }
+  let(:work_package_1) { create(:work_package, project:, assigned_to: user) }
+  let(:work_package_2) { create(:work_package, project:) }
 
   before do
     allow(Setting).to receive(:per_page_options).and_return '1'

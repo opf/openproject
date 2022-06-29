@@ -11,27 +11,27 @@ describe 'Work Package table hierarchy and sorting', js: true do
 
   let!(:wp_root) do
     create :work_package,
-           project: project,
+           project:,
            subject: 'Parent'
   end
 
   let!(:wp_child1) do
     create :work_package,
-           project: project,
+           project:,
            parent: wp_root,
            subject: 'WP child 1'
   end
 
   let!(:wp_child2) do
     create :work_package,
-           project: project,
+           project:,
            parent: wp_root,
            subject: 'WP child 2'
   end
 
   let!(:wp_child3) do
     create :work_package,
-           project: project,
+           project:,
            parent: wp_root,
            subject: 'WP child 3'
   end

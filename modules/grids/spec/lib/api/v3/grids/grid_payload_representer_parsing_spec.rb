@@ -45,28 +45,28 @@ describe ::API::V3::Grids::GridPayloadRepresenter, 'parsing' do
       "columnCount" => 20,
       "widgets" => [
         {
-          "_type": "Widget",
-          "identifier": 'work_packages_assigned',
-          "startRow": 4,
-          "endRow": 5,
-          "startColumn": 1,
-          "endColumn": 2
+          _type: "Widget",
+          identifier: 'work_packages_assigned',
+          startRow: 4,
+          endRow: 5,
+          startColumn: 1,
+          endColumn: 2
         },
         {
-          "_type": "Widget",
-          "identifier": 'work_packages_created',
-          "startRow": 1,
-          "endRow": 2,
-          "startColumn": 1,
-          "endColumn": 2
+          _type: "Widget",
+          identifier: 'work_packages_created',
+          startRow: 1,
+          endRow: 2,
+          startColumn: 1,
+          endColumn: 2
         },
         {
-          "_type": "Widget",
-          "identifier": 'work_packages_watched',
-          "startRow": 2,
-          "endRow": 4,
-          "startColumn": 4,
-          "endColumn": 5
+          _type: "Widget",
+          identifier: 'work_packages_watched',
+          startRow: 2,
+          endRow: 4,
+          startColumn: 4,
+          endColumn: 5
         }
       ],
       "_links" => {
@@ -92,7 +92,7 @@ describe ::API::V3::Grids::GridPayloadRepresenter, 'parsing' do
       it 'updates row_count' do
         grid = representer.from_hash(hash)
         expect(grid.row_count)
-          .to eql(10)
+          .to be(10)
       end
     end
 
@@ -100,7 +100,7 @@ describe ::API::V3::Grids::GridPayloadRepresenter, 'parsing' do
       it 'updates column_count' do
         grid = representer.from_hash(hash)
         expect(grid.column_count)
-          .to eql(20)
+          .to be(20)
       end
     end
 
@@ -111,35 +111,35 @@ describe ::API::V3::Grids::GridPayloadRepresenter, 'parsing' do
         expect(grid.widgets[0].identifier)
           .to eql('work_packages_assigned')
         expect(grid.widgets[0].start_row)
-          .to eql(4)
+          .to be(4)
         expect(grid.widgets[0].end_row)
-          .to eql(5)
+          .to be(5)
         expect(grid.widgets[0].start_column)
-          .to eql(1)
+          .to be(1)
         expect(grid.widgets[0].end_column)
-          .to eql(2)
+          .to be(2)
 
         expect(grid.widgets[1].identifier)
           .to eql('work_packages_created')
         expect(grid.widgets[1].start_row)
-          .to eql(1)
+          .to be(1)
         expect(grid.widgets[1].end_row)
-          .to eql(2)
+          .to be(2)
         expect(grid.widgets[1].start_column)
-          .to eql(1)
+          .to be(1)
         expect(grid.widgets[1].end_column)
-          .to eql(2)
+          .to be(2)
 
         expect(grid.widgets[2].identifier)
           .to eql('work_packages_watched')
         expect(grid.widgets[2].start_row)
-          .to eql(2)
+          .to be(2)
         expect(grid.widgets[2].end_row)
-          .to eql(4)
+          .to be(4)
         expect(grid.widgets[2].start_column)
-          .to eql(4)
+          .to be(4)
         expect(grid.widgets[2].end_column)
-          .to eql(5)
+          .to be(5)
       end
     end
   end

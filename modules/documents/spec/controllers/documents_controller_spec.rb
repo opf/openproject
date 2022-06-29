@@ -37,11 +37,11 @@ describe DocumentsController do
   let(:role) { create(:role, permissions: [:view_documents]) }
 
   let(:default_category) do
-    create(:document_category, project: project, name: "Default Category")
+    create(:document_category, project:, name: "Default Category")
   end
 
   let!(:document) do
-    create(:document, title: "Sample Document", project: project, category: default_category)
+    create(:document, title: "Sample Document", project:, category: default_category)
   end
 
   current_user { admin }
@@ -110,7 +110,7 @@ describe DocumentsController do
 
       before do
         notify_project = project
-        create(:member, project: notify_project, user: user, roles: [role])
+        create(:member, project: notify_project, user:, roles: [role])
 
         post :create,
              params: {

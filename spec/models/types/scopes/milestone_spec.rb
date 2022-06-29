@@ -36,7 +36,7 @@ describe Types::Scopes::Milestone, type: :model do
     subject { Type.milestone }
 
     it 'returns only milestones' do
-      is_expected
+      expect(subject)
         .to match_array [milestone]
     end
   end

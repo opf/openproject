@@ -524,18 +524,20 @@ ro:
         duration: "Duration"
         end_insertion: "Sfârșit de inserare"
         end_deletion: "Sfârșit de ștergere"
-        version: "Versiune"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Părinte"
         parent_issue: "Părinte"
         parent_work_package: "Părinte"
         priority: "Prioritate"
         progress: "Progres (%)"
+        readonly: "Read only"
         schedule_manually: "Programarea manuală"
         spent_hours: "Timp consumat"
         spent_time: "Timp consumat"
         subproject: "Subproiect"
         time_entries: "Consum timp"
         type: "Tip"
+        version: "Versiune"
         watcher: "Observator"
       'doorkeeper/application':
         uid: "ID Client"
@@ -739,6 +741,7 @@ ro:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "nu poate fi un reper de etapă."
               cannot_be_self_assigned: "nu poate fi atribuit singur."
@@ -1477,7 +1480,6 @@ ro:
   label_consent_settings: "Consimţământul utilizatorului"
   label_wiki_menu_item: Meniu wiki
   label_select_main_menu_item: Selectare meniu wiki nou
-  label_select_project: "Selectați un proiect"
   label_required_disk_storage: "Necesar spațiu pe disc"
   label_send_invitation: Trimite invitație
   label_change_plural: "Modificări"
@@ -1543,6 +1545,7 @@ ro:
   label_diff: "diferențe"
   label_diff_inline: "în text"
   label_diff_side_by_side: "în paralel"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "dezactivat"
   label_display: "Afișare"
   label_display_per_page: "Pe pagină: %{value}"
@@ -1755,7 +1758,6 @@ ro:
   label_product_version: "Versiune produs"
   label_professional_support: "Suport profesional"
   label_profile: "Profil"
-  label_project_all: "Toate proiectele"
   label_project_count: "Număr total de proiecte"
   label_project_copy_notifications: "Trimitere notificări e-mail în timpul copierii proiectului"
   label_project_latest: "Ultimele proiecte"
@@ -2018,6 +2020,9 @@ ro:
   mail_body_backup_token_info: Token-ul anterior nu mai este valid.
   mail_body_backup_waiting_period: Noul token va fi activat în %{hours} ore.
   mail_body_backup_token_warning: Dacă nu ați fost dvs., conectați-vă la OpenProject imediat și resetați-l din nou.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Pentru a vă modifica parola, dați click pe următorul link:"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-mail de invitație pentru membrii proiectului"
@@ -2036,6 +2041,7 @@ ro:
   mail_subject_account_activation_request: "cererea de activare a contului %{value}"
   mail_subject_backup_ready: "Backup-ul tău este gata"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Parola dumneavoastră pentru %{value}"
   mail_subject_register: "Activarea contului dumneavoastră %{value}"
   mail_subject_reminder: "%{count} pachete de lucru trebuie rezolvate în următoarele %{days} zile"
@@ -2402,7 +2408,7 @@ ro:
   setting_smtp_authentication: "Autentificare SMTP"
   setting_smtp_user_name: "Utilizatorul SMTP"
   setting_smtp_password: "Parola SMTP"
-  setting_smtp_domain: "Domeniu \"HELLO\" SMTP"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Zile afișate în lista de activități a proiectului"
   setting_app_subtitle: "Subtitlu aplicație"
   setting_app_title: "Titlu aplicație"
@@ -3040,4 +3046,45 @@ ro:
     authorization_error: "A apărut o eroare internă."
     revoke_my_application_confirmation: "Chiar doriți să eliminați această aplicație? Acest lucru va anula %{token_count} active pentru aceasta."
     my_registered_applications: "Aplicații OAuth înregistrate"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
   you: tu

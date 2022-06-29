@@ -66,7 +66,7 @@ module Components
       def expect_options(options)
         expect_open
         options.each do |text|
-          expect(page).to have_selector("#{selector} a", text: text)
+          expect(page).to have_selector("#{selector} a", text:)
         end
       end
 

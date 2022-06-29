@@ -44,7 +44,6 @@ describe WikiController, type: :controller do
     create(:wiki_content, page_id: existing_page.id, author_id: admin.id)
   end
 
-
   describe 'actions' do
     before do
       allow(controller).to receive(:set_localization)
@@ -84,13 +83,13 @@ describe WikiController, type: :controller do
     describe 'new' do
       let(:get_page) { get 'new', params: { project_id: project } }
 
-      it_should_behave_like "a 'new' action"
+      it_behaves_like "a 'new' action"
     end
 
     describe 'new_child' do
       let(:get_page) { get 'new_child', params: { project_id: project, id: existing_page.title } }
 
-      it_should_behave_like "a 'new' action"
+      it_behaves_like "a 'new' action"
 
       it 'sets the parent page for the new page' do
         get_page
@@ -240,7 +239,7 @@ describe WikiController, type: :controller do
           let(:redirect_page_after_destroy) { wiki.find_page(wiki.start_page) || wiki.pages.first }
 
           before do
-            create :wiki_page, wiki: wiki
+            create :wiki_page, wiki:
           end
 
           it 'redirects to wiki#index' do
@@ -266,7 +265,7 @@ describe WikiController, type: :controller do
       create(:public_project).tap(&:reload)
     end
 
-    before :each do
+    before do
       allow(@controller).to receive(:set_localization)
       allow(Setting).to receive(:login_required?).and_return(false)
 
@@ -295,20 +294,20 @@ describe WikiController, type: :controller do
 
       # creating page contents
       create(:wiki_content, page_id: @page_default.id,
-                        author_id: admin.id)
+                            author_id: admin.id)
       create(:wiki_content, page_id: @page_with_content.id,
-                        author_id: admin.id)
+                            author_id: admin.id)
       create(:wiki_content, page_id: @unrelated_page.id,
-                        author_id: admin.id)
+                            author_id: admin.id)
 
       # creating some child pages
       @children = {}
       [@page_with_content].each do |page|
         child_page = create(:wiki_page, wiki_id: project.wiki.id,
-                                       parent_id: page.id,
-                                       title: page.title + ' child')
+                                        parent_id: page.id,
+                                        title: page.title + ' child')
         create(:wiki_content, page_id: child_page.id,
-                          author_id: admin.id)
+                              author_id: admin.id)
 
         @children[page] = child_page
       end
@@ -398,9 +397,9 @@ describe WikiController, type: :controller do
           @child_page = @children[@page_with_content]
         end
 
-        it_should_behave_like 'all wiki menu items'
-        it_should_behave_like 'all existing wiki menu items'
-        it_should_behave_like 'all wiki menu items with child pages'
+        it_behaves_like 'all wiki menu items'
+        it_behaves_like 'all existing wiki menu items'
+        it_behaves_like 'all wiki menu items with child pages'
       end
 
       describe '- wiki menu item pointing to a new wiki page' do
@@ -409,7 +408,7 @@ describe WikiController, type: :controller do
           @other_wiki_menu_item = @other_menu_item
         end
 
-        it_should_behave_like 'all wiki menu items'
+        it_behaves_like 'all wiki menu items'
       end
 
       describe '- wiki_menu_item containing special chars only' do
@@ -421,7 +420,7 @@ describe WikiController, type: :controller do
           @other_wiki_menu_item = @other_menu_item
         end
 
-        it_should_behave_like 'all wiki menu items'
+        it_behaves_like 'all wiki menu items'
       end
     end
 

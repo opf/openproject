@@ -46,19 +46,19 @@ describe ::API::V3::Queries::Columns::QueryPropertyColumnRepresenter do
     end
 
     it 'has _type QueryColumn::Property' do
-      is_expected
+      expect(subject)
         .to be_json_eql('QueryColumn::Property'.to_json)
         .at_path('_type')
     end
 
     it 'has id attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql('status'.to_json)
         .at_path('id')
     end
 
     it 'has name attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql('Status'.to_json)
         .at_path('name')
     end
@@ -75,13 +75,13 @@ describe ::API::V3::Queries::Columns::QueryPropertyColumnRepresenter do
       end
 
       it 'has id attribute' do
-        is_expected
+        expect(subject)
           .to be_json_eql('assignee'.to_json)
           .at_path('id')
       end
 
       it 'has name attribute' do
-        is_expected
+        expect(subject)
           .to be_json_eql('Assignee'.to_json)
           .at_path('name')
       end

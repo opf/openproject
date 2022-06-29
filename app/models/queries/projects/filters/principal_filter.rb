@@ -32,9 +32,7 @@ class Queries::Projects::Filters::PrincipalFilter < Queries::Projects::Filters::
   end
 
   def allowed_values
-    @allowed_values ||= begin
-      ::Principal.pluck(:id).map { |id| [id, id.to_s] }
-    end
+    @allowed_values ||= ::Principal.pluck(:id).map { |id| [id, id.to_s] }
   end
 
   def scope

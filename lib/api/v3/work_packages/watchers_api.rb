@@ -47,7 +47,7 @@ module API
               self_link: api_v3_paths.users,
               page: to_i_or_nil(params[:offset]),
               per_page: resolve_page_size(params[:pageSize]),
-              current_user: current_user
+              current_user:
             )
           else
             raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
@@ -60,8 +60,8 @@ module API
               watchers = @work_package.watcher_users.merge(Principal.not_locked, rewhere: true)
               self_link = api_v3_paths.work_package_watchers(@work_package.id)
               Users::UnpaginatedUserCollectionRepresenter.new(watchers,
-                                                              self_link: self_link,
-                                                              current_user: current_user)
+                                                              self_link:,
+                                                              current_user:)
             end
           end
 
@@ -76,7 +76,7 @@ module API
               fail ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.missing_request_body'))
             end
 
-            representer = ::API::V3::Watchers::WatcherRepresenter.create(API::ParserStruct.new, current_user: current_user)
+            representer = ::API::V3::Watchers::WatcherRepresenter.create(API::ParserStruct.new, current_user:)
             representer.from_hash(request_body)
             user_id = representer.represented.user_id.to_i
 
@@ -95,7 +95,7 @@ module API
               }
             )
 
-            ::API::V3::Users::UserRepresenter.create(user, current_user: current_user)
+            ::API::V3::Users::UserRepresenter.create(user, current_user:)
           end
 
           namespace ':user_id' do

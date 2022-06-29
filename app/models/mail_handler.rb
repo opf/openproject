@@ -184,7 +184,7 @@ class MailHandler < ActionMailer::Base
     receive_work_package
   end
 
-  REFERENCES_RE = %r{^<?op\.([a-z_]+)-(\d+)@}.freeze
+  REFERENCES_RE = %r{^<?op\.([a-z_]+)-(\d+)@}
 
   ##
   # Find a matching method to dispatch to given the mail's references header.
@@ -196,7 +196,7 @@ class MailHandler < ActionMailer::Base
       object_id = $2.to_i
       method_name = :"receive_#{klass}_reply"
       if self.class.private_instance_methods.include?(method_name)
-        return method(method_name), object_id
+        [method(method_name), object_id]
       end
     end
   end
@@ -248,11 +248,13 @@ class MailHandler < ActionMailer::Base
     if message
       message = message.root
 
-      unless options[:no_permission_check]
-        raise UnauthorizedAction unless user.allowed_to?(:add_messages, message.project)
+      if !options[:no_permission_check] && !user.allowed_to?(:add_messages, message.project)
+        raise UnauthorizedAction
       end
 
-      if !message.locked?
+      if message.locked?
+        log "ignoring reply from [#{sender_email}] to a locked topic"
+      else
         reply = Message.new(subject: email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
                             content: cleaned_up_text_body)
         reply.author = user
@@ -260,8 +262,6 @@ class MailHandler < ActionMailer::Base
         message.children << reply
         add_attachments(reply)
         reply
-      else
-        log "ignoring reply from [#{sender_email}] to a locked topic"
       end
     end
   end
@@ -285,8 +285,8 @@ class MailHandler < ActionMailer::Base
     )
 
     call = ::Attachments::CreateService
-      .new(user: user)
-      .call(container: container, filename: attachment.filename, file: file)
+      .new(user:)
+      .call(container:, filename: attachment.filename, file:)
 
     call.on_failure do
       log "Failed to add attachment #{attachment.filename} for [#{sender_email}]: #{call.message}"
@@ -305,7 +305,7 @@ class MailHandler < ActionMailer::Base
         User
           .active
           .where(['LOWER(mail) IN (?)', addresses])
-          .each do |user|
+          .find_each do |user|
           Services::CreateWatcher
             .new(obj, user)
             .run
@@ -434,9 +434,9 @@ class MailHandler < ActionMailer::Base
     user.lastname = '-' if user.lastname.blank?
 
     unless user.valid?
-      user.login = "user#{SecureRandom.hex(6)}" unless user.errors[:login].blank?
-      user.firstname = '-' unless user.errors[:firstname].blank?
-      user.lastname = '-' unless user.errors[:lastname].blank?
+      user.login = "user#{SecureRandom.hex(6)}" if user.errors[:login].present?
+      user.firstname = '-' if user.errors[:firstname].present?
+      user.lastname = '-' if user.errors[:lastname].present?
     end
 
     user
@@ -492,9 +492,7 @@ class MailHandler < ActionMailer::Base
   end
 
   def ignored_filenames
-    @ignored_filenames ||= begin
-      Setting.mail_handler_ignore_filenames.to_s.split(/[\r\n]+/).reject(&:blank?)
-    end
+    @ignored_filenames ||= Setting.mail_handler_ignore_filenames.to_s.split(/[\r\n]+/).reject(&:blank?)
   end
 
   def ignored_filename?(filename)
@@ -504,13 +502,13 @@ class MailHandler < ActionMailer::Base
   end
 
   def create_work_package(project)
-    work_package = WorkPackage.new(project: project)
+    work_package = WorkPackage.new(project:)
     attributes = collect_wp_attributes_from_email_on_create(work_package)
 
     service_call = WorkPackages::CreateService
-                   .new(user: user,
+                   .new(user:,
                         contract_class: work_package_create_contract_class)
-                   .call(**attributes.merge(work_package: work_package).symbolize_keys)
+                   .call(**attributes.merge(work_package:).symbolize_keys)
 
     if service_call.success?
       work_package = service_call.result
@@ -537,7 +535,7 @@ class MailHandler < ActionMailer::Base
     attributes[:attachment_ids] = work_package.attachment_ids + add_attachments(work_package).map(&:id)
 
     service_call = WorkPackages::UpdateService
-                   .new(user: user,
+                   .new(user:,
                         model: work_package,
                         contract_class: work_package_update_contract_class)
                    .call(**attributes.symbolize_keys)
