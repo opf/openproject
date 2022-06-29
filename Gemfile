@@ -159,6 +159,8 @@ gem 'cells-rails', '~> 0.1.4'
 
 gem 'meta-tags', '~> 2.16.0'
 
+gem "paper_trail", "~> 12.3"
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+

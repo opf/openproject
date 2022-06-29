@@ -289,6 +289,10 @@ describe WorkPackage, type: :model do
     end
   end
 
+  include_examples 'creates an audit trail on destroy' do
+    subject { create(:work_package) }
+  end
+
   describe '#done_ratio' do
     let(:status_new) do
       create(:status,

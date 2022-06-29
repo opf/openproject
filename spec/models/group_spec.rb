@@ -137,4 +137,8 @@ describe Group, type: :model do
     it { expect(group).to validate_presence_of :name }
     it { expect(group).to validate_uniqueness_of :name }
   end
+
+  include_examples 'creates an audit trail on destroy' do
+    subject { create(:attachment) }
+  end
 end
