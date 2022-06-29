@@ -33,7 +33,7 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { DatasetInputs } from '../dataset-inputs.decorator';
+import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
 
 export const noResultsSelector = 'op-no-results';
 

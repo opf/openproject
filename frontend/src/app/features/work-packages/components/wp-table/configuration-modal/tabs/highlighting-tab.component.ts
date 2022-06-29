@@ -111,7 +111,7 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
 
   public get availableHighlightedAttributes():HalResource[] {
     const { schema } = this.querySpace.queryForm.value!;
-    return schema.highlightedAttributes.allowedValues as HalResource[];
+    return schema.highlightedAttributes.allowedValues;
   }
 
   public onOpen(component:any) {

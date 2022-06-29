@@ -11,7 +11,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EnterpriseTrialModalComponent } from 'core-app/features/enterprise/enterprise-modal/enterprise-trial.modal';
 import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
-import { DatasetInputs } from '../dataset-inputs.decorator';
+import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
 import { OpModalService } from '../modal/modal.service';
 
 export const enterpriseBannerSelector = 'op-enterprise-banner';
