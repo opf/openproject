@@ -54,9 +54,10 @@ export default class ButtonComponent {
   onClick = new EventEmitter<Event>();
 
   public get classes(): string[] {
-
     return [
-      'spot-button'
+      'spot-button',
+      ...(this.outlined ? ['spot-button_outlined'] : []),       
+      ...(this.type !== 'default' ? [`spot-button_${this.type}`] : []),       
     ];
   }
 }

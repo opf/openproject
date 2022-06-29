@@ -4,11 +4,10 @@ import Button from './button.component';
 
 // More on default export: https://storybook.js.org/docs/angular/writing-stories/introduction#default-export
 export default {
-  title: 'Spot/Button',
+  title: 'Blocks/Button',
   component: Button,
   // More on argTypes: https://storybook.js.org/docs/angular/api/argtypes
   argTypes: {
-    backgroundColor: { control: 'color' },
   },
 } as Meta;
 
@@ -17,26 +16,28 @@ const Template: Story<Button> = (args: Button) => ({
   props: args,
 });
 
-export const Primary = Template.bind({});
+export const Default = Template.bind({});
 // More on args: https://storybook.js.org/docs/angular/writing-stories/args
-Primary.args = {
-  primary: true,
-  label: 'Button',
+Default.args = {
+  type: 'default',
+  label: 'Default button style',
 };
 
-export const Secondary = Template.bind({});
-Secondary.args = {
-  label: 'Button',
+export const Main = Template.bind({});
+// More on args: https://storybook.js.org/docs/angular/writing-stories/args
+Main.args = {
+  type: 'main',
+  label: 'Primary action',
 };
 
-export const Large = Template.bind({});
-Large.args = {
-  size: 'large',
-  label: 'Button',
+export const Accent = Template.bind({});
+Accent.args = {
+  type: 'accent',
+  label: 'Secondary action',
 };
 
-export const Small = Template.bind({});
-Small.args = {
-  size: 'small',
-  label: 'Button',
+export const Danger = Template.bind({});
+Danger.args = {
+  type: 'danger',
+  label: 'Dangerous action',
 };

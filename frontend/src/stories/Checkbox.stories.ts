@@ -6,7 +6,7 @@ import { OpSpotModule } from '../app/spot/spot.module';
 import { SpotCheckboxComponent } from '../app/spot/components/checkbox/checkbox.component';
 
 export default {
-  title: 'Components/Checkbox',
+  title: 'Blocks/Checkbox',
   component: SpotCheckboxComponent,
   decorators: [
     withKnobs,
@@ -16,6 +16,12 @@ export default {
       ],
     }),
   ],
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=855%3A6406',
+    },
+  },
 };
 
 const angularTemplate = require('!!raw-loader!./CheckboxAngular.stories.html').default as string; // eslint-disable-line
