@@ -9,11 +9,8 @@ keywords: WYSIWYG, CKEditor, Links to OpenProject resources
 
 Starting with version 8.0.0, OpenProject features a quasi-WYSIWYG editor, powered by [CKSource CKEditor5](https://ckeditor5.github.io/). The underlying format is GitHub-flavored CommonMark ([GFM](https://github.github.com/gfm/)). All previous textile-based content will be migrated when upgrading to OpenProject 8.0.
 
-<div class="alert alert-info" role="alert">
-**Please note:** 
-In some resources such as work packages or comments, the editor does not exhibit all functionality such as macros or image upload.
-In the work package split screen view (details view) you may have to use the three vertical dots to access additional features of the editor.
-</div>
+> **Please note:**  In some resources such as work packages or comments, the editor does not exhibit all functionality such as macros or image upload.
+> In the work package split screen view (details view) you may have to use the three vertical dots to access additional features of the editor.
 
 
 
@@ -160,9 +157,7 @@ Examples:
 - **Linking to the current project's status**: `projectValue:status`
 - **Linking to the subject of work package with subject "Project start"**: `workPackageValue:"Project start":subject`
 
-<div class="alert alert-info" role="alert">
-**Please note**: Referencing a work package by subject results in only looking for work packages with that given subject in the current project (if any). If you need to cross-reference work packages, use their ID to pinpoint the work package you want to reference.
-</div>
+> **Please note**: Referencing a work package by subject results in only looking for work packages with that given subject in the current project (if any). If you need to cross-reference work packages, use their ID to pinpoint the work package you want to reference.
 
 
 
@@ -172,9 +167,7 @@ You can also embed attribute values and [their help texts](../../system-admin-gu
 
 
 
-<div class="alert alert-info" role="alert">
-**Please note**: These macros will only be expanded in the frontend. For each individual user, the correct permissions will be checked and the macro will result in an error if the user is not allowed to view the respective resource.    
-</div>
+> **Please note**: These macros will only be expanded in the frontend. For each individual user, the correct permissions will be checked and the macro will result in an error if the user is not allowed to view the respective resource.    
 
 
 

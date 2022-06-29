@@ -6,9 +6,7 @@ sidebar_navigation:
 
 # Upgrading your OpenProject installation
 
-<div class="alert alert-warning" role="alert">
-**Note**: We strongly recommend that you have backed up your installation before upgrading OpenProject to a newer version, especially when performing multiple upgrades at once. Please follow the [backup](../backing-up) instructions.
-</div>
+> **Note**: We strongly recommend that you have backed up your installation before upgrading OpenProject to a newer version, especially when performing multiple upgrades at once. Please follow the [backup](../backing-up) instructions.
 
 | Topic                                                        | Content                                                     |
 | ------------------------------------------------------------ | ----------------------------------------------------------- |

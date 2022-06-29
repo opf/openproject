@@ -33,14 +33,8 @@ bin/compose rspec spec/features/work_package_show_spec.rb
 
 More details and options follow in the next section.
 
-<div class="alert alert-info" role="alert">
 
-**Note**: docker-compose needs access to at least 4GB of RAM. E.g. for Mac, this requires
-to [increase the default limit of the virtualized host.](https://docs.docker.com/docker-for-mac/)
-
-Signs of lacking memory include an "Exit status 137" in the frontend container.
-
-</div>
+> **Note**: docker-compose needs access to at least 4GB of RAM. E.g. for Mac, this requires to [increase the default limit of the virtualized host.](https://docs.docker.com/docker-for-mac/) Signs of lacking memory include an "Exit status 137" in the frontend container.
 
 ## Step-by-step Setup
 

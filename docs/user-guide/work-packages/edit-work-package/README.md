@@ -33,9 +33,7 @@ The green message on top of the work package indicates a successful update.
 
 All changes of a work package are documented in the work package [Activity](../../../getting-started/work-packages-introduction/#activity-of-work-packages).
 
-<div class="alert alert-info" role="alert">
-**Note**: There is no possibility to undo changes to work packages (Ctrl+Z).
-</div>
+> **Note**: There is no possibility to undo changes to work packages (Ctrl+Z).
 
 
 ### How to assign a team member to a work package?

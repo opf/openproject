@@ -7,9 +7,7 @@ keywords: repository settings
 ---
 # Repositories settings
 
-<div class="alert alert-info" role="alert">
-**Important note:** Managed GIT and SVN repositories in OpenProject are currently only supported in package-based installations. They are not supported in docker-based installations.
-</div>
+> **Important note:** Managed GIT and SVN repositories in OpenProject are currently only supported in package-based installations. They are not supported in docker-based installations.
 
 To adapt repositories settings, go to System settings on the tab **Repositories** you can configure the following options.
 

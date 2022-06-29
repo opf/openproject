@@ -6,9 +6,7 @@ This includes Google and Azure right now.
 You can still use an arbitrary provider. But for the time being there is no user interface for this.
 That means you will have to do it directly using the console on the server or via environment variables.
 
-<div class="alert alert-info" role="alert">
-**Warning**: Only do this if you know what you are doing. This may break your existing OpenID Connect authentication or cause other issues otherwise.
-</div>
+> **Warning**: Only do this if you know what you are doing. This may break your existing OpenID Connect authentication or cause other issues otherwise.
 
 First start the console.
 

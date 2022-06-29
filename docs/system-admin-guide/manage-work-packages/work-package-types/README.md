@@ -40,9 +40,7 @@ Click the green **+ Type** button to add a new work package type in the system, 
 
 You can freely **configure the attributes shown** for each work package type to decide which attributes are shown in the form and how they are grouped.
 
-<div class="alert alert-info" role="alert">
-**Note**: The Work package form configuration is a premium feature and only available for the [OpenProject Cloud Edition](https://www.openproject.org/hosting/) and the [Enterprise On-premises Edition](https://www.openproject.org/enterprise-edition/).
-</div>
+> **Note**: The Work package form configuration is a premium feature and only available for the [OpenProject Cloud Edition](https://www.openproject.org/hosting/) and the [Enterprise On-premises Edition](https://www.openproject.org/enterprise-edition/).
 
 To configure a type, first select the type from the list of types (see above) and select the tab ***Form configuration*** *(1)*.
 

@@ -11,9 +11,7 @@ There are various integrations and Community plugins out there. Please [contact 
 
 If you have previously worked with other tools and want to switch or need an integration to OpenProject, there is a way to do so for some applications.
 
-<div class="alert alert-info" role="alert">
-**Note**:  We do not guarantee error-free and seamless use of the Community plugins. Installation and use is at your own risk.
-</div>
+> **Note**:  We do not guarantee error-free and seamless use of the Community plugins. Installation and use is at your own risk.
 
 
 ## GitHub

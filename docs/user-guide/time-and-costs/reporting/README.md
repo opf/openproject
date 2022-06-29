@@ -10,9 +10,7 @@ keywords: time and cost reporting
 
 You can easily report spent time and costs in OpenProject and filter, group and save the reports according to your needs.
 
-<div class="alert alert-info" role="alert">
-**Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
-</div>
+> **Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
 
 
 | Topic                                                      | Content                                            |

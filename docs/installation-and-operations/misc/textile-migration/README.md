@@ -1,8 +1,6 @@
 # OpenProject Textile to Markdown migration
 
-<div class="alert alert-info" role="alert">
-**Note**: This guide concerns a legacy version of OpenProject (8.0.0). This only affects your system if you try to upgrade to a newer version from OpenProject 7.4 or lower.
-</div>
+> **Note**: This guide concerns a legacy version of OpenProject (8.0.0). This only affects your system if you try to upgrade to a newer version from OpenProject 7.4 or lower.
 
 OpenProject 8.0.0. includes a switch away from Textile syntax formatting to Markdown. Pandoc is used for the conversion of all formattable texts in your existing OpenProject instance.
 

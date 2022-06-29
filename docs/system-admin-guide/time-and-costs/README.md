@@ -54,6 +54,4 @@ In the overview list of all cost types you can define the following.
 
 ![Sys-admin-budgets-cost-types-list](Sys-admin-budgets-cost-types-list-1579853898118.png)
 
-<div class="alert alert-info" role="alert">
-**Note**: With cost types you can also book any kind of units to work packages, e.g. vacation days, leaves, travel days, etc.. Just choose 1 as a unit. This way, you could e.g. track vacation days against a vacation budget and evaluate the days in the [cost reporting](../../user-guide/time-and-costs/reporting/).
-</div>
+> **Note**: With cost types you can also book any kind of units to work packages, e.g. vacation days, leaves, travel days, etc.. Just choose 1 as a unit. This way, you could e.g. track vacation days against a vacation budget and evaluate the days in the [cost reporting](../../user-guide/time-and-costs/reporting/).
