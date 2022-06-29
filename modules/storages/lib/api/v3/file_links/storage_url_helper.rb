@@ -33,4 +33,63 @@ module API::V3::FileLinks::StorageUrlHelper
 
     "#{file_link.storage.host}/f/#{file_link.origin_id}?openfile=#{location_flag}"
   end
+
+  # rubocop:disable Metrics/AbcSize
+  def make_download_url(file_link:, user:)
+    storage = file_link.storage
+    oauth_client = storage.oauth_client
+
+    client_token = ::OAuthClients::ConnectionManager
+                     .new(user:, oauth_client:)
+                     .get_access_token
+
+    return ServiceResult.failure(result: I18n.t('http.request.missing_authorization')) if client_token.failure?
+
+    response = make_direct_download oauth_client:,
+                                    access_token: client_token.result.access_token,
+                                    file_id: file_link.origin_id
+
+    return response if response.failure?
+
+    token = parse_direct_download_token body: response.result
+    if token.blank?
+      Rails.logger.error "Received unexpected json response: #{response.result.body}"
+      return ServiceResult.failure(result: I18n.t('http.response.unexpected'))
+    end
+
+    "#{storage.host}/apps/integration_openproject/direct?token=#{token}&fileName=#{file_link.origin_name}"
+  end
+  # rubocop:enable Metrics/AbcSize
+
+  private
+
+  def make_direct_download(oauth_client:, access_token:, file_id:)
+    response = API::V3::Storages::StorageRequestFactory
+                 .new(oauth_client:)
+                 .download_command
+                 .call(access_token:, file_id:)
+
+    return response if response.failure?
+
+    # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
+    return ServiceResult.failure(result: I18n.t('http.request.failed_authorization')) if response.result.body.blank?
+
+    ServiceResult.success(result: response.result.body)
+  end
+
+  def parse_direct_download_token(body:)
+    begin
+      json = JSON.parse body
+    rescue JSON::ParserError
+      return nil
+    end
+
+    direct_download_url = json.dig('ocs', 'data', 'url')
+    return nil if direct_download_url.blank?
+
+    path = URI.parse(direct_download_url).path
+    return nil if path.blank?
+
+    path.split('/').last
+  end
 end

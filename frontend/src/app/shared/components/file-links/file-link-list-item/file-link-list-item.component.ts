@@ -37,15 +37,15 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
 import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
+import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
 import {
   getIconForMimeType,
 } from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
-import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -80,7 +80,6 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
   constructor(
     private readonly i18n:I18nService,
     private readonly timezoneService:TimezoneService,
-    private readonly http:HttpClient,
     private readonly principalRendererService:PrincipalRendererService,
   ) {}
 
@@ -107,16 +106,5 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
         { hide: false, size: 'mini' },
       );
     }
-  }
-
-  public downloadFileLink():void {
-    this.http
-      .get('http://host.docker.internal/remote.php/direct/Q24lfGHNVY0NFysEVtSW6hyYFy4tAPjB8up3Wcuc0mT5FuM81fwfiNHY3bEm')
-      .subscribe((value) => {
-        console.log(value);
-      }, (error) => {
-        console.log('ERROR');
-        console.log(error);
-      });
   }
 }

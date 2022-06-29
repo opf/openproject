@@ -26,21 +26,13 @@
     ></div>
   </a>
   <div class="spot-list--item-floating-actions op-files-tab--file-list-item-floating-actions">
-<!--    <a-->
-<!--      class="spot-link"-->
-<!--      [title]="text.title.downloadFileLink"-->
-<!--      [href]="'https://nextcloud.ripley.minifox.fr/remote.php/direct/s3EbjrmfAS4wFTmPhksdbMN2ZwBv3Ehu2drrUbUvBryLdZQAr1eCwjMlaLdJ'"-->
-<!--      [download]="fileLink.originData.name"-->
-<!--    >-->
-<!--      <span class="spot-icon spot-icon_download"></span>-->
-<!--    </a>-->
-    <button
+    <a
       class="spot-link"
       [title]="text.title.downloadFileLink"
-      (click)="downloadFileLink()"
+      [href]="fileLink._links.staticOriginDownload.href"
     >
       <span class="spot-icon spot-icon_download"></span>
-    </button>
+    </a>
     <a
       class="spot-link"
       [title]="text.title.openFileLocation"

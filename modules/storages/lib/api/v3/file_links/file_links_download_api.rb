@@ -30,49 +30,15 @@ module API
   module V3
     module FileLinks
       class FileLinksDownloadAPI < ::API::OpenProjectAPI
-        helpers do
-          def parse_response_body(body)
-            begin
-              json = JSON.parse body
-            rescue JSON::ParserError
-              return nil
-            end
-
-            json.dig('ocs', 'data', 'url')
-          end
-        end
+        helpers API::V3::FileLinks::StorageUrlHelper
 
         resources :download do
           get do
-            oauth_client_information = @file_link.storage.oauth_client
+            download_url = make_download_url file_link: @file_link, user: User.current
 
-            token_result = ::OAuthClients::ConnectionManager
-                             .new(user: User.current, oauth_client: oauth_client_information)
-                             .get_access_token
+            raise API::Errors::InternalError.new(download_url.result) if download_url.failure?
 
-            raise API::Errors::InternalError.new(I18n.t('http.request.missing_authorization')) if token_result.failure?
-
-            response = API::V3::Storages::StorageRequestFactory
-                         .new(oauth_client: oauth_client_information)
-                         .download_command
-                         .call(
-                           access_token: token_result.result.access_token,
-                           file_id: @file_link.origin_id
-                         )
-
-            raise API::Errors::InternalError.new(response.result) if response.failure?
-            # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
-            raise API::Errors::InternalError.new(I18n.t('http.request.failed_authorization')) if response.result.body.blank?
-
-            download_url = parse_response_body response.result.body
-            # download_url = 'https://nextcloud.ripley.minifox.fr/remote.php/direct/s3EbjrmfAS4wFTmPhksdbMN2ZwBv3Ehu2drrUbUvBryLdZQAr1eCwjMlaLdJ'
-
-            if download_url.blank?
-              Rails.logger.error "Received unexpected json response: #{response.result.body}"
-              raise API::Errors::InternalError.new(I18n.t('http.response.unexpected'))
-            end
-
-            redirect download_url, body: "The requested resource can be downloaded from #{download_url}"
+            redirect download_url.result, body: "The requested resource can be downloaded from #{download_url.result}"
             status 303
           end
         end
