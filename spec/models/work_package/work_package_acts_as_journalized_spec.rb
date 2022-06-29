@@ -447,11 +447,8 @@ describe WorkPackage, type: :model do
       end
 
       it 'has the timestamp of the work package update time for created_at' do
-        # This seemingly unnecessary reload leads to the updated_at having the same
-        # precision as the created_at of the Journal. It is database dependent, so it would work without
-        # reload on PG 12 but does not work on PG 9.
-        expect(work_package.journals.last.created_at)
-          .to eql(work_package.reload.updated_at)
+        expect(work_package.journals.last.updated_at)
+          .to eql(work_package.updated_at)
       end
     end
 
@@ -463,11 +460,8 @@ describe WorkPackage, type: :model do
       end
 
       it 'has the timestamp of the work package update time for created_at' do
-        # This seemingly unnecessary reload leads to the updated_at having the same
-        # precision as the created_at of the Journal. It is database dependent, so it would work without
-        # reload on PG 12 but does not work on PG 9.
-        expect(work_package.journals.last.created_at)
-          .to eql(work_package.reload.updated_at)
+        expect(work_package.journals.last.updated_at)
+          .to eql(work_package.updated_at)
       end
     end
 

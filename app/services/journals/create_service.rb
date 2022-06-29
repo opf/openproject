@@ -182,7 +182,6 @@ module Journals
             journals
           SET
             notes = :notes,
-            created_at = #{journal_timestamp_sql(notes, ':created_at')},
             updated_at = #{journal_timestamp_sql(notes, ':updated_at')},
             data_id = insert_data.id
           FROM insert_data
@@ -193,7 +192,6 @@ module Journals
 
       sanitize(journal_sql,
                notes: notes.present? ? notes : predecessor.notes,
-               created_at: journable_timestamp,
                updated_at: journable_timestamp,
                predecessor_id: predecessor.id)
     end
@@ -533,14 +531,14 @@ module Journals
       # as to avoid changing lock versions on the journables for this change
       attributes = journable.send(:timestamp_attributes_for_update_in_model)
 
-      timestamps = attributes.index_with { journal.created_at }
+      timestamps = attributes.index_with { journal.updated_at }
       journable.update_columns(timestamps) if timestamps.any?
     end
 
     def aggregatable?(predecessor, notes)
       predecessor.present? &&
         Setting.journal_aggregation_time_minutes.to_i > 0 &&
-        predecessor.created_at >= Time.zone.now - Setting.journal_aggregation_time_minutes.to_i.minutes &&
+        predecessor.updated_at >= Time.zone.now - Setting.journal_aggregation_time_minutes.to_i.minutes &&
         predecessor.user_id == user.id &&
         (predecessor.notes.empty? || notes.empty?)
     end
