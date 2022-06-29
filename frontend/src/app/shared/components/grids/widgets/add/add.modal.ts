@@ -19,7 +19,7 @@ export class AddGridWidgetModalComponent extends OpModalComponent {
     upsale_link: this.i18n.t('js.grid.upsale.link'),
     upsale_text: this.i18n.t('js.grid.upsale.text'),
     more_info_text: this.i18n.t('js.filter.more_info'),
-    more_info_link: 'https://www.openproject.org/enterprise-edition/',
+    more_info_link: 'https://www.openproject.org/docs/user-guide/project-overview/#work-package-graph-widgets-premium-feature',
   };
 
   public chosenWidget:WidgetRegistration;

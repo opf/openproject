@@ -10,7 +10,7 @@ en:
       upsale:
         teaser_text: 'Would you like ready-to-use board templates? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Upgrade now'
-        more_info: 'About advanced boards'
+        more_info: 'More information'
       lists:
         delete: 'Delete list'
 

@@ -53,7 +53,7 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
     upsaleAttributeHighlighting: this.I18n.t('js.work_packages.table_configuration.upsale.attribute_highlighting'),
     upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
     more_info_text: this.I18n.t('js.filter.more_info'),
-    more_info_link: 'https://www.openproject.org/enterprise-edition/',
+    more_info_link: 'https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration/#attribute-highlighting-premium-feature',
   };
 
   constructor(readonly injector:Injector,
