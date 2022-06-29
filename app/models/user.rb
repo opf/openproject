@@ -80,6 +80,7 @@ class User < Principal
            dependent: :destroy
 
   has_many :notification_settings, dependent: :destroy
+  has_many :permissions
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
@@ -488,7 +489,10 @@ class User < Principal
   end
 
   def self.allowed(action, project)
-    Authorization.users(action, project)
+    includes(:permissions)
+      .where(permissions: { project: })
+      .where(permissions: { permission: action })
+    #Authorization.users(action, project)
   end
 
   def self.allowed_members(action, project)

@@ -29,9 +29,10 @@
 require 'spec_helper'
 
 RSpec.describe User, 'allowed scope' do
+  shared_let(:project) { create(:project, public: false) }
+
   let(:user) { member.principal }
   let(:anonymous) { build(:anonymous) }
-  let(:project) { build(:project, public: false) }
   let(:project2) { build(:project, public: false) }
   let(:role) { build(:role) }
   let(:role2) { build(:role) }
@@ -44,6 +45,12 @@ RSpec.describe User, 'allowed scope' do
   let(:action) { :view_work_packages }
   let(:other_action) { :another }
   let(:public_action) { :view_project }
+
+  subject(:allowed) do
+    Permission.update!
+
+    described_class.allowed(action, project)
+  end
 
   before do
     user.save!
@@ -63,7 +70,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to match_array [user]
+      expect(allowed).to match_array [user]
     end
   end
 
@@ -76,7 +83,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to match_array [user]
+      expect(allowed).to match_array [user]
     end
   end
 
@@ -92,7 +99,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'is empty' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
+      expect(allowed).to be_empty
     end
   end
 
@@ -106,7 +113,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'is empty' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
+      expect(allowed).to be_empty
     end
   end
 
@@ -119,7 +126,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
+      expect(allowed).to be_empty
     end
   end
 
@@ -136,7 +143,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'is empty' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
+      expect(allowed).to be_empty
     end
   end
 
@@ -155,7 +162,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'is empty' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
+      expect(allowed).to be_empty
     end
   end
 
@@ -173,7 +180,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to match_array [user]
+      expect(allowed).to match_array [user]
     end
   end
 
@@ -191,7 +198,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the anonymous user' do
-      expect(described_class.allowed(action, project).where(id: [user.id, anonymous.id])).to match_array([anonymous])
+      expect(allowed).to match_array([anonymous])
     end
   end
 
@@ -209,7 +216,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'is empty' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
+      expect(allowed).to be_empty
     end
   end
 
@@ -225,7 +232,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'is empty' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
+      expect(allowed).to be_empty
     end
   end
 
@@ -246,7 +253,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'is empty' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
+      expect(allowed).to be_empty
     end
   end
 
@@ -259,8 +266,10 @@ RSpec.describe User, 'allowed scope' do
       member.save!
     end
 
+    let(:action) { public_action }
+
     it 'returns the user' do
-      expect(described_class.allowed(public_action, project).where(id: user.id)).to match_array [user]
+      expect(allowed).to match_array [user]
     end
   end
 
@@ -272,10 +281,18 @@ RSpec.describe User, 'allowed scope' do
     before do
       project.public = true
       project.save
+
+      # TODO: currently only added to have an entry
+      # in the db required for the joining
+      # check if that can be removed
+      role.add_permission! other_action
+      role.save!
     end
 
+    let(:action) { public_action }
+
     it 'returns the user and anonymous' do
-      expect(described_class.allowed(public_action, project).where(id: [user.id, anonymous.id])).to match_array [user, anonymous]
+      expect(allowed).to match_array [user, anonymous]
     end
   end
 
@@ -296,7 +313,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'is empty' do
-      expect(described_class.allowed(permission.name, project).where(id: user.id)).to eq []
+      expect(allowed).to be_empty
     end
   end
 
@@ -317,7 +334,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user' do
-      expect(described_class.allowed(permission.name, project).where(id: user.id)).to eq [user]
+      expect(allowed).to match_array [user]
     end
   end
 
@@ -334,10 +351,11 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'is empty' do
-      expect(described_class.allowed(action, project)).to eq []
+      expect(allowed).to be_empty
     end
   end
 
+  # TODO: move to own file
   context 'w/ only asking for members
            w/o the project being public
            w/ the user being member in the project
