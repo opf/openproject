@@ -182,14 +182,24 @@ describe WorkPackage, type: :model do
         work_package.save!
       end
 
-      context 'for last created journal' do
+      context 'for last created journal', with_flag: { work_packages_duration_field_active: true } do
         subject { work_package.journals.reload.last.details }
 
         it 'contains all changes' do
           %i(subject description type_id status_id priority_id
              start_date due_date estimated_hours assigned_to_id
-             responsible_id parent_id schedule_manually).each do |a|
+             responsible_id parent_id schedule_manually duration).each do |a|
             expect(subject).to have_key(a.to_s), "Missing change for #{a}"
+          end
+        end
+
+        context 'when duration feature flag is inactive', with_flag: { work_packages_duration_field_active: false } do
+          it 'contains all changes' do
+            %i(subject description type_id status_id priority_id
+               start_date due_date estimated_hours assigned_to_id
+               responsible_id parent_id schedule_manually).each do |a|
+              expect(subject).to have_key(a.to_s), "Missing change for #{a}"
+            end
           end
         end
       end
@@ -239,7 +249,7 @@ describe WorkPackage, type: :model do
           end
         end
 
-        describe 'duration' do
+        describe 'duration', with_flag: { work_packages_duration_field_active: true } do
           let(:property) { 'duration' }
 
           context 'for old value' do
@@ -252,6 +262,22 @@ describe WorkPackage, type: :model do
             let(:expected_value) { 8 }
 
             it_behaves_like 'new value'
+          end
+
+          context 'when duration feature flag is inactive', with_flag: { work_packages_duration_field_active: false } do
+            let(:property) { 'duration' }
+
+            context 'for old value' do
+              let(:expected_value) { nil }
+
+              it_behaves_like 'old value'
+            end
+
+            context 'for new value' do
+              let(:expected_value) { nil }
+
+              it_behaves_like 'new value'
+            end
           end
         end
       end
