@@ -89,6 +89,12 @@ class DateEditField < EditField
     expect(page).to have_no_selector("#{modal_selector} #{input_selector}")
   end
 
+  def expect_calendar
+    within_modal do
+      expect(page).to have_selector(".flatpickr-calendar")
+    end
+  end
+
   def update(value, save: true, expect_failure: false)
     # Retry to set attributes due to reloading the page after setting
     # an attribute, which may cause an input not to open properly.

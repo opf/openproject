@@ -55,12 +55,16 @@ export class DatepickerModalService {
 
   private changeset:WorkPackageChangeset = this.locals.changeset as WorkPackageChangeset;
 
-  precedingWorkPackages$:Observable<{ id:string }[]> = this
+  precedingWorkPackages$:Observable<{ id:string, dueDate?:string, date?:string }[]> = this
     .apiV3Service
     .work_packages
     .signalled(
       ApiV3Filter('precedes', '=', [this.changeset.id]),
-      ['elements/id'],
+      [
+        'elements/id',
+        'elements/dueDate',
+        'elements/date',
+      ],
     )
     .pipe(
       map((collection:IHALCollection<{ id:string }>) => collection._embedded.elements || []),
