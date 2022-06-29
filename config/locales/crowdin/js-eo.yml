@@ -1077,7 +1077,7 @@ eo:
         one: "laborpakaĵo"
         other: "laborpakaĵoj"
       child_work_packages:
-        one: "one child work package"
+        one: "unu laborpakaĵa filo"
         other: "%{count} work package children"
       hour:
         one: "1 h"

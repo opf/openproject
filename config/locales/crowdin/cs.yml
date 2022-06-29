@@ -525,9 +525,9 @@ cs:
         end_insertion: "Konec vložení"
         end_deletion: "Konec odstranění"
         version: "Verze"
-        parent: "Rodič"
-        parent_issue: "Rodič"
-        parent_work_package: "Rodič"
+        parent: "Nadřazený"
+        parent_issue: "Nadřazený"
+        parent_work_package: "Nadřazený"
         priority: "Priorita"
         progress: "Průběh (%)"
         schedule_manually: "Manuální plánování"
@@ -1380,7 +1380,7 @@ cs:
     admin:
       mail_notification: "E-mailové notifikace"
       mails_and_notifications: "E-maily & Notifikace"
-      aggregation_and_retention: 'Aggregation and retention'
+      aggregation_and_retention: 'Agregace a uchovávání'
       api_and_webhooks: "API & Webhooky"
     quick_add:
       label: "Otevřít nabídku rychlého přidání"
@@ -2193,7 +2193,7 @@ cs:
   permission_comment_news: "Komentování novinek"
   permission_commit_access: "Čtěte/zapisovat přístup do repozitáře (commit)"
   permission_copy_projects: "Kopírovat projekty"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "Vytvořit zálohu"
   permission_delete_work_package_watchers: "Smazat sledující uživatele"
   permission_delete_work_packages: "Odstranit pracovní balíčky"
   permission_delete_messages: "Odstranit zprávy"
@@ -2655,7 +2655,7 @@ cs:
   text_wiki_page_destroy_children: "Smazat podstránky a všechny jejich potomky"
   text_wiki_page_destroy_question: "Tato stránka má %{descendants} podstránek a potomků. Co chcete udělat?"
   text_wiki_page_nullify_children: "Ponechat podstránky jako kořenové stránky"
-  text_wiki_page_reassign_children: "Přiřadit podstránky k tomuto rodiči"
+  text_wiki_page_reassign_children: "Přiřadit podstránky k nadřazené stránce"
   text_workflow_edit: "Vyberte roli a typ k editaci průběhu práce"
   text_zoom_in: "Přiblížit"
   text_zoom_out: "Oddálit"
@@ -2893,7 +2893,7 @@ cs:
       text_html: >
         Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: 'Nastavení hostname se neshoduje'
       text_html: >
         Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "Položka nabídky"
@@ -2951,9 +2951,9 @@ cs:
         unsupported_context: "Zadaný dokument není podporován jako kontext."
         context_object_not_found: "Zdroj nelze najít jako kontext."
       validation:
-        done_ratio: "Hotový poměr nelze nastavit na rodičovských pracovních balíčcích, pokud je odvozen ze stavu nebo pokud je zakázán."
+        done_ratio: "Hotový poměr nelze nastavit na nadřazených pracovních balíčcích, pokud je odvozen ze stavu nebo pokud je zakázán."
         due_date: "Datum ukončení nemůže být nastaveno na nadřazených pracovních balíčcích."
-        estimated_hours: "Předpokládané hodiny nelze nastavit na rodičovských pracovních balíčcích."
+        estimated_hours: "Předpokládané hodiny nelze nastavit na nadřazených pracovních balíčcích."
         invalid_user_assigned_to_work_package: "Zvolený uživatel nesmí být '%{property}' pro tento pracovní balíček."
         start_date: "Počáteční datum nelze nastavit na nadřazených pracovních balíčcích."
       eprops:
@@ -2989,7 +2989,7 @@ cs:
         admin_authenticator_not_configured: 'Přístup do admin panelu je zakázán, protože Doorkeeper.configure.admin_authenticator není nakonfigurován.'
         #Access grant errors
         unsupported_response_type: 'Autorizační server tento typ odpovědi nepodporuje.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_mode: 'Autorizační server nepodporuje tento typ odpovědi.'
         #Access token errors
         invalid_client: 'Ověření klienta se nezdařilo z důvodu neznámého klienta, bez autentizace klienta nebo z důvodu nepodporované autentizační metody.'
         invalid_grant: 'Poskytnutá autorizace je neplatná, vypršela, zrušena, neodpovídá URI přesměrování použité v žádosti o autorizaci, nebo byla vydána jinému zákazníkovi.'
@@ -2999,9 +2999,9 @@ cs:
           expired: "Přístupový token vypršel"
           unknown: "Přístupový token je neplatný"
         revoke:
-          unauthorized: "You are not authorized to revoke this token."
+          unauthorized: "Nemáte oprávnění ke zrušení tohoto tokenu."
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: 'Přístup k tomuto zdroji vyžaduje rozsah "%{oauth_scopes}".'
   unsupported_browser:
     title: "Váš prohlížeč je zastaralý a nepodporován."
     message: "Na této stránce se mohou objevit chyby a zhoršené zkušenosti."

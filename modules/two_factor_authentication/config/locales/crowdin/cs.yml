@@ -172,4 +172,4 @@ cs:
   button_resend_otp_form: "Znovu odeslat"
   button_otp_by_voice: "Hovor"
   button_otp_by_sms: "SMS"
-  label_otp_channel: "Delivery channel"
+  label_otp_channel: "Doručovací kanál"
