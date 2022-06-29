@@ -129,11 +129,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
     describe 'with filter by storage' do
       let!(:another_project_storage) { create(:project_storage, project:, storage: another_storage) }
       let(:path) { "#{api_v3_paths.file_links(work_package.id)}?filters=#{CGI.escape(filters.to_json)}" }
-      let(:filters) do
-        [
-          { storage: { operator: '=', values: [storage_id] } }
-        ]
-      end
+      let(:filters) { [{ storage: { operator: '=', values: [storage_id] } }] }
 
       context 'if filtered by one storage' do
         let(:storage_id) { storage.id }
@@ -153,8 +149,13 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       end
     end
 
-    context 'with connection error to Nextcloud' do
-      pending "Check that a suitable error message is returned"
+    context 'with bad query due to syntax error' do
+      let(:filters) { [{ storage: { operator: '#=', values: [storage.id] } }] }
+      let(:path) { "#{api_v3_paths.file_links(work_package.id)}?filters=#{CGI.escape(filters.to_json)}" }
+
+      it 'return a 400 HTTP error' do
+        expect(last_response.status).to be 400
+      end
     end
   end
 

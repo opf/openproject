@@ -126,7 +126,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
             .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response)
         end
 
-        it 'returns file_link1 a successful ServiceResult with updated mtime' do
+        it 'returns a successful ServiceResult with file_link1 and updated mtime' do
           expect(subject.success).to be_truthy
           expect(subject.result.count).to be 1
           expect(subject.result[0].origin_id).to eql '24'

@@ -55,7 +55,11 @@ module API
                            current_user,
                            query_class: ::Queries::Storages::FileLinks::FileLinkQuery)
                       .call(params)
-            # raise "Error" unless query.valid?
+
+            unless query.valid?
+              message = I18n.t('api_v3.errors.missing_or_malformed_parameter', parameter: 'filters')
+              raise ::API::Errors::InvalidQuery.new(message)
+            end
 
             # Get the list of all FileLinks for the work package.
             # This could be a huge array in some cases...
