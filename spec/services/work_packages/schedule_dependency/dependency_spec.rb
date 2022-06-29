@@ -36,9 +36,9 @@ require 'rails_helper'
 RSpec.describe WorkPackages::ScheduleDependency::Dependency do
   subject(:dependency) { dependency_for(work_package_used_in_dependency) }
 
-  shared_let(:author) { create(:user, firstname: 'Dummy user to reduce number of created users') }
-  shared_let(:project) { create(:project_with_types, name: 'Dummy project to reduce number of created projects') }
-  shared_let(:work_package) { create(:work_package, subject: 'moved', author:, project:) }
+  create_shared_association_defaults_for_work_package_factory
+
+  shared_let(:work_package) { create(:work_package, subject: 'moved') }
 
   let(:schedule_dependency) { WorkPackages::ScheduleDependency.new(work_package) }
 
@@ -54,25 +54,25 @@ RSpec.describe WorkPackages::ScheduleDependency::Dependency do
   end
 
   def create_predecessor_of(work_package, **attributes)
-    create(:work_package, subject: "predecessor of #{work_package.subject}", author:, project:, **attributes).tap do |predecessor|
+    create(:work_package, subject: "predecessor of #{work_package.subject}", **attributes).tap do |predecessor|
       create(:follows_relation, from: work_package, to: predecessor)
     end
   end
 
   def create_follower_of(work_package)
-    create(:work_package, subject: "follower of #{work_package.subject}", author:, project:).tap do |follower|
+    create(:work_package, subject: "follower of #{work_package.subject}").tap do |follower|
       create(:follows_relation, from: follower, to: work_package)
     end
   end
 
   def create_parent_of(work_package)
-    create(:work_package, subject: "parent of #{work_package.subject}", author:, project:).tap do |parent|
+    create(:work_package, subject: "parent of #{work_package.subject}").tap do |parent|
       work_package.update(parent:)
     end
   end
 
   def create_child_of(work_package)
-    create(:work_package, subject: "child of #{work_package.subject}", author:, project:, parent: work_package)
+    create(:work_package, subject: "child of #{work_package.subject}", parent: work_package)
   end
 
   describe '#dependent_ids' do
