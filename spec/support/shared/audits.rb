@@ -40,6 +40,7 @@ shared_examples_for 'creates an audit trail on destroy' do
       expect(subject.paper_trail_audits.count).to eq 1
       expect(subject.paper_trail_audits.first.event).to eq 'destroy'
       expect(subject.paper_trail_audits.first.whodunnit).to eq whodunnit.id.to_s
+      expect(subject.paper_trail_audits.first.stack).to include 'app/models'
     end
   end
 end

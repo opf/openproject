@@ -5,6 +5,7 @@ class AddPaperTrail < ActiveRecord::Migration[7.0]
       t.bigint :item_id, null: false
       t.string :event, null: false
       t.string :whodunnit
+      t.text :stack
       t.jsonb :object
       t.jsonb :object_changes
 

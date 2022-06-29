@@ -6,7 +6,11 @@ PaperTrail.config.has_paper_trail_defaults = {
   },
   version: :paper_trail_audit,
   meta: {
-    whodunnit: ->(*) { User.current.id }
+    whodunnit: ->(*) { User.current.id },
+    stack: ->(*) {
+      backtrace = Rails.backtrace_cleaner.clean caller
+      backtrace.join("\n")
+    }
   },
   on: %i[destroy]
 }
