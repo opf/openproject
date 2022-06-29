@@ -131,6 +131,7 @@ class ApplicationController < ActionController::Base
   end
 
   before_action :user_setup,
+                :turbolinks_nonce,
                 :set_localization,
                 :tag_request,
                 :check_if_login_required,
@@ -165,6 +166,13 @@ class ApplicationController < ActionController::Base
         public: false,
         must_revalidate: true
       )
+    end
+  end
+
+  def turbolinks_nonce
+    # use the same csp nonce for turbolinks requests
+    if request.env['HTTP_X_TURBOLINKS_REFERRER'].present?
+      request.env[::SecureHeaders::NONCE_KEY] = request.env['HTTP_X_TURBOLINKS_NONCE']
     end
   end
 
