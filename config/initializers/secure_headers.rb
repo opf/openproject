@@ -38,7 +38,9 @@ Rails.application.config.after_initialize do
 
     # Add proxy configuration for Angular CLI to csp
     if FrontendAssetHelper.assets_proxied?
-      proxied = ['ws://localhost:*', 'http://localhost:*', FrontendAssetHelper.cli_proxy]
+      proxied = ['ws://localhost:3000', 'http://localhost:3000',
+                 'ws://localhost:4200', 'http://localhost:4200',
+                 FrontendAssetHelper.cli_proxy]
       connect_src += proxied
       assets_src += proxied
     end

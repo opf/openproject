@@ -451,7 +451,7 @@ cs:
       project:
         identifier: "Identifikátor"
         latest_activity_at: "Poslední aktivita"
-        parent: "Dílčí projekt"
+        parent: "Podprojekt"
         queries: "Dotazy"
         types: "Typy"
         versions: "Verze"
@@ -522,20 +522,20 @@ cs:
         begin_deletion: "Začátek odstranění"
         children: "Dílčí prvky"
         done_ratio: "Průběh (%)"
-        duration: "Duration"
+        duration: "Doba trvání"
         end_insertion: "Konec vložení"
         end_deletion: "Konec odstranění"
-        ignore_non_working_days: "Ignore non working days"
-        parent: "Rodič"
+        ignore_non_working_days: "Ignorovat nepracovní dny"
+        parent: "Nadřazený"
         parent_issue: "Rodič"
-        parent_work_package: "Rodič"
+        parent_work_package: "Nadřazený"
         priority: "Priorita"
         progress: "Průběh (%)"
-        readonly: "Read only"
+        readonly: "Pouze pro čtení"
         schedule_manually: "Manuální plánování"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
-        subproject: "Dílčí projekt"
+        subproject: "Podprojekt"
         time_entries: "Čas protokolu"
         type: "Typ"
         version: "Verze"
@@ -742,6 +742,7 @@ cs:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "nemůže být milník."
               cannot_be_self_assigned: "nemůže být přiřazeno k sobě."
@@ -1385,8 +1386,8 @@ cs:
   menus:
     admin:
       mail_notification: "E-mailová upozornění"
-      mails_and_notifications: "E-maily a oznámení"
-      aggregation_and_retention: 'Aggregation and retention'
+      mails_and_notifications: "E-maily & Notifikace"
+      aggregation_and_retention: 'Agregace a uchovávání'
       api_and_webhooks: "API & Webhooky"
     quick_add:
       label: "Otevřít nabídku rychlého přidání"
@@ -1496,7 +1497,6 @@ cs:
   label_consent_settings: "Souhlas uživatele"
   label_wiki_menu_item: Položka Wiki menu
   label_select_main_menu_item: Vyberte novou hlavní položku nabídky
-  label_select_project: "Zvolit projekt"
   label_required_disk_storage: "Požadované úložiště disku"
   label_send_invitation: Odeslat pozvánku
   label_change_plural: "Změny"
@@ -1562,7 +1562,7 @@ cs:
   label_diff: "rozdíl"
   label_diff_inline: "inline"
   label_diff_side_by_side: "vedle sebe"
-  label_digital_accessibility: 'Digital accessibility (DE)'
+  label_digital_accessibility: 'Digitální dostupnost (DE)'
   label_disabled: "zakázáno"
   label_display: "Zobrazit"
   label_display_per_page: "Na stránku: %{value}"
@@ -1775,7 +1775,6 @@ cs:
   label_product_version: "Verze produktu"
   label_professional_support: "Profesionální podpora"
   label_profile: "Profil"
-  label_project_all: "Všechny projekty"
   label_project_count: "Celkový počet projektů"
   label_project_copy_notifications: "Během kopie projektu odeslat oznámení e-mailem"
   label_project_latest: "Nejnovější projekty"
@@ -1785,7 +1784,7 @@ cs:
   label_project_plural: "Projekty"
   label_project_settings: "Nastavení projektu"
   label_projects_storage_information: "%{count} projekty používající úložiště disků %{storage}"
-  label_project_view_all: "Zobrazit všechny projekty"
+  label_project_view_all: "Zobrazit všechny projekty - seznam"
   label_project_show_details: "Zobrazit detail projektu"
   label_project_hide_details: "Skrýt detail projektu"
   label_public_projects: "Veřejné projekty"
@@ -1857,7 +1856,7 @@ cs:
   label_storage_group: "Souborový systém %{identifier}"
   label_storage_for: "Zahrnuje úložiště pro"
   label_string: "Text"
-  label_subproject: "Dílčí projekt"
+  label_subproject: "Podprojekt"
   label_subproject_new: "Nový podprojekt"
   label_subproject_plural: "Podprojekty"
   label_subtask_plural: "Podúkoly"
@@ -1904,7 +1903,7 @@ cs:
   label_user_settings: "Uživatelská nastavení"
   label_version_new: "Nová verze"
   label_version_plural: "Verze"
-  label_version_sharing_descendants: "S dílčími projekty"
+  label_version_sharing_descendants: "S Podprojekty"
   label_version_sharing_hierarchy: "S hierarchií projektu"
   label_version_sharing_none: "Není sdíleno"
   label_version_sharing_system: "Se všemi projekty"
@@ -2039,9 +2038,9 @@ cs:
   mail_body_backup_token_info: Předchozí token již není platný.
   mail_body_backup_waiting_period: Nový token bude povolen za %{hours} hodin.
   mail_body_backup_token_warning: Pokud jste to nebyl Vy, přihlaste se okamžitě do OpenProject a resetujte jej .
-  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
-  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
-  mail_body_incoming_email_error_logs: "Logs"
+  mail_body_incoming_email_error: E-mail odeslaný na OpenProject nelze zpracovat
+  mail_body_incoming_email_error_in_reply_to: "V %{received_at} %{from_email} napsal/a"
+  mail_body_incoming_email_error_logs: "Protokoly"
   mail_body_lost_password: "Pro změnu vašeho hesla klikněte na následující odkaz:"
   mail_body_register: "Vítejte v %{app_title}. Aktivujte svůj účet kliknutím na tento odkaz:"
   mail_body_register_header_title: "E-mail pozvánka člena projektu"
@@ -2060,7 +2059,7 @@ cs:
   mail_subject_account_activation_request: "Žádost o aktivaci účtu %{value}"
   mail_subject_backup_ready: "Vaše záloha je připravena"
   mail_subject_backup_token_reset: "Resetovat token zálohy"
-  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
+  mail_subject_incoming_email_error: "E-mail odeslaný na OpenProject nelze zpracovat"
   mail_subject_lost_password: "Vaše heslo %{value}"
   mail_subject_register: "Aktivace vašeho účtu %{value}"
   mail_subject_reminder: "%{count} pracovních balíčků s termínem do dalších %{days} dnů"
@@ -2204,7 +2203,7 @@ cs:
   permission_comment_news: "Komentování novinek"
   permission_commit_access: "Čtěte/zapisovat přístup do repozitáře (commit)"
   permission_copy_projects: "Kopírovat projekty"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "Vytvořit zálohu"
   permission_delete_work_package_watchers: "Smazat sledující uživatele"
   permission_delete_work_packages: "Odstranit pracovní balíčky"
   permission_delete_messages: "Odstranit zprávy"
@@ -2297,7 +2296,7 @@ cs:
     assigned_to_role: "Řešitelova role"
     member_of_group: "Řešitelova skupina"
     assignee_or_group: "Přiřazený nebo patřící skupině"
-    subproject_id: "Including subproject"
+    subproject_id: "Včetně podprojektu"
     only_subproject_id: "Pouze podprojekt"
     name_or_identifier: "Jméno nebo identifikátor"
   repositories:
@@ -2666,7 +2665,7 @@ cs:
   text_wiki_page_destroy_children: "Smazat podstránky a všechny jejich potomky"
   text_wiki_page_destroy_question: "Tato stránka má %{descendants} podstránek a potomků. Co chcete udělat?"
   text_wiki_page_nullify_children: "Ponechat podstránky jako kořenové stránky"
-  text_wiki_page_reassign_children: "Přiřadit podstránky k tomuto rodiči"
+  text_wiki_page_reassign_children: "Přiřadit podstránky k nadřazené stránce"
   text_workflow_edit: "Vyberte roli a typ k editaci průběhu práce"
   text_zoom_in: "Přiblížit"
   text_zoom_out: "Oddálit"
@@ -2904,7 +2903,7 @@ cs:
       text_html: >
         Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: 'Nastavení hostname se neshoduje'
       text_html: >
         Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "Položka nabídky"
@@ -2962,9 +2961,9 @@ cs:
         unsupported_context: "Zadaný dokument není podporován jako kontext."
         context_object_not_found: "Zdroj nelze najít jako kontext."
       validation:
-        done_ratio: "Hotový poměr nelze nastavit na rodičovských pracovních balíčcích, pokud je odvozen ze stavu nebo pokud je zakázán."
+        done_ratio: "Hotový poměr nelze nastavit na nadřazených pracovních balíčcích, pokud je odvozen ze stavu nebo pokud je zakázán."
         due_date: "Datum ukončení nemůže být nastaveno na nadřazených pracovních balíčcích."
-        estimated_hours: "Předpokládané hodiny nelze nastavit na rodičovských pracovních balíčcích."
+        estimated_hours: "Předpokládané hodiny nelze nastavit na nadřazených pracovních balíčcích."
         invalid_user_assigned_to_work_package: "Zvolený uživatel nesmí být '%{property}' pro tento pracovní balíček."
         start_date: "Počáteční datum nelze nastavit na nadřazených pracovních balíčcích."
       eprops:
@@ -3000,7 +2999,7 @@ cs:
         admin_authenticator_not_configured: 'Přístup do admin panelu je zakázán, protože Doorkeeper.configure.admin_authenticator není nakonfigurován.'
         #Access grant errors
         unsupported_response_type: 'Autorizační server tento typ odpovědi nepodporuje.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_mode: 'Autorizační server nepodporuje tento typ odpovědi.'
         #Access token errors
         invalid_client: 'Ověření klienta se nezdařilo z důvodu neznámého klienta, bez autentizace klienta nebo z důvodu nepodporované autentizační metody.'
         invalid_grant: 'Poskytnutá autorizace je neplatná, vypršela, zrušena, neodpovídá URI přesměrování použité v žádosti o autorizaci, nebo byla vydána jinému zákazníkovi.'
@@ -3010,9 +3009,9 @@ cs:
           expired: "Přístupový token vypršel"
           unknown: "Přístupový token je neplatný"
         revoke:
-          unauthorized: "You are not authorized to revoke this token."
+          unauthorized: "Nemáte oprávnění ke zrušení tohoto tokenu."
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: 'Přístup k tomuto zdroji vyžaduje rozsah "%{oauth_scopes}".'
   unsupported_browser:
     title: "Váš prohlížeč je zastaralý a nepodporován."
     message: "Na této stránce se mohou objevit chyby a zhoršené zkušenosti."
@@ -3070,14 +3069,14 @@ cs:
     my_registered_applications: "Registrované OAuth aplikace"
   oauth_client:
     urn_connection_status:
-      connected: "Connected"
-      error: "Error"
-      failed_authorization: "Authorization failed"
+      connected: "Připojeno"
+      error: "Chyba"
+      failed_authorization: "Autorizace se nezdařila"
     labels:
-      label_oauth_integration: "OAuth2 integration"
+      label_oauth_integration: "Integrace OAuth2"
       label_redirect_uri: "Redirect URI"
-      label_request_token: "Request token"
-      label_refresh_token: "Refresh token"
+      label_request_token: "Vyžádat token"
+      label_refresh_token: "Obnovit token"
     errors:
       oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
       oauth_reported: "OAuth2 provider reported"

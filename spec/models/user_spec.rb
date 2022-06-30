@@ -595,4 +595,8 @@ describe User, type: :model do
       end
     end
   end
+
+  include_examples 'creates an audit trail on destroy' do
+    subject { create(:attachment) }
+  end
 end

@@ -593,6 +593,12 @@ module API
           # noop
         end
 
+        def duration=(value)
+          represented.duration = datetime_formatter.parse_duration_to_days(value,
+                                                                           'duration',
+                                                                           allow_nil: true)
+        end
+
         def ordered_custom_actions
           # As the custom actions are sometimes set as an array
           represented.custom_actions(current_user).to_a.sort_by(&:position)

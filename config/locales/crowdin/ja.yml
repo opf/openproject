@@ -735,6 +735,7 @@ ja:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "はマイルストーンにすることはできません。"
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1441,7 +1442,6 @@ ja:
   label_consent_settings: "ユーザーの同意"
   label_wiki_menu_item: Wikiのメニュー項目
   label_select_main_menu_item: 新しいメインメニュー項目を選択する
-  label_select_project: "プロジェクトの選択"
   label_required_disk_storage: "必要なディスク ストレージ"
   label_send_invitation: 招待状を送信
   label_change_plural: "変更"
@@ -1720,7 +1720,6 @@ ja:
   label_product_version: "製品バージョ​​ン"
   label_professional_support: "プロフェッショナルサポート"
   label_profile: "プロファイル"
-  label_project_all: "全プロジェクト"
   label_project_count: "プロジェクトの合計数"
   label_project_copy_notifications: "プロジェクトのコピーの時、コピーした内容をメール通知する"
   label_project_latest: "最新のプロジェクト"

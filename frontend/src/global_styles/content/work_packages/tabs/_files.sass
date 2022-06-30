@@ -71,6 +71,21 @@
       .op-files-tab--file-list-item-floating-actions
         padding-right: 0
 
+      .op-files-tab--file-list-item-floating-text
+        @include spot-body-small()
+
+        padding-right: $spot-spacing-0-25
+        overflow: hidden
+        color: var(--primary-color)
+
+        .spot-icon:first-child:not(:last-child)
+          width: $spot-spacing-1-5
+          height: $spot-spacing-1-5
+          margin-right: $spot-spacing-0-25
+
+      &.disabled .op-files-tab--file-list-item-action
+        opacity: 0.5
+
   &--storage-info-box
     margin-top: 0.875rem
     display: grid
@@ -102,8 +117,11 @@
       display: flex
       justify-content: end
 
-      > .button_no-margin
-        margin-top: $spot_spacing-0-75
+    &-button
+      margin: $spot_spacing-0-75 0 0
+
+      &:not(:last-child)
+        margin-right: $spot-spacing-0-5
 
   &--icon
     &_pdf

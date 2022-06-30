@@ -37,7 +37,9 @@ describe WorkPackages::BaseContract do
                   estimated_hours: 6.0,
                   project:)
   end
-  let(:type) { build_stubbed(:type) }
+  let(:type) { build_stubbed(:type, is_milestone:) }
+  let(:is_milestone) { false }
+
   let(:member) do
     u = build_stubbed(:user)
 
@@ -56,15 +58,6 @@ describe WorkPackages::BaseContract do
   end
   let(:project) { build_stubbed(:project) }
   let(:current_user) { member }
-  let!(:assignable_assignees_scope) do
-    scope = double 'assignable assignees scope'
-
-    allow(Principal)
-      .to receive(:possible_assignee)
-      .and_return scope
-
-    scope
-  end
   let(:permissions) do
     %i(
       view_work_packages
@@ -92,7 +85,7 @@ describe WorkPackages::BaseContract do
       contract.validate
     end
 
-    context 'has changed' do
+    context 'when has changed' do
       let(:changed_values) { [attribute] }
 
       it('is invalid') do
@@ -100,7 +93,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'has not changed' do
+    context 'when not changed' do
       let(:changed_values) { [] }
 
       it('is valid') { expect(contract.errors).to be_empty }
@@ -112,7 +105,7 @@ describe WorkPackages::BaseContract do
       allow(work_package).to receive(:changed).and_return(changed_values.map(&:to_s))
     end
 
-    context 'is no parent' do
+    context 'when no parent' do
       before do
         allow(work_package)
           .to receive(:leaf?)
@@ -121,20 +114,20 @@ describe WorkPackages::BaseContract do
         contract.validate
       end
 
-      context 'has not changed' do
+      context 'when not changed' do
         let(:changed_values) { [] }
 
         it('is valid') { expect(contract.errors).to be_empty }
       end
 
-      context 'has changed' do
+      context 'when has changed' do
         let(:changed_values) { [attribute] }
 
         it('is valid') { expect(contract.errors).to be_empty }
       end
     end
 
-    context 'is a parent' do
+    context 'when is a parent' do
       let(:schedule_manually) { false }
 
       before do
@@ -146,13 +139,13 @@ describe WorkPackages::BaseContract do
         contract.validate
       end
 
-      context 'has not changed' do
+      context 'when not changed' do
         let(:changed_values) { [] }
 
         it('is valid') { expect(contract.errors).to be_empty }
       end
 
-      context 'has changed' do
+      context 'when has changed' do
         let(:changed_values) { [attribute] }
 
         it('is invalid (read only)') do
@@ -161,10 +154,10 @@ describe WorkPackages::BaseContract do
       end
 
       if schedule_sensitive
-        context 'is scheduled manually' do
+        context 'when is scheduled manually' do
           let(:schedule_manually) { true }
 
-          context 'has changed' do
+          context 'when has changed' do
             let(:changed_values) { [attribute] }
 
             it('is valid') { expect(contract.errors).to be_empty }
@@ -175,7 +168,7 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'status' do
-    context 'on a readonly status' do
+    context 'for readonly status' do
       before do
         allow(work_package)
           .to receive(:readonly_status?)
@@ -187,7 +180,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'work_package has a closed version and status' do
+    context 'when work_package has a closed version and status' do
       before do
         version = build_stubbed(:version, status: 'closed')
 
@@ -201,7 +194,7 @@ describe WorkPackages::BaseContract do
         expect(contract).not_to be_writable(:status)
       end
 
-      context 'if we only switched into that status now' do
+      context 'when we only switched into that status now' do
         before do
           allow(work_package)
             .to receive(:status_id_change)
@@ -214,7 +207,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'is an inexistent status' do
+    context 'when status is inexistent' do
       before do
         work_package.status = Status::InexistentStatus.new
       end
@@ -227,7 +220,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'transitions' do
+    describe 'transitions' do
       let(:roles) { [build_stubbed(:role)] }
       let(:valid_transition_result) { true }
       let(:new_status) { build_stubbed(:status) }
@@ -265,14 +258,14 @@ describe WorkPackages::BaseContract do
         contract.validate
       end
 
-      context 'valid transition' do
+      context 'when valid transition' do
         it 'is valid' do
           expect(subject.errors.symbols_for(:status_id))
             .to be_empty
         end
       end
 
-      context 'invalid transition' do
+      context 'when invalid transition' do
         let(:valid_transition_result) { false }
 
         it 'is invalid' do
@@ -281,7 +274,7 @@ describe WorkPackages::BaseContract do
         end
       end
 
-      context 'status is nil' do
+      context 'when status is nil' do
         let(:status_change) { work_package.status = nil }
 
         it 'is invalid' do
@@ -290,7 +283,7 @@ describe WorkPackages::BaseContract do
         end
       end
 
-      context 'invalid transition but the type changed as well' do
+      context 'when invalid transition but the type changed as well' do
         let(:valid_transition_result) { false }
         let(:status_change) do
           work_package.status = new_status
@@ -312,7 +305,7 @@ describe WorkPackages::BaseContract do
       work_package.estimated_hours = estimated_hours
     end
 
-    context '> 0' do
+    context 'when > 0' do
       let(:estimated_hours) { 1 }
 
       it 'is valid' do
@@ -323,7 +316,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context '0' do
+    context 'when 0' do
       let(:estimated_hours) { 0 }
 
       it 'is valid' do
@@ -334,7 +327,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'nil' do
+    context 'when nil' do
       let(:estimated_hours) { nil }
 
       it 'is valid' do
@@ -345,7 +338,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context '< 0' do
+    context 'when < 0' do
       let(:estimated_hours) { -1 }
 
       it 'is invalid' do
@@ -367,13 +360,13 @@ describe WorkPackages::BaseContract do
       contract.validate
     end
 
-    context 'has not changed' do
+    context 'when has not changed' do
       let(:changed_values) { [] }
 
       it('is valid') { expect(contract.errors).to be_empty }
     end
 
-    context 'has changed' do
+    context 'when has changed' do
       let(:changed_values) { [attribute] }
 
       it('is invalid (read only)') do
@@ -383,9 +376,9 @@ describe WorkPackages::BaseContract do
   end
 
   shared_examples_for 'a date attribute' do |attribute|
-    context 'a date' do
+    context 'for a date' do
       before do
-        work_package.send(:"#{attribute}=", Date.today)
+        work_package.send(:"#{attribute}=", Time.zone.today)
         contract.validate
       end
 
@@ -395,7 +388,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'a string representing a date' do
+    context 'for a string representing a date' do
       before do
         work_package.send(:"#{attribute}=", '01/01/17')
         contract.validate
@@ -407,7 +400,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'not a date' do
+    context 'for a non-date' do
       before do
         work_package.send(:"#{attribute}=", 'not a date')
         contract.validate
@@ -424,7 +417,7 @@ describe WorkPackages::BaseContract do
     it_behaves_like 'a parent unwritable property', :start_date, schedule_sensitive: true
     it_behaves_like 'a date attribute', :start_date
 
-    context 'before soonest start date of parent' do
+    context 'as before soonest start date of parent' do
       let(:schedule_manually) { false }
 
       before do
@@ -434,9 +427,9 @@ describe WorkPackages::BaseContract do
           .and_return(build_stubbed(:work_package))
         allow(work_package)
           .to receive(:soonest_start)
-          .and_return(Date.today + 4.days)
+          .and_return(Time.zone.today + 4.days)
 
-        work_package.start_date = Date.today + 2.days
+        work_package.start_date = Time.zone.today + 2.days
       end
 
       context 'when scheduled automatically' do
@@ -444,7 +437,7 @@ describe WorkPackages::BaseContract do
           contract.validate
 
           message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_relationships',
-                           soonest_start: Date.today + 4.days)
+                           soonest_start: Time.zone.today + 4.days)
 
           expect(contract.errors[:start_date])
             .to match_array [message]
@@ -464,8 +457,8 @@ describe WorkPackages::BaseContract do
     it_behaves_like 'a date attribute', :due_date
 
     it 'returns an error when trying to set it before the start date' do
-      work_package.start_date = Date.today + 2.days
-      work_package.due_date = Date.today
+      work_package.start_date = Time.zone.today + 2.days
+      work_package.due_date = Time.zone.today
 
       contract.validate
 
@@ -480,6 +473,36 @@ describe WorkPackages::BaseContract do
     context 'when setting the duration' do
       before do
         work_package.duration = 5
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when setting the duration for a milestone type work package' do
+      let(:is_milestone) { true }
+
+      before do
+        work_package.duration = 5
+      end
+
+      it_behaves_like 'contract is invalid', duration: :not_available_for_milestones
+    end
+
+    context 'when setting the duration to nil for a milestone type work package' do
+      let(:is_milestone) { true }
+
+      before do
+        work_package.duration = nil
+      end
+
+      it_behaves_like 'contract is invalid'
+    end
+
+    context 'when setting the duration to 1 for a milestone type work package' do
+      let(:is_milestone) { true }
+
+      before do
+        work_package.duration = 1
       end
 
       it_behaves_like 'contract is valid'
@@ -588,7 +611,7 @@ describe WorkPackages::BaseContract do
   describe 'percentage done' do
     it_behaves_like 'a parent unwritable property', :done_ratio
 
-    context 'done ratio inferred by status' do
+    context 'when done ratio inferred by status' do
       before do
         allow(Setting).to receive(:work_package_done_ratio).and_return('status')
       end
@@ -596,7 +619,7 @@ describe WorkPackages::BaseContract do
       it_behaves_like 'invalid if changed', :done_ratio
     end
 
-    context 'done ratio disabled' do
+    context 'when done ratio disabled' do
       let(:changed_values) { [:done_ratio] }
 
       before do
@@ -719,7 +742,7 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'type' do
-    context 'disabled type' do
+    context 'for disabled type' do
       before do
         allow(project)
           .to receive(:types)
@@ -762,7 +785,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'inexistent type' do
+    context 'for inexistent type' do
       before do
         work_package.type = Type::InexistentType.new
 
@@ -776,8 +799,8 @@ describe WorkPackages::BaseContract do
     end
   end
 
-  context 'assigned_to' do
-    context 'inexistent user' do
+  describe 'assigned_to' do
+    context 'for inexistent user' do
       before do
         work_package.assigned_to = Users::InexistentUser.new
 
@@ -794,7 +817,7 @@ describe WorkPackages::BaseContract do
   describe 'category' do
     let(:category) { build_stubbed(:category) }
 
-    context "one of the project's categories" do
+    context "for one of the project's categories" do
       before do
         allow(project)
           .to receive(:categories)
@@ -811,7 +834,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'empty' do
+    context 'when empty' do
       before do
         work_package.category = nil
 
@@ -824,7 +847,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'inexistent category (e.g. removed)' do
+    context 'for inexistent category (e.g. removed)' do
       before do
         work_package.category_id = 5
 
@@ -837,7 +860,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'not of the project' do
+    context 'when not of the project' do
       before do
         allow(project)
           .to receive(:categories)
@@ -859,7 +882,7 @@ describe WorkPackages::BaseContract do
     let (:active_priority) { build_stubbed(:priority) }
     let (:inactive_priority) { build_stubbed(:priority, active: false) }
 
-    context 'active priority' do
+    context 'as active priority' do
       before do
         work_package.priority = active_priority
 
@@ -872,7 +895,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'inactive priority' do
+    context 'as inactive priority' do
       before do
         work_package.priority = inactive_priority
 
@@ -885,7 +908,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'inactive priority but priority not changed' do
+    context 'as inactive priority but priority not changed' do
       before do
         work_package.priority = inactive_priority
         work_package.clear_changes_information
@@ -899,7 +922,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'inexistent priority' do
+    context 'as inexistent priority' do
       before do
         work_package.priority = Priority::InexistentPriority.new
 
@@ -1045,14 +1068,14 @@ describe WorkPackages::BaseContract do
 
   describe '#assignable_types' do
     let(:scope) do
-      double('type scope').tap do |s|
+      instance_double(ActiveRecord::Querying).tap do |s|
         allow(s)
           .to receive(:includes)
           .and_return(s)
       end
     end
 
-    context 'project nil' do
+    context 'when project nil' do
       before do
         work_package.project = nil
       end
@@ -1067,7 +1090,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'project defined' do
+    context 'when project defined' do
       it 'is all types of the project' do
         allow(work_package.project)
           .to receive(:types)
@@ -1083,8 +1106,9 @@ describe WorkPackages::BaseContract do
     let(:result) { double }
 
     it 'calls through to the work package' do
-      expect(work_package).to receive(:assignable_versions).and_return(result)
+      allow(work_package).to receive(:assignable_versions).and_return(result)
       expect(subject.assignable_values(:version, current_user)).to eql(result)
+      expect(work_package).to have_received(:assignable_versions)
     end
   end
 
@@ -1106,7 +1130,7 @@ describe WorkPackages::BaseContract do
   end
 
   describe '#assignable_categories' do
-    let(:category) { double('category') }
+    let(:category) { instance_double(Category) }
 
     before do
       allow(project).to receive(:categories).and_return([category])
