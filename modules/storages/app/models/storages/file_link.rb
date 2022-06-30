@@ -38,9 +38,6 @@
 # Additional attributes and constraints are defined in
 # db/migrate/20220113144759_create_file_links.rb migration.
 class Storages::FileLink < ApplicationRecord
-  # Is this file shared with me in Nextcloud? This attribute is _not_ stored in the DB
-  attr_accessor :origin_permission
-
   # Every FileLink references its Storage. A "on delete cascade" is defined in
   # the migration, so this FileLink will be deleted when deleting the Storage.
   belongs_to :storage
@@ -58,6 +55,13 @@ class Storages::FileLink < ApplicationRecord
 
   # origin_id is the Nextcloud ID of the file and should be valid.
   validates :origin_id, presence: true
+
+  # Is this file shared with me in Nextcloud?
+  # This attribute is _not_ to be stored in the DB
+  attr_writer :origin_permission
+  def origin_permission
+    @origin_permission || nil
+  end
 
   # A standard Rails custom query:
   # https://www.rubyguides.com/2019/10/scopes-in-ruby-on-rails/

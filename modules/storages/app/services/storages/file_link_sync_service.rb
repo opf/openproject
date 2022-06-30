@@ -41,13 +41,7 @@ class Storages::FileLinkSyncService
   # @return ServiceResult with FileLinks in the result
   def call(file_links)
     @file_links = file_links
-    # Reset permissions to nil (undefined) by default.
-    # ToDo: Make nil default on the level of the model
-    @file_links.each { |file_link| file_link.origin_permission = nil }
-
-    # Group by storage_id, creating a hash { storage_id => [file_links] }
     storage_file_link_hash = @file_links.group_by(&:storage_id)
-
     storage_file_link_hash.each do |storage_id, storage_file_links|
       # Add new types of storages here. We currently only support Nextcloud
       sync_nextcloud(storage_id, storage_file_links)
@@ -101,7 +95,6 @@ class Storages::FileLinkSyncService
   # "24" => { "status" => "Forbidden", "statuscode" => 403 }
   # In case of completely deleted file or other errors we might also get:
   # "24" = { "status" => "Not Found", "statuscode" => 404 }
-  # ToDo: What happens if nothing at all or an empty hash comes back for an origin_file_id
   def sync_single_file(file_link, origin_file_info_hash)
     file_link.origin_mime_type = origin_file_info_hash["mimetype"]
     file_link.origin_created_by_name = origin_file_info_hash["owner_name"]

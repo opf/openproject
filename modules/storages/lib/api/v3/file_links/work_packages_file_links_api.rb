@@ -42,15 +42,11 @@ module API
           reply_with_not_found_if_module_inactive
         end
 
-        # ToDo: Check race condition if two users try to get the same WP file_links?
-
         # The `:resources` keyword defines the API namespace -> /api/v3/work_packages/:id/file_links/...
         resources :file_links do
           # Get the list of FileLinks related to a work package, with updated information from Nextcloud.
           get do
-            # API supports query filters on storages:
-            # storage: { operator: '=', values: [storage_id]
-            # ToDo: Check if ParamsToQueryService raises condition?
+            # API supports query filters on storages, for example { storage: { operator: '=', values: [storage_id] }
             query = ParamsToQueryService
                       .new(::Storages::Storage,
                            current_user,
@@ -61,7 +57,6 @@ module API
               message = I18n.t('api_v3.errors.missing_or_malformed_parameter')
               raise ::API::Errors::InvalidQuery.new(message)
             end
-            # ToDo: Double-check that I've got this tested
 
             # Get the list of all FileLinks for the work package.
             # This could be a huge array in some cases...
@@ -84,8 +79,7 @@ module API
                 current_user:
               )
             rescue StandardError => e
-              # ToDo: Check if API response handles exceptions like the one below (API.root)
-              # There was an error during the SyncService, which should normally not occur.
+              # Example case: invalid oauth_client for storage raises invalid operation => 500
               message = "#{I18n.t('api_v3.errors.code_500')}: #{e.message}"
               raise ::API::Errors::InternalError.new(message)
             end

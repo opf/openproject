@@ -136,7 +136,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
     file_link_trashed
     file_link_deleted
 
-    # FileLinks on host-unauth and host-error that we'll see in the result list with origin_permission=:error
+    #  FileLinks on host-unauth and host-error that we'll see in the result list with origin_permission=:error
     file_link_unauth_happy
     file_link_error_happy
     file_link_timeout_happy
@@ -173,13 +173,11 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
         .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response_host_happy)
 
       # https://host-error/: Simulates a Nextcloud with network timeout
-      stub_request(:post, host_error)
-        .to_timeout
+      stub_request(:post, host_error).to_return(status: 500)
 
       # ToDo: get_access_token against a timeout server produces a OAuth URL response, that's not really correct.
       # https://host-timeout/: Simulates a Nextcloud with network timeout
-      stub_request(:post, host_timeout)
-        .to_timeout
+      stub_request(:post, host_timeout).to_timeout
 
       # https://host-notoken/: Simulate a Nextcloud with no oauth_token yet
       stub_request(:post, File.join(host_notoken, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
@@ -225,17 +223,14 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       expect(deleted_file_link).to be_nil
       expect(::Storages::FileLink.where(origin_id: '27').any?).to be_falsey
 
-      # The FileLink from a Nextcloud with timeout should have origin_permission=:error
+      # The FileLink from a Nextcloud with error should have origin_permission=:error
       error_file_link = elements.detect { |e| e["originData"]["id"] == "29" }
       expect(error_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_ERROR
 
-      # ToDo: Check origin_error of #28, #29
-
-      # ToDo: Search in elements for file_link with origin_id = '25' and check origin_permission = :not_authenticated
-      # ToDo: Search for '24' and check for perms = :view
-      # ToDo: Add trashed file_link
-      # ToDo: Add deleted file_link (404)
+      # The FileLink from a Nextcloud with timeout should have origin_permission=:error
+      error_file_link = elements.detect { |e| e["originData"]["id"] == "30" }
+      expect(error_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_ERROR
     end
-    # it 'returns file_link1 with updated mtime' do   expect(subject.status).to be 200    end
+    # ToDo: it 'returns file_link1 with updated mtime' do   expect(subject.status).to be 200    end
   end
 end
