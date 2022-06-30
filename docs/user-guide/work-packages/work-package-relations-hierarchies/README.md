@@ -91,7 +91,7 @@ For more information on the work package creation take a look at the guideline o
 
 To edit or remove the parent of a work package open the work package. At the top of the details view of the work package you will see the work package hierarchy. Click on the **edit icon** or **delete icon** to change the work package parent.
 
-![change-parent-work-package](change parent work package.png)
+![change-parent-work-package](change-parent-work-package-6597345.png)
 
 ## Display work package hierarchies
 
@@ -111,5 +111,4 @@ You can also add a column with information about parent work packages:
 2. Select "Parent" from the drop down menu and click on apply.
 3. Now the column with the information about a parant relation is displayed in the work package table.
 
-![change-parent-work-package](../../../../../../../change-parent-work-package.png)
-
+![change-parent](change-parent.png)
