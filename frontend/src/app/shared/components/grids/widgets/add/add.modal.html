@@ -5,13 +5,6 @@
   <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
 
   <div class="ngdialog-body op-modal--body">
-    <div
-      *ngFor="let widget of selectable;trackBy: trackWidgetBy"
-      (click)="select($event, widget)"
-      [id]="widget.identifier"
-      [textContent]="widget.title"
-      class="grid--addable-widget"
-    ></div>
 
     <op-enterprise-banner
       *ngIf="eeShowBanners"
@@ -22,5 +15,13 @@
       class="grid--add-widget-ee"
       opReferrer="grids#add-widget"
     ></op-enterprise-banner>
+  
+    <div
+      *ngFor="let widget of selectable;trackBy: trackWidgetBy"
+      (click)="select($event, widget)"
+      [id]="widget.identifier"
+      [textContent]="widget.title"
+      class="grid--addable-widget"
+    ></div>
   </div>
 </div>

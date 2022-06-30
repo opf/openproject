@@ -57,8 +57,9 @@ en:
         main-menu-hover-font-color: "Main menu font on hover"
         main-menu-border-color: "Main menu border"
       custom_colors: "Custom colors"
-      customize: "Customize your OpenProject installation with your own logo. Note: This logo will be publicly accessible."
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Edit color select options"
       instructions:
         alternative-color: "Strong accent color, typically used for the most important button on a screen."
