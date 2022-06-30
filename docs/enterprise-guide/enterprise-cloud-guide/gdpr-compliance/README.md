@@ -3,7 +3,6 @@ sidebar_navigation:
   title: GDPR
   priority: 600
 description: GDPR, DPA, AV
-robots: index, follow
 keywords: GDPR, DPA, Data Processing Agreement, AVV, AV
 ---
 

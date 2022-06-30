@@ -3,17 +3,15 @@ sidebar_navigation:
   title: Enterprise guide
   priority: 960
 description: OpenProject Enterprise guide.
-robots: index, follow
 keywords: manage subscription, enterprise edition, cloud edition
 ---
 # Enterprise guide
 
 Welcome to the OpenProject **Enterprise guide**.
 
-<div class="alert alert-info" role="alert">
-**Note**: This guide only describes the management and administration of your Enterprise cloud and Enterprise on-premises subscription. 
-The premium feature descriptions are included in the respective parts of the OpenProject [user guide](../user-guide) and [System admin guide](../system-admin-guide).
-</div>
+> **Note**: This guide only describes the management and administration of your Enterprise cloud and Enterprise on-premises subscription. 
+> The premium feature descriptions are included in the respective parts of the OpenProject [user guide](../user-guide) and [System admin guide](../system-admin-guide).
+
 The OpenProject Enterprise editions (cloud and on-premises) contain all OpenProject Community features plus the additional OpenProject [premium features](https://www.openproject.org/de/enterprise-edition/#premium-features), as well as professional [support](https://www.openproject.org/pricing/#support).
 
 Find a detailed feature comparison [here](https://www.openproject.org/pricing/#features).

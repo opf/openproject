@@ -3,7 +3,6 @@ sidebar_navigation:
   title: BIM guide
   priority: 975
 description: User guide for the OpenProject BIM Edition.
-robots: index, follow
 keywords: BIM user guide
 ---
 # BIM guide
@@ -12,11 +11,9 @@ Welcome to the OpenProject user guide for Building Information Modeling (BIM) wi
 
 On top of the general project management functionalities, OpenProject BIM enables construction teams to better plan, communicate and collaborate in their building projects. OpenProject BIM includes a 3D model viewer (IFC viewer), support of the BIM collaboration format (BCF) for BIM issue management, and much more powerful features, e.g. a [Revit integration](revit-add-in).
 
-<div class="alert alert-info" role="alert">
 
-**Note**: This guide only covers the specific [BIM features and functionalities of OpenProject](https://www.openproject.org/bim-project-management/). To learn more about the core features for project management of OpenProject (which are included in the BIM Edition as well), please visit our [User Guide](../user-guide/).
+> **Note**: This guide only covers the specific [BIM features and functionalities of OpenProject](https://www.openproject.org/bim-project-management/). To learn more about the core features for project management of OpenProject (which are included in the BIM Edition as well), please visit our [User Guide](../user-guide/).
 
-</div>
 
 ![BIM Project Management](demo_project_teaser_bim.jpg)
 

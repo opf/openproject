@@ -7,7 +7,7 @@
 ---
 
 
-# OpenProject 5.0.8
+# OpenProject 5.0.8
 
 OpenProject 5.0.8 contains several bug fixes:
 
@@ -41,7 +41,7 @@ In addition new icons for the mobile view have been added
 several accessibility improvements have been implemented.
 
 For further information on the release, please refer to the [Changelog
-v.5.0.8](https://community.openproject.org/versions/786) or take a look
+v.5.0.8](https://community.openproject.org/versions/786) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v5.0.8).
 
 

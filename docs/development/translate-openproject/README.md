@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Translate OpenProject
   priority: 985
 description: How to translate OpenProject to your language
-robots: index, follow
 keywords: translation, translate, crowdin, localization
 ---
 

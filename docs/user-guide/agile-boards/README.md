@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Agile boards
   priority: 860
 description: How to get started with Agile boards for Kanban, Scrum and Agile Project Management.
-robots: index, follow
 keywords: agile boards, Kanban, Scrum, agile project management, action boards
 ---
 
@@ -13,9 +12,7 @@ Boards support agile project management methodologies, such as Scrum or Kanban.
 
 Our Agile boards can be for anything you would like to keep track of within your projects: Tasks to be done, Bugs to be fixed, Things to be reviewed, Features to be developed, Risks to be monitored, Ideas to be spread, anything! The boards consist of lists (columns) and cards. You can choose between a Basic board and various advanced Action boards.
 
-<div class="alert alert-info" role="alert">
-**Note**: The basic board is included in the OpenProject Community Edition. OpenProject Action boards is a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
-</div>
+> **Note**: The basic board is included in the OpenProject Community Edition. OpenProject Action boards is a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
 
 
 | Topic                                                     | Content                                                      |

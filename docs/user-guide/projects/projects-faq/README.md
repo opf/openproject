@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Projects FAQ
   priority: 001
 description: Frequently asked questions regarding projects
-robots: index, follow
 keywords: projects FAQ, project questions
 ---
 

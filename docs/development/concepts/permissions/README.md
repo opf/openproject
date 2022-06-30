@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Permissions
 description: Get an overview of how roles and permissions are handled in the OpenProject application code
-robots: index, follow
 keywords: permissions, roles, RBAC
 ---
 

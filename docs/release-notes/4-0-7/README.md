@@ -34,7 +34,7 @@ and an error related to the grouping of timelines has been addressed
 ([\#18690](https://community.openproject.org/work_packages/18690 "#18690")).
 
 To get an overview of the new version, please refer to the [Changelog
-v.4.0.7](https://community.openproject.org/versions/602 "Changelog v.4.0.7") or
+v.4.0.7](https://community.openproject.org/versions/602 "Changelog v.4.0.7") or
 take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.0.7 "GitHub").
 

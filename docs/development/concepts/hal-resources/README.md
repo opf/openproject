@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: HAL+JSON resources
 description: Get an overview of how inline-editing of resources works
-robots: index, follow
 keywords: development concepts, HAL, JSON, hal resources, API requests
 ---
 

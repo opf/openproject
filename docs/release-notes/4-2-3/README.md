@@ -38,7 +38,7 @@ been fixed:
     ([\#20996](https://community.openproject.org/work_packages/20996)).
 
 For further information on the release, please refer to the [Changelog
-v.4.2.3](https://community.openproject.org/versions/748) or take a look
+v.4.2.3](https://community.openproject.org/versions/748) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v4.2.3).
 
 

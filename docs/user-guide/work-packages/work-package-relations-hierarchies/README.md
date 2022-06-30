@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Work package relations and hierarchies
   priority: 600
 description: How to add or configure work package relations?
-robots: index, follow
 keywords: relations, hierarchies, child, parent, blocked, includes, part of
 ---
 
@@ -36,7 +35,7 @@ Work package relations indicate that work packages address a similar topic or cr
 You can select one of the following relations:
 
 - **Related to** - This option adds a link from the work package A to work package B, so that project members can immediately see the connection, even if the work packages are not members of the same hierarchy. 
-- **Duplicates / Duplicated by** - This option indicates that the work package A duplicates a work package B in one way or another, for example both address the same task. This can be useful if you have the same work package that needs to be a part of a closed and public projects at the same time. The connection in this case is only semantic, the changes you make in work package A will need to be adapted in work package B manually. However, this does not affect the status, so if you change the status of workpackage A the status of workpackage B will change automatically to the same. 
+- **Duplicates / Duplicated by** - This option indicates that the work package A duplicates a work package B in one way or another, for example both address the same task. This can be useful if you have the same work package that needs to be a part of a closed and public projects at the same time. The connection in this case is only semantic, the changes you make in work package A will need to be adapted in work package B manually. 
 - **Blocks / Blocked by** - This option defines status change restrictions between two work packages. If you set a work package A to be blocking work package B, the status of work package B cannot be set to closed or resolved until the work package A is closed.
 - **Precedes / Follows** - Defines a chronologically relation between two work packages. For example, if you set a work package A to precede a work package B, you will not be able to change the start date of B to be earlier than the day after the finish date of A. In addition, when you move the finish date of A, the start and finish date of B will be updated as well.
   Please note: If work package B is in [manual scheduling mode](../../gantt-chart/scheduling/#manual-scheduling-mode), changing the finish date of work package A will have no effect on work package B.

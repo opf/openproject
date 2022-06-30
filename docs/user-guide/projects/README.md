@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Projects
   priority: 600
 description: Manage projects in OpenProject.
-robots: index, follow
 keywords: projects
 ---
 # Manage projects
@@ -80,9 +79,7 @@ OpenProject, for example, uses the projects to structure the different modules/p
 
 ![project-structure](1566214944644.png)
 
-<div class="alert alert-info" role="alert">
-**Please note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
-</div>
+> **Please note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
 
 ## Project Settings
 
@@ -94,9 +91,7 @@ You can specify further advanced settings for your project. Navigate to your pro
 
 - You see the default project **Identifier**. The identifier will be shown in the URL. 
 
-<div class="alert alert-info" role="alert">
-**Note**: Changing the project identifier while the project is already being worked on can have major effects and is therefore not recommended. For example, repositories may not be loaded correctly and deep links may no longer work (since the project URL changes when the project identifier is changed).
-</div>
+> **Note**: Changing the project identifier while the project is already being worked on can have major effects and is therefore not recommended. For example, repositories may not be loaded correctly and deep links may no longer work (since the project URL changes when the project identifier is changed).
 
 
 - You can set a project to **Public**. This means it can be accessed without signing in to OpenProject.
@@ -147,9 +142,9 @@ Then click the blue **Copy** button.
 ### Archive a project
 
 In order to archive a project, navigate to the [project settings](project-settings), and click the **Archive project** button.
-<div class="alert alert-info" role="alert">
-**Note**: This option is only available for Administrators.
-</div>
+
+> **Note**: This option is only available for Administrators.
+
 ![archive-project](image-20210204171059565.png)
 
 Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you set the "Active" filter to "off" (move slider to the left). You can un-archive it there, too, using the three dots at the right end of a row.
@@ -166,9 +161,8 @@ If you want to delete a project, navigate to the [Project settings](project-sett
 ![delete-project](image-20210204171422693.png)
 
 Also, you can delete a project via the [projects overview](#global-projects-overview---view-all-projects).
-<div class="alert alert-info" role="alert">
-**Please note**: Deleting projects is only available for System administrators.
-</div>
+
+> **Please note**: Deleting projects is only available for System administrators.
 
 
 ## Global projects overview - View all projects

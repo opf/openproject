@@ -3,14 +3,11 @@ sidebar_navigation:
   title: OpenProject Documentation
   priority: 999
 description: Help and documentation for OpenProject Community Edition, Enterprise on-premises and Enterprise cloud.
-robots: index, follow
 keywords: help, documentation
----
+--- 
 # OpenProject Documentation
 
-<div class="alert alert-info" role="alert">
-**Note**: To better read our OpenProject Documentation, please go to [www.openproject.org/docs/](https://www.openproject.org/docs/).
-</div>
+> **Note**: To better read our OpenProject Documentation, please go to [www.openproject.org/docs/](https://www.openproject.org/docs/).
 
 ## Installation
 
