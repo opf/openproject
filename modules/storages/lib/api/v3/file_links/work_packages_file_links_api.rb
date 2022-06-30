@@ -69,20 +69,21 @@ module API
                                         .where(container_id: @work_package.id, container_type: 'WorkPackage'))
                            .all
 
-            # Synchronize with Nextcloud. StorageAPI handles OAuth2 for us.
-            service_result = ::Storages::FileLinkSyncService
-                               .new(user: current_user)
-                               .call(file_links)
+            begin
+              # Synchronize with Nextcloud. StorageAPI handles OAuth2 for us.
+              service_result = ::Storages::FileLinkSyncService
+                                 .new(user: current_user)
+                                 .call(file_links)
 
-            if service_result.success?
               ::API::V3::FileLinks::FileLinkCollectionRepresenter.new(
                 service_result.result,
                 self_link: api_v3_paths.work_package_file_links(@work_package.id),
                 current_user:
               )
-            else
+            rescue StandardError => e
               # There was an error during the SyncService, which should normally not occur.
-              raise StandardError, message: service_result.message
+              message = "#{I18n.t('api_v3.errors.code_500')}: #{e.message}"
+              raise ::API::Errors::InternalError.new(message)
             end
           end
 

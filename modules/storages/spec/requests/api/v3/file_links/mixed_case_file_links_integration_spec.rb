@@ -30,7 +30,7 @@ require 'spec_helper'
 require_module_spec_helper
 
 # We want to check the case of file_links from multiple storages
-describe 'API v3 file links resource', with_flag: { storages_module_active: true }, type: :request, webmock: true do
+describe 'API v3 file links resource', with_flag: { storages_module_active: true }, type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:project) { create(:project) }
@@ -40,24 +40,29 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
   let(:work_package) { create(:work_package, author: user, project:) }
 
   let(:host_good) { "http://host-good.example.org" }
-  let(:host_unaut) { "http://host-unaut.example.org" }
+  let(:host_unauth) { "http://host-unauth.example.org" }
   let(:host_error) { "http://host-error.example.org" }
+  let(:host_notoken) { "http://host-notoken.example.org" }
 
   let(:storage_good) { create(:storage, host: host_good) }
-  let(:storage_unauth) { create(:storage, host: host_unaut) }
+  let(:storage_unauth) { create(:storage, host: host_unauth) }
   let(:storage_error) { create(:storage, host: host_error) }
+  let(:storage_notoken) { create(:storage, host: host_notoken) }
 
   let!(:project_storage_good) { create(:project_storage, project:, storage: storage_good) }
   let!(:project_storage_unauth) { create(:project_storage, project:, storage: storage_unauth) }
   let!(:project_storage_error) { create(:project_storage, project:, storage: storage_error) }
+  let!(:project_storage_notoken) { create(:project_storage, project:, storage: storage_notoken) }
 
   let(:oauth_client_good) { create(:oauth_client, integration: storage_good) }
   let(:oauth_client_unauth) { create(:oauth_client, integration: storage_unauth) }
   let(:oauth_client_error) { create(:oauth_client, integration: storage_error) }
+  let(:oauth_client_notoken) { create(:oauth_client, integration: storage_notoken) }
 
   let(:oauth_client_token_good) { create(:oauth_client_token, oauth_client: oauth_client_good, user:) }
   let(:oauth_client_token_unauth) { create(:oauth_client_token, oauth_client: oauth_client_unauth, user:) }
   let(:oauth_client_token_error) { create(:oauth_client_token, oauth_client: oauth_client_error, user:) }
+  # No token for oauth_client_notoken!
 
   let(:file_link_happy) { create(:file_link, origin_id: "24", storage: storage_good, container: work_package) }
   let(:file_link_other_user) { create(:file_link, origin_id: '25', storage: storage_good, container: work_package) }
@@ -65,12 +70,14 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
   let(:file_link_deleted) { create(:file_link, origin_id: '27', storage: storage_good, container: work_package) }
 
   let(:file_link_unauth_happy) { create(:file_link, origin_id: "28", storage: storage_unauth, container: work_package) }
-  let(:file_link_error_happy) { create(:file_link, origin_id: "29", storage: storage_unauth, container: work_package) }
+  let(:file_link_error_happy) { create(:file_link, origin_id: "29", storage: storage_error, container: work_package) }
+  let(:file_link_notoken_happy) { create(:file_link, origin_id: "30", storage: storage_notoken, container: work_package) }
 
   let(:ocs_meta_s200) { { status: "ok", statuscode: 100, message: "OK", totalitems: "", itemsperpage: "" } }
   let(:ocs_meta_s401) { { status: "failure", statuscode: 997, message: "No login", totalitems: "", itemsperpage: "" } }
 
   let(:file_info_s403) { { status: "Forbidden", statuscode: 403 } }
+  let(:file_info_s404) { { status: "Not found", statuscode: 404 } }
 
   # Nextcloud response part for valid file
   let(:trashed) { false } # trashed is included in file_info1_s200 below
@@ -86,34 +93,46 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       size: 12706214,
       owner_id: "admin",
       owner_name: "admin",
-      trashed:
+      trashed: false
     }
   end
-  let(:file_info_other_user) do
+  let(:file_info_trashed) do
     {
-      id: 25,
+      id: 26,
       status: "OK",
       statuscode: 200,
-      name: "normal.txt",
-      mtime: 1655302345,
-      ctime: 1655335678,
-      mimetype: "text/plain",
-      size: 1234,
-      owner_id: "normal",
-      owner_name: "normal",
-      trashed:
+      name: "Reasons to use Nextcloud Manual.pdf",
+      mtime: 1655311634,
+      ctime: 1655344567,
+      mimetype: "application/pdf",
+      size: 954123,
+      owner_id: "admin",
+      owner_name: "admin",
+      trashed: true
     }
   end
-
   subject { last_response }
 
   before do
     storage_good
     project_storage_good
+
     oauth_client_good
+    oauth_client_unauth
+    oauth_client_error
+    oauth_client_notoken
+
     oauth_client_token_good
+
     file_link_happy
     file_link_other_user
+    file_link_trashed
+    file_link_deleted
+
+    # FileLinks on host-unauth and host-error that we'll see in the result list with origin_permission=:error
+    # file_link_unauth_happy
+    file_link_error_happy
+    # file_link_notoken_happy
 
     login_as user
   end
@@ -126,7 +145,9 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
           meta: ocs_meta_s200,
           data: {
             '24': file_info_happy,
-            '25': file_info_s403
+            '25': file_info_s403,
+            '26': file_info_trashed,
+            '27': file_info_s404
           }
         }
       }.to_json
@@ -136,29 +157,61 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       oauth_client_token_good
 
       # https://host-good/: Simulate a successfully authorized reply with updates from Nextcloud
-      # The bearer token is created above, and it's not checked for validity here:
       stub_request(:post, File.join(host_good, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
+        .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response_host_happy)
+
+      # https://host-unauth/: Simulates a Nextcloud with Bearer token expired or non existing
+      stub_request(:post, File.join(host_unauth, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
+        .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response_host_happy)
+
+      # https://host-error/: Simulates a Nextcloud with network timeout
+      stub_request(:post, host_error)
+        .to_timeout
+
+      # https://host-notoken/: Simulate a Nextcloud with no oauth_token yet
+      stub_request(:post, File.join(host_notoken, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
         .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response_host_happy)
 
       get path
     end
 
     # total, count, element_type, collection_type = 'Collection'
-    it_behaves_like 'API V3 collection response', 2, 2, 'FileLink', 'Collection' do
-      let(:elements) { [file_link_other_user, file_link_happy] }
+    it_behaves_like 'API V3 collection response', 3, 3, 'FileLink', 'Collection' do
+      let(:elements) {
+        [
+          file_link_error_happy,
+          file_link_other_user,
+          file_link_happy
+          # We didn't include file_link_trashed here, as it won't appear
+        ]
+      }
     end
 
-    it 'returns the 402 file_link with origin_permission=not_authorized' do
-      # binding.pry
+    it 'returns the file_links with correct Nextcloud data applied' do
+      puts subject.body
       elements = JSON.parse(subject.body).dig("_embedded", "elements")
-      happy_file_link = elements.detect { |e| e["originData"]["id"] == "24" }
-      other_user_file_link = elements.detect { |e| e["originData"]["id"] == "25" }
-      happy_file_link_permission = happy_file_link["_links"]["permission"]
-      other_user_file_link_permission = other_user_file_link["_links"]["permission"]
+      puts JSON.pretty_generate(elements)
 
-      # binding.pry
-      expect(happy_file_link_permission["href"]).to eql "urn:openproject-org:api:v3:file-links:permission:View"
-      expect(other_user_file_link_permission["href"]).to eql "urn:openproject-org:api:v3:file-links:permission:NotAllowed"
+      # A "happy" file link should be visible
+      happy_file_link = elements.detect { |e| e["originData"]["id"] == "24" }
+      expect(happy_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_VIEW
+
+      # A file link created by another user is not_allowed
+      other_user_file_link = elements.detect { |e| e["originData"]["id"] == "25" }
+      expect(other_user_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_NOT_ALLOWED
+
+      # A trashed FileLink should not be shown in the AP result list, but is not yet deleted
+      trashed_file_link = elements.detect { |e| e["originData"]["id"] == "26" }
+      expect(trashed_file_link).to be_nil
+
+      # The deleted_file_link should not even appear in the Database anymore
+      deleted_file_link = elements.detect { |e| e["originData"]["id"] == "27" }
+      expect(deleted_file_link).to be_nil
+      expect(::Storages::FileLink.where(origin_id: '27').any?).to be_falsey
+      
+      # The FileLink from a Nextcloud with timeout should have origin_permission=:error
+      error_file_link = elements.detect { |e| e["originData"]["id"] == "29" }
+      expect(other_user_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_ERROR
 
       # ToDo: Search in elements for file_link with origin_id = '25' and check origin_permission = :not_authenticated
       # ToDo: Search for '24' and check for perms = :view

@@ -135,7 +135,9 @@ class Storages::FileLinkSyncService
       #   failure: result= :error or :not_authorized
       parse_files_info_response(response)
     end
-    @service_result.merge!(nextcloud_request_result) # Pass errors from Nextcloud into service result
+    # ToDo: discuss: without_success: true
+    # Pass errors from Nextcloud into service result
+    @service_result.merge!(nextcloud_request_result)
 
     if nextcloud_request_result.failure?
       set_error_for_file_links(storage_file_links)
@@ -147,6 +149,7 @@ class Storages::FileLinkSyncService
 
   def set_error_for_file_links(storage_file_links)
     @service_result.result += storage_file_links.each { |file_link| file_link.origin_permission = :error }
+    # ToDo: Discuss: Remove next line?
     @service_result.success = false
   end
 
