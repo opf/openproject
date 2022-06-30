@@ -14,6 +14,34 @@
   <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
 <% end %>
 
+<% if @object.oauth_application %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend">OpenProject <%= t(:'storages.label_oauth_application_details') %></legend>
+        <div class="attributes-key-value">
+          <div class="attributes-key-value--key">OpenProject <%= t(:'storages.label_oauth_client_id') %></div>
+          <div class="attributes-key-value--value-container">
+            <div class="attributes-key-value--value -text">
+              <span><%= @object.oauth_application.uid %></span>
+            </div>
+          </div>
+          <div class="attributes-key-value--key">OpenProject <%= t(:'storages.label_oauth_client_secret') %></div>
+          <div class="attributes-key-value--value-container">
+            <div class="attributes-key-value--value -text">
+              <span><%= short_secret(@object.oauth_application.secret) %></span>
+            </div>
+          </div>
+        </div>
+
+        <%= link_to(t("storages.buttons.replace_openproject_oauth"),
+                    replace_oauth_application_admin_settings_storage_path(@object),
+                    method: :delete,
+                    data: { confirm: t(:'storages.confirm_replace_oauth_application')},
+                    class: 'button -with-icon icon-reload' ) %>
+    </fieldset>
+  </section>
+<% end %>
+
 <section class="form--section">
   <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend"><%= t("storages.provider_types.#{@object.provider_type}") %> <%= t(:'storages.label_oauth_client_details') %></legend>
@@ -28,11 +56,11 @@
         <div class="attributes-key-value--key"><%= t("storages.provider_types.#{@object.provider_type}") %> <%= t(:'storages.label_oauth_client_secret') %></div>
         <div class="attributes-key-value--value-container">
           <div class="attributes-key-value--value -text">
-            <span><%= @short_secret %></span>
+            <span><%= short_secret(@object.oauth_client.client_secret) %></span>
           </div>
         </div>
       </div>
-      <%= link_to(t("button_replace"),
+      <%= link_to(t("storages.buttons.replace_provider_type_oauth", provider_type: t("storages.provider_types.#{@object.provider_type}")),
                   new_admin_settings_storage_oauth_client_path(@object),
                   data: { confirm: t(:'storages.confirm_replace_oauth_client')},
                   class: 'button -with-icon icon-reload' ) %>

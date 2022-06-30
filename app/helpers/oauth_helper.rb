@@ -40,6 +40,17 @@ module OAuthHelper
   end
 
   ##
+  # Show first two and last two characters, with **** in the middle
+  def short_secret(secret)
+    result = ""
+    if secret.is_a?(String) && secret.present?
+      result = "#{secret[...2]}****#{secret[-2...]}"
+    end
+
+    result
+  end
+
+  ##
   # Get granted applications for the given user
   def granted_applications(user = current_user)
     tokens = ::Doorkeeper::AccessToken.active_for(user).includes(:application)

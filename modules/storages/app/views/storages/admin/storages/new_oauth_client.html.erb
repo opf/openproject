@@ -13,7 +13,7 @@
     <span class="form--field-instructions">
       <%= t("storages.instructions.#{@storage.provider_type}.oauth_client_id") %>
       <%= link_to "#{t("storages.provider_types.#{@storage.provider_type}")} / #{t("storages.instructions.#{@storage.provider_type}.administration")} / #{t("storages.instructions.#{@storage.provider_type}.oauth2_clients")}",
-                  URI::join(@storage.host, "settings/admin/security#oauth2").to_s,
+                  URI::join(@storage.host, "settings/admin/openproject").to_s,
                   target: "blank" %>
     </span>
   </div>
@@ -26,7 +26,7 @@
     <span class="form--field-instructions">
       <%= t("storages.instructions.#{@storage.provider_type}.oauth_client_secret") %>
       <%= link_to "#{t("storages.provider_types.#{@storage.provider_type}")} / #{t("storages.instructions.#{@storage.provider_type}.administration")} / #{t("storages.instructions.#{@storage.provider_type}.oauth2_clients")}",
-                  URI::join(@storage.host, "settings/admin/security#oauth2").to_s,
+                  URI::join(@storage.host, "settings/admin/openproject").to_s,
                   target: "blank" %>
     </span>
   </div>

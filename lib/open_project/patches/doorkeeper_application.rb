@@ -26,27 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# See also: create_service.rb for comments
-module Storages::Storages
-  class UpdateService < ::BaseServices::Update
-    protected
+# This patch adds an optional polymorphic relation to OAuth applications.
 
-    def after_perform(service_call)
-      super(service_call)
-
-      storage = service_call.result
-      if storage.provider_type == 'nextcloud'
-        application = storage.oauth_application
-        persist_service_result = ::OAuth::PersistApplicationService
-         .new(application, user:)
-         .call({
-                 name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.provider_type}")})",
-                 redirect_uri: File.join(storage.host, "apps/integration_openproject/oauth-redirect")
-               })
-        service_call.add_dependent!(persist_service_result)
-      end
-
-      service_call
-    end
-  end
+Doorkeeper::Application.class_eval do
+  belongs_to :integration, polymorphic: true
 end

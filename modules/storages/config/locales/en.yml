@@ -36,6 +36,10 @@ en:
       too_many_elements_created_at_once: "Too many elements created at once. Expected %{max} at most, got %{actual}."
 
   storages:
+    buttons:
+      done_continue_setup: "Done. Continue setup"
+      replace_openproject_oauth: "Replace OpenProject OAuth"
+      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
     page_titles:
       project_settings:
         index: "File storages available in this project"
@@ -66,6 +70,7 @@ en:
     label_file_links: "File links"
     label_name: "Name"
     label_host: "Host"
+    label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "OAuth client details"
     label_provider_type: "Provider type"
     label_new_storage: "New storage"
@@ -77,5 +82,7 @@ en:
     provider_types:
       label: "Provider type"
       nextcloud: "Nextcloud"
+    confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
     oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
+    notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."

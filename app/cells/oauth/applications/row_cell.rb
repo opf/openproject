@@ -10,7 +10,11 @@ module OAuth
       end
 
       def name
-        link_to application.name, oauth_application_path(application)
+        if application.integration_type == 'Storages::Storage'
+          link_to application.name, admin_settings_storage_path(application.integration)
+        else
+          link_to application.name, oauth_application_path(application)
+        end
       end
 
       def owner
@@ -39,18 +43,28 @@ module OAuth
       delegate :confidential, to: :application
 
       def edit_link
-        link_to(
-          I18n.t(:button_edit),
-          edit_oauth_application_path(application),
-          class: "oauth-application--edit-link icon icon-edit"
-        )
+        if application.integration_type == 'Storages::Storage'
+          link_to(
+            I18n.t(:button_edit),
+            edit_admin_settings_storage_path(application.integration),
+            class: "oauth-application--edit-link icon icon-edit"
+          )
+        else
+          link_to(
+            I18n.t(:button_edit),
+            edit_oauth_application_path(application),
+            class: "oauth-application--edit-link icon icon-edit"
+          )
+        end
       end
 
       def button_links
-        [
-          edit_link,
-          delete_link(oauth_application_path(application))
-        ]
+        buttons = [edit_link]
+        if application.integration.blank?
+          buttons.unshift delete_link(oauth_application_path(application))
+        end
+
+        buttons
       end
     end
   end

@@ -26,27 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# See also: create_service.rb for comments
-module Storages::Storages
-  class UpdateService < ::BaseServices::Update
-    protected
+# The logic for creating storage was extracted from the controller and put into
+# a service: https://dev.to/joker666/ruby-on-rails-pattern-service-objects-b19
+# Purpose: create and persist a Storages::Storage record
+# Used by: Storages::Admin::StoragesController#create, could also be used by the
+# API in the future.
+# Reference: https://www.openproject.org/docs/development/concepts/contracted-services/
+# The comments here are also valid for the other *_service.rb files
+module Storages::OAuthApplications
+  class CreateService
+    attr_accessor :user, :storage
 
-    def after_perform(service_call)
-      super(service_call)
+    def initialize(storage:, user:)
+      @storage = storage
+      @user = user
+    end
 
-      storage = service_call.result
-      if storage.provider_type == 'nextcloud'
-        application = storage.oauth_application
-        persist_service_result = ::OAuth::PersistApplicationService
-         .new(application, user:)
-         .call({
-                 name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.provider_type}")})",
-                 redirect_uri: File.join(storage.host, "apps/integration_openproject/oauth-redirect")
-               })
-        service_call.add_dependent!(persist_service_result)
-      end
-
-      service_call
+    def call
+      ::OAuth::PersistApplicationService
+        .new(::Doorkeeper::Application.new, user:)
+        .call({
+                name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.provider_type}")})",
+                redirect_uri: File.join(storage.host, "apps/integration_openproject/oauth-redirect"),
+                scopes: '',
+                confidential: true,
+                owner: storage.creator,
+                integration: storage
+              })
     end
   end
 end
