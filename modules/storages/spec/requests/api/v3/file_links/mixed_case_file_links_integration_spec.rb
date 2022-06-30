@@ -211,7 +211,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       
       # The FileLink from a Nextcloud with timeout should have origin_permission=:error
       error_file_link = elements.detect { |e| e["originData"]["id"] == "29" }
-      expect(other_user_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_ERROR
+      expect(error_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_ERROR
 
       # ToDo: Search in elements for file_link with origin_id = '25' and check origin_permission = :not_authenticated
       # ToDo: Search for '24' and check for perms = :view

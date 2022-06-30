@@ -50,6 +50,7 @@ module API
           get do
             # API supports query filters on storages:
             # storage: { operator: '=', values: [storage_id]
+            # ToDo: Check if ParamsToQueryService raises condition?
             query = ParamsToQueryService
                       .new(::Storages::Storage,
                            current_user,
@@ -57,9 +58,10 @@ module API
                       .call(params)
 
             unless query.valid?
-              message = I18n.t('api_v3.errors.missing_or_malformed_parameter', parameter: 'filters')
+              message = I18n.t('api_v3.errors.missing_or_malformed_parameter')
               raise ::API::Errors::InvalidQuery.new(message)
             end
+            # ToDo: Double-check that I've got this tested
 
             # Get the list of all FileLinks for the work package.
             # This could be a huge array in some cases...
@@ -71,6 +73,7 @@ module API
 
             begin
               # Synchronize with Nextcloud. StorageAPI handles OAuth2 for us.
+              # We ignore the result, because partial errors (storage network issues) are written to each FileLink
               service_result = ::Storages::FileLinkSyncService
                                  .new(user: current_user)
                                  .call(file_links)
@@ -81,6 +84,8 @@ module API
                 current_user:
               )
             rescue StandardError => e
+              # ToDo: Check if API response handles exceptions like the one below (API.root)
+
               # There was an error during the SyncService, which should normally not occur.
               message = "#{I18n.t('api_v3.errors.code_500')}: #{e.message}"
               raise ::API::Errors::InternalError.new(message)
