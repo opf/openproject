@@ -102,6 +102,8 @@ class Project < ApplicationRecord
                 author: nil,
                 datetime: :created_at
 
+  has_paper_trail
+
   validates :name,
             presence: true,
             length: { maximum: 255 }
