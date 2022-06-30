@@ -27,17 +27,30 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, Input, OnInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
 } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
+import { v4 as uuidv4 } from 'uuid';
+
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
+import {
+  fileLinkViewAllowed, nextcloud,
+  storageAuthorizationError,
+  storageConnected,
+  storageFailedAuthorization,
+} from 'core-app/shared/components/file-links/file-links-constants.const';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { StorageActionButton } from 'core-app/shared/components/file-links/file-link-list/storage-action-button';
 
 @Component({
   selector: 'op-file-link-list',
@@ -55,8 +68,6 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   informationBoxContent:string;
 
-  informationBoxButton:string;
-
   informationBoxIcon:string;
 
   allowEditing = false;
@@ -65,9 +76,9 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   showFileLinks$ = new BehaviorSubject<boolean>(false);
 
-  private readonly storageTypeMap:{ [urn:string]:string; } = {
-    'urn:openproject-org:api:v3:storages:Nextcloud': 'Nextcloud',
-  };
+  buttons = new BehaviorSubject<StorageActionButton[]>([]);
+
+  private readonly storageTypeMap:Record<string, string> = {};
 
   text:{
     infoBox:{
@@ -76,8 +87,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
       emptyStorageButton:string,
       connectionErrorHeader:string,
       connectionErrorContent:string,
-      authenticationFailureHeader:string,
-      authenticationFailureContent:string,
+      authorizationFailureHeader:string,
+      authorizationFailureContent:string,
       loginButton:string,
     },
     actions:{
@@ -85,15 +96,21 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     }
   };
 
+  private get storageLocation():string {
+    return this.storage._links.origin.href;
+  }
+
   constructor(
     private readonly i18n:I18nService,
     private readonly fileLinkResourceService:FileLinksResourceService,
     private readonly currentUserService:CurrentUserService,
+    private readonly cookieService:CookieService,
   ) {
     super();
   }
 
   ngOnInit():void {
+    this.initializeStorageTypes();
     this.initializeLocales();
 
     this.fileLinks$ = this.fileLinkResourceService.collection(this.collectionKey);
@@ -121,7 +138,11 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   }
 
   public openStorageLocation():void {
-    window.open(this.storage._links.origin.href);
+    window.open(this.storageLocation, '_blank');
+  }
+
+  public isDisabled(fileLink:IFileLink):boolean {
+    return fileLink._links.permission.href !== fileLinkViewAllowed;
   }
 
   private get collectionKey():string {
@@ -134,14 +155,14 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   }
 
   private deriveStorageInformation(fileLinkCount:number):void {
-    switch (this.storage._links.connectionState.href) {
-      case 'urn:openproject-org:api:v3:storages:connection:FailedAuthentication':
-        this.setAuthenticationFailureState(fileLinkCount);
+    switch (this.storage._links.authorizationState.href) {
+      case storageFailedAuthorization:
+        this.setAuthorizationFailureState(fileLinkCount);
         break;
-      case 'urn:openproject-org:api:v3:storages:connection:Error':
+      case storageAuthorizationError:
         this.setConnectionErrorState();
         break;
-      case 'urn:openproject-org:api:v3:storages:connection:Connected':
+      case storageConnected:
         if (fileLinkCount === 0) {
           this.setEmptyFileLinkListState();
         } else {
@@ -155,31 +176,88 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     }
   }
 
-  private setAuthenticationFailureState(fileLinkCount:number):void {
-    this.informationBoxHeader = this.text.infoBox.authenticationFailureHeader;
-    this.informationBoxContent = this.text.infoBox.authenticationFailureContent;
-    this.informationBoxButton = this.text.infoBox.loginButton;
-    this.informationBoxIcon = 'import';
+  private setAuthorizationFailureState(fileLinkCount:number):void {
+    this.prepareInformationBox(
+      this.text.infoBox.authorizationFailureHeader,
+      this.text.infoBox.authorizationFailureContent,
+      'import',
+    );
+
+    this.buttons.next([
+      new StorageActionButton(
+        this.text.infoBox.loginButton,
+        () => {
+          if (this.storage._links.authorize) {
+            const nonce = uuidv4();
+            this.setAuthorizationCallbackCookie(nonce);
+            window.location.href = FileLinkListComponent.authorizationFailureActionUrl(
+              this.storage._links.authorize.href,
+              nonce,
+            );
+          } else {
+            throw new Error('Authorize link is missing!');
+          }
+        },
+      ),
+    ]);
+
     this.showInformationBox$.next(true);
     this.showFileLinks$.next(fileLinkCount > 0);
   }
 
+  private setAuthorizationCallbackCookie(nonce:string):void {
+    this.cookieService.set(`oauth_state_${nonce}`, window.location.href, {
+      path: '/',
+    });
+  }
+
+  private static authorizationFailureActionUrl(baseUrl:string, nonce:string):string {
+    return `${baseUrl}&state=${nonce}`;
+  }
+
   private setConnectionErrorState():void {
-    this.informationBoxHeader = this.text.infoBox.connectionErrorHeader;
-    this.informationBoxContent = this.text.infoBox.connectionErrorContent;
-    this.informationBoxButton = this.text.infoBox.loginButton;
-    this.informationBoxIcon = 'remove-link';
+    this.prepareInformationBox(
+      this.text.infoBox.connectionErrorHeader,
+      this.text.infoBox.connectionErrorContent,
+      'remove-link',
+    );
+
+    this.buttons.next([]);
+
     this.showInformationBox$.next(true);
     this.showFileLinks$.next(false);
   }
 
   private setEmptyFileLinkListState():void {
-    this.informationBoxHeader = this.text.infoBox.emptyStorageHeader;
-    this.informationBoxContent = this.text.infoBox.emptyStorageContent;
-    this.informationBoxButton = this.text.infoBox.emptyStorageButton;
-    this.informationBoxIcon = 'add-link';
+    this.prepareInformationBox(
+      this.text.infoBox.emptyStorageHeader,
+      this.text.infoBox.emptyStorageContent,
+      'add-link',
+    );
+
+    this.buttons.next([
+      new StorageActionButton(
+        this.text.infoBox.emptyStorageButton,
+        () => {
+          window.open(this.storageLocation, '_blank');
+        },
+      ),
+      new StorageActionButton(
+        this.text.infoBox.emptyStorageButton,
+        () => {
+          window.open(this.storageLocation, '_blank');
+        },
+      ),
+    ]);
+
     this.showInformationBox$.next(true);
     this.showFileLinks$.next(false);
+  }
+
+  private prepareInformationBox(header:string, content:string, icon:string):void {
+    this.informationBoxHeader = header;
+    this.informationBoxContent = content;
+    this.informationBoxIcon = icon;
   }
 
   private initializeLocales():void {
@@ -191,13 +269,17 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
         emptyStorageButton: this.i18n.t('js.label_open_storage', { storageType }),
         connectionErrorHeader: this.i18n.t('js.label_no_storage_connection', { storageType }),
         connectionErrorContent: this.i18n.t('js.label_storage_connection_error', { storageType }),
-        authenticationFailureHeader: this.i18n.t('js.label_login_to_storage', { storageType }),
-        authenticationFailureContent: this.i18n.t('js.label_storage_not_connected', { storageType }),
+        authorizationFailureHeader: this.i18n.t('js.label_login_to_storage', { storageType }),
+        authorizationFailureContent: this.i18n.t('js.label_storage_not_connected', { storageType }),
         loginButton: this.i18n.t('js.label_storage_login', { storageType }),
       },
       actions: {
         linkFile: this.i18n.t('js.label_link_files_in_storage', { storageType }),
       },
     };
+  }
+
+  private initializeStorageTypes() {
+    this.storageTypeMap[nextcloud] = this.i18n.t('js.label_nextcloud');
   }
 }

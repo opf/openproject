@@ -145,7 +145,19 @@ See COPYRIGHT and LICENSE files for more details.
                                     html: {id: "new_project_membership"}) do %>
         <fieldset class="form--fieldset">
           <legend class="form--fieldset-legend"><%=t(:label_project_new)%></legend>
-          <%= styled_select_tag 'membership[project_id]', options_for_membership_project_select(@individual_principal, projects) %>
+          <% principal_project_ids = @individual_principal.projects.ids  %>
+          <% filter = [['active', '=', 't']] %>
+          <% filter << ['id', '!', principal_project_ids.map(&:to_s)] if principal_project_ids.any? %>
+          <%= angular_component_tag 'op-project-autocompleter',
+                                    inputs: {
+                                      apiFilters: filter,
+                                      name: 'membership[project_id]'
+                                    },
+                                    data: {
+                                      'qa-selector': 'membership_project_id'
+                                    },
+                                    class: 'form--field'
+          %>
           <div class="form--field -vertical">
             <%= styled_label_tag nil, "#{t(:label_role_plural)}:" %>
             <div class="form--field-container -vertical">

@@ -37,12 +37,10 @@ import { CommonModule } from '@angular/common';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { DragulaModule } from 'ng2-dragula';
 import { DynamicModule } from 'ng-dynamic-component';
-import {
-  StateService,
-  UIRouterModule,
-} from '@uirouter/angular';
+import { UIRouterModule } from '@uirouter/angular';
 import { OpSpotModule } from 'core-app/spot/spot.module';
 import { CurrentUserModule } from 'core-app/core/current-user/current-user.module';
+import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
 import { IconTriggeredContextMenuComponent } from 'core-app/shared/components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
@@ -64,7 +62,6 @@ import {
   highlightColSelector,
   OpHighlightColDirective,
 } from './directives/highlight-col/highlight-col.directive';
-import { OpSearchHighlightDirective } from './directives/search-highlight.directive';
 
 import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to-clipboard.directive';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
@@ -88,22 +85,21 @@ import { OpFormBindingDirective } from './components/forms/form-field/form-bindi
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { OpProjectIncludeComponent } from './components/project-include/project-include.component';
-import { OpProjectListComponent } from './components/project-include/project-list.component';
+import { OpProjectListComponent } from './components/project-list/project-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
+import { UIRouterGlobals } from '@uirouter/core';
+import { ErrorReporterBase } from 'core-app/core/errors/error-reporter-base';
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
   const currentProject = injector.get(CurrentProjectService);
-  const routerState = injector.get(StateService);
+  const uiRouterGlobals = injector.get(UIRouterGlobals);
 
-  window.ErrorReporter.addContext((scope) => {
-    if (currentProject.inProjectContext) {
-      scope.setTag('project', currentProject.identifier);
-    }
-
-    scope.setExtra('router state', routerState.current.name);
-  });
+  (window.ErrorReporter as ErrorReporterBase).addHook(() => ({
+    project: currentProject.identifier || 'global',
+    'router state': uiRouterGlobals.current.name || 'unknown',
+  }));
 
   const hookService = injector.get(HookService);
   hookService.register('openProjectAngularBootstrap', () => [
@@ -134,6 +130,7 @@ export function bootstrapModule(injector:Injector) {
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
     OpenprojectContentLoaderModule,
+    OpenprojectAutocompleterModule,
 
     DatePickerModule,
     FocusModule,
@@ -154,6 +151,7 @@ export function bootstrapModule(injector:Injector) {
     NgOptionHighlightModule,
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
+    OpenprojectAutocompleterModule,
 
     OpSpotModule,
 
@@ -168,8 +166,6 @@ export function bootstrapModule(injector:Injector) {
 
     // Table highlight
     OpHighlightColDirective,
-
-    OpSearchHighlightDirective,
 
     ResizerComponent,
 
@@ -232,8 +228,6 @@ export function bootstrapModule(injector:Injector) {
 
     TablePaginationComponent,
     SortHeaderDirective,
-
-    OpSearchHighlightDirective,
 
     // Zen mode button
     ZenModeButtonComponent,

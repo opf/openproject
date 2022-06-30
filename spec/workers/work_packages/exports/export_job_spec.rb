@@ -82,7 +82,7 @@ describe WorkPackages::ExportJob do
         expect(File.basename(file))
           .to end_with ".#{mime_type}"
 
-        ServiceResult.new(result: attachment, success: true)
+        ServiceResult.success(result: attachment)
       end
 
       allow(exporter).to receive(:new).and_return exporter_instance

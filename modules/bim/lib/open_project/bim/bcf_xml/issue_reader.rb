@@ -318,7 +318,7 @@ module OpenProject::Bim::BcfXml
                  message: I18n.t('bcf.bcf_xml.import.work_package_has_newer_changes',
                                  bcf_uuid: issue.uuid)
 
-      ServiceResult.new(success: false, errors:)
+      ServiceResult.failure(errors:)
     end
   end
 end

@@ -26,7 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-.op-files-tab
+.op-files-tab,
+.op-attachments-list
   .op-files-tab--file-list
     .op-files-tab--file-list-item
       .op-files-tab--file-list-item-action
@@ -43,6 +44,7 @@
           word-break: normal
           overflow: hidden
           text-overflow: ellipsis
+          padding-right: $spot_spacing-0-5
 
         .op-files-tab--file-list-item-text
           @include spot-caption()
@@ -69,9 +71,25 @@
       .op-files-tab--file-list-item-floating-actions
         padding-right: 0
 
+      .op-files-tab--file-list-item-floating-text
+        @include spot-body-small()
+
+        padding-right: $spot-spacing-0-25
+        overflow: hidden
+        color: var(--primary-color)
+
+        .spot-icon:first-child:not(:last-child)
+          width: $spot-spacing-1-5
+          height: $spot-spacing-1-5
+          margin-right: $spot-spacing-0-25
+
+      &.disabled .op-files-tab--file-list-item-action
+        opacity: 0.5
+
   &--storage-info-box
     margin-top: 0.875rem
     display: grid
+    align-items: center
     grid-template: "icon text" "button button" / auto 1fr
 
     .spot-icon.big
@@ -80,6 +98,7 @@
       width: 3.375rem
       height: 3.375rem
       font-size: 1.25rem
+      margin-right: $spot_spacing-0-5
 
     .text-box
       grid-area: text
@@ -97,6 +116,12 @@
       grid-area: button
       display: flex
       justify-content: end
+
+    &-button
+      margin: $spot_spacing-0-75 0 0
+
+      &:not(:last-child)
+        margin-right: $spot-spacing-0-5
 
   &--icon
     &_pdf
@@ -128,3 +153,9 @@
 
     &_default
       color: #9A9A9A
+
+    &_clip
+      color: #333333
+
+    &_nextcloud
+      color: #1A67A3

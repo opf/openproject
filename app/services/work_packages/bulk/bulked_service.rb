@@ -51,7 +51,7 @@ module WorkPackages
       private
 
       def bulk(params)
-        result = ServiceResult.new success: true, result: true
+        result = ServiceResult.success result: true
 
         work_packages.each do |work_package|
           # As updating one work package might have already saved another one,

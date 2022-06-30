@@ -51,7 +51,7 @@ module Authentication
       inspect_response(Logger::DEBUG)
 
       unless contract.validate
-        result = ServiceResult.new(success: false, errors: contract.errors)
+        result = ServiceResult.failure(errors: contract.errors)
         Rails.logger.error do
           "[OmniAuth strategy #{strategy.name}] Failed to process omniauth response for #{auth_uid}: #{result.message}"
         end
@@ -194,7 +194,7 @@ module Authentication
           .new(user)
           .call
       else
-        ServiceResult.new(success: true, result: user)
+        ServiceResult.success(result: user)
       end
     end
 

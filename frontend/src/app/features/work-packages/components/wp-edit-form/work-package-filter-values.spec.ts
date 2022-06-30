@@ -54,6 +54,8 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { of } from 'rxjs';
 
 describe('WorkPackageFilterValues', () => {
   let resource:WorkPackageResource;
@@ -65,6 +67,10 @@ describe('WorkPackageFilterValues', () => {
   let filters:any[];
   let source:any;
 
+  const WeekdayServiceStub = {
+    loadWeekdays: () => of(true),
+  };
+
   function setupTestBed() {
     // noinspection JSIgnoredPromiseFromCall
     void TestBed.configureTestingModule({
@@ -74,6 +80,7 @@ describe('WorkPackageFilterValues', () => {
       ],
       providers: [
         I18nService,
+        { provide: WeekdayService, useValue: WeekdayServiceStub },
         States,
         IsolatedQuerySpace,
         HalEventsService,

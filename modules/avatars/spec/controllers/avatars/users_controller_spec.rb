@@ -68,7 +68,7 @@ describe ::Avatars::UsersController, type: :controller do
     it 'calls the service for put' do
       expect_any_instance_of(::Avatars::UpdateService)
         .to receive(:replace)
-              .and_return(ServiceResult.new(success: true))
+              .and_return(ServiceResult.success)
 
       put :update, params: { id: target_user.id }
       expect(response).to be_successful
@@ -78,7 +78,7 @@ describe ::Avatars::UsersController, type: :controller do
     it 'calls the service for put' do
       expect_any_instance_of(::Avatars::UpdateService)
         .to receive(:replace)
-              .and_return(ServiceResult.new(success: false))
+              .and_return(ServiceResult.failure)
 
       put :update, params: { id: target_user.id }
       expect(response).not_to be_successful
@@ -107,7 +107,7 @@ describe ::Avatars::UsersController, type: :controller do
     it 'calls the service for delete' do
       expect_any_instance_of(::Avatars::UpdateService)
         .to receive(:destroy)
-              .and_return(ServiceResult.new(success: true, result: 'message'))
+              .and_return(ServiceResult.success(result: 'message'))
 
       delete :destroy, params: { id: target_user.id }
       expect(flash[:notice]).to include 'message'
@@ -116,7 +116,7 @@ describe ::Avatars::UsersController, type: :controller do
     end
 
     it 'calls the service for delete' do
-      result = ServiceResult.new(success: false)
+      result = ServiceResult.failure
       result.errors.add :base, 'error'
 
       expect_any_instance_of(::Avatars::UpdateService)

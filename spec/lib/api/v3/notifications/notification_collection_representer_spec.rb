@@ -35,13 +35,13 @@ describe ::API::V3::Notifications::NotificationCollectionRepresenter do
     build_stubbed_list(:notification,
                        3).tap do |items|
       allow(items)
-        .to receive(:per_page)
+        .to receive(:limit)
               .with(page_size)
               .and_return(items)
 
       allow(items)
-        .to receive(:page)
-              .with(page)
+        .to receive(:offset)
+              .with(page - 1)
               .and_return(items)
 
       allow(items)

@@ -46,7 +46,7 @@ module Users
     end
 
     def fail_with_missing_email(new_user)
-      ServiceResult.new(success: false, result: new_user).tap do |result|
+      ServiceResult.failure(result: new_user).tap do |result|
         result.errors.add :mail, :blank
       end
     end

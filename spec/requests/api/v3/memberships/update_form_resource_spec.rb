@@ -44,7 +44,6 @@ describe ::API::V3::Memberships::UpdateFormAPI, content_type: :json do
   let(:another_role) { create(:role) }
   let(:other_user) { create(:user) }
   let(:permissions) { [:manage_members] }
-  let(:project) { create(:project) }
   let(:path) { api_v3_paths.membership_form(member.id) }
   let(:parameters) do
     {
@@ -170,7 +169,7 @@ describe ::API::V3::Memberships::UpdateFormAPI, content_type: :json do
         expect(subject.body).to have_json_path('_embedded/validationErrors/project')
       end
 
-      it 'notes project to not be writeable' do
+      it 'notes project to not be writable' do
         expect(subject.body)
           .to be_json_eql(false)
           .at_path('_embedded/schema/project/writable')
@@ -204,7 +203,7 @@ describe ::API::V3::Memberships::UpdateFormAPI, content_type: :json do
         expect(subject.body).to have_json_path('_embedded/validationErrors/user')
       end
 
-      it 'notes principal to not be writeable' do
+      it 'notes principal to not be writable' do
         expect(subject.body)
           .to be_json_eql(false)
           .at_path('_embedded/schema/principal/writable')

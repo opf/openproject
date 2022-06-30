@@ -120,7 +120,7 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
         }
       end
 
-      it 'has a validation error on scope as the value is not writeable' do
+      it 'has a validation error on scope as the value is not writable' do
         expect(subject.body)
           .to be_json_eql("Scope was attempted to be written but is not writable.".to_json)
           .at_path('_embedded/validationErrors/scope/message')

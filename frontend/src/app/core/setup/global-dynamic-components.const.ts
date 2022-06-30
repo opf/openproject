@@ -88,7 +88,11 @@ import {
 import {
   ProjectMenuAutocompleteComponent,
   projectMenuAutocompleteSelector,
-} from 'core-app/shared/components/autocompleter//project-menu-autocomplete/project-menu-autocomplete.component';
+} from 'core-app/shared/components/autocompleter/project-menu-autocomplete/project-menu-autocomplete.component';
+import {
+  ProjectAutocompleterComponent,
+  projectsAutocompleterSelector,
+} from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter.component';
 import {
   RemoteFieldUpdaterComponent,
   remoteFieldUpdaterSelector,
@@ -244,6 +248,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: freeTrialButtonSelector, cls: FreeTrialButtonComponent },
   { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
   { selector: projectMenuAutocompleteSelector, cls: ProjectMenuAutocompleteComponent },
+  { selector: projectsAutocompleterSelector, cls: ProjectAutocompleterComponent },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: opViewSelectSelector, cls: ViewSelectComponent },

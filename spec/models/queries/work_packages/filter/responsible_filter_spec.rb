@@ -222,7 +222,7 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
         it 'is true if there is another user selectable' do
           allow(principal_loader)
             .to receive(:principal_values)
-            .and_return([user_1.name, user_1.id.to_s])
+            .and_return([nil, user_1.id.to_s])
 
           expect(instance).to be_available
         end
@@ -238,7 +238,7 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
         it 'is true if there is another user selectable' do
           allow(principal_loader)
             .to receive(:principal_values)
-            .and_return([[user_1.name, user_1.id.to_s]])
+            .and_return([[nil, user_1.id.to_s]])
 
           expect(instance).to be_available
         end
@@ -256,16 +256,16 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
 
         allow(principal_loader)
           .to receive(:principal_values)
-          .and_return([[user_1.name, user_1.id.to_s],
-                       [group.name, group.id.to_s]])
+          .and_return([[nil, user_1.id.to_s],
+                       [nil, group.id.to_s]])
       end
 
       context 'when being logged in' do
         it 'returns the me value, the available users, and groups' do
           expect(instance.allowed_values)
             .to match_array([[I18n.t(:label_me), 'me'],
-                             [user_1.name, user_1.id.to_s],
-                             [group.name, group.id.to_s]])
+                             [nil, user_1.id.to_s],
+                             [nil, group.id.to_s]])
         end
       end
 
@@ -274,8 +274,8 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
 
         it 'returns the available users' do
           expect(instance.allowed_values)
-            .to match_array([[user_1.name, user_1.id.to_s],
-                             [group.name, group.id.to_s]])
+            .to match_array([[nil, user_1.id.to_s],
+                             [nil, group.id.to_s]])
         end
       end
     end

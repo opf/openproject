@@ -46,16 +46,6 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
-  it 'adds work package with group assignment' do
-    work_package = submit_email('ticket_on_given_project.eml') do |email|
-      email.gsub!('Assigned to: John Smith', 'Assigned to: B Team')
-    end
-    assert work_package.is_a?(WorkPackage)
-    assert !work_package.new_record?
-    work_package.reload
-    assert_equal Group.find(11), work_package.assigned_to
-  end
-
   it 'adds work package with partial attributes override' do
     issue = submit_email('ticket_with_attributes.eml', issue: { priority: 'High' }, allow_override: ['type'])
     assert issue.is_a?(WorkPackage)
@@ -108,71 +98,6 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     assert_equal 'New ticket with custom field values', issue.subject
     assert_equal 'Value for a custom field', issue.custom_value_for(CustomField.find_by(name: 'Searchable field')).value
     assert !issue.description.match(/^searchable field:/i)
-  end
-
-  it 'adds work package should match assignee on display name' do # added from redmine  - not sure if it is ok here
-    user = create(:user, firstname: 'Foo', lastname: 'Bar')
-    role = create(:role, name: 'Superhero', permissions: ['work_package_assigned'])
-    create(:member, user:, project: Project.find(2), role_ids: [role.id])
-    issue = submit_email('ticket_on_given_project.eml') do |email|
-      email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar')
-    end
-    assert issue.is_a?(WorkPackage)
-    assert_equal user, issue.assigned_to
-  end
-
-  it 'adds work package by unknown user' do
-    assert_no_difference 'User.count' do
-      assert_equal false, submit_email('ticket_by_unknown_user.eml', issue: { project: 'ecookbook' })
-    end
-  end
-
-  it 'adds work package by anonymous user' do
-    Role.anonymous.add_permission!(:add_work_packages)
-    assert_no_difference 'User.count' do
-      issue = submit_email('ticket_by_unknown_user.eml', issue: { project: 'ecookbook' }, unknown_user: 'accept')
-      assert issue.is_a?(WorkPackage)
-      assert issue.author.anonymous?
-    end
-  end
-
-  it 'adds work package by anonymous user with no from address' do
-    Role.anonymous.add_permission!(:add_work_packages)
-    assert_no_difference 'User.count' do
-      issue = submit_email('ticket_by_empty_user.eml', issue: { project: 'ecookbook' }, unknown_user: 'accept')
-      assert issue.is_a?(WorkPackage)
-      assert issue.author.anonymous?
-    end
-  end
-
-  it 'adds work package by anonymous user on private project' do
-    Role.anonymous.add_permission!(:add_work_packages)
-    assert_no_difference 'User.count' do
-      assert_no_difference 'WorkPackage.count' do
-        assert_equal false, submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, unknown_user: 'accept')
-      end
-    end
-  end
-
-  it 'adds work package by anonymous user on private project without permission check' do
-    assert_no_difference 'User.count' do
-      assert_difference 'WorkPackage.count' do
-        issue = submit_email('ticket_by_unknown_user.eml',
-                             issue: { project: 'onlinestore' },
-                             no_permission_check: '1',
-                             unknown_user: 'accept')
-        assert issue.is_a?(WorkPackage)
-        assert issue.author.anonymous?
-        assert !issue.project.public?
-        assert issue.root?
-        assert issue.leaf?
-      end
-    end
-  end
-
-  it 'adds work package without from header' do
-    Role.anonymous.add_permission!(:add_work_packages)
-    assert_equal false, submit_email('ticket_without_from_header.eml')
   end
 
   context 'without default start_date', with_legacy_settings: { work_package_startdate_is_adddate: false } do
@@ -237,15 +162,6 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     )
     assert_kind_of WorkPackage, issue
     assert_equal 'Testmail from Webmail: ä ö ü...', issue.subject
-  end
-
-  it 'ignores emails from locked users' do
-    User.find(2).locked!
-
-    expect_any_instance_of(MailHandler).not_to receive(:dispatch)
-    assert_no_difference 'WorkPackage.count' do
-      assert_equal false, submit_email('ticket_on_given_project.eml')
-    end
   end
 
   it 'ignores auto replied emails' do

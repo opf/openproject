@@ -113,7 +113,7 @@ describe 'Top menu items', js: true, selenium: true do
   describe 'Projects' do
     let(:top_menu) { find(:css, '#projects-menu') }
 
-    let(:all_projects) { I18n.t(:label_project_view_all) }
+    let(:all_projects) { I18n.t('js.label_project_list') }
     let(:all_items) { [all_projects] }
 
     context 'as an admin' do
@@ -124,7 +124,7 @@ describe 'Top menu items', js: true, selenium: true do
       end
 
       it 'visits the projects page' do
-        click_link_in_open_menu(all_projects)
+        page.find_link(all_projects).click
 
         expect(page).to have_current_path(projects_path)
       end

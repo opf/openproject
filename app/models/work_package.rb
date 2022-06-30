@@ -159,6 +159,9 @@ class WorkPackage < ApplicationRecord
   # makes virtual modal WorkPackageHierarchy available
   has_closure_tree
 
+  # Add on_destroy paper trail
+  has_paper_trail
+
   ##################### WARNING #####################
   # Do not change the order of acts_as_attachable   #
   # and acts_as_journalized!                        #

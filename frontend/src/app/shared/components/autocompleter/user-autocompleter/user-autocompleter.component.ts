@@ -43,6 +43,7 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 export const usersAutocompleterSelector = 'user-autocompleter';
 
@@ -77,6 +78,12 @@ export class UserAutocompleterComponent implements OnInit {
 
   @Input() public initialSelection:number|null = null;
 
+  @Input() public additionalFilters:{ selector:string; operator:FilterOperator, values:string[] }[] = [];
+
+  public inputFilters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+
+  @Input() public updateInputSelector:string;
+
   // Update an input field after changing, used when externally loaded
   private updateInputField:HTMLInputElement|undefined;
 
@@ -86,51 +93,25 @@ export class UserAutocompleterComponent implements OnInit {
     errorNotificationHandler(this.halNotification),
   );
 
-  public inputFilters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
-
-  constructor(protected elementRef:ElementRef,
+  constructor(
+    public elementRef:ElementRef,
     protected halResourceService:HalResourceService,
     protected I18n:I18nService,
     protected halNotification:HalResourceNotificationService,
     readonly pathHelper:PathHelperService,
     readonly apiV3Service:ApiV3Service,
-    readonly injector:Injector) {
+    readonly injector:Injector,
+  ) {
+    populateInputsFromDataset(this);
   }
 
   ngOnInit() {
-    const input = this.elementRef.nativeElement.dataset.updateInput;
-    const { allowEmpty } = this.elementRef.nativeElement.dataset;
-    const { appendTo } = this.elementRef.nativeElement.dataset;
-    const { multiple } = this.elementRef.nativeElement.dataset;
-    const { url } = this.elementRef.nativeElement.dataset;
-
-    if (input) {
-      this.updateInputField = document.getElementsByName(input)[0] as HTMLInputElement|undefined;
+    if (this.updateInputSelector) {
+      this.updateInputField = document.getElementsByName(this.updateInputSelector)[0] as HTMLInputElement|undefined;
       this.setInitialSelection();
     }
 
-    const filterInput = this.elementRef.nativeElement.dataset.additionalFilter;
-    if (filterInput) {
-      JSON.parse(filterInput).forEach((filter:{ selector:string; operator:FilterOperator, values:string[] }) => {
-        this.inputFilters.add(filter.selector, filter.operator, filter.values);
-      });
-    }
-
-    if (allowEmpty === 'true') {
-      this.allowEmpty = true;
-    }
-
-    if (appendTo) {
-      this.appendTo = appendTo;
-    }
-
-    if (multiple === 'true') {
-      this.multiple = true;
-    }
-
-    if (url) {
-      this.url = url;
-    }
+    this.additionalFilters.forEach((filter) => this.inputFilters.add(filter.selector, filter.operator, filter.values));
   }
 
   public onFocus() {

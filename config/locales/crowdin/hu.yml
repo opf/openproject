@@ -529,6 +529,7 @@ hu:
         parent_work_package: "Szülő"
         priority: "Fontosság"
         progress: "Folyamat állapot (%)"
+        readonly: "Read only"
         schedule_manually: "Kézi ütemezés\n"
         spent_hours: "Eltöltött idő"
         spent_time: "Eltöltött idő"
@@ -739,6 +740,7 @@ hu:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "nem lehet egy mérföldkő."
               cannot_be_self_assigned: "nem rendelhető önmagához.\n"
@@ -1465,7 +1467,6 @@ hu:
   label_consent_settings: "Felhasználói jóváhagyás"
   label_wiki_menu_item: Wiki menüpont
   label_select_main_menu_item: Válasszon ki új fő menüpontot
-  label_select_project: "Válasszon projektet"
   label_required_disk_storage: "Szükséges lemezterület"
   label_send_invitation: Meghívó küldése
   label_change_plural: "Változtat"
@@ -1744,7 +1745,6 @@ hu:
   label_product_version: "Termékverzió"
   label_professional_support: "Szakmai támogatás"
   label_profile: "Profil"
-  label_project_all: "Minden projekt"
   label_project_count: "A projektek teljes száma"
   label_project_copy_notifications: "E-mail értesítéseket küld a projekt másolás során"
   label_project_latest: "Legújabb projektek"
@@ -3037,6 +3037,10 @@ hu:
     revoke_my_application_confirmation: "Tényleg el akarja távolítani ezt az alkalmazást? Ez visszavonja az aktív %{token_count} értéket.\n"
     my_registered_applications: "Regisztrált OAuth alkalmazások"
   oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
       label_redirect_uri: "Redirect URI"
@@ -3062,10 +3066,15 @@ hu:
         This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
       oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
       oauth_state_not_present_explanation: >
-        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authentication. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
       rack_oauth2:
-        client_secret_invalid: "Client secret is invalid"
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
         invalid_request: >
-          OAuth2 server responded with 'invalid_request'. This error appears if you try to authorize multiple times.
-        invalid_response: "OAuth2 server provided an invalid response"
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
   you: te

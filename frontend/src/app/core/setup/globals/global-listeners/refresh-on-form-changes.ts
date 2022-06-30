@@ -35,10 +35,15 @@ export function refreshOnFormChanges() {
     const url = form.data('refreshUrl');
     const inputId = form.data('inputSelector');
 
-    form
-      .find(inputId)
-      .on('change', () => {
-        window.location.href = `${url}?${form.serialize()}`;
-      });
+    // TODO: Not all elements are available when we run here. The angular dynamic
+    // components have to be instantiated first. This race condition should be removed
+    // by changing how we refresh on form changes altogether.
+    setTimeout(() => {
+      form
+        .find(inputId)
+        .on('change', () => {
+          window.location.href = `${url}?${form.serialize()}`;
+        });
+    }, 100);
   }
 }

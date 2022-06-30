@@ -68,11 +68,11 @@ module BaseServices
     end
 
     def validate_params(_params)
-      ServiceResult.new(success: true, result: model)
+      ServiceResult.success(result: model)
     end
 
     def before_perform(*)
-      ServiceResult.new(success: true, result: model)
+      ServiceResult.success(result: model)
     end
 
     def after_validate(_params, contract_call)

@@ -1,0 +1,46 @@
+<op-autocompleter
+  [model]="value"
+
+  [getOptionsFn]="getAvailableProjects.bind(this)"
+  [trackByFn]="projectTracker"
+
+  [multiple]="multiple"
+  [focusDirectly]="focusDirectly"
+  [labelForId]="labelForId"
+
+  [appendTo]="appendTo"
+
+  (change)="writeValue($event)"
+  (keydown.escape)="cancel.emit()"
+>
+  <ng-template
+    ng-label-tmp
+    let-item
+  >
+    <span class="ng-value-label">{{ item.name }}</span>
+  </ng-template>
+
+  <ng-template
+    op-autocompleter-option-tmp
+    let-item
+    let-search="search"
+  >
+    <div
+      class="ng-option-label ellipsis"
+      [ngStyle]="{ 'padding-left.px': item.numberOfAncestors * 20 }"
+      [opSearchHighlight]="search"
+    >{{ item.name }}</div>
+    <div
+      *ngIf="item.disabledReason"
+      class="ng-option-label ellipsis"
+      [ngStyle]="{ 'padding-left.px': item.numberOfAncestors * 20 }"
+    >{{ item.disabledReason }}</div>
+  </ng-template>
+</op-autocompleter>
+
+<input
+  #hiddenInput
+  [name]="name"
+  type="hidden"
+  [value]="plainValue"
+/>

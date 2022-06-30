@@ -2,7 +2,7 @@
 cs:
   js:
     boards:
-      create_new: 'Create new board'
+      create_new: 'Vytvořit tabuli'
       label_unnamed_board: 'Nepojmenovaná tabule'
       label_unnamed_list: 'Nepojmenovaný seznam'
       label_board_type: 'Typ tabule'
@@ -55,14 +55,14 @@ cs:
           assignee: Řešitel
           status: Stav
           version: verze
-          subproject: podprojekt
-          subtasks: rodič-potomek
+          subproject: Podprojekt
+          subtasks: nadřazený-podřazený
         board_type_title:
           assignee: Řešitel
           status: Stav
           version: Verze
-          subproject: Dílčí projekt
-          subtasks: rodič-potomek
+          subproject: Podprojekt
+          subtasks: nadřazený-podřazený
           basic: Základní
         select_attribute: "Atribut akce"
       add_list_modal:

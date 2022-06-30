@@ -778,6 +778,12 @@ Settings::Definition.define do
       default: nil,
       writable: false
 
+  # Allow separate error reporting for frontend errors
+  add :appsignal_frontend_key,
+      format: :string,
+      default: nil,
+      writable: false
+
   # Allow sentry to collect tracing samples
   # set to 1 to enable default tracing samples (see sentry initializer)
   # set to n >= 1 to enable n times the default tracing

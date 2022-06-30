@@ -25,6 +25,8 @@ targets:
     <<: *debian9
   ubuntu-20.04:
     <<: *debian9
+  ubuntu-22.04:
+    <<: *debian9
   centos-7: &centos7
     env:
       - BUNDLE_BUILD__PG="--with-pg-config=/usr/pgsql-13/bin/pg_config"

@@ -331,6 +331,33 @@ describe WorkPackages::SetAttributesService, type: :model do
         end
       end
 
+      context 'with the parent having dates and not providing own dates and with the parent`s' \
+              'soonest_start being before the start_date (e.g. because the parent is manually scheduled)' do
+        let(:call_attributes) { { parent: } }
+
+        before do
+          allow(parent)
+            .to receive(:soonest_start)
+                  .and_return(parent_start_date + 3.days)
+        end
+
+        it_behaves_like 'service call' do
+          it "sets the start_date to the parent`s start_date" do
+            subject
+
+            expect(work_package.start_date)
+              .to eql parent_start_date
+          end
+
+          it "sets the due_date to the parent`s due_date" do
+            subject
+
+            expect(work_package.due_date)
+              .to eql parent_due_date
+          end
+        end
+      end
+
       context 'with the parent having start date (no due) and not providing own dates' do
         let(:call_attributes) { { parent: } }
         let(:parent_due_date) { nil }

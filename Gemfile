@@ -58,7 +58,7 @@ gem 'acts_as_list', '~> 1.0.1'
 gem 'acts_as_tree', '~> 2.9.0'
 gem 'awesome_nested_set', '~> 3.5.0'
 gem 'closure_tree', '~> 7.4.0'
-gem 'rubytree', '~> 1.0.0'
+gem 'rubytree', '~> 2.0.0'
 # Only used in down migrations now.
 # Is to be removed once the referencing migrations have been squashed.
 gem 'typed_dag', '~> 2.0.2', require: false
@@ -86,7 +86,7 @@ gem 'html-pipeline', '~> 2.14.0'
 # Tasklist parsing and renderer
 gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
-gem 'escape_utils', '~> 1.0'
+gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
 gem 'rouge', '~> 3.29.0'
 # HTML sanitization used for html-pipeline
@@ -159,6 +159,8 @@ gem 'cells-rails', '~> 0.1.4'
 
 gem 'meta-tags', '~> 2.16.0'
 
+gem "paper_trail", "~> 12.3"
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
@@ -207,7 +209,7 @@ gem "appsignal", "~> 3.0", require: false
 
 group :test do
   gem 'launchy', '~> 2.5.0'
-  gem 'rack-test', '~> 1.1.0'
+  gem 'rack-test', '~> 2.0.0'
   gem 'shoulda-context', '~> 2.0'
 
   # Test prof provides factories from code
@@ -265,10 +267,6 @@ group :development do
   gem 'spring'
   gem 'spring-commands-rspec'
 
-  gem 'rubocop'
-  gem 'rubocop-rails'
-  gem 'rubocop-rspec'
-
   # Gems for living styleguide
   gem 'livingstyleguide', '~> 2.1.0'
   gem 'sassc-rails'
@@ -291,6 +289,11 @@ group :development, :test do
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.5.2'
   gem 'pry-stack_explorer', '~> 0.6.0'
+
+  # ruby linting
+  gem 'rubocop'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
 
   # git hooks manager
   gem 'lefthook'
@@ -315,7 +318,7 @@ gem 'disposable', '~> 0.6.2'
 
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do
-    gem 'pg', '~> 1.3.0'
+    gem 'pg', '~> 1.4.0'
   end
 
   # Support application loading when no database exists yet.

@@ -40,13 +40,13 @@ describe ::API::V3::Users::UserCollectionRepresenter do
     users = build_stubbed_list(:user,
                                actual_count)
     allow(users)
-      .to receive(:per_page)
+      .to receive(:limit)
       .with(page_size)
       .and_return(users)
 
     allow(users)
-      .to receive(:page)
-      .with(page)
+      .to receive(:offset)
+      .with(page - 1)
       .and_return(users)
 
     allow(users)

@@ -433,7 +433,7 @@ module API
                  uncacheable: true
 
         property :readonly,
-                 writeable: false,
+                 writable: false,
                  render_nil: false,
                  if: ->(*) { ::Status.can_readonly? },
                  getter: ->(*) do
@@ -591,6 +591,12 @@ module API
 
         def spent_time=(value)
           # noop
+        end
+
+        def duration=(value)
+          represented.duration = datetime_formatter.parse_duration_to_days(value,
+                                                                           'duration',
+                                                                           allow_nil: true)
         end
 
         def ordered_custom_actions

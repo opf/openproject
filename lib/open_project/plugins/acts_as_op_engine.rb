@@ -71,7 +71,7 @@ module OpenProject::Plugins
 
         # adds our factories to factory girl's load path
         initializer "#{engine_name}.register_factories", after: 'factory_bot.set_factory_paths' do |_app|
-          FactoryBot.definition_file_paths << File.expand_path(root.to_s + '/spec/factories') if defined?(FactoryBot)
+          FactoryBot.definition_file_paths << File.expand_path("#{root}/spec/factories") if defined?(FactoryBot)
         end
 
         initializer "#{engine_name}.append_migrations" do |app|
@@ -128,6 +128,7 @@ module OpenProject::Plugins
           rescue NameError
             "#{plugin_module}::Patches::#{klass_name}Patch".constantize
           end
+
           qualified_class_name = args.map(&:to_s).join('::')
           klass = qualified_class_name.to_s.constantize
           klass.send(:include, patch) unless klass.included_modules.include?(patch)
@@ -146,7 +147,7 @@ module OpenProject::Plugins
       def override_core_views!
         config.after_initialize do
           paths = ActionController::Base.view_paths.map(&:to_s)
-          my_view_path = config.root.to_s + '/app/views'
+          my_view_path = "#{config.root}/app/views"
 
           # Move item to the front
           paths.delete(my_view_path)
@@ -238,7 +239,7 @@ module OpenProject::Plugins
 
       def add_api_attribute(on:,
                             ar_name:, writable_for: %i[create update],
-                            writeable: true,
+                            writable: true,
                             &block)
         config.to_prepare do
           model_name = on.to_s.camelize
@@ -247,7 +248,7 @@ module OpenProject::Plugins
             # attribute is generally writable
             # overrides might be defined in the more specific contract implementations
             contract_class = "::#{namespace}::#{action.to_s.camelize}Contract".constantize
-            contract_class.attribute ar_name, { writeable: }, &block
+            contract_class.attribute ar_name, { writable: }, &block
           end
         end
       end
@@ -288,7 +289,8 @@ module OpenProject::Plugins
       # @param event_type [Symbol]
       #
       # Options:
-      # * <tt>:class_name</tt> - one or more model(s) that provide these events, those need to inherit from Activities::BaseActivityProvider
+      # * <tt>:class_name</tt> - one or more model(s) that provide these events, those need to inherit
+      #                          from Activities::BaseActivityProvider
       # * <tt>:default</tt> - setting this option to false will make the events not displayed by default
       #
       # Example

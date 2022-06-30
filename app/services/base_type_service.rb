@@ -73,7 +73,7 @@ class BaseTypeService
                       errors:,
                       result: type)
   rescue StandardError => e
-    ServiceResult.new(success: false).tap do |result|
+    ServiceResult.failure.tap do |result|
       result.errors.add(:base, e.message)
     end
   end

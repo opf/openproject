@@ -52,8 +52,7 @@ module API
                  {}
                end
 
-      ServiceResult.new(success: true,
-                        result: parsed)
+      ServiceResult.success(result: parsed)
     end
 
     private

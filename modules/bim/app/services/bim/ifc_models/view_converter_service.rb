@@ -74,7 +74,7 @@ module Bim
         ifc_model.conversion_error_message = e.message
         ifc_model.save
 
-        ServiceResult.new(success: false).tap { |r| r.errors.add(:base, e.message) }
+        ServiceResult.failure.tap { |r| r.errors.add(:base, e.message) }
       ensure
         self.working_directory = nil
       end

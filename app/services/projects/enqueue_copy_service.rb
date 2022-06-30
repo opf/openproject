@@ -41,7 +41,7 @@ module Projects
       call = test_copy(params)
 
       if call.success?
-        ServiceResult.new success: true, result: schedule_copy_job(params)
+        ServiceResult.success result: schedule_copy_job(params)
       else
         call
       end

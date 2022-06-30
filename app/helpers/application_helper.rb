@@ -152,31 +152,6 @@ module ApplicationHelper
     end
   end
 
-  def project_tree_options_for_select(projects, selected: nil, disabled: {}, &_block)
-    options = ''.html_safe
-    Project.project_level_list(projects).each do |element|
-      identifier = element[:project].id
-      tag_options = {
-        value: h(identifier),
-        title: h(element[:project].name)
-      }
-
-      if !selected.nil? && selected.id == identifier
-        tag_options[:selected] = true
-      end
-
-      tag_options[:disabled] = true if disabled.include? identifier
-
-      content = ''.html_safe
-      content << (('&nbsp;' * 3 * element[:level]) + '&#187; ').html_safe if element[:level] > 0
-      content << element[:project].name
-
-      options << content_tag('option', content, tag_options)
-    end
-
-    options
-  end
-
   # Yields the given block for each project with its level in the tree
   #
   # Wrapper for Project#project_tree

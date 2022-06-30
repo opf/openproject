@@ -60,7 +60,7 @@ describe 'onboarding tour for new users', js: true do
       select 'Deutsch', from: 'user_language'
       click_button 'Save'
 
-      expect(page).to have_text 'Projekt auswählen'
+      expect(page).to have_text "Neueste sichtbare Projekte in dieser Instanz."
     end
 
     context 'the tutorial does not start' do

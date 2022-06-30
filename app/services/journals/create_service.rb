@@ -51,13 +51,13 @@ module Journals
       Journal.transaction do
         journal = create_journal(notes)
 
-        return ServiceResult.new success: true unless journal
+        return ServiceResult.success unless journal
 
         destroy_predecessor(journal)
         reload_journals
         touch_journable(journal)
 
-        ServiceResult.new success: true, result: journal
+        ServiceResult.success result: journal
       end
     end
 

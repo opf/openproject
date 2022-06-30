@@ -38,6 +38,7 @@ import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { teamPlannerEventRemoved } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
+import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 
 @Component({
   selector: 'op-add-existing-pane',
@@ -117,7 +118,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
     private readonly notificationService:WorkPackageNotificationService,
     private readonly currentProject:CurrentProjectService,
     private readonly urlParamsHelper:UrlParamsHelperService,
-    private readonly calendar:OpCalendarService,
+    private readonly workPackagesCalendar:OpWorkPackagesCalendarService,
     private readonly calendarDrag:CalendarDragDropService,
     private readonly $state:StateService,
     private readonly actions$:ActionsService,

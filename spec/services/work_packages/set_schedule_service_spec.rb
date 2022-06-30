@@ -29,13 +29,11 @@
 require 'spec_helper'
 
 describe WorkPackages::SetScheduleService do
-  shared_let(:project) { create(:project) }
-  shared_let(:user) { create(:user) }
-  shared_let(:type) { create(:type) }
+  create_shared_association_defaults_for_work_package_factory
 
   let(:work_package) do
     create(:work_package,
-           project:,
+           subject: 'subject',
            start_date: work_package_start_date,
            due_date: work_package_due_date)
   end
@@ -96,12 +94,10 @@ describe WorkPackages::SetScheduleService do
 
   def create_follower(start_date, due_date, predecessors, parent: nil)
     work_package = create(:work_package,
-                          type:,
+                          subject: "follower of #{predecessors.keys.map(&:subject).to_sentence}",
                           start_date:,
                           due_date:,
-                          parent:,
-                          project:,
-                          author: user)
+                          parent:)
 
     predecessors.map do |predecessor, delay|
       create(:follows_relation,
@@ -136,12 +132,15 @@ describe WorkPackages::SetScheduleService do
       expected.each do |wp, (start_date, due_date)|
         result = subject.all_results.find { |result_wp| result_wp.id == wp.id }
         expect(result)
-          .to be_present
+          .to be_present,
+              "Expected work package ##{wp.id} '#{wp.subject}' to be rescheduled"
 
         expect(result.start_date)
-          .to eql start_date
+          .to eql(start_date),
+              "Expected work package ##{wp.id} '#{wp.subject}' to have start date #{start_date}, got #{result.start_date}"
         expect(result.due_date)
-          .to eql due_date
+          .to eql(due_date),
+              "Expected work package ##{wp.id} '#{wp.subject}' to have due date #{due_date}, got #{result.due_date}"
 
         duration = if start_date && due_date
                      (due_date - start_date + 1).to_i
@@ -151,7 +150,8 @@ describe WorkPackages::SetScheduleService do
                    end
 
         expect(result.duration)
-          .to eql duration
+          .to eql(duration),
+              "Expected work package ##{wp.id} '#{wp.subject}' to have duration #{duration}, got #{result.duration}"
       end
     end
 
@@ -305,7 +305,6 @@ describe WorkPackages::SetScheduleService do
     context 'when moving backwards with the follower having another relation limiting movement' do
       let!(:other_work_package) do
         create(:work_package,
-               type:,
                start_date: follower1_start_date - 8.days,
                due_date: follower1_start_date - 5.days).tap do |wp|
           create(:follows_relation,
@@ -492,6 +491,78 @@ describe WorkPackages::SetScheduleService do
     end
   end
 
+  context 'with a parent having a follower' do
+    let(:work_package_start_date) { Time.zone.today }
+    let(:work_package_due_date) { Time.zone.today + 5.days }
+    let!(:parent_work_package) do
+      create(:work_package,
+             subject: "parent of #{work_package.subject}",
+             start_date: Time.zone.today,
+             due_date: Time.zone.today + 1.day).tap do |parent|
+        work_package.parent = parent
+        work_package.save
+      end
+    end
+    let!(:follower_of_parent_work_package) do
+      create_follower(Time.zone.today + 4.days,
+                      Time.zone.today + 6.days,
+                      { parent_work_package => 0 })
+    end
+
+    it_behaves_like 'reschedules' do
+      let(:expected) do
+        { parent_work_package => [work_package_start_date, work_package_due_date],
+          follower_of_parent_work_package => [work_package_due_date + 1.day, work_package_due_date + 3.days] }
+      end
+    end
+
+    # There is a bug in the scheduling that happens if the dependencies
+    # array order is: [sibling child, follower of parent, parent]
+    #
+    # In this case, as the follower of parent only knows about direct
+    # dependencies (and not about the transitive dependencies of children of
+    # predecessor), it will be made the first in the order, based on the
+    # current algorithm. And as the parent depends on its child, it will
+    # come after it.
+    #
+    # Based on the algorithm when this test was written, the resulting
+    # scheduling order will be [follower of parent, sibling child, parent],
+    # which is wrong: if follower of parent is rescheduled first, then it
+    # will not change because its predecessor, the parent, has not been
+    # scheduled yet.
+    #
+    # The expected and right order is [sibling child, parent, follower of
+    # parent].
+    #
+    # That's why the WorkPackage.for_scheduling call is mocked to customize
+    # the order of the returned work_packages to reproduce this bug.
+    context 'with also a sibling follower with same parent' do
+      let!(:sibling_follower_of_work_package) do
+        create_follower(Time.zone.today + 2.days,
+                        Time.zone.today + 3.days,
+                        { work_package => 0 },
+                        parent: parent_work_package)
+      end
+
+      before do
+        allow(WorkPackage)
+          .to receive(:for_scheduling)
+          .and_wrap_original do |method, *args|
+            wanted_order = [sibling_follower_of_work_package, follower_of_parent_work_package, parent_work_package]
+            method.call(*args).in_order_of(:id, wanted_order.map(&:id))
+          end
+      end
+
+      it_behaves_like 'reschedules' do
+        let(:expected) do
+          { sibling_follower_of_work_package => [work_package_due_date + 1.day, work_package_due_date + 2.days],
+            parent_work_package => [work_package_start_date, work_package_due_date + 2.days],
+            follower_of_parent_work_package => [work_package_due_date + 3.days, work_package_due_date + 5.days] }
+        end
+      end
+    end
+  end
+
   context 'with a single successor having a parent' do
     let!(:following) do
       [following_work_package1,
@@ -549,9 +620,6 @@ describe WorkPackages::SetScheduleService do
     context 'when moving backwards with the parent having another relation limiting movement' do
       let!(:other_work_package) do
         create(:work_package,
-               type:,
-               project:,
-               author: user,
                start_date: Time.zone.today - 8.days,
                due_date: Time.zone.today - 4.days).tap do |wp|
           create(:follows_relation,
@@ -576,7 +644,6 @@ describe WorkPackages::SetScheduleService do
     context 'when moving backwards with the parent having another relation not limiting movement' do
       let(:other_work_package) do
         create(:work_package,
-               type:,
                start_date: Time.zone.today - 10.days,
                due_date: Time.zone.today - 9.days)
       end

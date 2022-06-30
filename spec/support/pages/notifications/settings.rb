@@ -31,7 +31,7 @@ require 'support/pages/page'
 module Pages
   module Notifications
     class Settings < ::Pages::Page
-      include ::Components::NgSelectAutocompleteHelpers
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       attr_reader :user
 

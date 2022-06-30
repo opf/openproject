@@ -36,7 +36,7 @@ module Principals
       rewrite_default_journals(from, to)
       rewrite_customizable_journals(from, to)
 
-      ServiceResult.new success: true
+      ServiceResult.success
     end
 
     private

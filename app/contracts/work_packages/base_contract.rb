@@ -34,7 +34,7 @@ module WorkPackages
     attribute :subject
     attribute :description
     attribute :status_id,
-              writeable: ->(*) {
+              writable: ->(*) {
                 # If we did not change into the status,
                 # mark unwritable if status and version is closed
                 model.status_id_change || !closed_version_and_status?
@@ -52,13 +52,13 @@ module WorkPackages
     attribute :project_id
 
     attribute :done_ratio,
-              writeable: ->(*) {
+              writable: ->(*) {
                 model.leaf? && Setting.work_package_done_ratio == 'field'
               }
 
     attribute :estimated_hours
     attribute :derived_estimated_hours,
-              writeable: false
+              writable: false
 
     attribute :parent_id,
               permission: :manage_subtasks
@@ -81,12 +81,12 @@ module WorkPackages
 
     attribute :schedule_manually
     attribute :ignore_non_working_days,
-              writeable: ->(*) {
+              writable: ->(*) {
                 OpenProject::FeatureDecisions.work_packages_duration_field_active?
               }
 
     attribute :start_date,
-              writeable: ->(*) {
+              writable: ->(*) {
                 model.leaf? || model.schedule_manually?
               } do
       if !model.schedule_manually? && start_before_soonest_start?
@@ -98,12 +98,12 @@ module WorkPackages
     end
 
     attribute :due_date,
-              writeable: ->(*) {
+              writable: ->(*) {
                 model.leaf? || model.schedule_manually?
               }
 
     attribute :duration,
-              writeable: ->(*) {
+              writable: ->(*) {
                 OpenProject::FeatureDecisions.work_packages_duration_field_active?
               }
 
@@ -146,6 +146,7 @@ module WorkPackages
 
     validate :validate_duration_integer
     validate :validate_duration_matches_dates
+    validate :validate_duration_constraint_for_milestone
 
     def initialize(work_package, user, options: {})
       super
@@ -153,7 +154,7 @@ module WorkPackages
       @can = WorkPackagePolicy.new(user)
     end
 
-    def assignable_statuses(include_default = false)
+    def assignable_statuses(include_default: false)
       # Do not allow skipping statuses without intermediately saving the work package.
       # We therefore take the original status of the work_package, while preserving all
       # other changes to it (e.g. type, assignee, etc.)
@@ -335,6 +336,12 @@ module WorkPackages
         errors.add :duration, :smaller_than_dates
       elsif calculated_duration < model.duration
         errors.add :duration, :larger_than_dates
+      end
+    end
+
+    def validate_duration_constraint_for_milestone
+      if model.is_milestone? && model.duration != 1
+        errors.add :duration, :not_available_for_milestones
       end
     end
 

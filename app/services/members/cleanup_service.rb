@@ -41,7 +41,7 @@ module Members
       prune_watchers
       unassign_categories
 
-      ServiceResult.new(success: true)
+      ServiceResult.success
     end
 
     attr_accessor :users,

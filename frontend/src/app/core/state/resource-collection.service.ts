@@ -38,6 +38,7 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { CollectionState } from 'core-app/core/state/collection-store';
+import { omit } from 'lodash';
 
 export type CollectionStore<T> = EntityStore<CollectionState<T>>;
 
@@ -84,16 +85,25 @@ export abstract class ResourceCollectionService<T> {
   }
 
   /**
-   * Lookup a single entity from the store
+   * Checks, if the store already has a resource loaded by id.
    * @param id
    */
-  lookupMultiple(id:ID):Observable<T> {
-    return this
-      .query
-      .selectEntity(id)
-      .pipe(
-        filter((entity) => entity !== undefined),
-      ) as Observable<T>;
+  exists(id:ID):boolean {
+    return this.query.hasEntity(id);
+  }
+
+  /**
+   * Clear a collection key
+   * @param key Collection key to clear
+   */
+  clear(key:string):void {
+    this
+      .store
+      .update(
+        ({ collections }) => ({
+          collections: omit(collections, key),
+        }),
+      );
   }
 
   /**

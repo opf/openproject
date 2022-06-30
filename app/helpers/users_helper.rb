@@ -118,14 +118,6 @@ module UsersHelper
     end
   end
 
-  # Options for the new membership projects combo-box
-  #
-  # Disables projects the user is already member in
-  def options_for_membership_project_select(user, projects)
-    options = project_tree_options_for_select(projects, disabled: user.projects.ids.to_set)
-    content_tag('option', "--- #{I18n.t(:actionview_instancetag_blank_option)} ---") + options
-  end
-
   def user_name(user)
     user ? user.name : I18n.t('user.deleted')
   end

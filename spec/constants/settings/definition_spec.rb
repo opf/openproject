@@ -402,7 +402,7 @@ describe Settings::Definition do
                 .with(Rails.root.join('config/configuration.yml'))
                 .and_return(file_contents)
 
-        # Loading of the config file is disabled in test env normally.
+        # Loading of the config file is partially disabled in test env
         allow(Rails.env)
           .to receive(:test?)
           .and_return(false)
@@ -446,6 +446,24 @@ describe Settings::Definition do
       it 'correctly parses date objects' do
         expect(all.detect { |d| d.name == 'consent_time' }.value)
           .to eql DateTime.parse("2222-01-01")
+      end
+
+      context 'when Rails environment is test' do
+        before do
+          allow(Rails.env)
+            .to receive(:test?)
+            .and_return(true)
+        end
+
+        it 'does not override from file default' do
+          expect(all.detect { |d| d.name == 'edition' }.value)
+            .not_to eql 'bim'
+        end
+
+        it 'overrides from file current env' do
+          expect(all.detect { |d| d.name == 'smtp_address' }.value)
+            .to eql 'test address'
+        end
       end
 
       context 'when having invalid values in the file' do

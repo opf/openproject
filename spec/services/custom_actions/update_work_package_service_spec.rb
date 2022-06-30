@@ -84,7 +84,7 @@ describe CustomActions::UpdateWorkPackageService do
   end
   let(:work_package) { build_stubbed(:work_package) }
   let(:result) do
-    ServiceResult.new(result: work_package, success: true)
+    ServiceResult.success(result: work_package)
   end
   let(:validation_result) { true }
   let!(:contract) do
@@ -194,7 +194,7 @@ describe CustomActions::UpdateWorkPackageService do
 
     context 'on unfixable validation error' do
       let(:result) do
-        ServiceResult.new(result: work_package, success: false)
+        ServiceResult.failure(result: work_package)
       end
       let(:update_service_call_implementation) do
         -> do

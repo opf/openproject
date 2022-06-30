@@ -77,7 +77,7 @@ module BaseServices
       # Try to save the result or return its errors
       copy_instance = call.result
       unless copy_instance.save
-        return ServiceResult.new(success: false, result: copy_instance, errors: copy_instance.errors)
+        return ServiceResult.failure(result: copy_instance, errors: copy_instance.errors)
       end
 
       self.class.copy_dependencies.each do |service_cls|

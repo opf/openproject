@@ -91,7 +91,7 @@ describe WorkflowsController, type: :controller do
         .with(status_params)
         .and_return(call_result)
     end
-    let(:call_result) { ServiceResult.new success: true }
+    let(:call_result) { ServiceResult.success }
     let(:params) do
       {
         role_id: role.id,

@@ -2,6 +2,7 @@
   [open]="opened"
   alignment="bottom-right"
   (closed)="opened = false"
+  class="op-project-list-modal"
 >
   <button
     slot="trigger"
@@ -20,8 +21,8 @@
   </button>
 
   <ng-container slot="body">
-    <div class="op-project-include--header">
-      <h1 class="op-project-include--title">{{ text.title }}</h1>
+    <div class="op-project-list-modal--header op-project-include--header">
+      <h1 class="op-project-list-modal--title">{{ text.title }}</h1>
       <spot-toggle
         [options]="displayModeOptions"
         [(ngModel)]="displayMode"
@@ -29,13 +30,13 @@
     </div>
     <form
       (submit)="onSubmit($event)"
-      class="spot-container op-project-include--body"
+      class="spot-container op-project-list-modal--body"
     >
       <spot-text-field
         [disabled]="(loading$ | async)"
         [placeholder]="text.search_placeholder"
         name="project-include-search"
-        [(ngModel)]="searchText"
+        [(ngModel)]="searchableProjectListService.searchText"
         [ngModelOptions]="{standalone: true}"
         data-qa-selector="project-include-search"
       >
@@ -52,12 +53,12 @@
           [projects]="projects$ | async"
           [selected]="selectedProjects"
           [includeSubprojects]="includeSubprojects$ | async"
-          [searchText]="searchText"
+          [searchText]="searchableProjectListService.searchText"
           [root]="true"
           (update)="selectedProjects = $event"
           data-qa-selector="project-include-list"
         ></ul>
-      </ng-container> 
+      </ng-container>
 
       <div class="spot-action-bar">
         <div class="spot-action-bar--left">
@@ -79,7 +80,7 @@
           >
             {{ text.clear_selection }}
           </button>
-          <button 
+          <button
             [disabled]="(loading$ | async)"
             class="button -highlight"
           >
@@ -89,39 +90,39 @@
       </div>
     </form>
   </ng-container>
+
+  <ng-template #loadingTemplate>
+    <op-content-loader
+      class="op-project-list-modal--loading"
+      data-qa-selector="op-project-include--loading"
+      viewBox="0 0 200 140"
+    >
+      <svg:rect x="0" width="12" height="12" rx="1" />
+      <svg:rect x="15" width="100%" height="12" rx="1" />
+
+      <svg:rect x="10" y="16" width="12" height="12" rx="1" />
+      <svg:rect x="25" y="16" width="100%" height="12" rx="1" />
+
+      <svg:rect x="10" y="32" width="12" height="12" rx="1" />
+      <svg:rect x="25" y="32" width="100%" height="12" rx="1" />
+
+      <svg:rect x="20" y="48" width="12" height="12" rx="1" />
+      <svg:rect x="35" y="48" width="100%" height="12" rx="1" />
+
+      <svg:rect x="20" y="64" width="12" height="12" rx="1" />
+      <svg:rect x="35" y="64" width="100%" height="12" rx="1" />
+
+      <svg:rect x="0" y="80" width="12" height="12" rx="1" />
+      <svg:rect x="15" y="80" width="100%" height="12" rx="1" />
+
+      <svg:rect x="10" y="96" width="12" height="12" rx="1" />
+      <svg:rect x="25" y="96" width="100%" height="12" rx="1" />
+
+      <svg:rect x="10" y="112" width="12" height="12" rx="1" />
+      <svg:rect x="25" y="112" width="100%" height="12" rx="1" />
+
+      <svg:rect x="0" y="128" width="12" height="12" rx="1" />
+      <svg:rect x="15" y="128" width="100%" height="12" rx="1" />
+    </op-content-loader>
+  </ng-template>
 </spot-drop-modal>
-
-<ng-template #loadingTemplate>
-  <op-content-loader
-    class="op-project-include--loading"
-    data-qa-selector="op-project-include--loading"
-    viewBox="0 0 200 140"
-  >
-    <svg:rect x="0" width="12" height="12" rx="1" />
-    <svg:rect x="15" width="100%" height="12" rx="1" />
-
-    <svg:rect x="10" y="16" width="12" height="12" rx="1" />
-    <svg:rect x="25" y="16" width="100%" height="12" rx="1" />
-
-    <svg:rect x="10" y="32" width="12" height="12" rx="1" />
-    <svg:rect x="25" y="32" width="100%" height="12" rx="1" />
-
-    <svg:rect x="20" y="48" width="12" height="12" rx="1" />
-    <svg:rect x="35" y="48" width="100%" height="12" rx="1" />
-
-    <svg:rect x="20" y="64" width="12" height="12" rx="1" />
-    <svg:rect x="35" y="64" width="100%" height="12" rx="1" />
-
-    <svg:rect x="0" y="80" width="12" height="12" rx="1" />
-    <svg:rect x="15" y="80" width="100%" height="12" rx="1" />
-
-    <svg:rect x="10" y="96" width="12" height="12" rx="1" />
-    <svg:rect x="25" y="96" width="100%" height="12" rx="1" />
-
-    <svg:rect x="10" y="112" width="12" height="12" rx="1" />
-    <svg:rect x="25" y="112" width="100%" height="12" rx="1" />
-
-    <svg:rect x="0" y="128" width="12" height="12" rx="1" />
-    <svg:rect x="15" y="128" width="100%" height="12" rx="1" />
-  </op-content-loader>
-</ng-template>

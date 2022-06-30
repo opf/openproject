@@ -87,7 +87,7 @@ module Bim::Bcf
       end
 
       def work_package_not_found_result
-        ServiceResult.new(errors: Bim::Bcf::Issue.new.errors).tap do |r|
+        ServiceResult.failure(errors: Bim::Bcf::Issue.new.errors).tap do |r|
           r.errors.add :work_package, :does_not_exist
         end
       end

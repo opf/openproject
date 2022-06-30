@@ -96,7 +96,7 @@ describe Principals::DeleteJob, type: :model do
         job
       end
 
-      it { expect(LaborBudgetItem.find_by_id(item.id)).to eq(item) }
+      it { expect(LaborBudgetItem.find_by(id: item.id)).to eq(item) }
       it { expect(item.user_id).to eq(principal.id) }
     end
 
@@ -107,7 +107,7 @@ describe Principals::DeleteJob, type: :model do
                user: principal,
                project: work_package.project,
                units: 100.0,
-               spent_on: Date.today,
+               spent_on: Time.zone.today,
                work_package:,
                comments: '')
       end
@@ -159,7 +159,7 @@ describe Principals::DeleteJob, type: :model do
         job
       end
 
-      it { expect(HourlyRate.find_by_id(hourly_rate.id)).to eq(hourly_rate) }
+      it { expect(HourlyRate.find_by(id: hourly_rate.id)).to eq(hourly_rate) }
       it { expect(hourly_rate.reload.user_id).to eq(principal.id) }
     end
 
@@ -210,7 +210,7 @@ describe Principals::DeleteJob, type: :model do
 
     shared_examples_for 'private query handling' do
       let!(:query) do
-        create(:private_query, user: principal)
+        create(:private_query, user: principal, views: [create(:view_work_packages_table)])
       end
 
       before do
@@ -257,7 +257,7 @@ describe Principals::DeleteJob, type: :model do
       it 'removes the query' do
         job
 
-        expect(CostQuery.find_by_id(query.id)).to be_nil
+        expect(CostQuery.find_by(id: query.id)).to be_nil
       end
     end
 
@@ -271,7 +271,7 @@ describe Principals::DeleteJob, type: :model do
       end
 
       it 'leaves the query' do
-        expect(CostQuery.find_by_id(query.id)).to eq(query)
+        expect(CostQuery.find_by(id: query.id)).to eq(query)
       end
 
       it 'rewrites the user reference' do
@@ -366,6 +366,37 @@ describe Principals::DeleteJob, type: :model do
       end
     end
 
+    shared_examples_for 'mention rewriting' do
+      let(:text) do
+        <<~TEXT
+          <mention class="mention"
+                   data-id="#{principal.id}"
+                   data-type="user"
+                   data-text="@#{principal.name}">
+                   @#{principal.name}
+          </mention>
+        TEXT
+      end
+      let(:expected_text) do
+        <<~TEXT.squish
+          <mention class="mention"
+                   data-id="#{deleted_user.id}"
+                   data-type="user"
+                   data-text="@#{deleted_user.name}">@#{deleted_user.name}</mention>
+        TEXT
+      end
+      let!(:work_package) { create(:work_package, description: text) }
+
+      before do
+        job
+      end
+
+      it 'rewrites the mentioning in the text' do
+        expect(work_package.reload.description)
+          .to include expected_text
+      end
+    end
+
     context 'with a user' do
       it_behaves_like 'removes the principal'
       it_behaves_like 'work_package handling'
@@ -381,6 +412,7 @@ describe Principals::DeleteJob, type: :model do
       it_behaves_like 'private cost_query handling'
       it_behaves_like 'public cost_query handling'
       it_behaves_like 'cost_query handling'
+      it_behaves_like 'mention rewriting'
     end
 
     context 'with a group' do
@@ -390,6 +422,7 @@ describe Principals::DeleteJob, type: :model do
       it_behaves_like 'removes the principal'
       it_behaves_like 'work_package handling'
       it_behaves_like 'member handling'
+      it_behaves_like 'mention rewriting'
 
       context 'with user only in project through group' do
         let(:user) do

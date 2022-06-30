@@ -44,6 +44,8 @@ module OpenProject::Patches::Representable
         end
 
         def self.property(name, options = {}, &)
+          # Note: `:writeable` is required by declarative gem
+          options[:writeable] = options.delete :writable if options.has_key?(:writable)
           options = { as: as_strategy.call(name.to_s) }.merge(options) if as_strategy
 
           super

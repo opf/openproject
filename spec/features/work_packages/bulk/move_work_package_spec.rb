@@ -1,7 +1,10 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
+require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
 describe 'Moving a work package through Rails view', js: true do
+  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+
   let(:dev_role) do
     create :role,
            permissions: %i[view_work_packages add_work_packages]
@@ -81,15 +84,22 @@ describe 'Moving a work package through Rails view', js: true do
 
         # On work packages move page
         expect(page).to have_selector('#new_project_id')
-        select 'Target', from: 'new_project_id'
-        click_on 'Move and follow'
+        select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+                            query: 'Target',
+                            select_text: 'Target',
+                            results_selector: 'body'
+        SeleniumHubWaiter.wait
+
+        # Clicking move and follow might be broken due to the location.href
+        # in the refresh-on-form-changes component
+        retry_block do
+          click_on 'Move and follow'
+          page.find('.inline-edit--container.subject', text: work_package.subject, wait: 10)
+          page.find('#projects-menu', text: 'Target')
+        end
       end
 
       it 'moves parent and child wp to a new project' do
-        expect_angular_frontend_initialized
-        expect(page).to have_selector('.inline-edit--container.subject', text: work_package.subject, wait: 10)
-        expect(page).to have_selector('#projects-menu', text: 'Target')
-
         # Should move its children
         child_wp.reload
         expect(child_wp.project_id).to eq(project2.id)
@@ -99,10 +109,6 @@ describe 'Moving a work package through Rails view', js: true do
         let!(:project2) { create(:project, name: 'Target', types: [type2]) }
 
         it 'does moves the work package and changes the type' do
-          expect_angular_frontend_initialized
-          expect(page).to have_selector('.inline-edit--container.subject', text: work_package.subject, wait: 10)
-          expect(page).to have_selector('#projects-menu', text: 'Target')
-
           # Should NOT have moved
           child_wp.reload
           work_package.reload
@@ -137,7 +143,10 @@ describe 'Moving a work package through Rails view', js: true do
       context_menu.choose 'Bulk change of project'
 
       # On work packages move page
-      select project2.name, from: 'new_project_id'
+      select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+                          query: project2.name,
+                          select_text: project2.name,
+                          results_selector: 'body'
       click_on 'Move and follow'
     end
 

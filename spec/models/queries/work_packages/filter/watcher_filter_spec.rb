@@ -71,7 +71,7 @@ describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
 
         allow(principal_loader)
           .to receive(:user_values)
-          .and_return([user])
+          .and_return([nil, user.id.to_s])
 
         expect(instance).to be_available
       end
@@ -103,7 +103,7 @@ describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
 
         allow(principal_loader)
           .to receive(:user_values)
-          .and_return([user])
+          .and_return([nil, user.id.to_s])
 
         expect(instance).not_to be_available
       end
@@ -133,11 +133,11 @@ describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
 
           allow(principal_loader)
             .to receive(:user_values)
-            .and_return([user])
+            .and_return([nil, user.id.to_s])
 
           expect(instance.allowed_values)
             .to match_array [[I18n.t(:label_me), 'me'],
-                             [user.name, user.id.to_s]]
+                             [nil, user.id.to_s]]
         end
       end
     end

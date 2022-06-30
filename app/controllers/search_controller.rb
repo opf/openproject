@@ -105,9 +105,8 @@ class SearchController < ApplicationController
   end
 
   def offset
-    Time.at(Rational(search_params[:offset])) if search_params[:offset]
-  rescue TypeError
-    nil
+    value = Rational(search_params[:offset], exception: false)
+    Time.zone.at(value) if value
   end
 
   def projects_to_search

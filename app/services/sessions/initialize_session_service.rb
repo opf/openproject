@@ -43,7 +43,7 @@ module Sessions
           ::Sessions::UserSession.for_user(user).delete_all
         end
 
-        ServiceResult.new(success: true, result: session)
+        ServiceResult.success(result: session)
       end
 
       private

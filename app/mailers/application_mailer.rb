@@ -140,12 +140,12 @@ class ApplicationMailer < ActionMailer::Base
                        else
                          "#{object.class.name.demodulize.underscore}-#{object.id}"
                        end
-    hash = 'op'\
-           '.'\
-           "#{object_reference}"\
-           '.'\
-           "#{Time.current.strftime('%Y%m%d%H%M%S')}"\
-           '.'\
+    hash = 'op' \
+           '.' \
+           "#{object_reference}" \
+           '.' \
+           "#{Time.current.strftime('%Y%m%d%H%M%S')}" \
+           '.' \
            "#{recipient.id}"
 
     "#{hash}@#{header_host_value}"
@@ -160,8 +160,8 @@ class ApplicationMailer < ActionMailer::Base
   # It in fact is aimed not not so that similar messages (i.e. those belonging to the same
   # work package and journal) end up being grouped together.
   def references_value(object)
-    hash = 'op'\
-           '.'\
+    hash = 'op' \
+           '.' \
            "#{object.class.name.demodulize.underscore}-#{object.id}"
 
     "#{hash}@#{header_host_value}"

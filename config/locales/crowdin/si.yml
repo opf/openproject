@@ -529,6 +529,7 @@ si:
         parent_work_package: "මාපිය"
         priority: "ප්රමුඛතාව"
         progress: "ප්රගතිය (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "වැය කළ කාලය"
         spent_time: "වැය කළ කාලය"
@@ -739,6 +740,7 @@ si:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "සන්ධිස්ථානයක් විය නොහැක."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1461,7 +1463,6 @@ si:
   label_consent_settings: "පරිශීලක කැමැත්ත"
   label_wiki_menu_item: විකි මෙනු අයිතමය
   label_select_main_menu_item: නව ප්රධාන මෙනු අයිතමය තෝරන්න
-  label_select_project: "ව්යාපෘතියක් තෝරන්න"
   label_required_disk_storage: "අවශ්ය තැටි ගබඩා"
   label_send_invitation: ආරාධනය යවන්න
   label_change_plural: "වෙනස්කම්"
@@ -1740,7 +1741,6 @@ si:
   label_product_version: "නිෂ්පාදන අනුවාදය"
   label_professional_support: "වෘත්තීය සහාය"
   label_profile: "පැතිකඩ"
-  label_project_all: "සියලුම ව්යාපෘති"
   label_project_count: "මුළු ව්යාපෘති සංඛ්යාව"
   label_project_copy_notifications: "ව්යාපෘති පිටපත තුළ විද්යුත් තැපැල් දැනුම්දීම් යවන්න"
   label_project_latest: "නවතම ව්යාපෘති"
@@ -3026,6 +3026,10 @@ si:
     revoke_my_application_confirmation: "ඔබට ඇත්තටම මෙම යෙදුම ඉවත් කිරීමට අවශ්යද? මෙය %{token_count} ක් අවලංගු කරනු ඇත."
     my_registered_applications: "ලියාපදිංචි OAUTH අයදුම්පත්"
   oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
       label_redirect_uri: "Redirect URI"
@@ -3051,10 +3055,15 @@ si:
         This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
       oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
       oauth_state_not_present_explanation: >
-        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authentication. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
       rack_oauth2:
-        client_secret_invalid: "Client secret is invalid"
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
         invalid_request: >
-          OAuth2 server responded with 'invalid_request'. This error appears if you try to authorize multiple times.
-        invalid_response: "OAuth2 server provided an invalid response"
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
   you: you

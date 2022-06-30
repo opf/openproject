@@ -62,7 +62,7 @@ module API
       property :_type,
                exec_context: :decorator,
                render_nil: false,
-               writeable: false
+               writable: false
 
       def self.self_link(path: nil, id_attribute: :id, title_getter: ->(*) { represented.name })
         link :self do

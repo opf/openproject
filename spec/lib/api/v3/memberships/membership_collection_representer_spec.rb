@@ -33,13 +33,13 @@ describe ::API::V3::Memberships::MembershipCollectionRepresenter do
   let(:members) do
     build_stubbed_list(:member, 3).tap do |members|
       allow(members)
-        .to receive(:per_page)
+        .to receive(:limit)
         .with(page_size)
         .and_return(members)
 
       allow(members)
-        .to receive(:page)
-        .with(page)
+        .to receive(:offset)
+        .with(page - 1)
         .and_return(members)
 
       allow(members)

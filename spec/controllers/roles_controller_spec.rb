@@ -49,7 +49,7 @@ describe RolesController, type: :controller do
 
   describe '#create' do
     let(:new_role) { double('role double') }
-    let(:service_call) { ServiceResult.new(success: true, result: new_role) }
+    let(:service_call) { ServiceResult.success(result: new_role) }
     let(:create_params) do
       cp = ActionController::Parameters.new(params[:role])
                  .merge(global_role: nil, copy_workflow_from: '5')
@@ -123,7 +123,7 @@ describe RolesController, type: :controller do
     end
 
     context 'failure' do
-      let(:service_call) { ServiceResult.new(success: false, result: new_role) }
+      let(:service_call) { ServiceResult.failure(result: new_role) }
 
       it 'returns a 200 OK' do
         expect(response.status)
@@ -166,7 +166,7 @@ describe RolesController, type: :controller do
           .and_return(d)
       end
     end
-    let(:service_call) { ServiceResult.new(success: true, result: role) }
+    let(:service_call) { ServiceResult.success(result: role) }
     let(:update_params) do
       cp = ActionController::Parameters.new(params[:role])
       cp.permit!
@@ -206,7 +206,7 @@ describe RolesController, type: :controller do
     end
 
     context 'failure' do
-      let(:service_call) { ServiceResult.new(success: false, result: role) }
+      let(:service_call) { ServiceResult.failure(result: role) }
 
       it 'returns a 200 OK' do
         expect(response.status)
@@ -258,10 +258,10 @@ describe RolesController, type: :controller do
         .and_return(roles)
     end
 
-    let(:service_call0) { ServiceResult.new(success: true, result: role0) }
-    let(:service_call1) { ServiceResult.new(success: true, result: role1) }
-    let(:service_call2) { ServiceResult.new(success: true, result: role2) }
-    let(:service_call3) { ServiceResult.new(success: true, result: role3) }
+    let(:service_call0) { ServiceResult.success(result: role0) }
+    let(:service_call1) { ServiceResult.success(result: role1) }
+    let(:service_call2) { ServiceResult.success(result: role2) }
+    let(:service_call3) { ServiceResult.success(result: role3) }
     let(:update_params0) do
       { permissions: [] }
     end
@@ -349,7 +349,7 @@ describe RolesController, type: :controller do
     end
 
     context 'failure' do
-      let(:service_call2) { ServiceResult.new(success: false, result: role2) }
+      let(:service_call2) { ServiceResult.failure(result: role2) }
 
       it 'returns a 200 OK' do
         expect(response.status)

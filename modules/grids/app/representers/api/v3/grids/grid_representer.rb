@@ -104,11 +104,11 @@ module API
                  end
 
         date_time_property :created_at,
-                           writeable: false,
+                           writable: false,
                            render_nil: false
 
         date_time_property :updated_at,
-                           writeable: false,
+                           writable: false,
                            render_nil: false
 
         def _type

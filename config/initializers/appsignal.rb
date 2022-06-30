@@ -12,6 +12,12 @@ if OpenProject::Appsignal.enabled?
       ignore_actions: [
         'OkComputer::OkComputerController#show',
         'OkComputer::OkComputerController#index'
+      ],
+      ignore_errors: [
+        'Grape::Exceptions::MethodNotAllowed',
+        'ActionController::UnknownFormat',
+        'ActiveJob::DeserializationError',
+        'Net::SMTPServerBusy'
       ]
     }
 

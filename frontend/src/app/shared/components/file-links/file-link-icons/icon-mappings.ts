@@ -26,12 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export interface IFileLinkListItemIcon {
+export interface IFileIcon {
   icon:'image1'|'movie'|'file-text'|'export-pdf-descr'|'file-doc'|'file-sheet'|'file-presentation'|'folder'|'ticket'
   clazz:'pdf'|'img'|'txt'|'doc'|'sheet'|'presentation'|'form'|'dir'|'mov'|'default'
 }
 
-export const fileIconMappings:Record<string, IFileLinkListItemIcon> = {
+export const fileIconMappings:Record<string, IFileIcon> = {
   'application/pdf': { icon: 'export-pdf-descr', clazz: 'pdf' },
 
   'image/jpeg': { icon: 'image1', clazz: 'img' },

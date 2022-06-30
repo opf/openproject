@@ -155,18 +155,45 @@ describe ::OAuthClients::ConnectionManager, type: :model do
       end
     end
 
-    context 'with known reply invalid_request', webmock: true do
+    context 'with known error', webmock: true do
       before do
         stub_request(:post, File.join(host, '/apps/oauth2/api/v1/token'))
-          .to_return(status: 400, body: { error: "invalid_request" }.to_json)
+          .to_return(status: 400, body: { error: error_message }.to_json)
+      end
+
+      shared_examples 'OAuth2 error response' do
+        it 'returns a specific error message' do
+          expect(subject.success).to be_falsey
+          expect(subject.result).to eq error_message
+          expect(subject.errors[:base].count).to be(1)
+          expect(subject.errors[:base].first).to include I18n.t("oauth_client.errors.rack_oauth2.#{error_message}")
+        end
+      end
+
+      context 'when "invalid_request"' do
+        let(:error_message) { 'invalid_request' }
+
+        it_behaves_like 'OAuth2 error response'
+      end
+
+      context 'when "invalid_grant"' do
+        let(:error_message) { 'invalid_grant' }
+
+        it_behaves_like 'OAuth2 error response'
+      end
+    end
+
+    context 'with known reply invalid_grant', webmock: true do
+      before do
+        stub_request(:post, File.join(host, '/apps/oauth2/api/v1/token'))
+          .to_return(status: 400, body: { error: "invalid_grant" }.to_json)
       end
 
       it 'returns a specific error message' do
         expect(subject.success).to be_falsey
-        expect(subject.result).to be_nil
+        expect(subject.result).to eq 'invalid_grant'
         expect(subject.errors[:base].count).to be(1)
-        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.rack_oauth2.invalid_request')
-        expect(subject.errors[:base].first).not_to include I18n.t('oauth_client.errors.oauth_returned_error')
+        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.rack_oauth2.invalid_grant')
       end
     end
 
@@ -178,7 +205,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
 
       it 'returns an unspecific error message' do
         expect(subject.success).to be_falsey
-        expect(subject.result).to be_nil
+        expect(subject.result).to eq 'invalid_requesttt'
         expect(subject.errors[:base].count).to be(1)
         expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_error')
       end
@@ -196,7 +223,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
 
       it 'returns an unspecific error message' do
         expect(subject.success).to be_falsey
-        expect(subject.result).to be_nil
+        expect(subject.result).to eq 'Unknown :: some: very, invalid> <json}'
         expect(subject.errors[:base].count).to be(1)
         expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_error')
       end
@@ -210,7 +237,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
 
       it 'returns an unspecific error message' do
         expect(subject.success).to be_falsey
-        expect(subject.result).to be_nil
+        expect(subject.result).to eq 'Unknown :: '
         expect(subject.errors[:base].count).to be(1)
         expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_error')
       end
@@ -328,6 +355,88 @@ describe ::OAuthClients::ConnectionManager, type: :model do
         expect(subject.success).to be_falsey
         expect(subject.result).to be_nil
         expect(subject.errors.size).to be(1)
+      end
+    end
+  end
+
+  describe '#authorization_state' do
+    subject { instance.authorization_state }
+
+    context 'without access token present' do
+      it 'returns :failed_authorization' do
+        expect(subject).to eq :failed_authorization
+      end
+    end
+
+    context 'with access token present', webmock: true do
+      before do
+        oauth_client_token
+      end
+
+      context 'with access token valid' do
+        context 'without other errors or exceptions' do
+          before do
+            stub_request(:get, File.join(host, ::OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
+              .to_return(status: 200)
+          end
+
+          it 'returns :connected' do
+            expect(subject).to eq :connected
+          end
+        end
+
+        context 'with some other error or exception' do
+          before do
+            stub_request(:get, File.join(host, ::OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
+              .to_timeout
+          end
+
+          it 'returns :error' do
+            expect(subject).to eq :error
+          end
+        end
+      end
+
+      context 'with outdated access token' do
+        let(:new_oauth_client_token) { create :oauth_client_token }
+        let(:refresh_service_result) { ServiceResult.success }
+
+        before do
+          stub_request(:get, File.join(host, ::OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
+            .to_return(status: 401) # 401 unauthorized
+          allow(instance).to receive(:refresh_token).and_return(refresh_service_result)
+        end
+
+        context 'with valid refresh token' do
+          it 'refreshes the access token and returns :connected' do
+            expect(subject).to eq :connected
+            expect(instance).to have_received(:refresh_token)
+          end
+        end
+
+        context 'with invalid refresh token' do
+          let(:refresh_service_result) { ServiceResult.failure(result: 'invalid_grant') }
+
+          it 'refreshes the access token and returns :failed_authorization' do
+            expect(subject).to eq :failed_authorization
+            expect(instance).to have_received(:refresh_token)
+          end
+        end
+
+        context 'with some other error while refreshing access token' do
+          let(:refresh_service_result) { ServiceResult.failure }
+
+          it 'returns :error' do
+            expect(subject).to eq :error
+            expect(instance).to have_received(:refresh_token)
+          end
+        end
+      end
+    end
+
+    context 'with both invalid access token and refresh token', webmock: true do
+      it 'returns :failed_authorization' do
+        expect(subject).to eq :failed_authorization
       end
     end
   end
