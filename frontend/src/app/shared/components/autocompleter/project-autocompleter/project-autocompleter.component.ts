@@ -100,6 +100,8 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Input() public multiple = false;
 
+  @Input() public dropdownPosition: 'bottom' | 'top' | 'auto' = 'auto';
+
   @Input() public labelForId = '';
 
   @Input() public apiFilters:ApiV3ListFilter[] = [];
