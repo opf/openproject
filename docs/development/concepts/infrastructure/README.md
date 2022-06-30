@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Infrastructure overview
 description: An introduction of the infrastructure architecture used at OpenProject.
-robots: index, follow
 keywords: infrastructure
 ---
 

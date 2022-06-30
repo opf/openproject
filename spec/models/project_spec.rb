@@ -191,4 +191,8 @@ describe Project, type: :model do
       expect { view.reload }.to raise_error ActiveRecord::RecordNotFound
     end
   end
+
+  include_examples 'creates an audit trail on destroy' do
+    subject { create(:attachment) }
+  end
 end

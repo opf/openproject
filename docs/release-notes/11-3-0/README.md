@@ -70,7 +70,7 @@ The API v3 already supports the ability to create a new project. It is now enhan
 
 ## Sending notification on adding a user to a project or updating the role
 
-Newly **added users to a project will now receive a notification** that they have been added to a project. The user will receive an email with a the information about the role in the project and a link to it. Also, if a role is changed in a project, the user will receive a notification about the newly added role. Also, the API endpoints for creating and updating memberships are enhanced by this notifications**.** The notifications can be turned off in the administration (Administration -> Email -> Email notifications).
+Newly **added users to a project will now receive a notification** that they have been added to a project. The user will receive an email with a the information about the role in the project and a link to it. Also, if a role is changed in a project, the user will receive a notification about the newly added role. Also, the API endpoints for creating and updating memberships are enhanced by this notifications. The notifications can be turned off in the administration (Administration -> Email -> Email notifications).
 
 ## Multi-selection for project custom fields of type list
 

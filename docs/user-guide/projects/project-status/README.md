@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Project status
   priority: 499
 description: How to set and display the project status.
-robots: index, follow
 keywords: project status
 ---
 # Project status

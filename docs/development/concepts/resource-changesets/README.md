@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Resource changesets
 description: Get an overview of how frontend changesets work when editing hal resources
-robots: index, follow
 keywords: changesets, editing, HAL resources
 ---
 

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Copy, move, delete work packages
   priority: 800
 description: How to copy, change project or delete a work package?
-robots: index, follow
 keywords: copy work package, delete work package, move work package
 ---
 
@@ -31,9 +30,7 @@ Copying a work package allows to easily create and adjust new work packages base
 
 The *change project* option moves a work package to another project or subproject. Select the project into which the work package is to be moved, check whether further adjustments are necessary and confirm by clicking on *Move*.
 
-<div class="alert alert-info" role="alert">
-**Note**:  You can only move a work package into projects that you are a member of and for which you are authorized to carry out this function.
-</div>
+> **Note**:  You can only move a work package into projects that you are a member of and for which you are authorized to carry out this function.
 
 ![move work package](image-20200129143632697.png)
 

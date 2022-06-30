@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Design
   priority: 700
 description: Custom color, theme and logo.
-robots: index, follow
 keywords: custom color, theme and logo
 ---
 # Set custom color theme and logo (Premium feature)

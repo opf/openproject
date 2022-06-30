@@ -5,7 +5,6 @@ sidebar_navigation:
   title: Repository
   priority: 700
 description: Manage repositories with SVN or GIT in OpenProject.
-robots: index, follow
 keywords: svn, git, repository management
 ---
 
@@ -13,9 +12,8 @@ keywords: svn, git, repository management
 
 **Repository** is defined as a document management system that allows users to manage files and folders via different version control system (SVN or Git).
 
-<div class="alert alert-info" role="alert">
-**Note**: in order to use Repository functionality please make sure that the Repository module is [activated in the project settings](../projects/project-settings/modules/).
-</div>
+> **Note**: Repositories are currently only available for the packaged-based on-premises installations. In order to use Repository functionality please make sure that the Repository module is [activated in the project settings](../projects/project-settings/modules/).
+
 
 ## Repository browser view
 

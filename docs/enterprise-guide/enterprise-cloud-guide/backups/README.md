@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Backups
   priority: 710
 description: Backups in the cloud edition.
-robots: index, follow
 keywords: backups
 ---
 

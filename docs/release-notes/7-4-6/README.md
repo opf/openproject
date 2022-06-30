@@ -9,13 +9,13 @@
 
 # OpenProject 7.4.6
 
-We released OpenProject 7.4.6. The release contains several bug fixes.
+We released OpenProject 7.4.6. The release contains several bug fixes.
 We recommend the update to the current version.
 
 #### Support for Ubuntu 18.04.
 
 OpenProject 7.4.6 packaged installation introduces support for Ubuntu
-18.04. 
+18.04. 
 ([\#27799](https://community.openproject.com/projects/openproject/work_packages/27799))
 
 #### Bug fixes and changes

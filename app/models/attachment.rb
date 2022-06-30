@@ -39,6 +39,8 @@ class Attachment < ApplicationRecord
            if: -> { !internal_container? }
   validate :container_changed_more_than_once
 
+  has_paper_trail
+
   # Those columns are currently not displayed in the application and are rarely used
   # at all.
   # Their purpose currently is limited to full text search where the results are not highlighted.

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Create trial installation
   priority: 998
 description: Create a free OpenProject Cloud Edition trial installation.
-robots: index, follow
 keywords: trial installation
 ---
 

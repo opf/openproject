@@ -7,7 +7,7 @@
 ---
 
 
-# OpenProject 5.0.4
+# OpenProject 5.0.4
 
 OpenProject 5.0.4 contains several bug fixes and performance
 improvements:

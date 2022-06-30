@@ -7,13 +7,11 @@
 ---
 
 
-# OpenProject 5.0.17
+# OpenProject 5.0.17
 
 OpenProject 5.0.17 contains several bug fixes:
 
-  - The work package attribute
-    “<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-73">Estimated
-    time</span>” could not be set back to zero once set
+  - The work package attribute “Estimated time” could not be set back to zero once set
     ([\#22829](https://community.openproject.com/work_packages/22829/activity)).
   - The documents widget on MyPage could not be removed once added
     ([\#22814](https://community.openproject.com/work_packages/22814/activity)).
@@ -27,7 +25,7 @@ OpenProject 5.0.17 contains several bug fixes:
     [\#22907](https://community.openproject.com/work_packages/22907/activity),
     [\#22936](https://community.openproject.com/work_packages/22936/activity)).
   - Several accessibility errors
-    existed ([\#22935](https://community.openproject.com/work_packages/22935/activity),
+    existed ([\#22935](https://community.openproject.com/work_packages/22935/activity),
     [\#22948](https://community.openproject.com/work_packages/22948/activity),
     [\#22957](https://community.openproject.com/work_packages/22957/activity)).
 
@@ -44,7 +42,7 @@ In addition, there are several design and usability improvements:
     ([\#22953](https://community.openproject.com/work_packages/22953/activity)).
 
 For further information on the release, please refer to the [Changelog
-v.5.0.17](https://community.openproject.com/versions/805) or take a look
+v.5.0.17](https://community.openproject.com/versions/805) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v5.0.17).
 
 

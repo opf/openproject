@@ -3,7 +3,6 @@ sidebar_navigation:
   title: My Page
   priority: 300
 description: My Page in OpenProject - your personal dashboard
-robots: index, follow
 keywords: my page, personal overview page, dashboard
 ---
 

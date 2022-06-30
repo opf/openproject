@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Calendar FAQ
   priority: 001
 description: Frequently asked questions regarding the calendar module
-robots: index, follow
 keywords: calendar FAQ, diary, planner, holiday
 ---
 

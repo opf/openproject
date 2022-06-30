@@ -656,7 +656,7 @@ cs:
           membership_updated: 'Členství bylo aktualizováno'
         title: 'Upozornění e-mailem'
         pause:
-          label: 'Dočasně pozastavit denní připomenutí e-mailem'
+          label: 'Dočasně pozastavit denní posílání oznámení e-mailem'
           first_day: 'První den'
           last_day: 'Poslední den'
     text_are_you_sure: "Jste si jisti?"

@@ -36,8 +36,8 @@ class Storages::ProjectStorage < ApplicationRecord
   self.table_name = 'projects_storages'
 
   # ProjectStorage sits between Project and Storage.
-  belongs_to :project
-  belongs_to :storage, class_name: 'Storages::Storage'
+  belongs_to :project, touch: true
+  belongs_to :storage, touch: true, class_name: 'Storages::Storage'
   belongs_to :creator, class_name: 'User'
 
   # There should be only one ProjectStorage per project and storage.

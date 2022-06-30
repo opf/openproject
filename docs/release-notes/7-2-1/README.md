@@ -20,7 +20,7 @@ OpenProject 7.2.1 contains several bug fixes.
     their internal ID, not their option text
     \[[\#26050](https://community.openproject.com/wp/26050)\]
   - With newer versions of Ruby 2.4., an internal error *LocalJumpError:
-    unexpected return* when accessing the work package page has been
+    unexpected return* when accessing the work package page has been
     resolved. \[[\#26128](https://community.openproject.com/wp/26128)\]
 
 ## Visual changes
@@ -35,8 +35,8 @@ OpenProject 7.2.1 contains several bug fixes.
 Thanks a lot to the community, in particular to Mark Brown for reporting
 bugs\!
 
-For further information on the release, please refer to the [Changelog
-v7.2.1](https://community.openproject.com/versions/843) or take a look
-at [GitHub](https://github.com/opf/openproject/tree/v7.2.1).
+For further information on the release, please refer to the [Changelog
+v7.2.1](https://community.openproject.com/versions/843) or take a look
+at [GitHub](https://github.com/opf/openproject/tree/v7.2.1).
 
 

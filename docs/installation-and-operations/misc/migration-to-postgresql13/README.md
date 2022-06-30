@@ -4,12 +4,8 @@ OpenProject version 12+ will default to PostgreSQL 13. If you have an existing O
 
 ## Package-based installation
 
-<div class="alert alert-info" role="alert">
-
-Please follow this section only if you have installed OpenProject using [this procedure](../../installation/packaged/).
-Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
-
-</div>
+> Please follow this section only if you have installed OpenProject using [this procedure](../../installation/packaged/).
+> Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
 
 Please first check whether this guide applies to you at all. Only PostgreSQL installations that were installed by the OpenProject package are applicable to this guide.
 
@@ -178,13 +174,8 @@ sudo yum remove pgsql10
 
 ## Compose-based docker installation
 
-<div class="alert alert-info" role="alert">
-
-Please follow this section only if you have installed OpenProject using [this procedure](../../installation/docker/#one-container-per-process-recommended).
-
-Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
-
-</div>
+> Please follow this section only if you have installed OpenProject using [this procedure](../../installation/docker/#one-container-per-process-recommended).
+> Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
 
 You can find the upgrade instructions for your docker-compose setup in the [openproject-deploy](https://github.com/opf/openproject-deploy/blob/stable/12/compose/control/README.md#upgrade) repository.
 
@@ -192,13 +183,8 @@ Remember that you need to have checked out that repository and work in the `comp
 
 ## All-in-one docker installation
 
-<div class="alert alert-info" role="alert">
-
-Please follow this section only if you have installed OpenProject using [this procedure](../../installation/docker/#all-in-one-container).
-
-Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
-
-</div>
+> Please follow this section only if you have installed OpenProject using [this procedure](../../installation/docker/#all-in-one-container).
+> Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
 
 The newer version of OpenProject includes an utility to automatically perform the upgrade for you. Assuming you followed the standard installation procedure, the folder (within the docker container) containing your PostgreSQL data will be located at `/var/openproject/pgdata`.
 
