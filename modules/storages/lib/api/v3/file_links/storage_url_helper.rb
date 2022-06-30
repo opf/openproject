@@ -57,7 +57,7 @@ module API::V3::FileLinks::StorageUrlHelper
       return ServiceResult.failure(result: I18n.t('http.response.unexpected'))
     end
 
-    url = "#{storage.host}/apps/integration_openproject/direct?token=#{token}&fileName=#{file_link.origin_name}"
+    url = "#{storage.host}/apps/integration_openproject/direct/#{token}/#{file_link.origin_name}"
     ServiceResult.success(result: url)
   end
 
