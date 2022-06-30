@@ -4,6 +4,7 @@
   [url]="url"
   [apiFilters]="APIFilters"
   [focusDirectly]="!(handler.inEditMode || isNew)"
+  appendTo="body"
 
   (valueChange)="onModelChange($event)"
   (cancel)="handler.handleUserCancel()"
