@@ -86,7 +86,7 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
       # Actually there are two success messages displayed currently. One for the grid getting updated and one
       # for the query assigned to the new widget being created. A user will not notice it but the automated
       # browser can get confused. Therefore we wait.
-      sleep(1)
+      sleep(2)
 
       my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
