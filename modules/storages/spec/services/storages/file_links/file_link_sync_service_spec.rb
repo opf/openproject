@@ -96,9 +96,8 @@ describe ::Storages::FileLinkSyncService, type: :model do
   let(:ocs_meta_s401) { { status: "failure", statuscode: 997, message: "No login", totalitems: "", itemsperpage: "" } }
 
   # Reply from Nextcloud if not allowed to access file:
-  # OP should still show the file.
-  # This reply appears for example when some other user shares a file with a OP WorkPackage.
-  # ToDo: Design error of Nextcloud openproject_integration? Should include attributes!
+  # OpenProject should still show the file.
+  # This reply appears for example when some other user shares a file.
   let(:file_info_s403) { { status: "Forbidden", statuscode: 403 } }
 
   # Reply from Nextcloud if Nextcloud internally can't find the file:
@@ -252,13 +251,13 @@ describe ::Storages::FileLinkSyncService, type: :model do
                        headers: { 'Content-Type': 'application/json; charset=utf-8' },
                        body: { ocs: { meta: ocs_meta_s200, data: { '24': file_info1_s200 } } }.to_json)
         end
-        # ToDo: Do I check that refresh_token is only called once?
 
         # Just check that some update has happened.
         it 'updates the file_link information' do
           expect(subject).to be_a ServiceResult
           expect(subject.success).to be_truthy
           expect(subject.result[0].origin_updated_at).to eql Time.zone.at(1655301234) # updated
+          expect(connection_manager).to have_received(:refresh_token).once
         end
       end
 

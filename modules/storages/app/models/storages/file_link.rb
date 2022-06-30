@@ -59,6 +59,7 @@ class Storages::FileLink < ApplicationRecord
   # Is this file shared with me in Nextcloud?
   # This attribute is _not_ to be stored in the DB
   attr_writer :origin_permission
+
   def origin_permission
     @origin_permission || nil
   end

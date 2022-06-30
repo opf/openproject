@@ -117,6 +117,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       trashed: true
     }
   end
+
   subject { last_response }
 
   before do
@@ -175,7 +176,6 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       # https://host-error/: Simulates a Nextcloud with network timeout
       stub_request(:post, host_error).to_return(status: 500)
 
-      # ToDo: get_access_token against a timeout server produces a OAuth URL response, that's not really correct.
       # https://host-timeout/: Simulates a Nextcloud with network timeout
       stub_request(:post, host_timeout).to_timeout
 
@@ -188,27 +188,27 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
 
     # total, count, element_type, collection_type = 'Collection'
     it_behaves_like 'API V3 collection response', 5, 5, 'FileLink', 'Collection' do
-      let(:elements) {
+      let(:elements) do
         [
           file_link_timeout_happy,
           file_link_error_happy,
           file_link_unauth_happy,
           file_link_other_user,
           file_link_happy
-          # We didn't include file_link_trashed here, as it won't appear
+          # We didn't include file_link_trashed here, as it's not returned by API
         ]
-      }
+      end
     end
 
     it 'returns the file_links with correct Nextcloud data applied' do
-      puts subject.body
+      # GET returns a collection of FileLinks in "_embedded/elements"
       elements = JSON.parse(subject.body).dig("_embedded", "elements")
-      puts JSON.pretty_generate(elements)
-      puts elements.map { |e| e["originData"]["id"] }
 
       # A "happy" file link should be visible
       happy_file_link = elements.detect { |e| e["originData"]["id"] == "24" }
       expect(happy_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_VIEW
+      # Check that we've got an updated mtime
+      expect(happy_file_link["originData"]["lastModifiedAt"]).to eql Time.zone.at(1655301234).iso8601
 
       # A file link created by another user is not_allowed
       other_user_file_link = elements.detect { |e| e["originData"]["id"] == "25" }
@@ -221,7 +221,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       # The deleted_file_link should not even appear in the Database anymore
       deleted_file_link = elements.detect { |e| e["originData"]["id"] == "27" }
       expect(deleted_file_link).to be_nil
-      expect(::Storages::FileLink.where(origin_id: '27').any?).to be_falsey
+      expect(::Storages::FileLink.where(origin_id: '27').count).to be 0
 
       # The FileLink from a Nextcloud with error should have origin_permission=:error
       error_file_link = elements.detect { |e| e["originData"]["id"] == "29" }
@@ -231,6 +231,5 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       error_file_link = elements.detect { |e| e["originData"]["id"] == "30" }
       expect(error_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_ERROR
     end
-    # ToDo: it 'returns file_link1 with updated mtime' do   expect(subject.status).to be 200    end
   end
 end
