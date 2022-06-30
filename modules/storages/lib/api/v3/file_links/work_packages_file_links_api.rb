@@ -58,8 +58,7 @@ module API
               raise ::API::Errors::InvalidQuery.new(message)
             end
 
-            # Get the list of all FileLinks for the work package.
-            # This could be a huge array in some cases...
+            # Get a (potentially huge...) list of all FileLinks for the work package.
             file_links = query
                            .results
                            .where(id: visible_file_links_scope
@@ -67,7 +66,7 @@ module API
                            .all
 
             begin
-              # Synchronize with Nextcloud. StorageAPI handles OAuth2 for us.
+              # Synchronize with Nextcloud. StorageAPI has handled OAuth2 for us before.
               # We ignore the result, because partial errors (storage network issues) are written to each FileLink
               service_result = ::Storages::FileLinkSyncService
                                  .new(user: current_user)
