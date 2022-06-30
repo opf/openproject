@@ -85,7 +85,6 @@ module API
               )
             rescue StandardError => e
               # ToDo: Check if API response handles exceptions like the one below (API.root)
-
               # There was an error during the SyncService, which should normally not occur.
               message = "#{I18n.t('api_v3.errors.code_500')}: #{e.message}"
               raise ::API::Errors::InternalError.new(message)

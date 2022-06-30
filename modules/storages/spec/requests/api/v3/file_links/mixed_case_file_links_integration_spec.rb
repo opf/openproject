@@ -42,26 +42,31 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
   let(:host_good) { "http://host-good.example.org" }
   let(:host_unauth) { "http://host-unauth.example.org" }
   let(:host_error) { "http://host-error.example.org" }
+  let(:host_timeout) { "http://host-timeout.example.org" }
   let(:host_notoken) { "http://host-notoken.example.org" }
 
   let(:storage_good) { create(:storage, host: host_good) }
   let(:storage_unauth) { create(:storage, host: host_unauth) }
   let(:storage_error) { create(:storage, host: host_error) }
+  let(:storage_timeout) { create(:storage, host: host_timeout) }
   let(:storage_notoken) { create(:storage, host: host_notoken) }
 
   let!(:project_storage_good) { create(:project_storage, project:, storage: storage_good) }
   let!(:project_storage_unauth) { create(:project_storage, project:, storage: storage_unauth) }
   let!(:project_storage_error) { create(:project_storage, project:, storage: storage_error) }
+  let!(:project_storage_timeout) { create(:project_storage, project:, storage: storage_timeout) }
   let!(:project_storage_notoken) { create(:project_storage, project:, storage: storage_notoken) }
 
   let(:oauth_client_good) { create(:oauth_client, integration: storage_good) }
   let(:oauth_client_unauth) { create(:oauth_client, integration: storage_unauth) }
   let(:oauth_client_error) { create(:oauth_client, integration: storage_error) }
+  let(:oauth_client_timeout) { create(:oauth_client, integration: storage_timeout) }
   let(:oauth_client_notoken) { create(:oauth_client, integration: storage_notoken) }
 
   let(:oauth_client_token_good) { create(:oauth_client_token, oauth_client: oauth_client_good, user:) }
   let(:oauth_client_token_unauth) { create(:oauth_client_token, oauth_client: oauth_client_unauth, user:) }
   let(:oauth_client_token_error) { create(:oauth_client_token, oauth_client: oauth_client_error, user:) }
+  let(:oauth_client_token_timeout) { create(:oauth_client_token, oauth_client: oauth_client_timeout, user:) }
   # No token for oauth_client_notoken!
 
   let(:file_link_happy) { create(:file_link, origin_id: "24", storage: storage_good, container: work_package) }
@@ -71,7 +76,8 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
 
   let(:file_link_unauth_happy) { create(:file_link, origin_id: "28", storage: storage_unauth, container: work_package) }
   let(:file_link_error_happy) { create(:file_link, origin_id: "29", storage: storage_error, container: work_package) }
-  let(:file_link_notoken_happy) { create(:file_link, origin_id: "30", storage: storage_notoken, container: work_package) }
+  let(:file_link_timeout_happy) { create(:file_link, origin_id: "30", storage: storage_timeout, container: work_package) }
+  let(:file_link_notoken_happy) { create(:file_link, origin_id: "31", storage: storage_notoken, container: work_package) }
 
   let(:ocs_meta_s200) { { status: "ok", statuscode: 100, message: "OK", totalitems: "", itemsperpage: "" } }
   let(:ocs_meta_s401) { { status: "failure", statuscode: 997, message: "No login", totalitems: "", itemsperpage: "" } }
@@ -120,6 +126,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
     oauth_client_good
     oauth_client_unauth
     oauth_client_error
+    oauth_client_timeout
     oauth_client_notoken
 
     oauth_client_token_good
@@ -130,8 +137,9 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
     file_link_deleted
 
     # FileLinks on host-unauth and host-error that we'll see in the result list with origin_permission=:error
-    # file_link_unauth_happy
+    file_link_unauth_happy
     file_link_error_happy
+    file_link_timeout_happy
     # file_link_notoken_happy
 
     login_as user
@@ -168,6 +176,11 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       stub_request(:post, host_error)
         .to_timeout
 
+      # ToDo: get_access_token against a timeout server produces a OAuth URL response, that's not really correct.
+      # https://host-timeout/: Simulates a Nextcloud with network timeout
+      stub_request(:post, host_timeout)
+        .to_timeout
+
       # https://host-notoken/: Simulate a Nextcloud with no oauth_token yet
       stub_request(:post, File.join(host_notoken, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
         .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response_host_happy)
@@ -176,10 +189,12 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
     end
 
     # total, count, element_type, collection_type = 'Collection'
-    it_behaves_like 'API V3 collection response', 3, 3, 'FileLink', 'Collection' do
+    it_behaves_like 'API V3 collection response', 5, 5, 'FileLink', 'Collection' do
       let(:elements) {
         [
+          file_link_timeout_happy,
           file_link_error_happy,
+          file_link_unauth_happy,
           file_link_other_user,
           file_link_happy
           # We didn't include file_link_trashed here, as it won't appear
@@ -191,6 +206,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       puts subject.body
       elements = JSON.parse(subject.body).dig("_embedded", "elements")
       puts JSON.pretty_generate(elements)
+      puts elements.map { |e| e["originData"]["id"] }
 
       # A "happy" file link should be visible
       happy_file_link = elements.detect { |e| e["originData"]["id"] == "24" }
@@ -208,10 +224,12 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       deleted_file_link = elements.detect { |e| e["originData"]["id"] == "27" }
       expect(deleted_file_link).to be_nil
       expect(::Storages::FileLink.where(origin_id: '27').any?).to be_falsey
-      
+
       # The FileLink from a Nextcloud with timeout should have origin_permission=:error
       error_file_link = elements.detect { |e| e["originData"]["id"] == "29" }
       expect(error_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_ERROR
+
+      # ToDo: Check origin_error of #28, #29
 
       # ToDo: Search in elements for file_link with origin_id = '25' and check origin_permission = :not_authenticated
       # ToDo: Search for '24' and check for perms = :view
