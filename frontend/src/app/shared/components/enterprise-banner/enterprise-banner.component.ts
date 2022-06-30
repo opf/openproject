@@ -9,13 +9,12 @@ import {
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
-import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
 import { OpModalService } from '../modal/modal.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 export const enterpriseBannerSelector = 'op-enterprise-banner';
 
-@DatasetInputs
 @Component({
   selector: enterpriseBannerSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,7 +58,9 @@ export class EnterpriseBannerComponent implements OnInit {
     protected opModalService:OpModalService,
     readonly injector:Injector,
     readonly pathHelper:PathHelperService,
-  ) {}
+  ) {
+    populateInputsFromDataset(this);
+  }
 
   ngOnInit():void {
     this.link = this.bannersService.getEnterPriseEditionUrl({ referrer: this.opReferrer });

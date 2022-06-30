@@ -33,11 +33,10 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 export const noResultsSelector = 'op-no-results';
 
-@DatasetInputs
 @Component({
   templateUrl: './no-results.component.html',
   selector: noResultsSelector,
@@ -55,5 +54,7 @@ export class NoResultsComponent {
 
   constructor(
     readonly elementRef:ElementRef,
-  ) {}
+  ) {
+    populateInputsFromDataset(this);
+  }
 }
