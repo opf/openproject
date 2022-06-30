@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Start page FAQ
   priority: 001
 description: Frequently asked questions regarding start page
-robots: index, follow
 keywords: start page FAQ, landing page, application start page, homepage
 ---
 

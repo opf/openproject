@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Schemas
 description: An introduction to resource schemas and how they are tied to editable resources
-robots: index, follow
 keywords: concept, schemas, resource schemas
 ---
 

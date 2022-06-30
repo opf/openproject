@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Getting started
   priority: 999
 description: OpenProject getting started guide.
-robots: index, follow
 keywords: getting started guide, tutorial
 ---
 

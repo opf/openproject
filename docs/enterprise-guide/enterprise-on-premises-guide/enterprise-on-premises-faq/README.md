@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Enterprise on-premises FAQ
   priority: 001
 description: Frequently asked questions regarding Enterprise on-premises
-robots: index, follow
 keywords: Enterprise on-premises FAQ, enterprise edition, self-hosted
 ---
 

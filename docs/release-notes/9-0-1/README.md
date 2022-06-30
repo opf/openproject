@@ -26,8 +26,6 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Changed: Improve print view of cost report via CSS [[#30305](https://community.openproject.com/wp/30305)]
 - Changed: Ensure PostgreSQL migration is finished before attachments are re-inserted [[#30352](https://community.openproject.com/wp/30352)]
 
-####  
-
 #### Contributions
 
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.

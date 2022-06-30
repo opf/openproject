@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Translations
 description: Get an overview of how translations are being used in OpenProject, and how they end up in the frontend
-robots: index, follow
 keywords: translations, I18n, localization, locales, languages
 ---
 

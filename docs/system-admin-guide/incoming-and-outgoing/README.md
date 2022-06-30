@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Emails and notification
   priority: 760
 description: incoming and outgoing notification settings in OpenProject.
-robots: index, follow
 keywords: incoming and outgoing notifications
 ---
 # Emails and notification

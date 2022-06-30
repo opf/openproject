@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Configure work package table
   priority: 700
 description: How to configure the work package list in OpenProject?
-robots: index, follow
 keywords: work packages table configuration, work package list, columns, filter, group
 ---
 
@@ -65,9 +64,8 @@ To add a filter criterion, choose one from the drop-down list next to **+ Add fi
 
 You can add as many filter criteria as needed. 
 Also, you can filter by [custom fields](../../../system-admin-guide/custom-fields) if you set this in the custom field configuration.
-<div class="alert alert-info" role="alert">
-**Good to know**: Filtering a work packages list will temporarily change the default work package type and default status to the values used in the filters to make newly created work packages visible in the list.
-</div>
+
+> **Good to know**: Filtering a work packages list will temporarily change the default work package type and default status to the values used in the filters to make newly created work packages visible in the list.
 
 
 ### Filtering by text
@@ -130,9 +128,7 @@ Clicking the blue **Apply** button will save your changes and display the result
 
 ![sort-work-packages](sort-work-packages.png)
 
-<div class="alert alert-info" role="alert">
-**Please note**:  If you have the hierarchy mode activated, all filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed. 
-</div>
+> **Please note**:  If you have the hierarchy mode activated, all filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed. 
 
 
 
@@ -238,6 +234,4 @@ If you make changes to a saved view, e.g. change a filter criteria, you have to 
 
 If you want to save a completely new work package view, again click on the Settings and select **Save as...** as described [above](#save-work-package-views). 
 
-<div class="alert alert-info" role="alert">
-**Please note**:  You can't change the default "All open" view. Therefore pressing the disc icon won't have any effect on the default view that is displayed when navigating to the work packages module. 
-</div>
+> **Please note**:  You can't change the default "All open" view. Therefore pressing the disc icon won't have any effect on the default view that is displayed when navigating to the work packages module. 

@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Development
   priority: 920
-robots: index, follow
 ---
 
 # Develop OpenProject
@@ -95,7 +94,7 @@ This code of conduct is adapted from the [Contributor Covenant](https://www.cont
 
 If you want to contribute to OpenProject, please make sure to accept our Contributor License Agreement first. The contributor license agreement documents the rights granted by contributors to OpenProject.
 
-[Read and accept the Contributor License Agreement here.](https://www.openproject.org/contributor-license-agreement/)
+[Read and accept the Contributor License Agreement here.](https://www.openproject.org/legal/contributor-license-agreement/)
 
 # Additional resources
 

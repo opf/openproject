@@ -10,14 +10,14 @@
 # OpenProject 4.1.2
 
 OpenProject 4.1.2 has been released. The new release contains
-several bug fixes for the OpenProject core and plugins as well as
+several bug fixes for the OpenProject core and plugins as well as
 additional improvements.
 
-We strongly recommend to upgrade to the current version.
+We strongly recommend to upgrade to the current version.
 
 **OpenProject core:**
 
-  - The timezone in the work package view was incorrect. This has been
+  - The timezone in the work package view was incorrect. This has been
     fixed
     ([\#20210](https://community.openproject.org/work_packages/20210)).
     Thanks to [Javier
@@ -33,9 +33,9 @@ We strongly recommend to upgrade to the current version.
     is working properly again with OpenProject 4.1.2
     ([\#20316](https://community.openproject.org/work_packages/20316)).
   - Additional a number of design errors have been fixed
-    ([\#20305](https://community.openproject.org/work_packages/20305), [\#20306](https://community.openproject.org/work_packages/20306),
+    ([\#20305](https://community.openproject.org/work_packages/20305), [\#20306](https://community.openproject.org/work_packages/20306),
     [\#20308](https://community.openproject.org/work_packages/20308),
-    [\#20309](https://community.openproject.org/work_packages/20309) [\#20317](https://community.openproject.org/work_packages/20317),
+    [\#20309](https://community.openproject.org/work_packages/20309) [\#20317](https://community.openproject.org/work_packages/20317),
     [\#20313](https://community.openproject.org/work_packages/20313)).
 
 As an additional improvement, the icons in the administration section
@@ -57,15 +57,15 @@ have been updated
 **Meetings plugin:**
 
   - In OpenProject 4.1.1 it was not possible to delete meetings. This
-    feature has been fixed
+    feature has been fixed
     ([\#20149](https://community.openproject.org/work_packages/20149)).
 
- 
+ 
 
 For further information on the release, please refer to the [Changelog
-v.4.1.2](https://community.openproject.org/versions/726) or take a look
+v.4.1.2](https://community.openproject.org/versions/726) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v4.1.2).
 
- 
+ 
 
 

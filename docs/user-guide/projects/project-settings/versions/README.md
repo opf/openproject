@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Versions
   priority: 600
 description: Manage versions in OpenProject.
-robots: index, follow
 keywords: manage versions
 ---
 # Manage versions

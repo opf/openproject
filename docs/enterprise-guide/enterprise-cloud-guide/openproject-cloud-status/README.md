@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Cloud Status 
   priority: 002
 description: Report of outages and degraded services for our cloud edition customers
-robots: index, follow
 keywords: cloud status, incidents
 ---
 

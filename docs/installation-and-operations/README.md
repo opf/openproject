@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Installation & operations guide
   priority: 940
-robots: index, follow
 ---
 
 # Installation & operations guide
@@ -28,9 +27,7 @@ Compare the features of these versions [on the website](https://www.openproject.
 
 * **Development** - OpenProject is open source; if you want to help with the code, check the [development instructions](../development/) and install a [development environment.](../development/#additional-resources)
 
-<div class="alert alert-info" role="alert">
-**Note**: there are some minor options given in the "Other" row of the table below. These are not recommended but you may wish to try them.
-</div>
+> **Note**: there are some minor options given in the "Other" row of the table below. These are not recommended but you may wish to try them.
 
 ## On-premises installation overview
 

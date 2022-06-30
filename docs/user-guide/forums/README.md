@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Forums
   priority: 820
 description: Create and manage a forum in OpenProject
-robots: index, follow
 keywords: forum, forums
 ---
 
@@ -11,7 +10,8 @@ keywords: forum, forums
 
 In the forum in OpenProject you can discuss topics in a project with the team: post questions, comment on it and document answers.
 
-<div class="glossary"> **Forum** is defined as a module used to display forums and forum entries. The module has to be activated in the project settings and a forum has to be created in the forums tab in the project settings to be displayed in the side navigation.
+<div class="glossary"> 
+**Forum** is defined as a module used to display forums and forum entries. The module has to be activated in the project settings and a forum has to be created in the forums tab in the project settings to be displayed in the side navigation.
 </div>
 
 | Topic                                                    | Content                                                      |

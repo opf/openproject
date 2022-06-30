@@ -3,16 +3,16 @@ sidebar_navigation:
   title: Repository
   priority: 400
 description: Manage a repository in a project.
-robots: index, follow
 keywords: repository
 ---
 # Manage a repository
 
-<div class="glossary">**Repository** is defined as a document management system that allows users to manage files and folders via different version control system (SVN or Git).</div>
+<div class="glossary">
+**Repository** is defined as a document management system that allows users to manage files and folders via different version control system (SVN or Git).
 You can integrate a SVN or GIT repository in a project in OpenProject and access it directly in the project via the module Repositories.
-
-**Note**: Repositories can only be integrated for Community Edition and Enterprise Edition (self hosted) versions.
 </div>
+
+> **Note**: Repositories can only be integrated for Community Edition and Enterprise Edition (self hosted) versions.
 
 Navigate to -> *Project settings* -> *Repository*.
 
