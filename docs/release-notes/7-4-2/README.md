@@ -12,7 +12,7 @@
 ## Changes
 
   - \[Enterprise\] LDAP group synchronization changed to
-    allow *memberOf*  to yield members of an ldap group
+    allow *memberOf*  to yield members of an ldap group
     \[[\#](https://community.openproject.com/work_packages/24960 "In repository module (SVN) when clicking on a .js file representation is incorrect")[27271](https://community.openproject.com/wp/27271 "LDAP group synchronization with memberOf filter")\]
 
 ## Bug fixes (5)
@@ -26,12 +26,12 @@
     \[[\#27158](https://community.openproject.com/wp/27158)\]
   - Locked users shown as matches when adding watchers
     \[[\#27127](https://community.openproject.com/wp/27127)\]
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-10">Version</span>
+  - Version
     sorting by name also sorts by their effective date
 
 For further information on the 7.4.2 release, please refer to
-the [Changelog
-v7.4.2](https://community.openproject.com/versions/857) or take a look
-at [GitHub](https://github.com/opf/openproject/tree/v7.4.2).
+the [Changelog
+v7.4.2](https://community.openproject.com/versions/857) or take a look
+at [GitHub](https://github.com/opf/openproject/tree/v7.4.2).
 
 

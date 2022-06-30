@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Exporting
   priority: 600
 description: How to export work packages for other tools, such as Microsoft Excel
-robots: index, follow
 keywords: work package exports, CSV, Excel, XLS, PDF
 ---
 
@@ -31,9 +30,8 @@ This will open a dialog similar to the following screenshot, where you can selec
 
 From the work packages module, all work packages that are included in the filter list will be exported. Up to a total of 500 work packages can be exported at once.
 
-<div class="alert alert-info" role="alert">
-**Note**: If you need to export more than 500 items, filter the work packages appropriately to export multiple files.
-</div>
+> **Note**: If you need to export more than 500 items, filter the work packages appropriately to export multiple files.
+
 For self-hosted versions of OpenProject you can change this limit in the [work package settings](../../../system-admin-guide/manage-work-packages/work-package-settings/) in the system administration.
 
 
@@ -66,9 +64,7 @@ OpenProject can export the table for Microsoft Excel with the following options:
 - **XLS with descriptions** same as above, but with an additional column for work package descriptions, which cannot be selected in the table
 - **XLS with relations** Same as XLS, but with additional columns to list each work package relation in a separate row with the relation target and its ID and relation type included in the export
 
-<div class="alert alert-info" role="alert">
-**Note**: To open XLS exported files into Microsoft Excel, ensure you set the encoding to UTF-8. Excel will not auto-detect the encoding or ask you to specify it, but simply open with a wrong encoding under Microsoft Windows.
-</div>
+> **Note**: To open XLS exported files into Microsoft Excel, ensure you set the encoding to UTF-8. Excel will not auto-detect the encoding or ask you to specify it, but simply open with a wrong encoding under Microsoft Windows.
 
 
 
@@ -78,9 +74,7 @@ OpenProject can export the table into a comma-separated CSV. This file will be U
 
 
 
-<div class="alert alert-info" role="alert">
-**Note**: To open CSV exported files into Microsoft Excel, ensure you set the encoding to UTF-8. Excel will not auto-detect the encoding or ask you to specify it, but simply open with a wrong encoding under Microsoft Windows.
-</div>
+> **Note**: To open CSV exported files into Microsoft Excel, ensure you set the encoding to UTF-8. Excel will not auto-detect the encoding or ask you to specify it, but simply open with a wrong encoding under Microsoft Windows.
 
 
 

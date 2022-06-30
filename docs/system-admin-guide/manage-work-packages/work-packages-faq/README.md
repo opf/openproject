@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Work packages FAQ
   priority: 001
 description: Frequently asked questions regarding work package settings in the administration
-robots: index, follow
 keywords: manage work packages FAQ, admin settings for work packages
 ---
 

@@ -13,6 +13,7 @@ import {
 import {
   debounceTime,
   distinctUntilChanged,
+  filter,
   map,
   mergeMap,
   shareReplay,
@@ -116,11 +117,11 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
         if (selectedProjectHrefs.includes(currentProjectHref)) {
           return selectedProjectHrefs;
         }
-        const selectedPrjects = [...selectedProjectHrefs];
+        const selectedProjects = [...selectedProjectHrefs];
         if (currentProjectHref) {
-          selectedPrjects.push(currentProjectHref);
+          selectedProjects.push(currentProjectHref);
         }
-        return selectedPrjects;
+        return selectedProjects;
       }),
     );
 
@@ -184,11 +185,22 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       shareReplay(),
     );
 
-  public loading$ = combineLatest([
-    this.searchableProjectListService.fetchingProjects$,
-    this.projects$,
-  ]).pipe(
-    map(([isFetching, projects]) => isFetching || projects.length === 0)
+  /* This seems like a way too convoluted loading check, but there's a good reason we need it.
+   * The searchableProjectListService says fetching is "done" when the request returns.
+   * However, this causes flickering on the initial load, since `projects$` still needs
+   * to do the tree calculation. In the template, we show the project-list when `loading$ | async` is false,
+   * but if we would only make this depend on `fetchingProjects$` Angular would still wait with
+   * rendering the project-list until `projects$ | async` has also fired.
+   *
+   * To fix this, we first wait for fetchingProjects$ to be true once,
+   * then switch over to projects$, and after that has pinged once, it switches back to
+   * fetchingProjects$ as the decider for when fetching is done.
+   */
+  public loading$ = this.searchableProjectListService.fetchingProjects$.pipe(
+    filter((fetching) => fetching),
+    take(1),
+    mergeMap(() => this.projects$),
+    mergeMap(() => this.searchableProjectListService.fetchingProjects$),
   );
 
   constructor(

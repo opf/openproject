@@ -7,13 +7,13 @@
 ---
 
 
-# OpenProject 5.0.18
+# OpenProject 5.0.18
 
 OpenProject 5.0.18 contains several bug fixes:
 
   - The wiki toolbar did not work. This has been fixed
     ([\#23050](https://community.openproject.com/work_packages/23050/activity)).
-  - When a project contains no members the button to add a member on the
+  - When a project contains no members the button to add a member on the
     project overview was not displayed. Also the link on the button was
     wrong. This has been fixed
     ([\#22970](https://community.openproject.com/work_packages/22970/activity)).
@@ -47,7 +47,7 @@ possible to e.g. include links or references
 ([\#23180](https://community.openproject.com/work_packages/23180/activity)).
 
 For further information on the release, please refer to the [Changelog
-v.5.0.18](https://community.openproject.com/versions/806) or take a look
+v.5.0.18](https://community.openproject.com/versions/806) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v5.0.18).
 
 

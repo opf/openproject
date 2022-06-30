@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Support
   priority: 981
 description: OpenProject Enterprise on-premises support.
-robots: index, follow
 keywords: enterprise edition support, ticket
 ---
 # Enterprise on-premises edition support

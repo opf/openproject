@@ -43,20 +43,20 @@ Thanks a lot to the community, in particular to Frank Schmid, Markus
 Hillenbrand, and Marc Vollmer for reporting bugs\!
 
 For further information on the 7.2.2 release, please refer to
-the [Changelog
-v7.2.2](https://community.openproject.com/versions/846) or take a look
-at [GitHub](https://github.com/opf/openproject/tree/v7.2.2).
+the [Changelog
+v7.2.2](https://community.openproject.com/versions/846) or take a look
+at [GitHub](https://github.com/opf/openproject/tree/v7.2.2).
 
 ## A note on CentOS 7 packages
 
 If you’re using CentOS 7 and want to upgrade to OpenProject 7.2 or later
 versions, please also upgrade your package source according to
-the [Download and
-Installation](https://www.openproject.org/download-and-installation/) page.  
+the [Download and
+Installation](https://www.openproject.org/download-and-installation/) page.  
 For more information, please also see ticket
 \[[\#26144](https://community.openproject.com/wp/26144)\] and [this
 forum post](https://community.openproject.com/topics/8114).
 
- 
+ 
 
 

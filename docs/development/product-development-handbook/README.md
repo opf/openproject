@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Product development
   priority: 999
 description: Learn about OpenProject's product development process and the RICE score
-robots: index, follow
 keywords: product development, requirement process, RICE score
 ---
 

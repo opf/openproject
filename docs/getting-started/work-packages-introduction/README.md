@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Work packages introduction
   priority: 700
 description: Introduction to work packages in OpenProject.
-robots: index, follow
 keywords: work packages introduction, attributes, values, task
 ---
 

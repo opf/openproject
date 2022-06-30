@@ -9,7 +9,7 @@
 
 # OpenProject 3.0.4
 
-The most important changes in OpenProject 3.0.4 are the fix to the
+The most important changes in OpenProject 3.0.4 are the fix to the
 `reposman` (see
 [`extra/svn/reposman.rb`](https://github.com/opf/openproject/blob/dev/extra/svn/reposman.rb#L103))
 script and fixes for making OpenProject subfolder installations less of
