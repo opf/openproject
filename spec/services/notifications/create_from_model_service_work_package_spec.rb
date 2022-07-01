@@ -886,6 +886,38 @@ describe Notifications::CreateFromModelService,
 
           it_behaves_like 'creates no notification'
         end
+
+        context 'when there is already a notification for the journal (because it was aggregated)' do
+          let(:note) { "Hello user:\"#{recipient_login}\"" }
+          let!(:existing_notification) do
+            create(:notification, journal:, recipient:, reason: :mentioned, read_ian: true)
+          end
+
+          it_behaves_like 'creates no notification'
+
+          it 'resets the read_ian of the existing notification to false' do
+            call
+
+            expect(existing_notification.reload.read_ian)
+              .to be_falsey
+          end
+        end
+
+        context 'when there is already a notification for the journal (aggregation) but the user is no longer mentioned' do
+          let(:note) { "Hello you" }
+          let!(:existing_notification) do
+            create(:notification, journal:, recipient:, reason: :mentioned, read_ian: true)
+          end
+
+          it_behaves_like 'creates no notification'
+
+          it 'removes the existing notification' do
+            call
+
+            expect(Notification.exists?(id: existing_notification.id))
+              .to be_falsey
+          end
+        end
       end
 
       context 'for groups' do
@@ -953,17 +985,6 @@ describe Notifications::CreateFromModelService,
       end
 
       it_behaves_like 'mentioned'
-
-      context 'when there is a notification for mentioned on the journal' do
-        let!(:mentioned_notification) do
-          create :notification,
-                 journal: journal_2_with_notes,
-                 resource: journal_2_with_notes.journable,
-                 reason: :mentioned
-        end
-
-        it_behaves_like 'creates no notification'
-      end
     end
 
     describe 'in the description' do
@@ -989,17 +1010,26 @@ describe Notifications::CreateFromModelService,
     end
   end
 
-  context 'when aggregated journal is empty' do
-    let(:journal) { journal_2_empty_change }
-    let(:journal_2_empty_change) do
-      work_package.add_journal(author, 'temp')
-      work_package.save(validate: false)
-      work_package.journals.last.tap do |j|
-        j.update_column(:notes, nil)
-      end
+  context 'when on aggregating the journal, sending of notifications is prevented' do
+    let!(:existing_notification) do
+      create(:notification, journal:, recipient:, reason: :mentioned, read_ian: true)
+    end
+    let(:send_notifications) { false }
+    let(:user_property) { :watcher }
+    let(:recipient_notification_settings) do
+      [
+        build(:notification_setting, **notification_settings_all_true)
+      ]
     end
 
     it_behaves_like 'creates no notification'
+
+    it 'removes the existing notifications' do
+      call
+
+      expect(Notification.exists?(id: existing_notification.id))
+        .to be_falsey
+    end
   end
 
   context 'when the journal is deleted' do

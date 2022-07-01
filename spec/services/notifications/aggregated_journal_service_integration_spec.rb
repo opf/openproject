@@ -41,8 +41,8 @@ describe Notifications::AggregatedJournalService, 'integration', type: :model do
     update_assignee!
 
     expect(mentioned_notification.reload).to be_present
-    expect(mentioned_notification.journal).not_to eq journal
-    expect { journal.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    expect(mentioned_notification.journal).to eq journal
+    expect(mentioned_notification.journal.updated_at).not_to eq journal.updated_at
 
     # Expect only one notification to be present
     expect(Notification.where(recipient:, reason: :mentioned).count)
