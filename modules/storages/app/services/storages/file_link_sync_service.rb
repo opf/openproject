@@ -85,20 +85,31 @@ class Storages::FileLinkSyncService
 
   private
 
-  # Sync a Nextcloud storage
-  def sync_nextcloud(storage_id, storage_file_links)
-    # Get the OAuthClientToken that will authenticate us against Nextcloud
+  # Get the OAuthClientToken that will authenticate us against Nextcloud
+  def get_connection_manager(storage_id)
     oauth_client = OAuthClient.find_by(integration_id: storage_id)
-    connection_manager = ::OAuthClients::ConnectionManager.new(user: @user, oauth_client:)
-    connection_manager_service_result = connection_manager.get_access_token # No scope for Nextcloud...
-    if connection_manager_service_result.failure?
-      set_error_for_file_links(storage_file_links)
+    ::OAuthClients::ConnectionManager.new(user: @user, oauth_client:)
+  end
+
+  def get_oauth_client_token(connection_manager)
+    access_token_service_result = connection_manager.get_access_token # No scope for Nextcloud...
+    if access_token_service_result.failure?
+      return nil
+    end
+
+    access_token_service_result.result
+  end
+
+  # Sync a Nextcloud storage
+  def sync_nextcloud(storage_id, file_links)
+    connection_manager = get_connection_manager(storage_id)
+    oauth_client_token = get_oauth_client_token(connection_manager)
+    if oauth_client_token.nil?
+      set_error_for_file_links(file_links)
       return
     end
 
-    oauth_client_token = connection_manager_service_result.result
-
-    storage_origin_file_ids = storage_file_links.map(&:origin_id)
+    storage_origin_file_ids = file_links.map(&:origin_id)
     nextcloud_request_result = connection_manager.request_with_token_refresh do
       response = request_files_info(oauth_client_token, storage_origin_file_ids)
       # Parse HTTP response an return a ServiceResult with:
@@ -110,11 +121,11 @@ class Storages::FileLinkSyncService
     @service_result.merge!(nextcloud_request_result)
 
     if nextcloud_request_result.failure?
-      set_error_for_file_links(storage_file_links)
+      set_error_for_file_links(file_links)
       return
     end
 
-    set_file_link_permissions(storage_file_links, nextcloud_request_result.result)
+    set_file_link_permissions(file_links, nextcloud_request_result.result)
   end
 
   def set_file_link_permissions(file_links, parsed_response)
