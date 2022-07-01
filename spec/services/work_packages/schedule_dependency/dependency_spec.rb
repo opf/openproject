@@ -59,8 +59,8 @@ RSpec.describe WorkPackages::ScheduleDependency::Dependency do
     end
   end
 
-  def create_follower_of(work_package)
-    create(:work_package, subject: "follower of #{work_package.subject}").tap do |follower|
+  def create_follower_of(work_package, **attributes)
+    create(:work_package, subject: "follower of #{work_package.subject}", **attributes).tap do |follower|
       create(:follows_relation, from: follower, to: work_package)
     end
   end
@@ -230,6 +230,15 @@ RSpec.describe WorkPackages::ScheduleDependency::Dependency do
         follower = create_follower_of(work_package)
         unmoved_follower_predecessor = create_predecessor_of(follower, due_date: Time.zone.today + 4.days)
         expect(dependency_for(follower).soonest_start_date).to eq(unmoved_follower_predecessor.due_date + 1.day)
+      end
+    end
+
+    context 'with non working days', with_flag: { work_packages_duration_field_active: true } do
+      let!(:tomorrow_we_do_not_work!) { create(:non_working_day, date: Time.zone.tomorrow) }
+
+      it 'returns the soonest start date regardless of it being a working day or not' do
+        follower = create_follower_of(work_package, ignore_non_working_days: false)
+        expect(dependency_for(follower).soonest_start_date).to eq(work_package.due_date + 1.day)
       end
     end
   end

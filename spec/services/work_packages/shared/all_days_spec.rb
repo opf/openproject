@@ -27,26 +27,12 @@
 #++
 
 require 'rails_helper'
+require_relative 'shared_examples_days'
 
-# rubocop:disable Naming/VariableNumber
 RSpec.describe WorkPackages::Shared::AllDays do
   subject { described_class.new }
 
   sunday_2022_07_31 = Date.new(2022, 7, 31)
-
-  shared_examples 'it returns duration' do |expected_duration, from_date, to_date|
-    from_date_format = '%a %-d'
-    to_date_format = '%a %-d %b %Y'
-    from_date_format += ' %b' if [from_date.month, from_date.year] != [to_date.month, to_date.year]
-    from_date_format += ' %Y' if from_date.year != to_date.year
-
-    it "from #{from_date.strftime(from_date_format)} " \
-       "to #{to_date.strftime(to_date_format)} " \
-       "-> #{expected_duration}" \
-       do
-         expect(subject.duration(from_date, to_date)).to eq(expected_duration)
-       end
-  end
 
   describe '#duration' do
     context 'without any week days created' do
@@ -56,19 +42,14 @@ RSpec.describe WorkPackages::Shared::AllDays do
       end
     end
 
-    context 'with Saturday and Sunday as weekend days' do
-      let!(:week_days) { create(:week_days) }
-
+    context 'with weekend days (Saturday and Sunday)', :weekend_saturday_sunday do
       it 'considers all days as working days and returns the number of days between two dates, inclusive' do
         expect(subject.duration(sunday_2022_07_31, sunday_2022_07_31 + 6)).to eq(7)
         expect(subject.duration(sunday_2022_07_31, sunday_2022_07_31 + 50)).to eq(51)
       end
     end
 
-    context 'with Christmas 2022-12-25 and new year\'s day 2023-01-01 defined as non working days' do
-      let!(:christmas) { create(:non_working_day, date: Date.new(2022, 12, 25)) }
-      let!(:new_year_day) { create(:non_working_day, date: Date.new(2023, 1, 1)) }
-
+    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
       include_examples 'it returns duration', 365, Date.new(2022, 1, 1), Date.new(2022, 12, 31)
       include_examples 'it returns duration', 365 * 2, Date.new(2022, 1, 1), Date.new(2023, 12, 31)
     end
@@ -97,5 +78,52 @@ RSpec.describe WorkPackages::Shared::AllDays do
       end
     end
   end
+
+  describe '#add_days' do
+    it 'adds the number of days to the date' do
+      expect(subject.add_days(sunday_2022_07_31, 7)).to eq(Date.new(2022, 8, 7))
+    end
+
+    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: 0, expected: Date.new(2022, 6, 15)
+    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: 1, expected: Date.new(2022, 6, 16)
+    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: 10, expected: Date.new(2022, 6, 25)
+    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: 100, expected: Date.new(2022, 9, 23)
+    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: 365, expected: Date.new(2023, 6, 15)
+    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: -1, expected: Date.new(2022, 6, 14)
+    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: -10, expected: Date.new(2022, 6, 5)
+    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: -100, expected: Date.new(2022, 3, 7)
+    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: -730, expected: Date.new(2020, 6, 15)
+
+    context 'with weekend days (Saturday and Sunday)', :weekend_saturday_sunday do
+      it 'adds the number of days to the date' do
+        expect(subject.add_days(sunday_2022_07_31, 7)).to eq(Date.new(2022, 8, 7))
+        expect(subject.add_days(sunday_2022_07_31, -7)).to eq(Date.new(2022, 7, 24))
+      end
+    end
+
+    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+      it 'adds the number of days to the date' do
+        expect(subject.add_days(Date.new(2022, 1, 1), 365)).to eq(Date.new(2023, 1, 1))
+        expect(subject.add_days(Date.new(2022, 1, 1), -365)).to eq(Date.new(2021, 1, 1))
+      end
+    end
+  end
+
+  describe '#soonest_working_day' do
+    it 'returns the given day' do
+      expect(subject.soonest_working_day(sunday_2022_07_31)).to eq(sunday_2022_07_31)
+    end
+
+    context 'with weekend days (Saturday and Sunday)', :weekend_saturday_sunday do
+      it 'returns the given day' do
+        expect(subject.soonest_working_day(sunday_2022_07_31)).to eq(sunday_2022_07_31)
+      end
+    end
+
+    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+      it 'returns the given day' do
+        expect(subject.soonest_working_day(Date.new(2022, 12, 25))).to eq(Date.new(2022, 12, 25))
+      end
+    end
+  end
 end
-# rubocop:enable Naming/VariableNumber

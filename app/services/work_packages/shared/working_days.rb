@@ -37,6 +37,25 @@ module WorkPackages
         (from_date..to_date).count { working?(_1) }
       end
 
+      def add_days(date, count)
+        while count > 0
+          date += 1
+          count -= 1 if working?(date)
+        end
+        while count < 0
+          date -= 1
+          count += 1 if working?(date)
+        end
+        date
+      end
+
+      def soonest_working_day(date)
+        until working?(date)
+          date += 1
+        end
+        date
+      end
+
       private
 
       def no_duration

@@ -29,11 +29,19 @@
 module WorkPackages
   module Shared
     class AllDays
-      # Returns number of days between two dates.
+      # Returns number of days between two dates, inclusive.
       def duration(from_date, to_date)
         return no_duration if from_date.nil? || to_date.nil?
 
         (from_date..to_date).count
+      end
+
+      def add_days(date, count)
+        date + count.days
+      end
+
+      def soonest_working_day(date)
+        date
       end
 
       private

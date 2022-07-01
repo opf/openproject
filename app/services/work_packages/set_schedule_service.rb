@@ -148,19 +148,20 @@ class WorkPackages::SetScheduleService
               (scheduled.due_date && !scheduled.duration.nil?) && (new_start_date + scheduled.duration - 1))
   end
 
-  def reschedule_by_delta(scheduled, delta, min_start_date)
-    required_delta = [min_start_date - (scheduled.start_date || min_start_date), [delta, 0].min].max
-
-    scheduled.start_date += required_delta
-    scheduled.due_date += required_delta if scheduled.due_date
-  end
-
-  # If the start_date of scheduled is nil at this point something
-  # went wrong before. So we fix it now by setting the date.
   def schedule_on_missing_dates(scheduled, min_start_date)
+    min_start_date = WorkPackages::Shared::Days.for(scheduled).soonest_working_day(min_start_date)
     set_dates(scheduled,
               min_start_date,
               scheduled.due_date && scheduled.due_date < min_start_date ? min_start_date : scheduled.due_date)
+  end
+
+  def reschedule_by_delta(scheduled, delta, min_start_date)
+    required_delta = [min_start_date - (scheduled.start_date || min_start_date), [delta, 0].min].max
+
+    new_start_date = WorkPackages::Shared::Days.for(scheduled).add_days(scheduled.start_date, required_delta)
+    new_due_date = WorkPackages::Shared::Days.for(scheduled).add_days(scheduled.due_date, required_delta) if scheduled.due_date
+    scheduled.start_date = new_start_date
+    scheduled.due_date = new_due_date
   end
 
   def follows_delta(dependency)
