@@ -41,9 +41,8 @@ describe 'Showing of file links in work package', with_flag: { storages_module_a
   let(:file_link) { create(:file_link, container: work_package, storage:) }
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
 
-  # We're going to use the real ConnectionManager because we can't mock request_with_token_refresh
-  let(:connection_manager) { ::OAuthClients::ConnectionManager.new(user: current_user, oauth_client:) }
-  # let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
+  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
+  let(:sync_service) { instance_double(::Storages::FileLinkSyncService) }
 
   before do
     allow(::OAuthClients::ConnectionManager)
@@ -55,6 +54,16 @@ describe 'Showing of file links in work package', with_flag: { storages_module_a
     allow(connection_manager)
       .to receive(:get_access_token)
             .and_return(ServiceResult.success(result: oauth_client_token))
+    allow(connection_manager)
+      .to receive(:authorization_state)
+           .and_return(:connected)
+
+    # Mock FileLinkSyncService as if Nextcloud would respond with origin_permission=nil
+    allow(::Storages::FileLinkSyncService)
+      .to receive(:new).and_return(sync_service)
+    allow(sync_service).to receive(:call) do |file_links|
+      ServiceResult.success(result: file_links.each { |file_link| file_link.origin_permission = :view })
+    end
 
     project_storage
     file_link

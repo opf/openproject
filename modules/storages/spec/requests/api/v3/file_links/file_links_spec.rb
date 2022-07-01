@@ -84,7 +84,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
     allow(::Storages::FileLinkSyncService)
       .to receive(:new).and_return(sync_service)
     allow(sync_service).to receive(:call) do |file_links|
-      ServiceResult.success(result: file_links)
+      ServiceResult.success(result: file_links.each { |file_link| file_link.origin_permission = :view })
     end
 
     login_as current_user
