@@ -169,22 +169,6 @@ module ProjectsHelper
     end
   end
 
-  def projects_level_list_json(projects)
-    projects_list = projects.map do |item|
-      project = item[:project]
-
-      {
-        id: project.id,
-        name: project.name,
-        identifier: project.identifier,
-        has_children: !project.leaf?,
-        level: item[:level]
-      }
-    end
-
-    { projects: projects_list }
-  end
-
   def projects_with_levels_order_sensitive(projects, &)
     if sorted_by_lft?
       project_tree(projects, &)
