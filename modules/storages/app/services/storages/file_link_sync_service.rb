@@ -28,6 +28,8 @@
 
 # Handle synchronization of FileLinks with external data store such as Storages
 class Storages::FileLinkSyncService
+  FILESINFO_URL_PATH = "/ocs/v1.php/apps/integration_openproject/filesinfo".freeze
+
   # @param user Current user
   # @param file_links An array of FileLink objects
   def initialize(user:)
@@ -156,7 +158,7 @@ class Storages::FileLinkSyncService
   # 		-X POST -d '{"fileIds":[FILE_ID_1,FILE_ID_2,...]}'
   def request_files_info(token, file_ids)
     host = token.oauth_client.integration.host
-    uri = URI.parse(File.join(host, "/ocs/v1.php/apps/integration_openproject/filesinfo"))
+    uri = URI.parse(File.join(host, FILESINFO_URL_PATH))
     request = build_files_info_request(uri, token, file_ids)
 
     begin

@@ -41,6 +41,8 @@ describe ::Storages::FileLinkSyncService, type: :model do
   let(:project) { create(:project, members: { user => role }) }
   let(:work_package) { create(:work_package, project:) }
 
+  let(:filesinfo_path) { '/ocs/v1.php/apps/integration_openproject/filesinfo' }
+
   # We want to check the case of file_links from multiple storages
   let(:host1) { "http://host-1.example.org" }
   let(:host2) { "http://host-2.example.org" }
@@ -121,7 +123,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
 
         before do
           # Simulate a successfully authorized reply with updates from Nextcloud
-          stub_request(:post, File.join(host1, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
+          stub_request(:post, File.join(host1, filesinfo_path))
             .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response)
         end
 
@@ -137,7 +139,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
         let(:response) { { ocs: { meta: ocs_meta_s200, data: { '24': file_info_s403 } } }.to_json }
 
         before do
-          stub_request(:post, File.join(host1, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
+          stub_request(:post, File.join(host1, filesinfo_path))
             .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response)
         end
 
@@ -154,9 +156,9 @@ describe ::Storages::FileLinkSyncService, type: :model do
 
         before do
           # Simulate a successfully authorized reply with updates from Nextcloud
-          stub_request(:post, File.join(host1, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
+          stub_request(:post, File.join(host1, filesinfo_path))
             .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response1)
-          stub_request(:post, File.join(host2, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
+          stub_request(:post, File.join(host2, filesinfo_path))
             .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response2)
         end
 
@@ -178,7 +180,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
 
         before do
           # Simulate a successfully authorized reply with updates from Nextcloud
-          stub_request(:post, File.join(host1, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
+          stub_request(:post, File.join(host1, filesinfo_path))
             .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response)
         end
 
@@ -192,7 +194,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
       context 'with connection timeout Nextcloud' do
         before do
           # Simulate a complete disconnection
-          stub_request(:any, File.join(host1, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
+          stub_request(:any, File.join(host1, filesinfo_path))
             .to_timeout
         end
 
@@ -206,7 +208,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
         let(:response) { { ocs: { meta: ocs_meta_s200, data: { '24': file_info1_s200 } } }.to_json }
 
         before do
-          stub_request(:post, File.join(host1, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
+          stub_request(:post, File.join(host1, filesinfo_path))
             .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response)
         end
 
@@ -241,7 +243,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
           # Mock Nextcloud to return:
           #   first: a 401 indicating an outdated OAuth2 Bearer token and
           #   then:  a 200 with a reasonable result
-          stub_request(:post, File.join(host1, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
+          stub_request(:post, File.join(host1, filesinfo_path))
             .to_return(status: 401,
                        headers: { 'Content-Type': 'application/json; charset=utf-8' },
                        body: { ocs: { meta: ocs_meta_s401, data: [] } }.to_json)
@@ -264,7 +266,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
       context 'with expired OAuth2 token and refresh failed' do
         before do
           # Mock Nextcloud to return 401 (not authorized) indicating an expired OAuth2 Bearer token
-          stub_request(:post, File.join(host1, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
+          stub_request(:post, File.join(host1, filesinfo_path))
             .to_return(status: 401,
                        headers: { 'Content-Type': 'application/json; charset=utf-8' },
                        body: { ocs: { meta: ocs_meta_s401, data: [] } }.to_json)
@@ -297,7 +299,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
         let(:response) { { ocs: { meta: ocs_meta_s200, data: { '24': file_info1_s200 } } }.to_json }
 
         before do
-          stub_request(:post, File.join(host1, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
+          stub_request(:post, File.join(host1, filesinfo_path))
             .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response)
         end
 
