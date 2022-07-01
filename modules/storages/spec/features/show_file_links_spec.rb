@@ -42,7 +42,7 @@ describe 'Showing of file links in work package', with_flag: { storages_module_a
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
 
   # We're going to use the real ConnectionManager because we can't mock request_with_token_refresh
-  let(:connection_manager) { ::OAuthClients::ConnectionManager.new(user: current_user, oauth_client: oauth_client) }
+  let(:connection_manager) { ::OAuthClients::ConnectionManager.new(user: current_user, oauth_client:) }
   # let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
 
   before do
