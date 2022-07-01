@@ -9,6 +9,7 @@ OpenProject::Application.configure do |application|
                               ::PaperTrailAudits::CleanupJob,
                               ::Attachments::CleanupUncontaineredJob,
                               ::Notifications::ScheduleReminderMailsJob,
+                              ::Notifications::CleanupJob,
                               ::Ldap::SynchronizationJob
   end
 end
