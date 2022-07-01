@@ -74,7 +74,7 @@ module API
 
               ::API::V3::FileLinks::FileLinkCollectionRepresenter.new(
                 service_result.result,
-                self_link: api_v3_paths.work_package_file_links(@work_package.id),
+                self_link: api_v3_paths.file_links(@work_package.id),
                 current_user:
               )
             rescue StandardError => e
