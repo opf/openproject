@@ -281,6 +281,12 @@ RSpec.describe User, 'allowed scope' do
     before do
       project.public = true
       project.save
+
+      # TODO: currently only added to have an entry
+      # in the db required for the joining
+      # check if that can be removed
+      role.add_permission! other_action
+      role.save!
     end
 
     let(:action) { public_action }
