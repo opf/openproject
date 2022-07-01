@@ -50,30 +50,6 @@ class Storages::FileLinkSyncService
     @service_result
   end
 
-  def set_file_link_permissions(file_links, parsed_response)
-    file_links.each do |file_link|
-      origin_file_info_hash = parsed_response[file_link.origin_id]
-
-      case origin_file_info_hash['statuscode']
-      when 200 # Successfully found - update infos
-        next if origin_file_info_hash['trashed'] # moved to trash in Nextcloud
-
-        sync_single_file(file_link, origin_file_info_hash)
-        file_link.origin_permission = :view
-      when 403 # Forbidden - file from other user
-        file_link.origin_permission = :not_allowed
-      when 404 # Not found - permanently deleted in Nextcloud
-        file_link.destroy
-        next # don't save and don't add file_link to result!
-      else
-        file_link.origin_permission = :error
-      end
-
-      @service_result.result << file_link
-      file_link.save # Only saves to database if some field has actually changed.
-    end
-  end
-
   # Write the updated information from Nextcloud to a single file
   # @param storage Storage of the file
   # @param origin_file_id Nextcloud ID of the file
@@ -113,16 +89,16 @@ class Storages::FileLinkSyncService
     oauth_client = OAuthClient.find_by(integration_id: storage_id)
     connection_manager = ::OAuthClients::ConnectionManager.new(user: @user, oauth_client:)
     connection_manager_service_result = connection_manager.get_access_token # No scope for Nextcloud...
-    unless connection_manager_service_result.success
+    if connection_manager_service_result.failure?
       set_error_for_file_links(storage_file_links)
       return
     end
 
-    @oauth_client_token = connection_manager_service_result.result
+    oauth_client_token = connection_manager_service_result.result
 
     storage_origin_file_ids = storage_file_links.map(&:origin_id)
     nextcloud_request_result = connection_manager.request_with_token_refresh do
-      response = request_files_info(storage_origin_file_ids)
+      response = request_files_info(oauth_client_token, storage_origin_file_ids)
       # Parse HTTP response an return a ServiceResult with:
       #   success: result= Hash with Nextcloud filesinfo (name of endpoint) data
       #   failure: result= :error or :not_authorized
@@ -137,6 +113,30 @@ class Storages::FileLinkSyncService
     end
 
     set_file_link_permissions(storage_file_links, nextcloud_request_result.result)
+  end
+
+  def set_file_link_permissions(file_links, parsed_response)
+    file_links.each do |file_link|
+      origin_file_info_hash = parsed_response[file_link.origin_id]
+
+      case origin_file_info_hash['statuscode']
+      when 200 # Successfully found - update infos
+        next if origin_file_info_hash['trashed'] # moved to trash in Nextcloud
+
+        sync_single_file(file_link, origin_file_info_hash)
+        file_link.origin_permission = :view
+      when 403 # Forbidden - file from other user
+        file_link.origin_permission = :not_allowed
+      when 404 # Not found - permanently deleted in Nextcloud
+        file_link.destroy
+        next # don't save and don't add file_link to result!
+      else
+        file_link.origin_permission = :error
+      end
+
+      @service_result.result << file_link
+      file_link.save # Only saves to database if some field has actually changed.
+    end
   end
 
   def set_error_for_file_links(storage_file_links)
@@ -154,10 +154,10 @@ class Storages::FileLinkSyncService
   # curl -H "Accept: application/json" -H "Content-Type:application/json" -H "OCS-APIRequest: true"
   # 		-u USER:PASSWD http://my.nc.org/ocs/v1.php/apps/integration_openproject/filesinfo
   # 		-X POST -d '{"fileIds":[FILE_ID_1,FILE_ID_2,...]}'
-  def request_files_info(file_ids)
-    host = @oauth_client_token.oauth_client.integration.host
+  def request_files_info(token, file_ids)
+    host = token.oauth_client.integration.host
     uri = URI.parse(File.join(host, "/ocs/v1.php/apps/integration_openproject/filesinfo"))
-    request = build_files_info_request(uri, file_ids)
+    request = build_files_info_request(uri, token, file_ids)
 
     begin
       Net::HTTP.start(uri.hostname, uri.port, request_file_info_options) do |http|
@@ -168,14 +168,14 @@ class Storages::FileLinkSyncService
     end
   end
 
-  def build_files_info_request(uri, file_ids)
+  def build_files_info_request(uri, token, file_ids)
     request = Net::HTTP::Post.new(uri)
     request.body = { fileIds: file_ids }.to_json
     {
       'Content-Type': 'application/json',
       'OCS-APIRequest': 'true',
       Accept: 'application/json',
-      Authorization: "Bearer #{@oauth_client_token.access_token}"
+      Authorization: "Bearer #{token.access_token}"
     }.each { |header, value| request[header] = value }
 
     request
