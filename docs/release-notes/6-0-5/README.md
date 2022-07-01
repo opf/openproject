@@ -7,17 +7,17 @@
 ---
 
 
-# OpenProject 6.0.5
+# OpenProject 6.0.5
 
 OpenProject 6.0.5 contains several bug fixes and improvements.
 
-**The following bugs have been fixed in OpenProject 6.0.5:**
+**The following bugs have been fixed in OpenProject 6.0.5:**
 
   - Work packages
       - Links in the parent column in the work package list were not
         correctly displayed but showed an error
         ([\#23865](https://community.openproject.com/work_packages/23865/activity)).
-      - The grouping of work packages was lost on export.
+      - The grouping of work packages was lost on export.
       - In work package custom fields the zero was displayed as not set
         (“-“)
         ([\#23975](https://community.openproject.com/work_packages/23975/activity)).
@@ -33,7 +33,7 @@ OpenProject 6.0.5 contains several bug fixes and improvements.
         showed distracting icons on hover and were not accessible
         ([\#24033](https://community.openproject.com/work_packages/24033/activity)).
       - Curly braces in the work package description (e.g. to show code)
-        were incorrectly displayed / escaped
+        were incorrectly displayed / escaped
         ([\#24050](https://community.openproject.com/work_packages/24050/activity)).
       - It was not possible to set the default “Objects per page” for
         the work package list
@@ -41,7 +41,7 @@ OpenProject 6.0.5 contains several bug fixes and improvements.
       - There was a translation missing when displaying changes in the
         work package description
         ([\#23917](https://community.openproject.com/work_packages/23917/activity)).
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-8">Wiki</span>
+  - Wiki
       - An internal error occurred when renaming wiki pages to certain
         reserved names
         ([\#23961](https://community.openproject.com/work_packages/23961/activity)).
@@ -52,11 +52,11 @@ OpenProject 6.0.5 contains several bug fixes and improvements.
       - New users who created a hosted OpenProject instance had wrong
         email settings
         ([\#23856](https://community.openproject.com/work_packages/23856/activity)).
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-37">Repository</span>
+  - Repository
       - There was an instance when the Git repository was producing an
         error 500
         ([\#23953](https://community.openproject.com/work_packages/23953/activity)).
-      - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-37">Repository</span>
+      - Repository
         commit which referenced work packages were not shown on the work
         package
         ([\#24026](https://community.openproject.com/work_packages/24026/activity)).
@@ -71,7 +71,7 @@ OpenProject 6.0.5 contains several bug fixes and improvements.
       - An error occurred when using the cost report with Chinese
         language settings due to a missing translation
         ([\#23998](https://community.openproject.com/work_packages/23998/activity)).
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-92">Backlogs</span>
+  - Backlogs
       - Clicking on an empty story point field in the backlogs to assign
         story points to a work package was not possible
         ([\#23994](https://community.openproject.com/work_packages/23994/activity)).
@@ -94,11 +94,11 @@ the work package list and work package page
 Thanks a lot to the community, in particular to Marc Vollmer, Frank
 Schmid, Melroy van den Berg, Richard Su, Mikhail Podshivalin, Tilo
 Laufer, Artur Kokhansky, Martin Kleehaus, Filipe Dias, and Markus
-Berthold  for [reporting
+Berthold  for [reporting
 bugs](../../development/report-a-bug/)\!
 
 For further information on the release, please refer to the [Changelog
-v.6.0.5](https://community.openproject.com/versions/817) or take a look
+v.6.0.5](https://community.openproject.com/versions/817) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v6.0.5).
 
 You can try OpenProject for free. For a free 30 day trial create your

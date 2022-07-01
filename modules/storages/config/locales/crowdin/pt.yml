@@ -46,10 +46,10 @@ pt:
       setting_up_storages_non_admin: "Administradores podem configurar armazenamentos de arquivos em Administração / Armazenamento de arquivos."
       all_available_storages_already_added: "Todos os armazenamentos disponíveis já foram adicionados ao projeto."
       nextcloud:
-        administration: Administration
-        oauth2_clients: OAuth2 clients
-        oauth_client_id: Copy the value from
-        oauth_client_secret: Copy the value from
+        administration: Administração
+        oauth2_clients: Clientes OAuth2
+        oauth_client_id: Copiar o valor de
+        oauth_client_secret: Copiar o valor de
     delete_warning:
       storage: >
         Tem certeza de que deseja excluir este armazenamento? Isso também excluirá o armazenamento de todos os projetos em que for usado. Além disso, também excluirá todos os vínculos de pacotes de trabalho para arquivos armazenados nesse armazenamento.
@@ -60,16 +60,16 @@ pt:
     label_file_links: "Vínculos dos arquivos"
     label_name: "Nome"
     label_host: "Servidor"
-    label_oauth_client_details: "OAuth client details"
+    label_oauth_client_details: "Detalhes do cliente OAuth"
     label_provider_type: "Tipo de provedor"
     label_new_storage: "Novo armazenamento"
     label_storage: "Armazenamento"
     label_storages: "Armazenamentos"
     no_results: "Ainda não há armazenamento configurado."
-    label_oauth_client_id: "OAuth Client ID"
-    label_oauth_client_secret: "OAuth Client Secret"
+    label_oauth_client_id: "ID do cliente Oauth2"
+    label_oauth_client_secret: "Cliente Secreto OAuth"
     provider_types:
       label: "Tipo de provedor"
       nextcloud: "Nextcloud"
-    confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
-    oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
+    confirm_replace_oauth_client: "Tem certeza? Todos os usuários terão que autorizar novamente no armazenamento."
+    oauth_client_details_missing: "Para concluir a configuração, adicione as credenciais do cliente OAuth do seu armazenamento."

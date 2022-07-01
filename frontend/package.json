@@ -29,6 +29,7 @@
     "@types/resize-observer-browser": "^0.1.4",
     "@types/swagger-ui": "^3.47.0",
     "@types/urijs": "^1.19.6",
+    "@types/uuid": "^8.3.4",
     "@types/webpack-env": "^1.16.0",
     "@typescript-eslint/eslint-plugin": "4.23.0",
     "@typescript-eslint/parser": "4.23.0",
@@ -128,6 +129,7 @@
     "ng-dynamic-component": "^6.0.0",
     "ng2-charts": "^2.3.1",
     "ng2-dragula": "^2.1.1",
+    "ngx-cookie-service": "^14.0.0",
     "observable-array": "0.0.4",
     "pako": "^2.0.3",
     "reactivestates": "2.0.1",
@@ -140,6 +142,7 @@
     "ts-action-operators": "^9.1.2",
     "typedjson": "^1.5.1",
     "urijs": "^1.19.11",
+    "uuid": "^8.3.2",
     "zone.js": "~0.11.4"
   },
   "scripts": {

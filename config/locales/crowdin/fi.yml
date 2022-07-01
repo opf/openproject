@@ -740,6 +740,7 @@ fi:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "ei voi olla välitavoite."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1462,7 +1463,6 @@ fi:
   label_consent_settings: "Käyttäjän suostumus"
   label_wiki_menu_item: Wiki-valikkovaihtoehto
   label_select_main_menu_item: Valitse uusi valikkovaihtoehto päävalikkoon
-  label_select_project: "Valitse projekti"
   label_required_disk_storage: "Tarvittava levytila"
   label_send_invitation: Lähetä kutsu
   label_change_plural: "Muutokset"
@@ -1741,7 +1741,6 @@ fi:
   label_product_version: "Tuotteen versio"
   label_professional_support: "Ammatillinen apu"
   label_profile: "Profile"
-  label_project_all: "Kaikki projektit"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Lähetä sähköposti-ilmoituksia projektin kopioinnin aikana"
   label_project_latest: "Uusimmat projektit"

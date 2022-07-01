@@ -37,6 +37,10 @@ require 'test_prof/recipes/rspec/before_all'
 require 'test_prof/recipes/rspec/let_it_be'
 require "test_prof/recipes/rspec/factory_default"
 
+# Add PaperTrail integration so that it is disabled by default
+# https://github.com/paper-trail-gem/paper_trail#7b-rspec
+require 'paper_trail/frameworks/rspec'
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end

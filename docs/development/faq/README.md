@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Development FAQ
   priority: 980
 description: Frequently asked questions for development
-robots: index, follow
 keywords: FAQ, change code, developing, plug-in
 ---
 # Frequently asked questions (FAQ) for development

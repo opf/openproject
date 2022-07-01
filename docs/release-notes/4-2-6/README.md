@@ -28,7 +28,7 @@ The following bugs have been fixed:
     [\#21248](https://community.openproject.org/work_packages/21248),
     [\#21253](https://community.openproject.org/work_packages/21253)).
 
-Additionally, OpenProject 4.2.6 contains new translations.
+Additionally, OpenProject 4.2.6 contains new translations.
 
 For further information on the release, please refer to the [Changelog
 v.4.2.6](https://community.openproject.org/versions/762) or take a look

@@ -26,11 +26,11 @@ newest version.
   - Fixed: Top menu entries are misaligned in mobile views
     \[[\#28678](https://community.openproject.com/wp/28678)\]
   - Fixed: Unable to save
-    Sub-<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-45">Project</span>
+    Sub-Project
     with Custom Field of
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-10">Version</span>
+    Version
     using parent
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-10">Version</span>
+    Version
     \[[\#28421](https://community.openproject.com/wp/28421)\]
   - Fixed: Toolbar container styling corrected
     \[[\#28645](https://community.openproject.com/wp/28645)\]
@@ -38,16 +38,16 @@ newest version.
     for non-inlineable images. This resulted in SVGs being displayed
     inline, which opens an SVG XSS attack vector on the AWS domain (NOT
     on the OpenProject domain). From this version onward, non-image
-    files will receive a forced *attachment* content disposition to
+    files will receive a forced *attachment* content disposition to
     ensure the file is not loaded in the browser.
 
- 
+ 
 
 #### Contributions
 
 Thanks to Github users @storm2513 and @akasparas for providing bugfixes
 as pull requests [on our GitHub
-project](https://github.com/opf/openproject).  A big thanks to community
+project](https://github.com/opf/openproject).  A big thanks to community
 members for reporting bugs and helping us identifying and providing
 fixes.
 

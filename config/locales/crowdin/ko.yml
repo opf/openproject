@@ -738,6 +738,7 @@ ko:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "마일스톤에 포함될 수 없음"
               cannot_be_self_assigned: "- 자신에게 할당할 수 없습니다."
@@ -1444,7 +1445,6 @@ ko:
   label_consent_settings: "사용자 동의"
   label_wiki_menu_item: 위키 메뉴 항목
   label_select_main_menu_item: 새 기본 메뉴 항목 선택
-  label_select_project: "프로젝트를 선택하세요"
   label_required_disk_storage: "필요한 디스크 스토리지"
   label_send_invitation: 초대장 보내기
   label_change_plural: "변경"
@@ -1723,7 +1723,6 @@ ko:
   label_product_version: "제품 버전"
   label_professional_support: "전문적 지원"
   label_profile: "프로필"
-  label_project_all: "모든 프로젝트"
   label_project_count: "전체 프로젝트 수"
   label_project_copy_notifications: "프로젝트 복사 중에 이메일 알림 보내기"
   label_project_latest: "최근 프로젝트"

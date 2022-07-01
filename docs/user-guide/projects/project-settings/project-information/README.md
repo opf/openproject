@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Project information
   priority: 990
 description: General project information.
-robots: index, follow
 keywords: project information
 ---
 # Manage project information

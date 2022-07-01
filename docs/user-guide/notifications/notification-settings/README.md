@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Notifications settings
   priority: 580
 description: In-app notification settings in OpenProject
-robots: index, follow
 keywords: notifications settings
 ---
 # Notification settings

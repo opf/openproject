@@ -46,6 +46,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
 import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
+import { fileLinkViewAllowed } from 'core-app/shared/components/file-links/file-links-constants.const';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -66,15 +67,20 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
   @ViewChild('avatar') avatar:ElementRef;
 
-  public infoTimestampText:string;
+  infoTimestampText:string;
 
-  public fileLinkIcon:IFileIcon;
+  fileLinkIcon:IFileIcon;
 
-  public text = {
+  showFloatingActions:boolean;
+
+  text = {
     title: {
       openFile: this.i18n.t('js.label_open_file_link'),
       openFileLocation: this.i18n.t('js.label_open_file_link_location'),
       removeFileLink: this.i18n.t('js.label_remove_file_link'),
+    },
+    floatingText: {
+      noViewPermission: this.i18n.t('js.label_file_link_no_permission'),
     },
   };
 
@@ -94,6 +100,8 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
     }
 
     this.fileLinkIcon = getIconForMimeType(this.originData.mimeType);
+
+    this.showFloatingActions = this.fileLink._links.permission.href === fileLinkViewAllowed;
   }
 
   ngAfterViewInit():void {
@@ -101,6 +109,13 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
       this.principalRendererService.render(
         this.avatar.nativeElement,
         { name: this.originData.lastModifiedByName, href: '/external_users/1' },
+        { hide: true, link: false },
+        { hide: false, size: 'mini' },
+      );
+    } else {
+      this.principalRendererService.render(
+        this.avatar.nativeElement,
+        { name: 'Not Available', href: '/placeholder_users/1' },
         { hide: true, link: false },
         { hide: false, size: 'mini' },
       );

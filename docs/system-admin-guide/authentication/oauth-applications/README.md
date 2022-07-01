@@ -3,7 +3,6 @@ sidebar_navigation:
   title: OAuth applications
   priority: 900
 description: OAuth application settings in OpenProject.
-robots: index, follow
 keywords: OAuth application settings
 ---
 # OAuth applications

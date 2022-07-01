@@ -204,6 +204,10 @@ describe Attachment, type: :model do
     end
   end
 
+  include_examples 'creates an audit trail on destroy' do
+    subject { create(:attachment) }
+  end
+
   # We just use with_direct_uploads here to make sure the
   # FogAttachment class is defined and Fog is mocked.
   describe "#external_url", with_direct_uploads: true do

@@ -29,14 +29,11 @@
 require 'spec_helper'
 
 describe WorkPackages::SetScheduleService do
-  shared_let(:project) { create(:project) }
-  shared_let(:user) { create(:user) }
-  shared_let(:type) { create(:type) }
+  create_shared_association_defaults_for_work_package_factory
 
   let(:work_package) do
     create(:work_package,
            subject: 'subject',
-           project:,
            start_date: work_package_start_date,
            due_date: work_package_due_date)
   end
@@ -98,12 +95,9 @@ describe WorkPackages::SetScheduleService do
   def create_follower(start_date, due_date, predecessors, parent: nil)
     work_package = create(:work_package,
                           subject: "follower of #{predecessors.keys.map(&:subject).to_sentence}",
-                          type:,
                           start_date:,
                           due_date:,
-                          parent:,
-                          project:,
-                          author: user)
+                          parent:)
 
     predecessors.map do |predecessor, delay|
       create(:follows_relation,
@@ -311,7 +305,6 @@ describe WorkPackages::SetScheduleService do
     context 'when moving backwards with the follower having another relation limiting movement' do
       let!(:other_work_package) do
         create(:work_package,
-               type:,
                start_date: follower1_start_date - 8.days,
                due_date: follower1_start_date - 5.days).tap do |wp|
           create(:follows_relation,
@@ -627,9 +620,6 @@ describe WorkPackages::SetScheduleService do
     context 'when moving backwards with the parent having another relation limiting movement' do
       let!(:other_work_package) do
         create(:work_package,
-               type:,
-               project:,
-               author: user,
                start_date: Time.zone.today - 8.days,
                due_date: Time.zone.today - 4.days).tap do |wp|
           create(:follows_relation,
@@ -654,7 +644,6 @@ describe WorkPackages::SetScheduleService do
     context 'when moving backwards with the parent having another relation not limiting movement' do
       let(:other_work_package) do
         create(:work_package,
-               type:,
                start_date: Time.zone.today - 10.days,
                due_date: Time.zone.today - 9.days)
       end

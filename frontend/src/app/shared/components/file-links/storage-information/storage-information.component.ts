@@ -27,8 +27,9 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, EventEmitter, Input, Output,
+  ChangeDetectionStrategy, Component, Input,
 } from '@angular/core';
+import { StorageActionButton } from 'core-app/shared/components/file-links/file-link-list/storage-action-button';
 
 @Component({
   selector: 'op-storage-information',
@@ -42,7 +43,5 @@ export class StorageInformationComponent {
 
   @Input() infoTextContent:string;
 
-  @Input() buttonText:string;
-
-  @Output() buttonClickEventEmitter = new EventEmitter();
+  @Input() buttons:StorageActionButton[];
 }

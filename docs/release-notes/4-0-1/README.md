@@ -9,7 +9,7 @@
 
 # OpenProject 4.0.1
 
- 
+ 
 
 OpenProject 4.0.1 was released.  
 The release fixes installation errors caused by an old version of

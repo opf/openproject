@@ -739,6 +739,7 @@ zh-TW:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "不可以成為一個里程碑"
               cannot_be_self_assigned: "不能指派給自己"
@@ -1445,7 +1446,6 @@ zh-TW:
   label_consent_settings: "使用者同意"
   label_wiki_menu_item: 維基選單項目
   label_select_main_menu_item: 選擇新的主選單項目
-  label_select_project: "選擇專案"
   label_required_disk_storage: "需要磁碟空間"
   label_send_invitation: 發送邀請
   label_change_plural: "更改"
@@ -1724,7 +1724,6 @@ zh-TW:
   label_product_version: "產品版本"
   label_professional_support: "專業支援"
   label_profile: "Profile"
-  label_project_all: "所有專案"
   label_project_count: "專案總數"
   label_project_copy_notifications: "在專案複製期間發送電子郵件通知"
   label_project_latest: "最新的專案"

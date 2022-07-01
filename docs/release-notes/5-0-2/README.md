@@ -7,10 +7,10 @@
 ---
 
 
-# OpenProject 5.0.2
+# OpenProject 5.0.2
 
 OpenProject 5.0.2 contains several bug fixes and additional translations
-for the OpenProject core and plugins.
+for the OpenProject core and plugins.
 
 The following bugs have been fixed with OpenProject 5.0.2:
 

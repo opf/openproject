@@ -737,6 +737,7 @@ ca:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "no pot ser una fita."
               cannot_be_self_assigned: "no pot ser assignat a si mateix."
@@ -1459,7 +1460,6 @@ ca:
   label_consent_settings: "User Consent"
   label_wiki_menu_item: Element de menú Wiki
   label_select_main_menu_item: Seleccioneu nou element de menú principal
-  label_select_project: "Seleccioneu un projecte"
   label_required_disk_storage: "Emmagatzematge de disc necessari"
   label_send_invitation: Send invitation
   label_change_plural: "Canvis"
@@ -1738,7 +1738,6 @@ ca:
   label_product_version: "Versió del producte"
   label_professional_support: "Suport professional"
   label_profile: "Perfil"
-  label_project_all: "Tots els projectes"
   label_project_count: "Nombre total de projectes"
   label_project_copy_notifications: "Envia notificacions de correu electrònic durant la còpia del projecte"
   label_project_latest: "Últims projectes"

@@ -14,6 +14,9 @@ on:
       - 'docs/**'
       - 'help/**'
 
+permissions:
+  contents: read
+
 jobs:
   units:
     name: Units

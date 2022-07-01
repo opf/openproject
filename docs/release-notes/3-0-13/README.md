@@ -9,7 +9,7 @@
 
 # OpenProject 3.0.13
 
-The 3.0.13 patch release for OpenProject contains several bug fixes.
+The 3.0.13 patch release for OpenProject contains several bug fixes.
 
 In particular, an internal error occurring when adding two identically
 named queries as menu entries to the project menu has been fixed

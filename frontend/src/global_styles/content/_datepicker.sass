@@ -28,6 +28,17 @@
 
 $datepicker--border-radius: 5px
 
+@mixin disabled-day
+  background: $spot-color-basic-white
+  color: $spot-color-basic-gray-4 !important
+  border-radius: 0
+  background: $spot-color-basic-white
+  pointer-events: none
+  cursor: not-allowed
+
+  &:hover
+    border-color: transparent
+
 .flatpickr-current-month
   display: flex !important
 
@@ -37,7 +48,8 @@ $datepicker--border-radius: 5px
 
 
 .flatpickr-day
-  &.flatpickr-disabled,
+  &.flatpickr-disabled
+    @include disabled-day
   &.flatpickr-non-working-day
     background: $spot-color-basic-gray-6
     border-radius: 0
@@ -132,13 +144,7 @@ $datepicker--border-radius: 5px
   &.disabled
     .flatpickr-days
       .flatpickr-day
-        color: $spot-color-basic-gray-4
-        background: $spot-color-basic-white
-        pointer-events: none
-        cursor: not-allowed
-
-        &:hover
-          border-color: transparent
+        @include disabled-day
 
         &.selected,
         &.startRange,

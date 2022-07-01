@@ -16,14 +16,12 @@ newest version.
 
 #### Bug fixes and changes
 
- 
+ 
 
   - Fixed: Long heading in forum overlaps buttons
     \[[\#28839](https://community.openproject.com/wp/28839)\]
   - Fixed: Wrong error message when updating teaser element on
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-45">Project</span>
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-55">Overview
-    page</span>
+    Project Overview page
     \[[\#29011](https://community.openproject.com/wp/29011)\]
   - Fixed: Page not found displays old OpenProject favicon icon
     \[[\#29026](https://community.openproject.com/wp/29026)\]
@@ -43,17 +41,15 @@ newest version.
   - Fixed: Two column layout not applied on page reload
     \[[\#29238](https://community.openproject.com/wp/29238)\]
   - Fixed:
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-7">Work
-    package</span> table header not sticky on MS Edge, Opera, Safari
+    Work package table header not sticky on MS Edge, Opera, Safari
     \[[\#29239](https://community.openproject.com/wp/29239)\]
   - Fixed:
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-7">Work
-    package</span> table hierarchy arrows incorrectly indented on MS
+    Work package table hierarchy arrows incorrectly indented on MS
     Edge \[[\#29242](https://community.openproject.com/wp/29242)\]
   - Changed: When creating version on
-    “<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-92">Backlogs</span>”
+    “Backlogs”
     page redirect to
-    <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-92">Backlogs</span>
+    Backlogs
     page (not project settings)
     \[[\#29182](https://community.openproject.com/wp/29182)\]
   - Changed: A security / update warning notification is shown by
@@ -61,10 +57,10 @@ newest version.
     configuration
     documentation](../../system-admin-guide/information#security-badge)
     for more information what this badge does, and what information is
-    requested from our release servers to render the badge. This page
+    requested from our release servers to render the badge. This page
     also provides means to disable this check.
 
- 
+ 
 
 #### Contributions
 
