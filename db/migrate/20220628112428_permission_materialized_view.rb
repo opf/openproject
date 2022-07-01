@@ -90,32 +90,36 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
            roles.id
        ) non_members,
        (
-         SELECT
-           permission_module_map.permission,
+SELECT
+         permission_module_map.permission,
            project_id,
-           role_id
-         FROM
-           role_permissions,
-           (VALUES ('view_project', NULL, true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public),
-           roles,
-           enabled_modules
+           roles.id role_id
+FROM
+		   (
+			   SELECT * FROM
+			   (VALUES ('view_project', NULL, true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public)
+			   LEFT JOIN enabled_modules
+			   ON enabled_modules.name = permission_module_map.project_module
+			   WHERE permission_module_map.project_module IS NULL OR enabled_modules.project_id IS NOT NULL
+			) permission_module_map,
+           (
+		     SELECT roles.*, role_permissions.permission from roles LEFT JOIN role_permissions ON roles.id = role_permissions.role_id
+			   WHERE roles.builtin IN (#{Role::BUILTIN_NON_MEMBER}, #{Role::BUILTIN_ANONYMOUS})
+		   ) roles
            WHERE
              (
-               (permission_module_map.public = FALSE AND role_permissions.permission = permission_module_map.permission)
+               (permission_module_map.public = FALSE AND roles.permission = permission_module_map.permission)
                OR
                (permission_module_map.public = TRUE)
              )
-           AND
-             roles.builtin IN (#{Role::BUILTIN_NON_MEMBER}, #{Role::BUILTIN_ANONYMOUS})
-           AND
-             (enabled_modules.name = permission_module_map.project_module OR permission_module_map.project_module IS NULL)
-           GROUP BY
+
+		GROUP BY
              permission_module_map.permission,
-             role_id,
+             roles.id,
              project_id
-       ) permissions_in_project
+	   ) permissions_in_project
        WHERE
-         non_members.project_id = permissions_in_project.project_id
+         (non_members.project_id = permissions_in_project.project_id OR permissions_in_project.project_id IS NULL)
          AND
          non_members.role_id = permissions_in_project.role_id
     SQL
