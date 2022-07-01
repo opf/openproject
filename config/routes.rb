@@ -202,10 +202,6 @@ OpenProject::Application.routes.draw do
       get :destroy_info, as: 'confirm_destroy'
     end
 
-    collection do
-      get :level_list
-    end
-
     resources :versions, only: %i[new create] do
       collection do
         put :close_completed

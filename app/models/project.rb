@@ -395,21 +395,6 @@ class Project < ApplicationRecord
       project_tree_from_hierarchy(projects_hierarchy, 0, &)
     end
 
-    def project_level_list(projects)
-      list = []
-      project_tree(projects) do |project, level|
-        element = {
-          project:,
-          level:
-        }
-
-        element.merge!(yield(project)) if block_given?
-
-        list << element
-      end
-      list
-    end
-
     private
 
     def sort_by_name(project_hashes)
