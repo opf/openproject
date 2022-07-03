@@ -59,6 +59,7 @@ module TimeEntries
     attribute :tmonth
     attribute :tweek
     attribute :user_id
+    attribute :logged_by_id
 
     def assignable_activities
       if model.project
