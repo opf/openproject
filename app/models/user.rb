@@ -87,7 +87,8 @@ class User < Principal
   scope :blocked, -> { create_blocked_scope(self, true) }
   scope :not_blocked, -> { create_blocked_scope(self, false) }
 
-  scopes :find_by_login,
+  scopes :allowed,
+         :find_by_login,
          :newest,
          :notified_globally,
          :watcher_recipients,
