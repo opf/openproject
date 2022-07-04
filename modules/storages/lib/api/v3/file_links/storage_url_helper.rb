@@ -83,7 +83,7 @@ module API::V3::FileLinks::StorageUrlHelper
   def direct_download_token(body:)
     token = parse_direct_download_token(body:)
     if token.blank?
-      Rails.logger.error "Received unexpected json response: #{direct_download_response.result}"
+      Rails.logger.error "Received unexpected json response: #{body}"
       return ServiceResult.failure(result: I18n.t('http.response.unexpected'))
     end
 
