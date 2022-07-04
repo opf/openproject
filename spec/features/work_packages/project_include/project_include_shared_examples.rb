@@ -39,8 +39,14 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     create(:project, name: 'Direct Child', parent: project, enabled_module_names: enabled_modules)
   end
 
-  shared_let(:sub_sub_project) do
-    create(:project, name: 'Direct Grandchild', parent: sub_project, enabled_module_names: enabled_modules)
+  # The user will not receive a membership in this project
+  # which is why it is invisible to the user.
+  shared_let(:sub_sub_project_invisible) do
+    create(:project, name: 'Invisible Grandchild', parent: sub_project, enabled_module_names: enabled_modules)
+  end
+
+  shared_let(:sub_sub_sub_project) do
+    create(:project, name: 'Direct grand Grandchild', parent: sub_sub_project_invisible, enabled_module_names: enabled_modules)
   end
 
   shared_let(:other_project) do
@@ -64,7 +70,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
            member_in_projects: [
              project,
              sub_project,
-             sub_sub_project,
+             sub_sub_sub_project,
              other_project,
              other_sub_project,
              other_sub_sub_project,
@@ -80,7 +86,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
            member_in_projects: [
              project,
              sub_project,
-             sub_sub_project,
+             sub_sub_sub_project,
              other_project,
              other_sub_project,
              other_sub_sub_project,
@@ -117,7 +123,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
 
   shared_let(:sub_sub_bug) do
     create :work_package,
-           project: sub_sub_project,
+           project: sub_sub_sub_project,
            type: type_bug,
            assigned_to: user,
            start_date: Time.zone.today - 1.day,
@@ -150,8 +156,8 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     project.types << type_task
     sub_project.types << type_bug
     sub_project.types << type_task
-    sub_sub_project.types << type_bug
-    sub_sub_project.types << type_task
+    sub_sub_sub_project.types << type_bug
+    sub_sub_sub_project.types << type_task
 
     other_project.types << type_bug
     other_project.types << type_task
@@ -177,7 +183,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.expect_checkbox(another_sub_sub_project.id)
     dropdown.expect_checkbox(project.id, true)
     dropdown.expect_checkbox(sub_project.id, true)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
+    dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
     dropdown.toggle_include_all_subprojects
 
@@ -187,10 +193,10 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.expect_checkbox(another_sub_sub_project.id)
     dropdown.expect_checkbox(project.id, true)
     dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id)
+    dropdown.expect_checkbox(sub_sub_sub_project.id)
 
     dropdown.toggle_checkbox(other_sub_project.id)
-    dropdown.toggle_checkbox(sub_sub_project.id)
+    dropdown.toggle_checkbox(sub_sub_sub_project.id)
 
     dropdown.expect_checkbox(other_project.id)
     dropdown.expect_checkbox(other_sub_project.id, true)
@@ -198,9 +204,9 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.expect_checkbox(another_sub_sub_project.id)
     dropdown.expect_checkbox(project.id, true)
     dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
+    dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
-    dropdown.toggle_checkbox(sub_sub_project.id)
+    dropdown.toggle_checkbox(sub_sub_sub_project.id)
 
     dropdown.expect_checkbox(other_project.id)
     dropdown.expect_checkbox(other_sub_project.id, true)
@@ -208,7 +214,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.expect_checkbox(another_sub_sub_project.id)
     dropdown.expect_checkbox(project.id, true)
     dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id)
+    dropdown.expect_checkbox(sub_sub_sub_project.id)
 
     dropdown.click_button 'Apply'
     dropdown.expect_closed
@@ -216,7 +222,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
 
     dropdown.toggle!
 
-    dropdown.toggle_checkbox(sub_sub_project.id)
+    dropdown.toggle_checkbox(sub_sub_sub_project.id)
     dropdown.click_button 'Apply'
     dropdown.expect_closed
     dropdown.expect_count 3
@@ -235,7 +241,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.expect_checkbox(another_sub_sub_project.id, true)
     dropdown.expect_checkbox(project.id, true)
     dropdown.expect_checkbox(sub_project.id, true)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
+    dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
     dropdown.toggle_include_all_subprojects
 
@@ -245,9 +251,9 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.expect_checkbox(another_sub_sub_project.id)
     dropdown.expect_checkbox(project.id, true)
     dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
+    dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
-    dropdown.toggle_checkbox(sub_sub_project.id)
+    dropdown.toggle_checkbox(sub_sub_sub_project.id)
 
     dropdown.click_button 'Apply'
     dropdown.expect_closed
@@ -261,7 +267,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
 
     dropdown.toggle_checkbox(other_project.id)
     dropdown.toggle_checkbox(project.id)
-    dropdown.toggle_checkbox(sub_sub_project.id)
+    dropdown.toggle_checkbox(sub_sub_sub_project.id)
 
     dropdown.expect_checkbox(other_project.id, true)
     dropdown.expect_checkbox(other_sub_project.id, true)
@@ -269,7 +275,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.expect_checkbox(another_sub_sub_project.id, true)
     dropdown.expect_checkbox(project.id, true)
     dropdown.expect_checkbox(sub_project.id, true)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
+    dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
     dropdown.click_button 'Apply'
     dropdown.expect_closed
@@ -285,12 +291,12 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.expect_checkbox(another_sub_sub_project.id)
     dropdown.expect_checkbox(project.id, true)
     dropdown.expect_checkbox(sub_project.id, true)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
+    dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
     dropdown.toggle_include_all_subprojects
 
     dropdown.toggle_checkbox(other_sub_project.id)
-    dropdown.toggle_checkbox(sub_sub_project.id)
+    dropdown.toggle_checkbox(sub_sub_sub_project.id)
 
     dropdown.expect_checkbox(other_project.id)
     dropdown.expect_checkbox(other_sub_project.id, true)
@@ -298,7 +304,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.expect_checkbox(another_sub_sub_project.id)
     dropdown.expect_checkbox(project.id, true)
     dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
+    dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
     dropdown.click_button 'Apply'
     dropdown.expect_closed
@@ -314,7 +320,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.expect_checkbox(another_sub_sub_project.id)
     dropdown.expect_checkbox(project.id, true)
     dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id)
+    dropdown.expect_checkbox(sub_sub_sub_project.id)
 
     dropdown.click_button 'Apply'
     dropdown.expect_closed
@@ -327,7 +333,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.expect_open
 
     retry_block do
-      dropdown.search sub_sub_project.name
+      dropdown.search sub_sub_sub_project.name
 
       dropdown.expect_no_checkbox(other_project.id)
       dropdown.expect_no_checkbox(other_sub_project.id)
@@ -335,7 +341,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
       dropdown.expect_no_checkbox(another_sub_sub_project.id)
       dropdown.expect_checkbox(project.id, true)
       dropdown.expect_checkbox(sub_project.id, true)
-      dropdown.expect_checkbox(sub_sub_project.id, true)
+      dropdown.expect_checkbox(sub_sub_sub_project.id, true)
     end
 
     retry_block do
@@ -347,7 +353,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
       dropdown.expect_no_checkbox(another_sub_sub_project.id)
       dropdown.expect_no_checkbox(project.id)
       dropdown.expect_no_checkbox(sub_project.id)
-      dropdown.expect_no_checkbox(sub_sub_project.id)
+      dropdown.expect_no_checkbox(sub_sub_sub_project.id)
     end
 
     retry_block do
@@ -359,7 +365,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
       dropdown.expect_checkbox(another_sub_sub_project.id)
       dropdown.expect_checkbox(project.id, true)
       dropdown.expect_checkbox(sub_project.id, true)
-      dropdown.expect_checkbox(sub_sub_project.id, true)
+      dropdown.expect_checkbox(sub_sub_sub_project.id, true)
     end
 
     dropdown.toggle_checkbox(other_sub_sub_project.id)
@@ -373,7 +379,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
       dropdown.expect_no_checkbox(another_sub_sub_project.id)
       dropdown.expect_checkbox(project.id, true)
       dropdown.expect_checkbox(sub_project.id, true)
-      dropdown.expect_checkbox(sub_sub_project.id, true)
+      dropdown.expect_checkbox(sub_sub_sub_project.id, true)
     end
 
     dropdown.toggle_checkbox(other_project.id)
@@ -385,7 +391,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
       dropdown.expect_no_checkbox(another_sub_sub_project.id)
       dropdown.expect_checkbox(project.id, true)
       dropdown.expect_checkbox(sub_project.id, true)
-      dropdown.expect_checkbox(sub_sub_project.id, true)
+      dropdown.expect_checkbox(sub_sub_sub_project.id, true)
     end
 
     dropdown.toggle_include_all_subprojects
@@ -397,7 +403,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
       dropdown.expect_no_checkbox(another_sub_sub_project.id)
       dropdown.expect_checkbox(project.id, true)
       dropdown.expect_no_checkbox(sub_project.id)
-      dropdown.expect_no_checkbox(sub_sub_project.id)
+      dropdown.expect_no_checkbox(sub_sub_sub_project.id)
     end
 
     retry_block do
@@ -409,7 +415,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
       dropdown.expect_no_checkbox(another_sub_sub_project.id)
       dropdown.expect_no_checkbox(project.id)
       dropdown.expect_no_checkbox(sub_project.id)
-      dropdown.expect_no_checkbox(sub_sub_project.id)
+      dropdown.expect_no_checkbox(sub_sub_sub_project.id)
     end
 
     retry_block do
@@ -421,7 +427,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
       dropdown.expect_no_checkbox(another_sub_sub_project.id)
       dropdown.expect_checkbox(project.id, true)
       dropdown.expect_no_checkbox(sub_project.id)
-      dropdown.expect_no_checkbox(sub_sub_project.id)
+      dropdown.expect_no_checkbox(sub_sub_sub_project.id)
     end
 
     retry_block do
@@ -433,7 +439,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
       dropdown.expect_checkbox(another_sub_sub_project.id)
       dropdown.expect_checkbox(project.id, true)
       dropdown.expect_checkbox(sub_project.id)
-      dropdown.expect_checkbox(sub_sub_project.id)
+      dropdown.expect_checkbox(sub_sub_sub_project.id)
     end
   end
 

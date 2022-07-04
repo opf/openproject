@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2022 the OpenProject GmbH
 //
@@ -26,55 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-@import mixins
-
-.controller-homescreen #content-wrapper
-  .widget-box
-    box-shadow: none
-    border: 1px solid var(--content-default-border-color)
-    
-    &.upsale
-      background: $spot-color-feedback-info-light
-
-.controller-homescreen #breadcrumb
-  display: none
-
-.homescreen--links
-  margin: 10px 0
-  display: flex
-  padding: 20px 20%
-  align-items: center
-  justify-content: center
-
-  .icon-context:before
-    padding-right: 0
-
-  .homescreen--links--item
-    flex: 1
-    display: block
-    text-align: center
-    color: var(--content-icon-link-color)
-
-    i::before
-      display: block
-      margin-bottom: 10px
-      font-size: 3rem
-      color: var(--content-icon-link-color)
-
-    &:hover,
-    &:hover span
-      text-decoration: none
-      color: var(--content-link-color)
-      i::before
-        color: var(--content-link-color)
-
-
-@include breakpoint(680px down)
-  .homescreen--links
-    padding: 20px
-    flex-wrap: wrap
-
-    .homescreen--links--item
-      flex: auto
-      margin: 20px 0
-      width: 50%
+export default function isDefinedEntity<T>(entity:T|undefined):entity is T {
+  return entity !== undefined;
+}
