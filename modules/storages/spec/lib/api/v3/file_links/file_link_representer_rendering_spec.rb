@@ -34,7 +34,8 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
   let(:storage) { build_stubbed(:storage) }
   let(:container) { build_stubbed(:work_package) }
   let(:creator) { build_stubbed(:user, firstname: 'Rey', lastname: 'Palpatine') }
-  let(:file_link) { build_stubbed(:file_link, storage:, container:, creator:) }
+  let(:origin_permission) { :view }
+  let(:file_link) { build_stubbed(:file_link, storage:, container:, creator:, origin_permission:) }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(file_link, current_user: user) }
 
@@ -84,10 +85,40 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
     end
 
     describe 'permission' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'permission' }
-        let(:href) { 'urn:openproject-org:api:v3:file-links:permission:View' }
-        let(:title) { 'View' }
+      context 'with permission granted' do
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'permission' }
+          let(:href) { 'urn:openproject-org:api:v3:file-links:permission:View' }
+          let(:title) { 'View' }
+        end
+      end
+
+      context 'with permission NotAllowed' do
+        let(:origin_permission) { :not_allowed }
+
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'permission' }
+          let(:href) { 'urn:openproject-org:api:v3:file-links:permission:NotAllowed' }
+          let(:title) { 'Not allowed' }
+        end
+      end
+
+      context 'with permission not defined (nil)' do
+        let(:origin_permission) { nil }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'permission' }
+        end
+      end
+
+      context 'with permission check had an Error' do
+        let(:origin_permission) { :error }
+
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'permission' }
+          let(:href) { 'urn:openproject-org:api:v3:file-links:permission:Error' }
+          let(:title) { 'Error' }
+        end
       end
     end
 

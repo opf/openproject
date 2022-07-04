@@ -45,8 +45,11 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
   let(:storage) { create(:storage, creator: current_user) }
   let(:another_storage) { create(:storage, creator: current_user) }
 
+  let(:oauth_client) { create(:oauth_client, integration: storage) }
+  let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
+
   let!(:project_storage) { create(:project_storage, project:, storage:) }
-  let!(:another_project_storage) { nil }
+  let!(:another_project_storage) { nil } # create(:project_storage, project:, storage: another_storage)
 
   let(:file_link) do
     create(:file_link, creator: current_user, container: work_package, storage:)
@@ -56,21 +59,34 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
   end
   # If a storage mapping between a project and a storage is removed, the file link still persist. This can occur on
   # moving a work package to another project, too, if target project does not yet have the storage mapping.
-  let(:file_link_of_unlinked_storage) do
+  let(:file_link_of_another_storage) do
     create(:file_link, creator: current_user, container: work_package, storage: another_storage)
   end
 
   let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
+  let(:sync_service) { instance_double(::Storages::FileLinkSyncService) }
 
   subject(:response) { last_response }
 
   before do
+    # Mock ConnectionManager to behave as if connected
     allow(::OAuthClients::ConnectionManager)
       .to receive(:new).and_return(connection_manager)
+    allow(connection_manager)
+      .to receive(:get_access_token)
+      .and_return(ServiceResult.success(result: oauth_client_token))
     allow(connection_manager)
       .to receive(:authorization_state).and_return(:connected)
     allow(connection_manager)
       .to receive(:redirect_to_oauth_authorize).and_return('https://example.com/authorize')
+
+    # Mock FileLinkSyncService as if Nextcloud would respond positively
+    allow(::Storages::FileLinkSyncService)
+      .to receive(:new).and_return(sync_service)
+    allow(sync_service).to receive(:call) do |file_links|
+      ServiceResult.success(result: file_links.each { |file_link| file_link.origin_permission = :view })
+    end
+
     login_as current_user
   end
 
@@ -80,12 +96,14 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
     before do
       file_link
       file_link_of_other_work_package
-      file_link_of_unlinked_storage
+      file_link_of_another_storage
       get path
     end
 
-    it_behaves_like 'API V3 collection response', 1, 1, 'FileLink', 'Collection' do
-      let(:elements) { [file_link] }
+    context 'with all preconditions met (happy path)' do
+      it_behaves_like 'API V3 collection response', 1, 1, 'FileLink', 'Collection' do
+        let(:elements) { [file_link] }
+      end
     end
 
     context 'if user has not sufficient permissions' do
@@ -111,11 +129,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
     describe 'with filter by storage' do
       let!(:another_project_storage) { create(:project_storage, project:, storage: another_storage) }
       let(:path) { "#{api_v3_paths.file_links(work_package.id)}?filters=#{CGI.escape(filters.to_json)}" }
-      let(:filters) do
-        [
-          { storage: { operator: '=', values: [storage_id] } }
-        ]
-      end
+      let(:filters) { [{ storage: { operator: '=', values: [storage_id] } }] }
 
       context 'if filtered by one storage' do
         let(:storage_id) { storage.id }
@@ -130,8 +144,17 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
 
         it_behaves_like 'API V3 collection response', 1, 1, 'FileLink', 'Collection' do
           # has the now linked storage's file links
-          let(:elements) { [file_link_of_unlinked_storage] }
+          let(:elements) { [file_link_of_another_storage] }
         end
+      end
+    end
+
+    context 'with bad query due to syntax error' do
+      let(:filters) { [{ storage: { operator: '#=', values: [storage.id] } }] }
+      let(:path) { "#{api_v3_paths.file_links(work_package.id)}?filters=#{CGI.escape(filters.to_json)}" }
+
+      it 'return a 400 HTTP error' do
+        expect(last_response.status).to be 400
       end
     end
   end
@@ -379,7 +402,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
     end
 
     context 'if file link is in a work package, while its project is not mapped to the file link\'s storage.' do
-      let(:path) { api_v3_paths.file_link(file_link_of_unlinked_storage.id) }
+      let(:path) { api_v3_paths.file_link(file_link_of_another_storage.id) }
 
       it_behaves_like 'not found'
     end
