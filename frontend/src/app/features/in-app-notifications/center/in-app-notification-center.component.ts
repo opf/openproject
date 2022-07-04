@@ -62,6 +62,27 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   originalOrder = ():number => 0;
 
+  reasonMenuItems = [
+    {
+      key: 'mentioned',
+      title: this.I18n.t('js.notifications.menu.mentioned'),
+    },
+    {
+      key: 'assigned',
+      title: this.I18n.t('js.label_assignee'),
+    },
+    {
+      key: 'responsible',
+      title: this.I18n.t('js.notifications.menu.accountable'),
+    },
+    {
+      key: 'watched',
+      title: this.I18n.t('js.notifications.menu.watching'),
+    },
+  ];
+
+  selectedFilter = this.reasonMenuItems.find((item) => item.key === this.uiRouterGlobals.params.name)?.title;
+
   image = {
     no_notification: imagePath('notification-center/empty-state-no-notification.svg'),
     no_selection: imagePath('notification-center/empty-state-no-selection.svg'),
@@ -74,7 +95,8 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   text = {
     no_notification: this.I18n.t('js.notifications.center.empty_state.no_notification'),
-    no_notification_with_current_filter: this.I18n.t('js.notifications.center.empty_state.no_notification_with_current_filter'),
+    no_notification_with_current_filter_project: this.I18n.t('js.notifications.center.empty_state.no_notification_with_current_filter'),
+    no_notification_with_current_filter: this.I18n.t('js.notifications.center.empty_state.no_notification_with_current_filter', { filter: this.selectedFilter }),
     no_selection: this.I18n.t('js.notifications.center.empty_state.no_selection'),
     change_notification_settings: this.I18n.t(
       'js.notifications.settings.change_notification_settings',
@@ -110,6 +132,8 @@ export class InAppNotificationCenterComponent implements OnInit {
   }
 
   noNotificationText(hasNotifications:boolean, totalNotifications:number):string {
-    return (!hasNotifications && totalNotifications > 0) ? this.text.no_notification_with_current_filter : this.text.no_notification;
+    return (!hasNotifications && totalNotifications > 0)
+      ? (this.uiRouterGlobals.params.filter === 'project' ? this.text.no_notification_with_current_filter_project : this.text.no_notification_with_current_filter)
+      : this.text.no_notification;
   }
 }
