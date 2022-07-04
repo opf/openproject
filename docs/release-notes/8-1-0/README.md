@@ -13,7 +13,7 @@ new users with onboarding and graphs are shown in the roadmap.
 
 For users of the [Cloud Edition](https://www.openproject.org/hosting/)
 or [Enterprise
-Edition](https://www.openproject.org/enterprise-edition/) the
+Edition](https://www.openproject.org/enterprise-edition/) the
 conditional formatting has been improved: It is now possible to
 highlight work packages based on the type as well.
 
@@ -52,5 +52,5 @@ time.
 
 OpenProject 8.1 contains a large number of bugs fixes.
 
-For an extensive overview of bug fixes please refer to the [following
+For an extensive overview of bug fixes please refer to the [following
 list](https://community.openproject.com/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22,%22version%22%5D,%22hi%22:true,%22g%22:%22%22,%22t%22:%22parent:asc%22,%22f%22:%5B%7B%22n%22:%22status%22,%22o%22:%22*%22,%22v%22:%5B%5D%7D,%7B%22n%22:%22type%22,%22o%22:%22=%22,%22v%22:%5B%221%22%5D%7D,%7B%22n%22:%22version%22,%22o%22:%22=%22,%22v%22:%5B%22989%22%5D%7D,%7B%22n%22:%22subprojectId%22,%22o%22:%22*%22,%22v%22:%5B%5D%7D%5D,%22pa%22:1,%22pp%22:100%7D).

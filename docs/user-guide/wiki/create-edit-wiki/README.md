@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Create and edit wiki
   priority: 799
 description: Create a new wiki page in OpenProject
-robots: index, follow
 keywords: create wiki
 ---
 
@@ -24,11 +23,7 @@ To create a new wiki page in a project, navigate to the wiki module in your proj
 
 ![create-wiki-page](1568198706474.png)
 
-<div class="alert alert-info" role="alert">
-
-**Note**: If you do not see the wiki module in your project menu, you first have to [activate the module in your project settings](../../projects).
-
-</div>
+> **Note**: If you do not see the wiki module in your project menu, you first have to [activate the module in your project settings](../../projects).
 
 The editor window will open, allowing you to enter title and content of the new page.
 

@@ -9,7 +9,7 @@
 
 # OpenProject 7.1.0
 
-OpenProject 7.1.0 improves timeline queries, provides additional
+OpenProject 7.1.0 improves timeline queries, provides additional
 customization options and improves the design. There are also several
 bug fixes included.
 
@@ -69,7 +69,7 @@ bug fixes included.
     set to “True” after copying a work package – even when the value was
     set to “False” in the original work package. This has been
     fixed.
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-17">Timeline</span>
+  - Timeline
     relationships between milestones and phases were sometimes not shown
     correctly. This has been addressed.
   - In some cases the hierarchy mode was only applied after clicking the
@@ -89,10 +89,10 @@ bug fixes included.
     the module.
 
 Thanks a lot to the community, in particular to Peter F, Jochen Gehlbach
-and Ole Odendahl for reporting bugs\!
+and Ole Odendahl for reporting bugs\!
 
-For further information on the release, please refer to the [Changelog
-v7.1.0](https://community.openproject.com/versions/836) or take a look
-at [GitHub](https://github.com/opf/openproject/tree/v7.1.0).
+For further information on the release, please refer to the [Changelog
+v7.1.0](https://community.openproject.com/versions/836) or take a look
+at [GitHub](https://github.com/opf/openproject/tree/v7.1.0).
 
 

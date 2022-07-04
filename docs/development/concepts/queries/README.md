@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Queries
 description: An introduction to queries in OpenProject and their use in the frontend
-robots: index, follow
 keywords: queries, query space, work package views
 ---
 

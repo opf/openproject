@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Configuring inbound emails
   priority: 7
 description: Configuring inbound emails in OpenProject.
-robots: index, follow
 keywords: incoming, e-mail, inbound, mail
 ---
 
@@ -171,3 +170,24 @@ If you create a work package via email and sent it to another email (to or bcc) 
 ### Truncate Emails
 
 In the administrator's setting you can specify lines after which an email will not be parsed anymore. That is useful if you want to reply to an email automatically sent to you from OpenProject. E.g. you could set it to `--Truncate here--` and insert this line into your email below the updates you want to perform.
+
+
+
+## Error handling
+
+In case of receiving errors, the application will try to send an email to the user with some error details. This mail will only be sent if:
+
+- The incoming mail has been read by the application. If the setup above fails to read the email at all, this will obviously not be able to respond anything
+
+- The user is active on the system (Note that this happens on `unknown_user=create` as well)
+
+- The configuration setting `report_incoming_email_errors` is true (which it is by default)
+
+  
+
+By returning an email with error details, you can theoretically be leaking information through the error messages. As from addresses can be spoofed, please be aware of this issue and try to reduce the impact by setting up the integration appropriately.
+
+If you'd like to disable the reporting of errors to the sender, please set `report_incoming_email_errors=false`:
+
+- In a packaged installation, run `openproject config:get OPENPROJECT_REPORT__INCOMING__EMAIL__ERRORS=false` and restart the openproject service.
+- In a docker system, add the ENV `OPENPROJECT_REPORT__INCOMING__EMAIL__ERRORS=false`

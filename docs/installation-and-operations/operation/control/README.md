@@ -80,7 +80,22 @@ After changing these values, simply restart the web process:
 sudo openproject restart web
 ```
 
+#### Scaling the number of background workers
 
+Note: Depending on your free RAM on your system, we recommend you raise the default number of background processes. By default, one background worker is spawned. Background workers are responsible for delivering mails, copying projects, performing backups and deleting resources.
+
+We recommend to have two background worker processes. Please check your current web processes count with:
+
+
+To set the desired process count, call
+
+```bash
+sudo openproject scale worker=number
+```
+
+Where `number` is a positive number between 1 and `round(AVAILABLE_RAM * 1.5)`.
+
+The respective systemd services are automatically created or removed. If you were already at the entered value, it will output `Nothing to do.`
 
 ## All-in-one Docker-based installation
 

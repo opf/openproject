@@ -7,13 +7,13 @@
 ---
 
 
-# OpenProject 7.0
+# OpenProject 7.0
 
 OpenProject 7.0 is the biggest OpenProject release yet with amazing new
 features: A new interactive timeline, hierarchies in the work package
 list, multi-select custom fields and much more.
 
-## New integrated Gantt chart / timeline
+## New integrated Gantt chart / timeline
 
 OpenProject 7.0 introduces a new Gantt chart which is integrated in the
 work package list
@@ -26,7 +26,7 @@ timeline.
 
 ## Display hierarchies in work package list
 
-You can display hierarchies on the work package list and collapse and
+You can display hierarchies on the work package list and collapse and
 expand them
 ([\#24647](https://community.openproject.com/projects/openproject/work_packages/24647/activity)).
 
@@ -35,7 +35,7 @@ expand them
 ## Attribute group configuration for work package types
 
 With OpenProject 7.0 you can configure which attributes
-are displayed for a work package type
+are displayed for a work package type
 ([\#24123](https://community.openproject.com/projects/openproject/work_packages/24123/activity)).
 
 You can therefore control which attributes are shown and which are
@@ -88,11 +88,11 @@ custom fields
 ([\#24793](https://community.openproject.com/projects/openproject/work_packages/24793/activity)).
 
 With these custom fields you can select multiple values for work package
-custom fields at once and also filter based on them.
+custom fields at once and also filter based on them.
 
 
 
-## Logo upload and custom color scheme (Enterprise / Cloud Edition)
+## Logo upload and custom color scheme (Enterprise / Cloud Edition)
 
 Users of the OpenProject Enterprise Edition and Cloud Edition can upload
 their own company’s logo instead of the OpenProject logo.
@@ -117,7 +117,7 @@ user experience for users accessing OpenProject on a mobile device.
 
 OpenProject 7.0 contains a large number of bugs fixes.
 
-For an extensive overview of bug fixes please refer to the [following
+For an extensive overview of bug fixes please refer to the [following
 list](https://community.openproject.com/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22%5D,%22p%22:%22openproject%22,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22version%22,%22o%22:%22%253D%22,%22t%22:%22list_optional%22,%22v%22:%22750%22%7D,%7B%22n%22:%22type%22,%22o%22:%22%253D%22,%22t%22:%22list_model%22,%22v%22:%221%22%7D,%7B%22n%22:%22subprojectId%22,%22o%22:%22*%22,%22t%22:%22list_subprojects%22,%22v%22:%5B%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D).
 
 

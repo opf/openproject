@@ -12,7 +12,7 @@
 OpenProject 4.2.7 contains a security fix, a bug fix and updated
 translations.
 
-The security fix avoids redirecting to foreign host names for specific
+The security fix avoids redirecting to foreign host names for specific
 redirect URLs.
 
 Additionally, a bug was fixed which caused cache settings to be

@@ -436,4 +436,12 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
       dropdown.expect_checkbox(sub_sub_project.id)
     end
   end
+
+  it 'keeps working even when there are no results (regression #42908)' do
+    dropdown.expect_count 1
+    dropdown.toggle!
+    dropdown.expect_open
+    dropdown.search 'Nonexistent'
+    expect(page).to have_no_selector("[data-qa-selector='op-project-include--loading']")
+  end
 end

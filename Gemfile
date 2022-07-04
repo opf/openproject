@@ -291,12 +291,12 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.6.0'
 
   # ruby linting
-  gem 'rubocop'
-  gem 'rubocop-rails'
-  gem 'rubocop-rspec'
+  gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
 
   # git hooks manager
-  gem 'lefthook'
+  gem 'lefthook', require: false
 
   # Brakeman scanner
   gem 'brakeman', '~> 5.2.0'

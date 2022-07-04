@@ -3,15 +3,12 @@ sidebar_navigation:
   title: LDAP authentication
   priority: 500
 description: Manage LDAP Authentication in OpenProject.
-robots: index, follow
 keywords: ldap authentication
 ---
 
 # Manage LDAP Authentication
 
-<div class="alert alert-info" role="alert">
-**Note**: In order to be able to access the administration panel and manage LDAP authentication you need to be a system admin.
-</div>
+> **Note**: In order to be able to access the administration panel and manage LDAP authentication you need to be a system admin.
 
 To see the list of all available LDAP (Lightweight Directory Access  Protocol) authentications navigate to - > *Administration* and select *-> Authentication* -> *LDAP Authentication* from the menu on the left. You will see the list of all available authentications already created.
 

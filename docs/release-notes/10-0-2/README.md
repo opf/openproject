@@ -25,8 +25,6 @@ Fixed Versions: 9.0.4, 10.0.2
 Credits
 Thanks to David Haintz from the SEC Consult Vulnerability Lab (https://www.sec-consult.com) for identifying and responsibly disclosing the identified issues.
 
-####  
-
 #### Incorrect setting results in slow application and RAM usage
 
 The environment variable *WEB_CONCURRENCY* has been used by OpenProject for some time to control the number of web workers to be spawned by the Unicorn application server. It is defaulting to 4 workers which should account to around 1 - 1.2GB of RAM usage.
@@ -35,16 +33,12 @@ In the upgrade to OpenProject 10, a buildpack from Heroku was updated to control
 
 This has been fixed in this release. We now use the environment variable *OPENPROJECT_WEB_WORKERS* to control the same setting. If you previously set *WEB_CONCURRENCY* in your application to a lower or higher number, please also set the *OPENPROJECT_WEB_WORKERS* variable to the same value.
 
-####  
-
 #### OtherBug fixes and changes
 
 - Fixed: Inconsistent row heights when resizing widgets [[#31048](https://community.openproject.com/wp/31048)]
 - Fixed: In Budgets projected unit costs and labor cost is not shown [[#31247](https://community.openproject.com/wp/31247)]
 - Fixed: Restart puma workers to cope with potential memory leaks [[#31262](https://community.openproject.com/wp/31262)]
 - Fixed: "Enterprise Edition" blue bar would be nicer horizontally [[#31265](https://community.openproject.com/wp/31265)]
-
-####  
 
 #### Contributions
 

@@ -248,7 +248,7 @@ Assuming the following situation:
   	setfacl -dR -m u:www-data:rwx -m u:openproject:rwx -m m:rwx /srv/repositories/X
 
 
-  ​	
+  	
 
 On many file systems, ACLS are enabled by default. On others, you might need to remount affected filesystems with the `acl` option set.
 

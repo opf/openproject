@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Time tracking
   priority: 799
 description: Time tracking in OpenProject
-robots: index, follow
 keywords: time tracking, logging time, define rate, labor costs
 ---
 
@@ -11,9 +10,7 @@ keywords: time tracking, logging time, define rate, labor costs
 
 Users can book their time or units spent on an activity within a project directly on work packages,  which gives a clear indication of how much effort the project activities require. You can either log time in the work package view or via a commit message.
 
-<div class="alert alert-info" role="alert">
-**Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
-</div>
+> **Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
 
 
 | Topic                                                        | Content                                                      |

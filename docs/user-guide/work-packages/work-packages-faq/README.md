@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Work packages FAQ
   priority: 001
 description: Frequently asked questions regarding work packages
-robots: index, follow
 keywords: work packages FAQ, tickets, how to, task
 ---
 

@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Dynamically generated forms
 description: An introduction on how to generate forms from an API form object
-robots: index, follow
 keywords: concept, forms, dynamic forms, schemas
 ---
 

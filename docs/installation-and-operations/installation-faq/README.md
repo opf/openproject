@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Installation & Ops FAQ
   priority: 001
 description: Frequently asked questions regarding installation and operation of OpenProject
-robots: index, follow
 keywords: installation FAQ, upgrades, updates, operation faq
 ---
 

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Time and cost reporting
   priority: 797
 description: Time and cost reporting
-robots: index, follow
 keywords: time and cost reporting
 ---
 
@@ -11,9 +10,7 @@ keywords: time and cost reporting
 
 You can easily report spent time and costs in OpenProject and filter, group and save the reports according to your needs.
 
-<div class="alert alert-info" role="alert">
-**Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
-</div>
+> **Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
 
 
 | Topic                                                      | Content                                            |
@@ -29,7 +26,8 @@ You can easily report spent time and costs in OpenProject and filter, group and 
 
 To open the time and costs reports in OpenProject, navigate to the **Time and costs** module in the project navigation.
 
-<div class="glossary">**Time and costs** is a plugin to filter cost reports on individual or multiple users across individual or multiple projects. The plugin has to be activated as a module in the project settings to be displayed in the side navigation.
+<div class="glossary">
+**Time and costs** is a plugin to filter cost reports on individual or multiple users across individual or multiple projects. The plugin has to be activated as a module in the project settings to be displayed in the side navigation.
 </div>
 ![time-and-costs-report](image-20210305134828633.png)
 

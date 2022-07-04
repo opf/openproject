@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Progress tracking
   priority: 800
 description: Progress tracking in OpenProject.
-robots: index, follow
 keywords: Progress tracking, cost reporting, earned value analysis, earned value management
 ---
 

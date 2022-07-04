@@ -7,7 +7,7 @@
 ---
 
 
-# OpenProject 5.0.6
+# OpenProject 5.0.6
 
 OpenProject 5.0.6 contains several bug fixes:
 
@@ -34,14 +34,14 @@ OpenProject 5.0.6 contains several bug fixes:
     [\#22270](https://community.openproject.org/work_packages/22270/activity)).
   - The accessibility has been improved in several places.
 
-OpenProject 5.0.6 also includes a new icon set
+OpenProject 5.0.6 also includes a new icon set
 ([\#21603](https://community.openproject.org/work_packages/21603/activity)).
 
-Changing a work packages assignee and responsible works significantly
+Changing a work packages assignee and responsible works significantly
 faster in projects with a lot of members.
 
 For further information on the release, please refer to the [Changelog
-v.5.0.6](https://community.openproject.org/versions/784) or take a look
+v.5.0.6](https://community.openproject.org/versions/784) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v5.0.6).
 
 

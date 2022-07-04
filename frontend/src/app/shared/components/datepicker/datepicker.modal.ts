@@ -257,7 +257,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
             dayElem.classList.add('flatpickr-non-working-day');
           }
 
-          if (minimalDate && dayElem.dateObj <= minimalDate) {
+          if (!this.scheduleManually && minimalDate && dayElem.dateObj <= minimalDate) {
             dayElem.classList.add('flatpickr-disabled');
           }
 

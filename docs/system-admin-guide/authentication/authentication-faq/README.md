@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Authentication FAQ
   priority: 001
 description: Frequently asked questions regarding authentication
-robots: index, follow
 keywords: authentication FAQ, LDAP, SAML, SSO
 ---
 
