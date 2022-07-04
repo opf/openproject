@@ -41,7 +41,7 @@ import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import {
-  fileLinkViewAllowed, nextcloud,
+  nextcloud,
   storageAuthorizationError,
   storageConnected,
   storageFailedAuthorization,
@@ -71,6 +71,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   informationBoxIcon:string;
 
   allowEditing = false;
+
+  disabled = false;
 
   showInformationBox$ = new BehaviorSubject<boolean>(false);
 
@@ -113,6 +115,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     this.initializeStorageTypes();
     this.initializeLocales();
 
+    this.disabled = this.storage._links.authorizationState.href !== storageConnected;
+
     this.fileLinks$ = this.fileLinkResourceService.collection(this.collectionKey);
 
     this.fileLinks$
@@ -139,10 +143,6 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   public openStorageLocation():void {
     window.open(this.storageLocation, '_blank');
-  }
-
-  public isDisabled(fileLink:IFileLink):boolean {
-    return fileLink._links.permission.href !== fileLinkViewAllowed;
   }
 
   private get collectionKey():string {
@@ -225,7 +225,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     this.buttons.next([]);
 
     this.showInformationBox$.next(true);
-    this.showFileLinks$.next(false);
+    this.showFileLinks$.next(true);
   }
 
   private setEmptyFileLinkListState():void {

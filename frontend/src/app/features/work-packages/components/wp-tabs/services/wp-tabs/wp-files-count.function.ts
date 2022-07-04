@@ -29,9 +29,10 @@
 import { Injector } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
+import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 
 export function workPackageFilesCount(
   workPackage:WorkPackageResource,
