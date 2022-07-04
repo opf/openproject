@@ -1,6 +1,7 @@
 <div class="spot-list--item-floating-wrapper">
   <a
     class="spot-list--item-action op-files-tab--file-list-item-action"
+    [ngClass]="{ 'disabled': disabled, 'view-not-allowed': !viewAllowed }"
     [href]="fileLink._links.staticOriginOpen.href"
     [title]="fileLink.originData.name"
     target="_blank"
@@ -26,7 +27,7 @@
     ></div>
   </a>
   <div
-    *ngIf="showFloatingActions"
+    *ngIf="!disabled && viewAllowed"
     class="spot-list--item-floating-actions op-files-tab--file-list-item-floating-actions"
   >
     <a
@@ -47,7 +48,7 @@
     </button>
   </div>
   <div
-    *ngIf="!showFloatingActions"
+    *ngIf="!disabled && !viewAllowed"
     class="spot-list--item-floating-actions op-files-tab--file-list-item-floating-text"
   >
     <span class="spot-icon spot-icon_info2"></span>

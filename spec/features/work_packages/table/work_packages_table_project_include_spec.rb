@@ -51,7 +51,7 @@ describe 'Work package project include', type: :feature, js: true do
       work_package_view.ensure_work_package_not_listed!(other_other_task)
 
       dropdown.toggle!
-      dropdown.toggle_checkbox(sub_sub_project.id)
+      dropdown.toggle_checkbox(sub_sub_sub_project.id)
       dropdown.click_button 'Apply'
       dropdown.expect_count 1
 

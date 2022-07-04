@@ -39,6 +39,7 @@ import {
 } from 'rxjs/operators';
 import { CollectionState } from 'core-app/core/state/collection-store';
 import { omit } from 'lodash';
+import isDefinedEntity from 'core-app/core/state/is-defined-entity';
 
 export type CollectionStore<T> = EntityStore<CollectionState<T>>;
 
@@ -70,9 +71,7 @@ export abstract class ResourceCollectionService<T> {
     return this
       .query
       .selectEntity(id)
-      .pipe(
-        filter((entity) => entity !== undefined),
-      ) as Observable<T>;
+      .pipe(filter(isDefinedEntity));
   }
 
   /**

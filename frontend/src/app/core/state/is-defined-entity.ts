@@ -26,6 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export class StorageActionButton {
-  constructor(public readonly label:string, public readonly action:() => void) { }
+export default function isDefinedEntity<T>(entity:T|undefined):entity is T {
+  return entity !== undefined;
 }

@@ -56,7 +56,7 @@ describe 'Calendar project include', type: :feature, js: true do
       work_package_view.expect_event other_other_task, present: false
 
       dropdown.toggle!
-      dropdown.toggle_checkbox(sub_sub_project.id)
+      dropdown.toggle_checkbox(sub_sub_sub_project.id)
       dropdown.click_button 'Apply'
       dropdown.expect_count 1
 

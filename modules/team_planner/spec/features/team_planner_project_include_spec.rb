@@ -86,7 +86,7 @@ describe 'Team planner project include', type: :feature, js: true do
       end
 
       dropdown.toggle!
-      dropdown.toggle_checkbox(sub_sub_project.id)
+      dropdown.toggle_checkbox(sub_sub_sub_project.id)
       dropdown.click_button 'Apply'
       dropdown.expect_count 1
 
