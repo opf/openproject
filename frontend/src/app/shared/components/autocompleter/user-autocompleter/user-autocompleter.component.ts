@@ -27,8 +27,8 @@
 //++
 
 import {
-    ChangeDetectionStrategy,
-  Component, ElementRef, EventEmitter, forwardRef, Injector, Input, OnInit, Output, ViewChild,
+  ChangeDetectionStrategy, Component, ElementRef, EventEmitter,
+  forwardRef, Injector, Input, OnInit, Output, ViewChild,
 } from '@angular/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -74,7 +74,7 @@ export class UserAutocompleterComponent implements OnInit, ControlValueAccessor 
   // Load all users as default
   @Input() public url:string = this.apiV3Service.users.path;
 
-  // ID that should be set on the input HTML element. It is used with 
+  // ID that should be set on the input HTML element. It is used with
   // <label> tags that have `for=""` set
   @Input() public labelForId = '';
 
@@ -95,11 +95,9 @@ export class UserAutocompleterComponent implements OnInit, ControlValueAccessor 
     this.onChange(value);
     this.valueChange.emit(value);
     this.onTouched(value);
-    /*
     setTimeout(() => {
       this.hiddenInput.nativeElement?.dispatchEvent(new Event('change'));
     }, 100);
-    */
   }
 
   get plainValue():ID|ID[] {
