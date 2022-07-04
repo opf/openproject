@@ -20,9 +20,13 @@ You can log unit costs on a work package within a project to keep track on certa
 
 ## Logging costs to a work package
 
-To track unit costs to a work package select the **Log unit costs** option from the **More functions** drop down menu.
+In order to log unit costs, you must first activate the **Time and costs** module and the **Budget** module in the project settings. Then select a budget from the drop-down menu of the work package details and link it to the selected work package.
 
-![Cost tracking log costs](Cost-tracking_log-costs.png)
+![select-budget-work-package-details](select-budget-work-package-details.png)
+
+To log costs to a work package you can either press the button on the top right in the work package detail view or double-click on the line of the work package in the work package table. In both cases a function menu appears in which you can select **log unit costs**. 
+
+![log-unit-costs](log-unit-costs.png)
 
 A new form is opened, where you can log unit costs. You can edit the following information:
 
