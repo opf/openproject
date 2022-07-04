@@ -98,6 +98,8 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Input() public focusDirectly = false;
 
+  @Input() public openDirectly = false;
+
   @Input() public multiple = false;
 
   @Input() public dropdownPosition: 'bottom' | 'top' | 'auto' = 'auto';
