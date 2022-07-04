@@ -39,31 +39,32 @@ module API::V3::FileLinks::StorageUrlHelper
     storage = file_link.storage
     oauth_client = storage.oauth_client
 
-    client_token = ::OAuthClients::ConnectionManager
-                     .new(user:, oauth_client:)
-                     .get_access_token
+    client_token = get_oauth_client_token(user:, oauth_client:)
+    return client_token if client_token.failure?
 
-    return ServiceResult.failure(result: I18n.t('http.request.missing_authorization')) if client_token.failure?
+    direct_download_response = make_direct_download oauth_client:,
+                                                    access_token: client_token.result.access_token,
+                                                    file_id: file_link.origin_id
+    return direct_download_response if direct_download_response.failure?
 
-    response = make_direct_download oauth_client:,
-                                    access_token: client_token.result.access_token,
-                                    file_id: file_link.origin_id
+    download_token = direct_download_token(body: direct_download_response.result)
+    return download_token if download_token.failure?
 
-    return response if response.failure?
-
-    token = parse_direct_download_token body: response.result
-    if token.blank?
-      Rails.logger.error "Received unexpected json response: #{response.result}"
-      return ServiceResult.failure(result: I18n.t('http.response.unexpected'))
-    end
-
-    url = "#{storage.host}/apps/integration_openproject/direct/#{token}/#{file_link.origin_name}"
+    url = "#{storage.host}/apps/integration_openproject/direct/#{download_token.result}/#{file_link.origin_name}"
     ServiceResult.success(result: url)
   end
 
   # rubocop:enable Metrics/AbcSize
 
   private
+
+  def get_oauth_client_token(user:, oauth_client:)
+    client_token = ::OAuthClients::ConnectionManager
+                     .new(user:, oauth_client:)
+                     .get_access_token
+
+    client_token.success? ? client_token : ServiceResult.failure(result: I18n.t('http.request.missing_authorization'))
+  end
 
   def make_direct_download(oauth_client:, access_token:, file_id:)
     response = API::V3::Storages::StorageRequestFactory
@@ -77,6 +78,16 @@ module API::V3::FileLinks::StorageUrlHelper
     return ServiceResult.failure(result: I18n.t('http.request.failed_authorization')) if response.result.body.blank?
 
     ServiceResult.success(result: response.result.body)
+  end
+
+  def direct_download_token(body:)
+    token = parse_direct_download_token(body:)
+    if token.blank?
+      Rails.logger.error "Received unexpected json response: #{direct_download_response.result}"
+      return ServiceResult.failure(result: I18n.t('http.response.unexpected'))
+    end
+
+    ServiceResult.success(result: token)
   end
 
   def parse_direct_download_token(body:)
