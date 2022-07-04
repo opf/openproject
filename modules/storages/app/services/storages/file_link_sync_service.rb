@@ -209,7 +209,7 @@ class Storages::FileLinkSyncService
   #   or success=false with result=:error or result=:not_authorized.
   def parse_files_info_response(response)
     return ServiceResult.failure(result: :error) if files_info_response_error?(response)
-    return ServiceResult.failure(result: :not_authorized) if response.code == "401" # Nextcloud response if token is not valid
+    return ServiceResult.failure(result: :not_authorized) if ["401", "403"].include?(response.code)
     return ServiceResult.failure(result: :error) unless response.code == "200" # Interpret any other response as an error
 
     begin
