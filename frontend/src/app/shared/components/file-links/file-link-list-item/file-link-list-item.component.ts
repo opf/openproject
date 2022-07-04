@@ -59,9 +59,9 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
   @Input() public fileLink:IFileLink;
 
-  @Input() public index:number;
-
   @Input() public allowEditing = false;
+
+  @Input() public disabled = true;
 
   @Output() public removeFileLink = new EventEmitter<void>();
 
@@ -71,7 +71,7 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
   fileLinkIcon:IFileIcon;
 
-  showFloatingActions:boolean;
+  viewAllowed:boolean;
 
   text = {
     title: {
@@ -101,7 +101,7 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
     this.fileLinkIcon = getIconForMimeType(this.originData.mimeType);
 
-    this.showFloatingActions = this.fileLink._links.permission.href === fileLinkViewAllowed;
+    this.viewAllowed = this.fileLink._links.permission.href === fileLinkViewAllowed;
   }
 
   ngAfterViewInit():void {

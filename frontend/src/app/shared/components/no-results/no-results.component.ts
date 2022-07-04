@@ -26,11 +26,21 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, HostBinding, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+} from '@angular/core';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+
+export const noResultsSelector = 'op-no-results';
 
 @Component({
   templateUrl: './no-results.component.html',
-  selector: 'no-results',
+  selector: noResultsSelector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class NoResultsComponent {
@@ -41,4 +51,10 @@ export class NoResultsComponent {
   @Input() showIcon = true;
 
   @HostBinding('class.generic-table--no-results-container') setHostClass = true;
+
+  constructor(
+    readonly elementRef:ElementRef,
+  ) {
+    populateInputsFromDataset(this);
+  }
 }

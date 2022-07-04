@@ -1,10 +1,12 @@
 <div>
-  <enterprise-banner class="ee-attribute-highlighting-upsale"
+  <op-enterprise-banner class="ee-attribute-highlighting-upsale"
                      *ngIf="eeShowBanners"
                      [linkMessage]="text.upsaleCheckOutLink"
                      [textMessage]="text.upsaleAttributeHighlighting"
+                     [moreInfoText]="text.more_info_text"
+                     [moreInfoLink]="text.more_info_link"
                      opReferrer="wp-attribute-highlighting#attribute-highlighting">
-  </enterprise-banner>
+  </op-enterprise-banner>
   <form>
     <p [textContent]="text.highlighting_mode.description"></p>
     <div class="form--field">

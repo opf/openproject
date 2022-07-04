@@ -34,6 +34,13 @@
         padding-left: 0
         padding-right: 0
 
+        &.view-not-allowed
+          opacity: 0.5
+
+        &.disabled
+          opacity: 0.5
+          pointer-events: none
+
         &:hover .op-files-tab--file-list-item-title
           text-decoration: underline
 
@@ -82,9 +89,6 @@
           width: $spot-spacing-1-5
           height: $spot-spacing-1-5
           margin-right: $spot-spacing-0-25
-
-      &.disabled .op-files-tab--file-list-item-action
-        opacity: 0.5
 
   &--storage-info-box
     margin-top: 0.875rem
