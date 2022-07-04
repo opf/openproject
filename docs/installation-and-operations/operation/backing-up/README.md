@@ -62,7 +62,7 @@ sudo mkdir -p /var/lib/openproject/{pgdata,assets}
 docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
-  openproject/community:10
+  openproject/community:12
 ```
 
 Then you would need to backup the `/var/lib/openproject` folder (for instance to S3 or FTP server).
@@ -82,7 +82,7 @@ This assumes that the database container is called `db_1`. Find out the actual n
 If you need a regular dump of the database you can get one using `pg_dump` like this:
 
 ```
-docker exec -e PGPASSWORD=openproject -it $OP_CONTAINER_NAME pg_dump -U openproject -h localhost -d openproject -x -O > openproject.sql
+docker exec -it $OP_CONTAINER_NAME su - postgres -c 'pg_dump -d openproject -x -O' > openproject.sql
 ```
 
 Where `$OP_CONTAINER_NAME` is the name of your OpenProject container. If you don't know it you can find it using `docker ps | grep openproject`.

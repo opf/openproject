@@ -57,4 +57,33 @@ describe TextFormattingHelper, type: :helper do
       end
     end
   end
+
+  describe 'truncate_formatted_text' do
+    it 'truncates given text' do
+      text = <<~TEXT.squish
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+        nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+        erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+        et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+        ipsum dolor sit amet. Lore
+      TEXT
+
+      expect(truncate_formatted_text(text).size).to eq(123)
+    end
+
+    it 'replaces escaped line breaks with html line breaks and should be html_safe' do
+      text = "Lorem ipsum dolor sit \namet, consetetur sadipscing elitr, sed diam nonumy eirmod\n tempor invidunt"
+      text_html = 'Lorem ipsum dolor sit <br /> amet, consetetur sadipscing elitr, sed diam nonumy eirmod <br /> tempor invidunt'
+      expect(truncate_formatted_text(text))
+        .to be_html_eql(text_html)
+      expect(truncate_formatted_text(text))
+        .to be_html_safe
+    end
+
+    it 'escapes potentially harmful code' do
+      text = "Lorem ipsum dolor <script>alert('pwnd');</script> tempor invidunt"
+      expect(truncate_formatted_text(text))
+        .to include('&lt;script&gt;alert(\'pwnd\');&lt;/script&gt;')
+    end
+  end
 end

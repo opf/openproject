@@ -32,25 +32,6 @@ describe ApplicationHelper, type: :helper do
   include ApplicationHelper
   include WorkPackagesHelper
 
-  describe 'format_activity_description' do
-    it 'truncates given text' do
-      text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lore'
-      expect(format_activity_description(text).size).to eq(120)
-    end
-
-    it 'replaces escaped line breaks with html line breaks and should be html_safe' do
-      text = "Lorem ipsum dolor sit \namet, consetetur sadipscing elitr, sed diam nonumy eirmod\r tempor invidunt"
-      text_html = 'Lorem ipsum dolor sit <br />amet, consetetur sadipscing elitr, sed diam nonumy eirmod<br /> tempor invidunt'
-      expect(format_activity_description(text)).to be_html_eql(text_html)
-      expect(format_activity_description(text).html_safe?).to be_truthy
-    end
-
-    it 'escapes potentially harmful code' do
-      text = "Lorem ipsum dolor <script>alert('pwnd');</script> tempor invidunt"
-      expect(format_activity_description(text).include?('&lt;script&gt;alert(&#39;pwnd&#39;);&lt;/script&gt;')).to be_truthy
-    end
-  end
-
   describe 'footer_content' do
     context 'no additional footer content' do
       before do

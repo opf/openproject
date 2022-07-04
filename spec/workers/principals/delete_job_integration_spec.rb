@@ -209,7 +209,7 @@ describe Principals::DeleteJob, type: :model do
 
     shared_examples_for 'private query handling' do
       let!(:query) do
-        create(:private_query, user: principal)
+        create(:private_query, user: principal, views: [create(:view_work_packages_table)])
       end
 
       before do

@@ -7,7 +7,7 @@
 ---
 
 
-# OpenProject 5.0.19
+# OpenProject 5.0.19
 
 OpenProject 5.0.19 contains several bug fixes:
 
@@ -35,7 +35,7 @@ OpenProject 5.0.19 contains several bug fixes:
     ([\#23073](https://community.openproject.com/work_packages/23073/activity)).
 
 For further information on the release, please refer to the [Changelog
-v.5.0.19](https://community.openproject.com/versions/810) or take a look
+v.5.0.19](https://community.openproject.com/versions/810) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v5.0.19).
 
 

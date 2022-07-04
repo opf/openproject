@@ -40,11 +40,11 @@ news](https://www.openproject.org/blog/openproject-7-0-3-released/).
 We recommend the update to the current version.
 
 Thanks a lot to the community, in particular to Mohamed A. Baset from
-Seekurity SAS de C.V, Peter F, Jochen Gehlbach and Ole Odendahl for
+Seekurity SAS de C.V, Peter F, Jochen Gehlbach and Ole Odendahl for
 reporting bugs\!
 
-For further information on the release, please refer to the [Changelog
-v7.0.3](https://community.openproject.com/versions/839) or take a look
-at [GitHub](https://github.com/opf/openproject/tree/v7.0.3).
+For further information on the release, please refer to the [Changelog
+v7.0.3](https://community.openproject.com/versions/839) or take a look
+at [GitHub](https://github.com/opf/openproject/tree/v7.0.3).
 
 

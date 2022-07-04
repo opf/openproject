@@ -62,7 +62,7 @@ vi:
     button_confirm: "Xác nhận"
     button_continue: "Tiếp tục"
     button_copy: "Sao chép"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Sao chép sang dự án khác"
     button_custom-fields: "Tùy chỉnh mục"
     button_delete: "Xoá"
     button_delete_watcher: "Xóa người xem"
@@ -383,7 +383,7 @@ vi:
     label_next: "Tiếp"
     label_no_color: "Không màu"
     label_no_data: "Không có dữ liệu để hiển thị"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "không có ngày hoàn thành"
     label_no_start_date: "không có ngày bắt đầu"
     label_no_value: "Không có giá trị"
     label_none: "không"
@@ -441,7 +441,7 @@ vi:
     label_warning: "Warning"
     label_work_package: "Work Package"
     label_work_package_parent: "Parent work package"
-    label_work_package_plural: "Work Packages"
+    label_work_package_plural: "Quy trình xử lý"
     label_watch: "Theo dõi"
     label_watch_work_package: "Xem gói công việc"
     label_watcher_added_successfully: "Đã thêm nhận xét thành công."
@@ -1162,12 +1162,12 @@ vi:
           group: 'Nhóm này hiện là một phần của %{project}. Trong khi đó, bạn có thể lên kế hoạch cho nhóm đó và chỉ định các gói làm việc cho từng trường hợp.'
         next_button: 'Tiếp tục'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Dự án bao gồm'
       title: 'Các dự án'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Xóa lựa chọn'
       apply: 'Áp dụng'
       selected_filter:
-        all: 'All projects'
+        all: 'Tất cả các dự án'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
       include_subprojects: 'Include all sub-projects'

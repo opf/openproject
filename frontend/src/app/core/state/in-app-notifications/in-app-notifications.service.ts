@@ -60,10 +60,6 @@ export class InAppNotificationsResourceService {
       .get<IHALCollection<InAppNotification>>(this.notificationsPath + collectionURL)
       .pipe(
         tap((collection) => insertCollectionIntoState(this.store, collection, collectionURL)),
-        catchError((error) => {
-          this.toastService.addError(error);
-          throw error;
-        }),
       );
   }
 

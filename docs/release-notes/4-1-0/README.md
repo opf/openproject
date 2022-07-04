@@ -11,7 +11,7 @@
 
 ## **Updated work package split screen**
 
-The layout of the work package split screen was updated to provide a
+The layout of the work package split screen was updated to provide a
 clearer, more accessible interface. Several changes have been
 implemented to the split screen:
 
@@ -45,8 +45,8 @@ Several work package values can be edited at once.
 ## **Improved work package list and filters**
 
 The work package filter section now shows the number of activated
-filters – even when the filter section is collapsed. Additionally, the
-work package ID in the work package list is no longer static, but can be
+filters – even when the filter section is collapsed. Additionally, the
+work package ID in the work package list is no longer static, but can be
 configured as the other columns in the work package list:
 
   - Number of activated filters shown
@@ -55,7 +55,7 @@ configured as the other columns in the work package list:
 
 
 
-## **Improved work package full screen**
+## **Improved work package full screen**
 
 The design of the work package page and the work package form has been
 updated:
@@ -68,12 +68,12 @@ updated:
 
 
 
-## **New design through Foundation framework**
+## **New design through Foundation framework**
 
 The underlying CSS-framework is changed to [Foundation](https://get.foundation/). This change ensures an easier
 adaptability in the future and allows a more responsive design. As a
-result, the overall design of the application has been changed
-with OpenProject 4.1.
+result, the overall design of the application has been changed
+with OpenProject 4.1.
 
 
 

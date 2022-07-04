@@ -61,16 +61,16 @@ class CopyProjectJob < ApplicationJob
 
     if target_project
       successful_status_update
-      ProjectMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_now
+      ProjectMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_later
     else
       failure_status_update
-      ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
+      ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_later
     end
   rescue StandardError => e
     logger.error { "Failed to finish copy project job: #{e} #{e.message}" }
     errors = [I18n.t('copy_project.failed_internal')]
     failure_status_update
-    ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
+    ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_later
   end
 
   def store_status?

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Submit a feature idea
   priority: 990
 description: How to submit an idea for a feature for OpenProject
-robots: index, follow
 keywords: feature requests, ideas, open feature request
 ---
 # Submit a feature idea
@@ -25,7 +24,7 @@ keywords: feature requests, ideas, open feature request
 
 **Example:**
 
-> [Backlogs] Grey out status fields in task board which cannot be used by role
+[Backlogs] Grey out status fields in task board which cannot be used by role
 
 ### Description
 
@@ -37,9 +36,9 @@ keywords: feature requests, ideas, open feature request
 
 **Example:**
 
->     AS an OpenProject user
->     I WANT to only show the allowed status fields as active for which a status transition is allowed based on the workflow
->     SO THAT I am clearly aware which status transitions are allowed before doing them.
+AS an OpenProject user<br>
+I WANT to only show the allowed status fields as active for which a status transition is allowed based on the workflow<br>
+SO THAT I am clearly aware which status transitions are allowed before doing them.
 
 ### Acceptance criteria
 
@@ -47,8 +46,8 @@ keywords: feature requests, ideas, open feature request
 
 **Example:**
 
-> * In the task board only show the status allowed for the role the user has in the project as active.
->   * The status fields which are inactive should have e.g. a grey background to make clear that a user cannot use them.
+* In the task board only show the status allowed for the role the user has in the project as active.
+  * The status fields which are inactive should have e.g. a grey background to make clear that a user cannot use them.
 
 ### Current behavior
 

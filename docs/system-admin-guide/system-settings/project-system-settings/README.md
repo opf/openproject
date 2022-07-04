@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Project system settings
   priority: 950
 description: Project system settings in OpenProject.
-robots: index, follow
 keywords: project system settings
 ---
 # Project system settings

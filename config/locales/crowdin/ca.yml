@@ -1434,7 +1434,7 @@ ca:
   label_available_project_repositories: 'Repositòris disponibles'
   label_api_documentation: "Documentació d'API"
   label_backup: "Backup"
-  label_between: "between"
+  label_between: "entre"
   label_blocked_by: "bloquejats per"
   label_blocks: "blocs"
   label_blog: "Blog"

@@ -91,7 +91,8 @@ describe Grids::CreateContract, 'for Grids::Overview' do
   end
 
   context 'if the user lacks :manage_overview permission' do
-    let(:permissions) { [] }
+    # View project is a public permission so every member will have it but as we stub...
+    let(:permissions) { [:view_project] }
 
     before do
       # Have to remove the widgets (members, work_package_overview) that is not allowed to the user

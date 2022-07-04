@@ -7,7 +7,7 @@
 ---
 
 
-# OpenProject 7.3
+# OpenProject 7.3
 
 OpenProject 7.3 includes several improvements: You can configure which
 labels are shown on Gantt charts, notify users on work packages with
@@ -45,7 +45,7 @@ project member and inform him or her about the current status. While you
 could accomplish this by adding the user as a watcher, it is often more
 clear and personal to directly address the person. This is possible with
 @notations. When you write a comment for a work package (or filling out
-a description), simply enter an *@* sign, followed by the user’s name.
+a description), simply enter an *@* sign, followed by the user’s name.
 The user then receives an email notification.
 
 
@@ -92,14 +92,14 @@ In order to make it more clear in which project a work package is
 located, we added a notification that is shown when the work package you
 are looking at is in a different project from your current project. We
 also removed the project attribute from the work package page. Instead,
-you can use the *Move* function from the *More* menu to assign a work
+you can use the *Move* function from the *More* menu to assign a work
 package to another project.
 
 ## Substantial number of bug fixes
 
 OpenProject 7.3 contains a large number of bugs fixes.
 
-For an extensive overview of bug fixes please refer to the [following
+For an extensive overview of bug fixes please refer to the [following
 list](https://community.openproject.com/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22%5D,%22tzl%22:%22days%22,%22hi%22:true,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22version%22,%22o%22:%22%253D%22,%22v%22:%5B%22841%22%5D%7D,%7B%22n%22:%22type%22,%22o%22:%22%253D%22,%22v%22:%5B%221%22%5D%7D,%7B%22n%22:%22subprojectId%22,%22o%22:%22*%22,%22v%22:%5B%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D).
 
 

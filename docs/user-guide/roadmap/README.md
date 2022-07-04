@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Roadmap
   priority: 880
 description: Find out about the Product Roadmap and Release planning in OpenProject
-robots: index, follow
 keywords: roadmap, release planning
 ---
 
@@ -31,8 +30,4 @@ The chart displays all work packages listed by a certain attribute. Select the d
 
 ![roadmap-workpackage-details](1567423371954.png)
 
-<div class="alert alert-info" role="alert">
-
-Note: A roadmap is only displayed in the project menu when at least one [version](../projects/) exists in a project.
-
-</div>
+> **Note**: A roadmap is only displayed in the project menu when at least one [version](../projects/) exists in a project.

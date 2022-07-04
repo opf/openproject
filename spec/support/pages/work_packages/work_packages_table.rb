@@ -37,6 +37,7 @@ module Pages
 
     def initialize(project = nil)
       @project = project
+      super()
     end
 
     def visit_query(query)
@@ -75,9 +76,9 @@ module Pages
       end
     end
 
-    def expect_work_package_count(n)
+    def expect_work_package_count(count)
       within(table_container) do
-        expect(page).to have_selector(".wp--row", count: n, wait: 20)
+        expect(page).to have_selector(".wp--row", count: count, wait: 20)
       end
     end
 
@@ -171,60 +172,15 @@ module Pages
     end
 
     def drag_and_drop_work_package(from:, to:)
-      # Wait a bit because drag & drop in selenium is easily offended
-      sleep 1
-
-      rows = page.all('.wp-table--row')
-      source = rows[from]
-      target = rows[to]
-
-      scroll_to_element(source)
-      source.hover
-
-      page
-        .driver
-        .browser
-        .action
-        .move_to(source.native)
-        .click_and_hold(source.find('.wp-table--drag-and-drop-handle', visible: false).native)
-        .perform
-
-      ## Hover over each row to be sure,
-      # that the dragged element is reduced to the minimum height.
-      # Thus we can afterwards drag to the correct position.
-      rows.each do |row|
-        next if row == source
-
-        page
-          .driver
-          .browser
-          .action
-          .move_to(row.native)
-          .perform
-      end
-
-      sleep 2
-
-      scroll_to_element(target)
-
-      page
-        .driver
-        .browser
-        .action
-        .move_to(target.native)
-        .release
-        .perform
-
-      # Wait a bit because drag & drop in selenium is easily offended
-      sleep 1
+      drag_and_drop_list(from: from, to: to, elements: '.wp-table--row', handler: '.wp-table--drag-and-drop-handle')
     end
 
     def row(work_package)
       table_container.find(row_selector(work_package))
     end
 
-    def row_selector(el)
-      id = el.is_a?(WorkPackage) ? el.id.to_s : el.to_s
+    def row_selector(elem)
+      id = elem.is_a?(WorkPackage) ? elem.id.to_s : elem.to_s
       ".wp-row-#{id}-table"
     end
 

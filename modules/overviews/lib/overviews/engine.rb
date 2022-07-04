@@ -23,7 +23,7 @@ module Overviews
         ac_map.project_module nil do |map|
           map.permission :manage_overview,
                          { 'overviews/overviews': ['show'] },
-                         public: true
+                         require: :member
         end
       end
     end
@@ -31,7 +31,7 @@ module Overviews
     patch_with_namespace :OpenProject, :TextFormatting, :Formats, :Markdown, :TextileConverter
 
     initializer 'overviews.conversion' do
-      require Rails.root.join('config', 'constants', 'ar_to_api_conversions')
+      require Rails.root.join('config/constants/ar_to_api_conversions')
 
       Constants::ARToAPIConversions.add('grids/overview': 'grid')
     end

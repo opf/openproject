@@ -11,7 +11,7 @@
 
 The release of OpenProject 3.0.2 was postponed due to a critical
 security issue, which was fixed in Ruby on Rails. So we skipped 3.0.2
-and bring you [3.0.3](https://github.com/opf/openproject/tree/v3.0.3)
+and bring you [3.0.3](https://github.com/opf/openproject/tree/v3.0.3)
 with this issue resolved.
 
 If you want to know more about the vulnerability check out Rafael
@@ -25,11 +25,11 @@ attachments.
 
 In conclusion it is strongly recommended to upgrade your 3.0 based
 deployments to version 3.0.3 as soon as possible. The [OpenProject 3.0.3
-tag](https://github.com/opf/openproject/tree/v3.0.3) and
-the [`dev`](https://github.com/opf/openproject/tree/dev) branches both
+tag](https://github.com/opf/openproject/tree/v3.0.3) and
+the [`dev`](https://github.com/opf/openproject/tree/dev) branches both
 include the security fixes.
 
- 
+ 
 
 ## Bug Fixes:
 

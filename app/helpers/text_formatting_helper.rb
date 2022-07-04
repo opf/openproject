@@ -27,7 +27,9 @@
 #++
 
 module TextFormattingHelper
+  include OpenProject::TextFormatting
   extend Forwardable
+
   def_delegators :current_formatting_helper,
                  :wikitoolbar_for
 
@@ -72,6 +74,29 @@ module TextFormattingHelper
       paths.send(object.class.name.underscore.singularize, object.id)
     else
       project_preview_context(object, project)
+    end
+  end
+
+  def truncate_formatted_text(text, length: 120)
+    # rubocop:disable Rails/OutputSafety
+    stripped_text = strip_tags(format_text(text.to_s)).html_safe
+
+    if length
+      truncate_multiline(stripped_text)
+    else
+      stripped_text
+    end
+      .strip
+      .gsub(/[\r\n]+/, '<br />')
+      .html_safe
+    # rubocop:enable Rails/OutputSafety
+  end
+
+  def truncate_multiline(string)
+    if string.to_s =~ /\A(.{120}).*?$/m
+      "#{$1}..."
+    else
+      string
     end
   end
 end

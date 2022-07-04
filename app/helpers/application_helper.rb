@@ -109,12 +109,6 @@ module ApplicationHelper
     date == User.current.today ? I18n.t(:label_today).titleize : format_date(date)
   end
 
-  def format_activity_description(text)
-    html_escape_once(truncate(text.to_s, length: 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...'))
-      .gsub(/[\r\n]+/, '<br />')
-      .html_safe
-  end
-
   def due_date_distance_in_words(date)
     if date
       label = date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Project templates
   priority: 498
 description: How to create project templates.
-robots: index, follow
 keywords: project templates
 ---
 # Project templates
@@ -23,9 +22,7 @@ Set up everything that you want to have available for future projects.
 
 Navigate to the [project settings](../project-settings) and click **Set as template** in the upper right corner. You can remove a project from the template collection on the same spot. 
 
-<div class="alert alert-info" role="alert">
-**Please note**: The option to set a project as template or to remove it from templates is only available for Administrators.
-</div>
+> **Please note**: The option to set a project as template or to remove it from templates is only available for Administrators.
 
 ![set-as-template](image-20210204170739796-0115761.png)
 

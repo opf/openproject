@@ -3,7 +3,6 @@ sidebar_navigation:
   title: General settings
   priority: 990
 description: General system settings in OpenProject.
-robots: index, follow
 keywords: general settings
 ---
 # General system settings
