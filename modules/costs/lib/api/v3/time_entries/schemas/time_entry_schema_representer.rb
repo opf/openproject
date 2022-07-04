@@ -59,7 +59,7 @@ module API
 
           schema_with_allowed_link :user,
                                    has_default: false,
-                                   required: false,
+                                   required: true,
                                    href_callback: ->(*) {
                                      allowed_user_href
                                    }
@@ -69,6 +69,13 @@ module API
                                    required: false,
                                    href_callback: ->(*) {
                                      allowed_work_package_href
+                                   }
+
+          schema_with_allowed_link :project,
+                                   has_default: false,
+                                   required: false,
+                                   href_callback: ->(*) {
+                                     allowed_projects_href
                                    }
 
           schema_with_allowed_collection :activity,

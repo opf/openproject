@@ -41,6 +41,7 @@ module API
                       scope: -> {
                         Project
                           .where(id: Project.allowed_to(User.current, :log_own_time))
+                          .or(Project.where(id: Project.allowed_to(User.current, :log_time)))
                           .or(Project.where(id: Project.allowed_to(User.current, :edit_time_entries)))
                           .or(Project.where(id: Project.allowed_to(User.current, :edit_own_time_entries)))
                       })

@@ -139,9 +139,9 @@ describe ::API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
           .to be_json_eql("some cf text".to_json)
           .at_path("_embedded/payload/customField#{custom_field.id}/raw")
 
-        # As the user is always the current user, it is not part of the payload
         expect(body)
-          .not_to have_json_path('_embedded/payload/_links/user')
+          .to be_json_eql(api_v3_paths.user(time_entry.user.id).to_json)
+          .at_path("_embedded/payload/_links/user/href")
       end
 
       it 'has the available values listed in the schema' do

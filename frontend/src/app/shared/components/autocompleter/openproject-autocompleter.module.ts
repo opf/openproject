@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { DragulaModule } from 'ng2-dragula';
 
 import { InviteUserButtonModule } from 'core-app/features/invite-user-modal/button/invite-user-button.module';
+import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/principal/principal-rendering.module';
 
 import { DraggableAutocompleteComponent } from 'core-app/shared/components/autocompleter/draggable-autocomplete/draggable-autocomplete.component';
 import { ColorsAutocompleterComponent } from 'core-app/shared/components/colors/colors-autocompleter.component';
@@ -53,6 +54,7 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
     ReactiveFormsModule,
 
     DynamicModule.withComponents(OPENPROJECT_AUTOCOMPLETE_COMPONENTS),
+    OpenprojectPrincipalRenderingModule,
     InviteUserButtonModule,
   ],
   exports: OPENPROJECT_AUTOCOMPLETE_COMPONENTS,
