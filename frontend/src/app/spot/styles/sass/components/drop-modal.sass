@@ -10,9 +10,9 @@
     opacity: 1
 
     position: fixed
-    top: auto
+    top: $spot-spacing-1
     height: auto
-    bottom: $spot-spacing-3_5 
+    bottom: $spot-spacing-3_5
     left: $spot-spacing-1
     right: $spot-spacing-1
     width: calc(100vw - (2 * #{$spot-spacing-1}))
@@ -26,7 +26,7 @@
     flex-direction: column
 
     @media #{$spot-mq-landscape}
-      bottom: $spot-spacing-1 
+      bottom: $spot-spacing-1
       right: $spot-spacing-3_5
       max-height: calc(100vh - (2 * #{$spot-spacing-1}))
       width: calc(100vw - (#{$spot-spacing-3_5} + #{$spot-spacing-1}))
@@ -101,7 +101,7 @@
     > .spot-container > .spot-action-bar
       border-bottom-left-radius: $border-radius
       border-bottom-right-radius: $border-radius
-  
+
   &_opened::before
     @include spot-z-index("drop-modal", 0)
     display: block
