@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Custom fields for projects
   priority: 700
 description: Custom fields for projects.
-robots: index, follow
 keywords: custom fields for projects, show custom fields
 ---
 # Manage and display custom fields in the project list (Premium feature)
@@ -51,9 +50,7 @@ In the list of all projects you will see the project custom fields displayed as 
 
 ![Sys-admin-display-project-custom-field](Sys-admin-display-project-custom-field.png)
 
-<div class="alert alert-info" role="alert">
-**Please note**: The visibility settings of the project custom fields will be overruled by [these settings](../../system-settings/project-system-settings/#settings-for-the-projects-overview-list) for the projects overview list.
-</div>
+> **Please note**: The visibility settings of the project custom fields will be overruled by [these settings](../../system-settings/project-system-settings/#settings-for-the-projects-overview-list) for the projects overview list.
 
 To change the **order of the project custom fields' columns**, change it in -> *Administration* -> *Custom fields* by using the sorting **arrows**.
 

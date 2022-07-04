@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Language and display settings
   priority: 960
 description: Display settings in OpenProject.
-robots: index, follow
 keywords: display settings
 ---
 # Language and display settings
@@ -16,9 +15,9 @@ Choose the languages which you want to activate for your system. Those languages
 ![image-20211209162728606](image-20211209162728606.png)
 
 At the moment there are more than 30 languages available.
-<div>
-**Note**: Many languages are translated by the Community. We highly appreciate if you want to [help translating OpenProject to your language](../../../development/translate-openproject).
-</div>
+
+> **Note**: Many languages are translated by the Community. We highly appreciate if you want to [help translating OpenProject to your language](../../../development/translate-openproject).
+
 You can [choose your language in your user profile](../../../getting-started/my-account/#change-your-language).
 
 ## Time and date formatting, aggregation of changes in activity

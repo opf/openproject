@@ -3,7 +3,6 @@ sidebar_navigation:
   title: My account
   priority: 400
 description: Learn how to configure account settings.
-robots: index, follow
 keywords: my account, account settings, change language, Deutsch
 ---
 
@@ -43,9 +42,7 @@ Press the blue **Save** button in order to confirm the password changes.
 
 ![my account change password](my-account-change-password.png)
 
-<div class="alert alert-info" role="alert">
-Note: You cannot reset your Google password in OpenProject. If you authenticate with a Google/Gmail account, please go to your Google account administration in order to change your password.
-</div>
+> **Note**: You cannot reset your Google password in OpenProject. If you authenticate with a Google/Gmail account, please go to your Google account administration in order to change your password.
 
 ## Edit your user information
 
@@ -170,9 +167,8 @@ OpenProject uses Gravatar as default profile image. It displays a preview of you
 
 Also, you can upload a **Custom Avatar** by choosing a Avatar to be uploaded from a file. Press the blue **Update** button to change your profile picture.
 
-<div class="alert alert-info" role="alert">
-Note: The optimum size to upload a new profile picture is 128 by 128 pixel. Larger files will be cropped.
-</div>
+> **Note**: The optimum size to upload a new profile picture is 128 by 128 pixel. Larger files will be cropped.
+
 ![change your avatar](change-avatar.png)
 
 # Delete account
@@ -185,6 +181,4 @@ To delete your account, select **Delete account** from the side menu and enter y
 
 ![delete your account](delete-account.png)
 
-<div class="alert alert-info" role="alert">
-Important: Deleting a user account is permanent and cannot be reversed.
-</div>
+> **Important**: Deleting a user account is permanent and cannot be reversed.

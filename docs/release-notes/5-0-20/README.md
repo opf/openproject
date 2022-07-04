@@ -7,10 +7,10 @@
 ---
 
 
-# OpenProject 5.0.20
+# OpenProject 5.0.20
 
 OpenProject 5.0.20 contains a Rail security update. It upgrades Rails to
-4.2.7.1 to address the following
+4.2.7.1 to address the following
 CVEs:
 
 [CVE-2016-6317](https://groups.google.com/forum/#!topic/ruby-security-ann/WccgKSKiPZA)  
@@ -18,7 +18,7 @@ CVEs:
 
 We strongly recommend the update to the current version.
 
-For further information on the release, please take a look at
+For further information on the release, please take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.20).
 
 

@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: State management
 description: Get an overview of how frontend state management works
-robots: index, follow
 keywords: state management, stores, input states
 ---
 

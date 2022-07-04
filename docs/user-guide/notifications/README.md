@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Notifications
   priority: 590
 description: In-app notifications in OpenProject
-robots: index, follow
 keywords: notifications
 ---
 # In-app notifications

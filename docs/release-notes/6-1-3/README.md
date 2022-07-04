@@ -7,9 +7,9 @@
 ---
 
 
-# OpenProject 6.1.3
+# OpenProject 6.1.3
 
-This patch release contains an important bug fix. We recommend to update
+This patch release contains an important bug fix. We recommend to update
 your OpenProject installation to this version.
 
 ## Bug fixes (1)
@@ -20,7 +20,7 @@ your OpenProject installation to this version.
     This error has been fixed.
 
 For further information on the release, please refer to the [Changelog
-v.6.1.3](https://community.openproject.com/versions/826) or take a look
+v.6.1.3](https://community.openproject.com/versions/826) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v6.1.3).
 
 

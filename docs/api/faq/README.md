@@ -3,7 +3,6 @@ sidebar_navigation:
   title: FAQ
   priority: 001
 description: Frequently asked questions regarding the API of OpenProject
-robots: index, follow
 keywords: API FAQ, API v3, RestAPI, interface, connector 
 
 ---

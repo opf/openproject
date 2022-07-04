@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Avatars
   priority: 960
 description: Manage Avatars in OpenProject
-robots: index, follow
 keywords: Avatars
 ---
 # OpenProject Avatars

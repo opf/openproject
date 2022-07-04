@@ -3,14 +3,15 @@ sidebar_navigation:
   title: Enable work package custom fields
   priority: 700
 description: Manage custom fields in a project.
-robots: index, follow
 keywords: custom fields, activate work package custom field
 ---
 # Enable custom fields in projects
 
 **Custom fields for work packages can be activated or deactivated in a project**. 
 
-<div class="glossary">**Custom fields** are defined as additional attribute fields which can be added to existing attribute fields. The different sections that can use custom fields are work packages, spent time, projects, versions, users, groups, activities (time tracking), and work package priorities.</div>
+<div class="glossary">
+**Custom fields** are defined as additional attribute fields which can be added to existing attribute fields. The different sections that can use custom fields are work packages, spent time, projects, versions, users, groups, activities (time tracking), and work package priorities.
+</div>
 
 **Please note:** The instructions in this section *only* apply to custom fields for work packages.
 

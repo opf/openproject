@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Automatic and manual scheduling
   priority: 999
 description: Use manual or automatic scheduling mode in OpenProject
-robots: index, follow
 keywords: Gantt chart, automatic scheduling, manual scheduling, start date, finish date, relations
 
 
@@ -12,7 +11,9 @@ keywords: Gantt chart, automatic scheduling, manual scheduling, start date, fini
 # Automatic and manual scheduling mode
 
 <div class="glossary">
-To schedule work packages in the Gantt chart there is an **automatic scheduling mode (default)** and a **manual scheduling mode** (new in [release 11.0](../../../release-notes/11-0-0)). To add dependencies between work packages you can set them as predecessor or follower in the Gantt chart. The automatic and manual scheduling modes influence the work packages' behaviour when changing dates of other related work packages.</div>
+To schedule work packages in the Gantt chart there is an **automatic scheduling mode (default)** and a **manual scheduling mode** (new in [release 11.0](../../../release-notes/11-0-0)). To add dependencies between work packages you can set them as predecessor or follower in the Gantt chart. The automatic and manual scheduling modes influence the work packages' behaviour when changing dates of other related work packages.
+</div>
+
 As the scheduling mode only affects individual work packages you can combine manual scheduling mode (top-down planning) and automatic scheduling mode (bottom-up planning) within the same project.
 
 

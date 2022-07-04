@@ -3,7 +3,6 @@ sidebar_navigation:
   title: LDAP group synchronization
   priority: 002
 description: Synchronize LDAP groups.
-robots: index, follow
 keywords: synchronize ldap groups
 ---
 
@@ -17,11 +16,7 @@ In OpenProject Enterprise on-premises, you can synchronize LDAP group membership
 - have set up your LDAP authentication source (See the “[Manage LDAP authentication](../../ldap-authentication/)” guide)
 - have at least one LDAP entry with a *groupOfNames* object class and members of that group to contain the *`memberOf: <DN of the group>`* attribute to determine the members of a group entry. Right now we do not support LDAP instances that only have *member* attributes, but not the inverse *memberOf* property.
 
-<div class="alert alert-info" role="alert">
-
-**Please note**: OpenProject does not support other attributes other than the `memberOf` property to define groups. Please make sure that user objects have the `memberOf` property for the synchronization to work.
-
-</div>
+> **Please note**: OpenProject does not support other attributes other than the `memberOf` property to define groups. Please make sure that user objects have the `memberOf` property for the synchronization to work.
 
 For the sake of simplicity, we assume that in this guide, your LDAP structure looks like the following:
 

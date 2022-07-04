@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Documentation process
   priority: 999
 description: The process, incl. tool setup, of how to contribute to the OpenProject documentation
-robots: index, follow
 keywords: contribution, documentation, documentation process, tool setup
 ---
 
@@ -16,10 +15,10 @@ This guide describes how to contribute to the OpenProject documentation, includi
 
 This guide aims to help users that are new to Git and Markdown to contribute to the OpenProject documentation. There are a two very helpful tools that makes it extremely easy to contribute to OpenProject:
 
-| Tool               | Purpose of this tool                                                                                                                                                                                                 | Website and download                              |
-|--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
-| **Typora**         | Typora is an application that enables you to easily edit markdown files. The markdown file format is used used for the OpenProject documentation which allows you to focus on the content instead of the formatting. | [desktop.github.com](https://desktop.github.com/) |
-| **GitHub Desktop** | Desktop is an application that enables you to interact with GitHub using a GUI instead of the command line or a web browser.                                                                                         | [typora.io](https://typora.io/)                   |
+| Tool               | Purpose of this tool                                         | Website and download                              |
+| ------------------ | ------------------------------------------------------------ | ------------------------------------------------- |
+| **Typora**         | Typora is an application that enables you to easily edit markdown files. The markdown file format is used for the OpenProject documentation which allows you to focus on the content instead of the formatting. | [desktop.github.com](https://desktop.github.com/) |
+| **GitHub Desktop** | Desktop is an application that enables you to interact with GitHub using a GUI instead of the command line or a web browser. | [typora.io](https://typora.io/)                   |
 
 ## Step 1: Create user account on GitHub.com
 
@@ -31,11 +30,11 @@ You can download the installer from the [Typora website](https://typora.io/#down
 
 ## Step 3: Install GitHub Desktop
 
-You can install GitHub Desktop on any [supported operating systems](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/supported-operating-systems). To install GitHub Desktop navigate to [https://desktop.github.com/](https://desktop.github.com/) and download the appropriate version for your operating system. Follow the prompts to complete the installation.
+You can install the software GitHub Desktop on any [supported operating systems](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/supported-operating-systems). To install GitHub Desktop navigate to [https://desktop.github.com](https://desktop.github.com) and download the appropriate version for your operating system. Follow the prompts to complete the installation.
 
 ## Step 4: Sign in into Github.com in GitHub Desktop
 
-To exchange data between your local and remote repositories you need to first sign (File -> Options -> Sign in).
+To exchange data between your local repository and remote repositories you need to first sign (File -> Options -> Sign in).
 
 ![sign-in-into-github](sign-in-into-github.png)
 
@@ -53,7 +52,7 @@ After authenticating your account, you are ready to manage and contribute to pro
 
 ## Step 5: Fork the OpenProject repository 
 
-If you are an external contributor you don't have write permissions on the repository [https://github.com/opf/openproject/](https://github.com/opf/openproject/). In this case you need to fork the repository first. This basically means that you have your own copy of the repository on GitHub.com. Since it is your own repository you have write privileges here.
+If you are an external contributor you don't have write permissions on the repository [https://github.com/opf/openproject](https://github.com/opf/openproject). In this case you first need to fork the repository by clicking the button **[Fork](https://github.com/opf/openproject/fork)**. This basically means that you have your own copy of the repository on GitHub.com. Since it is your own repository you have write privileges here.
 
 ![fork openproject](fork-openproject.png)
 
@@ -123,7 +122,7 @@ The Typora editor makes it quite easy to make changes to the file. After you mad
 
 ## Step 13: Commit the change to your local repository in GitHub Desktop
 
-Open GitHub Desktop. Here you can see all the changes you made in the local repository.
+Open GitHub Desktop. Here you can see all the changes you made in your local repository.
 
 ![commit history in github desktop](commit-history-in-github-desktop.png)
 
@@ -137,11 +136,17 @@ At the moment your change is only available in your local repository. To make it
 
 ## Step 15: Create a pull request
 
-A pull request is a workflow to ask for a review from the OpenProject team. With a pull request you basically ask to check your changes and to copy it over to the OpenProject repository (opf/openproject). Navigate to [https://github.com/opf/openproject/pulls/compare](https://github.com/opf/openproject/pulls/compare).
+A pull request is a workflow to ask for a review from the OpenProject team. With a pull request you basically ask to check your changes and to copy it over to the OpenProject repository (opf/openproject). After you pushed your local changes to your own repository click the button **Create Pull Request**.
+
+![](create-pull-request-github-desktop.png)
+
+
 
 Here select the latest release branch e.g. `release/12.1` in the **"base:"** dropdown on the left side. In the **"compare:"** dropdown select the branch you have changed.
 
+![create pull request](create-pull-request.png)
 
+In the description field of the pull request enter a summary for the changes you made. If there is already a work package on https://community.openproject.org you can also add this to the description. This adds a relation between your pull request and the work package.
 
 In the description field of the pull request enter a summary for the changes you made. If there is already a work package on https://community.openproject.org you can also add this to the description with its complete URL. This adds a relation between your pull request and the work package.
 

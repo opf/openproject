@@ -3,10 +3,11 @@ sidebar_navigation:
   title: Repositories settings
   priority: 500
 description: Repositories settings in OpenProject.
-robots: index, follow
 keywords: repository settings
 ---
 # Repositories settings
+
+> **Important note:** Managed GIT and SVN repositories in OpenProject are currently only supported in package-based installations. They are not supported in docker-based installations.
 
 To adapt repositories settings, go to System settings on the tab **Repositories** you can configure the following options.
 
