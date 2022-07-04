@@ -28,6 +28,8 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
+
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 
 import { FileLinkListComponent } from 'core-app/shared/components/file-links/file-link-list/file-link-list.component';
@@ -37,7 +39,6 @@ import {
 import {
   StorageInformationComponent,
 } from 'core-app/shared/components/file-links/storage-information/storage-information.component';
-import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   imports: [
@@ -56,5 +57,4 @@ import { CookieService } from 'ngx-cookie-service';
     CookieService,
   ],
 })
-export class OpenprojectFileLinksModule {
-}
+export class OpenprojectFileLinksModule {}

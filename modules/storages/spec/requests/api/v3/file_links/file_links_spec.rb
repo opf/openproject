@@ -490,4 +490,64 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       it_behaves_like 'not found'
     end
   end
+
+  describe 'GET /api/v3/file_links/:file_link_id/download' do
+    let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
+    let(:request_factory) { instance_double(::API::V3::Storages::StorageRequestFactory) }
+    let(:access_token_result) { ServiceResult.success(result: create(:oauth_client_token)) }
+    let(:path) { api_v3_paths.file_link_download(file_link.id) }
+    let(:download_response) { instance_double(RestClient::Response) }
+    let(:download_command_result) { ServiceResult.success(result: download_response) }
+    let(:response_body) { { ocs: { data: { url: 'https://starkiller.nextcloud.com/direct/xyz' } } }.to_json }
+
+    before do
+      allow(connection_manager).to receive(:get_access_token).and_return(access_token_result)
+      allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+      allow(request_factory).to receive(:download_command).and_return(->(*) { download_command_result })
+      allow(::API::V3::Storages::StorageRequestFactory).to receive(:new).and_return(request_factory)
+      allow(download_response).to receive(:body).and_return(response_body)
+
+      get path
+    end
+
+    it 'is successful' do
+      expect(subject.status).to be 303
+    end
+
+    context 'if storage origin returns unexpected response body' do
+      let(:response_body) { 'the force is not strong in this one ...' }
+
+      it_behaves_like 'error response',
+                      500,
+                      'InternalServerError',
+                      I18n.t('http.response.unexpected')
+    end
+
+    context 'if storage origin returns empty response body' do
+      let(:response_body) { '' }
+
+      it_behaves_like 'error response',
+                      500,
+                      'InternalServerError',
+                      I18n.t('http.request.failed_authorization')
+    end
+
+    context 'if no access token is available' do
+      let(:access_token_result) { ServiceResult.failure }
+
+      it_behaves_like 'error response',
+                      500,
+                      'InternalServerError',
+                      I18n.t('http.request.missing_authorization')
+    end
+
+    context 'if outbound request returns with failure (token expired or revoked)' do
+      let(:download_command_result) { ServiceResult.failure(result: I18n.t('http.request.failed_authorization')) }
+
+      it_behaves_like 'error response',
+                      500,
+                      'InternalServerError',
+                      I18n.t('http.request.failed_authorization')
+    end
+  end
 end

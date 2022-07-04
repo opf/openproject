@@ -149,6 +149,13 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
         let(:href) { "/api/v3/file_links/#{file_link.id}/open?location=true" }
       end
     end
+
+    describe 'staticOriginDownload' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'staticOriginDownload' }
+        let(:href) { "/api/v3/file_links/#{file_link.id}/download" }
+      end
+    end
   end
 
   describe 'properties' do

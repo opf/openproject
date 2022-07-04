@@ -37,16 +37,16 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
 import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
+import { fileLinkViewAllowed } from 'core-app/shared/components/file-links/file-links-constants.const';
+import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
 import {
   getIconForMimeType,
 } from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
-import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
-import { fileLinkViewAllowed } from 'core-app/shared/components/file-links/file-links-constants.const';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -55,8 +55,6 @@ import { fileLinkViewAllowed } from 'core-app/shared/components/file-links/file-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileLinkListItemComponent implements OnInit, AfterViewInit {
-  @Input() public resource:HalResource;
-
   @Input() public fileLink:IFileLink;
 
   @Input() public allowEditing = false;
@@ -78,6 +76,7 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
       openFile: this.i18n.t('js.label_open_file_link'),
       openFileLocation: this.i18n.t('js.label_open_file_link_location'),
       removeFileLink: this.i18n.t('js.label_remove_file_link'),
+      downloadFileLink: '',
     },
     floatingText: {
       noViewPermission: this.i18n.t('js.label_file_link_no_permission'),
@@ -100,6 +99,8 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
     }
 
     this.fileLinkIcon = getIconForMimeType(this.originData.mimeType);
+
+    this.text.title.downloadFileLink = this.i18n.t('js.label_download_file', { fileName: this.fileLink.originData.name });
 
     this.viewAllowed = this.fileLink._links.permission.href === fileLinkViewAllowed;
   }

@@ -1,12 +1,12 @@
-# /api/v3/file_links/{id}/open
+# /api/v3/file_links/{id}/download
 ---
 get:
-  summary: Creates an opening uri of the linked file.
-  operationId: open_file_link
+  summary: Creates a download uri of the linked file.
+  operationId: download_file_link
   tags:
     - File links
   description: |-
-    Creates a uri to open the origin file linked by the given file link. This uri depends on the storage type and
+    Creates a uri to download the origin file linked by the given file link. This uri depends on the storage type and
     is always located on the origin storage itself.
   parameters:
     - name: id
@@ -16,13 +16,6 @@ get:
       schema:
         type: integer
       example: 42
-    - name: location
-      description: Boolean flag indicating, if the file should be opened directly or rather the directory location.
-      in: query
-      required: false
-      schema:
-        type: boolean
-      example: true 
   responses:
     '303':
       headers:
@@ -31,8 +24,8 @@ get:
             type: string
             format: uri
       description: |-
-        Returned if the request was successful. In the `Location` header is the uri where the client can open the origin
-        file on the storage.
+        Returned if the request was successful. In the `Location` header is the uri where the client can download the
+        origin file from the storage.
     '404':
       content:
         application/hal+json:

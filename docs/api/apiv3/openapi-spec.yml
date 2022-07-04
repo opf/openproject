@@ -201,6 +201,8 @@ paths:
     "$ref": "./paths/file_link.yml"
   "/api/v3/file_links/{id}/open":
     "$ref": "./paths/file_link_open.yml"
+  "/api/v3/file_links/{id}/download":
+    "$ref": "./paths/file_link_download.yml"
   "/api/v3/grids":
     "$ref": "./paths/grids.yml"
   "/api/v3/grids/form":
