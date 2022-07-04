@@ -439,6 +439,9 @@ GEM
     dry-logic (1.2.0)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.5, >= 0.5)
+    dry-monads (1.4.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.7)
     dry-types (1.5.1)
       concurrent-ruby (~> 1.0)
       dry-container (~> 0.3)
@@ -1052,6 +1055,7 @@ DEPENDENCIES
   disposable (~> 0.6.2)
   doorkeeper (~> 5.5.0)
   dotenv-rails
+  dry-monads (~> 1.4.0)
   email_validator (~> 2.2.3)
   equivalent-xml (~> 0.6)
   escape_utils (~> 1.3)

@@ -139,6 +139,8 @@ gem 'okcomputer', '~> 1.18.1'
 
 gem 'gon', '~> 6.4.0'
 
+gem 'dry-monads', '~> 1.4.0'
+
 # Lograge to provide sane and non-verbose logging
 gem 'lograge', '~> 0.12.0'
 

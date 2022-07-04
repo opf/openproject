@@ -28,81 +28,48 @@
 
 # Helper for open and download links for a file link object.
 module API::V3::FileLinks::StorageUrlHelper
+  include Dry::Monads[:result, :do, :try]
+
   def storage_url_open(file_link, open_location: false)
     location_flag = ActiveModel::Type::Boolean.new.cast(open_location) ? 0 : 1
 
     "#{file_link.storage.host}/f/#{file_link.origin_id}?openfile=#{location_flag}"
   end
 
-  # rubocop:disable Metrics/AbcSize
   def make_download_url(file_link:, user:)
     storage = file_link.storage
     oauth_client = storage.oauth_client
 
-    client_token = get_oauth_client_token(user:, oauth_client:)
-    return client_token if client_token.failure?
+    client_token = yield ::OAuthClients::ConnectionManager
+                           .new(user:, oauth_client:)
+                           .get_access_token_monad
 
-    direct_download_response = make_direct_download oauth_client:,
-                                                    access_token: client_token.result.access_token,
-                                                    file_id: file_link.origin_id
-    return direct_download_response if direct_download_response.failure?
+    response = yield make_direct_download oauth_client:,
+                                          access_token: client_token.access_token,
+                                          file_id: file_link.origin_id
 
-    download_token = direct_download_token(body: direct_download_response.result)
-    return download_token if download_token.failure?
+    token = yield parse_direct_download_token(body: response).to_result(I18n.t('http.response.unexpected'))
 
-    url = "#{storage.host}/apps/integration_openproject/direct/#{download_token.result}/#{file_link.origin_name}"
-    ServiceResult.success(result: url)
+    Success("#{storage.host}/apps/integration_openproject/direct/#{token}/#{file_link.origin_name}")
   end
-
-  # rubocop:enable Metrics/AbcSize
 
   private
 
-  def get_oauth_client_token(user:, oauth_client:)
-    client_token = ::OAuthClients::ConnectionManager
-                     .new(user:, oauth_client:)
-                     .get_access_token
-
-    client_token.success? ? client_token : ServiceResult.failure(result: I18n.t('http.request.missing_authorization'))
-  end
-
   def make_direct_download(oauth_client:, access_token:, file_id:)
-    response = API::V3::Storages::StorageRequestFactory
-                 .new(oauth_client:)
-                 .download_command
-                 .call(access_token:, file_id:)
+    result = yield API::V3::Storages::StorageRequestFactory
+                     .new(oauth_client:)
+                     .download_command
+                     .call(access_token:, file_id:)
 
-    return response if response.failure?
-
-    # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
-    return ServiceResult.failure(result: I18n.t('http.request.failed_authorization')) if response.result.body.blank?
-
-    ServiceResult.success(result: response.result.body)
-  end
-
-  def direct_download_token(body:)
-    token = parse_direct_download_token(body:)
-    if token.blank?
-      Rails.logger.error "Received unexpected json response: #{body}"
-      return ServiceResult.failure(result: I18n.t('http.response.unexpected'))
-    end
-
-    ServiceResult.success(result: token)
+    # The nextcloud API returns a successful response with empty body if the authorization is missing or expired.
+    result.body.present? ? Success(result) : Failure(I18n.t('http.request.failed_authorization'))
   end
 
   def parse_direct_download_token(body:)
-    begin
-      json = JSON.parse body
-    rescue JSON::ParserError
-      return nil
-    end
+    json = yield Try[JSON::ParserError] { JSON.parse body }.to_maybe
+    url = yield Maybe json.dig('ocs', 'data', 'url')
+    path = yield Maybe URI.parse(url).path
 
-    direct_download_url = json.dig('ocs', 'data', 'url')
-    return nil if direct_download_url.blank?
-
-    path = URI.parse(direct_download_url).path
-    return nil if path.blank?
-
-    path.split('/').last
+    Maybe path.split('/').last
   end
 end

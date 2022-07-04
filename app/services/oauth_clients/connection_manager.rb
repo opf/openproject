@@ -31,6 +31,8 @@ require "uri/http"
 
 module OAuthClients
   class ConnectionManager
+    include Dry::Monads[:result, :maybe]
+
     # Nextcloud API endpoint to check if Bearer token is valid
     AUTHORIZATION_CHECK_PATH = '/ocs/v1.php/cloud/user'.freeze
 
@@ -55,6 +57,10 @@ module OAuthClients
       # Return a String with a redirect URL to Nextcloud instead of a token
       @redirect_url = redirect_to_oauth_authorize(scope:, state:)
       ServiceResult.failure(result: @redirect_url)
+    end
+
+    def get_access_token_monad
+      Maybe(get_existing_token).to_result(I18n.t('http.request.missing_authorization'))
     end
 
     # The bearer/access token has expired or is due for renew for other reasons.

@@ -30,16 +30,22 @@ module API
   module V3
     module FileLinks
       class FileLinksDownloadAPI < ::API::OpenProjectAPI
+        include Dry::Monads[:result]
+
         helpers API::V3::FileLinks::StorageUrlHelper
 
         resources :download do
           get do
-            download_url = make_download_url file_link: @file_link, user: User.current
-
-            raise API::Errors::InternalError.new(download_url.result) if download_url.failure?
-
-            redirect download_url.result, body: "The requested resource can be downloaded from #{download_url.result}"
-            status 303
+            make_download_url(file_link: @file_link, user: User.current)
+              .either(
+                ->(url) {
+                  redirect url, body: "The requested resource can be downloaded from #{url}"
+                  status 303
+                },
+                ->(error) {
+                  raise API::Errors::InternalError.new(error)
+                }
+              )
           end
         end
       end

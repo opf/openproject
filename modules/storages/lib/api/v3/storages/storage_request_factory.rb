@@ -30,6 +30,8 @@ module API
   module V3
     module Storages
       class StorageRequestFactory
+        include Dry::Monads[:result]
+
         def initialize(oauth_client:)
           @oauth_client = oauth_client
         end
@@ -45,14 +47,12 @@ module API
             }
 
             begin
-              response = RestClient.post request_url, body, header
+              Success(RestClient.post(request_url, body, header))
             rescue RestClient::Unauthorized
-              return ServiceResult.failure(result: I18n.t('http.request.failed_authorization'))
+              return Failure(I18n.t('http.request.failed_authorization'))
             rescue StandardError => e
-              return ServiceResult.failure(result: e.message)
+              return Failure(e.message)
             end
-
-            ServiceResult.success(result: response)
           end
         end
       end
