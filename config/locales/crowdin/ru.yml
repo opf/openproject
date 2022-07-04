@@ -741,7 +741,7 @@ ru:
             duration:
               larger_than_dates: "больше, чем интервал между началом и датой окончания."
               smaller_than_dates: "меньше интервала между началом и датой окончания."
-              not_available_for_milestones: "is not available for milestone typed work packages."
+              not_available_for_milestones: "не доступен для пакетов работ с набором вех."
             parent:
               cannot_be_milestone: "не может служить вехой."
               cannot_be_self_assigned: "не может быть присвоено самому себе."

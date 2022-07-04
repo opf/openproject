@@ -19,7 +19,11 @@
         <%= feature_description %>
       </p>
     <% end %>
-
+  
+    <p class="upsale--feature-reference">
+    <%= feature_more_info %>
+    </p>
+  
     <% if feature_video.empty? %>
       <% if feature_image.empty? %>
         <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image_default" %>
@@ -35,7 +39,7 @@
     <%= t('admin.enterprise.upgrade_info') %>
     </p>
     <%= link_to( "https://www.openproject.org/contact-us/",
-                 { class: 'button -highlight-inverted -round',
+                 { class: 'button',
                    aria: {label: t('admin.enterprise.buttons.contact')},
                    target: '_blank',
                    title: t('admin.enterprise.buttons.contact')}) do %>
@@ -43,7 +47,7 @@
     <% end %>
 
     <%= link_to( "https://www.openproject.org/pricing/",
-                 { class: 'button -highlight -round',
+                 { class: 'button -highlight',
                    aria: {label: t('admin.enterprise.buttons.upgrade')},
                    target: '_blank',
                    title: t('admin.enterprise.buttons.upgrade')}) do %>

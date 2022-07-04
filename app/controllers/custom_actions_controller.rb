@@ -93,7 +93,8 @@ class CustomActionsController < ApplicationController
                feature_description: I18n.t('custom_actions.upsale.description'),
                feature_reference: 'custom_actions_admin',
                feature_image: '',
-               feature_video: ''
+               feature_more_info: '',
+               feature_video: 'enterprise/custom-actions.mp4'
              }
     else
       render_403

@@ -155,13 +155,21 @@ import {
   freeTrialButtonSelector,
 } from 'core-app/features/enterprise/free-trial-button/free-trial-button.component';
 import {
+  EnterpriseBannerComponent,
+  enterpriseBannerSelector,
+} from 'core-app/shared/components/enterprise-banner/enterprise-banner.component';
+import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector,
 } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component';
 import {
   EnterpriseBannerBootstrapComponent,
-  enterpriseBannerSelector,
+  enterpriseBannerrBootstrapSelector,
 } from 'core-app/shared/components/enterprise-banner/enterprise-banner-bootstrap.component';
+import {
+  NoResultsComponent,
+  noResultsSelector,
+} from 'app/shared/components/no-results/no-results.component';
 import {
   HomescreenNewFeaturesBlockComponent,
   homescreenNewFeaturesBlockSelector,
@@ -233,7 +241,9 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: mainMenuToggleSelector, cls: MainMenuToggleComponent },
   { selector: globalSearchSelector, cls: GlobalSearchInputComponent },
   { selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent },
-  { selector: enterpriseBannerSelector, cls: EnterpriseBannerBootstrapComponent },
+  { selector: enterpriseBannerrBootstrapSelector, cls: EnterpriseBannerBootstrapComponent },
+  { selector: enterpriseBannerSelector, cls: EnterpriseBannerComponent },
+  { selector: noResultsSelector, cls: NoResultsComponent },
   { selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent },
   { selector: freeTrialButtonSelector, cls: FreeTrialButtonComponent },
   { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
