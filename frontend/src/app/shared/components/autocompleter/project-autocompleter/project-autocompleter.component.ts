@@ -104,6 +104,8 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Input() public dropdownPosition:'bottom'|'top'|'auto' = 'auto';
 
+  // ID that should be set on the input HTML element. It is used with 
+  // <label> tags that have `for=""` set
   @Input() public labelForId = '';
 
   @Input() public apiFilters:ApiV3ListFilter[] = [];
