@@ -52,37 +52,6 @@ class Storages::FileLinkSyncService
     @service_result
   end
 
-  # Write the updated information from Nextcloud to a single file
-  # @param storage Storage of the file
-  # @param origin_file_id Nextcloud ID of the file
-  # @param origin_file_info_hash Hash with updated information from Nextcloud
-  # "24" => {
-  #    "id" : 24,                 # origin_file_id
-  #    "ctime" : 0,               # Linux epoch file creation +overwrite
-  #    "mtime" : 1655301278,      # Linux epoch file modification +overwrite
-  #    "mimetype" : "application/pdf",  # +overwrite
-  #    "name" : "Nextcloud Manual.pdf", # "Canonical" name, could changed by owner +overwrite
-  #    "owner_id" : "admin",      # ID at Nextcloud side +overwrite
-  #    "owner_name" : "admin",    # Name at Nextcloud side +overwrite
-  #    "size" : 12706214,         # Not used yet in OpenProject +overwrite
-  #    "status" : "OK",           # Not used yet
-  #    "statuscode" : 200,        # Not used yet
-  #    "trashed" : false          # Exclude trashed files from result array of FileLinks
-  # }
-  # In case of permission errors (depending on the current user) we get:
-  # "24" => { "status" => "Forbidden", "statuscode" => 403 }
-  # In case of completely deleted file or other errors we might also get:
-  # "24" = { "status" => "Not Found", "statuscode" => 404 }
-  def sync_single_file(file_link, origin_file_info_hash)
-    file_link.origin_mime_type = origin_file_info_hash["mimetype"]
-    file_link.origin_created_by_name = origin_file_info_hash["owner_name"]
-    file_link.origin_name = origin_file_info_hash["name"]
-    file_link.origin_created_at = Time.zone.at(origin_file_info_hash["ctime"])
-    file_link.origin_updated_at = Time.zone.at(origin_file_info_hash["mtime"])
-
-    file_link
-  end
-
   private
 
   # Get the OAuthClientToken that will authenticate us against Nextcloud
@@ -150,6 +119,37 @@ class Storages::FileLinkSyncService
       @service_result.result << file_link
       file_link.save # Only saves to database if some field has actually changed.
     end
+  end
+
+  # Write the updated information from Nextcloud to a single file
+  # @param storage Storage of the file
+  # @param origin_file_id Nextcloud ID of the file
+  # @param origin_file_info_hash Hash with updated information from Nextcloud
+  # "24" => {
+  #    "id" : 24,                 # origin_file_id
+  #    "ctime" : 0,               # Linux epoch file creation +overwrite
+  #    "mtime" : 1655301278,      # Linux epoch file modification +overwrite
+  #    "mimetype" : "application/pdf",  # +overwrite
+  #    "name" : "Nextcloud Manual.pdf", # "Canonical" name, could changed by owner +overwrite
+  #    "owner_id" : "admin",      # ID at Nextcloud side +overwrite
+  #    "owner_name" : "admin",    # Name at Nextcloud side +overwrite
+  #    "size" : 12706214,         # Not used yet in OpenProject +overwrite
+  #    "status" : "OK",           # Not used yet
+  #    "statuscode" : 200,        # Not used yet
+  #    "trashed" : false          # Exclude trashed files from result array of FileLinks
+  # }
+  # In case of permission errors (depending on the current user) we get:
+  # "24" => { "status" => "Forbidden", "statuscode" => 403 }
+  # In case of completely deleted file or other errors we might also get:
+  # "24" = { "status" => "Not Found", "statuscode" => 404 }
+  def sync_single_file(file_link, origin_file_info_hash)
+    file_link.origin_mime_type = origin_file_info_hash["mimetype"]
+    file_link.origin_created_by_name = origin_file_info_hash["owner_name"]
+    file_link.origin_name = origin_file_info_hash["name"]
+    file_link.origin_created_at = Time.zone.at(origin_file_info_hash["ctime"])
+    file_link.origin_updated_at = Time.zone.at(origin_file_info_hash["mtime"])
+
+    file_link
   end
 
   def set_error_for_file_links(storage_file_links)

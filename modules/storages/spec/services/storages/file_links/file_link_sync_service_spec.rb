@@ -76,19 +76,19 @@ describe ::Storages::FileLinkSyncService, type: :model do
   let(:trashed) { false }
   let(:file_links) { [file_link1] }
 
-  # Nextcloud response part for valid file
+  # Nextcloud response for valid file, changing all origin_* attributes
   let(:file_info1_s200) do
     {
       id: 24,
       status: "OK",
       statuscode: 200,
-      name: "Nextcloud Manual.pdf",
-      mtime: 1655301234,
-      ctime: 1655334567,
-      mimetype: "application/pdf",
-      size: 12706214,
-      owner_id: "admin",
-      owner_name: "admin",
+      ctime: 1755334567,            # -> origin_created_at
+      mtime: 1755301234,            # -> origin_updated_at
+      mimetype: "application/text", # -> origin_mime_type
+      name: "Readme.txt",           # -> origin_name
+      owner_id: "fraber_id",
+      owner_name: "fraber",         # -> origin_created_by_name
+      size: 1270,
       trashed:
     }
   end
@@ -127,11 +127,18 @@ describe ::Storages::FileLinkSyncService, type: :model do
             .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response)
         end
 
-        it 'returns a successful ServiceResult with file_link1 and updated mtime' do
+        it 'updates all origin_* fields' do
           expect(subject.success).to be_truthy
           expect(subject.result.count).to be 1
+          expect(subject.result[0]).to be_a ::Storages::FileLink
+
+          # Check the detailed update result
           expect(subject.result[0].origin_id).to eql '24'
-          expect(subject.result[0].origin_updated_at).to eql Time.zone.at(1655301234) # updated
+          expect(subject.result[0].origin_created_at).to eql Time.zone.at(1755334567)
+          expect(subject.result[0].origin_updated_at).to eql Time.zone.at(1755301234)
+          expect(subject.result[0].origin_mime_type).to eql "application/text"
+          expect(subject.result[0].origin_name).to eql "Readme.txt"
+          expect(subject.result[0].origin_created_by_name).to eql "fraber"
         end
       end
 
@@ -216,7 +223,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
         it 'updates the file_link information' do
           expect(subject).to be_a ServiceResult
           expect(subject.success).to be_truthy
-          expect(subject.result[0].origin_updated_at).to eql Time.zone.at(1655301234) # updated
+          expect(subject.result[0].origin_updated_at).to eql Time.zone.at(1755301234)
         end
 
         it 'updates the origin_permission' do
@@ -258,7 +265,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
         it 'updates the file_link information' do
           expect(subject).to be_a ServiceResult
           expect(subject.success).to be_truthy
-          expect(subject.result[0].origin_updated_at).to eql Time.zone.at(1655301234) # updated
+          expect(subject.result[0].origin_updated_at).to eql Time.zone.at(1755301234)
           expect(connection_manager).to have_received(:refresh_token).once
         end
       end
@@ -327,38 +334,6 @@ describe ::Storages::FileLinkSyncService, type: :model do
 
       it 'returns a falsey ServiceResults coming from ConnectionManager' do
         expect(subject.success).to be_falsey
-      end
-    end
-  end
-
-  # Test the update of fields of a single FileLink based on information returned from Nextcloud.
-  describe '#sync_single_file' do
-    let(:file_link1_all_modified_hash) do
-      # Simulates Nextcloud update reply with strings ()and not symbols!) as Hash keys
-      # We can simulate this using JSON.parse(response.to_json).
-      JSON.parse({
-        id: '24',
-        ctime: 1755334567,            # -> origin_created_at
-        mtime: 1755301234,            # -> origin_updated_at
-        mimetype: "application/text", # -> origin_mime_type
-        name: "Readme.txt",           # -> origin_name
-        owner_id: "fraber_id",
-        owner_name: "fraber",         # -> origin_created_by_name
-        size: 1270,
-        trashed: true
-      }.to_json)
-    end
-
-    subject { instance.sync_single_file(file_link1, file_link1_all_modified_hash) }
-
-    context 'with updated information for all FileLinks (happy path)' do
-      it 'updates all relevant fields and leaves the list of file_links unchanged' do
-        expect(subject).to be_a ::Storages::FileLink
-        expect(subject.origin_created_at).to eql Time.zone.at(1755334567)
-        expect(subject.origin_updated_at).to eql Time.zone.at(1755301234)
-        expect(subject.origin_mime_type).to eql "application/text"
-        expect(subject.origin_name).to eql "Readme.txt"
-        expect(subject.origin_created_by_name).to eql "fraber"
       end
     end
   end

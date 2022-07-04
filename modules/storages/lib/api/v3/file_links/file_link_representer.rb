@@ -87,7 +87,9 @@ module API
 
         # Show a permission link only if we have actual permission information for a specific user
         link :permission, uncacheable: true do
-          PERMISSION_LINKS[represented.origin_permission] unless represented.origin_permission.nil?
+          next if represented.origin_permission.nil?
+
+          PERMISSION_LINKS[represented.origin_permission]
         end
 
         link :originOpen do
