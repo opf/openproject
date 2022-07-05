@@ -385,10 +385,20 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.toggle_checkbox(other_project.id)
 
     retry_block do
+      dropdown.expect_checkbox(other_project.id)
+      dropdown.expect_checkbox(other_sub_project.id)
+      dropdown.expect_checkbox(other_sub_sub_project.id, true)
+    end
+
+
+    retry_block do
+      dropdown.set_filter_selected false
+      dropdown.toggle_checkbox(other_project.id)
+
       dropdown.expect_checkbox(other_project.id, true)
       dropdown.expect_checkbox(other_sub_project.id, true)
       dropdown.expect_checkbox(other_sub_sub_project.id, true)
-      dropdown.expect_no_checkbox(another_sub_sub_project.id)
+      dropdown.expect_checkbox(another_sub_sub_project.id, true)
       dropdown.expect_checkbox(project.id, true)
       dropdown.expect_checkbox(sub_project.id, true)
       dropdown.expect_checkbox(sub_sub_sub_project.id, true)
@@ -397,6 +407,8 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.toggle_include_all_subprojects
 
     retry_block do
+      dropdown.set_filter_selected true
+
       dropdown.expect_checkbox(other_project.id, true)
       dropdown.expect_checkbox(other_sub_project.id)
       dropdown.expect_checkbox(other_sub_sub_project.id, true)
