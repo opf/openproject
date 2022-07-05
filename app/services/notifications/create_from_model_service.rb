@@ -72,12 +72,9 @@ class Notifications::CreateFromModelService
   attr_accessor :model
 
   # In case a notification already exists (because the journal was aggregated)
+  # an existing notification is updated
   def update_or_create_notification(recipient_id, reason)
-    if reason == :mentioned
-      update_notification(recipient_id) or create_notification(recipient_id, reason)
-    else
-      create_notification(recipient_id, reason)
-    end
+    update_notification(recipient_id, reason) or create_notification(recipient_id, reason)
   end
 
   def create_notification(recipient_id, reason)
@@ -98,15 +95,16 @@ class Notifications::CreateFromModelService
       .call(notification_attributes)
   end
 
-  def update_notification(recipient_id)
+  def update_notification(recipient_id, reason)
     existing_notification = Notification
-                              .find_by(journal_id: journal.id, recipient_id:, reason: :mentioned)
+                              .find_by(resource:, journal:, recipient_id:)
 
     return unless existing_notification
 
     Notifications::UpdateService
       .new(model: existing_notification, user:, contract_class: EmptyContract)
-      .call(read_ian: false)
+      .call(read_ian: strategy.supports_ian? ? false : nil,
+            reason:)
   end
 
   def delete_outdated_notifications(current_recipient_ids)

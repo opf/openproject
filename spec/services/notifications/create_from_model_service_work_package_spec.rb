@@ -890,7 +890,7 @@ describe Notifications::CreateFromModelService,
         context 'when there is already a notification for the journal (because it was aggregated)' do
           let(:note) { "Hello user:\"#{recipient_login}\"" }
           let!(:existing_notification) do
-            create(:notification, journal:, recipient:, reason: :mentioned, read_ian: true)
+            create(:notification, resource:, journal:, recipient:, reason: :mentioned, read_ian: true)
           end
 
           it_behaves_like 'creates no notification'
@@ -906,7 +906,7 @@ describe Notifications::CreateFromModelService,
         context 'when there is already a notification for the journal (aggregation) but the user is no longer mentioned' do
           let(:note) { "Hello you" }
           let!(:existing_notification) do
-            create(:notification, journal:, recipient:, reason: :mentioned, read_ian: true)
+            create(:notification, resource:, journal:, recipient:, reason: :mentioned, read_ian: true)
           end
 
           it_behaves_like 'creates no notification'
@@ -1012,7 +1012,7 @@ describe Notifications::CreateFromModelService,
 
   context 'when on aggregating the journal, sending of notifications is prevented' do
     let!(:existing_notification) do
-      create(:notification, journal:, recipient:, reason: :mentioned, read_ian: true)
+      create(:notification, resource:, journal:, recipient:, reason: :mentioned, read_ian: true)
     end
     let(:send_notifications) { false }
     let(:user_property) { :watcher }
