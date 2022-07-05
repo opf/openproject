@@ -28,14 +28,12 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Burndown,
-         type: :model,
-         with_settings: { journal_aggregation_time_minutes: 0 } do
+describe Burndown, type: :model do
   def set_attribute_journalized(story, attribute, value, day)
     story.reload
     story.send(attribute, value)
     story.save!
-    story.last_journal.update(created_at: day)
+    story.last_journal.update(created_at: day, updated_at: day)
   end
 
   let(:user) { @user ||= create(:user) }
@@ -110,97 +108,96 @@ describe Burndown,
         end
 
         describe 'WITH 1 story assigned to the sprint' do
-          before do
-            @story = build(:story, subject: 'Story 1',
-                                   project:,
-                                   version:,
-                                   type: type_feature,
-                                   status: issue_open,
-                                   priority: issue_priority,
-                                   created_at: Date.today - 20.days,
-                                   updated_at: Date.today - 20.days)
+          let(:story) do
+            build(:story, subject: 'Story 1',
+                          project:,
+                          version:,
+                          type: type_feature,
+                          status: issue_open,
+                          priority: issue_priority,
+                          created_at: Date.today - 20.days,
+                          updated_at: Date.today - 20.days)
           end
 
           describe 'WITH the story having story_point defined on creation' do
             before do
-              @story.story_points = 9
-              @story.save!
-              @story.last_journal.update_attribute(:created_at, @story.created_at)
+              story.story_points = 9
+              story.save!
+              story.last_journal.update_columns(created_at: story.created_at, updated_at: story.created_at)
             end
 
-            describe 'WITH the story being closed and opened again within the sprint duration' do
-              before do
-                set_attribute_journalized @story, :status_id=, issue_closed.id, Time.now - 6.days
-                set_attribute_journalized @story, :status_id=, issue_open.id, Time.now - 3.days
+            subject(:burndown) { Burndown.new(sprint, project) }
 
-                @burndown = Burndown.new(sprint, project)
+            describe 'WITH the story being closed and opened again within the sprint duration' do
+
+              before do
+                set_attribute_journalized story, :status_id=, issue_closed.id, Time.now - 6.days
+                set_attribute_journalized story, :status_id=, issue_open.id, Time.now - 3.days
               end
 
-              it { expect(@burndown.story_points).to eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
-              it { expect(@burndown.story_points.unit).to be :points }
-              it { expect(@burndown.days).to eql(sprint.days) }
-              it { expect(@burndown.max[:hours]).to be 0.0 }
-              it { expect(@burndown.max[:points]).to be 9.0 }
-              it { expect(@burndown.story_points_ideal).to eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
+              it { expect(burndown.story_points).to eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
+              it { expect(burndown.story_points.unit).to be :points }
+              it { expect(burndown.days).to eql(sprint.days) }
+              it { expect(burndown.max[:hours]).to be 0.0 }
+              it { expect(burndown.max[:points]).to be 9.0 }
+              it { expect(burndown.story_points_ideal).to eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
             end
 
             describe "WITH the story marked as resolved and consequently 'done'" do
               before do
-                set_attribute_journalized @story, :status_id=, issue_resolved.id, Time.now - 6.days
-                set_attribute_journalized @story, :status_id=, issue_open.id, Time.now - 3.days
+                set_attribute_journalized story, :status_id=, issue_resolved.id, Time.now - 6.days
+                set_attribute_journalized story, :status_id=, issue_open.id, Time.now - 3.days
                 project.done_statuses << issue_resolved
-                @burndown = Burndown.new(sprint, project)
               end
 
-              it { expect(@story.done?).to be false }
-              it { expect(@burndown.story_points).to eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
+              it { expect(story.done?).to be false }
+              it { expect(burndown.story_points).to eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
             end
           end
         end
 
         describe 'WITH 10 stories assigned to the sprint' do
-          before do
-            @stories = []
+          let!(:stories) do
+            stories = []
 
             (0..9).each do |i|
-              @stories[i] = create(:story, subject: "Story #{i}",
-                                           project:,
-                                           version:,
-                                           type: type_feature,
-                                           status: issue_open,
-                                           priority: issue_priority,
-                                           created_at: Date.today - (20 - i).days,
-                                           updated_at: Date.today - (20 - i).days)
-              @stories[i].last_journal.update_attribute(:created_at, @stories[i].created_at)
+              stories[i] = create(:story, subject: "Story #{i}",
+                                          project:,
+                                          version:,
+                                          type: type_feature,
+                                          status: issue_open,
+                                          priority: issue_priority,
+                                          created_at: Date.today - (20 - i).days,
+                                          updated_at: Date.today - (20 - i).days)
+              stories[i].last_journal.update_columns(created_at: stories[i].created_at, updated_at: stories[i].created_at)
             end
+
+            stories
           end
 
           describe 'WITH each story having story points defined at start' do
             before do
-              @stories.each_with_index do |s, _i|
+              stories.each_with_index do |s, _i|
                 set_attribute_journalized s, :story_points=, 10, version.start_date - 3.days
               end
             end
 
             describe 'WITH 5 stories having been reduced to 0 story points, one story per day' do
               before do
-                @finished_hours
                 (0..4).each do |i|
-                  set_attribute_journalized @stories[i], :story_points=, nil, version.start_date + i.days + 1.hour
+                  set_attribute_journalized stories[i], :story_points=, nil, version.start_date + i.days + 1.hour
                 end
               end
 
               describe 'THEN' do
-                before do
-                  @burndown = Burndown.new(sprint, project)
-                end
+                subject(:burndown) { Burndown.new(sprint, project) }
 
-                it { expect(@burndown.story_points).to eql [90.0, 80.0, 70.0, 60.0, 50.0, 50.0] }
-                it { expect(@burndown.story_points.unit).to be :points }
-                it { expect(@burndown.days).to eql(sprint.days) }
-                it { expect(@burndown.max[:hours]).to be 0.0 }
-                it { expect(@burndown.max[:points]).to be 90.0 }
-                it { expect(@burndown.story_points_ideal).to eql [90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0, 0.0] }
+                it { expect(burndown.story_points).to eql [90.0, 80.0, 70.0, 60.0, 50.0, 50.0] }
+                it { expect(burndown.story_points.unit).to be :points }
+                it { expect(burndown.days).to eql(sprint.days) }
+                it { expect(burndown.max[:hours]).to be 0.0 }
+                it { expect(burndown.max[:points]).to be 90.0 }
+                it { expect(burndown.story_points_ideal).to eql [90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0, 0.0] }
               end
             end
           end

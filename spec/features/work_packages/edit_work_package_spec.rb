@@ -1,7 +1,8 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-describe 'edit work package', js: true do
+describe 'edit work package',
+         js: true do
   let(:dev_role) do
     create :role,
            permissions: %i[view_work_packages
@@ -56,7 +57,8 @@ describe 'edit work package', js: true do
                           created_at: 5.days.ago.to_date.to_fs(:db))
 
     note_journal = work_package.journals.last
-    note_journal.update_column(:created_at, 5.days.ago.to_date.to_fs(:db))
+    note_journal.update_columns(created_at: 5.days.ago.to_date.to_fs(:db),
+                                updated_at: 5.days.ago.to_date.to_fs(:db))
 
     work_package
   end
