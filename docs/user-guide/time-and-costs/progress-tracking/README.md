@@ -90,4 +90,4 @@ is equivalent to setting **Progress (%)** to 50% manually.
 Note: The status and it’s associated progress value from the 
 administration screen also determines the **Progress (%)** of 
 work packages with children. So there is no roll-up of progress 
-in the project hierarchy in this configuration.
+in the work package table hierarchy in this configuration.
