@@ -9,6 +9,7 @@ fr:
       upsale:
         teaser_text: 'Souhaitez-vous des modèles de tableau prêts à l''emploi ? Les tableaux avancés sont une fonctionnalité Entreprise. Veuillez passer à un plan payant.'
         upgrade: 'Passer au plan supérieur'
+        more_info: 'More information'
       lists:
         delete: 'Supprimer la liste'
       version:

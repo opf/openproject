@@ -44,16 +44,46 @@ module API
 
         # The `:resources` keyword defines the API namespace -> /api/v3/work_packages/:id/file_links/...
         resources :file_links do
-          # A helper is used to define the behaviour at GET /api/v3/work_packages/:id/file_links
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: ::Storages::FileLink,
-                      scope: -> { visible_file_links_scope.where(container_id: @work_package.id) },
-                      self_path: -> { api_v3_paths.file_links(params[:id]) })
-                 .mount
+          # Get the list of FileLinks related to a work package, with updated information from Nextcloud.
+          get do
+            # API supports query filters on storages, for example { storage: { operator: '=', values: [storage_id] }
+            query = ParamsToQueryService
+                      .new(::Storages::Storage,
+                           current_user,
+                           query_class: ::Queries::Storages::FileLinks::FileLinkQuery)
+                      .call(params)
 
-          # A helper is used to define the behaviour at POST /api/v3/work_packages/:id/file_links.
-          # Additional classes are provided, that overwrite standard behaviour for parsing request parameters or
-          # rendering the response.
+            unless query.valid?
+              message = I18n.t('api_v3.errors.missing_or_malformed_parameter')
+              raise ::API::Errors::InvalidQuery.new(message)
+            end
+
+            # Get a (potentially huge...) list of all FileLinks for the work package.
+            file_links = query
+                           .results
+                           .where(id: visible_file_links_scope
+                                        .where(container_id: @work_package.id, container_type: 'WorkPackage'))
+                           .all
+
+            begin
+              # Synchronize with Nextcloud. StorageAPI has handled OAuth2 for us before.
+              # We ignore the result, because partial errors (storage network issues) are written to each FileLink
+              service_result = ::Storages::FileLinkSyncService
+                                 .new(user: current_user)
+                                 .call(file_links)
+
+              ::API::V3::FileLinks::FileLinkCollectionRepresenter.new(
+                service_result.result,
+                self_link: api_v3_paths.file_links(@work_package.id),
+                current_user:
+              )
+            rescue StandardError => e
+              # Example case: invalid oauth_client for storage raises invalid operation => 500
+              message = "#{I18n.t('api_v3.errors.code_500')}: #{e.message}"
+              raise ::API::Errors::InternalError.new(message)
+            end
+          end
+
           post &CreateEndpoint
                   .new(
                     model: ::Storages::FileLink,

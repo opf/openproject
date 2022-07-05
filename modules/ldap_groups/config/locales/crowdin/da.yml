@@ -67,4 +67,6 @@ da:
           Hvis du aktiverer denne indstilling, vil de fundne brugere også automatisk blive oprettet i OpenProject. Uden det vil kun eksisterende konti i OpenProject blive tilføjet til grupper.
         dn_text: 'Enter the full DN of the group in LDAP'
         group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+      upsale:
+        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
 

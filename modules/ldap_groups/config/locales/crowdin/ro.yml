@@ -67,4 +67,6 @@ ro:
           Dacă activați această opțiune, utilizatorii găsiți vor fi, de asemenea, creați automat în OpenProject. Fără această opțiune, doar conturile existente în OpenProject vor fi adăugate la grupuri.
         dn_text: 'Introduceți DN-ul complet al grupului în LDAP'
         group_text: 'Selectați un grup OpenProject existent cu care membrii grupului LDAP trebuie să fie sincronizați'
+      upsale:
+        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
 

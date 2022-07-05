@@ -230,6 +230,7 @@ zh-TW:
             professional_support: "專業支援"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "開始免費試用"
+          button_upgrade: "Upgrade now"
           button_book_now: "立即預約"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -266,7 +267,8 @@ zh-TW:
           one: "第一個排序條件"
           two: "第二個排序條件"
           three: "第三個排序條件"
-      upsale_for_more: "有關進階的篩選器, 請查看"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: '企業版。'
     general_text_no: "否"
     general_text_yes: "是"
@@ -330,6 +332,7 @@ zh-TW:
     label_description: "說明"
     label_details: "詳細資料"
     label_display: "顯示"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "取消注釋"
     label_closed_work_packages: "已關閉"
     label_collapse: "折疊"
@@ -821,7 +824,7 @@ zh-TW:
       zooms: "縮放等級"
       outlines: "層次結構級別"
     upsale:
-      ee_only: '僅企業版功能'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "粗體"
       italic: "斜體"
@@ -1009,6 +1012,7 @@ zh-TW:
           attribute_highlighting: '需要某些工作包才能從大眾中脫穎而出？'
           relation_columns: '需要檢視工作項目清單的關係嗎'
           check_out_link: '請查閱企業版'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:

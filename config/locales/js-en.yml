@@ -381,6 +381,7 @@ en:
     label_description: "Description"
     label_details: "Details"
     label_display: "Display"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Cancel comment"
     label_closed_work_packages: "closed"
     label_collapse: "Collapse"

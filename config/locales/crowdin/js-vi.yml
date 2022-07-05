@@ -230,6 +230,7 @@ vi:
             professional_support: "Hỗ trợ chuyên nghiệp"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Bắt đầu dùng thử miễn phí"
+          button_upgrade: "Upgrade now"
           button_book_now: "Đặt chỗ ngay"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -266,7 +267,8 @@ vi:
           one: "Tiêu chí phân loại đầu tiên"
           two: "Tiêu chí phân loại thứ hai"
           three: "Tiêu chí phân loại thứ ba"
-      upsale_for_more: "Để xem thêm các lọc nâng cao, hãy kiểm tra các"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Phiên bản doanh nghiệp.'
     general_text_no: "không"
     general_text_yes: "có"
@@ -330,6 +332,7 @@ vi:
     label_description: "Mô tả"
     label_details: "Chi tiết"
     label_display: "Hiển thị"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Hủy bình luận"
     label_closed_work_packages: "đã đóng"
     label_collapse: "Thu gọn"
@@ -821,7 +824,7 @@ vi:
       zooms: "Zoom level"
       outlines: "Hierarchy level"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Strong"
       italic: "Italic"
@@ -1009,6 +1012,7 @@ vi:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Lọc các gói công việc theo loại quan hệ'
       tabs:

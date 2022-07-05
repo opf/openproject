@@ -232,6 +232,7 @@ ja:
             professional_support: "プロフェッショナルサポート"
             professional_support_text: "ビジネスクリティカルな環境での OpenProject 利用に関する専門知識を持つ上級サポートエンジニアから、信頼性の高いハイタッチサポートを受けましょう。"
           button_start_trial: "無料トライアルを開始"
+          button_upgrade: "Upgrade now"
           button_book_now: "今すぐ予約"
           confidence: >
             テストおよびサポートされているエンタープライズクラスのプロジェクト管理ソフトウェアの信頼性を提供します。オープンソースとオープンマインドとともに。
@@ -268,7 +269,8 @@ ja:
           one: "最初の並べ替え条件"
           two: "2 番目の並べ替え基準"
           three: "3 番目の並べ替え条件"
-      upsale_for_more: "詳細なフィルターについて、ご確認ください"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'エンタープライズ版。'
     general_text_no: "いいえ"
     general_text_yes: "はい"
@@ -332,6 +334,7 @@ ja:
     label_description: "説明"
     label_details: "詳細"
     label_display: "表示"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "コメントをキャンセル"
     label_closed_work_packages: "完了"
     label_collapse: "折りたたむ"
@@ -825,7 +828,7 @@ ja:
       zooms: "ズームレベル"
       outlines: "階層レベル"
     upsale:
-      ee_only: 'Enterprise Editionのみの機能'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "強調"
       italic: "斜体字"
@@ -1013,6 +1016,7 @@ ja:
           attribute_highlighting: '全体から目立つように特定の作業項目が必要ですか？'
           relation_columns: 'ワークパッケージリストに関係を表示する必要がありますか?'
           check_out_link: 'エンタープライズ版をチェックしてください。'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: '関係タイプでワークパッケージをフィルタ'
       tabs:

@@ -230,6 +230,7 @@ sl:
             professional_support: "Strokovna podpora"
             professional_support_text: "Pridobite zanesljivo in visoko dotično podporo starejših podpornih inženirjev s strokovnim znanjem o izvajanju OpenProject-a v poslovnih kritičnih okoljih."
           button_start_trial: "Začnite z brezplačno preizkusno dobo"
+          button_upgrade: "Upgrade now"
           button_book_now: "Rezerviraj"
           confidence: >
             Zagotavljamo zaupanje preizkušene in podprte programske opreme za upravljanje projektov v podjetniškem razredu - z odprto kodo in odprto miselnostjo.
@@ -266,7 +267,8 @@ sl:
           one: "Prvo merilo za razvrščanje"
           two: "Drugo merilo za razvrščanje"
           three: "Tretje merilo za razvrščanje"
-      upsale_for_more: "Za bolj napredne filtre, si poglejte"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Podjetniška verzija. '
     general_text_no: "ne"
     general_text_yes: "da"
@@ -330,6 +332,7 @@ sl:
     label_description: "Opis"
     label_details: "Podrobnosti"
     label_display: "Prikaz"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Prekliči komentar"
     label_closed_work_packages: "Zaprto"
     label_collapse: "Strni"
@@ -824,7 +827,7 @@ sl:
       zooms: "Stopnja povečave"
       outlines: "Stopnja hierarhije"
     upsale:
-      ee_only: 'Ta možnost je samo v podjetniški izdaji'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Močno"
       italic: "Nagnjeno"
@@ -1012,6 +1015,7 @@ sl:
           attribute_highlighting: 'Potrebujete določene delovne pakete da izstopajo iz nereda?'
           relation_columns: 'Potrebujete videti povezave v seznamu delovnega paketa?'
           check_out_link: 'Preveri Podjetniško verzijo.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtreraj delovne pakete po vrsti relacije'
       tabs:

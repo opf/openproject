@@ -231,6 +231,7 @@ id:
             professional_support: "Professional support"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -267,7 +268,8 @@ id:
           one: "Kriteria penyortiran pertama"
           two: "Kriteria penyortiran kedua"
           three: "Kriteria penyortiran ketiga"
-      upsale_for_more: "For more advanced filters, check out the"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Pesanlah edisi enterprise.'
     general_text_no: "no"
     general_text_yes: "yes"
@@ -331,6 +333,7 @@ id:
     label_description: "Deskripsi"
     label_details: "Detil"
     label_display: "Tampilkan"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Cancel comment"
     label_closed_work_packages: "berakhir"
     label_collapse: "Tampilkan"
@@ -822,7 +825,7 @@ id:
       zooms: "Zoom level"
       outlines: "Hierarchy level"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Tebal"
       italic: "Miring"
@@ -1010,6 +1013,7 @@ id:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Apakah perlu untuk melihat hubungan dalam daftar paker kerja?'
           check_out_link: 'Periksa edisi Perusahaan.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:

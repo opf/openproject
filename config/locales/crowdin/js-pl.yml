@@ -231,6 +231,7 @@ pl:
             professional_support: "Profesjonalne wsparcie"
             professional_support_text: "Uzyskaj niezawodne, wysokiej klasy wsparcie od starszych inżynierów wsparcia technicznego posiadających wiedzę fachową na temat uruchamiania oprogramowania OpenProject w środowiskach o znaczeniu krytycznym dla biznesu."
           button_start_trial: "Rozpocznij bezpłatny okres próbny"
+          button_upgrade: "Upgrade now"
           button_book_now: "Zarezerwuj teraz"
           confidence: >
             Dostarczamy sprawdzone i wspierane oprogramowanie klasy korporacyjnej do zarządzania projektami — z otwartym kodem źródłowym i otwartym umysłem.
@@ -267,7 +268,8 @@ pl:
           one: "Pierwsze kryterium sortowania"
           two: "Drugie kryterium sortowania"
           three: "Trzecie kryterium sortowania"
-      upsale_for_more: "Bardziej zaawanhsowane filtry zawiera"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Wersja Enterprise.'
     general_text_no: "nie"
     general_text_yes: "tak"
@@ -331,6 +333,7 @@ pl:
     label_description: "Opis"
     label_details: "Szczegóły"
     label_display: "Wyświetlanie"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Anuluj komentarz"
     label_closed_work_packages: "Zamknięte"
     label_collapse: "Zwiń"
@@ -825,7 +828,7 @@ pl:
       zooms: "Powiększenie"
       outlines: "Poziom hierarchii"
     upsale:
-      ee_only: 'Funkcja dostępna tylko w wersji Enterprise'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Pogrubienie"
       italic: "Kursywa"
@@ -1013,6 +1016,7 @@ pl:
           attribute_highlighting: 'Czy określone pakiety robocze trzeba wyróżnić?'
           relation_columns: 'Chcesz zobaczyć relacje w tej liście pakietów roboczych?'
           check_out_link: 'Sprawdź wersję Enterprise.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtruj pakiety robocze według typu relacji'
       tabs:

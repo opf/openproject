@@ -48,8 +48,9 @@ lt:
         main-menu-hover-font-color: "Pagrindinio meniu šriftas užvažiavus pele"
         main-menu-border-color: "Pagrindinio meniu kraštinės"
       custom_colors: "Pasirinktinės spalvos"
-      customize: "Suasmeninkite savo OpenProject įdiegtį su savo logotipu. Pastaba: šis logotipas bus matomas viešai."
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "Kaip specialus „AČIŪ!“ už finansinę paramą kuriant OpenProject, ši mažytė funkcija galima naudoti tik „Enterprise Edition“ paramos prenumeratoriams."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Redaguoti spalvos pasirinkimo variantus"
       instructions:
         alternative-color: "Stipri, akį rėžianti spalva, įprastai naudojama svarbiausiam mygtukui ekrane."
@@ -76,6 +77,7 @@ lt:
       buttons:
         upgrade: "Užsisakykite dabar"
         contact: "Susisiekite su mumis dėl demonstracijos"
+        more_info: "More information"
       enterprise_info_html: "yra Enterprise <strong class='icon-medal'></strong> savybė."
       upgrade_info: "Prašome atsinaujinti į mokamą planą, kad aktyvuotumėte ir pradėtumėte ji naudoti savo komandoje."
     journal_aggregation:
@@ -168,7 +170,7 @@ lt:
     execute: 'Vykdyti %{name}'
     upsale:
       title: 'Pasirinktiniai veiksmai'
-      description: 'Pasirinktiniai veiksmai supaprastina kasdienį darbą suderindami atskirus žingsnius į vieną mygtuką.'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       Norėdami pridėti naujus pritaikytus laukelius prie projekto, pirmiausia reikia juos sukurti. Tik tada yra galimybė juos pridėti prie šio projekto.
@@ -268,7 +270,7 @@ lt:
     upsale:
       title: Statytiniai naudotojai
       description: >
-        Gali būti keletas scenarijų kuriuose jūs norite priskirti darbus žmogui, kuris nėra projekto narys. Paprasčiausiai, žmogus gali dar nebūti priimtas į darbą. Arba jūs nenorite duoti žmogui prieigos prie projekto informacijos, tačiau norite sekti šiam žmogui priskirtas užduotis.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -298,6 +300,8 @@ lt:
     edit:
       settings: "Nustatymai"
       form_configuration: "Formos konfigūracija"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
       projects: "Projektai"
       enabled_projects: "Įgalinti projektai"
       edit_query: "Keisti lentelę"
@@ -3104,4 +3108,10 @@ lt:
         unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
         unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
         invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: jūs

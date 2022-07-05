@@ -48,8 +48,9 @@ it:
         main-menu-hover-font-color: "Font del menu principale al passaggio del mouse"
         main-menu-border-color: "Bordo del menu principale"
       custom_colors: "Colori personalizzati"
-      customize: "Personalizza l'installazione di OpenProject con il tuo logo. Nota: Il logo sarà visibile pubblicamente."
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "Questa funzionalità è disponibile solo per chi si è iscritto alla Enterprise Edition, come ringraziamento speciale per il contributo finanziario allo sviluppo di OpenProject."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Modifica opzioni di selezione del colore"
       instructions:
         alternative-color: "Colore forte, utilizzato di solito per far risaltare il tasto principale sullo schermo."
@@ -76,6 +77,7 @@ it:
       buttons:
         upgrade: "Aggiorna ora"
         contact: "Contattaci per una demo"
+        more_info: "More information"
       enterprise_info_html: "è una funzione Enterprise <strong class='icon-medal'></strong>."
       upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
     journal_aggregation:
@@ -168,7 +170,7 @@ it:
     execute: 'Esegui %{name}'
     upsale:
       title: 'Azioni personalizzate'
-      description: 'La linea personalizzata delle azioni lavora quotidianamente combinando un set di passi individuali in un bottone.'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       Per aggiungere nuovi campi personalizzati a un progetto, è necessario prima crearli.
@@ -268,7 +270,7 @@ it:
     upsale:
       title: Utenti segnaposto
       description: >
-        Ci sono diversi scenari in cui vuoi assegnare lavoro a persone che non sono membri del tuo progetto. Potrebbe semplicemente essere che devi ancora assumere le persone adatte al lavoro. O che non vuoi dare accesso a quella persona alle informazioni del progetto ma vuoi comunque monitorare le mansioni che gli hai assegnato.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -298,6 +300,8 @@ it:
     edit:
       settings: "Impostazioni"
       form_configuration: "Configurazione del modulo"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
       projects: "Progetti"
       enabled_projects: "Progetti abilitati"
       edit_query: "Modificare la Tabella"
@@ -3063,4 +3067,10 @@ it:
         unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
         unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
         invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: tu

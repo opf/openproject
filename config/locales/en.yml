@@ -316,9 +316,9 @@ en:
          or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
-     priority_color_text: |
-      Click to assign or change the color of this priority.
-      It can be used for highlighting work packages in the table.
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
 
   reportings:
     index:
@@ -327,14 +327,14 @@ en:
 
   statuses:
     edit:
-     status_readonly_html: |
-       Check this option to mark work packages with this status as read-only.
-       No attributes can be changed with the exception of the status.
-       <br/>
-       <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
-     status_color_text: |
-      Click to assign or change the color of this status.
-      It is shown in the status button and can be used for highlighting work packages in the table.
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
@@ -959,7 +959,6 @@ en:
     password: "Password"
     priority: "Priority"
     project: "Project"
-    public: "Public"
     responsible: "Accountable"
     role: "Role"
     roles: "Roles"
@@ -1111,10 +1110,10 @@ en:
   create_new_page: "Wiki page"
 
   date:
-    abbr_day_names: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-    abbr_month_names: [~, "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    abbr_day_names: [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ]
+    abbr_month_names: [ ~, "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ]
     abbr_week: 'Wk'
-    day_names: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    day_names: [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
     formats:
       # Use the strftime parameters for formats.
       # When no format has been given, it uses default.
@@ -1123,7 +1122,7 @@ en:
       long: "%B %d, %Y"
       short: "%b %d"
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    month_names: [ ~, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
     # Used in date_select and datime_select.
     order:
       - :year
@@ -2807,7 +2806,7 @@ en:
     delete_thing: "Delete"
     duration: "Duration"
     duration_days:
-      one:   "1 day"
+      one: "1 day"
       other: "%{count} days"
     edit_color: "Edit color"
     edit_thing: "Edit"
@@ -2904,12 +2903,12 @@ en:
     outline: "Reset Outline"
     outlines:
       aggregation: "Show aggregations only"
-      level1:      "Expand level 1"
-      level2:      "Expand level 2"
-      level3:      "Expand level 3"
-      level4:      "Expand level 4"
-      level5:      "Expand level 5"
-      all:         "Show all"
+      level1: "Expand level 1"
+      level2: "Expand level 2"
+      level3: "Expand level 3"
+      level4: "Expand level 4"
+      level5: "Expand level 5"
+      all: "Show all"
     reporting_for_project:
       show: "Status reported to project: %{title}"
       edit_delete: "status report for project: %{title}"
@@ -3054,7 +3053,7 @@ en:
   # TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
-        _Updated automatically by changing values within child work package %{child}_
+      _Updated automatically by changing values within child work package %{child}_
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
@@ -3243,7 +3242,7 @@ en:
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
-      refresh_token_called_without_existing_token: > 
+      refresh_token_called_without_existing_token: >
         Internal error: Called refresh_token without a previously existing token.
       refresh_token_updated_failed: "Error during update of OAuthClientToken"
       oauth_client_not_found_explanation: >
@@ -3270,4 +3269,12 @@ en:
         unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
         unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
         invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
+
   you: you

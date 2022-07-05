@@ -25,7 +25,7 @@
 #   prepare one.
 #
 # - Frank Bergmann has put together additional tips and tricks on how to setup a
-#   development environment and to get started developing: ToDo: Publish PPTs
+#   development environment and to get started developing
 #
 # Other good resources:
 # - Modules vs. Classes:

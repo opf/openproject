@@ -99,7 +99,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   public markable = false;
 
-  getAutocompleterData = (query:string):Observable<any[]> => this.autocompleteWorkPackages(query);
+  getAutocompleterData = (query:string):Observable<unknown[]> => this.autocompleteWorkPackages(query);
 
   public autocompleterOptions = {
     filters: [],
@@ -116,7 +116,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   /** Remember the item that best matches the query.
    * That way, it will be highlighted (as we manually mark the selected item) and we can handle enter.
    * */
-  public selectedItem:WorkPackageResource|SearchOptionItem|null;
+  public selectedItem:WorkPackageResource|SearchOptionItem|undefined;
 
   private unregisterGlobalListener:(() => unknown)|undefined;
 
@@ -228,7 +228,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     if (!this.deviceService.isMobile) {
       this.expanded = (this.searchTerm !== null && this.searchTerm.length > 0);
       this.ngSelectComponent.ngSelectInstance.isOpen = false;
-      this.selectedItem = null;
+      this.selectedItem = undefined;
       this.toggleTopMenuClass();
     }
   }
@@ -258,11 +258,11 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return Highlighting.inlineClass('status', statusId);
   }
 
-  public followItem(item:WorkPackageResource|SearchOptionItem):void {
+  public followItem(item:WorkPackageResource|SearchOptionItem|undefined):void {
     this.selectedItem = item;
     if (item instanceof HalResource) {
-      window.location.href = this.wpPath(item.id!);
-    } else {
+      window.location.href = this.wpPath(item.id as string);
+    } else if (item) {
       // update embedded table and title when new search is submitted
       this.globalSearchService.searchTerm = this.currentValue;
       this.searchInScope(item.projectScope);
@@ -287,7 +287,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
     // Reset the currently selected item.
     // We do not follow the typical goal of an autocompleter of "setting a value" here.
-    this.selectedItem = null;
+    this.selectedItem = undefined;
     // Hide highlighting of ng-option
     this.markable = false;
 

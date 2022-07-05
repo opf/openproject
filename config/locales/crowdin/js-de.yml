@@ -230,6 +230,7 @@ de:
             professional_support: "Professioneller Support"
             professional_support_text: "Erhalten Sie zuverlässigen und schnellen Support von erfahrenen OpenProject Software-Ingenieuren."
           button_start_trial: "Kostenlose Testversion starten"
+          button_upgrade: "Upgrade now"
           button_book_now: "Jetzt buchen"
           confidence: >
             OpenProject bietet eine bewährte und hoch-skalierbare Projektmanagement-Software für Unternehmen - mit Open Source und open mind.
@@ -266,7 +267,8 @@ de:
           one: "Erstes Sortierkriterium"
           two: "Zweites Sortierkriterium"
           three: "Drittes Sortierkriterium"
-      upsale_for_more: "Erweiterte Filter finden Sie in der"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise-Edition.'
     general_text_no: "nein"
     general_text_yes: "ja"
@@ -330,6 +332,7 @@ de:
     label_description: "Beschreibung"
     label_details: "Details"
     label_display: "Anzeige"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Kommentar abbrechen"
     label_closed_work_packages: "Geschlossen"
     label_collapse: "Zuklappen"
@@ -822,7 +825,7 @@ de:
       zooms: "Zoomstufe"
       outlines: "Hierarchie-Stufe"
     upsale:
-      ee_only: 'Enterprise-Edition Feature'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Fett"
       italic: "Kursiv"
@@ -1010,6 +1013,7 @@ de:
           attribute_highlighting: 'Sollen bestimmte Arbeitspakete aus der Menge herausstechen?'
           relation_columns: 'Möchte Sie Beziehungen als Spalten in der Arbeitspaketliste sehen können?'
           check_out_link: 'Schauen Sie sich die Enterprise Edition an.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Arbeitspakete nach Beziehungs-Typ filtern'
       tabs:

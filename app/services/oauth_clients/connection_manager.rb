@@ -46,6 +46,7 @@ module OAuthClients
     # Returns an OAuthClientToken object or a String in case a renew is required.
     # @param state (OAuth2 RFC) encapsulates the state of the calling page (URL + params) to return
     # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud only has one global scope.
+    # @return ServiceResult with ServiceResult.result being either an OAuthClientToken or a redirection URL
     def get_access_token(scope: [], state: nil)
       # Check for an already existing token from last call
       token = get_existing_token
@@ -142,6 +143,27 @@ module OAuthClients
       end
     rescue StandardError
       :error
+    end
+
+    # @returns ServiceResult with result to be :error or any type of object with data
+    def request_with_token_refresh
+      # `yield` needs to returns a ServiceResult:
+      #   success: result= any object with data
+      #   failure: result= :error or :not_authorized
+      yield_service_result = yield
+
+      if yield_service_result.failure? && yield_service_result.result == :not_authorized
+        refresh_service_result = refresh_token
+        if refresh_service_result.failure?
+          failed_service_result = ServiceResult.failure(result: :error)
+          failed_service_result.merge!(refresh_service_result)
+          return failed_service_result
+        end
+
+        yield_service_result = yield # Should contain result=<data> in case of success
+      end
+
+      yield_service_result
     end
 
     private

@@ -48,8 +48,9 @@ lol:
         main-menu-hover-font-color: "crwdns494737:0crwdne494737:0"
         main-menu-border-color: "crwdns494739:0crwdne494739:0"
       custom_colors: "crwdns494741:0crwdne494741:0"
-      customize: "crwdns494743:0crwdne494743:0"
+      customize: "crwdns822232:0crwdne822232:0"
       enterprise_notice: "crwdns494745:0crwdne494745:0"
+      enterprise_more_info: "crwdns822234:0crwdne822234:0"
       manage_colors: "crwdns494747:0crwdne494747:0"
       instructions:
         alternative-color: "crwdns494749:0crwdne494749:0"
@@ -76,6 +77,7 @@ lol:
       buttons:
         upgrade: "crwdns655649:0crwdne655649:0"
         contact: "crwdns655651:0crwdne655651:0"
+        more_info: "crwdns822236:0crwdne822236:0"
       enterprise_info_html: "crwdns655653:0crwdne655653:0"
       upgrade_info: "crwdns655655:0crwdne655655:0"
     journal_aggregation:
@@ -159,7 +161,7 @@ lol:
     execute: 'crwdns494887:0%{name}crwdne494887:0'
     upsale:
       title: 'crwdns655657:0crwdne655657:0'
-      description: 'crwdns494891:0crwdne494891:0'
+      description: 'crwdns822238:0crwdne822238:0'
   custom_fields:
     text_add_new_custom_field: >
       crwdns494893:0crwdne494893:0
@@ -258,7 +260,7 @@ lol:
     upsale:
       title: crwdns655659:0crwdne655659:0
       description: >
-        crwdns495011:0crwdne495011:0
+        crwdns822240:0crwdne822240:0
   prioritiies:
     edit:
       priority_color_text: |
@@ -283,6 +285,8 @@ lol:
     edit:
       settings: "crwdns495031:0crwdne495031:0"
       form_configuration: "crwdns495033:0crwdne495033:0"
+      more_info_text_html: >
+        crwdns822242:0%{list_styling_class}crwdne822242:0
       projects: "crwdns495035:0crwdne495035:0"
       enabled_projects: "crwdns495037:0crwdne495037:0"
       edit_query: "crwdns495039:0crwdne495039:0"
@@ -3029,4 +3033,10 @@ lol:
         unauthorized_client: "crwdns819034:0crwdne819034:0"
         unsupported_grant_type: "crwdns819036:0crwdne819036:0"
         invalid_scope: "crwdns819038:0crwdne819038:0"
+  http:
+    request:
+      failed_authorization: "crwdns822244:0crwdne822244:0"
+      missing_authorization: "crwdns822246:0crwdne822246:0"
+    response:
+      unexpected: "crwdns822248:0crwdne822248:0"
   you: crwdns499973:0crwdne499973:0

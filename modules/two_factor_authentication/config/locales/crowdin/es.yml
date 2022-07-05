@@ -73,7 +73,7 @@ es:
       text_2fa_disabled: "El usuario no configuró un dispositivo 2FA a través de su página 'Mi cuenta'"
     upsale:
       title: 'Autenticación de dos factores'
-      description: 'Fortalezca sus mecanismos de autenticación interna o externa con un segundo factor.'
+      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: No existen códigos de respaldo para esta cuenta.
       singular: Código de respaldo
