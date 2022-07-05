@@ -9,7 +9,7 @@
                      label: t('storages.label_oauth_client_id'),
                      size: 40,
                      container_class: '-wide',
-                     disabled: true,
+                     readonly: true,
                      id: 'client_id' %>
     <% csp_onclick('this.focus(); this.select();', '#client_id') %>
     <copy-to-clipboard click-target=".client-id-copy-button"
@@ -26,7 +26,7 @@
                      label: t('storages.label_oauth_client_secret'),
                      size: 40,
                      container_class: '-wide',
-                     disabled: true,
+                     readonly: true,
                      id: 'secret' %>
     <% csp_onclick('this.focus(); this.select();', '#secret') %>
     <copy-to-clipboard click-target=".secret-copy-button"

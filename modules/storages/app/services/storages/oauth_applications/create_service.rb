@@ -48,7 +48,7 @@ module Storages::OAuthApplications
         .call({
                 name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.provider_type}")})",
                 redirect_uri: File.join(storage.host, "apps/integration_openproject/oauth-redirect"),
-                scopes: '',
+                scopes: 'api_v3',
                 confidential: true,
                 owner: storage.creator,
                 integration: storage
