@@ -35,26 +35,37 @@
         slot="body"
         class="spot-body-small"
       >
+        <span *ngIf="project.disabled">{{ text.does_not_match_search }}</span>
         <span *ngIf="includeSubprojects && parentChecked">{{ text.include_all_selected }}</span>
         <span *ngIf="project.href === currentProjectHref">{{ text.current_project }}</span>
       </p>
     </spot-tooltip>
   </label>
 
-  <a
-    *ngIf="!multiSelect"
-    class="spot-list--item-action op-project-list--item-action"
-    [title]="project.name"
-    [href]="extendedProjectUrl(project.id)"
-  >
+  <ng-container *ngIf="!multiSelect">
+    <a
+      *ngIf="!project.disabled"
+      class="spot-list--item-action op-project-list--item-action"
+      [ngClass]="{ 'spot-list--item-action_disabled': project.disabled }"
+      [title]="project.name"
+      [href]="extendedProjectUrl(project.id)"
+    >
     <span
       class="op-project-list--item-title spot-list--item-title"
       data-qa-selector="op-project-list--item-title"
       [opSearchHighlight]="searchText"
+    >{{ project.name }}</span>
+    </a>
+    <span
+      *ngIf="project.disabled"
+      class="spot-list--item-action spot-list--item-action_disabled spot-list--item-action_disabled"
     >
-      {{ project.name }}
+      <span
+        class="spot-list--item-title op-project-list--item-title"
+        data-qa-selector="op-project-list--item-disabled-title"
+      >{{ project.name }}</span>
     </span>
-  </a>
+  </ng-container>
 
   <ul
     *ngIf="project.children.length"

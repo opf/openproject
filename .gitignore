@@ -48,6 +48,7 @@ npm-debug.log*
 /tags
 /tags.lock
 /tags.temp
+/tags.files
 
 # Ignore RubyMine files
 /.idea

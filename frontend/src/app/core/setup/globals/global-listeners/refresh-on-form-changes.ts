@@ -41,7 +41,13 @@ export function refreshOnFormChanges() {
     setTimeout(() => {
       form
         .find(inputId)
-        .on('change', () => {
+        .on('change', (e:Event) => {
+          // The project selector also fires a change event when the
+          // value is empty, but we don't want that here.
+          const input = e.currentTarget as HTMLInputElement;
+          if (input.name === 'new_project_id' && input.value === '') {
+            return;
+          }
           window.location.href = `${url}?${form.serialize()}`;
         });
     }, 100);
