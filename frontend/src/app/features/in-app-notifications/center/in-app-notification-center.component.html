@@ -32,7 +32,9 @@
       </ng-template>
     </ng-container>
     <ng-template #loading>
-      <img [src]="image.loading" class="op-ian-center-loading-image"/>
+      <img [src]="image.loading" 
+          class="op-ian-center--loading-indicator op-ian-center-loading-image"
+          data-qa-selector="op-ian-center--loading-indicator"/>
     </ng-template>
   </div>
   <div class="op-ian-center--footer">
