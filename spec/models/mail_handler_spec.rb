@@ -50,7 +50,7 @@ describe MailHandler, type: :model do
     allow(Setting).to receive(:default_language).and_return('en')
   end
 
-  shared_context 'wp_on_given_project' do
+  shared_context 'for wp_on_given_project' do
     let(:permissions) { %i[add_work_packages assign_versions work_package_assigned] }
     let!(:user) do
       create(:user,
@@ -67,7 +67,7 @@ describe MailHandler, type: :model do
     end
   end
 
-  shared_context 'wp_on_given_project_case_insensitive' do
+  shared_context 'for wp_on_given_project_case_insensitive' do
     let(:permissions) { %i[add_work_packages assign_versions] }
     let!(:user) do
       create(:user,
@@ -100,7 +100,7 @@ describe MailHandler, type: :model do
              member_in_project: project,
              member_with_permissions: [:work_package_assigned])
     end
-    let(:submit_options) { { } }
+    let(:submit_options) { {} }
 
     subject do
       submit_email('wp_on_given_project_group_assignment.eml', **submit_options)
@@ -274,11 +274,11 @@ describe MailHandler, type: :model do
     end
 
     context 'when sending a mail not as a reply' do
-      context 'in a given project' do
+      context 'for a given project' do
         let!(:status) { create(:status, name: 'Resolved') }
         let!(:version) { create(:version, name: 'alpha', project:) }
 
-        include_context 'wp_on_given_project' do
+        include_context 'for wp_on_given_project' do
           let(:submit_options) { { allow_override: 'version' } }
         end
 
@@ -380,7 +380,7 @@ describe MailHandler, type: :model do
           end
         end
 
-        include_context 'wp_on_given_project' do
+        include_context 'for wp_on_given_project' do
           let(:submit_options) { { issue: { type: default_type.name } } }
         end
 
@@ -399,7 +399,7 @@ describe MailHandler, type: :model do
           user.locked!
         end
 
-        include_context 'wp_on_given_project'
+        include_context 'for wp_on_given_project'
 
         it 'does not create the work package' do
           expect { subject }
@@ -426,7 +426,7 @@ describe MailHandler, type: :model do
             expect do
               work_package = submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, unknown_user: 'create')
               work_package_created(work_package)
-              expect(work_package.author.active?).to be_truthy
+              expect(work_package.author).to be_active
               expect(work_package.author.mail).to eq('john.doe@somenet.foo')
               expect(work_package.author.firstname).to eq('John')
               expect(work_package.author.lastname).to eq('Doe')
@@ -441,9 +441,9 @@ describe MailHandler, type: :model do
               password = email.body.encoded.match(/\* Password: (\S+)\s?$/)[1]
 
               # Can't log in here since randomly assigned password must be changed
-              found_user = User.find_by_login(login)
+              found_user = User.find_by(login:)
               expect(work_package.author).to eq(found_user)
-              expect(found_user.check_password?(password)).to be_truthy
+              expect(found_user).to be_check_password(password)
             end.to change(User, :count).by(1)
           end
         end
@@ -471,11 +471,11 @@ describe MailHandler, type: :model do
         context 'with unknown_user: \'accept\' and permission check present' do
           let(:expected) do
             'MailHandler: work_package could not be created by Anonymous due to ' \
-            '#["may not be accessed.", ' \
-            '"Type was attempted to be written but is not writable.", ' \
-            '"Project was attempted to be written but is not writable.", ' \
-            '"Subject was attempted to be written but is not writable.", ' \
-            '"Description was attempted to be written but is not writable."]'
+              '#["may not be accessed.", ' \
+              '"Type was attempted to be written but is not writable.", ' \
+              '"Project was attempted to be written but is not writable.", ' \
+              '"Subject was attempted to be written but is not writable.", ' \
+              '"Description was attempted to be written but is not writable."]'
           end
           let(:permission) { nil }
 
@@ -607,7 +607,7 @@ describe MailHandler, type: :model do
         end
       end
 
-      context 'email from emission address', with_settings: { mail_from: 'openproject@example.net' } do
+      context 'for email from emission address', with_settings: { mail_from: 'openproject@example.net' } do
         before do
           Role.non_member.add_permission!(:add_work_packages)
         end
@@ -639,11 +639,11 @@ describe MailHandler, type: :model do
         end
       end
 
-      context 'wp with status' do
+      context 'for wp with status' do
         let!(:status) { create(:status, name: 'Resolved') }
 
         # This email contains: 'Project: onlinestore' and 'Status: Resolved'
-        include_context 'wp_on_given_project'
+        include_context 'for wp_on_given_project'
 
         it_behaves_like 'work package created'
 
@@ -653,13 +653,13 @@ describe MailHandler, type: :model do
         end
       end
 
-      context 'wp with status case insensitive' do
+      context 'for wp with status case insensitive' do
         let!(:status) { create(:status, name: 'Resolved') }
         let!(:priority_low) { create(:priority_low, name: 'Low', is_default: true) }
         let!(:version) { create(:version, name: 'alpha', project:) }
 
         # This email contains: 'Project: onlinestore' and 'Status: resolved'
-        include_context 'wp_on_given_project_case_insensitive'
+        include_context 'for wp_on_given_project_case_insensitive'
 
         it_behaves_like 'work package created'
 
@@ -670,7 +670,7 @@ describe MailHandler, type: :model do
         end
       end
 
-      context 'wp with cc' do
+      context 'for wp with cc' do
         include_context 'with wp create with cc'
 
         it_behaves_like 'work package created'
@@ -785,7 +785,7 @@ describe MailHandler, type: :model do
             .to include 'The text of the reply.'
         end
 
-        it 'alters the attributes' do
+        it 'alters the attributes', with_flag: { work_packages_duration_field_active: true } do
           subject
 
           expect(work_package.journals.reload.last.details)
@@ -815,13 +815,13 @@ describe MailHandler, type: :model do
           type.custom_fields << custom_field
           type.save!
 
-          allow_any_instance_of(WorkPackage).to receive(:available_custom_fields).and_return([custom_field])
+          allow(work_package).to receive(:available_custom_fields).and_return([custom_field])
 
           allow(WorkPackage).to receive(:find_by).with(id: 42).and_return(work_package)
           allow(User).to receive(:find_by_mail).with("h.wurst@openproject.com").and_return(mail_user)
         end
 
-        context 'of type text' do
+        context 'as type text' do
           let(:custom_field) { create :text_wp_custom_field, name: "Notes" }
 
           before do
@@ -831,13 +831,13 @@ describe MailHandler, type: :model do
           end
 
           it "sets the value" do
-            value = work_package.custom_values.where(custom_field_id: custom_field.id).pluck(:value).first
+            value = work_package.custom_values.where(custom_field_id: custom_field.id).pick(:value)
 
             expect(value).to eq "some text" # as given in .eml fixture
           end
         end
 
-        context 'of type list' do
+        context 'as type list' do
           let(:custom_field) { create :list_wp_custom_field, name: "Letters", possible_values: %w(A B C) }
 
           before do
@@ -848,7 +848,7 @@ describe MailHandler, type: :model do
 
           it "sets the value" do
             option = CustomOption.where(custom_field_id: custom_field.id, value: "B").first # as given in .eml fixture
-            value = work_package.custom_values.where(custom_field_id: custom_field.id).pluck(:value).first
+            value = work_package.custom_values.where(custom_field_id: custom_field.id).pick(:value)
 
             expect(value).to eq option.id.to_s
           end
@@ -880,9 +880,9 @@ describe MailHandler, type: :model do
       end
     end
 
-    context 'truncate emails based on the Setting' do
+    describe 'truncate emails based on the Setting' do
       context 'with no setting', with_settings: { mail_handler_body_delimiters: '' } do
-        include_context 'wp_on_given_project'
+        include_context 'for wp_on_given_project'
 
         it_behaves_like 'work package created'
 
@@ -896,7 +896,7 @@ describe MailHandler, type: :model do
       end
 
       context 'with a single string', with_settings: { mail_handler_body_delimiters: '---' } do
-        include_context 'wp_on_given_project'
+        include_context 'for wp_on_given_project'
 
         it_behaves_like 'work package created'
 
@@ -935,7 +935,7 @@ describe MailHandler, type: :model do
 
       context 'with multiple strings',
               with_settings: { mail_handler_body_delimiters: "---\nBREAK" } do
-        include_context 'wp_on_given_project'
+        include_context 'for wp_on_given_project'
 
         it_behaves_like 'work package created'
 
@@ -981,27 +981,26 @@ describe MailHandler, type: :model do
       "Subject:foo\nDescription:bar\n" \
         ">>> myserver.example.org 2016-01-27 15:56 >>>\n... (Email-Body) ..."
     end
-    let(:handler) { MailHandler.send :new }
+    let(:handler) { described_class.send :new }
 
     context 'with regex delimiter' do
       before do
         allow(Setting).to receive(:mail_handler_body_delimiter_regex).and_return('>>>.+?>>>.*')
         allow(handler).to receive(:plain_text_body).and_return(input)
-        expect(handler).to receive(:cleaned_up_text_body).and_call_original
+        allow(handler).to receive(:cleaned_up_text_body).and_call_original
       end
 
       it 'removes the irrelevant lines' do
         expect(handler.send(:cleaned_up_text_body)).to eq("Subject:foo\nDescription:bar")
+        expect(handler).to have_received(:cleaned_up_text_body)
       end
     end
   end
 
   private
 
-  FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
-
   def read_email(filename)
-    IO.read(File.join(FIXTURES_PATH, filename))
+    File.read(File.join("#{File.dirname(__FILE__)}/../fixtures/mail_handler", filename))
   end
 
   def submit_email(filename, options = {})
@@ -1009,7 +1008,7 @@ describe MailHandler, type: :model do
   end
 
   def work_package_created(work_package)
-    expect(work_package.is_a?(WorkPackage)).to be_truthy
+    expect(work_package).to be_a(WorkPackage)
     expect(work_package).not_to be_new_record
     work_package.reload
   end

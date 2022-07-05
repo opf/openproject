@@ -52,6 +52,7 @@
 require_relative './journal_formatter/base'
 require_relative './journal_formatter/attribute'
 require_relative './journal_formatter/datetime'
+require_relative './journal_formatter/day_count'
 require_relative './journal_formatter/decimal'
 require_relative './journal_formatter/fraction'
 require_relative './journal_formatter/id'
@@ -79,12 +80,13 @@ module JournalFormatter
   end
 
   def self.default_formatters
-    { plaintext: JournalFormatter::Plaintext,
-      datetime: JournalFormatter::Datetime,
-      named_association: JournalFormatter::NamedAssociation,
-      fraction: JournalFormatter::Fraction,
+    { datetime: JournalFormatter::Datetime,
+      day_count: JournalFormatter::DayCount,
       decimal: JournalFormatter::Decimal,
-      id: JournalFormatter::Id }
+      fraction: JournalFormatter::Fraction,
+      id: JournalFormatter::Id,
+      named_association: JournalFormatter::NamedAssociation,
+      plaintext: JournalFormatter::Plaintext }
   end
 
   self.formatters = default_formatters
