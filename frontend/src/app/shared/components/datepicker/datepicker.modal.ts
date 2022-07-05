@@ -233,6 +233,10 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     return !this.scheduleManually && !!this.changeset.value('scheduleManually');
   }
 
+  showFieldAsActive(field:DateKeys):boolean {
+    return this.datepickerService.isStateOfCurrentActivatedField(field) && this.isSchedulable;
+  }
+
   private initializeDatepicker(minimalDate?:Date|null) {
     this.datePickerInstance?.destroy();
     this.datePickerInstance = new DatePicker(
