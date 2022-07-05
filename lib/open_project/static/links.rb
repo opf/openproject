@@ -116,7 +116,7 @@ module OpenProject
               label: 'links.configuration_guide'
             },
             contact: {
-              href: 'https://www.openproject.org/contact-us/',
+              href: 'https://www.openproject.org/contact/',
               label: 'links.get_in_touch'
             },
             glossary: {
@@ -208,7 +208,7 @@ module OpenProject
               href: 'https://www.openproject.org/docs/'
             },
             contact_us: {
-              href: 'https://www.openproject.org/contact-us'
+              href: 'https://www.openproject.org/contact/'
             }
           }
         end
