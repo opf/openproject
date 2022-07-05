@@ -126,4 +126,23 @@ RSpec.describe WorkPackages::Shared::AllDays do
       end
     end
   end
+
+  describe '#delta' do
+    it 'returns the number of shift from one day to another between two dates' do
+      expect(subject.delta(previous: Date.new(2022, 8, 1), current: Date.new(2022, 8, 30))).to eq(29)
+      expect(subject.delta(previous: Date.new(2022, 8, 15), current: Date.new(2022, 8, 1))).to eq(-14)
+    end
+
+    context 'with weekend days (Saturday and Sunday)', :weekend_saturday_sunday do
+      it 'returns the same delta as without them' do
+        expect(subject.delta(previous: Date.new(2022, 8, 1), current: Date.new(2022, 8, 30))).to eq(29)
+      end
+    end
+
+    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+      it 'returns the same delta as without them' do
+        expect(subject.delta(previous: Date.new(2022, 12, 1), current: Date.new(2023, 1, 1))).to eq(31)
+      end
+    end
+  end
 end

@@ -69,3 +69,16 @@ RSpec.shared_examples 'soonest working day' do |date:, expected:|
     expect(subject.soonest_working_day(date)).to eq(expected)
   end
 end
+
+RSpec.shared_examples 'delta' do |previous:, current:, expected:|
+  date_format = '%a %-d %b %Y'
+
+  it "delta(previous: #{previous.strftime(date_format)}, current: #{current.strftime(date_format)}) => #{expected} days" do
+    expect(subject.delta(previous:, current:)).to eq(expected)
+  end
+
+  # check inverse: delta(a, b) == -delta(b, a)
+  it "delta(previous: #{current.strftime(date_format)}, current: #{previous.strftime(date_format)}) => #{-expected} days" do
+    expect(subject.delta(previous: current, current: previous)).to eq(-expected)
+  end
+end

@@ -56,6 +56,20 @@ module WorkPackages
         date
       end
 
+      def delta(previous:, current:)
+        delta = 0
+        direction = previous < current ? 1 : -1
+        pos = last_pos = previous
+        while pos != current
+          pos += direction
+          if working?(last_pos) && working?(pos)
+            delta += direction
+            last_pos = pos
+          end
+        end
+        delta
+      end
+
       private
 
       def no_duration

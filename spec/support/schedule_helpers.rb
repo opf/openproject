@@ -49,15 +49,31 @@ module ScheduleHelpers
   # * +_+: ignored but useful as a placeholder to highlight particular days, for
   #   instance to highlight the previous dates of a work package.
   class Chart
-    attr_accessor :first_day
+    attr_writer :first_day
 
     def self.for(representation)
       builder = ChartBuilder.new
       builder.parse(representation)
     end
 
+    def initialize
+      @monday = next_monday
+    end
+
+    def first_day
+      @first_day ||= monday
+    end
+
     def work_packages
       @work_packages ||= {}
+    end
+
+    def work_package_attributes(name)
+      work_packages[name.to_sym]
+    end
+
+    def delay_between(predecessor:, follower:)
+      delays_between.fetch([predecessor, follower])
     end
 
     def predecessors_by_follower(follower)
@@ -66,20 +82,17 @@ module ScheduleHelpers
     end
 
     def add_work_package(attributes)
-      key = attributes[:subject].to_sym
-      work_packages[key] = attributes
+      name = attributes[:subject].to_sym
+      work_packages[name] = attributes
     end
 
-    def add_follows_relation(predecessor:, follower:)
+    def add_follows_relation(predecessor:, follower:, delay:)
       predecessors_by_follower(follower) << predecessor
+      delays_between[[predecessor, follower]] = delay
     end
 
     # Returns the date for the Monday represented on the chart.
     def monday
-      unless defined?(@monday)
-        @monday = first_day
-        @monday += 1 until @monday.wday == 1
-      end
       @monday
     end
 
@@ -112,6 +125,18 @@ module ScheduleHelpers
     def sunday
       monday + 6.days
     end
+
+    private
+
+    def next_monday
+      date = Time.zone.today
+      date += 1.day while date.wday != 1
+      date
+    end
+
+    def delays_between
+      @delays_between ||= Hash.new(0)
+    end
   end
 
   # Builds a +Chart+ instance from a visual chart representation.
@@ -119,9 +144,9 @@ module ScheduleHelpers
   # Example:
   #
   #   ChartBuilder.new.parse(<<~CHART)
-  #     days       | MTWTFss   |
+  #     days       | MTWTFSS   |
   #     main       | XX        |
-  #     follower   |   XXX     | after main
+  #     follower   |   XXX     | follows main
   #     start_only |  [        |
   #     due_only   |    ]      |
   #     no_dates   |           |
@@ -147,20 +172,12 @@ module ScheduleHelpers
 
     def parse_header(header)
       _, week_days = header.split(' | ', 2)
-      unless week_days.match?(/mtwtfss/i)
-        raise ArgumentError, "First header line of schedule chart must contain MTWTFSS to indicate day names"
+      unless week_days.include?('MTWTFSS')
+        raise ArgumentError, "First header line of schedule chart must contain MTWTFSS to indicate day names and have an origin"
       end
 
-      nb_days_from_monday = week_days.index(/m/i)
-      chart.first_day = next_monday - nb_days_from_monday.days
-    end
-
-    def next_monday
-      date = Time.zone.today
-      while date.wday != 1
-        date += 1.day
-      end
-      date
+      nb_days_from_monday = week_days.index('M')
+      chart.first_day = chart.monday - nb_days_from_monday.days
     end
 
     def parse_line(line)
@@ -175,28 +192,29 @@ module ScheduleHelpers
     end
 
     def parse_work_package_line(line)
-      name, timespan, modifiers = line.split(' | ', 3)
+      name, timespan, properties = line.split(' | ', 3)
       name.strip!
       attributes = { subject: name }
       attributes.update(parse_timespan(timespan))
       chart.add_work_package(attributes)
 
-      modifiers.to_s.split(',').map(&:strip).each do |modifier|
-        parse_modifier(name, modifier)
+      properties.to_s.split(',').map(&:strip).each do |property|
+        parse_properties(name, property)
       end
     end
 
-    def parse_modifier(name, modifier)
-      case modifier
-      when /^after (\w+)/
+    def parse_properties(name, property)
+      case property
+      when /^follows (\w+)(?: with delay (\d+))?/
         predecessor = $1.to_sym
+        delay = $2.to_i
         if !chart.work_packages.has_key?(predecessor)
-          raise "unable to find work package #{predecessor.inspect} in modifier #{modifier.inspect} for line #{name.inspect}"
+          raise "unable to find work package #{predecessor.inspect} in property #{property.inspect} for line #{name.inspect}"
         end
 
-        chart.add_follows_relation(predecessor: $1.to_sym, follower: name.to_sym)
+        chart.add_follows_relation(predecessor:, follower: name.to_sym, delay:)
       else
-        raise "unable to parse modifier #{modifier.inspect} for line #{name.inspect}"
+        raise "unable to parse property #{property.inspect} for line #{name.inspect}"
       end
     end
 
@@ -227,9 +245,9 @@ module ScheduleHelpers
     # For instance:
     #
     #   let_schedule(<<~CHART)
-    #     days       | MTWTFss   |
+    #     days       | MTWTFSS   |
     #     main       | XX        |
-    #     follower   |   XXX     | after main
+    #     follower   |   XXX     | follows main
     #     start_only |  [        |
     #     due_only   |    ]      |
     #   CHART
@@ -243,7 +261,7 @@ module ScheduleHelpers
     #     create(:work_package, subject: 'follower', start_date: next_monday + 2.days, due_date: next_monday + 4.days) }
     #   end
     #   let!(:relation_follower_follows_main) do
-    #     create(:follows_relation, from: follower, to: main) }
+    #     create(:follows_relation, from: follower, to: main, delay: 0) }
     #   end
     #   let!(:start_only) do
     #     create(:work_package, subject: 'start_only', start_date: next_monday + 1.day) }
@@ -251,16 +269,25 @@ module ScheduleHelpers
     #   let!(:due_only) do
     #     create(:work_package, subject: 'due_only', due_date: next_monday + 3.days) }
     #   end
-    def let_schedule(chart, **extra_attributes)
-      chart = Chart.for(chart)
-      let(:schedule_chart) { chart }
-      chart.work_packages.each do |name, attributes|
+    def let_schedule(chart_representation, **extra_attributes)
+      # To be able to use `travel_to` in a before hook, the dates in the chart
+      # must be lazy evaluated in a let statement.
+      let(:schedule_chart) { Chart.for(chart_representation) }
+
+      # we still need to parse the chart to get the work package names and relations
+      chart = Chart.for(chart_representation)
+      chart.work_packages.each_key do |name|
         let!(name) do
-          create(:work_package, **attributes.reverse_merge(extra_attributes))
+          create(:work_package, schedule_chart.work_package_attributes(name).reverse_merge(extra_attributes))
         end
         chart.predecessors_by_follower(name).each do |predecessor|
           relation_alias = "relation_#{name}_follows_#{predecessor}"
-          let!(relation_alias) { create(:follows_relation, from: send(name), to: send(predecessor)) }
+          let!(relation_alias) do
+            create(:follows_relation,
+                   from: send(name),
+                   to: send(predecessor),
+                   delay: schedule_chart.delay_between(predecessor:, follower: name))
+          end
         end
       end
     end
@@ -274,7 +301,7 @@ module ScheduleHelpers
     #
     #   before do
     #     change_schedule([main], <<~CHART)
-    #       days     | MTWTFss   |
+    #       days     | MTWTFSS   |
     #       main     | XX        |
     #     CHART
     #   end
@@ -297,7 +324,7 @@ module ScheduleHelpers
     #
     #   before do
     #     change_schedule([main], <<~CHART)
-    #       days     | MTWTFss   |
+    #       days     | MTWTFSS   |
     #       main     | XX        |
     #     CHART
     #   end
@@ -328,7 +355,7 @@ module ScheduleHelpers
     #
     #   it 'is scheduled' do
     #     expect_schedule(work_packages, <<~CHART)
-    #       days     | MTWTFss   |
+    #       days     | MTWTFSS   |
     #       main     | XX        |
     #       follower |   XXX     |
     #     CHART

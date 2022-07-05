@@ -32,6 +32,7 @@ require_relative 'shared_examples_days'
 RSpec.describe WorkPackages::Shared::WorkingDays do
   subject { described_class.new }
 
+  friday_2022_07_29 = Date.new(2022, 7, 29)
   saturday_2022_07_30 = Date.new(2022, 7, 30)
   sunday_2022_07_31 = Date.new(2022, 7, 31)
   monday_2022_08_01 = Date.new(2022, 8, 1)
@@ -130,11 +131,11 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
     context 'with weekend days (Saturday and Sunday)', :weekend_saturday_sunday do
       include_examples 'add_days returns date', date: saturday_2022_07_30, count: 0, expected: saturday_2022_07_30
       include_examples 'add_days returns date', date: saturday_2022_07_30, count: 1, expected: monday_2022_08_01
-      include_examples 'add_days returns date', date: saturday_2022_07_30, count: -1, expected: Date.new(2022, 7, 29)
+      include_examples 'add_days returns date', date: saturday_2022_07_30, count: -1, expected: friday_2022_07_29
 
       include_examples 'add_days returns date', date: sunday_2022_07_31, count: 0, expected: sunday_2022_07_31
       include_examples 'add_days returns date', date: sunday_2022_07_31, count: 1, expected: monday_2022_08_01
-      include_examples 'add_days returns date', date: sunday_2022_07_31, count: -1, expected: Date.new(2022, 7, 29)
+      include_examples 'add_days returns date', date: sunday_2022_07_31, count: -1, expected: friday_2022_07_29
 
       include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: 100, expected: Date.new(2022, 11, 2)
       include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: -100, expected: Date.new(2022, 1, 26)
@@ -158,7 +159,7 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
     end
 
     context 'with weekend days (Saturday and Sunday)', :weekend_saturday_sunday do
-      include_examples 'soonest working day', date: Date.new(2022, 7, 29), expected: Date.new(2022, 7, 29)
+      include_examples 'soonest working day', date: friday_2022_07_29, expected: friday_2022_07_29
       include_examples 'soonest working day', date: saturday_2022_07_30, expected: monday_2022_08_01
       include_examples 'soonest working day', date: sunday_2022_07_31, expected: monday_2022_08_01
       include_examples 'soonest working day', date: monday_2022_08_01, expected: monday_2022_08_01
@@ -168,6 +169,26 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
       include_examples 'soonest working day', date: Date.new(2022, 12, 25), expected: Date.new(2022, 12, 26)
       include_examples 'soonest working day', date: Date.new(2022, 12, 31), expected: Date.new(2022, 12, 31)
       include_examples 'soonest working day', date: Date.new(2023, 1, 1), expected: Date.new(2023, 1, 2)
+    end
+  end
+
+  describe '#delta' do
+    it 'returns the number of shift from one working day to another between two dates' do
+      expect(subject.delta(previous: monday_2022_08_01, current: wednesday_2022_08_03)).to eq(2)
+      expect(subject.delta(previous: wednesday_2022_08_03, current: monday_2022_08_01)).to eq(-2)
+    end
+
+    context 'with weekend days (Saturday and Sunday)', :weekend_saturday_sunday do
+      include_examples 'delta', previous: friday_2022_07_29, current: saturday_2022_07_30, expected: 0
+      include_examples 'delta', previous: saturday_2022_07_30, current: monday_2022_08_01, expected: 0
+      include_examples 'delta', previous: sunday_2022_07_31, current: monday_2022_08_01, expected: 0
+      include_examples 'delta', previous: friday_2022_07_29, current: monday_2022_08_01, expected: 1
+      include_examples 'delta', previous: friday_2022_07_29, current: Date.new(2022, 8, 5), expected: 5
+      include_examples 'delta', previous: friday_2022_07_29, current: Date.new(2022, 8, 8), expected: 6
+    end
+
+    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+      include_examples 'delta', previous: Date.new(2022, 12, 27), current: Date.new(2022, 12, 20), expected: -6
     end
   end
 end

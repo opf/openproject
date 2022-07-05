@@ -44,6 +44,10 @@ module WorkPackages
         date
       end
 
+      def delta(previous:, current:)
+        current - previous
+      end
+
       private
 
       def no_duration

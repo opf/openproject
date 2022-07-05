@@ -33,7 +33,7 @@ describe ScheduleHelpers do
 
   create_shared_association_defaults_for_work_package_factory
 
-  let(:today) { Date.new(2022, 6, 16) } # Thursday 16 June 2022
+  let(:fake_today) { Date.new(2022, 6, 16) } # Thursday 16 June 2022
   let(:monday) { Date.new(2022, 6, 20) } # Monday 20 June
   let(:tuesday) { Date.new(2022, 6, 21) }
   let(:wednesday) { Date.new(2022, 6, 22) }
@@ -46,12 +46,17 @@ describe ScheduleHelpers do
     let(:chart) { described_class.new }
 
     before do
-      chart.first_day = today
+      travel_to(fake_today)
     end
 
     describe '#first_day' do
-      it 'returns the first day represented on the graph' do
-        expect(chart.first_day).to eq(today)
+      it 'returns the first day represented on the graph, which is next monday by default' do
+        expect(chart.first_day).to eq(monday)
+      end
+
+      it 'can be set' do
+        chart.first_day = fake_today
+        expect(chart.first_day).to eq(fake_today)
       end
     end
 
@@ -72,15 +77,15 @@ describe ScheduleHelpers do
       let(:next_tuesday) { tuesday + 7.days }
 
       before do
-        travel_to(today)
+        travel_to(fake_today)
       end
 
       it 'reads a chart and convert it into objects with attributes' do
         chart = builder.parse(<<~CHART)
-          days       | MTWTFss   |
+          days       | MTWTFSS   |
           main       | XX        |
           other      |    XX..XX |
-          follower   |   XXX     | after main
+          follower   |   XXX     | follows main
           start_only |  [        |
           due_only   |     ]     |
           no_dates   |           |
@@ -101,23 +106,85 @@ describe ScheduleHelpers do
       end
     end
 
+    describe 'origin day' do
+      before do
+        travel_to(fake_today)
+      end
+
+      it 'is identified by the M in MTWTFSS and corresponds to next monday' do
+        chart = builder.parse(<<~CHART)
+          days       | MTWTFSS |
+        CHART
+        expect(chart.monday).to eq(monday)
+        expect(chart.monday).to eq(chart.first_day)
+      end
+
+      it 'defines the first day by the number of characters separating the M from the cell left border' do
+        chart = builder.parse(<<~CHART)
+          days       | 12MTWTFSS |
+        CHART
+        expect(chart.monday).to eq(monday)
+        expect(chart.first_day).to eq(chart.monday - 2.days)
+
+        chart = builder.parse(<<~CHART)
+          days       | 123456789MTWTFSS |
+        CHART
+        expect(chart.monday).to eq(monday)
+        expect(chart.first_day).to eq(chart.monday - 9.days)
+      end
+
+      it 'is not identified by mtwtfss which can be used as documentation instead' do
+        chart = builder.parse(<<~CHART)
+          days       | mtwtfssMTWTFSSmtwtfss |
+        CHART
+        expect(chart.monday).to eq(monday)
+        expect(chart.monday).to eq(chart.first_day + 7.days)
+      end
+    end
+
+    describe 'properties' do
+      describe 'follows <name>' do
+        it 'adds a follows relation to the named' do
+          chart = builder.parse(<<~CHART)
+            days       | MTWTFSS   |
+            main       |           |
+            follower   |           | follows main
+          CHART
+          expect(chart.predecessors_by_follower(:follower)).to eq([:main])
+          expect(chart.delay_between(predecessor: :main, follower: :follower)).to eq(0)
+        end
+      end
+
+      describe 'follows <name> with delay <n>' do
+        it 'adds a follows relation to the named with a delay' do
+          chart = builder.parse(<<~CHART)
+            days       | MTWTFSS   |
+            main       |           |
+            follower   |           | follows main with delay 3
+          CHART
+          expect(chart.predecessors_by_follower(:follower)).to eq([:main])
+          expect(chart.delay_between(predecessor: :main, follower: :follower)).to eq(3)
+        end
+      end
+    end
+
     describe 'error handling' do
       it 'raises an error if the relation references a non-existing work package predecessor' do
         expect do
           builder.parse(<<~CHART)
-                      | MTWTFss |
-            follower  |   XX    | after main
+                      | MTWTFSS |
+            follower  |   XX    | follows main
           CHART
-        end.to raise_error(RuntimeError, /unable to find work package :main in modifier "after main" for line "follower"/)
+        end.to raise_error(RuntimeError, /unable to find work package :main in property "follows main" for line "follower"/)
       end
     end
   end
 
   describe 'let_schedule helper' do
     let_schedule(<<~CHART)
-      days      | MTWTFss |
+      days      | MTWTFSS |
       main      | XX      |
-      follower  |   XXX   | after main
+      follower  |   XXX   | follows main with delay 2
     CHART
 
     it 'creates let! call for :schedule_chart which returns the chart' do
@@ -143,13 +210,14 @@ describe ScheduleHelpers do
     it 'creates let! calls for follows relations between work packages' do
       expect(follower.follows_relations.count).to eq(1)
       expect(relation_follower_follows_main).to be_an_instance_of(Relation)
+      expect(relation_follower_follows_main.delay).to eq(2)
     end
 
     context 'with additional attributes' do
       let_schedule(<<~CHART, done_ratio: 50, schedule_manually: true)
-        days      | MTWTFss |
+        days      | MTWTFSS |
         main      | XX      |
-        follower  |   XXX   | after main
+        follower  |   XXX   | follows main
       CHART
 
       it 'applies additional attributes to all created work packages' do
@@ -160,7 +228,7 @@ describe ScheduleHelpers do
 
   describe 'expect_schedule helper' do
     let_schedule(<<~CHART)
-            | MTWTFss |
+            | MTWTFSS |
       main  | XX      |
       other |   XXX   |
     CHART
@@ -168,7 +236,7 @@ describe ScheduleHelpers do
     it 'checks the work packages properties according to the given work packages and chart representation' do
       expect do
         expect_schedule([main, other], <<~CHART)
-                | MTWTFss |
+                | MTWTFSS |
           main  | XX      |
           other |   XXX   |
         CHART
@@ -178,7 +246,7 @@ describe ScheduleHelpers do
     it 'raises an error if start_date is wrong' do
       expect do
         expect_schedule([main], <<~CHART)
-                | MTWTFss |
+                | MTWTFSS |
           main  |  X      |
         CHART
       end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
@@ -187,7 +255,7 @@ describe ScheduleHelpers do
     it 'raises an error if due_date is wrong' do
       expect do
         expect_schedule([main], <<~CHART)
-                | MTWTFss |
+                | MTWTFSS |
           main  | XXXXX   |
         CHART
       end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
@@ -196,7 +264,7 @@ describe ScheduleHelpers do
     it 'raises an error if no work package exists for a given name' do
       expect do
         expect_schedule([main], <<~CHART)
-                  | MTWTFss |
+                  | MTWTFSS |
           unknown | XX      |
         CHART
       end.to raise_error(ArgumentError, "unable to find WorkPackage :unknown")
@@ -205,7 +273,7 @@ describe ScheduleHelpers do
     it 'checks against the given work packages rather than the ones from the let! definitions' do
       expect do
         expect_schedule([], <<~CHART)
-                | MTWTFss |
+                | MTWTFSS |
           main  | XX      |
         CHART
       end.not_to raise_error
@@ -216,19 +284,19 @@ describe ScheduleHelpers do
       a_modified_instance_of_main.due_date += 2.days
       expect do
         expect_schedule([main], <<~CHART)
-                | MTWTFss |
+                | MTWTFSS |
           main  | XX      |
         CHART
       end.not_to raise_error
       expect do
         expect_schedule([a_modified_instance_of_main], <<~CHART)
-                | MTWTFss |
+                | MTWTFSS |
           main  | XXXX    |
         CHART
       end.not_to raise_error
       expect do
         expect_schedule([], <<~CHART)
-                | MTWTFss |
+                | MTWTFSS |
           main  | XX      |
         CHART
       end.not_to raise_error

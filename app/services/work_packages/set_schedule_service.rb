@@ -156,7 +156,8 @@ class WorkPackages::SetScheduleService
   end
 
   def reschedule_by_delta(scheduled, delta, min_start_date)
-    required_delta = [min_start_date - (scheduled.start_date || min_start_date), [delta, 0].min].max
+    moved_delta = min_start_date - (scheduled.start_date || min_start_date)
+    required_delta = [moved_delta, [delta, 0].min].max
 
     new_start_date = WorkPackages::Shared::Days.for(scheduled).add_days(scheduled.start_date, required_delta)
     new_due_date = WorkPackages::Shared::Days.for(scheduled).add_days(scheduled.due_date, required_delta) if scheduled.due_date
@@ -166,17 +167,20 @@ class WorkPackages::SetScheduleService
 
   def follows_delta(dependency)
     if dependency.moving_predecessors.any?
-      date_rescheduling_delta(dependency.moving_predecessors.first)
+      date_rescheduling_delta(dependency.moving_predecessors.first, dependency.work_package)
     else
       0
     end
   end
 
-  def date_rescheduling_delta(predecessor)
+  def date_rescheduling_delta(predecessor, follower)
+    days = WorkPackages::Shared::Days.for(follower)
     if predecessor.due_date.present?
-      predecessor.due_date - (predecessor.due_date_before_last_save || predecessor.due_date_was || predecessor.due_date)
+      previous_due_date = predecessor.due_date_before_last_save || predecessor.due_date_was || predecessor.due_date
+      days.delta(previous: previous_due_date, current: predecessor.due_date)
     elsif predecessor.start_date.present?
-      predecessor.start_date - (predecessor.start_date_before_last_save || predecessor.start_date_was || predecessor.start_date)
+      previous_start_date = predecessor.start_date_before_last_save || predecessor.start_date_was || predecessor.start_date
+      days.delta(previous: previous_start_date, current: predecessor.start_date)
     else
       0
     end

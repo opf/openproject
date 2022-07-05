@@ -40,23 +40,23 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
 
   subject { instance.call(changed_attributes) }
 
-  context 'when moved successor covers non-working days' do
+  context 'when moving successor covers non-working days' do
     let_schedule(<<~CHART, ignore_non_working_days: false)
-      days          | MTWTFss |
+      days          | MTWTFSS |
       work_package  | XX      |
-      follower      |   XXX   | after work_package
+      follower      |   XXX   | follows work_package
     CHART
 
     before do
       change_schedule([work_package], <<~CHART)
-        days          | MTWTFss |
+        days          | MTWTFSS |
         work_package  | XXXX    |
       CHART
     end
 
     it 'extends to a later due date to keep the same duration' do
       expect_schedule(subject.all_results, <<~CHART)
-        days          | MTWTFss   |
+        days          | MTWTFSS   |
         work_package  | XXXX      |
         follower      |     X..XX |
       CHART
@@ -64,165 +64,264 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
   end
 
-  context 'with a single successor' do
-    context 'when moved forward with the follower having no due date' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
-        days          | MTWTFss   |
-        work_package  | X         |
-        follower      |   [       | after work_package
-      CHART
+  context 'when moved predecessor covers non-working days' do
+    let_schedule(<<~CHART, ignore_non_working_days: false)
+      days          | MTWTFSS      |
+      work_package  |    XX        |
+      follower      |        XXX   | follows work_package
+    CHART
 
-      context 'on a day in the middle on working days' do
+    before do
+      change_schedule([work_package], <<~CHART)
+        days          | MTWTFSS     |
+        work_package  |    XX..XX   |
+      CHART
+    end
+
+    it 'extends to a later due date to keep the same duration' do
+      expect_schedule(subject.all_results, <<~CHART)
+        days          | MTWTFSS      |
+        work_package  |    XX..XX    |
+        follower      |          XXX |
+      CHART
+      expect(follower.duration).to eq(3)
+    end
+  end
+
+  context 'with a single successor' do
+    context 'when predecessor moved forward' do
+      context 'on a day in the middle on working days with the follower having only start date' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days          | MTWTFSS   |
+          work_package  | X         |
+          follower      |  [        | follows work_package
+        CHART
+
         before do
           change_schedule([work_package], <<~CHART)
-            days          | MTWTFss |
+            days          | MTWTFSS |
             work_package  | XXXX    |
           CHART
         end
 
         it 'reschedules follower to start the next day after its predecessor due date' do
           expect_schedule(subject.all_results, <<~CHART)
-                          | MTWTFss   |
+                          | MTWTFSS   |
             work_package  | XXXX      |
             follower      |     [     |
           CHART
         end
       end
 
-      context 'on a day just before non working days' do
+      context 'on a day just before non working days with the follower having only start date' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days          | MTWTFSS   |
+          work_package  | X         |
+          follower      |  [        | follows work_package
+        CHART
+
         before do
           change_schedule([work_package], <<~CHART)
-            days          | MTWTFss |
+            days          | MTWTFSS |
             work_package  | XXXXX   |
           CHART
         end
 
         it 'reschedules follower to start after the non working days' do
           expect_schedule(subject.all_results, <<~CHART)
-                          | MTWTFss   |
+                          | MTWTFSS   |
             work_package  | XXXXX     |
             follower      |        [  |
           CHART
         end
       end
-    end
 
-    context 'when moving forward with the follower having only due date' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
-        days          | MTWTFss |
-        work_package  | ]       |
-        follower      |    ]    | after work_package
-      CHART
+      context 'on a day in the middle of working days with the follower having only due date' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days          | MTWTFSS |
+          work_package  | ]       |
+          follower      |  ]      | follows work_package
+        CHART
 
-      context 'on a day in the middle on working days' do
         before do
           change_schedule([work_package], <<~CHART)
-            days          | MTWTFss |
+            days          | MTWTFSS |
             work_package  |    ]    |
           CHART
         end
 
         it 'reschedules follower to start and end right after its predecessor with a default duration of 1 day' do
           expect_schedule(subject.all_results, <<~CHART)
-                          | MTWTFss |
+                          | MTWTFSS |
             work_package  |    ]    |
             follower      |     X   |
           CHART
         end
       end
 
-      context 'on a day just before non working days' do
+      context 'on a day just before non-working day with the follower having only due date' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days          | MTWTFSS |
+          work_package  | ]       |
+          follower      |  ]      | follows work_package
+        CHART
+
         before do
           change_schedule([work_package], <<~CHART)
-            days          | MTWTFss |
+            days          | MTWTFSS |
             work_package  |     ]   |
           CHART
         end
 
         it 'reschedules follower to start and end after the non working days with a default duration of 1 day' do
           expect_schedule(subject.all_results, <<~CHART)
-                          | MTWTFss   |
+                          | MTWTFSS   |
             work_package  |     ]     |
             follower      |        X  |
           CHART
         end
       end
+
+      context 'with the follower having some space left' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days          | MTWTFSS   |
+          work_package  | X         |
+          follower      |     X..XX  | follows work_package
+        CHART
+
+        before do
+          change_schedule([work_package], <<~CHART)
+            days          | MTWTFSS   |
+            work_package  | XXXXX     |
+          CHART
+        end
+
+        it 'reschedules follower to start the next working day after its predecessor due date' do
+          expect_schedule(subject.all_results, <<~CHART)
+                          | MTWTFSS     |
+            work_package  | XXXXX       |
+            follower      |        XXX  |
+          CHART
+        end
+      end
+
+      context 'with the follower having enough space left to not be moved at all' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days          | MTWTFSS       |
+          work_package  | X             |
+          follower      |          XXX  | follows work_package
+        CHART
+
+        before do
+          change_schedule([work_package], <<~CHART)
+            days          | MTWTFSS   |
+            work_package  | XXXXX..X  |
+          CHART
+        end
+
+        it 'does not move follower' do
+          expect_schedule(subject.all_results, <<~CHART)
+                          | MTWTFSS       |
+            work_package  | XXXXX..X      |
+            follower      |          XXX  |
+          CHART
+        end
+      end
+
+      context 'with the follower having some space left and a delay' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days          | MTWTFSSmtwtfss  |
+          work_package  | X               |
+          follower      |        XXX      | follows work_package with delay 3
+        CHART
+
+        before do
+          change_schedule([work_package], <<~CHART)
+            days          | MTWTFSS   |
+            work_package  | XXXXX..X  |
+          CHART
+        end
+
+        it 'reschedules the follower to start after the delay' do
+          expect_schedule(subject.all_results, <<~CHART)
+                          | MTWTFSSmtwtfss   |
+            work_package  | XXXXX..X         |
+            follower      |            X..XX |
+          CHART
+        end
+      end
     end
 
-    #   context 'when moving forward with the follower having some space left' do
-    #     let(:follower1_start_date) { Time.zone.today + 3.days }
-    #     let(:follower1_due_date) { Time.zone.today + 5.days }
+    context 'when predecessor moved backwards' do
+      context 'on a day right before some non-working days' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days          | MTWTFSS |
+          work_package  | X       |
+          follower      |  XX     | follows work_package
+        CHART
 
-    #     before do
-    #       work_package.due_date = Time.zone.today + 5.days
-    #     end
+        before do
+          change_schedule([work_package], <<~CHART)
+            days          |    MTWTFSS |
+            work_package  | X          |
+          CHART
+        end
 
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         { following_work_package1 => [Time.zone.today + 6.days, Time.zone.today + 8.days] }
-    #       end
-    #     end
-    #   end
+        it 'reschedules the follower to start after the non-working days' do
+          expect_schedule(subject.all_results, <<~CHART)
+                          |    MTWTFSS |
+            work_package  | X          |
+            follower      |    XX      |
+          CHART
+        end
+      end
 
-    #   context 'when moving forward with the follower having enough space left to not be moved at all' do
-    #     let(:follower1_start_date) { Time.zone.today + 10.days }
-    #     let(:follower1_due_date) { Time.zone.today + 12.days }
+      context 'on a day in the middle of working days' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days          | MTWTFSS |
+          work_package  | X       |
+          follower      |    XX     | follows work_package
+        CHART
 
-    #     before do
-    #       work_package.due_date = Time.zone.today + 5.days
-    #     end
+        before do
+          change_schedule([work_package], <<~CHART)
+            days          | mtwtfssmtwtfssMTWTFSS |
+            work_package  |  X                    |
+          CHART
+        end
 
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         {}
-    #       end
-    #     end
-    #   end
+        it 'reschedules the follower to move by the same delta' do
+          expect_schedule(subject.all_results, <<~CHART)
+            days          | mtwtfssmtwtfssMTWTFSS |
+            work_package  |  X                    |
+            follower      |     X..X              |
+          CHART
+        end
+      end
 
-    #   context 'when moving forward with the follower having some space left and a delay' do
-    #     let(:follower1_start_date) { Time.zone.today + 5.days }
-    #     let(:follower1_due_date) { Time.zone.today + 7.days }
-    #     let(:follower1_delay) { 3 }
+      context 'on a day in the middle on working days with the follower having no due date' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days          | MTWTFSS   |
+          work_package  | X         |
+          follower      |     [     | follows work_package
+        CHART
 
-    #     before do
-    #       work_package.due_date = Time.zone.today + 5.days
-    #     end
+        before do
+          change_schedule([work_package], <<~CHART)
+            days          |    MTWTFSS |
+            work_package  | X          |
+          CHART
+        end
 
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         { following_work_package1 => [Time.zone.today + 9.days, Time.zone.today + 11.days] }
-    #       end
-    #     end
-    #   end
-
-    #   context 'when moving forward with the follower not needing to be moved' do
-    #     let(:follower1_start_date) { Time.zone.today + 6.days }
-    #     let(:follower1_due_date) { Time.zone.today + 8.days }
-
-    #     before do
-    #       work_package.due_date = Time.zone.today + 5.days
-    #     end
-
-    #     it_behaves_like 'reschedules' do
-    #       # Nothing should be rescheduled
-    #       let(:expected) do
-    #         {}
-    #       end
-    #     end
-    #   end
-
-    #   context 'when moving backwards' do
-    #     before do
-    #       work_package.due_date = Time.zone.today - 5.days
-    #     end
-
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         { following_work_package1 => [Time.zone.today - 4.days, Time.zone.today - 2.days] }
-    #       end
-    #     end
-    #   end
-
+        it 'reschedules follower to start the next day after its predecessor due date' do
+          expect_schedule(subject.all_results, <<~CHART)
+                          |    MTWTFSS   |
+            work_package  | X            |
+            follower      |       [      |
+          CHART
+        end
+      end
+    end
     #   context 'when moving backwards with space between' do
     #     let(:follower1_start_date) { Time.zone.today + 3.days }
     #     let(:follower1_due_date) { Time.zone.today + 5.days }
@@ -799,16 +898,16 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     #   let_schedule(<<~CHART)
     #                   | MTWTFSS     |
     #     work_package  | X           |
-    #     follower1     |  XXX        | after work_package
-    #     follower2     |     XXXXX   | after follower1
-    #     follower3     |     XXXX    | after work_package
-    #     follower4     |          XX | after follower2, after follower3
+    #     follower1     |  XXX        | follows work_package
+    #     follower2     |     XXXXX   | follows follower1
+    #     follower3     |     XXXX    | follows work_package
+    #     follower4     |          XX | follows follower2, after follower3
     #   CHART
 
     #   context 'when moving forward' do
     #     before do
     #       change_schedule(<<~CHART)
-    #                       | MTWTFss |
+    #                       | MTWTFSS |
     #         work_package  |      X  |
     #       CHART
     #     end
