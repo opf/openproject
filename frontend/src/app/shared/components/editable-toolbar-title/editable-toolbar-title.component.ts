@@ -90,7 +90,6 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
     query_has_changed_click_to_save: this.I18n.t('js.label_view_has_changed'),
     input_title: '',
     input_placeholder: this.I18n.t('js.work_packages.query.rename_query_placeholder'),
-    search_query_title: this.I18n.t('js.toolbar.search_query_title'),
     confirm_edit_cancel: this.I18n.t('js.work_packages.query.confirm_edit_cancel'),
     duplicate_query_title: this.I18n.t('js.work_packages.query.errors.duplicate_query_title'),
   };

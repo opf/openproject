@@ -64,14 +64,13 @@ export const opViewSelectSelector = 'op-view-select';
 })
 export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
   public text = {
-    search: this.I18n.t('js.toolbar.search_query_label'),
+    search: this.I18n.t('js.global_search.search'),
     label: this.I18n.t('js.toolbar.search_query_label'),
     scope_default: this.I18n.t('js.label_default_queries'),
     scope_starred: this.I18n.t('js.label_starred_queries'),
     scope_global: this.I18n.t('js.label_global_queries'),
     scope_private: this.I18n.t('js.label_custom_queries'),
-    scope_new: this.I18n.t('js.label_create_new_query'),
-    no_results: this.I18n.t('js.work_packages.query.text_no_results'),
+    no_results: this.I18n.t('js.autocompleter.notFoundText'),
   };
 
   public views$:Observable<IOpSidemenuItem[]>;
