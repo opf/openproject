@@ -102,7 +102,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Input() public multiple = false;
 
-  @Input() public dropdownPosition: 'bottom' | 'top' | 'auto' = 'auto';
+  @Input() public dropdownPosition:'bottom'|'top'|'auto' = 'auto';
 
   @Input() public labelForId = '';
 
@@ -118,6 +118,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
   @Input()
   public mapResultsFn:(projects:IProjectAutocompleteItem[]) => IProjectAutocompleteItem[] = (projects) => projects;
 
+  /* eslint-disable-next-line @angular-eslint/no-input-rename */
   @Input('value') public _value:IProjectAutocompleterData|IProjectAutocompleterData[]|null = null;
 
   get value():IProjectAutocompleterData|IProjectAutocompleterData[]|null {
@@ -130,6 +131,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     this.valueChange.emit(value);
     this.onTouched(value);
     setTimeout(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       this.hiddenInput.nativeElement?.dispatchEvent(new Event('change'));
     }, 100);
   }
@@ -138,6 +140,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     return (Array.isArray(this.value) ? this.value?.map((i) => i.id) : this.value?.id) || '';
   }
 
+  /* eslint-disable-next-line @angular-eslint/no-output-rename */
   @Output('valueChange') valueChange = new EventEmitter<IProjectAutocompleterData|IProjectAutocompleterData[]|null>();
 
   @Output() cancel = new EventEmitter();
@@ -207,8 +210,10 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     this.value = value;
   }
 
+  // eslint-disable-next-line no-unused-vars
   onChange = (_:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void => {};
 
+  // eslint-disable-next-line no-unused-vars
   onTouched = (_:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void => {};
 
   registerOnChange(fn:(_:IProjectAutocompleterData|IProjectAutocompleterData[]|null) => void):void {

@@ -121,8 +121,7 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     # Show hierarchy of project
     top_menu.search 'Plain other project'
 
-    # TODO: test for foobar being disabled
-    top_menu.expect_result '<strong>foobar</strong>'
+    top_menu.expect_result '<strong>foobar</strong>', disabled: true
     top_menu.expect_item_with_hierarchy_level hierarchy_level: 2, item_name: 'Plain other project'
 
     # find terms at the end of project names
