@@ -64,8 +64,6 @@ describe "Notification center navigation", type: :feature, js: true do
     visit '/notifications/details/0'
 
     expect(page).to have_current_path "/notifications"
-
-    split_screen.expect_empty_state
   end
 
   it 'deep linking to a notification details highlights it' do
