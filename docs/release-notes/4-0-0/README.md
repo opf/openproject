@@ -12,8 +12,7 @@
 ## OmniAuth integration for OpenProject
 
 It is possible to extend OpenProject by using Omni-Auth providers. Users
-can for example use the [OpenProject Auth
-plugin](https://community.openproject.org/projects/auth-plugins) for an
+can for example use the OpenProject Auth plugin for an
 easy integration with OmniAuth strategy providers such as Google.
 
   - Authentication in OpenProject via OmniAuth provider
@@ -105,13 +104,9 @@ page.
 ## New plugins released
 
   - OpenProject Auth plugin
-    ([News](https://community.openproject.org/news/66-plugin-providing-an-api-for-authentication-plugins-released),
-    [GitHub](https://github.com/opf/openproject-auth_plugins),
-    [Project](https://community.openproject.org/projects/auth-plugins))
+    [GitHub](https://github.com/opf/openproject-auth_plugins)
   - OpenProject GitHub integration plugin
-    ([News](https://community.openproject.org/news/57-openproject-github-integration-plugin-released),
-    [GitHub](https://github.com/finnlabs/openproject-github_integration),
-    [Project](https://community.openproject.org/projects/github-integration?jump=news))
+    [GitHub](https://github.com/finnlabs/openproject-github_integration)
 
 ## Substantial Number of Bug Fixes
 
