@@ -20,7 +20,7 @@ OpenProject cloud environment is hosted on a logically isolated virtual cloud at
 
 **Hosting in Germany (on request)**
 
-We offer secure hosting of your OpenProject cloud also in a German data center on request. Please [contact us](https://www.openproject.org/contact-us/).
+We offer secure hosting of your OpenProject cloud also in a German data center on request. Please [contact us](https://www.openproject.org/contact/).
 
 ### Data backups and end-to-end https encryption
 

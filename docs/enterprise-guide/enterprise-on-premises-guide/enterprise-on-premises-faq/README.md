@@ -61,7 +61,7 @@ To downgrade to the Community edition you will simply need to cancel the paid En
 
 ## Can I migrate from the hosted Enterprise cloud edition to a self-hosted Community or Enterprise on-premises edition?
 
-Yes. If you want to switch from a hosted version of OpenProject (Enterprise cloud edition) to a self-hosted version (Community edition or Enterprise on-premises) we can provide you a full dump of your data. Since this requires manual effort for us, we may charge for this service . Please [contact us](https://www.openproject.org/contact-us/) to get a quotation.
+Yes. If you want to switch from a hosted version of OpenProject (Enterprise cloud edition) to a self-hosted version (Community edition or Enterprise on-premises) we can provide you a full dump of your data. Since this requires manual effort for us, we may charge for this service . Please [contact us](https://www.openproject.org/contact/) to get a quotation.
 
 ## I can't login via SSO to update my Enterprise on-premises token. What do I do?
 

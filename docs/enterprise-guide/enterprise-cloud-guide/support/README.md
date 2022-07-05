@@ -19,7 +19,7 @@ You can create a support ticket on our community platform. Please contact us for
 
 ## Contact us
 
-If you have more questions, please [contact us](https://www.openproject.org/contact-us/).
+If you have more questions, please [contact us](https://www.openproject.org/contact/).
 
 
 
