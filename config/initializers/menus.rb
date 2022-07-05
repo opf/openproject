@@ -269,9 +269,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/attribute_help_texts' },
             caption: :'attribute_help_texts.label_plural',
             icon: 'icon2 icon-help2',
-            if: Proc.new {
-              User.current.admin? && EnterpriseToken.allows_to?(:attribute_help_texts)
-            }
+            if: Proc.new { User.current.admin? }
 
   menu.push :enumerations,
             { controller: '/enumerations' },

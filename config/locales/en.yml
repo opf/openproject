@@ -106,6 +106,8 @@ en:
     show_preview: 'Preview text'
     add_new: 'Add help text'
     edit: "Edit help text for %{attribute_caption}"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
 
   auth_sources:
     index:
