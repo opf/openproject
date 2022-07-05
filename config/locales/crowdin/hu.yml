@@ -48,8 +48,9 @@ hu:
         main-menu-hover-font-color: "Főmenü betűtípusa, ha egér rajta"
         main-menu-border-color: "Főmenü kerete"
       custom_colors: "Egyéni színek"
-      customize: "Adjon meg saját logót az installált OpenProjecthez. Megjegyzés: Ez a logó nyilvánosan elérhető lesz."
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "Ez egy különleges \"Köszönöm!\" az OpenProject kifejlesztéséhez nyújtott pénzügyi hozzájárulásért, ami egy aprócska szolgáltatás a Vállalati Verziót használó előfizetők számára."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "A színválasztás beállításainak módosítása"
       instructions:
         alternative-color: "Kiemelt szín, tipikusan a képernyőn megjelenő legfontosabb gomb esetén."
@@ -76,6 +77,7 @@ hu:
       buttons:
         upgrade: "Frissítés most"
         contact: "Keressen fel minket a próbaverzióért"
+        more_info: "More information"
       enterprise_info_html: "egy Enterprise <strong class='icon-medal'></strong> funkció."
       upgrade_info: "Kérjük, válasszon egy fizetős csomagot az aktiváláshoz, hogy mihamarabb használhassa a csapatában."
     journal_aggregation:
@@ -170,7 +172,7 @@ hu:
     execute: 'Végrehajt %{name}'
     upsale:
       title: 'Egyéni műveletek'
-      description: 'Az egyéni műveletek egyszerűsítik a mindennapi munkát egyes lépések egyesítésével egyetlen gombhoz.'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       Új egyéni mezők hozzáadásához először létre kell hozni őket, még mielőtt felvenné azokat a projekthez.
@@ -272,8 +274,7 @@ hu:
     upsale:
       title: Teszt felhasználók
       description: >
-        Számos olyan forgatókönyv létezik, amikor olyan embereket szeretne kiosztani, akik nem tagjai a projektnek. Egyszerűen előfordulhat, hogy még mindig a megfelelő személyt kell felvennie a munkára. Vagy egyszerűen nem akar hozzáférést biztosítani az adott személyhez a projekt információihoz, de mégis szeretné, ha nyomon követett feladatokat rendelne hozzá.
-
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -302,6 +303,8 @@ hu:
     edit:
       settings: "Beállítások"
       form_configuration: "Űrlap konfiguráció"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
       projects: "Projektek"
       enabled_projects: "Engedélyezett projektek"
       edit_query: "Táblázat szerkesztése"
@@ -3077,4 +3080,10 @@ hu:
         unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
         unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
         invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: te

@@ -1,27 +1,27 @@
 #English strings go here
 id:
-  permission_view_file_links: "View file links"
-  permission_manage_file_links: "Manage file links"
-  permission_manage_storages_in_project: "Manage file storages in project"
-  project_module_storages: "File storages"
+  permission_view_file_links: "Lihat tautan berkas"
+  permission_manage_file_links: "Kelola tautan berkas"
+  permission_manage_storages_in_project: "Kelola penyimpanan berkas di proyek"
+  project_module_storages: "Penyimpanan berkas"
   activerecord:
     models:
-      storages/storage: "Storage"
+      storages/storage: "Penyimpanan"
     attributes:
       storages/storage:
-        name: "Name"
-        creator: "Creator"
-        provider_type: "Provider type"
+        name: "Nama"
+        creator: "Pembuat"
+        provider_type: "Tipe penyedia"
       storages/file_link:
-        origin_id: "Origin Id"
+        origin_id: "Identifikasi Asli"
     errors:
       messages:
-        not_linked_to_project: "is not linked to project."
+        not_linked_to_project: "tidak terhubungi ke proyek."
       models:
         storages/storage:
           attributes:
             host:
-              cannot_be_connected_to: "can not be connected to."
+              cannot_be_connected_to: "tidak bisa disambungkan ke."
               minimal_nextcloud_version_unmet: "does not meet minimal version requirements (must be Nextcloud 23 or higher)"
               not_nextcloud_server: "is not a Nextcloud server"
         storages/file_link:
@@ -46,13 +46,13 @@ id:
       setting_up_storages_non_admin: "Administrators can set up file storages in Administration / File Storages."
       all_available_storages_already_added: "All available storages are already added to the project."
       nextcloud:
-        administration: Administration
-        oauth2_clients: OAuth2 clients
+        administration: Administrasi
+        oauth2_clients: Klien OAuth2
         oauth_client_id: Copy the value from
         oauth_client_secret: Copy the value from
     delete_warning:
       storage: >
-        Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used. Further, it will also delete all links from work packages to files that are stored in that storage.
+        Apakah anda yakin untuk menghapus penyimpanan ini? Hal ini akan juga menghapus penyimpanan dari semua proyek yang anda gunakan sekarang. Lebih lanjut, ini akan menghapus semua tautan dari paket kerja ke berkas yang tersimpan pada penyimpanan tersebut. 
       project_storage: >
         Are you sure you want to remove this file storage from this project? This will also remove all links to files stored in this storage for this project.
     label_creator: "Creator"

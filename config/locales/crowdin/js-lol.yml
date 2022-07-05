@@ -230,6 +230,7 @@ lol:
             professional_support: "crwdns787178:0crwdne787178:0"
             professional_support_text: "crwdns787180:0crwdne787180:0"
           button_start_trial: "crwdns787182:0crwdne787182:0"
+          button_upgrade: "crwdns822250:0crwdne822250:0"
           button_book_now: "crwdns787184:0crwdne787184:0"
           confidence: >
             crwdns787186:0crwdne787186:0
@@ -266,7 +267,8 @@ lol:
           one: "crwdns787230:0crwdne787230:0"
           two: "crwdns787232:0crwdne787232:0"
           three: "crwdns787234:0crwdne787234:0"
-      upsale_for_more: "crwdns787236:0crwdne787236:0"
+      upsale_for_more: "crwdns822252:0crwdne822252:0"
+      more_info: "crwdns822254:0crwdne822254:0"
       upsale_link: 'crwdns787238:0crwdne787238:0'
     general_text_no: "crwdns787240:0crwdne787240:0"
     general_text_yes: "crwdns787242:0crwdne787242:0"
@@ -330,6 +332,7 @@ lol:
     label_description: "crwdns787330:0crwdne787330:0"
     label_details: "crwdns787332:0crwdne787332:0"
     label_display: "crwdns787334:0crwdne787334:0"
+    label_download_file: "crwdns822256:0%{fileName}crwdne822256:0"
     label_cancel_comment: "crwdns787336:0crwdne787336:0"
     label_closed_work_packages: "crwdns787338:0crwdne787338:0"
     label_collapse: "crwdns787340:0crwdne787340:0"
@@ -822,7 +825,7 @@ lol:
       zooms: "crwdns788138:0crwdne788138:0"
       outlines: "crwdns788140:0crwdne788140:0"
     upsale:
-      ee_only: 'crwdns788142:0crwdne788142:0'
+      ee_only: 'crwdns822258:0crwdne822258:0'
     wiki_formatting:
       strong: "crwdns788144:0crwdne788144:0"
       italic: "crwdns788146:0crwdne788146:0"
@@ -1010,6 +1013,7 @@ lol:
           attribute_highlighting: 'crwdns788452:0crwdne788452:0'
           relation_columns: 'crwdns788454:0crwdne788454:0'
           check_out_link: 'crwdns788456:0crwdne788456:0'
+          more-info-text: 'crwdns822260:0crwdne822260:0'
         relation_filters:
           filter_work_packages_by_relation_type: 'crwdns788458:0crwdne788458:0'
       tabs:

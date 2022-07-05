@@ -231,6 +231,7 @@ it:
             professional_support: "Supporto professionale"
             professional_support_text: "Ottieni un supporto affidabile e di livello da esperti tecnici con conoscenze dettagliate sulla gestione di OpenProject in ambienti critici per le imprese."
           button_start_trial: "Inizia la prova gratuita"
+          button_upgrade: "Upgrade now"
           button_book_now: "Prenota ora"
           confidence: >
             Forniamo la sicurezza di un software di gestione di progetti di classe aziendale collaudato e supportato, con l'Open Source e una mente aperta.
@@ -267,7 +268,8 @@ it:
           one: "Primo criterio di ordinamento"
           two: "Secondo criterio di ordinamento"
           three: "Terzo criterio di ordinamento"
-      upsale_for_more: "Per ulteriori filtri avanzati, controlla il"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "no"
     general_text_yes: "si"
@@ -333,6 +335,7 @@ it:
     label_description: "Descrizione"
     label_details: "Dettagli"
     label_display: "Visualizza"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Cancella il commento"
     label_closed_work_packages: "chiuso"
     label_collapse: "Comprimi"
@@ -825,7 +828,7 @@ it:
       zooms: "Livello di zoom"
       outlines: "Livello della gerarchia"
     upsale:
-      ee_only: 'Funzionalità esclusiva della Versione Enterprise'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Grassetto"
       italic: "Corsivo"
@@ -1013,6 +1016,7 @@ it:
           attribute_highlighting: 'Vuoi che alcune macro-attività si distinguano dalla massa?'
           relation_columns: 'Vuoi visualizzare le relazioni nell''elenco di macro-attività?'
           check_out_link: 'Scopri Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtra le macro-attività per tipo di relazione'
       tabs:

@@ -67,4 +67,6 @@ ko:
           이 옵션을 활성화하는 경우, 발견된 사용자는 OpenProject에서 자동으로 생성됩니다. 활성화하지 않으면, OpenProject의 기존 계정만 그룹에 추가됩니다.
         dn_text: 'LDAP에서 그룹의 전체 DN 입력'
         group_text: 'LDAP 그룹의 멤버가 동기화되는 기존 OpenProject 그룹 선택'
+      upsale:
+        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
 

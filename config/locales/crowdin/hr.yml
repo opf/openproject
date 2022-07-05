@@ -48,8 +48,9 @@ hr:
         main-menu-hover-font-color: "Main menu font on hover"
         main-menu-border-color: "Main menu border"
       custom_colors: "Prilagođavanje boje"
-      customize: "Prilagodite instalaciju OpenProject s vlastitim logotipom. Napomena: Ovaj logo će biti dostupan javnosti."
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "Kao posebno \"Hvala!\" za njihov financijski doprinos za razvoj OpenProject, ova malena funkcija dostupna je samo za Enterprise Edition pretplatnike."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Uređivanje boja odaberite Opcije"
       instructions:
         alternative-color: "Strong accent color, typically used for the most important button on a screen."
@@ -76,6 +77,7 @@ hr:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
+        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -171,7 +173,7 @@ hr:
     execute: 'Execute %{name}'
     upsale:
       title: 'Custom actions'
-      description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before you can add them to this project.
@@ -271,7 +273,7 @@ hr:
     upsale:
       title: Placeholder users
       description: >
-        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -301,6 +303,8 @@ hr:
     edit:
       settings: "Postavke"
       form_configuration: "Form configuration"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
       projects: "Projekti"
       enabled_projects: "Omogućeni projekti"
       edit_query: "Edit table"
@@ -3088,4 +3092,10 @@ hr:
         unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
         unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
         invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: you

@@ -48,8 +48,9 @@ uk:
         main-menu-hover-font-color: "Шрифт головного меню в разі наведення"
         main-menu-border-color: "Контур головного меню"
       custom_colors: "Кольори за власними вподобаннями"
-      customize: "Налаштуйте установку OpenProject за допомогою власного логотипу. Примітка: Цей логотип буде загальнодоступним."
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "Як особливий «Спасибі!» для їхнього фінансового внеску в розвиток OpenProject, ця маленька функція доступна лише для абонентів підтримки Enterprise Edition."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Редагувати параметри вибору кольору"
       instructions:
         alternative-color: "Насичений акцентний колір зазвичай використовується для більшості важливих кнопок на екрані."
@@ -76,6 +77,7 @@ uk:
       buttons:
         upgrade: "Оновити зараз"
         contact: "Зв’яжіться з нами, щоб отримати демоверсію"
+        more_info: "More information"
       enterprise_info_html: "– це функція Enterprise <strong class='icon-medal'>."
       upgrade_info: "Перейдіть на платний план, щоб активувати його та почати використовувати його у своїй команді."
     journal_aggregation:
@@ -167,7 +169,7 @@ uk:
     execute: 'Виконати %{name}'
     upsale:
       title: 'Власні дії'
-      description: 'Спеціальні дії спрощують повсякденну роботу, поєднуючи окремі кроки в одну кнопку.'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       Щоб додати нові користувальницькі поля до проекту, спочатку потрібно створити їх, перш ніж ви зможете додати їх до цього проекту.
@@ -267,7 +269,7 @@ uk:
     upsale:
       title: Прототипи користувачів
       description: >
-        У вас є кілька варіантів, якщо потрібно призначити роботу людям, які не належать до учасників вашого проєкту. Можливо, ви хочете тільки найняти потрібну людину для виконання завдання. Або ж ви не хочете надавати цій особі доступ до інформації про проєкт, але хочете відстежувати завдання, які їй призначаєте.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -297,6 +299,8 @@ uk:
     edit:
       settings: "Налаштування"
       form_configuration: "Конфігурація форми"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
       projects: "Проекти"
       enabled_projects: "Включені проекти"
       edit_query: "Редагувати таблицю"
@@ -3106,4 +3110,10 @@ uk:
         unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
         unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
         invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: ви

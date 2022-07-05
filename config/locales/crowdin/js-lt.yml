@@ -231,6 +231,7 @@ lt:
             professional_support: "Profesionali pagalba"
             professional_support_text: "Gaukite patikimą, artimą pagalbą iš patyrusių pagalbos inžinierių su ekspertinėmis žiniomis apie OpenProject naudojimą verslui kritinėse aplinkose."
           button_start_trial: "Pradėti bandomąjį laikotarpį"
+          button_upgrade: "Upgrade now"
           button_book_now: "Užsakyti dabar"
           confidence: >
             Mes duodame patikrintos ir palaikomas korporacijos-lygio projektų valdymo programos užtikrintumą -- su atviru kodu ir plačiomis pažiūromis.
@@ -267,7 +268,8 @@ lt:
           one: "Pirmasis rikiavimo kriterijus"
           two: "Antrasis rikiavimo kriterijus"
           three: "Trečiasis rikiavimo kriterijus"
-      upsale_for_more: "Norėdami naudoti daugiau papildomų filtrų, išbandykite"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: '„Enterprise Edition“.'
     general_text_no: "ne"
     general_text_yes: "taip"
@@ -331,6 +333,7 @@ lt:
     label_description: "Aprašymas"
     label_details: "Detalės"
     label_display: "Rodymas"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Atšaukti komentarą"
     label_closed_work_packages: "uždarytas"
     label_collapse: "Sutraukti"
@@ -825,7 +828,7 @@ lt:
       zooms: "Didinimo lygis"
       outlines: "Hierarchinis lygmuo"
     upsale:
-      ee_only: 'Galimybė tik Enterprise Edition'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Paryškintas"
       italic: "Pasvirasis"
@@ -1013,6 +1016,7 @@ lt:
           attribute_highlighting: 'Reikia išskirti tam tikrus darbo paketus iš didelės masės?'
           relation_columns: 'Ar reikia matyti ryšius darbų paketų sąraše?'
           check_out_link: 'Pabandykite Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtruokite darbo paketus pagal sąryšio tipą'
       tabs:

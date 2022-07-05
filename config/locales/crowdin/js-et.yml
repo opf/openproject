@@ -231,6 +231,7 @@ et:
             professional_support: "Professionaalne kasutajatugi"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -267,7 +268,8 @@ et:
           one: "First sorting criteria"
           two: "Second sorting criteria"
           three: "Third sorting criteria"
-      upsale_for_more: "For more advanced filters, check out the"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "ei"
     general_text_yes: "jah"
@@ -331,6 +333,7 @@ et:
     label_description: "Teave"
     label_details: "Üksikasjad"
     label_display: "Kuva"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Tühista kommentaar"
     label_closed_work_packages: "suletud"
     label_collapse: "Koonda"
@@ -823,7 +826,7 @@ et:
       zooms: "Suumi tase"
       outlines: "Hierarhia tase"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Strong"
       italic: "Krusiiv"
@@ -1011,6 +1014,7 @@ et:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:

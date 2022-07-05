@@ -72,7 +72,7 @@ zh-TW:
       text_2fa_disabled: "使用者沒有透過【我的帳戶】頁面進行建立一個2FA設備的動作。"
     upsale:
       title: '雙重身分驗證'
-      description: '請使用第二種的認證方式加強您內部或外部的認證機制'
+      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: 這個帳戶沒有存在備份代碼
       singular: 備份代碼

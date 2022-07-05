@@ -230,6 +230,7 @@ pt:
             professional_support: "Suporte profissional"
             professional_support_text: "Receba suporte confiável de alto nível de engenheiros sênior, com conhecimento especializado sobre a gestão do OpenProject em ambientes de negócios críticos."
           button_start_trial: "Iniciar avaliação gratuita"
+          button_upgrade: "Upgrade now"
           button_book_now: "Reservar agora"
           confidence: >
             Fornecemos toda a segurança de um software de gestão de projetos de classe empresarial, testado e com suporte - com código aberto e mente aberta.
@@ -266,7 +267,8 @@ pt:
           one: "Primeiro critério de ordenação"
           two: "Segundo critério de ordenação"
           three: "Terceiro critério de ordenação"
-      upsale_for_more: "Para mais filtros avançados, confira o"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "não"
     general_text_yes: "sim"
@@ -330,6 +332,7 @@ pt:
     label_description: "Descrição"
     label_details: "Detalhes"
     label_display: "Exibir"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Cancelar comentário"
     label_closed_work_packages: "fechado"
     label_collapse: "Recolher"
@@ -822,7 +825,7 @@ pt:
       zooms: "Nível de zoom"
       outlines: "Nível de hierarquia"
     upsale:
-      ee_only: 'Recurso exclusivo da Enterprise Edition'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Negrito"
       italic: "Itálico"
@@ -1010,6 +1013,7 @@ pt:
           attribute_highlighting: 'Precisa de certos pacotes de trabalho para se destacar da massa?'
           relation_columns: 'Precisa ver as relações na lista de pacotes de trabalho?'
           check_out_link: 'Confira a versão Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrar pacotes de trabalho por tipo de relação'
       tabs:

@@ -231,6 +231,7 @@ eo:
             professional_support: "Profesia subteno"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Startu senpagan provperiodon"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -267,7 +268,8 @@ eo:
           one: "Unua ordiga kriterio"
           two: "Dua ordiga kriterio"
           three: "Tria ordiga kriterio"
-      upsale_for_more: "Por pliaj altnivelaj filtriloj, konsultu"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Entreprena Eldono.'
     general_text_no: "ne"
     general_text_yes: "jes"
@@ -331,6 +333,7 @@ eo:
     label_description: "Priskribo"
     label_details: "Detaloj"
     label_display: "Vidigi"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Nuligi komenton"
     label_closed_work_packages: "fermita"
     label_collapse: "Maletendi"
@@ -823,7 +826,7 @@ eo:
       zooms: "Zoom level"
       outlines: "Hierarkia nivelo"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Strong"
       italic: "Kursiva"
@@ -1011,6 +1014,7 @@ eo:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:

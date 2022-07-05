@@ -230,6 +230,7 @@ sv:
             professional_support: "Professionell hjälp"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Starta fri provperiod"
+          button_upgrade: "Upgrade now"
           button_book_now: "Boka nu"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -266,7 +267,8 @@ sv:
           one: "Första sorteringskriteriet"
           two: "Andra sorteringskriteriet"
           three: "Tredje sorteringskriteriet"
-      upsale_for_more: "För mer avancerade filter, kolla in"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "nej"
     general_text_yes: "ja"
@@ -330,6 +332,7 @@ sv:
     label_description: "Beskrivning"
     label_details: "Detaljer"
     label_display: "Visa"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Avbryt kommentar"
     label_closed_work_packages: "stängt"
     label_collapse: "Fäll ihop"
@@ -822,7 +825,7 @@ sv:
       zooms: "Zoomnivå"
       outlines: "Hierarkinivå"
     upsale:
-      ee_only: 'Funktionen finns endast i Enterprise Edition'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Fetstil"
       italic: "Kursiv"
@@ -1010,6 +1013,7 @@ sv:
           attribute_highlighting: 'Behöver vissa arbetspaket sticka ut från massan?'
           relation_columns: 'Behöver du se relationer i listan på arbetspaket?'
           check_out_link: 'Kolla in Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:

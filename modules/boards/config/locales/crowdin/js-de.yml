@@ -9,6 +9,7 @@ de:
       upsale:
         teaser_text: 'Möchten Sie hilfreiche Aktions-Boards verwenden? Aktions-Boards sind eine Enterprise-Funktion. Bitte upgraden Sie auf den Enterprise Plan.'
         upgrade: 'Jetzt Upgrade durchführen'
+        more_info: 'More information'
       lists:
         delete: 'Liste löschen'
       version:

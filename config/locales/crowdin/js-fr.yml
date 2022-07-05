@@ -231,6 +231,7 @@ fr:
             professional_support: "Support professionnel"
             professional_support_text: "Obtenez une assitance fiable et à haut contact de la part d'ingénieurs d'assistance expérimentés qui ont une connaissance approfondie de la mise en œuvre d'OpenProject dans des environnements critiques pour l'entreprise."
           button_start_trial: "Commencer l'essai gratuit"
+          button_upgrade: "Upgrade now"
           button_book_now: "Réserver maintenant"
           confidence: >
             Nous fournissons la confiance d'un logiciel de gestion de projet de classe entreprise testé et supporté - en Open Source et un avec esprit ouvert.
@@ -267,7 +268,8 @@ fr:
           one: "Premier critère de tri"
           two: "Second critère de tri"
           three: "Troisième critère de tri"
-      upsale_for_more: "Découvrez les options de filtrage avancées"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "non"
     general_text_yes: "oui"
@@ -331,6 +333,7 @@ fr:
     label_description: "Description"
     label_details: "Détails"
     label_display: "Affichage"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Annuler le commentaire"
     label_closed_work_packages: "clôturé"
     label_collapse: "Regrouper"
@@ -823,7 +826,7 @@ fr:
       zooms: "Niveau de zoom"
       outlines: "Niveau de hiérarchie"
     upsale:
-      ee_only: 'Fonctionnalité exclusive Version Entreprise'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Gras"
       italic: "Italique"
@@ -1011,6 +1014,7 @@ fr:
           attribute_highlighting: 'Vous avez besoin de lots de travaux qui sortent du lot ?'
           relation_columns: 'Besoin de voir les relations sur la liste des lots de travaux ?'
           check_out_link: 'Découvrez l’édition entreprise.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrer les lots de travaux par type de relation'
       tabs:

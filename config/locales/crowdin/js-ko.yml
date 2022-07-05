@@ -231,6 +231,7 @@ ko:
             professional_support: "전문적 지원"
             professional_support_text: "비즈니스 크리티컬 환경에서의 OpenProject 실행에 대한 전문 지식을 갖춘 선임 지원 엔지니어가 신뢰할 수 있는 뛰어난 지원을 제공합니다."
           button_start_trial: "무료 평가판 시작"
+          button_upgrade: "Upgrade now"
           button_book_now: "지금 예약"
           confidence: >
             오픈 소스와 오픈 마인드로, 테스트를 거치고 지원이 제공되는 엔터프라이즈급 프로젝트 관리 소프트웨어에 대한 신뢰를 전해드립니다.
@@ -267,7 +268,8 @@ ko:
           one: "첫 번째 정렬 기준"
           two: "두 번째 정렬 기준"
           three: "세 번째 정렬 기준"
-      upsale_for_more: "추가 고급 필터는 다음을 확인하세요:"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "아니요"
     general_text_yes: "예"
@@ -331,6 +333,7 @@ ko:
     label_description: "설명"
     label_details: "세부 정보"
     label_display: "표시"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "코멘트 취소"
     label_closed_work_packages: "닫음"
     label_collapse: "축소"
@@ -822,7 +825,7 @@ ko:
       zooms: "확대 수준"
       outlines: "계층 수준"
     upsale:
-      ee_only: 'Enterprise Edition 전용 기능'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "굵게"
       italic: "기울임꼴"
@@ -1010,6 +1013,7 @@ ko:
           attribute_highlighting: '나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?'
           relation_columns: '작업 패키지 목록에서 관계를 표시해야 합니까?'
           check_out_link: 'Enterprise Edition을 체크아웃하세요.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: '관계 유형별 작업 패키지 필터링'
       tabs:
