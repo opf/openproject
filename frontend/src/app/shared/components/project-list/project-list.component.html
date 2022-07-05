@@ -41,18 +41,20 @@
     </spot-tooltip>
   </label>
 
-  <label
+  <a
     *ngIf="!multiSelect"
     class="spot-list--item-action op-project-list--item-action"
+    [title]="project.name"
+    [href]="extendedProjectUrl(project.id)"
   >
-    <a
-      class="spot-list--item-title op-project-list--item-title op-project-list--item-title_link"
+    <span
+      class="op-project-list--item-title spot-list--item-title"
       data-qa-selector="op-project-list--item-title"
       [opSearchHighlight]="searchText"
-      [title]="project.name"
-      [href]="extendedProjectUrl(project.id)"
-    >{{ project.name }}</a>
-  </label>
+    >
+      {{ project.name }}
+    </span>
+  </a>
 
   <ul
     *ngIf="project.children.length"
