@@ -45,10 +45,9 @@ You can also bulk-modify the **Progress (%)** in the list of work packages.
 
 ## Progress tracking in the work package hierarchy
 
-The progress of of **work package with children** is calculated as the 
+The progress of **work package with children** is calculated as the 
 weighted average of all direct children, using the field **Estimated time** 
-as the weight. OpenProject uses 1 hour as the default value if 
-**Estimated time** is empty. 
+as the weight. 
 When adding the **Progress(%)** column to a work 
 package hierarchy view, please also add the **Estimated time** 
 column as well so that you can track the calculation.
