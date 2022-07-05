@@ -91,9 +91,9 @@ The work package schema also contains the reference to the attribute groups from
 
 ## Frontend usage
 
-The OpenProject frontend usually ensure that whenever you get access to a HAL resource, its associated schema (if there is any) is also loaded. This is done through the [`SchemaCacheService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/components/schemas/schema-cache.service.ts). It will request the associated schema unless it has already been cached in the global states object to avoid loading a schema multiple times.
+The OpenProject frontend usually ensure that whenever you get access to a HAL resource, its associated schema (if there is any) is also loaded. This is done through the [`SchemaCacheService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/core/schemas/schema-cache.service.ts). It will request the associated schema unless it has already been cached in the global states object to avoid loading a schema multiple times.
 
-In some cases, such as the work package `/api/v3/work_packages` or `/api/v3/queries` endpoints, the needed schemas to represent the work packages contained in the collection are embedded automatically in the `_embedded.schemas` endpoint. Services handling these loaded requests such as the [`WorkPackagesStatesIntializationService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/components/wp-list/wp-states-initialization.service.ts#L97-L101) will automatically update the schema states.
+In some cases, such as the work package `/api/v3/work_packages` or `/api/v3/queries` endpoints, the needed schemas to represent the work packages contained in the collection are embedded automatically in the `_embedded.schemas` endpoint. Services handling these loaded requests such as the [`WorkPackagesStatesIntializationService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/components/wp-list/wp-states-initialization.service.ts) will automatically update the schema states.
 
 If you look at the HAL+JSON response of a work package API request, you will see it has a `_links.schema.href` property which identifies the schema resource that the loaded work package is associated with. ([Exemplary request](https://community.openproject.com/api/v3/work_packages/34250))
 
@@ -110,7 +110,7 @@ schemaCacheService
   });
 ```
 
-The schema resource is made out of properties that the frontend identifies as [`IFIeldSchema`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/fields/field.base.ts) interface:
+The schema resource is made out of properties that the frontend identifies as [`IFIeldSchema`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/field.base.ts) interface:
 
 ```typescript
 export interface IFieldSchema {
