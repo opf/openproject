@@ -351,7 +351,9 @@ OpenProject::Application.routes.draw do
     post 'design/themes' => 'custom_styles#update_themes', as: 'update_design_themes'
     resource :custom_style, only: %i[update show create], path: 'design'
 
-    resources :attribute_help_texts, only: %i(index new create edit update destroy)
+    resources :attribute_help_texts, only: %i(index new create edit update destroy) do
+      get :upsale, to: 'attribute_help_texts#upsale', on: :collection, as: :upsale
+    end
 
     resources :groups, except: %i[show] do
       member do
