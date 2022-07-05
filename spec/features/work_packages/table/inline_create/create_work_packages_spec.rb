@@ -38,6 +38,7 @@ describe 'inline create work package', js: true do
         wp_table.click_inline_create
         expect(page).to have_selector('.wp--row', count: 2)
         expect(page).to have_selector('.wp-inline-create-row')
+        byebug
         expect(page).to have_focus_on('#wp-new-inline-edit--field-subject')
 
         # Expect subject to be activated
