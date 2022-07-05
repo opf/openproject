@@ -390,7 +390,6 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
       dropdown.expect_checkbox(other_sub_sub_project.id, true)
     end
 
-
     retry_block do
       dropdown.set_filter_selected false
       dropdown.toggle_checkbox(other_project.id)

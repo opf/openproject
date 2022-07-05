@@ -63,7 +63,7 @@ export class OpProjectListComponent {
     if (project.href === this.currentProjectHref) {
       return true;
     }
-    
+
     return this.includeSubprojects && this.parentChecked;
   }
 
