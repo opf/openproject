@@ -87,7 +87,7 @@ class Notifications::CreateFromModelService
       resource:,
       journal:,
       actor: user_with_fallback,
-      reason: reason,
+      reason:,
       read_ian: strategy.supports_ian? ? false : nil,
       mail_reminder_sent: strategy.supports_mail_digest? ? false : nil,
       mail_alert_sent: strategy.supports_mail? ? false : nil
@@ -111,7 +111,7 @@ class Notifications::CreateFromModelService
 
   def delete_outdated_notifications(current_recipient_ids)
     Notification
-      .where(journal: journal)
+      .where(journal:)
       .where.not(recipient_id: current_recipient_ids)
       .destroy_all
   end

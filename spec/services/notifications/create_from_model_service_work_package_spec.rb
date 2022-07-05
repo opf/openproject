@@ -137,7 +137,7 @@ describe Notifications::CreateFromModelService,
       end
     end
 
-    context 'assignee has all notifications disabled' do
+    context 'when assignee has all notifications disabled' do
       let(:recipient_notification_settings) do
         [
           build(:notification_setting, **notification_settings_all_false)
@@ -147,7 +147,7 @@ describe Notifications::CreateFromModelService,
       it_behaves_like 'creates no notification'
     end
 
-    context 'assignee has all in app notifications enabled but only involved for mail' do
+    context 'when assignee has all in app notifications enabled but only involved for mail' do
       let(:recipient_notification_settings) do
         [
           build(:notification_setting, **notification_settings_all_false.merge(involved: true))
@@ -166,13 +166,13 @@ describe Notifications::CreateFromModelService,
       end
     end
 
-    context 'assignee is not allowed to view work packages' do
+    context 'when assignee is not allowed to view work packages' do
       let(:permissions) { [] }
 
       it_behaves_like 'creates no notification'
     end
 
-    context 'assignee is placeholder user' do
+    context 'when assignee is placeholder user' do
       let(:recipient) { create :placeholder_user }
 
       it_behaves_like 'creates no notification'
@@ -721,8 +721,8 @@ describe Notifications::CreateFromModelService,
     end
 
     shared_examples_for 'group mention' do
-      context 'group member is allowed to view the work package' do
-        context 'user wants to receive notifications' do
+      context 'with a group member allowed to view the work package' do
+        context 'when the user wants to receive notifications' do
           it_behaves_like 'creates notification' do
             let(:notification_channel_reasons) do
               {
@@ -735,7 +735,7 @@ describe Notifications::CreateFromModelService,
           end
         end
 
-        context 'user disabled mention notifications' do
+        context 'when the user disabled mention notifications' do
           let(:recipient_notification_settings) do
             [
               build(:notification_setting, **notification_settings_all_false.merge(mentioned: false))
@@ -746,13 +746,13 @@ describe Notifications::CreateFromModelService,
         end
       end
 
-      context 'group is not allowed to view the work package' do
+      context 'with the group not allowed to view the work package' do
         let(:group_role) { create(:role, permissions: []) }
         let(:permissions) { [] }
 
         it_behaves_like 'creates no notification'
 
-        context 'but group member is allowed individually' do
+        context 'with the group member allowed individually' do
           let(:permissions) { [:view_work_packages] }
 
           it_behaves_like 'creates notification' do
@@ -914,8 +914,8 @@ describe Notifications::CreateFromModelService,
           it 'removes the existing notification' do
             call
 
-            expect(Notification.exists?(id: existing_notification.id))
-              .to be_falsey
+            expect(Notification)
+              .not_to exist(id: existing_notification.id)
           end
         end
       end
@@ -930,7 +930,7 @@ describe Notifications::CreateFromModelService,
           end
         end
 
-        context 'on a hash/id based mention' do
+        context 'with a hash/id based mention' do
           let(:note) do
             "Hello group##{group.id}"
           end
@@ -938,7 +938,7 @@ describe Notifications::CreateFromModelService,
           it_behaves_like 'group mention'
         end
 
-        context 'on a tag based mention with the type after' do
+        context 'with a tag based mention with the type after' do
           let(:note) do
             <<~NOTE
               Hello <mention class="mention" data-id="#{group.id}" data-type="group" data-text="@#{group.name}">@#{group.name}</mention>
@@ -948,7 +948,7 @@ describe Notifications::CreateFromModelService,
           it_behaves_like 'group mention'
         end
 
-        context 'on a tag based mention with the type before' do
+        context 'with a tag based mention with the type before' do
           let(:note) do
             <<~NOTE
               Hello <mention data-type="group" class="mention" data-id="#{group.id}" data-text="@#{group.name}">@#{group.name}</mention>
@@ -1027,8 +1027,8 @@ describe Notifications::CreateFromModelService,
     it 'removes the existing notifications' do
       call
 
-      expect(Notification.exists?(id: existing_notification.id))
-        .to be_falsey
+      expect(Notification)
+        .not_to exist(id: existing_notification.id)
     end
   end
 
