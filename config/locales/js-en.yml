@@ -517,10 +517,10 @@ en:
     label_unwatch: "Unwatch"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
-    label_default_queries: "Default views"
-    label_starred_queries: "Favorite views"
-    label_global_queries: "Public views"
-    label_custom_queries: "Private views"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Columns"
     label_attachments: Attachments
     label_nextcloud: Nextcloud
@@ -1128,10 +1128,7 @@ en:
       filter: "Filter"
       unselected_title: "Work package"
       search_query_label: "Search saved views"
-      search_query_title: "Click to search saved views"
-      placeholder_query_title: "Set a title for this view"
     modals:
-      label_settings: "Rename view"
       label_name: "Name"
       label_delete_page: "Delete current page"
       button_apply: "Apply"
