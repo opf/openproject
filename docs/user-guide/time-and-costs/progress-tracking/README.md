@@ -72,8 +72,7 @@ Calculation examples:
 As an alternative to the manual progress tracking mode above, you can configure 
 your OpenProject system to associate work packages statuses .
 In the administration section please modify the 
-[work package settings](../../../system-admin-guide/manage-work-packages/work-package-settings).
-and choose set the value of “Calculate the work package done ratio” to 
+[work package settings](../../../system-admin-guide/manage-work-packages/work-package-settings) and set the value of “Calculate the work package done ratio” to 
 “Use the work package status”.
 
 In this mode, OpenProject does _not_ allow you to modify the 
