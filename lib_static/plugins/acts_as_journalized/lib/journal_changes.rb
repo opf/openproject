@@ -37,6 +37,8 @@ module JournalChanges
                  subsequent_journal_data_changes
                end
 
+    @changes.delete(:duration) unless OpenProject::FeatureDecisions.work_packages_duration_field_active?
+
     @changes.merge!(get_association_changes(predecessor, 'attachable', 'attachments', :attachment_id, :filename))
     @changes.merge!(get_association_changes(predecessor, 'customizable', 'custom_fields', :custom_field_id, :value))
   end
@@ -46,7 +48,7 @@ module JournalChanges
   def initial_journal_data_changes
     data
      .journaled_attributes
-     .reject { |_, new_value| new_value.nil? }
+     .compact
      .inject({}) do |result, (attribute, new_value)|
       result[attribute] = [nil, new_value]
       result
@@ -59,8 +61,7 @@ module JournalChanges
 
     normalized_new_data
       .select { |attribute, new_value| no_nil_to_empty_strings?(normalized_old_data, attribute, new_value) }
-      .map { |attribute, new_value| [attribute, [normalized_old_data[attribute], new_value]] }
-      .to_h
+      .to_h { |attribute, new_value| [attribute, [normalized_old_data[attribute], new_value]] }
       .with_indifferent_access
   end
 

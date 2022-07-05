@@ -50,13 +50,12 @@
       [title]="project.name"
       [href]="extendedProjectUrl(project.id)"
     >
-      <span
-        class="spot-list--item-title op-project-list--item-title"
-        data-qa-selector="op-project-list--item-title"
-        [opSearchHighlight]="searchText"
-      >{{ project.name }}</span>
+    <span
+      class="op-project-list--item-title spot-list--item-title"
+      data-qa-selector="op-project-list--item-title"
+      [opSearchHighlight]="searchText"
+    >{{ project.name }}</span>
     </a>
-
     <span
       *ngIf="project.disabled"
       class="spot-list--item-action spot-list--item-action_disabled spot-list--item-action_disabled"

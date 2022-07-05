@@ -231,6 +231,7 @@ fa:
             professional_support: "Professional support"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -267,7 +268,8 @@ fa:
           one: "اولین شاخص مرتب سازی"
           two: "دومین شاخص مرتب سازی"
           three: "سومین شاخص مرتب سازی"
-      upsale_for_more: "برای فیلترهای پیشرفته، رجوع کنید به"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'نسخه سازمانی.'
     general_text_no: "no"
     general_text_yes: "yes"
@@ -331,6 +333,7 @@ fa:
     label_description: "توضیحات"
     label_details: "Details"
     label_display: "Display"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "لغو نظر"
     label_closed_work_packages: "closed"
     label_collapse: "فرو ریختن"
@@ -823,7 +826,7 @@ fa:
       zooms: "سطح زوم"
       outlines: "سطح سلسله مراتب"
     upsale:
-      ee_only: 'ویژگی مخصوص نسخه سازمانی'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "ضخیم"
       italic: "مورب"
@@ -1011,6 +1014,7 @@ fa:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'آیا نیاز به مشاهده روابط در بسته کاری را دارید؟'
           check_out_link: 'نسخه سازمانی را بررسی کنید.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:

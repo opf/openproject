@@ -230,6 +230,7 @@ ru:
             professional_support: "Профессиональная поддержка"
             professional_support_text: "Получите качественную и оперативную поддержку наших экспертов по применению OpenProject в условиях, отвечающих требованиям бизнеса."
           button_start_trial: "Воспользоваться бесплатной пробной версией"
+          button_upgrade: "Upgrade now"
           button_book_now: "Забронировать сейчас"
           confidence: >
             Мы предлагаем надежное и проверенное временем программное решение корпоративного уровня для управления проектами, в котором открытый исходный код сочетается с открытостью к новым идеям.
@@ -266,7 +267,8 @@ ru:
           one: "Первый критерий сортировки"
           two: "Второй критерий сортировки"
           three: "Третий критерий сортировки"
-      upsale_for_more: "Для более сложных фильтров, проверить"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Корпоративная версия.'
     general_text_no: "нет"
     general_text_yes: "Да"
@@ -330,6 +332,7 @@ ru:
     label_description: "Описание"
     label_details: "Детали"
     label_display: "Отображение"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Отменить комментарий"
     label_closed_work_packages: "закрыт"
     label_collapse: "свернуть"
@@ -824,7 +827,7 @@ ru:
       zooms: "Масштаб"
       outlines: "Уровень иерархии"
     upsale:
-      ee_only: 'Эта функция есть только в корпоративной версии'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Жирный"
       italic: "Наклонный"
@@ -1012,6 +1015,7 @@ ru:
           attribute_highlighting: 'Хотите выделить некоторые пакеты работ из общей массы?'
           relation_columns: 'Нужно видеть отношения в списке пакетов работ?'
           check_out_link: 'Проверьте корпоративную версию.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Фильтр пакета работ по типу отношения'
       tabs:

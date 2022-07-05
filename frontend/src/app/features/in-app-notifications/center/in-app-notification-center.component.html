@@ -20,12 +20,12 @@
       </cdk-virtual-scroll-viewport>
     </ng-container>
     <ng-template #noResults>
-      <no-results *ngIf="(loading$ | async) === false"
+      <op-no-results *ngIf="(loading$ | async) === false"
                   [title]="noResultText$ | async"
                   [description]="text.change_notification_settings"
                   [showIcon]="false"
       >
-      </no-results>
+      </op-no-results>
     </ng-template>
   </div>
   <div class="op-ian-center--footer">

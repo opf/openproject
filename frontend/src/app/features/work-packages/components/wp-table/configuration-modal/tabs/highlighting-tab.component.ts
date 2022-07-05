@@ -1,4 +1,9 @@
-import { Component, Injector, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Injector,
+  ViewChild,
+} from '@angular/core';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -11,6 +16,7 @@ import { States } from 'core-app/core/states/states.service';
 
 @Component({
   templateUrl: './highlighting-tab.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpTableConfigurationHighlightingTabComponent implements TabComponent {
   // Display mode
@@ -46,6 +52,8 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
     },
     upsaleAttributeHighlighting: this.I18n.t('js.work_packages.table_configuration.upsale.attribute_highlighting'),
     upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
+    more_info_text: this.I18n.t('js.filter.more_info'),
+    more_info_link: 'https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration/#attribute-highlighting-premium-feature',
   };
 
   constructor(readonly injector:Injector,

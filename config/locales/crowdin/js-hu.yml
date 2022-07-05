@@ -233,6 +233,7 @@ hu:
             professional_support: "Szakmai támogatás"
             professional_support_text: "Megbízható támogatást kaphat a vezető támogató mérnököktől, akik szakértő ismeretekkel rendelkeznek az OpenProject futtatásáról üzleti szempontból kritikus környezetben."
           button_start_trial: "Ingyenes próbaverzió kipróbálása"
+          button_upgrade: "Upgrade now"
           button_book_now: "Foglalás most"
           confidence: >
             A tesztelt és támogatott vállalati szintű projektmenedzsment szoftver bizalmát nyújtjuk - nyílt forráskóddal és nyitott szemmel.
@@ -270,7 +271,8 @@ hu:
           one: "Első rendezési feltétel"
           two: "Második rendezési feltétel"
           three: "Harmadik rendezési feltétel"
-      upsale_for_more: "A fejlettebb szűrők esetén nézze meg a"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Vállalati kiadás.'
     general_text_no: "nem"
     general_text_yes: "igen"
@@ -334,6 +336,7 @@ hu:
     label_description: "Leírás"
     label_details: "Részletek"
     label_display: "Megjelenítés"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Megjegyzés törlése"
     label_closed_work_packages: "lezárt"
     label_collapse: "Collapse"
@@ -828,7 +831,7 @@ hu:
       zooms: "Nagyítási szint"
       outlines: "Hierarchia szint"
     upsale:
-      ee_only: 'Ez csak az Enterprise Edition-ban elérhető'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Erős"
       italic: "Dőlt betű"
@@ -1016,6 +1019,7 @@ hu:
           attribute_highlighting: 'Szüksége van bizonyos munkacsomagokra, hogy kitűnjön a tömegből?'
           relation_columns: 'Szeretné látni a munkacsomag kapcsolatait?'
           check_out_link: 'Tekintse meg az Enterprise Edition-t!'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'A munkacsomagok szűrése relációs típus szerint'
       tabs:

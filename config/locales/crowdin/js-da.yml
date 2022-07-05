@@ -230,6 +230,7 @@ da:
             professional_support: "Professionel support"
             professional_support_text: "Få pålidelig, høj-touch support fra senior support ingeniører med ekspert viden om at køre OpenProject i forretningskritiske miljøer."
           button_start_trial: "Start gratis prøveperiode"
+          button_upgrade: "Upgrade now"
           button_book_now: "Bestil nu"
           confidence: >
             Vi leverer tillid til en testet og understøttet enterprise-klasse projektstyringssoftware - med Open Source og et åbent sind.
@@ -266,7 +267,8 @@ da:
           one: "Første sorteringskriterium"
           two: "Anden sorteringskriterier"
           three: "Tredje sorteringskriterium"
-      upsale_for_more: "For mere avancerede filtre, tjek den"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Udgave.'
     general_text_no: "nej"
     general_text_yes: "ja"
@@ -330,6 +332,7 @@ da:
     label_description: "Beskrivelse"
     label_details: "Detaljer"
     label_display: "Vis"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Annuller kommentar"
     label_closed_work_packages: "lukket"
     label_collapse: "Fold sammen"
@@ -822,7 +825,7 @@ da:
       zooms: "Zoomniveau"
       outlines: "Niveau i hieraki"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Fed"
       italic: "Kursiv"
@@ -1010,6 +1013,7 @@ da:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:

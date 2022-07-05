@@ -231,6 +231,7 @@ si:
             professional_support: "වෘත්තීය සහාය"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -267,7 +268,8 @@ si:
           one: "පළමු තෝරා බේරා ගැනීමේ නිර්ණායක"
           two: "දෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
           three: "තෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
-      upsale_for_more: "තවත් දියුණු පෙරහන් සඳහා, පරීක්ෂා කරන්න"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'ව්යවසාය සංස්කරණය.'
     general_text_no: "නැත"
     general_text_yes: "ඔව්"
@@ -331,6 +333,7 @@ si:
     label_description: "විස්තරය"
     label_details: "විස්තර"
     label_display: "සංදර්ශකය"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "අදහස් අවලංගු කරන්න"
     label_closed_work_packages: "වසා"
     label_collapse: "බිඳවැටීම"
@@ -823,7 +826,7 @@ si:
       zooms: "විශාලන මට්ටම"
       outlines: "ධූරාවලිය මට්ටම"
     upsale:
-      ee_only: 'ව්යවසාය සංස්කරණය පමණක් විශේෂාංගය'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "ශක්තිමත්"
       italic: "ඇල අකුරු"
@@ -1011,6 +1014,7 @@ si:
           attribute_highlighting: 'ස්කන්ධයෙන් කැපී පෙනෙන ඇතැම් වැඩ පැකේජ අවශ්යද?'
           relation_columns: 'වැඩ පැකේජ ලැයිස්තුවේ සබඳතා දැකීමට අවශ්යද?'
           check_out_link: 'ව්යවසාය සංස්කරණය පරීක්ෂා කරන්න.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'සම්බන්ධතා වර්ගය අනුව වැඩ පැකේජ පෙරහන් කරන්න'
       tabs:

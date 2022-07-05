@@ -230,6 +230,7 @@ ro:
             professional_support: "Suport profesional"
             professional_support_text: "Beneficiați de asistență fiabilă, de înaltă calitate, din partea unor ingineri de asistență seniori cu cunoștințe de specialitate în ceea ce privește utilizarea OpenProject în medii critice pentru afaceri."
           button_start_trial: "Începeți o încercare gratuită"
+          button_upgrade: "Upgrade now"
           button_book_now: "Rezervă acum"
           confidence: >
             Oferim încrederea unui software de gestionare a proiectelor de clasă enterprise testat și susținut - cu Open Source și o minte deschisă.
@@ -266,7 +267,8 @@ ro:
           one: "Primul criteriu de sortare"
           two: "Al doilea criteriu de sortare"
           three: "Al treilea criteriu de sortare"
-      upsale_for_more: "Pentru filtre mai avansate, accesați"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Versiunea Enterprise.'
     general_text_no: "nu"
     general_text_yes: "da"
@@ -330,6 +332,7 @@ ro:
     label_description: "Descriere"
     label_details: "Detalii"
     label_display: "Afișare"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Anulează comentariu"
     label_closed_work_packages: "închis"
     label_collapse: "Restrângere"
@@ -823,7 +826,7 @@ ro:
       zooms: "Orizont de timp"
       outlines: "Nivel ierarhic"
     upsale:
-      ee_only: 'Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Aldin"
       italic: "Italic"
@@ -1011,6 +1014,7 @@ ro:
           attribute_highlighting: 'Aveți nevoie ca anumite pachete de lucru să iasă în evidență?'
           relation_columns: 'Aveți nevoie să vedeți relațiile din lista pachetelor de lucru?'
           check_out_link: 'Achiziționați versiunea Enterprise'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrare pachete de lucru'
       tabs:

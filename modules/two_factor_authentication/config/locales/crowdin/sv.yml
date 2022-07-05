@@ -72,7 +72,7 @@ sv:
       text_2fa_disabled: "Användaren ställde inte in en 2FA enhet genom sidan 'Mitt konto'"
     upsale:
       title: 'Two-factor authentication'
-      description: 'Stärk dina inre eller yttre autentiseringsmekanismer med en andra faktor.'
+      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: Inga reservkoder finns för detta konto.
       singular: Reservkod

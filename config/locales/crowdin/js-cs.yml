@@ -231,6 +231,7 @@ cs:
             professional_support: "Profesionální podpora"
             professional_support_text: "Získejte spolehlivou, vysoce profesionální podporu od seniorních podpůrných inženýrů s odbornými znalostmi o používání OpenProject."
           button_start_trial: "Zahájit zkušební verzi zdarma"
+          button_upgrade: "Upgrade now"
           button_book_now: "Rezervujte nyní"
           confidence: >
             Doručujeme testovaný a podporovaný software pro řízení projetků - s Open Source a otevřenou myslí.
@@ -267,7 +268,8 @@ cs:
           one: "První kritérium třídění"
           two: "Druhé kritérium třídění"
           three: "Třetí kritérium třídění"
-      upsale_for_more: "Pro více pokročilých filtrů, se podívejte"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edice'
     general_text_no: "ne"
     general_text_yes: "ano"
@@ -331,6 +333,7 @@ cs:
     label_description: "Popis"
     label_details: "Podrobnosti"
     label_display: "Zobrazit"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Stornovat komentář"
     label_closed_work_packages: "uzavřeno"
     label_collapse: "Sbalit"
@@ -825,7 +828,7 @@ cs:
       zooms: "Úroveň zvětšení"
       outlines: "Úroveň hierarchie"
     upsale:
-      ee_only: 'Pouze funkce Enterprise edice'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Silný"
       italic: "Kurzíva"
@@ -1013,6 +1016,7 @@ cs:
           attribute_highlighting: 'Potřebujete určité pracovní balíčky, aby vyšly z celkového objemu?'
           relation_columns: 'Potřebujete vidět vztahy v seznamu pracovních balíčků?'
           check_out_link: 'Podívejte se na Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrovat pracovní balíčky podle typu vztahu'
       tabs:

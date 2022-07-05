@@ -32,6 +32,13 @@
   >
     <a
       class="spot-link"
+      [title]="text.title.downloadFileLink"
+      [href]="fileLink._links.staticOriginDownload.href"
+    >
+      <span class="spot-icon spot-icon_download-arrow"></span>
+    </a>
+    <a
+      class="spot-link"
       [title]="text.title.openFileLocation"
       [href]="fileLink._links.staticOriginOpenLocation.href"
       target="_blank"

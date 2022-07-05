@@ -230,6 +230,7 @@ el:
             professional_support: "Επαγγελματική υποστήριξη"
             professional_support_text: "Αποκτήστε αξιόπιστη, high-touch υποστήριξη από ανώτερους μηχανικούς υποστήριξης με εξειδικευμένες γνώσεις σχετικά με τη λειτουργία του OpenProject σε κρίσιμα επιχειρηματικά περιβάλλοντα."
           button_start_trial: "Έναρξη δωρεάν δοκιμαστικής περιόδου"
+          button_upgrade: "Upgrade now"
           button_book_now: "Κάντε κράτηση τώρα"
           confidence: >
             Παρέχουμε την εμπιστοσύνη ενός δοκιμασμένου και υποστηριζόμενου λογισμικού διαχείρισης έργων, επιχειρησιακού επιπέδου - με Ανοιχτό Κώδικα και ανοιχτό μυαλό.
@@ -266,7 +267,8 @@ el:
           one: "Πρώτο κριτήριο ταξινόμησης"
           two: "Δεύτερο κριτήριο ταξινόμησης"
           three: "Τρίτο κριτήριο ταξινόμησης"
-      upsale_for_more: "Για περισσότερα προχωρημένα φίλτρα, κοιτάξτε το"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Έκδοση για Επιχειρήσεις.'
     general_text_no: "όχι"
     general_text_yes: "ναι"
@@ -330,6 +332,7 @@ el:
     label_description: "Περιγραφή"
     label_details: "Λεπτομέρειες"
     label_display: "Εμφάνιση"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Ακύρωση σχολίου"
     label_closed_work_packages: "κλειστό"
     label_collapse: "Σύμπτυξη"
@@ -822,7 +825,7 @@ el:
       zooms: "Επίπεδο μεγέθυνσης"
       outlines: "Επίπεδο Ιεραρχίας"
     upsale:
-      ee_only: 'Λειτουργία μόνο για εκδόσεις για επιχειρήσεις'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Δυνατό"
       italic: "Πλάγια γραφή"
@@ -1010,6 +1013,7 @@ el:
           attribute_highlighting: 'Χρειάζεστε συγκεκριμένα πακέτα εργασίας για να ξεχωρίσετε από την μάζα;'
           relation_columns: 'Χρειάζεστε να βλέπετε συσχετίσεις στη λίστα πακέτων εργασίας;'
           check_out_link: 'Δείτε την Έκδοση για Επιχειρήσεις.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Φιλτράρετε τα πακέτα εργασίας κατά τύπο συσχέτισης'
       tabs:

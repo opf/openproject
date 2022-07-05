@@ -9,6 +9,7 @@ ko:
       upsale:
         teaser_text: '바로 사용할 수 있는 보드 템플릿을 원하시나요? 고급 보드는 Enterprise 기능입니다. 유료 플랜으로 업그레이드하세요.'
         upgrade: '지금 업그레이드'
+        more_info: 'More information'
       lists:
         delete: '목록 삭제'
       version:

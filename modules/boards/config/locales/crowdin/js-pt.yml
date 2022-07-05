@@ -9,6 +9,7 @@ pt:
       upsale:
         teaser_text: 'Gostaria de usar modelos de quadro? Quadros avançados são um recurso Enterprise. Por favor, atualize para um plano pago.'
         upgrade: 'Atualizar agora'
+        more_info: 'More information'
       lists:
         delete: 'Excluir lista'
       version:

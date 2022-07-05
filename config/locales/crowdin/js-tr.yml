@@ -231,6 +231,7 @@ tr:
             professional_support: "Profesyonel destek"
             professional_support_text: "İş açısından kritik ortamlarda OpenProject çalıştırma konusunda uzman bilgiye sahip kıdemli destek mühendislerinden güvenilir, yüksek dokunuşlu destek alın."
           button_start_trial: "Deneme sürümüne başla"
+          button_upgrade: "Upgrade now"
           button_book_now: "Şimdi rezervasyon yaptırın"
           confidence: >
             Açık Kaynak ve açık fikirli olmak üzere, test edilmiş ve desteklenen bir kurumsal sınıf proje yönetimi yazılımının güvenini sunuyoruz.
@@ -267,7 +268,8 @@ tr:
           one: "İlk sıralama ölçütü"
           two: "İkinci sıralama ölçütü"
           three: "Üçüncü sıralama ölçütleri"
-      upsale_for_more: "Daha gelişmiş filtreler için kontrol edin"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Kurumsal Sürüm.'
     general_text_no: "hayır"
     general_text_yes: "evet"
@@ -331,6 +333,7 @@ tr:
     label_description: "Açıklama"
     label_details: "Detaylar"
     label_display: "Göster"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Yorumu iptal et"
     label_closed_work_packages: "kapalı"
     label_collapse: "Daralt"
@@ -823,7 +826,7 @@ tr:
       zooms: "Yakınlaştırma düzeyi"
       outlines: "Hiyerarşi düzeyi"
     upsale:
-      ee_only: 'Enterprise Edition özelliği'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Kalın"
       italic: "İtalik"
@@ -1011,6 +1014,7 @@ tr:
           attribute_highlighting: 'Kitleden sıyrılmak için bazı iş paketlerine mi ihtiyacınız var?'
           relation_columns: 'İş paketleri listesindeki ilişkileri görmek ister misiniz?'
           check_out_link: 'Enterprise sürüme bakın.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'İş paketlerini ilişki türüne göre filtreleme'
       tabs:

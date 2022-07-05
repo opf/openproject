@@ -9,6 +9,7 @@ uk:
       upsale:
         teaser_text: 'Хочете скористатися готовими шаблонами дощок? Дошки з додатковими функціями – це функція випуску Enterprise. Перейдіть на платний план.'
         upgrade: 'Купити зараз'
+        more_info: 'More information'
       lists:
         delete: 'Вилучити список'
       version:

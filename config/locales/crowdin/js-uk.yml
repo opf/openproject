@@ -231,6 +231,7 @@ uk:
             professional_support: "Професійна підтримка"
             professional_support_text: "Отримайте надійну, комплексну підтримку від досвідчених інженерів, які знають усе про запуск OpenProject у критично важливих для бізнесу середовищах."
           button_start_trial: "Розпочати безкоштовну пробну версію"
+          button_upgrade: "Upgrade now"
           button_book_now: "Забронювати зараз"
           confidence: >
             Ми надаємо перевірене програмне забезпечення корпоративного класу з — з відкритим кодом і серцем — та забезпечуємо його підтримку.
@@ -267,7 +268,8 @@ uk:
           one: "Перший критерій впорядкування"
           two: "Другий критерій впорядкування"
           three: "Третій критерій впорядкування"
-      upsale_for_more: "Щоб отримати додаткові фільтри, ознайомтеся з"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'корпоративне видання.'
     general_text_no: "ні"
     general_text_yes: "так"
@@ -331,6 +333,7 @@ uk:
     label_description: "Опис"
     label_details: "Детальніше"
     label_display: "Дисплей"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Скасувати коментар"
     label_closed_work_packages: "зачинено"
     label_collapse: "Згорнути"
@@ -825,7 +828,7 @@ uk:
       zooms: "Рівень масштабування"
       outlines: "Рівень ієрархії"
     upsale:
-      ee_only: 'Функція Enterprise Edition'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Жирний"
       italic: "Курсив"
@@ -1013,6 +1016,7 @@ uk:
           attribute_highlighting: 'Потрібні певні робочі пакети, щоб виділитися зі скупчення?'
           relation_columns: 'Потрібно бачити відносини у списку робочих пакетів?'
           check_out_link: 'Перегляньте Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Фільтрувати пакети робіт за типом зв’язку'
       tabs:

@@ -231,6 +231,7 @@ fil:
             professional_support: "Propesyonal na suporta"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -267,7 +268,8 @@ fil:
           one: "Ang unang pamantayang pagkasunod-sunod"
           two: "Ang pangalawang pamantayang pagkasunod-sunod"
           three: "Ang pangatlong pamantayang pagkasunod-sunod"
-      upsale_for_more: "Para sa mga karagdagang advanced fikter, suriin ang"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "hindi"
     general_text_yes: "oo"
@@ -331,6 +333,7 @@ fil:
     label_description: "Deskripsyon"
     label_details: "Mga detalye"
     label_display: "Ipakita"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Ikansela ang komento"
     label_closed_work_packages: "isinara"
     label_collapse: "Bumagsak"
@@ -823,7 +826,7 @@ fil:
       zooms: "Zoom level"
       outlines: "Hierarchy level"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Malakas"
       italic: "Italic"
@@ -1011,6 +1014,7 @@ fil:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Kailangan tingnan ang mga relasyon sa listahan ng work package?'
           check_out_link: 'Suriin ang Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:

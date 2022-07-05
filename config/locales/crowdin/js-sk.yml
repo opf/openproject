@@ -231,6 +231,7 @@ sk:
             professional_support: "Profesionálna podpora"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -267,7 +268,8 @@ sk:
           one: "Prvé kritérium zoradenia"
           two: "Druhé kritérium zoradenia"
           three: "Tretie kritérium zoradenia"
-      upsale_for_more: "Pre pokročilejšie filtre si pozrite"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "nie"
     general_text_yes: "áno"
@@ -331,6 +333,7 @@ sk:
     label_description: "Popis"
     label_details: "Podrobnosti"
     label_display: "Zobraziť"
+    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Zrušiť komentár"
     label_closed_work_packages: "uzatvorené"
     label_collapse: "Zbaliť"
@@ -825,7 +828,7 @@ sk:
       zooms: "Úroveň priblíženia"
       outlines: "Úroveň vnorenia"
     upsale:
-      ee_only: 'Funkcie len pre Enterprise Edition'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Tučné"
       italic: "Kurzíva"
@@ -1013,6 +1016,7 @@ sk:
           attribute_highlighting: 'Mali by sa rozlišovať osobitné pracovné balíčky?'
           relation_columns: 'Potrebujete vidieť vzťahy v zozname pracovných balíčkov?'
           check_out_link: 'Pozrite si verziu Enterprise.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:

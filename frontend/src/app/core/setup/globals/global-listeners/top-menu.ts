@@ -25,6 +25,8 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
+
 export const ANIMATION_RATE_MS = 100;
 
 export class TopMenu {
@@ -222,8 +224,8 @@ export class TopMenu {
   // If there is ANY input, it will have precedence over links,
   // i.e. links will only get focused, if there is NO input whatsoever
   focusFirstInputOrLink(dropdown:JQuery):void {
-    const focusable = dropdown.find('.op-app-menu--dropdown').find('input:not([disabled]):not([type="hidden"]), a[href], area[href], select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]');
-    const toFocus = focusable[0];
+    const focusable = findAllFocusableElementsWithin(dropdown.find('.op-app-menu--dropdown')[0]);
+    const toFocus = focusable[0] as HTMLElement;
     if (!toFocus) {
       return;
     }
