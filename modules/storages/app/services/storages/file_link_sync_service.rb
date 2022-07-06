@@ -224,7 +224,11 @@ class Storages::FileLinkSyncService
   #   or success=false with result=:error or result=:not_authorized.
   # rubocop:disable Metrics/AbcSize
   def parse_files_info_response(response)
-    op_handle_debug "Parse http response: status #{response.code}, body: #{response.body}."
+    if response.is_a?(Net::HTTPResponse)
+      op_handle_debug "Parse http response: status #{response.code}, body: #{response.body}"
+    else
+      op_handle_debug "Parse http response: #{response}"
+    end
     return ServiceResult.failure(result: :error) if files_info_response_error?(response)
     return ServiceResult.failure(result: :not_authorized) if ["401", "403"].include?(response.code)
     return ServiceResult.failure(result: :error) unless response.code == "200" # Interpret any other response as an error
