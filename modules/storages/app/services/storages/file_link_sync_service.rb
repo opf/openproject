@@ -28,8 +28,6 @@
 
 # Handle synchronization of FileLinks with external data store such as Storages
 class Storages::FileLinkSyncService
-  include OpenProjectErrorHelper
-
   FILESINFO_URL_PATH = "/ocs/v1.php/apps/integration_openproject/filesinfo".freeze
 
   # @param user Current user
@@ -44,7 +42,6 @@ class Storages::FileLinkSyncService
   # the storage endpoint.
   # @return ServiceResult with FileLinks in the result
   def call(file_links)
-    op_handle_debug "Started synchronization for #{file_links.count} file link(s)."
     @file_links = file_links
     storage_file_link_hash = @file_links.group_by(&:storage_id)
     storage_file_link_hash.each do |storage_id, storage_file_links|
@@ -59,14 +56,11 @@ class Storages::FileLinkSyncService
 
   # Get the OAuthClientToken that will authenticate us against Nextcloud
   def get_connection_manager(storage_id)
-    op_handle_debug "Make connection manager for storage #{storage_id}."
     oauth_client = OAuthClient.find_by(integration_id: storage_id)
     ::OAuthClients::ConnectionManager.new(user: @user, oauth_client:)
   end
 
   def get_oauth_client_token(connection_manager)
-    op_handle_debug "Get oauth client token with connection manager of user #{@user.id}."
-
     access_token_service_result = connection_manager.get_access_token # No scope for Nextcloud...
     if access_token_service_result.failure?
       return nil
@@ -76,20 +70,16 @@ class Storages::FileLinkSyncService
   end
 
   # Sync a Nextcloud storage
-  # rubocop:disable Metrics/AbcSize
   def sync_nextcloud(storage_id, file_links)
-    op_handle_debug "Sync storage { id: #{storage_id} } with #{file_links.count} file link(s)."
     connection_manager = get_connection_manager(storage_id)
     oauth_client_token = get_oauth_client_token(connection_manager)
     if oauth_client_token.nil?
-      op_handle_debug 'No oauth client token found.'
       set_error_for_file_links(file_links)
       return
     end
 
     storage_origin_file_ids = file_links.map(&:origin_id)
     nextcloud_request_result = connection_manager.request_with_token_refresh do
-      op_handle_debug "Requesting live data for files #{storage_origin_file_ids}."
       response = request_files_info(oauth_client_token, storage_origin_file_ids)
       # Parse HTTP response an return a ServiceResult with:
       #   success: result= Hash with Nextcloud filesinfo (name of endpoint) data
@@ -100,7 +90,6 @@ class Storages::FileLinkSyncService
     @service_result.merge!(nextcloud_request_result)
 
     if nextcloud_request_result.failure?
-      op_handle_debug 'Request to storage failed. Setting error code to file links.'
       set_error_for_file_links(file_links)
       return
     end
@@ -108,10 +97,7 @@ class Storages::FileLinkSyncService
     set_file_link_permissions(file_links, nextcloud_request_result.result)
   end
 
-  # rubocop:enable Metrics/AbcSize
-
   def set_file_link_permissions(file_links, parsed_response)
-    op_handle_debug "Setting file link permissions for #{file_links.count} file links."
     file_links.each do |file_link|
       origin_file_info_hash = parsed_response[file_link.origin_id]
 
@@ -185,10 +171,16 @@ class Storages::FileLinkSyncService
     host = token.oauth_client.integration.host
     uri = URI.parse(File.join(host, FILESINFO_URL_PATH))
     request = build_files_info_request(uri, token, file_ids)
+    opts =
+      {
+        max_retries: 0,
+        open_timeout: 5, # seconds
+        read_timeout: 3, # seconds
+        use_ssl: uri.scheme == 'https'
+      }
 
     begin
-      op_handle_debug "Request file live data from #{uri}."
-      Net::HTTP.start(uri.hostname, uri.port, request_file_info_options) do |http|
+      Net::HTTP.start(uri.hostname, uri.port, opts) do |http|
         http.request(request)
       end
     rescue StandardError => e
@@ -209,26 +201,11 @@ class Storages::FileLinkSyncService
     request
   end
 
-  # HTTP Request options: Keep the request short for the sake of the front-end
-  def request_file_info_options
-    {
-      max_retries: 0,
-      open_timeout: 5, # seconds
-      read_timeout: 3 # seconds
-    }
-  end
-
   # Takes a response from querying Nextcloud file IDS (an Exception or a HTTP::Response),
   # parses the returned JSON and
   # @returns ServiceResult containing data in result and success=true,
   #   or success=false with result=:error or result=:not_authorized.
-  # rubocop:disable Metrics/AbcSize
   def parse_files_info_response(response)
-    if response.is_a?(Net::HTTPResponse)
-      op_handle_debug "Parse http response: status #{response.code}, body: #{response.body}"
-    else
-      op_handle_debug "Parse http response: #{response}"
-    end
     return ServiceResult.failure(result: :error) if files_info_response_error?(response)
     return ServiceResult.failure(result: :not_authorized) if ["401", "403"].include?(response.code)
     return ServiceResult.failure(result: :error) unless response.code == "200" # Interpret any other response as an error
@@ -249,6 +226,4 @@ class Storages::FileLinkSyncService
       !response.key?('content-type') || # Reply without content-type can't be valid.
       response['content-type'].split(';').first.strip.downcase != 'application/json'
   end
-
-  # rubocop:enable Metrics/AbcSize
 end
