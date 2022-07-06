@@ -78,9 +78,9 @@ class Storages::FileLinkSyncService
       return
     end
 
-    storage_origin_file_ids = file_links.map(&:origin_id)
     nextcloud_request_result = connection_manager.request_with_token_refresh do
-      response = request_files_info(oauth_client_token, storage_origin_file_ids)
+      response = request_files_info(oauth_client_token, file_links.map(&:origin_id))
+      Rails.logger.debug { "Got nextcloud filesinfo response: #{response.inspect}" }
       # Parse HTTP response an return a ServiceResult with:
       #   success: result= Hash with Nextcloud filesinfo (name of endpoint) data
       #   failure: result= :error or :not_authorized
@@ -171,13 +171,7 @@ class Storages::FileLinkSyncService
     host = token.oauth_client.integration.host
     uri = URI.parse(File.join(host, FILESINFO_URL_PATH))
     request = build_files_info_request(uri, token, file_ids)
-    opts =
-      {
-        max_retries: 0,
-        open_timeout: 5, # seconds
-        read_timeout: 3, # seconds
-        use_ssl: uri.scheme == 'https'
-      }
+    opts = request_file_info_options.merge({ use_ssl: uri.scheme == 'https' })
 
     begin
       Net::HTTP.start(uri.hostname, uri.port, opts) do |http|
@@ -186,6 +180,15 @@ class Storages::FileLinkSyncService
     rescue StandardError => e
       e
     end
+  end
+
+  # HTTP Request options: Keep the request short for the sake of the front-end
+  def request_file_info_options
+    {
+      max_retries: 0,
+      open_timeout: 5, # seconds
+      read_timeout: 3 # seconds
+    }
   end
 
   def build_files_info_request(uri, token, file_ids)
