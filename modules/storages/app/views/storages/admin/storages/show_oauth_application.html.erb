@@ -3,6 +3,15 @@
 <% local_assigns[:additional_breadcrumb] = "#{t("storages.provider_types.#{@object.provider_type}")} #{t("storages.label_oauth_application_details")}" %>
 <%= toolbar title: "#{t("storages.provider_types.#{@object.provider_type}")} #{t("storages.label_oauth_application_details")}" %>
 
+<div class="op-toast -warning">
+  <a title="{{ ::I18n.t('js.close_popup_title') }}"
+     class="op-toast--close icon-context icon-close">
+  </a>
+  <div class="op-toast--content">
+    <p><%= t('repositories.storage.oauth_application_details') %></p>
+  </div>
+</div>
+
 <%= labelled_tabular_form_for @oauth_application, url: '/' do |f| -%>
   <div class="form--field">
     <%= f.text_field :uid,
