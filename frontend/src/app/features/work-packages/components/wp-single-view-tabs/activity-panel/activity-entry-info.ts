@@ -51,11 +51,15 @@ export class ActivityEntryInfo {
   }
 
   public get identifier() {
-    return `${this.href}-${this.version}`;
+    return `${this.href}-${this.version}-${this.updatedAt}`;
   }
 
   public get version() {
     return this.activity.version;
+  }
+
+  public get updatedAt() {
+    return this.activity.updatedAt;
   }
 
   public isInitial(forceReverse = false) {

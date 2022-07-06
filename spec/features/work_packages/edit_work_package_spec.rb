@@ -159,6 +159,7 @@ describe 'edit work package',
                               status: status2.name,
                               version: version.name,
                               category: category.name
+
     wp_page.expect_activity_message("Status changed from #{status.name} to #{status2.name}")
   end
 
