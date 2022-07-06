@@ -614,23 +614,6 @@ module Journals
       predecessor.user_id == user.id
     end
 
-    # TODO: check if this can be removed
-    # also check for the event and what it effects
-    def notify_aggregation_destruction(predecessor, journal)
-      OpenProject::Notifications.send(OpenProject::Events::JOURNAL_AGGREGATE_BEFORE_DESTROY,
-                                      journal:,
-                                      predecessor:)
-    end
-
-    # TODO: check if this can be removed
-    def take_over_journal_details(predecessor, journal)
-      if predecessor.notes.present?
-        journal.update_columns(notes: predecessor.notes, version: predecessor.version)
-      else
-        journal.update_columns(version: predecessor.version)
-      end
-    end
-
     def log_journal_creation(predecessor)
       if predecessor
         Rails.logger.debug { "Aggregating journal #{predecessor.id} for #{journable_type} ##{journable.id}" }
