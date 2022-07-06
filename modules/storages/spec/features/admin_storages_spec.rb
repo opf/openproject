@@ -166,7 +166,7 @@ describe 'Admin storages', :storage_server_helpers, with_flag: { storages_module
     page.find('[data-qa-selector="op-menu--item-action"]', text: 'Authentication').click
     page.find('[data-qa-selector="op-menu--item-action"]', text: 'OAuth applications').click
     expect(page).to have_text("Other NC (#{storage_type})")
-    expect(page).not_to have_selector('a', text: 'Delete')
+    expect(page).not_to have_link('Delete')
 
     # Editing oauth app opens storage edit controller
     page.find('a', text: 'Edit').click
