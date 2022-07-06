@@ -64,6 +64,18 @@ module ScheduleHelpers
       @first_day ||= monday
     end
 
+    def validate
+      work_packages.each_key do |follower|
+        predecessors_by_follower(follower).each do |predecessor|
+          if !work_packages.has_key?(predecessor)
+            raise "unable to find predecessor #{predecessor.inspect} " \
+                  "in property \"follows #{predecessor}\" " \
+                  "for work package #{follower.inspect}"
+          end
+        end
+      end
+    end
+
     def work_packages
       @work_packages ||= {}
     end
@@ -165,6 +177,7 @@ module ScheduleHelpers
       lines.each do |line|
         parse_line(line)
       end
+      chart.validate
       chart
     end
 
@@ -206,13 +219,11 @@ module ScheduleHelpers
     def parse_properties(name, property)
       case property
       when /^follows (\w+)(?: with delay (\d+))?/
-        predecessor = $1.to_sym
-        delay = $2.to_i
-        if !chart.work_packages.has_key?(predecessor)
-          raise "unable to find work package #{predecessor.inspect} in property #{property.inspect} for line #{name.inspect}"
-        end
-
-        chart.add_follows_relation(predecessor:, follower: name.to_sym, delay:)
+        chart.add_follows_relation(
+          predecessor: $1.to_sym,
+          follower: name.to_sym,
+          delay: $2.to_i
+        )
       else
         raise "unable to parse property #{property.inspect} for line #{name.inspect}"
       end

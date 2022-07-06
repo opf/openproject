@@ -153,6 +153,16 @@ describe ScheduleHelpers do
           expect(chart.predecessors_by_follower(:follower)).to eq([:main])
           expect(chart.delay_between(predecessor: :main, follower: :follower)).to eq(0)
         end
+
+        it 'can be declared in any order' do
+          chart = builder.parse(<<~CHART)
+            days       | MTWTFSS   |
+            follower   |           | follows main
+            main       |           |
+          CHART
+          expect(chart.predecessors_by_follower(:follower)).to eq([:main])
+          expect(chart.delay_between(predecessor: :main, follower: :follower)).to eq(0)
+        end
       end
 
       describe 'follows <name> with delay <n>' do
@@ -175,7 +185,7 @@ describe ScheduleHelpers do
                       | MTWTFSS |
             follower  |   XX    | follows main
           CHART
-        end.to raise_error(RuntimeError, /unable to find work package :main in property "follows main" for line "follower"/)
+        end.to raise_error(RuntimeError, /unable to find predecessor :main in property "follows main" for work package :follower/)
       end
     end
   end
