@@ -98,4 +98,24 @@ describe Queries::Copy::FiltersMapper do
       end
     end
   end
+
+  describe 'with a symbolized filter hash array' do
+    let(:filters) do
+      [
+        { parent: { operator: '=', values: ['1'] } }
+      ]
+    end
+
+    context 'when mapping state exists' do
+      before do
+        state.work_package_id_lookup = { 1 => 11 }
+        state.category_id_lookup = { 2 => 22 }
+        state.version_id_lookup = { 3 => 33 }
+      end
+
+      it 'maps the filters' do
+        expect(subject[0]['parent']['values']).to eq(['11'])
+      end
+    end
+  end
 end
