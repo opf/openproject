@@ -110,7 +110,7 @@ The steps for this option is as follows:
 ## Problems with the migration?
 
 
-Please let us know if you have any questions regarding this upgrade path. Reach out to us [through our contact data or form on our website](https://www.openproject.org/contact-us/) with feedback and issues you experienced.
+Please let us know if you have any questions regarding this upgrade path. Reach out to us [through our contact data or form on our website](https://www.openproject.org/contact/) with feedback and issues you experienced.
 
 We're very interested in providing a smooth upgrade at all times, and would like to document issues you experience during the upgrade.
 
