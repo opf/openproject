@@ -48,6 +48,10 @@ module WorkPackages
         current - previous
       end
 
+      def working?(_date)
+        true
+      end
+
       private
 
       def no_duration

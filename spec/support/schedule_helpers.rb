@@ -49,19 +49,28 @@ module ScheduleHelpers
   # * +_+: ignored but useful as a placeholder to highlight particular days, for
   #   instance to highlight the previous dates of a work package.
   class Chart
-    attr_writer :first_day
+    attr_reader :first_day, :last_day, :monday
 
     def self.for(representation)
       builder = ChartBuilder.new
       builder.parse(representation)
     end
 
-    def initialize
-      @monday = next_monday
+    def self.from_work_packages(work_packages)
+      ChartBuilder.new.use_work_packages(Array(work_packages))
     end
 
-    def first_day
-      @first_day ||= monday
+    def initialize
+      self.monday = next_monday
+    end
+
+    # Sets the origin of the calendar, represented by +M+ on the first line (M as
+    # in Monday).
+    def monday=(monday)
+      raise ArgumentError, "#{monday} is not a Monday" unless monday.wday == 1
+
+      extend_calendar_range(monday, monday + 6.days)
+      @monday = monday
     end
 
     def validate
@@ -95,6 +104,7 @@ module ScheduleHelpers
 
     def add_work_package(attributes)
       name = attributes[:subject].to_sym
+      extend_calendar_range(*attributes.values_at(:start_date, :due_date))
       work_packages[name] = attributes
     end
 
@@ -103,42 +113,47 @@ module ScheduleHelpers
       delays_between[[predecessor, follower]] = delay
     end
 
-    # Returns the date for the Monday represented on the chart.
-    def monday
-      @monday
-    end
-
-    # Returns the date for the Tuesday represented on the chart.
-    def tuesday
-      monday + 1.day
-    end
-
-    # Returns the date for the Wednesday represented on the chart.
-    def wednesday
-      monday + 2.days
-    end
-
-    # Returns the date for the Thursday represented on the chart.
-    def thursday
-      monday + 3.days
-    end
-
-    # Returns the date for the Friday represented on the chart.
-    def friday
-      monday + 4.days
-    end
-
-    # Returns the date for the Saturday represented on the chart.
-    def saturday
-      monday + 5.days
-    end
-
-    # Returns the date for the Sunday represented on the chart.
-    def sunday
-      monday + 6.days
+    def to_s
+      representer = ChartRepresenter.new
+      representer.add_row
+      representer.add_cell('days')
+      representer.add_cell(spaced_at(monday, 'MTWTFSS'))
+      work_packages.each do |name, attributes|
+        representer.add_row
+        representer.add_cell(name.to_s)
+        representer.add_cell(span(attributes))
+      end
+      representer.to_s
     end
 
     private
+
+    def extend_calendar_range(*dates)
+      @first_day = [@first_day, *dates].compact.min
+      @last_day = [@last_day, *dates].compact.max
+    end
+
+    def spaced_at(date, text)
+      nb_days = date - first_day
+      (" " * nb_days) + text
+    end
+
+    def span(attributes)
+      case attributes
+      in { start_date: nil, due_date: nil }
+        ''
+      in { start_date:, due_date: nil }
+        spaced_at(start_date, '[')
+      in { start_date: nil, due_date: }
+        spaced_at(due_date, ']')
+      in { start_date:, due_date: }
+        days = WorkPackages::Shared::WorkingDays.new
+        span = (start_date..due_date).map do |date|
+          days.working?(date) ? 'X' : '.'
+        end.join
+        spaced_at(start_date, span)
+      end
+    end
 
     def next_monday
       date = Time.zone.today
@@ -148,6 +163,37 @@ module ScheduleHelpers
 
     def delays_between
       @delays_between ||= Hash.new(0)
+    end
+  end
+
+  class ChartRepresenter
+    LINE = "%<id>s | %<days>s |".freeze
+
+    def add_row
+      rows << []
+    end
+
+    def add_cell(text)
+      rows.last << text
+    end
+
+    def rows
+      @rows ||= []
+    end
+
+    def to_s
+      line_template = "%<id>-#{columns_size[0]}s | %<days>-#{columns_size[1]}s |"
+      rows.map do |row|
+        line_template % { id: row[0], days: row[1] }
+      end.join("\n")
+    end
+
+    def columns
+      rows.transpose
+    end
+
+    def columns_size
+      columns.map { |column| column.map(&:length).max }
     end
   end
 
@@ -181,6 +227,13 @@ module ScheduleHelpers
       chart
     end
 
+    def use_work_packages(work_packages)
+      work_packages.each do |work_package|
+        chart.add_work_package(work_package.slice(:subject, :start_date, :due_date))
+      end
+      chart
+    end
+
     private
 
     def parse_header(header)
@@ -189,8 +242,7 @@ module ScheduleHelpers
         raise ArgumentError, "First header line of schedule chart must contain MTWTFSS to indicate day names and have an origin"
       end
 
-      nb_days_from_monday = week_days.index('M')
-      chart.first_day = chart.monday - nb_days_from_monday.days
+      @nb_days_from_origin_monday = week_days.index('M')
     end
 
     def parse_line(line)
@@ -233,8 +285,8 @@ module ScheduleHelpers
       start_pos = timespan.index('[') || timespan.index('X')
       due_pos = timespan.rindex(']') || timespan.rindex('X')
       {
-        start_date: start_pos && (chart.first_day + start_pos),
-        due_date: due_pos && (chart.first_day + due_pos)
+        start_date: start_pos && (chart.monday - @nb_days_from_origin_monday + start_pos),
+        due_date: due_pos && (chart.monday - @nb_days_from_origin_monday + due_pos)
       }
     end
 
@@ -399,4 +451,20 @@ end
 RSpec.configure do |config|
   config.extend ScheduleHelpers::LetSchedule
   config.include ScheduleHelpers::ExampleMethods
+
+  RSpec::Matchers.define :match_schedule do |expected|
+    match do |actual_work_packages|
+      expected_chart = ScheduleHelpers::Chart.for(expected)
+      @expected = expected_chart.to_s # normalize expected
+
+      actual_chart = ScheduleHelpers::Chart.from_work_packages(actual_work_packages)
+      actual_chart.monday = expected_chart.monday
+      @actual = actual_chart.to_s
+
+      values_match? @expected, @actual
+    end
+
+    diffable
+    attr_reader :expected, :actual
+  end
 end

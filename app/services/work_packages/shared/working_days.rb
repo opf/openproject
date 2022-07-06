@@ -70,14 +70,14 @@ module WorkPackages
         delta
       end
 
+      def working?(date)
+        working_week_day?(date) && working_specific_date?(date)
+      end
+
       private
 
       def no_duration
         OpenProject::FeatureDecisions.work_packages_duration_field_active? ? nil : 1
-      end
-
-      def working?(date)
-        working_week_day?(date) && working_specific_date?(date)
       end
 
       def working_week_day?(date)

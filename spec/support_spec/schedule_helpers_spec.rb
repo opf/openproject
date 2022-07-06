@@ -50,21 +50,134 @@ describe ScheduleHelpers do
     end
 
     describe '#first_day' do
-      it 'returns the first day represented on the graph, which is next monday by default' do
-        expect(chart.first_day).to eq(monday)
+      context 'without work packages' do
+        it 'returns the first day represented on the graph, which is next Monday' do
+          expect(chart.first_day).to eq(monday)
+        end
       end
 
-      it 'can be set' do
-        chart.first_day = fake_today
-        expect(chart.first_day).to eq(fake_today)
+      context 'with work packages' do
+        it 'returns the minimum between work packages dates and origin Monday' do
+          expect(chart.first_day).to eq(monday)
+
+          chart.add_work_package(subject: 'wp1', start_date: tuesday)
+          expect(chart.first_day).to eq(monday)
+
+          chart.add_work_package(subject: 'wp2', start_date: monday - 3.days)
+          expect(chart.first_day).to eq(monday - 3.days)
+
+          chart.add_work_package(subject: 'wp3', start_date: sunday)
+          expect(chart.first_day).to eq(monday - 3.days)
+
+          chart.add_work_package(subject: 'wp4', due_date: monday - 6.days)
+          expect(chart.first_day).to eq(monday - 6.days)
+        end
+      end
+
+      it 'can be set to an earlier date by setting the origin monday to an earlier date' do
+        expect(chart.first_day).to eq(monday)
+
+        # no change when origin is moved forward
+        expect { chart.monday = monday + 14.days }
+          .not_to change(chart, :first_day)
+
+        # change when origin is moved backward
+        expect { chart.monday = monday - 14.days }
+          .to change(chart, :first_day).to(monday - 14.days)
       end
     end
 
-    %i[monday tuesday wednesday thursday friday saturday sunday].each do |day_name|
-      describe "##{day_name}" do
-        it "returns the #{day_name} of the week represented on the chart" do
-          expected_date = send(day_name)
-          expect(chart.send(day_name)).to eq(expected_date)
+    describe '#last_day' do
+      context 'without work packages' do
+        it 'returns the last day represented on the graph, which is the Sunday following origin Monday' do
+          expect(chart.last_day).to eq(sunday)
+        end
+      end
+
+      context 'with work packages' do
+        it 'returns the maximum between work packages dates and the Sunday following origin Monday' do
+          expect(chart.last_day).to eq(sunday)
+
+          chart.add_work_package(subject: 'wp1', due_date: tuesday + 7.days)
+          expect(chart.last_day).to eq(tuesday + 7.days)
+
+          chart.add_work_package(subject: 'wp2', start_date: monday - 3.days)
+          expect(chart.last_day).to eq(tuesday + 7.days)
+
+          chart.add_work_package(subject: 'wp3', start_date: monday + 20.days)
+          expect(chart.last_day).to eq(monday + 20.days)
+        end
+      end
+
+      it 'can be set to an later date by setting the origin Monday to a later date' do
+        expect(chart.last_day).to eq(sunday)
+
+        # no change when origin is moved backward
+        expect { chart.monday = monday - 14.days }
+          .not_to change(chart, :last_day)
+
+        # change when origin is moved forward
+        expect { chart.monday = monday + 14.days }
+          .to change(chart, :last_day).to(sunday + 14.days)
+      end
+    end
+
+    describe '#to_s' do
+      let!(:week_days) { create(:week_days) }
+
+      context 'with a chart built from ascii representation' do
+        let(:chart) do
+          ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)
+            days       |    MTWTFSS  |
+            main       | X..X        |
+            other      |      XXX..X |
+            follower   |     XXX     | follows main
+            start_only |    [        |
+            due_only   |       ]     |
+            no_dates   |             |
+          CHART
+        end
+
+        it 'returns the same ascii representation without properties information' do
+          expect(chart.to_s).to eq(<<~CHART.chomp)
+            days       |    MTWTFSS  |
+            main       | X..X        |
+            other      |      XXX..X |
+            follower   |     XXX     |
+            start_only |    [        |
+            due_only   |       ]     |
+            no_dates   |             |
+          CHART
+        end
+      end
+
+      context 'with a chart built from real work packages' do
+        let(:work_package1) { build_stubbed(:work_package, subject: 'main', start_date: monday, due_date: tuesday) }
+        let(:work_package2) { build_stubbed(:work_package, subject: 'other', start_date: tuesday, due_date: monday + 7.days) }
+        let(:work_package3) { build_stubbed(:work_package, subject: 'start_only', start_date: monday - 3.days) }
+        let(:work_package4) { build_stubbed(:work_package, subject: 'due_only', due_date: wednesday) }
+        let(:work_package5) { build_stubbed(:work_package, subject: 'no_dates') }
+        let(:chart) do
+          ScheduleHelpers::ChartBuilder.new.use_work_packages(
+            [
+              work_package1,
+              work_package2,
+              work_package3,
+              work_package4,
+              work_package5
+            ]
+          )
+        end
+
+        it 'returns the same ascii representation without properties information' do
+          expect(chart.to_s).to eq(<<~CHART.chomp)
+            days       |    MTWTFSS  |
+            main       |    XX       |
+            other      |     XXXX..X |
+            start_only | [           |
+            due_only   |      ]      |
+            no_dates   |             |
+          CHART
         end
       end
     end
@@ -119,26 +232,13 @@ describe ScheduleHelpers do
         expect(chart.monday).to eq(chart.first_day)
       end
 
-      it 'defines the first day by the number of characters separating the M from the cell left border' do
-        chart = builder.parse(<<~CHART)
-          days       | 12MTWTFSS |
-        CHART
-        expect(chart.monday).to eq(monday)
-        expect(chart.first_day).to eq(chart.monday - 2.days)
-
-        chart = builder.parse(<<~CHART)
-          days       | 123456789MTWTFSS |
-        CHART
-        expect(chart.monday).to eq(monday)
-        expect(chart.first_day).to eq(chart.monday - 9.days)
-      end
-
       it 'is not identified by mtwtfss which can be used as documentation instead' do
         chart = builder.parse(<<~CHART)
-          days       | mtwtfssMTWTFSSmtwtfss |
+          days | mtwtfssMTWTFSSmtwtfss |
+          wp   |   X                   |
         CHART
         expect(chart.monday).to eq(monday)
-        expect(chart.monday).to eq(chart.first_day + 7.days)
+        expect(chart.first_day).to eq(chart.work_packages.dig(:wp, :start_date))
       end
     end
 
@@ -208,12 +308,12 @@ describe ScheduleHelpers do
       expect(main).to have_attributes(
         subject: 'main',
         start_date: schedule_chart.monday,
-        due_date: schedule_chart.tuesday
+        due_date: schedule_chart.monday + 1.day
       )
       expect(follower).to have_attributes(
         subject: 'follower',
-        start_date: schedule_chart.wednesday,
-        due_date: schedule_chart.friday
+        start_date: schedule_chart.monday + 2.days,
+        due_date: schedule_chart.monday + 4.days
       )
     end
 
