@@ -242,12 +242,6 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
           window.open(this.storageLocation, '_blank');
         },
       ),
-      new StorageActionButton(
-        this.text.infoBox.emptyStorageButton,
-        () => {
-          window.open(this.storageLocation, '_blank');
-        },
-      ),
     ]);
 
     this.showInformationBox$.next(true);
