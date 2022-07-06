@@ -37,6 +37,9 @@ module OAuthClients
     attr_reader :user, :oauth_client
 
     def initialize(user:, oauth_client:)
+      raise ArgumentError, 'Missing user' if user.blank?
+      raise ArgumentError, 'Missing oauth_client' if oauth_client.blank?
+
       @user = user
       @oauth_client = oauth_client
     end
@@ -112,7 +115,7 @@ module OAuthClients
     # other options.
     def authorization_state
       oauth_client_token = get_existing_token
-      return :failed_authorization unless oauth_client_token
+      return :failed_authorization if oauth_client_token.blank?
 
       # Check for user information. This is the cheapest Nextcloud call that requires
       # valid authentication, so we use it for testing the validity of the Bearer token.
@@ -172,7 +175,7 @@ module OAuthClients
     # Don't handle the case of an expired token.
     def get_existing_token
       # Check if we've got a token in the database and return nil otherwise.
-      OAuthClientToken.find_by(user_id: @user, oauth_client_id: @oauth_client.id)
+      OAuthClientToken.find_by(user: @user, oauth_client: @oauth_client)
     end
 
     # Calls client.access_token!

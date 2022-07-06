@@ -65,23 +65,17 @@ module API
                                         .where(container_id: @work_package.id, container_type: 'WorkPackage'))
                            .all
 
-            begin
-              # Synchronize with Nextcloud. StorageAPI has handled OAuth2 for us before.
-              # We ignore the result, because partial errors (storage network issues) are written to each FileLink
-              service_result = ::Storages::FileLinkSyncService
-                                 .new(user: current_user)
-                                 .call(file_links)
+            # Synchronize with Nextcloud. StorageAPI has handled OAuth2 for us before.
+            # We ignore the result, because partial errors (storage network issues) are written to each FileLink
+            service_result = ::Storages::FileLinkSyncService
+                               .new(user: current_user)
+                               .call(file_links)
 
-              ::API::V3::FileLinks::FileLinkCollectionRepresenter.new(
-                service_result.result,
-                self_link: api_v3_paths.file_links(@work_package.id),
-                current_user:
-              )
-            rescue StandardError => e
-              # Example case: invalid oauth_client for storage raises invalid operation => 500
-              message = "#{I18n.t('api_v3.errors.code_500')}: #{e.message}"
-              raise ::API::Errors::InternalError.new(message)
-            end
+            ::API::V3::FileLinks::FileLinkCollectionRepresenter.new(
+              service_result.result,
+              self_link: api_v3_paths.file_links(@work_package.id),
+              current_user:
+            )
           end
 
           post &CreateEndpoint
