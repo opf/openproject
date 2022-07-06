@@ -137,7 +137,7 @@ class WorkPackages::SetScheduleService
     elsif !scheduled.start_date && min_start_date
       schedule_on_missing_dates(scheduled, min_start_date)
     elsif !delta.zero?
-      reschedule_by_delta(scheduled, delta, min_start_date)
+      reschedule_by_delta(scheduled, delta, min_start_date, dependency)
     end
   end
 
@@ -155,9 +155,12 @@ class WorkPackages::SetScheduleService
               scheduled.due_date && scheduled.due_date < min_start_date ? min_start_date : scheduled.due_date)
   end
 
-  def reschedule_by_delta(scheduled, delta, min_start_date)
-    moved_delta = min_start_date - (scheduled.start_date || min_start_date)
-    required_delta = [moved_delta, [delta, 0].min].max
+  def reschedule_by_delta(scheduled, moved_delta, min_start_date, dependency)
+    days = WorkPackages::Shared::Days.for(dependency.work_package)
+
+    # TODO: can it be moved to dependency?
+    min_start_delta = days.delta(previous: scheduled.start_date || min_start_date, current: min_start_date)
+    required_delta = [min_start_delta, [moved_delta, 0].min].max
 
     new_start_date = WorkPackages::Shared::Days.for(scheduled).add_days(scheduled.start_date, required_delta)
     new_due_date = WorkPackages::Shared::Days.for(scheduled).add_days(scheduled.due_date, required_delta) if scheduled.due_date

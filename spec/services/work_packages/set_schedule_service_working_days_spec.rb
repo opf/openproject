@@ -280,7 +280,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
         let_schedule(<<~CHART, ignore_non_working_days: false)
           days          | MTWTFSS |
           work_package  | X       |
-          follower      |    XX     | follows work_package
+          follower      |  XX     | follows work_package
         CHART
 
         before do
@@ -290,20 +290,20 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
           CHART
         end
 
-        it 'reschedules the follower to move by the same delta' do
+        it 'reschedules the follower to move by the same delta of working days' do
           expect_schedule(subject.all_results, <<~CHART)
             days          | mtwtfssmtwtfssMTWTFSS |
             work_package  |  X                    |
-            follower      |     X..X              |
+            follower      |   XX                  |
           CHART
         end
       end
 
-      context 'on a day in the middle on working days with the follower having no due date' do
+      context 'on a day before non-working days the follower having space between' do
         let_schedule(<<~CHART, ignore_non_working_days: false)
           days          | MTWTFSS   |
           work_package  | X         |
-          follower      |     [     | follows work_package
+          follower      |     X     | follows work_package
         CHART
 
         before do
@@ -313,29 +313,39 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
           CHART
         end
 
-        it 'reschedules follower to start the next day after its predecessor due date' do
+        it 'reschedules follower to move backward by the same delta of working days' do
           expect_schedule(subject.all_results, <<~CHART)
                           |    MTWTFSS   |
             work_package  | X            |
-            follower      |       [      |
+            follower      |       X      |
+          CHART
+        end
+      end
+
+      context 'with the follower having another relation limiting movement' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days          | mtwtfssmtwtfssMTWTFSS |
+          work_package  |               X       |
+          follower      |                XX     | follows work_package, follows annoyer with delay 2
+          annoyer       |    XX..XX             |
+        CHART
+
+        before do
+          change_schedule([work_package], <<~CHART)
+            days          | mtwtfssmtwtfssMTWTFSS |
+            work_package  |  X            _       |
+          CHART
+        end
+
+        it 'reschedules follower to move backward but not earlier than the other relation soonest start date' do
+          expect_schedule(subject.all_results, <<~CHART)
+            days          | mtwtfssmtwtfssMTWTFSS |
+            work_package  |  X                    |
+            follower      |            X..X       |
           CHART
         end
       end
     end
-    #   context 'when moving backwards with space between' do
-    #     let(:follower1_start_date) { Time.zone.today + 3.days }
-    #     let(:follower1_due_date) { Time.zone.today + 5.days }
-
-    #     before do
-    #       work_package.due_date = Time.zone.today - 5.days
-    #     end
-
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         { following_work_package1 => [Time.zone.today - 2.days, Time.zone.today] }
-    #       end
-    #     end
-    #   end
 
     #   context 'when moving backwards with the follower having another relation limiting movement' do
     #     let!(:other_work_package) do
