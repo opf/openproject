@@ -106,6 +106,26 @@ describe LdapGroups::SynchronizedGroup, type: :model do
           let(:members) { group.users.pluck(:id) }
         end
       end
+
+      context 'when the service call fails for any reason' do
+        let(:service) { instance_double(::Groups::UpdateService) }
+        let(:failure_result) { ServiceResult.new(success: false, message: 'oh noes') }
+
+        it 'does not commit the changes' do
+          allow(::Groups::UpdateService).to receive(:new).and_return(service)
+          allow(service).to receive(:call).and_return(failure_result)
+
+          user_ids = synchronized_group.users.pluck(:id)
+
+          expect(user_ids.count).to eq 2
+
+          expect { synchronized_group.remove_members! user_ids }.not_to raise_error
+
+          synchronized_group.reload
+
+          expect(synchronized_group.users.pluck(:id)).to match_array(user_ids)
+        end
+      end
     end
   end
 end
