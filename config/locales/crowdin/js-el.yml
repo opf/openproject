@@ -468,10 +468,10 @@ el:
     label_unwatch: "Αναίρεση παρακολούθησης"
     label_unwatch_work_package: "Αναίρεση παρακολούθησης πακέτου εργασίας"
     label_uploaded_by: "Μεταφορτώθηκε από"
-    label_default_queries: "Προεπιλεγμένες προβολές"
-    label_starred_queries: "Αγαπημένες προβολές"
-    label_global_queries: "Δημόσιες προβολές"
-    label_custom_queries: "Ιδιωτικές προβολές"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Στήλες"
     label_attachments: Συνημμένα
     label_nextcloud: Nextcloud
@@ -1046,10 +1046,7 @@ el:
       filter: "Φίλτρο"
       unselected_title: "Εργασία"
       search_query_label: "Αναζήτηση αποθηκευμένων προβολών"
-      search_query_title: "Πατήστε για να αναζητήσετε τις αποθηκευμένες προβολές"
-      placeholder_query_title: "Ορίστε έναν τίτλο για αυτή την προβολή"
     modals:
-      label_settings: "Μετονομασία προβολής"
       label_name: "Όνομα"
       label_delete_page: "Διαγραφή της τρέχουσας σελίδας"
       button_apply: "Εφαρμογή"
@@ -1204,6 +1201,7 @@ el:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Η φόρμα υποβλήθηκε με επιτυχία'
       load_error_message: 'There was an error loading the form'

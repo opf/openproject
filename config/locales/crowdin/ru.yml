@@ -48,9 +48,9 @@ ru:
         main-menu-hover-font-color: "Шрифт главного меню при наведении"
         main-menu-border-color: "Граница главного меню"
       custom_colors: "Настроить цвета"
-      customize: "Customize your OpenProject installation with your own logo and colors."
+      customize: "Настройте свой OpenProject своими логотипом и цветами."
       enterprise_notice: "Отдельное \"Спасибо!\" за их финансовый вклад в развитие OpenProject, эта маленькая Функция доступна только для абонентов корпоративной версии."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
+      enterprise_more_info: "Примечание: используемый логотип будет общедоступным."
       manage_colors: "Изменить цвет выбранных опций"
       instructions:
         alternative-color: "Яркий контрастный цвет, который обычно используют для важных кнопок на экране."
@@ -77,7 +77,7 @@ ru:
       buttons:
         upgrade: "Обновить сейчас"
         contact: "Свяжитесь с нами для опробирования"
-        more_info: "More information"
+        more_info: "Больше информации"
       enterprise_info_html: "является функцией <strong class='icon-medal'></strong> корпоративной версии."
       upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
     journal_aggregation:
@@ -172,7 +172,7 @@ ru:
     execute: 'Выполнить %{name}'
     upsale:
       title: 'Настраиваемые действия'
-      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
+      description: 'Пользовательские действия сводятся к одному клику по ярлыку набора заранее определенных действий, которые вы можете сделать доступными для определенных пакетов работ на основе статуса, роли, типа или проекта.'
   custom_fields:
     text_add_new_custom_field: >
       Прежде чем добавлять настраиваемые поля в проект, нужно создать их.
@@ -272,7 +272,7 @@ ru:
     upsale:
       title: Пользователи-заполнители
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Пользователи Placeholder - это способ назначить пакеты работ пользователям, которые не являются частью вашего проекта. Они могут быть полезными в различных сценариях; например, если вам нужно отслеживать задачи для ресурса, который еще не назван или недоступен или если вы не хотите дать этому человеку доступ к OpenProject, но по-прежнему хотите отслеживать назначенные ему задачи.
   prioritiies:
     edit:
       priority_color_text: |
@@ -303,7 +303,7 @@ ru:
       settings: "Параметры"
       form_configuration: "Настройка форм"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Корпоративная редакция позволяет настроить конфигурацию форм с этими дополнительными возможностями: <br> <ul class="%{list_styling_class}"> <li><b>Добавить новые группы атрибутов</b></li> <li><b>Переименовать группы атрибутов</b></li> </ul>
       projects: "Проекты"
       enabled_projects: "Доступные проекты"
       edit_query: "Изменить таблицу"
@@ -3112,8 +3112,8 @@ ru:
         invalid_scope: "Вам не разрешён доступ к запрошенному ресурсу (invalid_scope)."
   http:
     request:
-      failed_authorization: "The server side request failed authorizing itself."
-      missing_authorization: "The server side request failed due to missing authorization information."
+      failed_authorization: "Запрос стороны сервера не смог авторизоваться."
+      missing_authorization: "Запрос на стороне сервера не удался из-за отсутствия информации о авторизации."
     response:
-      unexpected: "Unexpected response received."
+      unexpected: "Получен неожиданный ответ."
   you: вы

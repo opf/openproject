@@ -230,7 +230,7 @@ ru:
             professional_support: "Профессиональная поддержка"
             professional_support_text: "Получите качественную и оперативную поддержку наших экспертов по применению OpenProject в условиях, отвечающих требованиям бизнеса."
           button_start_trial: "Воспользоваться бесплатной пробной версией"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "Обновить сейчас"
           button_book_now: "Забронировать сейчас"
           confidence: >
             Мы предлагаем надежное и проверенное временем программное решение корпоративного уровня для управления проектами, в котором открытый исходный код сочетается с открытостью к новым идеям.
@@ -267,8 +267,8 @@ ru:
           one: "Первый критерий сортировки"
           two: "Второй критерий сортировки"
           three: "Третий критерий сортировки"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Расширенные фильтры позволяют использовать в качестве фильтра практически любой атрибут пакета работ. Пожалуйста, обновитесь до платной версии, чтобы использовать эту функцию."
+      more_info: "Больше информации"
       upsale_link: 'Корпоративная версия.'
     general_text_no: "нет"
     general_text_yes: "Да"
@@ -332,7 +332,7 @@ ru:
     label_description: "Описание"
     label_details: "Детали"
     label_display: "Отображение"
-    label_download_file: "Download %{fileName}"
+    label_download_file: "Скачать %{fileName}"
     label_cancel_comment: "Отменить комментарий"
     label_closed_work_packages: "закрыт"
     label_collapse: "свернуть"
@@ -468,10 +468,10 @@ ru:
     label_unwatch: "Прекратить наблюдение"
     label_unwatch_work_package: "Прекратить наблюдение за пакетом работ"
     label_uploaded_by: "Загружено"
-    label_default_queries: "Представления по умолчанию"
-    label_starred_queries: "Избранные представления"
-    label_global_queries: "Публичные представления"
-    label_custom_queries: "Приватные представления"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Столбцы"
     label_attachments: Вложения
     label_nextcloud: Nextcloud
@@ -827,7 +827,7 @@ ru:
       zooms: "Масштаб"
       outlines: "Уровень иерархии"
     upsale:
-      ee_only: 'Enterprise Edition feature'
+      ee_only: 'Этот функционал только в корпоративной версии'
     wiki_formatting:
       strong: "Жирный"
       italic: "Наклонный"
@@ -1015,7 +1015,7 @@ ru:
           attribute_highlighting: 'Хотите выделить некоторые пакеты работ из общей массы?'
           relation_columns: 'Нужно видеть отношения в списке пакетов работ?'
           check_out_link: 'Проверьте корпоративную версию.'
-          more-info-text: 'More information'
+          more-info-text: 'Больше информации'
         relation_filters:
           filter_work_packages_by_relation_type: 'Фильтр пакета работ по типу отношения'
       tabs:
@@ -1048,10 +1048,7 @@ ru:
       filter: "Фильтр"
       unselected_title: "Пакет работ"
       search_query_label: "Найти сохраненные представления"
-      search_query_title: "Кликните для поиска сохраненных представлений"
-      placeholder_query_title: "Задать заголовок для этого представления"
     modals:
-      label_settings: "Переименовать представления"
       label_name: "Имя"
       label_delete_page: "Удалить текущую страницу"
       button_apply: "Применить"
@@ -1210,6 +1207,7 @@ ru:
       tooltip:
         include_all_selected: 'Включить все выбранные подпроекты.'
         current_project: 'Это текущий проект, в котором вы находитесь.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Форма успешно отправлена'
       load_error_message: 'Произошла ошибка при загрузке формы'

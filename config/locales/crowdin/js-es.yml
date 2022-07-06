@@ -469,10 +469,10 @@ es:
     label_unwatch: "Dejar de observar"
     label_unwatch_work_package: "Dejar de observar paquetes de trabajo"
     label_uploaded_by: "Cargado por"
-    label_default_queries: "Vistas predeterminadas"
-    label_starred_queries: "Vistas favoritas"
-    label_global_queries: "Vistas públicas"
-    label_custom_queries: "Vistas privadas"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Columnas"
     label_attachments: Archivos adjuntos
     label_nextcloud: Nextcloud
@@ -1047,10 +1047,7 @@ es:
       filter: "Filtro"
       unselected_title: "Paquete de trabajo"
       search_query_label: "Buscar vistas guardadas"
-      search_query_title: "Haga clic para buscar las vistas guardadas"
-      placeholder_query_title: "Establecer un título para esta vista"
     modals:
-      label_settings: "Cambiar nombre de vista"
       label_name: "Nombre"
       label_delete_page: "Borrar página actual"
       button_apply: "Aplicar"
@@ -1205,6 +1202,7 @@ es:
       tooltip:
         include_all_selected: 'Está seleccionada la opción para incluir todos los subproyectos.'
         current_project: 'Este es el proyecto actual.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'El formulario se envió correctamente'
       load_error_message: 'Se produjo un error al cargar el formulario'

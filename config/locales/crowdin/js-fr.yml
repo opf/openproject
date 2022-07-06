@@ -469,10 +469,10 @@ fr:
     label_unwatch: "Ne plus suivre"
     label_unwatch_work_package: "Ne plus suivre le lot de travaux"
     label_uploaded_by: "Téléversé par"
-    label_default_queries: "Vues par défaut"
-    label_starred_queries: "Vue préférées"
-    label_global_queries: "Vues publiques"
-    label_custom_queries: "Vues privées"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Colonnes"
     label_attachments: Fichiers
     label_nextcloud: Nextcloud
@@ -1047,10 +1047,7 @@ fr:
       filter: "Filtrer"
       unselected_title: "Lot de travaux"
       search_query_label: "Rechercher les vues enregistrées"
-      search_query_title: "Cliquez pour chercher les vues enregistrées"
-      placeholder_query_title: "Définir un titre pour cette vue"
     modals:
-      label_settings: "Renommer la vue"
       label_name: "Nom"
       label_delete_page: "Effacer la page en cours"
       button_apply: "Appliquer"
@@ -1205,6 +1202,7 @@ fr:
       tooltip:
         include_all_selected: 'Inclure tous les sous-projets est actuellement sélectionné.'
         current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Le formulaire a bien été envoyé'
       load_error_message: 'Une erreur s''est produite lors du chargement du formulaire'

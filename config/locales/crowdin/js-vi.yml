@@ -468,10 +468,10 @@ vi:
     label_unwatch: "Ngừng theo dõi"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
-    label_default_queries: "Giao diện Mặc định"
-    label_starred_queries: "Mục xem ưa thích"
-    label_global_queries: "Mục xem công khai"
-    label_custom_queries: "Mục xem riêng"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Cột"
     label_attachments: Đính kèm
     label_nextcloud: Nextcloud
@@ -1045,10 +1045,7 @@ vi:
       filter: "Bộ lọc"
       unselected_title: "Work Package"
       search_query_label: "Tìm trang đã lưu"
-      search_query_title: "Nhấn vào đây để tìm kiếm trang đã lưu"
-      placeholder_query_title: "Thiết lập một tiêu đề cho trang này"
     modals:
-      label_settings: "Đổi tên trang"
       label_name: "Tên"
       label_delete_page: "Xóa trang hiện tại"
       button_apply: "Áp dụng"
@@ -1201,6 +1198,7 @@ vi:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Form đã được gửi thành công'
       load_error_message: 'Đã có lỗi trong khi tải form'

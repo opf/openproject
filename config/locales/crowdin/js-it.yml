@@ -471,10 +471,10 @@ it:
     label_unwatch: "Smetti di Osservare"
     label_unwatch_work_package: "Smetti di osservare macro-attività"
     label_uploaded_by: "Caricato da"
-    label_default_queries: "Viste predefinite"
-    label_starred_queries: "Viste preferite"
-    label_global_queries: "Viste pubbliche"
-    label_custom_queries: "Viste private"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Colonne"
     label_attachments: Allegati
     label_nextcloud: Nextcloud
@@ -1049,10 +1049,7 @@ it:
       filter: "Filtro"
       unselected_title: "Macro-attività"
       search_query_label: "Ricerca viste memorizzate"
-      search_query_title: "Clicca per cercare nelle viste salvate"
-      placeholder_query_title: "Imposta un titolo per questa vista"
     modals:
-      label_settings: "Rinomina vista"
       label_name: "Nome"
       label_delete_page: "Elimina pagina corrente"
       button_apply: "Applica"
@@ -1207,6 +1204,7 @@ it:
       tooltip:
         include_all_selected: 'Includi tutti i sotto-progetti attualmente selezionati.'
         current_project: 'Questo è il progetto corrente in cui ti trovi.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Il modulo è stato inviato correttamente'
       load_error_message: 'Si è verificato un errore caricando il modulo'

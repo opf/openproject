@@ -469,10 +469,10 @@ cs:
     label_unwatch: "Přestat sledovat"
     label_unwatch_work_package: "Přestat sledovat pracovní balíček"
     label_uploaded_by: "Nahrál"
-    label_default_queries: "Výchozí zobrazení"
-    label_starred_queries: "Oblíbená zobrazení"
-    label_global_queries: "Veřejné zobrazení"
-    label_custom_queries: "Soukromé zobrazení"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Sloupce"
     label_attachments: Přílohy
     label_nextcloud: Nextcloud
@@ -1049,10 +1049,7 @@ cs:
       filter: "Filtr"
       unselected_title: "Pracovní balíček"
       search_query_label: "Vyhledat uložené zobrazení"
-      search_query_title: "Kliknutím zahájíte vyhledávání uložených pohledů"
-      placeholder_query_title: "Nastavit titulek pro toto zobrazení"
     modals:
-      label_settings: "Přejmenovat zobrazení"
       label_name: "Název"
       label_delete_page: "Odstranit aktuální stránku"
       button_apply: "Použít"
@@ -1211,6 +1208,7 @@ cs:
       tooltip:
         include_all_selected: 'Zahrnout všechny podprojekty je zvoleno.'
         current_project: 'Toto je aktuální projekt, ve kterém se nacházíte.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Formulář byl úspěšně odeslán'
       load_error_message: 'Při načítání formuláře došlo k chybě'
