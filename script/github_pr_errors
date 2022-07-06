@@ -10,8 +10,11 @@ require 'tempfile'
 # current branch
 branch_name = `git rev-parse --abbrev-ref HEAD`.strip
 
-raise "Missing GITHUB_USERNAME env" unless ENV['GITHUB_USERNAME']
-raise "Missing GITHUB_TOKEN env" unless ENV['GITHUB_TOKEN']
+if !ENV['GITHUB_USERNAME']
+  raise "Missing GITHUB_USERNAME env"
+elsif !ENV['GITHUB_TOKEN']
+  raise "Missing GITHUB_TOKEN env, go to https://github.com/settings/tokens and create one with 'repo' access"
+end
 
 def get_http(path, json: true)
   url =
@@ -23,9 +26,9 @@ def get_http(path, json: true)
 
   response = RestClient::Request.new(
     method: :get,
-    url: url,
-    user: ENV['GITHUB_USERNAME'],
-    password: ENV['GITHUB_TOKEN']
+    url:,
+    user: ENV.fetch('GITHUB_USERNAME'),
+    password: ENV.fetch('GITHUB_TOKEN')
   ).execute
 
   if json
@@ -33,7 +36,7 @@ def get_http(path, json: true)
   else
     response.to_str
   end
-rescue => e
+rescue StandardError => e
   warn "Failed to perform API request #{url}: #{e} #{e.message}"
 end
 
@@ -42,12 +45,12 @@ warn "Looking for the last action in branch #{branch_name}"
 response = get_http "actions/runs?branch=#{CGI.escape(branch_name)}"
 
 last_test_action =
-  response
-    .dig('workflow_runs')
+  response['workflow_runs']
     .select { |entry| entry['name'] == 'Test suite' }
     .max_by { |entry| entry['run_number'] }
 
 raise "No action run found for branch #{branch_name}" unless last_test_action
+
 log_response = get_http last_test_action['logs_url'], json: false
 errors = []
 
