@@ -228,7 +228,7 @@ module Journals
           journals
         SET
           notes = :notes,
-          updated_at = #{journal_timestamp_sql(notes, ':updated_at')},
+          updated_at = #{timestamp_sql},
           data_id = insert_data.id
         FROM insert_data
         WHERE journals.id = :predecessor_id
@@ -238,7 +238,6 @@ module Journals
 
       sanitize(journal_sql,
                notes: notes.presence || predecessor.notes,
-               updated_at: journable_timestamp,
                predecessor_id: predecessor.id)
     end
 
@@ -568,8 +567,15 @@ module Journals
       if notes.blank? && journable_timestamp
         attribute
       else
-        'now()'
+        timestamp_sql
       end
+    end
+
+    def timestamp_sql
+      # Use the ruby time instead of the DB's. If those are out of sync,
+      # a journal might otherwise end up having an updated_at before created_at which
+      # will also reflect back to the journaled object.
+      "'#{Time.zone.now}'"
     end
 
     # Because we added the journal via bare metal sql, rails does not yet
