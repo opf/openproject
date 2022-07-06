@@ -49,7 +49,7 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
     create(:work_package, project:)
   end
   let(:other_user) { create(:user) }
-  let(:permissions) { %i[log_time view_work_packages] }
+  let(:permissions) { %i[log_own_time view_work_packages] }
 
   let(:path) { api_v3_paths.create_time_entry_form }
   let(:parameters) { {} }

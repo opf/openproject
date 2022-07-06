@@ -33,11 +33,20 @@ module TimeEntries
     private
 
     def user_allowed_to_add
-      if model.project &&
-        (!user.allowed_to?(:log_time, model.project) ||
-          (model.user != user && !user.allowed_to?(:log_own_time, model.project)))
-        errors.add :base, :error_unauthorized
+      if model.project && model.user
+        return if allowed_to_log_for_others?
+        return if allowed_to_log_to_himself?
       end
+
+      errors.add :base, :error_unauthorized
+    end
+
+    def allowed_to_log_for_others?
+      user.allowed_to?(:log_time, model.project)
+    end
+
+    def allowed_to_log_to_himself?
+      model.user == user && user.allowed_to?(:log_own_time, model.project)
     end
   end
 end

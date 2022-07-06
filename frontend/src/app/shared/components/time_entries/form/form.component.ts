@@ -67,8 +67,6 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
         this.untilDestroyed(),
       )
       .subscribe((changeset) => {
-        // this.availableAssigneesPath = this.apiV3Service.projects.id(changeset.project.id).available_assignees.path
-
         if (changeset && changeset.workPackage) {
           this.workPackageSelected = true;
           this.cdRef.markForCheck();
