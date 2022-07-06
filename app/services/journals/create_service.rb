@@ -50,8 +50,7 @@ module Journals
 
     def call(notes: '')
       Journal.transaction do
-        predecessor = strip_predecessor(notes)
-        journal = create_journal(predecessor, notes)
+        journal = create_journal(notes)
 
         if journal
           reload_journals
@@ -66,23 +65,20 @@ module Journals
 
     # If the journalizing happens within the configured aggregation time, is carried out by the same user
     # and only the predecessor or the journal to be created has notes, the changes are aggregated.
-    # Instead of removing the predecessor, it is stripped of all data to later be filled with the current
-    # snapshot. That way, references to the journal, including ones users have, are kept intact.
-    def strip_predecessor(notes)
+    # Instead of removing the predecessor, return it here so that it can be stripped in the journal creating
+    # SQL to than be refilled. That way, references to the journal, including ones users have, are kept intact.
+    def aggregatable_predecessor(notes)
       predecessor = journable.last_journal
 
       if aggregatable?(predecessor, notes)
-        # TODO: check if this can be moved into the joined sql
-        predecessor.data.delete
-        predecessor.customizable_journals.delete_all
-        predecessor.attachable_journals.delete_all
-
         predecessor
       end
     end
 
-    def create_journal(predecessor, notes)
-      Rails.logger.debug { "Inserting new journal for #{journable_type} ##{journable.id}" }
+    def create_journal(notes)
+      predecessor = aggregatable_predecessor(notes)
+
+      log_journal_creation(predecessor)
 
       create_sql = create_journal_sql(predecessor, notes)
 
@@ -104,10 +100,16 @@ module Journals
     # It consists of a couple of parts that are kept as individual queries (as CTEs) but
     # are all executed within a single database call.
     #
-    # The first CTEs (`max_journals`) responsibility is to fetch the latests journal and have that available for later queries
+    # The first three CTEs('cleanup_predecessor_data', 'cleanup_predecessor_attachable' and 'cleanup_predecessor_customizable')
+    # strip the information of a predecessor if one exists. If no predecessor exists, a noop SQL statement is employed instead.
+    # To strip the information from the journal, the data record (e.g. from work_packages_journals) as well as the
+    # attachment and custom value information is removed. The journal itself is kept and will later on have its
+    # updated_at and possibly its notes property updated.
+    #
+    # The next CTEs (`max_journals`) responsibility is to fetch the latests journal and have that available for later queries
     # (i.e. when determining the latest state of the journable and when getting the current version number).
     #
-    # The second CTE (`changes`) determines whether a change as occurred so that a new journal needs to be created. The next CTE,
+    # The next CTE (`changes`) determines whether a change as occurred so that a new journal needs to be created. The next CTE,
     # that will insert new data, will only do so if the changes CTE returns an entry. The only two exceptions to this check is
     # that if a note is provided or a predecessor is replaced, a journal will be created regardless of whether any changes are
     # detected. To determine whether a change is worthy of being journalized, the current and the latest journalized state are
@@ -123,11 +125,12 @@ module Journals
     # without intending to.
     #
     # Only if a change has been identified (or if a note/predecessor is present) is a journal inserted by the
-    # third CTE (`insert_journal`). Its creation timestamp will be the updated_at value of the journable as this is the
+    # next CTE (`insert_journal`). Its creation timestamp will be the updated_at value of the journable as this is the
     # logical creation time. If a note is present, however, the current time is taken as it signifies an action in itself and
     # there might not be a change at all. In such a case, the journable will later on receive the creation date of the
     # journal as its updated_at value. The update timestamp of a journable and the creation date of its most recent
-    # journal should always be in sync.
+    # journal should always be in sync. In case a predecessor is aggregated, an update of the already persisted, and
+    # stripped of its data, journal is carried out.
     #
     # Both cases (having a note or a change) can at this point be identified by a journal having been created. Therefore, the
     # return value of that insert statement is further on used to identify whether the next statements (`insert_data`,
@@ -144,7 +147,16 @@ module Journals
     # in the customizable_journals table. Again, newlines are normalized.
     def create_journal_sql(predecessor, notes)
       <<~SQL
-        WITH max_journals AS (
+        WITH cleanup_predecessor_data AS (
+          #{cleanup_predecessor_data(predecessor)}
+        ),
+        cleanup_predecessor_attachable AS (
+          #{cleanup_predecessor_attachable(predecessor)}
+        ),
+        cleanup_predecessor_customizable AS (
+          #{cleanup_predecessor_attachable(predecessor)}
+        ),
+        max_journals AS (
           #{select_max_journal_sql(predecessor)}
         ), changes AS (
           #{select_changed_sql}
@@ -160,6 +172,39 @@ module Journals
 
         SELECT * from inserted_journal
       SQL
+    end
+
+    def cleanup_predecessor_data(predecessor)
+      cleanup_predecessor(predecessor,
+                          data_table_name,
+                          :id)
+    end
+
+    def cleanup_predecessor_attachable(predecessor)
+      cleanup_predecessor(predecessor,
+                          'attachable_journals',
+                          :journal_id)
+    end
+
+    def cleanup_predecessor_customizable(predecessor)
+      cleanup_predecessor(predecessor,
+                          'customizable_journals',
+                          :journal_id)
+    end
+
+    def cleanup_predecessor(predecessor, table_name, column)
+      return "SELECT 1" unless predecessor
+
+      sql = <<~SQL
+        DELETE
+        FROM
+         #{table_name}
+        WHERE
+         #{column} = :#{column}
+      SQL
+
+      sanitize sql,
+               column => predecessor.id
     end
 
     def update_or_insert_journal_sql(predecessor, notes)
@@ -583,6 +628,14 @@ module Journals
         journal.update_columns(notes: predecessor.notes, version: predecessor.version)
       else
         journal.update_columns(version: predecessor.version)
+      end
+    end
+
+    def log_journal_creation(predecessor)
+      if predecessor
+        Rails.logger.debug { "Aggregating journal #{predecessor.id} for #{journable_type} ##{journable.id}" }
+      else
+        Rails.logger.debug { "Inserting new journal for #{journable_type} ##{journable.id}" }
       end
     end
 
