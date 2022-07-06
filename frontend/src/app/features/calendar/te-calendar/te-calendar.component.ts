@@ -142,8 +142,8 @@ export class TimeEntryCalendarComponent {
     eventWillUnmount: this.beforeEventRemove.bind(this),
     eventClick: this.dispatchEventClick.bind(this),
     eventDrop: this.moveEvent.bind(this),
-    dayHeaderDidMount: (data:DayHeaderMountArg) => this.calendar.applyNonWorkingDay(data),
-    dayCellDidMount: (data:DayCellMountArg) => this.calendar.applyNonWorkingDay(data),
+    dayHeaderClassNames: (data:DayHeaderMountArg) => this.calendar.applyNonWorkingDay(data),
+    dayCellClassNames: (data:DayCellMountArg) => this.calendar.applyNonWorkingDay(data),
   };
 
   constructor(
