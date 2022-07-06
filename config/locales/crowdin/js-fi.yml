@@ -469,10 +469,10 @@ fi:
     label_unwatch: "Älä seuraa"
     label_unwatch_work_package: "Lopeta tehtävän seuraaminen"
     label_uploaded_by: "Lataaja"
-    label_default_queries: "Oletusnäkymät"
-    label_starred_queries: "Suosikkinäkymät"
-    label_global_queries: "Julkiset näkymät"
-    label_custom_queries: "Yksityiset näkymät"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Sarakkeet"
     label_attachments: Liitteet
     label_nextcloud: Nextcloud
@@ -1047,10 +1047,7 @@ fi:
       filter: "Suodata"
       unselected_title: "Työpaketti"
       search_query_label: "Hae näkymistä"
-      search_query_title: "Klikkaa hakeaksesi näkymistä"
-      placeholder_query_title: "Set a title for this view"
     modals:
-      label_settings: "Nimeä näkymä"
       label_name: "Nimi"
       label_delete_page: "Poista nykyinen sivu"
       button_apply: "Ota käyttöön"
@@ -1205,6 +1202,7 @@ fi:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

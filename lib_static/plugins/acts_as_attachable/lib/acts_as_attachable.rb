@@ -65,6 +65,7 @@ module Redmine
             add_on_new_permission: add_on_new_permission(options),
             add_on_persisted_permission: add_on_persisted_permission(options),
             only_user_allowed: only_user_allowed(options),
+            allow_uncontainered: allow_uncontainered(options),
             viewable_by_all_users: viewable_by_all_users(options),
             modification_blocked: options[:modification_blocked],
             extract_tsv: attachable_extract_tsv_option(options)
@@ -80,6 +81,7 @@ module Redmine
                           :add_on_persisted_permission,
                           :add_permission,
                           :only_user_allowed,
+                          :allow_uncontainered,
                           :viewable_by_all_users,
                           :modification_blocked,
                           :extract_tsv)
@@ -109,6 +111,10 @@ module Redmine
           options.fetch(:only_user_allowed, false)
         end
 
+        def allow_uncontainered(options)
+          options.fetch(:allow_uncontainered, true)
+        end
+
         def view_permission_default
           "view_#{name.pluralize.underscore}".to_sym
         end
@@ -134,9 +140,21 @@ module Redmine
         end
 
         class_methods do
+          ##
+          # Can this acts_as_attachable instance accept attachments from the given user
+          # @param user [User]
           def attachments_addable?(user = User.current)
             user.allowed_to_globally?(attachable_options[:add_on_new_permission]) ||
               user.allowed_to_globally?(attachable_options[:add_on_persisted_permission])
+          end
+
+          ##
+          # Can this acts_as_attachable instance accept uncontainered attachments from the given user
+          # @param user [User]
+          def uncontainered_attachable?(user = User.current)
+            return false unless attachable_options[:allow_uncontainered]
+
+            attachments_addable?(user)
           end
 
           def attachment_tsv_extracted?

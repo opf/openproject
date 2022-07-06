@@ -61,7 +61,7 @@
 
       <div class="spot-action-bar">
         <div class="spot-action-bar--left">
-          <label class="op-project-include--include-all">
+          <label class="op-project-include--include-all spot-action-bar--action">
             <spot-checkbox
               [(ngModel)]="includeSubprojects"
               [ngModelOptions]="{standalone: true}"
@@ -73,7 +73,7 @@
         <div class="spot-action-bar--right">
           <button
             [disabled]="(loading$ | async)"
-            class="button"
+            class="button spot-action-bar--action"
             type="button"
             (click)="clearSelection()"
           >
@@ -81,7 +81,7 @@
           </button>
           <button
             [disabled]="(loading$ | async)"
-            class="button -highlight"
+            class="button -highlight spot-action-bar--action"
           >
             {{ text.apply }}
           </button>

@@ -39,15 +39,20 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import {
+  defaultIfEmpty,
+  filter,
   map,
   shareReplay,
+  switchMap,
 } from 'rxjs/operators';
 import {
   combineLatest,
   Observable,
+  of,
 } from 'rxjs';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @Injectable()
 export class DatepickerModalService {
@@ -55,31 +60,37 @@ export class DatepickerModalService {
 
   private changeset:WorkPackageChangeset = this.locals.changeset as WorkPackageChangeset;
 
-  precedingWorkPackages$:Observable<{ id:string, dueDate?:string, date?:string }[]> = this
-    .apiV3Service
-    .work_packages
-    .signalled(
-      ApiV3Filter('precedes', '=', [this.changeset.id]),
-      [
-        'elements/id',
-        'elements/dueDate',
-        'elements/date',
-      ],
-    )
+  precedingWorkPackages$:Observable<{ id:string, dueDate?:string, date?:string }[]> = of(this.changeset)
     .pipe(
+      filter((changeset) => !isNewResource(changeset.pristineResource)),
+      switchMap((changeset) => this
+        .apiV3Service
+        .work_packages
+        .signalled(
+          ApiV3Filter('precedes', '=', [changeset.id]),
+          [
+            'elements/id',
+            'elements/dueDate',
+            'elements/date',
+          ],
+        )),
       map((collection:IHALCollection<{ id:string }>) => collection._embedded.elements || []),
+      defaultIfEmpty([]),
       shareReplay(1),
     );
 
-  followingWorkPackages$:Observable<{ id:string }[]> = this
-    .apiV3Service
-    .work_packages
-    .signalled(
-      ApiV3Filter('follows', '=', [this.changeset.id]),
-      ['elements/id'],
-    )
+  followingWorkPackages$:Observable<{ id:string }[]> = of(this.changeset)
     .pipe(
+      filter((changeset) => !isNewResource(changeset.pristineResource)),
+      switchMap((changeset) => this
+        .apiV3Service
+        .work_packages
+        .signalled(
+          ApiV3Filter('follows', '=', [changeset.id]),
+          ['elements/id'],
+        )),
       map((collection:IHALCollection<{ id:string }>) => collection._embedded.elements || []),
+      defaultIfEmpty([]),
       shareReplay(1),
     );
 

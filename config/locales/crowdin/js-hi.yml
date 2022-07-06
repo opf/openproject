@@ -469,10 +469,10 @@ hi:
     label_unwatch: "अनवॉच"
     label_unwatch_work_package: "कार्य पैकेज तांकना समाप्त"
     label_uploaded_by: "द्वारा अपलोड"
-    label_default_queries: "Default views"
-    label_starred_queries: "Favorite views"
-    label_global_queries: "सार्वजनिक दृश्य"
-    label_custom_queries: "निजी दृश्य"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "स्तंभ"
     label_attachments: Attachments
     label_nextcloud: Nextcloud
@@ -1047,10 +1047,7 @@ hi:
       filter: "Filter"
       unselected_title: "कार्य पैकेज"
       search_query_label: "Search saved views"
-      search_query_title: "Click to search saved views"
-      placeholder_query_title: "Set a title for this view"
     modals:
-      label_settings: "Rename view"
       label_name: "नाम"
       label_delete_page: "Delete current page"
       button_apply: "लागू करें"
@@ -1205,6 +1202,7 @@ hi:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

@@ -55,7 +55,7 @@
       <div class="spot-action-bar">
         <div class="spot-action-bar--right">
           <a
-            class="button button_no-margin"
+            class="button button_no-margin spot-action-bar--action"
             [href]="allProjectsPath()"
           >
             <i class="button--icon spot-icon spot-icon_unordered-list"></i>
@@ -66,7 +66,7 @@
           </a>
           <a
             *ngIf="canCreateNewProjects$ | async"
-            class="button button_no-margin -highlight"
+            class="button button_no-margin -alt-highlight spot-action-bar--action"
             [href]="newProjectPath()"
           >
             <i class="button--icon spot-icon spot-icon_add"></i>

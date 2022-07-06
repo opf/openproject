@@ -214,8 +214,10 @@ class WorkPackage < ApplicationRecord
     # return work_packages that block me
     return WorkPackage.none if closed?
 
+    blocking_relations = Relation.blocks.where(to_id: self)
+
     WorkPackage
-      .where(id: Relation.blocks.where(to_id: self))
+      .where(id: blocking_relations.select(:from_id))
       .with_status_open
   end
 

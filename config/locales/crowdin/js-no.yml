@@ -469,10 +469,10 @@
     label_unwatch: "Stopp overvåking"
     label_unwatch_work_package: "Stopp overvåking av arbeidspakke"
     label_uploaded_by: "Opplastet av"
-    label_default_queries: "Standardvisninger"
-    label_starred_queries: "Favorittvisninger"
-    label_global_queries: "Offentlige visninger"
-    label_custom_queries: "Private views"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Kolonner"
     label_attachments: Vedlegg
     label_nextcloud: Nextcloud
@@ -1047,10 +1047,7 @@
       filter: "Filter"
       unselected_title: "Arbeidspakke"
       search_query_label: "Search saved views"
-      search_query_title: "Click to search saved views"
-      placeholder_query_title: "Set a title for this view"
     modals:
-      label_settings: "Rename view"
       label_name: "Navn"
       label_delete_page: "Slett gjeldende side"
       button_apply: "Bruk"
@@ -1205,6 +1202,7 @@
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

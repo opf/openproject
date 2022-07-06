@@ -468,10 +468,10 @@ de:
     label_unwatch: "Nicht mehr beobachten"
     label_unwatch_work_package: "Arbeitspaket nicht beobachten"
     label_uploaded_by: "Hochgeladen von"
-    label_default_queries: "Standardansichten"
-    label_starred_queries: "Favoriten"
-    label_global_queries: "Öffentliche Ansichten"
-    label_custom_queries: "Private Ansichten"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Spalten"
     label_attachments: Anhänge
     label_nextcloud: Nextcloud
@@ -1046,10 +1046,7 @@ de:
       filter: "Filter"
       unselected_title: "Arbeitspaket"
       search_query_label: "Gespeicherte Ansichten durchsuchen"
-      search_query_title: "Klicken, um gespeicherte Ansichten zu durchsuchen"
-      placeholder_query_title: "Namen für diese Ansicht eingeben"
     modals:
-      label_settings: "Ansicht umbenennen"
       label_name: "Name"
       label_delete_page: "Aktuelle Ansicht löschen"
       button_apply: "Anwenden"
@@ -1204,6 +1201,7 @@ de:
       tooltip:
         include_all_selected: '"Alle Unterprojekte einbeziehen" ist derzeit ausgewählt.'
         current_project: 'Dies ist das aktuelle Projekt, in dem Sie sich befinden.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Das Formular wurde erfolgreich übermittelt'
       load_error_message: 'Beim Laden des Formulars ist ein Fehler aufgetreten'

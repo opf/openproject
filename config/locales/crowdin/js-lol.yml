@@ -468,10 +468,10 @@ lol:
     label_unwatch: "crwdns787570:0crwdne787570:0"
     label_unwatch_work_package: "crwdns787572:0crwdne787572:0"
     label_uploaded_by: "crwdns787574:0crwdne787574:0"
-    label_default_queries: "crwdns787576:0crwdne787576:0"
-    label_starred_queries: "crwdns787578:0crwdne787578:0"
-    label_global_queries: "crwdns787580:0crwdne787580:0"
-    label_custom_queries: "crwdns787582:0crwdne787582:0"
+    label_default_queries: "crwdns822872:0crwdne822872:0"
+    label_starred_queries: "crwdns822874:0crwdne822874:0"
+    label_global_queries: "crwdns822876:0crwdne822876:0"
+    label_custom_queries: "crwdns822878:0crwdne822878:0"
     label_columns: "crwdns787584:0crwdne787584:0"
     label_attachments: crwdns807696:0crwdne807696:0
     label_nextcloud: crwdns816808:0crwdne816808:0
@@ -1046,10 +1046,7 @@ lol:
       filter: "crwdns788504:0crwdne788504:0"
       unselected_title: "crwdns788506:0crwdne788506:0"
       search_query_label: "crwdns788508:0crwdne788508:0"
-      search_query_title: "crwdns788510:0crwdne788510:0"
-      placeholder_query_title: "crwdns788512:0crwdne788512:0"
     modals:
-      label_settings: "crwdns788514:0crwdne788514:0"
       label_name: "crwdns788516:0crwdne788516:0"
       label_delete_page: "crwdns788518:0crwdne788518:0"
       button_apply: "crwdns788520:0crwdne788520:0"
@@ -1204,6 +1201,7 @@ lol:
       tooltip:
         include_all_selected: 'crwdns809358:0crwdne809358:0'
         current_project: 'crwdns809360:0crwdne809360:0'
+        does_not_match_search: 'crwdns822880:0crwdne822880:0'
     forms:
       submit_success_message: 'crwdns788750:0crwdne788750:0'
       load_error_message: 'crwdns788752:0crwdne788752:0'

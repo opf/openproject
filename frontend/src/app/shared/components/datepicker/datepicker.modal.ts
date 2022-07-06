@@ -49,10 +49,7 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import {
-  DayElement,
-  Instance,
-} from 'flatpickr/dist/types/instance';
+import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
 import { DatepickerModalService } from 'core-app/shared/components/datepicker/datepicker.modal.service';
 import { take } from 'rxjs/operators';
@@ -233,6 +230,10 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     return !this.scheduleManually && !!this.changeset.value('scheduleManually');
   }
 
+  showFieldAsActive(field:DateKeys):boolean {
+    return this.datepickerService.isStateOfCurrentActivatedField(field) && this.isSchedulable;
+  }
+
   private initializeDatepicker(minimalDate?:Date|null) {
     this.datePickerInstance?.destroy();
     this.datePickerInstance = new DatePicker(
@@ -243,8 +244,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         mode: this.singleDate ? 'single' : 'range',
         showMonths: this.browserDetector.isMobile ? 1 : 2,
         inline: true,
-        onReady: (selectedDates, dateStr, instance) => {
-          this.toggleDisabledState(instance);
+        onReady: () => {
           this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
         },
         onChange: (dates:Date[]) => {
@@ -257,7 +257,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
             dayElem.classList.add('flatpickr-non-working-day');
           }
 
-          if (!this.scheduleManually && minimalDate && dayElem.dateObj <= minimalDate) {
+          if (this.isDayDisabled(dayElem, minimalDate)) {
             dayElem.classList.add('flatpickr-disabled');
           }
 
@@ -355,14 +355,6 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     return this.locals.fieldName === 'dueDate' ? 'end' : 'start';
   }
 
-  private toggleDisabledState(instance:Instance) {
-    if (this.isSchedulable) {
-      instance.calendarContainer.classList.remove('disabled');
-    } else {
-      instance.calendarContainer.classList.add('disabled');
-    }
-  }
-
   private minimalDateFromPrecedingRelationship(relations:{ id:string, dueDate?:string, date?:string }[]):Date|null {
     if (relations.length === 0) {
       return null;
@@ -385,5 +377,9 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     });
 
     return minimalDate;
+  }
+
+  private isDayDisabled(dayElement:DayElement, minimalDate?:Date|null):boolean {
+    return !this.isSchedulable || (!this.scheduleManually && !!minimalDate && dayElement.dateObj <= minimalDate);
   }
 }

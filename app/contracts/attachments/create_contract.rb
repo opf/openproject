@@ -50,7 +50,7 @@ module Attachments
     def validate_attachments_addable
       return if model.container
 
-      if Redmine::Acts::Attachable.attachables.none?(&:attachments_addable?)
+      if Redmine::Acts::Attachable.attachables.none?(&:uncontainered_attachable?)
         errors.add(:base, :error_unauthorized)
       end
     end

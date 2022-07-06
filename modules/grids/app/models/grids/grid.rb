@@ -45,6 +45,6 @@ module Grids
       name.presence || self.class.to_s.demodulize
     end
 
-    acts_as_attachable
+    acts_as_attachable allow_uncontainered: false
   end
 end

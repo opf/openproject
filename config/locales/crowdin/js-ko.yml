@@ -469,10 +469,10 @@ ko:
     label_unwatch: "주시 안 함"
     label_unwatch_work_package: "작업 패키지 주시 해제"
     label_uploaded_by: "업로드 : "
-    label_default_queries: "기본 보기"
-    label_starred_queries: "즐겨 찾는 보기"
-    label_global_queries: "공개 보기"
-    label_custom_queries: "비공개 보기"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "컬럼"
     label_attachments: 첨부 파일
     label_nextcloud: Nextcloud
@@ -1046,10 +1046,7 @@ ko:
       filter: "필터"
       unselected_title: "작업 패키지"
       search_query_label: "저장된 보기 검색"
-      search_query_title: "저장된 보기를 검색하려면 클릭하세요."
-      placeholder_query_title: "이 보기에 대한 제목 설정"
     modals:
-      label_settings: "보기 이름 바꾸기"
       label_name: "이름"
       label_delete_page: "현재 페이지 삭제"
       button_apply: "적용"
@@ -1202,6 +1199,7 @@ ko:
       tooltip:
         include_all_selected: '모든 하위 프로젝트 포함이 현재 선택되어 있습니다.'
         current_project: '작업 중인 현재 프로젝트입니다.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: '양식을 성공적으로 제출했습니다'
       load_error_message: '양식을 불러오는 중 오류가 발생했습니다'

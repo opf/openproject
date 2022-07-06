@@ -50,6 +50,12 @@ class DateEditField < EditField
     end
   end
 
+  def activate_start_date_within_modal
+    within_modal do
+      find('[data-qa-selector="op-datepicker-modal--start-date-field"]').click
+    end
+  end
+
   def activate_due_date_within_modal
     within_modal do
       find('[data-qa-selector="op-datepicker-modal--end-date-field"]').click

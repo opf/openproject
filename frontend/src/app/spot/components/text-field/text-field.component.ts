@@ -31,7 +31,7 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
 
   @Input() name = `spot-text-field-${+(new Date())}`;
 
-  @Input() disabled = false;
+  @HostBinding('class.spot-text-field_disabled') @Input() disabled = false;
 
   @Input() showClearButton = true;
 

@@ -1,8 +1,7 @@
 .spot-action-bar
   display: grid
   grid-template-columns: 1fr
-  padding: $spot-spacing-1
-  padding-bottom: $spot-spacing-0_5
+  padding: $spot-spacing-0-75
   background-color: $spot-color-basic-gray-6
 
   &--left,
@@ -13,26 +12,30 @@
     align-items: center
     justify-content: flex-end
 
-    > *
-      margin-bottom: $spot-spacing-0_5
+    > .spot-action-bar--action
       margin-left: $spot-spacing-0_5
+
+  &--left
+    > .spot-action-bar--action
+      margin-bottom: $spot-spacing-0_5
 
   @media #{$spot-mq-action-bar-change}
     grid-template-columns: 1fr auto
 
     &--left,
     &--right
-      > *
+      > .spot-action-bar--action
         margin-left: 0
+        margin-bottom: 0
 
     &--left
       justify-content: flex-start
 
-      > *:not(:last-child)
+      > .spot-action-bar--action:not(:last-child)
         margin-right: $spot-spacing-1
 
     &--right
       justify-content: flex-end
 
-      > *:not(:first-child)
+      > .spot-action-bar--action:not(:first-child)
         margin-left: $spot-spacing-1
