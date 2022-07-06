@@ -31,7 +31,7 @@ You found a bug? Please [report it](https://www.openproject.org/docs/development
 
 OpenProject is supported by its community members, both companies and individuals.
 
-We are always looking for new members to our community, so if you are interested in improving OpenProject we would be glad to welcome and support you getting into the code. There are guides as well, e.g. a [Quick Start for Developers](https://www.openproject.org/development/setting-up-development-environment/), but don't hesitate to simply [contact us](https://www.openproject.org/contact-us) if you have questions.
+We are always looking for new members to our community, so if you are interested in improving OpenProject we would be glad to welcome and support you getting into the code. There are guides as well, e.g. a [Quick Start for Developers](https://www.openproject.org/development/setting-up-development-environment/), but don't hesitate to simply [contact us](https://www.openproject.org/contact) if you have questions.
 
 Working on OpenProject comes with the satisfaction of working on a widely used open source application.
 
@@ -40,7 +40,7 @@ Also, if you do not want to be limited to working on open source in your free ti
 
 ## Contact
 
-Here you can find our [contact information](https://www.openproject.org/contact-us). If you are interested in development or have general questions, feel free to also join our [community discussion forums](https://community.openproject.org/projects/openproject/forums).
+Here you can find our [contact information](https://www.openproject.org/contact/). If you are interested in development or have general questions, feel free to also join our [community discussion forums](https://community.openproject.org/projects/openproject/forums).
 
 ## Security / responsible disclosure
 

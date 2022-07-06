@@ -468,10 +468,10 @@ zh-TW:
     label_unwatch: "取消監看"
     label_unwatch_work_package: "取消關注工作項目"
     label_uploaded_by: "上傳者"
-    label_default_queries: "預設視圖"
-    label_starred_queries: "最愛檢視"
-    label_global_queries: "公開檢視"
-    label_custom_queries: "私密檢視"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "欄"
     label_attachments: 附加檔
     label_nextcloud: Nextcloud
@@ -1045,10 +1045,7 @@ zh-TW:
       filter: "篩選器"
       unselected_title: "工作項目"
       search_query_label: "搜索保存的視圖"
-      search_query_title: "點擊搜尋保存的視圖"
-      placeholder_query_title: "為此視圖設置標題"
     modals:
-      label_settings: "重新命名視圖"
       label_name: "名稱"
       label_delete_page: "刪除目前的頁面"
       button_apply: "套用"
@@ -1201,6 +1198,7 @@ zh-TW:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: '檔案已成功提交'
       load_error_message: 'There was an error loading the form'

@@ -47,6 +47,7 @@ export const autocompleteSelectDecorationSelector = 'autocomplete-select-decorat
       [multiple]="multiselect"
       [labelForId]="labelForId"
       (valueChange)="updateProjectSelection($event)"
+      appendTo="body"
     >
     </op-project-autocompleter>
 

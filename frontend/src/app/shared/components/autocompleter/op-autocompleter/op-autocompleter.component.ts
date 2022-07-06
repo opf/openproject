@@ -138,7 +138,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @Input() public selectOnTab?:boolean = false;
 
-  @Input() public openOnEnter?:boolean;
+  @Input() public openOnEnter?:boolean = true;
 
   @Input() public maxSelectedItems?:number;
 
@@ -176,7 +176,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @Input() public keyDownFn ? = ():boolean => true;
 
-  @Input() public typeahead:BehaviorSubject<string|null>|null;
+  @Input() public typeahead:BehaviorSubject<string>|null = null;
 
   // a function for setting the options of ng-select
   @Input() public getOptionsFn:(searchTerm:string) => Observable<unknown>;
@@ -238,7 +238,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   ngOnInit() {
     if (!!this.getOptionsFn || this.defaultData) {
-      this.typeahead = new BehaviorSubject<string|null>(null);
+      this.typeahead = new BehaviorSubject<string>('');
     }
   }
 
@@ -368,7 +368,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
     return this.typeahead.pipe(
       filter(() => !!(this.defaultData || this.getOptionsFn)),
-      filter((val) => val !== null),
       distinctUntilChanged(),
       debounceTime(250),
       tap(() => this.loading$.next(true)),

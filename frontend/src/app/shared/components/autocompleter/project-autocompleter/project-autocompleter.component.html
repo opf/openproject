@@ -6,7 +6,10 @@
 
   [multiple]="multiple"
   [focusDirectly]="focusDirectly"
+  [openDirectly]="openDirectly"
   [labelForId]="labelForId"
+
+  [dropdownPosition]="dropdownPosition"
 
   [appendTo]="appendTo"
 
@@ -27,13 +30,13 @@
   >
     <div
       class="ng-option-label ellipsis"
-      [ngStyle]="{ 'padding-left.px': item.numberOfAncestors * 20 }"
+      [ngStyle]="{ 'padding-left.px': item.numberOfAncestors * 16 }"
       [opSearchHighlight]="search"
     >{{ item.name }}</div>
     <div
-      *ngIf="item.disabledReason"
+      *ngIf="item.disabled && item.disabledReason"
       class="ng-option-label ellipsis"
-      [ngStyle]="{ 'padding-left.px': item.numberOfAncestors * 20 }"
+      [ngStyle]="{ 'padding-left.px': item.numberOfAncestors * 16 }"
     >{{ item.disabledReason }}</div>
   </ng-template>
 </op-autocompleter>

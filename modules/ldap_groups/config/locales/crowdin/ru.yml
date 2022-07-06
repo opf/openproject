@@ -68,5 +68,5 @@ ru:
         dn_text: 'Введите полный DN группы в LDAP'
         group_text: 'Выберите существующую группу OpenProject, с которой должны синхронизироваться члены LDAP-группы'
       upsale:
-        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
+        description: 'Воспользуйтесь преимуществами синхронизированных групп LDAP для управления пользователями, изменения их прав и облегчения управления пользователями в разных группах.'
 

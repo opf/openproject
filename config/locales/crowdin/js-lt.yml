@@ -469,10 +469,10 @@ lt:
     label_unwatch: "Nestebėti"
     label_unwatch_work_package: "Nebestebėti darbų paketo"
     label_uploaded_by: "Įkėlė"
-    label_default_queries: "Numatytieji vaizdai"
-    label_starred_queries: "Mėgstamiausi vaizdai"
-    label_global_queries: "Vieši vaizdai"
-    label_custom_queries: "Asmeniniai vaizdai"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Stulpeliai"
     label_attachments: Priedai
     label_nextcloud: Nextcloud
@@ -1049,10 +1049,7 @@ lt:
       filter: "Filtras"
       unselected_title: "Darbų paketas"
       search_query_label: "Įrašytų vaizdų paieška"
-      search_query_title: "Spauskite įrašytų vaizdų paieškai"
-      placeholder_query_title: "Suteikite šiam vaizdui pavadinimą"
     modals:
-      label_settings: "Pervardinti vaizdą"
       label_name: "Vardas"
       label_delete_page: "Trinti dabartinį puslapį"
       button_apply: "Taikyti"
@@ -1211,6 +1208,7 @@ lt:
       tooltip:
         include_all_selected: 'Įtraukti visus šiuo metu pažymėtus sub-projektus.'
         current_project: 'Tai dabartinis projektas, kuriame jūs esate.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Forma buvo sėkmingai pateikta'
       load_error_message: 'Įkeliant formą įvyko klaida'

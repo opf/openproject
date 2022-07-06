@@ -469,10 +469,10 @@ si:
     label_unwatch: "අසන්න"
     label_unwatch_work_package: "වැඩ පැකේජය අසන්න"
     label_uploaded_by: "විසින් උඩුගත"
-    label_default_queries: "පෙරනිමි අදහස්"
-    label_starred_queries: "ප්රියතම අදහස්"
-    label_global_queries: "මහජන අදහස්"
-    label_custom_queries: "පෞද්ගලික අදහස්"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "තීරු"
     label_attachments: ඇමුණුම්
     label_nextcloud: Nextcloud
@@ -1047,10 +1047,7 @@ si:
       filter: "පෙරහන්"
       unselected_title: "වැඩ පැකේජය"
       search_query_label: "සුරකින ලද අදහස් සොයන්න"
-      search_query_title: "සුරකින ලද අදහස් සෙවීමට ක්ලික් කරන්න"
-      placeholder_query_title: "මෙම මතය සඳහා මාතෘකාවක් සකසන්න"
     modals:
-      label_settings: "දැක්ම නැවත නම්"
       label_name: "නම"
       label_delete_page: "වත්මන් පිටුව මකන්න"
       button_apply: "අයදුම් කරන්න"
@@ -1205,6 +1202,7 @@ si:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

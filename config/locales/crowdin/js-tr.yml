@@ -469,10 +469,10 @@ tr:
     label_unwatch: "İzleme"
     label_unwatch_work_package: "İş pakaketini izlemeyi bırak"
     label_uploaded_by: "Yükleyen"
-    label_default_queries: "Varsayılan görünümler"
-    label_starred_queries: "Gözde görünümler"
-    label_global_queries: "Herkese açık görünümler"
-    label_custom_queries: "Gizli görünümler"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Sütunlar"
     label_attachments: Ekler
     label_nextcloud: Nextcloud
@@ -1047,10 +1047,7 @@ tr:
       filter: "Filtre"
       unselected_title: "İş paketi"
       search_query_label: "Kayıtlı görünümleri ara"
-      search_query_title: "Kayıtlı görünümleri aramak için tıklayın"
-      placeholder_query_title: "Bu görünüm için bir başlık belirleyin"
     modals:
-      label_settings: "Görünümü yeniden isimlendir"
       label_name: "İsim"
       label_delete_page: "Şu anki sayfayı sil"
       button_apply: "Uygula"
@@ -1205,6 +1202,7 @@ tr:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Form başarıyla gönderildi'
       load_error_message: 'Form yüklenirken bir hata oluştu'

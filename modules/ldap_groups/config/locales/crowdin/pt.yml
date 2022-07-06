@@ -68,5 +68,5 @@ pt:
         dn_text: 'Inserir todo o ND do grupo no LDAP'
         group_text: 'Selecione um grupo existente no OpenProject para que seja sincronizado com membros do grupo LDAP'
       upsale:
-        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
+        description: 'Aproveite os grupos LDAP sincronizados para gerenciar usuários, alterar suas permissões e facilitar o gerenciamento de usuários entre grupos.'
 

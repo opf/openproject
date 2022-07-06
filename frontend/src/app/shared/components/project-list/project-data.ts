@@ -4,6 +4,6 @@ export interface IProjectData {
   id:ID;
   href:string;
   name:string;
-  found:boolean;
+  disabled:boolean;
   children:IProjectData[];
 }

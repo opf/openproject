@@ -96,7 +96,7 @@ Take a look at the [ProjectSettingsComponent](https://github.com/opf/openproject
 
 The dynamic form component will request the form for you, render the form, and handle any saving and validation.
 
-In case of the projects component, there is a `fieldsSettingsPipe` that allows you to override parts of the rendering. For projects, [it is used](https://github.com/opf/openproject/blob/20bac6b264294c99a0cdaf2286f327a1ade3385a/frontend/src/app/features/projects/components/projects/projects.component.ts#L34-L44) hiding the `identifier` field of the project which is handled by the backend.
+In case of the projects component, there is a `fieldsSettingsPipe` that allows you to override parts of the rendering. For projects, [it is used](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/projects/components/projects/projects.component.ts#L34-L44) hiding the `identifier` field of the project which is handled by the backend.
 
 
 

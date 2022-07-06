@@ -468,10 +468,10 @@ sl:
     label_unwatch: "Prenehaj slediti"
     label_unwatch_work_package: "Nihče ne spremlja delovnega paketa"
     label_uploaded_by: "Naložil"
-    label_default_queries: "Privzeti pogledi"
-    label_starred_queries: "Priljubljeni pogledi"
-    label_global_queries: "Javni pogledi"
-    label_custom_queries: "Zasebni pogledi"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Stolpci"
     label_attachments: Priponka
     label_nextcloud: Nextcloud
@@ -1048,10 +1048,7 @@ sl:
       filter: "Filtriraj"
       unselected_title: "Zahtevek"
       search_query_label: "Išči shranjenje poglede"
-      search_query_title: "Kliknite za iskanje shranjenih pogledov"
-      placeholder_query_title: "Natavite naslov za ta pogled"
     modals:
-      label_settings: "Preimenuj pogled"
       label_name: "Ime"
       label_delete_page: "Izbriši trenutno stran"
       button_apply: "Potrdi"
@@ -1210,6 +1207,7 @@ sl:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Obrazev je bil uspešno oddan'
       load_error_message: 'Pri nalaganju obrazca je prišlo do napake'

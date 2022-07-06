@@ -472,10 +472,10 @@ hu:
     label_unwatch: "Megfigyelés leállítása"
     label_unwatch_work_package: "Nem megfigyelt feladatcsoport"
     label_uploaded_by: "Által feltöltött"
-    label_default_queries: "Alapértelmezett nézetek"
-    label_starred_queries: "Kedvenc nézetek"
-    label_global_queries: "Publikus nézetek"
-    label_custom_queries: "Privát nézetek"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Oszlopok"
     label_attachments: Csatolmány
     label_nextcloud: Nextcloud
@@ -1052,10 +1052,7 @@ hu:
       filter: "Szűrő"
       unselected_title: "Feladatcsoport"
       search_query_label: "Mentett nézetek keresése..."
-      search_query_title: "Elmentett nézetek keresése"
-      placeholder_query_title: "Nézet címének beállítása"
     modals:
-      label_settings: "Nézet átnevezése"
       label_name: "Név"
       label_delete_page: "Aktuális oldal törlése"
       button_apply: "Alkalmaz"
@@ -1210,6 +1207,7 @@ hu:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'Ez a jelenlegi projekt, amiben vagyunk.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Jelentés sikeresen elküldve'
       load_error_message: 'Hiba történt az eredmény betöltésekor.'

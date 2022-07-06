@@ -469,10 +469,10 @@ uk:
     label_unwatch: "Перестати відстежувати"
     label_unwatch_work_package: "Припинити спостерігати за пакетом робіт"
     label_uploaded_by: "Завантажено"
-    label_default_queries: "Перегляд за умовчанням"
-    label_starred_queries: "Улюблені види"
-    label_global_queries: "Види громадськості"
-    label_custom_queries: "Приватні види"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Стовпці"
     label_attachments: Вкладення
     label_nextcloud: Nextcloud
@@ -1049,10 +1049,7 @@ uk:
       filter: "Фільтр"
       unselected_title: "Пакет робіт"
       search_query_label: "Пошук збережених переглядів"
-      search_query_title: "Натисніть, щоб знайти збережені перегляди"
-      placeholder_query_title: "Встановіть назву для цього перегляду"
     modals:
-      label_settings: "Перейменувати вигляд"
       label_name: "Ім’я"
       label_delete_page: "Видалити поточну сторінку"
       button_apply: "Застосувати"
@@ -1211,6 +1208,7 @@ uk:
       tooltip:
         include_all_selected: 'Параметр «Включити всі підпроєкти» зараз увімкнено.'
         current_project: 'Це поточний проєкт, який зараз відкрито.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Форму надіслано'
       load_error_message: 'Сталася помилка під час завантаження форми'

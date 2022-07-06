@@ -48,9 +48,9 @@ pt:
         main-menu-hover-font-color: "Fonte do menu principal ao passar o mouse"
         main-menu-border-color: "Margem do menu principal"
       custom_colors: "Cores personalizadas"
-      customize: "Customize your OpenProject installation with your own logo and colors."
+      customize: "Personalize sua instalação do OpenProject com seu próprio logotipo e cores."
       enterprise_notice: "Como um 'Obrigado!' especial a sua contribuição financeira para desenvolver o OpenProject, esse pequeno recurso está disponível somente para assinantes do suporte da versão Enterprise Edition."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
+      enterprise_more_info: "Nota: o logotipo usado será acessível ao público."
       manage_colors: "Editar opções de seleção de cor"
       instructions:
         alternative-color: "Cor de destaque forte, normalmente usada para o botão mais importante na tela."
@@ -77,7 +77,7 @@ pt:
       buttons:
         upgrade: "Atualizar agora"
         contact: "Contate-nos para uma demonstração"
-        more_info: "More information"
+        more_info: "Mais informações"
       enterprise_info_html: "é um recurso Enterprise <strong class='icon-medal'></strong>."
       upgrade_info: "Por favor, faça o upgrade para um plano pago para ativar e começar a usá-lo em sua equipe."
     journal_aggregation:
@@ -172,7 +172,7 @@ pt:
     execute: 'Executar %{name}'
     upsale:
       title: 'Ações personalizadas'
-      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
+      description: 'Ações personalizadas são atalhos de um clique para um conjunto de ações pré-definidas que você pode disponibilizar em certos pacotes de trabalho com base no status, papel, tipo ou projeto.'
   custom_fields:
     text_add_new_custom_field: >
       Para adicionar campos personalizados a um projeto é necessário criá-los primeiro para depois adicioná-los a este projeto.
@@ -272,7 +272,7 @@ pt:
     upsale:
       title: Usuários de espaço reservado
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Usuários reservados são uma maneira de atribuir pacotes de trabalho aos usuários que não fazem parte do seu projeto. Eles podem ser úteis numa série de cenários; por exemplo, se você precisa acompanhar as tarefas de uma fonte que ainda não é nomeada ou disponível, ou se você não deseja dar a essa pessoa acesso ao OpenProject mas ainda quer acompanhar as tarefas atribuídas a ela.
   prioritiies:
     edit:
       priority_color_text: |
@@ -303,7 +303,7 @@ pt:
       settings: "Configurações"
       form_configuration: "Configuração do formulário"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        A Versão Empresarial permite que você personalizer a configuração de formulários com estas caracteristicas adicionais<br><ul class="%{list_styling_class}"><li><b>Adicionar novo grupo de atributos</b></li><li><b>Renomear grupo de atributos</b></li></ul></ul>
       projects: "Projetos"
       enabled_projects: "Projetos habilitados"
       edit_query: "Editar tabela"
@@ -743,7 +743,7 @@ pt:
             duration:
               larger_than_dates: "é maior que o intervalo entre a data de início e de fim."
               smaller_than_dates: "é menor que o intervalo entre a data de início e a data de término."
-              not_available_for_milestones: "is not available for milestone typed work packages."
+              not_available_for_milestones: "Não está disponível para pacotes de trabalho do tipo marco"
             parent:
               cannot_be_milestone: "não pode ser um marco."
               cannot_be_self_assigned: "não pode ser atribuído a ele mesmo."
@@ -3030,47 +3030,47 @@ pt:
     urn_connection_status:
       connected: "Conectado"
       error: "Erro"
-      failed_authorization: "Authorization failed"
+      failed_authorization: "Falha na autorização"
     labels:
-      label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
-      label_request_token: "Request token"
-      label_refresh_token: "Refresh token"
+      label_oauth_integration: "Integração OAuth2"
+      label_redirect_uri: "Redirecionar URI"
+      label_request_token: "Solicitar token"
+      label_refresh_token: "Atualizar token"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
-      oauth_reported: "OAuth2 provider reported"
-      oauth_returned_error: "OAuth2 returned an error"
-      oauth_returned_json_error: "OAuth2 returned a JSON error"
-      oauth_returned_http_error: "OAuth2 returned a network error"
-      oauth_returned_standard_error: "OAuth2 returned an internal error"
-      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
-      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
-      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      oauth_authorization_code_grant_had_errors: "OAuth2 retornou um erro"
+      oauth_reported: "Provedor OAuth2 relatado"
+      oauth_returned_error: "OAuth2 retornou um erro"
+      oauth_returned_json_error: "OAuth2 retornou um erro JSON"
+      oauth_returned_http_error: "OAuth2 retornou um erro de rede"
+      oauth_returned_standard_error: "OAuth2 retornou um erro interno"
+      wrong_token_type_returned: "OAuth2 retornou um tipo errado de token, esperando AccessToken::Portador"
+      oauth_issue_contact_admin: "OAuth2 relatou um erro. Entre em contato com o administrador do sistema."
+      oauth_client_not_found: "Cliente OAuth2 não encontrado no ponto de extremidade 'callback' (redirect_uri)."
       refresh_token_called_without_existing_token: >
-        Internal error: Called refresh_token without a previously existing token.
+        Erro interno: Atualizar token sem um token existente anteriormente.
       refresh_token_updated_failed: "Erro durante a atualização do OAuthClientToken"
       oauth_client_not_found_explanation: >
-        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
-      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+        Este erro aparece depois que você atualizou o client_id e client_secret no OpenProject, mas não atualizou o campo 'Return URI' no provedor OAuth2.
+      oauth_code_not_present: "O código OAuth2 não foi encontrado no parâmetro 'callback' (redirect_uri)."
       oauth_code_not_present_explanation: >
-        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
-      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+        Este erro aparece se você selecionou o parâmetro response_type errado no provedor OAuth2. A resposta _type deve ser 'código' ou similar.
+      oauth_state_not_present: "OAuth2 'state' não encontrado no endpoint 'callback' (redirect_uri)."
       oauth_state_not_present_explanation: >
-        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+        O 'state' é usado para indicar ao OpenProject onde continuar após uma autorização OAuth2 bem-sucedida. Um 'state' ausente é um erro interno que pode aparecer durante a configuração. Por favor contate o administrador do sistema.
       rack_oauth2:
         client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
         invalid_request: >
-          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
-        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
-        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
-        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
-        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
-        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
-        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+          O Servidor de Autorização do OAuth2 respondeu com 'invalid_request'. Este erro aparece se você tentar autorizar várias vezes ou em caso de problemas técnicos.
+        invalid_response: "O Servidor de Autorização OAuth2 forneceu uma resposta inválida (invalid_response)"
+        invalid_grant: "O Servidor de Autorização OAuth2 pede a você para reautorizar (invalid_grant)."
+        invalid_client: "O Servidor de Autorização OAuth2 não reconhece o OpenProject (invalid_client)."
+        unauthorized_client: "O Servidor de Autorização OAuth2 rejeita o tipo de concessão (unauthorized_client)"
+        unsupported_grant_type: "O Servidor de Autorização OAuth2 pede a você para reautorizar (unported_grant_type)."
+        invalid_scope: "Você não tem permissão para acessar o recurso solicitado (invalid_scope)."
   http:
     request:
-      failed_authorization: "The server side request failed authorizing itself."
-      missing_authorization: "The server side request failed due to missing authorization information."
+      failed_authorization: "A solicitação do lado do servidor falhou ao se autorizar."
+      missing_authorization: "A solicitação do lado do servidor falhou devido à falta de informações de autorização."
     response:
-      unexpected: "Unexpected response received."
+      unexpected: "Resposta inesperada recebida."
   you: você

@@ -52,8 +52,7 @@ and several new icons have been added to the administration
 ([\#22063](https://community.openproject.org/work_packages/22063/activity)).
 
 In addition, an error has been fixed which prevented the proper use to
-the [TaskConnector for MS
-Project](https://community.openproject.org/projects/task-connector).
+the TaskConnector for MS Project.
 This is now fully functional again
 ([\#22390](https://community.openproject.org/work_packages/22390/activity)).
 
