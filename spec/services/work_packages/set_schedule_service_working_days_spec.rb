@@ -136,7 +136,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
         end
       end
 
-      context 'on a day in the middle of working days with the follower having only due date' do
+      context 'on a day in the middle of working days with the follower having only due date and no space in between' do
         let_schedule(<<~CHART, ignore_non_working_days: false)
           days          | MTWTFSS |
           work_package  | ]       |
@@ -155,6 +155,29 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
                           | MTWTFSS |
             work_package  |    ]    |
             follower      |     X   |
+          CHART
+        end
+      end
+
+      context 'on a day in the middle of working days with the follower having only due date and much space in between' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days          | MTWTFSSmt |
+          work_package  | ]         |
+          follower      |         ] | follows work_package
+        CHART
+
+        before do
+          change_schedule([work_package], <<~CHART)
+            days          | MTWTFSS |
+            work_package  |    ]    |
+          CHART
+        end
+
+        it 'reschedules follower to start after its predecessor without needing to change the end date' do
+          expect_schedule(subject.all_results, <<~CHART)
+                          | MTWTFSS   |
+            work_package  |    ]      |
+            follower      |     X..XX |
           CHART
         end
       end
@@ -345,61 +368,31 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
           CHART
         end
       end
+
+      context 'with the follower having another relation limiting movement and only due date' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days          | mtwtfssmtwtfssMTWTFSS |
+          work_package  |               X       |
+          follower      |                 ]     | follows work_package, follows annoyer with delay 2
+          annoyer       |    XX..XX             |
+        CHART
+
+        before do
+          change_schedule([work_package], <<~CHART)
+            days          | mtwtfssmtwtfssMTWTFSS |
+            work_package  |  X                    |
+          CHART
+        end
+
+        it 'reschedules follower to start at the other relation soonest start date and keep its end date' do
+          expect(subject.all_results).to match_schedule(<<~CHART)
+            days          | mtwtfssmtwtfssMTWTFSS |
+            work_package  |  X                    |
+            follower      |            X..XXX     |
+          CHART
+        end
+      end
     end
-
-    #   context 'when moving backwards with the follower having another relation limiting movement' do
-    #     let!(:other_work_package) do
-    #       create(:work_package,
-    #              type:,
-    #              start_date: follower1_start_date - 8.days,
-    #              due_date: follower1_start_date - 5.days).tap do |wp|
-    #         create(:follows_relation,
-    #                delay: 3,
-    #                to: wp,
-    #                from: following_work_package1)
-    #       end
-    #     end
-
-    #     before do
-    #       work_package.due_date = Time.zone.today - 5.days
-    #     end
-
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         { following_work_package1 => [Time.zone.today, Time.zone.today + 2.days] }
-    #       end
-    #     end
-    #   end
-
-    #   context 'when moving backwards with the follower having no start date (which should not happen) \
-    #            and the due date after the scheduled to date' do
-    #     let(:follower1_start_date) { nil }
-
-    #     before do
-    #       work_package.due_date = Time.zone.today - 5.days
-    #     end
-
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         { following_work_package1 => [Time.zone.today - 4.days, follower1_due_date] }
-    #       end
-    #     end
-    #   end
-
-    #   context 'when moving forward with the follower having no start date (which should not happen) \
-    #            and the due date before the scheduled to date' do
-    #     let(:follower1_start_date) { nil }
-
-    #     before do
-    #       work_package.due_date = follower1_due_date + 5.days
-    #     end
-
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         { following_work_package1 => [follower1_due_date + 6.days, follower1_due_date + 6.days] }
-    #       end
-    #     end
-    #   end
 
     #   context 'when removing the dates on the predecessor' do
     #     before do
