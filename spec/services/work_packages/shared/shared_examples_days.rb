@@ -26,6 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+Date::DATE_FORMATS[:wday_date] = '%a %-d %b %Y' # Fri 5 Aug 2022
+
 RSpec.shared_context 'with weekend days Saturday and Sunday' do
   shared_let(:week_days) { create(:week_days) }
 end
@@ -40,45 +42,44 @@ RSpec.configure do |rspec|
   rspec.include_context 'with non working days Christmas 2022 and new year 2023', :christmas_2022_new_year_2023
 end
 
-RSpec.shared_examples 'it returns duration' do |expected_duration, from_date, to_date|
+RSpec.shared_examples 'it returns duration' do |expected_duration, start_date, due_date|
   from_date_format = '%a %-d'
-  to_date_format = '%a %-d %b %Y'
-  from_date_format += ' %b' if [from_date.month, from_date.year] != [to_date.month, to_date.year]
-  from_date_format += ' %Y' if from_date.year != to_date.year
+  from_date_format += ' %b' if [start_date.month, start_date.year] != [due_date.month, due_date.year]
+  from_date_format += ' %Y' if start_date.year != due_date.year
 
-  it "from #{from_date.strftime(from_date_format)} " \
-     "to #{to_date.strftime(to_date_format)} " \
+  it "from #{start_date.strftime(from_date_format)} " \
+     "to #{due_date.to_fs(:wday_date)} " \
      "=> #{expected_duration}" \
   do
-    expect(subject.duration(from_date, to_date)).to eq(expected_duration)
+    expect(subject.duration(start_date, due_date)).to eq(expected_duration)
+  end
+end
+
+RSpec.shared_examples 'due_date' do |start_date:, duration:, expected:|
+  it "due_date(#{start_date.to_fs(:wday_date)}, #{duration}) => #{expected.to_fs(:wday_date)}" do
+    expect(subject.due_date(start_date, duration)).to eq(expected)
   end
 end
 
 RSpec.shared_examples 'add_days returns date' do |date:, count:, expected:|
-  date_format = '%a %-d %b %Y'
-
-  it "add_days(#{date.strftime(date_format)}, #{count}) => #{expected.strftime(date_format)}" do
+  it "add_days(#{date.to_fs(:wday_date)}, #{count}) => #{expected.to_fs(:wday_date)}" do
     expect(subject.add_days(date, count)).to eq(expected)
   end
 end
 
 RSpec.shared_examples 'soonest working day' do |date:, expected:|
-  date_format = '%a %-d %b %Y'
-
-  it "soonest_working_day(#{date.strftime(date_format)}) => #{expected.strftime(date_format)}" do
+  it "soonest_working_day(#{date.to_fs(:wday_date)}) => #{expected.to_fs(:wday_date)}" do
     expect(subject.soonest_working_day(date)).to eq(expected)
   end
 end
 
 RSpec.shared_examples 'delta' do |previous:, current:, expected:|
-  date_format = '%a %-d %b %Y'
-
-  it "delta(previous: #{previous.strftime(date_format)}, current: #{current.strftime(date_format)}) => #{expected} days" do
+  it "delta(previous: #{previous.to_fs(:wday_date)}, current: #{current.to_fs(:wday_date)}) => #{expected} days" do
     expect(subject.delta(previous:, current:)).to eq(expected)
   end
 
   # check inverse: delta(a, b) == -delta(b, a)
-  it "delta(previous: #{current.strftime(date_format)}, current: #{previous.strftime(date_format)}) => #{-expected} days" do
+  it "delta(previous: #{current.to_fs(:wday_date)}, current: #{previous.to_fs(:wday_date)}) => #{-expected} days" do
     expect(subject.delta(previous: current, current: previous)).to eq(-expected)
   end
 end

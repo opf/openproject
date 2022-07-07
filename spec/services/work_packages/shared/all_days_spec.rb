@@ -54,7 +54,7 @@ RSpec.describe WorkPackages::Shared::AllDays do
       include_examples 'it returns duration', 365 * 2, Date.new(2022, 1, 1), Date.new(2023, 12, 31)
     end
 
-    context 'without from date', with_flag: { work_packages_duration_field_active: true } do
+    context 'without start date', with_flag: { work_packages_duration_field_active: true } do
       it 'returns nil' do
         expect(subject.duration(nil, sunday_2022_07_31)).to be_nil
       end
@@ -66,7 +66,7 @@ RSpec.describe WorkPackages::Shared::AllDays do
       end
     end
 
-    context 'without to date', with_flag: { work_packages_duration_field_active: true } do
+    context 'without due date', with_flag: { work_packages_duration_field_active: true } do
       it 'returns nil' do
         expect(subject.duration(sunday_2022_07_31, nil)).to be_nil
       end
@@ -76,6 +76,39 @@ RSpec.describe WorkPackages::Shared::AllDays do
           expect(subject.duration(sunday_2022_07_31, nil)).to eq(1)
         end
       end
+    end
+  end
+
+  describe '#due_date' do
+    it 'returns the due date for a start date and a duration' do
+      expect(subject.due_date(sunday_2022_07_31, 1)).to eq(sunday_2022_07_31)
+      expect(subject.due_date(sunday_2022_07_31, 10)).to eq(sunday_2022_07_31 + 9.days)
+    end
+
+    it 'raises an error if duration is 0 or negative' do
+      expect { subject.due_date(sunday_2022_07_31, 0) }
+        .to raise_error ArgumentError, 'duration must be strictly positive'
+      expect { subject.due_date(sunday_2022_07_31, -10) }
+        .to raise_error ArgumentError, 'duration must be strictly positive'
+    end
+
+    it 'returns nil if start_date is nil' do
+      expect(subject.due_date(nil, 1)).to be_nil
+    end
+
+    it 'returns nil if duration is nil' do
+      expect(subject.due_date(sunday_2022_07_31, nil)).to be_nil
+    end
+
+    context 'with weekend days (Saturday and Sunday)', :weekend_saturday_sunday do
+      include_examples 'due_date', start_date: sunday_2022_07_31, duration: 1, expected: sunday_2022_07_31
+      include_examples 'due_date', start_date: sunday_2022_07_31, duration: 5, expected: sunday_2022_07_31 + 4.days
+      include_examples 'due_date', start_date: sunday_2022_07_31, duration: 10, expected: sunday_2022_07_31 + 9.days
+    end
+
+    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+      include_examples 'due_date', start_date: Date.new(2022, 1, 1), duration: 365, expected: Date.new(2022, 12, 31)
+      include_examples 'due_date', start_date: Date.new(2022, 1, 1), duration: 365 * 2, expected: Date.new(2023, 12, 31)
     end
   end
 
@@ -112,6 +145,10 @@ RSpec.describe WorkPackages::Shared::AllDays do
   describe '#soonest_working_day' do
     it 'returns the given day' do
       expect(subject.soonest_working_day(sunday_2022_07_31)).to eq(sunday_2022_07_31)
+    end
+
+    it 'returns nil if given date is nil' do
+      expect(subject.soonest_working_day(nil)).to be_nil
     end
 
     context 'with weekend days (Saturday and Sunday)', :weekend_saturday_sunday do

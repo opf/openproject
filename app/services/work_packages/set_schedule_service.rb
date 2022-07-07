@@ -143,9 +143,14 @@ class WorkPackages::SetScheduleService
 
   def reschedule_to_date(scheduled, date)
     new_start_date = [scheduled.start_date, date].compact.max
-    set_dates(scheduled,
-              new_start_date,
-              (scheduled.due_date && !scheduled.duration.nil?) && (new_start_date + scheduled.duration - 1))
+    # a new due date is set only if the moving work package already has one
+    if scheduled.due_date
+      new_due_date = WorkPackages::Shared::Days.for(scheduled).due_date(new_start_date, scheduled.duration)
+      # Set new due date to new start date if work package previously had a due date and new due date is still not set
+      new_due_date ||= new_start_date
+    end
+
+    set_dates(scheduled, new_start_date, new_due_date)
   end
 
   def schedule_on_missing_dates(scheduled, min_start_date)

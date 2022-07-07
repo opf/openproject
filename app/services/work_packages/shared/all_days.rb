@@ -30,10 +30,17 @@ module WorkPackages
   module Shared
     class AllDays
       # Returns number of days between two dates, inclusive.
-      def duration(from_date, to_date)
-        return no_duration if from_date.nil? || to_date.nil?
+      def duration(start_date, due_date)
+        return no_duration if start_date.nil? || due_date.nil?
 
-        (from_date..to_date).count
+        (start_date..due_date).count
+      end
+
+      def due_date(start_date, duration)
+        return nil unless start_date && duration
+        raise ArgumentError, 'duration must be strictly positive' if duration.is_a?(Integer) && duration <= 0
+
+        start_date + duration - 1
       end
 
       def add_days(date, count)

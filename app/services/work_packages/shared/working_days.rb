@@ -31,10 +31,22 @@ module WorkPackages
     class WorkingDays
       # Returns number of working days between two dates, excluding weekend days
       # and non working days.
-      def duration(from_date, to_date)
-        return no_duration if from_date.nil? || to_date.nil?
+      def duration(start_date, due_date)
+        return no_duration unless start_date && due_date
 
-        (from_date..to_date).count { working?(_1) }
+        (start_date..due_date).count { working?(_1) }
+      end
+
+      def due_date(start_date, duration)
+        return nil unless start_date && duration
+        raise ArgumentError, 'duration must be strictly positive' if duration.is_a?(Integer) && duration <= 0
+
+        due_date = start_date
+        until duration <= 1 && working?(due_date)
+          due_date += 1
+          duration -= 1 if working?(due_date)
+        end
+        due_date
       end
 
       def add_days(date, count)
@@ -50,6 +62,8 @@ module WorkPackages
       end
 
       def soonest_working_day(date)
+        return unless date
+
         until working?(date)
           date += 1
         end
