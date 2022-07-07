@@ -29,7 +29,9 @@
 shared_context 'with custom field params' do
   let(:cf1) { create :work_package_custom_field, field_format: 'text' }
   let(:cf2) { create :work_package_custom_field, field_format: 'text' }
-  let(:params) do
+  let!(:cf3) { create :work_package_custom_field, field_format: 'text' }
+
+  let(:attribute_groups) do
     {
       attribute_groups: [
         { 'type' => 'attribute',
@@ -41,6 +43,8 @@ shared_context 'with custom field params' do
       ]
     }
   end
+
+  let(:params) { attribute_groups }
 end
 
 shared_examples_for 'type service' do
@@ -130,7 +134,7 @@ shared_examples_for 'type service' do
         expect(type).to have_received(:custom_field_ids=)
       end
 
-      context 'when the type is associated with projects' do
+      context 'when all the projects are associated with the type' do
         before do
           type.projects = create_list :project, 2
         end
@@ -140,6 +144,79 @@ shared_examples_for 'type service' do
             .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
             .from([[], []])
             .to([[cf1, cf2], [cf1, cf2]])
+        end
+
+        context 'when a custom field is already associated with the type' do
+          before do
+            type.custom_field_ids = [cf1.id]
+          end
+
+          it 'enables the new custom field only' do
+            expect { service_call }
+              .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
+              .from([[], []])
+              .to([[cf2], [cf2]])
+          end
+        end
+
+        context 'when all custom fields are already associated with the type' do
+          before do
+            type.custom_field_ids = [cf1.id, cf2.id]
+          end
+
+          it 'enables no custom field' do
+            expect { service_call }
+              .not_to change { Project.where(id: type.project_ids).map(&:work_package_custom_field_ids) }
+              .from([[], []])
+          end
+        end
+      end
+
+      context 'when a project is being set on the type' do
+        let(:projects) { create_list :project, 2 }
+        let(:active_project) { projects.first }
+        let(:project_ids) { { project_ids: [*projects.map { |p| p.id.to_s }, ""] } }
+        let(:params) do
+          attribute_groups.merge(project_ids)
+        end
+
+        before do
+          type.projects << active_project
+        end
+
+        it 'enables the custom fields for all the projects' do
+          expect { service_call }
+            .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
+            .from([[]])
+            .to([[cf1, cf2], [cf1, cf2]])
+        end
+
+        context 'when a custom field is already associated with the type' do
+          before do
+            type.custom_field_ids = [cf1.id]
+          end
+
+          it 'enables the new cf for the existing project and enables both cfs for the new project' do
+            expect { service_call }
+              .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
+              .from([[]])
+              .to([[cf2], [cf1, cf2]])
+          end
+        end
+
+        context 'when all custom fields are already associated with the type' do
+          let(:params) { project_ids }
+
+          before do
+            type.custom_field_ids = [cf1.id, cf2.id]
+          end
+
+          it 'enables the custom fields in the new project only' do
+            expect { service_call }
+              .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
+              .from([[]])
+              .to([[], [cf1, cf2]])
+          end
         end
       end
     end
@@ -228,6 +305,7 @@ shared_examples_for 'type service' do
           it 'does not changes project custom fields' do
             expect { service_call }
               .not_to change { Project.where(id: type.project_ids).map(&:work_package_custom_field_ids) }
+              .from([[], []])
           end
         end
       end

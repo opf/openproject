@@ -47,29 +47,11 @@ class BaseTypeService
   private
 
   def update(params, options)
-    set_params_and_validate(params, options)
-  rescue StandardError => e
-    ServiceResult.failure.tap do |result|
-      result.errors.add(:base, e.message)
-    end
-  end
-
-  def set_params_and_validate(params, options)
     success = false
     errors = type.errors
 
     Type.transaction do
-      set_scalar_params(params)
-
-      # Only set attribute groups when it exists
-      # (Regression #28400)
-      unless params[:attribute_groups].nil?
-        set_attribute_groups(params)
-      end
-
-      set_active_custom_fields
-
-      success, errors = validate_and_save(type, user)
+      success, errors = set_params_and_validate(params)
       if success
         after_type_save(params, options)
       else
@@ -80,6 +62,30 @@ class BaseTypeService
     ServiceResult.new(success:,
                       errors:,
                       result: type)
+  rescue StandardError => e
+    ServiceResult.failure.tap do |result|
+      result.errors.add(:base, e.message)
+    end
+  end
+
+  def set_params_and_validate(params)
+    # Only set attribute groups when it exists
+    # (Regression #28400)
+    unless params[:attribute_groups].nil?
+      set_attribute_groups(params)
+    end
+
+    # This should go before `set_scalar_params` call to get the
+    # project_ids, custom_field_ids diffs from the type and the params
+    set_active_custom_fields
+
+    if params[:project_ids].present?
+      set_active_custom_fields_for_project_ids(params[:project_ids])
+    end
+
+    set_scalar_params(params)
+
+    validate_and_save(type, user)
   end
 
   def set_scalar_params(params)
@@ -153,7 +159,7 @@ class BaseTypeService
   def set_active_custom_fields
     new_cf_ids_to_add = active_custom_field_ids - type.custom_field_ids
     type.custom_field_ids = active_custom_field_ids
-    type.projects.each { |p| p.work_package_custom_field_ids |= new_cf_ids_to_add }
+    set_active_custom_fields_for_projects(type.projects, new_cf_ids_to_add)
   end
 
   def active_custom_field_ids
@@ -169,5 +175,17 @@ class BaseTypeService
       end
       active_cf_ids.uniq
     end
+  end
+
+  def set_active_custom_fields_for_projects(projects, custom_field_ids)
+    projects.each { |p| p.work_package_custom_field_ids |= custom_field_ids }
+  end
+
+  def set_active_custom_fields_for_project_ids(project_ids)
+    new_project_ids_to_activate_cfs = project_ids.reject(&:empty?).map(&:to_i) - type.project_ids
+    set_active_custom_fields_for_projects(
+      Project.where(id: new_project_ids_to_activate_cfs),
+      type.custom_field_ids
+    )
   end
 end
