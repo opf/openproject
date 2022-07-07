@@ -197,7 +197,7 @@ module DemoData
     end
 
     def create_relation(to:, from:, type:)
-      from.relations.create!(from:, to:, relation_type: type)
+      Relation.create!(from:, to:, relation_type: type)
     end
 
     def calculate_start_date(days_ahead)
