@@ -5,7 +5,6 @@ import {
   HostBinding,
   OnInit,
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {
   BehaviorSubject,
   combineLatest,
@@ -19,8 +18,6 @@ import {
   shareReplay,
   take,
 } from 'rxjs/operators';
-
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { WorkPackageViewIncludeSubprojectsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-include-subprojects.service';
@@ -234,6 +231,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
 
     if (this.opened) {
       this.searchableProjectListService.loadAllProjects();
+      this.searchableProjectListService.registerArrowNavigationOnItems();
       this.projectsInFilter$
         .pipe(
           take(1),
@@ -267,5 +265,6 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
 
   public close():void {
     this.opened = false;
+    this.searchableProjectListService.destroyArrowNavigation();
   }
 }
