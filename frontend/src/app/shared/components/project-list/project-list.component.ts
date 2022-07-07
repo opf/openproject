@@ -12,8 +12,12 @@ import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 import { IProjectData } from './project-data';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
-export const projectListActionIdentifier:string = 'op-project-list--item-action';
-export const projectListActionSelector:string = `[data-list-action-selector='${projectListActionIdentifier}']`;
+export const projectListActionIdentifier = 'op-project-list-action';
+export const projectListItemIdentifier = 'op-project-list-item';
+export const projectListActionSelector = `[data-list-selector='${projectListActionIdentifier}']`;
+export const projectListItemSelector = `[data-list-selector='${projectListItemIdentifier}']`;
+export const projectListItemDisabled = '[data-list-disabled="true"]';
+export const projectListRootSelector = '[data-list-root="true"]';
 
 @Component({
   selector: '[op-project-list]',
@@ -53,6 +57,7 @@ export class OpProjectListComponent {
   };
 
   projectListActionIdentifier = projectListActionIdentifier;
+  projectListItemIdentifier = projectListItemIdentifier;
 
   constructor(
     readonly I18n:I18nService,

@@ -2,12 +2,14 @@
   class="spot-list--item"
   *ngFor="let project of projects; index as i; first as isFirst; last as isLast"
   data-qa-selector="op-project-list--item"
+  [attr.data-list-selector]="projectListItemIdentifier"
 >
   <label
     *ngIf="multiSelect"
     class="spot-list--item-action op-project-list--item-action"
     [ngClass]="{ 'spot-list--item-action_disabled': isDisabled(project) }"
-    [attr.data-list-action-selector]="projectListActionIdentifier"
+    [attr.data-list-selector]="projectListActionIdentifier"
+    [attr.data-list-disabled]="isDisabled(project) || undefined"
   >
     <spot-tooltip
       class="op-project-list--tooltip"

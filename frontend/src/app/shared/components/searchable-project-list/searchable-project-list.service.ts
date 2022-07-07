@@ -12,7 +12,12 @@ import { finalize } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HttpClient } from '@angular/common/http';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
-import { projectListActionSelector } from 'core-app/shared/components/project-list/project-list.component';
+import {
+  projectListActionSelector,
+  projectListItemDisabled,
+  projectListItemSelector,
+  projectListRootSelector,
+} from 'core-app/shared/components/project-list/project-list.component';
 
 @Injectable()
 export class SearchableProjectListService {
@@ -78,7 +83,6 @@ export class SearchableProjectListService {
 
   private handleKeyNavigation(upwards = false):void {
     const focused = document.activeElement as HTMLElement|undefined;
-    const items = document.querySelectorAll(`[data-list-action-selector='${projectListActionSelector}']`);
 
     // If the current focus is within a list action, move focus in direction
     if (focused?.closest(projectListActionSelector)) {
@@ -95,16 +99,46 @@ export class SearchableProjectListService {
 
   private moveFocus(source:Element, upwards = false):void {
     const activeItem = source.closest(projectListActionSelector) as HTMLElement;
-    let nextContainer:Element|null|undefined;
+    let nextTarget = this.findNextTarget(activeItem, upwards);
 
-    if (upwards) {
-      nextContainer = activeItem.previousElementSibling || activeItem.closest('li')?.previousElementSibling;
-    } else {
-      nextContainer = activeItem?.nextElementSibling || activeItem.closest('li')?.nextElementSibling;
+    // If the target is disabled, skip
+    while (nextTarget?.matches(projectListItemDisabled)) {
+      nextTarget = this.findNextTarget(nextTarget, upwards);
     }
 
-    const target = nextContainer?.querySelector<HTMLElement>(projectListActionSelector);
-    target?.focus();
+    nextTarget?.focus();
+  }
+
+  private findNextTarget(from:HTMLElement, upwards = false):HTMLElement|null|undefined {
+    let container:Element|null|undefined = from;
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      if (!container || container.matches(projectListRootSelector)) {
+        return null;
+      }
+
+      const nextNode:Element|null = upwards ? container.previousElementSibling : container.nextElementSibling;
+
+      // If we don't find anything, move up
+      if (!nextNode) {
+        container = container.parentElement;
+        continue;
+      }
+
+      // If we moved to a target, use that
+      if (nextNode?.matches(projectListActionSelector)) {
+        return nextNode as HTMLElement;
+      }
+      // Try to find the next action
+      const targets = nextNode ? Array.from(nextNode.querySelectorAll<HTMLElement>(projectListActionSelector)) : [];
+      const target = upwards ? targets.pop() : targets[0];
+      if (target) {
+        return target;
+      }
+
+      container = nextNode;
+    }
   }
 
   onKeydown(event:KeyboardEvent):void {
