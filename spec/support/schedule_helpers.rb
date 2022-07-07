@@ -289,17 +289,6 @@ module ScheduleHelpers
         due_date: due_pos && (chart.monday - @nb_days_from_origin_monday + due_pos)
       }
     end
-
-    def parse_follows_relation_line(line)
-      to, from = line.split(' -> ', 2).map(&:strip).map(&:to_sym)
-      [to, from].each do |name|
-        next if chart.work_packages.has_key?(name)
-
-        raise "unable to find work package #{name.inspect} in relation #{line.inspect}"
-      end
-
-      { from:, to:, relation_type: Relation::TYPE_FOLLOWS }
-    end
   end
 
   module LetSchedule
