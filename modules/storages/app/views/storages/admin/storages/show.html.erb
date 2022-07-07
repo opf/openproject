@@ -134,7 +134,7 @@ See COPYRIGHT and LICENSE files for more details.
       <div class="attributes-key-value--key"><%= t("storages.provider_types.#{@object.provider_type}") %> <%= t(:'storages.label_oauth_client_secret') %></div>
       <div class="attributes-key-value--value-container">
         <div class="attributes-key-value--value -text">
-          <span>●●●●●●●●●●●●●●●●</span>
+          <span><%= short_secret(@object.oauth_client.client_secret) %></span>
         </div>
       </div>
     </div>

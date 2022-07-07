@@ -44,7 +44,7 @@ module OAuthHelper
   def short_secret(secret)
     result = ""
     if secret.is_a?(String) && secret.present?
-      result = "#{secret[...2]}****#{secret[-2...]}"
+      result = "#{secret[...2]}●●●●#{secret[-2...]}"
     end
 
     result
