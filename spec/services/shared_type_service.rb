@@ -26,6 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+shared_context 'with custom field params' do
+  let(:cf1) { create :work_package_custom_field, field_format: 'text' }
+  let(:cf2) { create :work_package_custom_field, field_format: 'text' }
+  let(:params) do
+    {
+      attribute_groups: [
+        { 'type' => 'attribute',
+          'name' => 'group1',
+          'attributes' => [{ 'key' => "custom_field_#{cf1.id}" }, { 'key' => "custom_field_#{cf2.id}" }] },
+        { 'type' => 'attribute',
+          'name' => 'groups',
+          'attributes' => [{ 'key' => "custom_field_#{cf2.id}" }] }
+      ]
+    }
+  end
+end
+
 shared_examples_for 'type service' do
   let(:success) { true }
   let(:params) { {} }
@@ -42,7 +59,7 @@ shared_examples_for 'type service' do
     end
 
     it 'yields the block with success' do
-      expect(service_call { |call| call.success? }).to be_truthy
+      expect(service_call(&:success?)).to be_truthy
     end
 
     describe 'with attributes' do
@@ -56,15 +73,19 @@ shared_examples_for 'type service' do
     end
 
     describe 'attribute groups' do
+      before do
+        allow(type).to receive(:reset_attribute_groups)
+        allow(type).to receive(:attribute_groups=)
+      end
+
       context 'when not given' do
         let(:params) { { name: 'blubs blubs' } }
 
         it 'set the values provided on the call' do
-          expect(type).not_to receive(:reset_attribute_groups)
-          expect(type).not_to receive(:attribute_groups=)
-
           service_call
 
+          expect(type).not_to have_received(:reset_attribute_groups)
+          expect(type).not_to have_received(:attribute_groups=)
           expect(type.name).to eql params[:name]
         end
       end
@@ -73,10 +94,10 @@ shared_examples_for 'type service' do
         let(:params) { { attribute_groups: [] } }
 
         it 'set the values provided on the call' do
-          expect(type).to receive(:reset_attribute_groups)
-          expect(type).not_to receive(:attribute_groups=)
-
           service_call
+
+          expect(type).to have_received(:reset_attribute_groups)
+          expect(type).not_to have_received(:attribute_groups=)
         end
       end
 
@@ -84,40 +105,42 @@ shared_examples_for 'type service' do
         let(:params) { { attribute_groups: [{ 'type' => 'attribute', 'name' => 'foo', 'attributes' => [] }] } }
 
         it 'set the values provided on the call' do
-          expect(type).not_to receive(:reset_attribute_groups)
-          expect(type).to receive(:attribute_groups=)
-
           service_call
+
+          expect(type).not_to have_received(:reset_attribute_groups)
+          expect(type).to have_received(:attribute_groups=)
         end
       end
     end
 
     describe 'custom fields' do
-      let(:cf1) { create :work_package_custom_field, field_format: 'text' }
-      let(:cf2) { create :work_package_custom_field, field_format: 'text' }
-      let(:params) do
-        {
-          attribute_groups: [
-            { 'type' => 'attribute',
-              'name' => 'group1',
-              'attributes' => [{ 'key' => "custom_field_#{cf1.id}" }, { 'key' => 'custom_field_54' }] },
-            { 'type' => 'attribute',
-              'name' => 'groups',
-              'attributes' => [{ 'key' => "custom_field_#{cf2.id}" }] }
-          ]
-        }
-      end
+      include_context 'with custom field params'
 
       it 'enables the custom fields that are passed via attribute_groups' do
         allow(type)
           .to receive(:work_package_attributes)
           .and_return("custom_field_#{cf1.id}" => {}, "custom_field_#{cf2.id}" => {})
 
-        expect(type)
+        allow(type)
           .to receive(:custom_field_ids=)
           .with([cf1.id, cf2.id])
 
         service_call
+
+        expect(type).to have_received(:custom_field_ids=)
+      end
+
+      context 'when the type is associated with projects' do
+        before do
+          type.projects = create_list :project, 2
+        end
+
+        it 'enables the custom fields in the projects' do
+          expect { service_call }
+            .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
+            .from([[], []])
+            .to([[cf1, cf2], [cf1, cf2]])
+        end
       end
     end
 
@@ -141,7 +164,7 @@ shared_examples_for 'type service' do
           .with(name: "Embedded table: group1")
           .and_return(query)
 
-        parse_service = double('ParseQueryParamsService')
+        parse_service = instance_double(::API::V3::ParseQueryParamsService)
         allow(::API::V3::UpdateQueryFromV3ParamsService)
           .to receive(:new)
           .with(query, user)
@@ -179,7 +202,7 @@ shared_examples_for 'type service' do
       end
     end
 
-    context 'on failure' do
+    describe 'on failure' do
       let(:success) { false }
       let(:params) { { name: nil } }
 
@@ -192,6 +215,21 @@ shared_examples_for 'type service' do
       it 'returns the errors of the type' do
         type.name = nil
         expect(subject.errors.symbols_for(:name)).to include :blank
+      end
+
+      describe 'custom fields' do
+        include_context 'with custom field params'
+
+        context 'when the type is associated with projects' do
+          before do
+            type.projects = create_list :project, 2
+          end
+
+          it 'does not changes project custom fields' do
+            expect { service_call }
+              .not_to change { Project.where(id: type.project_ids).map(&:work_package_custom_field_ids) }
+          end
+        end
       end
     end
   end

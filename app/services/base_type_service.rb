@@ -47,6 +47,14 @@ class BaseTypeService
   private
 
   def update(params, options)
+    set_params_and_validate(params, options)
+  rescue StandardError => e
+    ServiceResult.failure.tap do |result|
+      result.errors.add(:base, e.message)
+    end
+  end
+
+  def set_params_and_validate(params, options)
     success = false
     errors = type.errors
 
@@ -72,10 +80,6 @@ class BaseTypeService
     ServiceResult.new(success:,
                       errors:,
                       result: type)
-  rescue StandardError => e
-    ServiceResult.failure.tap do |result|
-      result.errors.add(:base, e.message)
-    end
   end
 
   def set_scalar_params(params)
@@ -147,16 +151,23 @@ class BaseTypeService
   # for this type. If a custom field is not in a group, it is removed from the
   # custom_field_ids list.
   def set_active_custom_fields
-    active_cf_ids = []
+    new_cf_ids_to_add = active_custom_field_ids - type.custom_field_ids
+    type.custom_field_ids = active_custom_field_ids
+    type.projects.each { |p| p.work_package_custom_field_ids |= new_cf_ids_to_add }
+  end
 
-    type.attribute_groups.each do |group|
-      group.members.each do |attribute|
-        if CustomField.custom_field_attribute? attribute
-          active_cf_ids << attribute.gsub(/^custom_field_/, '').to_i
+  def active_custom_field_ids
+    @active_custom_field_ids ||= begin
+      active_cf_ids = []
+
+      type.attribute_groups.each do |group|
+        group.members.each do |attribute|
+          if CustomField.custom_field_attribute? attribute
+            active_cf_ids << attribute.gsub(/^custom_field_/, '').to_i
+          end
         end
       end
+      active_cf_ids.uniq
     end
-
-    type.custom_field_ids = active_cf_ids.uniq
   end
 end
