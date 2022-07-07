@@ -123,7 +123,7 @@
     "lodash": "^4.17.19",
     "mark.js": "^8.11.0",
     "mime": "^2.5.2",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "moment-timezone": "^0.5.34",
     "mousetrap": "~1.6.3",
     "ng-dynamic-component": "^6.0.0",
