@@ -76,29 +76,47 @@ export class SearchableProjectListService {
     };
   }
 
-  registerArrowNavigationOnItems():void {
-    let currentIndex = -1;
+  private handleKeyNavigation(upwards = false):void {
+    const focused = document.activeElement as HTMLElement|undefined;
+    const items = document.querySelectorAll(`[data-list-action-selector='${projectListActionSelector}']`);
 
-    document.addEventListener('keydown', (event) => {
-      // Todo: Instead of collecting the items every time, do it once at the beginning.
-      //  Keep in mind that the list needs to be loaded first, and the list might change when searched
-      const items = document.querySelectorAll(`[data-list-action-selector='${projectListActionSelector}']`);
+    // If the current focus is within a list action, move focus in direction
+    if (focused?.closest(projectListActionSelector)) {
+      this.moveFocus(focused, upwards);
+      return;
+    }
 
-      if (event.keyCode === KeyCodes.UP_ARROW) {
-        // Decrease the counter
-        currentIndex = currentIndex > 0 ? currentIndex -= 1 : 0;
-      } else if (event.keyCode === KeyCodes.DOWN_ARROW) {
-        // Increase counter
-        currentIndex = currentIndex < items.length - 1 ? currentIndex += 1 : items.length - 1;
-      } else {
-        return;
-      }
-
-      (items[currentIndex] as HTMLElement).focus();
-    });
+    // If we're moving down, select first
+    if (!upwards) {
+      const first = document.querySelector<HTMLElement>(projectListActionSelector);
+      first?.focus();
+    }
   }
 
-  destroyArrowNavigation():void {
-    // Todo: Implement
+  private moveFocus(source:Element, upwards = false):void {
+    const activeItem = source.closest(projectListActionSelector) as HTMLElement;
+    let nextContainer:Element|null|undefined;
+
+    if (upwards) {
+      nextContainer = activeItem.previousElementSibling || activeItem.closest('li')?.previousElementSibling;
+    } else {
+      nextContainer = activeItem?.nextElementSibling || activeItem.closest('li')?.nextElementSibling;
+    }
+
+    const target = nextContainer?.querySelector<HTMLElement>(projectListActionSelector);
+    target?.focus();
+  }
+
+  onKeydown(event:KeyboardEvent):void {
+    switch (event.keyCode) {
+      case KeyCodes.UP_ARROW:
+        this.handleKeyNavigation(true);
+        break;
+      case KeyCodes.DOWN_ARROW:
+        this.handleKeyNavigation(false);
+        break;
+      default:
+        break;
+    }
   }
 }

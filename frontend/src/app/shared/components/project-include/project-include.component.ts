@@ -231,7 +231,6 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
 
     if (this.opened) {
       this.searchableProjectListService.loadAllProjects();
-      this.searchableProjectListService.registerArrowNavigationOnItems();
       this.projectsInFilter$
         .pipe(
           take(1),
@@ -265,6 +264,5 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
 
   public close():void {
     this.opened = false;
-    this.searchableProjectListService.destroyArrowNavigation();
   }
 }

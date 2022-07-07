@@ -12,7 +12,8 @@ import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 import { IProjectData } from './project-data';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
-export const projectListActionSelector = 'op-project-list--item-action';
+export const projectListActionIdentifier:string = 'op-project-list--item-action';
+export const projectListActionSelector:string = `[data-list-action-selector='${projectListActionIdentifier}']`;
 
 @Component({
   selector: '[op-project-list]',
@@ -51,7 +52,7 @@ export class OpProjectListComponent {
     current_project: this.I18n.t('js.include_projects.tooltip.current_project'),
   };
 
-  projectListActionSelector = projectListActionSelector;
+  projectListActionIdentifier = projectListActionIdentifier;
 
   constructor(
     readonly I18n:I18nService,

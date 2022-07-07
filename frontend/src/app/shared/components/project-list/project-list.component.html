@@ -7,7 +7,7 @@
     *ngIf="multiSelect"
     class="spot-list--item-action op-project-list--item-action"
     [ngClass]="{ 'spot-list--item-action_disabled': isDisabled(project) }"
-    [attr.data-list-action-selector]="projectListActionSelector"
+    [attr.data-list-action-selector]="projectListActionIdentifier"
   >
     <spot-tooltip
       class="op-project-list--tooltip"
@@ -50,7 +50,7 @@
       [ngClass]="{ 'spot-list--item-action_disabled': project.disabled }"
       [title]="project.name"
       [href]="extendedProjectUrl(project.id)"
-      [attr.data-list-action-selector]="projectListActionSelector"
+      [attr.data-list-action-selector]="projectListActionIdentifier"
     >
     <span
       class="op-project-list--item-title spot-list--item-title"

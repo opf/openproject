@@ -2,6 +2,7 @@
   [open]="opened"
   alignment="bottom-right"
   (closed)="opened = false"
+  (keydown)="searchableProjectListService.onKeydown($event)"
   class="op-project-list-modal"
 >
   <button

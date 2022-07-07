@@ -137,14 +137,12 @@ export class ProjectMenuAutocompleteComponent {
     this.dropModalOpen = !this.dropModalOpen;
     if (this.dropModalOpen) {
       this.searchableProjectListService.loadAllProjects();
-      this.searchableProjectListService.registerArrowNavigationOnItems();
     }
   }
 
   close():void {
     this.searchableProjectListService.searchText = '';
     this.dropModalOpen = false;
-    this.searchableProjectListService.destroyArrowNavigation();
   }
 
   currentProjectName():string {
