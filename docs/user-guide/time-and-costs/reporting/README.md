@@ -42,7 +42,7 @@ You can select and apply various filters, such as work package, author, start da
 Multiple projects can be selected by adding a **Projects** filter. 
 Depending on your rights in the project, multiple users can also be selected. This way you can filter the time and cost entries exactly to your need, depending on the time, work or user you want to see.
 
-The results will the be displayed in the time and cost report below.
+The results will then be displayed in the time and cost report below.
 
 ![filter-time-and-costs-report](image-20210305134143475.png)
 
@@ -54,7 +54,7 @@ To add grouping criteria to the columns or rows of the report, select the drop-d
 
 ![Time-costs-group-by](Time-cots-group-by.png)
 
-The grouping criteria will then be added to the Column or Row of the report. 
+The grouping criteria will then be added to the columns or rows of the report. 
 
 Click the blue **Apply button** to display your changes.
 
@@ -78,7 +78,7 @@ The **Cash value** will display the costs logged according to the filter and gro
 
 ## Report unit costs
 
-If you just want to report on spent **unit costs**, choose the respective unit costs in the cost report under Units. Only the logged unit costs will then be displayed in the report according to your filter and grouping criteria.
+If you just want to report on spent **unit costs**, choose the respective unit costs in the cost report under units. Only the logged unit costs will then be displayed in the report according to your filter and grouping criteria.
 
 ![Time-costs-unit-costs](Time-costs-unit-costs.png)
 
