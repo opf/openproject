@@ -73,13 +73,13 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
   text = {
     title: {
-      openFile: this.i18n.t('js.label_open_file_link'),
-      openFileLocation: this.i18n.t('js.label_open_file_link_location'),
-      removeFileLink: this.i18n.t('js.label_remove_file_link'),
+      openFile: this.i18n.t('js.storages.file_links.open'),
+      openFileLocation: this.i18n.t('js.storages.file_links.open_location'),
+      removeFileLink: this.i18n.t('js.storages.file_links.remove'),
       downloadFileLink: '',
     },
     floatingText: {
-      noViewPermission: this.i18n.t('js.label_file_link_no_permission'),
+      noViewPermission: this.i18n.t('js.storages.file_links.no_permission'),
     },
   };
 
@@ -100,7 +100,10 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
     this.fileLinkIcon = getIconForMimeType(this.originData.mimeType);
 
-    this.text.title.downloadFileLink = this.i18n.t('js.label_download_file', { fileName: this.fileLink.originData.name });
+    this.text.title.downloadFileLink = this.i18n.t(
+      'js.storages.file_links.download',
+      { fileName: this.fileLink.originData.name },
+    );
 
     this.viewAllowed = this.fileLink._links.permission.href === fileLinkViewAllowed;
   }

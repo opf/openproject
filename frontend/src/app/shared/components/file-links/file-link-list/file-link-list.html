@@ -2,17 +2,13 @@
   *ngIf="resource"
 >
   <op-storage-information
-    *ngIf="showInformationBox$ | async"
+    *ngFor="let infoBox of storageInformation | async"
     class="op-files-tab--storage-info-box"
     data-qa-selector="op-files-tab--storage-information"
-    [infoIcon]="informationBoxIcon"
-    [infoTextHeader]="informationBoxHeader"
-    [infoTextContent]="informationBoxContent"
-    [buttons]="buttons | async"
+    [viewModel]="infoBox"
   ></op-storage-information>
 
   <ul
-    *ngIf="showFileLinks$ | async"
     class="spot-list spot-list_compact op-files-tab--file-list"
     data-qa-selector="op-files-tab--file-list"
   >
@@ -22,7 +18,6 @@
       data-qa-selector="op-files-tab--file-list-item"
       op-file-link-list-item
       [fileLink]="fileLink"
-      [resource]="resource"
       [disabled]="disabled"
       [allowEditing]="allowEditing"
       (removeFileLink)="removeFileLink(fileLink)"
@@ -30,7 +25,7 @@
   </ul>
 
   <p
-    *ngIf="(showInformationBox$ | async) === false"
+    *ngIf="!disabled"
     class="spot-body-small"
   >
     <a
