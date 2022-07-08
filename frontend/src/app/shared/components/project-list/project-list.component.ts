@@ -32,7 +32,7 @@ export class OpProjectListComponent {
 
   @Output() update = new EventEmitter<string[]>();
 
-  @Input() root = false;
+  @Input() @HostBinding('class.op-project-list--root') root = false;
 
   @Input() projects:IProjectData[] = [];
 
