@@ -19,12 +19,11 @@
     >
       <ng-container slot="trigger">
         <spot-checkbox
-          *ngFor="let checked of [isChecked(project.href)]"
-          [checked]="checked || (includeSubprojects && parentChecked)"
+          [checked]="isChecked(project.href) || (includeSubprojects && parentChecked)"
           (change)="changeSelected(project)"
           [disabled]="isDisabled(project)"
           [attr.data-qa-project-include-id]="project.id"
-          [attr.data-qa-project-include-checked]="(checked || (includeSubprojects && parentChecked))  ? 1 : 0"
+          [attr.data-qa-project-include-checked]="(isChecked(project.href) || (includeSubprojects && parentChecked))  ? 1 : 0"
         ></spot-checkbox>
         <div
           class="spot-list--item-title op-project-list--item-title"
