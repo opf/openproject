@@ -555,7 +555,7 @@ cs:
           many: 'a %{count} dalšich'
           other: 'a %{count} dalšich'
         no_results:
-          at_all: 'Nová oznámení se zobrazí zde, když se objeví aktivita, která se vás týká'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'V současné době nejsou v tomto zobrazení žádná oznámení'
         mark_all_read: 'Označit vše jako přečtené'
         mark_as_read: 'Označit jako přečteno'
@@ -563,7 +563,8 @@ cs:
         total_count_warning: "Zobrazení posledních oznámení %{newest_count} . Nezobrazuje se ještě %{more_count}"
         empty_state:
           no_notification: "Vypadá to, že jste všechno pročetli..."
-          no_notification_with_current_filter: "Změna zainteresovanost nebo se vraťte zpět do složky Doručená pošta pro zobrazení oznámení"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
           message: 'Máte nová oznámení.'

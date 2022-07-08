@@ -553,7 +553,7 @@ fr:
           one: 'et 1 autre'
           other: 'et %{count} autres'
         no_results:
-          at_all: 'Les nouvelles notifications apparaîtront ici lorsqu''il y a une activité qui vous concerne'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'Il n''y a pas de notifications dans cette vue pour le moment'
         mark_all_read: 'Tout marquer comme lu'
         mark_as_read: 'Marquer comme lu'
@@ -561,7 +561,8 @@ fr:
         total_count_warning: "Affichage des %{newest_count} notifications les plus récentes. %{more_count} autres ne sont pas affichées."
         empty_state:
           no_notification: "On dirait que vous êtes à jour."
-          no_notification_with_current_filter: "Changez d'implication ou retournez à la boîte de réception pour voir les notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Cliquez sur une notification pour voir tous les détails de l'activité."
         new_notifications:
           message: 'Il y a de nouvelles notifications.'

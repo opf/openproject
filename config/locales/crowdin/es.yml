@@ -48,9 +48,9 @@ es:
         main-menu-hover-font-color: "Fuente del menú principal al mantener el cursor"
         main-menu-border-color: "Borde del menú principal"
       custom_colors: "Colores personalizados"
-      customize: "Customize your OpenProject installation with your own logo and colors."
+      customize: "Personalice su instalación de OpenProject con su logotipo y colores."
       enterprise_notice: "Para agradecerle su contribución económica al desarrollo de OpenProject, esta insignificante función solo está disponible para los suscriptores que apoyan la versión corporativa."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
+      enterprise_more_info: "Nota: el logotipo utilizado será de acceso público."
       manage_colors: "Editar opciones de selección de colores"
       instructions:
         alternative-color: "Color de énfasis intenso, que suele usarse para el botón más importante de una pantalla."
@@ -77,7 +77,7 @@ es:
       buttons:
         upgrade: "Actualizar ahora"
         contact: "Contáctenos para una demostración"
-        more_info: "More information"
+        more_info: "Más información"
       enterprise_info_html: "es una función <strong class='icon-medal'>Enterprise</strong>."
       upgrade_info: "Actualice a un plan de pago para activarlo y empezar a usarlo en su equipo."
     journal_aggregation:
@@ -95,6 +95,8 @@ es:
     show_preview: 'Vista previa del texto'
     add_new: 'Agregar texto de ayuda'
     edit: "Editar texto de ayuda para %{attribute_caption}"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: Actualmente no hay modos de autenticación.
@@ -170,7 +172,7 @@ es:
     execute: 'Ejecutar %{name}'
     upsale:
       title: 'Acciones personalizadas'
-      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
+      description: 'Las acciones personalizadas son accesos directos de un solo clic para crear conjuntos de acciones predefinidas que pueden utilizarse en ciertos paquetes de trabajo basados en el estado, rol, tipo o proyecto.'
   custom_fields:
     text_add_new_custom_field: >
       Para agregar nuevos campos personalizados a un proyecto, primero debe crearlos, y luego añadirlos a este proyecto.
@@ -270,7 +272,7 @@ es:
     upsale:
       title: Usuarios de marcador de posición
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Los usuarios de marcadores de posición son una forma de asignar paquetes de trabajo a usuarios que no son parte de su proyecto. Pueden ser útiles en múltiples escenarios; por ejemplo, si necesita rastrear las tareas de un recurso que aún no está nombrado o disponible, o si no quieres dar acceso a esa persona a OpenProject pero quieres seguir las tareas que se le han asignado.
   prioritiies:
     edit:
       priority_color_text: |
@@ -301,7 +303,7 @@ es:
       settings: "Configuración"
       form_configuration: "Configuración del formulario"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        La edición Enterprise le permite personalizar la configuración del formulario con estas características adicionales: <br> <ul class="%{list_styling_class}"> <li><b>Añadir nuevos grupos de atributos</b></li> <li><b>Renombrar grupos de atributos</b></li> </ul>
       projects: "Proyectos"
       enabled_projects: "Proyectos habilitados"
       edit_query: "Editar tabla"
@@ -741,7 +743,7 @@ es:
             duration:
               larger_than_dates: "es más largo que el intervalo entre la fecha de inicio y la final."
               smaller_than_dates: "es más corto que el intervalo entre la fecha de inicio y la final."
-              not_available_for_milestones: "is not available for milestone typed work packages."
+              not_available_for_milestones: "no está disponible para paquetes de trabajo con estilo hitos."
             parent:
               cannot_be_milestone: "no puede ser un hito."
               cannot_be_self_assigned: "no se puede asignar a su propio usuario."
@@ -3068,8 +3070,8 @@ es:
         invalid_scope: "No tienes permisos para acceder a este recurso (invalid_scope)."
   http:
     request:
-      failed_authorization: "The server side request failed authorizing itself."
-      missing_authorization: "The server side request failed due to missing authorization information."
+      failed_authorization: "La solicitud por parte del servidor no se pudo autorizar a sí misma."
+      missing_authorization: "La solicitud por parte del servidor ha fallado debido a la falta información de autorización."
     response:
-      unexpected: "Unexpected response received."
+      unexpected: "Se ha recibido una respuesta inesperada."
   you: su usuario

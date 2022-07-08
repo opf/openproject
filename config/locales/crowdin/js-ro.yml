@@ -553,7 +553,7 @@ ro:
           few: 'și %{count} alții'
           other: 'și %{count} alții'
         no_results:
-          at_all: 'Noi notificări vor apărea aici atunci când există o activitate care vă privește'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'Nu există notificări în această vizualizare în acest moment'
         mark_all_read: 'Marchează Tot ca Citit'
         mark_as_read: 'Marchează ca Citit'
@@ -561,7 +561,8 @@ ro:
         total_count_warning: "Se afișează %{newest_count} cele mai recente notificări. %{more_count} în plus nu sunt afișate."
         empty_state:
           no_notification: "Se pare că toţi sunteţi prinşi."
-          no_notification_with_current_filter: "Schimbă implicarea sau mergi înapoi la Inbox pentru a vizualiza notificările"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Faceți clic pe o notificare pentru a vizualiza toate detaliile activității."
         new_notifications:
           message: 'Există notificări noi.'

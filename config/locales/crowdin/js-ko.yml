@@ -552,7 +552,7 @@ ko:
         and_more_users:
           other: '외 %{count}건'
         no_results:
-          at_all: '나와 관련된 활동이 있으면 새 알림이 여기에 표시됩니다.'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: '현재 이 보기에는 알림이 없습니다.'
         mark_all_read: '모두 읽은 상태로 표시'
         mark_as_read: '읽음으로 표시'
@@ -560,7 +560,8 @@ ko:
         total_count_warning: "%{newest_count} 개의 가장 최근 알림을 표시합니다. %{more_count} 개의 알림은 표시되지 않습니다."
         empty_state:
           no_notification: "모두 확인하신 것 같습니다."
-          no_notification_with_current_filter: "알림을 보려면 참여를 변경하거나 받은 편지함으로 돌아가세요"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "모든 활동 세부 정보를 보려면 알림을 클릭하세요."
         new_notifications:
           message: '새 알림이 있습니다.'

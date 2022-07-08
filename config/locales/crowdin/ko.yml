@@ -95,6 +95,8 @@ ko:
     show_preview: '미리 보기 텍스트'
     add_new: '도움말 텍스트 추가'
     edit: "%{attribute_caption}에 대한 도움말 텍스트 편집"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: 사용인증 모드가 없습니다.

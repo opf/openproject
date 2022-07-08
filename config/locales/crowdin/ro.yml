@@ -95,6 +95,8 @@ ro:
     show_preview: 'Previzualizare text'
     add_new: 'Adăugați text de ajutor'
     edit: "Editați textul de ajutor pentru %{attribute_caption}"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: În acest moment nu există moduri de autentificare.

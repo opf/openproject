@@ -95,6 +95,8 @@ lt:
     show_preview: 'Peržiūrėti tekstą'
     add_new: 'Pridėti pagalbos tekstą'
     edit: "Redaguoti pagalbos tekstą atributui: %{attribute_caption}"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: Šiuo metu nėra jokių autentifikacijos būdų.

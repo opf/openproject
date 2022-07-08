@@ -95,6 +95,8 @@ vi:
     show_preview: 'Văn bản xem trước'
     add_new: 'Thêm văn bản trợ giúp'
     edit: "Chỉnh sửa văn bản trợ giúp cho %{attribute_caption}"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: Không có hiện tại không có chế độ xác thực.

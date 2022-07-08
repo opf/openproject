@@ -556,7 +556,7 @@ hu:
           one: "és 1 másik\n"
           other: 'és %{count} egyéb'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'Ebben a nézetben jelenleg nincsenek értesítések'
         mark_all_read: 'Mindegyik megjelölése olvasottként'
         mark_as_read: 'Megjelölés olvasottként'
@@ -564,7 +564,8 @@ hu:
         total_count_warning: "A %{newest_count} legfrissebb értesítések megjelenítése. %{more_count} több nem jelenik meg.\n"
         empty_state:
           no_notification: "Úgy tűnik, hogy teljesen naprakész."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'Új értesítések érkeztek.'

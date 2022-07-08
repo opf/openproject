@@ -555,7 +555,7 @@ uk:
           many: 'і ще %{count}'
           other: 'і ще %{count}'
         no_results:
-          at_all: 'Нові сповіщення з’являться тут, коли буде виявлено пов’язані з вами дії'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'Зараз у цьому поданні немає сповіщень'
         mark_all_read: 'Позначити все як прочитане'
         mark_as_read: 'Позначити як прочитане'
@@ -563,7 +563,8 @@ uk:
         total_count_warning: "Показано стільки останніх сповіщень: %{newest_count}. Ще %{more_count} не показано."
         empty_state:
           no_notification: "Схоже, ви все прочитали."
-          no_notification_with_current_filter: "Змінити участь або повернутися до поштової скриньки для перегляду сповіщень"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Натисніть сповіщення, щоб переглянути всі дані про дію."
         new_notifications:
           message: 'Немає нових сповіщень.'

@@ -95,6 +95,8 @@ lol:
     show_preview: 'crwdns494801:0crwdne494801:0'
     add_new: 'crwdns494803:0crwdne494803:0'
     edit: "crwdns494805:0%{attribute_caption}crwdne494805:0"
+    enterprise:
+      description: 'crwdns823052:0crwdne823052:0'
   auth_sources:
     index:
       no_results_content_title: crwdns494807:0crwdne494807:0

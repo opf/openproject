@@ -555,7 +555,7 @@ lt:
           many: 'ir dar %{count}'
           other: 'ir dar %{count}'
         no_results:
-          at_all: 'Čia pasirodys nauji pranešimai, kai bus su jumis susijusi veikla'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'Šiuo metu šiame vaizde pranešimų nėra'
         mark_all_read: 'Pažymėti visus kaip perskaitytus'
         mark_as_read: 'Žymėti kaip skaitytą'
@@ -563,7 +563,8 @@ lt:
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
         empty_state:
           no_notification: "Panašu, kad jūs pilnai pasivijote."
-          no_notification_with_current_filter: "Keisti įsitraukimą ar grįžti į gautuosius visų pranešimų peržiūrai"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
         new_notifications:
           message: 'Yra naujų pranešimų.'

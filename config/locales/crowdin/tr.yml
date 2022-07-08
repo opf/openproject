@@ -95,6 +95,8 @@ tr:
     show_preview: 'Önizleme metni'
     add_new: 'Yardım metni ekle'
     edit: "%{attribute_caption} için Yardım metni Düzenle"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: Şu anda bir doğrulama modu bulunmamakta.

@@ -95,6 +95,8 @@ zh-TW:
     show_preview: '預覽文字'
     add_new: '新增說明文字'
     edit: "編輯 %{attribute_caption} 的說明文字"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: 目前沒有身份驗證模式

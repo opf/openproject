@@ -95,6 +95,8 @@ sk:
     show_preview: 'Ukázať náhľad'
     add_new: 'Pridať text pomocníka'
     edit: "Upraviť text pomocníka pre %{attribute_caption}"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: Momentálne nie sú žiadne metódy overovania identity.

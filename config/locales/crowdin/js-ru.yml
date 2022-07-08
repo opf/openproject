@@ -468,10 +468,10 @@ ru:
     label_unwatch: "Прекратить наблюдение"
     label_unwatch_work_package: "Прекратить наблюдение за пакетом работ"
     label_uploaded_by: "Загружено"
-    label_default_queries: "Default"
-    label_starred_queries: "Favorite"
-    label_global_queries: "Public"
-    label_custom_queries: "Private"
+    label_default_queries: "По умолчанию"
+    label_starred_queries: "Избранное"
+    label_global_queries: "Публичный"
+    label_custom_queries: "Приватный"
     label_columns: "Столбцы"
     label_attachments: Вложения
     label_nextcloud: Nextcloud
@@ -554,7 +554,7 @@ ru:
           many: 'и %{count} других'
           other: 'и %{count} других'
         no_results:
-          at_all: 'Новые уведомления по всем действиям, относящимся к Вам, будут отображаться здесь'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'На данный момент в этом представлении нет уведомлений'
         mark_all_read: 'Отметить всё как прочитанное'
         mark_as_read: 'Отметить как прочитанное'
@@ -562,7 +562,8 @@ ru:
         total_count_warning: "Показаны %{newest_count} самые последние уведомления. Ещё %{more_count} не отображаются."
         empty_state:
           no_notification: "Похоже, вы все поймали."
-          no_notification_with_current_filter: "Измените параметры фильтра или вернитесь в папку \"Входящие\" для просмотра уведомлений"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Нажмите на уведомление, чтобы просмотреть все детали активности."
         new_notifications:
           message: 'Есть новые уведомления.'
@@ -1207,7 +1208,7 @@ ru:
       tooltip:
         include_all_selected: 'Включить все выбранные подпроекты.'
         current_project: 'Это текущий проект, в котором вы находитесь.'
-        does_not_match_search: 'Project does not match the search criteria.'
+        does_not_match_search: 'Ни один проект не соответствует критериям поиска.'
     forms:
       submit_success_message: 'Форма успешно отправлена'
       load_error_message: 'Произошла ошибка при загрузке формы'

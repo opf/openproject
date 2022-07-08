@@ -552,7 +552,7 @@ lol:
           one: 'crwdns787698:1crwdne787698:1'
           other: 'crwdns787698:5%{count}crwdne787698:5'
         no_results:
-          at_all: 'crwdns787700:0crwdne787700:0'
+          at_all: 'crwdns823054:0crwdne823054:0'
           with_current_filter: 'crwdns787702:0crwdne787702:0'
         mark_all_read: 'crwdns787704:0crwdne787704:0'
         mark_as_read: 'crwdns787706:0crwdne787706:0'
@@ -560,7 +560,8 @@ lol:
         total_count_warning: "crwdns787710:0%{newest_count}crwdnd787710:0%{more_count}crwdne787710:0"
         empty_state:
           no_notification: "crwdns787712:0crwdne787712:0"
-          no_notification_with_current_filter: "crwdns787714:0crwdne787714:0"
+          no_notification_with_current_project_filter: "crwdns823056:0crwdne823056:0"
+          no_notification_with_current_filter: "crwdns823058:0%{filter}crwdne823058:0"
           no_selection: "crwdns787716:0crwdne787716:0"
         new_notifications:
           message: 'crwdns787718:0crwdne787718:0'

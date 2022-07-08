@@ -555,7 +555,7 @@ pl:
           many: 'i %{count} inne'
           other: 'i %{count} innych'
         no_results:
-          at_all: 'Nowe powiadomienia pojawią się tutaj, gdy pojawi się aktywność, która dotyczy ciebie'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'Obecnie brak powiadomień w tym widoku'
         mark_all_read: 'Oznacz wszystko jako przeczytane'
         mark_as_read: 'Oznacz jako przeczytane'
@@ -563,7 +563,8 @@ pl:
         total_count_warning: "Wyświetlono najnowsze powiadomienia: %{newest_count}. Nie wyświetlono %{more_count}."
         empty_state:
           no_notification: "Wygląda na to, że jesteś już na bieżąco."
-          no_notification_with_current_filter: "Zmień zaangażowanie lub wróć do skrzynki odbiorczej, aby wyświetlić powiadomienia"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Kliknij powiadomienie, aby wyświetlić wszystkie szczegóły aktywności."
         new_notifications:
           message: 'Masz nowe powiadomienia.'

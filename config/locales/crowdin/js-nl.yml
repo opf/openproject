@@ -553,7 +553,7 @@ nl:
           one: 'en 1 ander'
           other: 'en %{count} anderen'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Alles als gelezen markeren'
         mark_as_read: 'Als gelezen markeren'
@@ -561,7 +561,8 @@ nl:
         total_count_warning: "De %{newest_count} meest recente meldingen weergeven. %{more_count} meer worden niet weergegeven."
         empty_state:
           no_notification: "Het lijkt erop dat u helemaal bij bent."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Klik op een melding om alle activiteit details te bekijken."
         new_notifications:
           message: 'There are new notifications.'
