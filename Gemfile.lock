@@ -633,7 +633,7 @@ GEM
     mini_portile2 (2.8.0)
     minisyntax (0.2.5)
     minitest (5.16.2)
-    msgpack (1.5.2)
+    msgpack (1.5.3)
     multi_json (1.15.0)
     multipart-post (2.2.3)
     mustermann (1.1.1)
