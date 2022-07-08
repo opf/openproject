@@ -33,7 +33,7 @@
       (click)="openStorageLocation()"
     >
       <span class="spot-icon spot-icon_external-link"></span>
-      <span [textContent]="text.actions.linkFile"></span>
+      <span [textContent]="text.actions.linkFile(storageType)"></span>
     </a>
   </p>
 </ng-container>

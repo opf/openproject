@@ -72,26 +72,28 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   disabled = false;
 
+  storageType:string;
+
   storageInformation = new BehaviorSubject<StorageInformationBox[]>([]);
 
   private readonly storageTypeMap:Record<string, string> = {};
 
-  text:{
-    infoBox:{
-      emptyStorageHeader:string,
-      emptyStorageContent:string,
-      emptyStorageButton:string,
-      fileLinkErrorHeader:string,
-      fileLinkErrorContent:string,
-      connectionErrorHeader:string,
-      connectionErrorContent:string,
-      authorizationFailureHeader:string,
-      authorizationFailureContent:string,
-      loginButton:string,
+  text = {
+    infoBox: {
+      emptyStorageHeader: (storageType:string):string => this.i18n.t('js.storages.link_files_in_storage', { storageType }),
+      emptyStorageContent: (storageType:string):string => this.i18n.t('js.storages.information.no_file_links', { storageType }),
+      emptyStorageButton: (storageType:string):string => this.i18n.t('js.storages.open_storage', { storageType }),
+      fileLinkErrorHeader: this.i18n.t('js.storages.information.live_data_error'),
+      fileLinkErrorContent: (storageType:string):string => this.i18n.t('js.storages.information.live_data_error_description', { storageType }),
+      connectionErrorHeader: (storageType:string):string => this.i18n.t('js.storages.no_connection', { storageType }),
+      connectionErrorContent: (storageType:string):string => this.i18n.t('js.storages.information.connection_error', { storageType }),
+      authorizationFailureHeader: (storageType:string):string => this.i18n.t('js.storages.login_to', { storageType }),
+      authorizationFailureContent: (storageType:string):string => this.i18n.t('js.storages.information.not_logged_in', { storageType }),
+      loginButton: (storageType:string):string => this.i18n.t('js.storages.login', { storageType }),
     },
-    actions:{
-      linkFile:string,
-    }
+    actions: {
+      linkFile: (storageType:string):string => this.i18n.t('js.storages.link_files_in_storage', { storageType }),
+    },
   };
 
   private get storageLocation():string {
@@ -109,7 +111,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   ngOnInit():void {
     this.initializeStorageTypes();
-    this.initializeLocales();
+
+    this.storageType = this.storageTypeMap[this.storage._links.type.href];
 
     this.disabled = this.storage._links.authorizationState.href !== storageConnected;
 
@@ -164,10 +167,10 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   private get failedAuthorizationInformation():StorageInformationBox {
     return new StorageInformationBox(
       'import',
-      this.text.infoBox.authorizationFailureHeader,
-      this.text.infoBox.authorizationFailureContent,
+      this.text.infoBox.authorizationFailureHeader(this.storageType),
+      this.text.infoBox.authorizationFailureContent(this.storageType),
       [new StorageActionButton(
-        this.text.infoBox.loginButton,
+        this.text.infoBox.loginButton(this.storageType),
         () => {
           if (this.storage._links.authorize) {
             const nonce = uuidv4();
@@ -187,8 +190,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   private get authorizationErrorInformation():StorageInformationBox {
     return new StorageInformationBox(
       'remove-link',
-      this.text.infoBox.connectionErrorHeader,
-      this.text.infoBox.connectionErrorContent,
+      this.text.infoBox.connectionErrorHeader(this.storageType),
+      this.text.infoBox.connectionErrorContent(this.storageType),
       [],
     );
   }
@@ -196,10 +199,10 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   private get emptyStorageInformation():StorageInformationBox {
     return new StorageInformationBox(
       'add-link',
-      this.text.infoBox.emptyStorageHeader,
-      this.text.infoBox.emptyStorageContent,
+      this.text.infoBox.emptyStorageHeader(this.storageType),
+      this.text.infoBox.emptyStorageContent(this.storageType),
       [new StorageActionButton(
-        this.text.infoBox.emptyStorageButton,
+        this.text.infoBox.emptyStorageButton(this.storageType),
         () => {
           window.open(this.storageLocation, '_blank');
         },
@@ -211,7 +214,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     return new StorageInformationBox(
       'error',
       this.text.infoBox.fileLinkErrorHeader,
-      this.text.infoBox.fileLinkErrorContent,
+      this.text.infoBox.fileLinkErrorContent(this.storageType),
       [],
     );
   }
@@ -233,27 +236,6 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   private static authorizationFailureActionUrl(baseUrl:string, nonce:string):string {
     return `${baseUrl}&state=${nonce}`;
-  }
-
-  private initializeLocales():void {
-    const storageType = this.storageTypeMap[this.storage._links.type.href];
-    this.text = {
-      infoBox: {
-        emptyStorageHeader: this.i18n.t('js.storages.link_files_in_storage', { storageType }),
-        emptyStorageContent: this.i18n.t('js.storages.information.no_file_links', { storageType }),
-        emptyStorageButton: this.i18n.t('js.storages.open_storage', { storageType }),
-        fileLinkErrorHeader: this.i18n.t('js.storages.information.live_data_error'),
-        fileLinkErrorContent: this.i18n.t('js.storages.information.live_data_error_description', { storageType }),
-        connectionErrorHeader: this.i18n.t('js.storages.no_connection', { storageType }),
-        connectionErrorContent: this.i18n.t('js.storages.information.connection_error', { storageType }),
-        authorizationFailureHeader: this.i18n.t('js.storages.login_to', { storageType }),
-        authorizationFailureContent: this.i18n.t('js.storages.information.not_logged_in', { storageType }),
-        loginButton: this.i18n.t('js.storages.login', { storageType }),
-      },
-      actions: {
-        linkFile: this.i18n.t('js.storages.link_files_in_storage', { storageType }),
-      },
-    };
   }
 
   private initializeStorageTypes() {
