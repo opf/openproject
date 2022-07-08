@@ -57,6 +57,7 @@ export class OpProjectListComponent {
   };
 
   projectListActionIdentifier = projectListActionIdentifier;
+
   projectListItemIdentifier = projectListItemIdentifier;
 
   constructor(

@@ -15,7 +15,6 @@ import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import {
   projectListActionSelector,
   projectListItemDisabled,
-  projectListItemSelector,
   projectListRootSelector,
 } from 'core-app/shared/components/project-list/project-list.component';
 
@@ -92,7 +91,7 @@ export class SearchableProjectListService {
 
     // If we're moving down, select first
     if (!upwards) {
-      const first = document.querySelector<HTMLElement>(projectListActionSelector);
+      const first = document.querySelector<HTMLElement>(`${projectListActionSelector}:not(${projectListItemDisabled})`);
       first?.focus();
     }
   }
