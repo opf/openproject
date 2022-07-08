@@ -26,25 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Dir[Rails.root.join('spec/support/schedule_helpers/*.rb')].each { |f| require f }
+module ScheduleHelpers
+  class ChartRepresenter
+    LINE = "%<id>s | %<days>s |".freeze
 
-RSpec.configure do |config|
-  config.extend ScheduleHelpers::LetSchedule
-  config.include ScheduleHelpers::ExampleMethods
-
-  RSpec::Matchers.define :match_schedule do |expected|
-    match do |actual_work_packages|
-      expected_chart = ScheduleHelpers::Chart.for(expected)
-      @expected = expected_chart.to_s # normalize expected
-
-      actual_chart = ScheduleHelpers::Chart.from_work_packages(actual_work_packages)
-      actual_chart.monday = expected_chart.monday
-      @actual = actual_chart.to_s
-
-      values_match? @expected, @actual
+    def add_row
+      rows << []
     end
 
-    diffable
-    attr_reader :expected, :actual
+    def add_cell(text)
+      rows.last << text
+    end
+
+    def rows
+      @rows ||= []
+    end
+
+    def to_s
+      line_template = "%<id>-#{columns_size[0]}s | %<days>-#{columns_size[1]}s |"
+      rows.map do |row|
+        line_template % { id: row[0], days: row[1] }
+      end.join("\n")
+    end
+
+    def columns
+      rows.transpose
+    end
+
+    def columns_size
+      columns.map { |column| column.map(&:length).max }
+    end
   end
 end
