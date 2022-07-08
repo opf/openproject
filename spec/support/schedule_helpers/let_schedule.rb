@@ -42,35 +42,59 @@ module ScheduleHelpers
     #
     # is equivalent to:
     #
-    #   let!(:main) do
+    #   let!(:schedule_chart) do
+    #     chart = <...parse_chart(CHART)...>
+    #     main
+    #     follower
+    #     start_only
+    #     due_only
+    #     relation_follower_follows_main
+    #     chart
+    #   end
+    #   let(:main) do
     #     create(:work_package, subject: 'main', start_date: next_monday, due_date: next_monday + 1.day)
     #   end
-    #   let!(:follower) do
+    #   let(:follower) do
     #     create(:work_package, subject: 'follower', start_date: next_monday + 2.days, due_date: next_monday + 4.days) }
     #   end
-    #   let!(:relation_follower_follows_main) do
+    #   let(:relation_follower_follows_main) do
     #     create(:follows_relation, from: follower, to: main, delay: 0) }
     #   end
-    #   let!(:start_only) do
+    #   let(:start_only) do
     #     create(:work_package, subject: 'start_only', start_date: next_monday + 1.day) }
     #   end
-    #   let!(:due_only) do
+    #   let(:due_only) do
     #     create(:work_package, subject: 'due_only', due_date: next_monday + 3.days) }
     #   end
     def let_schedule(chart_representation, **extra_attributes)
       # To be able to use `travel_to` in a before hook, the dates in the chart
       # must be lazy evaluated in a let statement.
       let(:schedule_chart) { Chart.for(chart_representation) }
+      let!(:__evaluate_work_packages_from_schedule_chart) do
+        schedule_chart.work_package_names.each do |name|
+          # force evaluation of work package
+          send(name)
+          schedule_chart.predecessors_by_follower(name).each do |predecessor|
+            # force evaluation of relation
+            send("relation_#{name}_follows_#{predecessor}")
+          end
+        end
+      end
 
       # we still need to parse the chart to get the work package names and relations
       chart = Chart.for(chart_representation)
-      chart.work_packages.each_key do |name|
-        let!(name) do
-          create(:work_package, schedule_chart.work_package_attributes(name).reverse_merge(extra_attributes))
+      chart.work_package_names.each do |name|
+        let(name) do
+          attributes = schedule_chart
+            .work_package_attributes(name)
+            .excluding(:name)
+            .reverse_merge(extra_attributes)
+            .merge(parent: schedule_chart.parent(name) ? send(schedule_chart.parent(name)) : nil)
+          create(:work_package, attributes)
         end
         chart.predecessors_by_follower(name).each do |predecessor|
           relation_alias = "relation_#{name}_follows_#{predecessor}"
-          let!(relation_alias) do
+          let(relation_alias) do
             create(:follows_relation,
                    from: send(name),
                    to: send(predecessor),

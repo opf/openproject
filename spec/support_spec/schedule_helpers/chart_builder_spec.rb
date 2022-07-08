@@ -59,15 +59,15 @@ describe ScheduleHelpers::ChartBuilder do
         due_only   |     ]     |
         no_dates   |           |
       CHART
-      expect(chart.work_packages).to eq(
-        {
-          main: { subject: 'main', start_date: monday, due_date: tuesday },
-          other: { subject: 'other', start_date: thursday, due_date: next_tuesday },
-          follower: { subject: 'follower', start_date: wednesday, due_date: friday },
-          start_only: { subject: 'start_only', start_date: tuesday, due_date: nil },
-          due_only: { subject: 'due_only', start_date: nil, due_date: friday },
-          no_dates: { subject: 'no_dates', start_date: nil, due_date: nil }
-        }
+      expect(chart.work_packages_attributes).to eq(
+        [
+          { name: :main, subject: 'main', start_date: monday, due_date: tuesday },
+          { name: :other, subject: 'other', start_date: thursday, due_date: next_tuesday },
+          { name: :follower, subject: 'follower', start_date: wednesday, due_date: friday },
+          { name: :start_only, subject: 'start_only', start_date: tuesday, due_date: nil },
+          { name: :due_only, subject: 'due_only', start_date: nil, due_date: friday },
+          { name: :no_dates, subject: 'no_dates', start_date: nil, due_date: nil }
+        ]
       )
       expect(chart.predecessors_by_follower(:main)).to eq([])
       expect(chart.predecessors_by_follower(:other)).to eq([])
@@ -94,7 +94,7 @@ describe ScheduleHelpers::ChartBuilder do
         wp   |   X                   |
       CHART
       expect(chart.monday).to eq(monday)
-      expect(chart.first_day).to eq(chart.work_packages.dig(:wp, :start_date))
+      expect(chart.first_day).to eq(chart.work_package_attributes(:wp)[:start_date])
     end
   end
 
@@ -130,6 +130,20 @@ describe ScheduleHelpers::ChartBuilder do
         CHART
         expect(chart.predecessors_by_follower(:follower)).to eq([:main])
         expect(chart.delay_between(predecessor: :main, follower: :follower)).to eq(3)
+      end
+    end
+
+    describe 'child of <name>' do
+      it 'sets the parent to the named one' do
+        chart = builder.parse(<<~CHART)
+          days        | MTWTFSS |
+          parent      |         | child of grandparent
+          main        |         | child of parent
+          grandparent |         |
+        CHART
+        expect(chart.parent(:grandparent)).to be_nil
+        expect(chart.parent(:parent)).to eq(:grandparent)
+        expect(chart.parent(:main)).to eq(:parent)
       end
     end
   end

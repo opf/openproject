@@ -28,29 +28,6 @@
 
 module ScheduleHelpers
   module ExampleMethods
-    # Update the given work packages according to the given chart representation.
-    # Work packages are changed without being saved.
-    #
-    # For instance:
-    #
-    #   before do
-    #     change_schedule([main], <<~CHART)
-    #       days     | MTWTFSS   |
-    #       main     | XX        |
-    #     CHART
-    #   end
-    #
-    # is equivalent to:
-    #
-    #   before do
-    #     main.start_date = monday
-    #     main.due_date = tuesday
-    #   end
-    def update_schedule(work_packages, chart)
-      change_schedule(work_packages, chart)
-      work_packages.each(&:save!)
-    end
-
     # Change the given work packages according to the given chart representation.
     # Work packages are changed without being saved.
     #
@@ -70,10 +47,11 @@ module ScheduleHelpers
     #     main.due_date = tuesday
     #   end
     def change_schedule(work_packages, chart)
-      Chart.for(chart).work_packages.each do |name, attributes|
+      Chart.for(chart).work_packages_attributes.each do |attributes|
         work_package = work_packages.find { |wp| wp.subject == attributes[:subject] }
         unless work_package
-          raise ArgumentError, "unable to find a WorkPackage with name :#{name}. Got #{work_packages.pluck(:subject).to_sentence}"
+          raise ArgumentError, "no work package with subject #{attributes[:subject]} given; " \
+                               "available work packages are #{work_packages.pluck(:subject).to_sentence}"
         end
 
         attributes.slice(:start_date, :due_date).each do |attribute, value|
@@ -107,7 +85,8 @@ module ScheduleHelpers
     def expect_schedule(work_packages, chart)
       by_id = work_packages.index_by(&:id)
       chart = Chart.for(chart)
-      chart.work_packages.each do |name, attributes|
+      chart.work_packages_attributes.each do |attributes|
+        name = attributes[:name]
         raise ArgumentError, "unable to find WorkPackage :#{name}" unless respond_to?(name)
 
         work_package = send(name)

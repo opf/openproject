@@ -68,11 +68,12 @@ module ScheduleHelpers
 
     def parse_header(header)
       _, week_days = header.split(' | ', 2)
-      unless week_days.include?('MTWTFSS')
-        raise ArgumentError, "First header line of schedule chart must contain MTWTFSS to indicate day names and have an origin"
+      unless week_days.include?(Chart::WEEK_DAYS_TEXT)
+        raise ArgumentError,
+              "First header line of schedule chart must contain #{Chart::WEEK_DAYS_TEXT} to indicate day names and have an origin"
       end
 
-      @nb_days_from_origin_monday = week_days.index('M')
+      @nb_days_from_origin_monday = week_days.index(Chart::WEEK_DAYS_TEXT.first)
     end
 
     def parse_line(line)
@@ -105,6 +106,11 @@ module ScheduleHelpers
           predecessor: $1.to_sym,
           follower: name.to_sym,
           delay: $2.to_i
+        )
+      when /^child of (\w+)/
+        chart.add_parent_relation(
+          parent: $1.to_sym,
+          child: name.to_sym
         )
       else
         raise "unable to parse property #{property.inspect} for line #{name.inspect}"

@@ -547,70 +547,101 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
           CHART
         end
       end
+
+      context 'with predecessor and follower having no dates' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days          | MTWTFSS |
+          work_package  |         |
+          follower      |         |
+        CHART
+
+        before do
+          create(:follows_relation, from: follower, to: work_package)
+        end
+
+        it 'does not reschedule any work package' do
+          expect(subject.all_results).to match_schedule(<<~CHART)
+            days          | MTWTFSS |
+            work_package  |         |
+          CHART
+        end
+      end
     end
 
-    #   context 'when not moving and the successor having start and due before predecessor due date (e.g. creating relation)' do
-    #     let(:follower1_start_date) { work_package_due_date - 5.days }
-    #     let(:follower1_due_date) { work_package_due_date - 2.days }
+    context 'with the successor having another predecessor which has no dates' do
+      context 'when moved forward' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days              | MTWTFSS |
+          work_package      | ]       |
+          follower          |  XXX    | follows work_package, follows other_predecessor
+          other_predecessor |         |
+        CHART
 
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         { following_work_package1 => [work_package.due_date + 1.day, work_package.due_date + 4.days] }
-    #       end
-    #     end
-    #   end
+        before do
+          change_schedule([work_package], <<~CHART)
+            days          | MTWTFSS |
+            work_package  |    ]    |
+          CHART
+        end
 
-    #   context 'when not having dates and the successor not having start & due date (e.g. creating relation)' do
-    #     let(:work_package_due_date) { nil }
-    #     let(:follower1_start_date) { nil }
-    #     let(:follower1_due_date) { nil }
+        it 'reschedules follower without influence from the other predecessor' do
+          expect(subject.all_results).to match_schedule(<<~CHART)
+            days          | MTWTFSS   |
+            work_package  |    ]      |
+            follower      |     X..XX |
+          CHART
+        end
+      end
 
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         {}
-    #       end
-    #     end
-    #   end
+      context 'when moved backwards' do
+        let_schedule(<<~CHART, ignore_non_working_days: false)
+          days              | MTWTFSS |
+          work_package      | ]       |
+          follower          |  XXX    | follows work_package, follows other_predecessor
+          other_predecessor |         |
+        CHART
 
-    #   context 'with the successor having another predecessor which has no dates' do
-    #     let(:following_work_package1) do
-    #       create_follower(follower1_start_date,
-    #                       follower1_due_date,
-    #                       { work_package => follower1_delay,
-    #                         another_successor => 0 })
-    #     end
-    #     let(:another_successor) do
-    #       create(:work_package,
-    #              start_date: nil,
-    #              due_date: nil)
-    #     end
+        before do
+          change_schedule([work_package], <<~CHART)
+            days          | mtwtfssMTWTFSS |
+            work_package  |   ]            |
+          CHART
+        end
 
-    #     context 'when moving forward' do
-    #       before do
-    #         work_package.due_date = Time.zone.today + 5.days
-    #       end
+        it 'reschedules follower without influence from the other predecessor' do
+          expect(subject.all_results).to match_schedule(<<~CHART)
+            days          | mtwtfssMTWTFSS |
+            work_package  |   ]            |
+            follower      |    XX..X       |
+          CHART
+        end
+      end
+    end
+  end
 
-    #       it_behaves_like 'reschedules' do
-    #         let(:expected) do
-    #           { following_work_package1 => [Time.zone.today + 6.days, Time.zone.today + 8.days] }
-    #         end
-    #       end
-    #     end
+  context 'with a parent' do
+    context 'when setting both start and due dates' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days         | MTWTFSS |
+        parent       |         |
+        work_package | ]       | child of parent
+      CHART
 
-    #     context 'when moving backwards' do
-    #       before do
-    #         work_package.due_date = Time.zone.today - 5.days
-    #       end
+      before do
+        change_schedule([work_package], <<~CHART)
+          days         | mtwtfssMTWTFSS |
+          work_package |   XXX..X       |
+        CHART
+      end
 
-    #       it_behaves_like 'reschedules' do
-    #         let(:expected) do
-    #           { following_work_package1 => [Time.zone.today - 4.days, Time.zone.today - 2.days] }
-    #         end
-    #       end
-    #     end
-    #   end
-    # end
-
+      it 'reschedules parent to have the same dates as the child' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | mtwtfssMTWTFSS |
+          parent       |   XXX..X       |
+          work_package |   XXX..X       |
+        CHART
+      end
+    end
     # context 'with only a parent' do
     #   let!(:parent_work_package) do
     #     create(:work_package).tap do |parent|

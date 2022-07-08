@@ -49,7 +49,10 @@ module ScheduleHelpers
   # * +_+: ignored but useful as a placeholder to highlight particular days, for
   #   instance to highlight the previous dates of a work package.
   class Chart
-    attr_reader :first_day, :last_day, :monday
+    FIRST_CELL_TEXT = 'days'.freeze
+    WEEK_DAYS_TEXT = 'MTWTFSS'.freeze
+
+    attr_reader :id_column_size, :first_day, :last_day, :monday
 
     def self.for(representation)
       builder = ChartBuilder.new
@@ -62,6 +65,22 @@ module ScheduleHelpers
 
     def initialize
       self.monday = next_monday
+      self.id_column_size = FIRST_CELL_TEXT.length
+    end
+
+    # duplicates the chart with different representation properties
+    def with(order: work_package_names, id_column_size: self.id_column_size, first_day: self.first_day, last_day: self.last_day)
+      chart = Chart.new
+      extra_names = work_package_names - order
+      chart.work_packages_attributes = work_packages_attributes.index_by { _1[:name] }.values_at(*(order + extra_names)).compact
+      chart.monday = monday
+      chart.id_column_size = id_column_size
+      chart.first_day = first_day
+      chart.last_day = last_day
+      chart.predecessors_by_followers = predecessors_by_followers
+      chart.delays_between = delays_between
+      chart.parent_by_child = parent_by_child
+      chart
     end
 
     # Sets the origin of the calendar, represented by +M+ on the first line (M as
@@ -74,9 +93,9 @@ module ScheduleHelpers
     end
 
     def validate
-      work_packages.each_key do |follower|
+      work_package_names.each do |follower|
         predecessors_by_follower(follower).each do |predecessor|
-          if !work_packages.has_key?(predecessor)
+          unless work_package_attributes(predecessor)
             raise "unable to find predecessor #{predecessor.inspect} " \
                   "in property \"follows #{predecessor}\" " \
                   "for work package #{follower.inspect}"
@@ -85,27 +104,30 @@ module ScheduleHelpers
       end
     end
 
-    def work_packages
-      @work_packages ||= {}
+    def work_packages_attributes
+      @work_packages_attributes ||= []
     end
 
     def work_package_attributes(name)
-      work_packages[name.to_sym]
+      work_packages_attributes.find { |wpa| wpa[:name] == name.to_sym }
+    end
+
+    def work_package_names
+      work_packages_attributes.pluck(:name)
+    end
+
+    def predecessors_by_follower(follower)
+      predecessors_by_followers[follower]
     end
 
     def delay_between(predecessor:, follower:)
       delays_between.fetch([predecessor, follower])
     end
 
-    def predecessors_by_follower(follower)
-      @predecessors_by_follower ||= Hash.new { |h, k| h[k] = [] }
-      @predecessors_by_follower[follower]
-    end
-
     def add_work_package(attributes)
-      name = attributes[:subject].to_sym
       extend_calendar_range(*attributes.values_at(:start_date, :due_date))
-      work_packages[name] = attributes
+      extend_id_column_size(*attributes.values_at(:subject))
+      work_packages_attributes << attributes.merge(name: attributes[:subject].to_sym)
     end
 
     def add_follows_relation(predecessor:, follower:, delay:)
@@ -113,24 +135,50 @@ module ScheduleHelpers
       delays_between[[predecessor, follower]] = delay
     end
 
+    def add_parent_relation(parent:, child:)
+      parent_by_child[child] = parent
+    end
+
+    def parent(name)
+      parent_by_child[name]
+    end
+
     def to_s
-      representer = ChartRepresenter.new
+      representer = ChartRepresenter.new(id_column_size:, days_column_size:)
       representer.add_row
-      representer.add_cell('days')
-      representer.add_cell(spaced_at(monday, 'MTWTFSS'))
-      work_packages.each do |name, attributes|
+      representer.add_cell(FIRST_CELL_TEXT)
+      representer.add_cell(spaced_at(monday, WEEK_DAYS_TEXT))
+      work_package_names.each do |name|
         representer.add_row
         representer.add_cell(name.to_s)
-        representer.add_cell(span(attributes))
+        representer.add_cell(span(work_package_attributes(name)))
       end
       representer.to_s
     end
 
+    protected
+
+    attr_writer :work_packages_attributes,
+                :id_column_size,
+                :first_day,
+                :last_day,
+                :predecessors_by_followers,
+                :delays_between,
+                :parent_by_child
+
     private
 
     def extend_calendar_range(*dates)
-      @first_day = [@first_day, *dates].compact.min
-      @last_day = [@last_day, *dates].compact.max
+      self.first_day = [@first_day, *dates].compact.min
+      self.last_day = [@last_day, *dates].compact.max
+    end
+
+    def extend_id_column_size(name)
+      self.id_column_size = [id_column_size, name.length].max
+    end
+
+    def days_column_size
+      (first_day..last_day).count
     end
 
     def spaced_at(date, text)
@@ -161,8 +209,16 @@ module ScheduleHelpers
       date
     end
 
+    def predecessors_by_followers
+      @predecessors_by_followers ||= Hash.new { |h, k| h[k] = [] }
+    end
+
     def delays_between
       @delays_between ||= Hash.new(0)
+    end
+
+    def parent_by_child
+      @parent_by_child ||= {}
     end
   end
 end

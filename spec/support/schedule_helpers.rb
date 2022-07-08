@@ -35,11 +35,9 @@ RSpec.configure do |config|
   RSpec::Matchers.define :match_schedule do |expected|
     match do |actual_work_packages|
       expected_chart = ScheduleHelpers::Chart.for(expected)
-      @expected = expected_chart.to_s # normalize expected
-
       actual_chart = ScheduleHelpers::Chart.from_work_packages(actual_work_packages)
-      actual_chart.monday = expected_chart.monday
-      @actual = actual_chart.to_s
+
+      @expected, @actual = ScheduleHelpers::ChartRepresenter.normalized_to_s(expected_chart, actual_chart)
 
       values_match? @expected, @actual
     end

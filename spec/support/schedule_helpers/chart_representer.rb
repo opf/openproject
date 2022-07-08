@@ -30,6 +30,21 @@ module ScheduleHelpers
   class ChartRepresenter
     LINE = "%<id>s | %<days>s |".freeze
 
+    def self.normalized_to_s(reference_chart, other_chart)
+      order = reference_chart.work_package_names
+      id_column_size = [reference_chart, other_chart].map(&:id_column_size).max
+      first_day = [reference_chart, other_chart].map(&:first_day).min
+      last_day = [reference_chart, other_chart].map(&:last_day).max
+      [reference_chart, other_chart]
+        .map { |chart| chart.with(order:, id_column_size:, first_day:, last_day:) }
+        .map(&:to_s)
+    end
+
+    def initialize(id_column_size:, days_column_size:)
+      @id_column_size = id_column_size
+      @days_column_size = days_column_size
+    end
+
     def add_row
       rows << []
     end
@@ -43,18 +58,10 @@ module ScheduleHelpers
     end
 
     def to_s
-      line_template = "%<id>-#{columns_size[0]}s | %<days>-#{columns_size[1]}s |"
+      line_template = "%<id>-#{@id_column_size}s | %<days>-#{@days_column_size}s |"
       rows.map do |row|
         line_template % { id: row[0], days: row[1] }
       end.join("\n")
-    end
-
-    def columns
-      rows.transpose
-    end
-
-    def columns_size
-      columns.map { |column| column.map(&:length).max }
     end
   end
 end

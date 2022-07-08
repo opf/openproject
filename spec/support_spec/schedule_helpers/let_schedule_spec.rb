@@ -47,6 +47,7 @@ describe ScheduleHelpers::LetSchedule do
       days      | MTWTFSS |
       main      | XX      |
       follower  |   XXX   | follows main with delay 2
+      child     |         | child of main
     CHART
 
     it 'creates let! call for :schedule_chart which returns the chart' do
@@ -55,8 +56,8 @@ describe ScheduleHelpers::LetSchedule do
     end
 
     it 'creates let! calls for each work package' do
-      expect([main, follower]).to all(be_an_instance_of(WorkPackage))
-      expect([main, follower]).to all(be_persisted)
+      expect([main, follower, child]).to all(be_an_instance_of(WorkPackage))
+      expect([main, follower, child]).to all(be_persisted)
       expect(main).to have_attributes(
         subject: 'main',
         start_date: schedule_chart.monday,
@@ -67,12 +68,21 @@ describe ScheduleHelpers::LetSchedule do
         start_date: schedule_chart.monday + 2.days,
         due_date: schedule_chart.monday + 4.days
       )
+      expect(child).to have_attributes(
+        subject: 'child',
+        start_date: nil,
+        due_date: nil
+      )
     end
 
     it 'creates let! calls for follows relations between work packages' do
       expect(follower.follows_relations.count).to eq(1)
       expect(relation_follower_follows_main).to be_an_instance_of(Relation)
       expect(relation_follower_follows_main.delay).to eq(2)
+    end
+
+    it 'creates parent / child relations' do
+      expect(child.parent).to eq(main)
     end
 
     context 'with additional attributes' do
