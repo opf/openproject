@@ -12,6 +12,7 @@ import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { OpModalService } from '../modal/modal.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { pricingUrl } from 'core-app/core/setup/globals/constants.const';
 
 export const enterpriseBannerSelector = 'op-enterprise-banner';
 
@@ -37,6 +38,8 @@ export class EnterpriseBannerComponent implements OnInit {
   @Input() public messageIsHtml = false;
 
   public link:string;
+
+  pricingUrl = pricingUrl;
 
   public text = {
     enterpriseFeature: this.I18n.t('js.upsale.ee_only'),
