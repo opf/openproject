@@ -26,34 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OAuthHelper
-  ##
-  # Output the translated scope names for the given application
-  def oauth_scope_translations(application)
-    strings = application.scopes.to_a
+# This patch adds an optional polymorphic relation to OAuth applications.
 
-    if strings.empty?
-      I18n.t("oauth.scopes.api_v3")
-    else
-      safe_join(strings.map { |scope| I18n.t("oauth.scopes.#{scope}", default: scope) }, '</br>'.html_safe)
-    end
-  end
-
-  ##
-  # Show first two and last two characters, with **** in the middle
-  def short_secret(secret)
-    result = ""
-    if secret.is_a?(String) && secret.present?
-      result = "#{secret[...2]}●●●●#{secret[-2...]}"
-    end
-
-    result
-  end
-
-  ##
-  # Get granted applications for the given user
-  def granted_applications(user = current_user)
-    tokens = ::Doorkeeper::AccessToken.active_for(user).includes(:application)
-    tokens.group_by(&:application)
-  end
+Doorkeeper::Application.class_eval do
+  belongs_to :integration, polymorphic: true
+  scope :without_integration, -> { where(integration_type: nil, integration_id: nil) }
 end

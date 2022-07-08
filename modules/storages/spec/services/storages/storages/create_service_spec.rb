@@ -32,5 +32,37 @@ require 'services/base_services/behaves_like_create_service'
 describe ::Storages::Storages::CreateService, type: :model do
   it_behaves_like 'BaseServices create service' do
     let(:factory) { :storage }
+
+    let!(:user) { create :admin }
+
+    let(:instance) do
+      described_class.new(user:,
+                          contract_class:)
+    end
+
+    let(:call_attributes) do
+      {
+        name: 'My storage',
+        host: 'https://example.org',
+        provider_type: :nextcloud
+      }
+    end
+
+    let!(:model_instance) do
+      build_stubbed(factory,
+                    creator: user,
+                    name: call_attributes[:name],
+                    host: call_attributes[:host],
+                    provider_type: call_attributes[:provider_type])
+    end
+
+    it "creates an OAuth application (::Doorkeeper::Application)" do
+      expect(subject).to be_success
+      expect(subject.result.oauth_application).to be_a(::Doorkeeper::Application)
+      expect(subject.result.oauth_application.name).to include call_attributes[:name]
+      expect(subject.result.oauth_application.redirect_uri).to include call_attributes[:host]
+      expect(subject.result.oauth_application.owner).to eql user
+      expect(subject.dependent_results.first.result.secret).to be_present
+    end
   end
 end

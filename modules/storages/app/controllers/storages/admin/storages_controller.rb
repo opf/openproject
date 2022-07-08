@@ -41,9 +41,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # Before executing any action below: Make sure the current user is an admin
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
-  before_action :find_model_object, only: %i[show destroy edit update]
-
-  before_action :set_shortened_secret, only: %i[show edit update]
+  before_action :find_model_object, only: %i[show destroy edit update replace_oauth_application]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -89,14 +87,9 @@ class Storages::Admin::StoragesController < ApplicationController
     service_result = Storages::Storages::CreateService.new(user: current_user).call(permitted_storage_params)
     @object = service_result.result
 
-    if service_result.success?
+    if service_result.success? && (@oauth_application = service_result.dependent_results&.first&.result)
       flash[:notice] = I18n.t(:notice_successful_create)
-      if @object.oauth_client
-        # admin_settings_storage_path is automagically created by Ruby routes.
-        redirect_to admin_settings_storage_path(@object)
-      else
-        redirect_to new_admin_settings_storage_oauth_client_path(@object)
-      end
+      render :show_oauth_application
     else
       @errors = service_result.errors
       render :new
@@ -141,13 +134,18 @@ class Storages::Admin::StoragesController < ApplicationController
     redirect_to admin_settings_storages_path
   end
 
-  # Show first two and last two characters, with **** in the middle
-  def shortened_secret(secret)
-    result = ""
-    if secret.is_a?(String) && secret.present?
-      result = "#{secret[...2]}****#{secret[-2...]}"
+  def replace_oauth_application
+    @object.oauth_application.destroy
+    service_result = ::Storages::OAuthApplications::CreateService.new(storage: @object, user: current_user).call
+
+    if service_result.success?
+      flash[:notice] = I18n.t('storages.notice_oauth_application_replaced')
+      @oauth_application = service_result.result
+      render :show_oauth_application
+    else
+      @errors = service_result.errors
+      render :edit
     end
-    result
   end
 
   # Used by: admin layout
@@ -181,9 +179,5 @@ class Storages::Admin::StoragesController < ApplicationController
     params
       .require(:storages_storage)
       .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret')
-  end
-
-  def set_shortened_secret
-    @short_secret = shortened_secret(@object.oauth_client&.client_secret.to_s)
   end
 end

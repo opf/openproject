@@ -26,34 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OAuthHelper
-  ##
-  # Output the translated scope names for the given application
-  def oauth_scope_translations(application)
-    strings = application.scopes.to_a
+# The logic for creating storage was extracted from the controller and put into
+# a service: https://dev.to/joker666/ruby-on-rails-pattern-service-objects-b19
+# Purpose: create and persist a Storages::Storage record
+# Used by: Storages::Admin::StoragesController#create, could also be used by the
+# API in the future.
+# Reference: https://www.openproject.org/docs/development/concepts/contracted-services/
+# The comments here are also valid for the other *_service.rb files
+module Storages::OAuthApplications
+  class CreateService
+    attr_accessor :user, :storage
 
-    if strings.empty?
-      I18n.t("oauth.scopes.api_v3")
-    else
-      safe_join(strings.map { |scope| I18n.t("oauth.scopes.#{scope}", default: scope) }, '</br>'.html_safe)
-    end
-  end
-
-  ##
-  # Show first two and last two characters, with **** in the middle
-  def short_secret(secret)
-    result = ""
-    if secret.is_a?(String) && secret.present?
-      result = "#{secret[...2]}●●●●#{secret[-2...]}"
+    def initialize(storage:, user:)
+      @storage = storage
+      @user = user
     end
 
-    result
-  end
-
-  ##
-  # Get granted applications for the given user
-  def granted_applications(user = current_user)
-    tokens = ::Doorkeeper::AccessToken.active_for(user).includes(:application)
-    tokens.group_by(&:application)
+    def call
+      ::OAuth::PersistApplicationService
+        .new(::Doorkeeper::Application.new, user:)
+        .call({
+                name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.provider_type}")})",
+                redirect_uri: File.join(storage.host, "apps/integration_openproject/oauth-redirect"),
+                scopes: 'api_v3',
+                confidential: true,
+                owner: storage.creator,
+                integration: storage
+              })
+    end
   end
 end

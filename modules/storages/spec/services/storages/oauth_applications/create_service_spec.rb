@@ -26,34 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OAuthHelper
-  ##
-  # Output the translated scope names for the given application
-  def oauth_scope_translations(application)
-    strings = application.scopes.to_a
+require 'spec_helper'
+require 'services/base_services/behaves_like_create_service'
 
-    if strings.empty?
-      I18n.t("oauth.scopes.api_v3")
-    else
-      safe_join(strings.map { |scope| I18n.t("oauth.scopes.#{scope}", default: scope) }, '</br>'.html_safe)
+describe ::Storages::OAuthApplications::CreateService, type: :model do
+  let(:user) { create :admin }
+  let(:storage) { create :storage, creator: user }
+  let(:instance) { described_class.new(user:, storage:) }
+
+  describe '#call' do
+    subject { instance.call }
+
+    it 'returns a OAuthApplication' do
+      expect(subject).to be_a ServiceResult
+      expect(subject).to be_success
+      expect(subject.result).to be_a ::Doorkeeper::Application
+      expect(subject.result.name).to include storage.name
+      expect(subject.result.name).to include I18n.t("storages.provider_types.#{storage.provider_type}")
+      expect(subject.result.scopes.to_s).to eql "api_v3"
+      expect(subject.result.redirect_uri).to include storage.host
+      expect(subject.result.redirect_uri).to include 'apps/integration_openproject/oauth-redirect'
+      expect(subject.result.integration).to eql storage
+      expect(subject.result.confidential).to be_truthy
+      expect(subject.result.owner).to eql user
     end
-  end
-
-  ##
-  # Show first two and last two characters, with **** in the middle
-  def short_secret(secret)
-    result = ""
-    if secret.is_a?(String) && secret.present?
-      result = "#{secret[...2]}●●●●#{secret[-2...]}"
-    end
-
-    result
-  end
-
-  ##
-  # Get granted applications for the given user
-  def granted_applications(user = current_user)
-    tokens = ::Doorkeeper::AccessToken.active_for(user).includes(:application)
-    tokens.group_by(&:application)
   end
 end

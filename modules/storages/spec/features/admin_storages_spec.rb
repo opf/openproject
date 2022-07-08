@@ -57,6 +57,14 @@ describe 'Admin storages', :storage_server_helpers, with_flag: { storages_module
     page.find('#storages_storage_host').set("https://example.com")
     page.find('button[type=submit]', text: "Continue").click
 
+    # Show created oauth application
+    storage_type = I18n.t('storages.provider_types.nextcloud')
+    expect(page).to have_title("#{storage_type} #{I18n.t('storages.label_oauth_application_details')}")
+    oauth_app_client_id = page.find('#client_id').value
+    expect(oauth_app_client_id.length).to eq 43
+    expect(page.find('#secret').value.length).to eq 43
+    page.find('a.button', text: 'Done. Continue setup').click
+
     # Add OAuthClient - Testing a number of different invalid states
     # However, more detailed checks are performed in the service spec.
     expect(page).to have_title("OAuth client details")
@@ -86,9 +94,9 @@ describe 'Admin storages', :storage_server_helpers, with_flag: { storages_module
     expect(page).to have_text(admin.name)
     expect(page).to have_text('https://example.com')
     expect(page).to have_text(created_storage.created_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
-    # Check for client_id and the shortened client secret
+    # Check for client_id of nextcloud client and oauth application
+    expect(page).to have_text(oauth_app_client_id)
     expect(page).to have_text("0123456789")
-    expect(page).to have_text("12****90")
 
     # Edit storage again
     page.find('.button--icon.icon-edit').click
@@ -97,7 +105,7 @@ describe 'Admin storages', :storage_server_helpers, with_flag: { storages_module
 
     # Edit page - With option to replace the OAuth2 client
     # Check presence of a "Replace" link and follow it
-    page.find('a', text: 'Replace').click
+    page.find('a', text: 'Replace Nextcloud').click
 
     alert_text = page.driver.browser.switch_to.alert.text
     expect(alert_text).to have_text("Are you sure?")
@@ -105,15 +113,13 @@ describe 'Admin storages', :storage_server_helpers, with_flag: { storages_module
 
     # The form the new OAuth client shall be empty as we are creating a new one.
     expect(page).not_to have_text("234567")
-    expect(page).not_to have_text("****")
 
     page.find('#oauth_client_client_id').set("2345678901")
     page.find('#oauth_client_client_secret').set("3456789012")
     page.find('button[type=submit]', text: 'Replace').click
 
-    # Check for client_id and the shortened client secret
+    # Check for client_id
     expect(page).to have_text("2345678901")
-    expect(page).to have_text("34****12")
 
     # Test the behavior of a failed host validation with code 400 (Bad Request)
     # simulating server not running Nextcloud
@@ -156,12 +162,8 @@ describe 'Admin storages', :storage_server_helpers, with_flag: { storages_module
     # List of storages
     page.find("ul.op-breadcrumb li", text: "File storages").click
 
-    # Go to Other NC again
-    page.find("a", text: 'Other NC').click
-    expect(page).to have_current_path admin_settings_storage_path(created_storage)
-
     # Delete on List page
-    page.find('.button--icon.icon-delete').click
+    page.find('td.buttons .icon-delete').click
 
     alert_text = page.driver.browser.switch_to.alert.text
     expect(alert_text).to eq(I18n.t('storages.delete_warning.storage'))

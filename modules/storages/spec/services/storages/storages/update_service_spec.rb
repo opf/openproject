@@ -32,6 +32,37 @@ require 'services/base_services/behaves_like_update_service'
 describe ::Storages::Storages::UpdateService, type: :model do
   it_behaves_like 'BaseServices update service' do
     let(:factory) { :storage }
+    let!(:user) { create :admin }
+
+    let(:instance) do
+      described_class.new(user:,
+                          model: model_instance,
+                          contract_class:)
+    end
+
+    let(:call_attributes) do
+      {
+        name: 'My updated storage',
+        host: 'https://new.example.org'
+      }
+    end
+
+    let!(:model_instance) do
+      build_stubbed(factory,
+                    creator: user,
+                    name: 'My updated storage',
+                    host: 'https://updated.example.org',
+                    provider_type: 'nextcloud')
+    end
+
+    let!(:oauth_application) { create :oauth_application, integration: model_instance }
+
+    it "creates an OAuth application (::Doorkeeper::Application)" do
+      expect(subject).to be_success
+      expect(subject.result.oauth_application).to be_a(::Doorkeeper::Application)
+      expect(subject.result.oauth_application.name).to include 'My updated storage'
+      expect(subject.result.oauth_application.redirect_uri).to include 'https://updated.example.org'
+    end
   end
 
   it 'cannot update storage creator' do
