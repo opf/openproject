@@ -13,7 +13,6 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { NewBoardModalComponent } from 'core-app/features/boards/new-board-modal/new-board-modal.component';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { contactUrl } from 'core-app/core/setup/globals/constants.const';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';

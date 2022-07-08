@@ -1,28 +1,19 @@
-@import '../../app/spot/styles/sass/variables'
-
 .upsale-notification
   max-width: 50vw
   margin: auto
   padding-top: 20px
   text-align: center
 
-
-  .widget-box--teaser-image
-    width: 90%
+  .widget-box--teaser-image,
+  .widget-box--teaser-video
+    width: 100%
     height: auto
     margin-bottom: 20px
     box-shadow: 4px 4px 10px rgb(0 0 0 / 15%)
     border-radius: 25px
-  
+
   .widget-box--teaser-image_default
     width: 30%
-    margin-bottom: 20px
-    box-shadow: 4px 4px 10px rgb(0 0 0 / 15%)
-    border-radius: 25px
-    
-  .widget-box--teaser-video
-    width: 90%
-    height: auto
     margin-bottom: 20px
     box-shadow: 4px 4px 10px rgb(0 0 0 / 15%)
     border-radius: 25px
@@ -58,3 +49,13 @@
 .widget-box--blocks--upsale-description
   margin: 10px 0 10px 0
   display: flex
+
+
+@media screen and (max-width: 679px)
+  .upsale-notification
+    max-width: none
+
+    .widget-box--teaser-image,
+    .widget-box--teaser-video
+      width: 90%
+      border-radius: 15px

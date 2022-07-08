@@ -211,6 +211,9 @@ module OpenProject
             },
             contact_us: {
               href: 'https://www.openproject.org/contact/'
+            },
+            pricing: {
+              href: 'https://www.openproject.org/pricing/'
             }
           }
         end

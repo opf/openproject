@@ -28,7 +28,7 @@
     <%= op_icon('button--icon icon-external-link') %>
   <% end %>
 
-  <%= link_to( "https://www.openproject.org/pricing/",
+  <%= link_to(OpenProject::Static::Links.links[:pricing][:href],
     { class: 'button -highlight',
       aria: {label: t('admin.enterprise.buttons.upgrade')},
       target: '_blank',
