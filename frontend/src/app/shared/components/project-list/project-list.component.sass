@@ -3,9 +3,13 @@
 
 :host,
 .op-project-list
-  @include styled-scroll-bar
   flex-shrink: 1
   flex-basis: 100%
+
+  // Since we are referring to the host element as well we need the complete class name here
+  &.op-project-list--root
+    overflow-y: auto
+    @include styled-scroll-bar
 
   &--item-action
     display: flex
