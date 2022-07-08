@@ -162,19 +162,8 @@ describe 'Admin storages', :storage_server_helpers, with_flag: { storages_module
     # List of storages
     page.find("ul.op-breadcrumb li", text: "File storages").click
 
-    # Check created OAuth2 Application
-    page.find('[data-qa-selector="op-menu--item-action"]', text: 'Authentication').click
-    page.find('[data-qa-selector="op-menu--item-action"]', text: 'OAuth applications').click
-    expect(page).to have_text("Other NC (#{storage_type})")
-    expect(page).not_to have_link('Delete')
-
-    # Editing oauth app opens storage edit controller
-    page.find('a', text: 'Edit').click
-    expect(page).to have_title("Edit: Other NC")
-    page.find('button[type=submit]', text: "Save").click
-
     # Delete on List page
-    page.find('.button--icon.icon-delete').click
+    page.find('td.buttons .icon-delete').click
 
     alert_text = page.driver.browser.switch_to.alert.text
     expect(alert_text).to eq(I18n.t('storages.delete_warning.storage'))

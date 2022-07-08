@@ -30,4 +30,5 @@
 
 Doorkeeper::Application.class_eval do
   belongs_to :integration, polymorphic: true
+  scope :without_integration, -> { where(integration_type: nil, integration_id: nil) }
 end
