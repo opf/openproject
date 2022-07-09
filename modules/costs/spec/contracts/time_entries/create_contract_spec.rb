@@ -104,7 +104,7 @@ describe TimeEntries::CreateContract do
       let(:time_entry_user) { nil }
 
       it 'is invalid' do
-        expect_valid(false, user_id: %i(blank), base: %i(error_unauthorized))
+        expect_valid(false, user_id: %i(blank))
       end
     end
   end

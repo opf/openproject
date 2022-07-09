@@ -149,6 +149,10 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
         expect(body)
           .to be_json_eql(api_v3_paths.time_entries_activity(active_activity.id).to_json)
           .at_path('_embedded/payload/_links/activity/href')
+          
+        expect(body)
+          .to be_json_eql(api_v3_paths.user(user.id).to_json)
+          .at_path('_embedded/payload/_links/user/href')
 
         expect(body)
           .to be_json_eql("some comment".to_json)
@@ -165,10 +169,6 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
         expect(body)
           .to be_json_eql("some cf text".to_json)
           .at_path("_embedded/payload/customField#{custom_field.id}/raw")
-
-        # As the user is always the current user, it is not part of the payload
-        expect(body)
-          .not_to have_json_path('_embedded/payload/_links/user')
       end
 
       it 'has the available values listed in the schema' do

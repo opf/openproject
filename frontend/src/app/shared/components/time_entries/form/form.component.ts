@@ -17,7 +17,6 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './form.component.html',
@@ -54,8 +53,7 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
 
   constructor(readonly halEditing:HalResourceEditingService,
     readonly cdRef:ChangeDetectorRef,
-    readonly i18n:I18nService,
-    readonly apiV3Service:ApiV3Service) {
+    readonly i18n:I18nService) {
     super();
   }
 
