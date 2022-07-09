@@ -2124,6 +2124,12 @@ hu:
   notice_successful_create: "Sikeres létrehozás."
   notice_successful_delete: "Sikeres törlés."
   notice_successful_update: "Sikeres frissítés."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Túl sok a találat. Szűkítse le a keresést  az új tagok (vagy csoport) nevének beírásával."
   notice_user_missing_authentication_method: A felhasználónak még jelszót kell választani, vagy más módon kell bejelentkeznie.
   notice_user_invitation_resent: Meghívó elküldve a %{email} címre.
@@ -2355,6 +2361,7 @@ hu:
     storage:
       not_available: "A lemez felhasználási adatai nem érhetőek el a tárolón."
       update_timeout: "Tartsa meg az utolsó szükséges lemezterület-információt egy tárolóhoz N percig. Mivel egy tároló szükséges lemezterületének kiszámítása erőforrás igényes lehet, növelje ezt az értéket a teljesítmény növelésének érdekében."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "Meglévő Subversion tároló"
       existing_introduction: "Ha rendelkezik meglévő Subversion tárolóval, akkor az OpenProject segítségével kapcsolódhat hozzá az alkalmazáson belül."

@@ -2120,6 +2120,12 @@ da:
   notice_successful_create: "Oprettelse gennemført."
   notice_successful_delete: "Sletning gennemført."
   notice_successful_update: "Opdatering gennemført."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Der er for mange resultater.\nIndsnævr søgningen ved at indtste navnet på det nye medlem (eller gruppe)."
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2349,6 +2355,7 @@ da:
     storage:
       not_available: "Disklagerpladsforbrug er ikke tilgængelig for dette repositorie."
       update_timeout: "Behold de seneste, nødvendige disklagerpladsoplysninger for et repositorie i N minutter.\nDa opgørelsen af påkrævet disklagerplads for et repositorie kan være bekosteligt, forøg denne værdi for at reducere følgevirkninger på ydeevnen."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "Eksisterende underversions-repositorie"
       existing_introduction: "Hvis du har et eksisterende underversions-repositorie, kan du sammenkæde dette med OpenProject for at få adgang til det indefra applikationen."

@@ -32,6 +32,10 @@ lt:
     errors:
       too_many_elements_created_at_once: "Per daug elementu vienu metu. Tikėtasi daugiausia %{max}, gauta %{actual}."
   storages:
+    buttons:
+      done_continue_setup: "Done. Continue setup"
+      replace_openproject_oauth: "Replace OpenProject OAuth"
+      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
     page_titles:
       project_settings:
         index: "Šiame projekte prieinamos failų saugyklos."
@@ -60,6 +64,7 @@ lt:
     label_file_links: "Failo nuorodos"
     label_name: "Pavadinimas"
     label_host: "Serveris"
+    label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "OAuth client details"
     label_provider_type: "Tiekėjo tipas"
     label_new_storage: "Nauja saugykla"
@@ -71,5 +76,7 @@ lt:
     provider_types:
       label: "Tiekėjo tipas"
       nextcloud: "Nextcloud"
+    confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
     oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
+    notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."

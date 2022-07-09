@@ -32,6 +32,10 @@ ko:
     errors:
       too_many_elements_created_at_once: "한 번에 너무 많은 요소가 생성되었습니다. 최대 개수는 %{max}개이지만 %{actual}개가 있습니다."
   storages:
+    buttons:
+      done_continue_setup: "Done. Continue setup"
+      replace_openproject_oauth: "Replace OpenProject OAuth"
+      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
     page_titles:
       project_settings:
         index: "이 프로젝트에서 사용 가능한 파일 저장소"
@@ -60,6 +64,7 @@ ko:
     label_file_links: "파일 링크"
     label_name: "이름"
     label_host: "호스트"
+    label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "OAuth client details"
     label_provider_type: "공급자 유형"
     label_new_storage: "새로운 저장소"
@@ -71,5 +76,7 @@ ko:
     provider_types:
       label: "공급자 유형"
       nextcloud: "Nextcloud"
+    confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
     oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
+    notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."

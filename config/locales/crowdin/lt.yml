@@ -2155,6 +2155,12 @@ lt:
   notice_successful_create: "Sėkmingas sukūrimas."
   notice_successful_delete: "Sėkmingas panaikinimas."
   notice_successful_update: "Sėkmingai atnaujinta."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Per daug rezultatų. Susiaurinkite paiešką pradėdami įvesti naujo nario (ar grupės) pavadinimą."
   notice_user_missing_authentication_method: Vartotojas dar nepasirinko slaptažodžio ar kitokio būdo prisijungimui.
   notice_user_invitation_resent: Pakvietimas buvo nusiųstas į %{email}.
@@ -2386,6 +2392,7 @@ lt:
     storage:
       not_available: "Disko vietos naudojimas nėra prieinamas šiai repozitorijai."
       update_timeout: "Laikyti paskiausią reikalingą disko vietos informaciją repozitorijai N minutes (-ių). Kadangi reikalingos vietos repozitorijai skaičiavimas gali būti reiklus resursams, minučių reikšmės didinimas gali stipriai sumažinti sistemos našumą."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "Esama Subversion repozitorija"
       existing_introduction: "Jei jau turite esamą Subversion repozitoriją, Jūs galite ją susieti su OpenProject, kad galėtumėte informaciją pasiekti iš sistemos vidaus."

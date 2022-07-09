@@ -2139,6 +2139,12 @@ ro:
   notice_successful_create: "Creare reuşită."
   notice_successful_delete: "Ştergere reuşită."
   notice_successful_update: "Actualizare reușită."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Există prea multe rezultate. Restrângeți căutarea prin tastarea numelui noului membru (sau grup)."
   notice_user_missing_authentication_method: Utilizatorul nu a ales încă o parolă sau un alt mod de autentificare.
   notice_user_invitation_resent: A fost trimisă o invitație către %{email}.
@@ -2371,6 +2377,7 @@ ro:
     storage:
       not_available: "Consumul de spațiu de stocare nu este disponibil pentru acest repo."
       update_timeout: "Păstraţi informaţia referitoare la spaţiul de stocare necesar pentru un repo timp de N minute. \nDeoarece măsurarea spațiului necesar pentru un repo poate fi costisitoare, creșteți această valoare pentru a reduce impactul în performanță."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "Repo Subversion existent"
       existing_introduction: "Dacă aveţi deja un repo de Subversion, puteți să-l conectați cu OpenProject pentru a-l accesa din aplicație."

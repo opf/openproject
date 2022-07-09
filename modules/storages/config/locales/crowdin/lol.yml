@@ -32,6 +32,10 @@ lol:
     errors:
       too_many_elements_created_at_once: "crwdns807926:0%{max}crwdnd807926:0%{actual}crwdne807926:0"
   storages:
+    buttons:
+      done_continue_setup: "crwdns823076:0crwdne823076:0"
+      replace_openproject_oauth: "crwdns823078:0crwdne823078:0"
+      replace_provider_type_oauth: "crwdns823080:0%{provider_type}crwdne823080:0"
     page_titles:
       project_settings:
         index: "crwdns807928:0crwdne807928:0"
@@ -60,6 +64,7 @@ lol:
     label_file_links: "crwdns807956:0crwdne807956:0"
     label_name: "crwdns807958:0crwdne807958:0"
     label_host: "crwdns807960:0crwdne807960:0"
+    label_oauth_application_details: "crwdns823082:0crwdne823082:0"
     label_oauth_client_details: "crwdns816762:0crwdne816762:0"
     label_provider_type: "crwdns807962:0crwdne807962:0"
     label_new_storage: "crwdns807964:0crwdne807964:0"
@@ -71,5 +76,7 @@ lol:
     provider_types:
       label: "crwdns807972:0crwdne807972:0"
       nextcloud: "crwdns807974:0crwdne807974:0"
+    confirm_replace_oauth_application: "crwdns823084:0crwdne823084:0"
     confirm_replace_oauth_client: "crwdns816768:0crwdne816768:0"
     oauth_client_details_missing: "crwdns816770:0crwdne816770:0"
+    notice_oauth_application_replaced: "crwdns823086:0crwdne823086:0"

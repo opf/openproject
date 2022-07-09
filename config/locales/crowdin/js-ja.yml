@@ -269,7 +269,7 @@ ja:
           one: "最初の並べ替え条件"
           two: "2 番目の並べ替え基準"
           three: "3 番目の並べ替え条件"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "More information"
       upsale_link: 'エンタープライズ版。'
     general_text_no: "いいえ"
@@ -334,7 +334,6 @@ ja:
     label_description: "説明"
     label_details: "詳細"
     label_display: "表示"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "コメントをキャンセル"
     label_closed_work_packages: "完了"
     label_collapse: "折りたたむ"
@@ -355,7 +354,6 @@ ja:
     label_expand_project_menu: "プロジェクトメニューを展開"
     label_export: "外部出力"
     label_export_preparing: "エクスポートは準備中です。まもなくダウンロードされます。"
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "ファイル"
     label_filesize: "サイズ"
     label_general: "概要"
@@ -378,9 +376,7 @@ ja:
     label_learn_more_link: "もっと詳しく"
     label_less_or_equal: "以下"
     label_less_than_ago: "今日より○日前以降"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "読み込み中..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "電子メールの通知"
     label_me: "自分"
     label_meeting_agenda: "アジェンダ"
@@ -393,19 +389,14 @@ ja:
     label_no_data: "表示できるデータがありません。"
     label_no_due_date: "終了日が未設定"
     label_no_start_date: "開始日なし"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "値なし"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "なし"
     label_not_contains: "含まない"
     label_not_equals: "等しくない"
     label_on: "オン"
     label_open_menu: "メニューを開く"
     label_open_context_menu: "コンテキストメニューを開く"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "未完了"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "パスワード"
     label_previous: "前へ"
     label_per_page: "1 ページあたり"
@@ -420,7 +411,6 @@ ja:
     label_remove: "削除"
     label_remove_column: "列を削除"
     label_remove_columns: "選択した列を削除"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "行を削除"
     label_report: "レポート"
     label_repository_plural: "リポジトリ"
@@ -437,9 +427,6 @@ ja:
     label_sorting: "ソート中"
     label_spent_time: "作業時間の記録"
     label_star_query: "支持された"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Enterを押して保存します。"
     label_public_query: "公開"
     label_sum: "合計"
@@ -476,7 +463,6 @@ ja:
     label_custom_queries: "Private"
     label_columns: "列"
     label_attachments: 添付ファイル
-    label_nextcloud: Nextcloud
     label_drop_files: ここにファイルをドロップ
     label_drop_files_hint: またはクリックしてファイルを追加する
     label_drop_folders_hint: フォルダを添付ファイルとしてアップロードすることはできません。 単一のファイルを選択してください。
@@ -1214,5 +1200,3 @@ ja:
         remove: '削除'
       drop_modal:
         Close: '閉じる'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

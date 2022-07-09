@@ -268,7 +268,7 @@ et:
           one: "First sorting criteria"
           two: "Second sorting criteria"
           three: "Third sorting criteria"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "ei"
@@ -333,7 +333,6 @@ et:
     label_description: "Teave"
     label_details: "Üksikasjad"
     label_display: "Kuva"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Tühista kommentaar"
     label_closed_work_packages: "suletud"
     label_collapse: "Koonda"
@@ -354,7 +353,6 @@ et:
     label_expand_project_menu: "Expand project menu"
     label_export: "Ekspordi"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Manus"
     label_filesize: "Suurus"
     label_general: "Üldine"
@@ -377,9 +375,7 @@ et:
     label_learn_more_link: "Loe rohkem"
     label_less_or_equal: "<="
     label_less_than_ago: "vähem kui päev tagasi"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Laadimine..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Eposti märguandmed"
     label_me: "mina"
     label_meeting_agenda: "Päevakava"
@@ -392,19 +388,14 @@ et:
     label_no_data: "Pole"
     label_no_due_date: "no finish date"
     label_no_start_date: "alguse kuupäeva pole"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "No value"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "pole"
     label_not_contains: "ei sisalda"
     label_not_equals: "ei ole"
     label_on: "on"
     label_open_menu: "Ava menüü"
     label_open_context_menu: "Open context menu"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "avatud"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Parool"
     label_previous: "Eelmine"
     label_per_page: "Lehekülje kohta:"
@@ -419,7 +410,6 @@ et:
     label_remove: "Eemalda"
     label_remove_column: "Remove column"
     label_remove_columns: "Eemalda valitud väljad"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Remove row"
     label_report: "Aruanne"
     label_repository_plural: "Hoidlad"
@@ -436,9 +426,6 @@ et:
     label_sorting: "Sorteerimine"
     label_spent_time: "Kulutatud aeg"
     label_star_query: "Favored"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Avalik"
     label_sum: "Summa"
@@ -475,7 +462,6 @@ et:
     label_custom_queries: "Private"
     label_columns: "Väljad"
     label_attachments: Manused
-    label_nextcloud: Nextcloud
     label_drop_files: Drop files here
     label_drop_files_hint: or click to add files
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -1214,5 +1200,3 @@ et:
         remove: 'Eemalda'
       drop_modal:
         Close: 'Sulge'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

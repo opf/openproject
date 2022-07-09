@@ -2101,6 +2101,12 @@ id:
   notice_successful_create: "Berhasil dibuat."
   notice_successful_delete: "Berhasil dihapus."
   notice_successful_update: "Berhasil diperbarui."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Ada terlalu banyak hasil. Persempit pencarian dengan mengetik nama member baru (atau grup)."
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: Sebuah undangan telah dikirim ke %{email}.
@@ -2329,6 +2335,7 @@ id:
     storage:
       not_available: "Storage tidak tersedia untuk repository ini."
       update_timeout: "Pertahankan informasi kebutuhan disk repository selama N menit. Semakin besar nilai N akan mengurangi beban komputasi."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "Repository Subversion yang sudah ada"
       existing_introduction: "Repository Git lokal yang anda miliki dapat dihubungkan dengan OpenProject untuk dikelola dari dalam."

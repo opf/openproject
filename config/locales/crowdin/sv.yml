@@ -2121,6 +2121,12 @@ sv:
   notice_successful_create: "Skapades utan problem."
   notice_successful_delete: "Raderades utan problem."
   notice_successful_update: "Uppdaterades utan problem."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Det finns för många resultat. \nBegränsa sökningen genom att skriva namnet på den nya medlemmen (eller gruppen)."
   notice_user_missing_authentication_method: Användaren har ännu inte valt ett lösenord eller annat sätt logga in.
   notice_user_invitation_resent: En inbjudan har skickats till %{email}.
@@ -2350,6 +2356,7 @@ sv:
     storage:
       not_available: "Hårddiskanvändning är inte tillgängligt för den här databasen."
       update_timeout: "Behåll den senaste informationen om hårddiskanvändning för den här databasen i N minuter.\nEftersom beräkningen av detta är resurskrävande kan prestandan förbättras genom att öka det här värdet."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "Befintligt Subversion-arkiv"
       existing_introduction: "Om du har ett befintlig Subversion-arkiv, kan du länka det med OpenProject för att komma åt den inifrån programmet."

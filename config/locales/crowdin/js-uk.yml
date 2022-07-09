@@ -268,7 +268,7 @@ uk:
           one: "Перший критерій впорядкування"
           two: "Другий критерій впорядкування"
           three: "Третій критерій впорядкування"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "More information"
       upsale_link: 'корпоративне видання.'
     general_text_no: "ні"
@@ -333,7 +333,6 @@ uk:
     label_description: "Опис"
     label_details: "Детальніше"
     label_display: "Дисплей"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Скасувати коментар"
     label_closed_work_packages: "зачинено"
     label_collapse: "Згорнути"
@@ -354,7 +353,6 @@ uk:
     label_expand_project_menu: "Розгорніть меню проекту"
     label_export: "Експорт"
     label_export_preparing: "Файл готується для експорту, і невдовзі його буде завантажено."
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Файл"
     label_filesize: "Розмір"
     label_general: "Загальні"
@@ -377,9 +375,7 @@ uk:
     label_learn_more_link: "Дізнатися більше"
     label_less_or_equal: "<="
     label_less_than_ago: "менше, ніж день тому"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Завантаження..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Email сповіщення"
     label_me: "мені"
     label_meeting_agenda: "Порядок денний"
@@ -392,19 +388,14 @@ uk:
     label_no_data: "Немає даних для відображення"
     label_no_due_date: "немає дати завершення"
     label_no_start_date: "немає дати початку"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Значення відсутнє"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "нічого"
     label_not_contains: "не містить"
     label_not_equals: "немає"
     label_on: "на"
     label_open_menu: "Відкрити меню"
     label_open_context_menu: "Відкрийте контекстне меню"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "відкрити"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Пароль"
     label_previous: "Попередній"
     label_per_page: "К-сть на сторінку:"
@@ -419,7 +410,6 @@ uk:
     label_remove: "Видалити"
     label_remove_column: "Видалити стовпець"
     label_remove_columns: "Видалити вибрані стовпці"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Видалити рядок"
     label_report: "Звіт"
     label_repository_plural: "Репозиторії"
@@ -436,9 +426,6 @@ uk:
     label_sorting: "Сортування"
     label_spent_time: "Трудовитрати"
     label_star_query: "Улюблений"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Натисніть enter, щоб зберегти."
     label_public_query: "Публічний"
     label_sum: "Сума"
@@ -475,7 +462,6 @@ uk:
     label_custom_queries: "Private"
     label_columns: "Стовпці"
     label_attachments: Вкладення
-    label_nextcloud: Nextcloud
     label_drop_files: Перетягніть файли сюди
     label_drop_files_hint: або клацніть, щоб додати файли
     label_drop_folders_hint: Ви не можете завантажувати теки як вкладення. Будь ласка, оберіть окремі файли.
@@ -1220,5 +1206,3 @@ uk:
         remove: 'Видалити'
       drop_modal:
         Close: 'Закрити'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

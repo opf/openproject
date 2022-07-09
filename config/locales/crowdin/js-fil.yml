@@ -268,7 +268,7 @@ fil:
           one: "Ang unang pamantayang pagkasunod-sunod"
           two: "Ang pangalawang pamantayang pagkasunod-sunod"
           three: "Ang pangatlong pamantayang pagkasunod-sunod"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "hindi"
@@ -333,7 +333,6 @@ fil:
     label_description: "Deskripsyon"
     label_details: "Mga detalye"
     label_display: "Ipakita"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Ikansela ang komento"
     label_closed_work_packages: "isinara"
     label_collapse: "Bumagsak"
@@ -354,7 +353,6 @@ fil:
     label_expand_project_menu: "Expand project menu"
     label_export: "I-export"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "File"
     label_filesize: "Sukat"
     label_general: "Pangkalahatan"
@@ -377,9 +375,7 @@ fil:
     label_learn_more_link: "Matuto ng higit pa"
     label_less_or_equal: "<="
     label_less_than_ago: "mas mababa kaysa sa mga araw na lumipas"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Naglo-load..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Mga abiso ng emailba"
     label_me: "ako"
     label_meeting_agenda: "Agenda"
@@ -392,19 +388,14 @@ fil:
     label_no_data: "Walang data upang ipakita"
     label_no_due_date: "no finish date"
     label_no_start_date: "walang simulang petsa"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Walang halaga"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "wala"
     label_not_contains: "hindi naglalaman"
     label_not_equals: "ay hindi"
     label_on: "sa"
     label_open_menu: "Buksan ang pagpipilian"
     label_open_context_menu: "Open context menu"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "buksan"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Password"
     label_previous: "Nakaraan"
     label_per_page: "Bawat pahina:"
@@ -419,7 +410,6 @@ fil:
     label_remove: "Tanggalin"
     label_remove_column: "Remove column"
     label_remove_columns: "Tanggalin ang mga napiling hanay"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Remove row"
     label_report: "Ulat"
     label_repository_plural: "Mga repositoryo"
@@ -436,9 +426,6 @@ fil:
     label_sorting: "Pag-aayos"
     label_spent_time: "Nauubos na oras"
     label_star_query: "Favored"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Publiko"
     label_sum: "Sum"
@@ -475,7 +462,6 @@ fil:
     label_custom_queries: "Private"
     label_columns: "Mga hanay"
     label_attachments: Mga kalakip
-    label_nextcloud: Nextcloud
     label_drop_files: Ihulog ang mga file dito
     label_drop_files_hint: o pindutin upang magdagdag ng mga file
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -1214,5 +1200,3 @@ fil:
         remove: 'Tanggalin'
       drop_modal:
         Close: 'Isara'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

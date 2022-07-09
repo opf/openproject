@@ -2155,6 +2155,12 @@ sl:
   notice_successful_create: "Ustvarjanje uspelo."
   notice_successful_delete: "Uspešen izbris."
   notice_successful_update: "Posodobitev uspela."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Preveč je rezultatov.\nZmanjšajte iskanje tako, da vtipkate ime novega člana (ali skupine)."
   notice_user_missing_authentication_method: Uporabnik rabi izbrati geslo ali kakšen drug način, da se prijavi.
   notice_user_invitation_resent: Povabilo je bilo poslano na %{email}.
@@ -2387,6 +2393,7 @@ sl:
     storage:
       not_available: "Poraba diskovne shrambe za to vrsto shrambo ni na voljo."
       update_timeout: "Zadnje potrebne podatke o diskovnem prostoru shranite za N minut.\nKer je lahko štetje potrebnega diskovnega prostora v skladišču drago, povečajte to vrednost, da zmanjšate njegov učinek na zmogljivost."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "Obstoječe skladišče podrazličice"
       existing_introduction: "Če imate obstoječe skladišče podrazličic, ga lahko povežete z OpenProjectom, če želite dostopati do njega znotraj aplikacije."

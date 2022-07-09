@@ -2117,6 +2117,12 @@ de:
   notice_successful_create: "Erfolgreich angelegt."
   notice_successful_delete: "Erfolgreich gelöscht."
   notice_successful_update: "Erfolgreich aktualisiert."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Es gibt zu viele Treffer.\nBitte engen Sie die Suche ein, indem sie den Namen der Person (oder der Gruppe) eingeben."
   notice_user_missing_authentication_method: Benutzer muss noch ein Passwort oder eine andere Authentifizierungsmethode wählen.
   notice_user_invitation_resent: Eine Einladung wurde an %{email} gesendet.
@@ -2348,6 +2354,7 @@ de:
     storage:
       not_available: "Genutzter Festplattenspeicher ist nicht für dieses Projektarchiv verfügbar."
       update_timeout: "Speichere die Informationen bzgl. des genutzten Festplattenspeichers eines Projektarchivs für N Minuten.\nErhöhen Sie diesen Wert zur Verbesserung der Performance, da die Erfassung des genutzten Festplattenspeichers Ressourcen-intensiv ist."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "Vorhandenes Subversion Projektarchiv"
       existing_introduction: "Wenn Sie ein lokales Subversion Verzeichnis haben, können Sie es mit OpenProject verknüpfen um von innerhalb der Anwendung auf dieses zuzugreifen."

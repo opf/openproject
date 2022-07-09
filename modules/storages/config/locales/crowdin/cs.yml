@@ -32,6 +32,10 @@ cs:
     errors:
       too_many_elements_created_at_once: "Too many elements created at once. Expected %{max} at most, got %{actual}."
   storages:
+    buttons:
+      done_continue_setup: "Done. Continue setup"
+      replace_openproject_oauth: "Replace OpenProject OAuth"
+      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
     page_titles:
       project_settings:
         index: "Úložiště souborů v tomto projektu"
@@ -60,6 +64,7 @@ cs:
     label_file_links: "Odkazy na soubor"
     label_name: "Název:"
     label_host: "Host"
+    label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "Podrobnosti OAuth klienta"
     label_provider_type: "Typ poskytovatele"
     label_new_storage: "Nové úložiště"
@@ -71,5 +76,7 @@ cs:
     provider_types:
       label: "Typ poskytovatele"
       nextcloud: "Nextcloud"
+    confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Jste si jisti? Všichni uživatelé budou muset znovu autorizovat proti úložišti."
     oauth_client_details_missing: "Chcete-li dokončit nastavení, přidejte prosím přihlašovací údaje OAuth klienta z vašeho úložiště."
+    notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."

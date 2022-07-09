@@ -267,7 +267,7 @@ ru:
           one: "Первый критерий сортировки"
           two: "Второй критерий сортировки"
           three: "Третий критерий сортировки"
-      upsale_for_more: "Расширенные фильтры позволяют использовать в качестве фильтра практически любой атрибут пакета работ. Пожалуйста, обновитесь до платной версии, чтобы использовать эту функцию."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "Больше информации"
       upsale_link: 'Корпоративная версия.'
     general_text_no: "нет"
@@ -332,7 +332,6 @@ ru:
     label_description: "Описание"
     label_details: "Детали"
     label_display: "Отображение"
-    label_download_file: "Скачать %{fileName}"
     label_cancel_comment: "Отменить комментарий"
     label_closed_work_packages: "закрыт"
     label_collapse: "свернуть"
@@ -353,7 +352,6 @@ ru:
     label_expand_project_menu: "Развернуть меню проекта"
     label_export: "Экспортировать"
     label_export_preparing: "Экспорт готовится и будет загружен в ближайшее время."
-    label_file_link_no_permission: "У вас недостаточно прав для просмотра этого файла."
     label_filename: "Файл"
     label_filesize: "Размер"
     label_general: "Общее"
@@ -376,9 +374,7 @@ ru:
     label_learn_more_link: "Узнать больше"
     label_less_or_equal: "<="
     label_less_than_ago: "менее нескольких дней назад"
-    label_link_files_in_storage: "Связать файлы в %{storageType}"
     label_loading: "Загрузка..."
-    label_login_to_storage: "Войти в %{storageType}"
     label_mail_notification: "Уведомления по email"
     label_me: "я"
     label_meeting_agenda: "Повестка дня"
@@ -391,19 +387,14 @@ ru:
     label_no_data: "Нет данных для отображения"
     label_no_due_date: "нет даты окончания"
     label_no_start_date: "без даты начала"
-    label_no_storage_connection: "Нет подключения к %{storageType}"
     label_no_value: "Нет значения"
-    label_no_file_links: "Чтобы связать файлы с этим рабочим пакетом, пожалуйста, сделайте это через %{storageType}."
     label_none: "Ничего"
     label_not_contains: "не содержит"
     label_not_equals: "не"
     label_on: "на"
     label_open_menu: "Открыть меню"
     label_open_context_menu: "Открыть контекстное меню"
-    label_open_storage: "Открыть %{storageType}"
     label_open_work_packages: "открыто"
-    label_open_file_link: 'Открыть файл в хранилище'
-    label_open_file_link_location: 'Открыть файл в расположении'
     label_password: "Пароль"
     label_previous: "Предыдущие"
     label_per_page: "На странице:"
@@ -418,7 +409,6 @@ ru:
     label_remove: "Удалить"
     label_remove_column: "Удалить столбец"
     label_remove_columns: "Удалить выбранные столбцы"
-    label_remove_file_link: "Удалить ссылку на файл"
     label_remove_row: "Удалить строку"
     label_report: "Отчет"
     label_repository_plural: "Репозитории"
@@ -435,9 +425,6 @@ ru:
     label_sorting: "Сортировка"
     label_spent_time: "Затраченное время"
     label_star_query: "Добавлено в избранное"
-    label_storage_connection_error: "Некоторые настройки %{storageType} не работают. Пожалуйста, попробуйте войти снова или обратитесь к администратору %{storageType}"
-    label_storage_login: "Логин %{storageType}"
-    label_storage_not_connected: "Для добавления ссылки, просмотра или загрузки файлов, относящиеся к этому пакету работ, войдите в %{storageType}."
     label_press_enter_to_save: "Нажмите ввод для сохранения."
     label_public_query: "Общий"
     label_sum: "Сумма"
@@ -474,7 +461,6 @@ ru:
     label_custom_queries: "Приватный"
     label_columns: "Столбцы"
     label_attachments: Вложения
-    label_nextcloud: Nextcloud
     label_drop_files: Перетащите файлы сюда
     label_drop_files_hint: или кликните для добавления файлов
     label_drop_folders_hint: Вы не можете загружать папки как вложение. Пожалуйста, выберите один файл.
@@ -1219,5 +1205,3 @@ ru:
         remove: 'Удалить'
       drop_modal:
         Close: 'Закрыть'
-    storages:
-      enter_oauth2_client_secret: 'Пожалуйста, введите секретный ключ клиента OAuth2'

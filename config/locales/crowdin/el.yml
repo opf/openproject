@@ -2117,6 +2117,12 @@ el:
   notice_successful_create: "Επιτυχής δημιουργία."
   notice_successful_delete: "Επιτυχής διαγραφή."
   notice_successful_update: "Επιτυχής ενημέρωση."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Υπάρχουν πάρα πολλά αποτελέσματα.\nΠεριορίστε την αναζήτηση πληκτρολογώντας το όνομα του νέου μέλους (ή ομάδας)."
   notice_user_missing_authentication_method: Ο χρήστης δεν έχει επιλέξει ακόμα έναν κωδικό πρόσβασης ή άλλο τρόπο σύνδεσης.
   notice_user_invitation_resent: Απεστάλει μια πρόσκληση στο %{email}.
@@ -2348,6 +2354,7 @@ el:
     storage:
       not_available: "Η κατανάλωση χώρου από τον δίσκο δεν είναι δυνατή σε αυτό το αποθετήριο."
       update_timeout: "Διατήρηση των τελευταίων πληροφοριών απαιτούμενου χώρου δίσκου για ένα αποθετήριο για Ν λεπτά.\nΚαθώς η μέτρηση του απαιτούμενου χώρου δίσκου για ένα αποθετήριο μπορεί να κοστίζει, αυξήστε αυτή την τιμή για να μειώσετε την επίπτωση στην επίδοση."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "Υπάρχον αποθετήριο Subversion"
       existing_introduction: "Αν έχετε ένα υπάρχον αποθετήριο Subversion, μπορείτε να το συνδέσετε με το OpenProject για να αποκτήσετε πρόσβαση σε αυτό μέσα από την εφαρμογή."

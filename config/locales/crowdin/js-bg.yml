@@ -268,7 +268,7 @@ bg:
           one: "Първи критерий за подреждане"
           two: "Втори критерий за подреждане"
           three: "Трети критерий за подреждане"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "Не"
@@ -333,7 +333,6 @@ bg:
     label_description: "Описание"
     label_details: "Подробности"
     label_display: "Покажи"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Отказване от коментар"
     label_closed_work_packages: "затворен"
     label_collapse: "Свий"
@@ -354,7 +353,6 @@ bg:
     label_expand_project_menu: "Expand project menu"
     label_export: "Експортиране"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Файл"
     label_filesize: "Размер"
     label_general: "Общ"
@@ -377,9 +375,7 @@ bg:
     label_learn_more_link: "Научете повече"
     label_less_or_equal: "<="
     label_less_than_ago: "по-скоро от няколко дни"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Зареждане..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Известия по имейл"
     label_me: "мен"
     label_meeting_agenda: "Дневен ред"
@@ -392,19 +388,14 @@ bg:
     label_no_data: "Няма данни за показване"
     label_no_due_date: "без крайна дата"
     label_no_start_date: "няма начална дата"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Няма стойност"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "none"
     label_not_contains: "doesn't contain"
     label_not_equals: "is not"
     label_on: "на"
     label_open_menu: "Open menu"
     label_open_context_menu: "Open context menu"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "open"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Парола"
     label_previous: "Предишен"
     label_per_page: "За страница:"
@@ -419,7 +410,6 @@ bg:
     label_remove: "Премахване"
     label_remove_column: "Remove column"
     label_remove_columns: "Премахване на избраните колони"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Remove row"
     label_report: "Отчет"
     label_repository_plural: "Хранилища"
@@ -436,9 +426,6 @@ bg:
     label_sorting: "Сортиране"
     label_spent_time: "Отработено време"
     label_star_query: "Favored"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Публичен"
     label_sum: "Sum"
@@ -475,7 +462,6 @@ bg:
     label_custom_queries: "Private"
     label_columns: "Колони"
     label_attachments: Прикачени файлове
-    label_nextcloud: Nextcloud
     label_drop_files: Пуснете файлове тук
     label_drop_files_hint: или щракнете, за да добавите файлове
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -1214,5 +1200,3 @@ bg:
         remove: 'Премахване'
       drop_modal:
         Close: 'Close'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

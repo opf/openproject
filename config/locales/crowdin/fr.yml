@@ -2122,6 +2122,12 @@ fr:
   notice_successful_create: "Création réussie."
   notice_successful_delete: "Suppression réussie."
   notice_successful_update: "Mise à jour réussie."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Il y a trop de résultats.\nLimitez la recherche en tapant le nom du nouveau membre (ou groupe)."
   notice_user_missing_authentication_method: L'utilisateur n'a pas encore choisi de mot de passe ou un autre moyen de s'authentifier.
   notice_user_invitation_resent: Une invitation a été envoyée à %{email}.
@@ -2353,6 +2359,7 @@ fr:
     storage:
       not_available: "La consommation d'espace disque n'est pas disponible pour ce dépôt."
       update_timeout: "Garder les dernières informations de l'espace disque requis pour un dépôt pendant N minutes.\nEtant donné que l'opération de comptabilisation de l'espace disque requis pour un dépôt peut être coûteuse, augmentez cette valeur pour réduire l'impact sur les performances."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "Dépôt Subversion existant"
       existing_introduction: "Si vous avez un dépôt Subversion existant, vous pouvez le lier avec OpenProject pour y accéder depuis l'application."

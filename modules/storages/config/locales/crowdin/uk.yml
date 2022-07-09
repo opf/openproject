@@ -32,6 +32,10 @@ uk:
     errors:
       too_many_elements_created_at_once: "Забагато елементів, створених за раз. Очікувалося щонайбільше %{max}; отримано %{actual}."
   storages:
+    buttons:
+      done_continue_setup: "Done. Continue setup"
+      replace_openproject_oauth: "Replace OpenProject OAuth"
+      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
     page_titles:
       project_settings:
         index: "Файлові сховища доступні в цьому проєкті"
@@ -60,6 +64,7 @@ uk:
     label_file_links: "Посилання на файл"
     label_name: "Назва"
     label_host: "Хост"
+    label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "OAuth client details"
     label_provider_type: "Тип постачальника"
     label_new_storage: "Нове сховище"
@@ -71,5 +76,7 @@ uk:
     provider_types:
       label: "Тип постачальника"
       nextcloud: "Nextcloud"
+    confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
     oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
+    notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."

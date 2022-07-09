@@ -2122,6 +2122,12 @@ fil:
   notice_successful_create: "Matagumpay pagkalikha."
   notice_successful_delete: "Matagumpay ang pagtanggal."
   notice_successful_update: "Matagumpay nai-update."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Mayroong maraming resulta.\nI-narrow down ang paghahanap sa pamamagitan ng pagtype ng pangalan ng bagong miyembro (o grupo)."
   notice_user_missing_authentication_method: Ang user ay pipili pa ng password o iba pang paraan para maka pag-sign in.
   notice_user_invitation_resent: Isang imbitasyon ay ipinadala sa %{email}.
@@ -2351,6 +2357,7 @@ fil:
     storage:
       not_available: "Ang konsumo ng disk storage ay hindi available para sa ganitong repository."
       update_timeout: "Panatilihin ang huling kailangang espasyo disk impormasyon para sa repositoryo ng N minuto.\nBilang pagbibilang ang kailangang espasyo ng disk ng repositoryo ay maaring gastos, palakihin ang hakaga na ito upang mabawasan ang epekto ng pagganap."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "Umiiral na subversion respository"
       existing_introduction: "Kung mayroon kang umiiral na Subversion repository, pwedi mo itong ma-link sa OpenProject para ma access ang mga ito mula sa loob ng application."

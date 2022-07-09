@@ -32,6 +32,10 @@ ru:
     errors:
       too_many_elements_created_at_once: "Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}."
   storages:
+    buttons:
+      done_continue_setup: "Done. Continue setup"
+      replace_openproject_oauth: "Replace OpenProject OAuth"
+      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
     page_titles:
       project_settings:
         index: "Файловые хранилища, доступные в этом проекте"
@@ -60,6 +64,7 @@ ru:
     label_file_links: "Ссылки на файл"
     label_name: "Имя"
     label_host: "Хост"
+    label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "Детали клиента OAuth"
     label_provider_type: "Тип поставщика"
     label_new_storage: "Новое хранилище"
@@ -71,5 +76,7 @@ ru:
     provider_types:
       label: "Тип поставщика"
       nextcloud: "Nextcloud"
+    confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Вы уверены? Все пользователи должны будут снова авторизоваться на хранилище."
     oauth_client_details_missing: "Чтобы завершить установку, пожалуйста, добавьте учетные данные клиента OAuth из вашего хранилища."
+    notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."

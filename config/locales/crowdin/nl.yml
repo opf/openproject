@@ -2118,6 +2118,12 @@ nl:
   notice_successful_create: "Aanmaak geslaagd."
   notice_successful_delete: "Verwijdering geslaagd."
   notice_successful_update: "Succesvolle wijziging."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Er zijn te veel resultaten. Beperk het zoekbereik door een naam in te geven van een nieuw lid (of groep)."
   notice_user_missing_authentication_method: Gebruiker dient nog een wachtwoord te kiezen of een andere manier om in te loggen te bepalen.
   notice_user_invitation_resent: Een nieuwe uitnodiging is verstuurd naar %{email}.
@@ -2349,6 +2355,7 @@ nl:
     storage:
       not_available: "Schijf opslag consumptie is niet beschikbaar voor deze repository."
       update_timeout: "Houd de laatste vereiste vrije schijfruimte voor een repository voor N minuten. Als het tellen van de vereiste schijfruimte van een repository kostbaar is, verhoog dit getal om invloed op de prestaties verminderen."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "Bestaande Subversion-repository"
       existing_introduction: "Als u een bestaand Subversion repository hebt, kunt u deze koppelen met OpenProject om deze te openen van binnen de toepassing."

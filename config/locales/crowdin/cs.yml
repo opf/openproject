@@ -2157,6 +2157,12 @@ cs:
   notice_successful_create: "Úspěšné vytvoření."
   notice_successful_delete: "Úspěšné odstranění."
   notice_successful_update: "Úspěšná aktualizace."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Je zde příliš mnoho výsledků.\nNarrow down hledání zadáním jména nového člena (nebo skupiny)."
   notice_user_missing_authentication_method: Uživatel si ještě musí vybrat heslo nebo jiný způsob, jak se přihlásit.
   notice_user_invitation_resent: Pozvánka byla odeslána na %{email}.
@@ -2390,6 +2396,7 @@ cs:
     storage:
       not_available: "Pro tento repositář není k dispozici spotřeba úložiště disku."
       update_timeout: "Uchovávejte poslední požadované informace o úložišti po dobu N minut.\nPři počítání požadovaného místa na disku v úložišti může být nákladné, zvýšit tuto hodnotu, aby se snížil vliv na výkon."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "Existující repozitář Subversion"
       existing_introduction: "Pokud máte existující repozitář s podverzí, můžete jej propojit s OpenProject pro přístup do aplikace."

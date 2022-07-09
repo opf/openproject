@@ -2119,6 +2119,12 @@ ca:
   notice_successful_create: "Creat correctament."
   notice_successful_delete: "Esborrat correctament."
   notice_successful_update: "S'ha modificat correctament."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Hi ha massa resultats.\nAfini la cerca escrivint el nom del nou membre (o grup)."
   notice_user_missing_authentication_method: L'usuari encara ha de triar una contrassenya o una altra manera d'iniciar la sessió.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2348,6 +2354,7 @@ ca:
     storage:
       not_available: "El consum d'emmagatzematge de disc no està disponible per a aquest repositori."
       update_timeout: "Mantenir la darrera informació d'espai de disc necessari per a un dipòsit durant N minuts. Ja que comptar l'espai de disc necessari per un repostori pot ser costós, augmenteu aquest valor per reduir l'impacte en el rendiment."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "Repositori de Subversion existent"
       existing_introduction: "Si ja teniu un repositori de Subversion, podeu enllaçar-lo amb OpenProject per accedir-hi des de l'aplicació."

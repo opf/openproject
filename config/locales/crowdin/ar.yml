@@ -2194,6 +2194,12 @@ ar:
   notice_successful_create: "إنشاء ناجح."
   notice_successful_delete: "حذف ناجح."
   notice_successful_update: "تحديث ناجح."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "هناك الكثير من النتائج. تضييق البحث عن طريق كتابة اسم العضو الجديد (أو المجموعة)."
   notice_user_missing_authentication_method: على المستخدم اختيار كلمة مرور أو طريقة أخرى لتسجيل الدخول.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2427,6 +2433,7 @@ ar:
     storage:
       not_available: "استهلاك تخزين القرص غير متوفر لهذا المستودع."
       update_timeout: "الاحتفاظ بآخر المعلومات مساحة القرص المطلوبة لمستودع لدقائق ن. العد القرص المطلوب مساحة مستودع قد يكون مكلفاً، بزيادة هذه القيمة الحد من تأثير على الأداء."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "مستودع التخريب موجود"
       existing_introduction: "إذا كان لديك مستودع بوابة محلية القائمة، يمكنك ربطه مع open project للوصول إليها من داخل التطبيق."

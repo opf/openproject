@@ -2103,6 +2103,12 @@ ko:
   notice_successful_create: "생성에 성공했습니다."
   notice_successful_delete: "삭제에 성공했습니다."
   notice_successful_update: "업데이트에 성공했습니다."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "너무 많은 결과가 있습니다.\n새 멤버(또는 그룹)의 이름을 입력하여 검색 범위를 좁히세요."
   notice_user_missing_authentication_method: 사용자가 암호나 로그인할 수 있는 다른 방법을 선택해야 합니다.
   notice_user_invitation_resent: 초대장이 %{email}(으)로 전송되었습니다.
@@ -2331,6 +2337,7 @@ ko:
     storage:
       not_available: "이 리포지토리에 대한 디스크 저장소 사용량이 사용 가능하지 않습니다."
       update_timeout: "N분 동안 리포지토리의 마지막 필요한 디스크 공간 정보를 유지하세요.\n리포지토리의 필요한 디스크 저장소 공간 계산에는 비용이 많이 소요될 수 있으므로, 이 값을 늘려 성능 영향을 줄이세요."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "기존 Subversion 리포지토리"
       existing_introduction: "기존 Subversion 리포지토리가 있는 경우 응용 프로그램 내에서 액세스하기 위해 OpenProject와 이 리포지토리를 연결할 수 있습니다."

@@ -268,7 +268,7 @@ it:
           one: "Primo criterio di ordinamento"
           two: "Secondo criterio di ordinamento"
           three: "Terzo criterio di ordinamento"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "no"
@@ -335,7 +335,6 @@ it:
     label_description: "Descrizione"
     label_details: "Dettagli"
     label_display: "Visualizza"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Cancella il commento"
     label_closed_work_packages: "chiuso"
     label_collapse: "Comprimi"
@@ -356,7 +355,6 @@ it:
     label_expand_project_menu: "Espandi il menù di progetto"
     label_export: "Esporta"
     label_export_preparing: "L'esportazione è in fase di preparazione e il download partirà a breve."
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "File"
     label_filesize: "Dimensione"
     label_general: "Generale"
@@ -379,9 +377,7 @@ it:
     label_learn_more_link: "Scopri di più"
     label_less_or_equal: "<="
     label_less_than_ago: "meno di qualche giorno fa"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Caricamento..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Notifiche email"
     label_me: "io"
     label_meeting_agenda: "Ordine del giorno"
@@ -394,19 +390,14 @@ it:
     label_no_data: "Nessun dato da visualizzare"
     label_no_due_date: "nessuna data di fine"
     label_no_start_date: "nessuna data di inizio"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Nessun valore"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "nessuno"
     label_not_contains: "non contiene"
     label_not_equals: "non è"
     label_on: "il"
     label_open_menu: "Apri menu"
     label_open_context_menu: "Apri il menu di scelta rapida"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "aperte"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Password"
     label_previous: "Precedente"
     label_per_page: "Per pagina:"
@@ -421,7 +412,6 @@ it:
     label_remove: "Rimuovi"
     label_remove_column: "Rimuovi colonna"
     label_remove_columns: "Rimuovi le colonne selezionate"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Rimuovi riga"
     label_report: "Segnalano"
     label_repository_plural: "Archivi"
@@ -438,9 +428,6 @@ it:
     label_sorting: "Ordinamento"
     label_spent_time: "Tempo speso"
     label_star_query: "Preferito"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Premi Invio per salvare."
     label_public_query: "Pubblico"
     label_sum: "Somma"
@@ -477,7 +464,6 @@ it:
     label_custom_queries: "Private"
     label_columns: "Colonne"
     label_attachments: Allegati
-    label_nextcloud: Nextcloud
     label_drop_files: Trascina i file qui
     label_drop_files_hint: o fai clic per aggiungere file
     label_drop_folders_hint: Non è possibile caricare cartelle come allegati. Si prega di selezionare singoli file.
@@ -1216,5 +1202,3 @@ it:
         remove: 'Rimuovi'
       drop_modal:
         Close: 'Chiuso'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

@@ -2158,6 +2158,12 @@ he:
   notice_successful_create: "Successful creation."
   notice_successful_delete: "Successful deletion."
   notice_successful_update: "Successful update."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2391,6 +2397,7 @@ he:
     storage:
       not_available: "Disk storage consumption is not available for this repository."
       update_timeout: "Keep the last required disk space information for a repository for N minutes.\nAs counting the required disk space of a repository may be costly, increase this value to reduce performance impact."
+      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
     subversion:
       existing_title: "Existing Subversion repository"
       existing_introduction: "If you have an existing Subversion repository, you can link it with OpenProject to access it from within the application."
