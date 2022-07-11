@@ -38,11 +38,23 @@ module Projects::Copy
 
     protected
 
-    def copy_dependency(params:)
-      puts "STORAGES LOG"
-      puts params
-      puts state
-      puts source.storages
+    def copy_dependency(*)
+      source.projects_storages.find_each do |project_storage|
+        create_project_storage(project_storage)
+      end
+    end
+
+    def create_project_storage(project_storage)
+      attributes = project_storage
+                     .attributes.dup.except('id', 'project_id', 'created_at', 'updated_at')
+                     .merge('project_id' => target.id) # Symbols don't work here
+
+      service_result = ::Storages::ProjectStorages::CreateService
+        .new(user: User.current)
+        .call(attributes)
+
+      copied_storage = service_result.result
+      copied_storage.save # ToDo: is this necessary?
     end
   end
 end

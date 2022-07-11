@@ -118,7 +118,14 @@ describe 'Projects copy',
 
     let(:parent_field) { ::FormFields::SelectFormField.new :parent }
 
+    let(:storage) { create(:storage) }
+    let(:project_storage) { create(:project_storage, project:, storage:) }
+    let(:file_link) { create(:file_link, container: work_package, storage:) }
+
     before do
+      project_storage
+      file_link
+
       login_as user
 
       # Clear all jobs that would later on to having emails send.

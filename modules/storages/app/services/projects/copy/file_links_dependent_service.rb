@@ -37,4 +37,3 @@ module Projects::Copy
     end
   end
 end
-
