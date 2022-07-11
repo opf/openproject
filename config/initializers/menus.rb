@@ -140,7 +140,7 @@ Redmine::MenuManager.map :my_menu do |menu|
             icon: 'icon2 icon-locked'
   menu.push :access_token,
             { controller: '/my', action: 'access_token' },
-            caption: I18n.t('my_account.access_tokens.access_token'),
+            caption: I18n.t('my_account.access_tokens.access_tokens'),
             icon: 'icon2 icon-key'
   menu.push :notifications,
             { controller: '/my', action: 'notifications' },
@@ -491,7 +491,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   }.each do |key, caption|
     menu.push :"settings_#{key}",
               { controller: "/projects/settings/#{key}", action: 'show' },
-              caption: caption,
+              caption:,
               parent: :settings
   end
 end
