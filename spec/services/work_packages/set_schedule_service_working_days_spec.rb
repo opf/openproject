@@ -821,107 +821,124 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
         CHART
       end
     end
+  end
 
-    # context 'with a single successor having a child' do
-    #   let(:child_start_date) { follower1_start_date }
-    #   let(:child_due_date) { follower1_due_date }
+  context 'with a single successor having a child' do
+    context 'when moving forward' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days           | MTWTFSS |
+        work_package   | ]       |
+        follower       |  XX     | follows work_package
+        follower_child |  XX     | child of follower
+      CHART
 
-    #   let(:child_work_package) { create_follower_child(following_work_package1, child_start_date, child_due_date) }
+      before do
+        change_schedule([work_package], <<~CHART)
+          days         | MTWTFSS |
+          work_package |    ]    |
+        CHART
+      end
 
-    #   let!(:following) do
-    #     [following_work_package1,
-    #      child_work_package]
-    #   end
+      it 'reschedules follower and follower child to start right after the moved predecessor' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days           | MTWTFSS  |
+          work_package   |    ]     |
+          follower       |     X..X |
+          follower_child |     X..X |
+        CHART
+      end
+    end
+  end
 
-    #   context 'when moving forward' do
-    #     before do
-    #       work_package.due_date = Time.zone.today + 5.days
-    #     end
+  context 'with a single successor having two children' do
+    context 'when creating the follows relation while follower starts 1 day after moved due date' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days            | MTWTFSS          |
+        work_package    | ]                |
+        follower        |  XXXX..XXXXX..XX |
+        follower_child1 |  XXX             | child of follower
+        follower_child2 |            X..XX | child of follower
+      CHART
 
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         { following_work_package1 => [Time.zone.today + 6.days, Time.zone.today + 8.days],
-    #           child_work_package => [Time.zone.today + 6.days, Time.zone.today + 8.days] }
-    #       end
-    #     end
-    #   end
-    # end
+      before do
+        create(:follows_relation, from: follower, to: work_package)
+      end
 
-    # context 'with a single successor having two children' do
-    #   let(:follower1_start_date) { work_package_due_date + 1.day }
-    #   let(:follower1_due_date) { work_package_due_date + 10.days }
-    #   let(:child1_start_date) { follower1_start_date }
-    #   let(:child1_due_date) { follower1_start_date + 3.days }
-    #   let(:child2_start_date) { follower1_start_date + 8.days }
-    #   let(:child2_due_date) { follower1_due_date }
+      it 'does not need to reschedule anything' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | MTWTFSS |
+          work_package | ]       |
+        CHART
+      end
+    end
 
-    #   let(:child1_work_package) { create_follower_child(following_work_package1, child1_start_date, child1_due_date) }
-    #   let(:child2_work_package) { create_follower_child(following_work_package1, child2_start_date, child2_due_date) }
+    context 'when creating the follows relation while follower starts 3 days after moved due date' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days            | MTWTFSS            |
+        work_package    | ]                  |
+        follower        |    XX..XXXXX..XXXX |
+        follower_child1 |    XX..X           | child of follower
+        follower_child2 |                XXX | child of follower
+      CHART
 
-    #   let!(:following) do
-    #     [following_work_package1,
-    #      child1_work_package,
-    #      child2_work_package]
-    #   end
+      before do
+        create(:follows_relation, from: follower, to: work_package)
+      end
 
-    #   context 'with unchanged dates (e.g. when creating a follows relation) and successor starting 1 day after scheduled' do
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         {}
-    #       end
-    #     end
-    #   end
+      it 'does not need to reschedule anything' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | MTWTFSS |
+          work_package | ]       |
+        CHART
+      end
+    end
 
-    #   context 'with unchanged dates (e.g. when creating a follows relation) and successor starting 3 days after scheduled' do
-    #     let(:follower1_start_date) { work_package_due_date + 3.days }
-    #     let(:follower1_due_date) { follower1_start_date + 10.days }
-    #     let(:child1_start_date) { follower1_start_date }
-    #     let(:child1_due_date) { follower1_start_date + 6.days }
-    #     let(:child2_start_date) { follower1_start_date + 8.days }
-    #     let(:child2_due_date) { follower1_due_date }
+    context 'when creating the follows relation and follower first child starts before moved due date' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days            |    MTWTFSS     |
+        work_package    |    ]           |
+        follower        | X..XXXXX..XXXX |
+        follower_child1 | X..XXXX        | child of follower
+        follower_child2 |        X..XXXX | child of follower
+      CHART
 
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         {}
-    #       end
-    #     end
-    #   end
+      before do
+        create(:follows_relation, from: follower, to: work_package)
+      end
 
-    #   context 'with unchanged dates (e.g. when creating a follows relation) and successor\'s first child needs rescheduled' do
-    #     let(:follower1_start_date) { work_package_due_date - 3.days }
-    #     let(:follower1_due_date) { work_package_due_date + 10.days }
-    #     let(:child1_start_date) { follower1_start_date }
-    #     let(:child1_due_date) { follower1_start_date + 6.days }
-    #     let(:child2_start_date) { follower1_start_date + 8.days }
-    #     let(:child2_due_date) { follower1_due_date }
+      it 'reschedules first child and reduces follower parent duration as the children can be executed at the same time' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days            | MTWTFSS     |
+          work_package    | ]           |
+          follower        |  XXXX..XXXX |
+          follower_child1 |  XXXX..X    |
+        CHART
+      end
+    end
 
-    #     # following parent is reduced in length as the children allow to be executed at the same time
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         { following_work_package1 => [work_package_due_date + 1.day, follower1_due_date],
-    #           child1_work_package => [work_package_due_date + 1.day, follower1_start_date + 10.days] }
-    #       end
-    #     end
-    #   end
+    context 'when creating the follows relation and both follower children start before moved due date' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days            |      MTWTFSS  |
+        work_package    |      ]        |
+        follower        | XXX..XXXXX..X |
+        follower_child1 | X             | child of follower
+        follower_child2 |   X..XXXXX..X | child of follower
+      CHART
 
-    #   context 'with unchanged dates (e.g. when creating a follows relation) and successor\s children need to be rescheduled' do
-    #     let(:follower1_start_date) { work_package_due_date - 8.days }
-    #     let(:follower1_due_date) { work_package_due_date + 10.days }
-    #     let(:child1_start_date) { follower1_start_date }
-    #     let(:child1_due_date) { follower1_start_date + 4.days }
-    #     let(:child2_start_date) { follower1_start_date + 6.days }
-    #     let(:child2_due_date) { follower1_due_date }
+      before do
+        create(:follows_relation, from: follower, to: work_package)
+      end
 
-    #     # following parent is reduced in length and children are rescheduled
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         { following_work_package1 => [work_package_due_date + 1.day, follower1_start_date + 21.days],
-    #           child1_work_package => [work_package_due_date + 1.day, child1_due_date + 9.days],
-    #           child2_work_package => [work_package_due_date + 1.day, follower1_start_date + 21.days] }
-    #       end
-    #     end
-    #   end
-    # end
+      it 'reschedules both children and reduces follower parent duration' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days            | MTWTFSS    |
+          work_package    | ]          |
+          follower        |  XXXX..XXX |
+          follower_child1 |  X         | child of follower
+          follower_child2 |  XXXX..XXX | child of follower
+        CHART
+      end
+    end
 
     # context 'with a chain of successors' do
     #   let(:follower1_start_date) { Time.zone.today + 1.day }
