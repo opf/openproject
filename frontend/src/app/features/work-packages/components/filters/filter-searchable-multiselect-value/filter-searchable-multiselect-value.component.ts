@@ -120,7 +120,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   matchingItems(elements:HalResource[], matching:string):Observable<HalResource[]> {
     let filtered:HalResource[];
 
-    if (matching === '') {
+    if (matching === '' || !matching) {
       filtered = elements;
     } else {
       const lowered = matching.toLowerCase();
