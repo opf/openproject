@@ -505,9 +505,9 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
 
       context 'with follower having both start and due dates before predecessor due date' do
         let_schedule(<<~CHART, ignore_non_working_days: false)
-          days          | mtwtfssMTWTFSS |
-          work_package  |        XX      |
-          follower      | XXXX           |
+          days          |    mtwtfssMTWTFSS |
+          work_package  |           XX      |
+          follower      | X..XXX            |
         CHART
 
         before do

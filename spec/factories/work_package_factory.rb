@@ -40,7 +40,7 @@ FactoryBot.define do
     author factory: :user
     created_at { Time.zone.now }
     updated_at { Time.zone.now }
-    duration { WorkPackages::Shared::AllDays.new.duration(start_date&.to_date, due_date&.to_date) }
+    duration { WorkPackages::Shared::Days.for(self).duration(start_date&.to_date, due_date&.to_date) }
 
     callback(:after_build) do |work_package, evaluator|
       work_package.type = work_package.project.types.first unless work_package.type
