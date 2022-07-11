@@ -46,7 +46,7 @@ module Storages::OAuthApplications
       ::OAuth::PersistApplicationService
         .new(::Doorkeeper::Application.new, user:)
         .call({
-                name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.provider_type}")})",
+                name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.provider_type}.name")})",
                 redirect_uri: File.join(storage.host, "apps/integration_openproject/oauth-redirect"),
                 scopes: 'api_v3',
                 confidential: true,

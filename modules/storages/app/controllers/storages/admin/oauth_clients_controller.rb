@@ -74,7 +74,7 @@ class Storages::Admin::OAuthClientsController < ApplicationController
   # Breadcrumbs is something like OpenProject > Admin > Storages.
   # This returns the name of the last part (Storages admin page)
   def default_breadcrumb
-    ActionController::Base.helpers.link_to(t('storages.label_oauth_client_details'), admin_settings_storage_oauth_client_path)
+    ActionController::Base.helpers.link_to(t(:project_module_storages), admin_settings_storages_path)
   end
 
   # See: default_breadcrumb above
