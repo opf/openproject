@@ -109,11 +109,12 @@ describe WorkPackages::SetScheduleService do
     work_package
   end
 
-  def create_follower_child(parent, start, due)
-    create_follower(start,
-                    due,
-                    {},
-                    parent:)
+  def create_child(parent, start_date, due_date)
+    create(:work_package,
+           subject: "child of #{parent.subject}",
+           start_date:,
+           due_date:,
+           parent:)
   end
 
   subject { instance.call(attributes) }
@@ -689,7 +690,7 @@ describe WorkPackages::SetScheduleService do
     let(:child_start_date) { follower1_start_date }
     let(:child_due_date) { follower1_due_date }
 
-    let(:child_work_package) { create_follower_child(following_work_package1, child_start_date, child_due_date) }
+    let(:child_work_package) { create_child(following_work_package1, child_start_date, child_due_date) }
 
     let!(:following) do
       [following_work_package1,
@@ -718,8 +719,8 @@ describe WorkPackages::SetScheduleService do
     let(:child2_start_date) { follower1_start_date + 8.days }
     let(:child2_due_date) { follower1_due_date }
 
-    let(:child1_work_package) { create_follower_child(following_work_package1, child1_start_date, child1_due_date) }
-    let(:child2_work_package) { create_follower_child(following_work_package1, child2_start_date, child2_due_date) }
+    let(:child1_work_package) { create_child(following_work_package1, child1_start_date, child1_due_date) }
+    let(:child2_work_package) { create_child(following_work_package1, child2_start_date, child2_due_date) }
 
     let!(:following) do
       [following_work_package1,
