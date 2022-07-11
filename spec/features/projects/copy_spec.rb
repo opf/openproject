@@ -204,6 +204,10 @@ describe 'Projects copy',
       expect(copied_page.attachments.count).to eq 1
       expect(copied_page.attachments.first.filename).to eq 'attachment.pdf'
 
+      # Expect ProjectStores and their FileLinks were copied
+      expect(copied_project.projects_storages.count).to eq(project.projects_storages.count)
+      expect(copied_project.work_packages[0].file_links.count).to eq(project.work_packages[0].file_links.count)
+
       # custom field is copied over where the author is the current user
       # Using the db directly due to performance and clarity
       copied_work_packages = copied_project.work_packages

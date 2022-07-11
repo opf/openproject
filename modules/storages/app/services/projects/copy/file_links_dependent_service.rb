@@ -33,7 +33,37 @@ module Projects::Copy
     end
 
     def source_count
-      source.storages.count
+      source.work_packages.joins(:file_links).count('file_links.id')
+    end
+
+    protected
+
+    def copy_dependency(*)
+      # If no work packages were copied, we cannot copy their attachments
+      return unless state.work_package_id_lookup
+
+      state.work_package_id_lookup.each do |old_wp_id, new_wp_id|
+        create_work_package_file_links(old_wp_id, new_wp_id)
+      end
+    end
+
+    def create_work_package_file_links(old_wp_id, new_wp_id)
+      Storages::FileLink.where(container_id: old_wp_id).each do |file_link|
+        create_file_link(file_link, new_wp_id)
+      end
+    end
+
+    def create_file_link(file_link, new_wp_id)
+      attributes = file_link
+        .attributes.dup.except('id', 'container_id', 'created_at', 'updated_at')
+        .merge('container_id' => new_wp_id)
+
+      service_result = Storages::FileLinks::CreateService
+        .new(user: User.current)
+        .call(attributes)
+
+      copied_file_link = service_result.result
+      copied_file_link.save
     end
   end
 end

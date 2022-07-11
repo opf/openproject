@@ -46,15 +46,15 @@ module Projects::Copy
 
     def create_project_storage(project_storage)
       attributes = project_storage
-                     .attributes.dup.except('id', 'project_id', 'created_at', 'updated_at')
-                     .merge('project_id' => target.id) # Symbols don't work here
+        .attributes.dup.except('id', 'project_id', 'created_at', 'updated_at')
+        .merge('project_id' => target.id)
 
       service_result = ::Storages::ProjectStorages::CreateService
         .new(user: User.current)
         .call(attributes)
 
       copied_storage = service_result.result
-      copied_storage.save # ToDo: is this necessary?
+      copied_storage.save
     end
   end
 end
