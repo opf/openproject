@@ -154,7 +154,7 @@ module Journals
           #{cleanup_predecessor_attachable(predecessor)}
         ),
         cleanup_predecessor_customizable AS (
-          #{cleanup_predecessor_attachable(predecessor)}
+          #{cleanup_predecessor_customizable(predecessor)}
         ),
         max_journals AS (
           #{select_max_journal_sql(predecessor)}
