@@ -15,6 +15,18 @@ The cost for the installation support of a Community version is 150 € (excludi
 
 
 
-## Installation checklist
+## Support Data Collector
 
-Please have a look at our [installation checklist](https://www.openproject.org/assets/pdf/OpenProject_Installation_Checklist_v1.8.pdf) and send us the completed document prior to the on-premise installation.
+Please run [our script](/script/op-support-data.sh) and send us the complete terminal output prior to the on-premise installation.
+
+The script should run once on the OpenProject on-premises host with or without OpenProject installed
+ It will ask you some questions that are needed to be answered interactively.
+ Please copy the script to the host (either copy/paste to a new file in  your host systems editor or by copying the script e.g. via scp).
+ Do not forget to make it executable and then you could run the data collector.
+ Also please do not forget to log your complete terminal output.
+ Please attach the log file of the terminal output to an email reply in your ticket at [support@openproject.com](mailto:support@openproject.com)
+
+`sudo chmod +x op-support-data.sh`
+
+` sudo ./op-support-data.sh`
+
