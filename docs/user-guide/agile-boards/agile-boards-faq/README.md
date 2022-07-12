@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Agile boards FAQ
   priority: 001
 description: Frequently asked questions regarding the boards module
-robots: index, follow
 keywords: kanban faq, boards, agile board, basic board, swimlane
 ---
 

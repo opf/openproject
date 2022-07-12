@@ -7,13 +7,12 @@
 ---
 
 
-# OpenProject 5.0.16
+# OpenProject 5.0.16
 
 OpenProject 5.0.16 contains several bug
     fixes:
 
-  - <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-7">Work
-    package</span> links (via \#\# and \#\#\#) in emails sent when
+  - Work package links (via \#\# and \#\#\#) in emails sent when
     watching forums were not displayed properly. This has been fixed
     ([\#22728](https://community.openproject.org/work_packages/22728/activity)).
   - An error on the work package page has been fixed which caused
@@ -24,9 +23,9 @@ OpenProject 5.0.16 contains several bug
     package was not based on the type order displayed in the
     administration. This has been adjusted
     ([\#22639](https://community.openproject.org/work_packages/22639/activity)).
-  - Due to an error the project list could not be accessed in the
+  - Due to an error the project list could not be accessed in the
     accessibility mode. This has been fixed.
-  - The star icon in the project list showing which project the user is
+  - The star icon in the project list showing which project the user is
     a member in was missing. It has been added
     ([\#22692](https://community.openproject.org/work_packages/22692/activity)).
   - In the cost report, the cells were not displayed properly when
@@ -53,13 +52,12 @@ and several new icons have been added to the administration
 ([\#22063](https://community.openproject.org/work_packages/22063/activity)).
 
 In addition, an error has been fixed which prevented the proper use to
-the [TaskConnector for MS
-Project](https://community.openproject.org/projects/task-connector).
+the TaskConnector for MS Project.
 This is now fully functional again
 ([\#22390](https://community.openproject.org/work_packages/22390/activity)).
 
 For further information on the release, please refer to the [Changelog
-v.5.0.16](https://community.openproject.org/versions/804) or take a look
+v.5.0.16](https://community.openproject.org/versions/804) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v5.0.16).
 
 

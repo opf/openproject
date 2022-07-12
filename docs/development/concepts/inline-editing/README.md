@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Inline editing
 description: Get an overview of how inline-editing of resources works
-robots: index, follow
 keywords: development concepts, inline editing, edit forms
 ---
 
@@ -72,7 +71,7 @@ Since OpenProject can also have dynamic custom fields with varying formats, the 
 
 The `type` property will decide that for name, we're looking for a display field that can handle `String` type, while for the project `status` attribute, we're looking for a specific display type called `ProjectStatus`.
 
-In the frontend, multiple display field classes exist and the [`DisplayFieldService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/fields/display/display-field.service.ts) resolves what display field class is going to be used for which attribute. [There is a mapping file](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/fields/display/display-field.initializer.ts) between the types returned by the API and the used display field class. In some cases such as for `id`, a specific field is set based on the attribute name, not its type.
+In the frontend, multiple display field classes exist and the [`DisplayFieldService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/display/display-field.service.ts) resolves what display field class is going to be used for which attribute. [There is a mapping file](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/display/display-field.initializer.ts) between the types returned by the API and the used display field class. In some cases such as for `id`, a specific field is set based on the attribute name, not its type.
 
 With a resource and its schema present, there are multiple ways to render a display field for a given attribute.
 
@@ -80,7 +79,7 @@ With a resource and its schema present, there are multiple ways to render a disp
 
 #### Rendering in plain JavaScript: `DisplayFieldRenderer`
 
-Since parts of the application are rendered in plain JavaScript (such as the work package table), most display fields are actually rendered explicitly to a DOM element through the [`DisplayFieldRenderer#render`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/fields/display/display-field-renderer.ts) method. You will only need the resource with its schema loaded and the attribute name. 
+Since parts of the application are rendered in plain JavaScript (such as the work package table), most display fields are actually rendered explicitly to a DOM element through the [`DisplayFieldRenderer#render`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/display/display-field-renderer.ts) method. You will only need the resource with its schema loaded and the attribute name. 
 
 The `DisplayFieldRenderer` requires the Angular injector for injecting services such as the `DisplayFieldService`. It's instance will cache field types instantiated for performance reasons in large rendering contexts, such as the work package table.
 
@@ -125,7 +124,7 @@ const changeset = new WorkPackageChangeset(workPackage);
 
 #### Rendering as angular component: `DisplayFieldComponent`
 
-To render an attribute of a HAL resource explicitly, a display field can be used through the [`DisplayFieldComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/fields/display/display-field-renderer.ts). In most cases, you will not render the display field alone as it would expect to inline editable. This is why when it's used, it often explicitly disables the writable CSS styles with  `writable: false` set.
+To render an attribute of a HAL resource explicitly, a display field can be used through the [`DisplayFieldComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/display/display-field-renderer.ts). In most cases, you will not render the display field alone as it would expect to inline editable. This is why when it's used, it often explicitly disables the writable CSS styles with  `writable: false` set.
 
 Minimal example, rendering the status attribute of a work package
 
@@ -154,7 +153,7 @@ Edit fields are also working on a single attribute of a resource. The schema pro
 
 #### `EditFieldComponent`
 
-The main component that handles rendering of the actual `<input>` fields of the edit fields is the `EditFieldComponent`. It is subclassed for every type of edit fields, such as the `TextEditFieldComponent` or `FloatEditFieldComponent`, and so on. You can find all edit field types in the [Angular fields module](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/fields/edit/field-types).
+The main component that handles rendering of the actual `<input>` fields of the edit fields is the `EditFieldComponent`. It is subclassed for every type of edit fields, such as the `TextEditFieldComponent` or `FloatEditFieldComponent`, and so on. You can find all edit field types in the [Angular fields module](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/edit/field-types).
 
 ##### The `EditFieldComponents` operates on a changeset of the resource that's being edited. All changes are being written into this changeset, so they can be aggregated and saved, or reset on an individual level.
 
@@ -239,22 +238,22 @@ There is one more class involved in this stack, the `EditFieldHandler`. It imple
 
 Any user event that should trigger saving or resetting of the field is being handled by the `EditFieldHandler`, hence its name. For example, pressing <kbd>ESC</kbd> on a `TextEditFieldComponent` will trigger the `EditFieldHandler#handleUserCancel` method. The same is true for submit events on the field or form (e.g., pressing <kbd>ENTER</kbd> on the field), which trigger the `EditFieldHandler#handleUserSubmit` method. 
 
-An example where this comes into play is the [`CustomText`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/grids/widgets/custom-text/custom-text.component.ts) widget of the dashboards and my page, which use the `<edit-form-portal>` manually and pass in a handler that handles saving of these widgets without access to an edit form.
+An example where this comes into play is the [`CustomText`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/grids/widgets/custom-text/custom-text.component.ts) widget of the dashboards and my page, which use the `<edit-form-portal>` manually and pass in a handler that handles saving of these widgets without access to an edit form.
 
 
 
 ### 🔗 Code references
 
-- [`EditForm`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/fields/edit/edit-form/edit-form.ts) base class
-- [`EditFormComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/fields/edit/edit-form/edit-form.component.ts#L28-L27) Angular `<edit-form>` component 
-- [`EditableAttributeFieldComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/fields/edit/field/editable-attribute-field.component.ts) Angular `<editable-attribute-field>` component for attributes within the edit form
-- [`DisplayField`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/fields/display) definitions containing all display fields and the service to instantiate them.
-- [`DisplayFieldRenderer`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/fields/display/display-field-renderer.ts) to manually render display fields from JavaScript
-- [`DisplayFieldComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/fields/display/display-field.component.ts) an Angular component to render display fields
-- [`EditFieldComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/fields/edit/field-types) definitions containing all display fields and the service to instantiate them
-- [`EditingPortalService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/fields/edit/editing-portal/editing-portal-service.ts) service to create an edit field with event handling in code
-- [`WorkPackageFullViewComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/work_packages/routing/wp-full-view/wp-full-view.html) Work package full view template that uses the `edit-form` attribute to create a form for the work package full view (as seen in the Gif above)
-- [`ProjectDetailsComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/grids/widgets/project-details/project-details.component.html) Exemplary widget template that uses the form for project attributes
+- [`EditForm`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/edit/edit-form/edit-form.ts) base class
+- [`EditFormComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/edit/edit-form/edit-form.component.ts#L28-L27) Angular `<edit-form>` component 
+- [`EditableAttributeFieldComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/edit/field/editable-attribute-field.component.ts) Angular `<editable-attribute-field>` component for attributes within the edit form
+- [`DisplayField`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/display) definitions containing all display fields and the service to instantiate them.
+- [`DisplayFieldRenderer`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/display/display-field-renderer.ts) to manually render display fields from JavaScript
+- [`DisplayFieldComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/display/display-field.component.ts) an Angular component to render display fields
+- [`EditFieldComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/edit/field-types) definitions containing all display fields and the service to instantiate them
+- [`EditingPortalService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/edit/editing-portal/editing-portal-service.ts) service to create an edit field with event handling in code
+- [`WorkPackageFullViewComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work_packages/routing/wp-full-view/wp-full-view.html) Work package full view template that uses the `edit-form` attribute to create a form for the work package full view (as seen in the Gif above)
+- [`ProjectDetailsComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/grids/widgets/project-details/project-details.component.html) Exemplary widget template that uses the form for project attributes
 
 
 
@@ -262,7 +261,7 @@ An example where this comes into play is the [`CustomText`](https://github.com/o
 
 ## Minimal example
 
-The  [`ProjectDetailsComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/grids/widgets/project-details/project-details.component.html) is a very isolated example showing how to use the edit-form together with `EditableAttributeField` component to show the actual inline-editable field.
+The  [`ProjectDetailsComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/grids/widgets/project-details/project-details.component.html) is a very isolated example showing how to use the edit-form together with `EditableAttributeField` component to show the actual inline-editable field.
 
 
 
@@ -308,7 +307,7 @@ The type defines which type of group is being rendered. The attribute group is t
 
 ![Work package with query group for children](single-view-query-group.png)
 
-The [`WorkPackageSingleViewComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/components/work-packages/wp-single-view/wp-single-view.component.ts) turns this definition into a template through its method `rebuildGroupedFields`. The template iterates over these and outputs the appropriate attribute or query group.
+The [`WorkPackageSingleViewComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/components/wp-single-view/wp-single-view.component.ts) turns this definition into a template through its method `rebuildGroupedFields`. The template iterates over these and outputs the appropriate attribute or query group.
 
 
 

@@ -1,57 +1,146 @@
 ---
 sidebar_navigation:
   title: Documentation process
-  priority: 998
-description: The process of how to contribute to the OpenProject documentation
-robots: index, follow
-keywords: contribution, documentation, documentation process
+  priority: 999
+description: The process, incl. tool setup, of how to contribute to the OpenProject documentation
+keywords: contribution, documentation, documentation process, tool setup
 ---
 
 # Documentation process
 
-Proudly open source software, we created our processes in a way that invites anyone to contribute to the OpenProject documentation.
-
-## The documentation process step-by-step
-
-You will find the description for the basic development process in the [GitHub guideline](../../git-workflow/#development-at-github). In the following, you find the detailed information about the process for the documentation.
-
-Please note that you find  the [OpenProject repository on GitHub](https://github.com/opf/openproject).
-
-If you would like to contribute changes to the OpenProject documentation, please follow these steps:
-
-1. [Fork the OpenProject repository](../../../development/git-workflow/#fork-openproject) and create a local development branch. Include documentation in your branch name.
-2. Create your changes in the documentation. It can be found in the folder [docs](https://github.com/opf/openproject/tree/dev/docs). You can work directly in the GitHub markdown files or use e.g. GitHub desktop and a markdown editor like Typora.
-   If you are not only changing something in an existing documentation page but are adding a new page, please make sure to add metadata. To provide additional directives and useful information, we add metadata to the beginning of each documentation page. This will give you guidance on what information to provide in the metadata: 
-  - Sidebar navigation: You do not have to add anything here. Leave it blank.
-  - Title: Site title that will appear in the menu.
-  - Priority: You assign a number to your page to indicate in what order it will appear. The higher up you want the section to appear in the menu, the higher the number you assign (any number between 1 and 999). I.e. the section that is appearing first gets the highest number (e.g. 999).
-  - Description: description of the content of the page that you are creating. Best is to also include the title name.
-  - Robots: always add “index, follow” here.
-  - Keywords: use key words to describe the content of the page, minimum two. 
-3. [Create a pull request](../../../development/git-workflow/#create-a-pull-request) on our repository. Make sure you name it accordingly and also include **documentation** in the name.
-4. We will evaluate your pull request and changes before we merge it.
-
-If the author or reviewer has any questions, they can use the comments in the pull request.
+This guide describes how to contribute to the OpenProject documentation, including the tool setup.
 
 
+## Setup the tools to easily contribute to the OpenProject documentation
 
-## Move or rename a page
+This guide aims to help users that are new to Git and Markdown to contribute to the OpenProject documentation. There are a two very helpful tools that makes it extremely easy to contribute to OpenProject:
 
-Moving or renaming a document is the same as changing its location. We want to make sure after renaming or moving a page, the users will still find it. That is why we will need to redirect browsers to the new page. 
+| Tool               | Purpose of this tool                                         | Website and download                              |
+| ------------------ | ------------------------------------------------------------ | ------------------------------------------------- |
+| **Typora**         | Typora is an application that enables you to easily edit markdown files. The markdown file format is used for the OpenProject documentation which allows you to focus on the content instead of the formatting. | [desktop.github.com](https://desktop.github.com/) |
+| **GitHub Desktop** | Desktop is an application that enables you to interact with GitHub using a GUI instead of the command line or a web browser. | [typora.io](https://typora.io/)                   |
 
-Redirects are managed in a repository that is not accessible by the OpenProject community. In case you would like to move or rename a document, please create a ticket so that we can take care of it. Follow these steps to create your ticket:
+## Step 1: Create user account on GitHub.com
 
-1. Login to or register at the [OpenProject community platform](https://community.openproject.org/login). It’s fast and free.
+You need an account on GitHub.com to contribute to the OpenProject documentation. Here you can [sign-up a new account](https://github.com/signup).
 
-2. Check if there is already an existing ticket by using the search bar in the header navigation at the top. If there is one, please leave a comment or add additional information. Otherwise:
+## Step 2: Install Typora
 
-3. Open a new [documentation work package](https://community.openproject.org/projects/openproject/work_packages/new?type=69)
+You can download the installer from the [Typora website](https://typora.io/#download). Follow the prompts to complete the installation. In case you need more information there are very detailed [help](https://support.typora.io/) for each supported operating systems [Linux](https://support.typora.io/Typora-on-Linux/), [macOS](https://support.typora.io/Typora-on-macOS/) and [Windows](https://support.typora.io/Typora-on-Windows/). 
 
-4. Add a precise subject.
+## Step 3: Install GitHub Desktop
 
-5. Add a detailed description which page you want to rename to what or which page you want to move where.
+You can install the software GitHub Desktop on any [supported operating systems](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/supported-operating-systems). To install GitHub Desktop navigate to [https://desktop.github.com](https://desktop.github.com) and download the appropriate version for your operating system. Follow the prompts to complete the installation.
 
-6. Attach a screen-shot (optional).
+## Step 4: Sign in into Github.com in GitHub Desktop
 
-7. Press **Save**.
+To exchange data between your local repository and remote repositories you need to first sign (File -> Options -> Sign in).
+
+![sign-in-into-github](sign-in-into-github.png)
+
+In the next screen click on "Continue with browser".
+
+
+
+![continue sign in in browser](continue-sign-in-in-browser.png)
+
+This opens your browser. To authenticate to type your GitHub.com credentials and click **Sign in**. If you have configured two-factor authentication (2FA) for GitHub enter your 2FA code in the prompt on GitHub and click **Verify**.
+
+Alternatively, if you were already signed in to GitHub, follow the prompts to return to GitHub Desktop to finish authenticating.
+
+After authenticating your account, you are ready to manage and contribute to projects with GitHub Desktop.
+
+## Step 5: Fork the OpenProject repository 
+
+If you are an external contributor you don't have write permissions on the repository [https://github.com/opf/openproject](https://github.com/opf/openproject). In this case you first need to fork the repository by clicking the button **[Fork](https://github.com/opf/openproject/fork)**. This basically means that you have your own copy of the repository on GitHub.com. Since it is your own repository you have write privileges here.
+
+![fork openproject](fork-openproject.png)
+
+## Step 6: Clone the forked OpenProject repository in GitHub Desktop
+
+Before you can make changes you need to create a local clone of the OpenProject repository on your local computer. Open GitHub Desktop and navigate to "File -> Clone repository".
+
+![clone repository](clone-repository.png)
+
+
+
+In the modal window select the repository you forked in Step 5. Also select a folder on your computer for the cloned repository. Click **Clone**.
+
+![select repository to be cloned](select-repository-to-be-cloned.png)
+
+In the next screen select "*To contribute to the parent project*".
+
+![define how to use the fork](define-how-to-use-the-fork.png)
+
+## Step 7: Create a new Git branch for your change
+
+Select the latest release branch e.g.`release/12.1` as the current branch. 
+
+![create new branch - step 1](create-new-branch-step-1.png)
+
+In the same drop down click on "New branch". In this window insert a branch name that describes your changes and select the latest release branch e.g. `release/12.1` the created branch is based on.
+
+![create new branch - step 2](create-new-branch-step-2.png)
+
+## Step 8: Fetch origin with upstream changes (update local repository)
+
+Every time you start editing please make sure you have fetched the latest changes from GitHub.com. First you need to update your forked repository. There you select the branch you are working on, e.g. release/12.1. If there are updates in the main repository opf/openproject click on on "Fetch upstream".
+
+![fetch upstream changes](fetch-upstream-changes.png)
+
+Now you have fetched the latest changes from the main repository. Now you can fetch those changes in GitHub Desktop by clicking "Fetch origin" in the main toolbar:
+
+![fetch origin in github desktop](fetch-origin-in-github-desktop.png)
+
+
+
+## Step 9: Open the files you want to change in Typora
+
+In Typora open the files you want to change (File -> Open). In the file picker navigate to the local folder you selected in the step 6.
+
+## Step 10: Make the changes in Typora and save the file
+
+The Typora editor makes it quite easy to make changes to the file. After you made your changes do not forgot to save.
+
+## Step 11: Commit the change to your local repository in GitHub Desktop
+
+Open GitHub Desktop. Here you can see all the changes you made in your local repository.
+
+![commit history in github desktop](commit-history-in-github-desktop.png)
+
+Add a commit message that best describes your change. This description should allow other users to easily understand the change you made.
+
+## Step 12: Push your changes to GitHub.com
+
+At the moment your change is only available in your local repository. To make it available on GitHub.com you need upload (push) by pressing the button "Push origin".
+
+![push origin in github desktop](push-origin-in-github-desktop.png)
+
+## Step 13: Create a pull request
+
+A pull request is a workflow to ask for a review from the OpenProject team. With a pull request you basically ask to check your changes and to copy it over to the OpenProject repository (opf/openproject). After you pushed your local changes to your own repository click the button **Create Pull Request**.
+
+![](create-pull-request-github-desktop.png)
+
+
+
+Here select the latest release branch e.g. release/12.1 in the first dropdown. In the second select the branch you have changed.
+
+![create pull request](create-pull-request.png)
+
+In the description field of the pull request enter a summary for the changes you made. If there is already a work package on https://community.openproject.org you can also add this to the description. This adds a relation between your pull request and the work package.
+
+## Step 14: Request review
+
+Select the label "documentation". 
+
+![add documentation label for pull request](add-documentation-label-pull-requests.png) 
+
+In the field "Reviewers" select "opf/doc-writers". 
+
+![select reviewer for documentation](select-reviewer-for-documentation.png)
+
+## Step 15: Wait for feedback from the reviewers
+
+... and hopefully it is all LGTM which means "Looks good to me(rge). Congrats to your first contribution to the OpenProject documentation. We appreciate your effort :-)
 

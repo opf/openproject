@@ -56,7 +56,6 @@ This requires your OpenProject server to be reachable using a domain name (e.g. 
 
         sudo certbot renew --dry-run
 
-<div class="alert alert-warning" role="alert">
 
 ## External SSL termination
 

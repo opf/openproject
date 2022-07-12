@@ -7,7 +7,7 @@
 ---
 
 
-# OpenProject 5.0.10
+# OpenProject 5.0.10
 
 OpenProject 5.0.10 contains several bug and accessibility fixes:
 
@@ -42,7 +42,7 @@ In addition the performance when saving a work package has been improved
 ([\#21757](https://community.openproject.org/work_packages/21757/activity)).
 
 For further information on the release, please refer to the [Changelog
-v.5.0.10](https://community.openproject.org/versions/788) or take a look
+v.5.0.10](https://community.openproject.org/versions/788) or take a look
 at [GitHub](https://github.com/opf/openproject/tree/v5.0.10).
 
 

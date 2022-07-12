@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Project status
   priority: 499
 description: How to set and display the project status.
-robots: index, follow
 keywords: project status
 ---
 # Project status
@@ -46,4 +45,4 @@ Your [dashboard](../../project-overview/) will also display your project status.
 
 ### Can I create a custom project status?
 
-There are three project status to choose from: on track, at risk and off track. These cannot be changed. However, if you want to add additional information, you can do so in the status description or you can create an additional [project custom field](../../../system-admin-guide/custom-fields/custom-fields-projects/). Both, status description and the project custom field can be displayed in the **project list**.
+There are six project status to choose from: on track, at risk, off track, not started, finished and discontinued. These cannot be changed. However, if you want to add additional information, you can do so in the status description or you can create an additional [project custom field](../../../system-admin-guide/custom-fields/custom-fields-projects/). Both, status description and the project custom field can be displayed in the **project list**.

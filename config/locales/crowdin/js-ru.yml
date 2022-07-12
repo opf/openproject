@@ -316,7 +316,7 @@ ru:
     label_avatar: "Аватар\n"
     label_between: "между"
     label_board: "Доска"
-    label_board_locked: "Заперто"
+    label_board_locked: "Заблокировано"
     label_board_plural: "Доски"
     label_board_sticky: "Стикер"
     label_change: "Изменить"

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Gantt chart FAQ
   priority: 001
 description: Frequently asked questions regarding Gantt chart
-robots: index, follow
 keywords: Gantt chart FAQ, time line, scheduling
 ---
 

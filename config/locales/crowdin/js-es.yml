@@ -161,14 +161,14 @@ es:
           not_set: '(Página no establecida aún)'
           hint: |
             Para incluir el contenido de otra página wiki, especifique el título o slug.
-            Para incluir la página wiki de otro proyecto, sepárelas con un signo de dos puntos, como en el ejemplo siguiente.
+            Para incluir la página wiki de otro proyecto, sepárelas con dos puntos, como en el ejemplo siguiente.
         work_package_button:
           button: 'Insertar botón para crear paquete de trabajo'
           type: 'Tipo de paquete de trabajo'
           button_style: 'Usar estilo de botón'
-          button_style_hint: 'Opcional: active esta opción para que la macro se muestre como un botón, en lugar de mostrarse como un vínculo.'
+          button_style_hint: 'Opcional: active esta opción para que la macro se muestre como un botón y no como un vínculo.'
           without_type: 'Crear paquete de trabajo'
-          with_type: 'Crear paquete de trabajo (escriba lo siguiente: %{typename})'
+          with_type: 'Crear paquete de trabajo (escriba: %{typename})'
         embedded_table:
           button: 'Insertar tabla de paquetes de trabajo'
           text: '[Placeholder] Tabla de paquetes de trabajo insertada'
@@ -186,14 +186,14 @@ es:
         reset_to_defaults: 'Restablecer valores predeterminados'
       enterprise:
         text_reprieve_days_left: "%{days} días hasta el fin del período de gracia"
-        text_expired: "caducado"
+        text_expired: "expirado"
         trial:
           confirmation: "Confirmación de dirección de correo electrónico"
           confirmation_info: >
             Le hemos enviado un correo electrónico a %{email} el %{date}. Por favor, compruebe su bandeja de entrada y haga clic en el enlace de confirmación que le hemos enviado para comenzar con su prueba gratuita de 14 días.
           form:
             general_consent: >
-              Estoy de acuerdo con los <a target="_blank" href="%{link_terms}">Términos del servicio</a> y la <a target="_blank" href="%{link_privacy}">Política de privacidad</a>.
+              Estoy de acuerdo con los <a target="_blank" href="%{link_terms}">términos del servicio</a> y la <a target="_blank" href="%{link_privacy}">política de privacidad</a>.
             invalid_email: "Dirección de correo electrónico no válida"
             label_company: "Empresa"
             label_first_name: "Nombre"
@@ -202,12 +202,12 @@ es:
             label_subscriber: "Suscriptor"
             label_maximum_users: "Máximo de usuarios activos"
             label_starts_at: "Empieza el"
-            label_expires_at: "Caduca el"
+            label_expires_at: "Expira el"
             receive_newsletter: Quiero recibir el <a target="_blank" href="%{link}">boletín</a> de OpenProject.
             taken_domain: Solo puede existir una prueba activa por dominio.
             taken_email: Cada usuario solo puede crear una prueba.
           email_not_received: "¿No ha recibido el correo electrónico? Para volver a enviarlo, use el enlace de la derecha."
-          try_another_email: "O bien pruebe con otra dirección."
+          try_another_email: "O bien pruebe con otra dirección de correo electrónico."
           next_steps: "Pasos siguientes"
           resend_link: "Reenviar"
           resend_success: "El correo electrónico ha sido reenviado. Consulte su correo electrónico y haga clic en el enlace de confirmación proporcionado."
@@ -227,7 +227,7 @@ es:
             installation: "Ayuda en la instalación"
             installation_text: "Nuestros ingenieros de software especializados le guiarán en todo el proceso de instalación y configuración en su propia infraestructura."
             premium_features: "Funciones prémium"
-            premium_features_text: "Paneles ágiles, tema y logotipo personalizados, gráficos, flujos de trabajo inteligentes con acciones personalizadas, búsqueda de texto completo en archivos adjuntos de paquetes de trabajo y campos personalizados de selección múltiple."
+            premium_features_text: "Paneles Agile, tema y logotipo personalizados, gráficos, flujos de trabajo inteligentes con acciones personalizadas, búsqueda de texto completo en archivos adjuntos de paquetes de trabajo y campos personalizados de selección múltiple."
             professional_support: "Soporte profesional"
             professional_support_text: "Obtenga ayuda rápida y de confianza de nuestros agentes de asistencia con conocimientos especializados sobre cómo ejecutar OpenProject en entornos empresariales críticos."
           button_start_trial: "Iniciar prueba gratuita"
@@ -236,9 +236,9 @@ es:
             Ofrecemos la confianza de un software de gestión de proyectos de categoría empresarial probado y con asistencia: de código abierto y mente abierta.
           link_quote: "Solicitar presupuesto"
           text: >
-            OpenProject Enterprise Edition se basa en la versión de la comunidad (Community Edition). Incluye características premium y asistencia profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
+            OpenProject edición Enterprise se basa en la edición de la comunidad (edición Community). Incluye características premium y asistencia profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
           unlimited: "Ilimitado"
-          you_contribute: "Los desarrolladores también tienen que pagar sus facturas. Al actualizar a Enterprise Edition, apoyará el esfuerzo de la comunidad de código abierto y contribuirá a su desarrollo, mantenimiento y mejora continua."
+          you_contribute: "Los desarrolladores también tienen que pagar sus facturas. Al actualizar a edición Enterprise, apoyará el esfuerzo de la comunidad de código abierto y contribuirá a su desarrollo, mantenimiento y mejora continua."
     custom_actions:
       date:
         specific: 'en'
@@ -255,7 +255,7 @@ es:
       more_values_not_shown: "Hay %{total} resultados más, busque para filtrar resultados."
       description:
         text_open_filter: "Abrir este filtro con 'ALT' y las flechas de dirección."
-        text_close_filter: "Para seleccionar una entrada, deje el foco por ejemplo pulsando Intro. Para abandonar sin filtro, seleccione la primera entrada (vacía)."
+        text_close_filter: "Para seleccionar una entrada, focalice por ejemplo pulsando enter. Para abandonar sin filtro, seleccione la primera entrada (vacía)."
       noneElement: "(ninguno)"
       time_zone_converted:
         two_values: "%{from} - %{to} de su hora local."
@@ -291,17 +291,17 @@ es:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
-                La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>El <b>nuevo módulo Planificador de equipo</b> (característica de la versión Enterprise) permite asignar tareas visualmente a los miembros del equipo y ver un resumen del trabajo de cada uno.</li> <li>Estamos <b>publicando paneles ágiles básicos</b> para la versión de la comunidad.</li> <li>El <b>filtro «Incluir proyectos»</b> permite añadir fácilmente varios proyectos a las vistas (por ejemplo, para paquetes de trabajo, calendarios y planificadores de equipo).</li> <li>Hemos añadido <b>una nueva pestaña «Archivos»</b> en los detalles del paquete de trabajo para adjuntar toda la información posible a un paquete de trabajo.</li> <li>Hemos creado <b>roles globales para grupos</b>, que pueden asignarse a grupos y crear grupos de superusuarios.</li> <li>Se han añadido opciones de estado del proyecto.</li> </ul>
+                La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>El <b>nuevo módulo Planificador de equipo</b> (característica de la versión Enterprise) permite asignar tareas visualmente a los miembros del equipo y ver un resumen del trabajo de cada uno.</li> <li>Estamos <b>publicando paneles Agile básicos</b> para la versión de la comunidad.</li> <li>El <b>filtro «Incluir proyectos»</b> permite añadir fácilmente varios proyectos a las vistas (por ejemplo, para paquetes de trabajo, calendarios y planificadores de equipo).</li> <li>Hemos añadido <b>una nueva pestaña «Archivos»</b> en los detalles del paquete de trabajo para adjuntar toda la información posible a un paquete de trabajo.</li> <li>Hemos creado <b>roles globales para grupos</b>, que pueden asignarse a grupos y crear grupos de superusuarios.</li> <li>Se han añadido opciones de estado del proyecto.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
-                La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>En el módulo BCF, ahora puede guardar como <b>vistas</b> los filtros de paquetes de trabajo seleccionados, las columnas, etc., y compartirlas con los miembros del equipo.</li> <li>El <b>nuevo módulo Planificador de equipo</b> (característica de la versión Enterprise) permite asignar tareas visualmente a los miembros del equipo y ver un resumen de las tareas en las que trabaja cada uno.</li> <li>Estamos <b>publicando paneles ágiles básicos</b> para la versión de la comunidad.</li> <li>El <b>filtro «Incluir proyectos»</b> permite añadir fácilmente varios proyectos a las vistas (por ejemplo, para paquetes de trabajo, calendarios y planificadores de equipo).</li> <li>Hemos añadido <b>una nueva pestaña «Archivos»</b> en los detalles del paquete de trabajo para adjuntar toda la información posible a un paquete de trabajo.</li> <li>Hemos creado <b>roles globales para grupos</b> que pueden asignarse a grupos y crear grupos de superusuarios.</li> <li>Se han añadido opciones de estado del proyecto.</li> </ul>
+                La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>En el módulo BCF, ahora puede guardar como <b>vistas</b> los filtros de paquetes de trabajo seleccionados, las columnas, etc., y compartirlas con los miembros del equipo.</li> <li>El <b>nuevo módulo Planificador de equipo</b> (característica de la versión Enterprise) permite asignar tareas visualmente a los miembros del equipo y ver un resumen de las tareas en las que trabaja cada uno.</li> <li>Estamos <b>publicando paneles Agile básicos</b> para la versión de la comunidad.</li> <li>El <b>filtro «Incluir proyectos»</b> permite añadir fácilmente varios proyectos a las vistas (por ejemplo, para paquetes de trabajo, calendarios y planificadores de equipo).</li> <li>Hemos añadido <b>una nueva pestaña «Archivos»</b> en los detalles del paquete de trabajo para adjuntar toda la información posible a un paquete de trabajo.</li> <li>Hemos creado <b>roles globales para grupos</b> que pueden asignarse a grupos y crear grupos de superusuarios.</li> <li>Se han añadido opciones de estado del proyecto.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Asignado a'
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"
     label_add_columns: "Añadir columnas"
-    label_add_comment: "Agregar comentario"
+    label_add_comment: "Añadir comentario"
     label_add_comment_title: "Escriba un comentario y agregue @ para notificar a otras personas"
     label_add_row_after: "Añadir fila debajo"
     label_add_row_before: "Añadir fila encima"
@@ -319,7 +319,7 @@ es:
     label_board: "Tablero"
     label_board_locked: "Bloqueado"
     label_board_plural: "Tableros"
-    label_board_sticky: "Adhesivo"
+    label_board_sticky: "Fijo"
     label_change: "Cambiar"
     label_create: "Crear"
     label_create_work_package: "Crear un nuevo paquete de trabajo"
@@ -393,7 +393,7 @@ es:
     label_on: "en"
     label_open_menu: "Abrir menú"
     label_open_context_menu: "Abrir menú contextual"
-    label_open_work_packages: "abierto"
+    label_open_work_packages: "abrir"
     label_password: "Contraseña"
     label_previous: "Anterior"
     label_per_page: "Por pagina:"
@@ -407,7 +407,7 @@ es:
     label_remove_column: "Eliminar columna"
     label_remove_columns: "Eliminar columnas seleccionadas"
     label_remove_row: "Eliminar fila"
-    label_report: "Informe"
+    label_report: "Reportar"
     label_repository_plural: "Repositorios"
     label_save_as: "Guardad como"
     label_select_watcher: "Selecciona un observador..."
@@ -418,10 +418,10 @@ es:
     label_sorted_by: "ordenados por"
     label_sort_higher: "Mover hacia arriba"
     label_sort_lower: "Mover hacia abajo"
-    label_sorting: "Ordenando"
-    label_spent_time: "Tiempo empleado"
+    label_sorting: "Orden"
+    label_spent_time: "Tiempo dedicado"
     label_star_query: "Favorecido"
-    label_press_enter_to_save: "Presione Entrar para guardar los cambios."
+    label_press_enter_to_save: "Presione enter para guardar los cambios."
     label_public_query: "Público"
     label_sum: "Suma"
     label_sum_for: "Suma para"
@@ -429,7 +429,7 @@ es:
     label_subject: "Asunto"
     label_this_week: "esta semana"
     label_today: "Hoy"
-    label_time_entry_plural: "Tiempo empleado"
+    label_time_entry_plural: "Tiempo dedicado"
     label_up: "Arriba"
     label_user_plural: "Usuarios"
     label_activity_show_only_comments: "Solo mostrar las actividades con comentarios"
@@ -487,7 +487,7 @@ es:
       steps:
         help_menu: 'El menú Ayuda (?) proporciona <b>recursos de ayuda adicionales</b>. Aquí puedes encontrar una guía de usuario, vídeos explicativos y más. <br> ¡Disfruta de tu trabajo con OpenProject!'
         members: 'Invitar a nuevos <b>miembros</b> a unirse a tu proyecto.'
-        project_selection: 'Haga clic en uno de los proyectos de demostración que hemos preparado. Los datos de demostración solo están disponibles en inglés actualmente. <br> El <b>proyecto de demostración</b> general es la opción recomendada para la gestión de proyectos clásica, mientras que el <b>proyecto de Scrum</b> es más adecuado para la gestión de proyectos ágiles.'
+        project_selection: 'Haga clic en uno de los proyectos de demostración que hemos preparado. Los datos de demostración solo están disponibles en inglés actualmente. <br> El <b>proyecto general de demostración</b> es la opción recomendada para la gestión de proyectos clásica, mientras que el <b>proyecto de Scrum</b> es más adecuado para la gestión de proyectos Agile.'
         quick_add_button: 'Haga clic en el icono del signo más (+) en el menú de navegación del encabezado para <b>crear un proyecto</b> o <b>invitar a compañeros</b>.'
         sidebar_arrow: "Usa la flecha de retorno en la esquina superior izquierda para regresar al <b>menú principal</b> del proyecto."
         welcome: 'Realice un paseo de introducción de tres minutos para conocer las <b>características más importantes</b>. <br> Le recomendamos que complete todos los pasos. Puede volver a iniciar el paseo en cualquier momento.'
@@ -495,13 +495,13 @@ es:
         backlogs:
           overview: "Administre su trabajo en la vista de <b>trabajos pendientes</b>."
           sprints: "A la derecha verá los trabajos pendientes de productos y errores de código, y a la izquierda se muestran los sprints correspondientes. Aquí puede crear <b>épicas, historias de usuario y errores de código</b>, asignar prioridades mediante funciones de arrastrar y colocar, y añadir elementos a un sprint."
-          task_board_arrow: 'Para ver el <b>Panel de tareas</b>, abra el menú desplegable Sprint…'
+          task_board_arrow: 'Para ver el <b>panel de tareas</b>, abra el menú desplegable sprint…'
           task_board_select: '… y seleccione la entrada del <b>panel de tareas</b>.'
           task_board: "En el panel de tareas, se muestra el <b>progreso de este sprint</b>. Haga clic en el icono del signo más (+) junto a una historia de usuario para añadir nuevas tareas o impedimentos. <br> Puede actualizar el estado mediante las funciones de arrastrar y colocar."
         boards:
-          overview: 'Seleccione los <b>paneles</b> para cambiar la vista y gestione su proyecto con la vista de paneles ágiles.'
-          lists_kanban: 'Aquí puede crear varias listas (columnas) en el panel. Por ejemplo, esta característica le permite crear un <b>panel kanban</b>.'
-          lists_basic: 'Aquí puede crear varias listas (columnas) en el panel ágil.'
+          overview: 'Seleccione los <b>paneles</b> para cambiar la vista y gestione su proyecto con la vista de paneles Agile.'
+          lists_kanban: 'Aquí puede crear varias listas (columnas) en el panel. Por ejemplo, esta característica le permite crear un <b>panel Kanban</b>.'
+          lists_basic: 'Aquí puede crear varias listas (columnas) en el panel Agile.'
           add: 'Haga clic en el icono del signo más (+) para <b>crear una tarjeta</b> o <b>añadir una tarjeta existente</b> a la lista en el panel.'
           drag: 'Arrastre y coloque las tarjetas en una lista específica para cambiar el orden o moverlas a otra lista. <br> Para ver los detalles, haga clic en el icono de información (i) de la esquina superior derecha o haga doble clic en una tarjeta.'
         wp:
@@ -510,8 +510,8 @@ es:
           full_view: 'En la vista de <b>detalles del paquete de trabajo</b>, se muestra toda la información pertinente sobre un paquete de trabajo específico, como la descripción, el estado, la prioridad, las actividades, las dependencias y los comentarios.'
           back_button: 'Use la flecha de retorno de la esquina superior izquierda para salir y volver a la lista de paquetes de trabajo.'
           create_button: 'Use el botón <b>+ Crear</b> para añadir un nuevo paquete de trabajo a su proyecto.'
-          timeline_button: 'Puede activar la vista del <b>diagrama de Gantt</b> para crear una línea de tiempo del proyecto.'
-          timeline: 'Aquí puede <b>editar su plan de proyecto</b>, crear nuevos paquetes de trabajo (como tareas, hitos, fases y más) y <b>añadir dependencias</b>. Todos los miembros del equipo pueden ver y actualizar el plan más reciente en cualquier momento.'
+          timeline_button: 'Puede activar la vista del <b>diagrama de Gantt</b> para crear una línea temporal del proyecto.'
+          timeline: 'Aquí puede <b>editar su plan de proyecto</b>, crear nuevos paquetes de trabajo como tareas, hitos, fases y más, y <b>añadir dependencias</b>. Todos los miembros del equipo pueden ver y actualizar el plan más reciente en cualquier momento.'
         team_planner:
           overview: 'El planificador de equipo permite asignar de forma visual tareas a los miembros del equipo y obtener un resumen del trabajo de cada uno.'
           calendar: 'En el panel de planificación semanal o bisemanal, se muestran todos los paquetes de trabajo asignados a los miembros del equipo.'
@@ -599,8 +599,8 @@ es:
       relation_description: 'Haga clic para añadir la descripción a esta relación'
     project:
       required_outside_context: >
-        Seleccione el proyecto donde quiera crear el paquete de trabajo para ver todos los atributos. Solo puede seleccionar proyectos que tengan activado el tipo anterior.
-      context: 'Contexto de proyecto'
+        Seleccione el proyecto donde quiere crear el paquete de trabajo para ver todos los atributos. Solo puede seleccionar proyectos que tengan activado el tipo de paquete utilizado.
+      context: 'Contexto del proyecto'
       work_package_belongs_to: 'Este paquete de trabajo pertenece al proyecto %{projectname}.'
       click_to_switch_context: 'Abra este paquete de trabajo en ese proyecto.'
       confirm_template_load: 'Al cambiar la plantilla, se actualizará la página y perderá todos los datos introducidos en el formulario. ¿Quiere continuar?'
@@ -651,7 +651,7 @@ es:
         confirm_reset: >
           Advertencia: ¿Está seguro de que quiere restablecer la configuración del formulario? Se restablecerán los atributos al grupo predeterminado y se deshabilitarán TODOS los campos personalizados.
         upgrade_to_ee: "Actualizar a edición Enterprise on-premises"
-        upgrade_to_ee_text: "¡Vaya! Si necesita está opción, entonces ¡eres un usuario experto! ¿Te importaría apoyar a los desarrolladores de OpenSource convirtiéndose en un cliente de la versión Enterprise?"
+        upgrade_to_ee_text: "¡Vaya! Si necesita está opción, entonces ¡eres un usuario experto! ¿Te importaría apoyar a los desarrolladores de OpenSource convirtiéndose en un cliente de la edición Enterprise?"
         more_information: "Más información"
         nevermind: "No importa"
       edit:
@@ -701,9 +701,9 @@ es:
       change_parent: "Cambiar principal"
       remove_parent: "Eliminar principal"
       hierarchy_indent: "Aumentar sangría de jerarquía"
-      hierarchy_outdent: "Anular sangría de jerarquía"
+      hierarchy_outdent: "Disminuir sangría de jerarquía"
       group_by_wp_type: "Agrupar por tipo de paquete de trabajo"
-      group_by_relation_type: "Grupo por tipo de relación"
+      group_by_relation_type: "Agrupar por tipo de relación"
       add_parent: "Añadir principal existente"
       add_new_child: "Crear nuevo sub-elemento"
       create_new: "Crear nuevo"
@@ -719,7 +719,7 @@ es:
       add_predecessor: "Añadir predecesor"
       remove: "Eliminar la relación"
       save: "Guardar relación"
-      abort: "Abandonar"
+      abort: "Anular"
     relations_autocomplete:
       placeholder: "Escriba para buscar"
       parent_placeholder: "Elija un nuevo principal o presione escape para cancelar."
@@ -729,16 +729,16 @@ es:
       typeToSearchText: "Escriba para buscar"
     repositories:
       select_tag: 'Seleccionar etiqueta'
-      select_branch: 'Seleccione Sucursal'
+      select_branch: 'Seleccione rama'
     field_value_enter_prompt: "Introduzca un valor para '%{field}'"
     project_menu_details: "Detalles"
     scheduling:
       manual: 'Programación manual'
       automatic: 'Programación automática'
     sort:
-      sorted_asc: 'Orden ascendiente aplicado '
-      sorted_dsc: 'Orden descendiente aplicado '
-      sorted_no: 'Ningún tipo de orden aplicado '
+      sorted_asc: 'Orden ascendiente aplicado, '
+      sorted_dsc: 'Orden descendiente aplicado, '
+      sorted_no: 'Ningún tipo de orden aplicado, '
       sorting_disabled: 'ordenación deshabilitada'
       activate_asc: 'activar para aplicar orden ascendiente'
       activate_dsc: 'activar para aplicar orden descendiente'
@@ -766,17 +766,17 @@ es:
       empty: "(vacío)"
       error: "Ha ocurrido un error."
       errors:
-        not_implemented: "La línea de tiempo no puede procesarse porque utiliza una característica que no se ha implementado todavía."
-        report_comparison: "La línea de tiempo no puede hacer las comparaciones configuradas. Consulte la sección pertinente en la configuración, re-iniciarla puede ayudar a resolver este problema."
-        report_epicfail: "No se pudo cargar la línea de tiempo debido a un error inesperado."
-        report_timeout: "No se pudo cargar la línea de tiempo en una cantidad razonable de tiempo."
+        not_implemented: "La línea temporal no puede procesarse porque utiliza una característica que no se ha implementado todavía."
+        report_comparison: "La línea temporal no puede hacer las comparaciones configuradas. Consulte la sección pertinente en la configuración, reiniciarla puede ayudar a resolver este problema."
+        report_epicfail: "No se pudo cargar la línea temporal debido a un error inesperado."
+        report_timeout: "No se pudo cargar la línea temporal en una cantidad razonable de tiempo."
       filter:
         grouping_other: "Otros"
         noneSelection: "(ninguno)"
       name: "Nombre"
-      outline: "Restablecer marco"
+      outline: "Restablecer Marco"
       outlines:
-        aggregation: "Mostrar sólo las agregaciones"
+        aggregation: "Mostrar solo las agregaciones"
         level1: "Ampliar nivel 1"
         level2: "Ampliar nivel 2"
         level3: "Ampliar nivel 3"
@@ -788,7 +788,7 @@ es:
       responsible: "Responsable"
       save: Guardar
       start_date: "Fecha de inicio"
-      tooManyProjects: "Mas de  %{count} proyectos. Por favor, use un mejor filtro!"
+      tooManyProjects: "Más de %{count} proyectos. ¡Por favor, use un mejor filtro!"
       selection_mode:
         notification: 'Haga clic en cualquier paquete de trabajo destacado para crear la relación. Pulse Esc para cancelar.'
       zoom:
@@ -800,27 +800,27 @@ es:
         months: "Meses"
         quarters: "Cuatrimestres"
         years: "Años"
-        slider: "Deslizador del Zoom"
+        slider: "Deslizador del zoom"
         description: >
           Seleccione el nivel de zoom inicial que debe mostrarse cuando el zoom automático no esté disponible.
     tl_toolbar:
-      zooms: "nivel de Zoom"
+      zooms: "Nivel de zoom"
       outlines: "Nivel de jerarquía"
     upsale:
-      ee_only: 'Característica exclusiva de Enterprise Edition'
+      ee_only: 'Característica exclusiva de edición Enterprise'
     wiki_formatting:
       strong: "Negrita"
       italic: "Cursiva"
       underline: "Subrayado"
       deleted: "Borrado"
       code: "Codigo en línea"
-      heading1: "Cabecera 1"
-      heading2: "Cabecera 2"
-      heading3: "Cabecera 3"
+      heading1: "Título 1"
+      heading2: "Título 2"
+      heading3: "Título 3"
       unordered_list: "Lista Desordenada"
       ordered_list: "Lista Ordenada"
-      quote: "Comentario"
-      unquote: "Quitar la Cita"
+      quote: "Cita"
+      unquote: "Quitar la cita"
       preformatted_text: "Texto Preformateado"
       wiki_link: "Vincular a una página Wiki"
       image: "Imagen"
@@ -831,12 +831,12 @@ es:
         copy: 'Copia en masa'
         delete: 'Eliminación en masa'
       button_clear: "Eliminar"
-      comment_added: "El comentario fue agregado con éxito."
-      comment_send_failed: "Ha ocurrido un error. No se pudo enviar el comentario."
+      comment_added: "El comentario fue añadido con éxito."
+      comment_send_failed: "Ha ocurrido un error. No se pudo añadir el comentario."
       comment_updated: "El comentario se actualizó correctamente."
       confirm_edit_cancel: "¿Está seguro que desea cancelar la edición del paquete de trabajo?"
       description_filter: "Filtro"
-      description_enter_text: "Ingrese texto"
+      description_enter_text: "Introducir texto"
       description_options_hide: "Ocultar opciones"
       description_options_show: "Mostrar opciones"
       edit_attribute: "%{attribute} - Editar"
@@ -852,7 +852,7 @@ es:
       message_successful_show_in_fullscreen: "Haga clic aquí para abrir este paquete de trabajo en la vista de pantalla completa."
       message_view_spent_time: "Mostrar el tiempo invertido en este paquete de trabajo"
       message_work_package_read_only: "El paquete de trabajo está bloqueado en este estado. Excepto el estado, ningún otro atributo se puede modificar."
-      message_work_package_status_blocked: "El estado del paquete de trabajo no permite la escritura porque se asignarán el estado cerrado y la versión cerrada."
+      message_work_package_status_blocked: "El estado del paquete de trabajo no permite la escritura porque están asignados como estado y versión cerrada."
       placeholder_filter_by_text: "Asunto, descripción, comentarios, ..."
       inline_create:
         title: 'Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista'
@@ -872,16 +872,16 @@ es:
         children_collapsed: 'El nivel de jerarquía %{level} está minimizado. Haga clic para ver los sub-elementos filtrados'
         children_expanded: 'El nivel de jerarquía %{level} está ampliado. Haga clic para minimizar los sub-elementos filtrados'
       faulty_query:
-        title: No se han podido cargar paquetes de trabajo.
+        title: No se han podido cargar los paquetes de trabajo.
         description: La vista es errónea y no se pudo procesar.
       no_results:
         title: No hay paquetes de trabajo para mostrar.
-        description: O bien no se han creado o se filtran todos los paquetes de trabajo.
-      limited_results: En el modo de ordenación manual, solo puede mostrarse un máximo de %{count} paquetes de trabajo. Filtre para reducir el número de resultados, o bien cambie a la ordenación automática.
+        description: O bien no se han creado o se han filtrado todos los paquetes de trabajo.
+      limited_results: En el modo de ordenación manual, solo puede mostrarse un máximo de %{count} paquetes de trabajo. Filtre para reducir el número de resultados, o bien cambie a ordenación automática.
       property_groups:
         details: "Detalles"
-        people: "Participantes"
-        estimatesAndTime: "Estimados y tiempos"
+        people: "Personas"
+        estimatesAndTime: "Estimaciones y tiempos"
         other: "Otros"
       properties:
         assignee: "Asignado a"
@@ -908,8 +908,8 @@ es:
         version: "Versión"
       default_queries:
         latest_activity: "Actividad reciente"
-        created_by_me: "Creado por mi usuario"
-        assigned_to_me: "Asignado a mi usuario"
+        created_by_me: "Creado por mí"
+        assigned_to_me: "Asignado a mí"
         recently_created: "Creado recientemente"
         all_open: "Todo abierto"
         summary: "Resumen"
@@ -927,21 +927,21 @@ es:
         group_by: "Resultados de grupo por"
         group: "Agrupar por"
         group_by_disabled_by_hierarchy: "La agrupación está deshabilitada, puesto que está activo el modo de jerarquía."
-        hierarchy_disabled_by_group_by: "El modo de jerarquía está deshabilitado, puesto que los resultados se agrupan por %{column}."
+        hierarchy_disabled_by_group_by: "El modo de jerarquía está deshabilitado, puesto que los resultados están agrupan por %{column}."
         sort_ascending: "Ordenar ascendente"
         sort_descending: "Ordenar descendente"
         move_column_left: "Mover columna a la izquierda"
         move_column_right: "Mover columna a la derecha"
-        hide_column: "Esconder Columna"
+        hide_column: "Esconder columna"
         insert_columns: "Insertar columnas..."
         filters: "Filtros"
         display_sums: "Mostrar sumas"
-        confirm_edit_cancel: "¿Está seguro de que quiere cancelar la edición del nombre de esta vista? El título volverá a establecerse en el valor anterior."
+        confirm_edit_cancel: "¿Está seguro de que quiere cancelar la edición del nombre de esta vista? El título volverá a establecerse con el valor anterior."
         click_to_edit_query_name: "Haga clic para editar el título de esta vista."
         rename_query_placeholder: "Nombre de la vista"
         star_text: "Marque esta vista como favorita y agréguela a la barra lateral de vistas guardadas de la izquierda."
         public_text: >
-          Publique esta vista para que otros usuarios puedan acceder a esta. Los usuarios con el permiso “Administrar vistas públicas” puede modificar o quitar consultas públicas. Esto no afecta a la visibilidad de los resultados de paquetes de trabajo en esa vista y, según sus permisos, los usuarios pueden ver resultados distintos.
+          Publique esta vista para que otros usuarios puedan acceder a esta. Los usuarios con el permiso “Administrar vistas públicas” puede modificar o quitar vistas públicas. Esto no afecta a la visibilidad de los resultados de paquetes de trabajo en esa vista y, según sus permisos, los usuarios pueden ver resultados distintos.
         errors:
           unretrievable_query: "No se puede recuperar la vista de la URL"
           not_found: "No existe la vista"
@@ -953,7 +953,7 @@ es:
       table:
         configure_button: 'Configurar tabla de paquetes de trabajo'
         summary: "Tabla con filas de paquetes de trabajo y columnas con sus atributos."
-        text_inline_edit: "Mayoría de las celdas de esta tabla son botones que activan la funcionalidad de edición de dicho atributo."
+        text_inline_edit: "La mayoría de las celdas de esta tabla son botones que activan la funcionalidad de edición de dicho atributo."
         text_sort_hint: "Con los enlaces en los encabezamientos de las tablas puede ordenar, agrupar, reordenar, quitar y añadir columnas de las tablas."
         text_select_hint: "Los cuadros de selección deben ser abiertos con 'ALT' y las teclas de cursor."
       table_configuration:
@@ -965,7 +965,7 @@ es:
         display_settings: 'Configuración de visualización'
         default_mode: "Lista plana"
         hierarchy_mode: "Jerarquía"
-        hierarchy_hint: "Todos los resultados de la tabla filtrada se aumentarán con sus antecesores. Las jerarquías se pueden expandir y contraer."
+        hierarchy_hint: "A todos los resultados de la tabla filtrada se le añadirán sus antecesores. Las jerarquías se pueden expandir y contraer."
         display_sums_hint: "Muestra las sumas de todos los atributos que pueden sumarse en una fila debajo de los resultados de la tabla."
         show_timeline_hint: "Muestra un diagrama de Gantt interactivo en la parte derecha de la tabla. Para cambiar el ancho, arrastre la línea divisoria entre la tabla y el diagrama de Gantt."
         highlighting: 'Resaltado'
@@ -986,8 +986,8 @@ es:
         columns_help_text: "Use el campo de entrada anterior para añadir columnas a la vista de tabla. Puede arrastrar y colocar las columnas para cambiar el orden."
         upsale:
           attribute_highlighting: '¿Necesita que algunos paquetes de trabajo destaquen del resto?'
-          relation_columns: '¿Necesita ver las relaciones en la lista del paquete de trabajo?'
-          check_out_link: 'Vea la versión Enterprise Edition.'
+          relation_columns: '¿Necesita ver las relaciones en la lista de paquetes de trabajo?'
+          check_out_link: 'Vea la edición Enterprise.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrar paquetes de trabajo por tipo de relación'
       tabs:
@@ -1014,8 +1014,8 @@ es:
         save: "Guardar"
         save_as: "Guardar como ..."
         export: "Exportar ..."
-        visibility_settings: "Configuración de visibilidad…"
-        page_settings: "Cambiar nombre de vista…"
+        visibility_settings: "Configuración de visibilidad …"
+        page_settings: "Cambiar nombre de vista …"
         delete: "Borrar"
       filter: "Filtro"
       unselected_title: "Paquete de trabajo"
@@ -1032,10 +1032,10 @@ es:
       button_cancel: "Cancelar"
       form_submit:
         title: 'Confirme para continuar'
-        text: '¿Estás seguro/a de que desea realizar esta acción?'
+        text: '¿Seguro que desea realizar esta acción?'
       destroy_work_package:
         title: "Confirmar la eliminación de %{label}"
-        text: "¿Está seguro de que quiere eliminar la siguiente %{label} ?"
+        text: "¿Seguro que quiere eliminar el siguiente %{label} ?"
         has_children: "El paquete de trabajo tiene %{childUnits}:"
         confirm_deletion_children: "Reconozco que TODOS los descendientes de los paquetes de trabajo enumerados se eliminarán recursivamente."
         deletes_children: "También se eliminarán de forma recursiva todos los sub-paquetes de trabajo y sus descendientes."
@@ -1044,17 +1044,17 @@ es:
         text: "¿Realmente quiere eliminar la siguiente entrada de tiempo?"
     notice_no_results_to_display: "No se pueden mostrar resultados visibles."
     notice_successful_create: "Creación exitosa."
-    notice_successful_delete: "Eliminado con éxito."
-    notice_successful_update: "Actualización correcta."
+    notice_successful_delete: "Eliminación exitosa."
+    notice_successful_update: "Actualización exitosa."
     notice_job_started: "trabajo iniciado."
     notice_bad_request: "Petición incorrecta."
     relations:
       empty: No existen relaciones
       remove: Eliminar la relación
     inplace:
-      button_edit: "%{attribute}: editar"
-      button_save: "%{attribute}: guardar"
-      button_cancel: "%{attribute}: cancelar"
+      button_edit: "%{attribute}: Editar"
+      button_save: "%{attribute}: Guardar"
+      button_cancel: "%{attribute}: Cancelar"
       button_save_all: "Guardar"
       button_cancel_all: "Cancelar"
       link_formatting_help: "Ayuda para el formato del texto"
@@ -1084,8 +1084,8 @@ es:
         other: "%{count} h"
         zero: "0 h"
     zen_mode:
-      button_activate: 'Activar modo «zen»'
-      button_deactivate: 'Desactivar modo «zen»'
+      button_activate: 'Activar modo zen'
+      button_deactivate: 'Desactivar modo zen'
     global_search:
       all_projects: "En todos los proyectos"
       search: "Buscar"
@@ -1095,7 +1095,7 @@ es:
       title:
         all_projects: "todos los proyectos"
         project_and_subprojects: "y todos los subproyectos"
-        search_for: "Búsqueda por"
+        search_for: "Buscar por"
     views:
       card: 'Tarjetas'
       list: 'Tabla'
@@ -1112,14 +1112,14 @@ es:
         invite_principal_to_project: 'Invitar a %{principal} a %{project}'
       project:
         label: 'Proyecto'
-        required: 'Seleccione un proyecto'
-        lacking_permission: 'Seleccione otro proyecto, ya que no tiene permiso para asignar usuarios al proyecto actual.'
-        lacking_permission_info: 'No tiene permiso para asignar usuarios al proyecto actual. Necesita seleccionar otro proyecto.'
+        required: 'Por favor, seleccione un proyecto'
+        lacking_permission: 'Por favor, seleccione otro proyecto, ya que no tiene permisos para asignar usuarios al proyecto actual.'
+        lacking_permission_info: 'No tiene permisos para asignar usuarios al proyecto actual. Necesita seleccionar otro proyecto.'
         next_button: 'Siguiente'
         no_results: 'No se encontraron proyectos'
         no_invite_rights: 'No tiene permiso para invitar a miembros a este proyecto'
       type:
-        required: 'Seleccione el tipo de miembro al que invitará'
+        required: 'Por favor, seleccione el tipo de miembro al que invitará'
         user:
           title: 'Usuario'
           description: 'Permisos basados en el rol asignado en el proyecto seleccionado'
@@ -1128,9 +1128,9 @@ es:
           description: 'Permisos basados en el rol asignado en el proyecto seleccionado'
         placeholder:
           title: 'Usuario de marcador de posición'
-          title_no_ee: 'Usuario de marcador de posición (característica solo disponible en Enterprise Edition)'
+          title_no_ee: 'Usuario de marcador de posición (característica solo disponible en edición Enterprise)'
           description: 'No tiene acceso al proyecto y no se enviarán correos electrónicos.'
-          description_no_ee: 'No tiene acceso al proyecto y no se enviarán correos electrónicos. <br>Consulte <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          description_no_ee: 'No tiene acceso al proyecto y no se enviarán correos electrónicos. <br>Consulte <a href="%{eeHref}" target="_blank">edición Enterprise</a>'
       principal:
         label:
           name_or_email: 'Nombre o dirección de correo electrónico'
@@ -1145,16 +1145,16 @@ es:
         required:
           user: 'Seleccione un usuario'
           placeholder: 'Seleccione un marcador de posición'
-          group: 'Seleccione un grupo'
+          group: 'Por favor, seleccione un grupo'
       role:
         label: 'Rol en %{project}'
         no_roles_found: 'No se encontraron roles'
         description: 'Este es el role que %{principal} recibirá al unirse al proyecto. El role define las acciones que són permitidas y que información pueden ver. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Obtén más información sobre roles y permisos. </a>'
-        required: 'Seleccione un rol'
+        required: 'Por favor, seleccione un rol'
         next_button: 'Siguiente'
       message:
         label: 'Mensaje de invitación'
-        description: 'Enviaremos un correo electrónico a %{principal} (puede añadir un mensaje personal aquí). Una explicación sobre la invitación podría ser útil, o bien información básica sobre el proyecto para ayudarles a empezar.'
+        description: 'Enviaremos un correo electrónico a %{principal}, al cual puede añadir un mensaje personal aquí. Una explicación sobre la invitación podría ser útil, o bien información básica sobre el proyecto para ayudarles a empezar.'
         next_button: 'Revisar invitación'
       summary:
         next_button: 'Enviar invitación'
@@ -1181,7 +1181,7 @@ es:
     forms:
       submit_success_message: 'El formulario se envió correctamente'
       load_error_message: 'Se produjo un error al cargar el formulario'
-      validation_error_message: 'Corrija los errores del formulario'
+      validation_error_message: 'Corrija los errores en el formulario'
       advanced_settings: 'Ajustes avanzados'
     spot:
       filter_chip:

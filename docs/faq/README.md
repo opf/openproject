@@ -3,7 +3,6 @@ sidebar_navigation:
   title: FAQ
   priority: 950
 description: Frequently asked questions for OpenProject (FAQ)
-robots: index, follow
 keywords: FAQ, introduction, tutorial, project management software, frequently asked questions, help
 ---
 # Frequently asked questions (FAQ) for OpenProject
@@ -288,7 +287,7 @@ We welcome everybody willing to help make OpenProject better. There are a lot of
 
 If you want to code, a good starting point would be to make yourself familiar with the [basic approaches for developing](../development/) in OpenProject and opening a pull request on GitHub referencing an existing bug report or feature request. Find our GitHub page [here](https://github.com/opf/openproject).
 
-If in doubt on how you should start, you can also just [contact us](https://www.openproject.org/contact-us/).
+If in doubt on how you should start, you can also just [contact us](https://www.openproject.org/contact/).
 
 ### How can I receive support?
 

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Toggl integration
   priority: 798
 description: Time tracking with Toggl
-robots: index, follow
 keywords: time tracking, toggl integration
 ---
 

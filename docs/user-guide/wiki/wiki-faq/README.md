@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Wiki FAQ
   priority: 001
 description: Frequently asked questions regarding wiki
-robots: index, follow
 keywords: wiki faq
 ---
 

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Work package relations and hierarchies
   priority: 600
 description: How to add or configure work package relations?
-robots: index, follow
 keywords: relations, hierarchies, child, parent, blocked, includes, part of
 ---
 
@@ -36,7 +35,7 @@ Work package relations indicate that work packages address a similar topic or cr
 You can select one of the following relations:
 
 - **Related to** - This option adds a link from the work package A to work package B, so that project members can immediately see the connection, even if the work packages are not members of the same hierarchy. 
-- **Duplicates / Duplicated by** - This option indicates that the work package A duplicates a work package B in one way or another, for example both address the same task. This can be useful if you have the same work package that needs to be a part of a closed and public projects at the same time. The connection in this case is only semantic, the changes you make in work package A will need to be adapted in work package B manually. However, this does not affect the status, so if you change the status of workpackage A the status of workpackage B will change automatically to the same. 
+- **Duplicates / Duplicated by** - This option indicates that the work package A duplicates a work package B in one way or another, for example both address the same task. This can be useful if you have the same work package that needs to be a part of a closed and public projects at the same time. The connection in this case is only semantic, the changes you make in work package A will need to be adapted in work package B manually. 
 - **Blocks / Blocked by** - This option defines status change restrictions between two work packages. If you set a work package A to be blocking work package B, the status of work package B cannot be set to closed or resolved until the work package A is closed.
 - **Precedes / Follows** - Defines a chronologically relation between two work packages. For example, if you set a work package A to precede a work package B, you will not be able to change the start date of B to be earlier than the day after the finish date of A. In addition, when you move the finish date of A, the start and finish date of B will be updated as well.
   Please note: If work package B is in [manual scheduling mode](../../gantt-chart/scheduling/#manual-scheduling-mode), changing the finish date of work package A will have no effect on work package B.
@@ -91,7 +90,7 @@ For more information on the work package creation take a look at the guideline o
 
 To edit or remove the parent of a work package open the work package. At the top of the details view of the work package you will see the work package hierarchy. Click on the **edit icon** or **delete icon** to change the work package parent.
 
-![User-guide-edit-remove-parent](User-guide-edit-remove-parent.png)
+![change-parent-work-package](change-parent-work-package-6597345.png)
 
 ## Display work package hierarchies
 
@@ -107,9 +106,8 @@ To display work package hierarchies make sure the *Subject* column is displayed.
 
 You can also add a column with information about parent work packages:
 
-1. In the work package settings menu, click on **Columns**.
-2. Use auto-completion to search and add the *Parent* column.
-3. Click on **Apply** to display the new parent column in the work package list.
+1. Click on the gear wheel in the upper right corner of the work package table to open the work package table configuration.
+2. Select "Parent" from the drop down menu and click on apply.
+3. Now the column with the information about a parant relation is displayed in the work package table.
 
-![parent](image-20200129145338301.png)
-
+![change-parent](change-parent.png)

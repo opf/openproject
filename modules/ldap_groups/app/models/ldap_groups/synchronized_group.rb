@@ -55,13 +55,7 @@ module LdapGroups
         users.delete users.where(user: user_ids).select(:id)
 
         # 2) Remove users from the internal group
-        call = Groups::UpdateService
-          .new(user: User.system, model: group)
-          .call(user_ids: group.user_ids - user_ids)
-
-        call.on_failure do
-          Rails.logger.error "[LDAP groups] Failed to remove users #{user_ids} from #{group.name}: #{call.message}"
-        end
+        remove_members_from_group(user_ids)
       end
     end
 
@@ -82,10 +76,38 @@ module LdapGroups
       remove_members! User.find(users.pluck(:user_id))
     end
 
+    # rubocop:disable Metrics/AbcSize
     def add_members_to_group(new_users)
-      Groups::UpdateService
+      user_ids = new_users.map { |user| user_id(user) }
+
+      call = Groups::UpdateService
         .new(user: User.current, model: group)
-        .call(user_ids: group.user_ids + new_users.map { |user| user_id(user) })
+        .call(user_ids: group.user_ids + user_ids)
+
+      call.on_success do
+        Rails.logger.debug "[LDAP groups] Added users #{user_ids} to #{group.name}"
+      end
+
+      call.on_failure do
+        Rails.logger.error "[LDAP groups] Failed to add users #{user_ids} to #{group.name}: #{call.message}"
+        raise ActiveRecord::Rollback
+      end
     end
+
+    def remove_members_from_group(user_ids)
+      call = Groups::UpdateService
+        .new(user: User.system, model: group)
+        .call(user_ids: group.user_ids - user_ids)
+
+      call.on_success do
+        Rails.logger.debug "[LDAP groups] Removed users #{user_ids} from #{group.name}"
+      end
+
+      call.on_failure do
+        Rails.logger.error "[LDAP groups] Failed to remove users #{user_ids} from #{group.name}: #{call.message}"
+        raise ActiveRecord::Rollback
+      end
+    end
+    # rubocop:enable Metrics/AbcSize
   end
 end

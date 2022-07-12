@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Kerberos
   priority: 800
 description: How to set up integration of Kerberos for authentication with OpenProject.
-robots: index, follow
 keywords: Kerberos, authentication
 
 
@@ -11,9 +10,7 @@ keywords: Kerberos, authentication
 
 # Kerberos integration
 
-<div class="alert alert-info" role="alert">
-**Note**: This documentation is valid for the OpenProject Enterprise Edition only.
-</div>
+> **Note**: This documentation is valid for the OpenProject Enterprise Edition only.
 
 [Kerberos](https://web.mit.edu/kerberos/) allows you to authenticate user requests to a service within a computer network. You can integrate it with OpenProject with the use of [Kerberos Apache module](https://github.com/S2-/mod_auth_kerb) (`mod_auth_kerb`) plugging into the OpenProject packaged installation using Apache web server.
 
@@ -63,9 +60,7 @@ You will then need to add the generated keytab to be used for the OpenProject in
 
 We are going to create a new file `/etc/openproject/addons/apache2/custom/vhost/kerberos.conf` with the following contents.
 
-<div class="alert alert-info" role="alert">
-**Please note**: The following kerberos configuration is only an example. We cannot provide any support or help with regards to the Kerberos side of configuration. OpenProject will simply handle the incoming header containing the logged in user.
-</div>
+> **Please note**: The following kerberos configuration is only an example. We cannot provide any support or help with regards to the Kerberos side of configuration. OpenProject will simply handle the incoming header containing the logged in user.
 
 ```
   <Location />

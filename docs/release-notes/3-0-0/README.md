@@ -19,7 +19,7 @@
 
 ## Major Accessibility Improvements
 
-  -  Contrast changes supported
+  -  Contrast changes supported
   - Keyboard focus highlighted by blue box
   - Keyboard focus order aligned with process order
   - Form elements linked to their labels
@@ -27,7 +27,7 @@
 
 ## Keyboard Shortcuts for Power Users
 
-  -  Implementation of keyboard shortcuts for power users
+  -  Implementation of keyboard shortcuts for power users
   - Shortcuts can be accessed by pressing “?” on the keyboard
 
 ## Adaptive Timeline Reports
@@ -52,13 +52,13 @@
 
 ## Add work package queries as menu items to sidebar
 
-  -  Frequently used work package queries can be added to the side
+  -  Frequently used work package queries can be added to the side
     navigation
   - Subsequently, query pages can be renamed or deleted
 
 ## Copy projects based on Templates
 
-  -  New projects can be created based on existing projects / project
+  -  New projects can be created based on existing projects / project
     templates
   - Select different project settings to be copied (e.g. work packages)
 
@@ -69,7 +69,7 @@
 
 ## Additional Account Security Features
 
-  -  Random passwords
+  -  Random passwords
   - Stronger passwords through required characters
   - Password expiration
   - Ban of former passwords
@@ -77,12 +77,12 @@
     attempts
   - Automated logout on inactivity
 
- 
+ 
 
 ## Substantial Number of Bug Fixes
 
 Many bugs have been fixed with the release of OpenProject 3.0.  
- 
+ 
 
 ## Migration to Ruby 2.1 and Rails 3.2
 

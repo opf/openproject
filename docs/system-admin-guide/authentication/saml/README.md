@@ -3,14 +3,12 @@ sidebar_navigation:
   title: SAML single sign-on
   priority: 800
 description: How to set up SAML integration for SSO with OpenProject.
-robots: index, follow
 keywords: SAML, SSO, single sign-on, authentication
 ---
 # SAML
 
-<div class="alert alert-info" role="alert">
-**Note**: This documentation is valid for the OpenProject Enterprise Edition only.
-</div>
+> **Note**: This documentation is valid for the OpenProject Enterprise Edition only.
+
 You can integrate your active directory or other SAML compliant identity provider in your OpenProject Enterprise Edition.
 
 ### Prerequisites
