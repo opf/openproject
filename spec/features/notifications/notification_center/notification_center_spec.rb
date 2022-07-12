@@ -118,12 +118,19 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
     end
 
     context "with a new notification" do
+      let(:work_package3) do
+        create :work_package,
+               project: project1,
+               author: other_user
+      end
       let(:notification3) do
         create :notification,
                reason: :commented,
                recipient:,
+               resource: work_package3,
                project: project1,
                actor: other_user,
+               journal: work_package3.journals.reload.last,
                read_ian: true
       end
 

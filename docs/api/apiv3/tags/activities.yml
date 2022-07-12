@@ -9,6 +9,7 @@ description: |-
   | comment     |                  | Formattable          |             | READ / WRITE         |
   | details     |                  | Array of Formattable |             | READ                 |
   | createdAt   | Time of creation | DateTime             |             | READ                 |
+  | updatedAt   | Time of update   | DateTime             |             | READ                 |
 
   Activity can be either _type `Activity` or _type `Activity::Comment`.
 name: Activities
