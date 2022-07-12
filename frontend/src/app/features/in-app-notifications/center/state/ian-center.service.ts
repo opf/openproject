@@ -254,10 +254,8 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   goToCenter():void {
-    void this.state.go(
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
-      `${this.state.current.data.baseRoute}`,
-    );
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
+    void this.state.go(this.state.current.data.baseRoute);
   }
 
   showNextNotification():void {
