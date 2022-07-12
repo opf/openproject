@@ -10,6 +10,7 @@ export const EXTERNAL_REQUEST_HEADER = 'X-External-Request';
 export class OpenProjectHeaderInterceptor implements HttpInterceptor {
   intercept(req:HttpRequest<any>, next:HttpHandler):Observable<HttpEvent<any>> {
     const withCredentials = req.headers.get(EXTERNAL_REQUEST_HEADER) !== 'true';
+
     if (withCredentials) {
       return this.handleAuthenticatedRequest(req, next);
     } else {
