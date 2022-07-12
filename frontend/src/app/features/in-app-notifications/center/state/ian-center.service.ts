@@ -217,6 +217,7 @@ export class IanCenterService extends UntilDestroyedMixin {
       this.store.update({ activeCollection: collection });
     });
     this.reload.next(true);
+    this.goToCenter();
   }
 
   markAsRead(notifications:ID[]):void {
@@ -249,6 +250,13 @@ export class IanCenterService extends UntilDestroyedMixin {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
       `${this.state.current.data.baseRoute}.details.tabs`,
       { workPackageId: wpId, tabIdentifier: 'activity' },
+    );
+  }
+
+  goToCenter():void {
+    void this.state.go(
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
+      `${this.state.current.data.baseRoute}`,
     );
   }
 
