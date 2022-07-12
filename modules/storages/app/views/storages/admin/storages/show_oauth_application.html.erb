@@ -1,11 +1,21 @@
 <!-- Standard Ruby view, please see the controller for comments -->
-<% html_title t(:label_administration), t("project_module_storages"), @object.name, "#{t("storages.provider_types.#{@object.provider_type}")} #{t("storages.label_oauth_application_details")}" %>
-<% local_assigns[:additional_breadcrumb] = "#{t("storages.provider_types.#{@object.provider_type}")} #{t("storages.label_oauth_application_details")}" %>
-<%= toolbar title: "#{t("storages.provider_types.#{@object.provider_type}")} #{t("storages.label_oauth_application_details")}" %>
+<% html_title t(:label_administration), t("project_module_storages"), @object.name, "#{t("storages.provider_types.#{@object.provider_type}.name")} #{t("storages.label_oauth_application_details")}" %>
+<% local_assigns[:additional_breadcrumb] = "#{t("storages.provider_types.#{@object.provider_type}.name")} #{t("storages.label_oauth_application_details")}" %>
+<%= toolbar title: "#{t("storages.provider_types.#{@object.provider_type}.name")} #{t("storages.label_oauth_application_details")}" %>
 
 <div class="op-toast -warning -with-bottom-spacing">
   <div class="op-toast--content">
-    <p><%= t('repositories.storage.oauth_application_details') %></p>
+    <p>
+      <%= t('repositories.storage.oauth_application_details') %>
+      <a
+        href="<%= URI::join(@oauth_application.integration.host, 'settings/admin/openproject').to_s %>"
+        target="_blank"
+        class="spot-link"
+      >
+        <span class="spot-icon spot-icon_arrow-right3"></span>
+        <span><%= t('repositories.storage.oauth_application_details_link_text') %></span>
+      </a>
+    </p>
   </div>
 </div>
 
