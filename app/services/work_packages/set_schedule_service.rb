@@ -145,9 +145,11 @@ class WorkPackages::SetScheduleService
     new_start_date = [scheduled.start_date, date].compact.max
     # a new due date is set only if the moving work package already has one
     if scheduled.due_date
-      new_due_date = WorkPackages::Shared::Days.for(scheduled).due_date(new_start_date, scheduled.duration)
-      # Set new due date to new start date if work package previously had a due date and new due date is still not set
-      new_due_date ||= new_start_date
+      new_due_date = [
+        WorkPackages::Shared::Days.for(scheduled).due_date(new_start_date, scheduled.duration),
+        new_start_date,
+        scheduled.due_date
+      ].compact.max
     end
 
     set_dates(scheduled, new_start_date, new_due_date)

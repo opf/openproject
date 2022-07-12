@@ -535,15 +535,10 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
         end
 
         it 'reschedules follower to start right after its predecessor and end the same day' do
-          # TODO: is this correct? I would have expected this instead:
-          # days          | MTWTFSS |
-          # work_package  | XX      |
-          # follower      |   XXX   |
-          # Question sent to Niels to check if ok or not.
           expect(subject.all_results).to match_schedule(<<~CHART)
             days          | MTWTFSS |
             work_package  | XX      |
-            follower      |   X     |
+            follower      |   XXX   |
           CHART
         end
       end
