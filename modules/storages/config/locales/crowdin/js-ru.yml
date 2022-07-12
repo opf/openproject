@@ -2,25 +2,25 @@
 ru:
   js:
     storages:
-      link_files_in_storage: "Link files in %{storageType}"
-      login: "%{storageType} login"
-      login_to: "Login to %{storageType}"
-      no_connection: "No %{storageType} connection"
-      open_storage: "Open %{storageType}"
+      link_files_in_storage: "Связать файлы в %{storageType}"
+      login: "Логин %{storageType}"
+      login_to: "Войти в %{storageType}"
+      no_connection: "Нет подключения к %{storageType}"
+      open_storage: "Открыть %{storageType}"
       types:
         nextcloud: "Nextcloud"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator.
-        live_data_error: "Error fetching file details"
+          Некоторые настройки %{storageType} не работают. Пожалуйста, попробуйте войти снова или обратитесь к администратору %{storageType}.
+        live_data_error: "Ошибка при получении сведений о файле"
         live_data_error_description: >
-          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
-        no_file_links: "In order to link files to this work package please do it via %{storageType}."
+          Не удалось получить некоторые данные из %{storageType} . Пожалуйста, попробуйте перезагрузить эту страницу или обратитесь к администратору %{storageType}.
+        no_file_links: "Чтобы связать файлы с этим рабочим пакетом, пожалуйста, сделайте это через %{storageType}."
         not_logged_in: >
-          To add a link, see or upload files related to this work package, please login to %{storageType}.
+          Для добавления ссылки, просмотра или загрузки файлов, относящиеся к этому пакету работ, войдите в %{storageType}.
       file_links:
-        download: "Download %{fileName}"
-        no_permission: "You have no permission to see this file."
-        open: 'Open file on storage'
-        open_location: 'Open file in location'
-        remove: "Remove file link"
+        download: "Скачать %{fileName}"
+        no_permission: "У вас недостаточно прав для просмотра этого файла."
+        open: 'Открыть файл в хранилище'
+        open_location: 'Открыть файл в расположении'
+        remove: "Удалить ссылку на файл"

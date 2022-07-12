@@ -96,7 +96,7 @@ ru:
     add_new: 'Добавить текст справки'
     edit: "Редактировать текст справки для %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Нажатие на боковой панели отображает атрибут текстовой справки, которая поможет вам и вашим пользователям лучше понять, что делает каждый элемент.'
   auth_sources:
     index:
       no_results_content_title: На данный момент способы аутентификации отсутствуют.
@@ -2157,11 +2157,11 @@ ru:
   notice_successful_delete: "Удаление выполнено."
   notice_successful_update: "Обновление выполнено."
   notice_successful_update_custom_fields_added_to_project: |
-    Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+    Успешное обновление. Пользовательские поля активированных типов автоматически активируются
+    в форме пакета работ. <a href="%{url}" target="_blank">Подробнее</a>.
   notice_successful_update_custom_fields_added_to_type: |
-    Successful update. The active custom fields are automatically activated for
-    the associated projects of this type.
+    Успешное обновление. Активные настраиваемые поля автоматически активируются для
+    связанных проектов этого типа.
   notice_to_many_principals_to_display: "Слишком много результатов. Сузьте поиск, введя имя нового участника (или группы)."
   notice_user_missing_authentication_method: Пользователь еще не выбрал пароль или другой способ авторизации.
   notice_user_invitation_resent: Приглашение было отправлено на %{email}.
@@ -2393,7 +2393,7 @@ ru:
     storage:
       not_available: "Дисковое пространство не доступно для этого репозитория."
       update_timeout: "Хранить последнюю информацию о дисковом пространстве, необходимом для репозитория, N минут. Так как подсчет необходимого для репозитория дискового пространства могут быть дорогостоящим, увеличить это значение для снижения его влияния на производительность."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "Пожалуйста, скопируйте эти значения в настройки интеграции Nextcloud OpenProject. Секретное значение клиента больше не будет доступно после того, как вы закроете это окно."
     subversion:
       existing_title: "Существующий репозиторий Subversion"
       existing_introduction: "Если у вас есть существующий репозиторий Subversion, вы можете связать его с OpenProject для доступа к нему из приложения."
