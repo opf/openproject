@@ -302,6 +302,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
           }
         } else {
           this.dates[this.datepickerService.currentlyActivatedDateField] = this.timezoneService.formattedISODate(selectedDate);
+          this.datepickerService.toggleCurrentActivatedField();
         }
 
         break;
