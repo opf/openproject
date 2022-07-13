@@ -919,13 +919,22 @@ describe WorkPackages::SetScheduleService do
               .and_return(new_parent_work_package)
     end
 
-    context "with the parent being restricted in it's ability to be moved" do
+    context "with the parent being restricted in its ability to be moved" do
       let(:soonest_date) { Time.zone.today + 3.days }
 
-      it 'sets the start date to the earliest possible date' do
+      it 'sets the start date and due date to the earliest possible date' do
         subject
 
         expect(work_package.start_date).to eql(Time.zone.today + 3.days)
+        expect(work_package.due_date).to eql(Time.zone.today + 3.days)
+      end
+
+      it 'does not change the due date if after the newly set start date' do
+        work_package.due_date = Time.zone.today + 5.days
+        subject
+
+        expect(work_package.start_date).to eql(Time.zone.today + 3.days)
+        expect(work_package.due_date).to eql(Time.zone.today + 5.days)
       end
     end
 

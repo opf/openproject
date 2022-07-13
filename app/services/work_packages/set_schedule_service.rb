@@ -59,7 +59,10 @@ class WorkPackages::SetScheduleService
   def schedule_by_parent
     work_packages
       .select { |wp| wp.start_date.nil? && wp.parent }
-      .each { |wp| wp.start_date = wp.parent.soonest_start }
+      .each do |wp|
+        wp.start_date = wp.parent.soonest_start
+        wp.due_date = [wp.start_date, wp.due_date].compact.max
+      end
   end
 
   # Finds all work packages that need to be rescheduled because of a
