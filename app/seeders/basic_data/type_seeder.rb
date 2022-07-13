@@ -48,20 +48,17 @@ module BasicData
     #
     # @return [Array<Hash>] List of attributes for each type.
     def data
-      colors = Color.all
-      colors = colors.map { |c| { c.name => c.id } }.reduce({}, :merge)
+      colors = Color.pluck(:name, :id).to_h
 
-      type_table.map do |_name, values|
-        color_id = colors[values[2]] || values[2]
-
+      type_table.map do |_name, (position, is_default, color_name, is_in_roadmap, is_milestone, type_name)|
         {
-          name: I18n.t(values[5]),
-          position: values[0],
-          is_default: values[1],
-          color_id:,
-          is_in_roadmap: values[3],
-          is_milestone: values[4],
-          description: type_description(values[5])
+          name: I18n.t(type_name),
+          position:,
+          is_default:,
+          color_id: colors.fetch(color_name),
+          is_in_roadmap:,
+          is_milestone:,
+          description: type_description(type_name)
         }
       end
     end
