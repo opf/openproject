@@ -1402,7 +1402,7 @@ cs:
       no_results:
         title: "Žádné přístupové tokeny k zobrazení"
         description: "Všechny byly zakázány. Znovu povoleny mohou být v nabídce administrace."
-      access_token: "Přístupový token"
+      access_tokens: "Access tokens"
       headers:
         action: "Akce"
         expiration: "Vyprší"
@@ -2396,7 +2396,8 @@ cs:
     storage:
       not_available: "Pro tento repositář není k dispozici spotřeba úložiště disku."
       update_timeout: "Uchovávejte poslední požadované informace o úložišti po dobu N minut.\nPři počítání požadovaného místa na disku v úložišti může být nákladné, zvýšit tuto hodnotu, aby se snížil vliv na výkon."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Existující repozitář Subversion"
       existing_introduction: "Pokud máte existující repozitář s podverzí, můžete jej propojit s OpenProject pro přístup do aplikace."

@@ -1368,7 +1368,7 @@ si:
       no_results:
         title: "ප්රදර්ශනය කිරීමට ප්රවේශ ටෝකන නොමැත"
         description: "ඔවුන් සියලු අක්රීය කර ඇත. පරිපාලන මෙනුවේ ඒවා නැවත සක්රීය කළ හැකිය."
-      access_token: "ටෝකනය ප්රවේශ"
+      access_tokens: "Access tokens"
       headers:
         action: "ක්රියාව"
         expiration: "කල් ඉකුත්"
@@ -2359,7 +2359,8 @@ si:
     storage:
       not_available: "තැටි ගබඩා පරිභෝජනය මෙම ගබඩාව සඳහා ලබා ගත නොහැක."
       update_timeout: "එන් විනාඩි සඳහා ගබඩාවක් සඳහා අවසන් අවශ්ය තැටි ඉඩ තොරතුරු තබා ගන්න.\nගබඩාවේ අවශ්ය තැටි අවකාශය ගණන් කිරීම මිල අධික විය හැකි බැවින්, කාර්ය සාධන බලපෑම අඩු කිරීම සඳහා මෙම අගය වැඩි කරන්න."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "දැනට පවතින අනුකරණ ගබඩාව"
       existing_introduction: "ඔබට දැනට පවතින අනුකරණ ගබඩාවක් තිබේ නම්, යෙදුම තුළ සිට එය ප්රවේශ වීමට OpenProject සමඟ සම්බන්ධ කළ හැකිය."

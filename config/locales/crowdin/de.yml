@@ -1363,7 +1363,7 @@ de:
       no_results:
         title: "Kein Zugangs-Token kann angezeigt werden"
         description: "Alle wurden deaktiviert. Sie können im Administrations-Menü wieder aktiviert werden."
-      access_token: "Zugangs-Token"
+      access_tokens: "Access tokens"
       headers:
         action: "Aktion"
         expiration: "Läuft aus"
@@ -2354,7 +2354,8 @@ de:
     storage:
       not_available: "Genutzter Festplattenspeicher ist nicht für dieses Projektarchiv verfügbar."
       update_timeout: "Speichere die Informationen bzgl. des genutzten Festplattenspeichers eines Projektarchivs für N Minuten.\nErhöhen Sie diesen Wert zur Verbesserung der Performance, da die Erfassung des genutzten Festplattenspeichers Ressourcen-intensiv ist."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Vorhandenes Subversion Projektarchiv"
       existing_introduction: "Wenn Sie ein lokales Subversion Verzeichnis haben, können Sie es mit OpenProject verknüpfen um von innerhalb der Anwendung auf dieses zuzugreifen."

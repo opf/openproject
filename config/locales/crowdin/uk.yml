@@ -1398,7 +1398,7 @@ uk:
       no_results:
         title: "Немає маркерів доступу для відображення"
         description: "Всі вони були відключені. Їх можна повторно ввімкнути в меню адміністрування."
-      access_token: "Маркер доступу"
+      access_tokens: "Access tokens"
       headers:
         action: "Дія"
         expiration: "Закінчується"
@@ -2392,7 +2392,8 @@ uk:
     storage:
       not_available: "Споживання дискового сховища недоступне для цього сховища."
       update_timeout: "Зберігайте останню необхідну інформацію про дисковий простір для сховища протягом N хвилин.\nОскільки підрахунок необхідного дискового простору сховища може бути довгим, збільште це значення, щоб зменшити вплив продуктивності."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Існуюче сховище Subversion"
       existing_introduction: "Якщо у вас є існуюче сховище Subversion, ви можете зв'язати його з OpenProject, щоб отримати доступ до нього з програми."

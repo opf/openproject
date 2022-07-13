@@ -1365,7 +1365,7 @@ nl:
       no_results:
         title: "Geen toegangstokens weer te geven"
         description: "Alle van hen zijn uitgeschakeld. Zij kunnen opnieuw worden ingeschakeld in het administratie menu."
-      access_token: "Toegangstoken"
+      access_tokens: "Access tokens"
       headers:
         action: "Actie"
         expiration: "Verloopt"
@@ -2355,7 +2355,8 @@ nl:
     storage:
       not_available: "Schijf opslag consumptie is niet beschikbaar voor deze repository."
       update_timeout: "Houd de laatste vereiste vrije schijfruimte voor een repository voor N minuten. Als het tellen van de vereiste schijfruimte van een repository kostbaar is, verhoog dit getal om invloed op de prestaties verminderen."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Bestaande Subversion-repository"
       existing_introduction: "Als u een bestaand Subversion repository hebt, kunt u deze koppelen met OpenProject om deze te openen van binnen de toepassing."

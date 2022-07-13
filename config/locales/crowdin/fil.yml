@@ -1368,7 +1368,7 @@ fil:
       no_results:
         title: "Walang access token upang ipakita"
         description: "Lahat sila ay hindi na pinagana. Maaari silang paganahin muli sa pagpilian ng tagapangasiwa."
-      access_token: "I-access ang token"
+      access_tokens: "Access tokens"
       headers:
         action: "Aksyon"
         expiration: "Natapos"
@@ -2357,7 +2357,8 @@ fil:
     storage:
       not_available: "Ang konsumo ng disk storage ay hindi available para sa ganitong repository."
       update_timeout: "Panatilihin ang huling kailangang espasyo disk impormasyon para sa repositoryo ng N minuto.\nBilang pagbibilang ang kailangang espasyo ng disk ng repositoryo ay maaring gastos, palakihin ang hakaga na ito upang mabawasan ang epekto ng pagganap."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Umiiral na subversion respository"
       existing_introduction: "Kung mayroon kang umiiral na Subversion repository, pwedi mo itong ma-link sa OpenProject para ma access ang mga ito mula sa loob ng application."

@@ -1371,7 +1371,7 @@ hu:
       no_results:
         title: "Nincs megjeleníthető fiók"
         description: "Mindenki le lett tiltva. Újra engedélyezhetők az adminisztrációs menüben."
-      access_token: "Hozzáférési token"
+      access_tokens: "Access tokens"
       headers:
         action: "Művelet"
         expiration: "Lejár"
@@ -2361,7 +2361,8 @@ hu:
     storage:
       not_available: "A lemez felhasználási adatai nem érhetőek el a tárolón."
       update_timeout: "Tartsa meg az utolsó szükséges lemezterület-információt egy tárolóhoz N percig. Mivel egy tároló szükséges lemezterületének kiszámítása erőforrás igényes lehet, növelje ezt az értéket a teljesítmény növelésének érdekében."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Meglévő Subversion tároló"
       existing_introduction: "Ha rendelkezik meglévő Subversion tárolóval, akkor az OpenProject segítségével kapcsolódhat hozzá az alkalmazáson belül."

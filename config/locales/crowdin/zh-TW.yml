@@ -1351,7 +1351,7 @@ zh-TW:
       no_results:
         title: "沒有可顯示的存取權杖"
         description: "他們全都被停用了。他們可以在管理功能表重新啟用"
-      access_token: "存取權杖"
+      access_tokens: "Access tokens"
       headers:
         action: "動作"
         expiration: "過期"
@@ -2339,7 +2339,8 @@ zh-TW:
     storage:
       not_available: "這個版本庫沒有可用的磁碟消耗資訊"
       update_timeout: "替一個版本庫維持最後需要的磁碟空間資訊 N 分鐘。\n計算一個版本庫的所需磁碟空間也許要消耗很多效能，增加這個值來降低效能的影響。"
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "現有的 Subversion 版本庫"
       existing_introduction: "如果你已經有一個現有的本機 Subversion 版本庫，你可以連結它以便在 OpenProject 中存取"

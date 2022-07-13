@@ -1348,7 +1348,7 @@ id:
       no_results:
         title: "No access tokens to display"
         description: "All of them have been disabled. They can be re-enabled in the administration menu."
-      access_token: "Access token"
+      access_tokens: "Access tokens"
       headers:
         action: "Action"
         expiration: "Expires"
@@ -2335,7 +2335,8 @@ id:
     storage:
       not_available: "Storage tidak tersedia untuk repository ini."
       update_timeout: "Pertahankan informasi kebutuhan disk repository selama N menit. Semakin besar nilai N akan mengurangi beban komputasi."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Repository Subversion yang sudah ada"
       existing_introduction: "Repository Git lokal yang anda miliki dapat dihubungkan dengan OpenProject untuk dikelola dari dalam."

@@ -1364,7 +1364,7 @@ el:
       no_results:
         title: "Δεν υπάρχουν token πρόσβασης για εμφάνιση"
         description: "Όλα έχουν απενεργοποιηθεί. Μπορούν να επανενεργοποιηθούν από το μενού διαχείρισης."
-      access_token: "Token πρόσβασης"
+      access_tokens: "Access tokens"
       headers:
         action: "Ενέργεια"
         expiration: "Λήγει"
@@ -2354,7 +2354,8 @@ el:
     storage:
       not_available: "Η κατανάλωση χώρου από τον δίσκο δεν είναι δυνατή σε αυτό το αποθετήριο."
       update_timeout: "Διατήρηση των τελευταίων πληροφοριών απαιτούμενου χώρου δίσκου για ένα αποθετήριο για Ν λεπτά.\nΚαθώς η μέτρηση του απαιτούμενου χώρου δίσκου για ένα αποθετήριο μπορεί να κοστίζει, αυξήστε αυτή την τιμή για να μειώσετε την επίπτωση στην επίδοση."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Υπάρχον αποθετήριο Subversion"
       existing_introduction: "Αν έχετε ένα υπάρχον αποθετήριο Subversion, μπορείτε να το συνδέσετε με το OpenProject για να αποκτήσετε πρόσβαση σε αυτό μέσα από την εφαρμογή."

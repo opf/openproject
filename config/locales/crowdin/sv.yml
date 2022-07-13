@@ -1367,7 +1367,7 @@ sv:
       no_results:
         title: "Inga åtkomstnycklar att visa"
         description: "Alla nycklar har visats. Du kan återaktivera dom i administrationsmenyn."
-      access_token: "Åtkomstnyckel"
+      access_tokens: "Access tokens"
       headers:
         action: "Åtgärd"
         expiration: "Upphör"
@@ -2356,7 +2356,8 @@ sv:
     storage:
       not_available: "Hårddiskanvändning är inte tillgängligt för den här databasen."
       update_timeout: "Behåll den senaste informationen om hårddiskanvändning för den här databasen i N minuter.\nEftersom beräkningen av detta är resurskrävande kan prestandan förbättras genom att öka det här värdet."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Befintligt Subversion-arkiv"
       existing_introduction: "Om du har ett befintlig Subversion-arkiv, kan du länka det med OpenProject för att komma åt den inifrån programmet."

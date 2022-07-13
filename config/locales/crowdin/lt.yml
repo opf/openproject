@@ -1399,7 +1399,7 @@ lt:
       no_results:
         title: "Nėra rodytinų prieigos raktų"
         description: "Visi iš jų buvo išjungti. Jie gali būti vėl įgalinti administravimo meniu."
-      access_token: "Prieigos raktas"
+      access_tokens: "Access tokens"
       headers:
         action: "Veiksmas"
         expiration: "Baigiasi"
@@ -2392,7 +2392,8 @@ lt:
     storage:
       not_available: "Disko vietos naudojimas nėra prieinamas šiai repozitorijai."
       update_timeout: "Laikyti paskiausią reikalingą disko vietos informaciją repozitorijai N minutes (-ių). Kadangi reikalingos vietos repozitorijai skaičiavimas gali būti reiklus resursams, minučių reikšmės didinimas gali stipriai sumažinti sistemos našumą."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Esama Subversion repozitorija"
       existing_introduction: "Jei jau turite esamą Subversion repozitoriją, Jūs galite ją susieti su OpenProject, kad galėtumėte informaciją pasiekti iš sistemos vidaus."

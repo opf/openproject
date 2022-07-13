@@ -1399,7 +1399,7 @@ pl:
       no_results:
         title: "Brak tokenów dostępu"
         description: "Wszystkie elementy zostały wyłączone. Można je ponownie włączyć w menu administratora."
-      access_token: "Token dostępu"
+      access_tokens: "Access tokens"
       headers:
         action: "Czynność"
         expiration: "Wygasa"
@@ -2391,7 +2391,8 @@ pl:
     storage:
       not_available: "Zużycie pamięci dysku nie jest dostępne dla tego repozytorium."
       update_timeout: "Zachowaj informacje o ostatnim wymaganym dla repozytorium miejscu na dysku przez N minut. Ponieważ obliczenie wymaganej dla repozytorium przestrzeni dysku może być kosztowne, powiększ tę wartość, aby pomniejszyć wpływ na wydajność."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Istniejące repozytorium Subversion"
       existing_introduction: "Jeśli masz repozytorium Subversion, możesz połączyć go z OpenProject, aby otrzymać dostęp z poziomu aplikacji."

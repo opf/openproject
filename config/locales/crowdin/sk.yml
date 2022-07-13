@@ -1402,7 +1402,7 @@ sk:
       no_results:
         title: "Žiadne prístupové tokeny na zobrazenie"
         description: "Všetky boli deaktivované, opätovne ich možno aktivovať v menu administrácie."
-      access_token: "Prístupový token"
+      access_tokens: "Access tokens"
       headers:
         action: "Akcia"
         expiration: "Expiruje"
@@ -2396,7 +2396,8 @@ sk:
     storage:
       not_available: "Spotreba úložného priestoru pre toto úložisko nie je k dispozícii."
       update_timeout: "Uchovávajte posledné požadované informácie o diskovom priestore pre úložisko po dobu minúty N.\nKeď je potrebné počítať požadovaný priestor na disku úložiska, môžete túto hodnotu zvýšiť, aby sa znížil vplyv na výkon."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Existujúce úložisko Subversion (verzia softvéru a kontrola revízie)"
       existing_introduction: "Ak máte existujúce lokálne úložisko Subversion, môžete ho prepojiť s OpenProject a získať tak prístup z aplikácie."

@@ -1399,7 +1399,7 @@ sl:
       no_results:
         title: "Za prikaz ni nobenega računa"
         description: "Vsi so onemogočeni. Ponovno jih je mogoče omogočiti v skrbniškem meniju."
-      access_token: "Žeton za dostop"
+      access_tokens: "Access tokens"
       headers:
         action: "Dejanje"
         expiration: "Poteče"
@@ -2393,7 +2393,8 @@ sl:
     storage:
       not_available: "Poraba diskovne shrambe za to vrsto shrambo ni na voljo."
       update_timeout: "Zadnje potrebne podatke o diskovnem prostoru shranite za N minut.\nKer je lahko štetje potrebnega diskovnega prostora v skladišču drago, povečajte to vrednost, da zmanjšate njegov učinek na zmogljivost."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Obstoječe skladišče podrazličice"
       existing_introduction: "Če imate obstoječe skladišče podrazličic, ga lahko povežete z OpenProjectom, če želite dostopati do njega znotraj aplikacije."

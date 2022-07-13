@@ -36,24 +36,27 @@ pt:
       done_continue_setup: "Done. Continue setup"
       replace_openproject_oauth: "Replace OpenProject OAuth"
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
+      save_and_continue_setup: "Save and continue setup"
+      save_and_complete_setup: "Save and complete setup"
+      cancel: "Cancel"
     page_titles:
       project_settings:
         index: "Armazenamento de arquivos disponíveis neste projeto"
         new: "Ativar armazenamento de arquivos para este projeto"
     instructions:
-      name: "Por favor, use um nome curto. Ele será usado como um título de aba na exibição do pacote de trabalho."
-      host: "A URL da sua instância de armazenamento. A URL não deve ter mais de 255 caracteres."
+      type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
+      type_link_text: "“Integration OpenProject”"
+      name: "Give your storage a name so that users can differentiate between multiple storages."
+      host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
       no_storage_set_up: "Ainda não há armazenamento de arquivos configurado."
       setting_up_additional_storages: "Para configurar armazenamentos de arquivos adicionais, por favor visite"
       setting_up_additional_storages_non_admin: "Os administradores podem configurar armazenamentos adicionais em Administração/Armazenamento de arquivos."
       setting_up_storages: "Para configurar armazenamentos de arquivos, visite"
       setting_up_storages_non_admin: "Administradores podem configurar armazenamentos de arquivos em Administração / Armazenamento de arquivos."
       all_available_storages_already_added: "Todos os armazenamentos disponíveis já foram adicionados ao projeto."
+      copy_from: "Copy this value from"
       nextcloud:
-        administration: Administração
-        oauth2_clients: Clientes OAuth2
-        oauth_client_id: Copiar o valor de
-        oauth_client_secret: Copiar o valor de
+        integration: "Nextcloud Administration / OpenProject"
     delete_warning:
       storage: >
         Tem certeza de que deseja excluir este armazenamento? Isso também excluirá o armazenamento de todos os projetos em que for usado. Além disso, também excluirá todos os vínculos de pacotes de trabalho para arquivos armazenados nesse armazenamento.
@@ -75,7 +78,10 @@ pt:
     label_oauth_client_secret: "Cliente Secreto OAuth"
     provider_types:
       label: "Tipo de provedor"
-      nextcloud: "Nextcloud"
+      nextcloud:
+        name: "Nextcloud"
+        name_placeholder: "e.g. Nextcloud"
+        default_name: "My Nextcloud"
     confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Tem certeza? Todos os usuários terão que autorizar novamente no armazenamento."
     oauth_client_details_missing: "Para concluir a configuração, adicione as credenciais do cliente OAuth do seu armazenamento."

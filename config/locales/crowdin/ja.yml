@@ -1347,7 +1347,7 @@ ja:
       no_results:
         title: "表示するアクセス トークンはありません"
         description: "すべてが無効になっています。管理メニューで再度有効にすることができます。"
-      access_token: "アクセス トークン"
+      access_tokens: "Access tokens"
       headers:
         action: "操作"
         expiration: "有効期限"
@@ -2336,7 +2336,8 @@ ja:
     storage:
       not_available: "このリポジトリのディスク ストレージ消費量は利用できません。"
       update_timeout: "最後のリポジトリに必要なディスク容量の情報を N 分間保持します。\nリポジトリの必要なディスク容量を計算するにはコストがかかるため、パフォーマンスへの影響を減らすにはこの値を増やしてください。"
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "既存の Subversion リポジトリ"
       existing_introduction: "既存のローカル Subversion リポジトリがある場合は、アプリケーション内からアクセスするために、OpenProject とリンクできます。"

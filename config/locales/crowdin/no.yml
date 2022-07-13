@@ -1368,7 +1368,7 @@
       no_results:
         title: "No access tokens to display"
         description: "All of them have been disabled. They can be re-enabled in the administration menu."
-      access_token: "Access token"
+      access_tokens: "Access tokens"
       headers:
         action: "Action"
         expiration: "Utløper"
@@ -2359,7 +2359,8 @@
     storage:
       not_available: "Disk storage consumption is not available for this repository."
       update_timeout: "Keep the last required disk space information for a repository for N minutes.\nAs counting the required disk space of a repository may be costly, increase this value to reduce performance impact."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Existing Subversion repository"
       existing_introduction: "If you have an existing Subversion repository, you can link it with OpenProject to access it from within the application."

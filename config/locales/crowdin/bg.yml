@@ -1368,7 +1368,7 @@ bg:
       no_results:
         title: "Няма налични билети за показване"
         description: "Всички от тях са забранени. Те могат да бъдат повторно разрешени в меню за администриране."
-      access_token: "Маркер за достъп"
+      access_tokens: "Access tokens"
       headers:
         action: "Действие"
         expiration: "Изтича на"
@@ -2359,7 +2359,8 @@ bg:
     storage:
       not_available: "Диск за съхранение на потреблението не е наличен за това хранилище."
       update_timeout: "Запази последният изисква информация за дисково пространство за хранилище за N минути. Като броим нужното пространство на хранилище може да бъде скъпо, увеличи тази стойност да се намали влиянието върху производителността."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Съществуващо хранилище за подверсии"
       existing_introduction: "Ако имате съществуваща хранилище за подверсии, можете да го свържете с OpenProject за достъп до него от приложението."

@@ -96,7 +96,7 @@ es:
     add_new: 'Agregar texto de ayuda'
     edit: "Editar texto de ayuda para %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Al pasar el cursor sobre un elemento del menú lateral se muestra un texto de ayuda que permite a todos los usuarios entender mejor que hace cada elemento.'
   auth_sources:
     index:
       no_results_content_title: Actualmente no hay modos de autenticación.
@@ -540,7 +540,7 @@ es:
         time_entries: "Registro de tiempo"
         type: "Tipo"
         version: "Versión"
-        watcher: "Vigilante"
+        watcher: "Observador"
       'doorkeeper/application':
         uid: "ID de cliente"
         secret: "Clave de cliente secreta"
@@ -1365,7 +1365,7 @@ es:
       no_results:
         title: "Ningún token de acceso que mostrar"
         description: "Todos ellos han sido desabilitados. Pueden ser rehabilitados en el menú de administración."
-      access_token: "Token de Acceso"
+      access_tokens: "Access tokens"
       headers:
         action: "Acción"
         expiration: "Expira"
@@ -2120,11 +2120,10 @@ es:
   notice_successful_delete: "Eliminado con éxito."
   notice_successful_update: "Actualización correcta."
   notice_successful_update_custom_fields_added_to_project: |
-    Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+    Actualización correcta. Los campos personalizados de los tipos ya activados se activan automáticamente en el formulario de paquete de trabajo. <a href="%{url}" target="_blank">Ver más</a>.
   notice_successful_update_custom_fields_added_to_type: |
-    Successful update. The active custom fields are automatically activated for
-    the associated projects of this type.
+    Actualización correcta. Los campos personalizados activos se activan automáticamente para
+    los proyectos asociados de este tipo.
   notice_to_many_principals_to_display: "Hay demasiados resultados.\nAfine la búsqueda ingresando el nombre del nuevo miembro (o grupo)."
   notice_user_missing_authentication_method: El usuario todavía tiene que elegir una contraseña u otra manera de iniciar sesión.
   notice_user_invitation_resent: Se envió una invitación a %{email}.
@@ -2356,7 +2355,8 @@ es:
     storage:
       not_available: "Consumo de almacenamiento de disco no está disponible para este repositorio."
       update_timeout: "Mantener la última información de espacio de disco requerida para un repositorio de N minutos. Contar el espacio de disco requerido de un repositorio puede ser costoso, aumente este valor para reducir el impacto en el rendimiento."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Subversion existentes de repositorio"
       existing_introduction: "Si tienes una Subversion de repositorio existente, puede enlazarlo con OpenProject para acceder a él desde dentro de la aplicación."

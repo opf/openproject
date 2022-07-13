@@ -1436,7 +1436,7 @@ ar:
       no_results:
         title: "لا يوجد رموز وصول تعرض"
         description: "لقد تم الغاء تفعيل كل منهم. يمكن إعادة تفعيلهم من قائمة الإدارة."
-      access_token: "رمزالوصول المميز"
+      access_tokens: "Access tokens"
       headers:
         action: "الإجراء"
         expiration: "انتهاء الصلاحية"
@@ -2433,7 +2433,8 @@ ar:
     storage:
       not_available: "استهلاك تخزين القرص غير متوفر لهذا المستودع."
       update_timeout: "الاحتفاظ بآخر المعلومات مساحة القرص المطلوبة لمستودع لدقائق ن. العد القرص المطلوب مساحة مستودع قد يكون مكلفاً، بزيادة هذه القيمة الحد من تأثير على الأداء."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "مستودع التخريب موجود"
       existing_introduction: "إذا كان لديك مستودع بوابة محلية القائمة، يمكنك ربطه مع open project للوصول إليها من داخل التطبيق."

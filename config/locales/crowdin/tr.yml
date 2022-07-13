@@ -1368,7 +1368,7 @@ tr:
       no_results:
         title: "Görüntülenecek hiçbir erişim izni yok"
         description: "Hepsi de engellendi. Yönetim menüsünden yeniden etkinleştirilebilirler."
-      access_token: "Erişim simgesi"
+      access_tokens: "Access tokens"
       headers:
         action: "Eylem"
         expiration: "Bitiş tarihi"
@@ -2359,7 +2359,8 @@ tr:
     storage:
       not_available: "Bu depo için disk depolama tüketimi yok."
       update_timeout: "Bir depo için N dakika boyunca gereken son disk alanı bilgilerini saklayın.\nDeponun gerekli disk alanını saymak maliyetli olabileceğinden performans etkisini azaltmak için bu değeri yükseltin."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
     subversion:
       existing_title: "Mevcut Subversion deposu"
       existing_introduction: "Varolan bir Subversion havuzunuz varsa, uygulamanın içinden erişmek için onu OpenProject ile bağlayabilirsiniz."
