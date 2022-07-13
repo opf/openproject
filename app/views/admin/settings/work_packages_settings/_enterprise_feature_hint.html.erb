@@ -1,13 +1,9 @@
 <% unless EnterpriseToken.allows_to?(ee_feature) %>
   <span class="form--field -indented">
-    <div class="ee-attribute-highlighting-upsale op-toast -ee-upsale">
-      <div class="op-toast--content">
-        <p><strong><%= title.present? ? title : t('js.upsale.ee_only') %></strong></p>
-        <p><%= explanation %></p>
-        <p>
-          <%= link_to link_out[:caption], link_out[:href], target: 'blank' %>
-        </p>
-      </div>
-    </div>
+      <enterprise-banner-bootstrap
+        text-message="<%= explanation %>"
+        more-info-text="<%= t('js.work_packages.table_configuration.upsale.more-info-text') %>"
+        more-info-link="https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration/#attribute-highlighting-premium-feature">
+    </enterprise-banner-bootstrap>
   </span>
 <% end %>
