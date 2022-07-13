@@ -52,17 +52,23 @@ After a while, OpenProject should be up and running on `http://localhost:8080`. 
 
 Note that the `docker-compose.yml` file present in the repository can be adjusted to your convenience. For instance you could mount specific configuration files, override environment variables, or switch off services you don't need. Please refer to the official [Docker Compose documentation](https://docs.docker.com/compose/extends/) for more details.
 
-You can stop the Compose stack and keep your data by running:
+You can stop the Compose stack by running:
 
 ```
 docker-compose stop
 ```
 
-You can stop and remove the Compose stack which removes ALL your data by running:
+You can stop and remove all containers by running:
 
 ```
 docker-compose down
 ```
+
+This will not remove your data which is persisted in named volumes, likely called `compose_opdata` (for attachments) and `compose_pgdata` (for the database). The exact name depends on the name of the directory where
+your `docker-compose.yml` file is stored (`compose` in this case).
+
+If you want to start from scratch and remove the exsiting data you will have to remove these volumes via
+`docker volume rm compose_opdata compose_pgdata`.
 
 ## All-in-one container
 
