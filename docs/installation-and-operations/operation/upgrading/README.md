@@ -44,6 +44,7 @@ sudo openproject configure
 ### SuSE
 
 ```bash
+sudo zypper refresh openproject
 sudo zypper update openproject
 sudo openproject configure
 ```

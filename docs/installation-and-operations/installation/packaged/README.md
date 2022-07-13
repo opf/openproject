@@ -254,7 +254,14 @@ wget -O /etc/zypp/repos.d/openproject.repo \
   https://dl.packager.io/srv/opf/openproject/stable/12/installer/sles/12.repo
 ```
 
-Download the OpenProject package:
+If you already had an old package source that is being updated you must refresh
+your source next. It can't hurt to do this in any case, though.
+
+```bash
+sudo zypper refresh openproject
+```
+
+Next, download the OpenProject package:
 
 ```bash
 sudo zypper install openproject
