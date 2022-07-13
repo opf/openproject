@@ -531,7 +531,7 @@ es:
         subproject: "Subproyecto"
         time_entries: "Registro de tiempo"
         type: "Tipo"
-        watcher: "Vigilante"
+        watcher: "Observador"
       'doorkeeper/application':
         uid: "ID de cliente"
         secret: "Clave de cliente secreta"
