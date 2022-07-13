@@ -152,10 +152,6 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
   save($event:Event):void {
     $event.preventDefault();
-    if (!this.isSavable) {
-      return;
-    }
-
     // Apply the changed scheduling mode if any
     this.changeset.setValue('scheduleManually', this.scheduleManually);
 
@@ -216,14 +212,6 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
    */
   get isSchedulable():boolean {
     return this.scheduleManually || !this.datepickerService.isParent;
-  }
-
-  get isSavable():boolean {
-    return this.isSchedulable || this.isSwitchedFromManualToAutomatic;
-  }
-
-  get isSwitchedFromManualToAutomatic():boolean {
-    return !this.scheduleManually && !!this.changeset.value('scheduleManually');
   }
 
   showFieldAsActive(field:DateKeys):boolean {
