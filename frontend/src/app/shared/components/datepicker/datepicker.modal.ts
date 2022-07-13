@@ -213,13 +213,9 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
   /**
    * Returns whether the user can alter the dates of the work package.
-   * The work package is always schedulable if the work package scheduled manually.
-   * But it might also be altered in automatic scheduling mode if it does not have children and if there was
-   * no switch from manual to automatic scheduling.
-   * The later is necessary as we cannot correctly calculate the resulting dates in the frontend.
    */
   get isSchedulable():boolean {
-    return this.scheduleManually || (!this.datepickerService.isParent && !this.isSwitchedFromManualToAutomatic);
+    return this.scheduleManually || !this.datepickerService.isParent;
   }
 
   get isSavable():boolean {
