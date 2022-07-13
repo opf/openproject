@@ -67,6 +67,9 @@ OpenProject::Application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
+  # Enable serialization of types [Symbol, Date, Time]
+  config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::HashWithIndifferentAccess]
+
   # Disable compression and asset digests, but disable debug
   config.assets.debug = false
   config.assets.digest = false
