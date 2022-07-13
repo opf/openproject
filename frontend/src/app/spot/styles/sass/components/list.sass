@@ -15,7 +15,7 @@
 
       color: $spot-color-basic-gray-1
       display: flex
-      align-items: flex-start
+      align-items: baseline
       justify-content: flex-start
       padding: $spot-spacing-0_5 $spot-spacing-1
       width: 100%
@@ -28,9 +28,8 @@
         flex-shrink: 0
 
       &:hover
-        color: $spot-color-basic-gray-1
+        color: var(--content-link-hover-active-color)
         background-color: $spot-color-basic-gray-6
-        text-decoration: none
 
       &:focus
         @include spot-focus
@@ -41,12 +40,14 @@
           color: $spot-color-basic-gray-3
           cursor: default
 
+      &_link
+        color: var(--content-link-color)
+
     &-floating-wrapper
       position: relative
       display: flex
 
-      &:hover,
-      &:focus-within
+      &:hover
         background-color: $spot-color-basic-gray-6
 
     &-floating-actions

@@ -33,6 +33,7 @@
       .op-files-tab--file-list-item-action
         padding-left: 0
         padding-right: 0
+        text-decoration: none
 
         &.view-not-allowed
           opacity: 0.5
@@ -41,39 +42,29 @@
           opacity: 0.5
           pointer-events: none
 
-        &:hover .op-files-tab--file-list-item-title
-          text-decoration: underline
+        &:hover
+          .op-files-tab--file-list-item-title
+            text-decoration: underline
 
         .op-files-tab--file-list-item-title
-          @include spot-body-small(bold)
+          @include spot-body-small
 
           line-height: $spot-spacing-1-5
           word-break: normal
-          overflow: hidden
-          text-overflow: ellipsis
+          @include text-shortener
           padding-right: $spot_spacing-0-5
 
         .op-files-tab--file-list-item-text
           @include spot-caption()
 
-          color: #9A9A9A
-          line-height: $spot-spacing-1-5
+          color: $spot-color-basic-gray-3
           flex-shrink: 0
 
           &:not(:last-child)
             margin-right: $spot-spacing-0-5
 
-        .spot-icon:first-child:not(:last-child)
-          width: $spot-spacing-1-5
-          height: $spot-spacing-1-5
-
-        .op-files-tab--file-list-item-avatar
-          flex-shrink: 0
-          display: inline-flex
-          justify-content: center
-          align-items: center
-          width: $spot-spacing-1-5
-          height: $spot-spacing-1-5
+      .op-files-tab--file-list-item-avatar
+        display: inline-block
 
       .op-files-tab--file-list-item-floating-actions
         padding-right: 0
@@ -85,10 +76,8 @@
         overflow: hidden
         color: var(--primary-color)
 
-        .spot-icon:first-child:not(:last-child)
-          width: $spot-spacing-1-5
-          height: $spot-spacing-1-5
-          margin-right: $spot-spacing-0-25
+        &-icon
+          margin-right: $spot-spacing-0-5
 
   &--storage-info-box
     margin-top: 0.875rem
@@ -128,6 +117,8 @@
         margin-right: $spot-spacing-0-5
 
   &--icon
+    width: $spot-spacing-1-5
+
     &_pdf
       color: #B93A33
 
