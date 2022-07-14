@@ -53,9 +53,6 @@ OpenProject::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = true
 
-  # Enable serialization of types [Symbol, Date, Time]
-  config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::HashWithIndifferentAccess]
-
   # Raise exceptions instead of rendering exception templates.
   config.action_dispatch.show_exceptions = false
 

@@ -119,9 +119,6 @@ OpenProject::Application.configure do
 
   config.active_record.dump_schema_after_migration = false
 
-  # Enable serialization of types [Symbol, Date, Time]
-  config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::HashWithIndifferentAccess]
-
   if OpenProject::Configuration.enable_internal_assets_server?
     config.public_file_server.enabled = true
     config.public_file_server.headers = {
