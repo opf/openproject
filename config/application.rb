@@ -115,6 +115,9 @@ module OpenProject
     # Fall back to default locale
     config.i18n.fallbacks = true
 
+    # Enable serialization of types [Symbol, Date, Time]
+    config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::HashWithIndifferentAccess]
+
     # Activate being able to specify the format in which full_message works.
     # Doing this, it is e.g. possible to avoid having the format of '%{attribute} %{message}' which
     # will always prepend the attribute name to the error message.
