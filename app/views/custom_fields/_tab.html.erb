@@ -167,3 +167,31 @@ See COPYRIGHT and LICENSE files for more details.
 <% else %>
   <%= no_results_box(action_url: new_custom_field_path(type: tab[:name]), display_action: true) %>
 <% end %>
+
+<% if tab[:name] == 'ProjectCustomField' %>
+  <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
+    <%=
+    angular_component_tag 'op-enterprise-banner',
+                          inputs: {
+                            messageIsHtml: 'true',
+                            moreInfoText: t('text_custom_field_upsale_more_info'),
+                            textMessage: t('text_project_custom_field_html'),
+                            moreInfoLink: 'https://www.openproject.org/docs/system-admin-guide/custom-fields/custom-fields-projects/',
+                          }
+    %>
+  <% end %>
+<% end %>
+
+<% if tab[:name] == 'WorkPackageCustomField' %>
+  <% unless EnterpriseToken.allows_to?(:multiselect_custom_fields) %>
+    <%=
+    angular_component_tag 'op-enterprise-banner',
+                          inputs: {
+                            messageIsHtml: 'true',
+                            moreInfoText: t('text_custom_field_upsale_more_info'),
+                            textMessage: t('text_wp_custom_field_html'),
+                            moreInfoLink: 'https://www.openproject.org/docs/system-admin-guide/custom-fields/#create-a-multi-select-custom-field-premium-feature',
+                          }
+    %>
+  <% end %>
+<% end %>

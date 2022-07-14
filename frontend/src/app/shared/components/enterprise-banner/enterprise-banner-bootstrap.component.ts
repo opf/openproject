@@ -17,6 +17,7 @@ export const enterpriseBannerrBootstrapSelector = 'enterprise-banner-bootstrap';
       [textMessage]="textMessage"
       [linkMessage]="linkMessage"
       [moreInfoText]="moreInfoText"
+      [messageIsHtml]="messageIsHtml"
       [moreInfoLink]="moreInfoLink"
       [opReferrer]="referrer">
     </op-enterprise-banner>
@@ -31,6 +32,8 @@ export class EnterpriseBannerBootstrapComponent implements OnInit {
 
   public moreInfoLink:string;
 
+  public messageIsHtml:string;
+
   public referrer:string;
 
   constructor(protected elementRef:ElementRef,
@@ -43,6 +46,7 @@ export class EnterpriseBannerBootstrapComponent implements OnInit {
     this.textMessage = $element.attr('text-message')!;
     this.moreInfoText = $element.attr('more-info-text')!;
     this.moreInfoLink = $element.attr('more-info-link')!;
+    this.messageIsHtml = $element.attr('more-info-link')!;
     this.linkMessage = $element.attr('link-message') || this.i18n.t('js.work_packages.table_configuration.upsale.check_out_link');
     this.referrer = $element.attr('referrer')!;
   }
