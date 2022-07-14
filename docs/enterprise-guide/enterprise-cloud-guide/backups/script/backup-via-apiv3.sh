@@ -1,4 +1,3 @@
-bash
 #!/bin/bash
 
 #Scope is to pull a backup from an OpenProject Enterprise on-premises or cloud installation and download it to a local path
