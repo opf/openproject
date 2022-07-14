@@ -26,16 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Filters::TypeaheadFilter < Queries::Projects::Filters::NameFilter
-  def self.key
-    :typeahead
-  end
+require 'spec_helper'
 
-  def type
-    :search
-  end
+describe Queries::Projects::Filters::NameFilter, type: :model do
+  include_context 'filter tests'
+  let(:values) { ['A name'] }
+  let(:model) { Project }
 
-  def human_name
-    I18n.t('label_search')
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :name }
+    let(:human_name) { 'Name' }
+    let(:type) { :string }
+    let(:model) { Project }
+
+    describe '#allowed_values' do
+      it 'is nil' do
+        expect(instance.allowed_values).to be_nil
+      end
+    end
   end
 end
