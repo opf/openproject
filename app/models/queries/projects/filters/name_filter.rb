@@ -26,16 +26,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Filters::TypeaheadFilter < Queries::Projects::Filters::NameFilter
-  def self.key
-    :typeahead
+class Queries::Projects::Filters::NameFilter < Queries::Projects::Filters::ProjectFilter
+  def type
+    :string
   end
 
-  def type
-    :search
+  def where
+    case operator
+    when '='
+      ["LOWER(projects.name) IN (?)", sql_value]
+    when '!'
+      ["LOWER(projects.name) NOT IN (?)", sql_value]
+    when '~', '**'
+      ["LOWER(projects.name) LIKE ?", "%#{sql_value}%"]
+    when '!~'
+      ["LOWER(projects.name) NOT LIKE ?", "%#{sql_value}%"]
+    end
   end
 
   def human_name
-    I18n.t('label_search')
+    I18n.t(:label_name)
+  end
+
+  def self.key
+    :name
+  end
+
+  private
+
+  def sql_value
+    case operator
+    when '=', '!'
+      values.map { |val| self.class.connection.quote_string(val.downcase) }.join(',')
+    when '**', '~', '!~'
+      values.first.downcase
+    end
   end
 end

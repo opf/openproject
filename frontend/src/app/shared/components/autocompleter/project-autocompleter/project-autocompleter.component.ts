@@ -166,7 +166,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
         const filters:ApiV3ListFilter[] = [...this.apiFilters];
 
         if (searchTerm.length) {
-          filters.push(['name_and_identifier', '~', [searchTerm]]);
+          filters.push(['typeahead', '**', [searchTerm]]);
         }
 
         const url = new URL(this.url, window.location.origin);
