@@ -33,30 +33,30 @@ es:
       too_many_elements_created_at_once: "Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}."
   storages:
     buttons:
-      done_continue_setup: "Done. Continue setup"
-      replace_openproject_oauth: "Replace OpenProject OAuth"
-      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
-      save_and_continue_setup: "Save and continue setup"
-      save_and_complete_setup: "Save and complete setup"
-      cancel: "Cancel"
+      done_continue_setup: "Hecho. Continuar configuración"
+      replace_openproject_oauth: "Reemplazar OpenProject OAuth"
+      replace_provider_type_oauth: "Reemplazar %{provider_type} OAuth"
+      save_and_continue_setup: "Guardar y continuar configuración"
+      save_and_complete_setup: "Guardar y completar configuración"
+      cancel: "Cancelar"
     page_titles:
       project_settings:
         index: "Hay almacenes de archivos disponibles en este proyecto"
         new: "Habilite un almacén de archivos para este proyecto"
     instructions:
-      type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
-      type_link_text: "“Integration OpenProject”"
-      name: "Give your storage a name so that users can differentiate between multiple storages."
-      host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
+      type: "Por favor, asegúrese de tener privilegios de administrador en su instancia de Nextcloud y tener la siguiente aplicación instalada antes de hacer la configuración:"
+      type_link_text: "“Integración OpenProject”"
+      name: "Dale un nombre a tu almacenamiento para que los usuarios puedan diferenciar entre múltiples almacenamientos."
+      host: "Por favor añade la dirección de host de tu almacenamiento incluyendo el https://. No debe tener más de 255 caracteres."
       no_storage_set_up: "Aún no se han configurado almacenes de archivos."
       setting_up_additional_storages: "Para configurar almacenes de archivos adicionales, visite"
       setting_up_additional_storages_non_admin: "Los administradores pueden configurar almacenes de archivos adicionales en Administración > Almacenes de archivos."
       setting_up_storages: "Para configurar almacenes de archivos, visite"
       setting_up_storages_non_admin: "Los administradores pueden configurar almacenes de archivos en Administración > Almacenes de archivos."
       all_available_storages_already_added: "Ya se añadieron todos los almacenes disponibles al proyecto."
-      copy_from: "Copy this value from"
+      copy_from: "Copiar este valor de"
       nextcloud:
-        integration: "Nextcloud Administration / OpenProject"
+        integration: "Administración de Nextcloud / OpenProject"
     delete_warning:
       storage: >
         ¿Seguro que quiere eliminar este almacén? También se eliminará de todos los proyectos donde se use. Además, se quitarán todos los enlaces de los paquetes de trabajo a los archivos guardados en ese almacén.
@@ -67,7 +67,7 @@ es:
     label_file_links: "Enlaces de archivos"
     label_name: "Nombre"
     label_host: "Host"
-    label_oauth_application_details: "OAuth application details"
+    label_oauth_application_details: "Detalles de aplicación OAuth"
     label_oauth_client_details: "Detalles del cliente OAuth"
     label_provider_type: "Tipo de proveedor"
     label_new_storage: "Nuevo almacén"
@@ -81,8 +81,8 @@ es:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "e.g. Nextcloud"
-        default_name: "My Nextcloud"
-    confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
+        default_name: "Mi Nextcloud"
+    confirm_replace_oauth_application: "¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo contra OpenProject."
     confirm_replace_oauth_client: "¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo en el almacenamiento."
     oauth_client_details_missing: "Para completar la configuración, por favor agregue las credenciales del cliente OAuth desde su almacenamiento."
-    notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."
+    notice_oauth_application_replaced: "La aplicación OpenProject OAuth fue reemplazada con éxito."
