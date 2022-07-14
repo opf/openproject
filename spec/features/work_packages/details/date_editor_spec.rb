@@ -42,6 +42,7 @@ describe 'date inplace editor',
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new }
+  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
 
   let(:start_date) { work_packages_page.edit_field(:combinedDate) }
 
@@ -331,6 +332,8 @@ describe 'date inplace editor',
 
         wp_table.expect_work_package_listed parent
         wp_table.expect_work_package_listed work_package
+        hierarchy.expect_hierarchy_at parent
+        hierarchy.expect_leaf_at work_package
         wp_timeline.expect_timeline!
       end
     end
