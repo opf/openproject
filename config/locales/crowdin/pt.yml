@@ -2452,7 +2452,6 @@ pt:
   setting_work_package_list_default_columns: "Exibir por padrão"
   setting_work_package_properties: "Propriedades do pacote de trabalho"
   setting_work_package_startdate_is_adddate: "Usar a data atual como data para início dos novos pacotes de trabalho"
-  setting_work_packages_export_limit: "Limite para exportação de pacotes de trabalho"
   setting_journal_aggregation_time_minutes: "Ações do usuário agregadas em"
   setting_log_requesting_user: "Registrar início de sessão do usuário, nome e endereço de e-mail para todas as requisições"
   setting_login_required: "Autenticação requerida"

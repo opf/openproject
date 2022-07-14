@@ -2488,7 +2488,6 @@ uk:
   setting_work_package_list_default_columns: "Дисплей за замовчуванням"
   setting_work_package_properties: "Властивості робочого пакета"
   setting_work_package_startdate_is_adddate: "Використовувати поточну дату в якості дати початку роботи для нових пакетів"
-  setting_work_packages_export_limit: "Ліміт експорту робочих пакетів"
   setting_journal_aggregation_time_minutes: "Дії користувача зведено протягом"
   setting_log_requesting_user: "Запишіть логін користувача, ім'я та поштову адресу для всіх запитів"
   setting_login_required: "Необхідна аутентифікація"
