@@ -1,4 +1,4 @@
-```bash
+bash
 #!/bin/bash
 
 #Scope is to pull a backup from an OpenProject Enterprise on-premises or cloud installation and download it to a local path
@@ -43,4 +43,4 @@ download_url="https://$domain$download_path"
 curl -u apikey:$api_key -L $download_url > "openproject-`date | tr ' ' '-' | tr ':' '-'`.zip"
 
 echo "download complete"
-```
+
