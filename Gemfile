@@ -160,6 +160,7 @@ group :production do
   gem 'dalli', '~> 3.2.0'
 end
 
+gem 'i18n', '~> 1.12.0'
 gem 'i18n-js', '~> 3.9.0'
 gem 'rails-i18n', '~> 7.0.0'
 gem 'sprockets', '~> 3.7.0'
