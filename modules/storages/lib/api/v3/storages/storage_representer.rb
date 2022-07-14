@@ -41,6 +41,7 @@ module API
         # LinkedResource module defines helper methods to describe attributes
         include API::Decorators::LinkedResource
         include API::Decorators::DateProperty
+        include API::V3::FileLinks::StorageUrlHelper
 
         def initialize(model, current_user:, embed_links: nil)
           @connection_manager =
@@ -68,6 +69,10 @@ module API
 
         link :origin do
           { href: represented.host }
+        end
+
+        link :open do
+          { href: storage_url_open(represented) }
         end
 
         link :authorizationState do

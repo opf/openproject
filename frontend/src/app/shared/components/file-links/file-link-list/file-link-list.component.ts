@@ -96,8 +96,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     },
   };
 
-  private get storageLocation():string {
-    return this.storage._links.origin.href;
+  private get storageFilesLocation():string {
+    return this.storage._links.open.href;
   }
 
   constructor(
@@ -141,7 +141,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   }
 
   public openStorageLocation():void {
-    window.open(this.storageLocation, '_blank');
+    window.open(this.storageFilesLocation, '_blank');
   }
 
   private instantiateStorageInformation(fileLinks:IFileLink[]):StorageInformationBox[] {
@@ -204,7 +204,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
       [new StorageActionButton(
         this.text.infoBox.emptyStorageButton(this.storageType),
         () => {
-          window.open(this.storageLocation, '_blank');
+          window.open(this.storageFilesLocation, '_blank');
         },
       )],
     );

@@ -31,6 +31,7 @@ properties:
       - self
       - type
       - origin
+      - open
       - authorizationState
     properties:
       self:
@@ -52,6 +53,13 @@ properties:
           - $ref: './link.yml'
           - description: |-
               Web uri of the storage instance.
+
+              **Resource**: N/A
+      open:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Uri of the file storage location, from where the user usually start browsing files.
 
               **Resource**: N/A
       authorizationState:
@@ -93,6 +101,8 @@ example:
       title: Nextcloud
     origin:
       href: https://nextcloud.deathstar.rocks/
+    open:
+      href: https://nextcloud.deathstar.rocks/apps/files
     authorizationState:
       href: urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
       title: Failed Authorization
