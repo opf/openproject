@@ -963,7 +963,11 @@ Settings::Definition.define do
       default: 'field',
       allowed: %w[field status disabled]
 
+  # TODO: Remove this setting after 12.2 has been released
   add :work_packages_export_limit,
+      default: 500
+
+  add :work_packages_projects_export_limit,
       default: 500
 
   add :work_package_list_default_highlighted_attributes,
