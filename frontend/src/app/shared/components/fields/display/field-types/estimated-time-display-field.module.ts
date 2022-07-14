@@ -30,24 +30,25 @@ import { DisplayField } from 'core-app/shared/components/fields/display/display-
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
-export class DurationDisplayField extends DisplayField {
+export class EstimatedTimeDisplayField extends DisplayField {
   @InjectField() timezoneService:TimezoneService;
 
   private derivedText = this.I18n.t('js.label_value_derived_from_children');
 
-  public get valueString() {
+  public get valueString():string {
     return this.timezoneService.formattedDuration(this.value);
   }
 
   /**
    * Duration fields may have an additional derived value
    */
-  public get derivedPropertyName() {
+  public get derivedPropertyName():string {
     return `derived${this.name.charAt(0).toUpperCase()}${this.name.slice(1)}`;
   }
 
   public get derivedValue():string|null {
-    return this.resource[this.derivedPropertyName];
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return this.resource[this.derivedPropertyName] as string|null;
   }
 
   public get derivedValueString():string {
@@ -66,8 +67,7 @@ export class DurationDisplayField extends DisplayField {
     }
 
     element.classList.add('split-time-field');
-    const { value } = this;
-    const actual:number = (value && this.timezoneService.toHours(value)) || 0;
+    const actual:number = this.value ? this.timezoneService.toHours(this.value) : 0;
 
     if (actual !== 0) {
       this.renderActual(element, displayText);
@@ -109,6 +109,7 @@ export class DurationDisplayField extends DisplayField {
   }
 
   public isEmpty():boolean {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { value } = this;
     const derived = this.derivedValue;
 
