@@ -34,7 +34,7 @@ gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.4.0'
 gem 'activerecord-session_store', '~> 2.0.0'
-gem 'rails', '~> 6.1.5', '>= 6.1.5.1'
+gem 'rails', '~> 6.1', '>= 6.1.6.1'
 gem 'responders', '~> 3.0'
 
 gem 'ffi', '~> 1.15'
@@ -160,6 +160,7 @@ group :production do
   gem 'dalli', '~> 3.2.0'
 end
 
+gem 'i18n', '~> 1.12.0'
 gem 'i18n-js', '~> 3.9.0'
 gem 'rails-i18n', '~> 7.0.0'
 gem 'sprockets', '~> 3.7.0'
