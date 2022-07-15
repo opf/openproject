@@ -32,14 +32,14 @@ class AddStorageFileLinkPerms < ActiveRecord::Migration[6.1]
   def up
     ::Migration::MigrationUtils::PermissionAdder
       .add(:select_project_modules,
-           :manage_project_storages)
+           :manage_storages_in_project)
 
     ::Migration::MigrationUtils::PermissionAdder
       .add(:view_work_packages,
            :view_file_links)
 
     ::Migration::MigrationUtils::PermissionAdder
-      .add(:edit_work_package,
+      .add(:edit_work_packages,
            :manage_file_links)
   end
 
