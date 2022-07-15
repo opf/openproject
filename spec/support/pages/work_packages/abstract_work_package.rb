@@ -99,6 +99,12 @@ module Pages
                                     wait: 10)
     end
 
+    def disable_ajax_requests
+      page.execute_script(
+        "var p=window.XMLHttpRequest.prototype; p.open=p.send=p.setRequestHeader=function(){};"
+      )
+    end
+
     def expect_group(name, &)
       expect(page).to have_selector('.attributes-group--header-text', text: name.upcase)
       if block_given?
@@ -159,6 +165,11 @@ module Pages
     def expect_custom_action(name)
       expect(page)
         .to have_selector('.custom-action', text: name)
+    end
+
+    def expect_custom_action_disabled(name)
+      expect(page)
+        .to have_selector('.custom-action [disabled]', text: name)
     end
 
     def expect_no_custom_action(name)
