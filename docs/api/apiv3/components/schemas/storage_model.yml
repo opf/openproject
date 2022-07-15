@@ -52,14 +52,14 @@ properties:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              Web uri of the storage instance.
+              Web URI of the storage instance.
 
               **Resource**: N/A
       open:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              Uri of the file storage location, from where the user usually starts browsing files.
+              URI of the file storage location, from where the user usually starts browsing files.
 
               **Resource**: N/A
       authorizationState:
