@@ -76,6 +76,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   storageInformation = new BehaviorSubject<StorageInformationBox[]>([]);
 
+  showLinkFilesAction = new BehaviorSubject<boolean>(false);
+
   private readonly storageTypeMap:Record<string, string> = {};
 
   text = {
@@ -126,6 +128,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
         }
 
         this.storageInformation.next(this.instantiateStorageInformation(fileLinks));
+        this.showLinkFilesAction.next(!this.disabled && fileLinks.length > 0);
       });
 
     this.currentUserService
