@@ -28,7 +28,7 @@
 
 require Rails.root.join('db/migrate/migration_utils/permission_adder')
 
-class AddStorageFileLinkPerms < ActiveRecord::Migration[6.1]
+class AddStoragesPermissionsToRoles < ActiveRecord::Migration[6.1]
   def up
     ::Migration::MigrationUtils::PermissionAdder
       .add(:select_project_modules,
