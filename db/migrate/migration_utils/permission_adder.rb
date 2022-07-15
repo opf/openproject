@@ -35,7 +35,14 @@ module Migration
           .where(role_permissions: { permission: having.to_s })
           .references(:role_permissions)
           .find_each do |role|
-          role.add_permission! add
+          # Check if the add-permission already exists before adding
+          already_exists = Role
+                             .joins(:role_permissions)
+                             .where(role_permissions: { permission: add.to_s })
+                             .exists?(roles: { id: role.id })
+          unless already_exists
+            role.add_permission! add
+          end
         end
       end
     end
