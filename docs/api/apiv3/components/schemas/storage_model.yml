@@ -59,7 +59,7 @@ properties:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              Uri of the file storage location, from where the user usually start browsing files.
+              Uri of the file storage location, from where the user usually starts browsing files.
 
               **Resource**: N/A
       authorizationState:
