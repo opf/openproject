@@ -39,8 +39,13 @@ export class SpotDropModalComponent implements OnDestroy {
         document.body.addEventListener('click', this.closeEventListener);
         document.body.addEventListener('keydown', this.escapeListener);
 
-        // Index 1 because the element at index 0 is the trigger button to open the modal
-        (findAllFocusableElementsWithin(this.elementRef.nativeElement)[1] as HTMLElement).focus();
+        const focusCatcherContainer = document.querySelectorAll("[data-list-focus-catcher-container='true']")[0];
+        if (focusCatcherContainer) {
+          (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement).focus();
+        } else {
+          // Index 1 because the element at index 0 is the trigger button to open the modal
+          (findAllFocusableElementsWithin(this.elementRef.nativeElement)[1] as HTMLElement).focus();
+        }
       });
     } else {
       document.body.removeEventListener('click', this.closeEventListener);
