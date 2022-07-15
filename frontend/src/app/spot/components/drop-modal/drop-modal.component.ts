@@ -39,7 +39,7 @@ export class SpotDropModalComponent implements OnDestroy {
         document.body.addEventListener('click', this.closeEventListener);
         document.body.addEventListener('keydown', this.escapeListener);
 
-        const focusCatcherContainer = document.querySelectorAll("[data-list-focus-catcher-container='true']")[0];
+        const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
         if (focusCatcherContainer) {
           (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement).focus();
         } else {

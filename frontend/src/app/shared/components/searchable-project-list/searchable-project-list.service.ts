@@ -17,6 +17,7 @@ import {
   projectListItemDisabled,
   projectListRootSelector,
 } from 'core-app/shared/components/project-list/project-list.component';
+import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
 
 @Injectable()
 export class SearchableProjectListService {
@@ -141,6 +142,8 @@ export class SearchableProjectListService {
   }
 
   onKeydown(event:KeyboardEvent):void {
+    const inputElement = this.findInputElement();
+
     switch (event.keyCode) {
       case KeyCodes.UP_ARROW:
         event.preventDefault();
@@ -151,10 +154,26 @@ export class SearchableProjectListService {
         this.handleKeyNavigation(false);
         break;
       case KeyCodes.SPACE:
-        event.preventDefault();
+        if (inputElement && event.target !== inputElement) {
+          event.preventDefault();
+        }
+        break;
+      case KeyCodes.ENTER:
         break;
       default:
+        if (inputElement && event.target !== inputElement) {
+          inputElement.focus();
+        }
         break;
     }
+  }
+
+  findInputElement():HTMLElement|undefined {
+    const focusCatcherContainer = document.querySelectorAll("[data-list-focus-catcher-container='true']")[0];
+    if (focusCatcherContainer) {
+      return (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement);
+    }
+
+    return undefined;
   }
 }
