@@ -130,6 +130,20 @@ module ScheduleHelpers
       work_packages_attributes << attributes.merge(name: attributes[:subject].to_sym)
     end
 
+    def set_duration(name, duration)
+      unless duration.is_a?(Integer) && duration > 0
+        raise ArgumentError, "unable to set duration for #{name}: " \
+                             "duration must be a positive integer (got #{duration.inspect})"
+      end
+      attributes = work_package_attributes(name.to_sym)
+      dates_attributes = attributes.slice(:start_date, :due_date).compact
+      if dates_attributes.any?(&:present?)
+        raise ArgumentError, "unable to set duration for #{name}: " \
+                             "#{dates_attributes.keys.join(' and ')} is set"
+      end
+      attributes[:duration] = duration
+    end
+
     def add_follows_relation(predecessor:, follower:, delay:)
       predecessors_by_follower(follower) << predecessor
       delays_between[[predecessor, follower]] = delay
@@ -195,11 +209,19 @@ module ScheduleHelpers
       in { start_date: nil, due_date: }
         spaced_at(due_date, ']')
       in { start_date:, due_date: }
-        days = WorkPackages::Shared::WorkingDays.new
+        days = days_for(attributes)
         span = (start_date..due_date).map do |date|
           days.working?(date) ? 'X' : '.'
         end.join
         spaced_at(start_date, span)
+      end
+    end
+
+    def days_for(attributes)
+      if attributes[:ignore_non_working_days]
+        WorkPackages::Shared::AllDays.new
+      else
+        WorkPackages::Shared::WorkingDays.new
       end
     end
 

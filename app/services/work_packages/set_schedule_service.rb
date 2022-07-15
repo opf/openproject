@@ -56,14 +56,23 @@ class WorkPackages::SetScheduleService
 
   private
 
+  # rubocop:disable Metrics/AbcSize
   def schedule_by_parent
     work_packages
       .select { |wp| wp.start_date.nil? && wp.parent }
       .each do |wp|
-        wp.start_date = wp.parent.soonest_start
-        wp.due_date = [wp.start_date, wp.due_date].compact.max
+        days = WorkPackages::Shared::Days.for(wp)
+        wp.start_date = days.soonest_working_day(wp.parent.soonest_start)
+        if wp.due_date || wp.duration
+          wp.due_date = [
+            wp.start_date,
+            days.due_date(wp.start_date, wp.duration),
+            wp.due_date
+          ].compact.max
+        end
       end
   end
+  # rubocop:enable Metrics/AbcSize
 
   # Finds all work packages that need to be rescheduled because of a
   # rescheduling of the service's work package and reschedules them.

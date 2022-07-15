@@ -59,7 +59,7 @@ module ScheduleHelpers
 
     def use_work_packages(work_packages)
       work_packages.each do |work_package|
-        chart.add_work_package(work_package.slice(:subject, :start_date, :due_date))
+        chart.add_work_package(work_package.slice(:subject, :start_date, :due_date, :ignore_non_working_days))
       end
       chart
     end
@@ -112,6 +112,8 @@ module ScheduleHelpers
           parent: $1.to_sym,
           child: name.to_sym
         )
+      when /^duration (\d+)/
+        chart.set_duration(name, $1.to_i)
       else
         raise "unable to parse property #{property.inspect} for line #{name.inspect}"
       end

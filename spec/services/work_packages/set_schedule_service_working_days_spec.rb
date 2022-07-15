@@ -934,176 +934,267 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
         CHART
       end
     end
+  end
 
-    # context 'with a chain of successors' do
-    #   let(:follower1_start_date) { Time.zone.today + 1.day }
-    #   let(:follower1_due_date) { Time.zone.today + 3.days }
-    #   let(:follower2_start_date) { Time.zone.today + 4.days }
-    #   let(:follower2_due_date) { Time.zone.today + 8.days }
-    #   let(:follower3_start_date) { Time.zone.today + 9.days }
-    #   let(:follower3_due_date) { Time.zone.today + 10.days }
+  context 'with a chain of followers' do
+    context 'when moving forward' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days         | MTWTFSSm     sm     sm |
+        work_package | ]                      |
+        follower1    |  XXX                   | follows work_package
+        follower2    |     X..XXXX            | follows follower1
+        follower3    |            X..XXXX     | follows follower2
+        follower4    |                   X..X | follows follower3
+      CHART
 
-    #   let!(:following) do
-    #     [following_work_package1,
-    #      following_work_package2,
-    #      following_work_package3]
-    #   end
+      before do
+        change_schedule([work_package], <<~CHART)
+          days         | MTWTFSS |
+          work_package |    ]    |
+        CHART
+      end
 
-    #   context 'when moving forward' do
-    #     before do
-    #       work_package.due_date = Time.zone.today + 5.days
-    #     end
+      it 'reschedules each follower forward by the same delta' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | MTWTFSSm     sm     sm    |
+          work_package |    ]                      |
+          follower1    |     X..XX                 | follows work_package
+          follower2    |          XXX..XX          | follows follower1
+          follower3    |                 XXXX..X   | follows follower2
+          follower4    |                        XX | follows follower3
+        CHART
+      end
+    end
 
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         { following_work_package1 => [Time.zone.today + 6.days, Time.zone.today + 8.days],
-    #           following_work_package2 => [Time.zone.today + 9.days, Time.zone.today + 13.days],
-    #           following_work_package3 => [Time.zone.today + 14.days, Time.zone.today + 15.days] }
-    #       end
-    #     end
-    #   end
+    context 'when moving forward with some space between the followers' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days         | MTWTFSSm     sm     sm     |
+        work_package | ]                          |
+        follower1    |  XXX                       | follows work_package
+        follower2    |        XXXX                | follows follower1
+        follower3    |                 XXX..XX    | follows follower2
+        follower4    |                         XX | follows follower3
+      CHART
 
-    #   context 'when moving forward with some space between the followers' do
-    #     let(:follower1_start_date) { Time.zone.today + 1.day }
-    #     let(:follower1_due_date) { Time.zone.today + 3.days }
-    #     let(:follower2_start_date) { Time.zone.today + 7.days }
-    #     let(:follower2_due_date) { Time.zone.today + 10.days }
-    #     let(:follower3_start_date) { Time.zone.today + 17.days }
-    #     let(:follower3_due_date) { Time.zone.today + 18.days }
+      before do
+        change_schedule([work_package], <<~CHART)
+          days         | MTWTFSS |
+          work_package |    ]    |
+        CHART
+      end
 
-    #     before do
-    #       work_package.due_date = Time.zone.today + 5.days
-    #     end
+      it 'reschedules only the first followers as the others don\'t need to move' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | MTWTFSSm     sm |
+          work_package |    ]            |
+          follower1    |     X..XX       |
+          follower2    |          XXX..X |
+        CHART
+      end
+    end
 
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         { following_work_package1 => [Time.zone.today + 6.days, Time.zone.today + 8.days],
-    #           following_work_package2 => [Time.zone.today + 9.days, Time.zone.today + 12.days] }
-    #       end
-    #     end
-    #   end
+    context 'when moving backwards' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days         | MTWTFSSm     sm     sm     |
+        work_package | ]                          |
+        follower1    |  XXX                       | follows work_package
+        follower2    |     X..XXX                 | follows follower1
+        follower3    |                 XXX..XX    | follows follower2
+        follower4    |                         XX | follows follower3
+      CHART
 
-    #   context 'when moving backwards' do
-    #     before do
-    #       work_package.due_date = Time.zone.today - 5.days
-    #     end
+      before do
+        change_schedule([work_package], <<~CHART)
+          days         | m     sMTWTFSS |
+          work_package |    ]           |
+        CHART
+      end
 
-    #     it_behaves_like 'reschedules' do
-    #       let(:expected) do
-    #         { following_work_package1 => [Time.zone.today - 4.days, Time.zone.today - 2.days],
-    #           following_work_package2 => [Time.zone.today - 1.day, Time.zone.today + 3.days],
-    #           following_work_package3 => [Time.zone.today + 4.days, Time.zone.today + 5.days] }
-    #       end
-    #     end
-    #   end
-    # end
+      it 'reschedules every follower backwards by the same delta' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | m     sMTWTFSSm     sm     sm   |
+          work_package |    ]                            |
+          follower1    |     X..XX                       |
+          follower2    |          XXX..X                 |
+          follower3    |                      XXXXX      |
+          follower4    |                              XX |
+        CHART
+      end
+    end
+  end
 
-    # context 'with a chain of successors with two paths leading to the same work package in the end' do
-    #   let_schedule(<<~CHART)
-    #                   | MTWTFSS     |
-    #     work_package  | X           |
-    #     follower1     |  XXX        | follows work_package
-    #     follower2     |     XXXXX   | follows follower1
-    #     follower3     |     XXXX    | follows work_package
-    #     follower4     |          XX | follows follower2, after follower3
-    #   CHART
+  context 'with a chain of followers with two paths leading to the same follower in the end' do
+    context 'when moving forward' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days         | MTWTFSSm     sm  |
+        work_package | ]                |
+        follower1    |  XXX             | follows work_package
+        follower2    |     X..XXXX      | follows follower1
+        follower3    |    XX..X         | follows work_package
+        follower4    |            X..XX | follows follower2, follows follower3
+      CHART
 
-    #   context 'when moving forward' do
-    #     before do
-    #       change_schedule(<<~CHART)
-    #                       | MTWTFSS |
-    #         work_package  |      X  |
-    #       CHART
-    #     end
+      before do
+        change_schedule([work_package], <<~CHART)
+          days         | MTWTFSS |
+          work_package |     ]   |
+        CHART
+      end
 
-    #     it 'reschedules' do
-    #       expect_schedule(subject.all_results, <<~CHART)
-    #                       | MTWTFSS          |
-    #         work_package  |      X           |
-    #         follower1     |       XXX        |
-    #         follower2     |          XXXXX   |
-    #         follower3     |       XXXX       |
-    #         follower4     |               XX |
-    #       CHART
-    #     end
-    #   end
+      it 'reschedules followers while satisfying all constraints' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | MTWTFSSm     sm     sm |
+          work_package |     ]                  |
+          follower1    |        XXX             |
+          follower2    |           XX..XXX      |
+          follower3    |        XXX             |
+          follower4    |                  XX..X |
+        CHART
+      end
+    end
 
-    #   context 'when moving backwards' do
-    #     before do
-    #       change_schedule(<<~CHART)
-    #                       |      MTWTFSS |
-    #         work_package  | X            |
-    #       CHART
-    #     end
+    context 'when moving backwards' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days         | MTWTFSSm     sm  |
+        work_package | ]                |
+        follower1    |  XXX             | follows work_package
+        follower2    |     X..XXXX      | follows follower1
+        follower3    |    XX..X         | follows work_package
+        follower4    |            X..XX | follows follower2, follows follower3
+      CHART
 
-    #     it 'reschedules' do
-    #       expect_schedule(subject.all_results, <<~CHART)
-    #                       |      MTWTFSS |
-    #         work_package  | X            |
-    #         follower1     |  XXX         |
-    #         follower2     |     XXXXX    |
-    #         follower3     |     XXXX     |
-    #         follower4     |          XX  |
-    #       CHART
-    #     end
-    #   end
-    # end
+      before do
+        change_schedule([work_package], <<~CHART)
+          days         | m     sMTWTFSS |
+          work_package |   ]            |
+        CHART
+      end
 
-    # context 'when setting the parent' do
-    #   let(:new_parent_work_package) { create(:work_package) }
-    #   let(:changed_attributes) { [:parent] }
+      it 'reschedules every follower backwards by the same delta' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | m     sMTWTFSSm    |
+          work_package |   ]                |
+          follower1    |    XX..X           |
+          follower2    |         XXXX..X    |
+          follower3    |        XXX         |
+          follower4    |                XXX |
+        CHART
+      end
+    end
+  end
 
-    #   before do
-    #     allow(new_parent_work_package)
-    #       .to receive(:soonest_start)
-    #             .and_return(soonest_date)
-    #     allow(work_package)
-    #       .to receive(:parent)
-    #             .and_return(new_parent_work_package)
-    #   end
+  context 'when setting the parent' do
+    let(:changed_attributes) { [:parent] }
 
-    #   context "with the parent being restricted in it's ability to be moved" do
-    #     let(:soonest_date) { Time.zone.today + 3.days }
+    context 'without dates and with the parent being restricted in its ability to be moved' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days                   | MTWTFSS |
+        work_package           |         |
+        new_parent             |         | follows new_parent_predecessor with delay 3
+        new_parent_predecessor |   X     |
+      CHART
 
-    #     it 'sets the start date to the earliest possible date' do
-    #       subject
+      before do
+        work_package.parent = new_parent
+        work_package.save
+      end
 
-    #       expect(work_package.start_date).to eql(Time.zone.today + 3.days)
-    #     end
-    #   end
+      it 'schedules parent to start and end at soonest working start date and the child to start at the parent start' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | MTWTFSS  |
+          work_package |        [ |
+          new_parent   |        X |
+        CHART
+      end
+    end
 
-    #   context 'with the parent being restricted but work package already having dates set' do
-    #     let(:soonest_date) { Time.zone.today + 3.days }
+    context 'without dates, with a duration and with the parent being restricted in its ability to be moved' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days                   | MTWTFSS |
+        work_package           |         | duration 4
+        new_parent             |         | follows new_parent_predecessor with delay 3
+        new_parent_predecessor |   X     |
+      CHART
 
-    #     before do
-    #       work_package.start_date = Time.zone.today + 4.days
-    #       work_package.due_date = Time.zone.today + 5.days
-    #     end
+      before do
+        work_package.parent = new_parent
+        work_package.save
+      end
 
-    #     it 'sets the dates to provided dates' do
-    #       subject
+      it 'schedules the moved work package to start at the parent soonest date and sets due date to keep the same duration ' \
+         'and schedules the parent dates to match the child dates' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | MTWTFSS     |
+          work_package |        XXXX |
+          new_parent   |        XXXX |
+        CHART
+      end
+    end
 
-    #       expect(work_package.start_date).to eql(Time.zone.today + 4.days)
-    #       expect(work_package.due_date).to eql(Time.zone.today + 5.days)
-    #     end
-    #   end
+    context 'with the parent being restricted in its ability to be moved and with a due date before parent constraint' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days                   | MTWTFSS   |
+        work_package           | ]         |
+        new_parent             |           | follows new_parent_predecessor with delay 3
+        new_parent_predecessor | X         |
+      CHART
 
-    #   context 'with the parent being restricted but the attributes define an earlier date' do
-    #     let(:soonest_date) { Time.zone.today + 3.days }
+      before do
+        work_package.parent = new_parent
+        work_package.save
+      end
 
-    #     before do
-    #       work_package.start_date = Time.zone.today + 1.day
-    #       work_package.due_date = Time.zone.today + 2.days
-    #     end
+      it 'schedules the moved work package to start and end at the parent soonest working start date' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | MTWTFSS |
+          work_package |     X   |
+          new_parent   |     X   |
+        CHART
+      end
+    end
 
-    #     # This would be invalid but the dates should be set nevertheless
-    #     # so we can have a correct error handling.
-    #     it 'sets the dates to provided dates' do
-    #       subject
+    context 'with the parent being restricted in its ability to be moved and with a due date after parent constraint' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days                   | MTWTFSS   |
+        work_package           |         ] |
+        new_parent             |           | follows new_parent_predecessor with delay 3
+        new_parent_predecessor | X         |
+      CHART
 
-    #       expect(work_package.start_date).to eql(Time.zone.today + 1.day)
-    #       expect(work_package.due_date).to eql(Time.zone.today + 2.days)
-    #     end
-    #   end
+      before do
+        work_package.parent = new_parent
+        work_package.save
+      end
+
+      it 'schedules the moved work package to start at the parent soonest working start date and keep the due date' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | MTWTFSS   |
+          work_package |     X..XX |
+          new_parent   |     X..XX |
+        CHART
+      end
+    end
+
+    context 'with the parent being restricted but work package already has both dates set' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days                   | MTWTFSS   |
+        work_package           |        XX |
+        new_parent             |           | follows new_parent_predecessor with delay 3
+        new_parent_predecessor | X         |
+      CHART
+
+      before do
+        work_package.parent = new_parent
+        work_package.save
+      end
+
+      it 'does not reschedule the moved work package, and sets new parent dates to child dates' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | MTWTFSS   |
+          work_package |        XX |
+          new_parent   |        XX |
+        CHART
+      end
+    end
   end
 end

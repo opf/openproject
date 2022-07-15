@@ -119,7 +119,44 @@ describe ScheduleHelpers::Chart do
     end
   end
 
-  describe '#to_s' do
+  describe '#set_duration' do
+    it 'sets the duration for a work package' do
+      chart.add_work_package(subject: 'wp')
+      chart.set_duration('wp', 3)
+      expect(chart.work_package_attributes('wp')).to include(duration: 3)
+    end
+
+    it 'must set the duration to a positive integer' do
+      chart.add_work_package(subject: 'wp')
+      expect { chart.set_duration('wp', 0) }
+        .to raise_error(ArgumentError, 'unable to set duration for wp: duration must be a positive integer (got 0)')
+
+      expect { chart.set_duration('wp', -5) }
+        .to raise_error(ArgumentError, 'unable to set duration for wp: duration must be a positive integer (got -5)')
+
+      expect { chart.set_duration('wp', 'hello') }
+        .to raise_error(ArgumentError, 'unable to set duration for wp: duration must be a positive integer (got "hello")')
+
+      expect { chart.set_duration('wp', '42') }
+        .to raise_error(ArgumentError, 'unable to set duration for wp: duration must be a positive integer (got "42")')
+    end
+
+    it 'cannot set the duration if the work package has dates' do
+      chart.add_work_package(subject: 'wp_start', start_date: monday)
+      expect { chart.set_duration('wp_start', 3) }
+        .to raise_error(ArgumentError, 'unable to set duration for wp_start: start_date is set')
+
+      chart.add_work_package(subject: 'wp_due', due_date: monday)
+      expect { chart.set_duration('wp_due', 3) }
+        .to raise_error(ArgumentError, 'unable to set duration for wp_due: due_date is set')
+
+      chart.add_work_package(subject: 'wp_both', start_date: monday, due_date: monday)
+      expect { chart.set_duration('wp_both', 3) }
+        .to raise_error(ArgumentError, 'unable to set duration for wp_both: start_date and due_date is set')
+    end
+  end
+
+  describe '#to_s', with_flag: { work_packages_duration_field_active: true } do
     let!(:week_days) { create(:week_days) }
 
     context 'with a chart built from ascii representation' do
@@ -150,7 +187,14 @@ describe ScheduleHelpers::Chart do
 
     context 'with a chart built from real work packages' do
       let(:work_package1) { build_stubbed(:work_package, subject: 'main', start_date: monday, due_date: tuesday) }
-      let(:work_package2) { build_stubbed(:work_package, subject: 'other', start_date: tuesday, due_date: monday + 7.days) }
+      let(:work_package2) do
+        build_stubbed(:work_package, subject: 'working_days', ignore_non_working_days: false,
+                                     start_date: tuesday, due_date: monday + 7.days)
+      end
+      let(:work_package2bis) do
+        build_stubbed(:work_package, subject: 'all_days', ignore_non_working_days: true,
+                                     start_date: tuesday, due_date: monday + 7.days)
+      end
       let(:work_package3) { build_stubbed(:work_package, subject: 'start_only', start_date: monday - 3.days) }
       let(:work_package4) { build_stubbed(:work_package, subject: 'due_only', due_date: wednesday) }
       let(:work_package5) { build_stubbed(:work_package, subject: 'no_dates') }
@@ -159,6 +203,7 @@ describe ScheduleHelpers::Chart do
           [
             work_package1,
             work_package2,
+            work_package2bis,
             work_package3,
             work_package4,
             work_package5
@@ -168,12 +213,13 @@ describe ScheduleHelpers::Chart do
 
       it 'returns the same ascii representation without properties information' do
         expect(chart.to_s).to eq(<<~CHART.chomp)
-          days       |    MTWTFSS  |
-          main       |    XX       |
-          other      |     XXXX..X |
-          start_only | [           |
-          due_only   |      ]      |
-          no_dates   |             |
+          days         |    MTWTFSS  |
+          main         |    XX       |
+          working_days |     XXXX..X |
+          all_days     |     XXXXXXX |
+          start_only   | [           |
+          due_only     |      ]      |
+          no_dates     |             |
         CHART
       end
     end

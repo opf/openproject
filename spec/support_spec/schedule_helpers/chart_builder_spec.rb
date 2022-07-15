@@ -146,6 +146,16 @@ describe ScheduleHelpers::ChartBuilder do
         expect(chart.parent(:main)).to eq(:parent)
       end
     end
+
+    describe 'duration <int>' do
+      it 'sets the duration of the work package' do
+        chart = builder.parse(<<~CHART)
+          days        | MTWTFSS |
+          main        |         | duration 3
+        CHART
+        expect(chart.work_package_attributes(:main)).to include(duration: 3)
+      end
+    end
   end
 
   describe 'error handling' do
