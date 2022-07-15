@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_administration), t('project_module_storages'), t(@object.name) -%>
 <% local_assigns[:additional_breadcrumb] = @object.name %>
 
-<%= toolbar title: "#{t('project_module_storages')} - #{@object.name}",
+<%= toolbar title: @object.name,
             title_class: 'no-padding-bottom' do %>
   <li class="toolbar-item">
     <%= link_to edit_admin_settings_storage_path(@object),
@@ -50,6 +50,14 @@ See COPYRIGHT and LICENSE files for more details.
   </li>
 <% end %>
 
+<div class="op-toast -warning -with-bottom-spacing">
+  <div class="op-toast--content">
+    <p>
+      <%= t('repositories.storage.show_warning_details') %>
+    </p>
+  </div>
+</div>
+
 <div class="attributes-group">
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
@@ -66,7 +74,7 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="attributes-key-value--key"><%= t(:'storages.label_provider_type') %></div>
     <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -text">
-        <span><%= t(:"storages.provider_types.#{@object.provider_type}") %></span>
+        <span><%= t(:"storages.provider_types.#{@object.provider_type}.name") %></span>
       </div>
     </div>
 
