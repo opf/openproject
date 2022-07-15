@@ -143,10 +143,15 @@ export class SearchableProjectListService {
   onKeydown(event:KeyboardEvent):void {
     switch (event.keyCode) {
       case KeyCodes.UP_ARROW:
+        event.preventDefault();
         this.handleKeyNavigation(true);
         break;
       case KeyCodes.DOWN_ARROW:
+        event.preventDefault();
         this.handleKeyNavigation(false);
+        break;
+      case KeyCodes.SPACE:
+        event.preventDefault();
         break;
       default:
         break;
