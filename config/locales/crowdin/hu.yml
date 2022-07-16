@@ -2363,6 +2363,7 @@ hu:
       update_timeout: "Tartsa meg az utolsó szükséges lemezterület-információt egy tárolóhoz N percig. Mivel egy tároló szükséges lemezterületének kiszámítása erőforrás igényes lehet, növelje ezt az értéket a teljesítmény növelésének érdekében."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Meglévő Subversion tároló"
       existing_introduction: "Ha rendelkezik meglévő Subversion tárolóval, akkor az OpenProject segítségével kapcsolódhat hozzá az alkalmazáson belül."

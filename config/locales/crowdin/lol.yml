@@ -2323,6 +2323,7 @@ lol:
       update_timeout: "crwdns800024:0crwdne800024:0"
       oauth_application_details: "crwdns823932:0crwdne823932:0"
       oauth_application_details_link_text: "crwdns823934:0crwdne823934:0"
+      show_warning_details: "crwdns824146:0crwdne824146:0"
     subversion:
       existing_title: "crwdns800026:0crwdne800026:0"
       existing_introduction: "crwdns800028:0crwdne800028:0"

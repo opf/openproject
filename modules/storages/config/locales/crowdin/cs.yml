@@ -67,6 +67,9 @@ cs:
     label_file_links: "Odkazy na soubor"
     label_name: "Název:"
     label_host: "Host"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
     label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "Podrobnosti OAuth klienta"
     label_provider_type: "Typ poskytovatele"

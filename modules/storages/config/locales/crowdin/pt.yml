@@ -67,6 +67,9 @@ pt:
     label_file_links: "Vínculos dos arquivos"
     label_name: "Nome"
     label_host: "Servidor"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
     label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "Detalhes do cliente OAuth"
     label_provider_type: "Tipo de provedor"

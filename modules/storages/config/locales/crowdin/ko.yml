@@ -67,6 +67,9 @@ ko:
     label_file_links: "파일 링크"
     label_name: "이름"
     label_host: "호스트"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
     label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "OAuth client details"
     label_provider_type: "공급자 유형"

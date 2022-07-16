@@ -2339,6 +2339,7 @@ ko:
       update_timeout: "N분 동안 리포지토리의 마지막 필요한 디스크 공간 정보를 유지하세요.\n리포지토리의 필요한 디스크 저장소 공간 계산에는 비용이 많이 소요될 수 있으므로, 이 값을 늘려 성능 영향을 줄이세요."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "기존 Subversion 리포지토리"
       existing_introduction: "기존 Subversion 리포지토리가 있는 경우 응용 프로그램 내에서 액세스하기 위해 OpenProject와 이 리포지토리를 연결할 수 있습니다."

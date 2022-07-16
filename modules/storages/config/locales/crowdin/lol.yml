@@ -67,6 +67,9 @@ lol:
     label_file_links: "crwdns810738:0crwdne810738:0"
     label_name: "crwdns810740:0crwdne810740:0"
     label_host: "crwdns810742:0crwdne810742:0"
+    label_oauth_breadcrumb:
+      openproject: "crwdns824148:0crwdne824148:0"
+      nextcloud: "crwdns824150:0crwdne824150:0"
     label_oauth_application_details: "crwdns824078:0crwdne824078:0"
     label_oauth_client_details: "crwdns824080:0crwdne824080:0"
     label_provider_type: "crwdns810744:0crwdne810744:0"

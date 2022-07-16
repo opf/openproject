@@ -2356,6 +2356,7 @@ el:
       update_timeout: "Διατήρηση των τελευταίων πληροφοριών απαιτούμενου χώρου δίσκου για ένα αποθετήριο για Ν λεπτά.\nΚαθώς η μέτρηση του απαιτούμενου χώρου δίσκου για ένα αποθετήριο μπορεί να κοστίζει, αυξήστε αυτή την τιμή για να μειώσετε την επίπτωση στην επίδοση."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Υπάρχον αποθετήριο Subversion"
       existing_introduction: "Αν έχετε ένα υπάρχον αποθετήριο Subversion, μπορείτε να το συνδέσετε με το OpenProject για να αποκτήσετε πρόσβαση σε αυτό μέσα από την εφαρμογή."

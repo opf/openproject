@@ -2398,6 +2398,7 @@ sk:
       update_timeout: "Uchovávajte posledné požadované informácie o diskovom priestore pre úložisko po dobu minúty N.\nKeď je potrebné počítať požadovaný priestor na disku úložiska, môžete túto hodnotu zvýšiť, aby sa znížil vplyv na výkon."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Existujúce úložisko Subversion (verzia softvéru a kontrola revízie)"
       existing_introduction: "Ak máte existujúce lokálne úložisko Subversion, môžete ho prepojiť s OpenProject a získať tak prístup z aplikácie."

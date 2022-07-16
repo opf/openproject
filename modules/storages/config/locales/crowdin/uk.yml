@@ -67,6 +67,9 @@ uk:
     label_file_links: "Посилання на файл"
     label_name: "Назва"
     label_host: "Хост"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
     label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "OAuth client details"
     label_provider_type: "Тип постачальника"

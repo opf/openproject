@@ -2359,6 +2359,7 @@ fil:
       update_timeout: "Panatilihin ang huling kailangang espasyo disk impormasyon para sa repositoryo ng N minuto.\nBilang pagbibilang ang kailangang espasyo ng disk ng repositoryo ay maaring gastos, palakihin ang hakaga na ito upang mabawasan ang epekto ng pagganap."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Umiiral na subversion respository"
       existing_introduction: "Kung mayroon kang umiiral na Subversion repository, pwedi mo itong ma-link sa OpenProject para ma access ang mga ito mula sa loob ng application."

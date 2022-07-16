@@ -2337,6 +2337,7 @@ id:
       update_timeout: "Pertahankan informasi kebutuhan disk repository selama N menit. Semakin besar nilai N akan mengurangi beban komputasi."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Repository Subversion yang sudah ada"
       existing_introduction: "Repository Git lokal yang anda miliki dapat dihubungkan dengan OpenProject untuk dikelola dari dalam."

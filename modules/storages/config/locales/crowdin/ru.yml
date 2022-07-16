@@ -36,27 +36,27 @@ ru:
       done_continue_setup: "Готово. Продолжить установку"
       replace_openproject_oauth: "Заменить OAuth OpenProject"
       replace_provider_type_oauth: "Заменить %{provider_type} OAuth"
-      save_and_continue_setup: "Save and continue setup"
-      save_and_complete_setup: "Save and complete setup"
-      cancel: "Cancel"
+      save_and_continue_setup: "Сохранить и продолжить установку"
+      save_and_complete_setup: "Сохранить и завершить установку"
+      cancel: "Отменить"
     page_titles:
       project_settings:
         index: "Файловые хранилища, доступные в этом проекте"
         new: "Включить хранилище файлов для этого проекта"
     instructions:
-      type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
-      type_link_text: "“Integration OpenProject”"
-      name: "Give your storage a name so that users can differentiate between multiple storages."
-      host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
+      type: "Перед установкой убедитесь, что у вас есть права администрирования в вашем экземпляре Nextcloud и что перед установкой установлено следующее приложение:"
+      type_link_text: "«Интеграционный OpenProject»"
+      name: "Дайте вашему хранилищу имя, чтобы пользователи могли различать между несколькими хранилищами."
+      host: "Пожалуйста, добавьте адрес вашего хранилища, включая https://. Он не должен быть длиннее 255 символов."
       no_storage_set_up: "Нет созданных файловых хранилищ."
       setting_up_additional_storages: "Для настройки дополнительных файловых хранилищ посетите"
       setting_up_additional_storages_non_admin: "Администраторы могут настроить дополнительные файловые хранилища в Администрировании / Файловых хранилищах."
       setting_up_storages: "Для настройки файловых хранилищ посетите"
       setting_up_storages_non_admin: "Администраторы могут настроить файловые хранилища в Администрировании / Файловых хранилищах."
       all_available_storages_already_added: "Все доступные хранилища уже добавлены в проект."
-      copy_from: "Copy this value from"
+      copy_from: "Скопировать это значение из"
       nextcloud:
-        integration: "Nextcloud Administration / OpenProject"
+        integration: "Администрирование NextCloud / OpenProject"
     delete_warning:
       storage: >
         Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.
@@ -67,6 +67,9 @@ ru:
     label_file_links: "Ссылки на файл"
     label_name: "Имя"
     label_host: "Хост"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
     label_oauth_application_details: "Подробности приложения OAuth"
     label_oauth_client_details: "Детали клиента OAuth"
     label_provider_type: "Тип поставщика"
@@ -80,8 +83,8 @@ ru:
       label: "Тип поставщика"
       nextcloud:
         name: "Nextcloud"
-        name_placeholder: "e.g. Nextcloud"
-        default_name: "My Nextcloud"
+        name_placeholder: "например,  Nextcloud"
+        default_name: "Мой Nextcloud"
     confirm_replace_oauth_application: "Вы уверены? Всем пользователям придется снова авторизоваться в OpenProject."
     confirm_replace_oauth_client: "Вы уверены? Все пользователи должны будут снова авторизоваться на хранилище."
     oauth_client_details_missing: "Чтобы завершить установку, пожалуйста, добавьте учетные данные клиента OAuth из вашего хранилища."
