@@ -109,11 +109,16 @@ describe 'Activity tab',
             idx + 1
           end
 
+        warn "Looking at journal #{journal.inspect}, idx #{idx}, actual idx #{actual_index} (Reverse = #{comments_in_reverse})"
+        warn "Journal date #{journal.created_at.inspect}"
+
         date_selector = ".work-package-details-activities-activity:nth-of-type(#{actual_index}) .activity-date"
         # Do not use :long format to match the printed date without double spaces
         # on the first 9 days of the month
         expect(page).to have_selector(date_selector,
-                                      text: journal.created_at.to_date.strftime("%B %-d, %Y"))
+                                      text: journal.created_at.to_date.strftime("%B %-d, %Y")),
+                        "Expected to find text #{journal.created_at.to_date.strftime("%B %-d, %Y")} at #{date_selector}"
+
 
         activity = page.find("#activity-#{idx + 1}")
 
