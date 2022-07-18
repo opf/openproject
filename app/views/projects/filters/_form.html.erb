@@ -84,10 +84,14 @@
       </li>
     </ul>
     <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list)%>
-      <enterprise-banner-bootstrap
-        text-message="<%= t('ee.upsale.project_filters.description_html') %>"
-        referrer="project-list-filter">
-      </enterprise-banner-bootstrap>
+      <%=
+      angular_component_tag 'op-enterprise-banner',
+                            inputs: {
+                              moreInfoText: t('text_custom_field_upsale_more_info'),
+                              textMessage: t('ee.upsale.project_filters.description_html'),
+                              moreInfoLink: 'https://www.openproject.org/docs/system-admin-guide/custom-fields/custom-fields-projects/',
+                            }
+      %>
     <% end %>
   </fieldset>
 <% end %>

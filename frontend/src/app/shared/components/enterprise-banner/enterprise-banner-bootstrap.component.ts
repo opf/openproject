@@ -16,9 +16,6 @@ export const enterpriseBannerrBootstrapSelector = 'enterprise-banner-bootstrap';
     <op-enterprise-banner
       [textMessage]="textMessage"
       [linkMessage]="linkMessage"
-      [moreInfoText]="moreInfoText"
-      [messageIsHtml]="messageIsHtml"
-      [moreInfoLink]="moreInfoLink"
       [opReferrer]="referrer">
     </op-enterprise-banner>
   `,
@@ -44,9 +41,6 @@ export class EnterpriseBannerBootstrapComponent implements OnInit {
     const $element = jQuery(this.elementRef.nativeElement);
 
     this.textMessage = $element.attr('text-message')!;
-    this.moreInfoText = $element.attr('more-info-text')!;
-    this.moreInfoLink = $element.attr('more-info-link')!;
-    this.messageIsHtml = $element.attr('more-info-link')!;
     this.linkMessage = $element.attr('link-message') || this.i18n.t('js.work_packages.table_configuration.upsale.check_out_link');
     this.referrer = $element.attr('referrer')!;
   }
