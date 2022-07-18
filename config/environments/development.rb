@@ -81,7 +81,7 @@ OpenProject::Application.configure do
   config.action_mailer.delivery_method = :letter_opener
 
   # Set email preview locations to rspec
-  config.action_mailer.preview_path = Rails.root.join('/spec/mailers/previews')
+  config.action_mailer.preview_path = Rails.root.join('spec/mailers/previews')
 
   config.hosts << 'bs-local.com' if ENV['OPENPROJECT_DISABLE_DEV_ASSET_PROXY'].present?
 
