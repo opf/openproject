@@ -41,7 +41,12 @@ module MailNotificationHelper
 
   def type_color(type, default_fallback)
     color_id = selected_color(type)
-    color_id ? Color.find(color_id).hexcode : default_fallback
+    if color_id
+      color = Color.find(color_id)
+      return color.super_bright? ? darken_color(color.hexcode, 0.75) : color.hexcode
+    end
+
+    default_fallback
   end
 
   def status_colors(status)
