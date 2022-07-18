@@ -575,7 +575,7 @@ module Journals
       # Use the ruby time instead of the DB's. If those are out of sync,
       # a journal might otherwise end up having an updated_at before created_at which
       # will also reflect back to the journaled object.
-      "'#{Time.zone.now}'"
+      "'#{Time.zone.now.utc.iso8601}'"
     end
 
     # Because we added the journal via bare metal sql, rails does not yet
