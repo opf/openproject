@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   OnInit,
   Input,
@@ -16,6 +17,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { IOpOptionListOption } from 'core-app/shared/components/option-list/option-list.component';
+import { cloneHalResource } from 'core-app/features/hal/helpers/hal-resource-builder';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { PrincipalType } from '../invite-user.component';
 import { ProjectAllowedValidator } from './project-allowed.validator';
@@ -27,6 +29,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   selector: 'op-ium-project-selection',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './project-selection.component.html',
   styleUrls: ['./project-selection.component.sass'],
 })
@@ -94,7 +97,7 @@ export class ProjectSelectionComponent implements OnInit {
     this.typeControl.setValue(this.type);
 
     if (this.project) {
-      this.projectControl.setValue({ ...this.project });
+      this.projectControl.setValue(cloneHalResource<ProjectResource>(this.project));
     }
 
     this.setPlaceholderOption();
