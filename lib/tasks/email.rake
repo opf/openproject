@@ -137,15 +137,17 @@ namespace :redmine do
     END_DESC
 
     task receive_imap: :environment do
-      imap_options = { host: ENV.fetch('host', nil),
-                       port: ENV.fetch('port', nil),
-                       ssl: ENV.fetch('ssl', nil),
-                       ssl_verification: !['0', 'false', 'f'].include?(ENV.fetch('ssl_verification', nil)),
-                       username: ENV.fetch('username', nil),
-                       password: ENV.fetch('password', nil),
-                       folder: ENV.fetch('folder', nil),
-                       move_on_success: ENV.fetch('move_on_success', nil),
-                       move_on_failure: ENV.fetch('move_on_failure', nil) }
+      imap_options = {
+        host: ENV.fetch('host', nil),
+        port: ENV.fetch('port', nil),
+        ssl: ActiveRecord::Type::Boolean.new.cast(ENV.fetch('ssl', true)),
+        ssl_verification: ActiveRecord::Type::Boolean.new.cast(ENV.fetch('ssl_verification', true)),
+        username: ENV.fetch('username', nil),
+        password: ENV.fetch('password', nil),
+        folder: ENV.fetch('folder', nil),
+        move_on_success: ActiveRecord::Type::Boolean.new.cast(ENV.fetch('move_on_success', nil)),
+        move_on_failure: ActiveRecord::Type::Boolean.new.cast(ENV.fetch('move_on_failure', nil))
+      }
 
       Redmine::IMAP.check(imap_options, options_from_env)
     end
