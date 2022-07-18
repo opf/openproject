@@ -202,7 +202,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
       .catch((err:any) => this.notificationService.handleRawError(err,
         this.relatedWorkPackage));
   }
-  
+
   public highlightingClassForWpType() {
     return Highlighting.inlineClass('type', this.relatedWorkPackage.type.id!);
   }
