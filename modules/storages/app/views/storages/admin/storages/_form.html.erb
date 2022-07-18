@@ -54,6 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
     <div class="form--field -required">
       <%= f.text_field :host,
+                       label: t('storages.label_host'),
                        type: :url,
                        required: true,
                        pattern: ".{1,255}",
