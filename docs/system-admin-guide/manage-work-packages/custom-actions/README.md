@@ -17,7 +17,7 @@ The workflows with custom actions are a premium feature and only available for [
 
 Watch the following video to see how you can configure your custom actions:
 
-![OpenProject custom actions video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Custom-Actions.mp4)
+![](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Custom-Actions.mp4)
 
 ## Create custom actions
 
