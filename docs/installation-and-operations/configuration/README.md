@@ -519,6 +519,8 @@ OPENPROJECT_STATSD_HOST=127.0.0.1 # overridden by: STATSD_HOST
 OPENPRJOECT_STATSD_PORT=8125 # overridden by: STATSD_PORT
 ```
 
+## Other Configuration Topics
+| | |
 | ----------- | :---------- |
 | [List of supported environment variables](./environment) | The full list of environment variables you can use to override the default configuration |
 | [Configuring SSL](./ssl) | How to configure SSL so that your OpenProject installation is available over HTTPS |
