@@ -80,6 +80,9 @@ module.exports = {
         // It'd be good if we could error this for switch cases but allow it for for loops
         "no-continue": "off",
 
+        // no param reassignment is a pain when trying to set props on elements
+        "no-param-reassign": "off",
+
         // No void at all collides with `@typescript-eslint/no-floating-promises` which wants us to handle each promise.
         // Until we do that, `void` is a good way to explicitly mark unhandled promises. 
         "no-void": ["error", { allowAsStatement: true }],
