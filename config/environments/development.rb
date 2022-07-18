@@ -81,6 +81,10 @@ OpenProject::Application.configure do
   config.action_mailer.delivery_method = :letter_opener
 
   config.hosts << 'bs-local.com' if ENV['OPENPROJECT_DISABLE_DEV_ASSET_PROXY'].present?
+
+  if ENV['OPENPROJECT_DEV_EXTRA_HOSTS'].present?
+    config.hosts.push(*ENV['OPENPROJECT_DEV_EXTRA_HOSTS'].split(','))
+  end
 end
 
-ActiveRecord::Base.logger = ActiveSupport::Logger.new(STDOUT) unless String(ENV["SILENCE_SQL_LOGS"]).to_bool
+ActiveRecord::Base.logger = ActiveSupport::Logger.new($stdout) unless String(ENV["SILENCE_SQL_LOGS"]).to_bool
