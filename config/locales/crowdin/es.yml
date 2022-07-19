@@ -2450,7 +2450,7 @@ es:
   setting_work_package_list_default_columns: "Mostrar por defecto"
   setting_work_package_properties: "Propiedades de paquete de trabajo"
   setting_work_package_startdate_is_adddate: "Usar fecha actual como fecha de inicio para nuevos paquetes de trabajo"
-  setting_work_packages_export_limit: "Fecha limite para exportar paquete de trabajo"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "Acciones de usuario agregadas dentro de"
   setting_log_requesting_user: "Registrar inicio de sesión de usuario, nombre, y dirección de correo para todas las solicitudes"
   setting_login_required: "Autentificación requerida"

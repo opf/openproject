@@ -2454,7 +2454,7 @@ si:
   setting_work_package_list_default_columns: "පෙරනිමියෙන් දර්ශනය"
   setting_work_package_properties: "වැඩ පැකේජය ගුණ"
   setting_work_package_startdate_is_adddate: "නව වැඩ පැකේජ සඳහා ආරම්භක දිනය ලෙස වත්මන් දිනය භාවිතා කරන්න"
-  setting_work_packages_export_limit: "වැඩ පැකේජ අපනයන සීමාව"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "සියලුම ඉල්ලීම් සඳහා පරිශීලක පිවිසුම, නම සහ තැපැල් ලිපිනය ලොග් වන්න"
   setting_login_required: "සත්යාපන අවශ්ය"

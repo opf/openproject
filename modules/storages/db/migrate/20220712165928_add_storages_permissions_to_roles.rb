@@ -25,38 +25,25 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module WorkPackage::Exports
-  class QueryExporter < Exports::Exporter
-    self.model = WorkPackage
 
-    alias :query :object
+require Rails.root.join('db/migrate/migration_utils/permission_adder')
 
-    attr_reader :column_objects, :columns, :work_packages
+class AddStoragesPermissionsToRoles < ActiveRecord::Migration[6.1]
+  def up
+    ::Migration::MigrationUtils::PermissionAdder
+      .add(:select_project_modules,
+           :manage_storages_in_project)
 
-    def initialize(object, options = {})
-      super
+    ::Migration::MigrationUtils::PermissionAdder
+      .add(:view_work_packages,
+           :view_file_links)
 
-      @column_objects = get_columns
-      @columns = column_objects.map { |c| { name: c.name, caption: c.caption } }
-      @work_packages = get_work_packages
-    end
+    ::Migration::MigrationUtils::PermissionAdder
+      .add(:edit_work_packages,
+           :manage_file_links)
+  end
 
-    def get_columns
-      query
-        .columns
-        .reject { |c| c.is_a?(Queries::WorkPackages::Columns::RelationColumn) }
-    end
-
-    def page
-      options[:page] || 1
-    end
-
-    def get_work_packages
-      query
-        .results
-        .work_packages
-        .page(page)
-        .per_page(Setting.work_packages_projects_export_limit.to_i)
-    end
+  def down
+    # Nothing to do
   end
 end

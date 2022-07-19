@@ -2454,7 +2454,7 @@ fr:
   setting_work_package_list_default_columns: "Afficher par défaut"
   setting_work_package_properties: "Propriétés du Lot de Travaux"
   setting_work_package_startdate_is_adddate: "Utiliser la date actuelle comme date de début des nouveaux lots de travaux"
-  setting_work_packages_export_limit: "Nombre limite de lots de travaux exportés"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "Actions utilisateur agrégées dans"
   setting_log_requesting_user: "Enregister le login utilisateur, nom et adresse courriel pour toutes les requêtes"
   setting_login_required: "Authentification requise"

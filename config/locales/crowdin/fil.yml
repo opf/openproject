@@ -2452,7 +2452,7 @@ fil:
   setting_work_package_list_default_columns: "Ipakiita sa pamamagitan ng default"
   setting_work_package_properties: "Ang mga property ng work package"
   setting_work_package_startdate_is_adddate: "Gamitin ang kasulukuyang petsa bilang pagsisimula ng petsa para sa mga bagong work package"
-  setting_work_packages_export_limit: "Limitasyon ng pag-export ng work package"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Log user login, pangalan at mga mail address para sa lahat na hiling"
   setting_login_required: "Kailangan ng pagpapatunay"

@@ -963,7 +963,7 @@ Settings::Definition.define do
       default: 'field',
       allowed: %w[field status disabled]
 
-  add :work_packages_export_limit,
+  add :work_packages_projects_export_limit,
       default: 500
 
   add :work_package_list_default_highlighted_attributes,

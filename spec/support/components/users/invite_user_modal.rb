@@ -44,11 +44,11 @@ module Components
         super()
       end
 
-      def run_all_steps
+      def run_all_steps(skip_project_autocomplete: false)
         expect_open
 
         # STEP 1: Project and type
-        project_step
+        project_step(skip_autocomplete: skip_project_autocomplete)
 
         # STEP 2: User name
         principal_step
@@ -90,9 +90,9 @@ module Components
         expect_closed
       end
 
-      def project_step(next_step: true)
+      def project_step(next_step: true, skip_autocomplete: false)
         expect_title 'Invite user'
-        autocomplete project.name
+        autocomplete project.name unless skip_autocomplete
         select_type type
 
         click_next if next_step
