@@ -728,14 +728,7 @@ en:
         settings: "Settings"
 
     time_entry:
-      project: 'Project'
-      work_package: 'Work package'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Activity'
-      comment: 'Comment'
-      duration: 'Duration'
-      spent_on: 'Date'
-      hours: 'Hours'
       title: 'Log time'
 
     two_factor_authentication:
