@@ -1,25 +1,25 @@
-<span class="spot-icon spot-icon_{{viewModel.iconClass}} op-files-tab--storage-info-box-icon"></span>
+<span class="spot-icon spot-icon_{{viewModel.iconClass}} op-files-tab--storage-info-icon"></span>
 
 <div
-  class="text-box"
+  class="op-files-tab--storage-info-text-box"
 >
   <div
-    class="text-box-header"
+    class="op-files-tab--storage-info-text-box-header"
   >
     <span [textContent]="viewModel.header"></span>
   </div>
   <div
-    class="text-box-content"
+    class="op-files-tab--storage-info-text-box-content"
   >
     <span [textContent]="viewModel.content"></span>
   </div>
 </div>
 
 <div
-  class="button-box"
+  class="op-files-tab--storage-info-button-container"
 >
   <button *ngFor="let button of viewModel.buttons"
-    class="button op-files-tab--storage-info-box-button"
+    class="button op-files-tab--storage-info-button"
     (click)="button.action()"
   >
     <op-icon

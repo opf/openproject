@@ -26,56 +26,38 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-.op-files-tab,
-.op-attachments-list
-  .op-files-tab--file-list
-    margin-bottom: 1rem
-
-    .op-files-tab--file-list-item
-      .op-files-tab--file-list-item-action
-        padding-left: 0
-        padding-right: 0
-        text-decoration: none
-
-        &.view-not-allowed
+.op-files-tab
+  &--file-list
+    &-item
+      &-action
+        &_view-not-allowed
           opacity: 0.5
 
-        &.disabled
+        &_disabled
           opacity: 0.5
           pointer-events: none
 
-        &:hover
-          .op-files-tab--file-list-item-title
-            text-decoration: underline
+      &-title
+        @include spot-body-small
+        @include text-shortener
 
-        .op-files-tab--file-list-item-title
-          @include spot-body-small
+        line-height: $spot-spacing-1-5
+        word-break: normal
+        padding-right: $spot_spacing-0-5
 
-          line-height: $spot-spacing-1-5
-          word-break: normal
-          @include text-shortener
-          padding-right: $spot_spacing-0-5
+      &-text
+        @include spot-caption()
 
-        .op-files-tab--file-list-item-text
-          @include spot-caption()
+        color: $spot-color-basic-gray-3
+        flex-shrink: 0
 
-          color: $spot-color-basic-gray-3
-          flex-shrink: 0
+        &:not(:last-child)
+          margin-right: $spot-spacing-0-5
 
-          &:not(:last-child)
-            margin-right: $spot-spacing-0-5
-
-      .op-files-tab--file-list-item-avatar
+      &-avatar
         display: inline-block
 
-      .op-files-tab--file-list-item-floating-actions
-        padding-right: 0
-
-      .op-files-tab--file-list-item-floating-wrapper
-        &_disabled:hover
-          background: none
-
-      .op-files-tab--file-list-item-floating-text
+      &-floating-text
         @include spot-body-small()
 
         padding-right: $spot-spacing-0-25
@@ -85,8 +67,8 @@
         &-icon
           margin-right: $spot-spacing-0-5
 
-  &--storage-info-box
-    margin-top: 0.875rem
+  &--storage-info
+    margin: 0.875rem 0 $spot-spacing-1 0
     display: grid
     align-items: center
     grid-template: "icon text" "button button" / auto 1fr
@@ -99,19 +81,19 @@
       font-size: 1.75rem
       margin-right: $spot_spacing-0-5
 
-    .text-box
+    &-text-box
       grid-area: text
 
-      .text-box-header
+      &-header
         font-weight: 700
         line-height: $spot-spacing-1-5
 
-      .text-box-content
+      &-content
         @include spot-body-small()
 
         color: #9A9A9A
 
-    .button-box
+    &-button-container
       grid-area: button
       display: flex
       justify-content: end
@@ -122,6 +104,27 @@
       &:not(:last-child)
         margin-right: $spot-spacing-0-5
 
+  // Style overrides that need the nesting into the block to overrule the spot selector.
+  & &--file-list
+    margin-bottom: 1rem
+
+  & &--file-list &--file-list-item &--file-list-item-floating-actions
+    padding-right: 0
+
+  & &--file-list &--file-list-item &--file-list-item-action
+    padding-left: 0
+    padding-right: 0
+
+  & &--file-list-item-action:hover
+    text-decoration: none
+
+  & &--file-list-item-action:hover &--file-list-item-title
+    text-decoration: underline
+
+  & &--file-list-item-floating-wrapper_disabled:hover
+    background: none
+
+  // Additional colors
   &--icon
     width: $spot-spacing-1-5
 

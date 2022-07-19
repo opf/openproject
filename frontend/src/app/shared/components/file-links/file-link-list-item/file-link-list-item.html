@@ -4,7 +4,7 @@
 >
   <a
     class="spot-list--item-action spot-list--item-action_link op-files-tab--file-list-item-action"
-    [ngClass]="{ 'disabled': disabled, 'view-not-allowed': !viewAllowed }"
+    [ngClass]="{ 'op-files-tab--file-list-item-action_disabled': disabled, 'op-files-tab--file-list-item-action_view-not-allowed': !viewAllowed }"
     [href]="fileLink._links.staticOriginOpen.href"
     [title]="fileLink.originData.name"
     target="_blank"
