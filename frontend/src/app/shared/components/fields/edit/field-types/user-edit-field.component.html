@@ -3,6 +3,7 @@
   *ngIf="url"
   [clearAfterSelection]="false"
   (valueChange)="onModelChange($event)"
+  (cancel)="handler.handleUserCancel()"
   [url]="url"
   appendTo="body"
   [value]="value"
