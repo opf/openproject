@@ -1096,6 +1096,10 @@ ro:
         one: "1 oră"
         other: "%{count} ora"
         zero: "0 ore"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Activați modul zen'
       button_deactivate: 'Dezactivați modul zen'

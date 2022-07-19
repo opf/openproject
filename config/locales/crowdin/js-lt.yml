@@ -1100,6 +1100,10 @@ lt:
         one: "1 val"
         other: "%{count} val"
         zero: "0 val"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Įjungti Zen režimą'
       button_deactivate: 'Išjungti Zen režimą'

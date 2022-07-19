@@ -1094,6 +1094,10 @@ fi:
         one: "1 t"
         other: "%{count} t"
         zero: "0 t"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Koko näyttö'
       button_deactivate: 'Sulje koko näyttö'

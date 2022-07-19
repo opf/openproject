@@ -1096,6 +1096,10 @@ it:
         one: "1 o"
         other: "%{count} o"
         zero: "0 o"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Attiva modalità zen'
       button_deactivate: 'Disattiva modalità zen'

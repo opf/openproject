@@ -1093,6 +1093,10 @@ sv:
         one: "1 tim"
         other: "%{count} timmar"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Aktivera zen-läge'
       button_deactivate: 'Inaktivera avskalat läge'

@@ -1094,6 +1094,10 @@ tr:
         one: "1 saat"
         other: "%{count} saat"
         zero: "0 s"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Zen modunu etkinleştir'
       button_deactivate: 'Zen modunu devre dışı bırak'

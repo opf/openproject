@@ -86,7 +86,7 @@ ca:
     button_save: "Desa"
     button_settings: "Configuració"
     button_uncheck_all: "Desmarca-ho tot"
-    button_update: "Actualitzar"
+    button_update: "Actualitza"
     button_export-pdf: "Descarregar PDF"
     button_export-atom: "Descarregar Atom"
     button_create: "Crear"
@@ -1094,6 +1094,10 @@ ca:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'

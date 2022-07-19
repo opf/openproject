@@ -86,7 +86,7 @@ ru:
     button_save: "Сохранить"
     button_settings: "Настройки"
     button_uncheck_all: "Снять все отметки"
-    button_update: "Обновить"
+    button_update: "Обновление"
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
     button_create: "Создать"
@@ -1099,6 +1099,10 @@ ru:
         one: "1 ч"
         other: "%{count} ч"
         zero: "0 ч"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Включить дзен-режим'
       button_deactivate: 'Отключить дзен-режим'

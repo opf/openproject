@@ -1094,6 +1094,10 @@ si:
         one: "1 h"
         other: "%{count} ඌ"
         zero: "0 ඌ"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'සක්රිය මාදිලිය'
       button_deactivate: 'සෙන් මාදිලිය අක්රිය'
