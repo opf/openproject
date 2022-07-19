@@ -1,4 +1,6 @@
 <op-user-autocompleter
+  class="inline-edit--field {{ handler.fieldName }}"
+  *ngIf="url"
   [clearAfterSelection]="false"
   (valueChange)="onModelChange($event)"
   [url]="url"
