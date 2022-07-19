@@ -42,6 +42,7 @@ import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ID } from '@datorama/akita';
+import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
 
 export const usersAutocompleterSelector = 'op-user-autocompleter';
 
@@ -139,8 +140,10 @@ export class UserAutocompleterComponent implements OnInit, ControlValueAccessor 
       searchFilters.add('name', '~', [searchTerm]);
     }
 
+    const filteredURL = addFiltersToPath(this.url, searchFilters);
+
     return this.halResourceService
-      .get(this.url, { filters: searchFilters.toJson() })
+      .get(filteredURL.toString())
       .pipe(
         map((res) => {
           const options = res.elements.map((el:any) => ({

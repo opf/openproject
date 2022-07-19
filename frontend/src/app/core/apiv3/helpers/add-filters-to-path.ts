@@ -11,7 +11,7 @@ import {
  * @param filters An ApiV3FilterBuilder object containing the filters to add.
  * @param params Additional query parameters to add, if any.
  */
-export function filteredUrl(
+export function addFiltersToPath(
   basePath:string,
   filters:ApiV3FilterBuilder,
   params:{ [key:string]:string } = {},

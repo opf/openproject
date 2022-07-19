@@ -280,7 +280,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
         this.cdRef.detectChanges();
         const component = (this.ngSelectInstance) as any;
         if (component && component.dropdownPanel) {
-          // component.dropdownPanel._updatePosition();
+          component.dropdownPanel._updatePosition();
         }
       }, 25);
     }
