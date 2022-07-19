@@ -38,14 +38,14 @@ module TimeEntries
       if no_project_or_context_changed?
         model.project = model.work_package&.project
       end
-
-      set_logged_by unless model.user_changed?
     end
 
-    def set_default_attributes(*)
+    def set_default_attributes(attributes)
       set_default_user
       set_default_activity
       set_default_hours
+
+      set_logged_by unless attributes[:logged_by]
     end
 
     def set_logged_by
