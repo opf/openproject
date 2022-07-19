@@ -268,7 +268,7 @@ eo:
           one: "Unua ordiga kriterio"
           two: "Dua ordiga kriterio"
           three: "Tria ordiga kriterio"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "More information"
       upsale_link: 'Entreprena Eldono.'
     general_text_no: "ne"
@@ -333,7 +333,6 @@ eo:
     label_description: "Priskribo"
     label_details: "Detaloj"
     label_display: "Vidigi"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Nuligi komenton"
     label_closed_work_packages: "fermita"
     label_collapse: "Maletendi"
@@ -354,7 +353,6 @@ eo:
     label_expand_project_menu: "Etendi projektan menuon"
     label_export: "Eksporti"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Dosiero"
     label_filesize: "Dosiergrando"
     label_general: "General"
@@ -377,9 +375,7 @@ eo:
     label_learn_more_link: "Learn more"
     label_less_or_equal: "<="
     label_less_than_ago: "less than days ago"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Loading..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Retpoŝtaj sciigoj"
     label_me: "mi"
     label_meeting_agenda: "Agenda"
@@ -392,19 +388,14 @@ eo:
     label_no_data: "Neniu montrebla datumo"
     label_no_due_date: "no finish date"
     label_no_start_date: "no start date"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "No value"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "neniu"
     label_not_contains: "ne enhavas"
     label_not_equals: "ne estas"
     label_on: "en"
     label_open_menu: "Malfermi menuon"
     label_open_context_menu: "Open context menu"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "malfermita"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Pasvorto"
     label_previous: "Antaŭa"
     label_per_page: "Per page:"
@@ -419,7 +410,6 @@ eo:
     label_remove: "Forigi"
     label_remove_column: "Remove column"
     label_remove_columns: "Remove selected columns"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Remove row"
     label_report: "Report"
     label_repository_plural: "Repositories"
@@ -436,9 +426,6 @@ eo:
     label_sorting: "Sorting"
     label_spent_time: "Uzata tempo"
     label_star_query: "Favored"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Klavu enter por registri."
     label_public_query: "Publika"
     label_sum: "Sumo"
@@ -475,7 +462,6 @@ eo:
     label_custom_queries: "Private"
     label_columns: "Kolumnoj"
     label_attachments: Aldonaĵoj
-    label_nextcloud: Nextcloud
     label_drop_files: Drop files here
     label_drop_files_hint: aŭ klaku por aldoni dosierojn
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -553,7 +539,7 @@ eo:
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -561,7 +547,8 @@ eo:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1107,6 +1094,10 @@ eo:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Aktivigi zen reĝimo'
       button_deactivate: 'Malaktivigi zen reĝimo'
@@ -1213,5 +1204,3 @@ eo:
         remove: 'Forigi'
       drop_modal:
         Close: 'Fermi'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

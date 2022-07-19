@@ -56,7 +56,6 @@ describe "Split screen in the notification center", type: :feature, js: true do
 
     it 'can navigate between the tabs' do
       center.expect_bell_count 2
-      split_screen.expect_empty_state
 
       center.click_item notification
       split_screen.expect_open
@@ -81,7 +80,6 @@ describe "Split screen in the notification center", type: :feature, js: true do
 
       # The split screen can be closed
       split_screen.close
-      split_screen.expect_empty_state
     end
 
     it 'can show the correct html title while opening and closing the split view' do
@@ -117,9 +115,8 @@ describe "Split screen in the notification center", type: :feature, js: true do
       center.open
     end
 
-    it 'can switch between multiple notifications and the split screen remains open and updates accordingly' do
+    it 'can switch between multiple notifications and bell count will be updated' do
       center.expect_bell_count 0
-      split_screen.expect_caught_up
     end
   end
 end

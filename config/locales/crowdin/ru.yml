@@ -95,6 +95,8 @@ ru:
     show_preview: 'Предпросмотр текста'
     add_new: 'Добавить текст справки'
     edit: "Редактировать текст справки для %{attribute_caption}"
+    enterprise:
+      description: 'Нажатие на боковой панели отображает атрибут текстовой справки, которая поможет вам и вашим пользователям лучше понять, что делает каждый элемент.'
   auth_sources:
     index:
       no_results_content_title: На данный момент способы аутентификации отсутствуют.
@@ -1399,7 +1401,7 @@ ru:
       no_results:
         title: "Нет маркеров доступа для отображения"
         description: "Все они были отключены. Они могут быть включены вновь в меню Администрирование."
-      access_token: "Маркер доступа"
+      access_tokens: "Маркеры доступа"
       headers:
         action: "Действие"
         expiration: "Срок действия"
@@ -2154,6 +2156,12 @@ ru:
   notice_successful_create: "Создание выполнено."
   notice_successful_delete: "Удаление выполнено."
   notice_successful_update: "Обновление выполнено."
+  notice_successful_update_custom_fields_added_to_project: |
+    Успешное обновление. Пользовательские поля активированных типов автоматически активируются
+    в форме пакета работ. <a href="%{url}" target="_blank">Подробнее</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Успешное обновление. Активные настраиваемые поля автоматически активируются для
+    связанных проектов этого типа.
   notice_to_many_principals_to_display: "Слишком много результатов. Сузьте поиск, введя имя нового участника (или группы)."
   notice_user_missing_authentication_method: Пользователь еще не выбрал пароль или другой способ авторизации.
   notice_user_invitation_resent: Приглашение было отправлено на %{email}.
@@ -2385,6 +2393,9 @@ ru:
     storage:
       not_available: "Дисковое пространство не доступно для этого репозитория."
       update_timeout: "Хранить последнюю информацию о дисковом пространстве, необходимом для репозитория, N минут. Так как подсчет необходимого для репозитория дискового пространства могут быть дорогостоящим, увеличить это значение для снижения его влияния на производительность."
+      oauth_application_details: "Секретное значение клиента не будет доступно после закрытия этого окна. Пожалуйста, скопируйте это значение в настройки интеграции Nextcloud OpenProject:"
+      oauth_application_details_link_text: "Перейти на страницу настроек"
+      show_warning_details: "Для использования этого хранилища файлов не забудьте активировать модуль и определенное хранилище в настройках проекта каждого желаемого проекта."
     subversion:
       existing_title: "Существующий репозиторий Subversion"
       existing_introduction: "Если у вас есть существующий репозиторий Subversion, вы можете связать его с OpenProject для доступа к нему из приложения."
@@ -2478,7 +2489,7 @@ ru:
   setting_work_package_list_default_columns: "Отображать по умолчанию"
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"
-  setting_work_packages_export_limit: "Лимит экспорта пакета работ"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "Действия пользователя агрегированы в"
   setting_log_requesting_user: "Журналировать входное имя, имя и адрес электронной почты для всех запросов"
   setting_login_required: "Требуется аутентификация"

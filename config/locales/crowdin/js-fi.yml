@@ -268,7 +268,7 @@ fi:
           one: "Ensimmäinen lajitteluperuste"
           two: "Toinen lajitteluperuste"
           three: "Kolmas lajitteluperuste"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "ei"
@@ -333,7 +333,6 @@ fi:
     label_description: "Kuvaus"
     label_details: "Yksityiskohdat"
     label_display: "Näytä"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Peruuta kommentti"
     label_closed_work_packages: "suljettu"
     label_collapse: "Pienennä"
@@ -354,7 +353,6 @@ fi:
     label_expand_project_menu: "Avaa projektivalikko"
     label_export: "Vie"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Tiedosto"
     label_filesize: "Koko"
     label_general: "Yleinen"
@@ -377,9 +375,7 @@ fi:
     label_learn_more_link: "Learn more"
     label_less_or_equal: "<="
     label_less_than_ago: "vähemmän kuin päivää sitten"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Lataa..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Sähköposti-ilmoitukset"
     label_me: "minä"
     label_meeting_agenda: "Esityslista"
@@ -392,19 +388,14 @@ fi:
     label_no_data: "Ei tietoja"
     label_no_due_date: "no finish date"
     label_no_start_date: "ei aloituspäivää"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Ei arvoa"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "ei mitään"
     label_not_contains: "ei sisällä"
     label_not_equals: "ei ole"
     label_on: "päälle"
     label_open_menu: "Avaa valikko"
     label_open_context_menu: "Avaa valikko"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "avoin"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Salasana"
     label_previous: "Edellinen"
     label_per_page: "Sivulla:"
@@ -419,7 +410,6 @@ fi:
     label_remove: "Poista"
     label_remove_column: "Poista sarake"
     label_remove_columns: "Poista valitut sarakkeet"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Poista rivi"
     label_report: "Raportti"
     label_repository_plural: "Tietovarastot"
@@ -436,9 +426,6 @@ fi:
     label_sorting: "Lajittelu"
     label_spent_time: "Käytetty aika"
     label_star_query: "Suosikit"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Tallenna painamalla ENTER"
     label_public_query: "Julkinen"
     label_sum: "Yhteensä"
@@ -475,7 +462,6 @@ fi:
     label_custom_queries: "Private"
     label_columns: "Sarakkeet"
     label_attachments: Liitteet
-    label_nextcloud: Nextcloud
     label_drop_files: Raahaa ja pudota tiedostoja tähän
     label_drop_files_hint: tai klikkaa lisätäksesi tiedostoja
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -553,7 +539,7 @@ fi:
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -561,7 +547,8 @@ fi:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1107,6 +1094,10 @@ fi:
         one: "1 t"
         other: "%{count} t"
         zero: "0 t"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Koko näyttö'
       button_deactivate: 'Sulje koko näyttö'
@@ -1213,5 +1204,3 @@ fi:
         remove: 'Poista'
       drop_modal:
         Close: 'Sulje'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

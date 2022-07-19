@@ -35,6 +35,7 @@ class DigestMailer < ApplicationMailer
   include OpenProject::TextFormatting
   include Redmine::I18n
   include MailDigestHelper
+  include MailNotificationHelper
 
   helper :mail_digest,
          :mail_notification

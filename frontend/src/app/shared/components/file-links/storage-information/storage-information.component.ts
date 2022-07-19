@@ -29,7 +29,9 @@
 import {
   ChangeDetectionStrategy, Component, Input,
 } from '@angular/core';
-import { StorageActionButton } from 'core-app/shared/components/file-links/file-link-list/storage-action-button';
+import {
+  StorageInformationBox,
+} from 'core-app/shared/components/file-links/storage-information/storage-information-box';
 
 @Component({
   selector: 'op-storage-information',
@@ -37,11 +39,5 @@ import { StorageActionButton } from 'core-app/shared/components/file-links/file-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StorageInformationComponent {
-  @Input() infoIcon:string;
-
-  @Input() infoTextHeader:string;
-
-  @Input() infoTextContent:string;
-
-  @Input() buttons:StorageActionButton[];
+  @Input() viewModel:StorageInformationBox;
 }

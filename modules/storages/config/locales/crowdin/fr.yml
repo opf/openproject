@@ -32,24 +32,31 @@ fr:
     errors:
       too_many_elements_created_at_once: "Trop d'éléments créés à la fois. %{max} attendu au maximum, obtenu %{actual}."
   storages:
+    buttons:
+      done_continue_setup: "Done. Continue setup"
+      replace_openproject_oauth: "Replace OpenProject OAuth"
+      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
+      save_and_continue_setup: "Save and continue setup"
+      save_and_complete_setup: "Save and complete setup"
+      cancel: "Cancel"
     page_titles:
       project_settings:
         index: "Stockages de fichiers disponibles dans ce projet"
         new: "Activer le stockage de fichiers pour ce projet"
     instructions:
-      name: "Veuillez utiliser un nom court. Il sera utilisé comme titre d'onglet dans la vue du lot de travaux."
-      host: "L'URL de votre instance de stockage. L'URL ne doit pas contenir plus de 255 caractères."
+      type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
+      type_link_text: "“Integration OpenProject”"
+      name: "Give your storage a name so that users can differentiate between multiple storages."
+      host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
       no_storage_set_up: "Aucun stockage de fichiers configuré pour le moment."
       setting_up_additional_storages: "Pour configurer des stockages de fichiers supplémentaires, veuillez visiter"
       setting_up_additional_storages_non_admin: "Les administrateurs peuvent configurer des stockages de fichiers supplémentaires dans Administration / Stockages de fichiers."
       setting_up_storages: "Pour configurer des stockages de fichiers, veuillez visiter"
       setting_up_storages_non_admin: "Les administrateurs peuvent configurer des stockages de fichiers dans Administration / Stockages de fichiers."
       all_available_storages_already_added: "Tous les stockages disponibles sont déjà ajoutés au projet."
+      copy_from: "Copy this value from"
       nextcloud:
-        administration: Administration
-        oauth2_clients: OAuth2 clients
-        oauth_client_id: Copy the value from
-        oauth_client_secret: Copy the value from
+        integration: "Nextcloud Administration / OpenProject"
     delete_warning:
       storage: >
         Voulez-vous vraiment supprimer ce stockage ? Cela supprimera également le stockage de tous les projets où il est utilisé. De plus, il supprimera également tous les liens des lots de travaux vers les fichiers stockés dans ce stockage.
@@ -60,6 +67,10 @@ fr:
     label_file_links: "Liens de fichier"
     label_name: "Nom"
     label_host: "Hôte"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
+    label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "OAuth client details"
     label_provider_type: "Type de fournisseur"
     label_new_storage: "Nouveau stockage"
@@ -70,6 +81,11 @@ fr:
     label_oauth_client_secret: "OAuth Client Secret"
     provider_types:
       label: "Type de fournisseur"
-      nextcloud: "Nextcloud"
+      nextcloud:
+        name: "Nextcloud"
+        name_placeholder: "e.g. Nextcloud"
+        default_name: "My Nextcloud"
+    confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
     oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
+    notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."

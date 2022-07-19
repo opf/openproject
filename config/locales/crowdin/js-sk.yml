@@ -268,7 +268,7 @@ sk:
           one: "Prvé kritérium zoradenia"
           two: "Druhé kritérium zoradenia"
           three: "Tretie kritérium zoradenia"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "nie"
@@ -333,7 +333,6 @@ sk:
     label_description: "Popis"
     label_details: "Podrobnosti"
     label_display: "Zobraziť"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Zrušiť komentár"
     label_closed_work_packages: "uzatvorené"
     label_collapse: "Zbaliť"
@@ -354,7 +353,6 @@ sk:
     label_expand_project_menu: "Rozbaliť ponuku projektu"
     label_export: "Exportovať"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Súbor"
     label_filesize: "Veľkosť"
     label_general: "Všeobecné"
@@ -377,9 +375,7 @@ sk:
     label_learn_more_link: "Zistiť viac"
     label_less_or_equal: "<="
     label_less_than_ago: "pred necelým dňom"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Načítava sa..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Upozornenia e-mailom"
     label_me: "mňa"
     label_meeting_agenda: "Agenda"
@@ -392,19 +388,14 @@ sk:
     label_no_data: "Žiadne dáta na zobrazenie"
     label_no_due_date: "no finish date"
     label_no_start_date: "žiadny dátum začatia"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Žiadna hodnota"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "žiadne"
     label_not_contains: "neobsahuje"
     label_not_equals: "nie je"
     label_on: "dňa"
     label_open_menu: "Otvorte menu"
     label_open_context_menu: "Otvoriť kontextové menu"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "otvorené"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Heslo"
     label_previous: "Predošlý"
     label_per_page: "Na stranu:"
@@ -419,7 +410,6 @@ sk:
     label_remove: "Vymazať"
     label_remove_column: "Odstrániť stĺpec"
     label_remove_columns: "Odstrániť vybraté stĺpce"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Odstrániť riadok"
     label_report: "Report"
     label_repository_plural: "Repozitáre"
@@ -436,9 +426,6 @@ sk:
     label_sorting: "Zoradenie"
     label_spent_time: "Strávený čas"
     label_star_query: "Preferované"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Stlačte enter pre uloženie."
     label_public_query: "Verejný"
     label_sum: "Súčet"
@@ -475,7 +462,6 @@ sk:
     label_custom_queries: "Private"
     label_columns: "Stĺpce"
     label_attachments: Prílohy
-    label_nextcloud: Nextcloud
     label_drop_files: Presuňte súbory sem
     label_drop_files_hint: alebo kliknite na tlačidlo Pridať súbory
     label_drop_folders_hint: Nie je možné použiť priečinok ako prílohu. Prosím vyberte jednotlivé súbory.
@@ -555,7 +541,7 @@ sk:
           many: 'and %{count} others'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -563,7 +549,8 @@ sk:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1113,6 +1100,10 @@ sk:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Aktivovať zen režim'
       button_deactivate: 'Deaktivovať zen režim'
@@ -1219,5 +1210,3 @@ sk:
         remove: 'Vymazať'
       drop_modal:
         Close: 'Zatvoriť'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

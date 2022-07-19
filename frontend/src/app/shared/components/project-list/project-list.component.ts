@@ -12,6 +12,13 @@ import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 import { IProjectData } from './project-data';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
+export const projectListActionIdentifier = 'op-project-list-action';
+export const projectListItemIdentifier = 'op-project-list-item';
+export const projectListActionSelector = `[data-list-selector='${projectListActionIdentifier}']`;
+export const projectListItemSelector = `[data-list-selector='${projectListItemIdentifier}']`;
+export const projectListItemDisabled = '[data-list-disabled="true"]';
+export const projectListRootSelector = '[data-list-root="true"]';
+
 @Component({
   selector: '[op-project-list]',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,7 +32,7 @@ export class OpProjectListComponent {
 
   @Output() update = new EventEmitter<string[]>();
 
-  @Input() root:boolean = false;
+  @Input() @HostBinding('class.op-project-list--root') root = false;
 
   @Input() projects:IProjectData[] = [];
 
@@ -48,6 +55,10 @@ export class OpProjectListComponent {
     include_all_selected: this.I18n.t('js.include_projects.tooltip.include_all_selected'),
     current_project: this.I18n.t('js.include_projects.tooltip.current_project'),
   };
+
+  projectListActionIdentifier = projectListActionIdentifier;
+
+  projectListItemIdentifier = projectListItemIdentifier;
 
   constructor(
     readonly I18n:I18nService,

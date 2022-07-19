@@ -95,6 +95,8 @@ lol:
     show_preview: 'crwdns494801:0crwdne494801:0'
     add_new: 'crwdns494803:0crwdne494803:0'
     edit: "crwdns494805:0%{attribute_caption}crwdne494805:0"
+    enterprise:
+      description: 'crwdns823052:0crwdne823052:0'
   auth_sources:
     index:
       no_results_content_title: crwdns494807:0crwdne494807:0
@@ -1347,7 +1349,7 @@ lol:
       no_results:
         title: "crwdns496815:0crwdne496815:0"
         description: "crwdns496817:0crwdne496817:0"
-      access_token: "crwdns496819:0crwdne496819:0"
+      access_tokens: "crwdns823130:0crwdne823130:0"
       headers:
         action: "crwdns496821:0crwdne496821:0"
         expiration: "crwdns496823:0crwdne496823:0"
@@ -2086,6 +2088,10 @@ lol:
   notice_successful_create: "crwdns498471:0crwdne498471:0"
   notice_successful_delete: "crwdns498473:0crwdne498473:0"
   notice_successful_update: "crwdns498475:0crwdne498475:0"
+  notice_successful_update_custom_fields_added_to_project: |
+    crwdns823068:0%{url}crwdne823068:0
+  notice_successful_update_custom_fields_added_to_type: |
+    crwdns823070:0crwdne823070:0
   notice_to_many_principals_to_display: "crwdns498477:0crwdne498477:0"
   notice_user_missing_authentication_method: crwdns498479:0crwdne498479:0
   notice_user_invitation_resent: crwdns498481:0%{email}crwdne498481:0
@@ -2315,6 +2321,9 @@ lol:
     storage:
       not_available: "crwdns498857:0crwdne498857:0"
       update_timeout: "crwdns498859:0crwdne498859:0"
+      oauth_application_details: "crwdns823132:0crwdne823132:0"
+      oauth_application_details_link_text: "crwdns823134:0crwdne823134:0"
+      show_warning_details: "crwdns824152:0crwdne824152:0"
     subversion:
       existing_title: "crwdns498861:0crwdne498861:0"
       existing_introduction: "crwdns498863:0crwdne498863:0"

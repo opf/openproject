@@ -477,4 +477,40 @@ describe 'Custom actions', type: :feature, js: true do
     edit_page = index_ca_page.edit('Current date')
     expect(page).to have_select('custom_action_actions_date', selected: 'Current date')
   end
+
+  it 'disables the custom action button and editing other fields when submiting the custom action' do
+    # create custom action 'Unassign'
+    index_ca_page.visit!
+
+    new_ca_page = index_ca_page.new
+    retry_block do
+      new_ca_page.visit!
+      new_ca_page.set_name('Unassign')
+      new_ca_page.set_description('Removes the assignee')
+      new_ca_page.add_action('Assignee', '-')
+      new_ca_page.expect_action('assigned_to', nil)
+    end
+
+    new_ca_page.create
+
+    index_ca_page.expect_current_path
+    index_ca_page.expect_listed('Unassign')
+
+    unassign = CustomAction.last
+    expect(unassign.actions.length).to eq(1)
+    expect(unassign.conditions.length).to eq(0)
+
+    login_as(user)
+
+    wp_page.visit!
+
+    wp_page.ensure_page_loaded
+    # Stop sending ajax requests in order to test disabled fields upon submit
+    wp_page.disable_ajax_requests
+
+    wp_page.click_custom_action('Unassign', expect_success: false)
+    wp_page.expect_custom_action_disabled('Unassign')
+    find('[data-field-name="estimatedTime"]').click
+    expect(page).to have_selector("#wp-#{work_package.id}-inline-edit--field-estimatedTime[disabled]")
+  end
 end

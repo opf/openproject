@@ -231,7 +231,7 @@ es:
             professional_support: "Soporte profesional"
             professional_support_text: "Obtenga ayuda rápida y de confianza de nuestros agentes de asistencia con conocimientos especializados sobre cómo ejecutar OpenProject en entornos empresariales críticos."
           button_start_trial: "Iniciar prueba gratuita"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "Actualizar ahora"
           button_book_now: "Reservar ahora"
           confidence: >
             Ofrecemos la confianza de un software de gestión de proyectos de categoría empresarial probado y con asistencia: de código abierto y mente abierta.
@@ -268,8 +268,8 @@ es:
           one: "Primer criterio de ordenación"
           two: "Segundo criterio de ordenación"
           three: "Tercer criterio de ordenación"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Los filtros avanzados te permiten usar casi cualquier atributo de paquete de trabajo como un filtro. Por favor, actualice a un plan de pago para usar esta función."
+      more_info: "Más información"
       upsale_link: 'Edición Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
@@ -333,7 +333,6 @@ es:
     label_description: "Descripción"
     label_details: "Detalles"
     label_display: "Mostrar"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Cancelar comentario"
     label_closed_work_packages: "cerrado"
     label_collapse: "Colapsar"
@@ -354,7 +353,6 @@ es:
     label_expand_project_menu: "Expandir menú de proyecto"
     label_export: "Exportar"
     label_export_preparing: "La exportación se está preparando y se descargará en breve."
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Archivo"
     label_filesize: "Tamaño"
     label_general: "General"
@@ -377,9 +375,7 @@ es:
     label_learn_more_link: "Saber más"
     label_less_or_equal: "<="
     label_less_than_ago: "menos que hace unos días"
-    label_link_files_in_storage: "Archivos adjuntos en %{storageType}"
     label_loading: "Cargando..."
-    label_login_to_storage: "Iniciar sesión en %{storageType}"
     label_mail_notification: "Notificaciones de correo electrónico"
     label_me: "yo"
     label_meeting_agenda: "Agenda"
@@ -392,25 +388,20 @@ es:
     label_no_data: "No hay datos disponibles"
     label_no_due_date: "sin fecha límite"
     label_no_start_date: "sin fecha de inicio"
-    label_no_storage_connection: "No %{storageType} conectado"
     label_no_value: "Sin valor"
-    label_no_file_links: "Para poder adjuntar archivos en este paquete de trabajo, por favor, utiliza %{storageType}."
     label_none: "ninguno"
     label_not_contains: "no contiene"
     label_not_equals: "no es"
     label_on: "en"
     label_open_menu: "Abrir menú"
     label_open_context_menu: "Abrir menú contextual"
-    label_open_storage: "Abrir %{storageType}"
     label_open_work_packages: "abrir"
-    label_open_file_link: 'Abrir el fichero en sitio de almacenamiento'
-    label_open_file_link_location: 'Abrir fichero en su ubicación'
     label_password: "Contraseña"
     label_previous: "Anterior"
     label_per_page: "Por pagina:"
     label_please_wait: "Por favor, espere"
-    label_project: "Project"
-    label_project_list: "Projects list"
+    label_project: "Proyecto"
+    label_project_list: "Lista de proyectos"
     label_project_plural: "Proyectos"
     label_visibility_settings: "Configuración de visibilidad"
     label_quote_comment: "Citar este comentario"
@@ -419,12 +410,11 @@ es:
     label_remove: "Eliminar"
     label_remove_column: "Eliminar columna"
     label_remove_columns: "Eliminar columnas seleccionadas"
-    label_remove_file_link: "Eliminar vínculo de fichero"
     label_remove_row: "Eliminar fila"
     label_report: "Reportar"
     label_repository_plural: "Repositorios"
     label_save_as: "Guardad como"
-    label_select_project: "Select a project"
+    label_select_project: "Seleccione un proyecto"
     label_select_watcher: "Selecciona un observador..."
     label_selected_filter_list: "Filtros seleccionados"
     label_show_attributes: "Mostrar todos los atributos"
@@ -436,9 +426,6 @@ es:
     label_sorting: "Orden"
     label_spent_time: "Tiempo dedicado"
     label_star_query: "Favorecido"
-    label_storage_connection_error: "Alguna configuración de %{storageType} no está funcionando. Por favor, intente iniciar sesión de nuevo o contacte el administrador de %{storageType}."
-    label_storage_login: "%{storageType} iniciar sesión"
-    label_storage_not_connected: "Para añadir un vínculo, ver o subir ficheros relacionados con este paquete de trabajo, por favor, inicie sesión en %{storageType}."
     label_press_enter_to_save: "Presione enter para guardar los cambios."
     label_public_query: "Público"
     label_sum: "Suma"
@@ -469,13 +456,12 @@ es:
     label_unwatch: "Dejar de observar"
     label_unwatch_work_package: "Dejar de observar paquetes de trabajo"
     label_uploaded_by: "Cargado por"
-    label_default_queries: "Default"
-    label_starred_queries: "Favorite"
-    label_global_queries: "Public"
-    label_custom_queries: "Private"
+    label_default_queries: "Por defecto"
+    label_starred_queries: "Favorito"
+    label_global_queries: "Público"
+    label_custom_queries: "Privado"
     label_columns: "Columnas"
     label_attachments: Archivos adjuntos
-    label_nextcloud: Nextcloud
     label_drop_files: Suelta los archivos aquí
     label_drop_files_hint: o haga clic en agregar archivos
     label_drop_folders_hint: No se pueden cargar carpetas como archivos adjuntos. Seleccione archivos individuales.
@@ -553,7 +539,7 @@ es:
           one: 'y 1 más'
           other: 'y %{count} más'
         no_results:
-          at_all: 'Aquí se mostrarán las nuevas notificaciones cuando haya actividad que le resulte pertinente'
+          at_all: 'Las nuevas notificaciones aparecerán aquí cuando haya alguna actividad que te concierna, mientras tanto, también puedes ver y modificar la configuración de las notificaciones y modificar cuándo quieres ser notificado.'
           with_current_filter: 'No hay notificaciones en esta vista actualmente'
         mark_all_read: 'Marcar todas como leídas'
         mark_as_read: 'Marcar como leída'
@@ -561,7 +547,8 @@ es:
         total_count_warning: "Mostrando las %{newest_count} notificaciones más recientes. %{more_count} más no se muestran."
         empty_state:
           no_notification: "Parece que ya estás al día."
-          no_notification_with_current_filter: "Cambie la implicación o vuelva a la bandeja de entrada para ver las notificaciones"
+          no_notification_with_current_project_filter: "Parece que todo está listo con el proyecto seleccionado."
+          no_notification_with_current_filter: "Parece que todo está listo para el filtro %{filter}."
           no_selection: "Haga clic en una notificación para ver todos los detalles de la actividad."
         new_notifications:
           message: 'Hay nuevas notificaciones.'
@@ -826,7 +813,7 @@ es:
       zooms: "Nivel de zoom"
       outlines: "Nivel de jerarquía"
     upsale:
-      ee_only: 'Enterprise Edition feature'
+      ee_only: 'Función de la edición Enterprise'
     wiki_formatting:
       strong: "Negrita"
       italic: "Cursiva"
@@ -1014,7 +1001,7 @@ es:
           attribute_highlighting: '¿Necesita que algunos paquetes de trabajo destaquen del resto?'
           relation_columns: '¿Necesita ver las relaciones en la lista de paquetes de trabajo?'
           check_out_link: 'Vea la edición Enterprise.'
-          more-info-text: 'More information'
+          more-info-text: 'Más información'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrar paquetes de trabajo por tipo de relación'
       tabs:
@@ -1107,6 +1094,10 @@ es:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Activar modo zen'
       button_deactivate: 'Desactivar modo zen'
@@ -1202,7 +1193,7 @@ es:
       tooltip:
         include_all_selected: 'Está seleccionada la opción para incluir todos los subproyectos.'
         current_project: 'Este es el proyecto actual.'
-        does_not_match_search: 'Project does not match the search criteria.'
+        does_not_match_search: 'El proyecto no coincide con los criterios de búsqueda.'
     forms:
       submit_success_message: 'El formulario se envió correctamente'
       load_error_message: 'Se produjo un error al cargar el formulario'
@@ -1213,5 +1204,3 @@ es:
         remove: 'Eliminar'
       drop_modal:
         Close: 'Cerrar'
-    storages:
-      enter_oauth2_client_secret: 'Por favor incluya la clave de cliente secreta de su OAuth2'

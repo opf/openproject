@@ -46,7 +46,7 @@ module Projects::Exports
         .with_latest_activity
         .includes(:custom_values, :status)
         .page(page)
-        .per_page(Setting.work_packages_export_limit.to_i)
+        .per_page(Setting.work_packages_projects_export_limit.to_i)
     end
 
     private

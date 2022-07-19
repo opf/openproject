@@ -1,4 +1,4 @@
-<span class="spot-icon big spot-icon_{{infoIcon}}"></span>
+<span class="spot-icon big spot-icon_{{viewModel.iconClass}}"></span>
 
 <div
   class="text-box"
@@ -6,19 +6,19 @@
   <div
     class="text-box-header"
   >
-    <span [textContent]="infoTextHeader"></span>
+    <span [textContent]="viewModel.header"></span>
   </div>
   <div
     class="text-box-content"
   >
-    <span [textContent]="infoTextContent"></span>
+    <span [textContent]="viewModel.content"></span>
   </div>
 </div>
 
 <div
   class="button-box"
 >
-  <button *ngFor="let button of buttons"
+  <button *ngFor="let button of viewModel.buttons"
     class="button op-files-tab--storage-info-box-button"
     (click)="button.action()"
   >

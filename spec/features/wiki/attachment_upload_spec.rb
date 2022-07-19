@@ -74,7 +74,6 @@ describe 'Upload attachment to wiki page', js: true do
 
     editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
 
-    expect(page).not_to have_selector('op-toasters-upload-progress')
     expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
 
     editor.in_editor do |container, _|
@@ -82,13 +81,11 @@ describe 'Upload attachment to wiki page', js: true do
       expect(container).to have_selector('img[src^="/api/v3/attachments/"]')
       expect(container).to have_no_selector('img[src="image.png"]')
 
-      # Resize image to 50%
       container.find('img[src^="/api/v3/attachments/"]', match: :first).click
     end
 
-    editor.click_hover_toolbar_button 'Resize image to 50%'
-    expect(page).to have_selector('.op-uc-figure[style="width:50%;"]')
-
+    handle = page.find('.ck-widget__resizer__handle-bottom-right')
+    drag_by_pixel(element: handle, by_x: 0, by_y: 50)
     click_on 'Save'
 
     expect(page).to have_text("Successful update")
@@ -100,7 +97,9 @@ describe 'Upload attachment to wiki page', js: true do
     # Both images rendered referring to the api endpoint
     expect(page).to have_selector('img[src^="/api/v3/attachments/"]', count: 2)
 
-    expect(wiki_page_content).to have_selector 'figure.op-uc-figure[style="width:50%;"]'
+    # The first image is resized using width:yypx style
+    expect(page).to have_selector 'figure.op-uc-figure img[style*="width:"]'
+
     expect(wiki_page_content).to have_selector '.op-uc-image[src^="/api/v3/attachments"]'
   end
 end

@@ -267,7 +267,7 @@ el:
           one: "Πρώτο κριτήριο ταξινόμησης"
           two: "Δεύτερο κριτήριο ταξινόμησης"
           three: "Τρίτο κριτήριο ταξινόμησης"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "More information"
       upsale_link: 'Έκδοση για Επιχειρήσεις.'
     general_text_no: "όχι"
@@ -332,7 +332,6 @@ el:
     label_description: "Περιγραφή"
     label_details: "Λεπτομέρειες"
     label_display: "Εμφάνιση"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Ακύρωση σχολίου"
     label_closed_work_packages: "κλειστό"
     label_collapse: "Σύμπτυξη"
@@ -353,7 +352,6 @@ el:
     label_expand_project_menu: "Επέκταση του μενού έργου"
     label_export: "Εξαγωγή"
     label_export_preparing: "Η εξαγωγή προετοιμάζεται και θα κατεβεί σύντομα."
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Aρχείο"
     label_filesize: "Μέγεθος"
     label_general: "Γενικά"
@@ -376,9 +374,7 @@ el:
     label_learn_more_link: "Μάθετε περισσότερα"
     label_less_or_equal: "<="
     label_less_than_ago: "σε λιγότερο από ημέρες πριν"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Φόρτωση..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Ειδοποιήσεις email"
     label_me: "εγώ"
     label_meeting_agenda: "Ατζέντα"
@@ -391,19 +387,14 @@ el:
     label_no_data: "Δεν υπάρχουν δεδομένα για εμφάνιση"
     label_no_due_date: "καμία ημερομηνία λήξης"
     label_no_start_date: "δεν υπάρχει ημερομηνία έναρξης"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Καμία τιμή"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "κανένα"
     label_not_contains: "δεν περιέχει"
     label_not_equals: "δεν είναι"
     label_on: "σε"
     label_open_menu: "Άνοιγμα μενού"
     label_open_context_menu: "Άνοιγμα του μενού πλαισίου"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "ανοιχτό"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Κωδικός"
     label_previous: "Προηγούμενο"
     label_per_page: "Ανά σελίδα:"
@@ -418,7 +409,6 @@ el:
     label_remove: "Αφαίρεση"
     label_remove_column: "Κατάργηση στήλης"
     label_remove_columns: "Αφαιρέστε τις επιλεγμένες στήλες"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Κατάργηση γραμμής"
     label_report: "Αναφορά"
     label_repository_plural: "Αποθετήρια"
@@ -435,9 +425,6 @@ el:
     label_sorting: "Ταξινόμηση"
     label_spent_time: "Χρόνος που δαπανήθηκε"
     label_star_query: "Αγαπημένο"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Πατήστε enter για αποθήκευση."
     label_public_query: "Δημόσιο"
     label_sum: "Άθροισμα"
@@ -474,7 +461,6 @@ el:
     label_custom_queries: "Private"
     label_columns: "Στήλες"
     label_attachments: Συνημμένα
-    label_nextcloud: Nextcloud
     label_drop_files: Σύρετε αρχεία εδώ
     label_drop_files_hint: ή κάντε κλικ για να προσθέσετε αρχεία
     label_drop_folders_hint: Δεν μπορείτε να μεταφορτώσετε φακέλους ως συνημμένο. Παρακαλώ επιλέξτε μεμονωμένα αρχεία.
@@ -552,7 +538,7 @@ el:
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -560,7 +546,8 @@ el:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1106,6 +1093,10 @@ el:
         one: "1 ώρα"
         other: "%{count} ώρες"
         zero: "0 ω"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Ενεργοποίηση λειτουργίας zen'
       button_deactivate: 'Απενεργοποίηση λειτουργίας zen'
@@ -1212,5 +1203,3 @@ el:
         remove: 'Αφαίρεση'
       drop_modal:
         Close: 'Κλείσιμο'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

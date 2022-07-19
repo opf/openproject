@@ -75,6 +75,7 @@ module API
         property :version, render_nil: true
 
         date_time_property :created_at
+        date_time_property :updated_at
 
         def _type
           if represented.noop? || represented.notes.present?

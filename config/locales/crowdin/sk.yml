@@ -95,6 +95,8 @@ sk:
     show_preview: 'Ukázať náhľad'
     add_new: 'Pridať text pomocníka'
     edit: "Upraviť text pomocníka pre %{attribute_caption}"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: Momentálne nie sú žiadne metódy overovania identity.
@@ -1400,7 +1402,7 @@ sk:
       no_results:
         title: "Žiadne prístupové tokeny na zobrazenie"
         description: "Všetky boli deaktivované, opätovne ich možno aktivovať v menu administrácie."
-      access_token: "Prístupový token"
+      access_tokens: "Access tokens"
       headers:
         action: "Akcia"
         expiration: "Expiruje"
@@ -2155,6 +2157,12 @@ sk:
   notice_successful_create: "Úspešne vytvorené."
   notice_successful_delete: "Úspešne zmazané."
   notice_successful_update: "Úspešne aktualizované."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Existuje príliš veľa výsledkov.\nUpresnite vyhľadávanie zadaním názvu nového člena (alebo skupiny)."
   notice_user_missing_authentication_method: Užívateľ si ešte nevybral heslo alebo iný spôsob, ako sa prihlásiť.
   notice_user_invitation_resent: Pozvánka bola odoslaná na %{email}.
@@ -2388,6 +2396,9 @@ sk:
     storage:
       not_available: "Spotreba úložného priestoru pre toto úložisko nie je k dispozícii."
       update_timeout: "Uchovávajte posledné požadované informácie o diskovom priestore pre úložisko po dobu minúty N.\nKeď je potrebné počítať požadovaný priestor na disku úložiska, môžete túto hodnotu zvýšiť, aby sa znížil vplyv na výkon."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Existujúce úložisko Subversion (verzia softvéru a kontrola revízie)"
       existing_introduction: "Ak máte existujúce lokálne úložisko Subversion, môžete ho prepojiť s OpenProject a získať tak prístup z aplikácie."
@@ -2480,7 +2491,7 @@ sk:
   setting_work_package_list_default_columns: "Predvolené zobrazenie"
   setting_work_package_properties: "Vlastnosti pracovného balíčka"
   setting_work_package_startdate_is_adddate: "Použiť aktuálny dátum ako počiatočný dátum pre nové pracovné balíčky"
-  setting_work_packages_export_limit: "Limit exportu pracovných balíčkov"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Zaznamenať prihlasovacie meno používateľa, meno a e-mailovú adresu pre všetky požiadavky"
   setting_login_required: "Vyžaduje sa overenie"

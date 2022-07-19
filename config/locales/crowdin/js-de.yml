@@ -267,7 +267,7 @@ de:
           one: "Erstes Sortierkriterium"
           two: "Zweites Sortierkriterium"
           three: "Drittes Sortierkriterium"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "More information"
       upsale_link: 'Enterprise-Edition.'
     general_text_no: "nein"
@@ -332,7 +332,6 @@ de:
     label_description: "Beschreibung"
     label_details: "Details"
     label_display: "Anzeige"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Kommentar abbrechen"
     label_closed_work_packages: "Geschlossen"
     label_collapse: "Zuklappen"
@@ -353,7 +352,6 @@ de:
     label_expand_project_menu: "Projektmenü ausklappen"
     label_export: "Exportieren"
     label_export_preparing: "Der Export wird vorbereitet und wird in Kürze heruntergeladen."
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Datei"
     label_filesize: "Größe"
     label_general: "Allgemein"
@@ -376,9 +374,7 @@ de:
     label_learn_more_link: "Mehr Erfahren"
     label_less_or_equal: "<="
     label_less_than_ago: "vor weniger Tagen als"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Wird geladen…"
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Email-Benachrichtigungen"
     label_me: "ich"
     label_meeting_agenda: "Agenda"
@@ -391,19 +387,14 @@ de:
     label_no_data: "Nichts anzuzeigen"
     label_no_due_date: "kein Endtermin"
     label_no_start_date: "kein Startdatum"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Kein Wert"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "keine"
     label_not_contains: "enthält nicht"
     label_not_equals: "ist nicht"
     label_on: "am"
     label_open_menu: "Menü öffnen"
     label_open_context_menu: "Kontextmenü öffnen"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "Offen"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Passwort"
     label_previous: "Zurück"
     label_per_page: "Pro Seite:"
@@ -418,7 +409,6 @@ de:
     label_remove: "Entfernen"
     label_remove_column: "Spalte entfernen"
     label_remove_columns: "Ausgewählte Spalten entfernen"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Zeile entfernen"
     label_report: "Auswertung"
     label_repository_plural: "Projektarchive"
@@ -435,9 +425,6 @@ de:
     label_sorting: "Sortierung"
     label_spent_time: "Aufgewendete Zeit"
     label_star_query: "Favorisiert"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Drücken Sie Enter zum Speichern."
     label_public_query: "Öffentlich"
     label_sum: "Summe"
@@ -474,7 +461,6 @@ de:
     label_custom_queries: "Private"
     label_columns: "Spalten"
     label_attachments: Anhänge
-    label_nextcloud: Nextcloud
     label_drop_files: Dateien hier ablegen
     label_drop_files_hint: oder klicken Sie um Dateien hinzuzufügen
     label_drop_folders_hint: Ordner können nicht als Anhänge hinzugefügt werden. Bitte wählen Sie einzelne Dateien aus.
@@ -552,7 +538,7 @@ de:
           one: 'und ein weiterer'
           other: 'und %{count} weitere'
         no_results:
-          at_all: 'Neue Benachrichtigungen werden hier erscheinen, wenn es Sie betreffende Aktivitäten gibt'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'Es gibt derzeit keine Benachrichtigungen in dieser Ansicht'
         mark_all_read: 'Alles als gelesen markieren'
         mark_as_read: 'Als gelesen markieren'
@@ -560,7 +546,8 @@ de:
         total_count_warning: "Zeige die %{newest_count} neuesten Benachrichtigungen. %{more_count} weitere werden nicht angezeigt."
         empty_state:
           no_notification: "Alle Benachrichtungen abgearbeitet"
-          no_notification_with_current_filter: "Den Filter ändern oder zurück zum Eingang gehen, um Benachrichtigungen anzuzeigen"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Auf eine Benachrichtigung klicken, um alle Aktivitätsdetails anzuzeigen."
         new_notifications:
           message: 'Es gibt neue Benachrichtigungen.'
@@ -1106,6 +1093,10 @@ de:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Zen-Modus aktivieren'
       button_deactivate: 'Zen-Modus deaktivieren'
@@ -1212,5 +1203,3 @@ de:
         remove: 'Entfernen'
       drop_modal:
         Close: 'Schließen'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

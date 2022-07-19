@@ -95,6 +95,8 @@ uk:
     show_preview: 'Попередній перегляд тексту'
     add_new: 'Додати текст довідки'
     edit: "Редагувати текст довідки для %{attribute_caption}"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: Наразі немає режимів аутентифікації.
@@ -1396,7 +1398,7 @@ uk:
       no_results:
         title: "Немає маркерів доступу для відображення"
         description: "Всі вони були відключені. Їх можна повторно ввімкнути в меню адміністрування."
-      access_token: "Маркер доступу"
+      access_tokens: "Access tokens"
       headers:
         action: "Дія"
         expiration: "Закінчується"
@@ -2151,6 +2153,12 @@ uk:
   notice_successful_create: "Створення успішно завершене."
   notice_successful_delete: "Видалення успішно завершене."
   notice_successful_update: "Успішно оновлено."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Є занадто багато результатів.\nЗвузити пошук ввівши назву нового елемента (або групи)."
   notice_user_missing_authentication_method: Користувач ще не вибрав пароль або інший спосіб входу.
   notice_user_invitation_resent: Надіслано запрошення %{email}.
@@ -2384,6 +2392,9 @@ uk:
     storage:
       not_available: "Споживання дискового сховища недоступне для цього сховища."
       update_timeout: "Зберігайте останню необхідну інформацію про дисковий простір для сховища протягом N хвилин.\nОскільки підрахунок необхідного дискового простору сховища може бути довгим, збільште це значення, щоб зменшити вплив продуктивності."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Існуюче сховище Subversion"
       existing_introduction: "Якщо у вас є існуюче сховище Subversion, ви можете зв'язати його з OpenProject, щоб отримати доступ до нього з програми."
@@ -2477,7 +2488,7 @@ uk:
   setting_work_package_list_default_columns: "Дисплей за замовчуванням"
   setting_work_package_properties: "Властивості робочого пакета"
   setting_work_package_startdate_is_adddate: "Використовувати поточну дату в якості дати початку роботи для нових пакетів"
-  setting_work_packages_export_limit: "Ліміт експорту робочих пакетів"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "Дії користувача зведено протягом"
   setting_log_requesting_user: "Запишіть логін користувача, ім'я та поштову адресу для всіх запитів"
   setting_login_required: "Необхідна аутентифікація"

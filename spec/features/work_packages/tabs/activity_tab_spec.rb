@@ -31,12 +31,14 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 require 'support/edit_fields/edit_field'
 
-describe 'Activity tab', js: true, selenium: true do
+describe 'Activity tab',
+         js: true,
+         selenium: true do
   def alter_work_package_at(work_package, attributes:, at:, user: User.current)
     work_package.update(attributes.merge(updated_at: at))
 
     note_journal = work_package.journals.last
-    note_journal.update(created_at: at, user:)
+    note_journal.update(created_at: at, updated_at: at, user:)
   end
 
   let(:project) { create :project_with_types, public: true }
@@ -48,7 +50,7 @@ describe 'Activity tab', js: true, selenium: true do
                           journal_notes: initial_comment)
 
     note_journal = work_package.journals.last
-    note_journal.update(created_at: 5.days.ago.to_date.to_s)
+    note_journal.update(created_at: 5.days.ago.to_date.to_s, updated_at: 5.days.ago.to_date.to_s)
 
     work_package
   end

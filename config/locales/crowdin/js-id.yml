@@ -268,7 +268,7 @@ id:
           one: "Kriteria penyortiran pertama"
           two: "Kriteria penyortiran kedua"
           three: "Kriteria penyortiran ketiga"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "More information"
       upsale_link: 'Pesanlah edisi enterprise.'
     general_text_no: "no"
@@ -333,7 +333,6 @@ id:
     label_description: "Deskripsi"
     label_details: "Detil"
     label_display: "Tampilkan"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Cancel comment"
     label_closed_work_packages: "berakhir"
     label_collapse: "Tampilkan"
@@ -354,7 +353,6 @@ id:
     label_expand_project_menu: "Expand project menu"
     label_export: "Ekspor"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "File"
     label_filesize: "Size"
     label_general: "Umum"
@@ -377,9 +375,7 @@ id:
     label_learn_more_link: "Pelajari lebih lanjut"
     label_less_or_equal: "<="
     label_less_than_ago: "kemarin lusa"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Loading..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Notifikasi email"
     label_me: "saya"
     label_meeting_agenda: "Agenda"
@@ -392,19 +388,14 @@ id:
     label_no_data: "Tidak ada data untuk ditampilkan"
     label_no_due_date: "no finish date"
     label_no_start_date: "tidak ada tanggal mulai"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Kosongkan"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "kosong"
     label_not_contains: "tidak berisi"
     label_not_equals: "tidak"
     label_on: "pada"
     label_open_menu: "Buka menu"
     label_open_context_menu: "Open context menu"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "buka"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Password"
     label_previous: "Sebelumnya"
     label_per_page: "Per halaman:"
@@ -419,7 +410,6 @@ id:
     label_remove: "Remove"
     label_remove_column: "Remove column"
     label_remove_columns: "Hapus kolom terpilih"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Remove row"
     label_report: "Laporan"
     label_repository_plural: "Repositori"
@@ -436,9 +426,6 @@ id:
     label_sorting: "Mengurutkan"
     label_spent_time: "Durasi"
     label_star_query: "Favored"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Publik"
     label_sum: "Total"
@@ -475,7 +462,6 @@ id:
     label_custom_queries: "Private"
     label_columns: "Kolom"
     label_attachments: Lampiran
-    label_nextcloud: Nextcloud
     label_drop_files: Drop file di sini
     label_drop_files_hint: atau klik untuk menambahkan
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -552,7 +538,7 @@ id:
         and_more_users:
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -560,7 +546,8 @@ id:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1104,6 +1091,10 @@ id:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Mengaktifkan modus zen'
       button_deactivate: 'Menonaktifkan modus zen'
@@ -1210,5 +1201,3 @@ id:
         remove: 'Remove'
       drop_modal:
         Close: 'Tutup'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

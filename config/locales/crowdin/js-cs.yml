@@ -268,7 +268,7 @@ cs:
           one: "První kritérium třídění"
           two: "Druhé kritérium třídění"
           three: "Třetí kritérium třídění"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "More information"
       upsale_link: 'Enterprise Edice'
     general_text_no: "ne"
@@ -333,7 +333,6 @@ cs:
     label_description: "Popis"
     label_details: "Podrobnosti"
     label_display: "Zobrazit"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Stornovat komentář"
     label_closed_work_packages: "uzavřeno"
     label_collapse: "Sbalit"
@@ -354,7 +353,6 @@ cs:
     label_expand_project_menu: "Rozbalit nabídku projektu"
     label_export: "Export"
     label_export_preparing: "Export je připraven a bude brzy k stažení."
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Soubor"
     label_filesize: "Velikost"
     label_general: "Obecné"
@@ -377,9 +375,7 @@ cs:
     label_learn_more_link: "Více informací"
     label_less_or_equal: "<="
     label_less_than_ago: "před méně jak (dny)"
-    label_link_files_in_storage: "Soubory odkazů v %{storageType}"
     label_loading: "Načítání..."
-    label_login_to_storage: "Přihlásit se k %{storageType}"
     label_mail_notification: "E-mailová upozornění"
     label_me: "já"
     label_meeting_agenda: "Agenda"
@@ -392,19 +388,14 @@ cs:
     label_no_data: "Žádná data k zobrazení"
     label_no_due_date: "žádné datum dokončení"
     label_no_start_date: "žádné datum začátku"
-    label_no_storage_connection: "Žádné připojení %{storageType}"
     label_no_value: "Žádná hodnota"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "žádný"
     label_not_contains: "neobsahuje"
     label_not_equals: "není"
     label_on: "zapnuto"
     label_open_menu: "Otevřít nabídku"
     label_open_context_menu: "Otevřít kontextovou nabídku"
-    label_open_storage: "Otevřít %{storageType}"
     label_open_work_packages: "open"
-    label_open_file_link: 'Otevřít soubor v úložišti'
-    label_open_file_link_location: 'Otevřít soubor v umístění'
     label_password: "Heslo"
     label_previous: "Předchozí"
     label_per_page: "Na stránku:"
@@ -419,7 +410,6 @@ cs:
     label_remove: "Odstranit"
     label_remove_column: "Odstranit sloupec"
     label_remove_columns: "Odstranit vybrané sloupce"
-    label_remove_file_link: "Odstranit odkaz na soubor"
     label_remove_row: "Odstranit řádek"
     label_report: "Hlášení"
     label_repository_plural: "Repozitáře"
@@ -436,9 +426,6 @@ cs:
     label_sorting: "Řazení"
     label_spent_time: "Strávený čas"
     label_star_query: "Oblíbená"
-    label_storage_connection_error: "Některá %{storageType} nastavení nefungují. Zkuste se přihlásit znovu nebo kontaktujte svého správce %{storageType}."
-    label_storage_login: "%{storageType} přihlášení"
-    label_storage_not_connected: "Chcete-li přidat odkaz, podívat se na soubory související s tímto pracovním balíčkem, přihlaste se do %{storageType}."
     label_press_enter_to_save: "Stiskněte Enter pro uložení."
     label_public_query: "Veřejné"
     label_sum: "Suma"
@@ -475,7 +462,6 @@ cs:
     label_custom_queries: "Private"
     label_columns: "Sloupce"
     label_attachments: Přílohy
-    label_nextcloud: Nextcloud
     label_drop_files: Sem přetáhněte soubory
     label_drop_files_hint: nebo klikněte pro přidání souborů
     label_drop_folders_hint: Není možné použít složku jako přílohu. Prosím vyberte jednotlivé soubory.
@@ -555,7 +541,7 @@ cs:
           many: 'a %{count} dalšich'
           other: 'a %{count} dalšich'
         no_results:
-          at_all: 'Nová oznámení se zobrazí zde, když se objeví aktivita, která se vás týká'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'V současné době nejsou v tomto zobrazení žádná oznámení'
         mark_all_read: 'Označit vše jako přečtené'
         mark_as_read: 'Označit jako přečteno'
@@ -563,7 +549,8 @@ cs:
         total_count_warning: "Zobrazení posledních oznámení %{newest_count} . Nezobrazuje se ještě %{more_count}"
         empty_state:
           no_notification: "Vypadá to, že jste všechno pročetli..."
-          no_notification_with_current_filter: "Změna zainteresovanost nebo se vraťte zpět do složky Doručená pošta pro zobrazení oznámení"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
           message: 'Máte nová oznámení.'
@@ -1113,6 +1100,10 @@ cs:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Aktivovat zen režim'
       button_deactivate: 'Deaktivovat zen režim'
@@ -1219,5 +1210,3 @@ cs:
         remove: 'Odstranit'
       drop_modal:
         Close: 'Zavřít'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

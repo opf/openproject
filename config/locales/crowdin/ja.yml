@@ -95,6 +95,8 @@ ja:
     show_preview: 'テキストをプレビュー'
     add_new: 'ヘルプ テキストを追加'
     edit: "%{attribute_caption} のヘルプ テキストを編集"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: 現在認証モードはありません。
@@ -1345,7 +1347,7 @@ ja:
       no_results:
         title: "表示するアクセス トークンはありません"
         description: "すべてが無効になっています。管理メニューで再度有効にすることができます。"
-      access_token: "アクセス トークン"
+      access_tokens: "Access tokens"
       headers:
         action: "操作"
         expiration: "有効期限"
@@ -2098,6 +2100,12 @@ ja:
   notice_successful_create: "正常に作成しました。"
   notice_successful_delete: "正常に削除しました。"
   notice_successful_update: "正常に更新しました。"
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "検索結果が多すぎです。新たにメンバー名（またはグループ名）を入力して検索を絞り込んでください。"
   notice_user_missing_authentication_method: ユーザーは、サインインのパスワードまたは別の方法を選択する必要があります。
   notice_user_invitation_resent: '%{email} に招待状が送信されました。'
@@ -2328,6 +2336,9 @@ ja:
     storage:
       not_available: "このリポジトリのディスク ストレージ消費量は利用できません。"
       update_timeout: "最後のリポジトリに必要なディスク容量の情報を N 分間保持します。\nリポジトリの必要なディスク容量を計算するにはコストがかかるため、パフォーマンスへの影響を減らすにはこの値を増やしてください。"
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "既存の Subversion リポジトリ"
       existing_introduction: "既存のローカル Subversion リポジトリがある場合は、アプリケーション内からアクセスするために、OpenProject とリンクできます。"
@@ -2420,7 +2431,7 @@ ja:
   setting_work_package_list_default_columns: "デフォルトで表示する"
   setting_work_package_properties: "項目名"
   setting_work_package_startdate_is_adddate: "今日の日付を新しいワークパッケージの開始日とする"
-  setting_work_packages_export_limit: "エクスポートする項目数の上限"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "全てのリクエストに対し、ユーザのログイン名、名前、メールアドレスをログに記録する"
   setting_login_required: "認証が必要"

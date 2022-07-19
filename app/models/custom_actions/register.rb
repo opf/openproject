@@ -28,19 +28,31 @@
 
 module CustomActions::Register
   class << self
-    def action(action)
-      @actions ||= []
-
-      @actions << action
+    def actions
+      [
+        CustomActions::Actions::AssignedTo,
+        CustomActions::Actions::Responsible,
+        CustomActions::Actions::Status,
+        CustomActions::Actions::Priority,
+        CustomActions::Actions::CustomField,
+        CustomActions::Actions::Type,
+        CustomActions::Actions::Project,
+        CustomActions::Actions::Notify,
+        CustomActions::Actions::DoneRatio,
+        CustomActions::Actions::EstimatedHours,
+        CustomActions::Actions::StartDate,
+        CustomActions::Actions::DueDate,
+        CustomActions::Actions::Date
+      ]
     end
 
-    def condition(condition)
-      @conditions ||= []
-
-      @conditions << condition
+    def conditions
+      [
+        CustomActions::Conditions::Status,
+        CustomActions::Conditions::Role,
+        CustomActions::Conditions::Type,
+        CustomActions::Conditions::Project
+      ]
     end
-
-    attr_accessor :actions,
-                  :conditions
   end
 end

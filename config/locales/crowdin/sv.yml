@@ -95,6 +95,8 @@ sv:
     show_preview: 'Förhandsgranska text'
     add_new: 'Lägg till hjälptext'
     edit: "Redigera hjälptext för %{attribute_caption}"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: Det finns för närvarande inga autentiseringslägen.
@@ -1365,7 +1367,7 @@ sv:
       no_results:
         title: "Inga åtkomstnycklar att visa"
         description: "Alla nycklar har visats. Du kan återaktivera dom i administrationsmenyn."
-      access_token: "Åtkomstnyckel"
+      access_tokens: "Access tokens"
       headers:
         action: "Åtgärd"
         expiration: "Upphör"
@@ -2119,6 +2121,12 @@ sv:
   notice_successful_create: "Skapades utan problem."
   notice_successful_delete: "Raderades utan problem."
   notice_successful_update: "Uppdaterades utan problem."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Det finns för många resultat. \nBegränsa sökningen genom att skriva namnet på den nya medlemmen (eller gruppen)."
   notice_user_missing_authentication_method: Användaren har ännu inte valt ett lösenord eller annat sätt logga in.
   notice_user_invitation_resent: En inbjudan har skickats till %{email}.
@@ -2348,6 +2356,9 @@ sv:
     storage:
       not_available: "Hårddiskanvändning är inte tillgängligt för den här databasen."
       update_timeout: "Behåll den senaste informationen om hårddiskanvändning för den här databasen i N minuter.\nEftersom beräkningen av detta är resurskrävande kan prestandan förbättras genom att öka det här värdet."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Befintligt Subversion-arkiv"
       existing_introduction: "Om du har ett befintlig Subversion-arkiv, kan du länka det med OpenProject för att komma åt den inifrån programmet."
@@ -2440,7 +2451,7 @@ sv:
   setting_work_package_list_default_columns: "Visa som standard"
   setting_work_package_properties: "Egenskaper för arbetspaket"
   setting_work_package_startdate_is_adddate: "Använda aktuellt datum som startdatum för nya arbetspaket"
-  setting_work_packages_export_limit: "Gräns för export av arbetspaket"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Logga användarnamn, namn och E-postadress för alla anrop"
   setting_login_required: "Autentisering krävs"

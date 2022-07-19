@@ -227,17 +227,9 @@ class WorkPackage < ApplicationRecord
       .exists?
   end
 
-  def relations
-    Relation.of_work_package(self)
-  end
-
   def visible_relations(user)
     relations
       .visible(user)
-  end
-
-  def relation(id)
-    Relation.of_work_package(self).find(id)
   end
 
   def add_time_entry(attributes = {})

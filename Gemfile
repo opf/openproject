@@ -34,7 +34,7 @@ gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.4.0'
 gem 'activerecord-session_store', '~> 2.0.0'
-gem 'rails', '~> 7.0.3'
+gem 'rails', '~> 7.0', '>= 7.0.3.1'
 gem 'responders', '~> 3.0'
 
 gem 'ffi', '~> 1.15'
@@ -157,7 +157,7 @@ gem 'matrix', '~> 0.4.2'
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.1.4'
 
-gem 'meta-tags', '~> 2.16.0'
+gem 'meta-tags', '~> 2.17.0'
 
 gem "paper_trail", "~> 12.3"
 

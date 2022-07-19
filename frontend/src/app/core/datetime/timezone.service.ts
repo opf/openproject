@@ -145,8 +145,20 @@ export class TimezoneService {
     return Number(moment.duration(durationString).asHours().toFixed(2));
   }
 
-  public formattedDuration(durationString:string):string {
-    return this.I18n.t('js.units.hour', { count: this.toHours(durationString) });
+  public toDays(durationString:string):number {
+    return Number(moment.duration(durationString).asDays().toFixed(2));
+  }
+
+  public formattedDuration(durationString:string, unit:'hour'|'days' = 'hour'):string {
+    switch (unit) {
+      case 'hour':
+        return this.I18n.t('js.units.hour', { count: this.toHours(durationString) });
+      case 'days':
+        return this.I18n.t('js.units.day', { count: this.toDays(durationString) });
+      default:
+        // Case fallthrough for eslint
+        return '';
+    }
   }
 
   public formattedISODate(date:any):string {

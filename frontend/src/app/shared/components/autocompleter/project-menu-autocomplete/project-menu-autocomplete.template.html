@@ -1,6 +1,7 @@
 <spot-drop-modal
   [open]="dropModalOpen"
   (closed)="close()"
+  (keydown)="searchableProjectListService.onKeydown($event)"
   alignment="bottom-left"
   class="op-project-list-modal"
 >
@@ -48,6 +49,8 @@
           [projects]="projects$ | async"
           [searchText]="searchableProjectListService.searchText"
           [multiSelect]="false"
+          [root]="true"
+          data-list-root="true"
           data-qa-selector="op-project-menu-autocomplete--list"
         ></ul>
       </ng-container>

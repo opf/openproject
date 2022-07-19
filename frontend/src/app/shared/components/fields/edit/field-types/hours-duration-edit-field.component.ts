@@ -47,7 +47,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
            [id]="handler.htmlId" />
   `,
 })
-export class DurationEditFieldComponent extends EditFieldComponent {
+export class HoursDurationEditFieldComponent extends EditFieldComponent {
   @InjectField() TimezoneService:TimezoneService;
 
   public parser(value:any, input:any) {

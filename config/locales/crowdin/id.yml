@@ -95,6 +95,8 @@ id:
     show_preview: 'Teks pratinjau'
     add_new: 'Menambahkan teks bantuan'
     edit: "Mengedit teks bantuan untuk %{attribute_caption}"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: Tidak ada mode otentikasi saat ini.
@@ -1346,7 +1348,7 @@ id:
       no_results:
         title: "No access tokens to display"
         description: "All of them have been disabled. They can be re-enabled in the administration menu."
-      access_token: "Access token"
+      access_tokens: "Access tokens"
       headers:
         action: "Action"
         expiration: "Expires"
@@ -2099,6 +2101,12 @@ id:
   notice_successful_create: "Berhasil dibuat."
   notice_successful_delete: "Berhasil dihapus."
   notice_successful_update: "Berhasil diperbarui."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Ada terlalu banyak hasil. Persempit pencarian dengan mengetik nama member baru (atau grup)."
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: Sebuah undangan telah dikirim ke %{email}.
@@ -2327,6 +2335,9 @@ id:
     storage:
       not_available: "Storage tidak tersedia untuk repository ini."
       update_timeout: "Pertahankan informasi kebutuhan disk repository selama N menit. Semakin besar nilai N akan mengurangi beban komputasi."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Repository Subversion yang sudah ada"
       existing_introduction: "Repository Git lokal yang anda miliki dapat dihubungkan dengan OpenProject untuk dikelola dari dalam."
@@ -2419,7 +2430,7 @@ id:
   setting_work_package_list_default_columns: "Tampilkan secara default"
   setting_work_package_properties: "Properti Paket-Penugasan"
   setting_work_package_startdate_is_adddate: "Gunakan tanggal sekarang untuk start Paket-Penugasan"
-  setting_work_packages_export_limit: "Limit export Paket-Penugasan"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Catat user login, nama dan email untuk semua permintaan"
   setting_login_required: "Diperlukan otentikasi"

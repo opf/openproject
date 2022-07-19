@@ -87,6 +87,8 @@ import { OpenProjectBackupService } from './core/backup/op-backup.service';
 import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct-file-upload.service';
 import { OpenProjectStateModule } from 'core-app/core/state/openproject-state.module';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { OpenProjectHeaderInterceptor } from 'core-app/features/hal/http/openproject-header-interceptor';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -186,6 +188,7 @@ export function initializeServices(injector:Injector) {
   ],
   providers: [
     { provide: States, useValue: new States() },
+    { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
     {
       provide: APP_INITIALIZER, useFactory: initializeServices, deps: [Injector], multi: true,
     },

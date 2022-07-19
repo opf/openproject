@@ -27,25 +27,28 @@
 #++
 
 require 'spec_helper'
-require_relative './mentioned_journals_shared'
+require 'services/base_services/behaves_like_create_service'
 
-describe Notifications::AggregatedJournalService, 'integration', type: :model do
-  include_context 'with a mentioned work package being updated again'
+describe ::Storages::OAuthApplications::CreateService, type: :model do
+  let(:user) { create :admin }
+  let(:storage) { create :storage, creator: user }
+  let(:instance) { described_class.new(user:, storage:) }
 
-  it 'will relocate the notification to the newer journal' do
-    trigger_comment!
+  describe '#call' do
+    subject { instance.call }
 
-    expect(mentioned_notification).to be_present
-    journal = mentioned_notification.journal
-
-    update_assignee!
-
-    expect(mentioned_notification.reload).to be_present
-    expect(mentioned_notification.journal).not_to eq journal
-    expect { journal.reload }.to raise_error(ActiveRecord::RecordNotFound)
-
-    # Expect only one notification to be present
-    expect(Notification.where(recipient:, reason: :mentioned).count)
-      .to eq 1
+    it 'returns a OAuthApplication' do
+      expect(subject).to be_a ServiceResult
+      expect(subject).to be_success
+      expect(subject.result).to be_a ::Doorkeeper::Application
+      expect(subject.result.name).to include storage.name
+      expect(subject.result.name).to include I18n.t("storages.provider_types.#{storage.provider_type}.name")
+      expect(subject.result.scopes.to_s).to eql "api_v3"
+      expect(subject.result.redirect_uri).to include storage.host
+      expect(subject.result.redirect_uri).to include 'apps/integration_openproject/oauth-redirect'
+      expect(subject.result.integration).to eql storage
+      expect(subject.result.confidential).to be_truthy
+      expect(subject.result.owner).to eql user
+    end
   end
 end

@@ -50,27 +50,27 @@ describe News, type: :model do
   end
 
   describe '.latest' do
-    let(:project_news) { News.where(project:) }
+    let(:project_news) { described_class.where(project:) }
 
     before do
       Role.anonymous
     end
 
     it 'includes news elements from projects where news module is enabled' do
-      expect(News.latest).to match_array [news]
+      expect(described_class.latest).to match_array [news]
     end
 
     it "doesn't include news elements from projects where news module is not enabled" do
       EnabledModule.where(project_id: project.id, name: 'news').delete_all
 
-      expect(News.latest).to be_empty
+      expect(described_class.latest).to be_empty
     end
 
     it 'only includes news elements from projects that are visible to the user' do
       private_project = create(:project, public: false)
       create(:news, project: private_project)
 
-      latest_news = News.latest(user: User.anonymous)
+      latest_news = described_class.latest(user: User.anonymous)
       expect(latest_news).to match_array [news]
     end
 
@@ -123,8 +123,41 @@ describe News, type: :model do
     end
 
     it 'returns nil for unsaved news' do
-      news = News.new
+      news = described_class.new
       expect(news.to_param).to be_nil
+    end
+  end
+
+  describe '#new_comment' do
+    subject(:comment) { news.new_comment(author: news.author, comments: 'some important words') }
+
+    it 'sets the comment`s news' do
+      expect(comment.commented)
+        .to eq news
+    end
+
+    it 'is saveable' do
+      expect(comment.save)
+        .to be_truthy
+    end
+  end
+
+  describe '#comments_count' do
+    it 'counts the comments on the news when adding' do
+      expect { news.comments.create(author: news.author, comments: 'some important words') }
+        .to change { news.reload.comments_count }
+              .from(0)
+              .to(1)
+    end
+
+    it 'counts the comments on the news when destroying a comment' do
+      comment = news.comments.build(author: news.author, comments: 'some important words')
+      comment.save
+
+      expect { comment.destroy }
+        .to change { news.reload.comments_count }
+              .from(1)
+              .to(0)
     end
   end
 end

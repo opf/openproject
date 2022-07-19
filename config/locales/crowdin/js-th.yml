@@ -268,7 +268,7 @@ th:
           one: "First sorting criteria"
           two: "Second sorting criteria"
           three: "Third sorting criteria"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "ไม่ใช่"
@@ -333,7 +333,6 @@ th:
     label_description: "คำอธิบาย"
     label_details: "รายละเอียด"
     label_display: "การแสดงผล"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Cancel comment"
     label_closed_work_packages: "ปิด"
     label_collapse: "ยุบ"
@@ -354,7 +353,6 @@ th:
     label_expand_project_menu: "Expand project menu"
     label_export: "Export"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "ไฟล์"
     label_filesize: "ขนาด"
     label_general: "ทั่วไป"
@@ -377,9 +375,7 @@ th:
     label_learn_more_link: "เรียนรู้เพิ่มเติม"
     label_less_or_equal: "<="
     label_less_than_ago: "น้อยกว่าสามวันที่ผ่านมา"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "กำลังโหลด..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "อีเมล์แจ้งเตือน"
     label_me: "ฉัน"
     label_meeting_agenda: "Agenda"
@@ -392,19 +388,14 @@ th:
     label_no_data: "ไม่มีข้อมูลให้แสดง"
     label_no_due_date: "no finish date"
     label_no_start_date: "ไม่มีวันเริ่มต้น"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "ไม่มีค่า"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "ไม่มี"
     label_not_contains: "ไม่ประกอบด้วยการ"
     label_not_equals: "ไม่"
     label_on: "on"
     label_open_menu: "เปิดเมนู"
     label_open_context_menu: "Open context menu"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "เปิด"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "รหัสผ่าน"
     label_previous: "ก่อนหน้านี้"
     label_per_page: "ต่อหน้า"
@@ -419,7 +410,6 @@ th:
     label_remove: "Remove"
     label_remove_column: "Remove column"
     label_remove_columns: "ลบคอลัมน์ที่เลือก"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Remove row"
     label_report: "รายงาน"
     label_repository_plural: "ที่เก็บ"
@@ -436,9 +426,6 @@ th:
     label_sorting: "การเรียงลำดับ"
     label_spent_time: "เวลาที่ใช้"
     label_star_query: "Favored"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "สาธารณะ"
     label_sum: "Sum"
@@ -475,7 +462,6 @@ th:
     label_custom_queries: "Private"
     label_columns: "คอลัมน์"
     label_attachments: ไฟล์แนบ
-    label_nextcloud: Nextcloud
     label_drop_files: วางไฟล์ที่นี่
     label_drop_files_hint: หรือคลิกเพื่อเพิ่มไฟล์
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -552,7 +538,7 @@ th:
         and_more_users:
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -560,7 +546,8 @@ th:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1104,6 +1091,10 @@ th:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'
@@ -1210,5 +1201,3 @@ th:
         remove: 'Remove'
       drop_modal:
         Close: 'Close'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

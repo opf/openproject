@@ -95,6 +95,8 @@ ko:
     show_preview: '미리 보기 텍스트'
     add_new: '도움말 텍스트 추가'
     edit: "%{attribute_caption}에 대한 도움말 텍스트 편집"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: 사용인증 모드가 없습니다.
@@ -1348,7 +1350,7 @@ ko:
       no_results:
         title: "표시할 수 있는 접근 토큰이 없습니다."
         description: "모두 비활성화 되었습니다. 관리 메뉴에서 가용 상태로 되돌릴 수 있습니다."
-      access_token: "액세스 토큰"
+      access_tokens: "Access tokens"
       headers:
         action: "액션"
         expiration: "만료"
@@ -2101,6 +2103,12 @@ ko:
   notice_successful_create: "생성에 성공했습니다."
   notice_successful_delete: "삭제에 성공했습니다."
   notice_successful_update: "업데이트에 성공했습니다."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "너무 많은 결과가 있습니다.\n새 멤버(또는 그룹)의 이름을 입력하여 검색 범위를 좁히세요."
   notice_user_missing_authentication_method: 사용자가 암호나 로그인할 수 있는 다른 방법을 선택해야 합니다.
   notice_user_invitation_resent: 초대장이 %{email}(으)로 전송되었습니다.
@@ -2329,6 +2337,9 @@ ko:
     storage:
       not_available: "이 리포지토리에 대한 디스크 저장소 사용량이 사용 가능하지 않습니다."
       update_timeout: "N분 동안 리포지토리의 마지막 필요한 디스크 공간 정보를 유지하세요.\n리포지토리의 필요한 디스크 저장소 공간 계산에는 비용이 많이 소요될 수 있으므로, 이 값을 늘려 성능 영향을 줄이세요."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "기존 Subversion 리포지토리"
       existing_introduction: "기존 Subversion 리포지토리가 있는 경우 응용 프로그램 내에서 액세스하기 위해 OpenProject와 이 리포지토리를 연결할 수 있습니다."
@@ -2421,7 +2432,7 @@ ko:
   setting_work_package_list_default_columns: "기본적으로 사용 안 함"
   setting_work_package_properties: "작업 패키지 속성"
   setting_work_package_startdate_is_adddate: "새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용"
-  setting_work_packages_export_limit: "작업 패키지 내보내기 제한"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "집계된 사용자 작업"
   setting_log_requesting_user: "모든 요청에 대한 로그 사용자 로그인, 이름 및 메일 주소"
   setting_login_required: "인증이 필요함"

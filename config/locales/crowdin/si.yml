@@ -95,6 +95,8 @@ si:
     show_preview: 'පෙරදසුන පෙළ'
     add_new: 'උපකාරක පෙළ එකතු කරන්න'
     edit: "%{attribute_caption}සඳහා උපකාරක පෙළ සංස්කරණය කරන්න"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: දැනට සත්යාපන මාතයන් නොමැත.
@@ -1366,7 +1368,7 @@ si:
       no_results:
         title: "ප්රදර්ශනය කිරීමට ප්රවේශ ටෝකන නොමැත"
         description: "ඔවුන් සියලු අක්රීය කර ඇත. පරිපාලන මෙනුවේ ඒවා නැවත සක්රීය කළ හැකිය."
-      access_token: "ටෝකනය ප්රවේශ"
+      access_tokens: "Access tokens"
       headers:
         action: "ක්රියාව"
         expiration: "කල් ඉකුත්"
@@ -2120,6 +2122,12 @@ si:
   notice_successful_create: "සාර්ථක නිර්මාණය."
   notice_successful_delete: "සාර්ථක මකාදැමීම."
   notice_successful_update: "සාර්ථක යාවත්කාලීන කිරීම."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "බොහෝ ප්රතිඵල ඇත.\nනව සාමාජිකයාගේ (හෝ කණ්ඩායමේ) නමින් ටයිප් කිරීමෙන් සෙවුම අඩු කරන්න."
   notice_user_missing_authentication_method: පරිශීලකයාට මුරපදයක් හෝ පුරනය වීමට වෙනත් ක්රමයක් තෝරා ගැනීමට තවමත් නොමැත.
   notice_user_invitation_resent: '%{email}වෙත ආරාධනයක් යවා ඇත.'
@@ -2351,6 +2359,9 @@ si:
     storage:
       not_available: "තැටි ගබඩා පරිභෝජනය මෙම ගබඩාව සඳහා ලබා ගත නොහැක."
       update_timeout: "එන් විනාඩි සඳහා ගබඩාවක් සඳහා අවසන් අවශ්ය තැටි ඉඩ තොරතුරු තබා ගන්න.\nගබඩාවේ අවශ්ය තැටි අවකාශය ගණන් කිරීම මිල අධික විය හැකි බැවින්, කාර්ය සාධන බලපෑම අඩු කිරීම සඳහා මෙම අගය වැඩි කරන්න."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "දැනට පවතින අනුකරණ ගබඩාව"
       existing_introduction: "ඔබට දැනට පවතින අනුකරණ ගබඩාවක් තිබේ නම්, යෙදුම තුළ සිට එය ප්රවේශ වීමට OpenProject සමඟ සම්බන්ධ කළ හැකිය."
@@ -2443,7 +2454,7 @@ si:
   setting_work_package_list_default_columns: "පෙරනිමියෙන් දර්ශනය"
   setting_work_package_properties: "වැඩ පැකේජය ගුණ"
   setting_work_package_startdate_is_adddate: "නව වැඩ පැකේජ සඳහා ආරම්භක දිනය ලෙස වත්මන් දිනය භාවිතා කරන්න"
-  setting_work_packages_export_limit: "වැඩ පැකේජ අපනයන සීමාව"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "සියලුම ඉල්ලීම් සඳහා පරිශීලක පිවිසුම, නම සහ තැපැල් ලිපිනය ලොග් වන්න"
   setting_login_required: "සත්යාපන අවශ්ය"

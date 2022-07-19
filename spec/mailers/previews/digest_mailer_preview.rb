@@ -26,28 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class VersionPolicy < BasePolicy
-  private
+class DigestMailerPreview < ActionMailer::Preview
+  # Preview emails at http://localhost:3000/rails/mailers/digest_mailer
 
-  def cache(version)
-    @cache ||= Hash.new do |hash, cached_version|
-      hash[cached_version] = {
-        show: show_allowed?(cached_version)
-      }
-    end
-
-    @cache[version]
-  end
-
-  def show_allowed?(version)
-    @show_cache ||= Hash.new do |hash, queried_version|
-      permissions = %i[view_work_packages manage_versions]
-
-      hash[queried_version] = permissions.any? do |permission|
-        queried_version.projects.allowed_to(user, permission).exists?
-      end
-    end
-
-    @show_cache[version]
+  def work_packages
+    notifications = Notification.where(resource_type: 'WorkPackage')
+    DigestMailer.work_packages(notifications.first.recipient_id, [notifications.ids])
   end
 end

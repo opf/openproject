@@ -73,10 +73,6 @@ shared_context 'with a mentioned work package being updated again' do
     Notification.find_by(recipient:, journal: work_package.journals.last, reason: :mentioned)
   end
 
-  let(:assigned_notification) do
-    Notification.find_by(recipient:, journal: work_package.journals.last, reason: :assigned)
-  end
-
   def trigger_comment!
     User.execute_as(actor) do
       work_package.journal_notes = comment
@@ -87,11 +83,11 @@ shared_context 'with a mentioned work package being updated again' do
     work_package.reload
   end
 
-  def update_assignee!
+  def update_assignee!(assignee_user = recipient)
     clear_enqueued_jobs
 
     User.execute_as(actor) do
-      work_package.assigned_to = recipient
+      work_package.assigned_to = assignee_user
       work_package.save!
     end
 

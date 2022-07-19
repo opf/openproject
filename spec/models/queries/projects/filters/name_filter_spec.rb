@@ -26,14 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Notifications::AggregatedJournalService
-  ##
-  # Move existing notifications for aggregated events over
-  # if they have an immediate response associated
-  def self.relocate_immediate(journal:, predecessor:)
-    Notification
-      .where(journal_id: predecessor.id)
-      .where(reason: :mentioned)
-      .update_all(journal_id: journal.id, read_ian: false)
+require 'spec_helper'
+
+describe Queries::Projects::Filters::NameFilter, type: :model do
+  include_context 'filter tests'
+  let(:values) { ['A name'] }
+  let(:model) { Project }
+
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :name }
+    let(:human_name) { 'Name' }
+    let(:type) { :string }
+    let(:model) { Project }
+
+    describe '#allowed_values' do
+      it 'is nil' do
+        expect(instance.allowed_values).to be_nil
+      end
+    end
   end
 end

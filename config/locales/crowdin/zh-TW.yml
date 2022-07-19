@@ -95,6 +95,8 @@ zh-TW:
     show_preview: '預覽文字'
     add_new: '新增說明文字'
     edit: "編輯 %{attribute_caption} 的說明文字"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: 目前沒有身份驗證模式
@@ -1349,7 +1351,7 @@ zh-TW:
       no_results:
         title: "沒有可顯示的存取權杖"
         description: "他們全都被停用了。他們可以在管理功能表重新啟用"
-      access_token: "存取權杖"
+      access_tokens: "Access tokens"
       headers:
         action: "動作"
         expiration: "過期"
@@ -2101,6 +2103,12 @@ zh-TW:
   notice_successful_create: "建立成功"
   notice_successful_delete: "刪除成功"
   notice_successful_update: "更新成功"
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "搜尋的結果太多。\n請透過輸入新成員 (群組) 的名稱來縮小搜尋的範圍。"
   notice_user_missing_authentication_method: 用戶尚未選擇密碼或其他方式登錄。
   notice_user_invitation_resent: 已向 %{email} 發送邀請。
@@ -2331,6 +2339,9 @@ zh-TW:
     storage:
       not_available: "這個版本庫沒有可用的磁碟消耗資訊"
       update_timeout: "替一個版本庫維持最後需要的磁碟空間資訊 N 分鐘。\n計算一個版本庫的所需磁碟空間也許要消耗很多效能，增加這個值來降低效能的影響。"
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "現有的 Subversion 版本庫"
       existing_introduction: "如果你已經有一個現有的本機 Subversion 版本庫，你可以連結它以便在 OpenProject 中存取"
@@ -2423,7 +2434,7 @@ zh-TW:
   setting_work_package_list_default_columns: "預設顯示"
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
-  setting_work_packages_export_limit: "工作項目匯出數量限制"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "整合的用戶操作"
   setting_log_requesting_user: "對所有的請求紀錄使用者登入名稱和郵件地址"
   setting_login_required: "需要身份驗證"

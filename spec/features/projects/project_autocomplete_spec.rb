@@ -50,6 +50,12 @@ describe 'Projects autocomplete page', type: :feature, js: true do
            parent: project2,
            identifier: 'plain-project-2')
   end
+  let!(:project4) do
+    create(:project,
+           name: 'Project with different name and identifier',
+           parent: project2,
+           identifier: 'plain-project-4')
+  end
 
   let!(:other_projects) do
     names = [
@@ -110,6 +116,14 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     top_menu.search 'Plain pr'
     top_menu.expect_result 'Plain project'
     top_menu.expect_no_result 'Plain other project'
+
+    # Expect search to match names only and not the identifier
+    top_menu.clear_search
+
+    top_menu.search 'plain'
+    top_menu.expect_result 'Plain project'
+    top_menu.expect_result 'Plain other project'
+    top_menu.expect_no_result 'Project with different name and identifier'
 
     # Expect hierarchy
     top_menu.clear_search

@@ -95,6 +95,8 @@ sl:
     show_preview: 'Predogled besedila'
     add_new: 'Dodajte besedilo pomoči'
     edit: "Uredite besedilo pomoči za %{attribute_caption}"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: Trenutno ni načinov overjanja.
@@ -1397,7 +1399,7 @@ sl:
       no_results:
         title: "Za prikaz ni nobenega računa"
         description: "Vsi so onemogočeni. Ponovno jih je mogoče omogočiti v skrbniškem meniju."
-      access_token: "Žeton za dostop"
+      access_tokens: "Access tokens"
       headers:
         action: "Dejanje"
         expiration: "Poteče"
@@ -2153,6 +2155,12 @@ sl:
   notice_successful_create: "Ustvarjanje uspelo."
   notice_successful_delete: "Uspešen izbris."
   notice_successful_update: "Posodobitev uspela."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Preveč je rezultatov.\nZmanjšajte iskanje tako, da vtipkate ime novega člana (ali skupine)."
   notice_user_missing_authentication_method: Uporabnik rabi izbrati geslo ali kakšen drug način, da se prijavi.
   notice_user_invitation_resent: Povabilo je bilo poslano na %{email}.
@@ -2385,6 +2393,9 @@ sl:
     storage:
       not_available: "Poraba diskovne shrambe za to vrsto shrambo ni na voljo."
       update_timeout: "Zadnje potrebne podatke o diskovnem prostoru shranite za N minut.\nKer je lahko štetje potrebnega diskovnega prostora v skladišču drago, povečajte to vrednost, da zmanjšate njegov učinek na zmogljivost."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Obstoječe skladišče podrazličice"
       existing_introduction: "Če imate obstoječe skladišče podrazličic, ga lahko povežete z OpenProjectom, če želite dostopati do njega znotraj aplikacije."
@@ -2477,7 +2488,7 @@ sl:
   setting_work_package_list_default_columns: "Privzet prikaz"
   setting_work_package_properties: "Lastnosti delovnega paketa"
   setting_work_package_startdate_is_adddate: "52/5000\nUporabite trenutni datum kot datum začetka za nove delovne pakete"
-  setting_work_packages_export_limit: "Omejitev izvoza delovnih paketov"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Prijavite uporabniško ime, ime in e-poštni naslov za vse zahteve"
   setting_login_required: "Zahtevano overovljanje"

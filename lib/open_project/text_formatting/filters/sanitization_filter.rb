@@ -42,7 +42,9 @@ module OpenProject::TextFormatting
             # mentions
             'mention' => %w[data-type data-text data-id class],
             # add styles to tables
-            'figure' => ['class', 'style'],
+            'figure' => %w[class style],
+            # allow inline image styles
+            'img' => %w[src alt longdesc style],
             'table' => ['style'],
             'th' => ['style'],
             'tr' => ['style'],

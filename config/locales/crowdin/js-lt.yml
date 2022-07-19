@@ -268,7 +268,7 @@ lt:
           one: "Pirmasis rikiavimo kriterijus"
           two: "Antrasis rikiavimo kriterijus"
           three: "Trečiasis rikiavimo kriterijus"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid pain to use this feature."
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
       more_info: "More information"
       upsale_link: '„Enterprise Edition“.'
     general_text_no: "ne"
@@ -333,7 +333,6 @@ lt:
     label_description: "Aprašymas"
     label_details: "Detalės"
     label_display: "Rodymas"
-    label_download_file: "Download %{fileName}"
     label_cancel_comment: "Atšaukti komentarą"
     label_closed_work_packages: "uždarytas"
     label_collapse: "Sutraukti"
@@ -354,7 +353,6 @@ lt:
     label_expand_project_menu: "Išskleisti projekto meniu"
     label_export: "Eksportuoti"
     label_export_preparing: "Eksportas ruošiamas ir greitai bus parsiųstas."
-    label_file_link_no_permission: "You have no permission to see this file."
     label_filename: "Failas"
     label_filesize: "Dydis"
     label_general: "Bendra"
@@ -377,9 +375,7 @@ lt:
     label_learn_more_link: "Sužinoti daugiau"
     label_less_or_equal: "<="
     label_less_than_ago: "mažiau nei prieš dieną"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Įkeliama..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "El. pašto priminimai"
     label_me: "aš"
     label_meeting_agenda: "Dienotvarkė"
@@ -392,19 +388,14 @@ lt:
     label_no_data: "Nėra rodytinų duomenų"
     label_no_due_date: "be pabaigos datos"
     label_no_start_date: "nėra pradžios datos"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Nenurodytas dydis"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "joks"
     label_not_contains: "neturi"
     label_not_equals: "nėra"
     label_on: "įjungta"
     label_open_menu: "Atidaryti meniu"
     label_open_context_menu: "Atverti kontekstinį meniu"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "atidarytas"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Slaptažodis"
     label_previous: "Ankstesnis"
     label_per_page: "Puslapyje:"
@@ -419,7 +410,6 @@ lt:
     label_remove: "Pašalinti"
     label_remove_column: "Išimti stulpelį"
     label_remove_columns: "Pašalinti pažymėtus stulpelius"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Išimti eilutę"
     label_report: "Ataskaita"
     label_repository_plural: "Repozitorijos"
@@ -436,9 +426,6 @@ lt:
     label_sorting: "Rikiavimas"
     label_spent_time: "Praleista laiko"
     label_star_query: "Mėgiamiausi"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Saugojimui spauskite enter."
     label_public_query: "Viešas"
     label_sum: "Suma"
@@ -475,7 +462,6 @@ lt:
     label_custom_queries: "Private"
     label_columns: "Stulpeliai"
     label_attachments: Priedai
-    label_nextcloud: Nextcloud
     label_drop_files: Numeskite failus čia
     label_drop_files_hint: arba spustelkite, kad pridėtumėte failus
     label_drop_folders_hint: Aplankų negalima įkelti kaip priedų. Prašome pasirinkti atskirus failus.
@@ -555,7 +541,7 @@ lt:
           many: 'ir dar %{count}'
           other: 'ir dar %{count}'
         no_results:
-          at_all: 'Čia pasirodys nauji pranešimai, kai bus su jumis susijusi veikla'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'Šiuo metu šiame vaizde pranešimų nėra'
         mark_all_read: 'Pažymėti visus kaip perskaitytus'
         mark_as_read: 'Žymėti kaip skaitytą'
@@ -563,7 +549,8 @@ lt:
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
         empty_state:
           no_notification: "Panašu, kad jūs pilnai pasivijote."
-          no_notification_with_current_filter: "Keisti įsitraukimą ar grįžti į gautuosius visų pranešimų peržiūrai"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
         new_notifications:
           message: 'Yra naujų pranešimų.'
@@ -1113,6 +1100,10 @@ lt:
         one: "1 val"
         other: "%{count} val"
         zero: "0 val"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Įjungti Zen režimą'
       button_deactivate: 'Išjungti Zen režimą'
@@ -1219,5 +1210,3 @@ lt:
         remove: 'Pašalinti'
       drop_modal:
         Close: 'Uždaryti'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'
