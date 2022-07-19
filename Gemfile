@@ -207,6 +207,8 @@ gem "sentry-ruby", '~> 5.3.0'
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
 
+gem 'dry-monads', '~> 1.4'
+
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 2.0.0'

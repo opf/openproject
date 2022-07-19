@@ -29,20 +29,20 @@
 # This controller handles OAuth2 Authorization Code Grant redirects from a Authorization Server to
 # "callback" endpoint.
 class OAuthClientsController < ApplicationController
+  before_action :set_oauth_state
+
   before_action :find_oauth_client
   before_action :set_redirect_uri
   before_action :set_code
   before_action :set_connection_manager
+
+  after_action :clear_oauth_state_cookie
 
   # Provide the OAuth2 "callback" endpoint.
   # The Authorization Server redirects
   # here after successful authentication and authorization.
   # This endpoint gets a "code" parameter that cryptographically
   # contains a grant.
-  # We get here by a URL like this:
-  # http://localhost:4200/oauth_clients/asdf12341234qsdfasdfasdf/callback?
-  #   state=http%3A%2F%2Flocalhost%3A4200%2Fprojects%2Fdemo-project%2Foauth2_example&
-  #   code=MQoOnUTJGFdAo5jBGD1SqnDH0PV6yioG7NoYM2zZZlK3g6LuKrGUmOxjIS1bIy7fHEfZy2WrgYcx
   def callback
     # Exchange the code with a token using a HTTP call to the Authorization Server
     service_result = @connection_manager.code_to_token(@code)
@@ -64,6 +64,14 @@ class OAuthClientsController < ApplicationController
   end
 
   private
+
+  def set_oauth_state
+    @oauth_state = params[:state]
+  end
+
+  def clear_oauth_state_cookie
+    cookies.delete("oauth_state_#{@oauth_state}") unless @oauth_state.nil?
+  end
 
   def set_oauth_errors(service_result)
     flash[:error] = ["#{t(:'oauth_client.errors.oauth_authorization_code_grant_had_errors')}:"]
@@ -94,7 +102,7 @@ class OAuthClientsController < ApplicationController
     # redirect_uri is used by OpenProject to redirect to
     # after receiving an OAuth2 access token. So it should not be blank.
     service_result = ::OAuthClients::RedirectUriFromStateService
-                       .new(state: params[:state], cookies:)
+                       .new(state: @oauth_state, cookies:)
                        .call
 
     if service_result.success?
@@ -153,7 +161,7 @@ class OAuthClientsController < ApplicationController
 
   def get_redirect_uri
     ::OAuthClients::RedirectUriFromStateService
-      .new(state: params[:state], cookies:)
+      .new(state: @oauth_state, cookies:)
       .call
       .result
   end

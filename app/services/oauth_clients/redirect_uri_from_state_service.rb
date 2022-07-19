@@ -28,30 +28,45 @@
 
 require "rack/oauth2"
 require "uri/http"
+require 'dry/monads'
+require 'dry/monads/do'
 
 module OAuthClients
   class RedirectUriFromStateService
+    include Dry::Monads[:maybe]
+    include Dry::Monads::Do.for(:process)
+
     def initialize(state:, cookies:)
-      @state = state
+      @state = Maybe(state)
       @cookies = cookies
     end
 
     def call
-      redirect_uri = oauth_state_cookie
-
-      if redirect_uri.present? && ::API::V3::Utilities::PathHelper::ApiV3Path::same_origin?(redirect_uri)
-        ServiceResult.success(result: redirect_uri)
-      else
-        ServiceResult.failure
-      end
+      process(@cookies, @state)
+        .fmap { |uri| ServiceResult.success(result: uri) }
+        .value_or(ServiceResult.failure)
     end
 
     private
 
-    def oauth_state_cookie
-      return nil if @state.blank?
+    def process(cookies, state)
+      state_key = yield state
+      uri = yield callback_uri_from_cookies(cookies, "oauth_state_#{state_key}")
+      callback_uri = yield validate_callback_uri(uri)
 
-      @cookies["oauth_state_#{@state}"]
+      Some(callback_uri)
+    end
+
+    def callback_uri_from_cookies(cookies, name)
+      Maybe(cookies[name])
+    end
+
+    def validate_callback_uri(uri)
+      if ::API::V3::Utilities::PathHelper::ApiV3Path::same_origin?(uri)
+        Some(uri)
+      else
+        None()
+      end
     end
   end
 end
