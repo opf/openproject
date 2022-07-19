@@ -1100,6 +1100,10 @@ uk:
         one: "1 год"
         other: "%{count} год"
         zero: "0 год"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Активуйте режим дзен'
       button_deactivate: 'Деактивуйте режим дзен'

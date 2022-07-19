@@ -2436,6 +2436,7 @@ th:
   setting_work_package_list_default_columns: "แสดงเป็นค่าเริ่มต้น"
   setting_work_package_properties: "คุณสมบัติของชุดภารกิจ"
   setting_work_package_startdate_is_adddate: "ใช้วันปัจจุบันเป็นวันเริ่มต้นสำหรับชุดภารกิจใหม่"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "เก็บข้อมูลการล็อกอิน ชื่อ และอีเมล์ของผู้ใช้สำหรับทุกคำขอ"
   setting_login_required: "จำเป็นต้องระบุตัวตนผู้ใช้"

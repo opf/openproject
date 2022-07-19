@@ -2491,6 +2491,7 @@ sk:
   setting_work_package_list_default_columns: "Predvolené zobrazenie"
   setting_work_package_properties: "Vlastnosti pracovného balíčka"
   setting_work_package_startdate_is_adddate: "Použiť aktuálny dátum ako počiatočný dátum pre nové pracovné balíčky"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Zaznamenať prihlasovacie meno používateľa, meno a e-mailovú adresu pre všetky požiadavky"
   setting_login_required: "Vyžaduje sa overenie"

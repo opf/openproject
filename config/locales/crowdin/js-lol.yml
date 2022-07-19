@@ -1093,6 +1093,10 @@ lol:
         one: "crwdns805584:0crwdne805584:0"
         other: "crwdns805586:0%{count}crwdne805586:0"
         zero: "crwdns805588:0crwdne805588:0"
+      day:
+        one: "crwdns824228:0crwdne824228:0"
+        other: "crwdns824230:0%{count}crwdne824230:0"
+        zero: "crwdns824232:0crwdne824232:0"
     zen_mode:
       button_activate: 'crwdns805590:0crwdne805590:0'
       button_deactivate: 'crwdns805592:0crwdne805592:0'

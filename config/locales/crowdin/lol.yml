@@ -2416,7 +2416,7 @@ lol:
   setting_work_package_list_default_columns: "crwdns800190:0crwdne800190:0"
   setting_work_package_properties: "crwdns800192:0crwdne800192:0"
   setting_work_package_startdate_is_adddate: "crwdns800194:0crwdne800194:0"
-  setting_work_packages_export_limit: "crwdns800196:0crwdne800196:0"
+  setting_work_packages_projects_export_limit: "crwdns824226:0crwdne824226:0"
   setting_journal_aggregation_time_minutes: "crwdns800198:0crwdne800198:0"
   setting_log_requesting_user: "crwdns800200:0crwdne800200:0"
   setting_login_required: "crwdns800202:0crwdne800202:0"

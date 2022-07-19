@@ -1099,6 +1099,10 @@ sl:
         one: "1 ura"
         other: "%{count} ur"
         zero: "0 ur"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Omogočite zen način'
       button_deactivate: 'Onemogočite zen način'

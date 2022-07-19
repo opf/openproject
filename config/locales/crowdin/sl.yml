@@ -2488,6 +2488,7 @@ sl:
   setting_work_package_list_default_columns: "Privzet prikaz"
   setting_work_package_properties: "Lastnosti delovnega paketa"
   setting_work_package_startdate_is_adddate: "52/5000\nUporabite trenutni datum kot datum začetka za nove delovne pakete"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Prijavite uporabniško ime, ime in e-poštni naslov za vse zahteve"
   setting_login_required: "Zahtevano overovljanje"

@@ -2451,6 +2451,7 @@ sv:
   setting_work_package_list_default_columns: "Visa som standard"
   setting_work_package_properties: "Egenskaper för arbetspaket"
   setting_work_package_startdate_is_adddate: "Använda aktuellt datum som startdatum för nya arbetspaket"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Logga användarnamn, namn och E-postadress för alla anrop"
   setting_login_required: "Autentisering krävs"

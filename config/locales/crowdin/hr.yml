@@ -2473,6 +2473,7 @@ hr:
   setting_work_package_list_default_columns: "Zadani prikaz"
   setting_work_package_properties: "Postavke radnih paketa"
   setting_work_package_startdate_is_adddate: "Koristite današanji datum kao početni datum novih radnih paketa"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Zabilježite korisnički pristup, ime, i email adresu za sve zahtjeve"
   setting_login_required: "Potrebna autentifikacija"

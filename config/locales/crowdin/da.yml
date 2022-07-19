@@ -2450,6 +2450,7 @@ da:
   setting_work_package_list_default_columns: "Vis efter forhåndsopsætning"
   setting_work_package_properties: "Egenskaber for arbejdspakke"
   setting_work_package_startdate_is_adddate: "Brug dags dato som start for nye arbejdspakker"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Log bruger-login, navn og mail-adresse ved hver forespørgsel"
   setting_login_required: "Godkendelse påkrævet"

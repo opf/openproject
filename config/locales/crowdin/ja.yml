@@ -2431,6 +2431,7 @@ ja:
   setting_work_package_list_default_columns: "デフォルトで表示する"
   setting_work_package_properties: "項目名"
   setting_work_package_startdate_is_adddate: "今日の日付を新しいワークパッケージの開始日とする"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "全てのリクエストに対し、ユーザのログイン名、名前、メールアドレスをログに記録する"
   setting_login_required: "認証が必要"

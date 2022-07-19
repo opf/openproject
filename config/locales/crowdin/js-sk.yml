@@ -1100,6 +1100,10 @@ sk:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Aktivovať zen režim'
       button_deactivate: 'Deaktivovať zen režim'

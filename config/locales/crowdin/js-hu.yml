@@ -1099,6 +1099,10 @@ hu:
         one: "1 óra"
         other: "%{count} ó"
         zero: "0 óra"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Zen mód aktiválása'
       button_deactivate: 'Zen mód kikapcsolása'

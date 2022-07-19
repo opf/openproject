@@ -1099,6 +1099,10 @@ ru:
         one: "1 ч"
         other: "%{count} ч"
         zero: "0 ч"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Включить дзен-режим'
       button_deactivate: 'Отключить дзен-режим'

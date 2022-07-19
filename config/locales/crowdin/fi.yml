@@ -2454,6 +2454,7 @@ fi:
   setting_work_package_list_default_columns: "Oletuksena näkyvissä"
   setting_work_package_properties: "Tehtävän ominaisuudet"
   setting_work_package_startdate_is_adddate: "Käytä nykyistä päivämäärää uuden tehtävän aloistuspäivänä"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Kirjaa lokiin käyttäjien kirjautumiset, nimet ja sähköpostiosoitteet kaikista pyynnöistä"
   setting_login_required: "Pakollinen kirjautuminen"

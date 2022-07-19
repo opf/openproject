@@ -1093,6 +1093,10 @@ el:
         one: "1 ώρα"
         other: "%{count} ώρες"
         zero: "0 ω"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Ενεργοποίηση λειτουργίας zen'
       button_deactivate: 'Απενεργοποίηση λειτουργίας zen'

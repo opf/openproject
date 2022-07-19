@@ -1093,6 +1093,10 @@ pt:
         one: "1 h"
         other: "%{count} hs"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Ativar modo zen'
       button_deactivate: 'Desativar modo zen'

@@ -1090,6 +1090,10 @@ vi:
         one: "1 h"
         other: "%{count} giờ"
         zero: "0 giờ"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Kích hoạt chế độ zen'
       button_deactivate: 'Tắt chế độ zen'
