@@ -4,10 +4,20 @@
   [inEditMode]="inEditMode"
   (onSaved)="signalModifiedEntry($event)">
   <div class="attributes-map">
+    <div class="attributes-map--key"
+        [ngClass]="{'-required': isRequired('user')}"
+        [textContent]="schema.user.name">
+    </div>
+    <div class="attributes-map--value">
+    <editable-attribute-field [resource]="entry"
+                        [wrapperClasses]="'-tiny'"
+                        [fieldName]="'user'">
+    </editable-attribute-field>
+    </div>
 
     <div class="attributes-map--key"
                [ngClass]="{'-required': isRequired('spentOn')}"
-               [textContent]="text.attributes.spentOn">
+               [textContent]="schema.spentOn.name">
     </div>
     <div class="attributes-map--value">
       <editable-attribute-field [resource]="entry"
@@ -18,7 +28,7 @@
 
     <div class="attributes-map--key"
          [ngClass]="{'-required': isRequired('hours')}"
-         [textContent]="text.attributes.hours">
+         [textContent]="schema.hours.name">
     </div>
     <div class="attributes-map--value">
       <editable-attribute-field [resource]="entry"
@@ -30,7 +40,7 @@
     <div *ngIf="showWorkPackageField"
          class="attributes-map--key"
          [ngClass]="{'-required': isRequired('workPackage')}"
-         [textContent]="text.attributes.workPackage">
+         [textContent]="schema.workPackage.name">
     </div>
     <div *ngIf="showWorkPackageField"
          class="attributes-map--value">
@@ -41,7 +51,7 @@
 
     <div class="attributes-map--key"
          [ngClass]="{'-required': isRequired('activity')}"
-         [textContent]="text.attributes.activity">
+         [textContent]="schema.activity.name">
     </div>
     <div class="attributes-map--value">
       <editable-attribute-field *ngIf="workPackageSelected"
@@ -55,7 +65,7 @@
 
     <div class="attributes-map--key"
          [ngClass]="{'-required': isRequired('comment')}"
-         [textContent]="text.attributes.comment">
+         [textContent]="schema.comment.name">
     </div>
     <div class="attributes-map--value">
       <editable-attribute-field [resource]="entry"

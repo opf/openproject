@@ -1189,7 +1189,7 @@ fr:
         all: 'Tous les projets'
         selected: 'Uniquement la sélection'
       search_placeholder: 'Rechercher un projet...'
-      include_subprojects: 'Inclure tous les sous-projets'
+      include_subprojects: 'inclure tous les sous-projets'
       tooltip:
         include_all_selected: 'Inclure tous les sous-projets est actuellement sélectionné.'
         current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'

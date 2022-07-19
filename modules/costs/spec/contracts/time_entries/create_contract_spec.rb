@@ -66,19 +66,37 @@ describe TimeEntries::CreateContract do
     end
 
     context 'if time_entry user is not contract user' do
+      let(:other_user) do
+        build_stubbed(:user) do |user|
+          allow(user)
+            .to receive(:allowed_to?) do |permission, permission_project|
+            permissions.include?(permission) && time_entry_project == permission_project
+          end
+        end
+      end
+      let(:permissions) { [] }
       let(:time_entry_user) { other_user }
 
       it 'is invalid' do
-        expect_valid(false, user_id: %i(not_current_user))
+        expect_valid(false, base: %i(error_unauthorized))
       end
     end
 
     context 'if time_entry user was not set by system' do
+      let(:other_user) do
+        build_stubbed(:user) do |user|
+          allow(user)
+            .to receive(:allowed_to?) do |permission, permission_project|
+            permissions.include?(permission) && time_entry_project == permission_project
+          end
+        end
+      end
       let(:time_entry_user) { other_user }
+      let(:permissions) { [] }
       let(:changed_by_system) { {} }
 
       it 'is invalid' do
-        expect_valid(false, user_id: %i(not_current_user error_readonly))
+        expect_valid(false, base: %i(error_unauthorized))
       end
     end
 
@@ -86,7 +104,7 @@ describe TimeEntries::CreateContract do
       let(:time_entry_user) { nil }
 
       it 'is invalid' do
-        expect_valid(false, user_id: %i(blank not_current_user))
+        expect_valid(false, user_id: %i(blank))
       end
     end
   end

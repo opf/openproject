@@ -1,13 +1,13 @@
 #English strings go here
 lol:
-  permission_view_team_planner: "crwdns810654:0crwdne810654:0"
-  permission_manage_team_planner: "crwdns810656:0crwdne810656:0"
-  project_module_team_planner_view: "crwdns810658:0crwdne810658:0"
+  permission_view_team_planner: "crwdns493745:0crwdne493745:0"
+  permission_manage_team_planner: "crwdns493747:0crwdne493747:0"
+  project_module_team_planner_view: "crwdns493749:0crwdne493749:0"
   team_planner:
-    label_team_planner: "crwdns810660:0crwdne810660:0"
-    label_create_new_team_planner: "crwdns810662:0crwdne810662:0"
-    label_team_planner_plural: "crwdns810664:0crwdne810664:0"
-    label_assignees: "crwdns810666:0crwdne810666:0"
+    label_team_planner: "crwdns493751:0crwdne493751:0"
+    label_create_new_team_planner: "crwdns809626:0crwdne809626:0"
+    label_team_planner_plural: "crwdns759496:0crwdne759496:0"
+    label_assignees: "crwdns759498:0crwdne759498:0"
     upsale:
-      title: "crwdns810668:0crwdne810668:0"
-      description: "crwdns824050:0crwdne824050:0"
+      title: "crwdns657565:0crwdne657565:0"
+      description: "crwdns823160:0crwdne823160:0"

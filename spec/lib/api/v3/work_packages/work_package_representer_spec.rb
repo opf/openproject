@@ -1093,7 +1093,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'logTime' do
         it_behaves_like 'action link' do
           let(:action) { 'logTime' }
-          let(:permission) { :log_time }
+          let(:permission) { :log_own_time }
           let(:href) { api_v3_paths.time_entries }
         end
       end

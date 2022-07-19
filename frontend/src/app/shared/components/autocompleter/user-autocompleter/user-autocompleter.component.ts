@@ -27,29 +27,28 @@
 //++
 
 import {
-  Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild,
+  ChangeDetectionStrategy, Component, ElementRef, EventEmitter,
+  forwardRef, Injector, Input, OnInit, Output, ViewChild,
 } from '@angular/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-  DebouncedRequestSwitchmap,
-  errorNotificationHandler,
-} from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ID } from '@datorama/akita';
+import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
 
-export const usersAutocompleterSelector = 'user-autocompleter';
+export const usersAutocompleterSelector = 'op-user-autocompleter';
 
 export interface IUserAutocompleteItem {
+  id:ID;
   name:string;
-  id:string|null;
   href:string|null;
   avatar:string|null;
 }
@@ -57,18 +56,28 @@ export interface IUserAutocompleteItem {
 @Component({
   templateUrl: './user-autocompleter.component.html',
   selector: usersAutocompleterSelector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => UserAutocompleterComponent),
+    multi: true,
+  }],
 })
-export class UserAutocompleterComponent implements OnInit {
+export class UserAutocompleterComponent implements OnInit, ControlValueAccessor {
   userTracker = (item:any) => item.href || item.id;
 
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
-  @Output() public onChange = new EventEmitter<IUserAutocompleteItem>();
-
   @Input() public clearAfterSelection = false;
+
+  @Input() public name = '';
 
   // Load all users as default
   @Input() public url:string = this.apiV3Service.users.path;
+
+  // ID that should be set on the input HTML element. It is used with
+  // <label> tags that have `for=""` set
+  @Input() public labelForId = '';
 
   @Input() public allowEmpty = false;
 
@@ -76,22 +85,35 @@ export class UserAutocompleterComponent implements OnInit {
 
   @Input() public multiple = false;
 
-  @Input() public initialSelection:number|null = null;
+  @Input('value') public _value:IUserAutocompleteItem|IUserAutocompleteItem[]|null = null;
+
+  get value():IUserAutocompleteItem|IUserAutocompleteItem[]|null {
+    return this._value;
+  }
+
+  set value(value:IUserAutocompleteItem|IUserAutocompleteItem[]|null) {
+    this._value = value;
+    this.onChange(value);
+    this.valueChange.emit(value);
+    this.onTouched(value);
+    setTimeout(() => {
+      this.hiddenInput.nativeElement?.dispatchEvent(new Event('change'));
+    }, 100);
+  }
+
+  get plainValue():ID|ID[] {
+    return (Array.isArray(this.value) ? this.value?.map((i) => i.id) : this.value?.id) || '';
+  }
 
   @Input() public additionalFilters:{ selector:string; operator:FilterOperator, values:string[] }[] = [];
 
   public inputFilters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
-  @Input() public updateInputSelector:string;
+  @Output() public valueChange = new EventEmitter<IUserAutocompleteItem|IUserAutocompleteItem[]|null>();
 
-  // Update an input field after changing, used when externally loaded
-  private updateInputField:HTMLInputElement|undefined;
+  @Output() cancel = new EventEmitter();
 
-  /** Keep a switchmap for search term and loading state */
-  public requests = new DebouncedRequestSwitchmap<string, IUserAutocompleteItem>(
-    (searchTerm:string) => this.getAvailableUsers(this.url, searchTerm),
-    errorNotificationHandler(this.halNotification),
-  );
+  @ViewChild('hiddenInput') hiddenInput:ElementRef;
 
   constructor(
     public elementRef:ElementRef,
@@ -106,40 +128,10 @@ export class UserAutocompleterComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.updateInputSelector) {
-      this.updateInputField = document.getElementsByName(this.updateInputSelector)[0] as HTMLInputElement|undefined;
-      this.setInitialSelection();
-    }
-
     this.additionalFilters.forEach((filter) => this.inputFilters.add(filter.selector, filter.operator, filter.values));
   }
 
-  public onFocus() {
-    if (!this.requests.lastRequestedValue) {
-      this.requests.input$.next('');
-    }
-  }
-
-  public onModelChange(user:any) {
-    if (user) {
-      this.onChange.emit(user);
-      this.requests.input$.next('');
-
-      if (this.clearAfterSelection) {
-        this.ngSelectComponent.clearItem(user);
-      }
-
-      if (this.updateInputField) {
-        if (this.multiple) {
-          this.updateInputField.value = user.map((u:UserResource) => u.id);
-        } else {
-          this.updateInputField.value = user.id;
-        }
-      }
-    }
-  }
-
-  protected getAvailableUsers(url:string, searchTerm:any):Observable<IUserAutocompleteItem[]> {
+  public getAvailableUsers(searchTerm:any):Observable<IUserAutocompleteItem[]> {
     // Need to clone the filters to not add additional filters on every
     // search term being processed.
     const searchFilters = this.inputFilters.clone();
@@ -148,8 +140,10 @@ export class UserAutocompleterComponent implements OnInit {
       searchFilters.add('name', '~', [searchTerm]);
     }
 
+    const filteredURL = addFiltersToPath(this.url, searchFilters);
+
     return this.halResourceService
-      .get(url, { filters: searchFilters.toJson() })
+      .get(filteredURL.toString())
       .pipe(
         map((res) => {
           const options = res.elements.map((el:any) => ({
@@ -165,10 +159,19 @@ export class UserAutocompleterComponent implements OnInit {
       );
   }
 
-  private setInitialSelection() {
-    if (this.updateInputField) {
-      const id = parseInt(this.updateInputField.value);
-      this.initialSelection = isNaN(id) ? null : id;
-    }
+  writeValue(value:IUserAutocompleteItem|null):void {
+    this.value = value;
+  }
+
+  onChange = (_:IUserAutocompleteItem|IUserAutocompleteItem[]|null):void => {};
+
+  onTouched = (_:IUserAutocompleteItem|IUserAutocompleteItem[]|null):void => {};
+
+  registerOnChange(fn:(_:IUserAutocompleteItem|IUserAutocompleteItem[]|null) => void):void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn:(_:IUserAutocompleteItem|IUserAutocompleteItem[]|null) => void):void {
+    this.onTouched = fn;
   }
 }

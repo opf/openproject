@@ -58,6 +58,7 @@ module TimeEntries
     attribute :tyear
     attribute :tmonth
     attribute :tweek
+    attribute :user_id
 
     def assignable_activities
       if model.project
@@ -102,6 +103,10 @@ module TimeEntries
 
     def work_package_not_in_project?
       model.work_package && model.project != model.work_package.project
+    end
+
+    def validate_logged_by_current_user
+      errors.add :logged_by_id, :not_current_user if model.logged_by != logged_by
     end
   end
 end
