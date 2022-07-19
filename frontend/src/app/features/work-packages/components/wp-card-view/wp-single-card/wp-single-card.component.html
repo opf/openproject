@@ -6,6 +6,7 @@
   [ngClass]="cardClasses()"
   [title]="cardTitle()"
   (click)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
+  (dblclick)="cardDblClicked.emit({ workPackageId: workPackage.id, event: $event })"
   (contextmenu)="cardContextMenu.emit({ workPackageId: workPackage.id, event: $event })"
 >
 
