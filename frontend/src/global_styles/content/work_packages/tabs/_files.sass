@@ -71,8 +71,9 @@
       .op-files-tab--file-list-item-floating-actions
         padding-right: 0
 
-      .op-files-tab--file-list-item-floating-wrapper.no-hover:hover
-        background: none
+      .op-files-tab--file-list-item-floating-wrapper
+        &_disabled:hover
+          background: none
 
       .op-files-tab--file-list-item-floating-text
         @include spot-body-small()
@@ -90,7 +91,7 @@
     align-items: center
     grid-template: "icon text" "button button" / auto 1fr
 
-    .spot-icon.big
+    &-icon
       color: #9A9A9A
       grid-area: icon
       width: 3.375rem
