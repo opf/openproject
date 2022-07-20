@@ -15,6 +15,7 @@ class EditField
 
     @property_name = property_name.to_s
     @context = context
+    @field_type = derive_field_type
 
     @selector = selector || ".inline-edit--container.#{property_name}"
   end
@@ -164,7 +165,7 @@ class EditField
   ##
   # Set or select the given value.
   # For fields of type select, will check for an option with that value.
-  def unset_value(content = nil, multi = false)
+  def unset_value(content = nil, multi: false)
     activate!
     scroll_to_element(input_element)
 
@@ -241,25 +242,25 @@ class EditField
     field_container.find('.ng-input input')
   end
 
-  def field_type
-    @field_type ||= case property_name.to_s
+  def derive_field_type
+    case property_name.to_s
     when 'version'
       'version-autocompleter'
     when 'assignee',
-        'responsible'
+      'responsible'
       'op-user-autocompleter'
     when 'priority',
-        'status',
-        'type',
-        'category',
-        'workPackage'
+      'status',
+      'type',
+      'category',
+      'workPackage'
       'create-autocompleter'
     when 'project'
       'op-autocompleter'
     when 'activity'
       'activity-autocompleter'
     else
-      :input
-    end.to_s
+      'input'
+    end
   end
 end

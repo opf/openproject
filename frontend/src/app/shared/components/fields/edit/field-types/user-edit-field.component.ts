@@ -36,7 +36,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { from } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   EditFieldComponent,
@@ -51,17 +50,9 @@ import { ResourceChangeset } from '../../changeset/resource-changeset';
 import { IFieldSchema } from '../../field.base';
 import { EditFieldHandler } from '../editing-portal/edit-field-handler';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import {
-  take,
-  tap,
-} from 'rxjs/operators';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { IUserAutocompleteItem } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
-import {
-  CallableHalLink,
-  HalLink,
-} from 'core-app/features/hal/hal-link/hal-link';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 @Component({
   templateUrl: './user-edit-field.component.html',
@@ -107,8 +98,8 @@ export class UserEditFieldComponent extends EditFieldComponent implements OnInit
       // We fake a HalResource here because we're using a plain JS object, but the schema loading and editing
       // is part of the older HalResource stack
       const newUser = { ...user };
-      const fakeUserHal = this.halResourceService.createHalResourceOfType('user', newUser);
-      this.value = fakeUserHal;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      this.value = this.halResourceService.createHalResourceOfType('user', newUser);
     } else {
       this.value = null;
     }

@@ -20,7 +20,7 @@ export class MembersAutocompleterComponent extends UserAutocompleterComponent {
 
   @InjectField() pathHelper:PathHelperService;
 
-  public getAvailableUsers(searchTerm:any):Observable<IUserAutocompleteItem[]> {
+  public getAvailableUsers(searchTerm:string):Observable<IUserAutocompleteItem[]> {
     return this.http
       .get<IUserAutocompleteItem[]>(this.url,
       {

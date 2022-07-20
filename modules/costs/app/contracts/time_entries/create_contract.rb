@@ -36,7 +36,7 @@ module TimeEntries
       return unless model.project && model.user
       return if allowed_to_log_for_others?
       return if allowed_to_log_to_himself?
-      
+
       errors.add :base, :error_unauthorized
     end
 

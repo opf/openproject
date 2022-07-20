@@ -149,7 +149,7 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
         expect(body)
           .to be_json_eql(api_v3_paths.time_entries_activity(active_activity.id).to_json)
           .at_path('_embedded/payload/_links/activity/href')
-          
+
         expect(body)
           .to be_json_eql(api_v3_paths.user(user.id).to_json)
           .at_path('_embedded/payload/_links/user/href')

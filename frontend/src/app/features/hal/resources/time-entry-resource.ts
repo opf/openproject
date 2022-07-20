@@ -27,8 +27,16 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import Formattable = api.v3.Formattable;
 
 export class TimeEntryResource extends HalResource {
+  project:ProjectResource;
+
+  activity:HalResource;
+
+  comment:Formattable;
+
   public get state() {
     return this.states.timeEntries.get(this.id!) as any;
   }

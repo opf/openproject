@@ -50,6 +50,7 @@ class CostQuery::Filter::LoggedById < Report::Filter::Base
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
   def self.available_values(*)
     # All users which are members in projects the user can see.
     # Excludes the anonymous user
@@ -63,4 +64,5 @@ class CostQuery::Filter::LoggedById < Report::Filter::Base
     values.unshift [::I18n.t(:label_me), me_value] if User.current.logged?
     values
   end
+  # rubocop:enable Metrics/AbcSize
 end

@@ -27,7 +27,7 @@
 #++
 
 class ::Widget::Table::EntryTable < ::Widget::Table
-  FIELDS = %i[spent_on user_id activity_id work_package_id comments logged_by_id project_id]
+  FIELDS = %i[spent_on user_id activity_id work_package_id comments logged_by_id project_id].freeze
 
   def render
     content = content_tag :div, class: 'generic-table--container -with-footer' do

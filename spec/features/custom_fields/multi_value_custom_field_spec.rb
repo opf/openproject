@@ -82,7 +82,7 @@ describe "multi select custom values", js: true do
 
         edit_field.activate!
 
-        edit_field.unset_value "pineapple", true
+        edit_field.unset_value "pineapple", multi: true
         edit_field.set_value "mushrooms"
 
         edit_field.submit_by_dashboard
@@ -134,8 +134,8 @@ describe "multi select custom values", js: true do
 
         wp1_field.activate!
 
-        wp1_field.unset_value "pineapple", true
-        wp1_field.unset_value "onions", true
+        wp1_field.unset_value "pineapple", multi: true
+        wp1_field.unset_value "onions", multi: true
 
         wp1_field.submit_by_dashboard
 
@@ -150,7 +150,7 @@ describe "multi select custom values", js: true do
         field = SelectField.new(split_view.container, "customField#{custom_field.id}")
 
         field.activate!
-        field.unset_value "ham", true
+        field.unset_value "ham", multi: true
         field.submit_by_dashboard
 
         wp_page.expect_and_dismiss_toaster message: 'Successful update'

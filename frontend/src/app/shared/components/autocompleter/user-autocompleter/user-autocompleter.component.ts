@@ -60,10 +60,11 @@ import {
 } from '@angular/forms';
 import { ID } from '@datorama/akita';
 import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { OpInviteUserModalService } from 'core-app/features/invite-user-modal/invite-user-modal.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
 
 export const usersAutocompleterSelector = 'op-user-autocompleter';
 
@@ -90,7 +91,7 @@ export interface IUserAutocompleteItem {
   ],
 })
 export class UserAutocompleterComponent extends UntilDestroyedMixin implements OnInit, ControlValueAccessor {
-  userTracker = (item:any) => item.href || item.id;
+  userTracker = (item:{ href?:string, id:string }):string => item.href || item.id;
 
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
@@ -105,8 +106,6 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
   // <label> tags that have `for=""` set
   @Input() public labelForId = '';
 
-  @Input() public allowEmpty = false;
-
   @Input() public appendTo = '';
 
   @Input() public multiple = false;
@@ -115,6 +114,7 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
 
   @Input() public focusDirectly = false;
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('value') public _value:IUserAutocompleteItem|IUserAutocompleteItem[]|null = null;
 
   @Input() public inviteUserToProject:string|undefined;
@@ -145,9 +145,9 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
 
   @Output() cancel = new EventEmitter();
 
-  @Output() public onAddNew = new EventEmitter<HalResource>();
+  @Output() public userInvited = new EventEmitter<HalResource>();
 
-  @ViewChild('hiddenInput') hiddenInput:ElementRef;
+  @ViewChild('hiddenInput') hiddenInput:ElementRef<HTMLElement>;
 
   constructor(
     public elementRef:ElementRef,
@@ -163,7 +163,8 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
     populateInputsFromDataset(this);
   }
 
-  ngOnInit() {
+  ngOnInit():void {
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     this.additionalFilters.forEach((filter) => this.inputFilters.add(filter.selector, filter.operator, filter.values));
 
     this.opInviteUserModalService.close
@@ -172,35 +173,28 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
         filter((user) => !!user),
       )
       .subscribe((user:HalResource) => {
-        this.onAddNew.emit(user);
+        this.userInvited.emit(user);
       });
   }
 
-  public getAvailableUsers(searchTerm:any):Observable<IUserAutocompleteItem[]> {
+  public getAvailableUsers(searchTerm?:string):Observable<IUserAutocompleteItem[]> {
     // Need to clone the filters to not add additional filters on every
     // search term being processed.
     const searchFilters = this.inputFilters.clone();
 
-    if (searchTerm && searchTerm.length) {
+    if (searchTerm?.length) {
       searchFilters.add('name', '~', [searchTerm]);
     }
 
     const filteredURL = addFiltersToPath(this.url, searchFilters);
 
-    return this.halResourceService
-      .get(filteredURL.toString())
+    return this
+      .halResourceService
+      .get<CollectionResource<UserResource>>(filteredURL.toString())
       .pipe(
-        map((res) => {
-          const options = res.elements.map((el:any) => ({
-            name: el.name, id: el.id, href: el.href, avatar: el.avatar,
-          }));
-
-          if (this.allowEmpty) {
-            options.unshift({ name: this.I18n.t('js.timelines.filter.noneSelection'), href: null, id: null });
-          }
-
-          return options;
-        }),
+        map((res) => res.elements.map((el) => ({
+          name: el.name, id: el.id, href: el.href, avatar: el.avatar,
+        })) as IUserAutocompleteItem[]),
       );
   }
 
@@ -208,8 +202,10 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
     this.value = value;
   }
 
+  // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
   onChange = (_:IUserAutocompleteItem|IUserAutocompleteItem[]|null):void => {};
 
+  // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
   onTouched = (_:IUserAutocompleteItem|IUserAutocompleteItem[]|null):void => {};
 
   registerOnChange(fn:(_:IUserAutocompleteItem|IUserAutocompleteItem[]|null) => void):void {
