@@ -57,7 +57,11 @@ import {
 } from 'rxjs/operators';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import { IUserAutocompleteItem } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component'; 
+import { IUserAutocompleteItem } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
+import {
+  CallableHalLink,
+  HalLink,
+} from 'core-app/features/hal/hal-link/hal-link';
 
 @Component({
   templateUrl: './user-edit-field.component.html',
@@ -91,13 +95,10 @@ export class UserEditFieldComponent extends EditFieldComponent implements OnInit
     );
   }
 
-  ngOnInit():void {
-    super.ngOnInit();
-
-    if (this.schema.allowedValues) {
-      this.setUrl();
-    } else {
-      this.loadFormAndSetUrl();
+  initialize():void {
+    const link = this.schema.allowedValues as CallableHalLink|undefined;
+    if (link) {
+      this.url = link.$link.href as string;
     }
   }
 
@@ -113,18 +114,5 @@ export class UserEditFieldComponent extends EditFieldComponent implements OnInit
     }
 
     return this.handler.handleUserSubmit();
-  }
-
-  private loadFormAndSetUrl():void {
-    from(this.change.getForm())
-      .pipe(
-        tap(() => this.setUrl()),
-        take(1),
-      ).subscribe();
-  }
-
-  private setUrl():void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    this.url = this.schema.allowedValues.$link.href as string;
   }
 }
