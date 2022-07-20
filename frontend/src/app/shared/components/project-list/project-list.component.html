@@ -6,7 +6,9 @@
 >
   <label
     *ngIf="multiSelect"
+    tabindex="-1"
     class="spot-list--item-action op-project-list--item-action"
+    (keydown.space)="changeSelected(project)"
     [ngClass]="{ 'spot-list--item-action_disabled': isDisabled(project) }"
     [attr.data-list-selector]="projectListActionIdentifier"
     [attr.data-list-disabled]="isDisabled(project) || undefined"

@@ -42,7 +42,7 @@ es:
     page_titles:
       project_settings:
         index: "Hay almacenes de archivos disponibles en este proyecto"
-        new: "Habilite un almacén de archivos para este proyecto"
+        new: "Add a file storage to this project"
     instructions:
       type: "Por favor, asegúrese de tener privilegios de administrador en su instancia de Nextcloud y tener la siguiente aplicación instalada antes de hacer la configuración:"
       type_link_text: "“Integración OpenProject”"

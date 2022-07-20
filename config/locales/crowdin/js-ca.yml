@@ -647,7 +647,7 @@ ca:
           label: 'Temporarily pause daily email reminders'
           first_day: 'First day'
           last_day: 'Last day'
-    text_are_you_sure: "N'estas segur?"
+    text_are_you_sure: "N'esteu segur?"
     text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
