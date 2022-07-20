@@ -2,9 +2,11 @@
   class="inline-edit--field {{ handler.fieldName }}"
   *ngIf="url"
   [clearAfterSelection]="false"
-  (valueChange)="onModelChange($event)"
-  (cancel)="handler.handleUserCancel()"
   [url]="url"
+  [inviteUserToProject]="resource.project?.id"
   appendTo="body"
   [value]="value"
+  (valueChange)="onModelChange($event)"
+  (cancel)="handler.handleUserCancel()"
+  (onAddNew)="onModelChange($event)"
 ></op-user-autocompleter>

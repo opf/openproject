@@ -27,22 +27,43 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, ElementRef, EventEmitter,
-  forwardRef, Injector, Input, OnInit, Output, ViewChild,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  Injector,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
 } from '@angular/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  filter,
+  map,
+} from 'rxjs/operators';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import {
+  ApiV3FilterBuilder,
+  FilterOperator,
+} from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { ID } from '@datorama/akita';
 import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { OpInviteUserModalService } from 'core-app/features/invite-user-modal/invite-user-modal.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 export const usersAutocompleterSelector = 'op-user-autocompleter';
 
@@ -57,13 +78,18 @@ export interface IUserAutocompleteItem {
   templateUrl: './user-autocompleter.component.html',
   selector: usersAutocompleterSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => UserAutocompleterComponent),
-    multi: true,
-  }],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => UserAutocompleterComponent),
+      multi: true,
+    },
+    // Provide a new version of the modal invite service,
+    // as otherwise the close event will be shared across all instances
+    OpInviteUserModalService,
+  ],
 })
-export class UserAutocompleterComponent implements OnInit, ControlValueAccessor {
+export class UserAutocompleterComponent extends UntilDestroyedMixin implements OnInit, ControlValueAccessor {
   userTracker = (item:any) => item.href || item.id;
 
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
@@ -86,6 +112,8 @@ export class UserAutocompleterComponent implements OnInit, ControlValueAccessor 
   @Input() public multiple = false;
 
   @Input('value') public _value:IUserAutocompleteItem|IUserAutocompleteItem[]|null = null;
+
+  @Input() public inviteUserToProject:string|undefined;
 
   get value():IUserAutocompleteItem|IUserAutocompleteItem[]|null {
     return this._value;
@@ -113,6 +141,8 @@ export class UserAutocompleterComponent implements OnInit, ControlValueAccessor 
 
   @Output() cancel = new EventEmitter();
 
+  @Output() public onAddNew = new EventEmitter<HalResource>();
+
   @ViewChild('hiddenInput') hiddenInput:ElementRef;
 
   constructor(
@@ -123,12 +153,23 @@ export class UserAutocompleterComponent implements OnInit, ControlValueAccessor 
     readonly pathHelper:PathHelperService,
     readonly apiV3Service:ApiV3Service,
     readonly injector:Injector,
+    readonly opInviteUserModalService:OpInviteUserModalService,
   ) {
+    super();
     populateInputsFromDataset(this);
   }
 
   ngOnInit() {
     this.additionalFilters.forEach((filter) => this.inputFilters.add(filter.selector, filter.operator, filter.values));
+
+    this.opInviteUserModalService.close
+      .pipe(
+        this.untilDestroyed(),
+        filter((user) => !!user),
+      )
+      .subscribe((user:HalResource) => {
+        this.onAddNew.emit(user);
+      });
   }
 
   public getAvailableUsers(searchTerm:any):Observable<IUserAutocompleteItem[]> {

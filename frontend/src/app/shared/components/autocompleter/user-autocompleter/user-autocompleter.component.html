@@ -27,6 +27,12 @@
       {{ item.name }}
     </span>
   </ng-template>
+  <ng-template op-autocompleter-footer-tmp *ngIf="inviteUserToProject">
+    <op-invite-user-button
+      [projectId]="inviteUserToProject"
+      class="op-select-footer"
+    ></op-invite-user-button>
+  </ng-template>
 </op-autocompleter>
 
 <input
