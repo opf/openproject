@@ -33,14 +33,15 @@ See COPYRIGHT and LICENSE files for more details.
   <div>
     <div class="grid-block -visible-overflow wrap">
       <div class="grid-content -visible-overflow small-12 large-10">
+        <div class="op-toast -info">
+          <div class="op-toast--content">
+            <p><%= t('text_form_configuration') %></p>
+            <br>
+            <p><%= t('text_custom_field_hint_activate_per_project') %></p>
+          </div>
+        </div>
 
         <% if EnterpriseToken.show_banners? %>
-        <%=
-        angular_component_tag 'op-no-results',
-                              inputs: {
-                                title: t('text_form_configuration') + t('text_custom_field_hint_activate_per_project'),
-                              }
-      %>
         <%=
         angular_component_tag 'op-enterprise-banner',
                               inputs: {
