@@ -42,6 +42,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -463,13 +464,17 @@ export class TimeEntryCalendarComponent {
     }
   }
 
-  private addTooltip(event:CalendarViewEvent):void {
+  private async addTooltip(event:CalendarViewEvent):Promise<void> {
     if (this.browserDetector.isMobile) {
       return;
     }
 
+    const { entry } = event.event.extendedProps;
+
+    const schema = await this.schemaCache.ensureLoaded(entry);
+
     jQuery(event.el).tooltip({
-      content: this.tooltipContentString(event.event.extendedProps.entry),
+      content: this.tooltipContentString(event.event.extendedProps.entry, schema),
       items: '.fc-event',
       close() {
         jQuery('.ui-helper-hidden-accessible').remove();
@@ -549,27 +554,27 @@ export class TimeEntryCalendarComponent {
     return `#${idFromLink(entry.workPackage.href)}: ${entry.workPackage.name}`;
   }
 
-  private tooltipContentString(entry:TimeEntryResource):string {
+  private tooltipContentString(entry:TimeEntryResource, schema:SchemaResource):string {
     return `
         <ul class="tooltip--map">
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t('js.time_entry.project')}:</span>
+            <span class="tooltip--map--key">${schema.project.name}:</span>
             <span class="tooltip--map--value">${this.sanitizedValue(entry.project.name)}</span>
           </li>
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t('js.time_entry.work_package')}:</span>
+            <span class="tooltip--map--key">${schema.workPackage.name}:</span>
             <span class="tooltip--map--value">${entry.workPackage ? this.sanitizedValue(this.workPackageName(entry)) : this.i18n.t('js.placeholders.default')}</span>
           </li>
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t('js.time_entry.activity')}:</span>
+            <span class="tooltip--map--key">${schema.activity.name}:</span>
             <span class="tooltip--map--value">${this.sanitizedValue(entry.activity.name)}</span>
           </li>
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t('js.time_entry.hours')}:</span>
+            <span class="tooltip--map--key">${schema.hours.name}:</span>
             <span class="tooltip--map--value">${this.timezone.formattedDuration(entry.hours)}</span>
           </li>
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t('js.time_entry.comment')}:</span>
+            <span class="tooltip--map--key">${schema.comment.name}:</span>
             <span class="tooltip--map--value">${entry.comment.raw || this.i18n.t('js.placeholders.default')}</span>
           </li>
         `;
