@@ -51,7 +51,7 @@ You can filter or group the notifications using the two areas in the left menu b
 
    ![mark-as-read](mark-as-read.png) 
    
-   ![notifications-bottom-bar](/Users/malcobe/Documents/docs/openproject/openproject/docs/user-guide/notifications/notifications-bottom-bar.png)
+   ![notifications-bottom-bar](notifications-bottom-bar.png)
    
 4. The [**Notification settings**](./notification-settings) button will bring you to your personal notification settings to configure your notification preferences.
 
@@ -63,14 +63,14 @@ In addition to the in-app notifications, you will also get a once-a-day summary 
 
 Besides controlling all your notifications in the notification centre the in-app notifications are also visible at a work package level. If a work package has some notification related with it the total count of notifications will be displayed in the Activity tab. 
 
-![notifications-activity-tab](/Users/malcobe/Documents/docs/openproject/openproject/docs/user-guide/notifications/notifications-activity-tab.png)
+![notifications-activity-tab](notifications-activity-tab.png)
 
 In the work packages views you can also perform the individual mark as read action:
 
 - In the work package split screen view you can mark as read all the notifications by using the bottom bar:
 
-![notifications-bottom-bar](/Users/malcobe/Documents/docs/openproject/openproject/docs/user-guide/notifications/notifications-bottom-bar.png)
+![notifications-bottom-bar](notifications-bottom-bar.png)
 
 - In the work package full screen view the action to mark as read all the notifications is placed in the toolbar at the same level as the title: 
 
-  ![notifications-full-screen](/Users/malcobe/Documents/docs/openproject/openproject/docs/user-guide/notifications/notifications-full-screen.png)
+  ![notifications-full-screen](notifications-full-screen.png)
