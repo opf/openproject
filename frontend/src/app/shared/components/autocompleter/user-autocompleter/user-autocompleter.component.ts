@@ -111,6 +111,8 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
 
   @Input() public multiple = false;
 
+  @Input() public openDirectly = false;
+
   @Input('value') public _value:IUserAutocompleteItem|IUserAutocompleteItem[]|null = null;
 
   @Input() public inviteUserToProject:string|undefined;

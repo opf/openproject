@@ -1,14 +1,12 @@
 <op-autocompleter
   [model]="value"
-
+  [openDirectly]="true"
   [getOptionsFn]="getAvailableUsers.bind(this)"
   [trackByFn]="userTracker"
-
   [multiple]="multiple"
   [labelForId]="labelForId"
-
   [appendTo]="appendTo"
-
+  [openDirectly]="openDirectly"
   (change)="writeValue($event)"
   (keydown.escape)="cancel.emit()"
 >

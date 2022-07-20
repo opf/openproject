@@ -4,6 +4,8 @@
   [clearAfterSelection]="false"
   [url]="url"
   [inviteUserToProject]="resource.project?.id"
+  [focusDirectly]="!(handler.inEditMode || isNew)"
+  [openDirectly]="!isNew"
   appendTo="body"
   [value]="value"
   (valueChange)="onModelChange($event)"
