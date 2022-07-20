@@ -42,7 +42,7 @@ ko:
     page_titles:
       project_settings:
         index: "이 프로젝트에서 사용 가능한 파일 저장소"
-        new: "이 프로젝트에 대한 파일 저장소 활성화"
+        new: "Add a file storage to this project"
     instructions:
       type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
       type_link_text: "“Integration OpenProject”"
