@@ -49,7 +49,7 @@ describe 'Activity tab',
                           subject: initial_subject,
                           journal_notes: initial_comment)
 
-    note_journal = work_package.journals.last
+    note_journal = work_package.journals.reload.last
     note_journal.update(created_at: 5.days.ago.to_date.to_s, updated_at: 5.days.ago.to_date.to_s)
 
     work_package
@@ -61,7 +61,7 @@ describe 'Activity tab',
   let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
 
   let(:initial_note) do
-    work_package.journals[0]
+    work_package.journals.reload[0]
   end
 
   let!(:note1) do
@@ -72,7 +72,7 @@ describe 'Activity tab',
                           at: 3.days.ago.to_date.to_fs(:db),
                           user:)
 
-    work_package.journals.last
+    work_package.journals.reload.last
   end
 
   let!(:note2) do
@@ -83,7 +83,7 @@ describe 'Activity tab',
                           at: 1.day.ago.to_date.to_fs(:db),
                           user: create(:admin))
 
-    work_package.journals.last
+    work_package.journals.reload.last
   end
 
   before do

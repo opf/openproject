@@ -56,7 +56,7 @@ describe 'edit work package',
                           type:,
                           created_at: 5.days.ago.to_date.to_fs(:db))
 
-    note_journal = work_package.journals.last
+    note_journal = work_package.journals.reload.last
     note_journal.update_columns(created_at: 5.days.ago.to_date.to_fs(:db),
                                 updated_at: 5.days.ago.to_date.to_fs(:db))
 
