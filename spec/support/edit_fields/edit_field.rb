@@ -50,6 +50,7 @@ class EditField
   def expect_state_text(text)
     expect(context).to have_selector(@selector, text:)
   end
+
   alias :expect_text :expect_state_text
 
   def expect_value(value)
@@ -76,6 +77,7 @@ class EditField
       end
     end
   end
+
   alias :activate_edition :activate!
 
   def openSelectField
@@ -93,6 +95,7 @@ class EditField
   def active?
     @context.has_selector? "#{@selector} #{input_selector}", wait: 1
   end
+
   alias :editing? :active?
 
   def expect_active!
@@ -239,22 +242,23 @@ class EditField
 
   def field_type
     @field_type ||= case property_name.to_s
-                    when 'version'
-                      'version-autocompleter'
-                    when 'assignee',
-           'responsible',
-           'priority',
-           'status',
-           'type',
-           'category',
-           'workPackage'
-                      'create-autocompleter'
-                    when 'project'
-                      'op-autocompleter'
-                    when 'activity'
-                      'activity-autocompleter'
-                    else
-                      :input
-                    end.to_s
+    when 'version'
+      'version-autocompleter'
+    when 'assignee',
+        'responsible'
+      'op-user-autocompleter'
+    when 'priority',
+        'status',
+        'type',
+        'category',
+        'workPackage'
+      'create-autocompleter'
+    when 'project'
+      'op-autocompleter'
+    when 'activity'
+      'activity-autocompleter'
+    else
+      :input
+    end.to_s
   end
 end
