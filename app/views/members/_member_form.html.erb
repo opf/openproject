@@ -44,7 +44,6 @@ See COPYRIGHT and LICENSE files for more details.
           %>
           <%= styled_label_tag :member_user_ids, user_id_title %>
 
-          <%= hidden_field_tag "member[user_ids][]", nil  %>
           <%= angular_component_tag 'op-members-autocompleter',
                                     inputs: {
                                       name: "member[user_ids][]",
