@@ -54,7 +54,7 @@ Moving a child work package in the manual scheduling mode will not move the date
 
 You can **activate the manual scheduling mode** by clicking on the date of a work package and selecting the box next to "Manual scheduling". This will activate the manual scheduling mode only for the respective work package.
 
-![image-20200929160916841](image-20200929160916841.png)
+![manual-scheduling-checkbox](manual-scheduling-checkbox.png)
 
 The pin symbol next to the date indicates that a work package is in manual scheduling mode.
 
