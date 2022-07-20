@@ -116,6 +116,18 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
         include_examples 'contract is invalid', host: :url
       end
 
+      context 'when host is an unsafe IP' do
+        let(:storage_host) { 'http://172.16.193.146' }
+
+        include_examples 'contract is invalid', host: :uri_not_secure_context
+      end
+
+      context 'when host is an unsafe hostname' do
+        let(:storage_host) { 'http://nc.openproject.com' }
+
+        include_examples 'contract is invalid', host: :uri_not_secure_context
+      end
+
       context 'when provider_type is nextcloud' do
         let(:capabilities_response_body) { nil } # use default
         let(:capabilities_response_code) { nil } # use default
@@ -193,6 +205,20 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
 
           include_examples 'contract is invalid', host: :setup_incomplete
         end
+      end
+    end
+
+    context 'when host secure' do
+      context 'when host is localhost' do
+        let(:storage_host) { 'http://localhost:1234' }
+
+        include_examples 'contract is valid'
+      end
+
+      context 'when host uses https protocol' do
+        let(:storage_host) { 'https://172.16.193.146' }
+
+        include_examples 'contract is valid'
       end
     end
   end
