@@ -42,7 +42,7 @@ ru:
     page_titles:
       project_settings:
         index: "Файловые хранилища, доступные в этом проекте"
-        new: "Включить хранилище файлов для этого проекта"
+        new: "Add a file storage to this project"
     instructions:
       type: "Перед установкой убедитесь, что у вас есть права администрирования в вашем экземпляре Nextcloud и что перед установкой установлено следующее приложение:"
       type_link_text: "«Интеграционный OpenProject»"
