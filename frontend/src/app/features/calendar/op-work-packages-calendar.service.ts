@@ -281,12 +281,29 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     );
   }
 
+  public openFullView(id:string):void {
+    this.wpTableSelection.setSelection(id, -1);
+
+    void this.$state.go(
+      'work-packages.show',
+      { workPackageId: id },
+    );
+  }
+
   public onCardClicked({ workPackageId, event }:{ workPackageId:string, event:MouseEvent }):void {
     if (isClickedWithModifier(event)) {
       return;
     }
 
     this.openSplitView(workPackageId, true);
+  }
+
+  public onCardDblClicked({ workPackageId, event }:{ workPackageId:string, event:MouseEvent }):void {
+    if (isClickedWithModifier(event)) {
+      return;
+    }
+
+    this.openFullView(workPackageId);
   }
 
   public showEventContextMenu({ workPackageId, event }:{ workPackageId:string, event:MouseEvent }):void {
