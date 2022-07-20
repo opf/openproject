@@ -56,6 +56,12 @@ module Components::Autocompleter
       from_element.find('.ng-input input')
     end
 
+    ##
+    # clear the ng select field
+    def ng_select_clear(from_element)
+      from_element.find('.ng-clear-wrapper', visible: :all).click
+    end
+
     def select_autocomplete(element, query:, select_text: nil, results_selector: nil, wait_dropdown_open: true)
       target_dropdown = search_autocomplete(element,
                                             query:,

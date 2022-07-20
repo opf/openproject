@@ -164,14 +164,15 @@ class EditField
   ##
   # Set or select the given value.
   # For fields of type select, will check for an option with that value.
-  def unset_value(content, multi = false)
+  def unset_value(content = nil, multi = false)
+    activate!
     scroll_to_element(input_element)
 
     if field_type.end_with?('-autocompleter')
       if multi
         page.find('.ng-value-label', visible: :all, text: content).sibling('.ng-value-icon').click
       else
-        page.find('.ng-dropdown-panel .ng-option', visible: :all, text: '-').click
+        ng_select_clear(field_container)
       end
     else
       input_element.set('')

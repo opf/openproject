@@ -168,7 +168,9 @@ describe 'edit work package',
     wp_page.expect_attributes assignee: manager.name
     wp_page.expect_activity_message("Assignee set to #{manager.name}")
 
-    wp_page.update_attributes assignee: '-'
+    field = wp_page.edit_field :assignee
+    field.unset_value
+
     wp_page.expect_attributes assignee: '-'
 
     wp_page.visit!
