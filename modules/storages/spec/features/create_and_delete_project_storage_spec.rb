@@ -67,7 +67,7 @@ describe 'Activation of storages in projects', with_flag: { storages_module_acti
 
     # Enable one file storage
     expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
-    expect(page).to have_text('Enable a file storage')
+    expect(page).to have_text('Add a file storage')
     page.find('button[type=submit]').click
 
     # The list of enabled file storages should now contain Storage 1
