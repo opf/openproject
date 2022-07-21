@@ -52,8 +52,9 @@ module OAuthClients
       token = get_existing_token
       return ServiceResult.success(result: token) if token.present?
 
-      # Return a String with a redirect URL to Nextcloud instead of a token
-      @redirect_url = redirect_to_oauth_authorize(scope:, state:)
+      # Return the Nextcloud OAuth authorization URI that a user needs to open to grant access and eventually obtain
+      # a token.
+      @redirect_url = get_authorization_uri(scope:, state:)
       ServiceResult.failure(result: @redirect_url)
     end
 
@@ -75,11 +76,11 @@ module OAuthClients
       update_oauth_client_token(oauth_client_token, service_result.result)
     end
 
-    # Redirect to the "authorize" endpoint of the OAuth2 Authorization Server.
+    # Returns the URI of the "authorize" endpoint of the OAuth2 Authorization Server.
     # @param state (OAuth2 RFC) is a nonce referencing a cookie containing the calling page (URL + params) to which to
     # return to at the end of the whole flow.
-    # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud only has one global scope.
-    def redirect_to_oauth_authorize(scope: [], state: nil)
+    # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud has only one global scope.
+    def get_authorization_uri(scope: [], state: nil)
       client = rack_oauth_client # Configure and start the rack-oauth2 client
       client.authorization_uri(scope:, state:)
     end
@@ -222,6 +223,7 @@ module OAuthClients
       oauth_client_scheme = oauth_client_uri.scheme
       oauth_client_host = oauth_client_uri.host
       oauth_client_port = oauth_client_uri.port
+      oauth_client_path = oauth_client_uri.path
 
       Rack::OAuth2::Client.new(
         identifier: @oauth_client.client_id,
@@ -229,8 +231,8 @@ module OAuthClients
         scheme: oauth_client_scheme,
         host: oauth_client_host,
         port: oauth_client_port,
-        authorization_endpoint: "/apps/oauth2/authorize",
-        token_endpoint: "/apps/oauth2/api/v1/token"
+        authorization_endpoint: File.join(oauth_client_path, "/apps/oauth2/authorize"),
+        token_endpoint: File.join(oauth_client_path, "/apps/oauth2/api/v1/token")
       )
     end
 

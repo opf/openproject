@@ -78,7 +78,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
     allow(connection_manager)
       .to receive(:authorization_state).and_return(:connected)
     allow(connection_manager)
-      .to receive(:redirect_to_oauth_authorize).and_return('https://example.com/authorize')
+      .to receive(:get_authorization_uri).and_return('https://example.com/authorize')
 
     # Mock FileLinkSyncService as if Nextcloud would respond positively
     allow(::Storages::FileLinkSyncService)
