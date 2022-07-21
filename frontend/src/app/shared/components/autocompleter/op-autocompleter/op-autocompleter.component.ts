@@ -278,15 +278,16 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
     if (this.ngSelectInstance) {
       setTimeout(() => {
         this.cdRef.detectChanges();
-        const component = (this.ngSelectInstance) as any;
+        const component = this.ngSelectInstance;
         if (component && component.dropdownPanel) {
-          // component.dropdownPanel._updatePosition();
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-member-access,no-underscore-dangle
+          (component.dropdownPanel as any)._updatePosition();
         }
       }, 25);
     }
   }
 
-  public opened(_:unknown) { // eslint-disable-line no-unused-vars
+  public opened():void { // eslint-disable-line no-unused-vars
     // Re-search for empty value as search value gets removed
     this.typeahead?.next('');
     this.repositionDropdown();
@@ -297,15 +298,15 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
     return of((this.items as IOPAutocompleterOption[])?.filter((element) => element.name.includes(searchKey)));
   }
 
-  public closeSelect() {
-    this.ngSelectInstance && this.ngSelectInstance.close();
+  public closeSelect():void {
+    this.ngSelectInstance?.close();
   }
 
-  public openSelect() {
-    this.ngSelectInstance && this.ngSelectInstance.open();
+  public openSelect():void {
+    this.ngSelectInstance?.open();
   }
 
-  public focusSelect() {
+  public focusSelect():void {
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.ngSelectInstance.focus();
@@ -313,51 +314,51 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
     });
   }
 
-  public closed(_:unknown) { // eslint-disable-line no-unused-vars
+  public closed():void {
     this.close.emit();
   }
 
-  public changed(val:any) {
+  public changed(val:unknown):void {
     this.change.emit(val);
   }
 
-  public searched(val:any) {
+  public searched(val:{ term:string, items:unknown[] }):void {
     this.search.emit(val);
   }
 
-  public blured(val:any) {
+  public blured(val:unknown):void {
     this.blur.emit(val);
   }
 
-  public focused(val:any) {
+  public focused(val:unknown):void {
     this.focus.emit(val);
   }
 
-  public cleared(val:any) {
+  public cleared(val:unknown):void {
     this.clear.emit(val);
   }
 
-  public keydowned(val:any) {
+  public keydowned(val:unknown):void {
     this.keydown.emit(val);
   }
 
-  public added(val:any) {
+  public added(val:unknown):void {
     this.add.emit(val);
   }
 
-  public removed(val:any) {
+  public removed(val:unknown):void {
     this.remove.emit(val);
   }
 
-  public scrolled(val:any) {
+  public scrolled(val:{ start:number; end:number }):void {
     this.scroll.emit(val);
   }
 
-  public scrolledToEnd(val:any) {
+  public scrolledToEnd(val:unknown):void {
     this.scrollToEnd.emit(val);
   }
 
-  public highlighting(property:string, id:string) {
+  public highlighting(property:string, id:string):string {
     return Highlighting.inlineClass(property, id);
   }
 

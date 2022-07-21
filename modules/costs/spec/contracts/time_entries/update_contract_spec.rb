@@ -120,9 +120,11 @@ describe TimeEntries::UpdateContract do
     end
 
     context 'if the user is changed' do
+      let(:permissions) { %i(edit_own_time_entries) }
+
       it 'is invalid' do
         time_entry.user = other_user
-        expect_valid(false, user_id: %i(error_readonly))
+        expect_valid(false, base: %i(error_unauthorized))
       end
     end
 

@@ -45,11 +45,12 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
     contract = double('contract',
                       new_record?: new_record,
                       id: new_record ? nil : 5,
-                      project: assigned_project)
+                      project: assigned_project,
+                      project_id: project.id)
 
     allow(contract)
       .to receive(:writable?) do |attribute|
-      %w(spent_on hours project work_package activity comment).include?(attribute.to_s)
+      %w(spent_on hours project work_package activity comment user).include?(attribute.to_s)
     end
 
     allow(contract)
@@ -155,7 +156,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
         let(:type) { 'User' }
         let(:name) { TimeEntry.human_attribute_name('user') }
         let(:required) { true }
-        let(:writable) { false }
+        let(:writable) { true }
         let(:location) { '_links' }
       end
     end
