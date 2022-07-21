@@ -65,6 +65,23 @@ describe TimeEntries::CreateContract do
       end
     end
 
+    context 'if user has only permission to log own time' do
+      let(:permissions) { %i[log_own_time] }
+
+      it 'is valid' do
+        expect_valid(true)
+      end
+
+      context 'when trying to log for other user' do
+        let(:time_entry_user) { build_stubbed(:user) }
+        let(:changed_by_system) { {} }
+
+        it 'is invalid' do
+          expect_valid(false, base: %i(error_unauthorized))
+        end
+      end
+    end
+
     context 'if time_entry user is not contract user' do
       let(:other_user) do
         build_stubbed(:user) do |user|

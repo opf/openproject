@@ -58,7 +58,8 @@ module TimeEntries
     attribute :tyear
     attribute :tmonth
     attribute :tweek
-    attribute :user_id
+    attribute :user_id,
+              permission: :log_time
 
     def assignable_activities
       if model.project

@@ -243,21 +243,16 @@ class EditField
   end
 
   def derive_field_type
-    case property_name.to_s
-    when 'version'
+    case property_name.to_sym
+    when :version
       'version-autocompleter'
-    when 'assignee',
-      'responsible'
+    when :assignee, :responsible, :user
       'op-user-autocompleter'
-    when 'priority',
-      'status',
-      'type',
-      'category',
-      'workPackage'
+    when :priority, :status, :type, :category, :workPackage
       'create-autocompleter'
-    when 'project'
+    when :project
       'op-autocompleter'
-    when 'activity'
+    when :activity
       'activity-autocompleter'
     else
       'input'

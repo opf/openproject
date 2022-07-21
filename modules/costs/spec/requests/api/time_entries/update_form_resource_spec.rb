@@ -50,7 +50,7 @@ describe ::API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
     create(:work_package, project:)
   end
   let(:other_user) { create(:user) }
-  let(:permissions) { %i[view_time_entries edit_time_entries view_work_packages] }
+  let(:permissions) { %i[view_time_entries log_time edit_time_entries view_work_packages] }
 
   let(:path) { api_v3_paths.time_entry_form(time_entry.id) }
   let(:parameters) { {} }

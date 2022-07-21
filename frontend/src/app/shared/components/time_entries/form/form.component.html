@@ -4,7 +4,7 @@
   [inEditMode]="inEditMode"
   (onSaved)="signalModifiedEntry($event)">
   <div class="attributes-map">
-    <ng-container *ngIf="showUserField">
+    <ng-container *ngIf="showUserField && schema.user.writable">
       <div class="attributes-map--key"
            [ngClass]="{'-required': isRequired('user')}"
            [textContent]="schema.user.name">

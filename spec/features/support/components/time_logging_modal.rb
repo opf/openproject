@@ -35,7 +35,8 @@ module Components
                 :comment_field,
                 :hours_field,
                 :spent_on_field,
-                :work_package_field
+                :work_package_field,
+                :user_field
 
     def initialize
       @activity_field = EditField.new(page, 'activity')
@@ -43,6 +44,7 @@ module Components
       @hours_field = EditField.new(page, 'hours')
       @spent_on_field = EditField.new(page, 'spentOn')
       @work_package_field = EditField.new(page, 'workPackage')
+      @user_field = EditField.new(page, 'user')
     end
 
     def is_visible(visible)
@@ -74,8 +76,13 @@ module Components
 
     def update_field(field_name, value)
       field = field_object field_name
-      field.input_element.click
-      field.set_value value
+      if field_name == 'user'
+        field.unset_value
+        field.autocomplete value
+      else
+        field.input_element.click
+        field.set_value value
+      end
     end
 
     def update_work_package_field(value, recent = false)
@@ -120,18 +127,7 @@ module Components
     end
 
     def field_object(field_name)
-      case field_name
-      when 'activity'
-        activity_field
-      when 'hours'
-        hours_field
-      when 'spent_on'
-        spent_on_field
-      when 'comment'
-        comment_field
-      when 'work_package'
-        work_package_field
-      end
+      send("#{field_name}_field")
     end
 
     def modal_container
