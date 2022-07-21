@@ -25,6 +25,7 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
     title: this.i18n.t('js.time_entry.title'),
     cancel: this.i18n.t('js.button_cancel'),
     close: this.i18n.t('js.button_close'),
+    save: this.i18n.t('js.button_save'),
     delete: this.i18n.t('js.button_delete'),
     areYouSure: this.i18n.t('js.text_are_you_sure'),
   };
@@ -72,10 +73,6 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
         this.formInFlight = false;
         this.cdRef.detectChanges();
       });
-  }
-
-  public get saveText():string {
-    return this.i18n.t('js.button_save');
   }
 
   public get saveAllowed():boolean {
