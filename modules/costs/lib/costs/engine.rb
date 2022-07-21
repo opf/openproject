@@ -47,21 +47,21 @@ module Costs
         permission :view_time_entries, {}
         permission :view_own_time_entries, {}
 
+        permission :log_own_time,
+                   {},
+                   require: :loggedin
+
         permission :log_time,
                    {},
                    require: :loggedin
 
-        permission :log_own_time,
+        permission :edit_own_time_entries,
                    {},
                    require: :loggedin
 
         permission :edit_time_entries,
                    {},
                    require: :member
-
-        permission :edit_own_time_entries,
-                   {},
-                   require: :loggedin
 
         permission :manage_project_activities,
                    { 'projects/settings/time_entry_activities': %i[show update] },
