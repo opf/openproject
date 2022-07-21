@@ -1,79 +1,101 @@
 ---
 sidebar_navigation:
-  title: Nextcloud integration
+  title: Nextcloud integration setup
   priority: 600
-description: Nextcloud and OpenProject integration
+description: Nextcloud integration setup
 keywords: integrations, apps, Nextcloud
 ---
 
-# OpenProject and Nextcloud integration 
+<<<<<<< Updated upstream
+# Nextcloud integration setup 
+=======
+# OpenProject and Nextcloud integration setup 
+>>>>>>> Stashed changes
 
-The OpenProject and Nextcloud integration will improve the productivity of their enterprise users. It combines the strengths of the market leading content collaboration platform Nextcloud and the leading open source project management software OpenProject.
+The OpenProject and Nextcloud integration will improve the productivity of all the users. It combines the strengths of the market leading content collaboration platform Nextcloud and the leading open source project management software OpenProject.
 
-The integration is available starting with Nextcloud 20. It enables users to keep an eye on ongoing project activities directly in their Nextcloud instance.
+The integration enables users to keep an eye on ongoing project activities directly in their Nextcloud instance and link their Nextcloud files to OpenProject work packages. To learn more about how to use the integration go to the [Nextcloud user guide](../../../user-guide/nextcloud-integration/)
 
-## Benefits of the integration
+## Step by step setup instructions
 
-The first step of the combined effort is the integration of OpenProject in the Nextcloud dashboard. Users can add an OpenProject widget to display latest changes to project's work packages. With this, it offers users a view of ongoing projects and activities.
+The integration is available starting with Nextcloud 20 and OpenProject 12.2. To be able to configure this integration you need to be an administrator in both Nextcloud and OpenProject.
 
-## Step by step instructions
-
-The integration is available starting with Nextcloud 20. It enables users to keep an eye on ongoing project activities directly out of their Nextcloud instance.
-
-**Add OpenProject integration app**
+**1. Add OpenProject integration app and connect the instance** -  in Nextcloud
 
 To activate your integration to OpenProject in Nextcloud, navigate to the built in app store under your user name in Your apps. You can use the search field in the top right corner to look for the OpenProject integration. Click the button Download and enable.
 
 ![Nextcloud_app_store](Nextcloud_app_store.png)
 
-**Activate the OpenProject integration app**
+Once the OpenProject integration app is downloaded an enabled you can access it trough the lateral menu and set the OpenProject host with the desired instance.
 
-To activate your integration, navigate to your personal settings and choose Connected accounts in the menu on the left.
+![Nextcloud_host](3_2_01 -NC_Step_1.png)
 
-![Nextcloud_connected_account](Nextcloud_connected_account.png)
+Click on the "Save" button and open a new tab with your OpenPoject instance.
 
-Enter the URL of your OpenProject instance and your access token which you can find in OpenProject under My Account and then Access token. Reset the API token and copy/paste it.
+**2. Introduce the basic information of your integration** - in OpenProject
 
-![OpenProject_API_key](OpenProject_API_key.png)
+As an administrator, in the new browser tab please open the File storages from the Administration page. To start with the configuration of your new Nextcloud integration click on the "+" button to add a new storage.
 
-![OpenProject_API_key_copy](OpenProject_API_key_copy.png)
+![Storage_index](3_0_00-OP_OAuth_Empty_Index.png)
 
-**Display of OpenProject in the Nextcloud dashboard**
+By default the storage **provider type** is set to Nextcloud and this doesn't need to be modified. To proceed, you need to set a **name** to your Nextcloud integration which will be displayed to all the users using it, it is highly recommended to give a name that allows you to differentiate it from other file storages integrations. Also, to be able to use the integration you also need to add the **host url** to nextcloud including the https://.
 
-On the Nextcloud dashboard you can add an OpenProject widget. Display the latest changes to your project's work packages to keep an eye on your ongoing project activities directly from your Nextcloud instance.
+![Storage_basic_information](3_0_01-OP_General_Info.png)
 
-![Add_OpenProject_widget](Add_OpenProject_widget.png)
+Once all the mandatory fields are filled please click on the "Save and continue setup" button.
 
-![Nextcloud_dashboard](Nextcloud_dashboard.png)
+**3. Generate and copy the OpenProject OAuth values** - in OpenProject and Nextcloud
 
-In your personal settings in Connected accounts, please remember to also activate the Enable navigation link to display a link to your OpenProject instance in the header navigation.
+In this step the OpenProjects OAuth values are generated automatically. This values are the ones that will allow the connection From OpenProject to Nextcloud, therefore you need to copy them by opening again the Nextcloud integration window (without closing the OpenProject one) and pasting the values in the step 2 "OpenProject OAuth settings".
 
-![Nextcloud_connected_account](Nextcloud_connected_account.png)
+**IMPORTANT NOTE:** The information OpenProjects OAuth values (client ID and client secret) are not accessible again after you close the window. Please make sure to copy the values in the Nextcloud OpenProject Integration settings.
 
-The link will show here:
+![OP_OAuth_values](3_1_00-OP_OAuth_application_details.png)
 
-![Navigation_link_OpenProject](Navigation_link_OpenProject.png)
+![Nextcloud_OP_OAuth_values](3_2_03-NC_Step_2.png)
 
-By activating "enable unified search for tickets" in your personal settings, the Nextcloud dashboard will include OpenProject information in the the built-in universal search:
+Once you have copied the values, click on the "Save" button to proceed to step 3 in Nextcloud.
 
-![Unified_search](Unified_search.png)
+**4. Generate and copy the Nextcloud OAuth values** - in Nextcloud and OpenProject
 
-**Set up of OAuth to OpenProject**
+As in the previous step the OAuth values are generated automatically, but this time the Nextcloud OAuth are created in the step 3 of the Nextcloud OpenProject Integration settings. This values are the ones that will allow the connection From Nextcloud to OpenProject, therefore, again, you need to copy them but this time from Nextcloud to OpenProject (without closing the Nextcloud one). If you haven't clicked on the "Done. Continue setup" button from the previous step, now you can click it to see the screen where you will be able to paste the Nextcloud OAuth values.
 
-Within your Settings under Administration and then Connected Accounts you can set-up the OAuth authentication to your OpenProject instance.
+![Nextcloud_NC_OAuth_values](3_2_04-NC_Step_3.png)
 
-![OAuth](OAuth.png)
+![OpenProject_NC_OAuth_values](3_3_01-OP_OAuth_application_details.png)
 
-In OpenProject, add Nextcloud as application under Administration then Authentication and OAuth and enter the information in your Nextcloud instance.
+Once the values are copied you can click the button "Save and complete setup" in the OpenProject window and the "Yes, I have copied these values" in the Nextcloud window. Once this is done your instance configuration will be completed.
 
-![OpenProject_OAuth](OpenProject_OAuth.png)
+![OpenProject_success](3_4_00 - OAuth - OP Success.png)
 
-## Where do I find the Nextcloud integration in OpenProject?
+![Nextcloud_success](3_2_05-NC_Success.png)
 
-Further integration efforts are under way, which will deliver a Nextcloud integration also on the OpenProject side.
+**5. Enable the file storages module and activate it in the desired project** - in OpenProject
 
-## What if project notifications are not displayed?
+Now the integration setup is complete and ready to use, but as administrator you still need to activate the file storages module and specify in which projects you need the file storage integration that you just set up.
 
-If the notifications are not displayed in your Nextcloud dashboard, please check the following in your Nextcloud basic settings: in the background jobs, Cron must be activated.
+To activate the module please go to the Project settings in the desired project and access the Modules menu entry in the side menu, there you can activate the module "File storages". Once this is done a new lateral menu entry called "File storages" at the bottom of the menu where you can select which file storage integration you want to activate in this project.
 
-![Cron_job_settings](Cron_job_settings.png)
+![module_activation](Settings_modules.png)
+
+![settings_files_storages](Settings_files_storages.png)
+
+## How to reset your OAuth values
+
+If as an administrator you need to reset the values of the Nextcloud integration you can always reset the OAuth values from both sides of the integration by editing the setup of the already set up integrations and using the "Reset OAuth values" or "Replace OAuth values" buttons.
+
+**IMPORTANT NOTE:** When you reset/replace this values you will need to update the specific settings with the new OAuth credentials from the side you are reseting. Also, all users will need to re-authorize access to their OpenProject or Nextcloud account.
+
+![nextcloud_reset_OPOAuth](3_2_06 -NC_OP_OAuth_Replace.png)
+
+![nextcloud_reset_NCOAuth](3_2_07-NC__OAuth_Replace.png)
+
+![openproject_reset_OAuth](3_4_03-OP_Replace_Alert.png)
+
+
+
+## How to delete a file storage integration
+
+As administrator you can always delete the integration to Nextcloud using the "Delete" button in OpenProject or the "Reset" button in Nextcloud settings.
+
+**IMPORTANT NOTE:** If you perform this action the integration will be reset/deleted so all the settings and user connections created will be deleted. In case you want to reconfigure it you will need to do the complete setup process again.
