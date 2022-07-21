@@ -6,7 +6,7 @@
 ] %>
 <%= toolbar title: "OpenProject #{t("storages.label_oauth_application_details")}" %>
 
-<div class="op-toast -warning -with-bottom-spacing">
+<div class="op-toast -warning">
   <div class="op-toast--content">
     <p>
       <%= t('repositories.storage.oauth_application_details') %>
@@ -23,63 +23,65 @@
 </div>
 
 <%= labelled_tabular_form_for @oauth_application, url: '/' do |f| -%>
-  <div class="form--field">
-    <label class="form--label"><%= t('storages.label_oauth_client_id') %></label>
+  <fieldset class="form--fieldset">
+    <div class="form--field">
+      <label class="form--label"><%= t('storages.label_oauth_client_id') %></label>
 
-    <div class="form--field-container">
-      <div class="form--text-field-container -wide">
-        <%= text_field_tag(
-              :uid,
-              @oauth_application.uid,
-              {
-                size: 40,
-                readonly: true,
-                id: 'client_id'
-              }
-            ) %>
-      </div>
-      <div class="form--field-affix">
-        <% csp_onclick('this.focus(); this.select();', '#client_id') %>
-        <copy-to-clipboard click-target=".client-id-copy-button"
-                           clipboard-target="#client_id">
-        </copy-to-clipboard>
-        <button class="client-id-copy-button button -without-button-styling"
-                title="<%= t(:label_copy_to_clipboard) %>">
-          <%= op_icon('icon-copy') %>
-          <span class="hidden-for-sighted"><%= t(:label_copy_to_clipboard) %></span>
-        </button>
+      <div class="form--field-container">
+        <div class="form--text-field-container -wide">
+          <%= text_field_tag(
+                :uid,
+                @oauth_application.uid,
+                {
+                  size: 40,
+                  readonly: true,
+                  id: 'client_id'
+                }
+              ) %>
+        </div>
+        <div class="form--field-affix">
+          <% csp_onclick('this.focus(); this.select();', '#client_id') %>
+          <copy-to-clipboard click-target=".client-id-copy-button"
+                             clipboard-target="#client_id">
+          </copy-to-clipboard>
+          <button class="client-id-copy-button button -without-button-styling"
+                  title="<%= t(:label_copy_to_clipboard) %>">
+            <%= op_icon('icon-copy') %>
+            <span class="hidden-for-sighted"><%= t(:label_copy_to_clipboard) %></span>
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="form--field">
-    <label class="form--label"><%= t('storages.label_oauth_client_secret') %></label>
+    <div class="form--field">
+      <label class="form--label"><%= t('storages.label_oauth_client_secret') %></label>
 
-    <div class="form--field-container">
-      <div class="form--text-field-container -wide">
-        <%= text_field_tag(
-              :plaintext_secret,
-              @oauth_application.plaintext_secret,
-              {
-                size: 40,
-                readonly: true,
-                id: 'secret'
-              }
-            ) %>
-      </div>
-      <div class="form--field-affix">
-        <% csp_onclick('this.focus(); this.select();', '#secret') %>
-        <copy-to-clipboard click-target=".secret-copy-button"
-                           clipboard-target="#secret">
-        </copy-to-clipboard>
-        <button class="secret-copy-button button -without-button-styling"
-                title="<%= t(:label_copy_to_clipboard) %>">
-          <%= op_icon('icon-copy') %>
-          <span class="hidden-for-sighted"><%= t(:label_copy_to_clipboard) %></span>
-        </button>
+      <div class="form--field-container">
+        <div class="form--text-field-container -wide">
+          <%= text_field_tag(
+                :plaintext_secret,
+                @oauth_application.plaintext_secret,
+                {
+                  size: 40,
+                  readonly: true,
+                  id: 'secret'
+                }
+              ) %>
+        </div>
+        <div class="form--field-affix">
+          <% csp_onclick('this.focus(); this.select();', '#secret') %>
+          <copy-to-clipboard click-target=".secret-copy-button"
+                             clipboard-target="#secret">
+          </copy-to-clipboard>
+          <button class="secret-copy-button button -without-button-styling"
+                  title="<%= t(:label_copy_to_clipboard) %>">
+            <%= op_icon('icon-copy') %>
+            <span class="hidden-for-sighted"><%= t(:label_copy_to_clipboard) %></span>
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+  </fieldset>
 
   <% if @object.oauth_client %>
     <%= link_to t("storages.buttons.done_continue_setup"), admin_settings_storage_path(@object), class: "-highlight -with-icon icon-checkmark button" %>

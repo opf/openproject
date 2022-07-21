@@ -44,7 +44,7 @@ class UserMailer < ApplicationMailer
     User.execute_as user do
       @download_url = admin_backups_url
 
-      send_mail(recipient,
+      send_mail(user,
                 I18n.t("mail_subject_backup_ready"))
     end
   end
