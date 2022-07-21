@@ -39,14 +39,13 @@ module Storages::Storages
 
     def after_perform(service_call)
       super(service_call)
-      storage = service_call.result
 
+      storage = service_call.result
       # Automatically create an OAuthApplication object for the Nextcloud storage
       # using values from storage (particularly :host) as defaults
       if storage.provider_type == 'nextcloud'
         persist_service_result = ::Storages::OAuthApplications::CreateService.new(storage:, user:).call
-        # Show errors in storage form, so use merge! instead of add_dependent
-        service_call.merge!(persist_service_result)
+        service_call.add_dependent!(persist_service_result)
       end
 
       service_call

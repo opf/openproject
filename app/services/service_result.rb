@@ -198,6 +198,12 @@ class ServiceResult
     end
   end
 
+  def merge_dependent_errors!
+    dependent_results.each do |dependent_result|
+      errors.merge!(dependent_result.errors)
+    end
+  end
+
   private
 
   def initialize_errors(errors)
