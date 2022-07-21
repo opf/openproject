@@ -29,10 +29,13 @@
 # This controller handles OAuth2 Authorization Code Grant redirects from a Authorization Server to
 # "callback" endpoint.
 class OAuthClientsController < ApplicationController
+  before_action :set_oauth_state
   before_action :find_oauth_client
   before_action :set_redirect_uri
   before_action :set_code
   before_action :set_connection_manager
+
+  after_action :clear_oauth_state_cookie
 
   # Provide the OAuth2 "callback" endpoint.
   # The Authorization Server redirects
@@ -65,6 +68,14 @@ class OAuthClientsController < ApplicationController
 
   private
 
+  def set_oauth_state
+    @oauth_state = params[:state]
+  end
+
+  def clear_oauth_state_cookie
+    cookies.delete("oauth_state_#{@oauth_state}") unless @oauth_state.nil?
+  end
+
   def set_oauth_errors(service_result)
     flash[:error] = ["#{t(:'oauth_client.errors.oauth_authorization_code_grant_had_errors')}:"]
     service_result.errors.each do |error|
@@ -94,7 +105,7 @@ class OAuthClientsController < ApplicationController
     # redirect_uri is used by OpenProject to redirect to
     # after receiving an OAuth2 access token. So it should not be blank.
     service_result = ::OAuthClients::RedirectUriFromStateService
-                       .new(state: params[:state], cookies:)
+                       .new(state: @oauth_state, cookies:)
                        .call
 
     if service_result.success?
@@ -153,7 +164,7 @@ class OAuthClientsController < ApplicationController
 
   def get_redirect_uri
     ::OAuthClients::RedirectUriFromStateService
-      .new(state: params[:state], cookies:)
+      .new(state: @oauth_state, cookies:)
       .call
       .result
   end
