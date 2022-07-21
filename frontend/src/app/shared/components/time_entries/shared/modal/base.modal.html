@@ -17,12 +17,13 @@
     </te-form>
   </div>
 
-  <div class="op-modal--footer op-modal--footer_split_actions">
+  <div class="op-modal--footer op-modal--footer_split-actions">
     <button class="button -danger"
             *ngIf="deleteAllowed"
             (click)="destroy()"
             [textContent]="text.delete"
             [attr.title]="text.delete">
+    </button>
     <section>
       <button class="button"
               *ngIf="saveAllowed"
@@ -30,7 +31,7 @@
               [textContent]="text.cancel"
               [attr.title]="text.cancel">
       </button>
-      <button class="button -highlight"
+      <button class="button -highlight button_no-margin"
               *ngIf="saveAllowed"
               (click)="saveEntry()"
               [attr.title]="text.save"

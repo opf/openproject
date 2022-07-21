@@ -207,7 +207,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     sleep(0.1)
 
-    time_logging_modal.perform_action 'Create'
+    time_logging_modal.perform_action 'Save'
     time_logging_modal.is_visible false
 
     my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_create)

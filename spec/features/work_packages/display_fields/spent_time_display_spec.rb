@@ -59,7 +59,7 @@ describe 'Logging time within the work package view', type: :feature, js: true d
     end
 
     # a click on save creates a time entry
-    time_logging_modal.perform_action I18n.t('js.label_create')
+    time_logging_modal.perform_action I18n.t(:button_save)
     wp_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_create')
   end
 
