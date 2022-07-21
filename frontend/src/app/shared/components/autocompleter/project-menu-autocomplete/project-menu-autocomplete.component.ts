@@ -45,6 +45,11 @@ import {
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { insertInList } from 'core-app/shared/components/project-include/insert-in-list';
 import { IProjectData } from 'core-app/shared/components/project-list/project-data';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import {
+  projectListActionSelector,
+  projectListItemDisabled,
+} from 'core-app/shared/components/project-list/project-list.component';
 import { recursiveSort } from 'core-app/shared/components/project-include/recursive-sort';
 import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
@@ -143,6 +148,31 @@ export class ProjectMenuAutocompleteComponent {
   close():void {
     this.searchableProjectListService.searchText = '';
     this.dropModalOpen = false;
+  }
+
+  onKeydown(event:KeyboardEvent):void {
+    if (event.keyCode === KeyCodes.ENTER) {
+      this.handleKeyEnter(event);
+    }
+
+    this.searchableProjectListService.onKeydown(event);
+  }
+
+  private handleKeyEnter(event:KeyboardEvent):void {
+    const focused = document.activeElement as HTMLElement|undefined;
+
+    // If the current focus is within a list action, return
+    if (focused?.closest(projectListActionSelector)) {
+      return;
+    }
+
+    const first = document.querySelector<HTMLAnchorElement>(`a${projectListActionSelector}:not(${projectListItemDisabled})`);
+
+    if (first) {
+      event.preventDefault();
+      first.focus();
+      window.location.href = first.href;
+    }
   }
 
   currentProjectName():string {
