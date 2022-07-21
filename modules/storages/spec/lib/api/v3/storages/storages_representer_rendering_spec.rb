@@ -42,7 +42,7 @@ describe ::API::V3::Storages::StorageRepresenter, 'rendering' do
     allow(connection_manager)
       .to receive(:authorization_state).and_return(:connected)
     allow(connection_manager)
-      .to receive(:redirect_to_oauth_authorize).and_return('https://example.com/authorize')
+      .to receive(:get_authorization_uri).and_return('https://example.com/authorize')
   end
 
   describe '_links' do

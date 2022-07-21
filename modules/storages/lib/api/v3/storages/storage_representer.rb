@@ -93,7 +93,7 @@ module API
         link :authorize do
           next unless @connection_manager.authorization_state == :failed_authorization
 
-          { href: @connection_manager.redirect_to_oauth_authorize, title: 'Authorize' }
+          { href: @connection_manager.get_authorization_uri, title: 'Authorize' }
         end
 
         def _type

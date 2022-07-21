@@ -55,7 +55,7 @@ describe 'API v3 storages resource', with_flag: { storages_module_active: true }
   end
 
   before do
-    allow(connection_manager).to receive(:redirect_to_oauth_authorize).and_return(authorize_url)
+    allow(connection_manager).to receive(:get_authorization_uri).and_return(authorize_url)
     allow(connection_manager).to receive(:authorization_state).and_return(:connected)
     allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
     project_storage
