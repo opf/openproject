@@ -30,6 +30,8 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
 
   @Input() showWorkPackageField = true;
 
+  @Input() showUserField = true;
+
   @Output() modifiedEntry = new EventEmitter<{ savedResource:TimeEntryResource, isInital:boolean }>();
 
   @ViewChild('editForm', { static: true }) editForm:EditFormComponent;

@@ -4,20 +4,22 @@
   [inEditMode]="inEditMode"
   (onSaved)="signalModifiedEntry($event)">
   <div class="attributes-map">
-    <div class="attributes-map--key"
-        [ngClass]="{'-required': isRequired('user')}"
-        [textContent]="schema.user.name">
-    </div>
-    <div class="attributes-map--value">
-    <editable-attribute-field [resource]="entry"
-                        [wrapperClasses]="'-tiny'"
-                        [fieldName]="'user'">
-    </editable-attribute-field>
-    </div>
+    <ng-container *ngIf="showUserField">
+      <div class="attributes-map--key"
+           [ngClass]="{'-required': isRequired('user')}"
+           [textContent]="schema.user.name">
+      </div>
+      <div class="attributes-map--value">
+        <editable-attribute-field [resource]="entry"
+                                  [wrapperClasses]="'-tiny'"
+                                  [fieldName]="'user'">
+        </editable-attribute-field>
+      </div>
+    </ng-container>
 
     <div class="attributes-map--key"
-               [ngClass]="{'-required': isRequired('spentOn')}"
-               [textContent]="schema.spentOn.name">
+         [ngClass]="{'-required': isRequired('spentOn')}"
+         [textContent]="schema.spentOn.name">
     </div>
     <div class="attributes-map--value">
       <editable-attribute-field [resource]="entry"
@@ -37,17 +39,17 @@
       </editable-attribute-field>
     </div>
 
-    <div *ngIf="showWorkPackageField"
-         class="attributes-map--key"
-         [ngClass]="{'-required': isRequired('workPackage')}"
-         [textContent]="schema.workPackage.name">
-    </div>
-    <div *ngIf="showWorkPackageField"
-         class="attributes-map--value">
-      <editable-attribute-field [resource]="entry"
-                                [fieldName]="'workPackage'">
-      </editable-attribute-field>
-    </div>
+    <ng-container *ngIf="showWorkPackageField">
+      <div lass="attributes-map--key"
+           [ngClass]="{'-required': isRequired('workPackage')}"
+           [textContent]="schema.workPackage.name">
+      </div>
+      <div class="attributes-map--value">
+        <editable-attribute-field [resource]="entry"
+                                  [fieldName]="'workPackage'">
+        </editable-attribute-field>
+      </div>
+    </ng-container>
 
     <div class="attributes-map--key"
          [ngClass]="{'-required': isRequired('activity')}"

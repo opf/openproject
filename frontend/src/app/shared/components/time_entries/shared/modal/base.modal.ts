@@ -1,5 +1,10 @@
 import {
-  ChangeDetectorRef, Directive, ElementRef, Inject, Injector, ViewChild,
+  ChangeDetectorRef,
+  Directive,
+  ElementRef,
+  Inject,
+  Injector,
+  ViewChild,
 } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
@@ -9,6 +14,8 @@ import { TimeEntryFormComponent } from 'core-app/shared/components/time_entries/
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 
 @Directive()
 export abstract class TimeEntryBaseModal extends OpModalComponent {
@@ -40,19 +47,23 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
 
   public abstract setModifiedEntry($event:{ savedResource:HalResource, isInital:boolean }):void;
 
-  public get changeset() {
+  public get changeset():ResourceChangeset<TimeEntryResource> {
     return this.locals.changeset;
   }
 
-  public get entry() {
+  public get entry():TimeEntryResource {
     return this.changeset.projectedResource;
   }
 
-  public get showWorkPackageField() {
-    return this.locals.showWorkPackageField !== undefined ? this.locals.showWorkPackageField : true;
+  public get showWorkPackageField():boolean {
+    return this.locals.showWorkPackageField !== false;
   }
 
-  public saveEntry() {
+  public get showUserField():boolean {
+    return this.locals.showUserField !== false;
+  }
+
+  public saveEntry():void {
     this.formInFlight = true;
 
     this.editForm.save()
@@ -63,22 +74,22 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
       });
   }
 
-  public get saveText() {
+  public get saveText():string {
     return this.i18n.t('js.button_save');
   }
 
-  public get saveAllowed() {
+  public get saveAllowed():boolean {
     return true;
   }
 
-  public get deleteAllowed() {
+  public get deleteAllowed():boolean {
     return true;
   }
 
-  protected reloadWorkPackageAndClose() {
+  protected reloadWorkPackageAndClose():void {
     // reload workPackage
     if (this.entry.workPackage) {
-      this
+      void this
         .apiV3Service
         .work_packages
         .id(this.entry.workPackage)

@@ -114,6 +114,8 @@ module Components
         'wp-new-inline-edit--field-spentOn'
       when 'work_package'
         'wp-new-inline-edit--field-workPackage'
+      when 'user'
+        'wp-new-inline-edit--field-user'
       end
     end
 

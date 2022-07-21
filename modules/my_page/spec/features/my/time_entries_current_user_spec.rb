@@ -184,6 +184,8 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     time_logging_modal.has_field_with_value 'spentOn', (Date.today.beginning_of_week(:sunday) + 3.days).strftime
 
+    time_logging_modal.shows_field 'user', false
+
     expect(page)
       .not_to have_selector('.ng-spinner-loader')
 

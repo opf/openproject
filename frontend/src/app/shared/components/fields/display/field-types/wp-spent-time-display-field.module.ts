@@ -100,7 +100,7 @@ export class WorkPackageSpentTimeDisplayField extends EstimatedTimeDisplayField 
 
   private showTimelogWidget(wp:WorkPackageResource) {
     this.timeEntryCreateService
-      .create(moment(new Date()), wp, false)
+      .create(moment(new Date()), wp, { showWorkPackageField: false })
       .catch(() => {
         // do nothing, the user closed without changes
       });

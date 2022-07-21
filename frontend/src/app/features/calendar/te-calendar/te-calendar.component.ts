@@ -372,7 +372,7 @@ export class TimeEntryCalendarComponent {
   private editEvent(entry:TimeEntryResource):void {
     this
       .timeEntryEdit
-      .edit(entry)
+      .edit(entry, { showUserField: false })
       .then((modificationAction) => {
         this.updateEventSet(modificationAction.entry, modificationAction.action);
       })
@@ -418,7 +418,7 @@ export class TimeEntryCalendarComponent {
 
     this
       .timeEntryCreate
-      .create(date)
+      .create(date, undefined, { showUserField: false })
       .then((modificationAction) => {
         this.updateEventSet(modificationAction.entry, modificationAction.action);
       })
