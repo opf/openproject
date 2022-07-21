@@ -54,7 +54,7 @@ Once you have copied the values, click on the *Save* button to proceed to the ne
 
 **4. Generate and copy the Nextcloud OAuth values** - in Nextcloud and OpenProject
 
-As in the previous step, the OAuth values are generated automatically, but this time on the Nextcloud end. These are needed to allow the connection From Nextcloud to OpenProject to function, so you will need to once again copy them. Copy these values from Nextcloud to OpenProject (without closing the Nextcloud tab). If you had not clicked the *Done. Continue setup* button in the previous step, you can do so now to proceed the screen where you will be able to paste the Nextcloud OAuth values in OpenProject.
+As in the previous step, the OAuth values are generated automatically, but this time on the Nextcloud end. These are needed to allow the connection From Nextcloud to OpenProject to function, so you will need to once again copy them. Copy these values from Nextcloud to OpenProject (without closing the Nextcloud tab). If you had not clicked the *Done. Continue setup* button in the previous step, you can do so now to proceed to the screen where you will be able to paste the Nextcloud OAuth values in OpenProject.
 
 ![Nextcloud_NC_OAuth_values](3_2_04-NC_Step_3.png)
 
