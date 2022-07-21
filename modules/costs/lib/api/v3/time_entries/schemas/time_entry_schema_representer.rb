@@ -103,9 +103,10 @@ module API
           end
 
           def allowed_user_href
-            base_path = api_v3_paths.available_assignees(represented.project_id)
-            api_v3_paths.filtered_path base_path,
-                                       type: { operator: '=', values: ['User'] }
+            api_v3_paths.filtered_path api_v3_paths.principals,
+                                       status: { operator: '!', values: [Principal.statuses[:locked].to_s] },
+                                       type: { operator: '=', values: ['User'] },
+                                       member: { operator: '=', values: [represented.project_id] }
           end
         end
       end
