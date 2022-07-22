@@ -198,10 +198,20 @@ class ServiceResult
     end
   end
 
-  def merge_dependent_errors!
+  # Collect all errors in the result tree recursively
+  def merge_dependent_errors(model)
+    result_errors = ActiveModel::Errors.new(model)
+    merge_dependent_errors_recursive(result_errors)
+  end
+
+  protected
+
+  def merge_dependent_errors_recursive(result_errors)
+    result_errors.merge!(errors)
     dependent_results.each do |dependent_result|
-      errors.merge!(dependent_result.errors)
+      dependent_result.merge_dependent_errors_recursive(result_errors)
     end
+    result_errors
   end
 
   private

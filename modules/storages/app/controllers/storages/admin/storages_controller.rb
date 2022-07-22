@@ -92,8 +92,7 @@ class Storages::Admin::StoragesController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_create)
       render :show_oauth_application
     else
-      service_result.merge_dependent_errors!
-      @errors = service_result.errors
+      @errors = service_result.merge_dependent_errors(@object)
       render :new
     end
   end
