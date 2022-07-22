@@ -11,7 +11,7 @@ cs:
       storages/storage:
         name: "Název"
         creator: "Autor"
-        provider_type: "Provider type"
+        provider_type: "Typ poskytovatele"
       storages/file_link:
         origin_id: "Origin Id"
     errors:
@@ -38,7 +38,7 @@ cs:
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
-      cancel: "Cancel"
+      cancel: "Zrušit"
     page_titles:
       project_settings:
         index: "Úložiště souborů v tomto projektu"
@@ -66,7 +66,7 @@ cs:
     label_file_link: "Odkaz na soubor"
     label_file_links: "Odkazy na soubor"
     label_name: "Název:"
-    label_host: "Host"
+    label_host: "Host URL"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
@@ -84,7 +84,7 @@ cs:
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "e.g. Nextcloud"
-        default_name: "My Nextcloud"
+        default_name: "Můj Nextcloud"
     confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Jste si jisti? Všichni uživatelé budou muset znovu autorizovat proti úložišti."
     oauth_client_details_missing: "Chcete-li dokončit nastavení, přidejte prosím přihlašovací údaje OAuth klienta z vašeho úložiště."

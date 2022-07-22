@@ -11,7 +11,7 @@ bg:
         nextcloud: "Nextcloud"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator.
+          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
         live_data_error: "Error fetching file details"
         live_data_error_description: >
           Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
@@ -24,3 +24,4 @@ bg:
         open: 'Open file on storage'
         open_location: 'Open file in location'
         remove: "Remove file link"
+        remove_confirmation: "Are you sure you want to unlink the file from the work package?"

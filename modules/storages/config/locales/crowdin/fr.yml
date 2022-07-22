@@ -66,7 +66,7 @@ fr:
     label_file_link: "Lien du fichier"
     label_file_links: "Liens de fichier"
     label_name: "Nom"
-    label_host: "Hôte"
+    label_host: "Host URL"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"

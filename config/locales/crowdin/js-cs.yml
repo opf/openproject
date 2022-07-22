@@ -231,7 +231,7 @@ cs:
             professional_support: "Profesionální podpora"
             professional_support_text: "Získejte spolehlivou, vysoce profesionální podporu od seniorních podpůrných inženýrů s odbornými znalostmi o používání OpenProject."
           button_start_trial: "Zahájit zkušební verzi zdarma"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "Upgradovat nyní"
           button_book_now: "Rezervujte nyní"
           confidence: >
             Doručujeme testovaný a podporovaný software pro řízení projetků - s Open Source a otevřenou myslí.
@@ -269,7 +269,7 @@ cs:
           two: "Druhé kritérium třídění"
           three: "Třetí kritérium třídění"
       upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      more_info: "Více informací"
       upsale_link: 'Enterprise Edice'
     general_text_no: "ne"
     general_text_yes: "ano"
@@ -400,8 +400,8 @@ cs:
     label_previous: "Předchozí"
     label_per_page: "Na stránku:"
     label_please_wait: "Čekejte prosím"
-    label_project: "Project"
-    label_project_list: "Projects list"
+    label_project: "Projekt"
+    label_project_list: "Seznam projektů"
     label_project_plural: "Projekty"
     label_visibility_settings: "Viditelnost zobrazení"
     label_quote_comment: "Citovat tento komentář"
@@ -414,7 +414,7 @@ cs:
     label_report: "Hlášení"
     label_repository_plural: "Repozitáře"
     label_save_as: "Uložit jako"
-    label_select_project: "Select a project"
+    label_select_project: "Vyberte projekt"
     label_select_watcher: "Zvolte sledujícího..."
     label_selected_filter_list: "Vybrané filtry"
     label_show_attributes: "Zobrazit všechny atributy"
@@ -456,10 +456,10 @@ cs:
     label_unwatch: "Přestat sledovat"
     label_unwatch_work_package: "Přestat sledovat pracovní balíček"
     label_uploaded_by: "Nahrál"
-    label_default_queries: "Default"
-    label_starred_queries: "Favorite"
-    label_global_queries: "Public"
-    label_custom_queries: "Private"
+    label_default_queries: "Výchozí"
+    label_starred_queries: "Oblíbené"
+    label_global_queries: "Veřejné"
+    label_custom_queries: "Soukromé"
     label_columns: "Sloupce"
     label_attachments: Přílohy
     label_drop_files: Sem přetáhněte soubory
@@ -1103,7 +1103,7 @@ cs:
       day:
         one: "1 day"
         other: "%{count} days"
-        zero: "0 days"
+        zero: "0 dní"
     zen_mode:
       button_activate: 'Aktivovat zen režim'
       button_deactivate: 'Deaktivovat zen režim'
@@ -1199,7 +1199,7 @@ cs:
       tooltip:
         include_all_selected: 'Zahrnout všechny podprojekty je zvoleno.'
         current_project: 'Toto je aktuální projekt, ve kterém se nacházíte.'
-        does_not_match_search: 'Project does not match the search criteria.'
+        does_not_match_search: 'Projekt neodpovídá kritériím vyhledávání.'
     forms:
       submit_success_message: 'Formulář byl úspěšně odeslán'
       load_error_message: 'Při načítání formuláře došlo k chybě'

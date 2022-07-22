@@ -66,7 +66,7 @@ lt:
     label_file_link: "Failo nuoroda"
     label_file_links: "Failo nuorodos"
     label_name: "Pavadinimas"
-    label_host: "Serveris"
+    label_host: "Host URL"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
