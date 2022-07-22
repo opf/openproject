@@ -26,10 +26,20 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-.op-files-tab,
-.op-attachments-list
+.op-files-tab
+  .op-files-tab--file-upload
+    margin-top: $spot-spacing-0-75
+
+  .op-tab-content--tab-section_no-header
+    // Remove any top margin of the top most elements, if the header is not displayed.
+    .op-files-tab--file-upload
+      margin-top: 0
+
+    .op-files-tab--file-list .op-files-tab--file-list-item:first-child
+      margin-top: 0
+
   .op-files-tab--file-list
-    margin-bottom: 1rem
+    margin-bottom: $spot-spacing-0-75
 
     .op-files-tab--file-list-item
       .op-files-tab--file-list-item-action
