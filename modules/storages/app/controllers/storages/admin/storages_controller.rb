@@ -128,7 +128,7 @@ class Storages::Admin::StoragesController < ApplicationController
       .call
 
     # Displays a message box on the next page
-    flash[:info] = I18n.t(:notice_successful_delete)
+    flash[:notice] = I18n.t(:notice_successful_delete)
 
     # Redirect to the index page
     redirect_to admin_settings_storages_path
