@@ -29,7 +29,6 @@
 Rails.application.config.to_prepare do
   if OpenProject::Configuration.disabled_modules.any?
     to_disable = OpenProject::Configuration.disabled_modules
-    OpenProject::Plugins::ModuleHandler.disable_modules(to_disable)
-    OpenProject::Plugins::ModuleHandler.enforce!
+    OpenProject::Plugins::ModuleHandler.disable_modules!(to_disable)
   end
 end
