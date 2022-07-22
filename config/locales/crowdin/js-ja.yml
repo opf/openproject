@@ -667,14 +667,7 @@ ja:
         projects: "プロジェクト"
         settings: "設定"
     time_entry:
-      project: 'プロジェクト'
-      work_package: 'ワーク パッケージ'
       work_package_required: '最初にワークパッケージを選択する必要があります。'
-      activity: '活動'
-      comment: 'コメント'
-      duration: '期間'
-      spent_on: '日付'
-      hours: ' 時間'
       title: '時間を記録'
     two_factor_authentication:
       label_two_factor_authentication: '2要素認証'

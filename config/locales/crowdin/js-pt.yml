@@ -664,14 +664,7 @@ pt:
         projects: "Projetos"
         settings: "Configurações"
     time_entry:
-      project: 'Projeto'
-      work_package: 'Pacote de trabalho'
       work_package_required: 'É necessário selecionar primeiro um pacote de trabalho.'
-      activity: 'Atividade'
-      comment: 'Comentário'
-      duration: 'Duração'
-      spent_on: 'Data'
-      hours: 'Horas'
       title: 'Registro de tempo'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticação de dois fatores'

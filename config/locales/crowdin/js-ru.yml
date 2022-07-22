@@ -666,14 +666,7 @@ ru:
         projects: "Проекты"
         settings: "Параметры"
     time_entry:
-      project: 'Проект'
-      work_package: 'Пакет работ'
       work_package_required: 'Сначала необходимо выбрать пакет работ.'
-      activity: 'Деятельность'
-      comment: 'Комментарий'
-      duration: 'Продолжительность'
-      spent_on: 'Дата'
-      hours: 'Часы'
       title: 'Журналировать время'
     two_factor_authentication:
       label_two_factor_authentication: 'Двухфакторная аутентификация'

@@ -664,14 +664,7 @@ th:
         projects: "โครงการ"
         settings: "การตั้งค่า"
     time_entry:
-      project: 'โครงการ'
-      work_package: 'ชุดภารกิจ'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'กิจกรรม'
-      comment: 'ความคิดเห็น'
-      duration: 'ระยะเวลา'
-      spent_on: 'วันที่'
-      hours: 'ชั่วโมง'
       title: 'เวลาที่ถูกบันทึก'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

@@ -667,14 +667,7 @@ it:
         projects: "Progetti"
         settings: "Impostazioni"
     time_entry:
-      project: 'Progetto'
-      work_package: 'Macro-attività'
       work_package_required: 'Richiede prima di selezionare una macro-attività.'
-      activity: 'Attività'
-      comment: 'Commento'
-      duration: 'Durata'
-      spent_on: 'Data'
-      hours: 'Ore'
       title: 'Registra l''orario effettuato'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticazione due fattori'

@@ -23,7 +23,7 @@ cs:
     label_group_key: 'LDAP group filter key'
     label_synchronize: 'Synchronizovat'
     settings:
-      name_attribute: 'LDAP groups name attribute'
+      name_attribute: 'Atribut názvu LDAP skupin'
       name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
     synchronized_filters:
       add_new: 'Add synchronized LDAP filter'

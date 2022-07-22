@@ -66,7 +66,7 @@ ko:
     label_file_link: "파일 링크"
     label_file_links: "파일 링크"
     label_name: "이름"
-    label_host: "호스트"
+    label_host: "Host URL"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"

@@ -665,14 +665,7 @@ bg:
         projects: "Проекти"
         settings: "Настройки"
     time_entry:
-      project: 'Проект'
-      work_package: 'Работен пакет'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Активност'
-      comment: 'Коментар'
-      duration: 'Продължителност'
-      spent_on: 'Дата'
-      hours: 'Часове'
       title: 'Отчетено време'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

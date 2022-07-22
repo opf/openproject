@@ -664,14 +664,7 @@ de:
         projects: "Projekte"
         settings: "Einstellungen"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Arbeitspaket'
       work_package_required: 'Benötigt zuerst die Auswahl eines Arbeitspakets.'
-      activity: 'Aktivität'
-      comment: 'Kommentar'
-      duration: 'Dauer'
-      spent_on: 'Datum'
-      hours: 'Stunden'
       title: 'Zeit buchen'
     two_factor_authentication:
       label_two_factor_authentication: 'Zwei-Faktor-Authentifizierung'

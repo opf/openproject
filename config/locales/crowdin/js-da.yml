@@ -664,14 +664,7 @@ da:
         projects: "Projekter"
         settings: "Indstillinger"
     time_entry:
-      project: 'Prjoekt'
-      work_package: 'Arbejdspakke'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Aktivivtet'
-      comment: 'Kommentér'
-      duration: 'Varighed'
-      spent_on: 'Dato'
-      hours: 'Timer'
       title: 'Tidsregistrering'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

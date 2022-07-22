@@ -665,14 +665,7 @@ ne:
         projects: "Projects"
         settings: "Settings"
     time_entry:
-      project: 'Project'
-      work_package: 'Work package'
       work_package_required: 'सबै भन्दा पहिले कार्य प्याकेज चयन गर्न आवश्यक छ।'
-      activity: 'Activity'
-      comment: 'Comment'
-      duration: 'Duration'
-      spent_on: 'Date'
-      hours: 'Hours'
       title: 'Log time'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

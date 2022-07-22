@@ -665,14 +665,7 @@ af:
         projects: "Projekte"
         settings: "Instellings"
     time_entry:
-      project: 'Projek'
-      work_package: 'Werkspakket'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Aktiwiteit'
-      comment: 'Opmerking'
-      duration: 'Duration'
-      spent_on: 'Datum'
-      hours: 'Ure'
       title: 'Log tyd'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

@@ -669,14 +669,7 @@ hu:
         projects: "Projektek"
         settings: "Beállítások"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Feladatcsoport'
       work_package_required: 'Először ki kell választania egy munkacsomagot.'
-      activity: 'Tevékenység'
-      comment: 'Vélemény'
-      duration: 'Időtartam'
-      spent_on: 'dátum'
-      hours: 'órák'
       title: 'Eltöltött idő rögzítése'
     two_factor_authentication:
       label_two_factor_authentication: 'Kétlépcsős hitelesítés'

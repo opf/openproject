@@ -50,7 +50,7 @@ cs:
       custom_colors: "Vlastní barvy"
       customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "Jako zvláštní 'Děkujeme!' za jejich finanční příspěvky na vývoj OpenProjektu, je tato malá funkce dostupná pouze pro podporu Enterprise Edition."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
+      enterprise_more_info: "Poznámka: použité logo bude veřejně přístupné."
       manage_colors: "Upravit možnosti výběru barvy"
       instructions:
         alternative-color: "Silná barva zvýraznění, obvykle používaná pro nejdůležitější tlačítko na obrazovce."
@@ -77,7 +77,7 @@ cs:
       buttons:
         upgrade: "Upgradovat nyní"
         contact: "Kontaktujte nás pro demo"
-        more_info: "More information"
+        more_info: "Více informací"
       enterprise_info_html: "je funkcí Enterprise<strong class='icon-medal'></strong>."
       upgrade_info: "Přejděte na placenou verzi a začněte ji používat ve vašem týmu."
     journal_aggregation:
@@ -1402,7 +1402,7 @@ cs:
       no_results:
         title: "Žádné přístupové tokeny k zobrazení"
         description: "Všechny byly zakázány. Znovu povoleny mohou být v nabídce administrace."
-      access_tokens: "Access tokens"
+      access_tokens: "Přístupové tokeny"
       headers:
         action: "Akce"
         expiration: "Vyprší"
@@ -2232,13 +2232,14 @@ cs:
   permission_edit_own_time_entries: "Upravit vlastní časové záznamy"
   permission_edit_project: "Upravit projekt"
   permission_edit_reportings: "Upravit přehledy"
-  permission_edit_time_entries: "Upravit časové záznamy"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Úpravy časové osy"
   permission_edit_wiki_pages: "Upravit stránky wiki"
   permission_export_work_packages: "Exportovat pracovní balíčky"
   permission_export_wiki_pages: "Exportovat Wiki stránky"
   permission_list_attachments: "Seznam příloh"
-  permission_log_time: "Protokolovat strávený čas"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Správa fór"
   permission_manage_categories: "Spravovat kategorie pracovního balíčku"
   permission_manage_work_package_relations: "Spravovat vztahy pracovních balíčků"
@@ -2397,7 +2398,7 @@ cs:
       not_available: "Pro tento repositář není k dispozici spotřeba úložiště disku."
       update_timeout: "Uchovávejte poslední požadované informace o úložišti po dobu N minut.\nPři počítání požadovaného místa na disku v úložišti může být nákladné, zvýšit tuto hodnotu, aby se snížil vliv na výkon."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
-      oauth_application_details_link_text: "Go to settings page"
+      oauth_application_details_link_text: "Přejít na stránku nastavení"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Existující repozitář Subversion"
@@ -2491,7 +2492,7 @@ cs:
   setting_work_package_list_default_columns: "Zobrazit ve výchozím nastavení"
   setting_work_package_properties: "Vlastnosti pracovního balíčku"
   setting_work_package_startdate_is_adddate: "Použít aktuální datum jako počáteční datum pro nové úkoly"
-  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
+  setting_work_packages_projects_export_limit: "Limit exportu pracovních balíčků / projektů"
   setting_journal_aggregation_time_minutes: "Uživatelské akce agregované v rámci"
   setting_log_requesting_user: "Logovat uživatelský login a emailovou adresu pro všechny požadavky"
   setting_login_required: "Vyžadována autentizace"

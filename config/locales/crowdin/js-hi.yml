@@ -665,14 +665,7 @@ hi:
         projects: "Projects"
         settings: "Settings"
     time_entry:
-      project: 'परियोजना'
-      work_package: 'कार्य पैकेज'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'गतिविधी'
-      comment: 'टिप्पणी'
-      duration: 'Duration'
-      spent_on: 'तिथि'
-      hours: 'घंटे'
       title: 'लॉग समय'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

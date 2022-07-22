@@ -667,14 +667,7 @@ lt:
         projects: "Projektai"
         settings: "Nustatymai"
     time_entry:
-      project: 'Projektas'
-      work_package: 'Darbų paketas'
       work_package_required: 'Reikia pirma pasirinkti darbo paketą.'
-      activity: 'Veikla'
-      comment: 'Komentaras'
-      duration: 'Trukmė'
-      spent_on: 'Data'
-      hours: 'Valandų'
       title: 'Registruoti laiką'
     two_factor_authentication:
       label_two_factor_authentication: 'Dviejų veiksnių autentifikavimas'

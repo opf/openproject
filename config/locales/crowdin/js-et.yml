@@ -665,14 +665,7 @@ et:
         projects: "Projektid"
         settings: "Seaded"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Teema'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Tegevus'
-      comment: 'Kommentaar'
-      duration: 'kestus'
-      spent_on: 'Kuupäev'
-      hours: 'Tunnid'
       title: 'Ajakulu'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

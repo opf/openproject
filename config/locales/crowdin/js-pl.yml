@@ -667,14 +667,7 @@ pl:
         projects: "Projekty"
         settings: "Ustawienia"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Zadanie'
       work_package_required: 'Wymaga wybrania najpierw pakietu roboczego.'
-      activity: 'Działanie'
-      comment: 'Komentarz'
-      duration: 'Czas trwania'
-      spent_on: 'Data'
-      hours: 'Godziny'
       title: 'Rejestruj czas pracy'
     two_factor_authentication:
       label_two_factor_authentication: 'Uwierzytelnianie dwuskładnikowe'

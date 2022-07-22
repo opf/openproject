@@ -11,7 +11,7 @@ ru:
         nextcloud: "Nextcloud"
       information:
         connection_error: >
-          Некоторые настройки %{storageType} не работают. Пожалуйста, попробуйте войти снова или обратитесь к администратору %{storageType}.
+          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
         live_data_error: "Ошибка при получении сведений о файле"
         live_data_error_description: >
           Не удалось получить некоторые данные из %{storageType} . Пожалуйста, попробуйте перезагрузить эту страницу или обратитесь к администратору %{storageType}.
@@ -24,3 +24,4 @@ ru:
         open: 'Открыть файл в хранилище'
         open_location: 'Открыть файл в расположении'
         remove: "Удалить ссылку на файл"
+        remove_confirmation: "Are you sure you want to unlink the file from the work package?"

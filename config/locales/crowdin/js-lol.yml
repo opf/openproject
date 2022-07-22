@@ -664,14 +664,7 @@ lol:
         projects: "crwdns804864:0crwdne804864:0"
         settings: "crwdns804866:0crwdne804866:0"
     time_entry:
-      project: 'crwdns804868:0crwdne804868:0'
-      work_package: 'crwdns804870:0crwdne804870:0'
       work_package_required: 'crwdns804872:0crwdne804872:0'
-      activity: 'crwdns804874:0crwdne804874:0'
-      comment: 'crwdns804876:0crwdne804876:0'
-      duration: 'crwdns804878:0crwdne804878:0'
-      spent_on: 'crwdns804880:0crwdne804880:0'
-      hours: 'crwdns804882:0crwdne804882:0'
       title: 'crwdns804884:0crwdne804884:0'
     two_factor_authentication:
       label_two_factor_authentication: 'crwdns804886:0crwdne804886:0'

@@ -667,14 +667,7 @@ he:
         projects: "פרויקטים"
         settings: "הגדרות"
     time_entry:
-      project: 'פרוייקט'
-      work_package: 'חבילת עבודה'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'פעילות'
-      comment: 'תגובה'
-      duration: 'משך זמן'
-      spent_on: 'תאריך'
-      hours: 'שעות'
       title: 'נרשם ביומן'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

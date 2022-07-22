@@ -11,7 +11,7 @@ lol:
         nextcloud: "crwdns824112:0crwdne824112:0"
       information:
         connection_error: >
-          crwdns824114:0%{storageType}crwdnd824114:0%{storageType}crwdne824114:0
+          crwdns824880:0%{storageType}crwdnd824880:0%{storageType}crwdne824880:0
         live_data_error: "crwdns824116:0crwdne824116:0"
         live_data_error_description: >
           crwdns824118:0%{storageType}crwdnd824118:0%{storageType}crwdne824118:0
@@ -24,3 +24,4 @@ lol:
         open: 'crwdns824128:0crwdne824128:0'
         open_location: 'crwdns824130:0crwdne824130:0'
         remove: "crwdns824132:0crwdne824132:0"
+        remove_confirmation: "crwdns824882:0crwdne824882:0"

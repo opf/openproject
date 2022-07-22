@@ -663,14 +663,7 @@ vi:
         projects: "Các dự án"
         settings: "Cài đặt"
     time_entry:
-      project: 'Dự án'
-      work_package: 'Work Package'
       work_package_required: 'Yều cầu chọn một gói công việc đầu tiên.'
-      activity: 'Hoạt động'
-      comment: 'Nhận xét'
-      duration: 'Duration'
-      spent_on: 'Ngày'
-      hours: 'Giờ'
       title: 'Thời gian truy cập'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

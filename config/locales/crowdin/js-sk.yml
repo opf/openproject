@@ -667,14 +667,7 @@ sk:
         projects: "Projekty"
         settings: "Nastavenia"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Pracovný balíček'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Činnosť'
-      comment: 'Komentár'
-      duration: 'Trvanie'
-      spent_on: 'Dátum'
-      hours: 'Hodín'
       title: 'Zaprotokoluj čas'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvojfaktorové overenie (2FA)'

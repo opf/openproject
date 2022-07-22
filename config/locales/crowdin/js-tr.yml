@@ -665,14 +665,7 @@ tr:
         projects: "Projeler"
         settings: "Ayarlar"
     time_entry:
-      project: 'Proje'
-      work_package: 'İş paketi'
       work_package_required: 'Önce bir iş paketi seçilmesini gerektirir.'
-      activity: 'Etkinlik'
-      comment: 'Yorum'
-      duration: 'Süre'
-      spent_on: 'Tarih'
-      hours: 'Saat'
       title: 'Zaman kaydet'
     two_factor_authentication:
       label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'

@@ -664,14 +664,7 @@ el:
         projects: "Έργα"
         settings: "Ρυθμίσεις"
     time_entry:
-      project: 'Έργο'
-      work_package: 'Εργασία'
       work_package_required: 'Πρέπει πρώτα να επιλεγεί ένα πακέτο εργασίας.'
-      activity: 'Δραστηριότητα'
-      comment: 'Σχόλιο'
-      duration: 'Διάρκεια'
-      spent_on: 'Ημερομηνία'
-      hours: 'Ώρες'
       title: 'Καταγραφή χρόνου'
     two_factor_authentication:
       label_two_factor_authentication: 'Ταυτοποίηση δύο παραγόντων'

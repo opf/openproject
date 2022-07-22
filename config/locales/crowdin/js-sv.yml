@@ -664,14 +664,7 @@ sv:
         projects: "Projekt"
         settings: "Inställningar"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Arbetspaket'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Aktivitet'
-      comment: 'Kommentar'
-      duration: 'Varaktighet'
-      spent_on: 'Datum'
-      hours: 'Timmar'
       title: 'Logga tid'
     two_factor_authentication:
       label_two_factor_authentication: 'Tvåfaktorsautentisering'
