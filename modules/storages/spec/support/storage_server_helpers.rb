@@ -63,6 +63,21 @@ module StorageServerHelpers
       body: response_body
     )
   end
+
+  def mock_server_host_response(nextcloud_host,
+                                response_code: nil,
+                                response_headers: nil)
+    response_code ||= 200
+    response_headers ||= {}
+
+    stub_request(
+      :get,
+      nextcloud_host
+    ).to_return(
+      status: response_code,
+      headers: response_headers
+    )
+  end
 end
 
 RSpec.configure do |c|
