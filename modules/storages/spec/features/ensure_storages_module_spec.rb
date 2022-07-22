@@ -28,10 +28,7 @@
 
 require_relative '../spec_helper'
 
-# Checks that disabling storages modules hides everything related to it in web
-# interface. Enable it first, check everything present, then disable it, and
-# check everything present.
-describe 'Disablement of storages module', type: :feature, js: true do
+describe 'Ensure storages module', type: :feature, js: true do
   current_user { create(:admin) }
 
   let(:role) do
@@ -59,70 +56,61 @@ describe 'Disablement of storages module', type: :feature, js: true do
     Capybara.raise_server_errors = old_value
   end
 
-  it 'removes storages from administration and project pages' do
-    Setting.feature_storages_module_active = true
+  it 'shows storages on administration and project pages' do
     expect_pages_to_include_storages_information
-    Setting.feature_storages_module_active = false
-    expect_pages_not_to_include_storages_information
   end
 
   def expect_pages_to_include_storages_information
-    run_administration_pages_assertions_about_storages_visibility(expectation_target: :to)
-    run_project_pages_assertions_about_storages_visibility(expectation_target: :to)
-    run_permissions_pages_assertions_about_storages_visibility(expectation_target: :to)
+    run_administration_pages_assertions_about_storages_visibility
+    run_project_pages_assertions_about_storages_visibility
+    run_permissions_pages_assertions_about_storages_visibility
   end
 
-  def expect_pages_not_to_include_storages_information
-    run_administration_pages_assertions_about_storages_visibility(expectation_target: :not_to)
-    run_project_pages_assertions_about_storages_visibility(expectation_target: :not_to)
-    run_permissions_pages_assertions_about_storages_visibility(expectation_target: :not_to)
-  end
-
-  def run_administration_pages_assertions_about_storages_visibility(expectation_target:)
+  def run_administration_pages_assertions_about_storages_visibility
     visit admin_index_path
     within '#menu-sidebar' do
-      expect(page).send(expectation_target, have_text(I18n.t(:project_module_storages)))
+      expect(page).to have_text(I18n.t(:project_module_storages))
     end
     within '#content' do
-      expect(page).send(expectation_target, have_text(I18n.t(:project_module_storages)))
+      expect(page).to have_text(I18n.t(:project_module_storages))
     end
 
     visit admin_settings_projects_path
     within '#content' do
-      expect(page).send(expectation_target, have_text(I18n.t(:project_module_storages)))
+      expect(page).to have_text(I18n.t(:project_module_storages))
     end
 
     visit admin_settings_storages_path
-    expect(page).send(expectation_target, have_text(I18n.t(:project_module_storages)))
+    expect(page).to have_text(I18n.t(:project_module_storages))
   end
 
-  def run_project_pages_assertions_about_storages_visibility(expectation_target:)
+  def run_project_pages_assertions_about_storages_visibility
     visit project_settings_modules_path(project)
     within '#menu-sidebar' do
-      expect(page).send(expectation_target, have_text(I18n.t(:project_module_storages)))
+      expect(page).to have_text(I18n.t(:project_module_storages))
     end
     within '#content' do
-      expect(page).send(expectation_target, have_text(I18n.t(:project_module_storages)))
+      expect(page).to have_text(I18n.t(:project_module_storages))
     end
 
     visit project_settings_projects_storages_path(project)
-    expect(page).send(expectation_target, have_text(I18n.t('storages.page_titles.project_settings.index')))
+    expect(page).to have_text(I18n.t('storages.page_titles.project_settings.index'))
   end
 
-  def run_permissions_pages_assertions_about_storages_visibility(expectation_target:)
+  def run_permissions_pages_assertions_about_storages_visibility
     visit new_role_path
     within '#content' do
-      expect(page).send(expectation_target, have_text(I18n.t(:project_module_storages).upcase))
+      expect(page).to have_text(I18n.t(:project_module_storages).upcase)
     end
 
     visit edit_role_path(role)
     within '#content' do
-      expect(page).send(expectation_target, have_text(I18n.t(:project_module_storages).upcase))
+      expect(page).to have_text(I18n.t(:project_module_storages).upcase)
     end
 
     visit report_roles_path(role)
     within '#content' do
-      expect(page).send(expectation_target, have_text(I18n.t(:project_module_storages).upcase))
+      expect(page).to have_text(I18n.t(:project_module_storages).upcase)
     end
   end
 end
