@@ -31,21 +31,46 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
   def validate_each(contract, attribute, value)
     return unless contract.model.changed_attributes.include?(attribute)
 
+    validate_capabilities(contract, attribute, value)
+    validate_setup_completeness(contract, attribute, value) if contract.errors.empty?
+  end
+
+  private
+
+  def validate_capabilities(contract, attribute, value)
     response = request_capabilities(value)
-    error_type = check_response(response)
+    error_type = check_capabilities_response(response)
+
     if error_type
       contract.errors.add(attribute, error_type)
       Rails.logger.info(message(value, response, error_type))
     end
   end
 
-  private
+  # Apparently some Nextcloud installations do not use mod_rewrite. Then requesting its app root (the storage host name)
+  # the response is a redirect to a URI containing 'index.php' in its path. If that is the case that installation
+  # is not compatible with our integration. It is missing support for Bearer token based authorization. Apparently
+  # Apache strips that part of the request header by default.
+  # https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/oauth2.html
+  def validate_setup_completeness(contract, attribute, value)
+    response = request_host(value)
+    error_type = check_host_response(response)
 
-  def check_response(response)
+    if error_type
+      contract.errors.add(attribute, error_type)
+      Rails.logger.info(message(value, response, error_type))
+    end
+  end
+
+  def check_capabilities_response(response)
     return :cannot_be_connected_to if response.is_a? StandardError
     return :cannot_be_connected_to unless response.is_a? Net::HTTPSuccess
     return :not_nextcloud_server unless json_response?(response)
     return :minimal_nextcloud_version_unmet unless major_version_sufficient?(response)
+  end
+
+  def check_host_response(response)
+    :setup_incomplete if response.code == '302' && response.header['location']&.include?("/index.php")
   end
 
   def message(host, response_or_exception, error_type)
@@ -80,11 +105,8 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
     true
   end
 
-  def request_capabilities(host)
-    uri = URI.parse(File.join(host, '/ocs/v2.php/cloud/capabilities'))
-    request = Net::HTTP::Get.new(uri)
-    request["Ocs-Apirequest"] = "true"
-    request["Accept"] = "application/json"
+  def make_request(request)
+    uri = request.uri
 
     req_options = {
       max_retries: 0,
@@ -100,6 +122,22 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
     rescue StandardError => e
       e
     end
+  end
+
+  def request_capabilities(host)
+    uri = URI.parse(File.join(host, '/ocs/v2.php/cloud/capabilities'))
+    request = Net::HTTP::Get.new(uri)
+    request["Ocs-Apirequest"] = "true"
+    request["Accept"] = "application/json"
+
+    make_request(request)
+  end
+
+  def request_host(host)
+    uri = URI.parse(host)
+    request = Net::HTTP::Get.new(uri)
+
+    make_request(request)
   end
 
   def json_response?(response)
