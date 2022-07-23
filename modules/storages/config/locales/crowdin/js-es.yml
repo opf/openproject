@@ -11,7 +11,7 @@ es:
         nextcloud: "Nextcloud"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
+          Algunos ajustes dé %{storageType} no funcionan. Póngase en contacto con el administrador de %{storageType}.
         live_data_error: "Error obteniendo detalles del archivo"
         live_data_error_description: >
           Algunos datos de %{storageType} no se han podido obtener. Intente volver a cargar esta página o póngase en contacto con el administrador de %{storageType}.
@@ -24,4 +24,4 @@ es:
         open: 'Abrir el fichero en almacenamiento'
         open_location: 'Abrir fichero en su ubicación'
         remove: "Eliminar vínculo de fichero"
-        remove_confirmation: "Are you sure you want to unlink the file from the work package?"
+        remove_confirmation: "¿Estás seguro de que quieres desvincular el fichero del paquete de trabajo?"

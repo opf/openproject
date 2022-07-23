@@ -1095,9 +1095,9 @@ es:
         other: "%{count} h"
         zero: "0 h"
       day:
-        one: "1 day"
-        other: "%{count} days"
-        zero: "0 days"
+        one: "1 día"
+        other: "%{count} días"
+        zero: "0 días"
     zen_mode:
       button_activate: 'Activar modo zen'
       button_deactivate: 'Desactivar modo zen'

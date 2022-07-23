@@ -42,7 +42,7 @@ es:
     page_titles:
       project_settings:
         index: "Hay almacenes de archivos disponibles en este proyecto"
-        new: "Add a file storage to this project"
+        new: "Añadir un almacenamiento de archivos a este proyecto"
     instructions:
       type: "Por favor, asegúrese de tener privilegios de administrador en su instancia de Nextcloud y tener la siguiente aplicación instalada antes de hacer la configuración:"
       type_link_text: "“Integración OpenProject”"
@@ -66,7 +66,7 @@ es:
     label_file_link: "Enlace de archivo"
     label_file_links: "Enlaces de archivos"
     label_name: "Nombre"
-    label_host: "Host URL"
+    label_host: "URL del host"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
