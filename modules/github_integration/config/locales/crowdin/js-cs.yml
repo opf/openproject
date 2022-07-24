@@ -28,7 +28,7 @@ cs:
         title: "Pull requests"
         copy_menu:
           label: Git snippets
-          description: Copy git snippets to clipboard
+          description: Kopírovat snippety gitu do schránky
         git_actions:
           branch_name: Název pobočky
           commit_message: Commit message

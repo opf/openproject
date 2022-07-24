@@ -48,7 +48,7 @@ cs:
         main-menu-hover-font-color: "Písmo hlavního menu při přejetí myší"
         main-menu-border-color: "Okraj hlavního menu"
       custom_colors: "Vlastní barvy"
-      customize: "Customize your OpenProject installation with your own logo and colors."
+      customize: "Přizpůsobte si instalaci OpenProject vlastním logem a barvami."
       enterprise_notice: "Jako zvláštní 'Děkujeme!' za jejich finanční příspěvky na vývoj OpenProjektu, je tato malá funkce dostupná pouze pro podporu Enterprise Edition."
       enterprise_more_info: "Poznámka: použité logo bude veřejně přístupné."
       manage_colors: "Upravit možnosti výběru barvy"
@@ -468,9 +468,9 @@ cs:
         explanation: 'Popis stavu'
         codes:
           not_started: 'Nezahájeno'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'Dle plánu'
+          at_risk: 'Riziko'
+          off_track: 'Mimo plánu'
           finished: 'Dokončeno'
           discontinued: 'Zrušeno'
       query:
@@ -570,7 +570,7 @@ cs:
         does_not_exist: "neexistuje."
         error_enterprise_only: "je k dispozici pouze v OpenProject Enterprise Edition"
         error_unauthorized: "není přístupný."
-        error_readonly: "was attempted to be written but is not writable."
+        error_readonly: "se pokusil být napsán, ale není zapisovatelný."
         email: "není platná e-mailová adresa"
         empty: "nemůže být prázdné."
         even: "musí být sudé."
@@ -746,8 +746,8 @@ cs:
             due_date:
               not_start_date: "není v počátečním datu, i když je to nutné pro milníky."
             duration:
-              larger_than_dates: "is larger than the interval between the start and the finish date."
-              smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              larger_than_dates: "je větší než interval mezi datem zahájení a datem ukončení."
+              smaller_than_dates: "je mwnší než interval mezi datem zahájení a datem ukončení."
               not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "nemůže být milník."
@@ -2232,14 +2232,14 @@ cs:
   permission_edit_own_time_entries: "Upravit vlastní časové záznamy"
   permission_edit_project: "Upravit projekt"
   permission_edit_reportings: "Upravit přehledy"
-  permission_edit_time_entries: "Edit time logs for other users"
+  permission_edit_time_entries: "Upravit časové záznamy pro ostatní uživatele"
   permission_edit_timelines: "Úpravy časové osy"
   permission_edit_wiki_pages: "Upravit stránky wiki"
   permission_export_work_packages: "Exportovat pracovní balíčky"
   permission_export_wiki_pages: "Exportovat Wiki stránky"
   permission_list_attachments: "Seznam příloh"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "Zaznamenat vlastní čas"
+  permission_log_time: "Čas záznamu pro ostatní uživatele"
   permission_manage_forums: "Správa fór"
   permission_manage_categories: "Spravovat kategorie pracovního balíčku"
   permission_manage_work_package_relations: "Spravovat vztahy pracovních balíčků"
@@ -2443,7 +2443,7 @@ cs:
   setting_smtp_authentication: "Ověřování SMTP"
   setting_smtp_user_name: "Uživatelské jméno SMTP"
   setting_smtp_password: "Heslo SMTP"
-  setting_smtp_domain: "SMTP HELO domain"
+  setting_smtp_domain: "SMTP HELO doména"
   setting_activity_days_default: "Dny zobrazené na aktivitě projektu"
   setting_app_subtitle: "Podtitulek aplikace"
   setting_app_title: "Název aplikace"
@@ -2953,7 +2953,7 @@ cs:
         work_package: "Pracovní balíček, který hledáte, nebyl nalezen nebo byl odstraněn."
       expected:
         date: "RRRR-MM-DD (pouze ISO 8601 datum)"
-        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
+        datetime: "RRRR-MM-DDThh:mm:ss[.lll][+hh:mm] (jakýkoli kompatibilní datový prvek podle ISO 8601)"
         duration: "Doba trvání ISO 8601"
       invalid_content_type: "Očekávaný DRUH KONTENTU bude '%{content_type}', ale dostal '%{actual}'."
       invalid_format: "Neplatný formát vlastnosti '%{property}': Očekávaný formát jako '%{expected_format}', ale dostal '%{actual}'."
@@ -3094,12 +3094,12 @@ cs:
       label_request_token: "Vyžádat token"
       label_refresh_token: "Obnovit token"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
-      oauth_reported: "OAuth2 provider reported"
-      oauth_returned_error: "OAuth2 returned an error"
-      oauth_returned_json_error: "OAuth2 returned a JSON error"
-      oauth_returned_http_error: "OAuth2 returned a network error"
-      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      oauth_authorization_code_grant_had_errors: "OAuth2 vrátil chybu"
+      oauth_reported: "OAuth2 poskytovatel nahlášen"
+      oauth_returned_error: "OAuth2 vrátil chybu"
+      oauth_returned_json_error: "OAuth2 vrátil chybu JSON"
+      oauth_returned_http_error: "OAuth2 vrátil chybu sítě"
+      oauth_returned_standard_error: "OAuth2 vrátil interní chybu"
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
@@ -3120,14 +3120,14 @@ cs:
           OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
         invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
         invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
-        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        invalid_client: "Autorizační server OAuth2 nerozpozná OpenProject (invalid_client)."
         unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
         unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
-        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+        invalid_scope: "Nemáte oprávnění k přístupu k požadovanému zdroji (invalid_scope)."
   http:
     request:
       failed_authorization: "The server side request failed authorizing itself."
       missing_authorization: "The server side request failed due to missing authorization information."
     response:
-      unexpected: "Unexpected response received."
+      unexpected: "Byla přijata neočekávaná odpověď."
   you: vy
