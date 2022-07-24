@@ -47,7 +47,7 @@ cs:
     synchronized_groups:
       add_new: 'Přidat synchronizovanou LDAP skupinu'
       destroy:
-        title: 'Remove synchronized group %{name}'
+        title: 'Odstranit synchronizovanou skupinu %{name}'
         confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
         info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
         verification: "Zadejte název skupiny %{name} pro ověření odstranění."

@@ -239,7 +239,7 @@ cs:
           text: >
             OpenProject Enterprise Edition je postavena na komunitní edici. Obsahuje prémiové funkce a profesionální podporu zaměřenou především na organizace s více než 10 uživateli, kteří spravují kritické projekty
           unlimited: "Bez omezení"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Vývojáři musí platit také své účty. Přejetím na Enterprise Edition budete podporovat toto open source úsilí komunity a přispívat k jeho vývoji, údržbě a neustálému zlepšování."
     custom_actions:
       date:
         specific: 'zapnuto'
@@ -253,7 +253,7 @@ cs:
     enumeration_doc_categories: "Kategorie dokumentů"
     enumeration_work_package_priorities: "Priority pracovního balíčku"
     filter:
-      more_values_not_shown: "There are %{total} more results, search to filter results."
+      more_values_not_shown: "K dispozici je ještě %{total} výsledků, hledejte pro filtrování výsledků."
       description:
         text_open_filter: "Otevřete tento filtr \"ALT\" a šipkami."
         text_close_filter: "Chcete-li vybrat položku, ponechte zaostření například stisknutím klávesy Enter. Chcete-li ponechat bez filtru, vyberte první položku (prázdnou)."
@@ -506,7 +506,7 @@ cs:
         boards:
           overview: 'Vyberte <b>tabule</b> pro posun zobrazení a správu vašeho projektu pomocí agilního zobrazení desek.'
           lists_kanban: 'Zde si můžete vytvořit více seznamů (sloupce) ve vaší tabuli. Tato funkce vám umožní například vytvořit <b>Kanban desku</b>.'
-          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
+          lists_basic: 'Zde můžete vytvořit více seznamů (sloupce) v agilní tabuli.'
           add: 'Klikněte na ikonu plus (+) pro <b>vytvoření nové karty</b> nebo <b>přidejte existující kartu</b> do seznamu na tabuli.'
           drag: 'Přetažením karet v daném seznamu je změníte, nebo je přesuňte do jiného seznamu. <br> Můžete kliknout na info (i) ikonu v pravém horním rohu nebo dvakrát kliknout na kartu pro otevření podrobností.'
         wp:
@@ -815,7 +815,7 @@ cs:
       zooms: "Úroveň zvětšení"
       outlines: "Úroveň hierarchie"
     upsale:
-      ee_only: 'Enterprise Edition feature'
+      ee_only: 'Funkce Enterprise Edition'
     wiki_formatting:
       strong: "Silný"
       italic: "Kurzíva"
@@ -1003,7 +1003,7 @@ cs:
           attribute_highlighting: 'Potřebujete určité pracovní balíčky, aby vyšly z celkového objemu?'
           relation_columns: 'Potřebujete vidět vztahy v seznamu pracovních balíčků?'
           check_out_link: 'Podívejte se na Enterprise Edition.'
-          more-info-text: 'More information'
+          more-info-text: 'Více informací'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrovat pracovní balíčky podle typu vztahu'
       tabs:
@@ -1101,8 +1101,8 @@ cs:
         other: "%{count} h"
         zero: "0 h"
       day:
-        one: "1 day"
-        other: "%{count} days"
+        one: "1 den"
+        other: "%{count} dní"
         zero: "0 dní"
     zen_mode:
       button_activate: 'Aktivovat zen režim'

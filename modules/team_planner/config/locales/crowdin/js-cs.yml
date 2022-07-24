@@ -11,7 +11,7 @@ cs:
       two_weeks: '2 týdny'
       one_week: '1 týden'
       today: 'Dnes'
-      drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
+      drag_here_to_remove: 'Přetažením sem odstraníte pověřenou osobu a datum začátku a ukončení.'
       cannot_drag_here: 'Pracovní balíček nelze odstranit kvůli oprávněním nebo úpravám omezení.'
       quick_add:
         empty_state: 'Použijte vyhledávací pole pro nalezení pracovních balíčků a přetáhněte je do plánovače, aby někomu přiřadil a definoval datum začátku a konce.'
