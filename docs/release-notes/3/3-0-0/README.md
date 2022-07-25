@@ -97,4 +97,4 @@ please refer to the release notes:
 [Rails 3.2 release notes](https://guides.rubyonrails.org/v3.2.14/3_2_release_notes.html)
 
 If you have an older version of OpenProject, please follow the
-[migration guideline](../../installation-and-operations/operation/upgrading/).
+[migration guideline](../../../installation-and-operations/operation/upgrading/).

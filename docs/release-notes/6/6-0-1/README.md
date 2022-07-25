@@ -11,7 +11,7 @@
 **OpenProject 6.0.1 contains the following changes for the Wiki module:**
 
 In OpenProject versions prior to 6.0.0., specific characters of
-[wiki](../../user-guide/wiki/) titles were removed
+[wiki](../../../user-guide/wiki/) titles were removed
 upon saving – especially dots and spaces. Spaces were replaced with an
 underscore, while other characters were removed.  
 Still, linking to these pages was possible with either the original
@@ -79,7 +79,7 @@ automatically.
   - Several accessibility improvements.
 
 Thanks a lot to Guillaume Ferry and Willy Gardiol for [reporting
-bugs](../../development/report-a-bug/).
+bugs](../../../development/report-a-bug/).
 
 For further information on the release, please refer to the  
 [Changelog v.6.0.1](https://community.openproject.com/versions/807) 

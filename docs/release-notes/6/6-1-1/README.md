@@ -59,7 +59,7 @@ OpenProject 6.1.1 contains several bug fixes and improvements.
 
 Thanks a lot to the community, in particular to Marc Vollmer, Markus
 Hillenbrand, Nicolai Daniel and Christophe Mornet for [reporting
-bugs](../../development/report-a-bug/)!
+bugs](../../../development/report-a-bug/)!
 
 For further information on the release, please refer to the  
 [Changelog v.6.1.1](https://community.openproject.com/versions/821) 
