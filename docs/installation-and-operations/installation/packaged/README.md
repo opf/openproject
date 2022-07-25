@@ -28,7 +28,7 @@ The package is available for the following Linux distributions:
 
 | Distribution (64 bits only)                 |
 | ------------------------------------------- |
-| [Ubuntu 22.04 Focal](#ubuntu-2204)          |
+| [Ubuntu 22.04 Jammy](#ubuntu-2204)          |
 | [Ubuntu 20.04 Focal](#ubuntu-2004)          |
 | [Ubuntu 18.04 Bionic Beaver](#ubuntu-1804)  |
 | [Ubuntu 16.04 Xenial Xerus](#ubuntu-1604)   |
