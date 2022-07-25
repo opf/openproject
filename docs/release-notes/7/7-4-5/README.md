@@ -47,7 +47,7 @@ a look
 at [GitHub](https://github.com/opf/openproject/tree/v7.4.5).
 
 Special thanks go to all OpenProject contributors for [reporting
-bugs](../../development/report-a-bug/) and helping
+bugs](../../../development/report-a-bug/) and helping
 us to reproduce them.
 
 ### DSGVO consenting feature

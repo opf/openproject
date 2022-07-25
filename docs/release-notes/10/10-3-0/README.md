@@ -61,12 +61,12 @@ You can find useful information in the [OpenProject help section](https://www.op
 
 If you’re using the OpenProject Cloud Edition, you will be automatically updated to the latest version of OpenProject 10.1 in the next days. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
 
-[Please visit our upgrade guides for more information](../../installation-and-operations/operation/upgrading/).
+[Please visit our upgrade guides for more information](../../../installation-and-operations/operation/upgrading/).
 
 ## Credits
 
 Special thanks go to all OpenProject contributors without whom this release would not have been possible:
 
 - All the developers, designers, project managers who have contributed to OpenProject.
-- Every dedicated user who has [reported bugs](../../development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- Every dedicated user who has [reported bugs](../../../development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 - All the engaged users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
