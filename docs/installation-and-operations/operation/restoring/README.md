@@ -151,7 +151,7 @@ First we create the folder to be mounted by our OpenProject container.
 While we're at we also create the assets folder which should be mounted too.
 
 ```
-mkdir /var/lib/openproject/{pgdata,assets}
+mkdir -p /var/lib/openproject/{pgdata,assets}
 ```
 
 #### 2) Initialize the database
