@@ -55,7 +55,7 @@ newest version.
   - Changed: A security / update warning notification is shown by
     default for administrators on specific pages. [Please see the
     configuration
-    documentation](../../system-admin-guide/information#security-badge)
+    documentation](../../../system-admin-guide/information#security-badge)
     for more information what this badge does, and what information is
     requested from our release servers to render the badge. This page
     also provides means to disable this check.

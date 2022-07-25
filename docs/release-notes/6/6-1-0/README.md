@@ -52,7 +52,7 @@ The OpenProject API v3 has been extended by user endpoints. It is now
 possible to create, read, update and delete user information.  
 In addition, we added the relations API.  
 For more information take a look at the 
-[API documentation](../../api/).
+[API documentation](../../../api/).
 
 ## Upgrade to Rails 5.0
 
