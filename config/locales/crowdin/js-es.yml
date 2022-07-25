@@ -231,6 +231,7 @@ es:
             professional_support: "Soporte profesional"
             professional_support_text: "Obtenga ayuda rápida y de confianza de nuestros agentes de asistencia con conocimientos especializados sobre cómo ejecutar OpenProject en entornos empresariales críticos."
           button_start_trial: "Iniciar prueba gratuita"
+          button_upgrade: "Actualizar ahora"
           button_book_now: "Reservar ahora"
           confidence: >
             Ofrecemos la confianza de un software de gestión de proyectos de categoría empresarial probado y con asistencia: de código abierto y mente abierta.
@@ -267,7 +268,8 @@ es:
           one: "Primer criterio de ordenación"
           two: "Segundo criterio de ordenación"
           three: "Tercer criterio de ordenación"
-      upsale_for_more: "Para filtros más avanzados, consulte"
+      upsale_for_more: "Los filtros avanzados te permiten usar casi cualquier atributo de paquete de trabajo como un filtro. Por favor, actualice a un plan de pago para usar esta función."
+      more_info: "Más información"
       upsale_link: 'Edición Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
@@ -398,6 +400,8 @@ es:
     label_previous: "Anterior"
     label_per_page: "Por pagina:"
     label_please_wait: "Por favor, espere"
+    label_project: "Proyecto"
+    label_project_list: "Lista de proyectos"
     label_project_plural: "Proyectos"
     label_visibility_settings: "Configuración de visibilidad"
     label_quote_comment: "Citar este comentario"
@@ -410,6 +414,7 @@ es:
     label_report: "Reportar"
     label_repository_plural: "Repositorios"
     label_save_as: "Guardad como"
+    label_select_project: "Seleccione un proyecto"
     label_select_watcher: "Selecciona un observador..."
     label_selected_filter_list: "Filtros seleccionados"
     label_show_attributes: "Mostrar todos los atributos"
@@ -451,10 +456,10 @@ es:
     label_unwatch: "Dejar de observar"
     label_unwatch_work_package: "Dejar de observar paquetes de trabajo"
     label_uploaded_by: "Cargado por"
-    label_default_queries: "Vistas predeterminadas"
-    label_starred_queries: "Vistas favoritas"
-    label_global_queries: "Vistas públicas"
-    label_custom_queries: "Vistas privadas"
+    label_default_queries: "Por defecto"
+    label_starred_queries: "Favorito"
+    label_global_queries: "Público"
+    label_custom_queries: "Privado"
     label_columns: "Columnas"
     label_attachments: Archivos adjuntos
     label_drop_files: Suelta los archivos aquí
@@ -534,7 +539,7 @@ es:
           one: 'y 1 más'
           other: 'y %{count} más'
         no_results:
-          at_all: 'Aquí se mostrarán las nuevas notificaciones cuando haya actividad que le resulte pertinente'
+          at_all: 'Las nuevas notificaciones aparecerán aquí cuando haya alguna actividad que te concierna, mientras tanto, también puedes ver y modificar la configuración de las notificaciones y modificar cuándo quieres ser notificado.'
           with_current_filter: 'No hay notificaciones en esta vista actualmente'
         mark_all_read: 'Marcar todas como leídas'
         mark_as_read: 'Marcar como leída'
@@ -542,7 +547,8 @@ es:
         total_count_warning: "Mostrando las %{newest_count} notificaciones más recientes. %{more_count} más no se muestran."
         empty_state:
           no_notification: "Parece que ya estás al día."
-          no_notification_with_current_filter: "Cambie la implicación o vuelva a la bandeja de entrada para ver las notificaciones"
+          no_notification_with_current_project_filter: "Parece que todo está listo con el proyecto seleccionado."
+          no_notification_with_current_filter: "Parece que todo está listo para el filtro %{filter}."
           no_selection: "Haga clic en una notificación para ver todos los detalles de la actividad."
         new_notifications:
           message: 'Hay nuevas notificaciones.'
@@ -659,14 +665,7 @@ es:
         projects: "Proyectos"
         settings: "Configuración"
     time_entry:
-      project: 'Proyecto'
-      work_package: 'Paquete de trabajo'
       work_package_required: 'Es necesario seleccionar primero un paquete de trabajo.'
-      activity: 'Actividad'
-      comment: 'Comentario'
-      duration: 'Duración'
-      spent_on: 'Fecha'
-      hours: 'Horas'
       title: 'Registro de tiempo'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticación de dos factores'
@@ -807,7 +806,7 @@ es:
       zooms: "Nivel de zoom"
       outlines: "Nivel de jerarquía"
     upsale:
-      ee_only: 'Característica exclusiva de edición Enterprise'
+      ee_only: 'Función de la edición Enterprise'
     wiki_formatting:
       strong: "Negrita"
       italic: "Cursiva"
@@ -835,6 +834,13 @@ es:
       comment_send_failed: "Ha ocurrido un error. No se pudo añadir el comentario."
       comment_updated: "El comentario se actualizó correctamente."
       confirm_edit_cancel: "¿Está seguro que desea cancelar la edición del paquete de trabajo?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Programado automáticamente. Las fechas están derivadas de relaciones."
+        manually_scheduled: "Programación manual activa, todas las relaciones son ignoradas."
+        start_date_limited_by_relations: "Las fechas de inicio y final disponibles están limitadas por relaciones."
+        changing_dates_affects_follow_relations: "Cambiar estas fechas afectará a las fechas de los paquetes de trabajo relacionados."
+        click_on_show_relations_to_open_gantt: 'Haga clic en "%{button_name}" para la vista general de GANTT.'
+        show_relations: 'Mostrar relaciones'
       description_filter: "Filtro"
       description_enter_text: "Introducir texto"
       description_options_hide: "Ocultar opciones"
@@ -988,6 +994,7 @@ es:
           attribute_highlighting: '¿Necesita que algunos paquetes de trabajo destaquen del resto?'
           relation_columns: '¿Necesita ver las relaciones en la lista de paquetes de trabajo?'
           check_out_link: 'Vea la edición Enterprise.'
+          more-info-text: 'Más información'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrar paquetes de trabajo por tipo de relación'
       tabs:
@@ -1020,10 +1027,7 @@ es:
       filter: "Filtro"
       unselected_title: "Paquete de trabajo"
       search_query_label: "Buscar vistas guardadas"
-      search_query_title: "Haga clic para buscar las vistas guardadas"
-      placeholder_query_title: "Establecer un título para esta vista"
     modals:
-      label_settings: "Cambiar nombre de vista"
       label_name: "Nombre"
       label_delete_page: "Borrar página actual"
       button_apply: "Aplicar"
@@ -1083,6 +1087,10 @@ es:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 día"
+        other: "%{count} días"
+        zero: "0 días"
     zen_mode:
       button_activate: 'Activar modo zen'
       button_deactivate: 'Desactivar modo zen'
@@ -1178,6 +1186,7 @@ es:
       tooltip:
         include_all_selected: 'Está seleccionada la opción para incluir todos los subproyectos.'
         current_project: 'Este es el proyecto actual.'
+        does_not_match_search: 'El proyecto no coincide con los criterios de búsqueda.'
     forms:
       submit_success_message: 'El formulario se envió correctamente'
       load_error_message: 'Se produjo un error al cargar el formulario'

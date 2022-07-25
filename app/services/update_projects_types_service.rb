@@ -28,7 +28,7 @@
 
 class UpdateProjectsTypesService < BaseProjectService
   def call(type_ids)
-    type_ids = standard_types if type_ids.nil? || type_ids.empty?
+    type_ids = standard_types if type_ids.blank?
 
     if types_missing?(type_ids)
       project.errors.add(:types,
@@ -36,7 +36,7 @@ class UpdateProjectsTypesService < BaseProjectService
                          types: missing_types(type_ids).map(&:name).join(', '))
       false
     else
-      project.type_ids = type_ids
+      update_project_types(type_ids)
 
       true
     end
@@ -58,10 +58,16 @@ class UpdateProjectsTypesService < BaseProjectService
   end
 
   def missing_types(type_ids)
-    types_used_by_work_packages.select { |t| !type_ids.include?(t.id) }
+    types_used_by_work_packages.select { |t| type_ids.exclude?(t.id) }
   end
 
   def types_used_by_work_packages
     @types_used_by_work_packages ||= project.types_used_by_work_packages
+  end
+
+  def update_project_types(type_ids)
+    new_types_to_add = type_ids - project.type_ids
+    project.type_ids = type_ids
+    project.work_package_custom_field_ids |= WorkPackageCustomField.joins(:types).where(types: { id: new_types_to_add }).ids
   end
 end

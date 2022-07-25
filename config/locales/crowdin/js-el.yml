@@ -230,6 +230,7 @@ el:
             professional_support: "Επαγγελματική υποστήριξη"
             professional_support_text: "Αποκτήστε αξιόπιστη, high-touch υποστήριξη από ανώτερους μηχανικούς υποστήριξης με εξειδικευμένες γνώσεις σχετικά με τη λειτουργία του OpenProject σε κρίσιμα επιχειρηματικά περιβάλλοντα."
           button_start_trial: "Έναρξη δωρεάν δοκιμαστικής περιόδου"
+          button_upgrade: "Upgrade now"
           button_book_now: "Κάντε κράτηση τώρα"
           confidence: >
             Παρέχουμε την εμπιστοσύνη ενός δοκιμασμένου και υποστηριζόμενου λογισμικού διαχείρισης έργων, επιχειρησιακού επιπέδου - με Ανοιχτό Κώδικα και ανοιχτό μυαλό.
@@ -266,7 +267,8 @@ el:
           one: "Πρώτο κριτήριο ταξινόμησης"
           two: "Δεύτερο κριτήριο ταξινόμησης"
           three: "Τρίτο κριτήριο ταξινόμησης"
-      upsale_for_more: "Για περισσότερα προχωρημένα φίλτρα, κοιτάξτε το"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'Έκδοση για Επιχειρήσεις.'
     general_text_no: "όχι"
     general_text_yes: "ναι"
@@ -397,6 +399,8 @@ el:
     label_previous: "Προηγούμενο"
     label_per_page: "Ανά σελίδα:"
     label_please_wait: "Παρακαλώ περιμένετε"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Έργα"
     label_visibility_settings: "Ρυθμίσεις ορατότητας"
     label_quote_comment: "Παραθέστε αυτό το σχόλιο"
@@ -409,6 +413,7 @@ el:
     label_report: "Αναφορά"
     label_repository_plural: "Αποθετήρια"
     label_save_as: "Αποθήκευση ως"
+    label_select_project: "Select a project"
     label_select_watcher: "Επιλέξτε έναν παρατηρητή..."
     label_selected_filter_list: "Επιλεγμένα φίλτρα"
     label_show_attributes: "Εμφανίστε όλα τα χαρακτηριστικά"
@@ -450,10 +455,10 @@ el:
     label_unwatch: "Αναίρεση παρακολούθησης"
     label_unwatch_work_package: "Αναίρεση παρακολούθησης πακέτου εργασίας"
     label_uploaded_by: "Μεταφορτώθηκε από"
-    label_default_queries: "Προεπιλεγμένες προβολές"
-    label_starred_queries: "Αγαπημένες προβολές"
-    label_global_queries: "Δημόσιες προβολές"
-    label_custom_queries: "Ιδιωτικές προβολές"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Στήλες"
     label_attachments: Συνημμένα
     label_drop_files: Σύρετε αρχεία εδώ
@@ -533,7 +538,7 @@ el:
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -541,7 +546,8 @@ el:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -658,14 +664,7 @@ el:
         projects: "Έργα"
         settings: "Ρυθμίσεις"
     time_entry:
-      project: 'Έργο'
-      work_package: 'Εργασία'
       work_package_required: 'Πρέπει πρώτα να επιλεγεί ένα πακέτο εργασίας.'
-      activity: 'Δραστηριότητα'
-      comment: 'Σχόλιο'
-      duration: 'Διάρκεια'
-      spent_on: 'Ημερομηνία'
-      hours: 'Ώρες'
       title: 'Καταγραφή χρόνου'
     two_factor_authentication:
       label_two_factor_authentication: 'Ταυτοποίηση δύο παραγόντων'
@@ -806,7 +805,7 @@ el:
       zooms: "Επίπεδο μεγέθυνσης"
       outlines: "Επίπεδο Ιεραρχίας"
     upsale:
-      ee_only: 'Λειτουργία μόνο για εκδόσεις για επιχειρήσεις'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Δυνατό"
       italic: "Πλάγια γραφή"
@@ -834,6 +833,13 @@ el:
       comment_send_failed: "Παρουσιάστηκε ένα σφάλμα. Δεν ήταν δυνατή η υποβολή του σχολίου."
       comment_updated: "Το σχόλιο ενημερώθηκε με επιτυχία."
       confirm_edit_cancel: "Είστε βέβαιοι ότι θέλετε να ακυρώσετε την επεξεργασία αυτού του πακέτου εργασίας;"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Φίλτρο"
       description_enter_text: "Εισάγετε κείμενο"
       description_options_hide: "Απόκρυψη επιλογών"
@@ -987,6 +993,7 @@ el:
           attribute_highlighting: 'Χρειάζεστε συγκεκριμένα πακέτα εργασίας για να ξεχωρίσετε από την μάζα;'
           relation_columns: 'Χρειάζεστε να βλέπετε συσχετίσεις στη λίστα πακέτων εργασίας;'
           check_out_link: 'Δείτε την Έκδοση για Επιχειρήσεις.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Φιλτράρετε τα πακέτα εργασίας κατά τύπο συσχέτισης'
       tabs:
@@ -1019,10 +1026,7 @@ el:
       filter: "Φίλτρο"
       unselected_title: "Εργασία"
       search_query_label: "Αναζήτηση αποθηκευμένων προβολών"
-      search_query_title: "Πατήστε για να αναζητήσετε τις αποθηκευμένες προβολές"
-      placeholder_query_title: "Ορίστε έναν τίτλο για αυτή την προβολή"
     modals:
-      label_settings: "Μετονομασία προβολής"
       label_name: "Όνομα"
       label_delete_page: "Διαγραφή της τρέχουσας σελίδας"
       button_apply: "Εφαρμογή"
@@ -1082,6 +1086,10 @@ el:
         one: "1 ώρα"
         other: "%{count} ώρες"
         zero: "0 ω"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Ενεργοποίηση λειτουργίας zen'
       button_deactivate: 'Απενεργοποίηση λειτουργίας zen'
@@ -1177,6 +1185,7 @@ el:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Η φόρμα υποβλήθηκε με επιτυχία'
       load_error_message: 'There was an error loading the form'

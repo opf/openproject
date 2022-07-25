@@ -32,19 +32,31 @@ pt:
     errors:
       too_many_elements_created_at_once: "Muitos elementos criados ao mesmo tempo. Esperado %{max} no máximo, obteve %{actual}."
   storages:
+    buttons:
+      done_continue_setup: "Done. Continue setup"
+      replace_openproject_oauth: "Replace OpenProject OAuth"
+      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
+      save_and_continue_setup: "Save and continue setup"
+      save_and_complete_setup: "Save and complete setup"
+      cancel: "Cancel"
     page_titles:
       project_settings:
         index: "Armazenamento de arquivos disponíveis neste projeto"
-        new: "Ativar armazenamento de arquivos para este projeto"
+        new: "Add a file storage to this project"
     instructions:
-      name: "Por favor, use um nome curto. Ele será usado como um título de aba na exibição do pacote de trabalho."
-      host: "A URL da sua instância de armazenamento. A URL não deve ter mais de 255 caracteres."
+      type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
+      type_link_text: "“Integration OpenProject”"
+      name: "Give your storage a name so that users can differentiate between multiple storages."
+      host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
       no_storage_set_up: "Ainda não há armazenamento de arquivos configurado."
       setting_up_additional_storages: "Para configurar armazenamentos de arquivos adicionais, por favor visite"
       setting_up_additional_storages_non_admin: "Os administradores podem configurar armazenamentos adicionais em Administração/Armazenamento de arquivos."
       setting_up_storages: "Para configurar armazenamentos de arquivos, visite"
       setting_up_storages_non_admin: "Administradores podem configurar armazenamentos de arquivos em Administração / Armazenamento de arquivos."
       all_available_storages_already_added: "Todos os armazenamentos disponíveis já foram adicionados ao projeto."
+      copy_from: "Copy this value from"
+      nextcloud:
+        integration: "Nextcloud Administration / OpenProject"
     delete_warning:
       storage: >
         Tem certeza de que deseja excluir este armazenamento? Isso também excluirá o armazenamento de todos os projetos em que for usado. Além disso, também excluirá todos os vínculos de pacotes de trabalho para arquivos armazenados nesse armazenamento.
@@ -54,12 +66,26 @@ pt:
     label_file_link: "Vínculo do arquivo"
     label_file_links: "Vínculos dos arquivos"
     label_name: "Nome"
-    label_host: "Servidor"
+    label_host: "Host URL"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
+    label_oauth_application_details: "OAuth application details"
+    label_oauth_client_details: "Detalhes do cliente OAuth"
     label_provider_type: "Tipo de provedor"
     label_new_storage: "Novo armazenamento"
     label_storage: "Armazenamento"
     label_storages: "Armazenamentos"
     no_results: "Ainda não há armazenamento configurado."
+    label_oauth_client_id: "ID do cliente Oauth2"
+    label_oauth_client_secret: "Cliente Secreto OAuth"
     provider_types:
       label: "Tipo de provedor"
-      nextcloud: "Nextcloud"
+      nextcloud:
+        name: "Nextcloud"
+        name_placeholder: "e.g. Nextcloud"
+        default_name: "My Nextcloud"
+    confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
+    confirm_replace_oauth_client: "Tem certeza? Todos os usuários terão que autorizar novamente no armazenamento."
+    oauth_client_details_missing: "Para concluir a configuração, adicione as credenciais do cliente OAuth do seu armazenamento."
+    notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."

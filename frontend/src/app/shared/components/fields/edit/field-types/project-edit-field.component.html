@@ -1,11 +1,12 @@
-<op-autocompleter
-  appendTo="body"
-  resource="default"
-  [fetchDataDirectly]="true"
+<op-project-autocompleter
+  [ngClass]="'inline-edit--field ' + handler.fieldName"
+
+  [url]="url"
+  [apiFilters]="APIFilters"
   [focusDirectly]="!(handler.inEditMode || isNew)"
-  [openDirectly]="!(handler.inEditMode || isNew)"
-  [getOptionsFn]="getOptionsFn"
-  [classes]="'inline-edit--field ' + handler.fieldName"
-  (change)="onModelChange($event)"
->
-</op-autocompleter>
+  [openDirectly]="!isNew"
+  appendTo="body"
+
+  (valueChange)="onModelChange($event)"
+  (cancel)="handler.handleUserCancel()"
+></op-project-autocompleter>

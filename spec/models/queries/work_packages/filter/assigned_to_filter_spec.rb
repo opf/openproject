@@ -50,7 +50,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       let(:values) { [assignee.id.to_s] }
 
       it 'returns the work package' do
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
     end
@@ -65,7 +65,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       end
 
       it 'returns the work package' do
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
 
@@ -88,7 +88,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       end
 
       it 'does not return the work package' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
@@ -113,7 +113,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         objects = instance.value_objects
 
         # As no order is defined in the filter, we use the same method of fetching the values
-        # from the DB as the object under text expecting it to return the values in the same order
+        # from the DB as the object under test expecting it to return the values in the same order
         expect(objects.map(&:id)).to eql ['me'] + Principal.where(id: [assignee.id, assignee2.id]).pluck(:id)
       end
     end
@@ -123,7 +123,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       let(:values) { [group.id.to_s] }
 
       it 'returns the work package' do
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
     end
@@ -133,7 +133,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       let(:group) { create(:group, members: assignee) }
 
       it 'does not return the work package' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
@@ -142,7 +142,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       let(:values) { [group.id.to_s] }
 
       it 'does not return the work package' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
@@ -154,7 +154,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       let(:group) { create(:group, members: user) }
 
       it 'does not return the work package' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
@@ -165,7 +165,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       let(:user) { create(:user) }
 
       it 'does not return the work package' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
@@ -174,7 +174,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       let(:values) { ['0'] }
 
       it 'does not return the work package' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
@@ -189,12 +189,12 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     let(:placeholder_user) { build_stubbed(:group) }
 
     let(:principal_loader) do
-      double('principal_loader', principal_values: principal_values)
+      double('principal_loader', principal_values:)
     end
     let(:principal_values) { [] }
 
     describe '#valid_values!' do
-      let(:principal_values) { [[user.name, user.id.to_s]] }
+      let(:principal_values) { [[nil, user.id.to_s]] }
 
       before do
         instance.values = [user.id.to_s, '99999']
@@ -233,7 +233,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         end
 
         context 'if a user is available' do
-          let(:principal_values) { [[user.name, user.id.to_s]] }
+          let(:principal_values) { [[nil, user.id.to_s]] }
 
           it 'is true' do
             expect(instance).to be_available
@@ -241,7 +241,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         end
 
         context 'if a placeholder user is available' do
-          let(:principal_values) { [[placeholder_user.name, placeholder_user.id.to_s]] }
+          let(:principal_values) { [[nil, placeholder_user.id.to_s]] }
 
           it 'is true' do
             expect(instance).to be_available
@@ -249,7 +249,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         end
 
         context 'if another group selectable' do
-          let(:principal_values) { [[group.name, group.id.to_s]] }
+          let(:principal_values) { [[nil, group.id.to_s]] }
 
           it 'is true' do
             expect(instance).to be_available
@@ -269,7 +269,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         end
 
         context 'if a user is available' do
-          let(:principal_values) { [[user.name, user.id.to_s]] }
+          let(:principal_values) { [[nil, user.id.to_s]] }
 
           it 'is true' do
             expect(instance).to be_available
@@ -277,7 +277,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         end
 
         context 'if a placeholder user is available' do
-          let(:principal_values) { [[placeholder_user.name, placeholder_user.id.to_s]] }
+          let(:principal_values) { [[nil, placeholder_user.id.to_s]] }
 
           it 'is true' do
             expect(instance).to be_available
@@ -285,7 +285,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         end
 
         context 'if another group selectable' do
-          let(:principal_values) { [[group.name, group.id.to_s]] }
+          let(:principal_values) { [[nil, group.id.to_s]] }
 
           it 'is true' do
             expect(instance).to be_available
@@ -304,15 +304,15 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
 
         allow(principal_loader)
           .to receive(:principal_values)
-          .and_return([[user.name, user.id.to_s], [group.name, group.id.to_s]])
+          .and_return([[nil, user.id.to_s], [nil, group.id.to_s]])
       end
 
       context 'when being logged in' do
         it 'returns the me value and the available users and groups' do
           expect(instance.allowed_values)
             .to match_array([[I18n.t(:label_me), 'me'],
-                             [user.name, user.id.to_s],
-                             [group.name, group.id.to_s]])
+                             [nil, user.id.to_s],
+                             [nil, group.id.to_s]])
         end
       end
 
@@ -321,8 +321,8 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
 
         it 'returns the available users' do
           expect(instance.allowed_values)
-            .to match_array([[user.name, user.id.to_s],
-                             [group.name, group.id.to_s]])
+            .to match_array([[nil, user.id.to_s],
+                             [nil, group.id.to_s]])
         end
       end
     end

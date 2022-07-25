@@ -40,7 +40,7 @@ module OpenProject::Bim::Patches::AttachmentPatch
 
     def content_disposition(include_filename: true)
       return super unless ifc_file? && include_filename
-      
+
       ifc_content_disposition
     end
 

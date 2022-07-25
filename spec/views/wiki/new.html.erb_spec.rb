@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe 'wiki/new', type: :view do
   let(:project) { build_stubbed(:project) }
-  let(:wiki)    { build_stubbed(:wiki, project: project) }
-  let(:page)    { build_stubbed(:wiki_page_with_content, wiki: wiki, title: 'foo') }
+  let(:wiki)    { build_stubbed(:wiki, project:) }
+  let(:page)    { build_stubbed(:wiki_page_with_content, wiki:, title: 'foo') }
   let(:content) { page.content }
   let(:user)    { build_stubbed(:user) }
 

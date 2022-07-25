@@ -14,11 +14,17 @@ export class OpSearchHighlightDirective implements AfterViewChecked {
   constructor(readonly elementRef:ElementRef) { }
 
   ngAfterViewChecked():void {
-    if (!this.query) {
+    let el = this.elementRef.nativeElement as HTMLElement;
+    const highlightedElement = el.querySelector('.op-search-highlight');
+
+    if (!!highlightedElement && highlightedElement.innerHTML.toLocaleLowerCase() === this.query.toLocaleLowerCase()) {
       return;
     }
 
-    const el = this.elementRef.nativeElement as HTMLElement;
+    el = this.cleanUpOldHighlighting(el);
+    if (!this.query) {
+      return;
+    }
 
     const textNode = Array.from(el.childNodes).find((n:Node) => n.nodeType === n.TEXT_NODE) as Node;
     const content = textNode?.textContent || '';
@@ -37,7 +43,19 @@ export class OpSearchHighlightDirective implements AfterViewChecked {
     const end = content.slice(startIndex + query.length);
 
     const newNode = document.createElement('span');
-    newNode.innerHTML = `${start}<span class="op-search-highlight">${result}</span>${end}`;
+    newNode.innerHTML = `${_.escape(start)}<span class="op-search-highlight">${_.escape(result)}</span>${_.escape(end)}`;
     el.replaceChild(newNode, textNode);
+  }
+
+  private cleanUpOldHighlighting(el:HTMLElement):HTMLElement {
+    if (el.children.length > 0) {
+      const unifiedLabelText = Array.from(el.children, ({ textContent }) => textContent?.trim()).join('');
+      // eslint-disable-next-line no-param-reassign
+      el.innerHTML = '';
+      // eslint-disable-next-line no-param-reassign
+      el.innerText = unifiedLabelText;
+    }
+
+    return el;
   }
 }

@@ -33,8 +33,6 @@ require 'open_project/logging'
 require 'open_project/patches'
 require 'open_project/mime_type'
 require 'open_project/custom_styles/design'
-require 'open_project/hook'
-require 'open_project/hooks'
 require 'redmine/plugin'
 
 require 'csv'

@@ -45,7 +45,7 @@ module RandomData
 
         rand(5).times do
           print_status '.'
-          Message.create forum: forum,
+          Message.create forum:,
                          author: user,
                          subject: message.subject,
                          content: Faker::Lorem.paragraph(5, true, 3),

@@ -30,25 +30,25 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe DocumentCategory do
   let(:project) { create(:project) }
 
-  it "should be an enumeration" do
+  it "is an enumeration" do
     expect(DocumentCategory.ancestors).to include Enumeration
   end
 
-  it "should order documents by the category they are created with" do
+  it "orders documents by the category they are created with" do
     uncategorized = create :document_category, name: "Uncategorized", project: project
     user_documentation = create :document_category, name: "User documentation"
 
     create_list :document, 2, category: uncategorized, project: project
 
-    expect(DocumentCategory.find_by_name(uncategorized.name).objects_count).to eql 2
-    expect(DocumentCategory.find_by_name(user_documentation.name).objects_count).to eql 0
+    expect(DocumentCategory.find_by_name(uncategorized.name).objects_count).to be 2
+    expect(DocumentCategory.find_by_name(user_documentation.name).objects_count).to be 0
   end
 
-  it "should file the categorizations under the option name :enumeration_doc_categories" do
-    expect(DocumentCategory.new.option_name).to eql :enumeration_doc_categories
+  it "files the categorizations under the option name :enumeration_doc_categories" do
+    expect(DocumentCategory.new.option_name).to be :enumeration_doc_categories
   end
 
-  it "should only allow one category to be the default-category" do
+  it "onlies allow one category to be the default-category" do
     old_default = create :document_category, name: "old default", project: project, is_default: true
 
     expect do

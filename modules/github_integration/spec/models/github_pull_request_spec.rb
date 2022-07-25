@@ -66,7 +66,7 @@ describe GithubPullRequest do
   describe '.without_work_package' do
     subject { described_class.without_work_package }
 
-    let(:pull_request) { create(:github_pull_request, work_packages: work_packages) }
+    let(:pull_request) { create(:github_pull_request, work_packages:) }
     let(:work_packages) { [] }
 
     before { pull_request }
@@ -85,7 +85,7 @@ describe GithubPullRequest do
     let(:github_url) { 'https://github.com/opf/openproject/pull/123' }
     let(:pull_request) do
       create(:github_pull_request,
-             github_id: github_id,
+             github_id:,
              github_html_url: github_url)
     end
 

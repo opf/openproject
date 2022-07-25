@@ -37,10 +37,10 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
   let(:current_user) do
     create :user, member_in_project: project, member_through_role: role
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { [] }
   let(:view_work_packages_role) { create(:role, permissions: [:view_work_packages]) }
-  let(:work_package) { create(:work_package, project: project) }
+  let(:work_package) { create(:work_package, project:) }
   let(:available_watcher) do
     create :user,
            firstname: 'Something',
@@ -119,17 +119,17 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
       end
     end
 
-    it 'should respond with 201' do
+    it 'responds with 201' do
       expect(subject.status).to eq(201)
     end
 
-    it 'should respond with newly added watcher' do
+    it 'responds with newly added watcher' do
       expect(subject.body).to be_json_eql('User'.to_json).at_path('_type')
     end
 
     it 'sends mails' do
       expect(ActionMailer::Base.deliveries.size)
-        .to eql 1
+        .to be 1
 
       expect(ActionMailer::Base.deliveries.map(&:to).flatten.uniq)
         .to match_array new_watcher.mail
@@ -143,11 +143,11 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
     context 'when user is already watcher' do
       let(:new_watcher) { watching_user }
 
-      it 'should respond with 200' do
+      it 'responds with 200' do
         expect(subject.status).to eq(200)
       end
 
-      it 'should respond with correct watcher' do
+      it 'responds with correct watcher' do
         expect(subject.body).to be_json_eql('User'.to_json).at_path('_type')
       end
     end
@@ -188,7 +188,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
         let(:current_user) { available_watcher }
         let(:new_watcher) { available_watcher }
 
-        it 'should respond with 201' do
+        it 'responds with 201' do
           expect(subject.status).to eq(201)
         end
       end
@@ -208,13 +208,13 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
     context 'authorized user' do
       let(:permissions) { %i[delete_work_package_watchers view_work_packages] }
 
-      it 'should respond with 204' do
+      it 'responds with 204' do
         expect(subject.status).to eq(204)
       end
 
       it 'sends mails' do
         expect(ActionMailer::Base.deliveries.size)
-          .to eql 1
+          .to be 1
 
         expect(ActionMailer::Base.deliveries.map(&:to).flatten.uniq)
           .to match_array watching_user.mail
@@ -234,7 +234,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
       context 'when removing user that is not watching' do
         let(:deleted_watcher) { available_watcher }
 
-        it 'should respond with 204' do
+        it 'responds with 204' do
           expect(subject.status).to eq(204)
         end
       end
@@ -258,7 +258,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
         let(:current_user) { watching_user }
         let(:deleted_watcher) { watching_user }
 
-        it 'should respond with 204' do
+        it 'responds with 204' do
           expect(subject.status).to eq(204)
         end
       end
@@ -287,7 +287,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
       let(:permissions) { [:view_work_packages] }
 
       it 'responds with 403' do
-        expect(subject.status).to eql(403)
+        expect(subject.status).to be(403)
       end
     end
 
@@ -301,11 +301,13 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
 
       context 'that does not exist' do
         let(:query) { 'asdfasdfasdfasdf' }
+
         it_behaves_like 'API V3 collection response', 0, 0, 'User'
       end
 
       context 'that does exist' do
         let(:query) { 'strange' }
+
         it_behaves_like 'API V3 collection response', 1, 1, 'User'
       end
     end

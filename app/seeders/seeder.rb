@@ -80,7 +80,7 @@ class Seeder
     I18n.exists?("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{project}.#{key}")
   end
 
-  def without_notifications(&block)
-    Journal::NotificationConfiguration.with(false, &block)
+  def without_notifications(&)
+    Journal::NotificationConfiguration.with(false, &)
   end
 end

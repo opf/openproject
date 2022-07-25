@@ -231,6 +231,7 @@ ca:
             professional_support: "Suport professional"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -267,7 +268,8 @@ ca:
           one: "Primer criteri d'ordenació"
           two: "Segon criteri d'ordenació"
           three: "Tercer criteri d'ordenació"
-      upsale_for_more: "Per a filtres més avançats, revisi a"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'Edició Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
@@ -398,6 +400,8 @@ ca:
     label_previous: "Anterior"
     label_per_page: "Per pàgina:"
     label_please_wait: "Espereu, si us plau"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projectes"
     label_visibility_settings: "Opcions de visualització"
     label_quote_comment: "Citar aquest comentari"
@@ -410,6 +414,7 @@ ca:
     label_report: "Informe"
     label_repository_plural: "Repositoris"
     label_save_as: "Desa com a"
+    label_select_project: "Select a project"
     label_select_watcher: "Seleccioneu un vigilant..."
     label_selected_filter_list: "Filtres seleccionats"
     label_show_attributes: "Mostrar tots els atributs"
@@ -451,10 +456,10 @@ ca:
     label_unwatch: "Deixa de Seguir"
     label_unwatch_work_package: "Deixa de seguir paquet de treball"
     label_uploaded_by: "Pujat per"
-    label_default_queries: "Vistes per defecte"
-    label_starred_queries: "Vistes preferides"
-    label_global_queries: "Vistes públiques"
-    label_custom_queries: "Vistes privades"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Columnes"
     label_attachments: Fitxers adjunts
     label_drop_files: Arrossegueu els fitxers aquí
@@ -534,7 +539,7 @@ ca:
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -542,7 +547,8 @@ ca:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -641,7 +647,7 @@ ca:
           label: 'Temporarily pause daily email reminders'
           first_day: 'First day'
           last_day: 'Last day'
-    text_are_you_sure: "N'esteu segur?"
+    text_are_you_sure: "N'estas segur?"
     text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
@@ -659,14 +665,7 @@ ca:
         projects: "Projectes"
         settings: "Configuració"
     time_entry:
-      project: 'Projecte'
-      work_package: 'Paquet de treball'
       work_package_required: 'Requereix seleccionar un paquet de treball primer.'
-      activity: 'Activitat'
-      comment: 'Comentari'
-      duration: 'Durada'
-      spent_on: 'Data'
-      hours: 'Hores'
       title: 'Temps de registre'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
@@ -807,7 +806,7 @@ ca:
       zooms: "Nivell de zoom"
       outlines: "Nivell de jerarquia"
     upsale:
-      ee_only: 'Característica només disponible a la versió Enterprise'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Fort"
       italic: "Cursiva"
@@ -835,6 +834,13 @@ ca:
       comment_send_failed: "S'ha produït un error. No es pot enviar el comentari."
       comment_updated: "El comentari s'ha actualitzat correctament."
       confirm_edit_cancel: "Esteu segur que voleu cancel·lar l'edició del paquet de treball?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtre"
       description_enter_text: "Introduïu text"
       description_options_hide: "Amagar opcions"
@@ -988,6 +994,7 @@ ca:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
@@ -1020,10 +1027,7 @@ ca:
       filter: "Filtre"
       unselected_title: "Paquet de treball"
       search_query_label: "Search saved views"
-      search_query_title: "Click to search saved views"
-      placeholder_query_title: "Set a title for this view"
     modals:
-      label_settings: "Rename view"
       label_name: "Nom"
       label_delete_page: "Suprimeix la pàgina actual"
       button_apply: "Aplicar"
@@ -1083,6 +1087,10 @@ ca:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'
@@ -1178,6 +1186,7 @@ ca:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

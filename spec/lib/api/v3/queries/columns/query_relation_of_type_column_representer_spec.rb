@@ -47,25 +47,25 @@ describe ::API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter do
     end
 
     it 'has _type QueryColumn::RelationOfType' do
-      is_expected
+      expect(subject)
         .to be_json_eql('QueryColumn::RelationOfType'.to_json)
         .at_path('_type')
     end
 
     it 'has id attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql("relationsOfType#{type[:sym].to_s.camelcase}".to_json)
         .at_path('id')
     end
 
     it 'has relationType attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql(type[:sym].to_json)
         .at_path('relationType')
     end
 
     it 'has name attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql("#{I18n.t(type[:name])} relations".to_json)
         .at_path('name')
     end

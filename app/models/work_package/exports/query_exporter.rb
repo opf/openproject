@@ -56,7 +56,7 @@ module WorkPackage::Exports
         .results
         .work_packages
         .page(page)
-        .per_page(Setting.work_packages_export_limit.to_i)
+        .per_page(Setting.work_packages_projects_export_limit.to_i)
     end
   end
 end

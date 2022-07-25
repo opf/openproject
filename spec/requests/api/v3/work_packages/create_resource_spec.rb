@@ -37,7 +37,7 @@ describe 'API v3 Work package resource',
   let(:project) do
     create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i[add_work_packages view_project view_work_packages] }
 
   current_user do
@@ -101,30 +101,30 @@ describe 'API v3 Work package resource',
       end
     end
 
-    it 'should return Created(201)' do
+    it 'returns Created(201)' do
       expect(last_response.status).to eq(201)
     end
 
-    it 'should create a work package' do
+    it 'creates a work package' do
       expect(WorkPackage.all.count).to eq(1)
     end
 
-    it 'should use the given parameters' do
+    it 'uses the given parameters' do
       expect(WorkPackage.first.subject).to eq(parameters[:subject])
     end
 
-    it 'should be associated with the provided project' do
+    it 'is associated with the provided project' do
       expect(WorkPackage.first.project).to eq(project)
     end
 
-    it 'should be associated with the provided type' do
+    it 'is associated with the provided type' do
       expect(WorkPackage.first.type).to eq(type)
     end
 
     context 'no permissions' do
       let(:current_user) { create(:user) }
 
-      it 'should hide the endpoint' do
+      it 'hides the endpoint' do
         expect(last_response.status).to eq(403)
       end
     end
@@ -134,7 +134,7 @@ describe 'API v3 Work package resource',
       # view_project is actually provided by being a member of the project
       let(:permissions) { [:view_project] }
 
-      it 'should point out the missing permission' do
+      it 'points out the missing permission' do
         expect(last_response.status).to eq(403)
       end
     end
@@ -144,7 +144,7 @@ describe 'API v3 Work package resource',
 
       it_behaves_like 'multiple errors', 422
 
-      it 'should not create a work package' do
+      it 'does not create a work package' do
         expect(WorkPackage.all.count).to eq(0)
       end
     end
@@ -168,7 +168,7 @@ describe 'API v3 Work package resource',
         let(:message) { "Subject can't be blank" }
       end
 
-      it 'should not create a work package' do
+      it 'does not create a work package' do
         expect(WorkPackage.all.count).to eq(0)
       end
     end
@@ -180,22 +180,22 @@ describe 'API v3 Work package resource',
         # mind the () for the super call, those are required in rspec's super
         let(:parameters) { super().merge(scheduleManually: true) }
 
-        it 'should set the scheduling mode to true' do
-          expect(work_package.schedule_manually).to eq true
+        it 'sets the scheduling mode to true' do
+          expect(work_package.schedule_manually).to be true
         end
       end
 
       context 'with false' do
         let(:parameters) { super().merge(scheduleManually: false) }
 
-        it 'should set the scheduling mode to false' do
-          expect(work_package.schedule_manually).to eq false
+        it 'sets the scheduling mode to false' do
+          expect(work_package.schedule_manually).to be false
         end
       end
 
       context 'with scheduleManually absent' do
-        it 'should set the scheduling mode to false (default)' do
-          expect(work_package.schedule_manually).to eq false
+        it 'sets the scheduling mode to false (default)' do
+          expect(work_package.schedule_manually).to be false
         end
       end
     end
@@ -219,7 +219,7 @@ describe 'API v3 Work package resource',
         let(:message) { "Subject can't be blank" }
       end
 
-      it 'should not create a work package' do
+      it 'does not create a work package' do
         expect(WorkPackage.all.count).to eq(0)
       end
     end

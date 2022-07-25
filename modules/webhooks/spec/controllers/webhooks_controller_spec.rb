@@ -43,7 +43,7 @@ describe Webhooks::Incoming::HooksController, type: :controller do
       User.current = nil
     end
 
-    it 'should be successful' do
+    it 'is successful' do
       expect(hook).to receive(:handle)
 
       post :handle_hook, params: { hook_name: 'testhook' }
@@ -51,7 +51,7 @@ describe Webhooks::Incoming::HooksController, type: :controller do
       expect(response).to be_successful
     end
 
-    it 'should call the hook with a user' do
+    it 'calls the hook with a user' do
       expect(hook).to receive(:handle) { |_env, _params, user|
         expect(user).to equal(user)
       }

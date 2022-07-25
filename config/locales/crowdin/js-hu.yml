@@ -233,6 +233,7 @@ hu:
             professional_support: "Szakmai támogatás"
             professional_support_text: "Megbízható támogatást kaphat a vezető támogató mérnököktől, akik szakértő ismeretekkel rendelkeznek az OpenProject futtatásáról üzleti szempontból kritikus környezetben."
           button_start_trial: "Ingyenes próbaverzió kipróbálása"
+          button_upgrade: "Upgrade now"
           button_book_now: "Foglalás most"
           confidence: >
             A tesztelt és támogatott vállalati szintű projektmenedzsment szoftver bizalmát nyújtjuk - nyílt forráskóddal és nyitott szemmel.
@@ -270,7 +271,8 @@ hu:
           one: "Első rendezési feltétel"
           two: "Második rendezési feltétel"
           three: "Harmadik rendezési feltétel"
-      upsale_for_more: "A fejlettebb szűrők esetén nézze meg a"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'Vállalati kiadás.'
     general_text_no: "nem"
     general_text_yes: "igen"
@@ -401,6 +403,8 @@ hu:
     label_previous: "Korábbi"
     label_per_page: "Oldalanként:"
     label_please_wait: "Kérem várjon"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projektek"
     label_visibility_settings: "Láthatósági beállítások"
     label_quote_comment: "Hozzászólás idézése"
@@ -413,6 +417,7 @@ hu:
     label_report: "Jelentés"
     label_repository_plural: "Csomagtárolók"
     label_save_as: "Mentés másként"
+    label_select_project: "Select a project"
     label_select_watcher: "Megfigyelők választása..."
     label_selected_filter_list: "Szűrők választása"
     label_show_attributes: "Minden attribútum megjelenítése"
@@ -454,10 +459,10 @@ hu:
     label_unwatch: "Megfigyelés leállítása"
     label_unwatch_work_package: "Nem megfigyelt feladatcsoport"
     label_uploaded_by: "Által feltöltött"
-    label_default_queries: "Alapértelmezett nézetek"
-    label_starred_queries: "Kedvenc nézetek"
-    label_global_queries: "Publikus nézetek"
-    label_custom_queries: "Privát nézetek"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Oszlopok"
     label_attachments: Csatolmány
     label_drop_files: Húzza a fájlokat ide
@@ -537,7 +542,7 @@ hu:
           one: "és 1 másik\n"
           other: 'és %{count} egyéb'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'Ebben a nézetben jelenleg nincsenek értesítések'
         mark_all_read: 'Mindegyik megjelölése olvasottként'
         mark_as_read: 'Megjelölés olvasottként'
@@ -545,7 +550,8 @@ hu:
         total_count_warning: "A %{newest_count} legfrissebb értesítések megjelenítése. %{more_count} több nem jelenik meg.\n"
         empty_state:
           no_notification: "Úgy tűnik, hogy teljesen naprakész."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'Új értesítések érkeztek.'
@@ -663,14 +669,7 @@ hu:
         projects: "Projektek"
         settings: "Beállítások"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Feladatcsoport'
       work_package_required: 'Először ki kell választania egy munkacsomagot.'
-      activity: 'Tevékenység'
-      comment: 'Vélemény'
-      duration: 'Időtartam'
-      spent_on: 'dátum'
-      hours: 'órák'
       title: 'Eltöltött idő rögzítése'
     two_factor_authentication:
       label_two_factor_authentication: 'Kétlépcsős hitelesítés'
@@ -812,7 +811,7 @@ hu:
       zooms: "Nagyítási szint"
       outlines: "Hierarchia szint"
     upsale:
-      ee_only: 'Ez csak az Enterprise Edition-ban elérhető'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Erős"
       italic: "Dőlt betű"
@@ -840,6 +839,13 @@ hu:
       comment_send_failed: "Hiba történt. A megjegyzés elküldése meghiúsult."
       comment_updated: "A megjegyzés sikeresen frissítve."
       confirm_edit_cancel: "Biztosan meg kívánja szakítani a munkacsomag szerkesztést?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Szűrő"
       description_enter_text: "Írjon szöveget"
       description_options_hide: "Beállítások elrejtése"
@@ -993,6 +999,7 @@ hu:
           attribute_highlighting: 'Szüksége van bizonyos munkacsomagokra, hogy kitűnjön a tömegből?'
           relation_columns: 'Szeretné látni a munkacsomag kapcsolatait?'
           check_out_link: 'Tekintse meg az Enterprise Edition-t!'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'A munkacsomagok szűrése relációs típus szerint'
       tabs:
@@ -1025,10 +1032,7 @@ hu:
       filter: "Szűrő"
       unselected_title: "Feladatcsoport"
       search_query_label: "Mentett nézetek keresése..."
-      search_query_title: "Elmentett nézetek keresése"
-      placeholder_query_title: "Nézet címének beállítása"
     modals:
-      label_settings: "Nézet átnevezése"
       label_name: "Név"
       label_delete_page: "Aktuális oldal törlése"
       button_apply: "Alkalmaz"
@@ -1088,6 +1092,10 @@ hu:
         one: "1 óra"
         other: "%{count} ó"
         zero: "0 óra"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Zen mód aktiválása'
       button_deactivate: 'Zen mód kikapcsolása'
@@ -1183,6 +1191,7 @@ hu:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'Ez a jelenlegi projekt, amiben vagyunk.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Jelentés sikeresen elküldve'
       load_error_message: 'Hiba történt az eredmény betöltésekor.'

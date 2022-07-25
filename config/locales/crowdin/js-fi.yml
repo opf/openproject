@@ -231,6 +231,7 @@ fi:
             professional_support: "Ammatillinen apu"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Aloita ilmainen kokeilu"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -267,7 +268,8 @@ fi:
           one: "Ensimmäinen lajitteluperuste"
           two: "Toinen lajitteluperuste"
           three: "Kolmas lajitteluperuste"
-      upsale_for_more: "For more advanced filters, check out the"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "ei"
     general_text_yes: "kyllä"
@@ -398,6 +400,8 @@ fi:
     label_previous: "Edellinen"
     label_per_page: "Sivulla:"
     label_please_wait: "Odota hetki"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projektit"
     label_visibility_settings: "Näkyvyysasetukset"
     label_quote_comment: "Lainaa tämä kommentti"
@@ -410,6 +414,7 @@ fi:
     label_report: "Raportti"
     label_repository_plural: "Tietovarastot"
     label_save_as: "Tallenna nimellä"
+    label_select_project: "Select a project"
     label_select_watcher: "Valitse seuraaja..."
     label_selected_filter_list: "Valitut suodattimet"
     label_show_attributes: "Näytä kaikki määritteet"
@@ -451,10 +456,10 @@ fi:
     label_unwatch: "Älä seuraa"
     label_unwatch_work_package: "Lopeta tehtävän seuraaminen"
     label_uploaded_by: "Lataaja"
-    label_default_queries: "Oletusnäkymät"
-    label_starred_queries: "Suosikkinäkymät"
-    label_global_queries: "Julkiset näkymät"
-    label_custom_queries: "Yksityiset näkymät"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Sarakkeet"
     label_attachments: Liitteet
     label_drop_files: Raahaa ja pudota tiedostoja tähän
@@ -534,7 +539,7 @@ fi:
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -542,7 +547,8 @@ fi:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -659,14 +665,7 @@ fi:
         projects: "Projektit"
         settings: "Asetukset"
     time_entry:
-      project: 'Projekti'
-      work_package: 'Työpaketti'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Tapahtumat'
-      comment: 'Kommentti'
-      duration: 'Kesto'
-      spent_on: 'Päivämäärä'
-      hours: 'Tunnit'
       title: 'Kirjaa työaika'
     two_factor_authentication:
       label_two_factor_authentication: 'Kaksivaiheinen tunnistautuminen'
@@ -807,7 +806,7 @@ fi:
       zooms: "Lähennyksen taso"
       outlines: "Hierarkian taso"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Lihavoitu"
       italic: "Kursivoitu"
@@ -835,6 +834,13 @@ fi:
       comment_send_failed: "On tapahtunut virhe. Kommenttia ei voitu lähettää."
       comment_updated: "Kommentti päivitettiin onnistuneesti."
       confirm_edit_cancel: "Oletko varma, että haluat peruuttaa tehtävän muokkauksen?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Suodata"
       description_enter_text: "Enter text"
       description_options_hide: "Piilota valinnat"
@@ -988,6 +994,7 @@ fi:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Täytyy nähdä riippuvuudet tehtävälistassa?'
           check_out_link: 'Check out the Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
@@ -1020,10 +1027,7 @@ fi:
       filter: "Suodata"
       unselected_title: "Työpaketti"
       search_query_label: "Hae näkymistä"
-      search_query_title: "Klikkaa hakeaksesi näkymistä"
-      placeholder_query_title: "Set a title for this view"
     modals:
-      label_settings: "Nimeä näkymä"
       label_name: "Nimi"
       label_delete_page: "Poista nykyinen sivu"
       button_apply: "Ota käyttöön"
@@ -1083,6 +1087,10 @@ fi:
         one: "1 t"
         other: "%{count} t"
         zero: "0 t"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Koko näyttö'
       button_deactivate: 'Sulje koko näyttö'
@@ -1178,6 +1186,7 @@ fi:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

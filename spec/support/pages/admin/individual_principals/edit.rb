@@ -27,13 +27,15 @@
 #++
 
 require 'support/pages/page'
+require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
 module Pages
   module Admin
     module IndividualPrincipals
       class Edit < ::Pages::Page
-        attr_reader :id
-        attr_reader :individual_principal
+        include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+
+        attr_reader :id, :individual_principal
 
         def initialize(individual_principal)
           @individual_principal = individual_principal
@@ -69,11 +71,9 @@ module Pages
 
           page.within("#member-#{membership.id}-roles-form") do
             page.all('.form--check-box').each do |f|
-              begin
-                f.set false
-              rescue Selenium::WebDriver::Error::InvalidElementStateError
-                # Happens if an element is disabled
-              end
+              f.set false
+            rescue Selenium::WebDriver::Error::InvalidElementStateError
+              # Happens if an element is disabled
             end
             Array(roles).each { |role| page.check role }
             page.find('.memberships--edit-submit-button').click
@@ -105,7 +105,10 @@ module Pages
         end
 
         def select_project!(project_name)
-          select(project_name, from: 'membership_project_id')
+          select_autocomplete page.find('[data-qa-selector="membership_project_id"]'),
+                              query: project_name,
+                              select_text: project_name,
+                              results_selector: 'body'
         end
 
         def activate!

@@ -27,13 +27,13 @@
 #++
 
 require 'support/pages/page'
-require 'support/components/ng_select_autocomplete_helpers'
+require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
 module Pages
   module Admin
     module CustomActions
       class Form < ::Pages::Page
-        include ::Components::NgSelectAutocompleteHelpers
+        include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
         def set_name(name)
           fill_in 'Name', with: name

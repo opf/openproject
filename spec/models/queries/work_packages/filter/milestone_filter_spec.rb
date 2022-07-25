@@ -50,7 +50,7 @@ describe Queries::WorkPackages::Filter::MilestoneFilter, type: :model do
             .to receive_message_chain(:rolled_up_types, :exists?)
             .and_return false
 
-          expect(instance).to_not be_available
+          expect(instance).not_to be_available
         end
       end
 
@@ -72,7 +72,7 @@ describe Queries::WorkPackages::Filter::MilestoneFilter, type: :model do
             .to receive_message_chain(:order, :exists?)
             .and_return false
 
-          expect(instance).to_not be_available
+          expect(instance).not_to be_available
         end
       end
     end

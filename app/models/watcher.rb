@@ -30,8 +30,8 @@ class Watcher < ApplicationRecord
   belongs_to :watchable, polymorphic: true
   belongs_to :user
 
-  validates_presence_of :watchable, :user
-  validates_uniqueness_of :user_id, scope: %i[watchable_type watchable_id]
+  validates :watchable, :user, presence: true
+  validates :user_id, uniqueness: { scope: %i[watchable_type watchable_id] }
 
   validate :validate_active_user
   validate :validate_user_allowed_to_watch
@@ -146,7 +146,7 @@ class Watcher < ApplicationRecord
 
     def active_watchable_classes(user_ids)
       classes = distinct(:watchable_type)
-      classes.where(user_id: user_ids) unless user_ids.blank?
+      classes.where(user_id: user_ids) if user_ids.present?
       classes.pluck(:watchable_type)
     end
   end

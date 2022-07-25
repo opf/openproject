@@ -56,8 +56,8 @@ class WikiPages::CopyService
 
   def create(attributes)
     WikiPages::CreateService
-      .new(user: user,
-           contract_class: contract_class)
+      .new(user:,
+           contract_class:)
       .call(attributes.symbolize_keys)
   end
 

@@ -72,6 +72,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Output() cardClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent }>();
 
+  @Output() cardDblClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent }>();
+
   @Output() cardContextMenu = new EventEmitter<{ workPackageId:string, event:MouseEvent }>();
 
   public uiStateLinkClass:string = uiStateLinkClass;

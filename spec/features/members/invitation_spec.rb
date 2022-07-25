@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'invite user via email', type: :feature, js: true do
+describe 'invite user via email', type: :feature, js: true do
   let!(:project) { create :project, name: 'Project 1', identifier: 'project1', members: project_members }
   let!(:developer) { create :role, name: 'Developer' }
   let(:project_members) { {} }
@@ -52,7 +52,7 @@ feature 'invite user via email', type: :feature, js: true do
       Capybara.raise_server_errors = @old_value
     end
 
-    scenario 'adds the invited user to the project' do
+    it 'adds the invited user to the project' do
       members_page.visit!
       click_on 'Add member'
 
@@ -76,14 +76,18 @@ feature 'invite user via email', type: :feature, js: true do
   context 'with a registered user' do
     let!(:user) do
       create :user, mail: 'hugo@openproject.com',
-                               login: 'hugo@openproject.com',
-                               firstname: 'Hugo',
-                               lastname: 'Hurried'
+                    login: 'hugo@openproject.com',
+                    firstname: 'Hugo',
+                    lastname: 'Hurried'
     end
 
-    scenario 'user lookup by email' do
+    it 'user lookup by email' do
       members_page.visit!
-      click_on 'Add member'
+
+      retry_block do
+        click_on 'Add member'
+        find('#members_add_form')
+      end
 
       members_page.search_and_select_principal! 'hugo@openproject.com',
                                                 'Hugo Hurried'
@@ -97,7 +101,7 @@ feature 'invite user via email', type: :feature, js: true do
       let(:project_members) { { user => developer } }
 
       shared_examples 'no user to invite is found' do
-        scenario 'no matches found' do
+        it 'no matches found' do
           members_page.visit!
           click_on 'Add member'
 

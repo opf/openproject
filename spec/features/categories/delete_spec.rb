@@ -68,7 +68,7 @@ describe 'Deletion', type: :feature, js: true do
     let!(:work_package) do
       create :work_package,
              project: category.project,
-             category: category
+             category:
     end
 
     include_context 'delete category'

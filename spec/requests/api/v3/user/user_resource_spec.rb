@@ -214,11 +214,11 @@ describe 'API v3 User resource',
     end
 
     context 'logged in user' do
-      it 'should respond with 200' do
+      it 'responds with 200' do
         expect(subject.status).to eq(200)
       end
 
-      it 'should respond with correct body' do
+      it 'responds with correct body' do
         expect(subject.body).to be_json_eql(user.name.to_json).at_path('name')
       end
 
@@ -231,7 +231,7 @@ describe 'API v3 User resource',
       context 'requesting current user' do
         let(:get_path) { api_v3_paths.user 'me' }
 
-        it 'should response with 200' do
+        it 'responses with 200' do
           expect(subject.status).to eq(200)
           expect(subject.body).to be_json_eql(user.name.to_json).at_path('name')
         end
@@ -241,11 +241,11 @@ describe 'API v3 User resource',
     context 'get with login' do
       let(:get_path) { api_v3_paths.user user.login }
 
-      it 'should respond with 200' do
+      it 'responds with 200' do
         expect(subject.status).to eq(200)
       end
 
-      it 'should respond with correct body' do
+      it 'responds with correct body' do
         expect(subject.body).to be_json_eql(user.name.to_json).at_path('name')
       end
     end
@@ -269,11 +269,11 @@ describe 'API v3 User resource',
     end
 
     shared_examples 'deletion allowed' do
-      it 'should respond with 202' do
+      it 'responds with 202' do
         expect(subject.status).to eq 202
       end
 
-      it 'should lock the account and mark for deletion' do
+      it 'locks the account and mark for deletion' do
         expect(Principals::DeleteJob)
           .to have_been_enqueued
           .with(user)
@@ -289,11 +289,11 @@ describe 'API v3 User resource',
     end
 
     shared_examples 'deletion is not allowed' do
-      it 'should respond with 403' do
+      it 'responds with 403' do
         expect(subject.status).to eq 403
       end
 
-      it 'should not delete the user' do
+      it 'does not delete the user' do
         expect(User.exists?(user.id)).to be_truthy
       end
     end
@@ -356,7 +356,7 @@ describe 'API v3 User resource',
       context 'requesting current user' do
         let(:get_path) { api_v3_paths.user 'me' }
 
-        it 'should response with 403' do
+        it 'responses with 403' do
           expect(subject.status).to eq(403)
         end
       end

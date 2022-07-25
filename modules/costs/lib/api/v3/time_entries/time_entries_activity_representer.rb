@@ -54,7 +54,7 @@ module API
                              },
                              getter: ->(*) {
                                active_projects.map do |project|
-                                 Projects::ProjectRepresenter.create(project, current_user: current_user)
+                                 Projects::ProjectRepresenter.create(project, current_user:)
                                end
                              }
 

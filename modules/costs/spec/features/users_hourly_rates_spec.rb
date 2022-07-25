@@ -50,7 +50,7 @@ describe 'hourly rates on user edit', type: :feature, js: true do
   end
 
   context 'with rates' do
-    let!(:rate) { create(:default_hourly_rate, user: user) }
+    let!(:rate) { create(:default_hourly_rate, user:) }
 
     before do
       view_rates
@@ -80,7 +80,7 @@ describe 'hourly rates on user edit', type: :feature, js: true do
 
   describe 'updating rates as German user', driver: :firefox_de do
     let(:user) { create :admin, language: 'de' }
-    let!(:rate) { create(:default_hourly_rate, user: user, rate: 1.0) }
+    let!(:rate) { create(:default_hourly_rate, user:, rate: 1.0) }
 
     it 'allows editing without reinterpreting the number (Regression #42219)' do
       visit edit_hourly_rate_path(user)

@@ -120,6 +120,10 @@ export class PathHelperService {
     return `${this.staticBase}/projects`;
   }
 
+  public projectsNewPath():string {
+    return `${this.staticBase}/projects/new`;
+  }
+
   public projectPath(projectIdentifier:string) {
     return `${this.projectsPath()}/${projectIdentifier}`;
   }
@@ -246,10 +250,6 @@ export class PathHelperService {
 
   public workPackagesBulkDeletePath() {
     return `${this.workPackagesPath()}/bulk`;
-  }
-
-  public projectLevelListPath() {
-    return `${this.projectsPath()}/level_list.json`;
   }
 
   public textFormattingHelp() {

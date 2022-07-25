@@ -43,7 +43,7 @@ describe OpenProject::TextFormatting,
   end
 
   shared_let(:meeting) do
-    create :meeting, project: project, title: 'Monthly coordination'
+    create :meeting, project:, title: 'Monthly coordination'
   end
 
   subject do

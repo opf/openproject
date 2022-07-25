@@ -55,7 +55,7 @@ describe ProjectsController, type: :controller do
         login_as non_member_user
       end
 
-      it 'should accept get' do
+      it 'accepts get' do
         get :new
         expect(response).to be_successful
         expect(response).to render_template 'new'
@@ -130,7 +130,7 @@ describe ProjectsController, type: :controller do
     let(:project) { build_stubbed(:project) }
     let(:request) { delete :destroy, params: { id: project.id } }
 
-    let(:service_result) { ::ServiceResult.new(success: success) }
+    let(:service_result) { ::ServiceResult.new(success:) }
 
     before do
       allow(Project).to receive(:find).and_return(project)
@@ -167,7 +167,7 @@ describe ProjectsController, type: :controller do
   describe 'with an existing project' do
     let(:project) { create :project, identifier: 'blog' }
 
-    it 'should get destroy info' do
+    it 'gets destroy info' do
       get :destroy_info, params: { id: project.id }
       expect(response).to be_successful
       expect(response).to render_template 'destroy_info'

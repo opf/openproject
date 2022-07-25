@@ -38,9 +38,7 @@ module OpenProject
           OpenProject::Configuration.force_help_link.presence || static_links[:user_guides]
         end
 
-        def [](name)
-          links[name]
-        end
+        delegate :[], to: :links
 
         def links
           @links ||= static_links.merge(dynamic_links)
@@ -155,6 +153,10 @@ module OpenProject
               href: 'https://www.openproject.org/legal/privacy/',
               label: :label_privacy_policy
             },
+            digital_accessibility: {
+              href: 'https://www.openproject.org/de/rechtliches/erklaerung-zur-digitalen-barrierefreiheit/',
+              label: :label_digital_accessibility
+            },
             report_bug: {
               href: 'https://www.openproject.org/docs/development/report-a-bug/',
               label: :label_report_bug
@@ -209,6 +211,9 @@ module OpenProject
             },
             contact_us: {
               href: 'https://www.openproject.org/contact/'
+            },
+            pricing: {
+              href: 'https://www.openproject.org/pricing/'
             }
           }
         end

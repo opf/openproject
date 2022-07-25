@@ -54,7 +54,7 @@ describe 'Delete work package', js: true do
         loading_indicator_saveguard
       end
 
-      it 'should close the split view' do
+      it 'closes the split view' do
         split_view.expect_closed
         wp_table.expect_current_path
       end
@@ -101,7 +101,7 @@ describe 'Delete work package', js: true do
 
   describe 'when deleting it within a project context' do
     let(:project) { create(:project) }
-    let(:work_package) { create(:work_package, project: project) }
+    let(:work_package) { create(:work_package, project:) }
     let(:split_view) { Pages::SplitWorkPackage.new(work_package, project.identifier) }
     let(:wp_table) { Pages::WorkPackagesTable.new(project.identifier) }
 

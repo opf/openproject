@@ -46,12 +46,12 @@ describe ::OpenProject::Bim::BcfXml::IssueReader do
   let(:workflow) do
     create(:workflow_with_default_status,
            role: manage_bcf_role,
-           type: type)
+           type:)
   end
   let(:priority) { create :default_priority }
   let(:bcf_manager_member) do
     create(:member,
-           project: project,
+           project:,
            user: bcf_manager,
            roles: [manage_bcf_role])
   end
@@ -94,7 +94,7 @@ describe ::OpenProject::Bim::BcfXml::IssueReader do
                         nil,
                         entry,
                         current_user: bcf_manager,
-                        import_options: import_options)
+                        import_options:)
   end
 
   before do
@@ -151,9 +151,9 @@ describe ::OpenProject::Bim::BcfXml::IssueReader do
   end
 
   context 'on updating import' do
-    context '#update_comment' do
+    describe '#update_comment' do
       let(:work_package) { create(:work_package) }
-      let!(:bcf_issue) { create :bcf_issue_with_comment, work_package: work_package }
+      let!(:bcf_issue) { create :bcf_issue_with_comment, work_package: }
 
       before do
         allow(subject).to receive(:issue).and_return(bcf_issue)

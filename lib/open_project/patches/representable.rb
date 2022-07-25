@@ -43,7 +43,9 @@ module OpenProject::Patches::Representable
           @as_strategy
         end
 
-        def self.property(name, options = {}, &block)
+        def self.property(name, options = {}, &)
+          # Note: `:writeable` is required by declarative gem
+          options[:writeable] = options.delete :writable if options.has_key?(:writable)
           options = { as: as_strategy.call(name.to_s) }.merge(options) if as_strategy
 
           super
@@ -70,7 +72,7 @@ module OpenProject::Patches::Representable
   end
 end
 
-OpenProject::Patches.patch_gem_version 'representable', '3.1.1' do
+OpenProject::Patches.patch_gem_version 'representable', '3.2.0' do
   unless Representable::Decorator.included_modules.include?(OpenProject::Patches::Representable::DecoratorPatch)
     Representable::Decorator.include OpenProject::Patches::Representable::DecoratorPatch
   end

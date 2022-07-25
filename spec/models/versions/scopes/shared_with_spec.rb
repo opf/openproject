@@ -40,7 +40,7 @@ describe Versions::Scopes::SharedWith, type: :model do
 
   describe '.shared_with' do
     context 'with the version not being shared' do
-      let!(:version) { create(:version, project: project, sharing: 'none') }
+      let!(:version) { create(:version, project:, sharing: 'none') }
 
       it 'is visible within the original project' do
         expect(Version.shared_with(project))
@@ -62,7 +62,7 @@ describe Versions::Scopes::SharedWith, type: :model do
     end
 
     context 'with the version being shared with descendants' do
-      let!(:version) { create(:version, project: project, sharing: 'descendants') }
+      let!(:version) { create(:version, project:, sharing: 'descendants') }
 
       it 'is visible within the original project and it`s descendants' do
         [project,
@@ -101,7 +101,7 @@ describe Versions::Scopes::SharedWith, type: :model do
     end
 
     context 'with the version being shared with hierarchy' do
-      let!(:version) { create(:version, project: project, sharing: 'hierarchy') }
+      let!(:version) { create(:version, project:, sharing: 'hierarchy') }
 
       it 'is visible within the original project and it`s descendants and ancestors' do
         [project,
@@ -140,7 +140,7 @@ describe Versions::Scopes::SharedWith, type: :model do
     end
 
     context 'with the version being shared with tree' do
-      let(:version) { create(:version, project: project, sharing: 'tree') }
+      let(:version) { create(:version, project:, sharing: 'tree') }
 
       it 'is visible within the original project and every project within the same tree' do
         [project,
@@ -179,7 +179,7 @@ describe Versions::Scopes::SharedWith, type: :model do
     end
 
     context 'with the version being shared with system' do
-      let(:version) { create(:version, project: project, sharing: 'system') }
+      let(:version) { create(:version, project:, sharing: 'system') }
 
       it 'is visible in all projects' do
         [project,

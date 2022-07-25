@@ -1,7 +1,10 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
+require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
 describe 'Copy work packages through Rails view', js: true do
+  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+
   shared_let(:type) { create :type, name: 'Bug' }
   shared_let(:type2) { create :type, name: 'Risk' }
 
@@ -31,14 +34,14 @@ describe 'Copy work packages through Rails view', js: true do
   shared_let(:work_package) do
     create(:work_package,
            author: dev,
-           project: project,
-           type: type)
+           project:,
+           type:)
   end
   shared_let(:work_package2) do
     create(:work_package,
            author: dev,
-           project: project,
-           type: type)
+           project:,
+           type:)
   end
   shared_let(:version) { create :version, project: project2 }
 
@@ -60,6 +63,7 @@ describe 'Copy work packages through Rails view', js: true do
   describe 'copying work packages' do
     context 'with permission' do
       let(:current_user) { mover }
+      let(:wp_table_target) { ::Pages::WorkPackagesTable.new(project2) }
 
       before do
         wp_table.expect_work_package_count 2
@@ -67,11 +71,13 @@ describe 'Copy work packages through Rails view', js: true do
         context_menu.choose 'Bulk copy'
 
         expect(page).to have_selector('#new_project_id')
-        select project2.name, from: 'new_project_id'
-
-        sleep 1
-
-        expect(page).to have_select('Project', selected: 'Target')
+        expect_page_reload do
+          select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+                              query: project2.name,
+                              select_text: project2.name,
+                              results_selector: 'body'
+        end
+        sleep(1) # wait for the change of target project to finish updating the page
       end
 
       it 'sets the version on copy and leaves a note' do
@@ -79,7 +85,8 @@ describe 'Copy work packages through Rails view', js: true do
         notes.set_markdown 'A note on copy'
         click_on 'Copy and follow'
 
-        wp_table.expect_work_package_count 2
+        wp_table_target.expect_current_path
+        wp_table_target.expect_work_package_count 2
         expect(page).to have_selector('#projects-menu', text: 'Target')
 
         # Should not move the sources
@@ -97,16 +104,16 @@ describe 'Copy work packages through Rails view', js: true do
         let!(:child) do
           create(:work_package,
                  author: dev,
-                 project: project,
-                 type: type,
+                 project:,
+                 type:,
                  parent: work_package)
         end
 
         it 'moves parent and child wp to a new project with the hierarchy amended' do
           click_on 'Copy and follow'
 
-          expect_angular_frontend_initialized
-          wp_table.expect_work_package_count 3
+          wp_table_target.expect_current_path
+          wp_table_target.expect_work_package_count 3
           expect(page).to have_selector('#projects-menu', text: 'Target')
 
           # Should not move the sources
@@ -126,8 +133,8 @@ describe 'Copy work packages through Rails view', js: true do
         let!(:child) do
           create(:work_package,
                  author: dev,
-                 project: project,
-                 type: type,
+                 project:,
+                 type:,
                  parent: work_package)
         end
 

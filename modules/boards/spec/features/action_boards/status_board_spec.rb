@@ -38,7 +38,7 @@ describe 'Status action board', type: :feature, js: true do
   end
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
@@ -51,28 +51,28 @@ describe 'Status action board', type: :feature, js: true do
   let!(:open_status) { create :default_status, name: 'Open' }
   let!(:other_status) { create :status, name: 'Whatever' }
   let!(:closed_status) { create :status, is_closed: true, name: 'Closed' }
-  let!(:work_package) { create :work_package, project: project, subject: 'Foo', status: other_status }
+  let!(:work_package) { create :work_package, project:, subject: 'Foo', status: other_status }
 
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   let!(:workflow_type) do
     create(:workflow,
-           type: type,
-           role: role,
+           type:,
+           role:,
            old_status_id: open_status.id,
            new_status_id: closed_status.id)
   end
   let!(:workflow_type_back) do
     create(:workflow,
-           type: type,
-           role: role,
+           type:,
+           role:,
            old_status_id: other_status.id,
            new_status_id: open_status.id)
   end
   let!(:workflow_type_back_open) do
     create(:workflow,
-           type: type,
-           role: role,
+           type:,
+           role:,
            old_status_id: closed_status.id,
            new_status_id: open_status.id)
   end
@@ -241,6 +241,24 @@ describe 'Status action board', type: :feature, js: true do
 
       board_page.expect_card('Open', 'Task 1', present: false)
       board_page.expect_card('Closed', 'Task 1', present: true)
+    end
+
+    it 'shows the default column only once (regression #40858)' do
+      board_index.visit!
+
+      # Create new board
+      board_page = board_index.create_board action: :Status
+
+      # expect lists of default status
+      board_page.expect_list 'Open'
+      expect(board_page.list_count).to eq(1)
+
+      # Create another status board
+      second_board_page = board_index.create_board action: :Status, via_toolbar: true
+
+      # Expect only one list with the default status
+      second_board_page.expect_list 'Open'
+      expect(second_board_page.list_count).to eq(1)
     end
   end
 end

@@ -230,6 +230,7 @@ da:
             professional_support: "Professionel support"
             professional_support_text: "Få pålidelig, høj-touch support fra senior support ingeniører med ekspert viden om at køre OpenProject i forretningskritiske miljøer."
           button_start_trial: "Start gratis prøveperiode"
+          button_upgrade: "Upgrade now"
           button_book_now: "Bestil nu"
           confidence: >
             Vi leverer tillid til en testet og understøttet enterprise-klasse projektstyringssoftware - med Open Source og et åbent sind.
@@ -266,7 +267,8 @@ da:
           one: "Første sorteringskriterium"
           two: "Anden sorteringskriterier"
           three: "Tredje sorteringskriterium"
-      upsale_for_more: "For mere avancerede filtre, tjek den"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Udgave.'
     general_text_no: "nej"
     general_text_yes: "ja"
@@ -397,6 +399,8 @@ da:
     label_previous: "Foregående"
     label_per_page: "Per side:"
     label_please_wait: "Please wait"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projekter"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Citér denne kommentar"
@@ -409,6 +413,7 @@ da:
     label_report: "Rapport"
     label_repository_plural: "Projektarkiver"
     label_save_as: "Gem som"
+    label_select_project: "Select a project"
     label_select_watcher: "Vælg en tilsynsførende..."
     label_selected_filter_list: "Valgte filtre"
     label_show_attributes: "Vis alle egenskaber"
@@ -450,10 +455,10 @@ da:
     label_unwatch: "Stands tilsyn"
     label_unwatch_work_package: "Stands tilsyn med arbejdspakke"
     label_uploaded_by: "Lagt op af"
-    label_default_queries: "Default views"
-    label_starred_queries: "Favorite views"
-    label_global_queries: "Public views"
-    label_custom_queries: "Private views"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Kolonner"
     label_attachments: Vedhæftninger
     label_drop_files: Slip filer hér
@@ -533,7 +538,7 @@ da:
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -541,7 +546,8 @@ da:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -658,14 +664,7 @@ da:
         projects: "Projekter"
         settings: "Indstillinger"
     time_entry:
-      project: 'Prjoekt'
-      work_package: 'Arbejdspakke'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Aktivivtet'
-      comment: 'Kommentér'
-      duration: 'Varighed'
-      spent_on: 'Dato'
-      hours: 'Timer'
       title: 'Tidsregistrering'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
@@ -806,7 +805,7 @@ da:
       zooms: "Zoomniveau"
       outlines: "Niveau i hieraki"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Fed"
       italic: "Kursiv"
@@ -834,6 +833,13 @@ da:
       comment_send_failed: "En fejl opstod. Kunne ikke indsende kommentaren."
       comment_updated: "Kommentaren blev opdateret."
       confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filter"
       description_enter_text: "Indtast tekst"
       description_options_hide: "Gem muligheder"
@@ -987,6 +993,7 @@ da:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
@@ -1019,10 +1026,7 @@ da:
       filter: "Filter"
       unselected_title: "Arbejdspakke"
       search_query_label: "Search saved views"
-      search_query_title: "Click to search saved views"
-      placeholder_query_title: "Set a title for this view"
     modals:
-      label_settings: "Rename view"
       label_name: "Navn"
       label_delete_page: "Slet denne side"
       button_apply: "Benyt"
@@ -1082,6 +1086,10 @@ da:
         one: "1 t"
         other: "%{count} t"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'
@@ -1177,6 +1185,7 @@ da:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

@@ -31,12 +31,12 @@ require_relative '../spec_helper'
 describe ::Storages::FileLink, type: :model do
   let(:creator) { create(:user) }
   let(:project) { create(:project) }
-  let(:work_package) { create(:work_package, project: project) }
+  let(:work_package) { create(:work_package, project:) }
   let(:storage) { create(:storage) }
   let(:attributes) do
     {
-      storage: storage,
-      creator: creator,
+      storage:,
+      creator:,
       container_id: work_package.id,
       container_type: "WorkPackage",
       origin_id: "123456",

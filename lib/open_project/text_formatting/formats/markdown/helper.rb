@@ -55,7 +55,7 @@ module OpenProject::TextFormatting::Formats
                             'editor-type': context[:editor_type] || 'full',
                             'preview-context': context[:preview_context],
                             'data-resource': resource.to_json,
-                            'macros': context.fetch(:macros, true)
+                            macros: context.fetch(:macros, true)
       end
 
       protected

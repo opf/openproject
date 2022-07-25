@@ -4,35 +4,29 @@ import {
   tap,
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import {
-  applyTransaction,
-  ID,
-} from '@datorama/akita';
+import { applyTransaction } from '@datorama/akita';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { HttpClient } from '@angular/common/http';
-import { PrincipalsQuery } from 'core-app/core/state/principals/principals.query';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import {
   collectionKey,
   insertCollectionIntoState,
 } from 'core-app/core/state/collection-store';
-import {
-  EffectHandler,
-} from 'core-app/core/state/effects/effect-handler.decorator';
+import { EffectHandler } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { PrincipalsStore } from './principals.store';
 import { IPrincipal } from './principal.model';
 import { IUser } from 'core-app/core/state/principals/user.model';
+import {
+  CollectionStore,
+  ResourceCollectionService,
+} from 'core-app/core/state/resource-collection.service';
 
 @EffectHandler
 @Injectable()
-export class PrincipalsResourceService {
-  protected store = new PrincipalsStore();
-
-  readonly query = new PrincipalsQuery(this.store);
-
+export class PrincipalsResourceService extends ResourceCollectionService<IPrincipal> {
   private get principalsPath():string {
     return this
       .apiV3Service
@@ -45,7 +39,9 @@ export class PrincipalsResourceService {
     private http:HttpClient,
     private apiV3Service:ApiV3Service,
     private toastService:ToastService,
-  ) { }
+  ) {
+    super();
+  }
 
   fetchUser(id:string|number):Observable<IUser> {
     return this.http
@@ -78,37 +74,7 @@ export class PrincipalsResourceService {
       );
   }
 
-  update(id:ID, principal:Partial<IPrincipal>):void {
-    this.store.update(id, principal);
-  }
-
-  modifyCollection(params:ApiV3ListParameters, callback:(collection:ID[]) => ID[]):void {
-    const key = collectionKey(params);
-    this.store.update(({ collections }) => (
-      {
-        collections: {
-          ...collections,
-          [key]: {
-            ...collections[key],
-            ids: [...callback(collections[key]?.ids || [])],
-          },
-        },
-      }
-    ));
-  }
-
-  removeFromCollection(params:ApiV3ListParameters, ids:ID[]):void {
-    const key = collectionKey(params);
-    this.store.update(({ collections }) => (
-      {
-        collections: {
-          ...collections,
-          [key]: {
-            ...collections[key],
-            ids: (collections[key]?.ids || []).filter((id) => !ids.includes(id)),
-          },
-        },
-      }
-    ));
+  protected createStore():CollectionStore<IPrincipal> {
+    return new PrincipalsStore();
   }
 }

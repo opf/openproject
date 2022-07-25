@@ -39,9 +39,9 @@ describe ::API::V3::RootRepresenter do
 
   before do
     allow(user)
-      .to receive(:allowed_to?) do |action, _project, options|
-      permissions.include?(action) && options[:global] = true
-    end
+      .to receive(:allowed_to_globally?) do |action|
+        permissions.include?(action)
+      end
   end
 
   context 'generation' do
@@ -139,7 +139,7 @@ describe ::API::V3::RootRepresenter do
     context 'attributes' do
       describe '_type' do
         it 'is "Root"' do
-          is_expected
+          expect(subject)
             .to be_json_eql('Root'.to_json)
             .at_path('_type')
         end
@@ -148,7 +148,7 @@ describe ::API::V3::RootRepresenter do
       describe 'coreVersion' do
         context 'for a non admin user' do
           it 'has no coreVersion property' do
-            is_expected
+            expect(subject)
               .not_to have_json_path('coreVersion')
           end
         end
@@ -157,7 +157,7 @@ describe ::API::V3::RootRepresenter do
           let(:user) { build_stubbed(:admin) }
 
           it 'indicates the OpenProject version number' do
-            is_expected
+            expect(subject)
               .to be_json_eql(version.to_json)
               .at_path('coreVersion')
           end
@@ -166,7 +166,7 @@ describe ::API::V3::RootRepresenter do
 
       describe 'instanceName' do
         it 'shows the name of the instance' do
-          is_expected
+          expect(subject)
             .to be_json_eql(app_title.to_json)
             .at_path('instanceName')
         end

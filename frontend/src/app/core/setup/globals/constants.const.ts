@@ -4,3 +4,5 @@ export const contactUrl:{ [locale:string]:string } = {
   en: 'https://www.openproject.org/contact/',
   de: 'https://www.openproject.org/de/kontakt/',
 };
+
+export const pricingUrl = 'https://www.openproject.org/pricing';

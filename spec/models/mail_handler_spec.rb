@@ -39,6 +39,10 @@ describe MailHandler, type: :model do
     # there is a default work package priority to save any work packages
     priority_low
     anno_user
+
+    allow(UserMailer)
+      .to receive(:incoming_email_error)
+      .and_return instance_double(ActionMailer::MessageDelivery, deliver_later: nil)
   end
 
   after do
@@ -46,7 +50,7 @@ describe MailHandler, type: :model do
     allow(Setting).to receive(:default_language).and_return('en')
   end
 
-  shared_context 'wp_on_given_project' do
+  shared_context 'for wp_on_given_project' do
     let(:permissions) { %i[add_work_packages assign_versions work_package_assigned] }
     let!(:user) do
       create(:user,
@@ -63,7 +67,7 @@ describe MailHandler, type: :model do
     end
   end
 
-  shared_context 'wp_on_given_project_case_insensitive' do
+  shared_context 'for wp_on_given_project_case_insensitive' do
     let(:permissions) { %i[add_work_packages assign_versions] }
     let!(:user) do
       create(:user,
@@ -80,6 +84,29 @@ describe MailHandler, type: :model do
     end
   end
 
+  shared_context 'for wp on given project group assignment' do
+    let(:permissions) { %i[add_work_packages] }
+    let!(:user) do
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
+    end
+    let!(:group) do
+      create(:group,
+             lastname: 'A-Team',
+             member_in_project: project,
+             member_with_permissions: [:work_package_assigned])
+    end
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('wp_on_given_project_group_assignment.eml', **submit_options)
+    end
+  end
+
   shared_context 'with a reply to a wp mention with quotes above' do
     let(:permissions) { %i[edit_work_packages view_work_packages] }
     let!(:user) do
@@ -92,7 +119,7 @@ describe MailHandler, type: :model do
     let!(:work_package) do
       create(:work_package,
              id: 2,
-             project: project).tap do |wp|
+             project:).tap do |wp|
         wp.journals.last.update_column(:id, 891223)
       end
     end
@@ -140,7 +167,7 @@ describe MailHandler, type: :model do
       create(:work_package,
              subject: 'Some subject of the bug',
              id: 39733,
-             project: project).tap do |wp|
+             project:).tap do |wp|
         wp.journals.last.update_column(:id, 99999999)
       end
     end
@@ -153,7 +180,7 @@ describe MailHandler, type: :model do
   shared_context 'with a reply to a wp mention with attributes' do
     let(:permissions) { %i[add_work_package_notes view_work_packages edit_work_packages work_package_assigned] }
     let(:role) do
-      create(:role, permissions: permissions)
+      create(:role, permissions:)
     end
     let!(:user) do
       create(:user,
@@ -166,7 +193,7 @@ describe MailHandler, type: :model do
       create(:work_package,
              subject: 'Some subject of the bug',
              id: 39733,
-             project: project,
+             project:,
              status: original_status).tap do |wp|
         wp.journals.last.update_column(:id, 99999999)
       end
@@ -180,7 +207,7 @@ describe MailHandler, type: :model do
         create(:workflow,
                old_status: original_status,
                new_status: status,
-               role: role,
+               role:,
                type: work_package.type)
       end
     end
@@ -215,7 +242,7 @@ describe MailHandler, type: :model do
     let!(:message) do
       create(:message,
              id: 70917,
-             forum: create(:forum, project: project)).tap do |wp|
+             forum: create(:forum, project:)).tap do |wp|
         wp.journals.last.update_column(:id, 99999999)
       end
     end
@@ -247,11 +274,11 @@ describe MailHandler, type: :model do
     end
 
     context 'when sending a mail not as a reply' do
-      context 'in a given project' do
+      context 'for a given project' do
         let!(:status) { create(:status, name: 'Resolved') }
-        let!(:version) { create(:version, name: 'alpha', project: project) }
+        let!(:version) { create(:version, name: 'alpha', project:) }
 
-        include_context 'wp_on_given_project' do
+        include_context 'for wp_on_given_project' do
           let(:submit_options) { { allow_override: 'version' } }
         end
 
@@ -309,12 +336,12 @@ describe MailHandler, type: :model do
 
         it 'sets the estimated_hours' do
           expect(subject.estimated_hours)
-            .to eql(2.5)
+            .to be(2.5)
         end
 
         it 'sets the done_ratio' do
           expect(subject.done_ratio)
-            .to eql(30)
+            .to be(30)
         end
 
         it 'removes keywords' do
@@ -338,16 +365,22 @@ describe MailHandler, type: :model do
             end
           end.to change(Notification.where(recipient: user), :count).by(1)
         end
+
+        it 'does not send an error reply email' do
+          subject # send mail
+
+          expect(UserMailer).not_to have_received(:incoming_email_error)
+        end
       end
 
-      context 'in given project with a default type' do
+      context 'for a given project with a default type' do
         let(:default_type) do
           create(:type, is_default: true).tap do |t|
             project.types << t
           end
         end
 
-        include_context 'wp_on_given_project' do
+        include_context 'for wp_on_given_project' do
           let(:submit_options) { { issue: { type: default_type.name } } }
         end
 
@@ -359,70 +392,222 @@ describe MailHandler, type: :model do
         end
       end
 
-      context 'email by unknown user' do
-        it 'adds a work_package by create user on public project' do
-          Role.non_member.update_attribute :permissions, [:add_work_packages]
-          project.update_attribute :public, true
-          expect do
-            work_package = submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, unknown_user: 'create')
-            work_package_created(work_package)
-            expect(work_package.author.active?).to be_truthy
-            expect(work_package.author.mail).to eq('john.doe@somenet.foo')
-            expect(work_package.author.firstname).to eq('John')
-            expect(work_package.author.lastname).to eq('Doe')
+      context 'for a given project with a locked user' do
+        let!(:status) { create(:status, name: 'Resolved') }
 
-            # account information
-            perform_enqueued_jobs
-
-            email = ActionMailer::Base.deliveries.first
-            expect(email).not_to be_nil
-            expect(email.subject).to eq(I18n.t('mail_subject_register', value: Setting.app_title))
-            login = email.body.encoded.match(/\* Username: (\S+)\s?$/)[1]
-            password = email.body.encoded.match(/\* Password: (\S+)\s?$/)[1]
-
-            # Can't log in here since randomly assigned password must be changed
-            found_user = User.find_by_login(login)
-            expect(work_package.author).to eq(found_user)
-            expect(found_user.check_password?(password)).to be_truthy
-          end.to change(User, :count).by(1)
+        before do
+          user.locked!
         end
 
-        it 'rejects if unknown_user=accept and permission check is present' do
-          expected =
-            'MailHandler: work_package could not be created by Anonymous due to ' \
-            '#["may not be accessed.", ' \
-            '"Type was attempted to be written but is not writable.", ' \
-            '"Project was attempted to be written but is not writable.", ' \
-            '"Subject was attempted to be written but is not writable.", ' \
-            '"Description was attempted to be written but is not writable."]'
+        include_context 'for wp_on_given_project'
 
-          allow(Rails.logger)
-            .to receive(:error)
-            .with(expected)
-
-          result = submit_email 'ticket_by_unknown_user.eml',
-                                issue: { project: project.identifier },
-                                unknown_user: 'accept'
-
-          expect(result).to eq false
-
-          expect(Rails.logger)
-            .to have_received(:error)
-                  .with(expected)
-        end
-
-        it 'accepts if unknown_user=accept and no_permission_check' do
-          work_package = submit_email 'ticket_by_unknown_user.eml',
-                                      issue: { project: project.identifier },
-                                      unknown_user: 'accept',
-                                      no_permission_check: 1
-
-          work_package_created(work_package)
-          expect(work_package.author).to eq(User.anonymous)
+        it 'does not create the work package' do
+          expect { subject }
+            .not_to change(WorkPackage, :count)
         end
       end
 
-      context 'email from emission address', with_settings: { mail_from: 'openproject@example.net' } do
+      context 'for a given project with group assignment' do
+        include_context 'for wp on given project group assignment'
+
+        it_behaves_like 'work package created'
+
+        it 'sets the assignee to the group' do
+          expect(subject.assigned_to)
+            .to eql(group)
+        end
+      end
+
+      context 'for an email by unknown user' do
+        context 'with unknown_user: \'create\'' do
+          it 'adds a work_package by create user on public project' do
+            Role.non_member.update_attribute :permissions, [:add_work_packages]
+            project.update_attribute :public, true
+            expect do
+              work_package = submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, unknown_user: 'create')
+              work_package_created(work_package)
+              expect(work_package.author).to be_active
+              expect(work_package.author.mail).to eq('john.doe@somenet.foo')
+              expect(work_package.author.firstname).to eq('John')
+              expect(work_package.author.lastname).to eq('Doe')
+
+              # account information
+              perform_enqueued_jobs
+
+              email = ActionMailer::Base.deliveries.first
+              expect(email).not_to be_nil
+              expect(email.subject).to eq(I18n.t('mail_subject_register', value: Setting.app_title))
+              login = email.body.encoded.match(/\* Username: (\S+)\s?$/)[1]
+              password = email.body.encoded.match(/\* Password: (\S+)\s?$/)[1]
+
+              # Can't log in here since randomly assigned password must be changed
+              found_user = User.find_by(login:)
+              expect(work_package.author).to eq(found_user)
+              expect(found_user).to be_check_password(password)
+            end.to change(User, :count).by(1)
+          end
+        end
+
+        context 'with unknown_user: nil (default)' do
+          let(:results) { [] }
+
+          before do
+            results << submit_email(
+              'ticket_by_unknown_user.eml',
+              issue: { project: project.identifier },
+              unknown_user: nil
+            )
+          end
+
+          it "ignores the email" do
+            expect(results).to eq [false]
+          end
+
+          it "does not respond with an error email" do
+            expect(UserMailer).not_to have_received(:incoming_email_error)
+          end
+        end
+
+        context 'with unknown_user: \'accept\' and permission check present' do
+          let(:expected) do
+            'MailHandler: work_package could not be created by Anonymous due to ' \
+              '#["may not be accessed.", ' \
+              '"Type was attempted to be written but is not writable.", ' \
+              '"Project was attempted to be written but is not writable.", ' \
+              '"Subject was attempted to be written but is not writable.", ' \
+              '"Description was attempted to be written but is not writable."]'
+          end
+          let(:permission) { nil }
+
+          subject(:work_package) do
+            submit_email(
+              'ticket_by_unknown_user.eml',
+              issue: { project: project.identifier },
+              unknown_user: 'accept'
+            )
+          end
+
+          before do
+            allow(Rails.logger).to receive(:error).with(expected)
+            Role.anonymous.add_permission!(permission) if permission
+          end
+
+          context 'with anonymous lacking permissions' do
+            before do
+              work_package
+            end
+
+            it 'rejects the email' do
+              expect(work_package).to be false
+            end
+
+            it 'logs the error' do
+              expect(Rails.logger).to have_received(:error).with(expected)
+            end
+
+            context 'with report_incoming_email_errors true (default)' do
+              it 'responds with an error email' do
+                expect(UserMailer).to have_received(:incoming_email_error) do |user, mail, logs|
+                  expect(user).to eq anno_user
+                  expect(mail.subject).to eq "Ticket by unknown user"
+                  expect(logs).to eq [expected.sub(/^MailHandler/, "error")]
+                end
+              end
+            end
+
+            context 'with report_incoming_email_errors false', with_settings: { report_incoming_email_errors: false } do
+              it 'does not respond with an error email' do
+                expect(UserMailer).not_to have_received(:incoming_email_error)
+              end
+            end
+          end
+
+          context 'with anonymous having permissions in a public project' do
+            let(:permission) { :add_work_packages }
+
+            before do
+              project.update_attribute(:public, true)
+            end
+
+            it_behaves_like 'work package created'
+
+            it 'sets the author to anonymous' do
+              expect(work_package.author)
+                .to eql User.anonymous
+            end
+
+            it 'creates no user' do
+              expect { work_package }
+                .not_to change(User, :count)
+            end
+          end
+
+          context 'with anonymous having permissions in a private project' do
+            let(:permission) { :add_work_packages }
+
+            before do
+              project.update_attribute(:public, false)
+            end
+
+            it 'creates no work package' do
+              expect { work_package }
+                .not_to change(WorkPackage, :count)
+            end
+
+            it 'creates no user' do
+              expect { work_package }
+                .not_to change(User, :count)
+            end
+          end
+        end
+
+        context 'for unknown_user: \'accept\' and no_permission_check' do
+          subject(:work_package) do
+            submit_email 'ticket_by_unknown_user.eml',
+                         issue: { project: project.identifier },
+                         unknown_user: 'accept',
+                         no_permission_check: 1
+          end
+
+          it_behaves_like 'work package created'
+
+          it 'sets the author to anonymous' do
+            expect(work_package.author).to eq(User.anonymous)
+          end
+        end
+
+        context 'for unknown_user: \'accept\' and without from header' do
+          subject(:work_package) do
+            Role.anonymous.add_permission!(:add_work_packages)
+
+            submit_email 'wp_without_from_header.eml',
+                         issue: { project: project.identifier },
+                         unknown_user: 'accept'
+          end
+
+          it 'creates no work package' do
+            expect { work_package }
+              .not_to change(WorkPackage, :count)
+          end
+        end
+
+        context 'for unknown_user: \'accept\' and without permission checks and without from header' do
+          subject(:work_package) do
+            submit_email 'wp_without_from_header.eml',
+                         issue: { project: project.identifier },
+                         unknown_user: 'accept',
+                         no_permission_check: 1
+          end
+
+          it_behaves_like 'work package created'
+
+          it 'sets the author to anonymous' do
+            expect(work_package.author).to eq(User.anonymous)
+          end
+        end
+      end
+
+      context 'for email from emission address', with_settings: { mail_from: 'openproject@example.net' } do
         before do
           Role.non_member.add_permission!(:add_work_packages)
         end
@@ -439,20 +624,26 @@ describe MailHandler, type: :model do
 
         it 'does not create the user' do
           expect { subject }
-            .not_to(change { User.count })
+            .not_to(change(User, :count))
         end
 
         it 'does not create the work_package' do
           expect { subject }
-            .not_to(change { WorkPackage.count })
+            .not_to(change(WorkPackage, :count))
+        end
+
+        it 'does not result in an error email response' do
+          subject # send email
+
+          expect(UserMailer).not_to have_received(:incoming_email_error)
         end
       end
 
-      context 'wp with status' do
+      context 'for wp with status' do
         let!(:status) { create(:status, name: 'Resolved') }
 
         # This email contains: 'Project: onlinestore' and 'Status: Resolved'
-        include_context 'wp_on_given_project'
+        include_context 'for wp_on_given_project'
 
         it_behaves_like 'work package created'
 
@@ -462,13 +653,13 @@ describe MailHandler, type: :model do
         end
       end
 
-      context 'wp with status case insensitive' do
+      context 'for wp with status case insensitive' do
         let!(:status) { create(:status, name: 'Resolved') }
         let!(:priority_low) { create(:priority_low, name: 'Low', is_default: true) }
-        let!(:version) { create(:version, name: 'alpha', project: project) }
+        let!(:version) { create(:version, name: 'alpha', project:) }
 
         # This email contains: 'Project: onlinestore' and 'Status: resolved'
-        include_context 'wp_on_given_project_case_insensitive'
+        include_context 'for wp_on_given_project_case_insensitive'
 
         it_behaves_like 'work package created'
 
@@ -479,7 +670,7 @@ describe MailHandler, type: :model do
         end
       end
 
-      context 'wp with cc' do
+      context 'for wp with cc' do
         include_context 'with wp create with cc'
 
         it_behaves_like 'work package created'
@@ -493,7 +684,7 @@ describe MailHandler, type: :model do
 
     context 'when sending a reply to work package mail' do
       let!(:mail_user) { create :admin, mail: 'user@example.org' }
-      let!(:work_package) { create :work_package, project: project }
+      let!(:work_package) { create :work_package, project: }
 
       before do
         # Avoid trying to extract text
@@ -594,7 +785,7 @@ describe MailHandler, type: :model do
             .to include 'The text of the reply.'
         end
 
-        it 'alters the attributes' do
+        it 'alters the attributes', with_flag: { work_packages_duration_field_active: true } do
           subject
 
           expect(work_package.journals.reload.last.details)
@@ -603,6 +794,7 @@ describe MailHandler, type: :model do
               "status_id" => [original_status.id, resolved_status.id],
               "assigned_to_id" => [nil, other_user.id],
               "start_date" => [nil, Date.parse("Fri, 01 Jan 2010")],
+              "duration" => [1, 365],
               "custom_fields_#{float_cf.id}" => [nil, "52.6"]
             )
         end
@@ -616,20 +808,20 @@ describe MailHandler, type: :model do
       end
 
       context 'with a custom field' do
-        let(:work_package) { create :work_package, project: project }
+        let(:work_package) { create :work_package, project: }
         let(:type) { create :type }
 
         before do
           type.custom_fields << custom_field
           type.save!
 
-          allow_any_instance_of(WorkPackage).to receive(:available_custom_fields).and_return([custom_field])
+          allow(work_package).to receive(:available_custom_fields).and_return([custom_field])
 
           allow(WorkPackage).to receive(:find_by).with(id: 42).and_return(work_package)
           allow(User).to receive(:find_by_mail).with("h.wurst@openproject.com").and_return(mail_user)
         end
 
-        context 'of type text' do
+        context 'as type text' do
           let(:custom_field) { create :text_wp_custom_field, name: "Notes" }
 
           before do
@@ -639,13 +831,13 @@ describe MailHandler, type: :model do
           end
 
           it "sets the value" do
-            value = work_package.custom_values.where(custom_field_id: custom_field.id).pluck(:value).first
+            value = work_package.custom_values.where(custom_field_id: custom_field.id).pick(:value)
 
             expect(value).to eq "some text" # as given in .eml fixture
           end
         end
 
-        context 'of type list' do
+        context 'as type list' do
           let(:custom_field) { create :list_wp_custom_field, name: "Letters", possible_values: %w(A B C) }
 
           before do
@@ -656,7 +848,7 @@ describe MailHandler, type: :model do
 
           it "sets the value" do
             option = CustomOption.where(custom_field_id: custom_field.id, value: "B").first # as given in .eml fixture
-            value = work_package.custom_values.where(custom_field_id: custom_field.id).pluck(:value).first
+            value = work_package.custom_values.where(custom_field_id: custom_field.id).pick(:value)
 
             expect(value).to eq option.id.to_s
           end
@@ -688,9 +880,9 @@ describe MailHandler, type: :model do
       end
     end
 
-    context 'truncate emails based on the Setting' do
+    describe 'truncate emails based on the Setting' do
       context 'with no setting', with_settings: { mail_handler_body_delimiters: '' } do
-        include_context 'wp_on_given_project'
+        include_context 'for wp_on_given_project'
 
         it_behaves_like 'work package created'
 
@@ -704,7 +896,7 @@ describe MailHandler, type: :model do
       end
 
       context 'with a single string', with_settings: { mail_handler_body_delimiters: '---' } do
-        include_context 'wp_on_given_project'
+        include_context 'for wp_on_given_project'
 
         it_behaves_like 'work package created'
 
@@ -743,7 +935,7 @@ describe MailHandler, type: :model do
 
       context 'with multiple strings',
               with_settings: { mail_handler_body_delimiters: "---\nBREAK" } do
-        include_context 'wp_on_given_project'
+        include_context 'for wp_on_given_project'
 
         it_behaves_like 'work package created'
 
@@ -767,9 +959,9 @@ describe MailHandler, type: :model do
     end
 
     describe 'category' do
-      let!(:category) { create :category, project: project, name: 'Foobar' }
+      let!(:category) { create :category, project:, name: 'Foobar' }
 
-      it 'should add a work_package with category' do
+      it 'adds a work_package with category' do
         allow(Setting).to receive(:default_language).and_return('en')
         Role.non_member.update_attribute :permissions, [:add_work_packages]
         project.update_attribute :public, true
@@ -787,29 +979,28 @@ describe MailHandler, type: :model do
   describe '#cleanup_body' do
     let(:input) do
       "Subject:foo\nDescription:bar\n" \
-      ">>> myserver.example.org 2016-01-27 15:56 >>>\n... (Email-Body) ..."
+        ">>> myserver.example.org 2016-01-27 15:56 >>>\n... (Email-Body) ..."
     end
-    let(:handler) { MailHandler.send :new }
+    let(:handler) { described_class.send :new }
 
     context 'with regex delimiter' do
       before do
         allow(Setting).to receive(:mail_handler_body_delimiter_regex).and_return('>>>.+?>>>.*')
         allow(handler).to receive(:plain_text_body).and_return(input)
-        expect(handler).to receive(:cleaned_up_text_body).and_call_original
+        allow(handler).to receive(:cleaned_up_text_body).and_call_original
       end
 
       it 'removes the irrelevant lines' do
         expect(handler.send(:cleaned_up_text_body)).to eq("Subject:foo\nDescription:bar")
+        expect(handler).to have_received(:cleaned_up_text_body)
       end
     end
   end
 
   private
 
-  FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
-
   def read_email(filename)
-    IO.read(File.join(FIXTURES_PATH, filename))
+    File.read(File.join("#{File.dirname(__FILE__)}/../fixtures/mail_handler", filename))
   end
 
   def submit_email(filename, options = {})
@@ -817,7 +1008,7 @@ describe MailHandler, type: :model do
   end
 
   def work_package_created(work_package)
-    expect(work_package.is_a?(WorkPackage)).to be_truthy
+    expect(work_package).to be_a(WorkPackage)
     expect(work_package).not_to be_new_record
     work_package.reload
   end

@@ -26,13 +26,18 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, ElementRef, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
 import { HttpClient } from '@angular/common/http';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
 
 @Component({
   selector: 'enterprise-trial-waiting',
@@ -86,7 +91,15 @@ export class EETrialWaitingComponent implements OnInit {
   // resend mail if resend link has been clicked
   public resendMail() {
     this.eeTrialService.cancelled = false;
-    this.http.post(this.eeTrialService.resendLink, {})
+    this.http.post(
+      this.eeTrialService.resendLink,
+      {},
+      {
+        headers: {
+          [EXTERNAL_REQUEST_HEADER]: 'true',
+        },
+      },
+    )
       .toPromise()
       .then(() => {
         this.toastService.addSuccess(this.text.resend_success);

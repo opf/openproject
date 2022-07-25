@@ -54,7 +54,7 @@ describe TabularFormBuilder do
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'text-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field"
           id="user_name" name="user[name]" title="Name" type="text"
@@ -91,7 +91,7 @@ describe TabularFormBuilder do
       context 'with a prefix' do
         let(:options) { { title: 'Name', prefix: %{<span style="color:red">Prefix</span>} } }
 
-        it 'should output elements' do
+        it 'outputs elements' do
           expect(output).to be_html_eql(%{
             <span class="form--field-affix"
                   id="#{random_id}"
@@ -121,7 +121,7 @@ describe TabularFormBuilder do
       context 'with a suffix' do
         let(:options) { { title: 'Name', suffix: %{<span style="color:blue">Suffix</span>} } }
 
-        it 'should output elements' do
+        it 'outputs elements' do
           expect(output).to be_html_eql(%{
             <span class="form--text-field-container">
               <input class="form--text-field"
@@ -150,7 +150,7 @@ describe TabularFormBuilder do
           }
         end
 
-        it 'should output elements' do
+        it 'outputs elements' do
           expect(output).to be_html_eql(%{
             <span class="form--field-affix"
                   id="#{random_id}"
@@ -196,7 +196,7 @@ describe TabularFormBuilder do
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'text-area-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <textarea class="custom-class form--text-area" id="user_name"
           name="user[name]" title="Name">
@@ -237,7 +237,7 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'select-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <select class="custom-class form--select"
           id="user_name" name="user[name]"><option value="33">FUN</option></select>
@@ -261,7 +261,7 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'select-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to have_selector 'select.custom-class.form--select > option', count: 3
       expect(output).to have_selector 'option:first[value="56"]'
       expect(output).to have_text 'Jonas'
@@ -278,7 +278,7 @@ JJ Abrams</textarea>
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to have_selector 'select', count: 3
       expect(output).to have_selector 'select:nth-of-type(2) > option', count: 12
       expect(output).to have_selector 'select:last > option', count: 31
@@ -296,7 +296,7 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'check-box-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--check-box"
           id="user_first_login" name="user[first_login]" title="Name" type="checkbox"
@@ -320,7 +320,7 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'check-box-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input checked="checked"
                class="form--check-box"
@@ -343,7 +343,7 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container'
     it_behaves_like 'wrapped in container', 'radio-button-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--radio-button"
                id="user_name_john"
@@ -366,7 +366,7 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'text-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -number"
           id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins"
@@ -386,7 +386,7 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'range-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--range-field"
           id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins"
@@ -406,7 +406,7 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'search-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--search-field" id="user_name"
           name="user[name]" title="Search name" type="search"
@@ -426,7 +426,7 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'text-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -email"
           id="user_mail" name="user[mail]" title="Email" type="email"
@@ -446,7 +446,7 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'text-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -telephone"
           id="user_mail" name="user[mail]" title="Not really email"
@@ -466,7 +466,7 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'text-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -password"
           id="user_login" name="user[login]" title="Not really password"
@@ -486,7 +486,7 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'file-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--file-field"
           id="user_name" name="user[name]" title="Not really file" type="file" />
@@ -505,7 +505,7 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'text-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -url"
           id="user_name" name="user[name]" title="Not really file"
@@ -523,7 +523,7 @@ JJ Abrams</textarea>
     it_behaves_like 'not wrapped in container'
     it_behaves_like 'not wrapped in container', 'submit-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to have_selector('input[name=commit]')
     end
   end
@@ -537,7 +537,7 @@ JJ Abrams</textarea>
     it_behaves_like 'not wrapped in container'
     it_behaves_like 'not wrapped in container', 'button-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql %{<button name="button" type="submit">Create User</button>}
     end
   end
@@ -545,7 +545,7 @@ JJ Abrams</textarea>
   describe '#label' do
     subject(:output) { builder.label :name }
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql %{
         <label class="form--label"
                for="user_name"
@@ -558,7 +558,7 @@ JJ Abrams</textarea>
     describe 'with existing attributes' do
       subject(:output) { builder.label :name, 'Fear', class: 'sharknado', title: 'Fear' }
 
-      it 'should keep associated classes' do
+      it 'keeps associated classes' do
         expect(output).to be_html_eql %{
           <label class="sharknado form--label" for="user_name" title="Fear">Fear</label>
         }
@@ -568,7 +568,7 @@ JJ Abrams</textarea>
     describe 'when using it without ActiveModel' do
       let(:resource) { OpenStruct.new name: 'Deadpool' }
 
-      it 'should fall back to the method name' do
+      it 'falls back to the method name' do
         expect(output).to be_html_eql %{
           <label class="form--label" for="user_name" title="Name">Name</label>
         }
@@ -579,6 +579,7 @@ JJ Abrams</textarea>
   # test the label that is generated for various field types
   describe 'labels for fields' do
     let(:options) { {} }
+
     shared_examples_for 'generated label' do
       def expected_label_like(expected_title, expected_classes = 'form--label')
         expect(output).to be_html_eql(%{

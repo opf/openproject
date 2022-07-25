@@ -21,8 +21,9 @@ RSpec.describe CustomStyle, type: :model do
       before do
         RequestStore.delete(:current_custom_style)
       end
+
       it 'returns nil' do
-        expect(subject).to be nil
+        expect(subject).to be_nil
       end
     end
   end

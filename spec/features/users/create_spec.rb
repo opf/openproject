@@ -49,7 +49,7 @@ describe 'create users', type: :feature, selenium: true do
 
       new_user = User.order(Arel.sql('id DESC')).first
 
-      expect(current_path).to eql(edit_user_path(new_user.id))
+      expect(page).to have_current_path edit_user_path(new_user.id)
     end
 
     it 'sends out an activation email' do
@@ -136,7 +136,7 @@ describe 'create users', type: :feature, selenium: true do
           click_button 'Sign in'
 
           expect(page).to have_text 'OpenProject'
-          expect(current_path).to eq '/'
+          expect(page).to have_current_path '/', ignore_query: true
           expect(page).to have_link 'bobfirst boblast'
         end
       end

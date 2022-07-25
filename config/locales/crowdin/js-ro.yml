@@ -230,6 +230,7 @@ ro:
             professional_support: "Suport profesional"
             professional_support_text: "Beneficiați de asistență fiabilă, de înaltă calitate, din partea unor ingineri de asistență seniori cu cunoștințe de specialitate în ceea ce privește utilizarea OpenProject în medii critice pentru afaceri."
           button_start_trial: "Începeți o încercare gratuită"
+          button_upgrade: "Upgrade now"
           button_book_now: "Rezervă acum"
           confidence: >
             Oferim încrederea unui software de gestionare a proiectelor de clasă enterprise testat și susținut - cu Open Source și o minte deschisă.
@@ -266,7 +267,8 @@ ro:
           one: "Primul criteriu de sortare"
           two: "Al doilea criteriu de sortare"
           three: "Al treilea criteriu de sortare"
-      upsale_for_more: "Pentru filtre mai avansate, accesați"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'Versiunea Enterprise.'
     general_text_no: "nu"
     general_text_yes: "da"
@@ -397,6 +399,8 @@ ro:
     label_previous: "Înapoi"
     label_per_page: "Pe pagină:"
     label_please_wait: "Așteptați"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Proiecte"
     label_visibility_settings: "Setări de vizibilitate"
     label_quote_comment: "Citare comentariu"
@@ -409,6 +413,7 @@ ro:
     label_report: "Raportare"
     label_repository_plural: "Repo-uri"
     label_save_as: "Salvare ca"
+    label_select_project: "Select a project"
     label_select_watcher: "Selectaţi un observator..."
     label_selected_filter_list: "Filtre selectate"
     label_show_attributes: "Afișați toate câmpurile"
@@ -450,10 +455,10 @@ ro:
     label_unwatch: "Stop monitorizare"
     label_unwatch_work_package: "Opriți urmărirea pachetului de lucru"
     label_uploaded_by: "Încărcat de"
-    label_default_queries: "Configurații implicite"
-    label_starred_queries: "Configurații favorite"
-    label_global_queries: "Configurații publice"
-    label_custom_queries: "Configurații private"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Coloane"
     label_attachments: Atașamente
     label_drop_files: Trageți fișierele aici
@@ -534,7 +539,7 @@ ro:
           few: 'și %{count} alții'
           other: 'și %{count} alții'
         no_results:
-          at_all: 'Noi notificări vor apărea aici atunci când există o activitate care vă privește'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'Nu există notificări în această vizualizare în acest moment'
         mark_all_read: 'Marchează Tot ca Citit'
         mark_as_read: 'Marchează ca Citit'
@@ -542,7 +547,8 @@ ro:
         total_count_warning: "Se afișează %{newest_count} cele mai recente notificări. %{more_count} în plus nu sunt afișate."
         empty_state:
           no_notification: "Se pare că toţi sunteţi prinşi."
-          no_notification_with_current_filter: "Schimbă implicarea sau mergi înapoi la Inbox pentru a vizualiza notificările"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Faceți clic pe o notificare pentru a vizualiza toate detaliile activității."
         new_notifications:
           message: 'Există notificări noi.'
@@ -659,14 +665,7 @@ ro:
         projects: "Proiecte"
         settings: "Setări"
     time_entry:
-      project: 'Proiect'
-      work_package: 'Pachet de lucru'
       work_package_required: 'Necesită să se selecteze mai întâi un pachet de lucru.'
-      activity: 'Activitate'
-      comment: 'Comentariu'
-      duration: 'Durată'
-      spent_on: 'Dată'
-      hours: 'Ore'
       title: 'Consum timp'
     two_factor_authentication:
       label_two_factor_authentication: 'Autentificare cu doi factori'
@@ -807,7 +806,7 @@ ro:
       zooms: "Orizont de timp"
       outlines: "Nivel ierarhic"
     upsale:
-      ee_only: 'Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Aldin"
       italic: "Italic"
@@ -835,6 +834,13 @@ ro:
       comment_send_failed: "A apărut o eroare. Comentariul nu a putut fi salvat."
       comment_updated: "Comentariul a fost actualizat cu succes."
       confirm_edit_cancel: "Sunteți sigur că doriți să renunțați la editarea pachetului de lucru?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtrare"
       description_enter_text: "Introduceţi textul"
       description_options_hide: "Ascundere opțiuni"
@@ -988,6 +994,7 @@ ro:
           attribute_highlighting: 'Aveți nevoie ca anumite pachete de lucru să iasă în evidență?'
           relation_columns: 'Aveți nevoie să vedeți relațiile din lista pachetelor de lucru?'
           check_out_link: 'Achiziționați versiunea Enterprise'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrare pachete de lucru'
       tabs:
@@ -1020,10 +1027,7 @@ ro:
       filter: "Filtrare"
       unselected_title: "Pachet de lucru"
       search_query_label: "Căutați vizualizări salvate"
-      search_query_title: "Faceți clic pentru a căuta vizualizări salvate"
-      placeholder_query_title: "Vezi"
     modals:
-      label_settings: "Redenumire"
       label_name: "Nume"
       label_delete_page: "Ştergeți pagina curentă"
       button_apply: "Salvare"
@@ -1085,6 +1089,10 @@ ro:
         one: "1 oră"
         other: "%{count} ora"
         zero: "0 ore"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Activați modul zen'
       button_deactivate: 'Dezactivați modul zen'
@@ -1180,6 +1188,7 @@ ro:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Formularul a fost trimis cu succes'
       load_error_message: 'A apărut o eroare la încărcarea formularului'

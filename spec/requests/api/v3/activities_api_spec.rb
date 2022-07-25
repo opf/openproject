@@ -40,7 +40,7 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
   end
   let(:project) { create(:project, public: false) }
   let(:work_package) do
-    create(:work_package, author: current_user, project: project)
+    create(:work_package, author: current_user, project:)
   end
   let(:permissions) { %i[view_work_packages edit_work_package_notes] }
   let(:activity) { work_package.journals.first }
@@ -70,7 +70,8 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
   end
 
   describe 'PATCH /api/v3/activities/:activityId' do
-    let(:params) { { comment: comment } }
+    let(:params) { { comment: } }
+
     before do
       login_as(current_user)
       patch api_v3_paths.activity(activity.id), params.to_json

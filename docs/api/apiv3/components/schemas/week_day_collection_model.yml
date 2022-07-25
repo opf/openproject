@@ -1,0 +1,100 @@
+# Schema: WeekDayCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  This week days collection
+
+                  **Resource**: WeekDayCollectionModel
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            description: |-
+              The array of week days.
+            minItems: 7
+            maxItems: 7
+            items:
+              $ref: './week_day_model.yml'
+
+example:
+  _type: Collection
+  total: 7
+  count: 7
+  _links:
+    self:
+      href: /api/v3/days/week
+  _embedded:
+    elements:
+      - _type: WeekDay
+        day: 1
+        name: Monday
+        working: true
+        _links:
+          self:
+            href: /api/v3/days/week/1
+            title: Monday
+      - _type: WeekDay
+        day: 2
+        name: Tuesday
+        working: true
+        _links:
+          self:
+            href: /api/v3/days/week/2
+            title: Tuesday
+      - _type: WeekDay
+        day: 3
+        name: Wednesday
+        working: true
+        _links:
+          self:
+            href: /api/v3/days/week/3
+            title: Wednesday
+      - _type: WeekDay
+        day: 4
+        name: Thursday
+        working: true
+        _links:
+          self:
+            href: /api/v3/days/week/4
+            title: Thursday
+      - _type: WeekDay
+        day: 5
+        name: Friday
+        working: true
+        _links:
+          self:
+            href: /api/v3/days/week/5
+            title: Friday
+      - _type: WeekDay
+        day: 6
+        name: Saturday
+        working: false
+        _links:
+          self:
+            href: /api/v3/days/week/6
+            title: Saturday
+      - _type: WeekDay
+        day: 7
+        name: Sunday
+        working: false
+        _links:
+          self:
+            href: /api/v3/days/week/7
+            title: Sunday

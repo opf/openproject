@@ -32,19 +32,31 @@ uk:
     errors:
       too_many_elements_created_at_once: "Забагато елементів, створених за раз. Очікувалося щонайбільше %{max}; отримано %{actual}."
   storages:
+    buttons:
+      done_continue_setup: "Done. Continue setup"
+      replace_openproject_oauth: "Replace OpenProject OAuth"
+      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
+      save_and_continue_setup: "Save and continue setup"
+      save_and_complete_setup: "Save and complete setup"
+      cancel: "Cancel"
     page_titles:
       project_settings:
         index: "Файлові сховища доступні в цьому проєкті"
-        new: "Увімкнути файлове сховище для цього проєкту"
+        new: "Add a file storage to this project"
     instructions:
-      name: "Виберіть коротке ім’я. Воно використовуватиметься як назва вкладки в представленні пакета робіт."
-      host: "URL-адреса екземпляра вашого сховища. Довжина URL-адреси не може перевищувати 255 символів."
+      type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
+      type_link_text: "“Integration OpenProject”"
+      name: "Give your storage a name so that users can differentiate between multiple storages."
+      host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
       no_storage_set_up: "Файлові сховища поки не створено."
       setting_up_additional_storages: "Щоб створити додаткові файлові сховища, перейдіть у"
       setting_up_additional_storages_non_admin: "Адміністратори можуть створювати додаткові файлові сховища в розділі «Адміністрування» / «Файлові сховища»."
       setting_up_storages: "Щоб створити файлові сховища, перейдіть у"
       setting_up_storages_non_admin: "Адміністратори можуть створювати файлові сховища в розділі «Адміністрування» / «Файлові сховища»."
       all_available_storages_already_added: "У проєкт уже додано всі доступні сховища."
+      copy_from: "Copy this value from"
+      nextcloud:
+        integration: "Nextcloud Administration / OpenProject"
     delete_warning:
       storage: >
         Справді видалити це сховище? Це сховище буде також видалено з усіх проєктів, де воно використовувалося. Крім того, буде видалено всі посилання в пакетах робіт на файли, які зберігалися в цьому сховищі.
@@ -54,12 +66,26 @@ uk:
     label_file_link: "Посилання на файл"
     label_file_links: "Посилання на файл"
     label_name: "Назва"
-    label_host: "Хост"
+    label_host: "Host URL"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
+    label_oauth_application_details: "OAuth application details"
+    label_oauth_client_details: "OAuth client details"
     label_provider_type: "Тип постачальника"
     label_new_storage: "Нове сховище"
     label_storage: "Сховище"
     label_storages: "Сховища"
     no_results: "Сховища поки не створено."
+    label_oauth_client_id: "OAuth Client ID"
+    label_oauth_client_secret: "OAuth Client Secret"
     provider_types:
       label: "Тип постачальника"
-      nextcloud: "Nextcloud"
+      nextcloud:
+        name: "Nextcloud"
+        name_placeholder: "e.g. Nextcloud"
+        default_name: "My Nextcloud"
+    confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
+    confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
+    oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
+    notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."

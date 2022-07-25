@@ -34,7 +34,7 @@ module API
 
         resources :open do
           get do
-            url = storage_url_open(@file_link)
+            url = storage_url_open_file(@file_link, open_location: params[:location])
             redirect url, body: "The requested resource can be viewed at #{url}"
             status 303 # The follow-up request to the resource must be GET
           end

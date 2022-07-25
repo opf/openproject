@@ -31,7 +31,7 @@ shared_context 'with a mentioned work package being updated again' do
   let(:project) { create :project }
 
   let(:work_package) do
-    create(:work_package, project: project).tap do |wp|
+    create(:work_package, project:).tap do |wp|
       # Clear the initial journal job
       wp.save!
       clear_enqueued_jobs
@@ -70,11 +70,7 @@ shared_context 'with a mentioned work package being updated again' do
   end
 
   let(:mentioned_notification) do
-    Notification.find_by(recipient: recipient, journal: work_package.journals.last, reason: :mentioned)
-  end
-
-  let(:assigned_notification) do
-    Notification.find_by(recipient: recipient, journal: work_package.journals.last, reason: :assigned)
+    Notification.find_by(recipient:, journal: work_package.journals.last, reason: :mentioned)
   end
 
   def trigger_comment!
@@ -87,11 +83,11 @@ shared_context 'with a mentioned work package being updated again' do
     work_package.reload
   end
 
-  def update_assignee!
+  def update_assignee!(assignee_user = recipient)
     clear_enqueued_jobs
 
     User.execute_as(actor) do
-      work_package.assigned_to = recipient
+      work_package.assigned_to = assignee_user
       work_package.save!
     end
 

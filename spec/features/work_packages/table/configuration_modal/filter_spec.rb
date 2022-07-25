@@ -4,14 +4,14 @@ describe 'Work Package table configuration modal filters spec', js: true do
   let(:user) { create :admin }
 
   let(:project) { create(:project) }
-  let!(:wp_1) { create(:work_package, project: project) }
+  let!(:wp_1) { create(:work_package, project:) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
   let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
 
   let!(:query) do
-    query = build(:query, user: user, project: project)
+    query = build(:query, user:, project:)
     query.column_names = ['subject', 'done_ratio']
 
     query.save!
@@ -23,9 +23,9 @@ describe 'Work Package table configuration modal filters spec', js: true do
   end
 
   context 'by version in project' do
-    let(:version) { create :version, project: project }
-    let(:work_package_with_version) { create :work_package, project: project, version: version }
-    let(:work_package_without_version) { create :work_package, project: project }
+    let(:version) { create :version, project: }
+    let(:work_package_with_version) { create :work_package, project:, version: }
+    let(:work_package_without_version) { create :work_package, project: }
 
     before do
       work_package_with_version

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'Top menu items', js: true do
+describe 'Top menu items', js: true do
   let(:user) { create :user }
   let(:open_menu) { true }
 
@@ -65,7 +65,7 @@ feature 'Top menu items', js: true do
     create(:non_member)
 
     if ex.metadata.key?(:allowed_to)
-      allow(user).to receive(:allowed_to?).and_return(ex.metadata[:allowed_to])
+      allow(user).to receive(:allowed_to_globally?).and_return(ex.metadata[:allowed_to])
     end
 
     visit root_path

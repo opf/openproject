@@ -28,25 +28,25 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package timeline date formatting',
-              with_settings: { date_format: '%Y-%m-%d' },
-              js: true,
-              selenium: true do
+RSpec.describe 'Work package timeline date formatting',
+               with_settings: { date_format: '%Y-%m-%d' },
+               js: true,
+               selenium: true do
   shared_let(:type) { create(:type_bug) }
   shared_let(:project) { create(:project, types: [type]) }
 
   shared_let(:work_package) do
     create :work_package,
-           project: project,
-           type: type,
-           start_date: '2020-12-31',
-           due_date: '2021-01-01',
+           project:,
+           type:,
+           start_date: Date.parse('2020-12-31'),
+           due_date: Date.parse('2021-01-01'),
            subject: 'My subject'
   end
 
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
   let!(:query_tl) do
-    query = build(:query, user: current_user, project: project)
+    query = build(:query, user: current_user, project:)
     query.column_names = ['id', 'type', 'subject']
     query.filters.clear
     query.timeline_visible = true
@@ -73,7 +73,6 @@ RSpec.feature 'Work package timeline date formatting',
 
   describe 'with default settings',
            with_settings: { start_of_week: '', first_week_of_year: '' } do
-
     context 'with english locale user' do
       let(:current_user) { create :admin, language: 'en' }
 
@@ -100,11 +99,28 @@ RSpec.feature 'Work package timeline date formatting',
         expect_date_week '2021-01-04', '01'
       end
     end
+
+    context 'with weekdays defined' do
+      let(:current_user) { create :admin, language: 'en' }
+      let!(:week_days) { create :week_days }
+
+      it 'shows them as disabled' do
+        expect_date_week work_package.start_date.iso8601, '01'
+
+        expect(page).to have_selector('[data-qa-selector="wp-timeline--non-working-day_27-12-2020"]')
+        expect(page).to have_selector('[data-qa-selector="wp-timeline--non-working-day_2-1-2021"]')
+
+        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_28-12-2020"]')
+        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_29-12-2020"]')
+        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_30-12-2020"]')
+        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_31-12-2020"]')
+        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_1-1-2021"]')
+      end
+    end
   end
 
   describe 'with US/CA settings',
            with_settings: { start_of_week: '7', first_week_of_year: '1' } do
-
     let(:current_user) { create :admin }
 
     it 'shows english ISO dates' do

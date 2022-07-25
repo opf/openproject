@@ -3,18 +3,18 @@ require 'spec_helper'
 describe LdapGroups::SynchronizedFilter, type: :model do
   describe '#used_base_dn' do
     let(:auth_source) { build :ldap_auth_source, base_dn: 'dc=example,dc=com' }
-    let(:filter) { build :ldap_synchronized_filter, auth_source: auth_source }
+    let(:filter) { build :ldap_synchronized_filter, auth_source: }
 
     it 'validates the end of the base dn matches the auth_source' do
       filter.base_dn = nil
-      expect(filter.base_dn).to eq(nil)
+      expect(filter.base_dn).to be_nil
       expect(filter.used_base_dn).to eq(auth_source.base_dn)
     end
   end
 
   describe '#base_dn' do
     let(:auth_source) { build :ldap_auth_source, base_dn: 'dc=example,dc=com' }
-    let(:filter) { build :ldap_synchronized_filter, auth_source: auth_source }
+    let(:filter) { build :ldap_synchronized_filter, auth_source: }
 
     it 'validates the end of the base dn matches the auth_source' do
       filter.base_dn = nil

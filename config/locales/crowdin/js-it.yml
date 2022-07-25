@@ -231,6 +231,7 @@ it:
             professional_support: "Supporto professionale"
             professional_support_text: "Ottieni un supporto affidabile e di livello da esperti tecnici con conoscenze dettagliate sulla gestione di OpenProject in ambienti critici per le imprese."
           button_start_trial: "Inizia la prova gratuita"
+          button_upgrade: "Upgrade now"
           button_book_now: "Prenota ora"
           confidence: >
             Forniamo la sicurezza di un software di gestione di progetti di classe aziendale collaudato e supportato, con l'Open Source e una mente aperta.
@@ -267,7 +268,8 @@ it:
           one: "Primo criterio di ordinamento"
           two: "Secondo criterio di ordinamento"
           three: "Terzo criterio di ordinamento"
-      upsale_for_more: "Per ulteriori filtri avanzati, controlla il"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "no"
     general_text_yes: "si"
@@ -400,6 +402,8 @@ it:
     label_previous: "Precedente"
     label_per_page: "Per pagina:"
     label_please_wait: "Attendere"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Progetti"
     label_visibility_settings: "Impostazioni di visibilità"
     label_quote_comment: "Annota questo commento"
@@ -412,6 +416,7 @@ it:
     label_report: "Segnalano"
     label_repository_plural: "Archivi"
     label_save_as: "Salva come"
+    label_select_project: "Select a project"
     label_select_watcher: "Seleziona un osservatore..."
     label_selected_filter_list: "Filtri selezionati"
     label_show_attributes: "Mostra tutti gli attributi"
@@ -453,10 +458,10 @@ it:
     label_unwatch: "Smetti di Osservare"
     label_unwatch_work_package: "Smetti di osservare macro-attività"
     label_uploaded_by: "Caricato da"
-    label_default_queries: "Viste predefinite"
-    label_starred_queries: "Viste preferite"
-    label_global_queries: "Viste pubbliche"
-    label_custom_queries: "Viste private"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Colonne"
     label_attachments: Allegati
     label_drop_files: Trascina i file qui
@@ -536,7 +541,7 @@ it:
           one: 'e 1 altro'
           other: 'e altri %{count}'
         no_results:
-          at_all: 'Nuove notifiche appariranno qui quando ci sono attività che ti riguardano'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'Non ci sono notifiche in questa vista al momento'
         mark_all_read: 'Segna tutti come letti'
         mark_as_read: 'Segna come letto'
@@ -544,7 +549,8 @@ it:
         total_count_warning: "Mostrando le %{newest_count} notifiche più recenti. %{more_count} altre non vengono visualizzate."
         empty_state:
           no_notification: "Sembra che siate tutti coinvolti."
-          no_notification_with_current_filter: "Cambia il coinvolgimento o torna alla Posta in arrivo per visualizzare le notifiche"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Clicca su una notifica per visualizzare tutti i dettagli dell'attività."
         new_notifications:
           message: 'Ci sono nuove notifiche.'
@@ -661,14 +667,7 @@ it:
         projects: "Progetti"
         settings: "Impostazioni"
     time_entry:
-      project: 'Progetto'
-      work_package: 'Macro-attività'
       work_package_required: 'Richiede prima di selezionare una macro-attività.'
-      activity: 'Attività'
-      comment: 'Commento'
-      duration: 'Durata'
-      spent_on: 'Data'
-      hours: 'Ore'
       title: 'Registra l''orario effettuato'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticazione due fattori'
@@ -809,7 +808,7 @@ it:
       zooms: "Livello di zoom"
       outlines: "Livello della gerarchia"
     upsale:
-      ee_only: 'Funzionalità esclusiva della Versione Enterprise'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Grassetto"
       italic: "Corsivo"
@@ -837,6 +836,13 @@ it:
       comment_send_failed: "Si è verificato un errore. Impossibile inviare il commento."
       comment_updated: "Il commento è stato aggiornato correttamente."
       confirm_edit_cancel: "Sei sicuro di voler annullare la modifica della macro-attività?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtro"
       description_enter_text: "Inserisci testo"
       description_options_hide: "Nascondi opzioni"
@@ -990,6 +996,7 @@ it:
           attribute_highlighting: 'Vuoi che alcune macro-attività si distinguano dalla massa?'
           relation_columns: 'Vuoi visualizzare le relazioni nell''elenco di macro-attività?'
           check_out_link: 'Scopri Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtra le macro-attività per tipo di relazione'
       tabs:
@@ -1022,10 +1029,7 @@ it:
       filter: "Filtro"
       unselected_title: "Macro-attività"
       search_query_label: "Ricerca viste memorizzate"
-      search_query_title: "Clicca per cercare nelle viste salvate"
-      placeholder_query_title: "Imposta un titolo per questa vista"
     modals:
-      label_settings: "Rinomina vista"
       label_name: "Nome"
       label_delete_page: "Elimina pagina corrente"
       button_apply: "Applica"
@@ -1085,6 +1089,10 @@ it:
         one: "1 o"
         other: "%{count} o"
         zero: "0 o"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Attiva modalità zen'
       button_deactivate: 'Disattiva modalità zen'
@@ -1180,6 +1188,7 @@ it:
       tooltip:
         include_all_selected: 'Includi tutti i sotto-progetti attualmente selezionati.'
         current_project: 'Questo è il progetto corrente in cui ti trovi.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Il modulo è stato inviato correttamente'
       load_error_message: 'Si è verificato un errore caricando il modulo'

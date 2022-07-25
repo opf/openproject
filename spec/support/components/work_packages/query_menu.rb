@@ -25,21 +25,20 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
-require 'features/support/components/ui_autocomplete'
+require 'support/components/autocompleter/autocomplete_helpers'
 
 module Components
   module WorkPackages
     class QueryMenu
       include Capybara::DSL
       include RSpec::Matchers
-      include ::Components::UIAutocompleteHelpers
+      include ::Components::Autocompleter::AutocompleteHelpers
 
       def select(query)
         select_autocomplete autocompleter,
                             results_selector: autocompleter_results_selector,
                             item_selector: autocompleter_item_selector,
-                            query: query
+                            query:
       end
 
       def autocompleter

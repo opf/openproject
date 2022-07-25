@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+} from '@angular/common/http';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { FormGroup } from '@angular/forms';
 import { input } from 'reactivestates';
+import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
 
 export interface EnterpriseTrialData {
   id?:string;
@@ -65,7 +69,16 @@ export class EnterpriseTrialService {
   // receive an enterprise trial link to access a token
   public sendForm(form:FormGroup) {
     const request = { ...form.value, token_version: this.tokenVersion };
-    this.http.post(`${this.baseUrlAugur}/public/v1/trials`, request)
+    this.http
+      .post(
+        `${this.baseUrlAugur}/public/v1/trials`,
+        request,
+        {
+          headers: {
+            [EXTERNAL_REQUEST_HEADER]: 'true',
+          },
+        },
+      )
       .toPromise()
       .then((enterpriseTrial:any) => {
         this.userData$.putValue(form.value);
@@ -89,8 +102,14 @@ export class EnterpriseTrialService {
   // get a token from the trial link if user confirmed mail
   public getToken() {
     // 2) GET /public/v1/trials/:id
-    this.http
-      .get<any>(this.trialLink)
+    this.http.get<any>(
+      this.trialLink,
+      {
+        headers: {
+          [EXTERNAL_REQUEST_HEADER]: 'true',
+        },
+      },
+    )
       .toPromise()
       .then(async (res:any) => {
         // show confirmed status and enable continue btn
@@ -210,7 +229,8 @@ export class EnterpriseTrialService {
   public get emailError():boolean {
     if (this.emailInvalid) {
       return true;
-    } if (this.error) {
+    }
+    if (this.error) {
       return this.emailTaken;
     }
     return false;

@@ -231,6 +231,7 @@ si:
             professional_support: "වෘත්තීය සහාය"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -267,7 +268,8 @@ si:
           one: "පළමු තෝරා බේරා ගැනීමේ නිර්ණායක"
           two: "දෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
           three: "තෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
-      upsale_for_more: "තවත් දියුණු පෙරහන් සඳහා, පරීක්ෂා කරන්න"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'ව්යවසාය සංස්කරණය.'
     general_text_no: "නැත"
     general_text_yes: "ඔව්"
@@ -398,6 +400,8 @@ si:
     label_previous: "පසුගිය"
     label_per_page: "එක් පිටුවකට:"
     label_please_wait: "කරුණාකර රැඳී සිටින්න"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "ව්‍යාපෘති"
     label_visibility_settings: "දෘශ්යතා සැකසුම්"
     label_quote_comment: "මෙම අදහස උපුටා දක්වන්න"
@@ -410,6 +414,7 @@ si:
     label_report: "වාර්තාව"
     label_repository_plural: "ගබඩාවලදී"
     label_save_as: "ලෙස සුරකින්න"
+    label_select_project: "Select a project"
     label_select_watcher: "මුරකරුවෙකු තෝරන්න..."
     label_selected_filter_list: "තෝරාගත් පෙරහන්"
     label_show_attributes: "සියලු ගුණාංග පෙන්වන්න"
@@ -451,10 +456,10 @@ si:
     label_unwatch: "අසන්න"
     label_unwatch_work_package: "වැඩ පැකේජය අසන්න"
     label_uploaded_by: "විසින් උඩුගත"
-    label_default_queries: "පෙරනිමි අදහස්"
-    label_starred_queries: "ප්රියතම අදහස්"
-    label_global_queries: "මහජන අදහස්"
-    label_custom_queries: "පෞද්ගලික අදහස්"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "තීරු"
     label_attachments: ඇමුණුම්
     label_drop_files: ගොනු මෙහි අතහැර
@@ -534,7 +539,7 @@ si:
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -542,7 +547,8 @@ si:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -659,14 +665,7 @@ si:
         projects: "ව්‍යාපෘති"
         settings: "සැකසුම්"
     time_entry:
-      project: 'ව්යාපෘති'
-      work_package: 'වැඩ පැකේජය'
       work_package_required: 'පළමුව වැඩ පැකේජයක් තෝරා ගැනීම අවශ්ය වේ.'
-      activity: 'ක්‍රියාකාරකම'
-      comment: 'අදහස් දක්වන්න'
-      duration: 'කාල සීමාව'
-      spent_on: 'දිනය'
-      hours: 'පැය'
       title: 'ලොග් වේලාව'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
@@ -807,7 +806,7 @@ si:
       zooms: "විශාලන මට්ටම"
       outlines: "ධූරාවලිය මට්ටම"
     upsale:
-      ee_only: 'ව්යවසාය සංස්කරණය පමණක් විශේෂාංගය'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "ශක්තිමත්"
       italic: "ඇල අකුරු"
@@ -835,6 +834,13 @@ si:
       comment_send_failed: "දෝෂයක් සිදුවී ඇත. අදහස ඉදිරිපත් කළ නොහැකි විය."
       comment_updated: "අදහස් දැක්වීම සාර්ථකව යාවත්කාලීන කරන ලදී."
       confirm_edit_cancel: "ඔබට වැඩ පැකේජය සංස්කරණය කිරීම අවලංගු කිරීමට අවශ්ය බව ඔබට විශ්වාසද?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "පෙරහන්"
       description_enter_text: "පෙළ ඇතුලත් කරන්න"
       description_options_hide: "විකල්ප සඟවන්න"
@@ -988,6 +994,7 @@ si:
           attribute_highlighting: 'ස්කන්ධයෙන් කැපී පෙනෙන ඇතැම් වැඩ පැකේජ අවශ්යද?'
           relation_columns: 'වැඩ පැකේජ ලැයිස්තුවේ සබඳතා දැකීමට අවශ්යද?'
           check_out_link: 'ව්යවසාය සංස්කරණය පරීක්ෂා කරන්න.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'සම්බන්ධතා වර්ගය අනුව වැඩ පැකේජ පෙරහන් කරන්න'
       tabs:
@@ -1020,10 +1027,7 @@ si:
       filter: "පෙරහන්"
       unselected_title: "වැඩ පැකේජය"
       search_query_label: "සුරකින ලද අදහස් සොයන්න"
-      search_query_title: "සුරකින ලද අදහස් සෙවීමට ක්ලික් කරන්න"
-      placeholder_query_title: "මෙම මතය සඳහා මාතෘකාවක් සකසන්න"
     modals:
-      label_settings: "දැක්ම නැවත නම්"
       label_name: "නම"
       label_delete_page: "වත්මන් පිටුව මකන්න"
       button_apply: "අයදුම් කරන්න"
@@ -1083,6 +1087,10 @@ si:
         one: "1 h"
         other: "%{count} ඌ"
         zero: "0 ඌ"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'සක්රිය මාදිලිය'
       button_deactivate: 'සෙන් මාදිලිය අක්රිය'
@@ -1178,6 +1186,7 @@ si:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

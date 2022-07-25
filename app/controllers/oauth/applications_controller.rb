@@ -36,7 +36,7 @@ module OAuth
     menu_item :oauth_applications
 
     def index
-      @applications = ::Doorkeeper::Application.includes(:owner).all
+      @applications = ::Doorkeeper::Application.without_integration.includes(:owner).all
     end
 
     def new; end

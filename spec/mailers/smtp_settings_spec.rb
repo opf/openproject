@@ -53,7 +53,7 @@ describe "SMTP settings" do
       allow(Setting).to receive(:smtp_ssl?).and_return ssl
     end
 
-    OpenProject::Configuration.reload_mailer_configuration!
+    Setting.reload_mailer_settings!
   end
 
   def send_mail

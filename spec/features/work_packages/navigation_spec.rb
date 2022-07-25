@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'Work package navigation', js: true, selenium: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project, name: 'Some project', enabled_module_names: [:work_package_tracking]) }
-  let(:work_package) { build(:work_package, project: project) }
+  let(:work_package) { build(:work_package, project:) }
   let(:global_html_title) { ::Components::HtmlTitle.new }
   let(:project_html_title) { ::Components::HtmlTitle.new project }
   let(:wp_display) { ::Components::WorkPackages::DisplayRepresentation.new }
@@ -40,13 +40,13 @@ describe 'Work package navigation', js: true, selenium: true do
   end
 
   let!(:query) do
-    query = build(:query, user: user, project: project)
+    query = build(:query, user:, project:)
     query.column_names = %w(id subject)
     query.name = "My fancy query"
 
     query.save!
     create(:view_work_packages_table,
-           query: query)
+           query:)
 
     query
   end
@@ -213,9 +213,9 @@ describe 'Work package navigation', js: true, selenium: true do
   end
 
   describe 'moving back to filtered list after change' do
-    let!(:work_package) { create(:work_package, project: project, subject: 'foo') }
+    let!(:work_package) { create(:work_package, project:, subject: 'foo') }
     let!(:query) do
-      query = build(:query, user: user, project: project)
+      query = build(:query, user:, project:)
       query.column_names = %w(id subject)
       query.name = "My fancy query"
       query.add_filter('subject', '~', ['foo'])
@@ -247,7 +247,7 @@ describe 'Work package navigation', js: true, selenium: true do
   context 'with work package with an attachment' do
     let!(:attachment) { build(:attachment, filename: 'attachment-first.pdf') }
     let!(:wp_with_attachment) do
-      create :work_package, subject: 'WP attachment A', project: project, attachments: [attachment]
+      create :work_package, subject: 'WP attachment A', project:, attachments: [attachment]
     end
 
     it 'will show it when navigating from table to single view' do
@@ -259,13 +259,14 @@ describe 'Work package navigation', js: true, selenium: true do
 
       full_view.ensure_page_loaded
       full_view.switch_to_tab(tab: 'FILES')
-      expect(page).to have_selector('.work-package--attachments--filename', text: 'attachment-first.pdf', wait: 10)
+      expect(page)
+        .to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'attachment-first.pdf', wait: 10)
     end
   end
 
   context 'with two work packages with card view' do
-    let!(:work_package) { create :work_package, project: project }
-    let!(:work_package2) { create :work_package, project: project }
+    let!(:work_package) { create :work_package, project: }
+    let!(:work_package2) { create :work_package, project: }
     let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
     let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
     let(:cards) { ::Pages::WorkPackageCards.new(project) }

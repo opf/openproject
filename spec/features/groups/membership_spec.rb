@@ -44,11 +44,12 @@ describe 'group memberships through project members page', type: :feature, js: t
   let(:project_member) { {} }
 
   before do
-    create :member, user: bob, project: project, roles: [alpha]
+    create :member, user: bob, project:, roles: [alpha]
   end
 
   context 'given a group with members' do
     let!(:group) { create :group, lastname: 'group1', members: alice }
+
     current_user { bob }
 
     it 'adding group1 as a member with the beta role' do
@@ -100,6 +101,7 @@ describe 'group memberships through project members page', type: :feature, js: t
 
   context 'given an empty group in a project' do
     let(:project_member) { { group => beta } }
+
     current_user { admin }
 
     before do

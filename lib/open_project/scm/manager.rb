@@ -84,9 +84,7 @@ module OpenProject
         end
 
         # Remove a SCM adapter from Redmine's list of supported scms
-        def delete(vendor)
-          registered.delete(vendor)
-        end
+        delegate :delete, to: :registered
       end
     end
   end

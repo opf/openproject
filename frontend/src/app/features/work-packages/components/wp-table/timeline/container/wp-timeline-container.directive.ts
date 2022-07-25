@@ -66,6 +66,7 @@ import {
   TimelineViewParameters,
   zoomLevelOrder,
 } from '../wp-timeline';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
 
 @Component({
   selector: 'wp-timeline-container',
@@ -120,7 +121,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     return workPackagesWithGroupHeaderCell;
   }
 
-  constructor(public readonly injector:Injector,
+  constructor(
+    public readonly injector:Injector,
     private elementRef:ElementRef,
     private states:States,
     public wpTableComponent:WorkPackagesTableComponent,
@@ -132,7 +134,9 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     private halEvents:HalEventsService,
     private querySpace:IsolatedQuerySpace,
     readonly I18n:I18nService,
-    private workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService) {
+    private workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService,
+    private weekdaysService:WeekdayService,
+  ) {
     super();
   }
 
@@ -157,10 +161,11 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       this.querySpace.tableRendered.values$(),
       this.refreshRequest.changes$(),
       this.wpTableTimeline.live$(),
+      this.weekdaysService.loadWeekdays(),
     ]).pipe(
       this.commonPipes,
     )
-      .subscribe(([orderedRows, changes, timelineState]) => {
+      .subscribe(([orderedRows]) => {
       // Remember all visible rows in their order of appearance.
         this.workPackageIdOrder = orderedRows.filter((row:RenderedWorkPackage) => !row.hidden);
         this.orderedRows = orderedRows;

@@ -47,7 +47,7 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
 
   def self.work_package_title(id, subject, type_name, status_name, is_standard)
     title = "#{is_standard ? '' : type_name.to_s} ##{id}: #{subject}"
-    title << " (#{status_name})" unless status_name.blank?
+    title << " (#{status_name})" if status_name.present?
   end
 
   protected

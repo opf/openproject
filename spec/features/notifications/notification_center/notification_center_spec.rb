@@ -118,12 +118,19 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
     end
 
     context "with a new notification" do
+      let(:work_package3) do
+        create :work_package,
+               project: project1,
+               author: other_user
+      end
       let(:notification3) do
         create :notification,
                reason: :commented,
-               recipient: recipient,
+               recipient:,
+               resource: work_package3,
                project: project1,
                actor: other_user,
+               journal: work_package3.journals.reload.last,
                read_ian: true
       end
 
@@ -210,7 +217,6 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
       let(:notifications) do
         [notification, notification2, notification3, notification4]
       end
-
 
       it 'aggregates notifications per work package and sets all as read when opened' do
         visit home_path

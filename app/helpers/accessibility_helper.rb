@@ -59,7 +59,7 @@ module AccessibilityHelper
   private
 
   def locale_exists?(key, locale = I18n.locale)
-    I18n.t(key, locale: locale, raise: true)
+    I18n.t(key, locale:, raise: true)
   rescue StandardError
     false
   end

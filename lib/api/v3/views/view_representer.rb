@@ -41,7 +41,7 @@ module API
                    next unless represented.query.project
 
                    ::API::V3::Projects::ProjectRepresenter
-                     .create(represented.query.project, current_user: current_user, embed_links: embed_links)
+                     .create(represented.query.project, current_user:, embed_links:)
                  },
                  link: ->(*) {
                    if represented.query.project

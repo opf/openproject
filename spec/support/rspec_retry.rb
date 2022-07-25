@@ -42,9 +42,9 @@ def retry_block(args: {}, screenshot: false, &block)
   end
 
   log_errors = Proc.new do |exception, try, elapsed_time, next_interval|
-    warn <<-EOS.strip_heredoc
-    #{exception.class}: '#{exception.message}'
-    #{try} tries in #{elapsed_time} seconds and #{next_interval} seconds until the next try.
+    warn <<~EOS
+      #{exception.class}: '#{exception.message}'
+      #{try} tries in #{elapsed_time} seconds and #{next_interval} seconds until the next try.
     EOS
 
     if screenshot

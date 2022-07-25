@@ -23,7 +23,7 @@ cs:
     label_group_key: 'LDAP group filter key'
     label_synchronize: 'Synchronizovat'
     settings:
-      name_attribute: 'LDAP groups name attribute'
+      name_attribute: 'Atribut názvu LDAP skupin'
       name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
     synchronized_filters:
       add_new: 'Add synchronized LDAP filter'
@@ -47,7 +47,7 @@ cs:
     synchronized_groups:
       add_new: 'Přidat synchronizovanou LDAP skupinu'
       destroy:
-        title: 'Remove synchronized group %{name}'
+        title: 'Odstranit synchronizovanou skupinu %{name}'
         confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
         info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
         verification: "Zadejte název skupiny %{name} pro ověření odstranění."
@@ -67,4 +67,6 @@ cs:
           If you enable this option, found users will also be automatically created in OpenProject. Without it, only existing accounts in OpenProject will be added to groups.
         dn_text: 'Enter the full DN of the group in LDAP'
         group_text: 'Vyberte existující OpenProject skupinu, se kterou budou členové LDAP synchronizovat'
+      upsale:
+        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
 

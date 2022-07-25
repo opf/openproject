@@ -60,12 +60,12 @@ describe 'Backlogs', js: true do
   end
   let(:project) { create :project }
 
-  let(:backlog_version) { create(:version, project: project) }
+  let(:backlog_version) { create(:version, project:) }
 
   let!(:existing_story1) do
     create(:work_package,
            type: story_type,
-           project: project,
+           project:,
            status: default_status,
            priority: default_priority,
            position: 1,
@@ -75,7 +75,7 @@ describe 'Backlogs', js: true do
   let!(:existing_story2) do
     create(:work_package,
            type: story_type,
-           project: project,
+           project:,
            status: default_status,
            priority: default_priority,
            position: 2,

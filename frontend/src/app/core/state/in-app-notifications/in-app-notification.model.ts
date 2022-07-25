@@ -13,7 +13,7 @@ export interface IInAppNotificationHalResourceLinks extends IHalResourceLinks {
   activity:IHalResourceLink;
 }
 
-export interface InAppNotification {
+export interface INotification {
   id:ID;
   subject:string;
   createdAt:string;

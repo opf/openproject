@@ -69,7 +69,7 @@ describe OpenProject::GithubIntegration::Services::UpsertCheckRun do
       output_title: 'a title',
       output_summary: 'a summary',
       details_url: 'https://github.com/details',
-      github_pull_request: github_pull_request
+      github_pull_request:
     )
   end
 

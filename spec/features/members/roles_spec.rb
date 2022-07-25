@@ -54,20 +54,20 @@ describe 'members pagination', type: :feature, js: true do
     members_page.visit!
   end
 
-  scenario 'Adding a Role to Alice' do
+  it 'Adding a Role to Alice' do
     members_page.edit_user! 'Alice Alison', add_roles: ['alpha']
 
     expect(members_page).to have_user('Alice Alison', roles: ['alpha', 'beta'])
   end
 
-  scenario 'Adding a role while taking another role away from Alice' do
+  it 'Adding a role while taking another role away from Alice' do
     members_page.edit_user! 'Alice Alison', add_roles: ['alpha'], remove_roles: ['beta']
 
     expect(members_page).to have_user('Alice Alison', roles: 'alpha')
     expect(members_page).not_to have_roles('Alice Alison', ['beta'])
   end
 
-  scenario "Removing Bob's last role results in an error" do
+  it "Removing Bob's last role results in an error" do
     members_page.edit_user! 'Bob Bobbit', remove_roles: ['alpha']
 
     expect(page).to have_text 'Roles need to be assigned.'

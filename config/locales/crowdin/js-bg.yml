@@ -231,6 +231,7 @@ bg:
             professional_support: "Професионална поддръжка"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -267,7 +268,8 @@ bg:
           one: "Първи критерий за подреждане"
           two: "Втори критерий за подреждане"
           three: "Трети критерий за подреждане"
-      upsale_for_more: "For more advanced filters, check out the"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "Не"
     general_text_yes: "Да"
@@ -398,6 +400,8 @@ bg:
     label_previous: "Предишен"
     label_per_page: "За страница:"
     label_please_wait: "Моля изчакайте"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Проекти"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Цитиране на този коментар"
@@ -410,6 +414,7 @@ bg:
     label_report: "Отчет"
     label_repository_plural: "Хранилища"
     label_save_as: "Запиши като"
+    label_select_project: "Select a project"
     label_select_watcher: "Изберете наблюдаващ..."
     label_selected_filter_list: "Избрани филтри"
     label_show_attributes: "Показване на всички атрибути"
@@ -451,10 +456,10 @@ bg:
     label_unwatch: "Спри наблюдение"
     label_unwatch_work_package: "Ненаблюдаван работен пакет"
     label_uploaded_by: "Качено от"
-    label_default_queries: "Default views"
-    label_starred_queries: "Favorite views"
-    label_global_queries: "Public views"
-    label_custom_queries: "Private views"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Колони"
     label_attachments: Прикачени файлове
     label_drop_files: Пуснете файлове тук
@@ -534,7 +539,7 @@ bg:
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -542,7 +547,8 @@ bg:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -659,14 +665,7 @@ bg:
         projects: "Проекти"
         settings: "Настройки"
     time_entry:
-      project: 'Проект'
-      work_package: 'Работен пакет'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Активност'
-      comment: 'Коментар'
-      duration: 'Продължителност'
-      spent_on: 'Дата'
-      hours: 'Часове'
       title: 'Отчетено време'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
@@ -807,7 +806,7 @@ bg:
       zooms: "Ниво на мащабиране"
       outlines: "Йерархично ниво"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Главни букви"
       italic: "Наклонени букви"
@@ -835,6 +834,13 @@ bg:
       comment_send_failed: "Възникна грешка. Коментарът не може да бъде добавен."
       comment_updated: "Коментарът е актуализиран успешно."
       confirm_edit_cancel: "Сигурни ли сте, че искате да откажете промените на работният пакет?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Филтър"
       description_enter_text: "Въведи текст"
       description_options_hide: "Скрий опциите"
@@ -988,6 +994,7 @@ bg:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
@@ -1020,10 +1027,7 @@ bg:
       filter: "Филтър"
       unselected_title: "Работен пакет"
       search_query_label: "Search saved views"
-      search_query_title: "Click to search saved views"
-      placeholder_query_title: "Set a title for this view"
     modals:
-      label_settings: "Rename view"
       label_name: "Име"
       label_delete_page: "Изтриване на текущата страница"
       button_apply: "Приложи"
@@ -1083,6 +1087,10 @@ bg:
         one: "1 ч"
         other: "%{count} часа"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'
@@ -1178,6 +1186,7 @@ bg:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

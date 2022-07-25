@@ -36,7 +36,7 @@ module API
 
         self_link path: :help_text,
                   id_attribute: :id,
-                  title_getter: ->(*) { nil }
+                  title_getter: ->(*) {}
 
         link :editText do
           if current_user.admin? && represented.persisted?

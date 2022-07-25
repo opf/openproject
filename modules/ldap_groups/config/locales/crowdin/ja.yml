@@ -67,4 +67,6 @@ ja:
           このオプションを有効にすると、検索されたユーザーも自動的に OpenProject に作成されます。 これがなければ、OpenProject 内の既存のアカウントのみがグループに追加されます。
         dn_text: 'グループの完全な DN をLDAP に入力します。'
         group_text: 'LDAP グループのメンバーを同期する既存の OpenProject グループを選択'
+      upsale:
+        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
 

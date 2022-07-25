@@ -231,6 +231,7 @@ sk:
             professional_support: "Profesionálna podpora"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -267,7 +268,8 @@ sk:
           one: "Prvé kritérium zoradenia"
           two: "Druhé kritérium zoradenia"
           three: "Tretie kritérium zoradenia"
-      upsale_for_more: "Pre pokročilejšie filtre si pozrite"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "nie"
     general_text_yes: "áno"
@@ -398,6 +400,8 @@ sk:
     label_previous: "Predošlý"
     label_per_page: "Na stranu:"
     label_please_wait: "Prosím, čakajte"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projekty"
     label_visibility_settings: "Nastavenia viditeľnosti"
     label_quote_comment: "Citovať tento komentár"
@@ -410,6 +414,7 @@ sk:
     label_report: "Report"
     label_repository_plural: "Repozitáre"
     label_save_as: "Uložiť ako"
+    label_select_project: "Select a project"
     label_select_watcher: "Vybrať pozorovateľa ..."
     label_selected_filter_list: "Vybrané filtre"
     label_show_attributes: "Zobraziť všetky atribúty"
@@ -451,10 +456,10 @@ sk:
     label_unwatch: "Prestať pozorovať"
     label_unwatch_work_package: "Prestaň sledovať pracovný balíček"
     label_uploaded_by: "Nahral"
-    label_default_queries: "Predvolené zobrazenia"
-    label_starred_queries: "Zobrazenie obľúbených"
-    label_global_queries: "Verejné zobrazenia"
-    label_custom_queries: "Súkromné zobrazenia"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Stĺpce"
     label_attachments: Prílohy
     label_drop_files: Presuňte súbory sem
@@ -536,7 +541,7 @@ sk:
           many: 'and %{count} others'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -544,7 +549,8 @@ sk:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -661,14 +667,7 @@ sk:
         projects: "Projekty"
         settings: "Nastavenia"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Pracovný balíček'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Činnosť'
-      comment: 'Komentár'
-      duration: 'Trvanie'
-      spent_on: 'Dátum'
-      hours: 'Hodín'
       title: 'Zaprotokoluj čas'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvojfaktorové overenie (2FA)'
@@ -809,7 +808,7 @@ sk:
       zooms: "Úroveň priblíženia"
       outlines: "Úroveň vnorenia"
     upsale:
-      ee_only: 'Funkcie len pre Enterprise Edition'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Tučné"
       italic: "Kurzíva"
@@ -837,6 +836,13 @@ sk:
       comment_send_failed: "Vyskytla sa chyba. Nebolo možné pridať komentár."
       comment_updated: "Komentár bol úspešne aktualizovaný."
       confirm_edit_cancel: "Naozaj chcete zrušiť upravovanie pracovného balíka?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtrovať"
       description_enter_text: "Zadajte text"
       description_options_hide: "Skryť možnosti"
@@ -990,6 +996,7 @@ sk:
           attribute_highlighting: 'Mali by sa rozlišovať osobitné pracovné balíčky?'
           relation_columns: 'Potrebujete vidieť vzťahy v zozname pracovných balíčkov?'
           check_out_link: 'Pozrite si verziu Enterprise.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
@@ -1022,10 +1029,7 @@ sk:
       filter: "Filtrovať"
       unselected_title: "Pracovný balíček"
       search_query_label: "Vyhľadať uložené zobrazenia"
-      search_query_title: "Kliknutím vyhľadáte uložené zobrazenia"
-      placeholder_query_title: "Nastaviť názov pre toto zobrazenie"
     modals:
-      label_settings: "Premenovať zobrazenie"
       label_name: "Názov"
       label_delete_page: "Odstrániť aktuálnu stránku"
       button_apply: "Použiť"
@@ -1089,6 +1093,10 @@ sk:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Aktivovať zen režim'
       button_deactivate: 'Deaktivovať zen režim'
@@ -1184,6 +1192,7 @@ sk:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

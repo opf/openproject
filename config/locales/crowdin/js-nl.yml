@@ -231,6 +231,7 @@ nl:
             professional_support: "Professionele ondersteuning"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -267,7 +268,8 @@ nl:
           one: "Eerste sorteercriteria"
           two: "Tweede sorteercriteria"
           three: "Derde sorteercriteria"
-      upsale_for_more: "Voor meer geavanceerde filters, bekijk de"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "Nee"
     general_text_yes: "Ja"
@@ -398,6 +400,8 @@ nl:
     label_previous: "Vorige"
     label_per_page: "Per pagina:"
     label_please_wait: "Een ogenblik geduld"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projecten"
     label_visibility_settings: "Zichtbaarheidsinstellingen"
     label_quote_comment: "Citeer dit commentaar"
@@ -410,6 +414,7 @@ nl:
     label_report: "Rapport"
     label_repository_plural: "Repositories"
     label_save_as: "Opslaan als"
+    label_select_project: "Select a project"
     label_select_watcher: "Kies een toezichter..."
     label_selected_filter_list: "Geselecteerde filters"
     label_show_attributes: "Toon alle kenmerken"
@@ -451,10 +456,10 @@ nl:
     label_unwatch: "Niet meer volgen"
     label_unwatch_work_package: "Stop met het bekijken van werkpakket"
     label_uploaded_by: "Geüpload door"
-    label_default_queries: "Standaardweergaven"
-    label_starred_queries: "Favoriete weergaven"
-    label_global_queries: "Openbare weergaven"
-    label_custom_queries: "Privé weergaven"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Kolommen"
     label_attachments: Bijlagen
     label_drop_files: Bestanden hier neerzetten
@@ -534,7 +539,7 @@ nl:
           one: 'en 1 ander'
           other: 'en %{count} anderen'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Alles als gelezen markeren'
         mark_as_read: 'Als gelezen markeren'
@@ -542,7 +547,8 @@ nl:
         total_count_warning: "De %{newest_count} meest recente meldingen weergeven. %{more_count} meer worden niet weergegeven."
         empty_state:
           no_notification: "Het lijkt erop dat u helemaal bij bent."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Klik op een melding om alle activiteit details te bekijken."
         new_notifications:
           message: 'There are new notifications.'
@@ -659,14 +665,7 @@ nl:
         projects: "Projecten"
         settings: "Instellingen"
     time_entry:
-      project: 'Project'
-      work_package: 'Werkpakket'
       work_package_required: 'Vereist eerst een werkpakket te selecteren.'
-      activity: 'Activiteit'
-      comment: 'Commentaar'
-      duration: 'Duur'
-      spent_on: 'Datum'
-      hours: 'Uren'
       title: 'Gelogde tijd'
     two_factor_authentication:
       label_two_factor_authentication: 'Twee-factor-authenticatie'
@@ -807,7 +806,7 @@ nl:
       zooms: "Zoom niveau"
       outlines: "Niveau van de hiërarchie"
     upsale:
-      ee_only: 'Functie alleen voor de Enterprise Editie'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Vet"
       italic: "Schuingedrukt"
@@ -835,6 +834,13 @@ nl:
       comment_send_failed: "Er is een fout opgetreden. De opmerking is niet ingediend."
       comment_updated: "De opmerking is succesvol bijgewerkt."
       confirm_edit_cancel: "Bent u zeker dat u het bewerken van het werkpakket wilt annuleren?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filter"
       description_enter_text: "Tekst invoeren"
       description_options_hide: "Verberg opties"
@@ -988,6 +994,7 @@ nl:
           attribute_highlighting: 'Moeten bepaalde werkpakketten te onderscheiden zijn van de massa?'
           relation_columns: 'Nodig om te zien van betrekkingen in de pakketlijst werk?'
           check_out_link: 'Bekijk de Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter werkpakketten op relatietype'
       tabs:
@@ -1020,10 +1027,7 @@ nl:
       filter: "Filter"
       unselected_title: "Werkpakket"
       search_query_label: "Zoek opgeslagen weergaven"
-      search_query_title: "Klik om te zoeken naar opgeslagen weergaven"
-      placeholder_query_title: "Een titel voor deze weergave instellen"
     modals:
-      label_settings: "Hernoem weergave"
       label_name: "Naam"
       label_delete_page: "Verwijder huidige pagina"
       button_apply: "Toepassen"
@@ -1083,6 +1087,10 @@ nl:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Zen-modus activeren'
       button_deactivate: 'Deactiveren van zen modus'
@@ -1178,6 +1186,7 @@ nl:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

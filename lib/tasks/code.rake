@@ -32,8 +32,8 @@ namespace :code do
     Dir.chdir(File.join(File.dirname(__FILE__), '../..')) do
       files = Dir['**/**{.rb,.html.erb,.rhtml,.rjs,.plain.erb,.rxml,.yml,.rake,.eml}']
       files.reject! do |f|
-        f.include?('lib/plugins') ||
-          f.include?('lib/diff')
+        f.include?('lib_static/plugins') ||
+          f.include?('lib_static/diff')
       end
 
       # handle files in chunks of 50 to avoid too long command lines

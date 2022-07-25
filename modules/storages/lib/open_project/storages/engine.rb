@@ -55,10 +55,12 @@ module OpenProject::Storages
                      if: ->(*) { OpenProject::FeatureDecisions.storages_module_active? } do
         permission :view_file_links,
                    {},
-                   dependencies: %i[view_work_packages]
+                   dependencies: %i[view_work_packages],
+                   contract_actions: { file_links: %i[view] }
         permission :manage_file_links,
                    {},
-                   dependencies: %i[view_file_links]
+                   dependencies: %i[view_file_links],
+                   contract_actions: { file_links: %i[manage] }
         permission :manage_storages_in_project,
                    { 'storages/admin/projects_storages': %i[index new create destroy] },
                    dependencies: %i[]
@@ -99,6 +101,10 @@ module OpenProject::Storages
           filter filter
           exclude filter
         end
+
+        ::Queries::Register.register(::Queries::Storages::FileLinks::FileLinkQuery) do
+          filter ::Queries::Storages::FileLinks::Filter::StorageFilter
+        end
       end
     end
 
@@ -120,8 +126,8 @@ module OpenProject::Storages
       "#{root}/file_links/#{file_link_id}/download"
     end
 
-    add_api_path :file_link_open do |file_link_id|
-      "#{root}/file_links/#{file_link_id}/open"
+    add_api_path :file_link_open do |file_link_id, location = false|
+      "#{root}/file_links/#{file_link_id}/open#{location ? '?location=true' : ''}"
     end
 
     # Add api endpoints specific to this module

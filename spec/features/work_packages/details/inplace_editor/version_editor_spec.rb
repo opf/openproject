@@ -16,7 +16,7 @@ describe 'subject inplace editor', js: true, selenium: true do
            sharing: 'tree',
            start_date: '2019-02-02',
            effective_date: '2019-02-03',
-           project: project)
+           project:)
   end
   let!(:version2) do
     create(:version,
@@ -38,7 +38,7 @@ describe 'subject inplace editor', js: true, selenium: true do
   end
 
   let(:property_name) { :version }
-  let(:work_package) { create :work_package, project: project }
+  let(:work_package) { create :work_package, project: }
   let(:user) do
     create :user,
            member_in_project: project,

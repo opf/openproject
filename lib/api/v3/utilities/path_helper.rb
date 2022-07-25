@@ -92,6 +92,10 @@ module API
             "#{root_path}api/v3"
           end
 
+          def self.same_origin?(url)
+            url.to_s.start_with? root_url
+          end
+
           index :action
           show :action
 
@@ -190,6 +194,30 @@ module API
 
           def self.custom_option(id)
             "#{root}/custom_options/#{id}"
+          end
+
+          def self.day(date)
+            "#{days}/#{date}"
+          end
+
+          def self.days
+            "#{root}/days"
+          end
+
+          def self.days_week
+            "#{days}/week"
+          end
+
+          def self.days_week_day(day)
+            "#{days_week}/#{day}"
+          end
+
+          def self.days_non_working
+            "#{root}/days/non_working"
+          end
+
+          def self.days_non_working_day(date)
+            "#{days_non_working}/#{date}"
           end
 
           index :help_text
@@ -473,7 +501,7 @@ module API
                 "#{project_id}-#{type_id}"
               end
 
-              filter = [{ id: { operator: '=', values: values } }]
+              filter = [{ id: { operator: '=', values: } }]
 
               path + "?filters=#{CGI.escape(filter.to_s)}"
             end
@@ -491,14 +519,19 @@ module API
             "#{project(project_id)}/work_packages"
           end
 
+          def self.filtered_path(base_path, *filters)
+            escaped = CGI.escape(::JSON.dump(filters))
+            "#{base_path}?filters=#{escaped}"
+          end
+
           def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil, select: nil)
             query_params = {
               filters: filters&.to_json,
               sortBy: sort_by&.to_json,
               groupBy: group_by,
               pageSize: page_size,
-              offset: offset,
-              select: select
+              offset:,
+              select:
             }.compact_blank
 
             if query_params.any?

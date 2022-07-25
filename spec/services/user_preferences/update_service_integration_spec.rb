@@ -74,25 +74,25 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
       it 'updates the existing one, removes the email one' do
         default_ian = current_user.notification_settings.first
 
-        expect(default_ian.watched).to eq true
-        expect(default_ian.mentioned).to eq true
-        expect(default_ian.involved).to eq true
-        expect(default_ian.work_package_commented).to eq true
-        expect(default_ian.work_package_created).to eq true
-        expect(default_ian.work_package_processed).to eq true
-        expect(default_ian.work_package_prioritized).to eq true
-        expect(default_ian.work_package_scheduled).to eq true
+        expect(default_ian.watched).to be true
+        expect(default_ian.mentioned).to be true
+        expect(default_ian.involved).to be true
+        expect(default_ian.work_package_commented).to be true
+        expect(default_ian.work_package_created).to be true
+        expect(default_ian.work_package_processed).to be true
+        expect(default_ian.work_package_prioritized).to be true
+        expect(default_ian.work_package_scheduled).to be true
 
         expect(subject.count).to eq 1
-        expect(subject.first.project_id).to eq nil
-        expect(subject.first.mentioned).to eq false
-        expect(subject.first.watched).to eq false
-        expect(subject.first.involved).to eq true
-        expect(subject.first.work_package_commented).to eq false
-        expect(subject.first.work_package_created).to eq true
-        expect(subject.first.work_package_processed).to eq true
-        expect(subject.first.work_package_prioritized).to eq false
-        expect(subject.first.work_package_scheduled).to eq false
+        expect(subject.first.project_id).to be_nil
+        expect(subject.first.mentioned).to be false
+        expect(subject.first.watched).to be false
+        expect(subject.first.involved).to be true
+        expect(subject.first.work_package_commented).to be false
+        expect(subject.first.work_package_created).to be true
+        expect(subject.first.work_package_processed).to be true
+        expect(subject.first.work_package_prioritized).to be false
+        expect(subject.first.work_package_scheduled).to be false
 
         expect(subject.first).to eq(default_ian.reload)
         expect(current_user.notification_settings.count).to eq(1)

@@ -61,7 +61,7 @@ describe Notifications::GroupMemberAlteredJob, type: :model do
 
     expect(OpenProject::Notifications)
       .to have_received(:send)
-      .with(OpenProject::Events::MEMBER_CREATED, member: member1, message: message, send_notifications: send_notification)
+      .with(OpenProject::Events::MEMBER_CREATED, member: member1, message:, send_notifications: send_notification)
   end
 
   it 'sends an updated notification for the membership with the mismatching timestamps' do
@@ -69,7 +69,7 @@ describe Notifications::GroupMemberAlteredJob, type: :model do
 
     expect(OpenProject::Notifications)
       .to have_received(:send)
-      .with(OpenProject::Events::MEMBER_UPDATED, member: member2, message: message, send_notifications: send_notification)
+      .with(OpenProject::Events::MEMBER_UPDATED, member: member2, message:, send_notifications: send_notification)
   end
 
   it 'propagates the given current user when sending notifications' do

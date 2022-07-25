@@ -36,20 +36,21 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
     let(:meta) { OpenStruct.new }
     let(:representer) do
       described_class.create(project,
-                             meta: meta,
-                             current_user: current_user)
+                             meta:,
+                             current_user:)
     end
+
     subject { representer.to_json }
 
     it 'has a _meta property with the copy properties set to true by default' do
-      is_expected.to have_json_path '_meta'
+      expect(subject).to have_json_path '_meta'
 
-      is_expected
+      expect(subject)
         .to be_json_eql(true.to_json)
               .at_path("_meta/sendNotifications")
 
       ::Projects::CopyService.copyable_dependencies.each do |dep|
-        is_expected
+        expect(subject)
           .to be_json_eql(true.to_json)
                 .at_path("_meta/copy#{dep[:identifier].camelize}")
       end
@@ -60,7 +61,7 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
 
       it 'renders only the selected dependencies as true' do
         ::Projects::CopyService.copyable_dependencies.each do |dep|
-          is_expected
+          expect(subject)
             .to be_json_eql(meta.only.include?(dep[:identifier].to_s).to_json)
                   .at_path("_meta/copy#{dep[:identifier].camelize}")
         end
@@ -71,7 +72,7 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
       let(:meta) { OpenStruct.new send_notifications: false }
 
       it 'renders only the selected dependencies as true' do
-        is_expected
+        expect(subject)
           .to be_json_eql(false.to_json)
                 .at_path("_meta/sendNotifications")
       end
@@ -82,8 +83,9 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
     let(:representer) do
       described_class.create(OpenStruct.new(available_custom_fields: []),
                              meta: OpenStruct.new,
-                             current_user: current_user)
+                             current_user:)
     end
+
     subject { representer.from_hash parsed_hash }
 
     context 'with meta set' do
@@ -100,9 +102,9 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
 
       it 'sets all of them to true' do
         expect(subject.name).to eq 'The copied project'
-        expected_names = ::Projects::CopyService.copyable_dependencies.map { |dep| dep[:identifier] }
+        expected_names = ::Projects::CopyService.copyable_dependencies.pluck(:identifier)
         expect(subject.meta.only).to match_array(expected_names)
-        expect(subject.meta.send_notifications).to eq false
+        expect(subject.meta.send_notifications).to be false
       end
     end
 
@@ -118,7 +120,7 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
 
       it 'sets all others to true' do
         expect(subject.name).to eq 'The copied project'
-        expected_names = ::Projects::CopyService.copyable_dependencies.map { |dep| dep[:identifier] }
+        expected_names = ::Projects::CopyService.copyable_dependencies.pluck(:identifier)
         expect(subject.meta.only).to match_array(expected_names - %w[work_packages])
       end
     end
@@ -129,14 +131,14 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
           'name' => 'The copied project',
           '_meta' => {
             'copyWorkPackages' => false,
-            'copyWiki' => true,
+            'copyWiki' => true
           }
         }
       end
 
       it 'still sets all of them to true except work packages' do
         expect(subject.name).to eq 'The copied project'
-        expected_names = ::Projects::CopyService.copyable_dependencies.map { |dep| dep[:identifier] }
+        expected_names = ::Projects::CopyService.copyable_dependencies.pluck(:identifier)
         expect(subject.meta.only).to match_array(expected_names - %w[work_packages])
       end
     end
@@ -144,7 +146,7 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
     context 'with meta unset' do
       let(:parsed_hash) do
         {
-          'name' => 'The copied project',
+          'name' => 'The copied project'
         }
       end
 

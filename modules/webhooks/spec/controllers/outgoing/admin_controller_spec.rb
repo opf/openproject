@@ -94,7 +94,7 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
 
         expect(service)
           .to receive(:call)
-          .and_return(ServiceResult.new(success: success))
+          .and_return(ServiceResult.new(success:))
 
         post :create, params: { webhook: webhook_params }
       end
@@ -110,6 +110,7 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
 
       context 'when not success' do
         let(:success) { false }
+
         it 'renders the form again' do
           expect(flash[:notice]).not_to be_present
           expect(response).to render_template 'new'
@@ -174,7 +175,7 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
 
         expect(service)
           .to receive(:call)
-          .and_return(ServiceResult.new(success: success))
+          .and_return(ServiceResult.new(success:))
 
         put :update, params: { webhook_id: '1234', webhook: webhook_params }
       end
@@ -226,6 +227,7 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
 
       context 'when delete success' do
         let(:success) { true }
+
         it 'destroys the object' do
           delete :destroy, params: { webhook_id: 'mocked' }
           expect(response).to be_redirect

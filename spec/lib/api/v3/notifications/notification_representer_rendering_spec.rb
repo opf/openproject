@@ -34,24 +34,24 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
   subject(:generated) { representer.to_json }
 
   shared_let(:project) { create :project }
-  shared_let(:resource) { create :work_package, project: project }
+  shared_let(:resource) { create :work_package, project: }
 
   let(:recipient) { build_stubbed(:user) }
   let(:journal) { nil }
   let(:actor) { nil }
   let(:notification) do
     build_stubbed :notification,
-                  recipient: recipient,
-                  project: project,
-                  resource: resource,
-                  journal: journal,
-                  actor: actor,
-                  read_ian: read_ian
+                  recipient:,
+                  project:,
+                  resource:,
+                  journal:,
+                  actor:,
+                  read_ian:
   end
   let(:representer) do
     described_class.create notification,
                            current_user: recipient,
-                           embed_links: embed_links
+                           embed_links:
   end
 
   let(:embed_links) { false }

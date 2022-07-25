@@ -41,10 +41,11 @@ const attributeSelector = '[invite-user-modal-augment]';
  */
 @Injectable({ providedIn: 'root' })
 export class OpInviteUserModalAugmentService {
-  constructor(@Inject(DOCUMENT) protected documentElement:Document,
+  constructor(
+    @Inject(DOCUMENT) protected documentElement:Document,
     protected opModalService:OpModalService,
-    protected currentProjectService:CurrentProjectService) {
-  }
+    protected currentProjectService:CurrentProjectService,
+  ) { }
 
   /**
    * Create initial listeners for Rails-rendered modals

@@ -49,7 +49,7 @@ module RandomData
       rand(50).times do
         print_status '.'
         work_package = WorkPackage.create!(
-          project: project,
+          project:,
           author: user,
           subject: Faker::Lorem.words(8).join(' '),
           status: statuses.sample,
@@ -78,10 +78,10 @@ module RandomData
       2.times do |changeset_count|
         print_status '.'
         changeset = Changeset.create(
-          repository: repository,
-          user: user,
-          revision: work_package.id * 10 + changeset_count,
-          scmid: work_package.id * 10 + changeset_count,
+          repository:,
+          user:,
+          revision: (work_package.id * 10) + changeset_count,
+          scmid: (work_package.id * 10) + changeset_count,
           work_packages: [work_package],
           committer: Faker::Name.name,
           committed_on: Date.today,
@@ -118,9 +118,9 @@ module RandomData
     def add_time_entries(work_package)
       5.times do |time_entry_count|
         time_entry = TimeEntry.create(
-          project: project,
-          user: user,
-          work_package: work_package,
+          project:,
+          user:,
+          work_package:,
           spent_on: Date.today + time_entry_count,
           activity: time_entry_activities.sample,
           hours: time_entry_count
@@ -135,7 +135,7 @@ module RandomData
         attachment = Attachment.new(
           container: work_package,
           author: user,
-          file: file
+          file:
         )
         attachment.save!
 
@@ -146,7 +146,7 @@ module RandomData
     def add_custom_values(work_package)
       project.work_package_custom_fields.each do |custom_field|
         work_package.type.custom_fields << custom_field if !work_package.type.custom_fields.include?(custom_field)
-        work_package.custom_values << CustomValue.new(custom_field: custom_field,
+        work_package.custom_values << CustomValue.new(custom_field:,
                                                       value: Faker::Lorem.words(8).join(' '))
       end
 

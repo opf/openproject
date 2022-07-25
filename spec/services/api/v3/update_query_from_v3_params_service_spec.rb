@@ -95,7 +95,7 @@ describe ::API::V3::UpdateQueryFromV3ParamsService,
     subject { instance.call(params) }
 
     it 'returns the update result' do
-      is_expected
+      expect(subject)
         .to eql(mock_update_query_service_response)
     end
 
@@ -105,7 +105,7 @@ describe ::API::V3::UpdateQueryFromV3ParamsService,
       let(:mock_parse_query_service_result) { nil }
 
       it 'returns the parse result' do
-        is_expected
+        expect(subject)
           .to eql(mock_parse_query_service_response)
       end
     end

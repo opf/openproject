@@ -29,53 +29,83 @@
 require 'spec_helper'
 require_relative './mentioned_journals_shared'
 
-
 describe Notifications::MailService, 'Mentioned integration', type: :model do
   include_context 'with a mentioned work package being updated again'
 
-  def expect_mentioned_notification
-    expect(mentioned_notification).to be_present
-    expect(mentioned_notification.reason).to eq 'mentioned'
-    expect(mentioned_notification.read_ian).to eq false
-    expect(mentioned_notification.mail_alert_sent).to eq true
+  let(:assignee) do
+    create :user,
+           preferences: {
+             immediate_reminders: {
+               mentioned: true
+             }
+           },
+           notification_settings: [
+             build(:notification_setting,
+                   mentioned: true,
+                   involved: true)
+           ],
+           member_in_project: project,
+           member_through_role: role
   end
 
-  def expect_mentioned_notification_updated
-    old_journal_id = mentioned_notification.journal_id
+  let(:assigned_notification) do
+    Notification.find_by(recipient: assignee, journal: work_package.journals.last, reason: :assigned)
+  end
+
+  def expect_mentioned_notification
+    expect(mentioned_notification).to be_present
     mentioned_notification.reload
-    expect(mentioned_notification.journal_id).not_to eq old_journal_id
-    expect(mentioned_notification.journal).to eq work_package.journals.last
+    expect(mentioned_notification.recipient).to eq recipient
     expect(mentioned_notification.reason).to eq 'mentioned'
-    expect(mentioned_notification.read_ian).to eq false
-    expect(mentioned_notification.mail_alert_sent).to eq true
+    expect(mentioned_notification.read_ian).to be false
+    expect(mentioned_notification.mail_alert_sent).to be true
+  end
+
+  def expect_no_assigned_notification
+    expect(Notification.where(recipient:, resource: work_package, reason: :involved))
+      .to be_empty
   end
 
   def expect_assigned_notification
     expect(assigned_notification).to be_present
-    expect(assigned_notification.read_ian).to eq false
-    expect(assigned_notification.mail_alert_sent).to eq false
+    expect(assigned_notification.recipient).to eq assignee
+    expect(assigned_notification.read_ian).to be false
+    expect(assigned_notification.mail_alert_sent).to be false
   end
 
   it 'will trigger only one mention notification mail when editing attributes afterwards' do
     allow(WorkPackageMailer)
-      .to(receive(:mentioned))
-      .and_call_original
+      .to receive(:mentioned)
+            .and_call_original
 
     trigger_comment!
 
     expect(WorkPackageMailer)
       .to have_received(:mentioned)
-      .with(recipient, work_package.journals.last)
+            .with(recipient, work_package.journals.last)
+            .once
 
     expect_mentioned_notification
 
-    update_assignee!
+    update_assignee!(recipient)
 
+    # No mailing is to be added but the mailing from before still counts.
     expect(WorkPackageMailer)
-      .not_to have_received(:mentioned)
-      .with(recipient, work_package.journals.last)
+      .to have_received(:mentioned)
+            .once
 
-    expect_mentioned_notification_updated
+    # No involved notification since the assignee is also mentioned which trumps
+    # being assignee and a user will only get one notification for a journal.
+    expect_no_assigned_notification
+    expect_mentioned_notification
+
+    update_assignee!(assignee)
+
+    # No mailing is to be added but the mailing from before still counts.
+    expect(WorkPackageMailer)
+      .to have_received(:mentioned)
+            .once
+
     expect_assigned_notification
   end
 end

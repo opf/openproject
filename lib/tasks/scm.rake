@@ -35,7 +35,7 @@ def scan_repositories(path)
   repositories.each do |repo|
     # Repository may be suffixed by '.git' and the like
     identifier = repo.basename.to_s.split('.')[0]
-    missing << identifier if Project.find_by(identifier: identifier).nil?
+    missing << identifier if Project.find_by(identifier:).nil?
   end
 
   missing
@@ -67,7 +67,7 @@ namespace :scm do
 
       unless Dir.exists?(managed)
         warn "WARNING: Managed repository path set to '#{managed}'," \
-                     " but does not exist for SCM vendor #{vendor}!"
+             " but does not exist for SCM vendor #{vendor}!"
         next
       end
 

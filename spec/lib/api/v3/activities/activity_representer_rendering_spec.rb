@@ -43,7 +43,7 @@ describe ::API::V3::Activities::ActivityRepresenter, 'rendering' do
   let(:work_package) { journal.journable }
   let(:notes) { "My notes" }
   let(:journal) do
-    build_stubbed(:work_package_journal, notes: notes, user: other_user).tap do |journal|
+    build_stubbed(:work_package_journal, notes:, user: other_user).tap do |journal|
       allow(journal)
         .to receive(:get_changes)
         .and_return(changes)
@@ -51,7 +51,7 @@ describe ::API::V3::Activities::ActivityRepresenter, 'rendering' do
   end
   let(:changes) { { subject: ["first subject", "second subject"] } }
   let(:permissions) { %i(edit_work_package_notes) }
-  let(:representer) { described_class.new(journal, current_user: current_user) }
+  let(:representer) { described_class.new(journal, current_user:) }
 
   before do
     login_as(current_user)
@@ -100,6 +100,13 @@ describe ::API::V3::Activities::ActivityRepresenter, 'rendering' do
       end
     end
 
+    describe 'updatedAt' do
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { journal.updated_at }
+        let(:json_path) { 'updatedAt' }
+      end
+    end
+
     describe 'version' do
       it_behaves_like 'property', :version do
         let(:value) { journal.version }
@@ -132,9 +139,9 @@ describe ::API::V3::Activities::ActivityRepresenter, 'rendering' do
 
       it 'renders all details as formattable' do
         (0..journal.details.count - 1).each do |x|
-          is_expected.to be_json_eql('custom'.to_json).at_path("details/#{x}/format")
-          is_expected.to have_json_path("details/#{x}/raw")
-          is_expected.to have_json_path("details/#{x}/html")
+          expect(subject).to be_json_eql('custom'.to_json).at_path("details/#{x}/format")
+          expect(subject).to have_json_path("details/#{x}/raw")
+          expect(subject).to have_json_path("details/#{x}/html")
         end
       end
     end

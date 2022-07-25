@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package index view' do
+RSpec.describe 'Work package index view' do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -37,7 +37,7 @@ RSpec.feature 'Work package index view' do
     login_as(user)
   end
 
-  scenario 'is reachable by clicking the sidebar menu item', js: true do
+  it 'is reachable by clicking the sidebar menu item', js: true do
     visit project_path(project)
 
     within('#content') do

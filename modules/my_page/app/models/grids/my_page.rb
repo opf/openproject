@@ -38,6 +38,7 @@ module Grids
     set_acts_as_attachable_options view_permission: :view_project,
                                    delete_permission: :view_project,
                                    add_permission: :view_project,
+                                   allow_uncontainered: false,
                                    only_user_allowed: true
   end
 end

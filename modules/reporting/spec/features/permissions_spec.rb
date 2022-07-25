@@ -6,31 +6,31 @@ describe 'Cost report calculations', type: :feature, js: true do
   let(:admin) { create :admin }
 
   let!(:permissions) { %i(view_cost_entries view_own_cost_entries) }
-  let!(:role) { create :role, permissions: permissions }
+  let!(:role) { create :role, permissions: }
   let!(:user) do
     create :user,
            member_in_project: project,
            member_through_role: role
   end
 
-  let(:work_package) { create :work_package, project: project }
+  let(:work_package) { create :work_package, project: }
   let!(:hourly_rate_admin) { create :default_hourly_rate, user: admin, rate: 1.00, valid_from: 1.year.ago }
-  let!(:hourly_rate_user) { create :default_hourly_rate, user: user, rate: 1.00, valid_from: 1.year.ago }
+  let!(:hourly_rate_user) { create :default_hourly_rate, user:, rate: 1.00, valid_from: 1.year.ago }
 
   let(:report_page) { ::Pages::CostReportPage.new project }
 
   let!(:time_entry_user) do
     create :time_entry,
            user: admin,
-           work_package: work_package,
-           project: project,
+           work_package:,
+           project:,
            hours: 10
   end
   let!(:time_entry_admin) do
     create :time_entry,
-           user: user,
-           work_package: work_package,
-           project: project,
+           user:,
+           work_package:,
+           project:,
            hours: 5
   end
   let!(:cost_type) do
@@ -40,11 +40,11 @@ describe 'Cost report calculations', type: :feature, js: true do
   end
   let!(:cost_entry_user) do
     create :cost_entry,
-           work_package: work_package,
-           project: project,
+           work_package:,
+           project:,
            units: 3.00,
-           cost_type: cost_type,
-           user: user
+           cost_type:,
+           user:
   end
 
   before do
@@ -54,6 +54,7 @@ describe 'Cost report calculations', type: :feature, js: true do
 
   context 'as anonymous' do
     let(:current_user) { User.anonymous }
+
     it 'is redirect to login' do
       expect(page).to have_content 'Username'
       expect(page).to have_content 'Password'
@@ -128,6 +129,7 @@ describe 'Cost report calculations', type: :feature, js: true do
       expect(page).to have_no_selector('td.unit', text: '3.0 plural_unit')
     end
   end
+
   context 'as user with own costs permissions' do
     let(:current_user) { user }
     let!(:permissions) do

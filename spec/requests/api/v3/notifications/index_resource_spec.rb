@@ -32,7 +32,6 @@ describe ::API::V3::Notifications::NotificationsAPI,
          'index',
          type: :request,
          content_type: :json do
-
   include API::V3::Utilities::PathHelper
 
   shared_let(:work_package) { create :work_package }
@@ -43,14 +42,14 @@ describe ::API::V3::Notifications::NotificationsAPI,
   end
   shared_let(:notification1) do
     create :notification,
-           recipient: recipient,
+           recipient:,
            resource: work_package,
            project: work_package.project,
            journal: work_package.journals.first
   end
   shared_let(:notification2) do
     create :notification,
-           recipient: recipient,
+           recipient:,
            resource: work_package,
            project: work_package.project,
            journal: work_package.journals.first
@@ -61,7 +60,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
   let(:filters) { nil }
 
   let(:send_request) do
-    get api_v3_paths.path_for :notifications, filters: filters
+    get api_v3_paths.path_for :notifications, filters:
   end
 
   let(:parsed_response) { JSON.parse(last_response.body) }
@@ -84,7 +83,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
     it_behaves_like 'API V3 collection response', 2, 2, 'Notification'
 
     context 'with a readIAN filter' do
-      let(:nil_notification) { create :notification, recipient: recipient, read_ian: nil }
+      let(:nil_notification) { create :notification, recipient:, read_ian: nil }
 
       let(:notifications) { [notification1, notification2, nil_notification] }
 
@@ -108,7 +107,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
     end
 
     context 'with a resource filter' do
-      let(:notification3) { create :notification, recipient: recipient }
+      let(:notification3) { create :notification, recipient: }
       let(:notifications) { [notification1, notification2, notification3] }
 
       let(:filters) do
@@ -139,7 +138,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
       let(:other_work_package) { create(:work_package) }
       let(:notification3) do
         create :notification,
-               recipient: recipient,
+               recipient:,
                resource: other_work_package,
                project: other_work_package.project
       end
@@ -165,7 +164,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
       let(:notification3) do
         create :notification,
                reason: :assigned,
-               recipient: recipient,
+               recipient:,
                resource: work_package,
                project: work_package.project,
                journal: work_package.journals.first
@@ -173,7 +172,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
       let(:notification4) do
         create :notification,
                reason: :responsible,
-               recipient: recipient,
+               recipient:,
                resource: work_package,
                project: work_package.project,
                journal: work_package.journals.first
@@ -224,7 +223,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
       let(:non_ian_notification) do
         create :notification,
                read_ian: nil,
-               recipient: recipient,
+               recipient:,
                resource: wiki_page,
                project: wiki_page.wiki.project,
                journal: wiki_page.content.journals.first
@@ -240,7 +239,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
     context 'with a reason groupBy' do
       let(:responsible_notification) do
         create :notification,
-               recipient: recipient,
+               recipient:,
                reason: :responsible,
                resource: work_package,
                project: work_package.project,
@@ -278,7 +277,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
         create :notification,
                resource: work_package2,
                project: other_project,
-               recipient: recipient,
+               recipient:,
                reason: :responsible,
                journal: work_package2.journals.first
       end

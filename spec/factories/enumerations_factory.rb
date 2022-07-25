@@ -60,7 +60,7 @@ FactoryBot.define do
 
       # reuse existing priority with the given name
       # this prevents a validation error (name has to be unique)
-      initialize_with { IssuePriority.find_or_create_by(name: name) }
+      initialize_with { IssuePriority.find_or_create_by(name:) }
 
       factory :priority_normal do
         name { 'Normal' }

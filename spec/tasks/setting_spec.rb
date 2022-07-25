@@ -43,6 +43,8 @@ RSpec.describe Rake::Task, 'setting', :settings_reset do
 
     context 'if setting is overridden from config/configuration.yml file' do
       before do
+        # disable test env detection because loading of the config file is partially disabled in test env
+        allow(Rails.env).to receive(:test?).and_return(false)
         allow(Settings::Definition).to receive(:file_config)
           .and_return('default' => { 'email_delivery_method' => 'initial_file_value' })
         Settings::Definition.send(:override_value_from_file, Settings::Definition['email_delivery_method'])
@@ -77,6 +79,8 @@ RSpec.describe Rake::Task, 'setting', :settings_reset do
 
       context 'if setting is overridden from config/configuration.yml file' do
         before do
+          # disable test env detection because loading of the config file is partially disabled in test env
+          allow(Rails.env).to receive(:test?).and_return(false)
           allow(Settings::Definition).to receive(:file_config)
             .and_return('default' => { 'email_delivery_method' => 'initial_file_value' })
           Settings::Definition.send(:override_value_from_file, Settings::Definition['email_delivery_method'])
@@ -96,6 +100,16 @@ RSpec.describe Rake::Task, 'setting', :settings_reset do
             .from(:initial_file_value)
         end
       end
+    end
+  end
+
+  describe 'setting:available_envs' do
+    include_context 'rake'
+
+    it 'displays all environment variables which can override settings values' do
+      # just want to ensure the code does not raise any errors
+      expect { subject.invoke }
+        .to output(/OPENPROJECT_SMTP__ENABLE__STARTTLS__AUTO/).to_stdout
     end
   end
 end

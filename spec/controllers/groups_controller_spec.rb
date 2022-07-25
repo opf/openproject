@@ -143,7 +143,7 @@ describe GroupsController, type: :controller do
       context 'with an existing membership' do
         let!(:member_group) do
           create(:member,
-                 project: project,
+                 project:,
                  principal: group,
                  roles: [role1])
         end

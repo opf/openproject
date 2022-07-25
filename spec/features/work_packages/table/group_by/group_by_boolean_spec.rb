@@ -7,9 +7,9 @@ describe 'Work Package group by boolean field', js: true do
   let(:bool_cf) { create :bool_wp_custom_field, name: 'booleanField', types: [type] }
   let(:type) { create(:type) }
 
-  let!(:wp1) { create(:work_package, project: project, type: type) }
-  let!(:wp2) { create(:work_package, project: project, type: type, custom_field_values: { bool_cf.id => true }) }
-  let!(:wp3) { create(:work_package, project: project, type: type, custom_field_values: { bool_cf.id => false }) }
+  let!(:wp1) { create(:work_package, project:, type:) }
+  let!(:wp2) { create(:work_package, project:, type:, custom_field_values: { bool_cf.id => true }) }
+  let!(:wp3) { create(:work_package, project:, type:, custom_field_values: { bool_cf.id => false }) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:group_by) { ::Components::WorkPackages::GroupBy.new }

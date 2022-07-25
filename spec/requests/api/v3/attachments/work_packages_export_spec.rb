@@ -46,6 +46,7 @@ describe "WorkPackages::Export attachments" do
 
     describe '#get' do
       subject(:response) { last_response }
+
       let(:get_path) { api_v3_paths.attachment attachment.id }
 
       before do

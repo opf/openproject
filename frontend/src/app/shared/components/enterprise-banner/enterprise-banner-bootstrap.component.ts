@@ -1,16 +1,23 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
-export const enterpriseBannerSelector = 'enterprise-banner-bootstrap';
+export const enterpriseBannerrBootstrapSelector = 'enterprise-banner-bootstrap';
 
 @Component({
-  selector: enterpriseBannerSelector,
+  selector: enterpriseBannerrBootstrapSelector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
   template: `
-    <enterprise-banner
+    <op-enterprise-banner
       [textMessage]="textMessage"
       [linkMessage]="linkMessage"
       [opReferrer]="referrer">
-    </enterprise-banner>
+    </op-enterprise-banner>
   `,
 })
 export class EnterpriseBannerBootstrapComponent implements OnInit {
@@ -24,7 +31,7 @@ export class EnterpriseBannerBootstrapComponent implements OnInit {
     protected i18n:I18nService) {
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     const $element = jQuery(this.elementRef.nativeElement);
 
     this.textMessage = $element.attr('text-message')!;

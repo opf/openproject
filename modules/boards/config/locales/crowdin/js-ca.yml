@@ -9,6 +9,7 @@ ca:
       upsale:
         teaser_text: 'T''agradaria utilitzar les plantilles de taulells ja preparats? Els taulells avançats són una funcionalitat Enterprise. Si us plau, actualitza a un pla de pagament.'
         upgrade: 'Actualitzeu ara'
+        more_info: 'More information'
       lists:
         delete: 'Suprimeix la llista'
       version:

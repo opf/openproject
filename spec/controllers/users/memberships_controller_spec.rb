@@ -57,7 +57,7 @@ describe Users::MembershipsController, type: :controller do
       is_member = user.reload.memberships.any? do |m|
         m.project_id == project.id && m.role_ids.include?(role.id)
       end
-      expect(is_member).to eql(true)
+      expect(is_member).to be(true)
     end
   end
 end

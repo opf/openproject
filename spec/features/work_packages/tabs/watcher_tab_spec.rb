@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe 'Watcher tab', js: true, selenium: true do
-  include ::Components::NgSelectAutocompleteHelpers
+  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:project) { create(:project) }
-  let(:work_package) { create(:work_package, project: project) }
+  let(:work_package) { create(:work_package, project:) }
   let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
   let(:user) { create(:user, member_in_project: project, member_through_role: role) }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) do
     %i(view_work_packages
        view_work_package_watchers
@@ -106,22 +106,25 @@ describe 'Watcher tab', js: true, selenium: true do
 
     context 'without watchers permission' do
       let(:permissions) { %i(view_work_packages view_work_package_watchers) }
+
       it_behaves_like 'watch and unwatch with button'
     end
   end
 
   context 'split screen' do
     let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
+
     it_behaves_like 'watchers tab'
   end
 
   context 'full screen' do
     let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+
     it_behaves_like 'watchers tab'
   end
 
   context 'when the work package has a watcher' do
-    let(:watchers) { create(:watcher, watchable: work_package, user: user) }
+    let(:watchers) { create(:watcher, watchable: work_package, user:) }
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
     before do
@@ -131,7 +134,7 @@ describe 'Watcher tab', js: true, selenium: true do
       wp_table.expect_work_package_listed work_package
     end
 
-    it 'should show the number of watchers [#33685]' do
+    it 'shows the number of watchers [#33685]' do
       wp_table.open_full_screen_by_doubleclick(work_package)
       expect(page).to have_selector('[data-qa-selector="tab-count"]', text: "(1)")
     end
@@ -146,7 +149,7 @@ describe 'Watcher tab', js: true, selenium: true do
       wp_page.visit_tab! :watchers
     end
 
-    it 'should not show the placeholder user as an option' do
+    it 'does not show the placeholder user as an option' do
       autocomplete = find('.wp-watcher--autocomplete')
       target_dropdown = search_autocomplete autocomplete,
                                             query: ''

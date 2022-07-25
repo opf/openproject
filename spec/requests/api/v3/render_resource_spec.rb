@@ -34,13 +34,13 @@ describe 'API v3 Render resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:project) { create(:project, public: false) }
-  let(:work_package) { create(:work_package, project: project) }
+  let(:work_package) { create(:work_package, project:) }
   let(:user) { create(:user, member_in_project: project) }
   let(:content_type) { 'text/plain, charset=UTF-8' }
-  let(:path) { api_v3_paths.render_markup plain: plain, link: context }
+  let(:path) { api_v3_paths.render_markup plain:, link: context }
   let(:context) { nil }
 
-  before(:each) do
+  before do
     login_as(user)
     post path, params, 'CONTENT_TYPE' => content_type
   end
@@ -81,9 +81,9 @@ describe 'API v3 Render resource', type: :request do
             let(:id) { work_package.id }
             let(:href) { "/work_packages/#{id}" }
             let(:text) do
-              '<p class="op-uc-p">Hello World! Have a look at <a '\
-                  "class=\"issue work_package preview-trigger op-uc-link\" "\
-                  "href=\"#{href}\">##{id}</a></p>"
+              '<p class="op-uc-p">Hello World! Have a look at <a ' \
+                "class=\"issue work_package preview-trigger op-uc-link\" " \
+                "href=\"#{href}\">##{id}</a></p>"
             end
 
             context 'with work package context' do

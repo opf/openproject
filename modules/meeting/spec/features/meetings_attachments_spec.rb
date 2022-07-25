@@ -15,7 +15,7 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
   let(:meeting) do
     create(
       :meeting,
-      project: project,
+      project:,
       title: "Versammlung",
       agenda: create(:meeting_agenda, text: "Versammlung")
     )
@@ -36,9 +36,9 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
   end
 
   describe 'wysiwyg editor' do
-    context 'on an existing page' do
+    context 'if on an existing page' do
       it 'can upload an image via drag & drop' do
-        target = find('.ck-content')
+        find('.ck-content')
 
         editor.expect_button 'Insert image'
 
@@ -63,16 +63,17 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
 
       ##
       # Attach file manually
-      expect(page).to have_no_selector('.work-package--attachments--filename')
+      expect(page).to have_no_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
       attachments.attach_file_on_input(image_fixture.path)
       expect(page).not_to have_selector('op-toasters-upload-progress')
-      expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', wait: 5)
+      expect(page).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', wait: 5)
 
       ##
       # and via drag & drop
       attachments.drag_and_drop_file(container, image_fixture.path)
       expect(page).not_to have_selector('op-toasters-upload-progress')
-      expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', count: 2, wait: 5)
+      expect(page)
+        .to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', count: 2, wait: 5)
     end
   end
 end

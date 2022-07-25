@@ -36,7 +36,7 @@ describe ::API::V3::Utilities::PathHelper do
       subject { helper.attachments_by_grid 1 }
 
       it 'provides the path' do
-        is_expected.to match('/grids/1/attachments')
+        expect(subject).to match('/grids/1/attachments')
       end
     end
   end

@@ -31,12 +31,12 @@ require 'spec_helper'
 describe 'version show graph', type: :feature, js: true do
   let(:user) { create :admin }
   let(:project) { create(:project) }
-  let(:version) { create(:version, project: project) }
+  let(:version) { create(:version, project:) }
 
   let!(:wp) do
     create :work_package,
-           project: project,
-           version: version
+           project:,
+           version:
   end
 
   before do

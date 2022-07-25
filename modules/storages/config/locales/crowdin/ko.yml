@@ -32,19 +32,31 @@ ko:
     errors:
       too_many_elements_created_at_once: "한 번에 너무 많은 요소가 생성되었습니다. 최대 개수는 %{max}개이지만 %{actual}개가 있습니다."
   storages:
+    buttons:
+      done_continue_setup: "Done. Continue setup"
+      replace_openproject_oauth: "Replace OpenProject OAuth"
+      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
+      save_and_continue_setup: "Save and continue setup"
+      save_and_complete_setup: "Save and complete setup"
+      cancel: "Cancel"
     page_titles:
       project_settings:
         index: "이 프로젝트에서 사용 가능한 파일 저장소"
-        new: "이 프로젝트에 대한 파일 저장소 활성화"
+        new: "Add a file storage to this project"
     instructions:
-      name: "짧은 이름을 사용하세요. 이 이름은 작업 패키지 보기에서 탭 제목으로 사용됩니다."
-      host: "저장소 인스턴스의 URL입니다. 이 URL은 255자 이하여야 합니다."
+      type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
+      type_link_text: "“Integration OpenProject”"
+      name: "Give your storage a name so that users can differentiate between multiple storages."
+      host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
       no_storage_set_up: "아직 파일 저장소가 설정되지 않았습니다."
       setting_up_additional_storages: "추가 파일 저장소를 설정하려면 다음을 방문하세요:"
       setting_up_additional_storages_non_admin: "관리자는 관리/파일 저장소에서 추가 파일 저장소를 설정할 수 있습니다."
       setting_up_storages: "파일 저장소를 설정하려면 다음을 방문하세요:"
       setting_up_storages_non_admin: "관리자는 관리/파일 저장소에서 파일 저장소를 설정할 수 있습니다."
       all_available_storages_already_added: "사용 가능한 모든 저장소가 이미 프로젝트에 추가되었습니다."
+      copy_from: "Copy this value from"
+      nextcloud:
+        integration: "Nextcloud Administration / OpenProject"
     delete_warning:
       storage: >
         이 저장소를 삭제하시겠습니까? 이렇게 하면 이 저장소가 사용되는 모든 프로젝트에서도 삭제됩니다. 또한 해당 저장소에 저장된 파일에 대한 모든 링크도 작업 패키지에서 삭제합니다.
@@ -54,12 +66,26 @@ ko:
     label_file_link: "파일 링크"
     label_file_links: "파일 링크"
     label_name: "이름"
-    label_host: "호스트"
+    label_host: "Host URL"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
+    label_oauth_application_details: "OAuth application details"
+    label_oauth_client_details: "OAuth client details"
     label_provider_type: "공급자 유형"
     label_new_storage: "새로운 저장소"
     label_storage: "저장소"
     label_storages: "저장소"
     no_results: "아직 저장소가 설정되지 않았습니다."
+    label_oauth_client_id: "OAuth Client ID"
+    label_oauth_client_secret: "OAuth Client Secret"
     provider_types:
       label: "공급자 유형"
-      nextcloud: "Nextcloud"
+      nextcloud:
+        name: "Nextcloud"
+        name_placeholder: "e.g. Nextcloud"
+        default_name: "My Nextcloud"
+    confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
+    confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
+    oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
+    notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."

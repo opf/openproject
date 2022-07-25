@@ -126,7 +126,7 @@ module OpenProject::Bim::BcfXml
     def add_unknown_mail(mail, options)
       user = UserInvitation.invite_new_user(email: mail)
       member = Member.create(principal: user,
-                             project: project)
+                             project:)
       membership_service = ::Members::EditMembershipService.new(member,
                                                                 save: true,
                                                                 current_user: User.current)
@@ -135,7 +135,7 @@ module OpenProject::Bim::BcfXml
 
     def add_non_member(user, options)
       member = Member.create(principal: user,
-                             project: project)
+                             project:)
       membership_service = ::Members::EditMembershipService.new(member,
                                                                 save: true,
                                                                 current_user: User.current)
@@ -156,7 +156,7 @@ module OpenProject::Bim::BcfXml
 
     def to_listing(extractor)
       keys = %i[uuid title priority status description author assignee modified_author due_date]
-      Hash[keys.map { |k| [k, extractor.public_send(k)] }].tap do |attributes|
+      keys.index_with { |k| extractor.public_send(k) }.tap do |attributes|
         attributes[:viewpoint_count] = extractor.viewpoints.count
         attributes[:comments_count]  = extractor.comments.count
         attributes[:people]          = extractor.people
@@ -172,8 +172,8 @@ module OpenProject::Bim::BcfXml
           issue = IssueReader.new(project,
                                   zip,
                                   entry,
-                                  current_user: current_user,
-                                  import_options: import_options).extract!
+                                  current_user:,
+                                  import_options:).extract!
 
           if issue.errors.blank?
             issue.save

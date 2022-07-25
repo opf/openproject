@@ -367,7 +367,7 @@ describe Settings::Definition do
         all
 
         described_class.add 'bogus',
-                            value: 0
+                            default: 0
 
         expect(all.detect { |d| d.name == 'bogus' }.value)
           .to eq 1
@@ -402,7 +402,7 @@ describe Settings::Definition do
                 .with(Rails.root.join('config/configuration.yml'))
                 .and_return(file_contents)
 
-        # Loading of the config file is disabled in test env normally.
+        # Loading of the config file is partially disabled in test env
         allow(Rails.env)
           .to receive(:test?)
           .and_return(false)
@@ -448,6 +448,24 @@ describe Settings::Definition do
           .to eql DateTime.parse("2222-01-01")
       end
 
+      context 'when Rails environment is test' do
+        before do
+          allow(Rails.env)
+            .to receive(:test?)
+            .and_return(true)
+        end
+
+        it 'does not override from file default' do
+          expect(all.detect { |d| d.name == 'edition' }.value)
+            .not_to eql 'bim'
+        end
+
+        it 'overrides from file current env' do
+          expect(all.detect { |d| d.name == 'smtp_address' }.value)
+            .to eql 'test address'
+        end
+      end
+
       context 'when having invalid values in the file' do
         let(:file_contents) do
           <<~YAML
@@ -487,7 +505,7 @@ describe Settings::Definition do
         all
 
         described_class.add 'bogus',
-                            value: 1,
+                            default: 1,
                             format: :integer
 
         expect(all.detect { |d| d.name == 'bogus' }.value)
@@ -502,7 +520,7 @@ describe Settings::Definition do
     context 'with a string' do
       let(:key) { 'smtp_address' }
 
-      it 'returns the value' do
+      it 'returns the definition matching the name' do
         expect(definition.name)
           .to eql key
       end
@@ -511,7 +529,7 @@ describe Settings::Definition do
     context 'with a symbol' do
       let(:key) { :smtp_address }
 
-      it 'returns the value' do
+      it 'returns the definition matching the name' do
         expect(definition.name)
           .to eql key.to_s
       end
@@ -520,7 +538,7 @@ describe Settings::Definition do
     context 'with a non existing key' do
       let(:key) { 'bogus' }
 
-      it 'returns the value' do
+      it 'returns nil' do
         expect(definition)
           .to be_nil
       end
@@ -534,7 +552,7 @@ describe Settings::Definition do
         described_class[key]
 
         described_class.add 'bogus',
-                            value: 1,
+                            default: 1,
                             format: :integer
       end
 
@@ -547,13 +565,13 @@ describe Settings::Definition do
 
   describe '#override_value' do
     let(:format) { :string }
-    let(:value) { 'abc' }
+    let(:default) { 'abc' }
 
     let(:instance) do
       described_class
         .new 'bogus',
-             format: format,
-             value: value
+             format:,
+             default:
     end
 
     context 'with string format' do
@@ -561,9 +579,14 @@ describe Settings::Definition do
         instance.override_value('xyz')
       end
 
-      it 'overwrites' do
+      it 'overwrites the value' do
         expect(instance.value)
           .to eql 'xyz'
+      end
+
+      it 'does not overwrite the default' do
+        expect(instance.default)
+          .to eql 'abc'
       end
 
       it 'turns the definition unwritable' do
@@ -574,7 +597,7 @@ describe Settings::Definition do
 
     context 'with hash format' do
       let(:format) { :hash }
-      let(:value) do
+      let(:default) do
         {
           abc: {
             a: 1,
@@ -600,6 +623,17 @@ describe Settings::Definition do
                   })
       end
 
+      it 'does not overwrite the default' do
+        expect(instance.default)
+          .to eql({
+                    'abc' => {
+                      'a' => 1,
+                      'b' => 2
+                    },
+                    'cde' => 1
+                  })
+      end
+
       it 'turns the definition unwritable' do
         expect(instance)
           .not_to be_writable
@@ -608,15 +642,20 @@ describe Settings::Definition do
 
     context 'with array format' do
       let(:format) { :array }
-      let(:value) { [1, 2, 3] }
+      let(:default) { [1, 2, 3] }
 
       before do
         instance.override_value([4, 5, 6])
       end
 
-      it 'overwrites' do
+      it 'overwrites the value' do
         expect(instance.value)
           .to eql [4, 5, 6]
+      end
+
+      it 'does not overwrite the default' do
+        expect(instance.default)
+          .to eql [1, 2, 3]
       end
 
       it 'turns the definition unwritable' do
@@ -629,8 +668,8 @@ describe Settings::Definition do
       let(:instance) do
         described_class
           .new 'bogus',
-               format: format,
-               value: 'foo',
+               format:,
+               default: 'foo',
                allowed: %w[foo bar]
       end
 
@@ -662,7 +701,7 @@ describe Settings::Definition do
       let(:instance) do
         described_class.new 'bogus',
                             format: :integer,
-                            value: 1,
+                            default: 1,
                             writable: false,
                             allowed: [1, 2, 3]
       end
@@ -675,6 +714,11 @@ describe Settings::Definition do
       it 'has the format (in symbol)' do
         expect(instance.format)
           .to eq :integer
+      end
+
+      it 'has the default' do
+        expect(instance.default)
+          .to eq 1
       end
 
       it 'has the value' do
@@ -701,7 +745,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (integer value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: 1
+                            default: 1
       end
 
       it 'has the name' do
@@ -712,6 +756,16 @@ describe Settings::Definition do
       it 'has the format (in symbol) deduced' do
         expect(instance.format)
           .to eq :integer
+      end
+
+      it 'has the default' do
+        expect(instance.default)
+          .to eq 1
+      end
+
+      it 'has the default frozen' do
+        expect(instance.default)
+          .to be_frozen
       end
 
       it 'has the value' do
@@ -733,7 +787,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (hash value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: { a: 'b', c: { d: 'e' } }
+                            default: { a: 'b', c: { d: 'e' } }
       end
 
       it 'has the format (in symbol) deduced' do
@@ -744,6 +798,11 @@ describe Settings::Definition do
       it 'is serialized' do
         expect(instance)
           .to be_serialized
+      end
+
+      it 'has the default frozen' do
+        expect(instance.default)
+          .to be_frozen
       end
 
       it 'transforms keys to string' do
@@ -758,7 +817,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (array value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: %i[a b]
+                            default: %i[a b]
       end
 
       it 'has the format (in symbol) deduced' do
@@ -775,7 +834,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (true value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: true
+                            default: true
       end
 
       it 'has the format (in symbol) deduced' do
@@ -787,7 +846,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (false value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: false
+                            default: false
       end
 
       it 'has the format (in symbol) deduced' do
@@ -799,7 +858,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (date value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: Time.zone.today
+                            default: Time.zone.today
       end
 
       it 'has the format (in symbol) deduced' do
@@ -811,7 +870,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (datetime value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: DateTime.now
+                            default: DateTime.now
       end
 
       it 'has the format (in symbol) deduced' do
@@ -823,7 +882,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (string value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: 'abc'
+                            default: 'abc'
       end
 
       it 'has the format (in symbol) deduced' do
@@ -836,9 +895,14 @@ describe Settings::Definition do
       let(:instance) do
         described_class.new 'bogus',
                             format: 'string',
-                            value: -> { 'some value' },
+                            default: -> { 'some value' },
                             writable: -> { false },
                             allowed: -> { %w[a b c] }
+      end
+
+      it 'returns the procs return value for default' do
+        expect(instance.default)
+          .to eql 'some value'
       end
 
       it 'returns the procs return value for value' do
@@ -861,7 +925,12 @@ describe Settings::Definition do
       let(:instance) do
         described_class.new 'bogus',
                             format: :integer,
-                            value: '5'
+                            default: '5'
+      end
+
+      it 'returns default as an int' do
+        expect(instance.default)
+          .to eq 5
       end
 
       it 'returns value as an int' do
@@ -874,7 +943,12 @@ describe Settings::Definition do
       let(:instance) do
         described_class.new 'bogus',
                             format: :float,
-                            value: '0.5'
+                            default: '0.5'
+      end
+
+      it 'returns default as a float' do
+        expect(instance.default)
+          .to eq 0.5
       end
 
       it 'returns value as a float' do

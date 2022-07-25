@@ -33,7 +33,7 @@ describe Queries::WorkPackages::Filter::RelatesFilter, type: :model do
     let(:class_key) { :relates }
 
     it_behaves_like 'filter for relation' do
-      let(:relation_type) { :related_to }
+      let(:relation_type) { :relates }
     end
   end
 end

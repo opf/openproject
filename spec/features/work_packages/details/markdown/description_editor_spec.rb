@@ -40,7 +40,7 @@ describe 'description inplace editor', js: true, selenium: true do
   let!(:work_package) do
     create(
       :work_package,
-      project: project,
+      project:,
       description: description_text
     )
   end

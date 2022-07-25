@@ -5,7 +5,7 @@ describe ::TwoFactorAuthentication::Device::Totp, with_2fa_ee: true, type: :mode
   let(:user) { create :user }
   let(:channel) { :totp }
 
-  subject { described_class.new identifier: 'foo', channel: channel, user: user, active: true }
+  subject { described_class.new identifier: 'foo', channel:, user:, active: true }
 
   describe 'validations' do
     context 'with invalid channel' do

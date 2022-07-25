@@ -86,47 +86,58 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
     end
 
     context 'without a project candidate' do
-      it 'returns 200 OK' do
-        expect(subject.status)
-          .to eql 200
+      before do
+        response
       end
 
-      it 'returns projects for which the user has the add_subprojects permission' do
-        expect(subject.body)
-          .to have_json_size(3)
-          .at_path('_embedded/elements')
-
-        expect(subject.body)
-          .to be_json_eql(project.id.to_json)
-          .at_path('_embedded/elements/0/id')
-
-        expect(subject.body)
-          .to be_json_eql(project_with_add_subproject_permission.id.to_json)
-          .at_path('_embedded/elements/1/id')
-
-        expect(subject.body)
-          .to be_json_eql(child_project_with_add_subproject_permission.id.to_json)
-          .at_path('_embedded/elements/2/id')
+      it_behaves_like 'API V3 collection response', 3, 3, 'Project', 'Collection' do
+        let(:elements) { [project, project_with_add_subproject_permission, child_project_with_add_subproject_permission] }
       end
     end
 
     context 'with a project candidate' do
       let(:path) { api_v3_paths.projects_available_parents + "?of=#{project.id}" }
 
-      it 'returns 200 OK' do
-        expect(subject.status)
-          .to eql 200
+      before do
+        response
       end
 
-      it 'returns projects for which the user has the add_subprojects permission but' +
-         ' excludes the queried for project and it`s descendants' do
-        expect(subject.body)
-          .to have_json_size(1)
-                .at_path('_embedded/elements')
+      it 'returns 200 OK' do
+        expect(subject.status)
+          .to be 200
+      end
 
-        expect(subject.body)
-          .to be_json_eql(project_with_add_subproject_permission.id.to_json)
-          .at_path('_embedded/elements/0/id')
+      # Returns projects for which the user has the add_subprojects permission but
+      # excludes the queried for project and its descendants
+      it_behaves_like 'API V3 collection response', 1, 1, 'Project', 'Collection' do
+        let(:elements) { [project_with_add_subproject_permission] }
+      end
+    end
+
+    context 'when signaling the properties to include' do
+      let(:other_projects) { [] }
+      let(:select) { 'elements/id,elements/name,elements/ancestors,total' }
+      let(:path) { api_v3_paths.path_for(:projects_available_parents, select:) }
+      let(:expected) do
+        {
+          total: 1,
+          _embedded: {
+            elements: [
+              {
+                id: project.id,
+                name: project.name,
+                _links: {
+                  ancestors: []
+                }
+              }
+            ]
+          }
+        }
+      end
+
+      it 'is the reduced set of properties of the embedded elements' do
+        expect(response.body)
+          .to be_json_eql(expected.to_json)
       end
     end
 
@@ -139,7 +150,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
 
       it 'returns 403' do
         expect(subject.status)
-          .to eql 403
+          .to be 403
       end
     end
 
@@ -149,7 +160,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
 
       it 'returns 200' do
         expect(subject.status)
-          .to eql 200
+          .to be 200
       end
     end
 
@@ -159,7 +170,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
 
       it 'returns 200' do
         expect(subject.status)
-          .to eql 200
+          .to be 200
       end
     end
 
@@ -169,7 +180,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
 
       it 'returns 200' do
         expect(subject.status)
-          .to eql 200
+          .to be 200
       end
     end
   end

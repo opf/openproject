@@ -37,17 +37,17 @@ describe Projects::Activity, type: :model do
 
   let(:meeting) do
     create(:meeting,
-           project: project)
+           project:)
   end
 
   let(:meeting2) do
     create(:meeting,
-           project: project)
+           project:)
   end
 
   let(:work_package) do
     create(:work_package,
-           project: project)
+           project:)
   end
 
   def latest_activity

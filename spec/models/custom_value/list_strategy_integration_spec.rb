@@ -44,8 +44,8 @@ describe CustomValue::ListStrategy, 'integration tests' do
 
   let!(:work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            custom_values: { custom_field.id => custom_field.custom_options.find_by(value: 'A') }
   end
 

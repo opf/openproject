@@ -87,14 +87,14 @@ class MemberMailer < ApplicationMailer
         yield if block_given?
 
         mail to: member.principal.mail,
-             subject: subject
+             subject:
       end
     end
   end
 
-  def in_member_locale(member, &block)
+  def in_member_locale(member, &)
     raise ArgumentError unless member.principal.is_a?(User)
 
-    with_locale_for(member.principal, &block)
+    with_locale_for(member.principal, &)
   end
 end

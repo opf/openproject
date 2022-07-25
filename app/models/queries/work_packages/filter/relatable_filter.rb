@@ -30,7 +30,7 @@ class Queries::WorkPackages::Filter::RelatableFilter < Queries::WorkPackages::Fi
   include Queries::WorkPackages::Filter::FilterForWpMixin
 
   def available?
-    User.current.allowed_to?(:manage_work_package_relations, nil, global: true)
+    User.current.allowed_to_globally?(:manage_work_package_relations)
   end
 
   def type
@@ -47,32 +47,10 @@ class Queries::WorkPackages::Filter::RelatableFilter < Queries::WorkPackages::Fi
   end
 
   def scope
-    if operator == Relation::TYPE_RELATES
-      relateable_from_or_to
-    elsif operator != 'parent' && canonical_operator == operator
-      relateable_to
-    else
-      relateable_from
-    end
+    WorkPackage.relatable(WorkPackage.find_by(id: values.first), Relation.canonical_type(operator))
   end
 
   private
-
-  def relateable_from_or_to
-    relateable_to.or(relateable_from)
-  end
-
-  def relateable_from
-    WorkPackage.relateable_from(from)
-  end
-
-  def relateable_to
-    WorkPackage.relateable_to(from)
-  end
-
-  def from
-    WorkPackage.find(values.first)
-  end
 
   def canonical_operator
     Relation.canonical_type(operator)

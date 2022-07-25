@@ -36,13 +36,13 @@ describe ::API::V3::Relations::RelationPaginatedCollectionRepresenter do
   let(:relations) do
     build_stubbed_list(:relation, total).tap do |relations|
       allow(relations)
-        .to receive(:per_page)
+        .to receive(:limit)
               .with(page_size)
               .and_return(relations)
 
       allow(relations)
-        .to receive(:page)
-              .with(page)
+        .to receive(:offset)
+              .with(page - 1)
               .and_return(relations)
 
       allow(relations)
@@ -58,7 +58,7 @@ describe ::API::V3::Relations::RelationPaginatedCollectionRepresenter do
   let(:representer) do
     described_class.new(relations,
                         self_link: self_base_link,
-                        page: page,
+                        page:,
                         per_page: page_size,
                         current_user: user)
   end

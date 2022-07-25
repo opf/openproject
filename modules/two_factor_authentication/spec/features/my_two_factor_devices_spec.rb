@@ -76,7 +76,7 @@ describe 'My Account 2FA configuration',
     visit my_2fa_devices_path
     find('.toolbar-item .button', text: '2FA device').click
     expect(page).to have_selector('h2', text: I18n.t('two_factor_authentication.devices.add_new'))
-    expect(current_path).to eq new_my_2fa_device_path
+    expect(page).to have_current_path new_my_2fa_device_path, ignore_query: true
 
     # Select totp
     find('.mobile-otp-new-device-totp .button').click
@@ -142,7 +142,7 @@ describe 'My Account 2FA configuration',
   end
 
   context 'when a device has been registered already' do
-    let!(:device) { create :two_factor_authentication_device_totp, user: user }
+    let!(:device) { create :two_factor_authentication_device_totp, user: }
 
     it 'loads the page correctly (Regression #41719)' do
       visit my_2fa_devices_path

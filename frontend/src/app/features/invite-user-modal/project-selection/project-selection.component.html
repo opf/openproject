@@ -9,14 +9,17 @@
       [label]="text.project.label"
       required
     >
-      <op-ium-project-search
-        [opFormBinding]="projectControl"
+      <op-project-autocompleter
         slot="input"
-      ></op-ium-project-search>
+        formControlName="project"
+        [apiFilters]="APIFiltersForProjects"
+        [mapResultsFn]="projectFilterFn.bind(this)"
+        appendTo=".op-modal-overlay"
+      ></op-project-autocompleter>
 
       <div
         slot="help-text"
-        *ngIf="projectControl!.errors?.lackingPermission"
+        *ngIf="projectControl.errors?.lackingPermission"
       >
         {{ text.project.lackingPermissionInfo }}
       </div>
@@ -24,7 +27,7 @@
       <div
         slot="errors"
         class="op-form-field--error"
-        *ngIf="projectControl!.errors?.required"
+        *ngIf="projectControl.errors?.required"
       >
         {{ text.project.required }}
       </div>
@@ -32,7 +35,7 @@
       <div
         slot="errors"
         class="op-form-field--error"
-        *ngIf="projectControl!.errors?.lackingPermission"
+        *ngIf="projectControl.errors?.lackingPermission"
       >
         {{ text.project.lackingPermission }}
       </div>

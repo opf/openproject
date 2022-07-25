@@ -31,9 +31,7 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
   include Queries::WorkPackages::Filter::MeValueFilterMixin
 
   def allowed_values
-    @allowed_values ||= begin
-      me_allowed_value + principal_loader.principal_values
-    end
+    @allowed_values ||= me_allowed_value + principal_loader.principal_values
   end
 
   def available?

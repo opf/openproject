@@ -202,10 +202,6 @@ OpenProject::Application.routes.draw do
       get :destroy_info, as: 'confirm_destroy'
     end
 
-    collection do
-      get :level_list
-    end
-
     resources :versions, only: %i[new create] do
       collection do
         put :close_completed
@@ -228,7 +224,6 @@ OpenProject::Application.routes.draw do
       collection do
         post '/new' => 'wiki#create', as: 'create'
         get :export
-        get :date_index
         get '/index' => 'wiki#index'
       end
 
@@ -356,7 +351,9 @@ OpenProject::Application.routes.draw do
     post 'design/themes' => 'custom_styles#update_themes', as: 'update_design_themes'
     resource :custom_style, only: %i[update show create], path: 'design'
 
-    resources :attribute_help_texts, only: %i(index new create edit update destroy)
+    resources :attribute_help_texts, only: %i(index new create edit update destroy) do
+      get :upsale, to: 'attribute_help_texts#upsale', on: :collection, as: :upsale
+    end
 
     resources :groups, except: %i[show] do
       member do
@@ -578,6 +575,11 @@ OpenProject::Application.routes.draw do
 
   scope :notifications do
     get '(/*state)', to: 'angular#notifications_layout', as: :notifications_center
+  end
+
+  # OAuthClient needs a "callback" URL that Nextcloud calls with a "code" (see OAuth2 RFC)
+  scope 'oauth_clients/:oauth_client_id' do
+    get 'callback', controller: 'oauth_clients', action: :callback
   end
 
   # Routes for design related documentation and examples pages

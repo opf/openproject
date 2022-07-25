@@ -38,38 +38,27 @@ module Settings
                 :allowed
 
     def initialize(name,
-                   value:,
+                   default:,
                    format: nil,
                    writable: true,
                    allowed: nil,
                    env_alias: nil)
       self.name = name.to_s
+      @default = default.is_a?(Hash) ? default.deep_stringify_keys : default
+      @default.freeze
+      self.value = @default.dup
       self.format = format ? format.to_sym : deduce_format(value)
-      self.value = value.is_a?(Hash) ? value.deep_stringify_keys : value
       self.writable = writable
       self.allowed = allowed
       self.env_alias = env_alias
     end
 
-    def value
-      return nil if @value.nil?
+    def default
+      cast(@default)
+    end
 
-      case format
-      when :integer
-        @value.to_i
-      when :float
-        @value.to_f
-      when :boolean
-        ActiveRecord::Type::Boolean.new.cast(@value)
-      when :symbol
-        @value.to_sym
-      else
-        if @value.respond_to?(:call)
-          @value.call
-        else
-          @value
-        end
-      end
+    def value
+      cast(@value)
     end
 
     def serialized?
@@ -129,7 +118,7 @@ module Settings
       # * a value provided by an ENV var
       #
       # @param [Object] name The name of the definition
-      # @param [Object] value The default value the setting has if not overwritten.
+      # @param [Object] default The default value the setting has if not overridden.
       # @param [nil] format The format the value is in e.g. symbol, array, hash, string. If a value is present,
       #  the format is deferred.
       # @param [TrueClass] writable Whether the value can be set in the UI. In case the value is set via file or ENV var,
@@ -142,7 +131,7 @@ module Settings
       #  `OPENPROJECT_2FA` for a definition with the name `two_factor_authentication`, the value is fetched
       #  from the ENV OPENPROJECT_2FA as well.
       def add(name,
-              value:,
+              default:,
               format: nil,
               writable: true,
               allowed: nil,
@@ -152,19 +141,19 @@ module Settings
         @by_name = nil
 
         definition = new(name,
-                         format: format,
-                         value: value,
-                         writable: writable,
-                         allowed: allowed,
-                         env_alias: env_alias)
+                         format:,
+                         default:,
+                         writable:,
+                         allowed:,
+                         env_alias:)
 
         override_value(definition)
 
         all << definition
       end
 
-      def define(&block)
-        instance_exec(&block)
+      def define(&)
+        instance_exec(&)
       end
 
       def [](name)
@@ -226,18 +215,17 @@ module Settings
 
       # Replace values for which an entry in the config file or as an environment variable exists.
       def override_value(definition)
-        # The test setup should govern the configuration
-        override_value_from_file(definition) unless Rails.env.test?
+        override_value_from_file(definition)
         override_value_from_env(definition)
       end
 
       def override_value_from_file(definition)
-        name = definition.name
+        envs = ['default', Rails.env]
+        envs.delete('default') if Rails.env.test? # The test setup should govern the configuration
+        envs.each do |env|
+          next unless file_config.dig(env, definition.name)
 
-        ['default', Rails.env].each do |env|
-          next unless file_config.dig(env, name)
-
-          definition.override_value(file_config.dig(env, name))
+          definition.override_value(file_config.dig(env, definition.name))
         end
       end
 
@@ -334,6 +322,7 @@ module Settings
           env_name_alias(definition)
         ].compact
       end
+      public :possible_env_names
 
       def env_name_nested(definition)
         "#{ENV_PREFIX}#{definition.name.upcase.gsub('_', '__')}"
@@ -388,6 +377,27 @@ module Settings
 
     attr_accessor :serialized,
                   :writable
+
+    def cast(value)
+      return nil if value.nil?
+
+      case format
+      when :integer
+        value.to_i
+      when :float
+        value.to_f
+      when :boolean
+        ActiveRecord::Type::Boolean.new.cast(value)
+      when :symbol
+        value.to_sym
+      else
+        if value.respond_to?(:call)
+          value.call
+        else
+          value
+        end
+      end
+    end
 
     def deduce_format(value)
       case value

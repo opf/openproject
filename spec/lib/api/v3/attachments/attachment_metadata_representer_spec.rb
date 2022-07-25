@@ -30,8 +30,6 @@ require 'spec_helper'
 
 describe ::API::V3::Attachments::AttachmentParsingRepresenter do
   let(:current_user) { build_stubbed :user }
-  include API::V3::Utilities::PathHelper
-
   let(:metadata) do
     data = API::ParserStruct.new
     data.filename = original_file_name
@@ -41,14 +39,14 @@ describe ::API::V3::Attachments::AttachmentParsingRepresenter do
     data.digest = original_digest
     data
   end
-
   let(:original_file_name) { 'a file name' }
   let(:original_description) { 'a description' }
   let(:original_content_type) { 'text/plain' }
   let(:original_file_size) { 42 }
   let(:original_digest) { "0xFF" }
+  let(:representer) { described_class.new(metadata, current_user:) }
 
-  let(:representer) { described_class.new(metadata, current_user: current_user) }
+  include API::V3::Utilities::PathHelper
 
   describe 'parsing' do
     let(:parsed_hash) do
@@ -72,7 +70,7 @@ describe ::API::V3::Attachments::AttachmentParsingRepresenter do
     it { expect(subject.filename).to eql('the parsed name') }
     it { expect(subject.description).to eql('the parsed description') }
     it { expect(subject.content_type).to eql('text/html') }
-    it { expect(subject.filesize).to eql(43) }
+    it { expect(subject.filesize).to be(43) }
     it { expect(subject.digest).to eql('0x00') }
   end
 end

@@ -4,7 +4,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns, with_2fa_ee
   describe 'sending messages' do
     let(:phone) { '+49 123456789' }
     let!(:user) { create :user }
-    let!(:device) { create :two_factor_authentication_device_sms, user: user, channel: channel }
+    let!(:device) { create :two_factor_authentication_device_sms, user:, channel: }
     let(:channel) { :sms }
 
     let(:sns_params) do
@@ -51,9 +51,10 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns, with_2fa_ee
     end
 
     describe 'calling a mocked AWS API' do
-      subject { ::TwoFactorAuthentication::TokenService.new user: user }
+      subject { ::TwoFactorAuthentication::TokenService.new user: }
+
       let(:result) { subject.request }
-      let(:api) { instance_double('::Aws::SNS::Client') }
+      let(:api) { instance_double(::Aws::SNS::Client) }
 
       before do
         expect(::Aws::SNS::Client).to receive(:new).and_return api
@@ -72,6 +73,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns, with_2fa_ee
           expect(result.errors.full_messages).to eq([I18n.t('two_factor_authentication.sns.delivery_failed')])
         end
       end
+
       context 'assuming valid credential' do
         let(:api_result) { double }
 

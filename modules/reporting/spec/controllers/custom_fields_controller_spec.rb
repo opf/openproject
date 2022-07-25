@@ -129,6 +129,7 @@ describe CustomFieldsController do
                       },
           groups: { rows: [key.to_s], columns: [key.to_s] } }
       end
+
       before { session[engine_name] = query }
 
       describe 'does not contain custom field reference' do

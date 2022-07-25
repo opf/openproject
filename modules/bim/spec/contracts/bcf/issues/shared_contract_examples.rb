@@ -40,7 +40,7 @@ shared_examples_for 'issues contract' do
   end
   let(:issue_uuid) { 'issue uuid' }
   let(:project) { build_stubbed(:project) }
-  let(:issue_work_package) { build_stubbed(:stubbed_work_package, project: project) }
+  let(:issue_work_package) { build_stubbed(:work_package, project:) }
   let(:issue_work_package_id) do
     id = 5
 

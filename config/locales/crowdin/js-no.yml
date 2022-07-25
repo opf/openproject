@@ -231,6 +231,7 @@
             professional_support: "Profesjonell hjelp"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -267,7 +268,8 @@
           one: "First sorting criteria"
           two: "Second sorting criteria"
           three: "Third sorting criteria"
-      upsale_for_more: "For more advanced filters, check out the"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "nei"
     general_text_yes: "ja"
@@ -398,6 +400,8 @@
     label_previous: "Forrige"
     label_per_page: "Pr. side:"
     label_please_wait: "Vennligst vent"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Prosjekter"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Quote this comment"
@@ -410,6 +414,7 @@
     label_report: "Rapport"
     label_repository_plural: "Pakkebrønner"
     label_save_as: "Lagre som"
+    label_select_project: "Select a project"
     label_select_watcher: "Velg en overvåker..."
     label_selected_filter_list: "Valgte filtre"
     label_show_attributes: "Vis alle attributter"
@@ -451,10 +456,10 @@
     label_unwatch: "Stopp overvåking"
     label_unwatch_work_package: "Stopp overvåking av arbeidspakke"
     label_uploaded_by: "Opplastet av"
-    label_default_queries: "Standardvisninger"
-    label_starred_queries: "Favorittvisninger"
-    label_global_queries: "Offentlige visninger"
-    label_custom_queries: "Private views"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Kolonner"
     label_attachments: Vedlegg
     label_drop_files: Drop files here
@@ -534,7 +539,7 @@
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -542,7 +547,8 @@
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -659,14 +665,7 @@
         projects: "Prosjekter"
         settings: "Innstillinger"
     time_entry:
-      project: 'Prosjekt'
-      work_package: 'Arbeidspakke'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Aktivitet'
-      comment: 'Kommentar'
-      duration: 'Varighet'
-      spent_on: 'Dato'
-      hours: 'Timer'
       title: 'Logg tid'
     two_factor_authentication:
       label_two_factor_authentication: 'Tofaktorautentisering'
@@ -807,7 +806,7 @@
       zooms: "Zoom-nivå"
       outlines: "Nivå"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Halvfet"
       italic: "Kursiv"
@@ -835,6 +834,13 @@
       comment_send_failed: "An error has occurred. Could not submit the comment."
       comment_updated: "The comment was successfully updated."
       confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filter"
       description_enter_text: "Skriv tekst"
       description_options_hide: "Skjul alternativer"
@@ -988,6 +994,7 @@
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
@@ -1020,10 +1027,7 @@
       filter: "Filter"
       unselected_title: "Arbeidspakke"
       search_query_label: "Search saved views"
-      search_query_title: "Click to search saved views"
-      placeholder_query_title: "Set a title for this view"
     modals:
-      label_settings: "Rename view"
       label_name: "Navn"
       label_delete_page: "Slett gjeldende side"
       button_apply: "Bruk"
@@ -1083,6 +1087,10 @@
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'
@@ -1178,6 +1186,7 @@
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

@@ -230,6 +230,7 @@ sl:
             professional_support: "Strokovna podpora"
             professional_support_text: "Pridobite zanesljivo in visoko dotično podporo starejših podpornih inženirjev s strokovnim znanjem o izvajanju OpenProject-a v poslovnih kritičnih okoljih."
           button_start_trial: "Začnite z brezplačno preizkusno dobo"
+          button_upgrade: "Upgrade now"
           button_book_now: "Rezerviraj"
           confidence: >
             Zagotavljamo zaupanje preizkušene in podprte programske opreme za upravljanje projektov v podjetniškem razredu - z odprto kodo in odprto miselnostjo.
@@ -266,7 +267,8 @@ sl:
           one: "Prvo merilo za razvrščanje"
           two: "Drugo merilo za razvrščanje"
           three: "Tretje merilo za razvrščanje"
-      upsale_for_more: "Za bolj napredne filtre, si poglejte"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'Podjetniška verzija. '
     general_text_no: "ne"
     general_text_yes: "da"
@@ -397,6 +399,8 @@ sl:
     label_previous: "Predhodnji"
     label_per_page: "Na stran:"
     label_please_wait: "Prosimo, počakajte"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projekti"
     label_visibility_settings: "Nastavitve vidljivosti"
     label_quote_comment: "Citiraj ta komentar"
@@ -409,6 +413,7 @@ sl:
     label_report: "Poročilo"
     label_repository_plural: "Repozitoriji"
     label_save_as: "Shrani kot"
+    label_select_project: "Select a project"
     label_select_watcher: "Izberi opazovalca..."
     label_selected_filter_list: "Izbrani kriteriji"
     label_show_attributes: "Prikaži vse atribute"
@@ -450,10 +455,10 @@ sl:
     label_unwatch: "Prenehaj slediti"
     label_unwatch_work_package: "Nihče ne spremlja delovnega paketa"
     label_uploaded_by: "Naložil"
-    label_default_queries: "Privzeti pogledi"
-    label_starred_queries: "Priljubljeni pogledi"
-    label_global_queries: "Javni pogledi"
-    label_custom_queries: "Zasebni pogledi"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Stolpci"
     label_attachments: Priponka
     label_drop_files: Spustite datoteke tukaj
@@ -535,7 +540,7 @@ sl:
           few: 'and %{count} others'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -543,7 +548,8 @@ sl:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -660,14 +666,7 @@ sl:
         projects: "Projekti"
         settings: "Nastavitve"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Zahtevek'
       work_package_required: 'Najprej izberite opravilo'
-      activity: 'Aktivnost'
-      comment: 'Komentar'
-      duration: 'Trajanje'
-      spent_on: 'Datum'
-      hours: 'Ure'
       title: 'Beleži čas'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvofaktorna avtentikacija'
@@ -808,7 +807,7 @@ sl:
       zooms: "Stopnja povečave"
       outlines: "Stopnja hierarhije"
     upsale:
-      ee_only: 'Ta možnost je samo v podjetniški izdaji'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Močno"
       italic: "Nagnjeno"
@@ -836,6 +835,13 @@ sl:
       comment_send_failed: "Prišlo je do napake. Komentarja ni bilo mogoče shraniti. "
       comment_updated: "Komentar je bil uspešno naložen. "
       confirm_edit_cancel: "Ali ste prepričani, da želite preklicati urejanje delovnega paketa? "
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtriraj"
       description_enter_text: "Vnesite besedilo"
       description_options_hide: "Skrij možnosti"
@@ -989,6 +995,7 @@ sl:
           attribute_highlighting: 'Potrebujete določene delovne pakete da izstopajo iz nereda?'
           relation_columns: 'Potrebujete videti povezave v seznamu delovnega paketa?'
           check_out_link: 'Preveri Podjetniško verzijo.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtreraj delovne pakete po vrsti relacije'
       tabs:
@@ -1021,10 +1028,7 @@ sl:
       filter: "Filtriraj"
       unselected_title: "Zahtevek"
       search_query_label: "Išči shranjenje poglede"
-      search_query_title: "Kliknite za iskanje shranjenih pogledov"
-      placeholder_query_title: "Natavite naslov za ta pogled"
     modals:
-      label_settings: "Preimenuj pogled"
       label_name: "Ime"
       label_delete_page: "Izbriši trenutno stran"
       button_apply: "Potrdi"
@@ -1088,6 +1092,10 @@ sl:
         one: "1 ura"
         other: "%{count} ur"
         zero: "0 ur"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Omogočite zen način'
       button_deactivate: 'Onemogočite zen način'
@@ -1183,6 +1191,7 @@ sl:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Obrazev je bil uspešno oddan'
       load_error_message: 'Pri nalaganju obrazca je prišlo do napake'

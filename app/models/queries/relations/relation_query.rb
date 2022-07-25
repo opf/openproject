@@ -33,11 +33,6 @@ module Queries
         Relation
       end
 
-      def default_scope
-        Relation
-          .direct
-      end
-
       def results
         # Filters marked to already check visibility free us from the need
         # to check it here.

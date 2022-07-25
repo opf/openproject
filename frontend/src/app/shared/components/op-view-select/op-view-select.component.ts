@@ -43,7 +43,7 @@ import {
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
@@ -57,7 +57,6 @@ export type ViewType = 'WorkPackagesTable'|'Bim'|'TeamPlanner'|'WorkPackagesCale
 
 export const opViewSelectSelector = 'op-view-select';
 
-@DatasetInputs
 @Component({
   selector: opViewSelectSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -65,14 +64,13 @@ export const opViewSelectSelector = 'op-view-select';
 })
 export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
   public text = {
-    search: this.I18n.t('js.toolbar.search_query_label'),
+    search: this.I18n.t('js.global_search.search'),
     label: this.I18n.t('js.toolbar.search_query_label'),
     scope_default: this.I18n.t('js.label_default_queries'),
     scope_starred: this.I18n.t('js.label_starred_queries'),
     scope_global: this.I18n.t('js.label_global_queries'),
     scope_private: this.I18n.t('js.label_custom_queries'),
-    scope_new: this.I18n.t('js.label_create_new_query'),
-    no_results: this.I18n.t('js.work_packages.query.text_no_results'),
+    no_results: this.I18n.t('js.autocompleter.notFoundText'),
   };
 
   public views$:Observable<IOpSidemenuItem[]>;
@@ -104,6 +102,8 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
     readonly viewsService:ViewsResourceService,
   ) {
     super();
+
+    populateInputsFromDataset(this);
   }
 
   public set search(input:string) {

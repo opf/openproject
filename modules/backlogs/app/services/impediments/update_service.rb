@@ -36,7 +36,7 @@ class Impediments::UpdateService
 
   def call(attributes: {})
     WorkPackages::UpdateService
-      .new(user: user,
+      .new(user:,
            model: impediment)
       .call(**attributes)
   end

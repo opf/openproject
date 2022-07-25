@@ -32,8 +32,8 @@ describe AttachmentWebhookJob, type: :job, webmock: true do
   shared_let(:user) { create :admin }
   shared_let(:request_url) { "http://example.net/test/42" }
   shared_let(:project) { create :project, name: 'Foo Bar' }
-  shared_let(:container) { create :work_package, project: project }
-  shared_let(:attachment) { create :attachment, container: container }
+  shared_let(:container) { create :work_package, project: }
+  shared_let(:attachment) { create :attachment, container: }
   shared_let(:webhook) { create :webhook, all_projects: true, url: request_url, secret: nil }
   let(:event) { "attachment:created" }
   let(:job) { described_class.perform_now(webhook.id, attachment, event) }

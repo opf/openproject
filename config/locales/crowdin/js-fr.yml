@@ -231,6 +231,7 @@ fr:
             professional_support: "Support professionnel"
             professional_support_text: "Obtenez une assitance fiable et à haut contact de la part d'ingénieurs d'assistance expérimentés qui ont une connaissance approfondie de la mise en œuvre d'OpenProject dans des environnements critiques pour l'entreprise."
           button_start_trial: "Commencer l'essai gratuit"
+          button_upgrade: "Upgrade now"
           button_book_now: "Réserver maintenant"
           confidence: >
             Nous fournissons la confiance d'un logiciel de gestion de projet de classe entreprise testé et supporté - en Open Source et un avec esprit ouvert.
@@ -267,7 +268,8 @@ fr:
           one: "Premier critère de tri"
           two: "Second critère de tri"
           three: "Troisième critère de tri"
-      upsale_for_more: "Découvrez les options de filtrage avancées"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "non"
     general_text_yes: "oui"
@@ -398,6 +400,8 @@ fr:
     label_previous: "Précédent"
     label_per_page: "Par page:"
     label_please_wait: "Veuillez patienter"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projets"
     label_visibility_settings: "Paramètres de visibilité"
     label_quote_comment: "Citer ce commentaire"
@@ -410,6 +414,7 @@ fr:
     label_report: "Rapport"
     label_repository_plural: "Dépôts"
     label_save_as: "Enregistrer sous"
+    label_select_project: "Select a project"
     label_select_watcher: "Sélectionner un observateur…"
     label_selected_filter_list: "Filtres sélectionnés"
     label_show_attributes: "Afficher tous les attributs"
@@ -451,10 +456,10 @@ fr:
     label_unwatch: "Ne plus suivre"
     label_unwatch_work_package: "Ne plus suivre le lot de travaux"
     label_uploaded_by: "Téléversé par"
-    label_default_queries: "Vues par défaut"
-    label_starred_queries: "Vue préférées"
-    label_global_queries: "Vues publiques"
-    label_custom_queries: "Vues privées"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Colonnes"
     label_attachments: Fichiers
     label_drop_files: Déposez des fichiers ici
@@ -534,7 +539,7 @@ fr:
           one: 'et 1 autre'
           other: 'et %{count} autres'
         no_results:
-          at_all: 'Les nouvelles notifications apparaîtront ici lorsqu''il y a une activité qui vous concerne'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'Il n''y a pas de notifications dans cette vue pour le moment'
         mark_all_read: 'Tout marquer comme lu'
         mark_as_read: 'Marquer comme lu'
@@ -542,7 +547,8 @@ fr:
         total_count_warning: "Affichage des %{newest_count} notifications les plus récentes. %{more_count} autres ne sont pas affichées."
         empty_state:
           no_notification: "On dirait que vous êtes à jour."
-          no_notification_with_current_filter: "Changez d'implication ou retournez à la boîte de réception pour voir les notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Cliquez sur une notification pour voir tous les détails de l'activité."
         new_notifications:
           message: 'Il y a de nouvelles notifications.'
@@ -659,14 +665,7 @@ fr:
         projects: "Projets"
         settings: "Paramètres"
     time_entry:
-      project: 'Projet'
-      work_package: 'Lot de travaux'
       work_package_required: 'Nécessite d''abord la sélection d''un lot de travaux.'
-      activity: 'Activité'
-      comment: 'Commentaire'
-      duration: 'Durée'
-      spent_on: 'date'
-      hours: 'Heures'
       title: 'Consigner temps'
     two_factor_authentication:
       label_two_factor_authentication: 'Authentification à deux facteurs'
@@ -807,7 +806,7 @@ fr:
       zooms: "Niveau de zoom"
       outlines: "Niveau de hiérarchie"
     upsale:
-      ee_only: 'Fonctionnalité exclusive Version Entreprise'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Gras"
       italic: "Italique"
@@ -835,6 +834,13 @@ fr:
       comment_send_failed: "Une erreur s'est produite. Impossible de soumettre le commentaire."
       comment_updated: "Le commentaire a été mis à jour avec succès."
       confirm_edit_cancel: "Êtes-vous sûr de vouloir annuler l'édition du lot de travaux ?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtrer"
       description_enter_text: "Saisir texte"
       description_options_hide: "Masquer les options"
@@ -988,6 +994,7 @@ fr:
           attribute_highlighting: 'Vous avez besoin de lots de travaux qui sortent du lot ?'
           relation_columns: 'Besoin de voir les relations sur la liste des lots de travaux ?'
           check_out_link: 'Découvrez l’édition entreprise.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrer les lots de travaux par type de relation'
       tabs:
@@ -1020,10 +1027,7 @@ fr:
       filter: "Filtrer"
       unselected_title: "Lot de travaux"
       search_query_label: "Rechercher les vues enregistrées"
-      search_query_title: "Cliquez pour chercher les vues enregistrées"
-      placeholder_query_title: "Définir un titre pour cette vue"
     modals:
-      label_settings: "Renommer la vue"
       label_name: "Nom"
       label_delete_page: "Effacer la page en cours"
       button_apply: "Appliquer"
@@ -1083,6 +1087,10 @@ fr:
         one: "1h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Activer le mode zen'
       button_deactivate: 'Désactiver le mode zen'
@@ -1178,6 +1186,7 @@ fr:
       tooltip:
         include_all_selected: 'Inclure tous les sous-projets est actuellement sélectionné.'
         current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Le formulaire a bien été envoyé'
       load_error_message: 'Une erreur s''est produite lors du chargement du formulaire'

@@ -40,9 +40,13 @@ describe 'new work package', js: true, with_mail: false do
 
     description_field.set_value 'Something different than the default.'
 
+    sleep 0.1
+
     type_field.openSelectField
     type_field.set_value type_task
     expect(page).to have_selector('.inline-edit--container.description', text: 'Something different than the default.')
+
+    sleep 0.1
 
     type_field.openSelectField
     type_field.set_value type_bug
@@ -77,7 +81,7 @@ describe 'new work package', js: true, with_mail: false do
 
   describe 'project work package create' do
     let(:wp_table) { Pages::WorkPackagesTable.new project }
-    let(:wp_page) { Pages::SplitWorkPackageCreate.new project: project }
+    let(:wp_page) { Pages::SplitWorkPackageCreate.new project: }
 
     it 'shows the template after selection of project and type' do
       wp_table.visit!

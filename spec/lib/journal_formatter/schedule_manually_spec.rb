@@ -32,7 +32,7 @@ describe OpenProject::JournalFormatter::ScheduleManually do
   let(:klass) { described_class }
   let(:id) { 1 }
   let(:journal) do
-    OpenStruct.new(id: id, journable: WorkPackage.new)
+    OpenStruct.new(id:, journable: WorkPackage.new)
   end
   let(:instance) { klass.new(journal) }
   let(:key) { 'schedule_manually' }

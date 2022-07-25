@@ -36,11 +36,11 @@ describe CostQuery, type: :model, reporting_query_helper: true do
   let!(:user) { create(:user, member_in_project: project) }
 
   def create_work_package_with_entry(entry_type, work_package_params = {}, entry_params = {})
-    work_package_params = { project: project }.merge!(work_package_params)
+    work_package_params = { project: }.merge!(work_package_params)
     work_package = create(:work_package, work_package_params)
-    entry_params = { work_package: work_package,
+    entry_params = { work_package:,
                      project: work_package_params[:project],
-                     user: user }.merge!(entry_params)
+                     user: }.merge!(entry_params)
     create(entry_type, entry_params)
     work_package
   end
@@ -81,34 +81,34 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         let!(:author) { create(:user, member_in_project: project) }
         let!(:work_package) do
           create(:work_package,
-                 project: project,
-                 author: author)
+                 project:,
+                 author:)
         end
         let!(:cost_type) { create(:cost_type) }
         let!(:cost_entry) do
           create(:cost_entry,
-                 work_package: work_package,
-                 user: user,
-                 project: project,
-                 cost_type: cost_type)
+                 work_package:,
+                 user:,
+                 project:,
+                 cost_type:)
         end
         let!(:activity) { create(:time_entry_activity) }
         let!(:time_entry) do
           create(:time_entry,
-                 work_package: work_package,
-                 user: user,
-                 project: project,
-                 activity: activity)
+                 work_package:,
+                 user:,
+                 project:,
+                 activity:)
         end
 
-        it "should only return entries from the given #{filter}" do
+        it "onlies return entries from the given #{filter}" do
           @query.filter field, value: object.id
           @query.result.each do |result|
             expect(result[field].to_s).to eq(object.id.to_s)
           end
         end
 
-        it "should allow chaining the same filter" do
+        it "allows chaining the same filter" do
           @query.filter field, value: object.id
           @query.filter field, value: object.id
           @query.result.each do |result|
@@ -116,13 +116,13 @@ describe CostQuery, type: :model, reporting_query_helper: true do
           end
         end
 
-        it "should return no results for excluding filters" do
+        it "returns no results for excluding filters" do
           @query.filter field, value: object.id
           @query.filter field, value: object.id + 1
           expect(@query.result.count).to eq(0)
         end
 
-        it "should compute the correct number of results" do
+        it "computes the correct number of results" do
           @query.filter field, value: object.id
           expect(@query.result.count).to eq(expected_count)
         end
@@ -136,27 +136,27 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       let!(:author) { create(:user, member_in_project: project) }
       let!(:work_package) do
         create(:work_package,
-               project: project,
-               author: author)
+               project:,
+               author:)
       end
       let!(:cost_type) { create(:cost_type) }
       let!(:cost_entry) do
         create(:cost_entry,
-               work_package: work_package,
-               user: user,
-               project: project,
-               cost_type: cost_type)
+               work_package:,
+               user:,
+               project:,
+               cost_type:)
       end
       let!(:activity) { create(:time_entry_activity) }
       let!(:time_entry) do
         create(:time_entry,
-               work_package: work_package,
-               user: user,
-               project: project,
-               activity: activity)
+               work_package:,
+               user:,
+               project:,
+               activity:)
       end
 
-      it "should only return entries from the given CostQuery::Filter::AuthorId" do
+      it "onlies return entries from the given CostQuery::Filter::AuthorId" do
         @query.filter 'author_id', value: author.id
         @query.result.each do |result|
           work_package_id = result["work_package_id"]
@@ -164,7 +164,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         end
       end
 
-      it "should allow chaining the same filter" do
+      it "allows chaining the same filter" do
         @query.filter 'author_id', value: author.id
         @query.filter 'author_id', value: author.id
         @query.result.each do |result|
@@ -173,13 +173,13 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         end
       end
 
-      it "should return no results for excluding filters" do
+      it "returns no results for excluding filters" do
         @query.filter 'author_id', value: author.id
         @query.filter 'author_id', value: author.id + 1
         expect(@query.result.count).to eq(0)
       end
 
-      it "should compute the correct number of results" do
+      it "computes the correct number of results" do
         @query.filter 'author_id', value: author.id
         expect(@query.result.count).to eq(2)
       end
@@ -264,14 +264,14 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       it "filters category" do
-        category = create(:category, project: project)
-        create_work_packages_and_time_entries(3, category: category)
+        category = create(:category, project:)
+        create_work_packages_and_time_entries(3, category:)
         @query.filter :category_id, operator: '=', value: category.id
         expect(@query.result.count).to eq(3)
       end
 
       it "filters target version" do
-        matching_version = create(:version, project: project)
+        matching_version = create(:version, project:)
         create_work_packages_and_time_entries(3, version: matching_version)
 
         @query.filter :version_id, operator: '=', value: matching_version.id
@@ -286,14 +286,14 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       it "filters start" do
         start_date = Date.new(2013, 1, 1)
-        matching_work_package = create_work_package_with_time_entry(start_date: start_date)
+        matching_work_package = create_work_package_with_time_entry(start_date:)
         @query.filter :start_date, operator: '=d', value: start_date
         expect(@query.result.count).to eq(1)
       end
 
       it "filters due date" do
         due_date = Date.new(2013, 1, 1)
-        matching_work_package = create_work_package_with_time_entry(due_date: due_date)
+        matching_work_package = create_work_package_with_time_entry(due_date:)
         @query.filter :due_date, operator: '=d', value: due_date
         expect(@query.result.count).to eq(1)
       end
@@ -312,7 +312,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       CostQuery::Filter::PriorityId,
       CostQuery::Filter::TypeId
     ].each do |filter|
-      it "should only allow default operators for #{filter}" do
+      it "onlies allow default operators for #{filter}" do
         expect(filter.new.available_operators.uniq.sort).to eq(CostQuery::Operator.default_operators.uniq.sort)
       end
     end
@@ -323,7 +323,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       CostQuery::Filter::CategoryId,
       CostQuery::Filter::VersionId
     ].each do |filter|
-      it "should only allow default+null operators for #{filter}" do
+      it "onlies allow default+null operators for #{filter}" do
         expect(filter.new.available_operators.uniq.sort).to eq((CostQuery::Operator.default_operators + CostQuery::Operator.null_operators).sort)
       end
     end
@@ -332,7 +332,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     [
       CostQuery::Filter::WorkPackageId
     ].each do |filter|
-      it "should only allow default operators for #{filter}" do
+      it "onlies allow default operators for #{filter}" do
         expect(filter.new.available_operators.uniq).to match_array([CostQuery::Operator.default_operator])
       end
     end
@@ -345,7 +345,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       CostQuery::Filter::StartDate,
       CostQuery::Filter::DueDate
     ].each do |filter|
-      it "should only allow time operators for #{filter}" do
+      it "onlies allow time operators for #{filter}" do
         expect(filter.new.available_operators.uniq.sort).to eq(CostQuery::Operator.time_operators.sort)
       end
     end
@@ -360,8 +360,8 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       let(:custom_field2) do
         build(:work_package_custom_field, name: 'Database',
-                                                     field_format: "list",
-                                                     possible_values: ['value'])
+                                          field_format: "list",
+                                          possible_values: ['value'])
       end
 
       after(:all) do
@@ -379,7 +379,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       def update_work_package_custom_field(name, options)
-        fld = WorkPackageCustomField.find_by(name: name)
+        fld = WorkPackageCustomField.find_by(name:)
         options.each_pair { |k, v| fld.send(:"#{k}=", v) }
         fld.save!
         clear_cache
@@ -387,19 +387,19 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       include OpenProject::Reporting::SpecHelper::CustomFieldFilterHelper
 
-      it "should create classes for custom fields that get added after starting the server" do
+      it "creates classes for custom fields that get added after starting the server" do
         custom_field
         expect { filter_class_name_string(custom_field).constantize }.not_to raise_error
       end
 
-      it "should remove the custom field classes after it is deleted" do
+      it "removes the custom field classes after it is deleted" do
         custom_field
         class_name = filter_class_name_string(custom_field)
         delete_work_package_custom_field(custom_field)
         expect { filter_class_name_string(custom_field).constantize }.to raise_error NameError
       end
 
-      it "should provide the correct available values" do
+      it "provides the correct available values" do
         custom_field2.save
 
         clear_cache
@@ -409,7 +409,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         end
       end
 
-      it "should update the available values on change" do
+      it "updates the available values on change" do
         custom_field2.save
 
         update_work_package_custom_field("Database", field_format: "string")

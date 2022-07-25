@@ -69,11 +69,11 @@ class ExportCardConfiguration < ApplicationRecord
     def validate(record)
       begin
         if record.rows.nil? || !(YAML::load(record.rows)).is_a?(Hash)
-          record.errors[:rows] << I18n.t('validation_error_yaml_is_badly_formed')
+          record.errors.add(:rows, I18n.t('validation_error_yaml_is_badly_formed'))
           return false
         end
       rescue Psych::SyntaxError => e
-        record.errors[:rows] << I18n.t('validation_error_yaml_is_badly_formed')
+        record.errors.add(:rows, I18n.t('validation_error_yaml_is_badly_formed'))
         return false
       end
 
@@ -92,7 +92,7 @@ class ExportCardConfiguration < ApplicationRecord
           end
         end
       rescue ArgumentError => e
-        record.errors[:rows] << "#{I18n.t('yaml_error')} #{e.message}"
+        record.errors.add(:rows, "#{I18n.t('yaml_error')} #{e.message}")
       end
     end
   end
@@ -116,10 +116,10 @@ class ExportCardConfiguration < ApplicationRecord
   end
 
   def deactivate
-    if !is_default?
-      update!({ active: false })
-    else
+    if is_default?
       false
+    else
+      update!({ active: false })
     end
   end
 

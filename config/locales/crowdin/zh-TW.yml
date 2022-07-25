@@ -48,8 +48,9 @@ zh-TW:
         main-menu-hover-font-color: "主功能表字型（當滑鼠移入時）"
         main-menu-border-color: "主功能表邊框"
       custom_colors: "自訂顏色"
-      customize: "使用自己的logo自訂 OpenProject 安裝。注意: 此logo將可公開存取。"
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "作為對為開發 OpenProject 提供財力支持的訂閱者的特別“感謝”，這項小功能僅限企業版支持訂閱者使用。"
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "編輯顏色選擇選項"
       instructions:
         alternative-color: "濃重的主題色，通常用於螢幕上最重要的按鈕。"
@@ -76,6 +77,7 @@ zh-TW:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
+        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -93,6 +95,8 @@ zh-TW:
     show_preview: '預覽文字'
     add_new: '新增說明文字'
     edit: "編輯 %{attribute_caption} 的說明文字"
+    enterprise:
+      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
   auth_sources:
     index:
       no_results_content_title: 目前沒有身份驗證模式
@@ -171,7 +175,7 @@ zh-TW:
     execute: '執行 %{name}'
     upsale:
       title: 'Custom actions'
-      description: '自訂動作通過將一組單獨的步驟組合成一個按鈕來簡化日常工作。'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       要加入自訂欄位至一個專案，您必須先建立欄位才能將它們加入至此專案。
@@ -271,7 +275,7 @@ zh-TW:
     upsale:
       title: Placeholder users
       description: >
-        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -301,6 +305,8 @@ zh-TW:
     edit:
       settings: "設定"
       form_configuration: "表單設置"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
       projects: "專案"
       enabled_projects: "已啟用的專案"
       edit_query: "編輯表格"
@@ -519,20 +525,23 @@ zh-TW:
         begin_deletion: "開始刪除"
         children: "子項"
         done_ratio: "進度 (%)"
+        duration: "Duration"
         end_insertion: "結束插入"
         end_deletion: "結束刪除"
-        version: "版本"
+        ignore_non_working_days: "Ignore non working days"
         parent: "上層目錄："
         parent_issue: "上層目錄："
         parent_work_package: "上層目錄："
         priority: "優先等級"
         progress: "進度 (%)"
+        readonly: "Read only"
         schedule_manually: "手動排程"
         spent_hours: "耗時"
         spent_time: "耗時"
         subproject: "子專案"
         time_entries: "日誌的時間"
         type: "類型"
+        version: "版本"
         watcher: "監看者"
       'doorkeeper/application':
         uid: "用戶端 ID"
@@ -733,6 +742,10 @@ zh-TW:
           attributes:
             due_date:
               not_start_date: "不在開始的日期，儘管它是里程碑所必需的。"
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "不可以成為一個里程碑"
               cannot_be_self_assigned: "不能指派給自己"
@@ -1338,7 +1351,7 @@ zh-TW:
       no_results:
         title: "沒有可顯示的存取權杖"
         description: "他們全都被停用了。他們可以在管理功能表重新啟用"
-      access_token: "存取權杖"
+      access_tokens: "Access tokens"
       headers:
         action: "動作"
         expiration: "過期"
@@ -1439,7 +1452,6 @@ zh-TW:
   label_consent_settings: "使用者同意"
   label_wiki_menu_item: 維基選單項目
   label_select_main_menu_item: 選擇新的主選單項目
-  label_select_project: "選擇專案"
   label_required_disk_storage: "需要磁碟空間"
   label_send_invitation: 發送邀請
   label_change_plural: "更改"
@@ -1505,6 +1517,7 @@ zh-TW:
   label_diff: "比較"
   label_diff_inline: "行內"
   label_diff_side_by_side: "並排"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "已停用"
   label_display: "顯示"
   label_display_per_page: "每頁: %{value}"
@@ -1717,7 +1730,6 @@ zh-TW:
   label_product_version: "產品版本"
   label_professional_support: "專業支援"
   label_profile: "Profile"
-  label_project_all: "所有專案"
   label_project_count: "專案總數"
   label_project_copy_notifications: "在專案複製期間發送電子郵件通知"
   label_project_latest: "最新的專案"
@@ -1978,6 +1990,9 @@ zh-TW:
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "若要變更您的密碼，請按一下以下的連結:"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
@@ -1996,6 +2011,7 @@ zh-TW:
   mail_subject_account_activation_request: "帳號 %{value} 啟用請求"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "你的 %{value} 密碼"
   mail_subject_register: "你的帳號 %{value} 啟用"
   mail_subject_reminder: "%{count} 個工作項目將在 %{days} 天後到期"
@@ -2087,6 +2103,12 @@ zh-TW:
   notice_successful_create: "建立成功"
   notice_successful_delete: "刪除成功"
   notice_successful_update: "更新成功"
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "搜尋的結果太多。\n請透過輸入新成員 (群組) 的名稱來縮小搜尋的範圍。"
   notice_user_missing_authentication_method: 用戶尚未選擇密碼或其他方式登錄。
   notice_user_invitation_resent: 已向 %{email} 發送邀請。
@@ -2153,13 +2175,14 @@ zh-TW:
   permission_edit_own_time_entries: "編輯自己的時間日誌"
   permission_edit_project: "編輯專案"
   permission_edit_reportings: "編輯報表"
-  permission_edit_time_entries: "編輯時間日誌"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "編輯時間軸"
   permission_edit_wiki_pages: "編輯維基頁面"
   permission_export_work_packages: "匯出工作項目"
   permission_export_wiki_pages: "匯出維基頁面"
   permission_list_attachments: "列出附件"
-  permission_log_time: "記錄耗時"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "管理論壇"
   permission_manage_categories: "管理工作項目類別"
   permission_manage_work_package_relations: "管理工作項目關聯"
@@ -2317,6 +2340,9 @@ zh-TW:
     storage:
       not_available: "這個版本庫沒有可用的磁碟消耗資訊"
       update_timeout: "替一個版本庫維持最後需要的磁碟空間資訊 N 分鐘。\n計算一個版本庫的所需磁碟空間也許要消耗很多效能，增加這個值來降低效能的影響。"
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "現有的 Subversion 版本庫"
       existing_introduction: "如果你已經有一個現有的本機 Subversion 版本庫，你可以連結它以便在 OpenProject 中存取"
@@ -2360,7 +2386,7 @@ zh-TW:
   setting_smtp_authentication: "SMTP 驗證"
   setting_smtp_user_name: "SMTP 使用者名稱"
   setting_smtp_password: "SMTP 密碼"
-  setting_smtp_domain: "SMTP HELLO 網域"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "專案活動顯示的天數"
   setting_app_subtitle: "應用程式副標題"
   setting_app_title: "應用程式標題"
@@ -2409,7 +2435,7 @@ zh-TW:
   setting_work_package_list_default_columns: "預設顯示"
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
-  setting_work_packages_export_limit: "工作項目匯出數量限制"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "整合的用戶操作"
   setting_log_requesting_user: "對所有的請求紀錄使用者登入名稱和郵件地址"
   setting_login_required: "需要身份驗證"
@@ -2992,4 +3018,51 @@ zh-TW:
     authorization_error: "授權錯誤。"
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "已註冊的 OAuth 應用程式"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: you

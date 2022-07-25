@@ -37,8 +37,8 @@ describe Queries::CreateContract do
   describe 'include subprojects' do
     let(:query) do
       Query.new name: 'foo',
-                include_subprojects: include_subprojects,
-                project: project
+                include_subprojects:,
+                project:
     end
 
     context 'when true' do

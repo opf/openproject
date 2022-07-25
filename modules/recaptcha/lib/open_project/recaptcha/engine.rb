@@ -23,7 +23,7 @@ module OpenProject::Recaptcha
     end
 
     initializer "openproject.configuration" do
-      ::Settings::Definition.add OpenProject::Recaptcha::Configuration::CONFIG_KEY, value: false
+      ::Settings::Definition.add OpenProject::Recaptcha::Configuration::CONFIG_KEY, default: false
     end
 
     config.after_initialize do

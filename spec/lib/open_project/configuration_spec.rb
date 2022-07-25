@@ -55,268 +55,14 @@ describe OpenProject::Configuration, :settings_reset do
     end
   end
 
-  describe '.migrate_mailer_configuration!' do
-    before do
-      allow(Setting)
-        .to receive(:email_delivery_method=)
-    end
-
-    it 'does nothing if no legacy configuration given' do
-      described_class['email_delivery_method'] = nil
-      expect(described_class.migrate_mailer_configuration!).to be_truthy
-      expect(Setting).not_to have_received(:email_delivery_method=)
-    end
-
-    it 'does nothing if email_delivery_configuration forced to legacy' do
-      described_class['email_delivery_configuration'] = 'legacy'
-      expect(described_class.migrate_mailer_configuration!).to be_truthy
-      expect(Setting).not_to have_received(:email_delivery_method=)
-    end
-
-    it 'does nothing if setting already set' do
-      described_class['email_delivery_method'] = :sendmail
-      allow(Setting)
-        .to receive(:email_delivery_method)
-              .and_return(:sendmail)
-      expect(Setting).not_to have_received(:email_delivery_method=)
-      expect(described_class.migrate_mailer_configuration!).to be_truthy
-    end
-
-    it 'migrates the existing configuration to the settings table' do
-      described_class['email_delivery_method'] = :smtp
-      described_class['smtp_password'] = 'p4ssw0rd'
-      described_class['smtp_address'] = 'smtp.example.com'
-      described_class['smtp_port'] = 587
-      described_class['smtp_user_name'] = 'username'
-      described_class['smtp_enable_starttls_auto'] = true
-      described_class['smtp_ssl'] = true
-
-      expect(described_class.migrate_mailer_configuration!).to be_truthy
-      expect(Setting.email_delivery_method).to eq(:smtp)
-      expect(Setting.smtp_password).to eq('p4ssw0rd')
-      expect(Setting.smtp_address).to eq('smtp.example.com')
-      expect(Setting.smtp_port).to eq(587)
-      expect(Setting.smtp_user_name).to eq('username')
-      expect(Setting).to be_smtp_enable_starttls_auto
-      expect(Setting).to be_smtp_ssl
-    end
-  end
-
-  describe '.reload_mailer_configuration!' do
-    before do
-      allow(ActionMailer::Base)
-        .to receive(:perform_deliveries=)
-      allow(ActionMailer::Base)
-        .to receive(:delivery_method=)
-    end
-
-    it 'uses the legacy method to configure email settings' do
-      allow(described_class)
-        .to receive(:configure_legacy_action_mailer)
-      described_class['email_delivery_configuration'] = 'legacy'
-      described_class.reload_mailer_configuration!
-      expect(described_class).to have_received(:configure_legacy_action_mailer)
-    end
-
-    context 'without smtp_authentication and without ssl' do
-      it 'uses the setting values',
-         with_settings: {
-           email_delivery_method: :smtp,
-           smtp_authentication: :none,
-           smtp_password: 'old',
-           smtp_address: 'smtp.example.com',
-           smtp_domain: 'example.com',
-           smtp_port: 25,
-           smtp_user_name: 'username',
-           smtp_enable_starttls_auto: 1,
-           smtp_ssl: 0
-         } do
-        described_class.reload_mailer_configuration!
-        expect(ActionMailer::Base).to have_received(:perform_deliveries=).with(true)
-        expect(ActionMailer::Base).to have_received(:delivery_method=).with(:smtp)
-        expect(ActionMailer::Base.smtp_settings[:smtp_authentication]).to be_nil
-        expect(ActionMailer::Base.smtp_settings).to eq(address: 'smtp.example.com',
-                                                       port: 25,
-                                                       domain: 'example.com',
-                                                       enable_starttls_auto: true,
-                                                       openssl_verify_mode: 'peer',
-                                                       ssl: false)
-      end
-    end
-
-    context 'without smtp_authentication and with ssl' do
-      it 'users the setting values',
-         with_settings: {
-           email_delivery_method: :smtp,
-           smtp_authentication: :none,
-           smtp_password: 'old',
-           smtp_address: 'smtp.example.com',
-           smtp_domain: 'example.com',
-           smtp_port: 25,
-           smtp_user_name: 'username',
-           smtp_enable_starttls_auto: 0,
-           smtp_ssl: 1
-         } do
-        described_class.reload_mailer_configuration!
-        expect(ActionMailer::Base).to have_received(:perform_deliveries=).with(true)
-        expect(ActionMailer::Base).to have_received(:delivery_method=).with(:smtp)
-        expect(ActionMailer::Base.smtp_settings[:smtp_authentication]).to be_nil
-        expect(ActionMailer::Base.smtp_settings).to eq(address: 'smtp.example.com',
-                                                       port: 25,
-                                                       domain: 'example.com',
-                                                       enable_starttls_auto: false,
-                                                       openssl_verify_mode: 'peer',
-                                                       ssl: true)
-      end
-    end
-
-    context 'with smtp_authentication and without ssl' do
-      it 'users the setting values',
-         with_settings: {
-           email_delivery_method: :smtp,
-           smtp_password: 'p4ssw0rd',
-           smtp_address: 'smtp.example.com',
-           smtp_domain: 'example.com',
-           smtp_port: 587,
-           smtp_user_name: 'username',
-           smtp_enable_starttls_auto: 1,
-           smtp_ssl: 0
-         } do
-        described_class.reload_mailer_configuration!
-        expect(ActionMailer::Base).to have_received(:perform_deliveries=).with(true)
-        expect(ActionMailer::Base).to have_received(:delivery_method=).with(:smtp)
-        expect(ActionMailer::Base.smtp_settings[:smtp_authentication]).to be_nil
-        expect(ActionMailer::Base.smtp_settings).to eq(address: 'smtp.example.com',
-                                                       port: 587,
-                                                       domain: 'example.com',
-                                                       authentication: 'plain',
-                                                       user_name: 'username',
-                                                       password: 'p4ssw0rd',
-                                                       enable_starttls_auto: true,
-                                                       openssl_verify_mode: 'peer',
-                                                       ssl: false)
-      end
-    end
-
-    context 'with smtp_authentication and with ssl' do
-      it 'users the setting values',
-         with_settings: {
-           email_delivery_method: :smtp,
-           smtp_password: 'p4ssw0rd',
-           smtp_address: 'smtp.example.com',
-           smtp_domain: 'example.com',
-           smtp_port: 587,
-           smtp_user_name: 'username',
-           smtp_enable_starttls_auto: 0,
-           smtp_ssl: 1
-         } do
-        described_class.reload_mailer_configuration!
-        expect(ActionMailer::Base).to have_received(:perform_deliveries=).with(true)
-        expect(ActionMailer::Base).to have_received(:delivery_method=).with(:smtp)
-        expect(ActionMailer::Base.smtp_settings[:smtp_authentication]).to be_nil
-        expect(ActionMailer::Base.smtp_settings).to eq(address: 'smtp.example.com',
-                                                       port: 587,
-                                                       domain: 'example.com',
-                                                       authentication: 'plain',
-                                                       user_name: 'username',
-                                                       password: 'p4ssw0rd',
-                                                       enable_starttls_auto: false,
-                                                       openssl_verify_mode: 'peer',
-                                                       ssl: true)
-      end
-    end
-  end
-
-  describe '.configure_legacy_action_mailer' do
-    let(:action_mailer) do
-      class_double('ActionMailer::Base',
-                   deliveries: []).tap do |mailer|
-        allow(mailer).to receive(:perform_deliveries=)
-        allow(mailer).to receive(:delivery_method=)
-        allow(mailer).to receive(:smtp_settings=)
-      end
-    end
-    let(:settings) do
-      { 'email_delivery_method' => 'smtp',
-        'smtp_address' => 'smtp.example.net',
-        'smtp_port' => '25' }.map do |name, value|
-        API::ParserStruct.new name: name, value: value
-      end
-    end
-
-    before do
-      allow(Settings::Definition)
-        .to receive(:[]) do |name|
-        settings.detect { |s| s.name == name }
-      end
-
-      allow(Settings::Definition)
-        .to receive(:all_of_prefix) do |prefix|
-        settings.select { |s| s.name.start_with?(prefix) }
-      end
-
-      stub_const('ActionMailer::Base', action_mailer)
-    end
-
-    it 'enables deliveries and configure ActionMailer smtp delivery' do
-      described_class.send(:configure_legacy_action_mailer)
-
-      expect(action_mailer)
-        .to have_received(:perform_deliveries=)
-              .with(true)
-      expect(action_mailer)
-        .to have_received(:delivery_method=)
-              .with(:smtp)
-      expect(action_mailer)
-        .to have_received(:smtp_settings=)
-              .with(address: 'smtp.example.net',
-                    port: '25')
-    end
-  end
-
-  describe '.configure_cache' do
-    let(:application_config) do
-      Rails::Application::Configuration.new Rails.root
-    end
-
-    context 'with cache store already set' do
-      before do
-        application_config.cache_store = 'foo'
-      end
-
-      context 'with additional cache store configuration' do
-        before do
-          described_class['rails_cache_store'] = 'bar'
-        end
-
-        it 'changes the cache store' do
-          described_class.send(:configure_cache, application_config)
-          expect(application_config.cache_store).to eq([:bar])
-        end
-      end
-
-      context 'without additional cache store configuration' do
-        before do
-          described_class['rails_cache_store'] = nil
-        end
-
-        it 'does not change the cache store' do
-          described_class.send(:configure_cache, application_config)
-          expect(application_config.cache_store).to eq('foo')
-        end
-      end
-    end
+  describe '.cache_store_configuration' do
+    subject { described_class.cache_store_configuration }
 
     context 'without cache store already set' do
-      before do
-        application_config.cache_store = nil
-        described_class.send(:configure_cache, application_config)
-      end
 
       context 'with additional cache store configuration', with_config: { 'rails_cache_store' => 'bar' } do
         it 'changes the cache store' do
-          described_class.send(:configure_cache, application_config)
-          expect(application_config.cache_store).to eq([:bar])
+          expect(subject).to eq([:bar])
         end
       end
 
@@ -326,8 +72,7 @@ describe OpenProject::Configuration, :settings_reset do
         end
 
         it 'defaults the cache store to :file_store' do
-          described_class.send(:configure_cache, application_config)
-          expect(application_config.cache_store.first).to eq(:file_store)
+          expect(subject.first).to eq(:file_store)
         end
       end
     end
@@ -346,7 +91,7 @@ describe OpenProject::Configuration, :settings_reset do
           attachments_storage: :fog,
           fog: {
             credentials: {
-              provider: provider
+              provider:
             }
           }
         }

@@ -35,5 +35,18 @@
 # The comments here are also valid for the other *_service.rb files
 module Storages::Storages
   class CreateService < ::BaseServices::Create
+    protected
+
+    def after_perform(service_call)
+      super(service_call)
+
+      storage = service_call.result
+      if storage.provider_type == 'nextcloud'
+        persist_service_result = ::Storages::OAuthApplications::CreateService.new(storage:, user:).call
+        service_call.add_dependent!(persist_service_result)
+      end
+
+      service_call
+    end
   end
 end

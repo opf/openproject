@@ -55,7 +55,7 @@ class Document < ApplicationRecord
 
   scope :with_attachments, lambda {
     includes(:attachments)
-      .where('attachments.container_id is not NULL')
+      .where.not(attachments: { container_id: nil })
       .references(:attachments)
   }
 

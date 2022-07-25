@@ -1,4 +1,4 @@
-FROM ruby:3.0.4-buster
+FROM ruby:3.1.2-buster
 MAINTAINER operations@openproject.com
 
 # Allow platform-specific additions. Valid values are: on-prem,saas,bahn
@@ -7,7 +7,7 @@ ARG PLATFORM=on-prem
 ARG GITHUB_OAUTH_TOKEN
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV NODE_VERSION="14.17.0"
+ENV NODE_VERSION="16.15.1"
 ENV BUNDLER_VERSION="2.3.12"
 ENV BUNDLE_PATH__SYSTEM=false
 ENV APP_USER=app

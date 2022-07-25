@@ -46,7 +46,7 @@ describe 'API v3 Work package resource',
   let(:project) do
     create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
   let(:current_user) do
     create(:user, member_in_project: project, member_through_role: role)
@@ -62,17 +62,18 @@ describe 'API v3 Work package resource',
     let(:get_path) { api_v3_paths.work_package work_package.id }
 
     context 'when acting as a user with permission to view work package' do
-      before(:each) do
+      before do
         login_as(current_user)
         get get_path
       end
 
-      it 'should respond with 200' do
+      it 'responds with 200' do
         expect(last_response.status).to eq(200)
       end
 
       describe 'response body' do
         subject { last_response.body }
+
         let!(:other_wp) do
           create(:work_package,
                  project_id: project.id,
@@ -81,7 +82,7 @@ describe 'API v3 Work package resource',
         let(:work_package) do
           create(:work_package,
                  project_id: project.id,
-                 description: description).tap do |wp|
+                 description:).tap do |wp|
             wp.children << children
           end
         end
@@ -118,8 +119,8 @@ describe 'API v3 Work package resource',
           subject { JSON.parse(last_response.body)['description'] }
 
           it 'renders to html' do
-            is_expected.to have_selector('h1')
-            is_expected.to have_selector('h2')
+            expect(subject).to have_selector('h1')
+            expect(subject).to have_selector('h2')
 
             # resolves links
             expect(subject['html'])
@@ -139,11 +140,11 @@ describe 'API v3 Work package resource',
           end
 
           it 'has derived dates' do
-            is_expected
+            expect(subject)
               .to be_json_eql(Date.today.to_json)
                     .at_path('derivedStartDate')
 
-            is_expected
+            expect(subject)
               .to be_json_eql((Date.today + 5.days).to_json)
                     .at_path('derivedDueDate')
           end
@@ -161,8 +162,8 @@ describe 'API v3 Work package resource',
             create(:work_package,
                    project_id: project.id,
                    description: 'lorem ipsum').tap do |wp|
-              create(:relation, relates: 1, from: wp, to: directly_related_wp)
-              create(:relation, relates: 1, from: directly_related_wp, to: transitively_related_wp)
+              create(:relation, relation_type: Relation::TYPE_RELATES, from: wp, to: directly_related_wp)
+              create(:relation, relation_type: Relation::TYPE_RELATES, from: directly_related_wp, to: transitively_related_wp)
             end
           end
 
@@ -187,7 +188,7 @@ describe 'API v3 Work package resource',
     end
 
     context 'when acting as a user without permission to view work package' do
-      before(:each) do
+      before do
         allow(User).to receive(:current).and_return unauthorize_user
         get get_path
       end
@@ -197,7 +198,7 @@ describe 'API v3 Work package resource',
     end
 
     context 'when acting as an anonymous user' do
-      before(:each) do
+      before do
         allow(User).to receive(:current).and_return User.anonymous
         get get_path
       end

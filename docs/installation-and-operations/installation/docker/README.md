@@ -78,7 +78,7 @@ The fastest way to get an OpenProject instance up and running is to run the
 following command:
 
 ```bash
-docker run -it -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:12
+docker run -it -p 8080:80 -e OPENPROJECT_SECRET_KEY_BASE=secret -e OPENPROJECT_HOST__NAME=localhost:8080 openproject/community:12
 ```
 
 This will take a bit of time the first time you launch it, but after a few
@@ -96,7 +96,7 @@ For normal usage you probably want to start it in the background, which can be
 achieved with the `-d` flag:
 
 ```bash
-docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:12
+docker run -it -p 8080:80 -e OPENPROJECT_SECRET_KEY_BASE=secret -e OPENPROJECT_HOST__NAME=localhost:8080 openproject/community:12
 ```
 
 **Note**: We've had reports of people being unable to start OpenProject this way
@@ -124,14 +124,14 @@ those directories mounted:
 sudo mkdir -p /var/lib/openproject/{pgdata,assets} 
 
 docker run -d -p 8080:80 --name openproject \
-  -e SERVER_HOSTNAME=openproject.example.com \ # The public facing host name
-  -e SECRET_KEY_BASE=secret \ # The secret key base used for cookies
+  -e OPENPROJECT_HOST__NAME=openproject.example.com \ # The public facing host name
+  -e OPENPROJECT_SECRET_KEY_BASE=secret \ # The secret key base used for cookies
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
   openproject/community:12
 ```
 
-Please make sure you set the correct public facing hostname in `SERVER_HOSTNAME`. If you don't have a load-balancing or proxying web server in front of your docker container,
+Please make sure you set the correct public facing hostname in `OPENPROJECT_HOST__NAME`. If you don't have a load-balancing or proxying web server in front of your docker container,
 you will otherwise be vulnerable to [HOST header injections](https://portswigger.net/web-security/host-header), as the internal server has no way of identifying the correct host name.
 
 **Note**: Make sure to replace `secret` with a random string. One way to generate one is to run `head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32 ; echo ''` if you are on Linux.

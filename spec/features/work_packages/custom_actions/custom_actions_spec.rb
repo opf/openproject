@@ -32,22 +32,22 @@ describe 'Custom actions', type: :feature, js: true do
   shared_let(:admin) { create :admin }
 
   let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages work_package_assigned) }
-  let(:role) { create(:role, permissions: permissions) }
-  let!(:other_role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
+  let!(:other_role) { create(:role, permissions:) }
   let(:user) do
     user = create(:user,
                   firstname: 'A',
                   lastname: 'User')
 
     create(:member,
-           project: project,
+           project:,
            roles: [role],
-           user: user)
+           user:)
 
     create(:member,
            project: other_project,
            roles: [role],
-           user: user)
+           user:)
     user
   end
   let!(:other_member_user) do
@@ -61,7 +61,7 @@ describe 'Custom actions', type: :feature, js: true do
   let(:other_project) { create(:project, name: 'Other project') }
   let!(:work_package) do
     create(:work_package,
-           project: project,
+           project:,
            assigned_to: user,
            priority: default_priority,
            status: default_status)
@@ -96,23 +96,23 @@ describe 'Custom actions', type: :feature, js: true do
     create(:workflow,
            old_status: default_status,
            new_status: closed_status,
-           role: role,
+           role:,
            type: work_package.type)
 
     create(:workflow,
            new_status: default_status,
            old_status: closed_status,
-           role: role,
+           role:,
            type: work_package.type)
     create(:workflow,
            old_status: default_status,
            new_status: rejected_status,
-           role: role,
+           role:,
            type: work_package.type)
     create(:workflow,
            old_status: rejected_status,
            new_status: default_status,
-           role: role,
+           role:,
            type: other_type)
   end
   let!(:list_custom_field) do
@@ -144,7 +144,7 @@ describe 'Custom actions', type: :feature, js: true do
     login_as(admin)
   end
 
-  scenario 'viewing workflow buttons' do
+  it 'viewing workflow buttons' do
     # create custom action 'Unassign'
     index_ca_page.visit!
 
@@ -452,7 +452,7 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.expect_toast type: :error, message: I18n.t('api_v3.errors.code_409')
   end
 
-  scenario 'editing a current date custom action (Regression #30949)' do
+  it 'editing a current date custom action (Regression #30949)' do
     # create custom action 'Unassign'
     index_ca_page.visit!
 
@@ -476,5 +476,41 @@ describe 'Custom actions', type: :feature, js: true do
 
     edit_page = index_ca_page.edit('Current date')
     expect(page).to have_select('custom_action_actions_date', selected: 'Current date')
+  end
+
+  it 'disables the custom action button and editing other fields when submiting the custom action' do
+    # create custom action 'Unassign'
+    index_ca_page.visit!
+
+    new_ca_page = index_ca_page.new
+    retry_block do
+      new_ca_page.visit!
+      new_ca_page.set_name('Unassign')
+      new_ca_page.set_description('Removes the assignee')
+      new_ca_page.add_action('Assignee', '-')
+      new_ca_page.expect_action('assigned_to', nil)
+    end
+
+    new_ca_page.create
+
+    index_ca_page.expect_current_path
+    index_ca_page.expect_listed('Unassign')
+
+    unassign = CustomAction.last
+    expect(unassign.actions.length).to eq(1)
+    expect(unassign.conditions.length).to eq(0)
+
+    login_as(user)
+
+    wp_page.visit!
+
+    wp_page.ensure_page_loaded
+    # Stop sending ajax requests in order to test disabled fields upon submit
+    wp_page.disable_ajax_requests
+
+    wp_page.click_custom_action('Unassign', expect_success: false)
+    wp_page.expect_custom_action_disabled('Unassign')
+    find('[data-field-name="estimatedTime"]').click
+    expect(page).to have_selector("#wp-#{work_package.id}-inline-edit--field-estimatedTime[disabled]")
   end
 end

@@ -73,7 +73,7 @@ module Components
       end
 
       def save
-        find("#{selector} .button.-highlight").click
+        find('[data-qa-selector="op-modal-wp-table-configuration-save-button"]').click
       end
 
       def cancel

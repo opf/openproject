@@ -459,35 +459,14 @@ For more information, [see our help on repositories](../../../user-guide/reposit
 
 ![03-repos](03-repos.png)
 
-## Step 5: Outgoing email configuration
 
-OpenProject requires a setup for sending outgoing emails for notifications, such as updates on work packages, password resets, or other notifications you and your users receive.
-
-![04-mail](04-mail.png)
-
-The wizard supports the following options:
-
-### **Sendmail** (default)
-
-Uses a local sendmail installation or sets up a local-only postfix MTA in case you do not have sendmail.
-
-Easiest setup as it does not require an SMTP configuration, but your Mails may not be delivered consistently depending on your mail accounts or firewall setup.
-
-### **SMTP** (recommended for production systems)
-
-Allows you to connect to a SMTP host through authentication types `NONE`,  `PLAIN,` `LOGIN`, or `CRAM-MD5`. Use this if you have a dedicated mail account to use for delivering OpenProject mail, or when sendmail does not work due to your local firewall / mail relay setup.
-
-### **Skip** (not recommended)
-
-Does not set up mail configuration. You can configure the mail setup in OpenProject by visiting `openproject.example.com/settings?tab=notifications` in your installation. For more information, [visit our help page on this topic](../../../system-admin-guide/system-settings/).
-
-## Step 6: Administrator email
+## Step 5: Administrator email
 
 The wizard will ask you for an administrative email address so that it can create the administrator account with that email for the initial login. Enter your email address to have it tied to the admin account.
 
 ![05-admin](05-admin.png)
 
-## Step 7: Memcached server
+## Step 6: Memcached server
 
 OpenProject heavily relies on caching, which is why the wizard suggests you to install a local memcached server the OpenProject instances can connect to. You should always set this to `install` unless you have a reason to configure another caching mechanism - for example when configuring multiple shared instances of OpenProject.
 
@@ -509,3 +488,13 @@ You can then log in using the default user/password combination:
 * password = `admin`
 
 You will be asked to change this password immediately after the first login.
+
+
+
+## Post-installation configuration
+
+Here are some pointers to related documentation that you will need to get started:
+
+- [Set up outgoing email notifications (SMTP, sendmail)](../../configuration/outbound-emails/)
+- [Integrate an external authentication provider (LDAP/AD, SAML, OpenID)](../../../system-admin-guide/authentication/)
+

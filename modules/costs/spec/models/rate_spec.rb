@@ -37,7 +37,7 @@ describe Rate, type: :model do
         rate.rate = nil
       end
 
-      it 'should not be valid' do
+      it 'is not valid' do
         expect(rate).not_to be_valid
         expect(rate.errors[:rate]).to eq([I18n.t('activerecord.errors.messages.not_a_number')])
       end
@@ -48,7 +48,7 @@ describe Rate, type: :model do
         rate.rate = 'test'
       end
 
-      it 'should not be valid' do
+      it 'is not valid' do
         expect(rate).not_to be_valid
         expect(rate.errors[:rate]).to eq([I18n.t('activerecord.errors.messages.not_a_number')])
       end
@@ -83,7 +83,7 @@ describe Rate, type: :model do
         rate.valid_from = '2012-02-30'
       end
 
-      it 'should not be valid' do
+      it 'is not valid' do
         expect(rate).not_to be_valid
         expect(rate.errors[:valid_from]).to eq([I18n.t('activerecord.errors.messages.not_a_date')])
       end
@@ -94,7 +94,7 @@ describe Rate, type: :model do
         rate.valid_from = nil
       end
 
-      it 'should not be valid' do
+      it 'is not valid' do
         expect(rate).not_to be_valid
         expect(rate.errors[:valid_from]).to eq([I18n.t('activerecord.errors.messages.not_a_date')])
       end

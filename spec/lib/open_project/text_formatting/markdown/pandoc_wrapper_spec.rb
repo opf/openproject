@@ -64,6 +64,7 @@ describe OpenProject::TextFormatting::Formats::Markdown::PandocWrapper do
           -h                    --help
         EOS
       end
+
       it do
         expect(subject.wrap_mode).to eq('--no-wrap')
       end
@@ -71,6 +72,7 @@ describe OpenProject::TextFormatting::Formats::Markdown::PandocWrapper do
 
     context 'when neither exists' do
       let(:usage_string) { 'wat?' }
+
       it do
         expect do
           subject.wrap_mode

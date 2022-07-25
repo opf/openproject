@@ -12,22 +12,22 @@ describe "Notification center sidemenu", type: :feature, js: true do
   end
   shared_let(:other_user) { create(:user) }
 
-  shared_let(:work_package) { create :work_package, project: project, author: other_user }
+  shared_let(:work_package) { create :work_package, project:, author: other_user }
   shared_let(:work_package2) { create :work_package, project: project2, author: other_user }
   shared_let(:work_package3) { create :work_package, project: project3, author: other_user }
   shared_let(:work_package4) { create :work_package, project: project3, author: other_user }
 
   let(:notification) do
     create :notification,
-           recipient: recipient,
-           project: project,
+           recipient:,
+           project:,
            resource: work_package,
            reason: :watched
   end
 
   let(:notification2) do
     create :notification,
-           recipient: recipient,
+           recipient:,
            project: project2,
            resource: work_package2,
            reason: :assigned
@@ -35,7 +35,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
 
   let(:notification3) do
     create :notification,
-           recipient: recipient,
+           recipient:,
            project: project3,
            resource: work_package3,
            reason: :responsible
@@ -43,7 +43,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
 
   let(:notification4) do
     create :notification,
-           recipient: recipient,
+           recipient:,
            project: project3,
            resource: work_package4,
            reason: :mentioned
@@ -113,7 +113,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
     # Empty filter sets have a separate message
     side_menu.click_item 'Watching'
     side_menu.finished_loading
-    expect(page).to have_text 'There are no notifications in this view at the moment'
+    expect(page).to have_text "Looks like you're all caught up for Watching filter"
 
     # Marking all as read
     side_menu.click_item 'Inbox'

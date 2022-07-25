@@ -11,4 +11,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency "pdf-inspector", "~> 1.3.0"
   s.add_dependency "prawn", "~> 2.2"
+  s.metadata['rubygems_mfa_required'] = 'true'
 end

@@ -232,6 +232,7 @@ ja:
             professional_support: "プロフェッショナルサポート"
             professional_support_text: "ビジネスクリティカルな環境での OpenProject 利用に関する専門知識を持つ上級サポートエンジニアから、信頼性の高いハイタッチサポートを受けましょう。"
           button_start_trial: "無料トライアルを開始"
+          button_upgrade: "Upgrade now"
           button_book_now: "今すぐ予約"
           confidence: >
             テストおよびサポートされているエンタープライズクラスのプロジェクト管理ソフトウェアの信頼性を提供します。オープンソースとオープンマインドとともに。
@@ -268,7 +269,8 @@ ja:
           one: "最初の並べ替え条件"
           two: "2 番目の並べ替え基準"
           three: "3 番目の並べ替え条件"
-      upsale_for_more: "詳細なフィルターについて、ご確認ください"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'エンタープライズ版。'
     general_text_no: "いいえ"
     general_text_yes: "はい"
@@ -399,6 +401,8 @@ ja:
     label_previous: "前へ"
     label_per_page: "1 ページあたり"
     label_please_wait: "しばらくお待ちください"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "プロジェクト"
     label_visibility_settings: "表示の設定"
     label_quote_comment: "このコメントを引用"
@@ -411,6 +415,7 @@ ja:
     label_report: "レポート"
     label_repository_plural: "リポジトリ"
     label_save_as: "名前をつけて保存"
+    label_select_project: "Select a project"
     label_select_watcher: "ウォッチャーを選択..."
     label_selected_filter_list: "選択されたフィルタ"
     label_show_attributes: "すべての属性を表示"
@@ -452,10 +457,10 @@ ja:
     label_unwatch: "ウォッチしない"
     label_unwatch_work_package: "作業項目のウォッチを削除"
     label_uploaded_by: "アップロードした人"
-    label_default_queries: "デフォルトビュー"
-    label_starred_queries: "お気に入りのビュー"
-    label_global_queries: "パブリックビュー"
-    label_custom_queries: "プライベートビュー"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "列"
     label_attachments: 添付ファイル
     label_drop_files: ここにファイルをドロップ
@@ -534,7 +539,7 @@ ja:
         and_more_users:
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -542,7 +547,8 @@ ja:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -661,14 +667,7 @@ ja:
         projects: "プロジェクト"
         settings: "設定"
     time_entry:
-      project: 'プロジェクト'
-      work_package: 'ワーク パッケージ'
       work_package_required: '最初にワークパッケージを選択する必要があります。'
-      activity: '活動'
-      comment: 'コメント'
-      duration: '期間'
-      spent_on: '日付'
-      hours: ' 時間'
       title: '時間を記録'
     two_factor_authentication:
       label_two_factor_authentication: '2要素認証'
@@ -809,7 +808,7 @@ ja:
       zooms: "ズームレベル"
       outlines: "階層レベル"
     upsale:
-      ee_only: 'Enterprise Editionのみの機能'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "強調"
       italic: "斜体字"
@@ -837,6 +836,13 @@ ja:
       comment_send_failed: "エラーが発生しました。コメントを投稿できませんでした。"
       comment_updated: "正常にコメントを更新しました。"
       confirm_edit_cancel: "作業項目の編集をキャンセルしてもよろしいですか？"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "フィルタ"
       description_enter_text: "テキスト"
       description_options_hide: "オプションを非表示"
@@ -990,6 +996,7 @@ ja:
           attribute_highlighting: '全体から目立つように特定の作業項目が必要ですか？'
           relation_columns: 'ワークパッケージリストに関係を表示する必要がありますか?'
           check_out_link: 'エンタープライズ版をチェックしてください。'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: '関係タイプでワークパッケージをフィルタ'
       tabs:
@@ -1022,10 +1029,7 @@ ja:
       filter: "フィルタ"
       unselected_title: "ワーク パッケージ"
       search_query_label: "保存したビューを検索"
-      search_query_title: "クリックして保存したビューを検索する"
-      placeholder_query_title: "このビューのタイトルを設定する"
     modals:
-      label_settings: "ビューの名前を変更..."
       label_name: "名称"
       label_delete_page: "現在のページを削除"
       button_apply: "適用"
@@ -1083,6 +1087,10 @@ ja:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'マナーモードをアクティブにする'
       button_deactivate: 'マナーモードを非アクティブにする'
@@ -1178,6 +1186,7 @@ ja:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'フォームは正常に送信されました'
       load_error_message: 'フォームの読み込み中にエラーが発生しました'

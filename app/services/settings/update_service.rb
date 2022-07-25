@@ -28,7 +28,7 @@
 
 class Settings::UpdateService < ::BaseServices::BaseContracted
   def initialize(user:)
-    super user: user,
+    super user:,
           contract_class: Settings::UpdateContract
   end
 

@@ -104,7 +104,7 @@ module Redmine::MenuManager::TopMenuHelper
         title: User.current.name,
         icon: (avatar.present? ? 'overridden-by-avatar' : 'icon-user')
       },
-      items: items,
+      items:,
       options: { drop_down_id: 'user-menu', menu_item_class: 'last-child' }
     )
   end
@@ -117,7 +117,7 @@ module Redmine::MenuManager::TopMenuHelper
         'account/login'
       end
 
-    render partial: partial
+    render partial:
   end
 
   def render_module_top_menu_node(items = more_top_menu_items)
@@ -125,7 +125,7 @@ module Redmine::MenuManager::TopMenuHelper
       render_menu_dropdown_with_items(
         label: '',
         label_options: { icon: 'icon-menu', title: I18n.t('label_modules') },
-        items: items,
+        items:,
         options: { drop_down_id: 'more-menu', drop_down_class: 'drop-down--modules ', menu_item_class: 'hidden-for-mobile' }
       )
     end

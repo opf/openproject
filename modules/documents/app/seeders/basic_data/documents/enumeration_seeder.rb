@@ -31,7 +31,7 @@ module BasicData
     class EnumerationSeeder < Seeder
       def seed_data!
         category_names.each do |name|
-          DocumentCategory.create name: name
+          DocumentCategory.create name:
         end
       end
 

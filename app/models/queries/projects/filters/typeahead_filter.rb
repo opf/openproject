@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Filters::TypeaheadFilter < Queries::Projects::Filters::NameAndIdentifierFilter
+class Queries::Projects::Filters::TypeaheadFilter < Queries::Projects::Filters::NameFilter
   def self.key
     :typeahead
   end

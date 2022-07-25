@@ -71,7 +71,7 @@ describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
 
         allow(principal_loader)
           .to receive(:user_values)
-          .and_return([user])
+          .and_return([nil, user.id.to_s])
 
         expect(instance).to be_available
       end
@@ -89,7 +89,7 @@ describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
           .to receive(:user_values)
           .and_return([])
 
-        expect(instance).to_not be_available
+        expect(instance).not_to be_available
       end
 
       it 'is false if the user is not allowed to see watchers but there are users' do
@@ -103,9 +103,9 @@ describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
 
         allow(principal_loader)
           .to receive(:user_values)
-          .and_return([user])
+          .and_return([nil, user.id.to_s])
 
-        expect(instance).to_not be_available
+        expect(instance).not_to be_available
       end
     end
 
@@ -133,11 +133,11 @@ describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
 
           allow(principal_loader)
             .to receive(:user_values)
-            .and_return([user])
+            .and_return([nil, user.id.to_s])
 
           expect(instance.allowed_values)
             .to match_array [[I18n.t(:label_me), 'me'],
-                             [user.name, user.id.to_s]]
+                             [nil, user.id.to_s]]
         end
       end
     end

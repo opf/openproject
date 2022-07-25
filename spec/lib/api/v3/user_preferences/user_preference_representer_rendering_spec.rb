@@ -42,7 +42,7 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
                   })
   end
   let(:notification_setting) { build(:notification_setting) }
-  let(:user) { build_stubbed(:user, preference: preference) }
+  let(:user) { build_stubbed(:user, preference:) }
   let(:representer) { described_class.new(preference, current_user: user) }
 
   before do

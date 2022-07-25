@@ -231,6 +231,7 @@ uk:
             professional_support: "Професійна підтримка"
             professional_support_text: "Отримайте надійну, комплексну підтримку від досвідчених інженерів, які знають усе про запуск OpenProject у критично важливих для бізнесу середовищах."
           button_start_trial: "Розпочати безкоштовну пробну версію"
+          button_upgrade: "Upgrade now"
           button_book_now: "Забронювати зараз"
           confidence: >
             Ми надаємо перевірене програмне забезпечення корпоративного класу з — з відкритим кодом і серцем — та забезпечуємо його підтримку.
@@ -267,7 +268,8 @@ uk:
           one: "Перший критерій впорядкування"
           two: "Другий критерій впорядкування"
           three: "Третій критерій впорядкування"
-      upsale_for_more: "Щоб отримати додаткові фільтри, ознайомтеся з"
+      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      more_info: "More information"
       upsale_link: 'корпоративне видання.'
     general_text_no: "ні"
     general_text_yes: "так"
@@ -398,6 +400,8 @@ uk:
     label_previous: "Попередній"
     label_per_page: "К-сть на сторінку:"
     label_please_wait: "Будь ласка, зачекайте"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Проекти"
     label_visibility_settings: "Налаштування видимості ..."
     label_quote_comment: "Цитувати цей коментар"
@@ -410,6 +414,7 @@ uk:
     label_report: "Звіт"
     label_repository_plural: "Репозиторії"
     label_save_as: "Зберегти як"
+    label_select_project: "Select a project"
     label_select_watcher: "Виберіть спостерігача..."
     label_selected_filter_list: "Вибрані фільтри"
     label_show_attributes: "Показати всі атрибути"
@@ -451,10 +456,10 @@ uk:
     label_unwatch: "Перестати відстежувати"
     label_unwatch_work_package: "Припинити спостерігати за пакетом робіт"
     label_uploaded_by: "Завантажено"
-    label_default_queries: "Перегляд за умовчанням"
-    label_starred_queries: "Улюблені види"
-    label_global_queries: "Види громадськості"
-    label_custom_queries: "Приватні види"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Стовпці"
     label_attachments: Вкладення
     label_drop_files: Перетягніть файли сюди
@@ -536,7 +541,7 @@ uk:
           many: 'і ще %{count}'
           other: 'і ще %{count}'
         no_results:
-          at_all: 'Нові сповіщення з’являться тут, коли буде виявлено пов’язані з вами дії'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'Зараз у цьому поданні немає сповіщень'
         mark_all_read: 'Позначити все як прочитане'
         mark_as_read: 'Позначити як прочитане'
@@ -544,7 +549,8 @@ uk:
         total_count_warning: "Показано стільки останніх сповіщень: %{newest_count}. Ще %{more_count} не показано."
         empty_state:
           no_notification: "Схоже, ви все прочитали."
-          no_notification_with_current_filter: "Змінити участь або повернутися до поштової скриньки для перегляду сповіщень"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Натисніть сповіщення, щоб переглянути всі дані про дію."
         new_notifications:
           message: 'Немає нових сповіщень.'
@@ -661,14 +667,7 @@ uk:
         projects: "Проекти"
         settings: "Налаштування"
     time_entry:
-      project: 'Проект'
-      work_package: 'Пакет робіт'
       work_package_required: 'Спочатку потрібно вибрати пакет робіт.'
-      activity: 'Активність'
-      comment: 'Коментар'
-      duration: 'Тривалість'
-      spent_on: 'Дата'
-      hours: 'Години'
       title: 'Час журналу'
     two_factor_authentication:
       label_two_factor_authentication: 'Двофакторна аутентифікація'
@@ -809,7 +808,7 @@ uk:
       zooms: "Рівень масштабування"
       outlines: "Рівень ієрархії"
     upsale:
-      ee_only: 'Функція Enterprise Edition'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Жирний"
       italic: "Курсив"
@@ -837,6 +836,13 @@ uk:
       comment_send_failed: "Сталася помилка. Не вдалося додати коментар."
       comment_updated: "Коментар був успішно оновлений."
       confirm_edit_cancel: "Ви дійсно бажаєте скасувати редагування пакету робіт?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Фільтр"
       description_enter_text: "Введіть текст"
       description_options_hide: "Сховати опції"
@@ -990,6 +996,7 @@ uk:
           attribute_highlighting: 'Потрібні певні робочі пакети, щоб виділитися зі скупчення?'
           relation_columns: 'Потрібно бачити відносини у списку робочих пакетів?'
           check_out_link: 'Перегляньте Enterprise Edition.'
+          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Фільтрувати пакети робіт за типом зв’язку'
       tabs:
@@ -1022,10 +1029,7 @@ uk:
       filter: "Фільтр"
       unselected_title: "Пакет робіт"
       search_query_label: "Пошук збережених переглядів"
-      search_query_title: "Натисніть, щоб знайти збережені перегляди"
-      placeholder_query_title: "Встановіть назву для цього перегляду"
     modals:
-      label_settings: "Перейменувати вигляд"
       label_name: "Ім’я"
       label_delete_page: "Видалити поточну сторінку"
       button_apply: "Застосувати"
@@ -1089,6 +1093,10 @@ uk:
         one: "1 год"
         other: "%{count} год"
         zero: "0 год"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Активуйте режим дзен'
       button_deactivate: 'Деактивуйте режим дзен'
@@ -1184,6 +1192,7 @@ uk:
       tooltip:
         include_all_selected: 'Параметр «Включити всі підпроєкти» зараз увімкнено.'
         current_project: 'Це поточний проєкт, який зараз відкрито.'
+        does_not_match_search: 'Project does not match the search criteria.'
     forms:
       submit_success_message: 'Форму надіслано'
       load_error_message: 'Сталася помилка під час завантаження форми'

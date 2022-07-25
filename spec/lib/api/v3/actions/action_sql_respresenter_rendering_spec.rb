@@ -39,6 +39,7 @@ describe ::API::V3::Actions::ActionSqlRepresenter, 'rendering' do
   let(:action_id) do
     'memberships/create'
   end
+
   current_user do
     create(:user)
   end
@@ -46,7 +47,7 @@ describe ::API::V3::Actions::ActionSqlRepresenter, 'rendering' do
   subject(:json) do
     ::API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
-           current_user: current_user,
+           current_user:,
            url_query: { select: { 'id' => {}, '_type' => {}, 'self' => {} } })
       .walk(API::V3::Actions::ActionSqlRepresenter)
       .to_json
@@ -56,14 +57,14 @@ describe ::API::V3::Actions::ActionSqlRepresenter, 'rendering' do
     it 'renders as expected' do
       expect(json)
         .to be_json_eql({
-                          "id": action_id,
-                          "_type": "Action",
-                          "_links": {
-                            "self": {
-                              "href": api_v3_paths.action(action_id)
-                            }
-                          }
-                        }.to_json)
+          id: action_id,
+          _type: "Action",
+          _links: {
+            self: {
+              href: api_v3_paths.action(action_id)
+            }
+          }
+        }.to_json)
     end
   end
 end

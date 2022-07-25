@@ -49,7 +49,7 @@ module Queries
       end
 
       def attributes
-        { name: name, operator: operator, values: values }
+        { name:, operator:, values: }
       end
 
       def ==(other)

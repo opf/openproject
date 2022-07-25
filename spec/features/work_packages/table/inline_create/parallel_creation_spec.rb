@@ -4,7 +4,7 @@ describe 'Parallel work package creation spec', js: true do
   let(:type) { project.types.first }
 
   let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages) }
-  let(:role) { create :role, permissions: permissions }
+  let(:role) { create :role, permissions: }
   let(:user) do
     create :user,
            member_in_project: project,
@@ -16,7 +16,7 @@ describe 'Parallel work package creation spec', js: true do
            type_id: type.id,
            old_status: status,
            new_status: create(:status),
-           role: role
+           role:
   end
 
   let!(:project) { create(:project, public: true) }
@@ -42,7 +42,7 @@ describe 'Parallel work package creation spec', js: true do
     description_field.set_value description
   end
 
-  scenario 'with a new work package in split and inline create, both are saved' do
+  it 'with a new work package in split and inline create, both are saved' do
     # Expect table to be empty
     wp_table.visit!
     wp_table.expect_no_work_package_listed

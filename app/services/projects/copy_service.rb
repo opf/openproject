@@ -86,7 +86,7 @@ module Projects
 
       # Assign additional params from user
       call = Projects::SetAttributesService
-        .new(user: user,
+        .new(user:,
              model: target,
              contract_class: Projects::CopyContract,
              contract_options: { copy_source: source, validate_model: true })

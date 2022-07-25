@@ -40,16 +40,16 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
   let(:current_user) { create :admin }
   let(:roles) { [role] }
   let(:global_roles) { [global_role] }
-  let(:params) { { message: message } }
+  let(:params) { { message: } }
   let(:message) { "Some message" }
 
   let!(:group) do
     create(:group,
            members: users).tap do |group|
       create(:member,
-             project: project,
+             project:,
              principal: group,
-             roles: roles)
+             roles:)
       create(:global_member,
              principal: group,
              roles: global_roles)
@@ -63,7 +63,7 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
   let(:members) { Member.where(principal: group) }
 
   let(:instance) do
-    described_class.new(group, current_user: current_user)
+    described_class.new(group, current_user:)
   end
 
   before do
@@ -156,7 +156,7 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
     let(:another_role) { create(:role) }
     let!(:first_user_member) do
       Member.find_by(principal: users.first).tap do |m|
-        m.member_roles.create(role: role)
+        m.member_roles.create(role:)
         m.member_roles.create(role: global_role)
       end
     end
@@ -201,7 +201,7 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
         .where(member_id: Member.where(principal: users.first))
         .pluck(:id)
     end
-    let(:params) { { member_role_ids: member_role_ids } }
+    let(:params) { { member_role_ids: } }
 
     it 'is successful' do
       expect(service_call)

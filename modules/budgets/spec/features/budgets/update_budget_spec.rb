@@ -35,7 +35,7 @@ describe 'updating a budget', type: :feature, js: true do
            members: { user => create(:role, permissions: %i[work_package_assigned]) }
   end
   let(:user) { create :admin }
-  let(:budget) { create :budget, author: user, project: project }
+  let(:budget) { create :budget, author: user, project: }
 
   current_user { user }
 
@@ -48,7 +48,7 @@ describe 'updating a budget', type: :feature, js: true do
 
     before do
       create :cost_rate, cost_type: cost_type, rate: 50.0
-      create :default_hourly_rate, user: user, rate: 25.0
+      create :default_hourly_rate, user:, rate: 25.0
     end
 
     it 'creates the cost items' do
@@ -80,15 +80,15 @@ describe 'updating a budget', type: :feature, js: true do
     let(:material_budget_item) do
       create :material_budget_item,
              units: 3,
-             cost_type: cost_type,
-             budget: budget
+             cost_type:,
+             budget:
     end
 
     let(:labor_budget_item) do
       create :labor_budget_item,
              hours: 5,
-             user: user,
-             budget: budget
+             user:,
+             budget:
     end
 
     let(:budget_page) { Pages::EditBudget.new budget.id }
@@ -145,7 +145,7 @@ describe 'updating a budget', type: :feature, js: true do
         create :material_budget_item,
                units: 3,
                cost_type: cost_type2,
-               budget: budget,
+               budget:,
                amount: 1000.0
       end
 
@@ -175,8 +175,8 @@ describe 'updating a budget', type: :feature, js: true do
       let!(:material_budget_item_2) do
         create :material_budget_item,
                units: 5,
-               cost_type: cost_type,
-               budget: budget
+               cost_type:,
+               budget:
       end
 
       it 'keeps previous planned material costs (Regression test #27692)' do
@@ -252,8 +252,8 @@ describe 'updating a budget', type: :feature, js: true do
       let!(:labor_budget_item_2) do
         create :labor_budget_item,
                hours: 5,
-               user: user,
-               budget: budget
+               user:,
+               budget:
       end
 
       it 'keeps previous planned labor costs (Regression test #27692)' do

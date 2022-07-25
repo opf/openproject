@@ -43,4 +43,3 @@ module API
     URN_UNDISCLOSED = "#{URN_PREFIX}undisclosed".freeze
   end
 end
-

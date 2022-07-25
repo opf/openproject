@@ -264,12 +264,13 @@ describe WorkPackage, type: :model do
                project_id: project_wo_backlogs.id,
                name: 'Go-Live')
       end
+
       shared_let(:admin) { create :admin }
 
       def move_to_project(work_package, project)
         WorkPackages::UpdateService
           .new(model: work_package, user: admin)
-          .call(project: project)
+          .call(project:)
       end
 
       before do
@@ -292,6 +293,7 @@ describe WorkPackage, type: :model do
                                 version_id: version_go_live.id,
                                 project_id: project_wo_backlogs.id)
           end
+
           before do
             work_package_i
           end

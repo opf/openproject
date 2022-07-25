@@ -71,18 +71,18 @@ shared_examples_for 'offset-paginated APIv3 collection' do
   end
 
   it_behaves_like 'generic APIv3 collection' do
-    let(:self_link) { make_link_for(page: page, page_size: page_size) }
+    let(:self_link) { make_link_for(page:, page_size:) }
   end
 
   describe '_links' do
     it_behaves_like 'has a templated link' do
       let(:link) { 'jumpTo' }
-      let(:href) { make_link_for(page: '{offset}', page_size: page_size) }
+      let(:href) { make_link_for(page: '{offset}', page_size:) }
     end
 
     it_behaves_like 'has a templated link' do
       let(:link) { 'changeSize' }
-      let(:href) { make_link_for(page: page, page_size: '{size}') }
+      let(:href) { make_link_for(page:, page_size: '{size}') }
     end
   end
 
@@ -109,14 +109,14 @@ shared_examples_for 'offset-paginated APIv3 collection' do
   shared_examples_for 'links to previous page by offset' do
     it_behaves_like 'has an untitled link' do
       let(:link) { 'previousByOffset' }
-      let(:href) { make_link_for(page: page - 1, page_size: page_size) }
+      let(:href) { make_link_for(page: page - 1, page_size:) }
     end
   end
 
   shared_examples_for 'links to next page by offset' do
     it_behaves_like 'has an untitled link' do
       let(:link) { 'nextByOffset' }
-      let(:href) { make_link_for(page: page + 1, page_size: page_size) }
+      let(:href) { make_link_for(page: page + 1, page_size:) }
     end
   end
 end

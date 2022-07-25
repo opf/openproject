@@ -100,7 +100,7 @@ module DemoData
 
     def base_work_package_attributes(attributes)
       {
-        project: project,
+        project:,
         author: user,
         assigned_to: find_principal(attributes[:assignee]),
         subject: attributes[:subject],
@@ -197,11 +197,7 @@ module DemoData
     end
 
     def create_relation(to:, from:, type:)
-      from.new_relation.tap do |relation|
-        relation.to = to
-        relation.relation_type = type
-        relation.save!
-      end
+      Relation.create!(from:, to:, relation_type: type)
     end
 
     def calculate_start_date(days_ahead)

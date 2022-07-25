@@ -84,8 +84,8 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
            author: user,
            assigned_to: user,
            responsible: user2,
-           type: type,
-           status: status,
+           type:,
+           status:,
            custom_field_values: { custom_field_1.id => custom_field_value },
            project: project_1)
   end
@@ -94,16 +94,16 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
            author: user,
            assigned_to: user,
            responsible: user2,
-           type: type,
-           status: status,
+           type:,
+           status:,
            custom_field_values: { custom_field_1.id => custom_field_value },
            project: project_1)
   end
   let(:work_package_3) do
     create(:work_package,
            author: user,
-           type: type,
-           status: status,
+           type:,
+           status:,
            custom_field_values: { custom_field_1.id => custom_field_value },
            project: project_2)
   end
@@ -119,7 +119,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
   end
 
   describe '#edit' do
-    shared_examples_for :response do
+    shared_examples_for 'response' do
       subject { response }
 
       it { is_expected.to be_successful }
@@ -130,7 +130,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
     context 'same project' do
       before { get :edit, params: { ids: [work_package_1.id, work_package_2.id] } }
 
-      it_behaves_like :response
+      it_behaves_like 'response'
 
       describe '#view' do
         render_views
@@ -164,7 +164,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
         get :edit, params: { ids: [work_package_1.id, work_package_2.id, work_package_3.id] }
       end
 
-      it_behaves_like :response
+      it_behaves_like 'response'
 
       describe '#view' do
         render_views
@@ -230,14 +230,14 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
               ids: work_package_ids,
               work_package: { priority_id: priority.id,
                               assigned_to_id: group_id,
-                              responsible_id: responsible_id,
-                              send_notification: send_notification,
+                              responsible_id:,
+                              send_notification:,
                               journal_notes: 'Bulk editing' }
             }
       end
     end
 
-    shared_examples_for :delivered do
+    shared_examples_for 'delivered' do
       subject { ActionMailer::Base.deliveries.size }
 
       it { delivery_size }
@@ -298,7 +298,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
 
         it { expect(response.response_code).to eq(302) }
 
-        it_behaves_like :delivered
+        it_behaves_like 'delivered'
 
         it_behaves_like 'updated work package'
       end
@@ -313,7 +313,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
 
           it { expect(response.response_code).to eq(302) }
 
-          it_behaves_like :delivered
+          it_behaves_like 'delivered'
 
           it_behaves_like 'updated work package'
         end
@@ -335,6 +335,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
         describe '#groups' do
           let(:group) { create(:group) }
           let(:group_id) { group.id }
+
           subject { work_packages.map(&:assigned_to_id).uniq }
 
           context 'allowed' do
@@ -380,7 +381,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
           let(:closed_status) { create(:closed_status) }
           let(:workflow) do
             create(:workflow,
-                   role: role,
+                   role:,
                    type_id: type.id,
                    old_status: status,
                    new_status: closed_status)
@@ -510,6 +511,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
               end
             end
           end
+
           describe 'set version_id to nil' do
             before do
               # 'none' is a magic value, setting version_id to nil
@@ -520,6 +522,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
                     work_package: { version_id: 'none' }
                   }
             end
+
             describe '#work_package' do
               describe '#version' do
                 subject { work_packages.map(&:version_id).uniq }
@@ -538,11 +541,11 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
       describe '#delivery' do
         include_context 'update_request'
 
-        it { expect(response.response_code).to eq(302) }
-
         let(:delivery_size) { 0 }
 
-        it_behaves_like :delivered
+        it { expect(response.response_code).to eq(302) }
+
+        it_behaves_like 'delivered'
       end
     end
 
@@ -558,7 +561,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
         create :work_package,
                project: project_1,
                start_date: Date.today - 2.days,
-               due_date: Date.today + 1.days
+               due_date: Date.today + 1.day
       end
 
       let(:new_parent) do
@@ -566,9 +569,6 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
       end
 
       before do
-        expect(new_parent.start_date).to be_nil
-        expect(new_parent.due_date).to be_nil
-
         put :update,
             params: {
               ids: [task1.id, task2.id],
@@ -577,7 +577,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
             }
       end
 
-      it 'should update the parent dates as well' do
+      it 'updates the parent dates as well' do
         expect(response.response_code).to eq(302)
 
         task1.reload
@@ -588,7 +588,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
         expect(task2.parent_id).to eq(new_parent.id)
 
         expect(new_parent.start_date).to eq Date.today - 5.days
-        expect(new_parent.due_date).to eq Date.today + 1.days
+        expect(new_parent.due_date).to eq Date.today + 1.day
       end
     end
   end
@@ -611,7 +611,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
 
         allow(WorkPackages::DeleteService)
           .to receive(:new)
-          .with(user: user, model: stub_work_package)
+          .with(user:, model: stub_work_package)
           .and_return(service)
 
         expect(service)
@@ -622,11 +622,11 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
           .with([stub_work_package], user, params['to_do']).and_return true
 
         as_logged_in_user(user) do
-          delete :destroy, params: params
+          delete :destroy, params:
         end
       end
 
-      it 'should redirect to the project' do
+      it 'redirects to the project' do
         expect(response).to redirect_to(project_work_packages_path(stub_work_package.project))
       end
     end
@@ -637,11 +637,11 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
                                                                                                 params['to_do']).and_return false
 
         as_logged_in_user(user) do
-          delete :destroy, params: params
+          delete :destroy, params:
         end
       end
 
-      it 'should redirect to the project' do
+      it 'redirects to the project' do
         expect(response).to render_template('destroy')
       end
     end

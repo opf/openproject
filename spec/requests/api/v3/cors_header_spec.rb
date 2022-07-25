@@ -68,7 +68,6 @@ describe 'API v3 CORS headers',
           with_settings: { apiv3_cors_enabled: true } do
     context 'with allowed origin set to specific values',
             with_settings: { apiv3_cors_origins: %w[https://foo.example.com bla.test] } do
-
       it_behaves_like 'outputs CORS headers', '/api/v3'
       it_behaves_like 'outputs CORS headers', '/oauth/token'
       it_behaves_like 'outputs CORS headers', '/oauth/authorize'

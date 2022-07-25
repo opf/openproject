@@ -9,6 +9,7 @@ es:
       upsale:
         teaser_text: '¿Quiere usar plantillas de paneles listas para usar? Los paneles avanzados son una característica de la versión Enterprise. Actualice a un plan de pago.'
         upgrade: 'Actualizar ahora'
+        more_info: 'Más información'
       lists:
         delete: 'Eliminar lista'
       version:

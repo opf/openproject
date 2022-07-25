@@ -9,6 +9,7 @@ pl:
       upsale:
         teaser_text: 'Czy chcesz użyć gotowych do użycia szablonów tablic? Tablice zaawansowane są funkcją wersji Enterprise. Przejdź na plan płatny.'
         upgrade: 'Zmień plan teraz'
+        more_info: 'More information'
       lists:
         delete: 'Usuń listę'
       version:

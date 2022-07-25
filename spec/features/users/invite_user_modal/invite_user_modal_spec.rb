@@ -30,22 +30,22 @@ require 'spec_helper'
 
 describe 'Invite user modal', type: :feature, js: true do
   shared_let(:project) { create :project }
-  shared_let(:work_package) { create :work_package, project: project }
+  shared_let(:work_package) { create :work_package, project: }
 
   let(:permissions) { %i[view_work_packages edit_work_packages manage_members work_package_assigned] }
   let(:global_permissions) { %i[] }
   let(:modal) do
-    ::Components::Users::InviteUserModal.new project: project,
-                                             principal: principal,
-                                             role: role,
-                                             invite_message: invite_message
+    ::Components::Users::InviteUserModal.new project:,
+                                             principal:,
+                                             role:,
+                                             invite_message:
   end
   let!(:role) do
     create :role,
            name: 'Member',
-           permissions: permissions
+           permissions:
   end
-  let(:invite_message) { "Welcome to the team. **You'll like it here**."}
+  let(:invite_message) { "Welcome to the team. **You'll like it here**." }
   let(:mail_membership_recipients) { [] }
   let(:mail_invite_recipients) { [] }
 
@@ -53,13 +53,13 @@ describe 'Invite user modal', type: :feature, js: true do
     create :user,
            member_in_project: project,
            member_through_role: role,
-           global_permissions: global_permissions
+           global_permissions:
   end
 
-  shared_examples 'invites the principal to the project' do
+  shared_examples 'invites the principal to the project' do |skip_project_autocomplete = false|
     it 'invites that principal to the project' do
       perform_enqueued_jobs do
-        modal.run_all_steps
+        modal.run_all_steps(skip_project_autocomplete:)
       end
 
       assignee_field.expect_inactive!
@@ -99,7 +99,7 @@ describe 'Invite user modal', type: :feature, js: true do
 
   describe 'inviting a placeholder on a WP create', with_ee: %i[placeholder_users] do
     let!(:principal) { create :placeholder_user, name: 'EXISTING PLACEHOLDER' }
-    let(:wp_page) { Pages::FullWorkPackageCreate.new(project: project) }
+    let(:wp_page) { Pages::FullWorkPackageCreate.new(project:) }
     let(:assignee_field) { wp_page.edit_field :assignee }
     let(:subject_field) { wp_page.edit_field :subject }
     let!(:status) { FactoryBot.create :default_status }
@@ -152,6 +152,13 @@ describe 'Invite user modal', type: :feature, js: true do
         it_behaves_like 'invites the principal to the project' do
           let(:added_principal) { principal }
           let(:mail_membership_recipients) { [principal] }
+        end
+
+        context 'when keeping the default project selection' do
+          it_behaves_like 'invites the principal to the project', skip_project_autocomplete: true do
+            let(:added_principal) { principal }
+            let(:mail_membership_recipients) { [principal] }
+          end
         end
       end
 

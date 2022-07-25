@@ -27,7 +27,6 @@
 #++
 
 require 'optparse'
-require 'plugins/load_path_helper'
 
 begin
   Bundler.gem('parallel_tests')
@@ -53,9 +52,11 @@ namespace :parallel do
       if parseable_args
         OptionParser.new do |opts|
           opts.banner = "Usage: rails #{args[0]} -- [options]"
-          opts.on("-n ARG", "--group-number ARG", Integer) { |num_cpus| options[:num_cpus] = num_cpus || ENV['GROUP'] }
-          opts.on("-o ARG", "--only-group ARG", Integer) { |group_number| options[:group] = group_number || ENV['GROUP_SIZE'] }
-          opts.on("-s ARG", "--seed ARG", Integer) { |seed| options[:seed] = seed || ENV['CI_SEED'] } if allow_seed
+          opts.on("-n ARG", "--group-number ARG", Integer) { |num_cpus| options[:num_cpus] = num_cpus || ENV.fetch('GROUP', nil) }
+          opts.on("-o ARG", "--only-group ARG", Integer) do |group_number|
+            options[:group] = group_number || ENV.fetch('GROUP_SIZE', nil)
+          end
+          opts.on("-s ARG", "--seed ARG", Integer) { |seed| options[:seed] = seed || ENV.fetch('CI_SEED', nil) } if allow_seed
         end.parse!(parseable_args)
       end
 

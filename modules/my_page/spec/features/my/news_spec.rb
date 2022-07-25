@@ -35,7 +35,7 @@ describe 'My page news widget spec', type: :feature, js: true do
   let!(:other_project) { create :project }
   let!(:visible_news) do
     create :news,
-           project: project,
+           project:,
            description: 'blubs'
   end
   let!(:invisible_news) do

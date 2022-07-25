@@ -32,9 +32,9 @@ cs:
         project_status:
           title: 'Stav projektu'
           not_started: 'Nezahájeno'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
+          on_track: 'Dle plánu'
+          off_track: 'Mimo plánu'
+          at_risk: 'Riziko'
           not_set: 'Nenastaveno'
           finished: 'Dokončeno'
           discontinued: 'Zrušeno'

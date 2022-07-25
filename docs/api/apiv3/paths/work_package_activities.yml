@@ -31,6 +31,7 @@ get:
                       html: "<p>Lorem ipsum dolor sit amet.</p>"
                       raw: Lorem ipsum dolor sit amet.
                     createdAt: '2014-05-21T08:51:20Z'
+                    updatedAt: '2014-05-21T09:14:02Z'
                     details: []
                     id: 1
                     version: 1
@@ -46,7 +47,8 @@ get:
                       format: markdown
                       html: "<p>Lorem ipsum dolor sit amet.</p>"
                       raw: Lorem ipsum dolor sit amet.
-                    createdAt: '2014-05-21T08:51:22Z'
+                    createdAt: '2014-05-21T09:51:22Z'
+                    updatedAt: '2014-05-21T10:14:02Z'
                     details: []
                     id: 2
                     version: 2
@@ -106,19 +108,7 @@ post:
       description: Created
       headers: {}
     '400':
-      content:
-        application/hal+json:
-          schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-                message: The request body was not a single JSON object.
-      description: Occurs when the client did not send a valid JSON object in the
-        request body.
-      headers: {}
+      $ref: "../components/responses/invalid_request_body.yml"
     '403':
       content:
         application/hal+json:

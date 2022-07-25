@@ -33,7 +33,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
 
     angular_component_tag 'op-principal',
                           inputs: {
-                            principal: principal,
+                            principal:,
                             hideName: true,
                             size: 'default'
                           }
@@ -60,11 +60,12 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
     context 'when enabled' do
       let(:enable_gravatars) { true }
       let(:enable_local_avatars) { true }
-      it "should return the image attached to the user" do
+
+      it "returns the image attached to the user" do
         expect(helper.avatar(user)).to be_html_eql(expected_user_avatar_tag(user))
       end
 
-      it "should return the gravatar image if no image uploaded for the user" do
+      it "returns the gravatar image if no image uploaded for the user" do
         allow(user).to receive(:local_avatar_attachment).and_return nil
 
         expect(helper.avatar(user)).to be_html_eql(expected_user_avatar_tag(user))
@@ -74,7 +75,8 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
     context 'when gravatar disabled' do
       let(:enable_gravatars) { false }
       let(:enable_local_avatars) { true }
-      it "should return blank if image attached to the user but gravatars disabled" do
+
+      it "returns blank if image attached to the user but gravatars disabled" do
         expect(helper.avatar(user)).to be_html_eql(expected_user_avatar_tag(user))
       end
     end
@@ -83,7 +85,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
       let(:enable_gravatars) { false }
       let(:enable_local_avatars) { false }
 
-      it "should return blank" do
+      it "returns blank" do
         expect(helper.avatar(user)).to be_html_eql(expected_user_avatar_tag(user))
       end
     end
@@ -93,11 +95,12 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
     context 'when enabled' do
       let(:enable_gravatars) { true }
       let(:enable_local_avatars) { true }
-      it "should return the url to the image attached to the user" do
+
+      it "returns the url to the image attached to the user" do
         expect(helper.avatar_url(user)).to eq(local_expected_url(user))
       end
 
-      it "should return the gravatar url if no image uploaded for the user" do
+      it "returns the gravatar url if no image uploaded for the user" do
         allow(user).to receive(:local_avatar_attachment).and_return nil
 
         expect(helper.avatar_url(user)).to eq(gravatar_expected_url(mail_digest))
@@ -107,7 +110,8 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
     context 'when gravatar disabled' do
       let(:enable_gravatars) { false }
       let(:enable_local_avatars) { true }
-      it "should return the url if image attached to the user but gravatars disabled" do
+
+      it "returns the url if image attached to the user but gravatars disabled" do
         expect(helper.avatar_url(user)).to eq(local_expected_url(user))
       end
     end
@@ -116,71 +120,70 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
       let(:enable_gravatars) { false }
       let(:enable_local_avatars) { false }
 
-      it "should return blank" do
+      it "returns blank" do
         expect(helper.avatar_url(user)).to eq ''
       end
     end
   end
 
-  describe 'gravatar' do
-    context 'when enabled' do
-      let(:enable_gravatars) { true }
-      let(:enable_local_avatars) { false }
-      describe 'ssl dependent on protocol settings' do
-        context 'with https protocol', with_settings: { protocol: 'https' } do
-          it "should be set to secure if protocol is 'https'" do
-            expect(helper.default_gravatar_options[:secure]).to be true
-          end
-        end
+  context 'when gravatar enabled' do
+    let(:enable_gravatars) { true }
+    let(:enable_local_avatars) { false }
 
-        context 'with http protocol', with_settings: { protocol: 'http' } do
-          it "should be set to unsecure if protocol is 'http'" do
-            expect(helper.default_gravatar_options[:secure]).to be false
-          end
+    describe 'ssl dependent on protocol settings' do
+      context 'with https protocol', with_config: { https: true } do
+        it "is set to secure if protocol is 'https'" do
+          expect(helper.default_gravatar_options[:secure]).to be true
         end
       end
 
-      context 'with http', with_settings: { protocol: 'http' } do
-        it 'should return a gravatar image tag if a user is provided' do
-          expect(helper.avatar(user)).to be_html_eql(expected_user_avatar_tag(user))
-        end
-
-        it 'should return a gravatar url if a user is provided' do
-          expect(helper.avatar_url(user)).to eq(gravatar_expected_url(mail_digest))
+      context 'with http protocol', with_config: { https: false } do
+        it "is set to unsecure if protocol is 'http'" do
+          expect(helper.default_gravatar_options[:secure]).to be false
         end
       end
+    end
 
-      context 'with https', with_settings: { protocol: 'https' } do
-        it 'should return a gravatar image tag with ssl if the request was ssl required' do
-          expect(helper.avatar(user)).to be_html_eql(expected_user_avatar_tag(user))
-        end
-
-        it 'should return a gravatar image tag with ssl if the request was ssl required' do
-          expect(helper.avatar_url(user)).to eq(gravatar_expected_url(mail_digest, ssl: true))
-        end
+    context 'with http', with_config: { https: false } do
+      it 'returns a gravatar image tag if a user is provided' do
+        expect(helper.avatar(user)).to be_html_eql(expected_user_avatar_tag(user))
       end
 
-      it 'should return an empty string if a non parsable (e-mail) string is provided' do
-        expect(helper.avatar('just the name')).to eq('')
+      it 'returns a gravatar url if a user is provided' do
+        expect(helper.avatar_url(user)).to eq(gravatar_expected_url(mail_digest))
+      end
+    end
+
+    context 'with https', with_config: { https: true } do
+      it 'returns a gravatar image tag without ssl if the request was no ssl required' do
+        expect(helper.avatar(user)).to be_html_eql(expected_user_avatar_tag(user))
       end
 
-      it 'should return an empty string if nil is provided' do
-        expect(helper.avatar(nil)).to eq('')
+      it 'returns a gravatar image tag with ssl if the request was ssl required' do
+        expect(helper.avatar_url(user)).to eq(gravatar_expected_url(mail_digest, ssl: true))
       end
+    end
 
-      it 'should return an empty string if a parsable e-mail with default avatar is provided' do
-        mail = '<e-mail@mail.de>'
+    it 'returns an empty string if a non parsable (e-mail) string is provided' do
+      expect(helper.avatar('just the name')).to eq('')
+    end
 
-        expect(helper.avatar(mail)).to eq('')
-      end
+    it 'returns an empty string if nil is provided' do
+      expect(helper.avatar(nil)).to eq('')
+    end
 
-      it 'should return an empty string if a non parsable (e-mail) string is provided' do
-        expect(helper.avatar_url('just the name')).to eq('')
-      end
+    it 'returns an empty string if a parsable e-mail with default avatar is provided' do
+      mail = '<e-mail@mail.de>'
 
-      it 'should return an empty string if nil is provided' do
-        expect(helper.avatar_url(nil)).to eq('')
-      end
+      expect(helper.avatar(mail)).to eq('')
+    end
+
+    it 'returns an empty string if a non parsable (e-mail) string url is provided' do
+      expect(helper.avatar_url('just the name')).to eq('')
+    end
+
+    it 'returns an empty string if nil url is provided' do
+      expect(helper.avatar_url(nil)).to eq('')
     end
   end
 
@@ -188,11 +191,11 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
     let(:enable_gravatars) { false }
     let(:enable_local_avatars) { false }
 
-    it 'should return an empty string if gravatar is disabled' do
+    it 'returns an empty string for avatar if gravatar is disabled' do
       expect(helper.avatar(user)).to be_html_eql(expected_user_avatar_tag(user))
     end
 
-    it 'should return an empty string if gravatar is disabled' do
+    it 'returns an empty string for avatar_url if gravatar is disabled' do
       expect(helper.avatar_url(user)).to eq('')
     end
   end

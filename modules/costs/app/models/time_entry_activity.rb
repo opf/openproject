@@ -57,7 +57,7 @@ class TimeEntryActivity < Enumeration
              pluck_project_time_entry_activity_active_state(project)
            end
 
-    !teap.nil? && teap || teap.nil? && active?
+    (!teap.nil? && teap) || (teap.nil? && active?)
   end
 
   def activated_projects

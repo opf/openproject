@@ -34,7 +34,7 @@ module Groups
       self.model = group
 
       super user: current_user,
-            contract_class: contract_class
+            contract_class:
     end
 
     private

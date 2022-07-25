@@ -41,7 +41,7 @@ describe 'Authentication Stages', type: :feature do
       mail: 'bob@example.com',
       firstname: 'Bo',
       lastname: 'B',
-      language: language,
+      language:,
       password: user_password,
       password_confirmation: user_password
     )
@@ -65,7 +65,8 @@ describe 'Authentication Stages', type: :feature do
 
   context 'when disabled' do
     let(:consent_required) { false }
-    it 'should not show consent' do
+
+    it 'does not show consent' do
       login_with user.login, user_password
       expect(page).to have_no_selector('.account-consent')
       expect_logged_in
@@ -73,7 +74,7 @@ describe 'Authentication Stages', type: :feature do
 
     it 'keeps the autologin request (Regression #33696)',
        with_settings: { autologin: '1' } do
-      expect(Setting.autologin?).to eq true
+      expect(Setting.autologin?).to be true
 
       login_with user.login, user_password, autologin: true
       expect(page).to have_no_selector('.account-consent')
@@ -87,7 +88,8 @@ describe 'Authentication Stages', type: :feature do
 
   context 'when enabled, but no consent info', with_settings: { consent_info: {} } do
     let(:consent_required) { true }
-    it 'should not show consent' do
+
+    it 'does not show consent' do
       expect(Rails.logger)
         .to receive(:error)
         .at_least(:once)
@@ -106,7 +108,7 @@ describe 'Authentication Stages', type: :feature do
       Capybara.current_session.driver.header('Accept-Language', 'de')
     end
 
-    it 'should show localized consent as defined by the accept language header (ignoring users language)' do
+    it 'shows localized consent as defined by the accept language header (ignoring users language)' do
       login_with user.login, user_password
 
       expect(page).to have_selector('.account-consent')
@@ -122,7 +124,7 @@ describe 'Authentication Stages', type: :feature do
       page.execute_script("window.sessionStorage.clear();")
     end
 
-    it 'should show consent' do
+    it 'shows consent' do
       expect(Setting.consent_time).to be_blank
       login_with user.login, user_password
 
@@ -177,7 +179,7 @@ describe 'Authentication Stages', type: :feature do
       expect_logged_in
     end
 
-    it 'should require consent from newly registered users' do
+    it 'requires consent from newly registered users' do
       login_as user
 
       # Invite new user
@@ -209,7 +211,7 @@ describe 'Authentication Stages', type: :feature do
 
     it 'keeps the autologin request (Regression #33696)',
        with_settings: { autologin: '1' } do
-      expect(Setting.autologin?).to eq true
+      expect(Setting.autologin?).to be true
 
       login_with user.login, user_password, autologin: true
 

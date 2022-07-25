@@ -28,9 +28,9 @@
 
 ---
 issues_001:
-  created_at: <%= 3.days.ago.to_date.to_s(:db) %>
+  created_at: <%= 3.days.ago.to_date.to_fs(:db) %>
   project_id: 1
-  updated_at: <%= 1.day.ago.to_date.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_date.to_fs(:db) %>
   priority_id: 4
   subject: Can't print recipes
   id: 1
@@ -41,8 +41,8 @@ issues_001:
   assigned_to_id:
   author_id: 2
   status_id: 1
-  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
-  due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
+  start_date: <%= 1.day.ago.to_date.to_fs(:db) %>
+  due_date: <%= 10.day.from_now.to_date.to_fs(:db) %>
   lock_version: 3
 issues_002:
   created_at: 2006-07-19 21:04:21 +02:00
@@ -58,7 +58,7 @@ issues_002:
   assigned_to_id: 3
   author_id: 2
   status_id: 2
-  start_date: <%= 2.day.ago.to_date.to_s(:db) %>
+  start_date: <%= 2.day.ago.to_date.to_fs(:db) %>
   due_date:
   lock_version: 3
   done_ratio: 30
@@ -76,12 +76,12 @@ issues_003:
   assigned_to_id: 3
   author_id: 2
   status_id: 1
-  start_date: <%= 15.day.ago.to_date.to_s(:db) %>
-  due_date: <%= 5.day.ago.to_date.to_s(:db) %>
+  start_date: <%= 15.day.ago.to_date.to_fs(:db) %>
+  due_date: <%= 5.day.ago.to_date.to_fs(:db) %>
 issues_004:
-  created_at: <%= 5.days.ago.to_date.to_s(:db) %>
+  created_at: <%= 5.days.ago.to_date.to_fs(:db) %>
   project_id: 2
-  updated_at: <%= 2.days.ago.to_date.to_s(:db) %>
+  updated_at: <%= 2.days.ago.to_date.to_fs(:db) %>
   priority_id: 4
   subject: Issue on project 2
   id: 4
@@ -93,9 +93,9 @@ issues_004:
   author_id: 2
   status_id: 1
 issues_005:
-  created_at: <%= 5.days.ago.to_date.to_s(:db) %>
+  created_at: <%= 5.days.ago.to_date.to_fs(:db) %>
   project_id: 3
-  updated_at: <%= 2.days.ago.to_date.to_s(:db) %>
+  updated_at: <%= 2.days.ago.to_date.to_fs(:db) %>
   priority_id: 4
   subject: Subproject issue
   id: 5
@@ -107,9 +107,9 @@ issues_005:
   author_id: 2
   status_id: 1
 issues_006:
-  created_at: <%= 1.minute.ago.to_date.to_s(:db) %>
+  created_at: <%= 1.minute.ago.to_date.to_fs(:db) %>
   project_id: 5
-  updated_at: <%= 1.minute.ago.to_date.to_s(:db) %>
+  updated_at: <%= 1.minute.ago.to_date.to_fs(:db) %>
   priority_id: 4
   subject: Issue of a private subproject
   id: 6
@@ -120,12 +120,12 @@ issues_006:
   assigned_to_id:
   author_id: 2
   status_id: 1
-  start_date: <%= Date.today.to_s(:db) %>
-  due_date: <%= 1.days.from_now.to_date.to_s(:db) %>
+  start_date: <%= Date.today.to_fs(:db) %>
+  due_date: <%= 1.days.from_now.to_date.to_fs(:db) %>
 issues_007:
-  created_at: <%= 10.days.ago.to_date.to_s(:db) %>
+  created_at: <%= 10.days.ago.to_date.to_fs(:db) %>
   project_id: 1
-  updated_at: <%= 10.days.ago.to_date.to_s(:db) %>
+  updated_at: <%= 10.days.ago.to_date.to_fs(:db) %>
   priority_id: 5
   subject: Issue due today
   id: 7
@@ -136,12 +136,12 @@ issues_007:
   assigned_to_id:
   author_id: 2
   status_id: 1
-  start_date: <%= 10.days.ago.to_s(:db) %>
-  due_date: <%= Date.today.to_s(:db) %>
+  start_date: <%= 10.days.ago.to_fs(:db) %>
+  due_date: <%= Date.today.to_fs(:db) %>
 issues_008:
-  created_at: <%= 10.days.ago.to_date.to_s(:db) %>
+  created_at: <%= 10.days.ago.to_date.to_fs(:db) %>
   project_id: 1
-  updated_at: <%= 10.days.ago.to_date.to_s(:db) %>
+  updated_at: <%= 10.days.ago.to_date.to_fs(:db) %>
   priority_id: 5
   subject: Closed issue
   id: 8
@@ -155,9 +155,9 @@ issues_008:
   start_date:
   due_date:
 issues_009:
-  created_at: <%= 1.minute.ago.to_date.to_s(:db) %>
+  created_at: <%= 1.minute.ago.to_date.to_fs(:db) %>
   project_id: 5
-  updated_at: <%= 1.minute.ago.to_date.to_s(:db) %>
+  updated_at: <%= 1.minute.ago.to_date.to_fs(:db) %>
   priority_id: 5
   subject: Blocked Issue
   id: 9
@@ -168,12 +168,12 @@ issues_009:
   assigned_to_id:
   author_id: 2
   status_id: 1
-  start_date: <%= Date.today.to_s(:db) %>
-  due_date: <%= 1.days.from_now.to_date.to_s(:db) %>
+  start_date: <%= Date.today.to_fs(:db) %>
+  due_date: <%= 1.days.from_now.to_date.to_fs(:db) %>
 issues_010:
-  created_at: <%= 1.minute.ago.to_date.to_s(:db) %>
+  created_at: <%= 1.minute.ago.to_date.to_fs(:db) %>
   project_id: 5
-  updated_at: <%= 1.minute.ago.to_date.to_s(:db) %>
+  updated_at: <%= 1.minute.ago.to_date.to_fs(:db) %>
   priority_id: 5
   subject: Issue Doing the Blocking
   id: 10
@@ -184,12 +184,12 @@ issues_010:
   assigned_to_id:
   author_id: 2
   status_id: 1
-  start_date: <%= Date.today.to_s(:db) %>
-  due_date: <%= 1.days.from_now.to_date.to_s(:db) %>
+  start_date: <%= Date.today.to_fs(:db) %>
+  due_date: <%= 1.days.from_now.to_date.to_fs(:db) %>
 issues_011:
-  created_at: <%= 3.days.ago.to_date.to_s(:db) %>
+  created_at: <%= 3.days.ago.to_date.to_fs(:db) %>
   project_id: 1
-  updated_at: <%= 1.day.ago.to_date.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_date.to_fs(:db) %>
   priority_id: 5
   subject: Closed issue on a closed version
   id: 11
@@ -200,12 +200,12 @@ issues_011:
   assigned_to_id:
   author_id: 2
   status_id: 5
-  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  start_date: <%= 1.day.ago.to_date.to_fs(:db) %>
   due_date:
 issues_012:
-  created_at: <%= 3.days.ago.to_date.to_s(:db) %>
+  created_at: <%= 3.days.ago.to_date.to_fs(:db) %>
   project_id: 1
-  updated_at: <%= 1.day.ago.to_date.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_date.to_fs(:db) %>
   priority_id: 5
   subject: Closed issue on a locked version
   id: 12
@@ -216,12 +216,12 @@ issues_012:
   assigned_to_id:
   author_id: 3
   status_id: 5
-  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  start_date: <%= 1.day.ago.to_date.to_fs(:db) %>
   due_date:
 issues_013:
-  created_at: <%= 5.days.ago.to_date.to_s(:db) %>
+  created_at: <%= 5.days.ago.to_date.to_fs(:db) %>
   project_id: 3
-  updated_at: <%= 2.days.ago.to_date.to_s(:db) %>
+  updated_at: <%= 2.days.ago.to_date.to_fs(:db) %>
   priority_id: 4
   subject: Subproject issue two
   id: 13

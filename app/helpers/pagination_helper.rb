@@ -119,7 +119,7 @@ module PaginationHelper
 
              begin
                # + 1 as page is not 0 but 1 based
-               options[:offset].to_i / per_page_param(options) + 1
+               (options[:offset].to_i / per_page_param(options)) + 1
              rescue ZeroDivisionError
                1
              end
@@ -179,12 +179,12 @@ module PaginationHelper
     end
 
     def previous_page
-      num = @collection.current_page > 1 && @collection.current_page - 1
+      num = @collection.current_page > 1 && (@collection.current_page - 1)
       previous_or_next_page(num, I18n.t(:label_previous), 'prev')
     end
 
     def next_page
-      num = @collection.current_page < total_pages && @collection.current_page + 1
+      num = @collection.current_page < total_pages && (@collection.current_page + 1)
       previous_or_next_page(num, I18n.t(:label_next), 'next')
     end
 

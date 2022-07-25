@@ -37,7 +37,7 @@ module OpenProject
       found_version = Gem.loaded_specs[gem].version
       if found_version > Gem::Version.new(version)
         raise "OpenProject expects to patch gem '#{gem}' at version #{version} " \
-              "but found version #{found_version.to_s}. Please check whether the patch is still valid."
+              "but found version #{found_version}. Please check whether the patch is still valid."
       end
 
       block.call

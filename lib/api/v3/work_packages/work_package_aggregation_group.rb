@@ -33,7 +33,7 @@ module API
         def initialize(group_key, count, query:, current_user:, sums: nil)
           @sums = sums
 
-          super(group_key, count, query: query, current_user: current_user)
+          super(group_key, count, query:, current_user:)
         end
 
         property :sums,

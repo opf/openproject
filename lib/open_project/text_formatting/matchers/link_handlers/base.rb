@@ -79,13 +79,9 @@ module OpenProject::TextFormatting::Matchers
         end
       end
 
-      def identifier
-        matcher.identifier
-      end
+      delegate :identifier, to: :matcher
 
-      def project
-        matcher.project
-      end
+      delegate :project, to: :matcher
 
       ##
       # Call a named route with _path when only_path is true

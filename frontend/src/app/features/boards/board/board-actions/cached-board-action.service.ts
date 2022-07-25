@@ -30,8 +30,8 @@ export abstract class CachedBoardActionService extends BoardActionService {
   }
 
   addColumnWithActionAttribute(board:Board, value:HalResource):Promise<Board> {
-    if (this.cache.value) {
-      // Add the new value to the cache
+    if (this.cache.value && !this.cache.value.find((item) => item.id === value.id)) {
+      // Add the new value to the cache if it was not there before
       const newValue = [...this.cache.value, value];
       this.cache.putValue(newValue);
     }

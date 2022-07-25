@@ -10,7 +10,7 @@
   #input
 />
 <button
-  *ngIf="showClearButton && value !== ''"
+  *ngIf="showClearButton && value !== '' && !disabled"
   (click)="value = ''"
   type="button"
   class="spot-text-field--clear-button"

@@ -36,9 +36,9 @@ describe ::API::V3::GithubPullRequests::GithubPullRequestRepresenter do
   let(:github_pull_request) do
     build_stubbed(:github_pull_request,
                   state: 'open',
-                  labels: labels,
-                  github_user: github_user,
-                  merged_by: merged_by).tap do |pr|
+                  labels:,
+                  github_user:,
+                  merged_by:).tap do |pr|
       allow(pr)
         .to receive(:latest_check_runs)
         .and_return(latest_check_runs)
@@ -200,21 +200,21 @@ describe ::API::V3::GithubPullRequests::GithubPullRequestRepresenter do
       end
 
       it 'changes when the github_pull_request is updated' do
-        github_pull_request.updated_at = Time.zone.now + 20.seconds
+        github_pull_request.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key
       end
 
       it 'changes when the github_user is updated' do
-        github_pull_request.github_user.updated_at = Time.zone.now + 20.seconds
+        github_pull_request.github_user.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key
       end
 
       it 'changes when the merged_by user is updated' do
-        github_pull_request.merged_by.updated_at = Time.zone.now + 20.seconds
+        github_pull_request.merged_by.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key

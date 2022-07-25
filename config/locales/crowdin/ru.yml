@@ -48,8 +48,9 @@ ru:
         main-menu-hover-font-color: "Шрифт главного меню при наведении"
         main-menu-border-color: "Граница главного меню"
       custom_colors: "Настроить цвета"
-      customize: "Настройте установку OpenProject с помощью собственного логотипа. Примечание: этот логотип будет общедоступным."
+      customize: "Настройте свой OpenProject своими логотипом и цветами."
       enterprise_notice: "Отдельное \"Спасибо!\" за их финансовый вклад в развитие OpenProject, эта маленькая Функция доступна только для абонентов корпоративной версии."
+      enterprise_more_info: "Примечание: используемый логотип будет общедоступным."
       manage_colors: "Изменить цвет выбранных опций"
       instructions:
         alternative-color: "Яркий контрастный цвет, который обычно используют для важных кнопок на экране."
@@ -76,6 +77,7 @@ ru:
       buttons:
         upgrade: "Обновить сейчас"
         contact: "Свяжитесь с нами для опробирования"
+        more_info: "Больше информации"
       enterprise_info_html: "является функцией <strong class='icon-medal'></strong> корпоративной версии."
       upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
     journal_aggregation:
@@ -93,6 +95,8 @@ ru:
     show_preview: 'Предпросмотр текста'
     add_new: 'Добавить текст справки'
     edit: "Редактировать текст справки для %{attribute_caption}"
+    enterprise:
+      description: 'Нажатие на боковой панели отображает атрибут текстовой справки, которая поможет вам и вашим пользователям лучше понять, что делает каждый элемент.'
   auth_sources:
     index:
       no_results_content_title: На данный момент способы аутентификации отсутствуют.
@@ -170,7 +174,7 @@ ru:
     execute: 'Выполнить %{name}'
     upsale:
       title: 'Настраиваемые действия'
-      description: 'Пользовательские действия автоматизируют повседневную работу, объединяя отдельные шаги в одну кнопку.'
+      description: 'Пользовательские действия сводятся к одному клику по ярлыку набора заранее определенных действий, которые вы можете сделать доступными для определенных пакетов работ на основе статуса, роли, типа или проекта.'
   custom_fields:
     text_add_new_custom_field: >
       Прежде чем добавлять настраиваемые поля в проект, нужно создать их.
@@ -270,7 +274,7 @@ ru:
     upsale:
       title: Пользователи-заполнители
       description: >
-        Есть несколько сценариев, где вы хотите назначить работу людям, которые не являются участниками вашего проекта. Это может быть просто то, что вам все равно нужно нанять правильного человека для работы. Или вы просто не хотите дать этому человеку доступ к информации о проекте, но хотите отслеживать задачи, назначенные этому человеку.
+        Пользователи Placeholder - это способ назначить пакеты работ пользователям, которые не являются частью вашего проекта. Они могут быть полезными в различных сценариях; например, если вам нужно отслеживать задачи для ресурса, который еще не назван или недоступен или если вы не хотите дать этому человеку доступ к OpenProject, но по-прежнему хотите отслеживать назначенные ему задачи.
   prioritiies:
     edit:
       priority_color_text: |
@@ -300,6 +304,8 @@ ru:
     edit:
       settings: "Параметры"
       form_configuration: "Настройка форм"
+      more_info_text_html: >
+        Корпоративная редакция позволяет настроить конфигурацию форм с этими дополнительными возможностями: <br> <ul class="%{list_styling_class}"> <li><b>Добавить новые группы атрибутов</b></li> <li><b>Переименовать группы атрибутов</b></li> </ul>
       projects: "Проекты"
       enabled_projects: "Доступные проекты"
       edit_query: "Изменить таблицу"
@@ -521,20 +527,23 @@ ru:
         begin_deletion: "Начало удаления"
         children: "Вложенные элементы"
         done_ratio: "Прогресс (%)"
+        duration: "Продолжительность"
         end_insertion: "Завершение вставки"
         end_deletion: "Завершение удаления"
-        version: "Этапы"
+        ignore_non_working_days: "Игнорировать нерабочие дни"
         parent: "Родитель"
         parent_issue: "Родитель"
         parent_work_package: "Родитель"
         priority: "Приоритет"
         progress: "Прогресс (%)"
+        readonly: "Только для чтения"
         schedule_manually: "Ручное планирование"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"
         subproject: "Подпроект"
         time_entries: "Журналировать время"
         type: "Тип"
+        version: "Этапы"
         watcher: "Наблюдатель"
       'doorkeeper/application':
         uid: "ID клиента"
@@ -735,6 +744,10 @@ ru:
           attributes:
             due_date:
               not_start_date: "не дата начала, но нужна для вех."
+            duration:
+              larger_than_dates: "больше, чем интервал между началом и датой окончания."
+              smaller_than_dates: "меньше интервала между началом и датой окончания."
+              not_available_for_milestones: "не доступен для пакетов работ с набором вех."
             parent:
               cannot_be_milestone: "не может служить вехой."
               cannot_be_self_assigned: "не может быть присвоено самому себе."
@@ -1388,7 +1401,7 @@ ru:
       no_results:
         title: "Нет маркеров доступа для отображения"
         description: "Все они были отключены. Они могут быть включены вновь в меню Администрирование."
-      access_token: "Маркер доступа"
+      access_tokens: "Маркеры доступа"
       headers:
         action: "Действие"
         expiration: "Срок действия"
@@ -1489,7 +1502,6 @@ ru:
   label_consent_settings: "Согласие пользователя"
   label_wiki_menu_item: Пункт меню wiki
   label_select_main_menu_item: Выберите новый пункт главного меню
-  label_select_project: "Выберите проект"
   label_required_disk_storage: "Требуется место на диске"
   label_send_invitation: Отправить приглашение
   label_change_plural: "Изменения"
@@ -1555,6 +1567,7 @@ ru:
   label_diff: "отличия"
   label_diff_inline: "Встроенный"
   label_diff_side_by_side: "Рядом"
+  label_digital_accessibility: 'Цифровая доступность (DE)'
   label_disabled: "отключено"
   label_display: "Отображение"
   label_display_per_page: "На странице: %{value}"
@@ -1767,7 +1780,6 @@ ru:
   label_product_version: "Версия продукта"
   label_professional_support: "Профессиональная поддержка"
   label_profile: "Профиль"
-  label_project_all: "Все проекты"
   label_project_count: "Общее количество проектов"
   label_project_copy_notifications: "Уведомлять по электронной почте по ходу копирования проекта"
   label_project_latest: "Последние проекты"
@@ -2031,6 +2043,9 @@ ru:
   mail_body_backup_token_info: Предыдущий маркер больше не действителен.
   mail_body_backup_waiting_period: Новый маркер будет действителен через %{hours} часов.
   mail_body_backup_token_warning: Если это не так, войдите в OpenProject и сбросьте его снова немедленно.
+  mail_body_incoming_email_error: Не удалось обработать письмо, которое вы отправили в OpenProject.
+  mail_body_incoming_email_error_in_reply_to: "%{received_at} %{from_email} написал"
+  mail_body_incoming_email_error_logs: "Журналы"
   mail_body_lost_password: "Чтобы изменить пароль, щёлкните по следующей ссылке:"
   mail_body_register: "Добро пожаловать в %{app_title}. Пожалуйста, активируйте свою учетную запись, перейдя по ссылке:"
   mail_body_register_header_title: "Приглашение участника проекта по электронной почте"
@@ -2049,6 +2064,7 @@ ru:
   mail_subject_account_activation_request: "Запрос на активацию учетной записи %{value}"
   mail_subject_backup_ready: "Ваша резервная копия готова"
   mail_subject_backup_token_reset: "Сброс маркера резервного копирования"
+  mail_subject_incoming_email_error: "Письмо отправлено на OpenProject не может быть обработано"
   mail_subject_lost_password: "Ваш пароль %{value}"
   mail_subject_register: "Активация вашей учетной записи %{value}"
   mail_subject_reminder: "%{count}  пакет(-ов) работ на  следующие %{days}"
@@ -2140,6 +2156,12 @@ ru:
   notice_successful_create: "Создание выполнено."
   notice_successful_delete: "Удаление выполнено."
   notice_successful_update: "Обновление выполнено."
+  notice_successful_update_custom_fields_added_to_project: |
+    Успешное обновление. Пользовательские поля активированных типов автоматически активируются
+    в форме пакета работ. <a href="%{url}" target="_blank">Подробнее</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Успешное обновление. Активные настраиваемые поля автоматически активируются для
+    связанных проектов этого типа.
   notice_to_many_principals_to_display: "Слишком много результатов. Сузьте поиск, введя имя нового участника (или группы)."
   notice_user_missing_authentication_method: Пользователь еще не выбрал пароль или другой способ авторизации.
   notice_user_invitation_resent: Приглашение было отправлено на %{email}.
@@ -2209,13 +2231,14 @@ ru:
   permission_edit_own_time_entries: "Редактировать собственные учетные записи о времени"
   permission_edit_project: "Редактировать проект"
   permission_edit_reportings: "Редактировать отчеты"
-  permission_edit_time_entries: "Редактировать записи о времени"
+  permission_edit_time_entries: "Редактировать журналы времени для других пользователей"
   permission_edit_timelines: "Редактировать графики"
   permission_edit_wiki_pages: "Редактировать wiki-страницы"
   permission_export_work_packages: "Экспорт пакетов работ"
   permission_export_wiki_pages: "Экспорт wiki-страниц"
   permission_list_attachments: "Отобразить список прикреплённых файлов"
-  permission_log_time: "Учитывать потраченное время"
+  permission_log_own_time: "Регистрировать свое время"
+  permission_log_time: "Журнал времени для других пользователей"
   permission_manage_forums: "Управление форумами"
   permission_manage_categories: "Управление категориями пакета работ"
   permission_manage_work_package_relations: "Управление связями пакета работ"
@@ -2371,6 +2394,9 @@ ru:
     storage:
       not_available: "Дисковое пространство не доступно для этого репозитория."
       update_timeout: "Хранить последнюю информацию о дисковом пространстве, необходимом для репозитория, N минут. Так как подсчет необходимого для репозитория дискового пространства могут быть дорогостоящим, увеличить это значение для снижения его влияния на производительность."
+      oauth_application_details: "Секретное значение клиента не будет доступно после закрытия этого окна. Пожалуйста, скопируйте это значение в настройки интеграции Nextcloud OpenProject:"
+      oauth_application_details_link_text: "Перейти на страницу настроек"
+      show_warning_details: "Для использования этого хранилища файлов не забудьте активировать модуль и определенное хранилище в настройках проекта каждого желаемого проекта."
     subversion:
       existing_title: "Существующий репозиторий Subversion"
       existing_introduction: "Если у вас есть существующий репозиторий Subversion, вы можете связать его с OpenProject для доступа к нему из приложения."
@@ -2415,7 +2441,7 @@ ru:
   setting_smtp_authentication: "SMTP аутентификация"
   setting_smtp_user_name: "Имя пользователя SMTP"
   setting_smtp_password: "SMTP пароль"
-  setting_smtp_domain: "SMTP HELLO домен"
+  setting_smtp_domain: "SMTP HELO домен"
   setting_activity_days_default: "Дни отображенные на проектной деятельности"
   setting_app_subtitle: "Второе название приложения"
   setting_app_title: "Название приложения"
@@ -2464,7 +2490,7 @@ ru:
   setting_work_package_list_default_columns: "Отображать по умолчанию"
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"
-  setting_work_packages_export_limit: "Лимит экспорта пакета работ"
+  setting_work_packages_projects_export_limit: "Ограничение экспорта пакетов работ / проектов"
   setting_journal_aggregation_time_minutes: "Действия пользователя агрегированы в"
   setting_log_requesting_user: "Журналировать входное имя, имя и адрес электронной почты для всех запросов"
   setting_login_required: "Требуется аутентификация"
@@ -3055,4 +3081,51 @@ ru:
     authorization_error: "Произошла ошибка авторизации."
     revoke_my_application_confirmation: "Вы действительно хотите удалить это приложение? Это действие будет отменено %{token_count}."
     my_registered_applications: "Зарегистрированные OAuth приложения"
+  oauth_client:
+    urn_connection_status:
+      connected: "Подключён"
+      error: "Ошибка"
+      failed_authorization: "Ошибка авторизации"
+    labels:
+      label_oauth_integration: "Интеграция с OAuth2"
+      label_redirect_uri: "URI переадресации"
+      label_request_token: "Токен запроса"
+      label_refresh_token: "Токен обновления"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 вернул ошибку"
+      oauth_reported: "Поставщик OAuth2 сообщил"
+      oauth_returned_error: "OAuth2 вернул ошибку"
+      oauth_returned_json_error: "OAuth2 вернул ошибку JSON"
+      oauth_returned_http_error: "OAuth2 вернул ошибку сети"
+      oauth_returned_standard_error: "OAuth2 вернул внутреннюю ошибку"
+      wrong_token_type_returned: "OAuth2 вернул неверный тип токена, ожидая AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 сообщил об ошибке. Обратитесь к системному администратору."
+      oauth_client_not_found: "OAuth2 клиент не найден в точке 'callback' (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Внутренняя ошибка: Обнаружен refresh_token без ранее существующего токена.
+      refresh_token_updated_failed: "Ошибка при обновлении OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        Эта ошибка появляется после того, как вы обновили client_id и client_secret в OpenProject, но не обновили поле 'Return URI' в OAuth2 провайдере.
+      oauth_code_not_present: "OAuth2 'code' не найден в конечной точке 'callback' (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        Эта ошибка появляется если вы выбрали неправильный response_type в OAuth2 провайдере. Response_type должен быть 'code' или аналогичным.
+      oauth_state_not_present: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        OAuth2 'state' используется для указания OpenProject где продолжить после успешной авторизации OAuth2. Отсутствие 'state' - внутренняя ошибка, которая может появиться при настройке. Обратитесь к системному администратору.
+      rack_oauth2:
+        client_secret_invalid: "Секрет клиента недействителен"
+        invalid_request: >
+          Сервер авторизации OAuth2 ответил 'invalid_request'. Эта ошибка появляется, если вы пытаетесь авторизоваться несколько раз или в случае технических проблем.
+        invalid_response: "Сервер авторизации OAuth2 указал неверный ответ (invalid_response)"
+        invalid_grant: "Сервер авторизации OAuth2 просит вас повторно авторизоваться (invalid_grant)."
+        invalid_client: "Сервер авторизации OAuth2 не распознает OpenProject (invalid_client)."
+        unauthorized_client: "Сервер авторизации OAuth2 отвергает тип гранта (unauthorized_client)"
+        unsupported_grant_type: "Сервер авторизации OAuth2 просит вас повторно авторизоваться (unsupported_grant_type)."
+        invalid_scope: "Вам не разрешён доступ к запрошенному ресурсу (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "Запрос стороны сервера не смог авторизоваться."
+      missing_authorization: "Запрос на стороне сервера не удался из-за отсутствия информации о авторизации."
+    response:
+      unexpected: "Получен неожиданный ответ."
   you: вы

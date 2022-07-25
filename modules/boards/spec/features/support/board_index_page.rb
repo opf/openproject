@@ -56,11 +56,15 @@ module Pages
       expect(page).to have_conditional_selector(present, 'td.name', text: name)
     end
 
-    def create_board(action: nil, expect_empty: false)
-      page.find('.toolbar-item a', text: 'Board').click
+    def create_board(action: nil, expect_empty: false, via_toolbar: false)
+      if via_toolbar
+        page.find('[data-qa-selector="sidebar--create-board-button"]').click
+      else
+        page.find('.toolbar-item a', text: 'Board').click
+      end
 
       text = action == nil ? 'Basic' : action.to_s[0..5]
-      find('[data-qa-selector="op-tile-block-title"]', text: text).click
+      find('[data-qa-selector="op-tile-block-title"]', text:).click
 
       if expect_empty
         expect(page).to have_selector('.boards-list--add-item-text', wait: 10)

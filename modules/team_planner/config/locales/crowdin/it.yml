@@ -10,4 +10,4 @@ it:
     label_assignees: "Assegnatari"
     upsale:
       title: "Pianificatore di team"
-      description: "Il pianificatore di team ti offre una panoramica completa su ciò a cui ciascuno dei membri del team sta lavorando, una settimana alla volta. Spostare, allungare e ridurre le macro-attività in modo visivo, e anche trascinarle da un assegnatario a un altro per organizzare il carico di lavoro. È anche possibile creare nuove macro-attività o aggiungerne di esistenti, tutto dall'interno del team planner!"
+      description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees."

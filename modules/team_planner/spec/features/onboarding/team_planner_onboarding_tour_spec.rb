@@ -64,10 +64,10 @@ describe 'team planner onboarding tour', js: true do
   end
   let!(:wp2) { create(:work_package, project: scrum_project) }
 
-  let(:query) { create :query, user: user, project: demo_project, public: true, name: 'Team planner' }
+  let(:query) { create :query, user:, project: demo_project, public: true, name: 'Team planner' }
   let(:team_plan) do
     create :view_team_planner,
-           query: query,
+           query:,
            assignees: [user],
            projects: [demo_project, scrum_project]
   end
