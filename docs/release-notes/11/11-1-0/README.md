@@ -90,7 +90,7 @@ There are a lot more things we packed into 11.1 to tell you about.
 To use OpenProject 11.1 right away, create an instance and [test 14 days for free in the Cloud](https://start.openproject.com/).
 
 Prefer to run OpenProject 11.1 in your own infrastructure?
-Here you can find the [Installation guidelines](../../installation-and-operations) for OpenProject.
+Here you can find the [Installation guidelines](../../../installation-and-operations) for OpenProject.
 
 Want to upgrade from your self-managed Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/)
 
@@ -98,7 +98,7 @@ Navigate to the -> *Administration*-> *Enterprise Edition* and request your tria
 
 ## Migrating to OpenProject 11.0
 
-Follow the [upgrade guide for the packaged installation or Docker installation](../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.0. Please note the blue box on top of the page.
+Follow the [upgrade guide for the packaged installation or Docker installation](../../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.0. Please note the blue box on top of the page.
 
 We update the hosted OpenProject environments (Enterprise Cloud) automatically.
 
@@ -110,7 +110,7 @@ Special thanks go to all OpenProject contributors without whom this release woul
 
 - The City of Cologne for sponsoring some of the open source features and thus contributing them to the Community.
 
-- Every dedicated user who has created feature request, [reported bugs](../../development/report-a-bug/) for 11.1 and also supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- Every dedicated user who has created feature request, [reported bugs](../../../development/report-a-bug/) for 11.1 and also supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 
 - All the engaged users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
 

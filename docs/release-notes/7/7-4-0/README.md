@@ -88,7 +88,7 @@ provided. This provides a much higher level of security.
 
 ## OpenProject webhooks
 
-OpenProject offers an [extensive API](../../api/) 
+OpenProject offers an [extensive API](../../../api/) 
 to synchronize data between
 OpenProject and third party applications.  
 With OpenProject 7.4, OpenProject also offers a webhook plugin which can

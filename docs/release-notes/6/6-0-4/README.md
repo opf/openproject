@@ -50,7 +50,7 @@ OpenProject 6.0.4 contains several bug and accessibility fixes.
 
 Thanks a lot to the community, in particular to Marc Vollmer, for
 [reporting
-bugs](../../development/report-a-bug/)!
+bugs](../../../development/report-a-bug/)!
 
 For further information on the release, please refer to the  
 [Changelog v.6.0.4](https://community.openproject.com/versions/816) 
