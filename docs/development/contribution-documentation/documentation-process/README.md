@@ -56,7 +56,41 @@ If you are an external contributor you don't have write permissions on the repos
 
 ![fork openproject](fork-openproject.png)
 
-## Step 6: Clone the forked OpenProject repository in GitHub Desktop
+## Step 6: Disable Actions on GitHub.com
+
+There is are automated actions configured in the original repository, that we do not need for writing documentation. Therefore we may deactivate the github actions in the Settings of our own forked repository. On GitHub.com navigate to "Settings -> Actions" and Disable Actions and confirm with **Save**.
+
+![disable-github-actions](disable-github-actions.png)
+
+## Step 7: Change the Default branch for GitHub Desktop
+
+Open `https://github.com/[your-user]/openproject`. On the forked repository go to "Settings -> Branches" in the left side menu and Switch the default branch by pressing the symbol with the **two arrows** [3].
+
+![switch-the-default-branch-step-1](switch-the-default-branch-step-1.png)
+
+Select `release/12.1` as default branch and confirm with **Update**
+
+*NOTE:* There will be an additional window. Press the button: **I understand, update the default branch.**
+
+![switch-the-default-branch-step-2](switch-the-default-branch-step-2.png)
+
+## Step 8: Fetch origin with upstream changes (update local repository)
+
+Every time you start editing please make sure you have fetched the latest changes from GitHub.com. First you need to update your forked repository. There you select the branch you are working on, e.g. `release/12.1`. If there are updates in the main repository opf/openproject click on **Fetch upstream**.
+
+![fetch upstream changes](fetch-upstream-changes.png)
+
+Now you have fetched the latest changes from the main repository.
+
+You have to fetch those changes in GitHub Desktop by clicking **Fetch origin** in the main toolbar at the right. It is mandatory to be on the latest release branch (eg. `release/12.1`), it does not work if you are in any other branch.
+
+![fetch origin in github desktop](fetch-origin-in-github-desktop.png)
+
+Afterwards you also have to press **"Pull Upstream"**. Afterwards your local repository is updated to the latest commits of eg. opf/openproject/release/12.1
+
+![pull-upstream-changes](pull-upstream-changes.png)
+
+## Step 9: Clone the forked OpenProject repository in GitHub Desktop
 
 Before you can make changes you need to create a local clone of the OpenProject repository on your local computer. Open GitHub Desktop and navigate to "File -> Clone repository".
 
@@ -64,45 +98,35 @@ Before you can make changes you need to create a local clone of the OpenProject 
 
 
 
-In the modal window select the repository you forked in Step 5. Also select a folder on your computer for the cloned repository. Click **Clone**.
+In the modal window select the repository you forked in step *Fork the OpenProject repository*. Also select a folder on your computer for the cloned repository. Click **Clone**.
 
 ![select repository to be cloned](select-repository-to-be-cloned.png)
 
-In the next screen select "*To contribute to the parent project*".
+In the next screen select **To contribute to the parent project**.
 
 ![define how to use the fork](define-how-to-use-the-fork.png)
 
-## Step 7: Create a new Git branch for your change
+## Step 10: Create a new Git branch for your change
 
-Select the latest release branch e.g.`release/12.1` as the current branch. 
+Select the latest release branch e.g. `release/12.1` as the current branch. 
 
 ![create new branch - step 1](create-new-branch-step-1.png)
 
-In the same drop down click on "New branch". In this window insert a branch name that describes your changes and select the latest release branch e.g. `release/12.1` the created branch is based on.
+In the same drop down click on "New branch". In this window **insert a branch name that describes your changes** and **select the latest release branch** e.g. `release/12.1` the created branch is based on.
 
 ![create new branch - step 2](create-new-branch-step-2.png)
 
-## Step 8: Fetch origin with upstream changes (update local repository)
-
-Every time you start editing please make sure you have fetched the latest changes from GitHub.com. First you need to update your forked repository. There you select the branch you are working on, e.g. release/12.1. If there are updates in the main repository opf/openproject click on on "Fetch upstream".
-
-![fetch upstream changes](fetch-upstream-changes.png)
-
-Now you have fetched the latest changes from the main repository. Now you can fetch those changes in GitHub Desktop by clicking "Fetch origin" in the main toolbar:
-
-![fetch origin in github desktop](fetch-origin-in-github-desktop.png)
 
 
+## Step 11: Open the files you want to change in Typora
 
-## Step 9: Open the files you want to change in Typora
+In Typora open the files you want to change (File -> Open). In the file picker navigate to the local folder you selected in the step *Clone the forked OpenProject repository in GitHub Desktop*.
 
-In Typora open the files you want to change (File -> Open). In the file picker navigate to the local folder you selected in the step 6.
-
-## Step 10: Make the changes in Typora and save the file
+## Step 12: Make the changes in Typora and save the file
 
 The Typora editor makes it quite easy to make changes to the file. After you made your changes do not forgot to save.
 
-## Step 11: Commit the change to your local repository in GitHub Desktop
+## Step 13: Commit the change to your local repository in GitHub Desktop
 
 Open GitHub Desktop. Here you can see all the changes you made in your local repository.
 
@@ -110,13 +134,13 @@ Open GitHub Desktop. Here you can see all the changes you made in your local rep
 
 Add a commit message that best describes your change. This description should allow other users to easily understand the change you made.
 
-## Step 12: Push your changes to GitHub.com
+## Step 14: Push your changes to GitHub.com
 
 At the moment your change is only available in your local repository. To make it available on GitHub.com you need upload (push) by pressing the button "Push origin".
 
 ![push origin in github desktop](push-origin-in-github-desktop.png)
 
-## Step 13: Create a pull request
+## Step 15: Create a pull request
 
 A pull request is a workflow to ask for a review from the OpenProject team. With a pull request you basically ask to check your changes and to copy it over to the OpenProject repository (opf/openproject). After you pushed your local changes to your own repository click the button **Create Pull Request**.
 
@@ -124,23 +148,54 @@ A pull request is a workflow to ask for a review from the OpenProject team. With
 
 
 
-Here select the latest release branch e.g. release/12.1 in the first dropdown. In the second select the branch you have changed.
+Here select the latest release branch e.g. `release/12.1` in the **"base:"** dropdown on the left side. In the **"compare:"** dropdown select the branch you have changed.
 
 ![create pull request](create-pull-request.png)
 
-In the description field of the pull request enter a summary for the changes you made. If there is already a work package on https://community.openproject.org you can also add this to the description. This adds a relation between your pull request and the work package.
+In the description field of the pull request enter a summary for the changes you made. If there is already a work package on https://community.openproject.org you can also add this to the description with its complete URL. This adds a relation between your pull request and the work package.
 
-## Step 14: Request review
+## Step 16: Request review
 
-Select the label "documentation". 
+Select the label "documentation".
 
-![add documentation label for pull request](add-documentation-label-pull-requests.png) 
+![add documentation label for pull request](add-documentation-label-pull-requests.png)
 
-In the field "Reviewers" select "opf/doc-writers". 
+In the field "Reviewers" select "opf/doc-writers".
 
 ![select reviewer for documentation](select-reviewer-for-documentation.png)
 
-## Step 15: Wait for feedback from the reviewers
+## Step 17: Wait for feedback from the reviewers
 
 ... and hopefully it is all LGTM which means "Looks good to me(rge). Congrats to your first contribution to the OpenProject documentation. We appreciate your effort :-)
 
+
+
+## Appendix A: How to import a new release branch into your fork
+
+*(e.g. Release changes from `release/12.0` to `release 12.1`)*
+
+If a new release branch is generated on the upstream (opf) repository, the fork will NOT automatically fetch and merge and generate this release branch. With the following 'workaround' we get the new branch from the upstream (opf) repository and push it to our new origin (forked repository).
+
+#### A) Change Remote Repository to UPSTREAM
+
+In GitHub Desktop choose menu "Repository -> Repository settings". This will open a new window (screenshot below). Enter the URL of the upstream/original OpenProject repository (e.g. https://github.com/opf/openproject.git). Confirm with **Save**
+
+![rebase-your-fork-step-1](rebase-your-fork-step-1.png)
+
+#### B) Fetch origin (in this case repository 'opf')
+
+In GitHub Desktop **at Current branch select the new branch [1]** (e.g. `origin/release/12.1` and press **Fetch Upstream [2]**
+
+![rebase-your-fork-step-2](rebase-your-fork-step-2.png)
+
+#### C) Change remote repository back to the forked repository (ORIGIN)
+
+In Github Desktop choose menu "Repository -> Repository settings". This will open a new window (screenshot below). Enter the URL of your forked OpenProject repository (e.g. https://github.com/adam-op/openproject.git). Confirm with **Save**
+
+![rebase-your-fork-step-3](rebase-your-fork-step-3.png)
+
+#### D) PUSH to the forked repository (ORIGIN)
+
+In GitHub Desktop choose menu "Repository -> Push".
+
+![rebase-your-fork-step-4](rebase-your-fork-step-4.png)
