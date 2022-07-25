@@ -19,7 +19,7 @@
       op-file-link-list-item
       [fileLink]="fileLink"
       [disabled]="disabled"
-      [allowEditing]="allowEditing"
+      [allowEditing]="allowEditing$ | async"
       (removeFileLink)="removeFileLink(fileLink)"
     ></li>
   </ul>
