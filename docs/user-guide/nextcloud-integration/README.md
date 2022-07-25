@@ -11,21 +11,22 @@ keywords: integrations, apps, Nextcloud
 
 [Nextcloud](https://nextcloud.com/), the worlds’ most deployed on-premises content collaboration platform, and [OpenProject](https://www.openproject.org/), the leading free and open source project management software, join forces. For both Nextcloud and OpenProject **data sovereignty** and **open source** are an integral part of their business strategy and thus the foundation for their alliance.
 
-OpenProject and Nextcloud together combine project management and content collaboration and complement each other’s services. The collaboration of these two companies offers users a new dimension of data sovereignty and increase in productivity. Users will not risk compliance and data leaks by losing control over their content and can now even easily combine both systems.
+OpenProject and Nextcloud together combine project management and content collaboration and complement each other’s services.
+The collaboration of these two communities allows the users to link files and folders in Nextcloud with work packages in OpenProject: in OpenProject you can see all files related to a work package, and in Nextcloud you can find all work packages related to a file. Your project teams gain productivity as they clearly know where to find and store the files that they need for finishing a work package. Further it extends the Nextcloud dashboard with a widget for personal notifications from OpenProject. The app can also extend the search function in Nextcloud to find work packages in OpenProject. Also, users will not risk compliance and data leaks by losing control over their content and can now even easily combine both systems.
 
-The integration is available starting with Nextcloud 20 and OpenProject 12.2. To be able to use this integration the administrator of your instance should have completed the [Nextcloud integration setup](../../system-admin-guide/integrations/nextcloud) configuration.
+The integration is available starting with Nextcloud 22 and OpenProject 12.2. To be able to use this integration the administrator of your instance should have completed the [Nextcloud integration setup](../../system-admin-guide/integrations/nextcloud) configuration.
 
 ## Top benefits of the integration
 
 The integration enables users to perform multiple actions in both Nextcloud and OpenProject:
 
-- Keep an eye on ongoing project activities directly in their Nextcloud instance 
 - Link their Nextcloud files to OpenProject work packages via the Nextcloud interface.
 - Check which work packages are related to each file in Nextcloud.
+- Keep an eye on ongoing project activities directly in their Nextcloud instance 
 - Have a clear list view of the files linked to a specific work package in OpenProject.
 - Avoid losing control of your content so there is no compliance risks or data leaks.
 
-## How can I use with this integration?
+## How can I use this integration?
 
 As a user of both Nextcloud and OpenProject you can use this integration now in the two platforms:
 
