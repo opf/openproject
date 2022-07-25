@@ -28,6 +28,7 @@ The package is available for the following Linux distributions:
 
 | Distribution (64 bits only)                 |
 | ------------------------------------------- |
+| [Ubuntu 22.04 Jammy](#ubuntu-2204)          |
 | [Ubuntu 20.04 Focal](#ubuntu-2004)          |
 | [Ubuntu 18.04 Bionic Beaver](#ubuntu-1804)  |
 | [Ubuntu 16.04 Xenial Xerus](#ubuntu-1604)   |
@@ -48,6 +49,34 @@ x86_64
 > **Important note:** Please note that the packaged installation works best when running on a dedicated server or virtual machine, as we cannot ensure that the components installed and configured by the OpenProject installer will work on systems that have been already customized. If you must install OpenProject on a server where other software is running, or with an already configured Apache or NginX server, then you should have a look at the Docker-based installation instead.
 
 ## Ubuntu Installation
+
+### Ubuntu 22.04
+
+Import the PGP key used to sign our packages:
+
+```bash
+wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
+```
+
+Note: you might get a warning when importing the key `Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))`. This happens because APT has updated the way it manages signing keys, and the package provider is not supporting the new way yet.
+
+Add the OpenProject package source:
+
+```bash
+sudo wget -O /etc/apt/sources.list.d/openproject.list \
+  https://dl.packager.io/srv/opf/openproject/stable/12/installer/ubuntu/22.04.repo
+```
+
+Download the OpenProject package:
+
+```bash
+sudo apt-get update
+sudo apt-get install openproject
+```
+
+Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
+
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/openproject-installation-ubuntu.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ### Ubuntu 20.04
 
@@ -72,8 +101,6 @@ sudo apt-get install openproject
 ```
 
 Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
-
-<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/openproject-installation-ubuntu.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ### Ubuntu 18.04
 
