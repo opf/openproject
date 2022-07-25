@@ -6,7 +6,7 @@
   [apiFilters]="APIFilters"
   [focusDirectly]="!(handler.inEditMode || isNew)"
   [openDirectly]="!isNew"
-  appendTo="body"
+  appendTo=".op-wide-autocomplete-wrapper"
 
   (valueChange)="onModelChange($event)"
   (cancel)="handler.handleUserCancel()"

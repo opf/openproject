@@ -29,11 +29,13 @@
     let-search="search"
   >
     <div
+      [title]="item.name"
       class="ng-option-label ellipsis"
       [ngStyle]="{ 'padding-left.px': item.numberOfAncestors * 16 }"
       [opSearchHighlight]="search"
     >{{ item.name }}</div>
     <div
+      [title]="item.disabledReason"
       *ngIf="item.disabled && item.disabledReason"
       class="ng-option-label ellipsis"
       [ngStyle]="{ 'padding-left.px': item.numberOfAncestors * 16 }"
