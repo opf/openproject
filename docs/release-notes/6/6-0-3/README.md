@@ -36,7 +36,7 @@ We strongly recommend the upgrade.
 
 Thanks a lot to the community, in particular to Mikhail Podshivalin,
 Frank Schmid and Marc Vollmer, for [reporting multiple
-bugs](../../development/report-a-bug/)!
+bugs](../../../development/report-a-bug/)!
 
 For further information on the release, please refer to the  
 [Changelog v.6.0.3](https://community.openproject.com/versions/815) 

@@ -153,4 +153,4 @@ installations, there are some minor changes you need to do in order to
 perform the upgrade.
 
 [Please visit our upgrade guides for more
-information](../../installation-and-operations/operation/upgrading/).
+information](../../../installation-and-operations/operation/upgrading/).
