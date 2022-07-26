@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
-  MINIMAL_NEXTCLOUD_VERSION = 23
+  MINIMAL_NEXTCLOUD_VERSION = 22
 
   def validate_each(contract, attribute, value)
     return unless contract.model.changed_attributes.include?(attribute)

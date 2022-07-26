@@ -31,7 +31,7 @@ module StorageServerHelpers
                                         response_code: nil,
                                         response_headers: nil,
                                         response_body: nil,
-                                        response_nextcloud_major_version: 23)
+                                        response_nextcloud_major_version: 22)
     response_code ||= 200
     response_headers ||= {
       'Content-Type' => 'application/json; charset=utf-8'

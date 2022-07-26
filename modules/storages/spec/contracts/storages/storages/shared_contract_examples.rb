@@ -120,7 +120,7 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
         let(:capabilities_response_body) { nil } # use default
         let(:capabilities_response_code) { nil } # use default
         let(:capabilities_response_headers) { nil } # use default
-        let(:capabilities_response_major_version) { 23 }
+        let(:capabilities_response_major_version) { 22 }
 
         before do
           # simulate host value changed to have GET request sent to check host URL validity
@@ -175,8 +175,8 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
           include_examples 'contract is invalid', host: :not_nextcloud_server
         end
 
-        context 'when Nextcloud version is below the required minimal version which is 23' do
-          let(:capabilities_response_major_version) { 22 }
+        context 'when Nextcloud version is below the required minimal version which is 22' do
+          let(:capabilities_response_major_version) { 21 }
 
           include_examples 'contract is invalid', host: :minimal_nextcloud_version_unmet
         end
