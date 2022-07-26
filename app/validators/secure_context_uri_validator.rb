@@ -35,24 +35,22 @@ class SecureContextUriValidator < ActiveModel::EachValidator
     begin
       uri = URI.parse(value)
     rescue StandardError
-      contract.errors.add(attribute, :could_not_parse_host_uri)
+      contract.errors.add(attribute, :invalid_url)
       return
     end
 
     # The URI could be parsable but not contain a host name
     if uri.host.nil?
-      contract.errors.add(attribute, :could_not_parse_host_uri)
+      contract.errors.add(attribute, :invalid_url)
       return
     end
 
-    unless secure_context_uri?(uri)
-      contract.errors.add(attribute, :uri_not_secure_context)
+    unless self.class.secure_context_uri?(uri)
+      contract.errors.add(attribute, :url_not_secure_context)
     end
   end
 
-  private
-
-  def secure_context_uri?(uri)
+  def self.secure_context_uri?(uri)
     return true if uri.scheme == 'https' # https is always safe
     return true if uri.host == 'localhost' # Simple localhost
     return true if uri.host =~ /\.localhost\.?$/ # i.e. 'foo.localhost' or 'foo.localhost.'

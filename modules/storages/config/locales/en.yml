@@ -30,8 +30,6 @@ en:
                 is not fully set up. That Nextcloud instance still redirects to a URL containing 'index.php'. That is a 
                 strong indicator that the server does not have mod_rewrite, mod_headers and/or mod_env fully configured,
                 which is necessary for a Bearer token based authorization of API requests.
-              could_not_parse_host_uri: "could not parse the host URI"
-              uri_not_secure_context: "is not a secure context (HTTPS or localhost)"
         storages/file_link:
           attributes:
             origin_id:
