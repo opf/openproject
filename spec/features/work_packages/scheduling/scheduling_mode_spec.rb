@@ -188,6 +188,11 @@ describe 'scheduling mode',
     combined_field.expect_active!
     combined_field.expect_scheduling_mode manually: false
     combined_field.toggle_scheduling_mode
+
+    # The calendar needs some time to get initialised.
+    sleep 2
+    combined_field.expect_calendar
+
     # Increasing the duration while at it
     combined_field.update(%w[2015-12-20 2015-12-31])
 

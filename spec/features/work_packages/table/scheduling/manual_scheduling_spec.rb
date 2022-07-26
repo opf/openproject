@@ -106,6 +106,9 @@ describe 'Manual scheduling', js: true do
         fill_in 'endDate', with: '2020-07-25'
       end
 
+      # Wait for the debounce to be done
+      sleep 1
+
       start_date.save!
       start_date.expect_state_text '07/20/2020'
       due_date.expect_state_text '07/25/2020'

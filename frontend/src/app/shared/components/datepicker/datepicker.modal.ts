@@ -52,8 +52,12 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
 import { DatepickerModalService } from 'core-app/shared/components/datepicker/datepicker.modal.service';
-import { take } from 'rxjs/operators';
+import {
+  debounceTime,
+  take,
+} from 'rxjs/operators';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { Subject } from 'rxjs';
 
 export type DateKeys = 'date'|'start'|'end';
 
@@ -104,6 +108,8 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     end: '',
   };
 
+  dateChangedManually$ = new Subject<void>();
+
   private changeset:ResourceChangeset;
 
   private datePickerInstance:DatePicker;
@@ -141,6 +147,27 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
       ).subscribe((relation) => {
         this.initializeDatepicker(this.minimalDateFromPrecedingRelationship(relation));
         this.onDataChange();
+      });
+
+    this
+      .dateChangedManually$
+      .pipe(
+        // Avoid that the manual changes are moved to the datepicker too early.
+        // The debounce is chosen quite large on purpose to catch the following case:
+        //   1. Start date is for example 2022-07-15. The user wants to set the end date to the 19th.
+        //   2. So he/she starts entering the finish date 2022-07-1 .
+        //   3. This is already a valid date. Since it is before the start date,the start date would be changed automatically to the first without the debounce.
+        //   4. The debounce gives the user enough time to type the last number "9" before the changes are converted to the datepicker and the start date would be affected.
+        debounceTime(800),
+      )
+      .subscribe(() => {
+        // Always update the whole form to ensure that no values are lost/inconsistent
+        if (this.singleDate) {
+          this.updateDate('date', this.dates.date);
+        } else {
+          this.updateDate('start', this.dates.start);
+          this.updateDate('end', this.dates.end);
+        }
       });
   }
 
@@ -258,7 +285,27 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
       const date = this.datepickerService.parseDate(this.dates.date);
       this.datepickerService.setDates(date, this.datePickerInstance, enforceDate);
     } else {
-      const dates = [this.datepickerService.parseDate(this.dates.start), this.datepickerService.parseDate(this.dates.end)];
+      let startDate = this.datepickerService.parseDate(this.dates.start);
+      let endDate = this.datepickerService.parseDate(this.dates.end);
+
+      if (startDate && endDate) {
+        // If the start date is manually changed to be after the end date,
+        // we adjust the end date to be at least the same as the newly entered start date.
+        // Same applies if the end date is set manually before the current start date
+        if (startDate > endDate && this.datepickerService.isStateOfCurrentActivatedField('start')) {
+          endDate = startDate;
+          this.dates.end = this.timezoneService.formattedISODate(endDate);
+
+          this.cdRef.detectChanges();
+        } else if (endDate < startDate && this.datepickerService.isStateOfCurrentActivatedField('end')) {
+          startDate = endDate;
+          this.dates.start = this.timezoneService.formattedISODate(startDate);
+
+          this.cdRef.detectChanges();
+        }
+      }
+
+      const dates = [startDate, endDate];
       this.datepickerService.setDates(dates, this.datePickerInstance, enforceDate);
 
       if (toggleField) {

@@ -201,18 +201,18 @@ export class DatepickerModalService {
     return this.currentlyActivatedDateField === val;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   setDates(dates:DateOption|DateOption[], datePicker:DatePicker, enforceDate?:Date):void {
     const { currentMonth } = datePicker.datepickerInstance;
     const { currentYear } = datePicker.datepickerInstance;
     datePicker.setDates(dates);
 
-    /* eslint-disable no-param-reassign */
     if (enforceDate) {
       const enforcedMonth = enforceDate.getMonth();
       const enforcedYear = enforceDate.getFullYear();
       const monthDiff = enforcedMonth - currentMonth + 12 * (enforcedYear - currentYear);
 
+      // Because of the two-month layout we only have to update the calendar
+      // if the month is further in the past/future than the one additional month that is shown anyway
       if (Math.abs(monthDiff) > 1) {
         datePicker.datepickerInstance.currentMonth = enforcedMonth;
         datePicker.datepickerInstance.currentYear = enforcedYear;
@@ -224,7 +224,6 @@ export class DatepickerModalService {
     }
 
     datePicker.datepickerInstance.redraw();
-    /* eslint-enable no-param-reassign */
   }
 
   private keepCurrentlyActiveMonth(datePicker:DatePicker, currentMonth:number, currentYear:number) {
