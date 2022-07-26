@@ -8,21 +8,21 @@ keywords: integrations, apps, Nextcloud
 
 # OpenProject and Nextcloud integration setup 
 
-The integration between OpenProject and Nextcloud has the potential to improve the productivity of all users. It combines the strengths of Nextcloud, the market-leading collaboration platform, and OpenProject, the leading open source project management software.
+The integration between OpenProject and Nextcloud has the potential to improve the productivity of all users. It combines the strengths of Nextcloud, the world’s most-deployed on-premises collaborative file storage platform and OpenProject, the leading free and open source project management and collaboration software
 
-The integration enables users to keep an eye on ongoing project activities directly in their Nextcloud instance and link their Nextcloud files to OpenProject work packages. To learn more about how to use the integration, please refer to the [Nextcloud user guide](../../../user-guide/nextcloud-integration/)
+This integration allows users to link files and folders in Nextcloud with work packages in OpenProject. This makes it possible see all files related to a work package (in Open Project) and all work packages related to a file (in Nextcloud). Project members no longer need to lose time time trying to find the right files to be able to complete their tasks, and the integration of OpenProject-specific notifications on Nextcloud dashboard ensures that no change goes unnoticed. 
 
 ## Step-by-step setup instructions
 
-The integration is available starting with Nextcloud 22 and OpenProject 12.2. To be able to configure this integration, you need to be an administrator in both Nextcloud and OpenProject instances.
+For integrating with OpenProject 12.2, the minimum required version of Nextcloud is 22. For the desktop Nextcloud app, the minimum supported version is 2.0.0. To be able to configure this integration, you need to be an administrator in both Nextcloud and OpenProject instances.
 
 **1. Add the "OpenProject integration" app and connect the instance** - in Nextcloud
 
-To activate your integration to OpenProject in Nextcloud, navigate to the built-in app store under your user name in _Your apps_. You can use the search field in the top right corner to look for OpenProject integration app. Click the button **Download and enable**.
+To activate your integration to OpenProject in Nextcloud, navigate to the built-in app store in the menu under your user name in _Your apps_. You can use the search field in the top right corner to look for OpenProject integration app. Click the button **Download and enable**.
 
 ![Nextcloud_app_store](Nextcloud_app_store.png)
 
-Once the OpenProject integration app is downloaded and enabled, you can access it through the side menu and enter the host URL of your desired OpenProject instance.
+Once the OpenProject integration app is downloaded and enabled, you can access it from within the Settings page, via the the side menu. Start by entering the host URL of your desired OpenProject instance.
 
 ![Nextcloud_host](3_2_01 -NC_Step_1.png)
 
