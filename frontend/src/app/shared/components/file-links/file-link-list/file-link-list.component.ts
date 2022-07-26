@@ -132,8 +132,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
       });
 
     this.allowEditing$ = this.currentUserService
-      .hasCapabilities$('file_links/manage', (this.resource.project as unknown&{ id:string }).id)
-      .pipe(this.untilDestroyed());
+      .hasCapabilities$('file_links/manage', (this.resource.project as unknown&{ id:string }).id);
   }
 
   public removeFileLink(fileLink:IFileLink):void {
