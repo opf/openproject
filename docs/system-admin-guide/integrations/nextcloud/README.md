@@ -14,7 +14,7 @@ The integration enables users to keep an eye on ongoing project activities direc
 
 ## Step-by-step setup instructions
 
-The integration is available starting with Nextcloud 20 and OpenProject 12.2. To be able to configure this integration, you need to be an administrator in both Nextcloud and OpenProject instances.
+The integration is available starting with Nextcloud 22 and OpenProject 12.2. To be able to configure this integration, you need to be an administrator in both Nextcloud and OpenProject instances.
 
 **1. Add the "OpenProject integration" app and connect the instance** - in Nextcloud
 
