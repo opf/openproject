@@ -177,7 +177,8 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     if (val.length >= 8 || val.length === 0) {
       this.dates[key] = val;
       if (this.datepickerService.validDate(val) && this.datePickerInstance) {
-        this.enforceManualChangesToDatepicker(false);
+        const dateValue = this.datepickerService.parseDate(val) || undefined;
+        this.enforceManualChangesToDatepicker(false, dateValue);
       }
     }
   }

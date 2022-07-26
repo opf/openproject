@@ -209,15 +209,27 @@ export class DatepickerModalService {
 
     /* eslint-disable no-param-reassign */
     if (enforceDate) {
-      datePicker.datepickerInstance.currentMonth = enforceDate.getMonth();
-      datePicker.datepickerInstance.currentYear = enforceDate.getFullYear();
+      const enforcedMonth = enforceDate.getMonth();
+      const enforcedYear = enforceDate.getFullYear();
+      const monthDiff = enforcedMonth - currentMonth + 12 * (enforcedYear - currentYear);
+
+      if (Math.abs(monthDiff) > 1) {
+        datePicker.datepickerInstance.currentMonth = enforcedMonth;
+        datePicker.datepickerInstance.currentYear = enforcedYear;
+      } else {
+        this.keepCurrentlyActiveMonth(datePicker, currentMonth, currentYear);
+      }
     } else {
-      // Keep currently active month and avoid jump because of two-month layout
-      datePicker.datepickerInstance.currentMonth = currentMonth;
-      datePicker.datepickerInstance.currentYear = currentYear;
+      this.keepCurrentlyActiveMonth(datePicker, currentMonth, currentYear);
     }
 
     datePicker.datepickerInstance.redraw();
     /* eslint-enable no-param-reassign */
+  }
+
+  private keepCurrentlyActiveMonth(datePicker:DatePicker, currentMonth:number, currentYear:number) {
+    // Keep currently active month and avoid jump because of two-month layout
+    datePicker.datepickerInstance.currentMonth = currentMonth;
+    datePicker.datepickerInstance.currentYear = currentYear;
   }
 }
