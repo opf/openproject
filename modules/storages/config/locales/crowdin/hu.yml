@@ -24,6 +24,8 @@ hu:
               cannot_be_connected_to: "nem lehet hozzákapcsolni."
               minimal_nextcloud_version_unmet: "nem felel meg a minimális verzió követelményeknek (Nextcloud 23 vagy magasabb)"
               not_nextcloud_server: "nem egy Nextcloud szerver"
+              setup_incomplete: >
+                is not fully set up. That Nextcloud instance still redirects to a URL containing 'index.php'. That is a strong indicator that the server does not have mod_rewrite, mod_headers and/or mod_env fully configured, which is necessary for a Bearer token based authorization of API requests.
         storages/file_link:
           attributes:
             origin_id:

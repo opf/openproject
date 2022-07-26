@@ -24,6 +24,8 @@ es:
               cannot_be_connected_to: "no admite conexiones."
               minimal_nextcloud_version_unmet: "no cumple los requisitos mínimos de versión (debe ser Nextcloud 23 o posteriores)"
               not_nextcloud_server: "no es un servidor de Nextcloud"
+              setup_incomplete: >
+                is not fully set up. That Nextcloud instance still redirects to a URL containing 'index.php'. That is a strong indicator that the server does not have mod_rewrite, mod_headers and/or mod_env fully configured, which is necessary for a Bearer token based authorization of API requests.
         storages/file_link:
           attributes:
             origin_id:

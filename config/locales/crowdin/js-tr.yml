@@ -23,8 +23,8 @@ tr:
   js:
     ajax:
       hide: "Saklamak"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "Yükleniyor…"
+      updating: "Güncelleniyor..."
     attachments:
       draggable_hint: |
         Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
@@ -231,7 +231,7 @@ tr:
             professional_support: "Profesyonel destek"
             professional_support_text: "İş açısından kritik ortamlarda OpenProject çalıştırma konusunda uzman bilgiye sahip kıdemli destek mühendislerinden güvenilir, yüksek dokunuşlu destek alın."
           button_start_trial: "Deneme sürümüne başla"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "Şimdi Yükselt"
           button_book_now: "Şimdi rezervasyon yaptırın"
           confidence: >
             Açık Kaynak ve açık fikirli olmak üzere, test edilmiş ve desteklenen bir kurumsal sınıf proje yönetimi yazılımının güvenini sunuyoruz.
@@ -269,7 +269,7 @@ tr:
           two: "İkinci sıralama ölçütü"
           three: "Üçüncü sıralama ölçütleri"
       upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      more_info: "Daha fazla bilgi"
       upsale_link: 'Kurumsal Sürüm.'
     general_text_no: "hayır"
     general_text_yes: "evet"
@@ -400,8 +400,8 @@ tr:
     label_previous: "Önceki"
     label_per_page: "Sayfa başına:"
     label_please_wait: "Lütfen bekleyin"
-    label_project: "Project"
-    label_project_list: "Projects list"
+    label_project: "Proje"
+    label_project_list: "Projeler listesi"
     label_project_plural: "Projeler"
     label_visibility_settings: "Görünürlük ayarları"
     label_quote_comment: "Yorumu alıntıla"
@@ -414,7 +414,7 @@ tr:
     label_report: "Rapor (bildiri)"
     label_repository_plural: "Depolar"
     label_save_as: "Farklı Kaydet"
-    label_select_project: "Select a project"
+    label_select_project: "Bir proje seçin"
     label_select_watcher: "Takipçi seç..."
     label_selected_filter_list: "Seçilen filtreler"
     label_show_attributes: "Tüm öznitelikleri göster"
