@@ -89,14 +89,13 @@ import { OpProjectListComponent } from './components/project-list/project-list.c
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { UIRouterGlobals } from '@uirouter/core';
-import { ErrorReporterBase } from 'core-app/core/errors/error-reporter-base';
 
-export function bootstrapModule(injector:Injector) {
+export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
   const currentProject = injector.get(CurrentProjectService);
   const uiRouterGlobals = injector.get(UIRouterGlobals);
 
-  (window.ErrorReporter as ErrorReporterBase).addHook(() => ({
+  (window.ErrorReporter).addHook(() => ({
     project: currentProject.identifier || 'global',
     'router state': uiRouterGlobals.current.name || 'unknown',
   }));
@@ -152,6 +151,7 @@ export function bootstrapModule(injector:Injector) {
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
     OpenprojectAutocompleterModule,
+    OpenprojectContentLoaderModule,
 
     OpSpotModule,
 
