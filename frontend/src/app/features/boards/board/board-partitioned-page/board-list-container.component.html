@@ -40,15 +40,14 @@
       </div>
     </div>
   </div>
-  <div class="boards-list--ee-banner"
-       *ngIf="eeShowBanners">
-    <op-enterprise-banner
-      [moreInfoText]="text.more_info_text"
-      [moreInfoLink]="text.more_info_link"
-      [leftMargin]="true"
-      [linkMessage]="text.upgrade_to_ee_text"
-      [textMessage]="text.teaser_text"
-      opReferrer="boards#board-show">
-    </op-enterprise-banner>
-  </div>
+
+  <op-enterprise-banner
+    *ngIf="eeShowBanners"
+    [moreInfoText]="text.more_info_text"
+    [moreInfoLink]="text.more_info_link"
+    [leftMargin]="true"
+    [linkMessage]="text.upgrade_to_ee_text"
+    [textMessage]="text.teaser_text"
+    opReferrer="boards#board-show">
+  </op-enterprise-banner>
 </ng-container>
