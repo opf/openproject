@@ -86,13 +86,16 @@ class Storages::Admin::StoragesController < ApplicationController
   def create
     service_result = Storages::Storages::CreateService.new(user: current_user).call(permitted_storage_params)
     @object = service_result.result
-    @oauth_application = result_from_first_dependent_service(service_result)
+    @oauth_application = oauth_application(service_result)
 
     if service_result.success? && @oauth_application
       flash[:notice] = I18n.t(:notice_successful_create)
       render :show_oauth_application
     else
-      @errors = service_result.merge_dependent_errors(@object)
+      @errors = service_result.all_errors.reduce(ActiveModel::Errors.new(@object)) do |errors, e|
+        errors.merge!(e)
+        errors
+      end
       render :new
     end
   end
@@ -168,7 +171,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
   private
 
-  def result_from_first_dependent_service(service_result)
+  def oauth_application(service_result)
     service_result.dependent_results&.first&.result
   end
 
