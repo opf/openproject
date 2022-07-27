@@ -3,17 +3,17 @@ ca:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'LDAP connection'
-        sync_users: 'Sync users'
+        auth_source: 'Connexió LDAP'
+        sync_users: 'Usuaris sincronitzats'
       ldap_groups/synchronized_filter:
-        filter_string: 'LDAP filter'
-        auth_source: 'LDAP connection'
-        group_name_attribute: "Group name attribute"
-        sync_users: 'Sync users'
-        base_dn: "Search base DN"
+        filter_string: 'Filtre LDAP'
+        auth_source: 'Connexió LDAP'
+        group_name_attribute: "Atribut de nom de grup"
+        sync_users: 'Usuaris sincronitzats'
+        base_dn: "Base de cerca DN"
     models:
-      ldap_groups/synchronized_group: 'Synchronized LDAP group'
-      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
+      ldap_groups/synchronized_group: 'Grup LDAP sincronitzat'
+      ldap_groups/synchronized_filter: 'Filtre de sincronització de grup LDAP'
     errors:
       models:
         ldap_groups/synchronized_filter:
