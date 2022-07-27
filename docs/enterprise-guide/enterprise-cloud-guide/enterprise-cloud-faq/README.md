@@ -51,7 +51,7 @@ After the end of the beta phase we plan to migrate <u>all</u> customers to the n
 
 ## Can I get a custom domain name instead of example.openproject.com?
 
-Yes, you can create your custom domain name. For this service we charge €100 once-off. Please add it in your booking process (will soon be available) or contact us via email (support@openproject.com).
+Yes, you can create your custom domain name. For this service we charge €100 per month. Please contact us via email (support@openproject.com) if you are interested.
 
 ## Can I import my OpenProject community instance into my Enterprise cloud environment?
 
