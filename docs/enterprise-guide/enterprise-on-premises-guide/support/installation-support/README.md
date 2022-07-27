@@ -7,13 +7,7 @@ keywords: installation support
 ---
 # Installation support for Enterprise on-premises
 
- We deliver the confidence of a tested, supported and certified enterprise-class business application.  
-
-If you want to work with OpenProject Enterprise on-premises but do not have a Community Edition running, you can order **installation support** during the [booking process of your Enterprise on-premises edition](../../activate-enterprise-on-premises).
-
-The cost for the installation support of a Community version is 150 € (excluding VAT). In the price there is no migration included. If you need migration support, please [contact us](mailto:info@openproject.com) for a detailed quotation.
-
-
+Our Premium and Corporate Enterprise on-premises support plans include installation support. We will contact you to get the necessary information to set up your environment.
 
 ## Support Data Collector
 
