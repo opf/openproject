@@ -14,7 +14,7 @@ This integration allows you to link files and folders in Nextcloud with work pac
 
 ## Step-by-step setup instructions
 
-For integrating with OpenProject 12.2, the minimum required version of Nextcloud is 22. For the desktop Nextcloud application, the minimum supported version is 2.0.0. To be able to configure this integration, you need to have administrator privileges in both your Nextcloud and OpenProject instances.
+For integrating with OpenProject 12.2, the minimum required version of Nextcloud is 22. For the Nextcloud app  "OpenProject integration" that extends your Nextcloud installation, the minimum required version is 2.0.0. To be able to configure this integration, you need to have administrator privileges in both your Nextcloud and OpenProject instances.
 
 **1. Add the "OpenProject integration" app and connect the instance** - in Nextcloud
 
