@@ -91,9 +91,10 @@ describe 'Watcher tab', js: true, selenium: true do
       end
 
       it 'escapes the user name' do
-        autocomplete = find('.wp-watcher--autocomplete')
+        autocomplete = find('.wp-watcher--autocomplete ng-select')
         target_dropdown = search_autocomplete autocomplete,
-                                              query: 'foo'
+                                              query: 'foo',
+                                              results_selector: 'body'
 
         expect(target_dropdown).to have_selector(".ng-option", text: html_user.firstname)
         expect(target_dropdown).to have_no_selector(".ng-option em")
@@ -150,9 +151,10 @@ describe 'Watcher tab', js: true, selenium: true do
     end
 
     it 'does not show the placeholder user as an option' do
-      autocomplete = find('.wp-watcher--autocomplete')
+      autocomplete = find('.wp-watcher--autocomplete ng-select')
       target_dropdown = search_autocomplete autocomplete,
-                                            query: ''
+                                            query: '',
+                                            results_selector: 'body'
 
       expect(target_dropdown).to have_selector(".ng-option", text: user.name)
       expect(target_dropdown).to have_no_selector(".ng-option", text: placeholder.name)
