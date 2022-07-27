@@ -94,10 +94,7 @@ You can specify further advanced settings for your project. Navigate to your pro
 
 - You see the default project **Identifier**. The identifier will be shown in the URL. 
 
-<div class="alert alert-info" role="alert">
 **Note**: Changing the project identifier while the project is already being worked on can have major effects and is therefore not recommended. For example, repositories may not be loaded correctly and deep links may no longer work (since the project URL changes when the project identifier is changed).
-</div>
-
 
 - You can set a project to **Public**. This means it can be accessed without signing in to OpenProject.
 - Click the blue **Save** button to save your changes.
@@ -164,9 +161,8 @@ If you want to delete a project, navigate to the [Project settings](project-sett
 ![delete-a-project](delete-a-project.png)
 
 Also, you can delete a project via the [projects overview](#global-projects-overview---view-all-projects).
-<div class="alert alert-info" role="alert">
-**Please note**: Deleting projects is only available for System administrators.
-</div>
+
+** Note**: Deleting projects is only available for System administrators.
 
 
 ## Global projects overview - View all projects
@@ -198,8 +194,6 @@ The Gantt chart view can be configured in the [System settings](../../system-adm
 
 ![Bildschirmfoto 2022-05-30 um 16.42.09](Bildschirmfoto 2022-05-30 um 16.42.09.png)
 
-
-
 ### Overall activity
 
 Besides the Gantt-chart view and the filter function for the project list, you can also access the activity of all users in all projects. 
@@ -209,8 +203,6 @@ Besides the Gantt-chart view and the filter function for the project list, you c
 By clicking on the Overall activity button you can open a view in which all the latest global project activities are documented. In the menu on the left side you can filter the activity by different areas to control e.g. the activity of work packages, wiki pages or meetings.
 
 ![overall-activity-meeting-filter](overall-activity-meeting-filter.png)
-
-
 
 
 ## Export projects
@@ -225,8 +217,6 @@ Next, you can select the format in which you want to export the project list.
 It can be exported as .xls or .csv.
 
 ![Export project list formats](image-20211109114816611.png)
-
-
 
 
 ## Project overarching reports
