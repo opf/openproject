@@ -187,7 +187,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
           ...params,
         };
         const collectionURL = `${listParamsString(fullParams)}&${url.searchParams.toString()}`;
-        url.searchParams.forEach((key) => url.searchParams.delete(key));
+        url.search = '';
         return this.http.get<IHALCollection<IProject>>(url.toString() + collectionURL);
       },
     )
