@@ -30,44 +30,37 @@ require_relative '../spec_helper'
 
 # These specs mainly check that error messages from a sub-service
 # (about unsafe hosts with HTTP protocol) are passed to the main form.
-describe ::Storages::Admin::StoragesController, with_flag: { storages_module_active: true }, type: :controller do
+describe ::Storages::Admin::StoragesController, with_flag: { storages_module_active: true }, webmock: true, type: :controller do
   render_views # rendering views is stubbed by default in controller specs
   include StorageServerHelpers
 
   let(:admin) { create :admin }
-  let(:host) { "www.example.com" }
+  let(:schema) { "https" }
+  let(:host) { "#{schema}://example.org" }
   let(:content_type_json) { { 'Content-Type' => 'application/json; charset=utf-8' } }
+  let(:params) { { storages_storage: { name: "My Nextcloud", host: } } }
 
   before do
     login_as admin
+    mock_server_capabilities_response(host)
+    mock_server_host_response(host)
+    post :create, params:
   end
 
-  describe 'with valid attributes', webmock: true do
-    let(:params) { { storages_storage: { name: "My Nextcloud", host: "https://#{host}" } } }
-
-    before do
-      mock_server_capabilities_response("https://#{host}")
-      post :create, params:
-    end
-
+  describe 'with valid storage attributes' do
     it 'is successful' do
       expect(response).to be_successful
-      expect(response.body).not_to include("Redirect uri must be an HTTPS/SSL URI")
+      expect(response.body).not_to include('Host is not providing a &quot;Secure Context&quot;.')
       expect(response.body).to include(I18n.t(:notice_successful_create))
     end
   end
 
-  describe 'with invalid attributes', webmock: true do
-    let(:params) { { storages_storage: { name: "My Nextcloud", host: "http://#{host}" } } }
+  describe 'with invalid storage attributes' do
+    let(:schema) { 'http' }
 
-    before do
-      mock_server_capabilities_response("http://#{host}")
-      post :create, params:
-    end
-
-    it 'complains about HTTP being invalid' do
+    it 'shows the errors of the dependent service result, complaining about HTTP being invalid' do
       expect(response).to be_successful # you get a 200 response despite errors...
-      expect(response.body).to include("Redirect uri must be an HTTPS/SSL URI")
+      expect(response.body).to include('Host is not providing a &quot;Secure Context&quot;.')
     end
   end
 end
