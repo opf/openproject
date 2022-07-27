@@ -13,8 +13,7 @@
       </div>
       <br>
 
-      <span *ngIf="!messageIsHtml" class="op-enterprise-banner--description" [textContent]="textMessage"></span>
-      <span *ngIf="messageIsHtml" class="op-enterprise-banner--description" [innerHtml]="textMessage"></span>
+      <span class="op-enterprise-banner--description op-enterprise-banner--description" [innerHtml]="textMessage"></span>
 
       <strong [textContent]="text.become_hero"></strong> &nbsp;
 

@@ -29,8 +29,6 @@ export class EnterpriseBannerBootstrapComponent implements OnInit {
 
   public moreInfoLink:string;
 
-  public messageIsHtml:string;
-
   public referrer:string;
 
   constructor(protected elementRef:ElementRef,

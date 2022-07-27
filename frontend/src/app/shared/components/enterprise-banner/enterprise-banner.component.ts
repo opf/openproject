@@ -35,8 +35,6 @@ export class EnterpriseBannerComponent implements OnInit {
 
   @Input() public moreInfoLink:string;
 
-  @Input() public messageIsHtml = false;
-
   public link:string;
 
   pricingUrl = pricingUrl;
