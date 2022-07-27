@@ -106,7 +106,7 @@ en:
     add_new: 'Add help text'
     edit: "Edit help text for %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
 
   auth_sources:
     index:
