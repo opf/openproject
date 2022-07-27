@@ -3,7 +3,6 @@
                      *ngIf="eeShowBanners"
                      [linkMessage]="text.upsaleCheckOutLink"
                      [textMessage]="text.upsaleAttributeHighlighting"
-                     [moreInfoText]="text.more_info_text"
                      [moreInfoLink]="text.more_info_link"
                      opReferrer="wp-attribute-highlighting#attribute-highlighting">
   </op-enterprise-banner>
@@ -19,7 +18,7 @@
                name="highlighting_mode_switch">
         <span [textContent]="text.highlighting_mode.inline"></span>&nbsp;
       </label>
-      
+
       <div class="form--field-container">
         <div class="form--select-container">
           <ng-select #highlightedAttributesNgSelect

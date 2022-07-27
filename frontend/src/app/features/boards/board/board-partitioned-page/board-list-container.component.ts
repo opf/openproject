@@ -44,7 +44,6 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     hiddenListWarning: this.I18n.t('js.boards.text_hidden_list_warning'),
     teaser_text: this.I18n.t('js.boards.upsale.teaser_text'),
     upgrade_to_ee_text: this.I18n.t('js.boards.upsale.upgrade'),
-    more_info_text: this.I18n.t('js.boards.upsale.more_info'),
     more_info_link: enterpriseDocsUrl.boards,
   };
 

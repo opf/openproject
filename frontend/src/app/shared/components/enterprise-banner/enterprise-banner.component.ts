@@ -31,21 +31,20 @@ export class EnterpriseBannerComponent implements OnInit {
 
   @Input() public opReferrer:string;
 
-  @Input() public moreInfoText:string;
-
   @Input() public moreInfoLink:string;
 
-  public link:string;
+  link:string;
 
   pricingUrl = pricingUrl;
 
-  public text = {
+  text = {
     enterpriseFeature: this.I18n.t('js.upsale.ee_only'),
     become_hero: this.I18n.t('js.admin.enterprise.upsale.become_hero'),
     you_contribute: this.I18n.t('js.admin.enterprise.upsale.you_contribute'),
     button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
     upgrade: this.I18n.t('js.admin.enterprise.upsale.button_upgrade'),
     more_info_link: `${this.pathHelper.appBasePath}/admin/enterprise`,
+    more_info_text: this.I18n.t('js.admin.enterprise.upsale.more_info'),
   };
 
   image = {

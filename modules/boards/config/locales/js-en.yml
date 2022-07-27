@@ -10,7 +10,6 @@ en:
       upsale:
         teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Upgrade now'
-        more_info: 'More information'
       lists:
         delete: 'Delete list'
 

@@ -32,7 +32,6 @@ export class WpTableConfigurationColumnsTabComponent implements TabComponent, On
 
     upsaleRelationColumns: this.I18n.t('js.work_packages.table_configuration.upsale.relation_columns'),
     upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
-    moreInfoText: this.I18n.t('js.work_packages.table_configuration.upsale.more-info-text'),
     moreInfoLink: enterpriseDocsUrl.website,
   };
 

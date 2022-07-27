@@ -21,12 +21,12 @@
 
       <div class="op-enterprise-banner--buttons">
         <a
-          *ngIf="moreInfoText"
+          *ngIf="moreInfoLink"
           [attr.href]="moreInfoLink"
           class="button--link  op-enterprise-banner--info-button"
           target=”_blank”>
           <op-icon icon-classes="icon icon-external-link"></op-icon>
-          {{ moreInfoText }}
+          {{ text.more_info_text }}
         </a>
 
         <a
