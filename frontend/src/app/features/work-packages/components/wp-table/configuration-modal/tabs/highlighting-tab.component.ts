@@ -13,6 +13,7 @@ import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { States } from 'core-app/core/states/states.service';
+import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 
 @Component({
   templateUrl: './highlighting-tab.component.html',
@@ -53,7 +54,7 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
     upsaleAttributeHighlighting: this.I18n.t('js.work_packages.table_configuration.upsale.attribute_highlighting'),
     upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
     more_info_text: this.I18n.t('js.filter.more_info'),
-    more_info_link: 'https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration/#attribute-highlighting-premium-feature',
+    more_info_link: enterpriseDocsUrl.tableHighlighting,
   };
 
   constructor(readonly injector:Injector,

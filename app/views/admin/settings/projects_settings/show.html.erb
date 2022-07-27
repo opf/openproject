@@ -52,7 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
                             inputs: {
                               moreInfoText: t('text_custom_field_upsale_more_info'),
                               textMessage: t('text_project_custom_field_html'),
-                              moreInfoLink: 'https://www.openproject.org/docs/system-admin-guide/custom-fields/custom-fields-projects/',
+                              moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_projects][:href],
                             }
       %>
     <% end %>

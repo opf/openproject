@@ -8,6 +8,7 @@ import { WidgetRegistration } from 'core-app/shared/components/grids/grid/grid.c
 import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 
 @Component({
   templateUrl: './add.modal.html',
@@ -19,7 +20,7 @@ export class AddGridWidgetModalComponent extends OpModalComponent {
     upsale_link: this.i18n.t('js.grid.upsale.link'),
     upsale_text: this.i18n.t('js.grid.upsale.text'),
     more_info_text: this.i18n.t('js.filter.more_info'),
-    more_info_link: 'https://www.openproject.org/docs/user-guide/project-overview/#work-package-graph-widgets-premium-feature',
+    more_info_link: enterpriseDocsUrl.graphWidget,
   };
 
   public chosenWidget:WidgetRegistration;
