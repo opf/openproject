@@ -8,7 +8,7 @@ keywords: integrations, apps, Nextcloud
 
 # OpenProject and Nextcloud integration setup 
 
-The integration between OpenProject and Nextcloud has the potential to improve the productivity of all users. It combines the strengths of Nextcloud, the world’s most deployed on-premises collaborative file storage platform and OpenProject, the leading free and open source project management and collaboration software
+The integration between OpenProject and Nextcloud has the potential to improve the productivity of all users. It combines the strengths of Nextcloud, the world's most deployed on-premises collaborative file storage platform and OpenProject, the leading free and open source project management and collaboration software
 
 This integration allows you to link files and folders in Nextcloud with work packages in OpenProject, allowing you to see all files related to a work package (in Open Project) and all work packages related to a file (in Nextcloud). As a project member, you no longer need to lose time trying to find the right files to be able to complete your tasks, and the integration of OpenProject-specific notifications on Nextcloud dashboard ensures that no change goes unnoticed. 
 
