@@ -31,6 +31,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
+  ViewEncapsulation,
 } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { combineLatest } from 'rxjs';
@@ -58,8 +60,12 @@ export const projectMenuAutocompleteSelector = 'project-menu-autocomplete';
   providers: [
     SearchableProjectListService,
   ],
+  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./project-menu-autocomplete.component.sass'],
 })
 export class ProjectMenuAutocompleteComponent {
+  @HostBinding('class.op-project-menu-autocomplete') className = true;
+
   dropModalOpen = false;
 
   canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create');
