@@ -48,7 +48,13 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="form--field-instructions">
       <p><%= t('statuses.edit.status_readonly_html') %></p>
       <% if disabled %>
-        <p><%= render(partial: 'enterprise/locked_note') %></p>
+        <%=
+          angular_component_tag 'op-enterprise-banner',
+                                inputs: {
+                                  textMessage: t('text_wp_status_read_only_html'),
+                                  moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:status_read_only][:href],
+                                }
+        %>
       <% end  %>
     </div>
   </div>
