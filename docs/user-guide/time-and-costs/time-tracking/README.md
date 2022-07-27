@@ -15,19 +15,20 @@ Users can book their time or units spent on an activity within a project directl
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Logging time](#logging-time-in-the-work-package-view)       | How to log time to work packages?                            |
+| [Logging time](#logging-time-in-the-work-package-view)       | How to log time to work packages
 | [Logging time via commit message](#logging-time-via-commit-message) | How to log time via a commit message to a work package?      |
-| [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package?                   |
-| [Delete time entries](#delete-time-entries)                  | How to delete time entries logged to a work package?         |
+| [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package                   |
+| [Delete time entries](#delete-time-entries)                  | How to delete time entries logged to a work package         |
+| [Logging and editing time for other users](#logging-and-editing-time-for-other-users)       | How to log time to work packages                            |
 | [Spent time widget on the My Page](#spent-time-widget-on-the-my-page) | How to easily track and display spent time in the spent time widget on the MyPage? |
-| [Track time with Toggl](./toggl-integration)                 | How to track spent time with Toggl integration?              |
+| [Track time with Toggl](./toggl-integration)                 | How to track spent time with Toggl integration              |
 
 
 ## Logging time in the work package view
 
 In order to log spent hours for a certain activity, open the details of the corresponding work package. Select **Log time** from the **More functions** drop down menu, the icon with the three dots in the top right of the work packages details. Or use the **Log time** icon next to **Spent time**.
 
-![time-logging-work-package](time-logging-work-package.png)
+![Log time from a work package](log-time-work-package.png)
 
 You will be directed to the detailed view to log time where you can edit the following:
 
@@ -41,7 +42,6 @@ You will be directed to the detailed view to log time where you can edit the fol
 
 The aggregated time spent on a work package is shown in the work package details view.
 
-![spent-time-work-package](spent-time-work-package.png)
 
 ## Logging time via commit message
 
@@ -53,7 +53,7 @@ To log time to a work package via a commit message you need to use  the followin
 
 To edit logged time, click in the amount of the **Spent time** in the work packages details view.
 
-![edit-logged-time](edit-logged-time-1305994.png)
+![Click on the number of spent time to edit](edit-logged-time.png)
 
 This will bring you to the time tracking report where you will see all time entries to this work package.
 
@@ -71,7 +71,32 @@ In the list of time entries, click on the **Delete** icon next to a time entry t
 
 ![image-20201005143324624](image-20201005143324624.png)
 
+## Logging and editing time for other users
 
+Starting with OpenProject 12.2, users with certain roles are able to log and edit time for other users. 
+
+> To enable this functionality, an administrator has to accord this privilege to a particular role in the **Roles and Permissions** section under **Users and Permissions** in the administrator settings.
+>
+> There are two new permissions that can be enabled.
+>
+> - *Log time for other users* allows users with that role to log time on behalf of other users
+> - *Edit time logs* for other users allows users with that role to modify and adjust time logged for other users
+>
+> <img src="permissions-log-time-others.png" alt="Permissions to log and edit time for others " style="zoom:50%;" />
+
+Once the permissions have been granted, you will notice subtle differences in the interface.
+
+The **Log time** modal now has a new field called "User", that allows you to select a user other than yourself:
+
+<img src="log-time-with-user-field.png" alt="Log time now has a user field" style="zoom:50%;" />
+
+
+
+When accessing cost reports, you will see a new column titled "Logged by". The author of the logged time can be different from the user for whom the time is logged:
+
+<img src="cost-report-logged-by.png" alt="Logged by field" style="zoom:50%;" />
+
+A user with permissions to edit time logged by other users can edit each entry as they would their own. The "Logged by" field will always display the name of the user who made the last edit.
 
 ## Track labor costs
 
