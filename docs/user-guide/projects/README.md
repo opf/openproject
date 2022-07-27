@@ -147,9 +147,9 @@ Then click the blue **Copy** button.
 ### Archive a project
 
 In order to archive a project, navigate to the [project settings](project-settings), and click the **Archive project** button.
-<div class="alert alert-info" role="alert">
+
 **Note**: This option is only available for Administrators.
-</div>
+
 ![project-settings-archive-project](project-settings-archive-project.png)
 
 Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you set the "Active" filter to "off" (move slider to the left). You can un-archive it there, too, using the three dots at the right end of a row.
