@@ -68,7 +68,7 @@ Once these values are entered, you can click the button **Save and complete setu
 
 **5. Enable the file storages module and activate it in the desired project** - in OpenProject
 
-Now that the integration setup is complete and ready to use, there is just one more step for you as administrator: you need to activate the *File storages* module and specify for which projects you would like to enable your new Nextcloud integration.
+Now that the integration setup is complete and ready to use, there is just one more step for you as administrator: in every project in which you want to use the integration you need to activate the *File storages* module and add your recently configured file storage to the project.
 
 To activate the module, go to the **Project settings** in the desired project and access the **Modules** entry in the side menu. There, activate the *File storages* module. Once this is done, a new menu entry called **File storages** appears at the bottom of the side menu, where you can select your new Nextcloud integration.
 
