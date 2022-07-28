@@ -98,5 +98,3 @@ As an administrator, you can always delete the integration to Nextcloud using th
 ## Using the integration
 
 Once the file storage is added and enabled for projects, your users are able to take full advantage of the Nextcloud-OpenProject integration. For more information on how link Nextcloud files to work packages in OpenProject and access linked work packages in Nextcloud, please refer to the [Nextcloud integration user guide](../../../user-guide/nextcloud-integration/).
-.
-
