@@ -12,11 +12,11 @@ If you click with the right mouse button in the line of the work package, a list
 
 You can also dit a work package using the three dots at the far right of a row to access the menu.
 
-![change-copy-delete-work-package](change-copy-delete-work-package.png)
+![change copy delete work package](change-copy-delete-work-package.png)
 
 Alternatively, open the work packages details view, click on **More functions** (the three dots at the top right of the work package details) and select the respective menu item.
 
-![User-guide-copy-change-project-delete](User-guide-copy-change-project-delete-4071022.png)
+![User guide copy change project delete](User-guide-copy-change-project-delete-4071022.png)
 
 To copy, move or delete multiple work packages at once please refer to the documentation for [bulk edit](../edit-work-package/#bulk-edit-work-packages). 
 
@@ -32,7 +32,7 @@ The *change project* option moves a work package to another project or subprojec
 
 > **Note**:  You can only move a work package into projects that you are a member of and for which you are authorized to carry out this function.
 
-![change-project-of-work-package](change-project-of-work-package.png)
+![change project of work package](change-project-of-work-package.png)
 
 ## Delete a work package
 
