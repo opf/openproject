@@ -26,7 +26,7 @@ Once the OpenProject integration app is downloaded and enabled, you can access i
 
 ![Nextcloud_host](3_2_01 -NC_Step_1.png)
 
-Click on the **Save** button and open your OpenProject instance in a new tab.
+Click on the **Save** button and open your OpenProject instance in a new browser tab.
 
 **2. Introduce the basic information of your integration** - in OpenProject
 
