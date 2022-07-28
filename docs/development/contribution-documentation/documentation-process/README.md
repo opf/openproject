@@ -68,7 +68,7 @@ Open `https://github.com/[your-user]/openproject`. On the forked repository go t
 
 ![switch-the-default-branch-step-1](switch-the-default-branch-step-1.png)
 
-Select `release/12.1` as default branch and confirm with **Update**
+Select `release/12.2` as default branch and confirm with **Update**
 
 *NOTE:* There will be an additional window. Press the button: **I understand, update the default branch.**
 
