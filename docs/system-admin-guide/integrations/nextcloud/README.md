@@ -38,11 +38,11 @@ By default, the storage *Provider type* is set to _Nextcloud_; this does not nee
 
 ![Storage_basic_information](3_0_01-OP_General_Info.png)
 
-Once you filled in all mandatory fields, click on the **Save and continue setup** button.
+Once you fill in all mandatory fields, click on the **Save and continue setup** button.
 
 **3. Generate and copy the OpenProject OAuth values** - in OpenProject and Nextcloud
 
-In this step, the *OpenProject OAuth values* are generated automatically. These values are needed to permit OpenProject to connect to Nextcloud. If you have not done so yet, we recommend you to best have two browser tabs open, the current one with OpenProject and the former one with Nextcloud. Now copy the two *OpenProject OAuth values* from the OpenProject tab to the respective fields in the Nextcloud tab. Simply paste them into the respective _OpenProject OAuth settings_ fields.
+In this step, the *OpenProject OAuth values* are generated automatically. These values are needed to permit OpenProject to connect to Nextcloud. If you have not done so yet, we recommend you have two browser tabs open: the current one with OpenProject and the former one with Nextcloud. Now copy the two *OpenProject OAuth values* from the OpenProject tab to the respective fields in the Nextcloud tab. Simply paste them into the respective _OpenProject OAuth settings_ fields.
 
 > **Important**: The *OpenProjects OAuth values (client ID and client secret)* are not accessible again after you close the window. Please make sure you copy the generated values you see in the _Nextcloud OpenProject Integration settings_. Treat these values with care. Do not save them in any public place. Simply treat them as carefully as you would treat an important password.
 
@@ -94,3 +94,9 @@ If you need to reset the values of the Nextcloud integration (as an administrato
 As an administrator, you can always delete the integration to Nextcloud using the **Delete** button in  the OpenProject settings or the **Reset** button in the Nextcloud settings.
 
 > **Important:** If you perform this action, the integration will be reset and deleted and all settings and user connections that were created will be deleted. This means that should you want to reconfigure the integration, you will need complete the entire setup process once again.
+
+## Using the integration
+
+Once the file storage is added and enabled for projects, your users are able to take full advantage of the Nextcloud-OpenProject integration. For more information on how link Nextcloud files to work packages in OpenProject and access linked work packages in Nextcloud, please refer to the [Nextcloud integration user guide](../../../user-guide/nextcloud-integration/).
+.
+
