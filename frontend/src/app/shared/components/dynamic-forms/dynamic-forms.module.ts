@@ -20,6 +20,7 @@ import { DateInputComponent } from 'core-app/shared/components/dynamic-forms/com
 import { DynamicFieldGroupWrapperComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component';
 import { FormattableControlModule } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.module';
 import { OPSharedModule } from 'core-app/shared/shared.module';
+import { UserInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/user-input/user-input.component';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { OPSharedModule } from 'core-app/shared/shared.module';
         { name: 'projectInput', component: ProjectInputComponent },
         { name: 'selectProjectStatusInput', component: SelectProjectStatusInputComponent },
         { name: 'formattableInput', component: FormattableTextareaInputComponent },
+        { name: 'userInput', component: UserInputComponent },
       ],
       wrappers: [
         {
@@ -70,6 +72,7 @@ import { OPSharedModule } from 'core-app/shared/shared.module';
     SelectProjectStatusInputComponent,
     DateInputComponent,
     FormattableTextareaInputComponent,
+    UserInputComponent,
   ],
   exports: [
     DynamicFormComponent,

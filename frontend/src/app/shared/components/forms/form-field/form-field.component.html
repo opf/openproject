@@ -3,10 +3,14 @@
     <div class="op-form-field--label">
       <span
         *ngIf="showErrorMessage"
-        class="Hidden for sighted"
-      >Invalid</span>
+        class="hidden-for-sighted"
+      >
+        {{ text.invalid }}
+      </span>
       {{ label }}
+
       <span *ngIf="required" class="op-form-field--label-indicator">*</span>
+
       <attribute-help-text
         [attribute]="helpTextAttribute"
         [attributeScope]="helpTextAttributeScope"
