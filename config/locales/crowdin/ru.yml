@@ -610,6 +610,8 @@ ru:
         unknown_property: "неизвестное свойство."
         unknown_property_nested: "имеет неизвестный путь '%{path}'."
         unremovable: "не может быть удалено."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "неправильная длина (должно быть %{count} знаков)."
       models:
         attachment:
@@ -641,7 +643,7 @@ ru:
               fragment_present: 'не может содержать фрагмент.'
               invalid_uri: 'должен быть допустимым URI.'
               relative_uri: 'должен быть абсолютным URI.'
-              secured_uri: 'должен быть HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'запрещен сервером.'
             scopes:
               not_match_configured: "не соответствует доступным областям."

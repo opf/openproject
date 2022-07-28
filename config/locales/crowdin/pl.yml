@@ -608,6 +608,8 @@ pl:
         unknown_property: "nie jest znaną właściwością."
         unknown_property_nested: "ma nieznaną ścieżkę '%{path}'."
         unremovable: "nie można usunąć."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "ma nieprawidłową długość (powinno mieć %{count} znaków)."
       models:
         attachment:
@@ -639,7 +641,7 @@ pl:
               fragment_present: 'nie może zawierać fragmentu.'
               invalid_uri: 'musi być prawidłowym adres URI.'
               relative_uri: 'musi być bezwzględnym identyfikatorem URI.'
-              secured_uri: 'musi być identyfikatorem URI protokołu HTTPS/SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'jest zabroniony przez serwer.'
             scopes:
               not_match_configured: "nie pasuje do dostępnych zakresów."

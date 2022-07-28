@@ -611,6 +611,8 @@ sk:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "nie je možné zmazať."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "má chybnú dĺžku (správne má byť %{count} znakov)."
       models:
         attachment:
@@ -642,7 +644,7 @@ sk:
               fragment_present: 'nemôže obsahovať fragment.'
               invalid_uri: 'musí byť platný identifikátor URI.'
               relative_uri: 'musí byť absolútna URI.'
-              secured_uri: 'musí byť HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'je zakázané na serveri.'
             scopes:
               not_match_configured: "nezodpovedá dostupným rozsahom."

@@ -606,6 +606,8 @@ ca:
         unknown_property: "no és una propietat coneguda."
         unknown_property_nested: "té la ruta desconeguda '%{path}'."
         unremovable: "no es pot eliminar."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "la longitud és incorrecta (haurien de ser %{count} caràcters)."
       models:
         attachment:
@@ -637,7 +639,7 @@ ca:
               fragment_present: 'no pot contenir un fragment.'
               invalid_uri: 'ha de ser una URI vàlida.'
               relative_uri: 'ha de ser una URI absoluta.'
-              secured_uri: 'ha de ser una URI HTTPS/SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'és vetada pel servidor.'
             scopes:
               not_match_configured: "no coincideix amb els àmbits disponibles."

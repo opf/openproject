@@ -608,6 +608,8 @@ lt:
         unknown_property: "yra nežinoma savybė."
         unknown_property_nested: "yra nežinomas kelias „%{path}“."
         unremovable: "negali būti pašalintas."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "yra neteisingo ilgio (turi būti %{count} simbolių)."
       models:
         attachment:
@@ -639,7 +641,7 @@ lt:
               fragment_present: 'negali turėti fragmento.'
               invalid_uri: 'turi būti tinkamas URI.'
               relative_uri: 'turi būti absoliutus URI.'
-              secured_uri: 'turi būti HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'yra uždraustas serverio.'
             scopes:
               not_match_configured: "neatitinka galimų apimčių."

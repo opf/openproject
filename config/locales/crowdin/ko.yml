@@ -607,6 +607,8 @@ ko:
         unknown_property: "- 알려진 속성이 아닙니다."
         unknown_property_nested: "- 알 수 없는 경로 '%{path}'이(가) 있습니다."
         unremovable: "- 제거할 수 없습니다."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "너무 짧습니다 (최소 %{count} 자 이상이어야 합니다)."
       models:
         attachment:
@@ -638,7 +640,7 @@ ko:
               fragment_present: '- 조각을 포함할 수 없습니다.'
               invalid_uri: '- 유효한 URI여야 합니다.'
               relative_uri: '- 절대 URI여야 합니다.'
-              secured_uri: '- HTTPS/SSL URI여야 합니다.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: '- 서버에 의해 금지되었습니다.'
             scopes:
               not_match_configured: "- 사용 가능한 범위와 일치하지 않습니다."

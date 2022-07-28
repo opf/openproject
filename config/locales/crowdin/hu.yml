@@ -608,6 +608,8 @@ hu:
         unknown_property: "nem ismert tulajdonság.\n"
         unknown_property_nested: "ismeretlen '%{path}' elérési útvonal."
         unremovable: "nem törölhető."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "nem megfelelő hosszúságú (%{count} karakter szükséges)."
       models:
         attachment:
@@ -639,7 +641,7 @@ hu:
               fragment_present: 'nem tartalmazhat töredéket.'
               invalid_uri: 'érvényes URI-nak kell lennie.'
               relative_uri: 'abszolút URI-nak kell lennie.'
-              secured_uri: 'HTTPS/SSL URI-nak kell lennie.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'A szerver tiltja a hozzáférést'
             scopes:
               not_match_configured: "nem egyezik a rendelkezésre álló hatókörökkel.\n"

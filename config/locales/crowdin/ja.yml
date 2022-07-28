@@ -604,6 +604,8 @@ ja:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "削除できません。"
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "は%{count}文字を入力してください。"
       models:
         attachment:
@@ -635,7 +637,7 @@ ja:
               fragment_present: 'フラグメントを含めることはできません。'
               invalid_uri: '有効なURIでなければなりません。'
               relative_uri: '絶対URIでなければなりません。'
-              secured_uri: 'HTTPS/SSL URIでなければなりません。'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'サーバーによって禁止されています。'
             scopes:
               not_match_configured: "利用可能な範囲と一致しません。"

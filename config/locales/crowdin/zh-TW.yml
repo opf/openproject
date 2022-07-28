@@ -608,6 +608,8 @@ zh-TW:
         unknown_property: "不是已知屬性"
         unknown_property_nested: "具有未知路徑 '%{path}'"
         unremovable: "無法移除"
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "長度錯誤 (應該要有 %{count} 個字元)"
       models:
         attachment:
@@ -639,7 +641,7 @@ zh-TW:
               fragment_present: '不能包含片段。'
               invalid_uri: '必須是有效的 uri。'
               relative_uri: '必須是絕對 uri。'
-              secured_uri: '必須是 HTTPS/SSL uri。'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: '被伺服器禁止。'
             scopes:
               not_match_configured: "與可用的範圍不吻合。"

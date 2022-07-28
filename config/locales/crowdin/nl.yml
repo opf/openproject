@@ -606,6 +606,8 @@ nl:
         unknown_property: "is geen bekend eigenschap."
         unknown_property_nested: "heeft het onbekende pad '%{path}' '."
         unremovable: "kan niet verwijderd worden."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "is de verkeerde lengte (dient %{count} karakters te zijn)."
       models:
         attachment:
@@ -637,7 +639,7 @@ nl:
               fragment_present: 'kan geen fragment bevatten.'
               invalid_uri: 'moet een geldige URI zijn.'
               relative_uri: 'moet een absolute URI zijn.'
-              secured_uri: 'moet een HTTPS/SSL URI zijn.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'is verboden door de server.'
             scopes:
               not_match_configured: "komt niet overeen met beschikbare scopes."

@@ -607,6 +607,8 @@ uk:
         unknown_property: "– це не відома властивість."
         unknown_property_nested: "має невідомий шлях «%{path}»."
         unremovable: "неможливо видалити."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "неправильна довжина (повинна бути %{count} символів)."
       models:
         attachment:
@@ -638,7 +640,7 @@ uk:
               fragment_present: "26/5000\nне може містити фрагмент."
               invalid_uri: 'має бути дійсним URI.'
               relative_uri: 'має бути абсолютним URI.'
-              secured_uri: 'має бути URI HTTPS / SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'заборонено сервером.'
             scopes:
               not_match_configured: "не відповідає доступним областям."

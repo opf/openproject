@@ -609,6 +609,8 @@ si:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "ඉවත් කළ නොහැක."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "වැරදි දිග (අක්ෂර %{count} විය යුතුය)."
       models:
         attachment:
@@ -640,7 +642,7 @@ si:
               fragment_present: 'කැබැල්ලක් අඩංගු විය නොහැක.'
               invalid_uri: 'වලංගු URI එකක් විය යුතුය.'
               relative_uri: 'පරම URI විය යුතුය.'
-              secured_uri: 'HTTPS/SSL URI විය යුතුය.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'සේවාදායකය විසින් තහනම් කර ඇත.'
             scopes:
               not_match_configured: "ලබා ගත හැකි විෂය පථයන්ට ගැලපෙන්නේ නැත."

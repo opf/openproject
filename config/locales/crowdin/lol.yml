@@ -590,6 +590,8 @@ lol:
         unknown_property: "crwdns797112:0crwdne797112:0"
         unknown_property_nested: "crwdns797114:0%{path}crwdne797114:0"
         unremovable: "crwdns797116:0crwdne797116:0"
+        url_not_secure_context: >
+          crwdns825170:0crwdne825170:0
         wrong_length: "crwdns797118:0%{count}crwdne797118:0"
       models:
         attachment:
@@ -621,7 +623,7 @@ lol:
               fragment_present: 'crwdns797148:0crwdne797148:0'
               invalid_uri: 'crwdns797150:0crwdne797150:0'
               relative_uri: 'crwdns797152:0crwdne797152:0'
-              secured_uri: 'crwdns797154:0crwdne797154:0'
+              secured_uri: 'crwdns825172:0crwdne825172:0'
               forbidden_uri: 'crwdns797156:0crwdne797156:0'
             scopes:
               not_match_configured: "crwdns797158:0crwdne797158:0"

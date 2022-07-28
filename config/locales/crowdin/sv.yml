@@ -608,6 +608,8 @@ sv:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "kan inte tas bort."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "har fel längd (måste vara %{count} tecken)."
       models:
         attachment:
@@ -639,7 +641,7 @@ sv:
               fragment_present: 'kan inte innehålla ett fragment.'
               invalid_uri: 'måste vara en giltig URI.'
               relative_uri: 'måste vara en absolut URI.'
-              secured_uri: 'måste vara en HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'är förbjudet av servern.'
             scopes:
               not_match_configured: "matchar inte tillgängliga omfattningar."

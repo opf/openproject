@@ -609,6 +609,8 @@ ne:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "हटाउन सकिँदैन ।"
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "is the wrong length (should be %{count} characters)."
       models:
         attachment:
@@ -640,7 +642,7 @@ ne:
               fragment_present: 'टुक्रा समावेश गर्न सक्दैन।'
               invalid_uri: 'वैध URI हुनु पर्दछ।'
               relative_uri: 'पूर्ण URI हुनु पर्दछ।'
-              secured_uri: 'HTTPS/SSL URI हुनु पर्छ।'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'सर्भरद्वारा निषेध गरिएको छ।'
             scopes:
               not_match_configured: "उपलब्ध scope हरु मेल खाँदैन।"

@@ -610,6 +610,8 @@ ro:
         unknown_property: "nu este o proprietate cunoscută."
         unknown_property_nested: "are calea necunoscută '%{path}'."
         unremovable: "nu poate fi îndepărtată."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "nu are lungimea corectă (ar trebui să fie de %{count} characters)."
       models:
         attachment:
@@ -641,7 +643,7 @@ ro:
               fragment_present: 'nu poate conține un fragment.'
               invalid_uri: 'trebuie să fie un URI valid.'
               relative_uri: 'trebuie să fie un URI absolut.'
-              secured_uri: 'trebuie să fie un URI HTTPS/SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'este interzisă de către server.'
             scopes:
               not_match_configured: "nu se potrivește cu domeniile de aplicare disponibile."

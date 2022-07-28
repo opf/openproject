@@ -609,6 +609,8 @@ tr:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "kaldırılamadı."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "uzunluğu yanlıştır (%{count} karakter olmalıdır)."
       models:
         attachment:
@@ -640,7 +642,7 @@ tr:
               fragment_present: 'parça içeremez.'
               invalid_uri: 'geçerli bir URI olmalıdır.'
               relative_uri: 'mutlaka bir URI olmalıdır.'
-              secured_uri: 'HTTPS / SSL URI olması gerekir.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'sunucu tarafından yasaklanmıştır.'
             scopes:
               not_match_configured: "mevcut kapsamlarla eşleşmiyor."

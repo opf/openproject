@@ -25,7 +25,7 @@ ru:
               minimal_nextcloud_version_unmet: "не соответствует минимальным требованиям к версии (должен быть Nextcloud 23 или выше)"
               not_nextcloud_server: "не является сервером Nextcloud"
               setup_incomplete: >
-                is not fully set up. That Nextcloud instance still redirects to a URL containing 'index.php'. That is a strong indicator that the server does not have mod_rewrite, mod_headers and/or mod_env fully configured, which is necessary for a Bearer token based authorization of API requests.
+                не полностью настроено. Экземпляр Nextcloud по-прежнему перенаправляет на URL, содержащий 'index.php'. Это явный признак того, что на сервере не полностью настроены mod_rewrite, mod_headers и / или mod_env, что необходимо для авторизации запросов API на основе токенов на предъявителя.
         storages/file_link:
           attributes:
             origin_id:

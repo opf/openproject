@@ -609,6 +609,8 @@ eo:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "ĝi ne povas esti forigita."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "la longeco estas malĝusta (devus esti %{count} signoj)."
       models:
         attachment:
@@ -640,7 +642,7 @@ eo:
               fragment_present: 'ne povas enhavi eron.'
               invalid_uri: 'devas esti valida URI.'
               relative_uri: 'devas esti absoluta URI.'
-              secured_uri: 'devas esti HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'estas malpermesita de la servilo.'
             scopes:
               not_match_configured: "doesn't match available scopes."
