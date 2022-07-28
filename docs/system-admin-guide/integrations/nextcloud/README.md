@@ -91,6 +91,6 @@ If you need to reset the values of the Nextcloud integration (as an administrato
 
 ## How to delete a file storage integration
 
-As an administrator, you can always delete the integration to Nextcloud using the **Delete** button in OpenProject settings or the **Reset** button in Nextcloud settings.
+As an administrator, you can always delete the integration to Nextcloud using the **Delete** button in  the OpenProject settings or the **Reset** button in the Nextcloud settings.
 
 > **Important:** If you perform this action, the integration will be reset and deleted and all settings and user connections that were created will be deleted. This means that should you want to reconfigure the integration, you will need complete the entire setup process once again.
