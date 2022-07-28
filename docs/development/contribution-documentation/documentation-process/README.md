@@ -74,19 +74,15 @@ Select `release/12.1` as default branch and confirm with **Update**
 
 ![switch-the-default-branch-step-2](switch-the-default-branch-step-2.png)
 
-## Step 8: Fetch origin with upstream changes (update local repository)
+## Step 8: Sync fork and Update branches (update local repository)
 
-Every time you start editing please make sure you have fetched the latest changes from GitHub.com. First you need to update your forked repository. There you select the branch you are working on, e.g. `release/12.1`. If there are updates in the main repository opf/openproject click on **Fetch upstream**.
+Every time you start editing please make sure you have fetched the latest changes from GitHub.com. First you need to update your forked repository. There you select the branch you are working on, e.g. `release/12.2`. If there are updates in the main repository opf/openproject click on **Sync fork** and **Update branch**.
 
-![fetch upstream changes](fetch-upstream-changes.png)
+![sync fork update branch](sync-fork-update-branch.png)
 
-Now you have fetched the latest changes from the main repository.
+Now you have fetched the latest changes from the main repository and can go back to GitHub Desktop.
 
-You have to fetch those changes in GitHub Desktop by clicking **Fetch origin** in the main toolbar at the right. It is mandatory to be on the latest release branch (eg. `release/12.1`), it does not work if you are in any other branch.
-
-![fetch origin in github desktop](fetch-origin-in-github-desktop.png)
-
-Afterwards you also have to press **"Pull Upstream"**. Afterwards your local repository is updated to the latest commits of eg. opf/openproject/release/12.1
+Finally you have to press **"Pull origin"**. Afterwards your local repository is updated to the latest commits of eg. `opf/openproject/release/12.2`
 
 ![pull-upstream-changes](pull-upstream-changes.png)
 
@@ -108,11 +104,11 @@ In the next screen select **To contribute to the parent project**.
 
 ## Step 10: Create a new Git branch for your change
 
-Select the latest release branch e.g. `release/12.1` as the current branch. 
+Select the latest release branch e.g. `release/12.2` as the current branch. 
 
 ![create new branch - step 1](create-new-branch-step-1.png)
 
-In the same drop down click on "New branch". In this window **insert a branch name that describes your changes** and **select the latest release branch** e.g. `release/12.1` the created branch is based on.
+In the same drop down click on "New branch". In this window **insert a branch name that describes your changes** and **select the latest release branch** e.g. `release/12.2` the created branch is based on.
 
 ![create new branch - step 2](create-new-branch-step-2.png)
 
@@ -148,7 +144,7 @@ A pull request is a workflow to ask for a review from the OpenProject team. With
 
 
 
-Here select the latest release branch e.g. `release/12.1` in the **"base:"** dropdown on the left side. In the **"compare:"** dropdown select the branch you have changed.
+Here select the latest release branch e.g. `release/12.2` in the **"base:"** dropdown on the left side. In the **"compare:"** dropdown select the branch you have changed.
 
 ![create pull request](create-pull-request.png)
 
@@ -172,7 +168,7 @@ In the field "Reviewers" select "opf/doc-writers".
 
 ## Appendix A: How to import a new release branch into your fork
 
-*(e.g. Release changes from `release/12.0` to `release 12.1`)*
+*(e.g. Release changes from `release/12.0` to `release 12.2`)*
 
 If a new release branch is generated on the upstream (opf) repository, the fork will NOT automatically fetch and merge and generate this release branch. With the following 'workaround' we get the new branch from the upstream (opf) repository and push it to our new origin (forked repository).
 
@@ -184,7 +180,7 @@ In GitHub Desktop choose menu "Repository -> Repository settings". This will ope
 
 #### B) Fetch origin (in this case repository 'opf')
 
-In GitHub Desktop **at Current branch select the new branch [1]** (e.g. `origin/release/12.1` and press **Fetch Upstream [2]**
+In GitHub Desktop **at Current branch the old branch is visible [1]** . After you press **Fetch origin [2]** you will be able to **select the new branch at Current branch** (e.g. `origin/release/12.2` 
 
 ![rebase-your-fork-step-2](rebase-your-fork-step-2.png)
 
