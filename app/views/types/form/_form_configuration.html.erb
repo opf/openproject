@@ -34,19 +34,17 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="grid-block -visible-overflow wrap">
       <div class="grid-content -visible-overflow small-12 large-10">
         <% if EnterpriseToken.show_banners? %>
-          <%=
-          angular_component_tag 'op-no-results',
-                                inputs: {
-                                  title: t('text_form_configuration') + t('text_custom_field_hint_activate_per_project'),
-                                }
+          <%= angular_component_tag 'op-no-results',
+                                    inputs: {
+                                      title: t('text_form_configuration') + t('text_custom_field_hint_activate_per_project'),
+                                    }
           %>
-          <%=
-            angular_component_tag 'op-enterprise-banner',
-                                  inputs: {
-                                    opReferrer: 'form-configuration',
-                                    textMessage: t('types.edit.more_info_text_html'),
-                                    moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:form_configuration][:href],
-                                  }
+          <%= angular_component_tag 'op-enterprise-banner',
+                                    inputs: {
+                                      opReferrer: 'form-configuration',
+                                      textMessage: t('types.edit.more_info_text_html'),
+                                      moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:form_configuration][:href],
+                                    }
           %>
         <% end %>
       </div>

@@ -1,3 +1,5 @@
+@import '../../app/spot/styles/sass/variables'
+
 .op-enterprise-banner
 
   &--title
@@ -9,12 +11,8 @@
 
   &--description
     display: block
-    font-size: 14px
-    font-weight: 400
-    line-height: 16px
-
-    &:first-of-type
-      margin-bottom: 10px
+    @include spot-body-small
+    margin-bottom: $spot-spacing-0-75
 
   &--image
     width: 115px
@@ -27,5 +25,5 @@
     justify-content: end
 
   &--info-button
-    padding-top: 20px
-    padding-right: 25px
+    padding-top: 1rem
+    padding-right: 1.5rem

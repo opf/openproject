@@ -5,14 +5,16 @@
   <op-modal-header (close)="closeMe($event)">{{text.board_type}}</op-modal-header>
 
   <div class="op-modal--body">
-    <op-enterprise-banner
+    <p
       *ngIf="eeShowBanners"
-      [linkMessage]="text.upgrade_to_ee_text"
-      [textMessage]="text.teaser_text"
-      [moreInfoLink]="text.more_info_ee_link"
-      opReferrer="boards"
-    ></op-enterprise-banner>
-
+    >
+      <op-enterprise-banner
+        [linkMessage]="text.upgrade_to_ee_text"
+        [textMessage]="text.teaser_text"
+        [moreInfoLink]="text.more_info_ee_link"
+        opReferrer="boards"
+      ></op-enterprise-banner>
+    </p>
     <p
       *ngIf="!eeShowBanners"
       [textContent]="text.select_board_type"></p>

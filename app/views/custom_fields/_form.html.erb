@@ -71,13 +71,12 @@ See COPYRIGHT and LICENSE files for more details.
               <input disabled="disabled" class="-cf-ignore-disabled form--check-box" type="checkbox" name="custom_field_multi_value_disabled">
             </span>
           </span>
-          <div class="form--field-instructions">
-            <%=
-              angular_component_tag 'op-enterprise-banner',
-                                    inputs: {
-                                      textMessage: t('text_wp_custom_field_html'),
-                                      moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_multiselect][:href],
-                                    }
+          <div class="form--field-instructions -no-italic -xwide">
+            <%= angular_component_tag 'op-enterprise-banner',
+                                      inputs: {
+                                        textMessage: t('text_wp_custom_field_html'),
+                                        moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_multiselect][:href],
+                                      }
             %>
           </div>
         <% end %>
