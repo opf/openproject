@@ -38,7 +38,7 @@ By default, the storage *Provider type* is set to _Nextcloud_; this does not nee
 
 ![Storage_basic_information](3_0_01-OP_General_Info.png)
 
-Once you fill in the mandatory fields, click on the **Save and continue setup** button.
+Once you filled in all mandatory fields, click on the **Save and continue setup** button.
 
 **3. Generate and copy the OpenProject OAuth values** - in OpenProject and Nextcloud
 
