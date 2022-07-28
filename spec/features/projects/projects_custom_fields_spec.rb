@@ -223,12 +223,13 @@ describe 'Projects custom fields', type: :feature, js: true do
     let!(:invisible_user) { create :user, firstname: 'Invisible', lastname: 'User' }
     let!(:visible_user) { create :user, firstname: 'Visible', lastname: 'User', member_in_project: existing_project }
 
-    current_user do
-      create :user,
-             firstname: 'Itsa me',
-             lastname: 'Mario',
-             member_in_project: existing_project,
-             global_permissions: %i[add_project]
+    let(:role) { create :role }
+
+    let(:modal) do
+      ::Components::Users::InviteUserModal.new project:,
+                                               principal: invisible_user,
+                                               role:,
+                                               invite_message: 'you are invited'
     end
 
     it 'allows setting a visible user CF (regression #26313)' do
@@ -248,6 +249,31 @@ describe 'Projects custom fields', type: :feature, js: true do
       project = Project.find_by(name: 'My project name')
       cv = project.custom_values.find_by(custom_field_id: custom_field.id).typed_value
       expect(cv).to eq visible_user
+    end
+
+    it 'allows inviting a new user immediately (regression #39166)' do
+      visit project_settings_general_path(project.id)
+
+      cf_field.expect_visible
+      cf_field.expect_no_option invisible_user
+
+      # Invite the other user to the project
+      find('.ng-dropdown-footer button', text: 'Invite', wait: 5).click
+      modal.run_all_steps
+
+      sleep 2
+
+      # The newly invited user can be directly selected
+      cf_field.expect_visible
+      cf_field.search('invis')
+      cf_field.select_option invisible_user
+
+      click_on 'Save'
+      expect(page).to have_text I18n.t(:notice_successful_update)
+
+      project.reload
+      cv = project.custom_values.find_by(custom_field_id: custom_field.id).typed_value
+      expect(cv).to eq invisible_user
     end
   end
 end

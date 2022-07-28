@@ -59,6 +59,12 @@ export class DynamicFieldsService {
     },
     {
       config: {
+        type: 'userInput',
+      },
+      useForFields: ['User'],
+    },
+    {
+      config: {
         type: 'formattableInput',
         className: '',
         templateOptions: {
@@ -89,7 +95,7 @@ export class DynamicFieldsService {
         },
       },
       useForFields: [
-        'Priority', 'Status', 'Type', 'User', 'Version', 'TimeEntriesActivity',
+        'Priority', 'Status', 'Type', 'Version', 'TimeEntriesActivity',
         'Category', 'CustomOption',
       ],
     },
@@ -236,13 +242,17 @@ export class DynamicFieldsService {
     const inputConfig = inputType.config;
     let configCustomizations;
 
-    if (inputConfig.type === 'integerInput' || inputConfig.type === 'selectInput' || inputConfig.type === 'selectProjectStatusInput') {
+    if (
+      inputConfig.type === 'integerInput'
+      || inputConfig.type === 'selectInput'
+      || inputConfig.type === 'selectProjectStatusInput'
+      || inputConfig.type === 'userInput'
+    ) {
       configCustomizations = {
         className: field.name,
         templateOptions: {
           ...inputConfig.templateOptions,
           ...(this.isMultiSelectField(field) && { multiple: true }),
-          ...(fieldType === 'User' && { showAddNewUserButton: true }),
         },
       };
     } else if (inputConfig.type === 'formattableInput') {
