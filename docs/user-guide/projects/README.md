@@ -11,23 +11,23 @@ In OpenProject you can create projects to collaborate with your team members, tr
 
 Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community Edition nor in the Enterprise cloud or in Enterprise on-premises edition.
 
-| Topic                                                                        | Content                                                                                                                  |
-|------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
-| [Select a project](../../getting-started/projects/)                          | Open a project which you want to work at.                                                                                |
-| [Create a new project](../../getting-started/projects/#create-a-new-project) | Find out how to create a new project in OpenProject.                                                                     |
-| [Create a subproject](#create-a-subproject)                                  | Create a subproject of an existing project.                                                                              |
-| [Project structure](#project-structure)                                      | Find out how to set up a project structure.                                                                              |
-| [Project settings](#project-settings)                                        | Configure further settings for your projects, such as description, project hierarchy structure, or setting it to public. |
-| [Change the project hierarchy](#change-the-project-hierarchy)                | You can change the hierarchy by selecting the parent project ("subproject of").                                          |
-| [Set a project to public](#set-a-project-to-public)                          | Make a project accessible for (at least) all users within your instance.                                                 |
-| [Create a project template](./project-templates/#create-a-project-template)  | Configure a project and set it as template to copy it for future projects.                                               |
-| [Use a project template](./project-templates/#use-a-project-template)        | Create a new project based on an existing template project.                                                              |
-| [Copy a project](#copy-a-project)                                            | Copy an existing project.                                                                                                |
-| [Archive a project](#archive-a-project)                                      | Find out how to archive completed projects.                                                                              |
-| [Delete a project](#delete-a-project)                                        | How to delete a project?                                                                                                 |
-| [Global projects overview](#global-projects-overview---view-all-projects)    | Get an overview of all your projects in the projects overview list ("View all projects").                                |
-| [Export project list](#export-projects)                                      | You can export the project list to XLS or CSV.                                                                           |
-| [Project overarching reports](#project-overarching-reports)                  | How to create project overarching reports across multiple projects?                                                      |
+| Topic                                                        | Content                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Select a project](../../getting-started/projects/)          | Open a project which you want to work at.                    |
+| [Create a new project](../../getting-started/projects/#create-a-new-project) | Find out how to create a new project in OpenProject.         |
+| [Create a subproject](#create-a-subproject)                  | Create a subproject of an existing project.                  |
+| [Project structure](#project-structure)                      | Find out how to set up a project structure.                  |
+| [Project settings](#project-settings)                        | Configure further settings for your projects, such as description, project hierarchy structure, or setting it to public. |
+| [Change the project hierarchy](#change-the-project-hierarchy) | You can change the hierarchy by selecting the parent project ("subproject of"). |
+| [Set a project to public](#set-a-project-to-public)          | Make a project accessible for (at least) all users within your instance. |
+| [Create a project template](./project-templates/#create-a-project-template) | Configure a project and set it as template to copy it for future projects. |
+| [Use a project template](./project-templates/#use-a-project-template) | Create a new project based on an existing template project.  |
+| [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
+| [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
+| [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
+| [Projects list](#projects-list)                              | Get an overview of all your projects in the projects list.   |
+| [Export project list](#export-projects)                      | You can export the project list to XLS or CSV.               |
+| [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects? |
 
 ![](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Projects-Introduction.mp4)
 
