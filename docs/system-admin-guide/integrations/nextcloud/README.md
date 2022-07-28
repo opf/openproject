@@ -24,7 +24,7 @@ To activate your integration to OpenProject in Nextcloud, navigate to the built-
 
 Once the OpenProject integration app is downloaded and enabled, you can access it from within the _Settings_ page, via the side menu. Start by entering the _Host URL_ of your desired OpenProject instance.
 
-![Nextcloud_host](3_2_01 -NC_Step_1.png)
+![Nextcloud_host](3_2_01-NC_Step_1.png)
 
 Click on the **Save** button and open your OpenProject instance in a new browser tab.
 
@@ -62,7 +62,7 @@ As in the previous step, the *OAuth values* are generated automatically, but thi
 
 Once these values are entered, you can click the button **Save and complete setup** in your OpenProject tab and the **Yes, I have copied these values** in Nextcloud. Once this is done, your instance configuration is complete.
 
-![OpenProject_success](3_4_00 - OAuth - OP Success.png)
+![OpenProject_success](3_4_00-OAuth-OP_Success.png)
 
 ![Nextcloud_success](3_2_05-NC_Success.png)
 
@@ -82,7 +82,7 @@ If you need to reset the values of the Nextcloud integration (as an administrato
 
 > **Important**: When you reset/replace these values, you will need to update the configuration with the new OAuth credentials from the side you are reseting. This will also require all users to re-authorize OpenProject to access their Nextcloud account by logging in again.
 
-![nextcloud_reset_OPOAuth](3_2_06 -NC_OP_OAuth_Replace.png)
+![nextcloud_reset_OPOAuth](3_2_06-NC_OP_OAuth_Replace.png)
 
 ![nextcloud_reset_NCOAuth](3_2_07-NC__OAuth_Replace.png)
 
