@@ -380,6 +380,8 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
       fields = this.dynamicFieldsService.getFormlyFormWithFieldGroups(this.fieldGroups, fields);
     }
 
+    // We pass the resourceId through because some of the inputComponents need it to pass to their subcomponents
+    // (e.g. the userInputComponent)
     const id = this.resourceId || idFromLink(this.resourcePath || null);
     model.id = id;
 
