@@ -34,7 +34,7 @@ Make sure you are logged in as an administrator in your OpenProject instance. Na
 
 ![Storage_index](3_0_00-OP_OAuth_Empty_Index.png)
 
-By default, the storage *provider type* is set to Nextcloud; this does not need to be modified. To proceed, enter a *name* to your Nextcloud storage. This will be visible to all the users using it. We highly recommended choosing a clear and distinct name that allows users to differentiate it from other potential file storages integrations in the future. You will also need to set the *Host URL* of your Nextcloud instance, including _https://_ bit of the address.
+By default, the storage *Provider type* is set to _Nextcloud_; this does not need to be modified. To proceed, enter a *Name* to your Nextcloud storage. This name will be visible to all the users using it. We highly recommended choosing a clear and distinct name that allows users to differentiate it from other potential file storages integrations in the future. You will also need to set the *Host URL* of your Nextcloud instance. The *Host URL* is the web address of your Nextcloud instance. Make sure you include the _https://_ bit of the address.
 
 ![Storage_basic_information](3_0_01-OP_General_Info.png)
 
