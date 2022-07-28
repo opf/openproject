@@ -18,7 +18,7 @@ For integrating with OpenProject 12.2, the minimum required version of Nextcloud
 
 **1. Add the "OpenProject integration" app and connect the instance** - in Nextcloud
 
-To activate your integration to OpenProject in Nextcloud, navigate to the built-in app store in the menu under your user name by clicking on _Your apps_. You can use the search field in the top right corner to look for the OpenProject integration app. Click the button **Download and enable**.
+To activate your integration to OpenProject in Nextcloud, navigate to the built-in app store. You find the app store in the menu that opens when you click your round user avatar in the top right corner. In the app store click on _Integrations_. There you will find the "OpenProject integration" app. You can also use the search field in the top right corner to look for the OpenProject integration app. Once you have found the app, click the button **Download and enable**.
 
 ![Nextcloud_app_store](Nextcloud_app_store.png)
 
