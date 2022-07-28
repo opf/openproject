@@ -74,12 +74,11 @@ Or, a project can be to separate products or customers.
   * Customer B
   * Customer C
 
-
 OpenProject, for example, uses the projects to structure the different modules/plugin development:
 
-![project hierarchy select project](project-hierarchy-select-project.png)
+![project hierarchy select project](image-20220728200830893.png)
 
->> **Please note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
+**Note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
 
 ## Project Settings
 
@@ -162,11 +161,11 @@ Also, you can delete a project via the [projects overview](#global-projects-over
 ** Note**: Deleting projects is only available for System administrators.
 
 
-## Global projects overview - View all projects
+## Projects list
 
-To get an overview of all your projects, select the **View all projects** option from the **Select a project** menu in the top left header navigation. 
+To get an overview of all your projects, press the **Projects lists** button at the bottom of the **Select a project** menu in the top left header navigation. 
 
-![select a project view all projects](select-a-project-view-all-projects.png)
+![projects list button](image-20220728201226907.png)
 
 You will then get a list of all your projects in OpenProject. You can use this projects overview to **create a multi project status dashboard** if you include your own [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), e.g. custom status options, Accountable, Project duration, and more.
 
