@@ -22,7 +22,7 @@ To activate your integration to OpenProject in Nextcloud, navigate to the built-
 
 ![Nextcloud_app_store](Nextcloud_app_store.png)
 
-Once the OpenProject integration app is downloaded and enabled, you can access it from within the Settings page, via the the side menu. Start by entering the *host URL* of your desired OpenProject instance.
+Once the OpenProject integration app is downloaded and enabled, you can access it from within the _Settings_ page, via the side menu. Start by entering the _Host URL_ of your desired OpenProject instance.
 
 ![Nextcloud_host](3_2_01 -NC_Step_1.png)
 
