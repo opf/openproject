@@ -44,7 +44,7 @@ Once you filled in all mandatory fields, click on the **Save and continue setup*
 
 In this step, the *OpenProject OAuth values* are generated automatically. These values are needed to permit OpenProject to connect to Nextcloud. If you have not done so yet, we recommend you to best have two browser tabs open, the current one with OpenProject and the former one with Nextcloud. Now copy the two *OpenProject OAuth values* from the OpenProject tab to the respective fields in the Nextcloud tab. Simply paste them into the respective _OpenProject OAuth settings_ fields.
 
-> **Important**: The *OpenProjects OAuth values (client ID and client secret)* are not accessible again after you close the window. Please make sure you copy the generated values you see in the _Nextcloud OpenProject Integration settings_.
+> **Important**: The *OpenProjects OAuth values (client ID and client secret)* are not accessible again after you close the window. Please make sure you copy the generated values you see in the _Nextcloud OpenProject Integration settings_. Treat these values with care. Do not save them in any public place. Simply treat them as carefully as you would treat an important password.
 
 ![OP_OAuth_values](3_1_00-OP_OAuth_application_details.png)
 
