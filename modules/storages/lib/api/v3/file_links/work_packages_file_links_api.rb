@@ -38,10 +38,6 @@ module API
         # module available from within the endpoint context.
         helpers API::V3::Utilities::StoragesHelpers
 
-        before do
-          reply_with_not_found_if_module_inactive
-        end
-
         # The `:resources` keyword defines the API namespace -> /api/v3/work_packages/:id/file_links/...
         resources :file_links do
           # Get the list of FileLinks related to a work package, with updated information from Nextcloud.
