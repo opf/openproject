@@ -4,13 +4,17 @@
  *
  * You can use this by adding `appendTo=".op-wide-autocomplete-wrapper"`
  * to any ng-select instance that needs it.
- * 
- * Unfortunately, there does not seem to be a better way to select
- * a specific ng-dropdown-panel than appending it in a DOM
- * element that you can select.
- * 
- * This makes the panel wider to the right hand side,
- * so it is most likely to be cut off there. 
+ *
+ * Normally, ng-select propagates classes to the dropdowns when `appendTo` is used (see:
+ * https://github.com/ng-select/ng-select/issues/1361#issuecomment-537837586 ).
+ * Unfortunately for us, this does not work when using `ngClass` (see:
+ * https://github.com/ng-select/ng-select/issues/1627 )
+ *
+ * So instead of simply adding a class to the dropdown,
+ * we have to add a specific class to the DOM-element it is attached to
+ *
+ * Note: This makes the panel wider to the right hand side,
+ * so it if the input is already at the very right end, the dropdown will propabyl be cut off.
  */
 
 .op-wide-autocomplete-wrapper
@@ -19,4 +23,4 @@
   .ng-dropdown-panel
     // This has to be important because ng-select sets
     // the positioning styles directly on the element.
-    min-width: 200px !important 
+    min-width: 200px !important
