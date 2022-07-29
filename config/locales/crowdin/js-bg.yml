@@ -369,6 +369,7 @@ bg:
     label_in_more_than: "в повече от"
     label_incoming_emails: "Входящи имейли"
     label_information_plural: "Информация"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Последно актуализиран на"
@@ -665,14 +666,7 @@ bg:
         projects: "Проекти"
         settings: "Настройки"
     time_entry:
-      project: 'Проект'
-      work_package: 'Работен пакет'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Активност'
-      comment: 'Коментар'
-      duration: 'Продължителност'
-      spent_on: 'Дата'
-      hours: 'Часове'
       title: 'Отчетено време'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

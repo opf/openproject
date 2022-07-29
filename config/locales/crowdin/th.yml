@@ -608,6 +608,8 @@ th:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "is the wrong length (should be %{count} characters)."
       models:
         attachment:
@@ -639,7 +641,7 @@ th:
               fragment_present: 'cannot contain a fragment.'
               invalid_uri: 'must be a valid URI.'
               relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'is forbidden by the server.'
             scopes:
               not_match_configured: "doesn't match available scopes."
@@ -2177,13 +2179,14 @@ th:
   permission_edit_own_time_entries: "แก้ไขบันทึกเวลาของตนเอง"
   permission_edit_project: "แก้ไขโครงการ"
   permission_edit_reportings: "แก้ไขรายงาน"
-  permission_edit_time_entries: "แก้ไขบันทึกเวลา"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "แก้ไขแผนภูมิเวลา"
   permission_edit_wiki_pages: "แก้ไขหน้าวิกิ"
   permission_export_work_packages: "Export work packages"
   permission_export_wiki_pages: "เอกซ์ปอร์ตหน้าวิกิ"
   permission_list_attachments: "รายการสิ่งที่แนบมา"
-  permission_log_time: "บันทึกเวลาที่ใช้"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "จัดการกระทู้"
   permission_manage_categories: "จัดการประเภทของชุดภารกิจ"
   permission_manage_work_package_relations: "จัดการความสัมพันธ์ของชุดภารกิจ"

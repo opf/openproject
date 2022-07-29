@@ -369,6 +369,7 @@ fa:
     label_in_more_than: "in more than"
     label_incoming_emails: "Incoming emails"
     label_information_plural: "Information"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "آخرین فعالیت"
     label_last_updated_on: "آخرین به روزرسانی در"
@@ -665,14 +666,7 @@ fa:
         projects: "Projects"
         settings: "Settings"
     time_entry:
-      project: 'Project'
-      work_package: 'Work package'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'فعالیت'
-      comment: 'نظر'
-      duration: 'Duration'
-      spent_on: 'تاریخ'
-      hours: 'ساعت‌‌‌‌‌‌'
       title: 'پیگیری زمان'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

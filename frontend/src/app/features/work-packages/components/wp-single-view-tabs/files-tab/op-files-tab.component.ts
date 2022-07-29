@@ -27,13 +27,14 @@
 //++
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { Observable } from 'rxjs';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
-import { catchError } from 'rxjs/operators';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -57,7 +58,7 @@ export class WorkPackageFilesTabComponent implements OnInit {
     },
   };
 
-  canViewFileLinks$:Observable<boolean>;
+  showAttachmentHeader$:Observable<boolean>;
 
   storages$:Observable<IStorage[]>;
 
@@ -77,7 +78,7 @@ export class WorkPackageFilesTabComponent implements OnInit {
       return;
     }
 
-    this.canViewFileLinks$ = this
+    const canViewFileLinks = this
       .currentUserService
       .hasCapabilities$('file_links/view', project.id);
 
@@ -90,5 +91,14 @@ export class WorkPackageFilesTabComponent implements OnInit {
           throw error;
         }),
       );
+
+    this.showAttachmentHeader$ = combineLatest(
+      [
+        this.storages$,
+        canViewFileLinks,
+      ],
+    ).pipe(
+      map(([storages, viewPermission]) => storages.length > 0 && viewPermission),
+    );
   }
 }

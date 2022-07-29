@@ -607,6 +607,8 @@ uk:
         unknown_property: "– це не відома властивість."
         unknown_property_nested: "має невідомий шлях «%{path}»."
         unremovable: "неможливо видалити."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "неправильна довжина (повинна бути %{count} символів)."
       models:
         attachment:
@@ -638,7 +640,7 @@ uk:
               fragment_present: "26/5000\nне може містити фрагмент."
               invalid_uri: 'має бути дійсним URI.'
               relative_uri: 'має бути абсолютним URI.'
-              secured_uri: 'має бути URI HTTPS / SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'заборонено сервером.'
             scopes:
               not_match_configured: "не відповідає доступним областям."
@@ -2228,13 +2230,14 @@ uk:
   permission_edit_own_time_entries: "Редагування власного обліку часу"
   permission_edit_project: "Редагувати проект"
   permission_edit_reportings: "Редагування звітів"
-  permission_edit_time_entries: "Редагування обліку часу"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Змінити часові рамки"
   permission_edit_wiki_pages: "Редагування wiki-сторінок"
   permission_export_work_packages: "Експорт робочих пакетів"
   permission_export_wiki_pages: "Експорт wiki-сторінок"
   permission_list_attachments: "Список вкладень"
-  permission_log_time: "Облік трудовитрат"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Управління форумами"
   permission_manage_categories: "Управління категоріями пакет робота"
   permission_manage_work_package_relations: "Управління зв'язками робочого пакету"

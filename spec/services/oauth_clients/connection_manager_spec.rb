@@ -31,7 +31,7 @@ require 'webmock/rspec'
 
 describe ::OAuthClients::ConnectionManager, type: :model do
   let(:user) { create :user }
-  let(:host) { "http://example.org" }
+  let(:host) { "https://example.org" }
   let(:provider_type) { ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
   let(:storage) { create(:storage, provider_type:, host: "#{host}/") }
   let(:scope) { [:all] } # OAuth2 resources to access, specific to provider
@@ -44,20 +44,32 @@ describe ::OAuthClients::ConnectionManager, type: :model do
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user:) }
   let(:instance) { described_class.new(user:, oauth_client:) }
 
-  # Test the redirect_to_oauth_authorize function that puts together
-  # the OAuth2 provider URL (Nextcloud) according to RFC specs.
-  describe '#redirect_to_oauth_authorize' do
+  # The get_authorization_uri method returns the OAuth2 authorization URI as a string. That URI is the starting point for
+  # a user to grant OpenProject access to Nextcloud.
+  describe '#get_authorization_uri' do
     let(:scope) { nil }
     let(:state) { nil }
 
-    subject { instance.redirect_to_oauth_authorize(scope:, state:) }
+    subject { instance.get_authorization_uri(scope:, state:) }
 
     context 'with empty state and scope' do
-      it 'returns the redirect URL' do
-        expect(subject).to be_a String
-        expect(subject).to include oauth_client.integration.host
-        expect(subject).not_to include "scope"
-        expect(subject).not_to include "state"
+      shared_examples_for 'returns the authorization URI relative to the host' do
+        it 'returns the authorization URI' do
+          expect(subject).to be_a String
+          expect(subject).to include oauth_client.integration.host
+          expect(subject).not_to include "scope"
+          expect(subject).not_to include "state"
+        end
+      end
+
+      context 'when Nextcloud is installed in the server root' do
+        it_behaves_like 'returns the authorization URI relative to the host'
+      end
+
+      context 'when Nextcloud is installed in a sub-directory' do
+        let(:host) { "https://example.org/nextcloud" }
+
+        it_behaves_like 'returns the authorization URI relative to the host'
       end
     end
 
@@ -94,7 +106,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
       it 'returns a redirection URL' do
         expect(subject.success).to be_falsey
         expect(subject.result).to be_a String
-        # Details of string are tested above in section #redirect_to_oauth_authorize
+        # Details of string are tested above in section #get_authorization_uri
       end
     end
 
@@ -125,9 +137,9 @@ describe ::OAuthClients::ConnectionManager, type: :model do
 
   # In the second step the Authorization Server (Nextcloud) redirects
   # to a "callback" endpoint on the OAuth2 client (OpenProject):
-  # http://<openproject>:4200/oauth_clients/8/callback?state=&code=7kRGJ...jG3KZ
-  # This callback code basically just calls code_to_token(code).
-  # The callback endpoint calls code_to_token(code) with the code
+  # https://<openproject-server>/oauth_clients/8/callback?state=&code=7kRGJ...jG3KZ
+  # This callback code basically just calls `code_to_token(code)`.
+  # The callback endpoint calls `code_to_token(code)` with the code
   # received and exchanges the code for a bearer+refresh token
   # using a HTTP request.
   describe '#code_to_token' do

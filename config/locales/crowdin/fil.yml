@@ -609,6 +609,8 @@ fil:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "ay ang maling haba (dapat ay %{count} ang mga karakter)."
       models:
         attachment:
@@ -640,7 +642,7 @@ fil:
               fragment_present: 'cannot contain a fragment.'
               invalid_uri: 'must be a valid URI.'
               relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'is forbidden by the server.'
             scopes:
               not_match_configured: "doesn't match available scopes."
@@ -2195,13 +2197,14 @@ fil:
   permission_edit_own_time_entries: "I-edit ang mga log ng oras"
   permission_edit_project: "I-edit ang proyekto"
   permission_edit_reportings: "I- edit ang mga ulat"
-  permission_edit_time_entries: "I-edit ang mga log ng oras"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "I-edit ang mga timeline"
   permission_edit_wiki_pages: "I-edit ang mga work package"
   permission_export_work_packages: "I-export ang mga work package"
   permission_export_wiki_pages: "I-edit ang mga work package"
   permission_list_attachments: "Listahan ng paglalakip"
-  permission_log_time: "Big"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Pamahalain ang mga forum"
   permission_manage_categories: "Pamahalain ang mga kategorya ng work package"
   permission_manage_work_package_relations: "Nauugnay na pamahalin ang work package"

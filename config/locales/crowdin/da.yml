@@ -607,6 +607,8 @@ da:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "har forkert længde (burde være %{count} tegn)."
       models:
         attachment:
@@ -638,7 +640,7 @@ da:
               fragment_present: 'cannot contain a fragment.'
               invalid_uri: 'must be a valid URI.'
               relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'is forbidden by the server.'
             scopes:
               not_match_configured: "doesn't match available scopes."
@@ -2193,13 +2195,14 @@ da:
   permission_edit_own_time_entries: "Rediger egne tidsregistringer"
   permission_edit_project: "Rediger projekt"
   permission_edit_reportings: "Rediger rapporteringer"
-  permission_edit_time_entries: "Rediger tidsregistringer"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Rediger tidslinjer"
   permission_edit_wiki_pages: "Rediger wiki-sider"
   permission_export_work_packages: "Eksportér arbejdspakker"
   permission_export_wiki_pages: "Eksporter wiki-sider"
   permission_list_attachments: "Oplist vedhæftninger"
-  permission_log_time: "Registrer brugt tid"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Administrer fora"
   permission_manage_categories: "Administrer kategorier for arbejdspakker"
   permission_manage_work_package_relations: "Administrer forbindelser for arbejdspakker"

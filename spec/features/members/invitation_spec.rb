@@ -83,7 +83,11 @@ describe 'invite user via email', type: :feature, js: true do
 
     it 'user lookup by email' do
       members_page.visit!
-      click_on 'Add member'
+
+      retry_block do
+        click_on 'Add member'
+        find('#members_add_form')
+      end
 
       members_page.search_and_select_principal! 'hugo@openproject.com',
                                                 'Hugo Hurried'

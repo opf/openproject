@@ -24,6 +24,8 @@ uk:
               cannot_be_connected_to: "– не можна підключитися."
               minimal_nextcloud_version_unmet: "– не відповідає мінімальним вимогам до версії (Nextcloud 23 або новішої версії)"
               not_nextcloud_server: "– не є сервером Nextcloud."
+              setup_incomplete: >
+                is not fully set up. That Nextcloud instance still redirects to a URL containing 'index.php'. That is a strong indicator that the server does not have mod_rewrite, mod_headers and/or mod_env fully configured, which is necessary for a Bearer token based authorization of API requests.
         storages/file_link:
           attributes:
             origin_id:

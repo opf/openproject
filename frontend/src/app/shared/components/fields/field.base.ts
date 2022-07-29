@@ -35,7 +35,7 @@ export interface IFieldSchema {
   allowedValues?:any;
   required?:boolean;
   hasDefault:boolean;
-  name?:string;
+  name:string;
   options?:any;
 }
 

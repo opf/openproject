@@ -369,6 +369,7 @@ ko:
     label_in_more_than: "보다 큼"
     label_incoming_emails: "들어오는 이메일"
     label_information_plural: "정보"
+    label_invalid: "Invalid"
     label_import: "가져오기"
     label_latest_activity: "최근 활동"
     label_last_updated_on: "마지막 업데이트 날짜"
@@ -664,14 +665,7 @@ ko:
         projects: "프로젝트"
         settings: "설정"
     time_entry:
-      project: '프로젝트'
-      work_package: '작업 패키지'
       work_package_required: '먼저 작업 패키지를 선택해야 합니다.'
-      activity: '활동'
-      comment: '코멘트'
-      duration: '기간'
-      spent_on: '날짜'
-      hours: '시간'
       title: '작업시간 기록'
     two_factor_authentication:
       label_two_factor_authentication: '2단계 인증'

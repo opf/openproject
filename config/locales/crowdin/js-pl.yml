@@ -369,6 +369,7 @@ pl:
     label_in_more_than: "w ponad"
     label_incoming_emails: "Przychodzące e-maile"
     label_information_plural: "Informacje"
+    label_invalid: "Invalid"
     label_import: "Importuj"
     label_latest_activity: "Ostatnia aktywność"
     label_last_updated_on: "Ostatnia aktualizacja"
@@ -667,14 +668,7 @@ pl:
         projects: "Projekty"
         settings: "Ustawienia"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Zadanie'
       work_package_required: 'Wymaga wybrania najpierw pakietu roboczego.'
-      activity: 'Działanie'
-      comment: 'Komentarz'
-      duration: 'Czas trwania'
-      spent_on: 'Data'
-      hours: 'Godziny'
       title: 'Rejestruj czas pracy'
     two_factor_authentication:
       label_two_factor_authentication: 'Uwierzytelnianie dwuskładnikowe'

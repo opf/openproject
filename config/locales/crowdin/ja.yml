@@ -604,6 +604,8 @@ ja:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "削除できません。"
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "は%{count}文字を入力してください。"
       models:
         attachment:
@@ -635,7 +637,7 @@ ja:
               fragment_present: 'フラグメントを含めることはできません。'
               invalid_uri: '有効なURIでなければなりません。'
               relative_uri: '絶対URIでなければなりません。'
-              secured_uri: 'HTTPS/SSL URIでなければなりません。'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'サーバーによって禁止されています。'
             scopes:
               not_match_configured: "利用可能な範囲と一致しません。"
@@ -2172,13 +2174,14 @@ ja:
   permission_edit_own_time_entries: "自分が記入した作業時間の編集"
   permission_edit_project: "プロジェクトの編集"
   permission_edit_reportings: "レポートの編集"
-  permission_edit_time_entries: "作業時間記録の編集"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "タイムラインの編集"
   permission_edit_wiki_pages: "Wikiページの編集"
   permission_export_work_packages: "ワークパッケージのエクスポート"
   permission_export_wiki_pages: "Wikiページのエクスポート"
   permission_list_attachments: "添付ファイルの一覧表"
-  permission_log_time: "作業時間の記録"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "フォーラムの管理"
   permission_manage_categories: "仕事項目のカテゴリの管理"
   permission_manage_work_package_relations: "ワークパッケージの関係の管理"

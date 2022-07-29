@@ -369,6 +369,7 @@ fil:
     label_in_more_than: "mahigit sa"
     label_incoming_emails: "Papasok na mga email"
     label_information_plural: "Impormasyon"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Huking naka-update sa"
@@ -665,14 +666,7 @@ fil:
         projects: "Mga proyekto"
         settings: "Mga setting"
     time_entry:
-      project: 'Proyekto'
-      work_package: 'Work package'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Aktibidad'
-      comment: 'Komento'
-      duration: 'Durasyon'
-      spent_on: 'Petsa'
-      hours: 'Mga oras'
       title: 'Ang oras ng tala'
     two_factor_authentication:
       label_two_factor_authentication: 'Ang dalwang-Dahilan sa authentication'

@@ -1,4 +1,5 @@
 <op-project-autocompleter
+  *ngIf="url; else loadingTemplate"
   [ngClass]="'inline-edit--field ' + handler.fieldName"
 
   [url]="url"
@@ -10,3 +11,12 @@
   (valueChange)="onModelChange($event)"
   (cancel)="handler.handleUserCancel()"
 ></op-project-autocompleter>
+
+<ng-template #loadingTemplate>
+  <op-content-loader
+    class="project-edit-field--loading-indicator"
+    viewBox="0 0 100 24"
+  >
+    <svg:rect x="0" y="0" width="100%" height="100%" rx="1" />
+  </op-content-loader>
+</ng-template>

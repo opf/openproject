@@ -611,6 +611,8 @@ cs:
         unknown_property: "není známá vlastnost."
         unknown_property_nested: "má neznámou cestu '%{path}'."
         unremovable: "nelze odstranit."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "má chybnou délku (měla by být %{count} znaků)."
       models:
         attachment:
@@ -642,7 +644,7 @@ cs:
               fragment_present: 'nemůže obsahovat fragment.'
               invalid_uri: 'musí být platná URI.'
               relative_uri: 'musí být absolutní URI.'
-              secured_uri: 'musí být HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'je zakázán serverem.'
             scopes:
               not_match_configured: "neodpovídá dostupným rozsahům."
@@ -2232,13 +2234,14 @@ cs:
   permission_edit_own_time_entries: "Upravit vlastní časové záznamy"
   permission_edit_project: "Upravit projekt"
   permission_edit_reportings: "Upravit přehledy"
-  permission_edit_time_entries: "Upravit časové záznamy"
+  permission_edit_time_entries: "Upravit časové záznamy pro ostatní uživatele"
   permission_edit_timelines: "Úpravy časové osy"
   permission_edit_wiki_pages: "Upravit stránky wiki"
   permission_export_work_packages: "Exportovat pracovní balíčky"
   permission_export_wiki_pages: "Exportovat Wiki stránky"
   permission_list_attachments: "Seznam příloh"
-  permission_log_time: "Protokolovat strávený čas"
+  permission_log_own_time: "Zaznamenat vlastní čas"
+  permission_log_time: "Čas záznamu pro ostatní uživatele"
   permission_manage_forums: "Správa fór"
   permission_manage_categories: "Spravovat kategorie pracovního balíčku"
   permission_manage_work_package_relations: "Spravovat vztahy pracovních balíčků"

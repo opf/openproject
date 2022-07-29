@@ -368,6 +368,7 @@ ro:
     label_in_more_than: "în mai mult de"
     label_incoming_emails: "E-mailuri primite"
     label_information_plural: "Informații"
+    label_invalid: "Invalid"
     label_import: "Importă"
     label_latest_activity: "Activitate recentă"
     label_last_updated_on: "Ultima actualizare la data de"
@@ -665,14 +666,7 @@ ro:
         projects: "Proiecte"
         settings: "Setări"
     time_entry:
-      project: 'Proiect'
-      work_package: 'Pachet de lucru'
       work_package_required: 'Necesită să se selecteze mai întâi un pachet de lucru.'
-      activity: 'Activitate'
-      comment: 'Comentariu'
-      duration: 'Durată'
-      spent_on: 'Dată'
-      hours: 'Ore'
       title: 'Consum timp'
     two_factor_authentication:
       label_two_factor_authentication: 'Autentificare cu doi factori'

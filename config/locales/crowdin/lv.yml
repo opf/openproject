@@ -610,6 +610,8 @@ lv:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "ir nepareizs garums (vajadzētu būt %{count} rakstzīmes)."
       models:
         attachment:
@@ -641,7 +643,7 @@ lv:
               fragment_present: 'cannot contain a fragment.'
               invalid_uri: 'must be a valid URI.'
               relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'is forbidden by the server.'
             scopes:
               not_match_configured: "doesn't match available scopes."
@@ -2214,13 +2216,14 @@ lv:
   permission_edit_own_time_entries: "Edit own time logs"
   permission_edit_project: "Edit project"
   permission_edit_reportings: "Edit reportings"
-  permission_edit_time_entries: "Edit time logs"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Edit timelines"
   permission_edit_wiki_pages: "Edit wiki pages"
   permission_export_work_packages: "Export work packages"
   permission_export_wiki_pages: "Export wiki pages"
   permission_list_attachments: "List attachments"
-  permission_log_time: "Log spent time"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Manage forums"
   permission_manage_categories: "Manage work package categories"
   permission_manage_work_package_relations: "Manage work package relations"

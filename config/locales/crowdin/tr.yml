@@ -609,6 +609,8 @@ tr:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "kaldırılamadı."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "uzunluğu yanlıştır (%{count} karakter olmalıdır)."
       models:
         attachment:
@@ -640,7 +642,7 @@ tr:
               fragment_present: 'parça içeremez.'
               invalid_uri: 'geçerli bir URI olmalıdır.'
               relative_uri: 'mutlaka bir URI olmalıdır.'
-              secured_uri: 'HTTPS / SSL URI olması gerekir.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'sunucu tarafından yasaklanmıştır.'
             scopes:
               not_match_configured: "mevcut kapsamlarla eşleşmiyor."
@@ -2195,13 +2197,14 @@ tr:
   permission_edit_own_time_entries: "Kendi zaman kayıtlarını düzenlemek"
   permission_edit_project: "Proje düzenleme"
   permission_edit_reportings: "Raporlamayı düzenlemek"
-  permission_edit_time_entries: "Zaman kayıtlarını düzenlemek"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Zaman akışını düzenlemek"
   permission_edit_wiki_pages: "Wiki sayfalarını düzenlemek"
   permission_export_work_packages: "İş paketlerini dışarı aktar"
   permission_export_wiki_pages: "Wiki sayfalarını dışarı aktar"
   permission_list_attachments: "Ekleri listelemek"
-  permission_log_time: "Harcanan zaman kayıtları"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Forumları yönetmek"
   permission_manage_categories: "İş paket kategorilerini yönet"
   permission_manage_work_package_relations: "İş paketi ilişkilerini yönet"

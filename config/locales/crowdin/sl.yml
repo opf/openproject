@@ -608,6 +608,8 @@ sl:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "ne more biti odstranjeno."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "je napačna dolžina (mora biti %{count} znakov). "
       models:
         attachment:
@@ -639,7 +641,7 @@ sl:
               fragment_present: 'ne more vsebovati delčka.'
               invalid_uri: 'mora biti veljaven URI.'
               relative_uri: 'mora biti absolutni URI.'
-              secured_uri: 'mora biti HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'je prepovedano s strani strežnika. '
             scopes:
               not_match_configured: "ne ustreza razpoložljivim področjem uporabe."
@@ -2230,13 +2232,14 @@ sl:
   permission_edit_own_time_entries: "Uredi svoje dnevnike"
   permission_edit_project: "Uredi projekt"
   permission_edit_reportings: "Uredi poročila"
-  permission_edit_time_entries: "Uredi dnevnike"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Uredi časovnice"
   permission_edit_wiki_pages: "Uredi wiki strani"
   permission_export_work_packages: "Izvozi delovne pakete"
   permission_export_wiki_pages: "Izvozi wiki strani"
   permission_list_attachments: "Navedi priloge"
-  permission_log_time: "Beleži porabljen čas"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Uredi forume"
   permission_manage_categories: "Upravljajte kategorije delovnih paketov"
   permission_manage_work_package_relations: "Upravljajte razmerja med delovnim paketom"

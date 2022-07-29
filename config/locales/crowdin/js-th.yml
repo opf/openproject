@@ -369,6 +369,7 @@ th:
     label_in_more_than: "ในมากกว่า"
     label_incoming_emails: "อีเมลขาเข้า"
     label_information_plural: "ข้อมูล"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "แก้ไขล่าสุดเมื่อ"
@@ -664,14 +665,7 @@ th:
         projects: "โครงการ"
         settings: "การตั้งค่า"
     time_entry:
-      project: 'โครงการ'
-      work_package: 'ชุดภารกิจ'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'กิจกรรม'
-      comment: 'ความคิดเห็น'
-      duration: 'ระยะเวลา'
-      spent_on: 'วันที่'
-      hours: 'ชั่วโมง'
       title: 'เวลาที่ถูกบันทึก'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

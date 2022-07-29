@@ -608,6 +608,8 @@ lt:
         unknown_property: "yra nežinoma savybė."
         unknown_property_nested: "yra nežinomas kelias „%{path}“."
         unremovable: "negali būti pašalintas."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "yra neteisingo ilgio (turi būti %{count} simbolių)."
       models:
         attachment:
@@ -639,7 +641,7 @@ lt:
               fragment_present: 'negali turėti fragmento.'
               invalid_uri: 'turi būti tinkamas URI.'
               relative_uri: 'turi būti absoliutus URI.'
-              secured_uri: 'turi būti HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'yra uždraustas serverio.'
             scopes:
               not_match_configured: "neatitinka galimų apimčių."
@@ -2230,13 +2232,14 @@ lt:
   permission_edit_own_time_entries: "Redaguoti savo laiko įrašus"
   permission_edit_project: "Redaguoti projektą"
   permission_edit_reportings: "Redaguoti ataskaitas"
-  permission_edit_time_entries: "Redaguoti laiko įrašus"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Redaguoti tvarkaraščius"
   permission_edit_wiki_pages: "Redaguoti wiki puslapius"
   permission_export_work_packages: "Eksportuoti darbų paketus"
   permission_export_wiki_pages: "Eksportuoti wiki puslapius"
   permission_list_attachments: "Pateikti priedus"
-  permission_log_time: "Regsitruoti dirbtą laiką"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Valdyti forumus"
   permission_manage_categories: "Valdyti darbų paketo kategorijas"
   permission_manage_work_package_relations: "Valdyti darbų paketo ryšius"

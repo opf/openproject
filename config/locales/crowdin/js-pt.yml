@@ -368,6 +368,7 @@ pt:
     label_in_more_than: "em mais de"
     label_incoming_emails: "E-mails recebidos"
     label_information_plural: "Informação"
+    label_invalid: "Invalid"
     label_import: "Importar"
     label_latest_activity: "Última atividade"
     label_last_updated_on: "Última atualização em"
@@ -664,14 +665,7 @@ pt:
         projects: "Projetos"
         settings: "Configurações"
     time_entry:
-      project: 'Projeto'
-      work_package: 'Pacote de trabalho'
       work_package_required: 'É necessário selecionar primeiro um pacote de trabalho.'
-      activity: 'Atividade'
-      comment: 'Comentário'
-      duration: 'Duração'
-      spent_on: 'Data'
-      hours: 'Horas'
       title: 'Registro de tempo'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticação de dois fatores'

@@ -368,6 +368,7 @@ zh-TW:
     label_in_more_than: "多於"
     label_incoming_emails: "接收到的電子郵件"
     label_information_plural: "資訊"
+    label_invalid: "Invalid"
     label_import: "匯入"
     label_latest_activity: "最新活動"
     label_last_updated_on: "最後更新於"
@@ -663,14 +664,7 @@ zh-TW:
         projects: "專案"
         settings: "設定"
     time_entry:
-      project: '專案'
-      work_package: '工作項目'
       work_package_required: 'Requires selecting a work package first.'
-      activity: '活動'
-      comment: '評論'
-      duration: '時間長度'
-      spent_on: '日期'
-      hours: '小時'
       title: '日誌的時間'
     two_factor_authentication:
       label_two_factor_authentication: '雙重身分驗證'

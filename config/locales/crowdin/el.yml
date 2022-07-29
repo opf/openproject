@@ -605,6 +605,8 @@ el:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "δεν μπορεί να αφαιρεθεί."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "έχει λάθος μέγεθος (πρέπει να είναι %{count} χαρακτήρες)."
       models:
         attachment:
@@ -636,7 +638,7 @@ el:
               fragment_present: 'δεν μπορεί να περιέχει ένα τμήμα (fragment).'
               invalid_uri: 'πρέπει να είναι έγκυρο URI.'
               relative_uri: 'πρέπει να είναι απόλυτο URI.'
-              secured_uri: 'πρέπει να είναι HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'απαγορεύεται από το διακομιστή.'
             scopes:
               not_match_configured: "δεν ταιριάζει με τα διαθέσιμα φυσικά αντικείμενα."
@@ -2190,13 +2192,14 @@ el:
   permission_edit_own_time_entries: "Επεξεργασία των δικών μου καταγραφών χρόνου"
   permission_edit_project: "Επεξεργασία του έργου"
   permission_edit_reportings: "Επεξεργασία αναφορών"
-  permission_edit_time_entries: "Επεξεργασία καταγραφών χρόνου"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Επεξεργασία χρονοδιαγραμμάτων"
   permission_edit_wiki_pages: "Επεξεργασία σελίδων wiki"
   permission_export_work_packages: "Εξαγωγή πακέτων εργασίας"
   permission_export_wiki_pages: "Εξαγωγή σελίδων wiki"
   permission_list_attachments: "Λίστα συνημμένων"
-  permission_log_time: "Καταγραφή χρόνου που δαπανήθηκε"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Διαχείριση των φόρουμ"
   permission_manage_categories: "Διαχείριση των κατηγοριών πακέτων εργασίας"
   permission_manage_work_package_relations: "Διαχείριση των συσχετίσεων πακέτων εργασίας"

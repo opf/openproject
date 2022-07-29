@@ -369,6 +369,7 @@ hr:
     label_in_more_than: "u više od"
     label_incoming_emails: "Dolazne poruke"
     label_information_plural: "Informacija"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Zadnje ažuriranje"
@@ -666,14 +667,7 @@ hr:
         projects: "Projekti"
         settings: "Postavke"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Radni paket'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Aktivnost'
-      comment: 'Komentar'
-      duration: 'Trajanje'
-      spent_on: 'Datum'
-      hours: 'Sati'
       title: 'Vrijeme pristupa'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

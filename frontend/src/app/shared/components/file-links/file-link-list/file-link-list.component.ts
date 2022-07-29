@@ -68,7 +68,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   fileLinks$:Observable<IFileLink[]>;
 
-  allowEditing = false;
+  allowEditing$:Observable<boolean>;
 
   disabled = false;
 
@@ -131,12 +131,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
         this.showLinkFilesAction.next(!this.disabled && fileLinks.length > 0);
       });
 
-    this.currentUserService
-      .hasCapabilities$('file_links/manage', (this.resource.project as unknown&{ id:string }).id)
-      .pipe(this.untilDestroyed())
-      .subscribe((value) => {
-        this.allowEditing = value;
-      });
+    this.allowEditing$ = this.currentUserService
+      .hasCapabilities$('file_links/manage', (this.resource.project as unknown&{ id:string }).id);
   }
 
   public removeFileLink(fileLink:IFileLink):void {

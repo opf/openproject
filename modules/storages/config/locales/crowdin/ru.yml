@@ -24,6 +24,8 @@ ru:
               cannot_be_connected_to: "не может быть подключен."
               minimal_nextcloud_version_unmet: "не соответствует минимальным требованиям к версии (должен быть Nextcloud 23 или выше)"
               not_nextcloud_server: "не является сервером Nextcloud"
+              setup_incomplete: >
+                не полностью настроено. Экземпляр Nextcloud по-прежнему перенаправляет на URL, содержащий 'index.php'. Это явный признак того, что на сервере не полностью настроены mod_rewrite, mod_headers и / или mod_env, что необходимо для авторизации запросов API на основе токенов на предъявителя.
         storages/file_link:
           attributes:
             origin_id:

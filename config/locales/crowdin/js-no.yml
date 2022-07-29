@@ -369,6 +369,7 @@
     label_in_more_than: "i mer enn"
     label_incoming_emails: "Inkommende e-post"
     label_information_plural: "Informasjon"
+    label_invalid: "Invalid"
     label_import: "Importer"
     label_latest_activity: "Siste aktivitet"
     label_last_updated_on: "Sist oppdatert"
@@ -665,14 +666,7 @@
         projects: "Prosjekter"
         settings: "Innstillinger"
     time_entry:
-      project: 'Prosjekt'
-      work_package: 'Arbeidspakke'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Aktivitet'
-      comment: 'Kommentar'
-      duration: 'Varighet'
-      spent_on: 'Dato'
-      hours: 'Timer'
       title: 'Logg tid'
     two_factor_authentication:
       label_two_factor_authentication: 'Tofaktorautentisering'

@@ -606,6 +606,8 @@ it:
         unknown_property: "non è una proprietà conosciuta."
         unknown_property_nested: "ha il percorso sconosciuto '%{path}'."
         unremovable: "non può essere rimosso."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "è della lunghezza sbagliata (dovrebbe essere %{count} caratteri)."
       models:
         attachment:
@@ -637,7 +639,7 @@ it:
               fragment_present: 'non può contenere un frammento.'
               invalid_uri: 'deve essere un URI valido.'
               relative_uri: 'deve essere un URI assoluto.'
-              secured_uri: 'deve essere un URI HTTPS/SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'è vietato dal server.'
             scopes:
               not_match_configured: "non corrisponde a nessuno degli ambiti disponibili."
@@ -2192,13 +2194,14 @@ it:
   permission_edit_own_time_entries: "Modificare i propri registri di orario effettuato"
   permission_edit_project: "Modificare un progetto"
   permission_edit_reportings: "Modificare prospetti"
-  permission_edit_time_entries: "Modificare le registrazioni dell'orario effettuato"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Modificare cronologie"
   permission_edit_wiki_pages: "Modificare pagine wiki"
   permission_export_work_packages: "Esportare macro-attività"
   permission_export_wiki_pages: "Esportare pagine wiki"
   permission_list_attachments: "Elencare allegati"
-  permission_log_time: "Registrazioni dell'orario effettuato"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Gestire forum"
   permission_manage_categories: "Gestire le categorie delle macro-attività"
   permission_manage_work_package_relations: "Gestisci le correlazioni tra macro-attività"

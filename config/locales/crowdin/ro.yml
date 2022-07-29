@@ -610,6 +610,8 @@ ro:
         unknown_property: "nu este o proprietate cunoscută."
         unknown_property_nested: "are calea necunoscută '%{path}'."
         unremovable: "nu poate fi îndepărtată."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "nu are lungimea corectă (ar trebui să fie de %{count} characters)."
       models:
         attachment:
@@ -641,7 +643,7 @@ ro:
               fragment_present: 'nu poate conține un fragment.'
               invalid_uri: 'trebuie să fie un URI valid.'
               relative_uri: 'trebuie să fie un URI absolut.'
-              secured_uri: 'trebuie să fie un URI HTTPS/SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'este interzisă de către server.'
             scopes:
               not_match_configured: "nu se potrivește cu domeniile de aplicare disponibile."
@@ -2213,13 +2215,14 @@ ro:
   permission_edit_own_time_entries: "Editare jurnale de timp proprii"
   permission_edit_project: "Editare proiect"
   permission_edit_reportings: "Editare raportări"
-  permission_edit_time_entries: "Editare jurnale de timp"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Editare linii de timp"
   permission_edit_wiki_pages: "Editare pagini wiki"
   permission_export_work_packages: "Export pachete de lucru"
   permission_export_wiki_pages: "Export pagini wiki"
   permission_list_attachments: "Listare atașamente"
-  permission_log_time: "Înregistrare timp consumat"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Gestionare forumuri"
   permission_manage_categories: "Gestionare categorii de pachete de lucru"
   permission_manage_work_package_relations: "Gestionare relații pachete de lucru"

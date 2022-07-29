@@ -608,6 +608,8 @@ pt:
         unknown_property: "não é uma propriedade conhecida."
         unknown_property_nested: "possui o caminho desconhecido '%{path}'."
         unremovable: "não pode ser removido."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "é o tamanho errado (deve ser %{count} caracteres)."
       models:
         attachment:
@@ -639,7 +641,7 @@ pt:
               fragment_present: 'não pode conter um fragmento.'
               invalid_uri: 'deve ser um URI válido.'
               relative_uri: 'deve ser um URI absoluto.'
-              secured_uri: 'deve ser um URI HTTPS/SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'é proibido pelo servidor.'
             scopes:
               not_match_configured: "não corresponde a escopos disponíveis."
@@ -2193,13 +2195,14 @@ pt:
   permission_edit_own_time_entries: "Editar os próprios registros de tempo"
   permission_edit_project: "Editar projeto"
   permission_edit_reportings: "Editar relatórios"
-  permission_edit_time_entries: "Editar registros de tempo"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Editar cronogramas"
   permission_edit_wiki_pages: "Editar páginas wiki"
   permission_export_work_packages: "Exportar pacotes de trabalho"
   permission_export_wiki_pages: "Exportar páginas wiki"
   permission_list_attachments: "Lista de anexos"
-  permission_log_time: "Registrar o tempo gasto"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Gerenciar fóruns"
   permission_manage_categories: "Gerenciar categorias de pacote de trabalho"
   permission_manage_work_package_relations: "Gerenciar relações de pacote de trabalho"

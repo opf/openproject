@@ -369,6 +369,7 @@ lv:
     label_in_more_than: "in more than"
     label_incoming_emails: "Incoming emails"
     label_information_plural: "Informācija"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Pēdējās izmaiņas veiktas"
@@ -666,14 +667,7 @@ lv:
         projects: "Projekti"
         settings: "Iestatījumi"
     time_entry:
-      project: 'Projekts'
-      work_package: 'Work package'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Aktivitāte'
-      comment: 'Comment'
-      duration: 'Duration'
-      spent_on: 'Datums'
-      hours: 'Stundas'
       title: 'Log time'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

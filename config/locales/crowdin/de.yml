@@ -604,6 +604,8 @@ de:
         unknown_property: "ist kein bekanntes Attribut."
         unknown_property_nested: "hat den unerwarteten Pfad '%{path}'."
         unremovable: "kann nicht entfernt werden."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)."
       models:
         attachment:
@@ -635,7 +637,7 @@ de:
               fragment_present: 'kann kein Fragment enthalten.'
               invalid_uri: 'muss eine gültige URI sein.'
               relative_uri: 'muss eine absolute URI sein.'
-              secured_uri: 'muss eine HTTPS/SSL-URI sein.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'ist vom Server nicht erlaubt.'
             scopes:
               not_match_configured: "stimmt nicht mit verfügbaren Geltungsbereichen überein."
@@ -2190,13 +2192,14 @@ de:
   permission_edit_own_time_entries: "Selbstgebuchte Aufwände bearbeiten"
   permission_edit_project: "Projekt bearbeiten"
   permission_edit_reportings: "Statusberichte bearbeiten"
-  permission_edit_time_entries: "Gebuchte Aufwände bearbeiten"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Zeitplan-Reporte bearbeiten"
   permission_edit_wiki_pages: "Wiki-Seiten bearbeiten"
   permission_export_work_packages: "Arbeitspakete exportieren"
   permission_export_wiki_pages: "Wiki-Seiten exportieren"
   permission_list_attachments: "Anhänge auflisten"
-  permission_log_time: "Aufwände buchen"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Foren verwalten"
   permission_manage_categories: "Arbeitspaket-Kategorien verwalten"
   permission_manage_work_package_relations: "Arbeitspaket-Beziehungen verwalten"

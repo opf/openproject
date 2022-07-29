@@ -609,6 +609,8 @@ fr:
         unknown_property: "n'est pas une propriété connue."
         unknown_property_nested: "a le chemin inconnu« '%{path} »."
         unremovable: "ne peut pas être supprimé."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "est de mauvaise longueur (devrait être %{count} caractères)."
       models:
         attachment:
@@ -640,7 +642,7 @@ fr:
               fragment_present: 'ne peut pas contenir un fragment.'
               invalid_uri: 'doit être une URI valide.'
               relative_uri: 'doit être une URI absolue.'
-              secured_uri: 'doit être une URI HTTPS/SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'est interdit par le serveur.'
             scopes:
               not_match_configured: "ne correspond pas aux portées disponibles."
@@ -2195,13 +2197,14 @@ fr:
   permission_edit_own_time_entries: "Éditer mes propres enregistrements de temps"
   permission_edit_project: "Éditer le projet"
   permission_edit_reportings: "Éditer rapports"
-  permission_edit_time_entries: "Éditer les enregistrements de temps"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Éditer les lignes du temps"
   permission_edit_wiki_pages: "Éditer les pages wiki"
   permission_export_work_packages: "Exporter les lots de travaux"
   permission_export_wiki_pages: "Exporter les pages wiki"
   permission_list_attachments: "Lister les pièces jointes"
-  permission_log_time: "Enregistrer le temps passé"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Gérer les forums"
   permission_manage_categories: "Gérer les catégories de lots de travaux"
   permission_manage_work_package_relations: "Gérer les relations des lots de travaux"

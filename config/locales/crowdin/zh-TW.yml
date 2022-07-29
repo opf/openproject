@@ -608,6 +608,8 @@ zh-TW:
         unknown_property: "不是已知屬性"
         unknown_property_nested: "具有未知路徑 '%{path}'"
         unremovable: "無法移除"
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "長度錯誤 (應該要有 %{count} 個字元)"
       models:
         attachment:
@@ -639,7 +641,7 @@ zh-TW:
               fragment_present: '不能包含片段。'
               invalid_uri: '必須是有效的 uri。'
               relative_uri: '必須是絕對 uri。'
-              secured_uri: '必須是 HTTPS/SSL uri。'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: '被伺服器禁止。'
             scopes:
               not_match_configured: "與可用的範圍不吻合。"
@@ -2175,13 +2177,14 @@ zh-TW:
   permission_edit_own_time_entries: "編輯自己的時間日誌"
   permission_edit_project: "編輯專案"
   permission_edit_reportings: "編輯報表"
-  permission_edit_time_entries: "編輯時間日誌"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "編輯時間軸"
   permission_edit_wiki_pages: "編輯維基頁面"
   permission_export_work_packages: "匯出工作項目"
   permission_export_wiki_pages: "匯出維基頁面"
   permission_list_attachments: "列出附件"
-  permission_log_time: "記錄耗時"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "管理論壇"
   permission_manage_categories: "管理工作項目類別"
   permission_manage_work_package_relations: "管理工作項目關聯"

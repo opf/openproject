@@ -368,6 +368,7 @@ de:
     label_in_more_than: "in mehr als"
     label_incoming_emails: "Eingehende E-Mails"
     label_information_plural: "Information"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Letzte Änderungen"
     label_last_updated_on: "Zuletzt aktualisiert am"
@@ -664,14 +665,7 @@ de:
         projects: "Projekte"
         settings: "Einstellungen"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Arbeitspaket'
       work_package_required: 'Benötigt zuerst die Auswahl eines Arbeitspakets.'
-      activity: 'Aktivität'
-      comment: 'Kommentar'
-      duration: 'Dauer'
-      spent_on: 'Datum'
-      hours: 'Stunden'
       title: 'Zeit buchen'
     two_factor_authentication:
       label_two_factor_authentication: 'Zwei-Faktor-Authentifizierung'

@@ -606,6 +606,8 @@ ca:
         unknown_property: "no és una propietat coneguda."
         unknown_property_nested: "té la ruta desconeguda '%{path}'."
         unremovable: "no es pot eliminar."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "la longitud és incorrecta (haurien de ser %{count} caràcters)."
       models:
         attachment:
@@ -637,7 +639,7 @@ ca:
               fragment_present: 'no pot contenir un fragment.'
               invalid_uri: 'ha de ser una URI vàlida.'
               relative_uri: 'ha de ser una URI absoluta.'
-              secured_uri: 'ha de ser una URI HTTPS/SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'és vetada pel servidor.'
             scopes:
               not_match_configured: "no coincideix amb els àmbits disponibles."
@@ -2192,13 +2194,14 @@ ca:
   permission_edit_own_time_entries: "Editar els registres de temps propis"
   permission_edit_project: "Editar projecte"
   permission_edit_reportings: "Editar informes"
-  permission_edit_time_entries: "Editar els registres de temps"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Editar les línies de temps"
   permission_edit_wiki_pages: "Editar les pàgines wiki"
   permission_export_work_packages: "Exportar paquets de treball"
   permission_export_wiki_pages: "Exportar les pàgines wiki"
   permission_list_attachments: "Llista d'adjunts"
-  permission_log_time: "Registrar el temps invertit"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Gestionar els taulers"
   permission_manage_categories: "Gestionar les categories del paquet de treball"
   permission_manage_work_package_relations: "Gestionar les relacions del paquet de treball"

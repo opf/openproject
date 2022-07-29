@@ -369,6 +369,7 @@ cs:
     label_in_more_than: "za více než"
     label_incoming_emails: "Příchozí e-maily"
     label_information_plural: "Informace"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Poslední aktivita"
     label_last_updated_on: "Naposled aktualizováno"
@@ -667,14 +668,7 @@ cs:
         projects: "Projekty"
         settings: "Nastavení"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Pracovní balíček'
       work_package_required: 'Vyžaduje nejprve výběr pracovního balíčku.'
-      activity: 'Aktivita'
-      comment: 'Komentář'
-      duration: 'Doba trvání'
-      spent_on: 'Datum'
-      hours: 'Hodiny'
       title: 'Čas protokolu'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvoufázové ověření'

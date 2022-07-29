@@ -369,6 +369,7 @@ rw:
     label_in_more_than: "in more than"
     label_incoming_emails: "Incoming emails"
     label_information_plural: "Information"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Last updated on"
@@ -665,14 +666,7 @@ rw:
         projects: "Projects"
         settings: "Settings"
     time_entry:
-      project: 'Project'
-      work_package: 'Work package'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Activity'
-      comment: 'Comment'
-      duration: 'Duration'
-      spent_on: 'Date'
-      hours: 'Hours'
       title: 'Log time'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

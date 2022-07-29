@@ -369,6 +369,7 @@ ca:
     label_in_more_than: "en més de"
     label_incoming_emails: "Correu electrònics d'entrada"
     label_information_plural: "Informació"
+    label_invalid: "Invalid"
     label_import: "Importació"
     label_latest_activity: "Última activitat"
     label_last_updated_on: "La darrera actualització el"
@@ -665,14 +666,7 @@ ca:
         projects: "Projectes"
         settings: "Configuració"
     time_entry:
-      project: 'Projecte'
-      work_package: 'Paquet de treball'
       work_package_required: 'Requereix seleccionar un paquet de treball primer.'
-      activity: 'Activitat'
-      comment: 'Comentari'
-      duration: 'Durada'
-      spent_on: 'Data'
-      hours: 'Hores'
       title: 'Temps de registre'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

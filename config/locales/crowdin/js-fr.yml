@@ -369,6 +369,7 @@ fr:
     label_in_more_than: "dans plus de"
     label_incoming_emails: "Courriels entrants"
     label_information_plural: "Information"
+    label_invalid: "Invalid"
     label_import: "Importer"
     label_latest_activity: "Dernière activité"
     label_last_updated_on: "Dernière modification le"
@@ -665,14 +666,7 @@ fr:
         projects: "Projets"
         settings: "Paramètres"
     time_entry:
-      project: 'Projet'
-      work_package: 'Lot de travaux'
       work_package_required: 'Nécessite d''abord la sélection d''un lot de travaux.'
-      activity: 'Activité'
-      comment: 'Commentaire'
-      duration: 'Durée'
-      spent_on: 'date'
-      hours: 'Heures'
       title: 'Consigner temps'
     two_factor_authentication:
       label_two_factor_authentication: 'Authentification à deux facteurs'

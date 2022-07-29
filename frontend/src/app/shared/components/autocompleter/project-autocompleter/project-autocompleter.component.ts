@@ -104,6 +104,8 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Input() public dropdownPosition:'bottom'|'top'|'auto' = 'auto';
 
+  // ID that should be set on the input HTML element. It is used with
+  // <label> tags that have `for=""` set
   @Input() public labelForId = '';
 
   @Input() public apiFilters:ApiV3ListFilter[] = [];
@@ -185,7 +187,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
           ...params,
         };
         const collectionURL = `${listParamsString(fullParams)}&${url.searchParams.toString()}`;
-        url.searchParams.forEach((key) => url.searchParams.delete(key));
+        url.search = '';
         return this.http.get<IHALCollection<IProject>>(url.toString() + collectionURL);
       },
     )

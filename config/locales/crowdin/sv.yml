@@ -608,6 +608,8 @@ sv:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "kan inte tas bort."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "har fel längd (måste vara %{count} tecken)."
       models:
         attachment:
@@ -639,7 +641,7 @@ sv:
               fragment_present: 'kan inte innehålla ett fragment.'
               invalid_uri: 'måste vara en giltig URI.'
               relative_uri: 'måste vara en absolut URI.'
-              secured_uri: 'måste vara en HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'är förbjudet av servern.'
             scopes:
               not_match_configured: "matchar inte tillgängliga omfattningar."
@@ -2194,13 +2196,14 @@ sv:
   permission_edit_own_time_entries: "Redigera egna tidrapporter"
   permission_edit_project: "Redigera projekt"
   permission_edit_reportings: "Redigera rapporter"
-  permission_edit_time_entries: "Redigera tidrapporter"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Redigera tidslinjer"
   permission_edit_wiki_pages: "Redigera wiki-sidor"
   permission_export_work_packages: "Exportera arbetspaket"
   permission_export_wiki_pages: "Exportera wiki-sidor"
   permission_list_attachments: "Lista bifogade filer"
-  permission_log_time: "Tidrapportera"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Hantera forum"
   permission_manage_categories: "Hantera kategorier för arbetspaket"
   permission_manage_work_package_relations: "Hantera relationer för arbetspaket"

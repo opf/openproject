@@ -610,6 +610,8 @@ ru:
         unknown_property: "неизвестное свойство."
         unknown_property_nested: "имеет неизвестный путь '%{path}'."
         unremovable: "не может быть удалено."
+        url_not_secure_context: >
+          не предоставляет "Secure Context". Используйте HTTPS или обратный адрес, например localhost.
         wrong_length: "неправильная длина (должно быть %{count} знаков)."
       models:
         attachment:
@@ -641,7 +643,7 @@ ru:
               fragment_present: 'не может содержать фрагмент.'
               invalid_uri: 'должен быть допустимым URI.'
               relative_uri: 'должен быть абсолютным URI.'
-              secured_uri: 'должен быть HTTPS/SSL URI.'
+              secured_uri: 'не предоставляет "Secure Context". Используйте HTTPS или обратный адрес, например localhost.'
               forbidden_uri: 'запрещен сервером.'
             scopes:
               not_match_configured: "не соответствует доступным областям."
@@ -2231,13 +2233,14 @@ ru:
   permission_edit_own_time_entries: "Редактировать собственные учетные записи о времени"
   permission_edit_project: "Редактировать проект"
   permission_edit_reportings: "Редактировать отчеты"
-  permission_edit_time_entries: "Редактировать записи о времени"
+  permission_edit_time_entries: "Редактировать журналы времени для других пользователей"
   permission_edit_timelines: "Редактировать графики"
   permission_edit_wiki_pages: "Редактировать wiki-страницы"
   permission_export_work_packages: "Экспорт пакетов работ"
   permission_export_wiki_pages: "Экспорт wiki-страниц"
   permission_list_attachments: "Отобразить список прикреплённых файлов"
-  permission_log_time: "Учитывать потраченное время"
+  permission_log_own_time: "Регистрировать свое время"
+  permission_log_time: "Журнал времени для других пользователей"
   permission_manage_forums: "Управление форумами"
   permission_manage_categories: "Управление категориями пакета работ"
   permission_manage_work_package_relations: "Управление связями пакета работ"

@@ -9,6 +9,7 @@ description: |-
   | addRelation         | Adds a relation to this work package.                                    | **Permission**: manage wp relations    |
   | addWatcher          | Add any user to WP watchers                                              | **Permission**: add watcher            |
   | customActions       | Collection of predefined changes that can be applied to the work package |                                        |
+  | logTime             | Log time on the work package                                             | **Permission**: Log time, Log own time |
   | previewMarkup       | Post markup (in markdown) here to receive an HTML-rendered response      |                                        |
   | removeWatcher       | Remove any user from WP watchers                                         | **Permission**: delete watcher         |
   | unwatch             | Remove current user from WP watchers                                     | logged in; watching                    |

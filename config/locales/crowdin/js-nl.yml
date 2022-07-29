@@ -369,6 +369,7 @@ nl:
     label_in_more_than: "in meer dan"
     label_incoming_emails: "Inkomende e-mails"
     label_information_plural: "Informatie"
+    label_invalid: "Invalid"
     label_import: "Importeren"
     label_latest_activity: "Laatste Activiteit"
     label_last_updated_on: "Laatst geüpdatet op"
@@ -665,14 +666,7 @@ nl:
         projects: "Projecten"
         settings: "Instellingen"
     time_entry:
-      project: 'Project'
-      work_package: 'Werkpakket'
       work_package_required: 'Vereist eerst een werkpakket te selecteren.'
-      activity: 'Activiteit'
-      comment: 'Commentaar'
-      duration: 'Duur'
-      spent_on: 'Datum'
-      hours: 'Uren'
       title: 'Gelogde tijd'
     two_factor_authentication:
       label_two_factor_authentication: 'Twee-factor-authenticatie'

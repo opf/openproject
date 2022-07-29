@@ -368,6 +368,7 @@ sl:
     label_in_more_than: "v več kot"
     label_incoming_emails: "Prihajajoča e-pošta"
     label_information_plural: "Informacije"
+    label_invalid: "Invalid"
     label_import: "Uvozi"
     label_latest_activity: "Zadnja dejavnost"
     label_last_updated_on: "Zadnjič posodobljeno dne"
@@ -666,14 +667,7 @@ sl:
         projects: "Projekti"
         settings: "Nastavitve"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Zahtevek'
       work_package_required: 'Najprej izberite opravilo'
-      activity: 'Aktivnost'
-      comment: 'Komentar'
-      duration: 'Trajanje'
-      spent_on: 'Datum'
-      hours: 'Ure'
       title: 'Beleži čas'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvofaktorna avtentikacija'

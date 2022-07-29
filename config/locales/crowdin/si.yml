@@ -609,6 +609,8 @@ si:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "ඉවත් කළ නොහැක."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "වැරදි දිග (අක්ෂර %{count} විය යුතුය)."
       models:
         attachment:
@@ -640,7 +642,7 @@ si:
               fragment_present: 'කැබැල්ලක් අඩංගු විය නොහැක.'
               invalid_uri: 'වලංගු URI එකක් විය යුතුය.'
               relative_uri: 'පරම URI විය යුතුය.'
-              secured_uri: 'HTTPS/SSL URI විය යුතුය.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'සේවාදායකය විසින් තහනම් කර ඇත.'
             scopes:
               not_match_configured: "ලබා ගත හැකි විෂය පථයන්ට ගැලපෙන්නේ නැත."
@@ -2195,13 +2197,14 @@ si:
   permission_edit_own_time_entries: "ම කාලය ලඝු-සටහන් සංස්කරණය"
   permission_edit_project: "ව්යාපෘතිය සංස්කරණය කරන්න"
   permission_edit_reportings: "වාර්තා සංස්කරණය කරන්න"
-  permission_edit_time_entries: "කාල ලඝු-සටහන්"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "කාලනියමයන් සංස්කරණය කරන්න"
   permission_edit_wiki_pages: "විකි පිටු සංස්කරණය කරන්න"
   permission_export_work_packages: "අපනයන වැඩ පැකේජ"
   permission_export_wiki_pages: "විකි පිටු අපනයනය කරන්න"
   permission_list_attachments: "ලැයිස්තු ඇමුණුම්"
-  permission_log_time: "ලොග් ගත කළ කාලය"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "සංසද කළමනාකරණය කරන්න"
   permission_manage_categories: "වැඩ පැකේජ කාණ්ඩ කළමනාකරණය කරන්න"
   permission_manage_work_package_relations: "වැඩ පැකේජ සබඳතා කළමනාකරණය කරන්න"

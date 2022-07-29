@@ -369,6 +369,7 @@ uk:
     label_in_more_than: "більше ніж"
     label_incoming_emails: "Вхідні повідомлення"
     label_information_plural: "Інформація"
+    label_invalid: "Invalid"
     label_import: "Імпортувати"
     label_latest_activity: "Останні дії"
     label_last_updated_on: "Останнє оновлення"
@@ -667,14 +668,7 @@ uk:
         projects: "Проекти"
         settings: "Налаштування"
     time_entry:
-      project: 'Проект'
-      work_package: 'Пакет робіт'
       work_package_required: 'Спочатку потрібно вибрати пакет робіт.'
-      activity: 'Активність'
-      comment: 'Коментар'
-      duration: 'Тривалість'
-      spent_on: 'Дата'
-      hours: 'Години'
       title: 'Час журналу'
     two_factor_authentication:
       label_two_factor_authentication: 'Двофакторна аутентифікація'

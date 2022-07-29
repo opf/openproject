@@ -369,6 +369,7 @@ sk:
     label_in_more_than: "vo viac ako"
     label_incoming_emails: "Prichádzajúce e-maily"
     label_information_plural: "Informácie"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Posledná aktivita"
     label_last_updated_on: "Naposledy aktualizované"
@@ -667,14 +668,7 @@ sk:
         projects: "Projekty"
         settings: "Nastavenia"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Pracovný balíček'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Činnosť'
-      comment: 'Komentár'
-      duration: 'Trvanie'
-      spent_on: 'Dátum'
-      hours: 'Hodín'
       title: 'Zaprotokoluj čas'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvojfaktorové overenie (2FA)'

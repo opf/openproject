@@ -610,6 +610,8 @@ vi:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "không thể gỡ bỏ."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "độ dài không đúng (phải là %{count} ký tự)."
       models:
         attachment:
@@ -641,7 +643,7 @@ vi:
               fragment_present: 'không thể chứa một đoạn.'
               invalid_uri: 'phải là một URI hợp lệ.'
               relative_uri: 'phải là một URI tuyệt đối.'
-              secured_uri: 'phải là một HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'bị chặn bởi máy chủ.'
             scopes:
               not_match_configured: "không phù hợp bất cứ phạm vi nào."
@@ -2178,13 +2180,14 @@ vi:
   permission_edit_own_time_entries: "Edit own time logs"
   permission_edit_project: "Edit project"
   permission_edit_reportings: "Edit reportings"
-  permission_edit_time_entries: "Edit time logs"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Edit timelines"
   permission_edit_wiki_pages: "Edit wiki pages"
   permission_export_work_packages: "Export work packages"
   permission_export_wiki_pages: "Export wiki pages"
   permission_list_attachments: "List attachments"
-  permission_log_time: "Log spent time"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Manage forums"
   permission_manage_categories: "Manage work package categories"
   permission_manage_work_package_relations: "Manage work package relations"

@@ -370,6 +370,7 @@ ja:
     label_in_more_than: "今日から○日後以降"
     label_incoming_emails: "受信メール"
     label_information_plural: "情報"
+    label_invalid: "Invalid"
     label_import: "インポート"
     label_latest_activity: "最新の活動"
     label_last_updated_on: "最終更新日："
@@ -667,14 +668,7 @@ ja:
         projects: "プロジェクト"
         settings: "設定"
     time_entry:
-      project: 'プロジェクト'
-      work_package: 'ワーク パッケージ'
       work_package_required: '最初にワークパッケージを選択する必要があります。'
-      activity: '活動'
-      comment: 'コメント'
-      duration: '期間'
-      spent_on: '日付'
-      hours: ' 時間'
       title: '時間を記録'
     two_factor_authentication:
       label_two_factor_authentication: '2要素認証'

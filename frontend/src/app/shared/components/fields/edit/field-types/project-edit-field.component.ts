@@ -34,6 +34,7 @@ import {
   Inject,
   Injector,
   OnInit,
+  ViewEncapsulation,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { from } from 'rxjs';
@@ -60,6 +61,8 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   templateUrl: './project-edit-field.component.html',
+  styleUrls: ['./project-edit-field.component.sass'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectEditFieldComponent extends EditFieldComponent implements OnInit {
@@ -90,9 +93,7 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
     );
   }
 
-  ngOnInit():void {
-    super.ngOnInit();
-
+  initialize():void {
     if (this.schema.allowedValues) {
       this.setUrl();
     } else {
@@ -114,7 +115,7 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
     return this.handler.handleUserSubmit();
   }
 
-  public get APIFilters() {
+  public get APIFilters():(string | string[])[][] {
     const filters = [
       ['active', '=', ['t']],
     ];
