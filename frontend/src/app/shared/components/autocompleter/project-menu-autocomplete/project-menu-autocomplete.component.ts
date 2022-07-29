@@ -116,6 +116,7 @@ export class ProjectMenuAutocompleteComponent {
       select: this.I18n.t('js.label_select_project'),
     },
     search_placeholder: this.I18n.t('js.include_projects.search_placeholder'),
+    no_results: this.I18n.t('js.include_projects.no_results'),
   };
 
   /* This seems like a way too convoluted loading check, but there's a good reason we need it.
