@@ -46,15 +46,24 @@
       </spot-text-field>
 
       <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
-        <ul
-          op-project-list
-          [projects]="projects$ | async"
-          [searchText]="searchableProjectListService.searchText"
-          [multiSelect]="false"
-          [root]="true"
-          data-list-root="true"
-          data-qa-selector="op-project-menu-autocomplete--list"
-        ></ul>
+        <ng-container *ngIf="(projects$ | async) as projects">
+          <ul
+            *ngIf="projects.length > 0; else noResultsTemplate"
+            op-project-list
+            [projects]="projects"
+            [searchText]="searchableProjectListService.searchText"
+            [multiSelect]="false"
+            [root]="true"
+            data-list-root="true"
+            data-qa-selector="op-project-menu-autocomplete--list"
+          ></ul>
+
+          <ng-template #noResultsTemplate>
+            <span class="op-project-list-modal--no-results">
+              {{text.no_results}}
+            </span>
+          </ng-template>
+        </ng-container>
       </ng-container>
 
       <div class="spot-action-bar">
