@@ -18,13 +18,15 @@
   </div>
 
   <div class="op-modal--footer op-modal--footer_split-actions">
-    <button class="button -danger"
-            *ngIf="deleteAllowed"
-            (click)="destroy()"
-            [textContent]="text.delete"
-            [attr.title]="text.delete">
-    </button>
-    <section>
+    <div>
+      <button class="button -danger"
+              *ngIf="deleteAllowed"
+              (click)="destroy()"
+              [textContent]="text.delete"
+              [attr.title]="text.delete">
+      </button>
+    </div>
+    <div>
       <button class="button"
               *ngIf="saveAllowed"
               (click)="closeMe($event)"
@@ -38,6 +40,6 @@
               [textContent]="text.save"
               [disabled]="formInFlight">
       </button>
-    </section>
+    </div>
   </div>
 </div>
