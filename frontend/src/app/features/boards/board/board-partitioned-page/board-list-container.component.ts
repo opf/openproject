@@ -23,6 +23,7 @@ import { filter, tap } from 'rxjs/operators';
 import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
+import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 
 @Component({
   templateUrl: './board-list-container.component.html',
@@ -43,6 +44,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     hiddenListWarning: this.I18n.t('js.boards.text_hidden_list_warning'),
     teaser_text: this.I18n.t('js.boards.upsale.teaser_text'),
     upgrade_to_ee_text: this.I18n.t('js.boards.upsale.upgrade'),
+    more_info_link: enterpriseDocsUrl.boards,
   };
 
   /** Container reference */

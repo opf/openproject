@@ -163,10 +163,6 @@ import {
   enterpriseActiveSavedTrialSelector,
 } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component';
 import {
-  EnterpriseBannerBootstrapComponent,
-  enterpriseBannerrBootstrapSelector,
-} from 'core-app/shared/components/enterprise-banner/enterprise-banner-bootstrap.component';
-import {
   NoResultsComponent,
   noResultsSelector,
 } from 'app/shared/components/no-results/no-results.component';
@@ -241,7 +237,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: mainMenuToggleSelector, cls: MainMenuToggleComponent },
   { selector: globalSearchSelector, cls: GlobalSearchInputComponent },
   { selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent },
-  { selector: enterpriseBannerrBootstrapSelector, cls: EnterpriseBannerBootstrapComponent },
   { selector: enterpriseBannerSelector, cls: EnterpriseBannerComponent },
   { selector: noResultsSelector, cls: NoResultsComponent },
   { selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent },
