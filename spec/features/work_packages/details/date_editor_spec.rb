@@ -185,8 +185,13 @@ describe 'date inplace editor',
     start_date.activate!
     start_date.expect_active!
 
+    # The calendar needs some time to get initialised.
+    sleep 2
+    start_date.datepicker.expect_visible
+
     # Set the due date
     start_date.datepicker.set_date Time.zone.today, true
+
     # As the to be selected date is automatically toggled,
     # we can directly set the start date afterwards to the same day
     start_date.datepicker.set_date Time.zone.today, true
