@@ -115,6 +115,10 @@ export class SearchableProjectListService {
     // eslint-disable-next-line no-constant-condition
     while (true) {
       if (!container || container.matches(projectListRootSelector)) {
+        // Move to the input when we reach the top of the list
+        if (upwards) {
+          return this.findInputElement();
+        }
         return null;
       }
 
@@ -145,10 +149,12 @@ export class SearchableProjectListService {
     const inputElement = this.findInputElement();
 
     switch (event.keyCode) {
+      case event.shiftKey && KeyCodes.TAB:
       case KeyCodes.UP_ARROW:
         event.preventDefault();
         this.handleKeyNavigation(true);
         break;
+      case KeyCodes.TAB:
       case KeyCodes.DOWN_ARROW:
         event.preventDefault();
         this.handleKeyNavigation(false);
@@ -158,6 +164,7 @@ export class SearchableProjectListService {
           event.preventDefault();
         }
         break;
+      case KeyCodes.SHIFT:
       case KeyCodes.ENTER:
         break;
       default:
