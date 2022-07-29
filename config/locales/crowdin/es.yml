@@ -607,7 +607,7 @@ es:
         unknown_property_nested: "tiene la ruta de acceso desconocida «%{path}»."
         unremovable: "no puede ser eliminado."
         url_not_secure_context: >
-          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
+          no está proveyendo un "Contexto Seguro". Utiliza HTTPS o una dirección loopack, como un localhost.
         wrong_length: "la longitud es incorrecta (debe ser %{count} caracteres)."
       models:
         attachment:
@@ -639,7 +639,7 @@ es:
               fragment_present: 'no puede contener un fragmento.'
               invalid_uri: 'debe ser una URI válida.'
               relative_uri: 'debe ser un URI absoluto.'
-              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
+              secured_uri: 'no está proveyendo un "Contexto Seguro". Utiliza HTTPS o una dirección loopack, como un localhost.'
               forbidden_uri: 'está prohibida por el servidor.'
             scopes:
               not_match_configured: "no coincide con los ámbitos disponibles."

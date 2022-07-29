@@ -368,6 +368,7 @@ ru:
     label_in_more_than: "более чем"
     label_incoming_emails: "Входящие письма"
     label_information_plural: "Информация"
+    label_invalid: "Invalid"
     label_import: "Импорт"
     label_latest_activity: "Последние действия"
     label_last_updated_on: "Последний раз обновлено"

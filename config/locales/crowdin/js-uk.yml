@@ -369,6 +369,7 @@ uk:
     label_in_more_than: "більше ніж"
     label_incoming_emails: "Вхідні повідомлення"
     label_information_plural: "Інформація"
+    label_invalid: "Invalid"
     label_import: "Імпортувати"
     label_latest_activity: "Останні дії"
     label_last_updated_on: "Останнє оновлення"

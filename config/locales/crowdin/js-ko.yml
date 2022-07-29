@@ -369,6 +369,7 @@ ko:
     label_in_more_than: "보다 큼"
     label_incoming_emails: "들어오는 이메일"
     label_information_plural: "정보"
+    label_invalid: "Invalid"
     label_import: "가져오기"
     label_latest_activity: "최근 활동"
     label_last_updated_on: "마지막 업데이트 날짜"

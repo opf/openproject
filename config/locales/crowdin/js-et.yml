@@ -369,6 +369,7 @@ et:
     label_in_more_than: "on suurem kui"
     label_incoming_emails: "Sissetulevad e-postisõnumid"
     label_information_plural: "Teave"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Viimati uuendatud"

@@ -369,6 +369,7 @@ hi:
     label_in_more_than: "से अधिक में"
     label_incoming_emails: "आने वाली ईमेल"
     label_information_plural: "जानकारी"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "अंतिम अद्यतन"

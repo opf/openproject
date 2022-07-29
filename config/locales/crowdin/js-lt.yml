@@ -369,6 +369,7 @@ lt:
     label_in_more_than: "daugiau nei"
     label_incoming_emails: "Gauti el. laiškai"
     label_information_plural: "Informacija"
+    label_invalid: "Invalid"
     label_import: "Importuoti"
     label_latest_activity: "Paskutinė veikla"
     label_last_updated_on: "Paskiausias atnaujinimas"

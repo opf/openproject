@@ -369,6 +369,7 @@ si:
     label_in_more_than: "වඩා වැඩි"
     label_incoming_emails: "ලැබෙන විද්යුත් තැපැල්"
     label_information_plural: "තොරතුරු"
+    label_invalid: "Invalid"
     label_import: "ආනයන"
     label_latest_activity: "නවතම ක්රියාකාරකම්"
     label_last_updated_on: "අවසන් වරට යාවත්කාලීන කරන ලදි"

@@ -368,6 +368,7 @@ el:
     label_in_more_than: "σε περισσότερο από"
     label_incoming_emails: "Εισερχόμενα email"
     label_information_plural: "Πληροφορίες"
+    label_invalid: "Invalid"
     label_import: "Εισαγωγή"
     label_latest_activity: "Τελευταία δραστηριότητα"
     label_last_updated_on: "Τελευταία ενημέρωση στις"

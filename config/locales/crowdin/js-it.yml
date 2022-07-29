@@ -371,6 +371,7 @@ it:
     label_in_more_than: "in più di"
     label_incoming_emails: "Email in arrivo"
     label_information_plural: "Informazioni"
+    label_invalid: "Invalid"
     label_import: "Importazione"
     label_latest_activity: "Ultima attività"
     label_last_updated_on: "Ultimo aggiornamento il"

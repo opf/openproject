@@ -23,10 +23,10 @@ ne:
   no_results_title_text: त्यहाँ प्रदर्शन गर्न केहि पनि छैन।
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within this time frame.
+      no_results_title_text: यो अवधिमा आयोजनाको कुनै पनि क्रियाकलाप भएको छैन ।
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins available.
+      no_results_title_text: हाल कुनै प्लगइनहरू उपलब्ध छैन।
     custom_styles:
       color_theme: "रंग विषयवस्तु"
       color_theme_custom: "(अनुकूलन)"
@@ -47,16 +47,16 @@ ne:
         main-menu-selected-font-color: "चयन गरिएको बेला मुख्य मेनू फन्ट"
         main-menu-hover-font-color: "होभरमा मुख्य मेनू फन्ट"
         main-menu-border-color: "मुख्य मेनू बोर्डर"
-      custom_colors: "Custom colors"
-      customize: "Customize your OpenProject installation with your own logo and colors."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
-      manage_colors: "Edit color select options"
+      custom_colors: "बैकल्पिक रंगहरु "
+      customize: "तपाइँको आफ्नै लोगो र रङहरु संग तपाइँको OpenProject स्थापनालाई अनुकूलित गर्नुहोस्।"
+      enterprise_notice: "OpenProject विकास गर्न सहायता गर्ने आर्थिक योगदानकर्ताहरु लाई विशेष रूपमा धन्यवाद!, यो इन्टरप्राइज संस्करण, समर्थन गर्ने सदस्यहरूको लागि मात्र उपलब्ध छ।"
+      enterprise_more_info: "नोट: प्रयोग गरिएको लोगो सार्वजनिक रूपमा पहुँचयोग्य हुनेछ।"
+      manage_colors: "रङ चयन गर्न सकिने विकल्पहरू सम्पादन गर्नुहोस्"
       instructions:
         alternative-color: "कडा उच्चारण रंग, सामान्यतया स्क्रिनमा सबै भन्दा महत्वपूर्ण बटन को लागी प्रयोग गरिने।"
-        content-link-color: "Font color of most of the links."
-        primary-color: "Main color."
-        primary-color-dark: "Typically a darker version of the main color used for hover effects."
+        content-link-color: "अधिकांश लिङ्कहरूको फन्ट रङ।"
+        primary-color: "मुख्य रंग "
+        primary-color-dark: "सामान्यतया मुख्य रंगको गाढा संस्करण होभर प्रभावहरूको लागि प्रयोग गरिन्छ।"
         header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
         header-item-font-color: "Font color of clickable header items."
         header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."

@@ -369,6 +369,7 @@ id:
     label_in_more_than: "lebih dari"
     label_incoming_emails: "Email masuk"
     label_information_plural: "Informasi"
+    label_invalid: "Invalid"
     label_import: "Impor"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Terakhir diupdate pada"

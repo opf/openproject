@@ -372,6 +372,7 @@ hu:
     label_in_more_than: "több mint"
     label_incoming_emails: "Bejövő e-mailek"
     label_information_plural: "Információk"
+    label_invalid: "Invalid"
     label_import: "Importálás"
     label_latest_activity: "Utolsó aktivitás"
     label_last_updated_on: "Utolsó frissítés"

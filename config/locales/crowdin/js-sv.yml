@@ -368,6 +368,7 @@ sv:
     label_in_more_than: "i mer än"
     label_incoming_emails: "Inkommande E-post"
     label_information_plural: "Information"
+    label_invalid: "Invalid"
     label_import: "Importera"
     label_latest_activity: "Senaste aktivitet"
     label_last_updated_on: "Senast uppdaterad den"

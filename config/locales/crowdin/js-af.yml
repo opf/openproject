@@ -369,6 +369,7 @@ af:
     label_in_more_than: "in meer as"
     label_incoming_emails: "Inkomende e-pos"
     label_information_plural: "Inligting"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Last updated on"

@@ -369,6 +369,7 @@
     label_in_more_than: "i mer enn"
     label_incoming_emails: "Inkommende e-post"
     label_information_plural: "Informasjon"
+    label_invalid: "Invalid"
     label_import: "Importer"
     label_latest_activity: "Siste aktivitet"
     label_last_updated_on: "Sist oppdatert"

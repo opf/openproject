@@ -368,6 +368,7 @@ vi:
     label_in_more_than: "nhiều hơn"
     label_incoming_emails: "Các thư đến"
     label_information_plural: "Thông tin"
+    label_invalid: "Invalid"
     label_import: "Nhập"
     label_latest_activity: "Hoạt động mới nhất"
     label_last_updated_on: "Cập nhật lần cuối lúc"

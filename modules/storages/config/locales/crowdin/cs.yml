@@ -90,4 +90,4 @@ cs:
     confirm_replace_oauth_application: "Jste si jisti? Všichni uživatelé se budou muset znovu autorizovat proti OpenProject."
     confirm_replace_oauth_client: "Jste si jisti? Všichni uživatelé budou muset znovu autorizovat proti úložišti."
     oauth_client_details_missing: "Chcete-li dokončit nastavení, přidejte prosím přihlašovací údaje OAuth klienta z vašeho úložiště."
-    notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."
+    notice_oauth_application_replaced: "OpenProject OAuth aplikace byla úspěšně nahrazena."

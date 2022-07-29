@@ -369,6 +369,7 @@ fil:
     label_in_more_than: "mahigit sa"
     label_incoming_emails: "Papasok na mga email"
     label_information_plural: "Impormasyon"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Huking naka-update sa"

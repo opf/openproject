@@ -368,6 +368,7 @@ ro:
     label_in_more_than: "în mai mult de"
     label_incoming_emails: "E-mailuri primite"
     label_information_plural: "Informații"
+    label_invalid: "Invalid"
     label_import: "Importă"
     label_latest_activity: "Activitate recentă"
     label_last_updated_on: "Ultima actualizare la data de"

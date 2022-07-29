@@ -369,6 +369,7 @@ sk:
     label_in_more_than: "vo viac ako"
     label_incoming_emails: "Prichádzajúce e-maily"
     label_information_plural: "Informácie"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Posledná aktivita"
     label_last_updated_on: "Naposledy aktualizované"

@@ -370,6 +370,7 @@ ja:
     label_in_more_than: "今日から○日後以降"
     label_incoming_emails: "受信メール"
     label_information_plural: "情報"
+    label_invalid: "Invalid"
     label_import: "インポート"
     label_latest_activity: "最新の活動"
     label_last_updated_on: "最終更新日："

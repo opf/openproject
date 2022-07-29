@@ -369,6 +369,7 @@ tr:
     label_in_more_than: "daha fazla"
     label_incoming_emails: "Gelen e-postalar"
     label_information_plural: "Bilgi"
+    label_invalid: "Invalid"
     label_import: "İçeri Aktar"
     label_latest_activity: "En son etkinlik"
     label_last_updated_on: "Son güncelleme"

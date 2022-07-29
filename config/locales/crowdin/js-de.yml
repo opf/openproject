@@ -368,6 +368,7 @@ de:
     label_in_more_than: "in mehr als"
     label_incoming_emails: "Eingehende E-Mails"
     label_information_plural: "Information"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Letzte Änderungen"
     label_last_updated_on: "Zuletzt aktualisiert am"

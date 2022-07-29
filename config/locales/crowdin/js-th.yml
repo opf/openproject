@@ -369,6 +369,7 @@ th:
     label_in_more_than: "ในมากกว่า"
     label_incoming_emails: "อีเมลขาเข้า"
     label_information_plural: "ข้อมูล"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "แก้ไขล่าสุดเมื่อ"

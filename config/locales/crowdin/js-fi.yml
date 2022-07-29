@@ -369,6 +369,7 @@ fi:
     label_in_more_than: "suurempi kuin"
     label_incoming_emails: "Saapuvat sähköpostiviestit"
     label_information_plural: "Tieto"
+    label_invalid: "Invalid"
     label_import: "Tuo"
     label_latest_activity: "Viimeisimmät tapahtumat"
     label_last_updated_on: "Viimeisin päivitys"

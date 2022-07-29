@@ -369,6 +369,7 @@ ca:
     label_in_more_than: "en més de"
     label_incoming_emails: "Correu electrònics d'entrada"
     label_information_plural: "Informació"
+    label_invalid: "Invalid"
     label_import: "Importació"
     label_latest_activity: "Última activitat"
     label_last_updated_on: "La darrera actualització el"

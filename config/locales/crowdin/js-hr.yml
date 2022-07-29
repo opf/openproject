@@ -369,6 +369,7 @@ hr:
     label_in_more_than: "u više od"
     label_incoming_emails: "Dolazne poruke"
     label_information_plural: "Informacija"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Zadnje ažuriranje"
