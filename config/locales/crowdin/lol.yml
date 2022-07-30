@@ -590,6 +590,8 @@ lol:
         unknown_property: "crwdns495481:0crwdne495481:0"
         unknown_property_nested: "crwdns495483:0%{path}crwdne495483:0"
         unremovable: "crwdns495485:0crwdne495485:0"
+        url_not_secure_context: >
+          crwdns825422:0crwdne825422:0
         wrong_length: "crwdns495487:0%{count}crwdne495487:0"
       models:
         attachment:
@@ -621,7 +623,7 @@ lol:
               fragment_present: 'crwdns495517:0crwdne495517:0'
               invalid_uri: 'crwdns495519:0crwdne495519:0'
               relative_uri: 'crwdns495521:0crwdne495521:0'
-              secured_uri: 'crwdns495523:0crwdne495523:0'
+              secured_uri: 'crwdns825424:0crwdne825424:0'
               forbidden_uri: 'crwdns495525:0crwdne495525:0'
             scopes:
               not_match_configured: "crwdns495527:0crwdne495527:0"
@@ -2159,13 +2161,14 @@ lol:
   permission_edit_own_time_entries: "crwdns498581:0crwdne498581:0"
   permission_edit_project: "crwdns498583:0crwdne498583:0"
   permission_edit_reportings: "crwdns498585:0crwdne498585:0"
-  permission_edit_time_entries: "crwdns498587:0crwdne498587:0"
+  permission_edit_time_entries: "crwdns825426:0crwdne825426:0"
   permission_edit_timelines: "crwdns498589:0crwdne498589:0"
   permission_edit_wiki_pages: "crwdns498591:0crwdne498591:0"
   permission_export_work_packages: "crwdns498593:0crwdne498593:0"
   permission_export_wiki_pages: "crwdns498595:0crwdne498595:0"
   permission_list_attachments: "crwdns498597:0crwdne498597:0"
-  permission_log_time: "crwdns498599:0crwdne498599:0"
+  permission_log_own_time: "crwdns825428:0crwdne825428:0"
+  permission_log_time: "crwdns825430:0crwdne825430:0"
   permission_manage_forums: "crwdns498601:0crwdne498601:0"
   permission_manage_categories: "crwdns498603:0crwdne498603:0"
   permission_manage_work_package_relations: "crwdns498605:0crwdne498605:0"

@@ -268,7 +268,7 @@ cs:
           one: "První kritérium třídění"
           two: "Druhé kritérium třídění"
           three: "Třetí kritérium třídění"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
+      upsale_for_more: "Pokročilé filtry vám umožní použít jako filtr téměř jakýkoli atribut pracovního balíčku. Pro použití této funkce přejděte na placenou verzi."
       more_info: "Více informací"
       upsale_link: 'Enterprise Edice'
     general_text_no: "ne"
@@ -369,7 +369,7 @@ cs:
     label_in_more_than: "za více než"
     label_incoming_emails: "Příchozí e-maily"
     label_information_plural: "Informace"
-    label_invalid: "Invalid"
+    label_invalid: "Neplatné"
     label_import: "Import"
     label_latest_activity: "Poslední aktivita"
     label_last_updated_on: "Naposled aktualizováno"
@@ -520,9 +520,9 @@ cs:
           timeline: 'Zde můžete upravit váš projektový plán. Vytvářet nové fáze, milníky a přidat závislosti. Všichni členové týmu mohou kdykoliv zobrazit a aktualizovat aktuální plán.'
         team_planner:
           overview: 'Plánovač týmu vám umožní vizuálně přiřadit úkoly členům týmu a získat přehled o tom, kdo na čem pracuje.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          calendar: "Týdenní nebo dvoutýdenní plánovací tabule zobrazuje všechny pracovní balíčky přiřazené členům vašeho týmu.\n"
           add_assignee: 'Chcete-li začít, přidejte do plánovače týmu řešitele'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          add_existing: "Vyhledejte existující pracovní balíčky a přetáhněte je do plánovače týmu, abyste je okamžitě přiřadili členovi týmu a definovali datum zahájení a ukončení.\n"
           card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Oznámení"
@@ -542,15 +542,15 @@ cs:
           many: 'a %{count} dalšich'
           other: 'a %{count} dalšich'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'Nová oznámení se objeví zde, když se vyskytne aktivita, která se vás týká. V mezidobí si můžete také prohlédnout a změnit nastavení oznámení, abyste mohli nastavit, kdy chcete být upozorněn.'
           with_current_filter: 'V současné době nejsou v tomto zobrazení žádná oznámení'
         mark_all_read: 'Označit vše jako přečtené'
         mark_as_read: 'Označit jako přečteno'
         text_update_date: "%{date} od"
         total_count_warning: "Zobrazení posledních oznámení %{newest_count} . Nezobrazuje se ještě %{more_count}"
         empty_state:
-          no_notification: "Vypadá to, že jste všechno pročetli..."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification: "Vypadá to, že jste všechno dohnali..."
+          no_notification_with_current_project_filter: "Vypadá to, že nemáte žadné nové oznámení pro vybraný projekt."
           no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
@@ -645,7 +645,7 @@ cs:
           wiki_page_updated: 'Wiki stránka aktualizována'
           membership_added: 'Členství přidáno'
           membership_updated: 'Členství bylo aktualizováno'
-        title: 'Upozornění e-mailem'
+        title: 'E-mail upozornění '
         pause:
           label: 'Dočasně pozastavit denní připomenutí e-mailem'
           first_day: 'První den'
@@ -659,7 +659,7 @@ cs:
         reset_title: "Vyčistit konfiguraci formuláře"
         confirm_reset: >
           Upozornění: Opravdu chcete resetovat konfiguraci formuláře? Tato akce obnoví atributy na jejich výchozí skupinu a zakáže VŠECHNY vlastní pole.
-        upgrade_to_ee: "Upgradovat na Enterprise Edition"
+        upgrade_to_ee: "Upgradovat na Enterprise Edici"
         upgrade_to_ee_text: "Páni! Pokud potřebujete tuto funkci, jste super pro! Nevadili byste nám podpořit OpenSource vývojáře tím, že se stanete klientem Enterprise Edition?"
         more_information: "Více informací"
         nevermind: "Nevadí"
@@ -1164,7 +1164,7 @@ cs:
       role:
         label: 'Role v %{project}'
         no_roles_found: 'Nebyly nalezeny žádné role.'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Toto je role, kterou %{principal} obdrží, když se připojí k vašemu projektu. Role vymezuje, které změny mohou vykonávat a jaké informace mohou vidět. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Další informace o rolích a oprávněních. </a>'
         required: 'Vyberte prosím roli'
         next_button: 'Další'
       message:
@@ -1194,6 +1194,7 @@ cs:
         include_all_selected: 'Zahrnout všechny podprojekty je zvoleno.'
         current_project: 'Toto je aktuální projekt, ve kterém se nacházíte.'
         does_not_match_search: 'Projekt neodpovídá kritériím vyhledávání.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Formulář byl úspěšně odeslán'
       load_error_message: 'Při načítání formuláře došlo k chybě'

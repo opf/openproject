@@ -368,6 +368,7 @@ lol:
     label_in_more_than: "crwdns787402:0crwdne787402:0"
     label_incoming_emails: "crwdns787404:0crwdne787404:0"
     label_information_plural: "crwdns787406:0crwdne787406:0"
+    label_invalid: "crwdns825432:0crwdne825432:0"
     label_import: "crwdns787408:0crwdne787408:0"
     label_latest_activity: "crwdns787410:0crwdne787410:0"
     label_last_updated_on: "crwdns787412:0crwdne787412:0"
@@ -664,14 +665,7 @@ lol:
         projects: "crwdns787884:0crwdne787884:0"
         settings: "crwdns787886:0crwdne787886:0"
     time_entry:
-      project: 'crwdns787888:0crwdne787888:0'
-      work_package: 'crwdns787890:0crwdne787890:0'
       work_package_required: 'crwdns787892:0crwdne787892:0'
-      activity: 'crwdns787894:0crwdne787894:0'
-      comment: 'crwdns787896:0crwdne787896:0'
-      duration: 'crwdns787898:0crwdne787898:0'
-      spent_on: 'crwdns787900:0crwdne787900:0'
-      hours: 'crwdns787902:0crwdne787902:0'
       title: 'crwdns787904:0crwdne787904:0'
     two_factor_authentication:
       label_two_factor_authentication: 'crwdns787906:0crwdne787906:0'
@@ -1193,6 +1187,7 @@ lol:
         include_all_selected: 'crwdns809358:0crwdne809358:0'
         current_project: 'crwdns809360:0crwdne809360:0'
         does_not_match_search: 'crwdns822880:0crwdne822880:0'
+      no_results: 'crwdns825434:0crwdne825434:0'
     forms:
       submit_success_message: 'crwdns788750:0crwdne788750:0'
       load_error_message: 'crwdns788752:0crwdne788752:0'

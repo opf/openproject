@@ -46,10 +46,10 @@ cs:
         index: "Úložiště souborů v tomto projektu"
         new: "Přidat úložiště souborů k tomuto projektu"
     instructions:
-      type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
+      type: "Ujistěte se prosím, že máte oprávnění administrace v Nextcloud instanci a máte nainstalovanou následující aplikaci:"
       type_link_text: "„Integration OpenProject“"
-      name: "Give your storage a name so that users can differentiate between multiple storages."
-      host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
+      name: "Dejte svému úložišti jméno, aby uživatelé mohli rozlišovat mezi více úložišti."
+      host: "Přidejte prosím adresu hostitele vašeho úložiště obsahující https://. Nemělo by být delší než 255 znaků."
       no_storage_set_up: "Dosud nejsou nastaveny žádné úložiště souborů."
       setting_up_additional_storages: "Pro nastavení dalších úložišť souborů navštivte prosím"
       setting_up_additional_storages_non_admin: "Administrátoři mohou nastavit další úložiště souborů v administraci / Úložiště souborů."
@@ -68,7 +68,7 @@ cs:
     label_file_link: "Odkaz na soubor"
     label_file_links: "Odkazy na soubor"
     label_name: "Název:"
-    label_host: "Host URL"
+    label_host: "URL adresa hostitele"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"

@@ -1194,6 +1194,7 @@ uk:
         include_all_selected: 'Параметр «Включити всі підпроєкти» зараз увімкнено.'
         current_project: 'Це поточний проєкт, який зараз відкрито.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Форму надіслано'
       load_error_message: 'Сталася помилка під час завантаження форми'

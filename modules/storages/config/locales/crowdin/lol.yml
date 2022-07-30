@@ -24,6 +24,8 @@ lol:
               cannot_be_connected_to: "crwdns807918:0crwdne807918:0"
               minimal_nextcloud_version_unmet: "crwdns807920:0crwdne807920:0"
               not_nextcloud_server: "crwdns807922:0crwdne807922:0"
+              setup_incomplete: >
+                crwdns825436:0crwdne825436:0
         storages/file_link:
           attributes:
             origin_id:

@@ -1188,6 +1188,7 @@ fr:
         include_all_selected: 'Inclure tous les sous-projets est actuellement sélectionné.'
         current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Le formulaire a bien été envoyé'
       load_error_message: 'Une erreur s''est produite lors du chargement du formulaire'

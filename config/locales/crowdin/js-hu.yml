@@ -1193,6 +1193,7 @@ hu:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'Ez a jelenlegi projekt, amiben vagyunk.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Jelentés sikeresen elküldve'
       load_error_message: 'Hiba történt az eredmény betöltésekor.'

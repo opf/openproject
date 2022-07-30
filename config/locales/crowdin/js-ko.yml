@@ -1185,6 +1185,7 @@ ko:
         include_all_selected: '모든 하위 프로젝트 포함이 현재 선택되어 있습니다.'
         current_project: '작업 중인 현재 프로젝트입니다.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: '양식을 성공적으로 제출했습니다'
       load_error_message: '양식을 불러오는 중 오류가 발생했습니다'
