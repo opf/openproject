@@ -77,7 +77,6 @@ sv:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -96,7 +95,7 @@ sv:
     add_new: 'Lägg till hjälptext'
     edit: "Redigera hjälptext för %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Det finns för närvarande inga autentiseringslägen.
@@ -305,7 +304,7 @@ sv:
       settings: "Inställningar"
       form_configuration: "Ställ in formulär"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekt"
       enabled_projects: "Aktiverade projekt"
       edit_query: "Redigera tabell"
@@ -2567,6 +2566,12 @@ sv:
     När du använder anpassade fält: Kom ihåg att dessa även måste aktiveras för varje projekt.
   text_custom_field_hint_activate_per_project_and_type: >
     Anpassade fält behöver aktiveras per arbetspaketstyp och per projekt.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     En vit logotyp på transparent bakgrund rekommenderas. För bästa resultat på både vanliga och Retina-skärmar bör bilden vara minst 460x60 px.
   text_custom_favicon_instructions: >

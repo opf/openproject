@@ -235,6 +235,7 @@ zh-TW:
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "獲取報價"
+          more_info: "More information"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -267,8 +268,7 @@ zh-TW:
           one: "第一個排序條件"
           two: "第二個排序條件"
           three: "第三個排序條件"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: '企業版。'
     general_text_no: "否"
     general_text_yes: "是"
@@ -993,7 +993,6 @@ zh-TW:
           attribute_highlighting: '需要某些工作包才能從大眾中脫穎而出？'
           relation_columns: '需要檢視工作項目清單的關係嗎'
           check_out_link: '請查閱企業版'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:

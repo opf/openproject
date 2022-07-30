@@ -7,9 +7,8 @@ pt:
       label_unnamed_list: 'Lista sem nome'
       label_board_type: 'Tipo de quadro'
       upsale:
-        teaser_text: 'Gostaria de usar modelos de quadro? Quadros avançados são um recurso Enterprise. Por favor, atualize para um plano pago.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Atualizar agora'
-        more_info: 'More information'
       lists:
         delete: 'Excluir lista'
       version:

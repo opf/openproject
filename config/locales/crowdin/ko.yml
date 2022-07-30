@@ -77,7 +77,6 @@ ko:
       buttons:
         upgrade: "지금 업그레이드"
         contact: "당사에 데모 요청하기"
-        more_info: "More information"
       enterprise_info_html: "- Enterprise <strong class='icon-medal'></strong> 기능입니다."
       upgrade_info: "활성화하고 팀에서 사용하려면 유료 플랜으로 업그레이드하세요."
     journal_aggregation:
@@ -96,7 +95,7 @@ ko:
     add_new: '도움말 텍스트 추가'
     edit: "%{attribute_caption}에 대한 도움말 텍스트 편집"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: 사용인증 모드가 없습니다.
@@ -305,7 +304,7 @@ ko:
       settings: "설정"
       form_configuration: "양식 구성"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "프로젝트"
       enabled_projects: "활성화 된 프로젝트"
       edit_query: "테이블 편집"
@@ -2548,6 +2547,12 @@ ko:
     사용자 지정 필드를 사용하는 경우: 사용자 지정 필드는 프로젝트별로 활성화해야 함을 유의하세요.
   text_custom_field_hint_activate_per_project_and_type: >
     사용자 지정 필드는 작업 패키지 유형 및 프로젝트별로 활성화해야 합니다.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     투명한 배경에 흰색 로고가 권장됩니다. 기존 디스플레이와 레티나 디스플레이 둘 다에서 최상의 결과를 위해 이미지의 크기는 460px x 60px여야 합니다.
   text_custom_favicon_instructions: >

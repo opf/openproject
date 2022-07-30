@@ -7,9 +7,8 @@ ca:
       label_unnamed_list: 'Llista sense nom'
       label_board_type: 'Tipus de taulell'
       upsale:
-        teaser_text: 'T''agradaria utilitzar les plantilles de taulells ja preparats? Els taulells avançats són una funcionalitat Enterprise. Si us plau, actualitza a un pla de pagament.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Actualitzeu ara'
-        more_info: 'More information'
       lists:
         delete: 'Suprimeix la llista'
       version:

@@ -20,7 +20,7 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 cs:
-  no_results_title_text: Momentálně není nic k zobrazení.
+  no_results_title_text: Momentálně zde není nic k zobrazení.
   activities:
     index:
       no_results_title_text: V tomto časovém rámci nebyla pro projekt žádná aktivita.
@@ -77,12 +77,11 @@ cs:
       buttons:
         upgrade: "Upgradovat nyní"
         contact: "Kontaktujte nás pro demo"
-        more_info: "Více informací"
       enterprise_info_html: "je funkcí Enterprise<strong class='icon-medal'></strong>."
       upgrade_info: "Přejděte na placenou verzi a začněte ji používat ve vašem týmu."
     journal_aggregation:
       explanation:
-        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        text: "Individuální akce/úpravy uživatele (např. dvojnásobná aktualizace pracovního balíčku se sečtou do jediné akce, pokud je jejich časový rozdíl menší než stanovený čas. Budou zobrazeny jako jedna akce v rámci aplikace. Toto také zpozdí oznámení o stejný čas a sníží tak počet zasílaných e-mailů."
         link: "webhook"
   announcements:
     show_until: Zobrazit do
@@ -96,7 +95,7 @@ cs:
     add_new: 'Přidat text nápovědy'
     edit: "Upravit text nápovědy pro %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Nyní neexistují žádné ověřovací režimy.
@@ -111,7 +110,7 @@ cs:
       <br/>
       <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Prosím navštivte naši dokumentaci pro podrobné pokyny</a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
+      name: Rozhodčí název spojení LDAP
       host: LDAP název hostitele nebo IP adresa
       login_map: Atribut klíč v LDAP, který se používá k identifikaci jedinečného přihlášení uživatele. Obvykle se jedná o `uid` nebo `samAccountName`.
       generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
@@ -120,7 +119,7 @@ cs:
         Enter the DN of the system user used for read-only access.
         <br/>
         Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+      system_user_password: Vložte vázané heslo systémového uživatele
       base_dn: |
         Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
         OpenProject will filter for provided usernames in this subtree only.
@@ -143,8 +142,8 @@ cs:
     ldap_details: 'Podrobnosti LDAP'
     user_settings: 'Mapování atributů'
     user_settings_legend: |
-      The following fields are related to how users are created in OpenProject from LDAP entries and
-      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
+      Následující pole se týkají toho, jak jsou uživatelé vytvářeni v OpenProject ze záznamů LDAP a
+      jaké atributy LDAP se používají k definování atributů uživatele OpenProject (mapování atributů).
     tls_mode:
       plain: 'žádný'
       simple_tls: 'jednoduché_tls'
@@ -275,7 +274,7 @@ cs:
     upsale:
       title: Placeholder uživatel
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Placeholder uživatelé jsou způsob, jak přiřadit pracovní balíčky uživatelům, kteří nejsou součástí vašeho projektu. Mohou být užiteční v řadě scénářů; například, pokud potřebujete sledovat úkoly u zdroje, který ještě nejsou pojmenovány nebo dostupné, nebo pokud nechcete této osobě umožnit přístup k OpenProject ale stále chcete sledovat úkoly, které jim byly přiděleny.
   prioritiies:
     edit:
       priority_color_text: |
@@ -306,7 +305,7 @@ cs:
       settings: "Nastavení"
       form_configuration: "Konfigurace formuláře"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekty"
       enabled_projects: "Povolit projekty"
       edit_query: "Upravit tabulku"
@@ -584,7 +583,7 @@ cs:
         greater_than_or_equal_to_start_date: "musí být větší nebo rovno počátečnímu datu."
         greater_than_start_date: "musí být větší než počáteční datum."
         inclusion: "není nastavena na jednu z povolených hodnot."
-        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
+        inclusion_nested: "není nastavena na jednu z povolených hodnot na cestě '%{path}'."
         invalid: "je neplatné."
         invalid_url: 'není platná adresa URL.'
         invalid_url_scheme: 'není podporovaný protokol (povoleny: %{allowed_schemes}).'
@@ -658,13 +657,13 @@ cs:
           at_least_one_channel: 'Pro odesílání notifikací musí být specifikován alespoň jeden kanál'
           attributes:
             read_ian:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: 'nelze nastavit na pravdivé při vytváření oznámení '
             mail_reminder_sent:
-              set_on_creation: 'cannot be set to true on notification creation.'
+              set_on_creation: 'nelze nastavit na prevdivé při vytváření oznámení '
             reason:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: 'nemůže být prázdné, protože IAN je vybrán jako kanál.'
             reason_mail_digest:
-              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+              no_notification_reason: 'nemůže být prázdné, protože poštovní digest je vybrán jako kanál.'
         notification_settings:
           only_one_global_setting: 'Musí existovat pouze jedno globální nastavení notifikací.'
           email_alerts_global: 'Nastavení e-mailových notifikací lze nastavit pouze globálně.'
@@ -737,7 +736,7 @@ cs:
             pause_reminders:
               invalid_range: "může být pouze platný časový rozsah."
             daily_reminders:
-              full_hour: "can only be configured to be delivered at a full hour."
+              full_hour: "lze nakonfigurovat pouze za celou hodinu."
         wiki_page:
           attributes:
             slug:
@@ -1372,7 +1371,7 @@ cs:
         title: "Upgradovat na Enterprise Edition"
         more_info: "Více informací"
     links:
-      upgrade_enterprise_edition: "Upgradovat na Enterprise Edition"
+      upgrade_enterprise_edition: "Upgradovat na Enterprise Edici"
       postgres_migration: "Migrujte vaši instalaci na PostgreSQL"
       user_guides: "Uživatelské příručky"
       faq: "FAQ - často kladené dotazy"
@@ -1601,7 +1600,7 @@ cs:
   label_everywhere: "všude"
   label_example: "Příklad"
   label_import: "Importovat"
-  label_export_to: "Také k dispozici:"
+  label_export_to: "K dispozici:"
   label_expanded_click_to_collapse: "Rozbaleno. Klepnutím sbalte"
   label_f_hour: "%{value} hodina"
   label_f_hour_plural: "%{value} hodin"
@@ -2401,7 +2400,7 @@ cs:
       update_timeout: "Uchovávejte poslední požadované informace o úložišti po dobu N minut.\nPři počítání požadovaného místa na disku v úložišti může být nákladné, zvýšit tuto hodnotu, aby se snížil vliv na výkon."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Přejít na stránku nastavení"
-      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
+      show_warning_details: "Pro použití tohoto úložiště souborů nezapomeňte aktivovat modul a konkrétní úložiště v nastavení projektu každého požadovaného projektu."
     subversion:
       existing_title: "Existující repozitář Subversion"
       existing_introduction: "Pokud máte existující repozitář s podverzí, můžete jej propojit s OpenProject pro přístup do aplikace."
@@ -2607,6 +2606,12 @@ cs:
     Při používání vlastních polí: Mějte na paměti, že vlastní pole musí být aktivována také pro každý projekt.
   text_custom_field_hint_activate_per_project_and_type: >
     Vlastní pole je třeba aktivovat podle typu pracovního balíčku a podle projektu.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Doporučuje se bílé logo na průhledném pozadí. Pro nejlepší výsledky na displejích klasického i retina se ujistěte, že rozměry vašeho obrázku jsou 460px do 60px.
   text_custom_favicon_instructions: >
@@ -3128,8 +3133,8 @@ cs:
         invalid_scope: "Nemáte oprávnění k přístupu k požadovanému zdroji (invalid_scope)."
   http:
     request:
-      failed_authorization: "The server side request failed authorizing itself."
-      missing_authorization: "The server side request failed due to missing authorization information."
+      failed_authorization: "Požadavek na stranu serveru selhal při autorizaci."
+      missing_authorization: "Požadavek na server selhal kvůli chybějícím autorizačním informacím."
     response:
       unexpected: "Byla přijata neočekávaná odpověď."
   you: vy

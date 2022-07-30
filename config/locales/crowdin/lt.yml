@@ -77,7 +77,6 @@ lt:
       buttons:
         upgrade: "Užsisakykite dabar"
         contact: "Susisiekite su mumis dėl demonstracijos"
-        more_info: "More information"
       enterprise_info_html: "yra Enterprise <strong class='icon-medal'></strong> savybė."
       upgrade_info: "Prašome atsinaujinti į mokamą planą, kad aktyvuotumėte ir pradėtumėte ji naudoti savo komandoje."
     journal_aggregation:
@@ -96,7 +95,7 @@ lt:
     add_new: 'Pridėti pagalbos tekstą'
     edit: "Redaguoti pagalbos tekstą atributui: %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Šiuo metu nėra jokių autentifikacijos būdų.
@@ -303,7 +302,7 @@ lt:
       settings: "Nustatymai"
       form_configuration: "Formos konfigūracija"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projektai"
       enabled_projects: "Įgalinti projektai"
       edit_query: "Keisti lentelę"
@@ -2603,6 +2602,12 @@ lt:
     Kai naudojami pritaikyti laukai: Turėkite omenyje, kad pritaikyti laukeliai turi būti aktyvuoti atkirtai kiekviename projekte.
   text_custom_field_hint_activate_per_project_and_type: >
     Pritaikyti laukeliai turi būti kiekviename darbų paketų tipe ir kiekviename projekte.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Baltas logotipas su permatomu fonu yra rekomenduojamas. Gariausiems rezultatams pasiekti tradiciniuose ir retina ekranuose, būkite įsitikinę, kad paveikslėlio dimensijos yra 460px 60px.
   text_custom_favicon_instructions: >

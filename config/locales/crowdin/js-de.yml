@@ -235,6 +235,7 @@ de:
           confidence: >
             OpenProject bietet eine bewährte und hoch-skalierbare Projektmanagement-Software für Unternehmen - mit Open Source und open mind.
           link_quote: "Angebot anfordern"
+          more_info: "More information"
           text: >
             Die OpenProject Enterprise Edition baut auf der Community Edition auf. Die Enterprise Edition umfasst Premium-Funktionen und professionelle Unterstützung und richtet sich primär an Organisationen mit mehr als 10 Benutzern, die unternehmenskritische Projekte mit OpenProject verwalten.
           unlimited: "Unbegrenzt"
@@ -267,8 +268,7 @@ de:
           one: "Erstes Sortierkriterium"
           two: "Zweites Sortierkriterium"
           three: "Drittes Sortierkriterium"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise-Edition.'
     general_text_no: "nein"
     general_text_yes: "ja"
@@ -994,7 +994,6 @@ de:
           attribute_highlighting: 'Sollen bestimmte Arbeitspakete aus der Menge herausstechen?'
           relation_columns: 'Möchte Sie Beziehungen als Spalten in der Arbeitspaketliste sehen können?'
           check_out_link: 'Schauen Sie sich die Enterprise Edition an.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Arbeitspakete nach Beziehungs-Typ filtern'
       tabs:

@@ -77,7 +77,6 @@ ru:
       buttons:
         upgrade: "Обновить сейчас"
         contact: "Свяжитесь с нами для опробирования"
-        more_info: "Больше информации"
       enterprise_info_html: "является функцией <strong class='icon-medal'></strong> корпоративной версии."
       upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
     journal_aggregation:
@@ -96,7 +95,7 @@ ru:
     add_new: 'Добавить текст справки'
     edit: "Редактировать текст справки для %{attribute_caption}"
     enterprise:
-      description: 'Нажатие на боковой панели отображает атрибут текстовой справки, которая поможет вам и вашим пользователям лучше понять, что делает каждый элемент.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: На данный момент способы аутентификации отсутствуют.
@@ -305,7 +304,7 @@ ru:
       settings: "Параметры"
       form_configuration: "Настройка форм"
       more_info_text_html: >
-        Корпоративная редакция позволяет настроить конфигурацию форм с этими дополнительными возможностями: <br> <ul class="%{list_styling_class}"> <li><b>Добавить новые группы атрибутов</b></li> <li><b>Переименовать группы атрибутов</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Проекты"
       enabled_projects: "Доступные проекты"
       edit_query: "Изменить таблицу"
@@ -2605,6 +2604,12 @@ ru:
     Помните, что настраиваемые поля тоже нужно включать в каждом проекте по отдельности.
   text_custom_field_hint_activate_per_project_and_type: >
     Настраиваемые поля нужно включать для каждого типа комплекса работ и для каждого проекта в отдельности.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Рекомендуется использовать белый логотип с прозрачным фоном. Для оптимального отображения на обычных и retina-дисплеях размер картинки должен быть 460 на 110 пикселей.
   text_custom_favicon_instructions: >

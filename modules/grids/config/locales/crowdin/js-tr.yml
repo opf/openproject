@@ -5,7 +5,7 @@ tr:
       remove: 'Widget''ı kaldır'
       configure: 'Widget''ı yapılandır'
       upsale:
-        text: "İş paketi grafik widget'ı gibi bazı widget’lar yalnızca"
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise Edition."
         link: 'Enterprise Edition.'
       widgets:
         custom_text:

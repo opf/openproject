@@ -77,7 +77,6 @@ pt:
       buttons:
         upgrade: "Atualizar agora"
         contact: "Contate-nos para uma demonstração"
-        more_info: "Mais informações"
       enterprise_info_html: "é um recurso Enterprise <strong class='icon-medal'></strong>."
       upgrade_info: "Por favor, faça o upgrade para um plano pago para ativar e começar a usá-lo em sua equipe."
     journal_aggregation:
@@ -96,7 +95,7 @@ pt:
     add_new: 'Adicionar texto de ajuda'
     edit: "Editar texto de ajuda para %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Atualmente, não existem modos de autenticação.
@@ -305,7 +304,7 @@ pt:
       settings: "Configurações"
       form_configuration: "Configuração do formulário"
       more_info_text_html: >
-        A Versão Empresarial permite que você personalizer a configuração de formulários com estas caracteristicas adicionais<br><ul class="%{list_styling_class}"><li><b>Adicionar novo grupo de atributos</b></li><li><b>Renomear grupo de atributos</b></li></ul></ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projetos"
       enabled_projects: "Projetos habilitados"
       edit_query: "Editar tabela"
@@ -2568,6 +2567,12 @@ pt:
     Quando utilizar campos personalizados: lembre-se de que os campos personalizados precisam ser ativados também por projeto.
   text_custom_field_hint_activate_per_project_and_type: >
     Os campos personalizados precisam ser ativados por tipo de pacote de trabalho e por projeto.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Recomenda-se um logotipo branco sobre fundo transparente. Para obter melhores resultados em telas convencionais e de retina, certifique-se de que as dimensões de sua imagem são de 460px por 60px.
   text_custom_favicon_instructions: >

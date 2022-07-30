@@ -25,5 +25,5 @@ cs:
         split: 'Prohlížeč a tabulka'
         split_cards: 'Prohlížeč a karty'
     revit:
-      revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Revit Add-In settings"
+      revit_add_in: "Revit doplněk"
+      revit_add_in_settings: "Nastavení Revit doplňků "

@@ -236,6 +236,7 @@ nl:
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
+          more_info: "More information"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -268,8 +269,7 @@ nl:
           one: "Eerste sorteercriteria"
           two: "Tweede sorteercriteria"
           three: "Derde sorteercriteria"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "Nee"
     general_text_yes: "Ja"
@@ -995,7 +995,6 @@ nl:
           attribute_highlighting: 'Moeten bepaalde werkpakketten te onderscheiden zijn van de massa?'
           relation_columns: 'Nodig om te zien van betrekkingen in de pakketlijst werk?'
           check_out_link: 'Bekijk de Enterprise Edition.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter werkpakketten op relatietype'
       tabs:

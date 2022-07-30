@@ -236,6 +236,7 @@ ko:
           confidence: >
             오픈 소스와 오픈 마인드로, 테스트를 거치고 지원이 제공되는 엔터프라이즈급 프로젝트 관리 소프트웨어에 대한 신뢰를 전해드립니다.
           link_quote: "견적 받기"
+          more_info: "More information"
           text: >
             OpenProject Enterprise Edition은 Community Edition 위에서 빌드됩니다. OpenProject로 비즈니스 크리티컬 프로젝트를 관리하는 사용자가 10명이 넘는 조직을 주로 타겟으로 하는 프리미엄 기능과 전문 지원이 제공됩니다.
           unlimited: "무제한"
@@ -268,8 +269,7 @@ ko:
           one: "첫 번째 정렬 기준"
           two: "두 번째 정렬 기준"
           three: "세 번째 정렬 기준"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "아니요"
     general_text_yes: "예"
@@ -994,7 +994,6 @@ ko:
           attribute_highlighting: '나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?'
           relation_columns: '작업 패키지 목록에서 관계를 표시해야 합니까?'
           check_out_link: 'Enterprise Edition을 체크아웃하세요.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: '관계 유형별 작업 패키지 필터링'
       tabs:

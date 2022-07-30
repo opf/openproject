@@ -236,6 +236,7 @@ uk:
           confidence: >
             Ми надаємо перевірене програмне забезпечення корпоративного класу з — з відкритим кодом і серцем — та забезпечуємо його підтримку.
           link_quote: "Дізнатися ціну"
+          more_info: "More information"
           text: >
             Випуск OpenProject Enterprise Edition створено на основі Community Edition. Він включає ексклюзивні функції та професійну підтримку й призначений здебільшого для організацій із більш ніж 10 користувачами, які керують критично важливими для бізнесу проєктами в OpenProject.
           unlimited: "Необмежено"
@@ -268,8 +269,7 @@ uk:
           one: "Перший критерій впорядкування"
           two: "Другий критерій впорядкування"
           three: "Третій критерій впорядкування"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'корпоративне видання.'
     general_text_no: "ні"
     general_text_yes: "так"
@@ -997,7 +997,6 @@ uk:
           attribute_highlighting: 'Потрібні певні робочі пакети, щоб виділитися зі скупчення?'
           relation_columns: 'Потрібно бачити відносини у списку робочих пакетів?'
           check_out_link: 'Перегляньте Enterprise Edition.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Фільтрувати пакети робіт за типом зв’язку'
       tabs:
