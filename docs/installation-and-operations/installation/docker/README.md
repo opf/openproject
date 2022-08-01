@@ -99,7 +99,7 @@ x-op-app: &app
     IMAP_ENABLED: "${IMAP_ENABLED:-false}"
 ```
 
-
+Note: If your current Docker installation does not yet hold important information I recommend you to simply create all docker containers from scratch as the seeded data such as themes, types, and demo projects are different in the BIM edition. The seed data gets seeded only the very first time you call.
 
 ## All-in-one container
 
