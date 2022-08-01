@@ -46,9 +46,9 @@ As a user of both Nextcloud and OpenProject, you can benefit from this integrati
   ![NC_linked_WP](0_1_01-File_WP_Actions.png)
 
   In addition to actions related to the file itself, you can also display the OpenProject widget on your Nextcloud dashboard in order to keep an eye on the the latest changes and updates to linked work packages:
-  ![add_NC_widget](Add_OpenProject_widget-0ea8c054.png)
+  ![add_NC_widget](Add_OpenProject_widget.png)
 
-  ![added_NC_widget](Nextcloud_dashboard-c04681eb.png)
+  ![added_NC_widget](Nextcloud_dashboard.png)
 
   Additionally, there are find three additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *Connected accounts* you will find these options:
   
@@ -56,11 +56,11 @@ As a user of both Nextcloud and OpenProject, you can benefit from this integrati
   - **Enable unified search for tickets** allows you to access OpenProject work packages via the universal search bar 
   - **Enable notifications for activity in my work packages** sends you notifications when there are updates to linked OpenProject work packages
 
-  ![NC_extra_settings](Nextcloud_connected_account-b9ffa0e3.png)
+  ![NC_extra_settings](Nextcloud_connected_account.png)
 
-  ![NC_extra_navlink](Navigation_link_OpenProject-0fc98e3b.png)
+  ![NC_extra_navlink](Navigation_link_OpenProject.png)
 
-  ![NC_extra_search](Unified_search-73e2dc96.png)
+  ![NC_extra_search](Unified_search.png)
 
 
 ## **Next steps for the integration**
@@ -83,4 +83,4 @@ Further integration efforts are under way. In the near future, you will be able 
   ![OP_fetching_error](1_0_03-Fetching_error.png)
 
 - **Nextcloud - Project notifications are not displayed:** If the notifications are not properly displayed, please ensure that _Cron_ is activated in the background jobs section of Nextcloud settings.
-  ![NC_notifications_not_displayed](Cron_job_settings-ad025bc2.png)
+  ![NC_notifications_not_displayed](Cron_job_settings.png)
