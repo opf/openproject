@@ -560,6 +560,40 @@ describe WorkPackage, type: :model do
                 .to eql new_status.id
             end
           end
+
+          context 'when adding another change with a customized work package' do
+            let(:custom_field) do
+              create :work_package_custom_field,
+                     is_required: false,
+                     field_format: 'list',
+                     possible_values: ['', '1', '2', '3', '4', '5', '6', '7']
+            end
+            let(:custom_value) do
+              create :custom_value,
+                     value: custom_field.custom_options.find { |co| co.value == '1' }.try(:id),
+                     customized: work_package,
+                     custom_field:
+            end
+
+            before do
+              custom_value
+              work_package.reload # need to update the lock_version, avoiding StaleObjectError
+              work_package.subject = 'foo'
+              work_package.save!
+            end
+
+            it 'leads to a single journal with only one customizable journal' do
+              expect(subject.count).to eq 1
+
+              expect(subject.first.notes)
+                .to eql notes
+
+              expect(subject.first.data.subject)
+                .to eql 'foo'
+
+              expect(subject.first.customizable_journals.count).to eq(1)
+            end
+          end
         end
       end
 
