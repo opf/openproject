@@ -77,3 +77,33 @@ OpenProject installations with a valid Enterprise Edition token can switch to th
 theme.
 
 Go to _-> Administration -> Design_ and from the _Themes_ drop down menu choose _OpenProject BIM_.
+
+### Docker
+
+##### OpenProject BIM Edition
+
+If you would like to use OpenProject BIM Edition inside your docker-compose containers, in your `docker-compose.yml` file in `x-op-app` > `environment` add the line
+
+```yml
+    OPENPROJECT_EDITION: "bim"
+```
+
+This could look like this after you edited the file:
+
+```yml
+x-op-app: &app
+  <<: *image
+  <<: *restart_policy
+  environment:
+    RAILS_CACHE_STORE: "memcache"
+    OPENPROJECT_CACHE__MEMCACHE__SERVER: "cache:11211"
+    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+    OPENPROJECT_EDITION: "bim"
+    DATABASE_URL: "postgres://postgres:p4ssw0rd@db/openproject"
+    USE_PUMA: "true"
+    # set to true to enable the email receiving feature. See ./docker/cron for more options
+    IMAP_ENABLED: "${IMAP_ENABLED:-false}"
+```
+
+Note: If your current Docker installation does not yet hold important information I recommend you to simply create all docker containers from scratch as the seeded data such as themes, types, and demo projects are different in the BIM edition. The seed data gets seeded only the very first time you call.
+

@@ -74,32 +74,11 @@ If you want to start from scratch and remove the exsiting data you will have to 
 
 In the compose folder you will find the file `docker-compose.yml` which can be edited. Please be aware that only those variables shall be edited which are documented as not everything is meant to be configured or bend.
 
-##### OpenProject BIM Edition
+##### BIM Edition
 
-If you would like to use OpenProject BIM Edition inside your docker-compose containers, in your `docker-compose.yml` file in `x-op-app` > `environment` add the line
+If you would like to install or change to BIM inside a Docker environment, please navigate to the [Docker](../installation-and-operations/changing-to-bim-edition#docker) paragraph at the [Changing to BIM Edition](../installation-and-operations/changing-to-bim-edition) documentation. 
 
-```yml
-    OPENPROJECT_EDITION: "bim"
-```
 
-This could look like this after you edited the file:
-
-```yml
-x-op-app: &app
-  <<: *image
-  <<: *restart_policy
-  environment:
-    RAILS_CACHE_STORE: "memcache"
-    OPENPROJECT_CACHE__MEMCACHE__SERVER: "cache:11211"
-    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
-    OPENPROJECT_EDITION: "bim"
-    DATABASE_URL: "postgres://postgres:p4ssw0rd@db/openproject"
-    USE_PUMA: "true"
-    # set to true to enable the email receiving feature. See ./docker/cron for more options
-    IMAP_ENABLED: "${IMAP_ENABLED:-false}"
-```
-
-Note: If your current Docker installation does not yet hold important information I recommend you to simply create all docker containers from scratch as the seeded data such as themes, types, and demo projects are different in the BIM edition. The seed data gets seeded only the very first time you call.
 
 ## All-in-one container
 
