@@ -35,14 +35,10 @@ module OpenProject
     #
     # For example:
     #
-    #   def self.storages_module_active?
+    #   def self.your_module_active?
     #     release_date = Date.new(2022,01,01)
-    #     Setting.feature_storages_module_active || Date.today > release_date
+    #     Setting.feature_your_module_active || Date.today > release_date
     #   end
-
-    def self.storages_module_active?
-      Setting.feature_storages_module_active
-    end
 
     def self.work_packages_duration_field_active?
       Setting.work_packages_duration_field_active

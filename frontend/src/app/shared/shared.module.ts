@@ -52,7 +52,6 @@ import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/
 import { DatePickerModule } from 'core-app/shared/components/op-date-picker/date-picker.module';
 import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
 import { EnterpriseBannerComponent } from 'core-app/shared/components/enterprise-banner/enterprise-banner.component';
-import { EnterpriseBannerBootstrapComponent } from 'core-app/shared/components/enterprise-banner/enterprise-banner-bootstrap.component';
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
@@ -244,7 +243,6 @@ export function bootstrapModule(injector:Injector):void {
 
     // Enterprise Edition
     EnterpriseBannerComponent,
-    EnterpriseBannerBootstrapComponent,
 
     HomescreenNewFeaturesBlockComponent,
 

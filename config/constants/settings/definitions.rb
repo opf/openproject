@@ -401,9 +401,13 @@ Settings::Definition.define do
       default: 'enterprise-on-premises---euro---1-year',
       writable: false
 
-  add :feature_storages_module_active,
-      default: Rails.env.development?,
-      format: :boolean
+  # feature flags
+  # To add a feature flag register a new definition for a configuration variable
+  #
+  # Example:
+  # add :feature_your_module_active,
+  #     default: Rails.env.development?,
+  #     format: :boolean
 
   add :feeds_enabled,
       default: true

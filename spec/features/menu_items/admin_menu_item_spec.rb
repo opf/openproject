@@ -44,8 +44,8 @@ describe 'Admin menu items', js: true do
       visit admin_index_path
 
       expect(page).to have_selector('[data-qa-selector="menu-blocks--container"]')
-      expect(page).to have_selector('[data-qa-selector="menu-block"]', count: 18)
-      expect(page).to have_selector('[data-qa-selector="op-menu--item-action"]', count: 19) # All plus 'overview'
+      expect(page).to have_selector('[data-qa-selector="menu-block"]', count: 19)
+      expect(page).to have_selector('[data-qa-selector="op-menu--item-action"]', count: 20) # All plus 'overview'
     end
   end
 
@@ -57,10 +57,10 @@ describe 'Admin menu items', js: true do
       visit admin_index_path
 
       expect(page).to have_selector('[data-qa-selector="menu-blocks--container"]')
-      expect(page).to have_selector('[data-qa-selector="menu-block"]', count: 17)
+      expect(page).to have_selector('[data-qa-selector="menu-block"]', count: 18)
       expect(page).not_to have_selector('[data-qa-selector="menu-block"]', text: I18n.t('timelines.admin_menu.colors'))
 
-      expect(page).to have_selector('[data-qa-selector="op-menu--item-action"]', count: 18) # All plus 'overview'
+      expect(page).to have_selector('[data-qa-selector="op-menu--item-action"]', count: 19) # All plus 'overview'
       expect(page).not_to have_selector('[data-qa-selector="op-menu--item-action"]', text: I18n.t('timelines.admin_menu.colors'))
     end
   end

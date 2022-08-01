@@ -1,3 +1,5 @@
+@import '../../app/spot/styles/sass/variables'
+
 .op-enterprise-banner
 
   &--title
@@ -8,8 +10,9 @@
     margin-top: 10px
 
   &--description
-    margin-bottom: 10px
     display: block
+    @include spot-body-small
+    margin-bottom: $spot-spacing-0-75
 
   &--image
     width: 115px
@@ -19,10 +22,8 @@
 
   &--buttons
     display: flex
-    margin-top: 10px
     justify-content: end
 
   &--info-button
-    padding-top: 20px
-    padding-right: 25px
-
+    padding-top: 1rem
+    padding-right: 1.5rem
