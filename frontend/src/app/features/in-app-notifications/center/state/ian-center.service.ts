@@ -216,8 +216,18 @@ export class IanCenterService extends UntilDestroyedMixin {
     this.onReload.pipe(take(1)).subscribe((collection) => {
       this.store.update({ activeCollection: collection });
     });
+    if (facet === 'unread') {
+      this
+        .notifications$
+        .pipe(
+          take(1),
+        ).subscribe((notifications:INotification[][]) => {
+          if (notifications[this.selectedNotificationIndex][0].readIAN) {
+            this.goToCenter();
+          }
+        });
+    }
     this.reload.next(true);
-    this.goToCenter();
   }
 
   markAsRead(notifications:ID[]):void {
