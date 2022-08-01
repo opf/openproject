@@ -70,6 +70,37 @@ your `docker-compose.yml` file is stored (`compose` in this case).
 If you want to start from scratch and remove the exsiting data you will have to remove these volumes via
 `docker volume rm compose_opdata compose_pgdata`.
 
+### Configuration
+
+In the compose folder you will find the file `docker-compose.yml` which can be edited. Please be aware that only those variables shall be edited which are documented as not everything is meant to be configured or bend.
+
+##### OpenProject BIM Edition
+
+If you would like to use OpenProject BIM Edition inside your docker-compose containers, in your `docker-compose.yml` file in `x-op-app` > `environment` add the line
+
+```yml
+    OPENPROJECT_EDITION: "bim"
+```
+
+This could look like this after you edited the file:
+
+```yml
+x-op-app: &app
+  <<: *image
+  <<: *restart_policy
+  environment:
+    RAILS_CACHE_STORE: "memcache"
+    OPENPROJECT_CACHE__MEMCACHE__SERVER: "cache:11211"
+    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+    OPENPROJECT_EDITION: "bim"
+    DATABASE_URL: "postgres://postgres:p4ssw0rd@db/openproject"
+    USE_PUMA: "true"
+    # set to true to enable the email receiving feature. See ./docker/cron for more options
+    IMAP_ENABLED: "${IMAP_ENABLED:-false}"
+```
+
+
+
 ## All-in-one container
 
 ### Quick Start
