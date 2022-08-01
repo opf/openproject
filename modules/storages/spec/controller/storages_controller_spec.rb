@@ -44,10 +44,13 @@ describe ::Storages::Admin::StoragesController, webmock: true, type: :controller
     login_as admin
     mock_server_capabilities_response(host)
     mock_server_host_response(host)
-    post :create, params:
   end
 
   describe 'with valid storage attributes' do
+    before do
+      post :create, params:
+    end
+
     it 'is successful' do
       expect(response).to be_successful
       expect(response.body).not_to include('Host is not providing a &quot;Secure Context&quot;.')
@@ -58,9 +61,36 @@ describe ::Storages::Admin::StoragesController, webmock: true, type: :controller
   describe 'with invalid storage attributes' do
     let(:schema) { 'http' }
 
-    it 'shows the errors of the dependent service result, complaining about HTTP being invalid' do
+    before do
+      post :create, params:
+    end
+
+    it 'shows the errors of the service result, complaining about HTTP being invalid' do
       expect(response).to be_successful # you get a 200 response despite errors...
       expect(response.body).to include('Host is not providing a &quot;Secure Context&quot;.')
+    end
+  end
+
+  describe 'with failing dependent service' do
+    let(:storage) { create(:storage) }
+    let(:oauth_application) { create(:oauth_application) }
+    let(:storages_create_service) { instance_double(Storages::Storages::CreateService) }
+    let(:service_result_with_custom_error) do
+      errors = ActiveModel::Errors.new(oauth_application)
+      errors.add(:base)
+      dependent_result = ServiceResult.failure(errors:)
+      ServiceResult.failure(result: storage, dependent_results: [dependent_result])
+    end
+
+    before do
+      allow(storages_create_service).to receive(:call).and_return(service_result_with_custom_error)
+      allow(Storages::Storages::CreateService).to receive(:new).and_return(storages_create_service)
+      post :create, params:
+    end
+
+    it 'shows the "Model is invalid" error' do
+      expect(response).to be_successful
+      expect(response.body).to include(I18n.t('storages.error_dependent_model_invalid'))
     end
   end
 end

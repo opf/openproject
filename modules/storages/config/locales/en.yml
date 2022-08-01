@@ -99,3 +99,4 @@ en:
     confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
     oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
     notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."
+    error_dependent_model_invalid: "Model is invalid!"

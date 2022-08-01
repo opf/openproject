@@ -35,14 +35,7 @@
 # The comments here are also valid for the other *_service.rb files
 module Storages::OAuthApplications
   class CreateService
-    attr_accessor :user, :storage
-
-    def initialize(storage:, user:)
-      @storage = storage
-      @user = user
-    end
-
-    def call
+    def call(storage:, user:)
       ::OAuth::PersistApplicationService
         .new(::Doorkeeper::Application.new, user:)
         .call({

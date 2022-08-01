@@ -32,10 +32,10 @@ require 'services/base_services/behaves_like_create_service'
 describe ::Storages::OAuthApplications::CreateService, type: :model do
   let(:user) { create :admin }
   let(:storage) { create :storage, creator: user }
-  let(:instance) { described_class.new(user:, storage:) }
+  let(:instance) { described_class.new }
 
   describe '#call' do
-    subject { instance.call }
+    subject { instance.call(storage:, user:) }
 
     it 'returns a OAuthApplication' do
       expect(subject).to be_a ServiceResult

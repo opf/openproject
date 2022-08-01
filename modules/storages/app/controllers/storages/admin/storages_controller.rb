@@ -84,13 +84,20 @@ class Storages::Admin::StoragesController < ApplicationController
     @object = service_result.result
     @oauth_application = oauth_application(service_result)
 
-    if service_result.success? && @oauth_application
+    if service_result.success? && @oauth_application.present?
       flash[:notice] = I18n.t(:notice_successful_create)
       render :show_oauth_application
     else
-      @errors = service_result.all_errors.reduce(ActiveModel::Errors.new(@object)) do |errors, e|
-        errors.merge!(e)
-        errors
+      @errors = service_result.all_errors.reduce(ActiveModel::Errors.new(@object)) do |resulting_errors, errors|
+        errors.each do |error|
+          # As there is no form field for the dependent error, it is attached to :base.
+          if error.attribute == :base
+            resulting_errors.add(:base, I18n.t('storages.error_dependent_model_invalid'))
+          else
+            resulting_errors.import(error)
+          end
+        end
+        resulting_errors
       end
       render :new
     end
@@ -136,7 +143,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
   def replace_oauth_application
     @object.oauth_application.destroy
-    service_result = ::Storages::OAuthApplications::CreateService.new(storage: @object, user: current_user).call
+    service_result = ::Storages::OAuthApplications::CreateService.new.call(storage: @object, user: current_user)
 
     if service_result.success?
       flash[:notice] = I18n.t('storages.notice_oauth_application_replaced')
@@ -159,7 +166,7 @@ class Storages::Admin::StoragesController < ApplicationController
     end
   end
 
-  # See: default_breadcrum above
+  # See: default_breadcrumb above
   # Defines whether to show breadcrumbs on the page or not.
   def show_local_breadcrumb
     true
