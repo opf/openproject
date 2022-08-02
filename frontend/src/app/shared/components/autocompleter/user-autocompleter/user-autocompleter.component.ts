@@ -190,7 +190,7 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
 
     return this
       .halResourceService
-      .get<CollectionResource<UserResource>>(filteredURL.toString())
+      .get<CollectionResource<UserResource>>(filteredURL.toString(), { pageSize: -1 })
       .pipe(
         map((res) => res.elements.map((el) => ({
           name: el.name, id: el.id, href: el.href, avatar: el.avatar,
