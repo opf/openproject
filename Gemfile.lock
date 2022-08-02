@@ -939,7 +939,7 @@ GEM
     stackprof (0.2.20)
     stringex (2.8.5)
     stringio (3.0.2)
-    strscan (3.0.3)
+    strscan (3.0.4)
     structured_warnings (0.4.0)
     svg-graph (2.2.1)
     swd (1.3.0)
