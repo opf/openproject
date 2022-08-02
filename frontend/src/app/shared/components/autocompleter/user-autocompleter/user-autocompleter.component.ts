@@ -188,6 +188,9 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
 
     const filteredURL = addFiltersToPath(this.url, searchFilters);
 
+    // Override pageSize as there can be more that 30 results
+    filteredURL.searchParams.set('pageSize', '-1');
+
     return this
       .halResourceService
       .get<CollectionResource<UserResource>>(filteredURL.toString(), { pageSize: -1 })
