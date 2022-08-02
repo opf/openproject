@@ -569,7 +569,7 @@ GEM
     iso8601 (0.13.0)
     jmespath (1.6.1)
     json (2.6.2)
-    json-jwt (1.13.0)
+    json-jwt (1.14.0)
       activesupport (>= 4.2)
       aes_key_wrap
       bindata
