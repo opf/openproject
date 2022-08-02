@@ -7,7 +7,7 @@ ru:
       label_unnamed_list: 'Список досок без имени'
       label_board_type: 'Тип доски'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
+        teaser_text: 'Хотите автоматизировать свои рабочие процессы с досками? Продвинутые доски являются корпоративной функцией. Пожалуйста, обновитесь до платного плана.'
         upgrade: 'Обновить сейчас'
       lists:
         delete: 'Удалить список'
