@@ -313,7 +313,7 @@ GEM
     bindata (2.4.10)
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
-    bootsnap (1.12.0)
+    bootsnap (1.13.0)
       msgpack (~> 1.2)
     brakeman (5.2.3)
     browser (5.3.1)
@@ -1022,7 +1022,7 @@ DEPENDENCIES
   aws-sdk-core (~> 3.107)
   aws-sdk-s3 (~> 1.91)
   bcrypt (~> 3.1.6)
-  bootsnap (~> 1.12.0)
+  bootsnap (~> 1.13.0)
   brakeman (~> 5.2.0)
   browser (~> 5.3.0)
   budgets!
