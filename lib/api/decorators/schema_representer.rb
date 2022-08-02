@@ -92,7 +92,8 @@ module API
         end
 
         def schema_with_allowed_link(property,
-                                     href_callback:, type: make_type(property),
+                                     href_callback:,
+                                     type: make_type(property),
                                      name_source: property,
                                      as: camelize(property),
                                      required: true,
@@ -120,7 +121,9 @@ module API
         end
 
         def schema_with_allowed_collection(property,
-                                           value_representer:, link_factory:, type: make_type(property),
+                                           value_representer:,
+                                           link_factory:,
+                                           type: make_type(property),
                                            name_source: property,
                                            as: camelize(property),
                                            values_callback: -> do

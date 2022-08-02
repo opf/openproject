@@ -156,8 +156,17 @@ module OpenProject::TextFormatting
                   :link,
                   :context
 
-      def initialize(matched_string:, leading:, escaped:, project_prefix:, project_identifier:,
-                     prefix:, sep:, raw_identifier:, identifier:, context:)
+      def initialize(matched_string:,
+                     leading:,
+                     escaped:,
+                     project_prefix:,
+                     project_identifier:,
+                     prefix:,
+                     sep:,
+                     raw_identifier:,
+                     identifier:,
+                     context:)
+        super
         # The entire string that was matched
         @matched_string = matched_string
         # Leading string before the link match
