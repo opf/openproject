@@ -77,7 +77,6 @@ hu:
       buttons:
         upgrade: "Frissítés most"
         contact: "Keressen fel minket a próbaverzióért"
-        more_info: "More information"
       enterprise_info_html: "egy Enterprise <strong class='icon-medal'></strong> funkció."
       upgrade_info: "Kérjük, válasszon egy fizetős csomagot az aktiváláshoz, hogy mihamarabb használhassa a csapatában."
     journal_aggregation:
@@ -96,7 +95,7 @@ hu:
     add_new: 'Súgószöveg hozzáadása'
     edit: "Súgószöveg \"%{attribute_caption}\" szerkesztése"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Jelenleg nincs autentikációs mód.
@@ -306,7 +305,7 @@ hu:
       settings: "Beállítások"
       form_configuration: "Űrlap konfiguráció"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projektek"
       enabled_projects: "Engedélyezett projektek"
       edit_query: "Táblázat szerkesztése"
@@ -2577,6 +2576,12 @@ hu:
     Egyéni mezők használatakor: tartsa szem előtt, hogy az egyéni mezőket minden projektben külön aktiválni kell.
   text_custom_field_hint_activate_per_project_and_type: >
     Az egyéni mezőket feladatcsoport típusonként és projektenként egyenként aktiválni kell.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Egy fehér logo átlátszó háttérrel ajánlott. A legjobb eredmény érdekében mint átlagos és retina kijelzőkön is biztosítsa, hogy a kép mérete 460px x 60px-es legyen.
   text_custom_favicon_instructions: >

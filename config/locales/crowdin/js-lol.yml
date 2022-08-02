@@ -235,6 +235,7 @@ lol:
           confidence: >
             crwdns787186:0crwdne787186:0
           link_quote: "crwdns787188:0crwdne787188:0"
+          more_info: "crwdns825474:0crwdne825474:0"
           text: >
             crwdns787190:0crwdne787190:0
           unlimited: "crwdns787192:0crwdne787192:0"
@@ -267,8 +268,7 @@ lol:
           one: "crwdns787230:0crwdne787230:0"
           two: "crwdns787232:0crwdne787232:0"
           three: "crwdns787234:0crwdne787234:0"
-      upsale_for_more: "crwdns823074:0crwdne823074:0"
-      more_info: "crwdns822254:0crwdne822254:0"
+      upsale_for_more: "crwdns825476:0crwdne825476:0"
       upsale_link: 'crwdns787238:0crwdne787238:0'
     general_text_no: "crwdns787240:0crwdne787240:0"
     general_text_yes: "crwdns787242:0crwdne787242:0"
@@ -994,7 +994,6 @@ lol:
           attribute_highlighting: 'crwdns788452:0crwdne788452:0'
           relation_columns: 'crwdns788454:0crwdne788454:0'
           check_out_link: 'crwdns788456:0crwdne788456:0'
-          more-info-text: 'crwdns822260:0crwdne822260:0'
         relation_filters:
           filter_work_packages_by_relation_type: 'crwdns788458:0crwdne788458:0'
       tabs:

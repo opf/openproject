@@ -7,9 +7,8 @@ cs:
       label_unnamed_list: 'Nepojmenovaný seznam'
       label_board_type: 'Typ tabule'
       upsale:
-        teaser_text: 'Chcete mít připravené šablony tabule? Pokročilé tabule jsou funkcí Enterprise edice. Proveďte upgrade na placený plán.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Upgradovat nyní'
-        more_info: 'Více informací'
       lists:
         delete: 'Odstranit seznam'
       version:

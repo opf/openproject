@@ -236,6 +236,7 @@ fa:
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
+          more_info: "More information"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -268,8 +269,7 @@ fa:
           one: "اولین شاخص مرتب سازی"
           two: "دومین شاخص مرتب سازی"
           three: "سومین شاخص مرتب سازی"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'نسخه سازمانی.'
     general_text_no: "no"
     general_text_yes: "yes"
@@ -995,7 +995,6 @@ fa:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'آیا نیاز به مشاهده روابط در بسته کاری را دارید؟'
           check_out_link: 'نسخه سازمانی را بررسی کنید.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:

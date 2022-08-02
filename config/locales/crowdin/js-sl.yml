@@ -235,6 +235,7 @@ sl:
           confidence: >
             Zagotavljamo zaupanje preizkušene in podprte programske opreme za upravljanje projektov v podjetniškem razredu - z odprto kodo in odprto miselnostjo.
           link_quote: "Pridobite ponudbo"
+          more_info: "More information"
           text: >
             Izdaja OpenProject Enterprise temelji na različici Community Edition. Vključuje vrhunske funkcije in strokovno podporo, namenjeno predvsem organizacijam z več kot 10 uporabniki, ki z OpenProjectom upravljajo poslovno pomembne projekte.
           unlimited: "Neomejeno"
@@ -267,8 +268,7 @@ sl:
           one: "Prvo merilo za razvrščanje"
           two: "Drugo merilo za razvrščanje"
           three: "Tretje merilo za razvrščanje"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Podjetniška verzija. '
     general_text_no: "ne"
     general_text_yes: "da"
@@ -996,7 +996,6 @@ sl:
           attribute_highlighting: 'Potrebujete določene delovne pakete da izstopajo iz nereda?'
           relation_columns: 'Potrebujete videti povezave v seznamu delovnega paketa?'
           check_out_link: 'Preveri Podjetniško verzijo.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtreraj delovne pakete po vrsti relacije'
       tabs:

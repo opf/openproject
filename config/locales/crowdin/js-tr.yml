@@ -236,6 +236,7 @@ tr:
           confidence: >
             Açık Kaynak ve açık fikirli olmak üzere, test edilmiş ve desteklenen bir kurumsal sınıf proje yönetimi yazılımının güvenini sunuyoruz.
           link_quote: "Fiyat teklifi alın"
+          more_info: "More information"
           text: >
             OpenProject Enterprise Edition, Topluluk Sürümü'nün üzerine kuruludur. OpenProject ile iş açısından kritik öneme sahip projeleri yöneten 10'dan fazla kullanıcısı olan kuruluşlara yönelik premium özellikler ve profesyonel destek içerir.
           unlimited: "Sınırsız"
@@ -268,8 +269,7 @@ tr:
           one: "İlk sıralama ölçütü"
           two: "İkinci sıralama ölçütü"
           three: "Üçüncü sıralama ölçütleri"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "Daha fazla bilgi"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Kurumsal Sürüm.'
     general_text_no: "hayır"
     general_text_yes: "evet"
@@ -995,7 +995,6 @@ tr:
           attribute_highlighting: 'Kitleden sıyrılmak için bazı iş paketlerine mi ihtiyacınız var?'
           relation_columns: 'İş paketleri listesindeki ilişkileri görmek ister misiniz?'
           check_out_link: 'Enterprise sürüme bakın.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'İş paketlerini ilişki türüne göre filtreleme'
       tabs:

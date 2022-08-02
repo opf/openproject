@@ -236,6 +236,7 @@ cs:
           confidence: >
             Doručujeme testovaný a podporovaný software pro řízení projetků - s Open Source a otevřenou myslí.
           link_quote: "Získat cenovou nabídku"
+          more_info: "More information"
           text: >
             OpenProject Enterprise Edition je postavena na komunitní edici. Obsahuje prémiové funkce a profesionální podporu zaměřenou především na organizace s více než 10 uživateli, kteří spravují kritické projekty
           unlimited: "Bez omezení"
@@ -268,8 +269,7 @@ cs:
           one: "První kritérium třídění"
           two: "Druhé kritérium třídění"
           three: "Třetí kritérium třídění"
-      upsale_for_more: "Pokročilé filtry vám umožní použít jako filtr téměř jakýkoli atribut pracovního balíčku. Pro použití této funkce přejděte na placenou verzi."
-      more_info: "Více informací"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise Edice'
     general_text_no: "ne"
     general_text_yes: "ano"
@@ -997,7 +997,6 @@ cs:
           attribute_highlighting: 'Potřebujete určité pracovní balíčky, aby vyšly z celkového objemu?'
           relation_columns: 'Potřebujete vidět vztahy v seznamu pracovních balíčků?'
           check_out_link: 'Podívejte se na Enterprise Edition.'
-          more-info-text: 'Více informací'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrovat pracovní balíčky podle typu vztahu'
       tabs:

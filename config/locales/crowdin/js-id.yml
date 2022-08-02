@@ -236,6 +236,7 @@ id:
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
+          more_info: "More information"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -268,8 +269,7 @@ id:
           one: "Kriteria penyortiran pertama"
           two: "Kriteria penyortiran kedua"
           three: "Kriteria penyortiran ketiga"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Pesanlah edisi enterprise.'
     general_text_no: "no"
     general_text_yes: "yes"
@@ -994,7 +994,6 @@ id:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Apakah perlu untuk melihat hubungan dalam daftar paker kerja?'
           check_out_link: 'Periksa edisi Perusahaan.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:

@@ -77,7 +77,6 @@ de:
       buttons:
         upgrade: "Jetzt Upgrade durchführen"
         contact: "Kontaktieren Sie uns für eine Demo"
-        more_info: "More information"
       enterprise_info_html: "ist eine Enterprise <strong class='icon-medal'></strong> Funktion."
       upgrade_info: "Bitte steigen Sie auf einen kostenpflichtigen Plan um, um diese Funktion zu aktivieren und in Ihrem Team zu verwenden."
     journal_aggregation:
@@ -96,7 +95,7 @@ de:
     add_new: 'Hilfe-Text hinzufügen'
     edit: "Hilfe-Text für %{attribute_caption} bearbeiten"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Derzeit gibt es keine Authentifizierungsmodi.
@@ -301,7 +300,7 @@ de:
       settings: "Einstellungen"
       form_configuration: "Formularkonfiguration"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekte"
       enabled_projects: "Aktivierte Projekte"
       edit_query: "Tabelle bearbeiten"
@@ -2566,6 +2565,12 @@ de:
     Wenn Sie benutzerdefinierte Felder verwenden: Bitte beachten, dass diese auch pro Projekt aktiviert werden müssen.
   text_custom_field_hint_activate_per_project_and_type: >
     Benutzerdefinierte Felder müssen jeweils in Arbeitspaket-Typ und Projekt aktiviert werden.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Ein weißes Logo mit transparentem Hintergrund wird empfohlen. Für ein optimales Ergebnis für konventionelle und Retina-Displays sollte die Bildabmessungen 460 x 110 Pixel betragen.
   text_custom_favicon_instructions: >

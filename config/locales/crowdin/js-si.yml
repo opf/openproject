@@ -236,6 +236,7 @@ si:
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
+          more_info: "More information"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -268,8 +269,7 @@ si:
           one: "පළමු තෝරා බේරා ගැනීමේ නිර්ණායක"
           two: "දෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
           three: "තෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'ව්යවසාය සංස්කරණය.'
     general_text_no: "නැත"
     general_text_yes: "ඔව්"
@@ -995,7 +995,6 @@ si:
           attribute_highlighting: 'ස්කන්ධයෙන් කැපී පෙනෙන ඇතැම් වැඩ පැකේජ අවශ්යද?'
           relation_columns: 'වැඩ පැකේජ ලැයිස්තුවේ සබඳතා දැකීමට අවශ්යද?'
           check_out_link: 'ව්යවසාය සංස්කරණය පරීක්ෂා කරන්න.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'සම්බන්ධතා වර්ගය අනුව වැඩ පැකේජ පෙරහන් කරන්න'
       tabs:

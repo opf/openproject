@@ -235,6 +235,7 @@ da:
           confidence: >
             Vi leverer tillid til en testet og understøttet enterprise-klasse projektstyringssoftware - med Open Source og et åbent sind.
           link_quote: "Få et tilbud"
+          more_info: "More information"
           text: >
             OpenProject Enterprise Edition bygger oven på Community Edition. Det omfatter premium-funktioner og professionel support primært rettet mod organisationer med mere end 10 brugere, der administrerer forretningskritiske projekter med OpenProject.
           unlimited: "Ubegrænset"
@@ -267,8 +268,7 @@ da:
           one: "Første sorteringskriterium"
           two: "Anden sorteringskriterier"
           three: "Tredje sorteringskriterium"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise Udgave.'
     general_text_no: "nej"
     general_text_yes: "ja"
@@ -994,7 +994,6 @@ da:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:

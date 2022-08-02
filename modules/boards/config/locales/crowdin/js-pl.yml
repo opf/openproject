@@ -7,9 +7,8 @@ pl:
       label_unnamed_list: 'Lista bez nazwy'
       label_board_type: 'Typ tablicy'
       upsale:
-        teaser_text: 'Czy chcesz użyć gotowych do użycia szablonów tablic? Tablice zaawansowane są funkcją wersji Enterprise. Przejdź na plan płatny.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Zmień plan teraz'
-        more_info: 'More information'
       lists:
         delete: 'Usuń listę'
       version:

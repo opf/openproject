@@ -77,7 +77,6 @@ lol:
       buttons:
         upgrade: "crwdns655649:0crwdne655649:0"
         contact: "crwdns655651:0crwdne655651:0"
-        more_info: "crwdns822236:0crwdne822236:0"
       enterprise_info_html: "crwdns655653:0crwdne655653:0"
       upgrade_info: "crwdns655655:0crwdne655655:0"
     journal_aggregation:
@@ -96,7 +95,7 @@ lol:
     add_new: 'crwdns494803:0crwdne494803:0'
     edit: "crwdns494805:0%{attribute_caption}crwdne494805:0"
     enterprise:
-      description: 'crwdns823052:0crwdne823052:0'
+      description: 'crwdns825464:0crwdne825464:0'
   auth_sources:
     index:
       no_results_content_title: crwdns494807:0crwdne494807:0
@@ -288,7 +287,7 @@ lol:
       settings: "crwdns495031:0crwdne495031:0"
       form_configuration: "crwdns495033:0crwdne495033:0"
       more_info_text_html: >
-        crwdns822242:0%{list_styling_class}crwdne822242:0
+        crwdns825466:0%{list_styling_class}crwdne825466:0
       projects: "crwdns495035:0crwdne495035:0"
       enabled_projects: "crwdns495037:0crwdne495037:0"
       edit_query: "crwdns495039:0crwdne495039:0"
@@ -2532,6 +2531,12 @@ lol:
     crwdns499211:0crwdne499211:0
   text_custom_field_hint_activate_per_project_and_type: >
     crwdns499213:0crwdne499213:0
+  text_wp_custom_field_html: >
+    crwdns825468:0crwdne825468:0
+  text_wp_status_read_only_html: >
+    crwdns825470:0crwdne825470:0
+  text_project_custom_field_html: >
+    crwdns825472:0crwdne825472:0
   text_custom_logo_instructions: >
     crwdns499215:0crwdne499215:0
   text_custom_favicon_instructions: >

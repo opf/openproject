@@ -236,6 +236,7 @@ sk:
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
+          more_info: "More information"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -268,8 +269,7 @@ sk:
           one: "Prvé kritérium zoradenia"
           two: "Druhé kritérium zoradenia"
           three: "Tretie kritérium zoradenia"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "nie"
     general_text_yes: "áno"
@@ -997,7 +997,6 @@ sk:
           attribute_highlighting: 'Mali by sa rozlišovať osobitné pracovné balíčky?'
           relation_columns: 'Potrebujete vidieť vzťahy v zozname pracovných balíčkov?'
           check_out_link: 'Pozrite si verziu Enterprise.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:

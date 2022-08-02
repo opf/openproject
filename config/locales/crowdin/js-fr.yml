@@ -236,6 +236,7 @@ fr:
           confidence: >
             Nous fournissons la confiance d'un logiciel de gestion de projet de classe entreprise testé et supporté - en Open Source et un avec esprit ouvert.
           link_quote: "Obtenir un devis"
+          more_info: "More information"
           text: >
             L'Entreprise Edition d'OpenProject s'appuie sur la Community Edition. Elle comprend des fonctionnalités premium et un support professionnel principalement destiné aux organisations comptant plus de 10 utilisateurs gérant des projets critiques avec OpenProject.
           unlimited: "Illimité"
@@ -268,8 +269,7 @@ fr:
           one: "Premier critère de tri"
           two: "Second critère de tri"
           three: "Troisième critère de tri"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "non"
     general_text_yes: "oui"
@@ -995,7 +995,6 @@ fr:
           attribute_highlighting: 'Vous avez besoin de lots de travaux qui sortent du lot ?'
           relation_columns: 'Besoin de voir les relations sur la liste des lots de travaux ?'
           check_out_link: 'Découvrez l’édition entreprise.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrer les lots de travaux par type de relation'
       tabs:
