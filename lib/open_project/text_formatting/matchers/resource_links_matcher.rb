@@ -166,7 +166,7 @@ module OpenProject::TextFormatting
                      raw_identifier:,
                      identifier:,
                      context:)
-        super
+        super()
         # The entire string that was matched
         @matched_string = matched_string
         # Leading string before the link match
