@@ -74,7 +74,7 @@ If you want to start from scratch and remove the exsiting data you will have to 
 
 In the compose folder you will find the file `docker-compose.yml` which can be edited. Please be aware that only those variables shall be edited which are documented as not everything is meant to be configured or bend.
 
-##### BIM Edition
+#### BIM Edition
 
 If you would like to install or change to BIM inside a Docker environment, please navigate to the [Docker](../installation-and-operations/changing-to-bim-edition#docker) paragraph at the [Changing to BIM Edition](../installation-and-operations/changing-to-bim-edition) documentation. 
 
