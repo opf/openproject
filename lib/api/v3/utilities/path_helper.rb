@@ -519,11 +519,6 @@ module API
             "#{project(project_id)}/work_packages"
           end
 
-          def self.filtered_path(base_path, *filters)
-            escaped = CGI.escape(::JSON.dump(filters))
-            "#{base_path}?filters=#{escaped}"
-          end
-
           def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil, select: nil)
             query_params = {
               filters: filters&.to_json,
