@@ -8,6 +8,9 @@ supported_distribution() {
 	case "$(wiz_fact "osfamily")" in
 		"debian")
 			case $(wiz_fact "osversion") in
+				"22.04")
+					return 0
+					;;
 				"20.04")
 					return 0
 					;;

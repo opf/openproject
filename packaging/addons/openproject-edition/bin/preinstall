@@ -16,27 +16,33 @@ trap cleanup INT TERM EXIT
 if [ "$edition" = "bim" ]; then
 	${CLI} config:set OPENPROJECT_EDITION="$edition"
 
-        case "$(wiz_fact "osfamily")" in
-                "debian")
-                        case "$(wiz_fact "osversion")" in
-                                "20.04")
+	case "$(wiz_fact "osfamily")" in
+		"debian")
+			case "$(wiz_fact "osversion")" in
+				"22.04")
+					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/22.04/prod.list
+					apt-get update -qq
+					apt-get install -y dotnet-runtime-3.1
+				;;
+				"20.04")
 					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/20.04/prod.list
 					apt-get update -qq
 					apt-get install -y dotnet-runtime-3.1
-                                        ;;
+				;;
 				"18.04")
 					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/18.04/prod.list
 					apt-get update -qq
 					apt-get install -y dotnet-runtime-3.1
-                                        ;;
+				;;
 				"10")
 					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/debian/10/prod.list
 					apt-get update -qq
 					apt-get install -y dotnet-runtime-3.1
-                        esac
+			esac
 			;;
 		"redhat")
 			case "$(wiz_fact "osversion")" in
@@ -62,7 +68,7 @@ if [ "$edition" = "bim" ]; then
 	fi
 
 	if ! ${CLI} run which IfcConvert &>/dev/null ||
-	   ! echo "83eed7f2f12079df5f6a55a07f812d27b28620bd  $(${CLI} run which IfcConvert)" | sha1sum -c - ; then
+		 ! echo "83eed7f2f12079df5f6a55a07f812d27b28620bd  $(${CLI} run which IfcConvert)" | sha1sum -c - ; then
 		echo "Fetching and installing IfcConvert..."
 		wget --quiet https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.6.0-517b819-linux64.zip
 		unzip -qq IfcConvert-v0.6.0-517b819-linux64.zip
