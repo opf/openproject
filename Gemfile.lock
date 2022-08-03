@@ -761,7 +761,7 @@ GEM
       httpclient
       json-jwt (>= 1.11.0)
       rack (>= 2.1.0)
-    rack-protection (2.2.0)
+    rack-protection (2.2.2)
       rack
     rack-test (2.0.2)
       rack (>= 1.3)
