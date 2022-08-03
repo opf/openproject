@@ -126,7 +126,9 @@ For both the file name and the content, you can then differentiate the filtering
 
 ![advanced-filter-options](advanced-filter-options.png)
 
+It will then display the corresponding work package with the attachment.
 
+![openproject-search-work-package-attachments](openproject-search-work-package-attachments.png)
 
 ## Sort the work package list
 
