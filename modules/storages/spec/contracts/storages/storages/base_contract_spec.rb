@@ -36,7 +36,7 @@ describe Storages::Storages::BaseContract, :storage_server_helpers, webmock: tru
 
   it 'checks the storage url only when changed' do
     capabilities_request = mock_server_capabilities_response(storage_host)
-    host_request = mock_server_host_response(storage_host)
+    host_request = mock_server_config_check_response(storage_host)
     contract.valid?
     expect(capabilities_request).to have_been_made.once
     expect(host_request).to have_been_made.once
