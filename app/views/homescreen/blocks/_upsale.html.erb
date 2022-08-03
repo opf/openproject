@@ -1,22 +1,26 @@
 <div class="widget-box--description">
   <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
-  <div class="widget-box--blocks--upsale-title">
-    <%= op_icon('button--icon icon-medal') %>
-    <span><%= t('homescreen.blocks.upsale.title') %></span>
-    <p class="widget-box--blocks--upsale-description">
-    <%= t('js.admin.enterprise.upsale.text') %>
-    </p>
+  <div class="widget-box--blocks--upsale-description">
+    <div class="widget-box--blocks--upsale-title">
+
+      <%= op_icon('button--icon icon-medal') %>
+      <span><%= t('homescreen.blocks.upsale.title') %></span>
+
+      <p class="widget-box--blocks--upsale-description">
+        <%= t('js.admin.enterprise.upsale.text') %>
+      </p>
+    
+      <p>
+        <b><%= t('js.admin.enterprise.upsale.become_hero') %></b> <%= t('js.admin.enterprise.upsale.you_contribute') %>
+      </p>
+
+      <p>
+        <b><%= t('js.admin.enterprise.upsale.confidence') %></b>
+      </p>
+    
+    </div>
   </div>
-
 </div>
-
-<strong><%= t('js.admin.enterprise.upsale.become_hero') %></strong>
-
-<span><%= t('js.admin.enterprise.upsale.you_contribute') %></span>
-
-<p class="widget-box--blocks--upsale-description">
-  <b><%= t('js.admin.enterprise.upsale.confidence') %></b>
-</p>
 
 <div class="widget-box--blocks--upsale-buttons">
   <%= link_to "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=home-screen",
