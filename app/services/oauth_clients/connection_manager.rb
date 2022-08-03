@@ -231,8 +231,8 @@ module OAuthClients
         scheme: oauth_client_scheme,
         host: oauth_client_host,
         port: oauth_client_port,
-        authorization_endpoint: File.join(oauth_client_path, "/apps/oauth2/authorize"),
-        token_endpoint: File.join(oauth_client_path, "/apps/oauth2/api/v1/token")
+        authorization_endpoint: File.join(oauth_client_path, "/index.php/apps/oauth2/authorize"),
+        token_endpoint: File.join(oauth_client_path, "/index.php/apps/oauth2/api/v1/token")
       )
     end
 

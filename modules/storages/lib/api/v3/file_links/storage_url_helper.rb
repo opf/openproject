@@ -31,11 +31,11 @@ module API::V3::FileLinks::StorageUrlHelper
   def storage_url_open_file(file_link, open_location: false)
     location_flag = ActiveModel::Type::Boolean.new.cast(open_location) ? 0 : 1
 
-    "#{file_link.storage.host}/f/#{file_link.origin_id}?openfile=#{location_flag}"
+    "#{file_link.storage.host}/index.php/f/#{file_link.origin_id}?openfile=#{location_flag}"
   end
 
   def storage_url_open(storage)
-    "#{storage.host}/apps/files"
+    "#{storage.host}/index.php/apps/files"
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -54,7 +54,7 @@ module API::V3::FileLinks::StorageUrlHelper
     download_token = direct_download_token(body: direct_download_response.result)
     return download_token if download_token.failure?
 
-    url = "#{storage.host}/apps/integration_openproject/direct/#{download_token.result}/#{file_link.origin_name}"
+    url = "#{storage.host}/index.php/apps/integration_openproject/direct/#{download_token.result}/#{file_link.origin_name}"
     ServiceResult.success(result: url)
   end
 
