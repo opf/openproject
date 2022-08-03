@@ -1183,6 +1183,7 @@ vi:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Form đã được gửi thành công'
       load_error_message: 'Đã có lỗi trong khi tải form'

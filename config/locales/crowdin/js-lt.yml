@@ -1193,6 +1193,7 @@ lt:
         include_all_selected: 'Įtraukti visus šiuo metu pažymėtus sub-projektus.'
         current_project: 'Tai dabartinis projektas, kuriame jūs esate.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Forma buvo sėkmingai pateikta'
       load_error_message: 'Įkeliant formą įvyko klaida'

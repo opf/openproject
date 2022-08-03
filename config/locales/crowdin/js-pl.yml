@@ -1193,6 +1193,7 @@ pl:
         include_all_selected: 'Opcja Uwzględnij wszystkie podprojekty jest obecnie zaznaczona.'
         current_project: 'To jest bieżący projekt, w którym jesteś.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Formularz został przesłany'
       load_error_message: 'Podczas ładowania formularza wystąpił błąd'
