@@ -27,7 +27,7 @@
       > *:first-child
         flex-shrink: 0
 
-      &:focus,
+      &_active,
       &:hover
         color: var(--content-link-hover-active-color)
         background-color: $spot-color-basic-gray-6
@@ -73,6 +73,13 @@
 
       &:not(:last-child)
         margin-left: $spot-spacing-0_5
+
+      &_ellipse-text
+        text-overflow: ellipsis
+        white-space: nowrap
+        overflow: hidden
+        max-width: 100%
+        width: 100%
 
     &-floating-wrapper:hover > &-floating-actions,
     &-floating-actions:focus-within,

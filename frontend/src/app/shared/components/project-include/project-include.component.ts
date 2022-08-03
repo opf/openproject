@@ -26,11 +26,11 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { IProject } from 'core-app/core/state/projects/project.model';
+import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
+import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
 
-import { IProjectData } from '../project-list/project-data';
 import { insertInList } from './insert-in-list';
 import { recursiveSort } from './recursive-sort';
-import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
 
 @Component({
   selector: 'op-project-include',

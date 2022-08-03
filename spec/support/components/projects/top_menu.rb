@@ -111,11 +111,11 @@ module Components
       end
 
       def autocompleter_results_selector
-        '[data-qa-selector="op-project-menu-autocomplete--list"]'
+        '[data-qa-selector="op-header-project-select--list"]'
       end
 
       def autocompleter_selector
-        '[data-qa-selector="op-project-menu-autocomplete--search"] input'
+        '[data-qa-selector="op-header-project-select--search"] input'
       end
     end
   end

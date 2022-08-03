@@ -2,7 +2,6 @@
   [open]="opened"
   alignment="bottom-right"
   (closed)="opened = false"
-  (keydown)="searchableProjectListService.onKeydown($event)"
   class="op-project-list-modal"
 >
   <button
@@ -41,6 +40,7 @@
         data-qa-selector="project-include-search"
         data-list-focus-catcher-container="true"
         data-modal-focus-catcher-container="true"
+        (keydown)="searchableProjectListService.onKeydown($event)"
       >
         <span
           slot="before"

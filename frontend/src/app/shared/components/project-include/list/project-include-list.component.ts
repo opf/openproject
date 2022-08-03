@@ -9,30 +9,23 @@ import {
 } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
-import { IProjectData } from './project-data';
+import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
-export const projectListActionIdentifier = 'op-project-list-action';
-export const projectListItemIdentifier = 'op-project-list-item';
-export const projectListActionSelector = `[data-list-selector='${projectListActionIdentifier}']`;
-export const projectListItemSelector = `[data-list-selector='${projectListItemIdentifier}']`;
-export const projectListItemDisabled = '[data-list-disabled="true"]';
-export const projectListRootSelector = '[data-list-root="true"]';
-
 @Component({
-  selector: '[op-project-list]',
+  selector: '[op-project-include-list]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.sass'],
+  templateUrl: './project-include-list.component.html',
+  styleUrls: ['./project-include-list.component.sass'],
 })
-export class OpProjectListComponent {
+export class OpProjectIncludeListComponent {
   @HostBinding('class.spot-list') classNameList = true;
 
-  @HostBinding('class.op-project-list') className = true;
+  @HostBinding('class.op-project-include-list') className = true;
 
   @Output() update = new EventEmitter<string[]>();
 
-  @Input() @HostBinding('class.op-project-list--root') root = false;
+  @Input() @HostBinding('class.op-project-include-list--root') root = false;
 
   @Input() projects:IProjectData[] = [];
 
@@ -55,10 +48,6 @@ export class OpProjectListComponent {
     include_all_selected: this.I18n.t('js.include_projects.tooltip.include_all_selected'),
     current_project: this.I18n.t('js.include_projects.tooltip.current_project'),
   };
-
-  projectListActionIdentifier = projectListActionIdentifier;
-
-  projectListItemIdentifier = projectListItemIdentifier;
 
   constructor(
     readonly I18n:I18nService,
@@ -106,25 +95,30 @@ export class OpProjectListComponent {
   }
 
   public getAlignment(project:IProjectData, isFirst:boolean, isLast:boolean):SpotDropAlignmentOption {
-    if (this.root && isFirst) {
-      if (isLast && !project.children.length) {
-        return SpotDropAlignmentOption.RightCenter;
-      }
-
-      return SpotDropAlignmentOption.BottomLeft;
+    if (!this.root || !isFirst) {
+      return SpotDropAlignmentOption.TopLeft;
     }
 
-    return SpotDropAlignmentOption.TopLeft;
+    if (isLast && !project.children.length) {
+      return SpotDropAlignmentOption.RightCenter;
+    }
+
+    return SpotDropAlignmentOption.BottomLeft;
+
   }
 
   extendedProjectUrl(projectId:string):string {
     const currentMenuItem = document.querySelector('meta[name="current_menu_item"]') as HTMLMetaElement;
-    let url = this.pathHelper.projectPath(projectId);
+    const url = this.pathHelper.projectPath(projectId);
 
-    if (currentMenuItem) {
-      url += `?jump=${encodeURIComponent(currentMenuItem.content)}`;
+    if (!currentMenuItem) {
+      return url;
     }
 
-    return url;
+    return  url + `?jump=${encodeURIComponent(currentMenuItem.content)}`;
+  }
+
+  public isActive(_:IProjectData) {
+    return true;
   }
 }

@@ -86,9 +86,9 @@ import {
   CollapsibleSectionComponent,
 } from 'core-app/shared/components/collapsible-section/collapsible-section.component';
 import {
-  ProjectMenuAutocompleteComponent,
-  projectMenuAutocompleteSelector,
-} from 'core-app/shared/components/autocompleter/project-menu-autocomplete/project-menu-autocomplete.component';
+  OpHeaderProjectSelectComponent,
+  headerProjectSelectSelector,
+} from 'core-app/shared/components/header-project-select/header-project-select.component';
 import {
   ProjectAutocompleterComponent,
   projectsAutocompleterSelector,
@@ -242,7 +242,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent },
   { selector: freeTrialButtonSelector, cls: FreeTrialButtonComponent },
   { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
-  { selector: projectMenuAutocompleteSelector, cls: ProjectMenuAutocompleteComponent },
+  { selector: headerProjectSelectSelector, cls: OpHeaderProjectSelectComponent },
   { selector: projectsAutocompleterSelector, cls: ProjectAutocompleterComponent },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
