@@ -162,6 +162,30 @@ shared_examples_for 'time entry contract' do
     end
   end
 
+  context 'when spent_on is in the future' do
+    let(:time_entry_spent_on) { Time.zone.tomorrow }
+
+    it 'is invalid' do
+      expect_valid(false, spent_on: %i(date_before_or_equal_to))
+    end
+  end
+
+  context 'when spent_on is today' do
+    let(:time_entry_spent_on) { Time.zone.today }
+
+    it 'is valid' do
+      expect_valid(true)
+    end
+  end
+
+  context 'when spent_on is in the past' do
+    let(:time_entry_spent_on) { Time.zone.yesterday }
+
+    it 'is valid' do
+      expect_valid(true)
+    end
+  end
+
   context 'when hours is nil' do
     let(:time_entry_hours) { nil }
 
