@@ -26,7 +26,6 @@ ENV RAILS_SERVE_STATIC_FILES=1
 ENV OPENPROJECT_INSTALLATION__TYPE=docker
 # Valid values are: standard,bim
 ENV OPENPROJECT_EDITION=standard
-ENV NEW_RELIC_AGENT_ENABLED=false
 ENV ATTACHMENTS_STORAGE_PATH=$APP_DATA_PATH/files
 # Set a default key base, ensure to provide a secure value in production environments!
 ENV SECRET_KEY_BASE=OVERWRITE_ME
