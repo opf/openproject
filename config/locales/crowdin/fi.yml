@@ -77,7 +77,6 @@ fi:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -96,7 +95,7 @@ fi:
     add_new: 'Lisää aputeksti'
     edit: "Muokkaa aputeksiä ominaisuudelle %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Tällä hetkellä ei ole todennustiloja.
@@ -306,7 +305,7 @@ fi:
       settings: "Asetukset"
       form_configuration: "Lomakkeen muokkaus"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projektit"
       enabled_projects: "Enabled projects"
       edit_query: "Muokkaa taulukkoa"
@@ -609,6 +608,8 @@ fi:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "ei voida poistaa."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)."
       models:
         attachment:
@@ -640,7 +641,7 @@ fi:
               fragment_present: 'cannot contain a fragment.'
               invalid_uri: 'must be a valid URI.'
               relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'is forbidden by the server.'
             scopes:
               not_match_configured: "doesn't match available scopes."
@@ -1368,7 +1369,7 @@ fi:
       no_results:
         title: "Ei API-salasanoja"
         description: "All of them have been disabled. They can be re-enabled in the administration menu."
-      access_token: "API-salasana"
+      access_tokens: "Access tokens"
       headers:
         action: "Toiminto"
         expiration: "Vanhentuu"
@@ -2195,13 +2196,14 @@ fi:
   permission_edit_own_time_entries: "Muokka omia aikamerkintöjä"
   permission_edit_project: "Muokkaa projektia"
   permission_edit_reportings: "Muokkaa raportointeja"
-  permission_edit_time_entries: "Muokkaa aika lokeja"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Muokkaa aikajanoja"
   permission_edit_wiki_pages: "Muokkaa wiki sivuja"
   permission_export_work_packages: "Vie tehtäviä"
   permission_export_wiki_pages: "Vie wiki-sivuja"
   permission_list_attachments: "Listaa liitteet"
-  permission_log_time: "Lokita käytettyä aikaa"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Hallinnoi keskustelupalstaa"
   permission_manage_categories: "Hallinnoi tapahtumien luokkia"
   permission_manage_work_package_relations: "Hallinnoi tehtävien riippuvuuksia"
@@ -2359,7 +2361,9 @@ fi:
     storage:
       not_available: "Disk storage consumption is not available for this repository."
       update_timeout: "Keep the last required disk space information for a repository for N minutes.\nAs counting the required disk space of a repository may be costly, increase this value to reduce performance impact."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Existing Subversion repository"
       existing_introduction: "If you have an existing Subversion repository, you can link it with OpenProject to access it from within the application."
@@ -2452,7 +2456,7 @@ fi:
   setting_work_package_list_default_columns: "Oletuksena näkyvissä"
   setting_work_package_properties: "Tehtävän ominaisuudet"
   setting_work_package_startdate_is_adddate: "Käytä nykyistä päivämäärää uuden tehtävän aloistuspäivänä"
-  setting_work_packages_export_limit: "Tehtävien viennin enimmäismäärä"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Kirjaa lokiin käyttäjien kirjautumiset, nimet ja sähköpostiosoitteet kaikista pyynnöistä"
   setting_login_required: "Pakollinen kirjautuminen"
@@ -2565,6 +2569,12 @@ fi:
     When using custom fields: Keep in mind that custom fields need to be activated per project, too.
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_favicon_instructions: >

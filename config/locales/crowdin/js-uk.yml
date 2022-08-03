@@ -236,6 +236,7 @@ uk:
           confidence: >
             Ми надаємо перевірене програмне забезпечення корпоративного класу з — з відкритим кодом і серцем — та забезпечуємо його підтримку.
           link_quote: "Дізнатися ціну"
+          more_info: "More information"
           text: >
             Випуск OpenProject Enterprise Edition створено на основі Community Edition. Він включає ексклюзивні функції та професійну підтримку й призначений здебільшого для організацій із більш ніж 10 користувачами, які керують критично важливими для бізнесу проєктами в OpenProject.
           unlimited: "Необмежено"
@@ -268,8 +269,7 @@ uk:
           one: "Перший критерій впорядкування"
           two: "Другий критерій впорядкування"
           three: "Третій критерій впорядкування"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'корпоративне видання.'
     general_text_no: "ні"
     general_text_yes: "так"
@@ -369,6 +369,7 @@ uk:
     label_in_more_than: "більше ніж"
     label_incoming_emails: "Вхідні повідомлення"
     label_information_plural: "Інформація"
+    label_invalid: "Invalid"
     label_import: "Імпортувати"
     label_latest_activity: "Останні дії"
     label_last_updated_on: "Останнє оновлення"
@@ -667,14 +668,7 @@ uk:
         projects: "Проекти"
         settings: "Налаштування"
     time_entry:
-      project: 'Проект'
-      work_package: 'Пакет робіт'
       work_package_required: 'Спочатку потрібно вибрати пакет робіт.'
-      activity: 'Активність'
-      comment: 'Коментар'
-      duration: 'Тривалість'
-      spent_on: 'Дата'
-      hours: 'Години'
       title: 'Час журналу'
     two_factor_authentication:
       label_two_factor_authentication: 'Двофакторна аутентифікація'
@@ -1003,7 +997,6 @@ uk:
           attribute_highlighting: 'Потрібні певні робочі пакети, щоб виділитися зі скупчення?'
           relation_columns: 'Потрібно бачити відносини у списку робочих пакетів?'
           check_out_link: 'Перегляньте Enterprise Edition.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Фільтрувати пакети робіт за типом зв’язку'
       tabs:
@@ -1100,6 +1093,10 @@ uk:
         one: "1 год"
         other: "%{count} год"
         zero: "0 год"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Активуйте режим дзен'
       button_deactivate: 'Деактивуйте режим дзен'
@@ -1196,6 +1193,7 @@ uk:
         include_all_selected: 'Параметр «Включити всі підпроєкти» зараз увімкнено.'
         current_project: 'Це поточний проєкт, який зараз відкрито.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Форму надіслано'
       load_error_message: 'Сталася помилка під час завантаження форми'

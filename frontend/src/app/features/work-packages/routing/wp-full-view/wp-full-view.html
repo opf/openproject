@@ -10,7 +10,7 @@
       <div class="wp-show--header-container">
 
         <op-back-button
-          linkClass="work-packages-back-button op-back-button_mobile-full-width"
+          linkClass="work-packages-back-button op-back-button_mobile-limited-width"
         >
         </op-back-button>
 
@@ -29,6 +29,12 @@
           <wp-watcher-button [workPackage]="workPackage"
                              [showText]="false">
           </wp-watcher-button>
+        </li>
+        <li class="toolbar-item" *ngIf="(displayNotificationsButton$ | async)">
+          <op-work-package-mark-notification-button
+            [workPackage]="workPackage"
+            data-qa-selector="mark-notification-read-button"
+          ></op-work-package-mark-notification-button>
         </li>
         <li class="toolbar-item hidden-for-mobile">
           <zen-mode-toggle-button>
@@ -56,15 +62,6 @@
       <div class="work-packages--panel-inner">
         <span class="hidden-for-sighted" tabindex="-1" opAutofocus [textContent]="focusAnchorLabel"></span>
         <op-wp-tabs [workPackage]="workPackage" [view]="'full'"></op-wp-tabs>
-        <div class="work-packages-full-view--tab-breadcrumb">
-          <op-work-package-mark-notification-button
-            *ngIf="(displayNotificationsButton$ | async) && keepTab.currentTabIdentifier === 'activity'"
-            class="work-package--details-button"
-            [workPackage]="workPackage"
-            buttonClasses="-round button_no-margin"
-            data-qa-selector="mark-notification-read-button"
-          ></op-work-package-mark-notification-button>
-        </div>
         <div class="tabcontent"
              data-notification-selector='notification-scroll-container'
              ui-view>

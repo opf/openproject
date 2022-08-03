@@ -235,6 +235,7 @@ el:
           confidence: >
             Παρέχουμε την εμπιστοσύνη ενός δοκιμασμένου και υποστηριζόμενου λογισμικού διαχείρισης έργων, επιχειρησιακού επιπέδου - με Ανοιχτό Κώδικα και ανοιχτό μυαλό.
           link_quote: "Λάβετε μια προσφορά"
+          more_info: "More information"
           text: >
             Η OpenProject Enterprise έκδοση βασίζεται στην Community έκδοση. Περιλαμβάνει premium χαρακτηριστικά και επαγγελματική υποστήριξη που απευθύνεται κυρίως σε οργανισμούς με περισσότερους από 10 χρήστες που διαχειρίζονται κρίσιμα επιχειρηματικά έργα με το OpenProject.
           unlimited: "Απεριόριστα"
@@ -267,8 +268,7 @@ el:
           one: "Πρώτο κριτήριο ταξινόμησης"
           two: "Δεύτερο κριτήριο ταξινόμησης"
           three: "Τρίτο κριτήριο ταξινόμησης"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Έκδοση για Επιχειρήσεις.'
     general_text_no: "όχι"
     general_text_yes: "ναι"
@@ -368,6 +368,7 @@ el:
     label_in_more_than: "σε περισσότερο από"
     label_incoming_emails: "Εισερχόμενα email"
     label_information_plural: "Πληροφορίες"
+    label_invalid: "Invalid"
     label_import: "Εισαγωγή"
     label_latest_activity: "Τελευταία δραστηριότητα"
     label_last_updated_on: "Τελευταία ενημέρωση στις"
@@ -664,14 +665,7 @@ el:
         projects: "Έργα"
         settings: "Ρυθμίσεις"
     time_entry:
-      project: 'Έργο'
-      work_package: 'Εργασία'
       work_package_required: 'Πρέπει πρώτα να επιλεγεί ένα πακέτο εργασίας.'
-      activity: 'Δραστηριότητα'
-      comment: 'Σχόλιο'
-      duration: 'Διάρκεια'
-      spent_on: 'Ημερομηνία'
-      hours: 'Ώρες'
       title: 'Καταγραφή χρόνου'
     two_factor_authentication:
       label_two_factor_authentication: 'Ταυτοποίηση δύο παραγόντων'
@@ -1000,7 +994,6 @@ el:
           attribute_highlighting: 'Χρειάζεστε συγκεκριμένα πακέτα εργασίας για να ξεχωρίσετε από την μάζα;'
           relation_columns: 'Χρειάζεστε να βλέπετε συσχετίσεις στη λίστα πακέτων εργασίας;'
           check_out_link: 'Δείτε την Έκδοση για Επιχειρήσεις.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Φιλτράρετε τα πακέτα εργασίας κατά τύπο συσχέτισης'
       tabs:
@@ -1093,6 +1086,10 @@ el:
         one: "1 ώρα"
         other: "%{count} ώρες"
         zero: "0 ω"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Ενεργοποίηση λειτουργίας zen'
       button_deactivate: 'Απενεργοποίηση λειτουργίας zen'
@@ -1189,6 +1186,7 @@ el:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Η φόρμα υποβλήθηκε με επιτυχία'
       load_error_message: 'There was an error loading the form'

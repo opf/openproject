@@ -77,7 +77,6 @@ si:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -96,7 +95,7 @@ si:
     add_new: 'උපකාරක පෙළ එකතු කරන්න'
     edit: "%{attribute_caption}සඳහා උපකාරක පෙළ සංස්කරණය කරන්න"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: දැනට සත්යාපන මාතයන් නොමැත.
@@ -306,7 +305,7 @@ si:
       settings: "සැකසුම්"
       form_configuration: "ආකෘති වින්යාසය"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "ව්‍යාපෘති"
       enabled_projects: "සබල කළ ව්‍යාපෘති"
       edit_query: "වගුව සංස්කරණය"
@@ -609,6 +608,8 @@ si:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "ඉවත් කළ නොහැක."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "වැරදි දිග (අක්ෂර %{count} විය යුතුය)."
       models:
         attachment:
@@ -640,7 +641,7 @@ si:
               fragment_present: 'කැබැල්ලක් අඩංගු විය නොහැක.'
               invalid_uri: 'වලංගු URI එකක් විය යුතුය.'
               relative_uri: 'පරම URI විය යුතුය.'
-              secured_uri: 'HTTPS/SSL URI විය යුතුය.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'සේවාදායකය විසින් තහනම් කර ඇත.'
             scopes:
               not_match_configured: "ලබා ගත හැකි විෂය පථයන්ට ගැලපෙන්නේ නැත."
@@ -1368,7 +1369,7 @@ si:
       no_results:
         title: "ප්රදර්ශනය කිරීමට ප්රවේශ ටෝකන නොමැත"
         description: "ඔවුන් සියලු අක්රීය කර ඇත. පරිපාලන මෙනුවේ ඒවා නැවත සක්රීය කළ හැකිය."
-      access_token: "ටෝකනය ප්රවේශ"
+      access_tokens: "Access tokens"
       headers:
         action: "ක්රියාව"
         expiration: "කල් ඉකුත්"
@@ -2195,13 +2196,14 @@ si:
   permission_edit_own_time_entries: "ම කාලය ලඝු-සටහන් සංස්කරණය"
   permission_edit_project: "ව්යාපෘතිය සංස්කරණය කරන්න"
   permission_edit_reportings: "වාර්තා සංස්කරණය කරන්න"
-  permission_edit_time_entries: "කාල ලඝු-සටහන්"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "කාලනියමයන් සංස්කරණය කරන්න"
   permission_edit_wiki_pages: "විකි පිටු සංස්කරණය කරන්න"
   permission_export_work_packages: "අපනයන වැඩ පැකේජ"
   permission_export_wiki_pages: "විකි පිටු අපනයනය කරන්න"
   permission_list_attachments: "ලැයිස්තු ඇමුණුම්"
-  permission_log_time: "ලොග් ගත කළ කාලය"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "සංසද කළමනාකරණය කරන්න"
   permission_manage_categories: "වැඩ පැකේජ කාණ්ඩ කළමනාකරණය කරන්න"
   permission_manage_work_package_relations: "වැඩ පැකේජ සබඳතා කළමනාකරණය කරන්න"
@@ -2359,7 +2361,9 @@ si:
     storage:
       not_available: "තැටි ගබඩා පරිභෝජනය මෙම ගබඩාව සඳහා ලබා ගත නොහැක."
       update_timeout: "එන් විනාඩි සඳහා ගබඩාවක් සඳහා අවසන් අවශ්ය තැටි ඉඩ තොරතුරු තබා ගන්න.\nගබඩාවේ අවශ්ය තැටි අවකාශය ගණන් කිරීම මිල අධික විය හැකි බැවින්, කාර්ය සාධන බලපෑම අඩු කිරීම සඳහා මෙම අගය වැඩි කරන්න."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "දැනට පවතින අනුකරණ ගබඩාව"
       existing_introduction: "ඔබට දැනට පවතින අනුකරණ ගබඩාවක් තිබේ නම්, යෙදුම තුළ සිට එය ප්රවේශ වීමට OpenProject සමඟ සම්බන්ධ කළ හැකිය."
@@ -2452,7 +2456,7 @@ si:
   setting_work_package_list_default_columns: "පෙරනිමියෙන් දර්ශනය"
   setting_work_package_properties: "වැඩ පැකේජය ගුණ"
   setting_work_package_startdate_is_adddate: "නව වැඩ පැකේජ සඳහා ආරම්භක දිනය ලෙස වත්මන් දිනය භාවිතා කරන්න"
-  setting_work_packages_export_limit: "වැඩ පැකේජ අපනයන සීමාව"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "සියලුම ඉල්ලීම් සඳහා පරිශීලක පිවිසුම, නම සහ තැපැල් ලිපිනය ලොග් වන්න"
   setting_login_required: "සත්යාපන අවශ්ය"
@@ -2565,6 +2569,12 @@ si:
     අභිරුචි ක්ෂේත්ර භාවිතා කරන විට: ව්යාපෘතියකට අනුව අභිරුචි ක්ෂේත්ර සක්රිය කළ යුතු බව මතක තබා ගන්න.
   text_custom_field_hint_activate_per_project_and_type: >
     වැඩ පැකේජ වර්ගය අනුව සහ ව්යාපෘතිය අනුව අභිරුචි ක්ෂේත්ර සක්රිය කළ යුතුය.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     විනිවිද පෙනෙන පසුබිම මත සුදු ලාංඡනය නිර්දේශ කරනු ලැබේ. දෙකම මත හොඳම ප්රතිඵල සඳහා, සාම්ප්රදායික හා දෘෂ්ටි විතානයේ ප්රදර්ශනය, ඔබගේ රූපයේ මානයන් 60px විසින් 460px බවට වග බලා ගන්න.
   text_custom_favicon_instructions: >

@@ -42,6 +42,7 @@ describe 'date inplace editor',
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new }
+  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
 
   let(:start_date) { work_packages_page.edit_field(:combinedDate) }
 
@@ -184,8 +185,13 @@ describe 'date inplace editor',
     start_date.activate!
     start_date.expect_active!
 
+    # The calendar needs some time to get initialised.
+    sleep 2
+    start_date.datepicker.expect_visible
+
     # Set the due date
     start_date.datepicker.set_date Time.zone.today, true
+
     # As the to be selected date is automatically toggled,
     # we can directly set the start date afterwards to the same day
     start_date.datepicker.set_date Time.zone.today, true
@@ -331,6 +337,8 @@ describe 'date inplace editor',
 
         wp_table.expect_work_package_listed parent
         wp_table.expect_work_package_listed work_package
+        hierarchy.expect_hierarchy_at parent
+        hierarchy.expect_leaf_at work_package
         wp_timeline.expect_timeline!
       end
     end

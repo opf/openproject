@@ -77,7 +77,6 @@ fr:
       buttons:
         upgrade: "Passer au plan supérieur"
         contact: "Contactez-nous pour une démo"
-        more_info: "More information"
       enterprise_info_html: "est une fonctionnalité Entreprise <strong class='icon-medal'></strong>."
       upgrade_info: "Veuillez passer à un plan payant pour l'activer et commencer à l'utiliser dans votre équipe."
     journal_aggregation:
@@ -96,7 +95,7 @@ fr:
     add_new: 'Ajouter le texte d’aide'
     edit: "Modifier le texte d’aide pour %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Il n'y a actuellement aucun mode d'authentification.
@@ -306,7 +305,7 @@ fr:
       settings: "Paramètres"
       form_configuration: "Configuration du formulaire"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projets"
       enabled_projects: "Projets activés"
       edit_query: "Modifier le tableau"
@@ -609,6 +608,8 @@ fr:
         unknown_property: "n'est pas une propriété connue."
         unknown_property_nested: "a le chemin inconnu« '%{path} »."
         unremovable: "ne peut pas être supprimé."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "est de mauvaise longueur (devrait être %{count} caractères)."
       models:
         attachment:
@@ -640,7 +641,7 @@ fr:
               fragment_present: 'ne peut pas contenir un fragment.'
               invalid_uri: 'doit être une URI valide.'
               relative_uri: 'doit être une URI absolue.'
-              secured_uri: 'doit être une URI HTTPS/SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'est interdit par le serveur.'
             scopes:
               not_match_configured: "ne correspond pas aux portées disponibles."
@@ -1368,7 +1369,7 @@ fr:
       no_results:
         title: "Aucun jeton d'accès à afficher"
         description: "Tous ont été désactivés. Ils peuvent être ré-activés dans le menu d'administration."
-      access_token: "Jeton d'accès"
+      access_tokens: "Access tokens"
       headers:
         action: "Action"
         expiration: "Expiration"
@@ -2195,13 +2196,14 @@ fr:
   permission_edit_own_time_entries: "Éditer mes propres enregistrements de temps"
   permission_edit_project: "Éditer le projet"
   permission_edit_reportings: "Éditer rapports"
-  permission_edit_time_entries: "Éditer les enregistrements de temps"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Éditer les lignes du temps"
   permission_edit_wiki_pages: "Éditer les pages wiki"
   permission_export_work_packages: "Exporter les lots de travaux"
   permission_export_wiki_pages: "Exporter les pages wiki"
   permission_list_attachments: "Lister les pièces jointes"
-  permission_log_time: "Enregistrer le temps passé"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Gérer les forums"
   permission_manage_categories: "Gérer les catégories de lots de travaux"
   permission_manage_work_package_relations: "Gérer les relations des lots de travaux"
@@ -2359,7 +2361,9 @@ fr:
     storage:
       not_available: "La consommation d'espace disque n'est pas disponible pour ce dépôt."
       update_timeout: "Garder les dernières informations de l'espace disque requis pour un dépôt pendant N minutes.\nEtant donné que l'opération de comptabilisation de l'espace disque requis pour un dépôt peut être coûteuse, augmentez cette valeur pour réduire l'impact sur les performances."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Dépôt Subversion existant"
       existing_introduction: "Si vous avez un dépôt Subversion existant, vous pouvez le lier avec OpenProject pour y accéder depuis l'application."
@@ -2452,7 +2456,7 @@ fr:
   setting_work_package_list_default_columns: "Afficher par défaut"
   setting_work_package_properties: "Propriétés du Lot de Travaux"
   setting_work_package_startdate_is_adddate: "Utiliser la date actuelle comme date de début des nouveaux lots de travaux"
-  setting_work_packages_export_limit: "Nombre limite de lots de travaux exportés"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "Actions utilisateur agrégées dans"
   setting_log_requesting_user: "Enregister le login utilisateur, nom et adresse courriel pour toutes les requêtes"
   setting_login_required: "Authentification requise"
@@ -2565,6 +2569,12 @@ fr:
     Lorsque vous utilisez des champs personnalisés : n’oubliez pas que les champs personnalisés doivent être activés par projet également.
   text_custom_field_hint_activate_per_project_and_type: >
     Les champs personnalisés doivent être activés par type de lot de travaux et par projet.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Un logo blanc sur fond transparent est recommandé. Pour obtenir les meilleurs résultats sur les deux, affichage classique et retina, assurez-vous que les dimensions de votre image soient de 460px par 60px.
   text_custom_favicon_instructions: >

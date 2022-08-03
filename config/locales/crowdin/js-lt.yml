@@ -236,6 +236,7 @@ lt:
           confidence: >
             Mes duodame patikrintos ir palaikomas korporacijos-lygio projektų valdymo programos užtikrintumą -- su atviru kodu ir plačiomis pažiūromis.
           link_quote: "Gauti pasiūlymą"
+          more_info: "More information"
           text: >
             OpenProject Enterprise Edition yra pastatyta virš Community Edition. Papildomai įdėtos „premium“ savybės ir profesionalus aptarnavimas, pagrinde orientuotas į organizacijas su daugiau nei 10 vartotojų, kurie naudodami OpenProject valdo verslui kritinius projektus.
           unlimited: "Neribota"
@@ -268,8 +269,7 @@ lt:
           one: "Pirmasis rikiavimo kriterijus"
           two: "Antrasis rikiavimo kriterijus"
           three: "Trečiasis rikiavimo kriterijus"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: '„Enterprise Edition“.'
     general_text_no: "ne"
     general_text_yes: "taip"
@@ -369,6 +369,7 @@ lt:
     label_in_more_than: "daugiau nei"
     label_incoming_emails: "Gauti el. laiškai"
     label_information_plural: "Informacija"
+    label_invalid: "Invalid"
     label_import: "Importuoti"
     label_latest_activity: "Paskutinė veikla"
     label_last_updated_on: "Paskiausias atnaujinimas"
@@ -667,14 +668,7 @@ lt:
         projects: "Projektai"
         settings: "Nustatymai"
     time_entry:
-      project: 'Projektas'
-      work_package: 'Darbų paketas'
       work_package_required: 'Reikia pirma pasirinkti darbo paketą.'
-      activity: 'Veikla'
-      comment: 'Komentaras'
-      duration: 'Trukmė'
-      spent_on: 'Data'
-      hours: 'Valandų'
       title: 'Registruoti laiką'
     two_factor_authentication:
       label_two_factor_authentication: 'Dviejų veiksnių autentifikavimas'
@@ -1003,7 +997,6 @@ lt:
           attribute_highlighting: 'Reikia išskirti tam tikrus darbo paketus iš didelės masės?'
           relation_columns: 'Ar reikia matyti ryšius darbų paketų sąraše?'
           check_out_link: 'Pabandykite Enterprise Edition.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtruokite darbo paketus pagal sąryšio tipą'
       tabs:
@@ -1100,6 +1093,10 @@ lt:
         one: "1 val"
         other: "%{count} val"
         zero: "0 val"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Įjungti Zen režimą'
       button_deactivate: 'Išjungti Zen režimą'
@@ -1196,6 +1193,7 @@ lt:
         include_all_selected: 'Įtraukti visus šiuo metu pažymėtus sub-projektus.'
         current_project: 'Tai dabartinis projektas, kuriame jūs esate.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Forma buvo sėkmingai pateikta'
       load_error_message: 'Įkeliant formą įvyko klaida'

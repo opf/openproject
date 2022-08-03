@@ -236,6 +236,7 @@ es:
           confidence: >
             Ofrecemos la confianza de un software de gestión de proyectos de categoría empresarial probado y con asistencia: de código abierto y mente abierta.
           link_quote: "Solicitar presupuesto"
+          more_info: "More information"
           text: >
             OpenProject edición Enterprise se basa en la edición de la comunidad (edición Community). Incluye características premium y asistencia profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
           unlimited: "Ilimitado"
@@ -268,8 +269,7 @@ es:
           one: "Primer criterio de ordenación"
           two: "Segundo criterio de ordenación"
           three: "Tercer criterio de ordenación"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "Más información"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Edición Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
@@ -369,6 +369,7 @@ es:
     label_in_more_than: "en más de"
     label_incoming_emails: "Correos electrónicos entrantes"
     label_information_plural: "Información"
+    label_invalid: "Invalid"
     label_import: "Importar"
     label_latest_activity: "Actividad reciente"
     label_last_updated_on: "Ultima actualizacion realizada el"
@@ -539,7 +540,7 @@ es:
           one: 'y 1 más'
           other: 'y %{count} más'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'Las nuevas notificaciones aparecerán aquí cuando haya alguna actividad que te concierna, mientras tanto, también puedes ver y modificar la configuración de las notificaciones y modificar cuándo quieres ser notificado.'
           with_current_filter: 'No hay notificaciones en esta vista actualmente'
         mark_all_read: 'Marcar todas como leídas'
         mark_as_read: 'Marcar como leída'
@@ -547,8 +548,8 @@ es:
         total_count_warning: "Mostrando las %{newest_count} notificaciones más recientes. %{more_count} más no se muestran."
         empty_state:
           no_notification: "Parece que ya estás al día."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification_with_current_project_filter: "Parece que todo está listo con el proyecto seleccionado."
+          no_notification_with_current_filter: "Parece que todo está listo para el filtro %{filter}."
           no_selection: "Haga clic en una notificación para ver todos los detalles de la actividad."
         new_notifications:
           message: 'Hay nuevas notificaciones.'
@@ -665,14 +666,7 @@ es:
         projects: "Proyectos"
         settings: "Configuración"
     time_entry:
-      project: 'Proyecto'
-      work_package: 'Paquete de trabajo'
       work_package_required: 'Es necesario seleccionar primero un paquete de trabajo.'
-      activity: 'Actividad'
-      comment: 'Comentario'
-      duration: 'Duración'
-      spent_on: 'Fecha'
-      hours: 'Horas'
       title: 'Registro de tiempo'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticación de dos factores'
@@ -1001,7 +995,6 @@ es:
           attribute_highlighting: '¿Necesita que algunos paquetes de trabajo destaquen del resto?'
           relation_columns: '¿Necesita ver las relaciones en la lista de paquetes de trabajo?'
           check_out_link: 'Vea la edición Enterprise.'
-          more-info-text: 'Más información'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrar paquetes de trabajo por tipo de relación'
       tabs:
@@ -1094,6 +1087,10 @@ es:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 día"
+        other: "%{count} días"
+        zero: "0 días"
     zen_mode:
       button_activate: 'Activar modo zen'
       button_deactivate: 'Desactivar modo zen'
@@ -1190,6 +1187,7 @@ es:
         include_all_selected: 'Está seleccionada la opción para incluir todos los subproyectos.'
         current_project: 'Este es el proyecto actual.'
         does_not_match_search: 'El proyecto no coincide con los criterios de búsqueda.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'El formulario se envió correctamente'
       load_error_message: 'Se produjo un error al cargar el formulario'

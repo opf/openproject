@@ -77,7 +77,6 @@ tr:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -96,7 +95,7 @@ tr:
     add_new: 'Yardım metni ekle'
     edit: "%{attribute_caption} için Yardım metni Düzenle"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Şu anda bir doğrulama modu bulunmamakta.
@@ -306,7 +305,7 @@ tr:
       settings: "Ayarlar"
       form_configuration: "Formu yapılandırma"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projeler"
       enabled_projects: "Etkin projeler"
       edit_query: "Tabloyu düzenle"
@@ -609,6 +608,8 @@ tr:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "kaldırılamadı."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "uzunluğu yanlıştır (%{count} karakter olmalıdır)."
       models:
         attachment:
@@ -640,7 +641,7 @@ tr:
               fragment_present: 'parça içeremez.'
               invalid_uri: 'geçerli bir URI olmalıdır.'
               relative_uri: 'mutlaka bir URI olmalıdır.'
-              secured_uri: 'HTTPS / SSL URI olması gerekir.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'sunucu tarafından yasaklanmıştır.'
             scopes:
               not_match_configured: "mevcut kapsamlarla eşleşmiyor."
@@ -1368,7 +1369,7 @@ tr:
       no_results:
         title: "Görüntülenecek hiçbir erişim izni yok"
         description: "Hepsi de engellendi. Yönetim menüsünden yeniden etkinleştirilebilirler."
-      access_token: "Erişim simgesi"
+      access_tokens: "Access tokens"
       headers:
         action: "Eylem"
         expiration: "Bitiş tarihi"
@@ -2195,13 +2196,14 @@ tr:
   permission_edit_own_time_entries: "Kendi zaman kayıtlarını düzenlemek"
   permission_edit_project: "Proje düzenleme"
   permission_edit_reportings: "Raporlamayı düzenlemek"
-  permission_edit_time_entries: "Zaman kayıtlarını düzenlemek"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Zaman akışını düzenlemek"
   permission_edit_wiki_pages: "Wiki sayfalarını düzenlemek"
   permission_export_work_packages: "İş paketlerini dışarı aktar"
   permission_export_wiki_pages: "Wiki sayfalarını dışarı aktar"
   permission_list_attachments: "Ekleri listelemek"
-  permission_log_time: "Harcanan zaman kayıtları"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Forumları yönetmek"
   permission_manage_categories: "İş paket kategorilerini yönet"
   permission_manage_work_package_relations: "İş paketi ilişkilerini yönet"
@@ -2359,7 +2361,9 @@ tr:
     storage:
       not_available: "Bu depo için disk depolama tüketimi yok."
       update_timeout: "Bir depo için N dakika boyunca gereken son disk alanı bilgilerini saklayın.\nDeponun gerekli disk alanını saymak maliyetli olabileceğinden performans etkisini azaltmak için bu değeri yükseltin."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Mevcut Subversion deposu"
       existing_introduction: "Varolan bir Subversion havuzunuz varsa, uygulamanın içinden erişmek için onu OpenProject ile bağlayabilirsiniz."
@@ -2452,7 +2456,7 @@ tr:
   setting_work_package_list_default_columns: "Varsayılan olarak göster"
   setting_work_package_properties: "İş paketi özellikleri"
   setting_work_package_startdate_is_adddate: "Yeni iş paketlerinde şu anki tarihi başlangıç tarihi olarak kullan"
-  setting_work_packages_export_limit: "İş paketi dışarı aktarma sınırı"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Tüm istekler için kullanıcı oturum açma, ad ve posta adresini girme"
   setting_login_required: "Kimlik doğrulaması gerekli"
@@ -2565,6 +2569,12 @@ tr:
     Özel alanları kullanırken: Özel alanların her proje için aktif yapılması gerektiğini unutmayın.
   text_custom_field_hint_activate_per_project_and_type: >
     Özel alanların iş paketi türü ve proje bazında aktive edilmesi gerekiyor.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Saydam arka plan üzerinde beyaz bir logo önerilir. Hem geleneksel en iyi sonuçları almak ve retina görüntüler için resm boyutlarının 60px ye 460px olduğundan emin olun.
   text_custom_favicon_instructions: >

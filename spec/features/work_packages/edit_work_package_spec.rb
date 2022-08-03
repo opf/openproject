@@ -1,7 +1,8 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-describe 'edit work package', js: true do
+describe 'edit work package',
+         js: true do
   let(:dev_role) do
     create :role,
            permissions: %i[view_work_packages
@@ -55,8 +56,9 @@ describe 'edit work package', js: true do
                           type:,
                           created_at: 5.days.ago.to_date.to_fs(:db))
 
-    note_journal = work_package.journals.last
-    note_journal.update_column(:created_at, 5.days.ago.to_date.to_fs(:db))
+    note_journal = work_package.journals.reload.last
+    note_journal.update_columns(created_at: 5.days.ago.to_date.to_fs(:db),
+                                updated_at: 5.days.ago.to_date.to_fs(:db))
 
     work_package
   end
@@ -157,6 +159,7 @@ describe 'edit work package', js: true do
                               status: status2.name,
                               version: version.name,
                               category: category.name
+
     wp_page.expect_activity_message("Status changed from #{status.name} to #{status2.name}")
   end
 
@@ -165,7 +168,9 @@ describe 'edit work package', js: true do
     wp_page.expect_attributes assignee: manager.name
     wp_page.expect_activity_message("Assignee set to #{manager.name}")
 
-    wp_page.update_attributes assignee: '-'
+    field = wp_page.edit_field :assignee
+    field.unset_value
+
     wp_page.expect_attributes assignee: '-'
 
     wp_page.visit!

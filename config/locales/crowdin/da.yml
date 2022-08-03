@@ -77,7 +77,6 @@ da:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -96,7 +95,7 @@ da:
     add_new: 'Tilføj hjælpetekst'
     edit: "Redigér hjælpetekst til %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Der er i øjeblikket ingen godkendelse.
@@ -304,7 +303,7 @@ da:
       settings: "Indstillinger"
       form_configuration: "Form configuration"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekter"
       enabled_projects: "Enabled projects"
       edit_query: "Edit table"
@@ -607,6 +606,8 @@ da:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "har forkert længde (burde være %{count} tegn)."
       models:
         attachment:
@@ -638,7 +639,7 @@ da:
               fragment_present: 'cannot contain a fragment.'
               invalid_uri: 'must be a valid URI.'
               relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'is forbidden by the server.'
             scopes:
               not_match_configured: "doesn't match available scopes."
@@ -1366,7 +1367,7 @@ da:
       no_results:
         title: "Ingen adgangstegn til at vise"
         description: "De er alle blevet deaktiveret. De kan genaktiveres i administrationsmenuen."
-      access_token: "Adgangstegn"
+      access_tokens: "Access tokens"
       headers:
         action: "Handling"
         expiration: "Udløber"
@@ -2193,13 +2194,14 @@ da:
   permission_edit_own_time_entries: "Rediger egne tidsregistringer"
   permission_edit_project: "Rediger projekt"
   permission_edit_reportings: "Rediger rapporteringer"
-  permission_edit_time_entries: "Rediger tidsregistringer"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Rediger tidslinjer"
   permission_edit_wiki_pages: "Rediger wiki-sider"
   permission_export_work_packages: "Eksportér arbejdspakker"
   permission_export_wiki_pages: "Eksporter wiki-sider"
   permission_list_attachments: "Oplist vedhæftninger"
-  permission_log_time: "Registrer brugt tid"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Administrer fora"
   permission_manage_categories: "Administrer kategorier for arbejdspakker"
   permission_manage_work_package_relations: "Administrer forbindelser for arbejdspakker"
@@ -2355,7 +2357,9 @@ da:
     storage:
       not_available: "Disklagerpladsforbrug er ikke tilgængelig for dette repositorie."
       update_timeout: "Behold de seneste, nødvendige disklagerpladsoplysninger for et repositorie i N minutter.\nDa opgørelsen af påkrævet disklagerplads for et repositorie kan være bekosteligt, forøg denne værdi for at reducere følgevirkninger på ydeevnen."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Eksisterende underversions-repositorie"
       existing_introduction: "Hvis du har et eksisterende underversions-repositorie, kan du sammenkæde dette med OpenProject for at få adgang til det indefra applikationen."
@@ -2448,7 +2452,7 @@ da:
   setting_work_package_list_default_columns: "Vis efter forhåndsopsætning"
   setting_work_package_properties: "Egenskaber for arbejdspakke"
   setting_work_package_startdate_is_adddate: "Brug dags dato som start for nye arbejdspakker"
-  setting_work_packages_export_limit: "Begrænsning for eksport af arbejdspakker"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Log bruger-login, navn og mail-adresse ved hver forespørgsel"
   setting_login_required: "Godkendelse påkrævet"
@@ -2561,6 +2565,12 @@ da:
     When using custom fields: Keep in mind that custom fields need to be activated per project, too.
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_favicon_instructions: >

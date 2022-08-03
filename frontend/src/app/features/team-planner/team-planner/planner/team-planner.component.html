@@ -117,6 +117,7 @@
         [showEndDate]="!isWpEndDateInCurrentView(wp)"
         (stateLinkClicked)="openStateLink($event)"
         (cardClicked)="workPackagesCalendar.onCardClicked($event)"
+        (cardDblClicked)="workPackagesCalendar.onCardDblClicked($event)"
         (cardContextMenu)="workPackagesCalendar.showEventContextMenu($event)"
       ></wp-single-card>
     </ng-template>

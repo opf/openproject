@@ -236,6 +236,7 @@ nl:
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
+          more_info: "More information"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -268,8 +269,7 @@ nl:
           one: "Eerste sorteercriteria"
           two: "Tweede sorteercriteria"
           three: "Derde sorteercriteria"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "Nee"
     general_text_yes: "Ja"
@@ -369,6 +369,7 @@ nl:
     label_in_more_than: "in meer dan"
     label_incoming_emails: "Inkomende e-mails"
     label_information_plural: "Informatie"
+    label_invalid: "Invalid"
     label_import: "Importeren"
     label_latest_activity: "Laatste Activiteit"
     label_last_updated_on: "Laatst geüpdatet op"
@@ -665,14 +666,7 @@ nl:
         projects: "Projecten"
         settings: "Instellingen"
     time_entry:
-      project: 'Project'
-      work_package: 'Werkpakket'
       work_package_required: 'Vereist eerst een werkpakket te selecteren.'
-      activity: 'Activiteit'
-      comment: 'Commentaar'
-      duration: 'Duur'
-      spent_on: 'Datum'
-      hours: 'Uren'
       title: 'Gelogde tijd'
     two_factor_authentication:
       label_two_factor_authentication: 'Twee-factor-authenticatie'
@@ -1001,7 +995,6 @@ nl:
           attribute_highlighting: 'Moeten bepaalde werkpakketten te onderscheiden zijn van de massa?'
           relation_columns: 'Nodig om te zien van betrekkingen in de pakketlijst werk?'
           check_out_link: 'Bekijk de Enterprise Edition.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter werkpakketten op relatietype'
       tabs:
@@ -1094,6 +1087,10 @@ nl:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Zen-modus activeren'
       button_deactivate: 'Deactiveren van zen modus'
@@ -1190,6 +1187,7 @@ nl:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

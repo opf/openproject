@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 file links resource', with_flag: { storages_module_active: true }, type: :request do
+describe 'API v3 file links resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages view_file_links) }
@@ -78,7 +78,7 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
     allow(connection_manager)
       .to receive(:authorization_state).and_return(:connected)
     allow(connection_manager)
-      .to receive(:redirect_to_oauth_authorize).and_return('https://example.com/authorize')
+      .to receive(:get_authorization_uri).and_return('https://example.com/authorize')
 
     # Mock FileLinkSyncService as if Nextcloud would respond positively
     allow(::Storages::FileLinkSyncService)
@@ -120,10 +120,6 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
       it_behaves_like 'API V3 collection response', 0, 0, 'FileLink', 'Collection' do
         let(:elements) { [] }
       end
-    end
-
-    context 'if storages feature is inactive', with_flag: { storages_module_active: false } do
-      it_behaves_like 'not found'
     end
 
     describe 'with filter by storage' do
@@ -216,10 +212,6 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
                                  "expected attribute #{key.inspect} of FileLink ##{i + 1} to be set.\ngot nil."
           end
         end
-      end
-
-      context 'when storages module is inactive', with_flag: { storages_module_active: false } do
-        it_behaves_like 'not found'
       end
     end
 
@@ -412,10 +404,6 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
 
       it_behaves_like 'not found'
     end
-
-    context 'when storages module is inactive', with_flag: { storages_module_active: false } do
-      it_behaves_like 'not found'
-    end
   end
 
   describe 'DELETE /api/v3/file_links/:file_link_id' do
@@ -449,10 +437,6 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
 
       it_behaves_like 'not found'
     end
-
-    context 'when storages module is inactive', with_flag: { storages_module_active: false } do
-      it_behaves_like 'not found'
-    end
   end
 
   describe 'GET /api/v3/file_links/:file_link_id/open' do
@@ -483,10 +467,6 @@ describe 'API v3 file links resource', with_flag: { storages_module_active: true
     context 'if no storage with that id exists' do
       let(:path) { api_v3_paths.file_link(1337) }
 
-      it_behaves_like 'not found'
-    end
-
-    context 'when storages module is inactive', with_flag: { storages_module_active: false } do
       it_behaves_like 'not found'
     end
   end

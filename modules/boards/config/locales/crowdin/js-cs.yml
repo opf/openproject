@@ -7,9 +7,8 @@ cs:
       label_unnamed_list: 'Nepojmenovaný seznam'
       label_board_type: 'Typ tabule'
       upsale:
-        teaser_text: 'Would you like ready-to-use board templates? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Upgradovat nyní'
-        more_info: 'More information'
       lists:
         delete: 'Odstranit seznam'
       version:
@@ -45,7 +44,7 @@ cs:
         action_text_subprojects: >
           Boj s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem aktualizuje (pod)projekt.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Tabule s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem 
         action_text_status: >
           Základní tabule ve stylu kanbanu se sloupci pro status jako je do Do, Probíhá, Done.
         action_text_assignee: >

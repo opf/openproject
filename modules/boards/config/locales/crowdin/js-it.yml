@@ -7,9 +7,8 @@ it:
       label_unnamed_list: 'Lista senza nome'
       label_board_type: 'Tipo scheda'
       upsale:
-        teaser_text: 'Desideri modelli di schede pronti per l''uso? Le schede avanzate sono una funzionalità Enterprise. Esegui l''upgrade a un piano a pagamento.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Aggiorna ora'
-        more_info: 'More information'
       lists:
         delete: 'Elimina elenco'
       version:

@@ -29,7 +29,7 @@ The project status is displayed in different OpenProject modules.
 
 ### Project list
 
-Select **View all projects** from the header menu, it will then open your [project list](../../projects/#global-projects-overview---view-all-projects) which displays all your projects including the project status.
+Select **View all projects** from the header menu, it will then open your [project list](../../projects/#projects-list) which displays all your projects including the project status.
 
 ![View-all-projects](View-all-projects-4478986.png)
 
@@ -45,4 +45,4 @@ Your [dashboard](../../project-overview/) will also display your project status.
 
 ### Can I create a custom project status?
 
-There are three project status to choose from: on track, at risk and off track. These cannot be changed. However, if you want to add additional information, you can do so in the status description or you can create an additional [project custom field](../../../system-admin-guide/custom-fields/custom-fields-projects/). Both, status description and the project custom field can be displayed in the **project list**.
+There are six project status to choose from: on track, at risk, off track, not started, finished and discontinued. These cannot be changed. However, if you want to add additional information, you can do so in the status description or you can create an additional [project custom field](../../../system-admin-guide/custom-fields/custom-fields-projects/). Both, status description and the project custom field can be displayed in the **project list**.

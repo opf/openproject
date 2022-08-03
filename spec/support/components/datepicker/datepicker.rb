@@ -12,6 +12,10 @@ module Components
       page.find("#{context_selector} .flatpickr-calendar")
     end
 
+    def expect_visible
+      expect(container).to be_present
+    end
+
     ##
     # Select year from input
     def select_year(value)

@@ -401,9 +401,13 @@ Settings::Definition.define do
       default: 'enterprise-on-premises---euro---1-year',
       writable: false
 
-  add :feature_storages_module_active,
-      default: Rails.env.development?,
-      format: :boolean
+  # feature flags
+  # To add a feature flag register a new definition for a configuration variable
+  #
+  # Example:
+  # add :feature_your_module_active,
+  #     default: Rails.env.development?,
+  #     format: :boolean
 
   add :feeds_enabled,
       default: true
@@ -963,7 +967,7 @@ Settings::Definition.define do
       default: 'field',
       allowed: %w[field status disabled]
 
-  add :work_packages_export_limit,
+  add :work_packages_projects_export_limit,
       default: 500
 
   add :work_package_list_default_highlighted_attributes,

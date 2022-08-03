@@ -77,7 +77,6 @@ pt:
       buttons:
         upgrade: "Atualizar agora"
         contact: "Contate-nos para uma demonstração"
-        more_info: "Mais informações"
       enterprise_info_html: "é um recurso Enterprise <strong class='icon-medal'></strong>."
       upgrade_info: "Por favor, faça o upgrade para um plano pago para ativar e começar a usá-lo em sua equipe."
     journal_aggregation:
@@ -96,7 +95,7 @@ pt:
     add_new: 'Adicionar texto de ajuda'
     edit: "Editar texto de ajuda para %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Atualmente, não existem modos de autenticação.
@@ -305,7 +304,7 @@ pt:
       settings: "Configurações"
       form_configuration: "Configuração do formulário"
       more_info_text_html: >
-        A Versão Empresarial permite que você personalizer a configuração de formulários com estas caracteristicas adicionais<br><ul class="%{list_styling_class}"><li><b>Adicionar novo grupo de atributos</b></li><li><b>Renomear grupo de atributos</b></li></ul></ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projetos"
       enabled_projects: "Projetos habilitados"
       edit_query: "Editar tabela"
@@ -608,6 +607,8 @@ pt:
         unknown_property: "não é uma propriedade conhecida."
         unknown_property_nested: "possui o caminho desconhecido '%{path}'."
         unremovable: "não pode ser removido."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "é o tamanho errado (deve ser %{count} caracteres)."
       models:
         attachment:
@@ -639,7 +640,7 @@ pt:
               fragment_present: 'não pode conter um fragmento.'
               invalid_uri: 'deve ser um URI válido.'
               relative_uri: 'deve ser um URI absoluto.'
-              secured_uri: 'deve ser um URI HTTPS/SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'é proibido pelo servidor.'
             scopes:
               not_match_configured: "não corresponde a escopos disponíveis."
@@ -1367,7 +1368,7 @@ pt:
       no_results:
         title: "Nenhum tokens de acesso para exibir"
         description: "Todos foram desativados. Eles podem ser re-ativados no menu Administração."
-      access_token: "Token de acesso"
+      access_tokens: "Access tokens"
       headers:
         action: "Ação"
         expiration: "Expira"
@@ -2193,13 +2194,14 @@ pt:
   permission_edit_own_time_entries: "Editar os próprios registros de tempo"
   permission_edit_project: "Editar projeto"
   permission_edit_reportings: "Editar relatórios"
-  permission_edit_time_entries: "Editar registros de tempo"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Editar cronogramas"
   permission_edit_wiki_pages: "Editar páginas wiki"
   permission_export_work_packages: "Exportar pacotes de trabalho"
   permission_export_wiki_pages: "Exportar páginas wiki"
   permission_list_attachments: "Lista de anexos"
-  permission_log_time: "Registrar o tempo gasto"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Gerenciar fóruns"
   permission_manage_categories: "Gerenciar categorias de pacote de trabalho"
   permission_manage_work_package_relations: "Gerenciar relações de pacote de trabalho"
@@ -2357,7 +2359,9 @@ pt:
     storage:
       not_available: "Consumo de armazenamento em disco não está disponível para este repositório."
       update_timeout: "Manter as últimas informações de espaço em disco necessário para um repositório por N minutos. Como contar o espaço em disco necessário de um repositório pode ser custoso, aumente este valor para reduzir o impacto no desempenho."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Repositório Subversion existente"
       existing_introduction: "Se você tem um repositório Subversion, você pode vinculá-lo com o OpenProject para acessá-lo de dentro do aplicativo."
@@ -2450,7 +2454,7 @@ pt:
   setting_work_package_list_default_columns: "Exibir por padrão"
   setting_work_package_properties: "Propriedades do pacote de trabalho"
   setting_work_package_startdate_is_adddate: "Usar a data atual como data para início dos novos pacotes de trabalho"
-  setting_work_packages_export_limit: "Limite para exportação de pacotes de trabalho"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "Ações do usuário agregadas em"
   setting_log_requesting_user: "Registrar início de sessão do usuário, nome e endereço de e-mail para todas as requisições"
   setting_login_required: "Autenticação requerida"
@@ -2563,6 +2567,12 @@ pt:
     Quando utilizar campos personalizados: lembre-se de que os campos personalizados precisam ser ativados também por projeto.
   text_custom_field_hint_activate_per_project_and_type: >
     Os campos personalizados precisam ser ativados por tipo de pacote de trabalho e por projeto.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Recomenda-se um logotipo branco sobre fundo transparente. Para obter melhores resultados em telas convencionais e de retina, certifique-se de que as dimensões de sua imagem são de 460px por 60px.
   text_custom_favicon_instructions: >

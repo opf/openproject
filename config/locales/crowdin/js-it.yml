@@ -236,6 +236,7 @@ it:
           confidence: >
             Forniamo la sicurezza di un software di gestione di progetti di classe aziendale collaudato e supportato, con l'Open Source e una mente aperta.
           link_quote: "Richiedi un preventivo"
+          more_info: "More information"
           text: >
             OpenProject Enterprise Edition si basa sull'edizione Community Edition. Include caratteristiche premium e supporto professionale principalmente rivolto alle organizzazioni con più di 10 utenti che gestiscono progetti critici di business con OpenProject.
           unlimited: "Illimitato"
@@ -268,8 +269,7 @@ it:
           one: "Primo criterio di ordinamento"
           two: "Secondo criterio di ordinamento"
           three: "Terzo criterio di ordinamento"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "no"
     general_text_yes: "si"
@@ -371,6 +371,7 @@ it:
     label_in_more_than: "in più di"
     label_incoming_emails: "Email in arrivo"
     label_information_plural: "Informazioni"
+    label_invalid: "Invalid"
     label_import: "Importazione"
     label_latest_activity: "Ultima attività"
     label_last_updated_on: "Ultimo aggiornamento il"
@@ -667,14 +668,7 @@ it:
         projects: "Progetti"
         settings: "Impostazioni"
     time_entry:
-      project: 'Progetto'
-      work_package: 'Macro-attività'
       work_package_required: 'Richiede prima di selezionare una macro-attività.'
-      activity: 'Attività'
-      comment: 'Commento'
-      duration: 'Durata'
-      spent_on: 'Data'
-      hours: 'Ore'
       title: 'Registra l''orario effettuato'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticazione due fattori'
@@ -1003,7 +997,6 @@ it:
           attribute_highlighting: 'Vuoi che alcune macro-attività si distinguano dalla massa?'
           relation_columns: 'Vuoi visualizzare le relazioni nell''elenco di macro-attività?'
           check_out_link: 'Scopri Enterprise Edition.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtra le macro-attività per tipo di relazione'
       tabs:
@@ -1096,6 +1089,10 @@ it:
         one: "1 o"
         other: "%{count} o"
         zero: "0 o"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Attiva modalità zen'
       button_deactivate: 'Disattiva modalità zen'
@@ -1192,6 +1189,7 @@ it:
         include_all_selected: 'Includi tutti i sotto-progetti attualmente selezionati.'
         current_project: 'Questo è il progetto corrente in cui ti trovi.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Il modulo è stato inviato correttamente'
       load_error_message: 'Si è verificato un errore caricando il modulo'

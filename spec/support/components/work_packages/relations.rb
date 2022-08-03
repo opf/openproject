@@ -110,7 +110,7 @@ module Components
                                       text: relation_label.upcase,
                                       wait: 10)
 
-        expect(page).to have_selector('.relation-row--type', text: to.type.name)
+        expect(page).to have_selector('.relation-row--type', text: to.type.name.upcase)
 
         expect(page).to have_selector('.wp-relations--subject-field', text: to.subject)
 

@@ -37,22 +37,19 @@ describe WorkPackage, type: :model do
     end
     let(:status) { create :default_status }
     let(:priority) { create :priority }
-    let(:work_package) do
-      create(:work_package,
-             project_id: project.id,
-             type:,
-             description: 'Description',
-             priority:,
-             status:,
-             duration: 1)
+    let!(:work_package) do
+      User.execute_as current_user do
+        create(:work_package,
+               project_id: project.id,
+               type:,
+               description: 'Description',
+               priority:,
+               status:,
+               duration: 1)
+      end
     end
-    let(:current_user) { create(:user) }
 
-    before do
-      login_as(current_user)
-
-      work_package
-    end
+    current_user { create(:user) }
 
     context 'for work package creation' do
       it { expect(Journal.all.count).to eq(1) }
@@ -450,11 +447,8 @@ describe WorkPackage, type: :model do
       end
 
       it 'has the timestamp of the work package update time for created_at' do
-        # This seemingly unnecessary reload leads to the updated_at having the same
-        # precision as the created_at of the Journal. It is database dependent, so it would work without
-        # reload on PG 12 but does not work on PG 9.
-        expect(work_package.journals.last.created_at)
-          .to eql(work_package.reload.updated_at)
+        expect(work_package.journals.last.updated_at)
+          .to eql(work_package.updated_at)
       end
     end
 
@@ -466,11 +460,8 @@ describe WorkPackage, type: :model do
       end
 
       it 'has the timestamp of the work package update time for created_at' do
-        # This seemingly unnecessary reload leads to the updated_at having the same
-        # precision as the created_at of the Journal. It is database dependent, so it would work without
-        # reload on PG 12 but does not work on PG 9.
-        expect(work_package.journals.last.created_at)
-          .to eql(work_package.reload.updated_at)
+        expect(work_package.journals.last.updated_at)
+          .to eql(work_package.updated_at)
       end
     end
 
@@ -548,26 +539,65 @@ describe WorkPackage, type: :model do
           context 'when adding another change without comment' do
             before do
               work_package.reload # need to update the lock_version, avoiding StaleObjectError
-              changes = { subject: 'foo' }
-
-              work_package.attributes = changes
+              work_package.subject = 'foo'
+              work_package.assigned_to = current_user
               work_package.save!
             end
 
-            it 'leads to a single journal with the comment of the replaced journal and the state of the second' do
-              expect(subject.count).to be 1
+            it 'leads to a single journal with the comment of the replaced journal and the state both combined' do
+              expect(subject.count).to eq 1
 
               expect(subject.first.notes)
                 .to eql notes
 
               expect(subject.first.data.subject)
                 .to eql 'foo'
+
+              expect(subject.first.data.assigned_to)
+                .to eql current_user
+
+              expect(subject.first.data.status_id)
+                .to eql new_status.id
+            end
+          end
+
+          context 'when adding another change with a customized work package' do
+            let(:custom_field) do
+              create :work_package_custom_field,
+                     is_required: false,
+                     field_format: 'list',
+                     possible_values: ['', '1', '2', '3', '4', '5', '6', '7']
+            end
+            let(:custom_value) do
+              create :custom_value,
+                     value: custom_field.custom_options.find { |co| co.value == '1' }.try(:id),
+                     customized: work_package,
+                     custom_field:
+            end
+
+            before do
+              custom_value
+              work_package.reload # need to update the lock_version, avoiding StaleObjectError
+              work_package.subject = 'foo'
+              work_package.save!
+            end
+
+            it 'leads to a single journal with only one customizable journal' do
+              expect(subject.count).to eq 1
+
+              expect(subject.first.notes)
+                .to eql notes
+
+              expect(subject.first.data.subject)
+                .to eql 'foo'
+
+              expect(subject.first.customizable_journals.count).to eq(1)
             end
           end
         end
       end
 
-      context 'as a different author' do
+      context 'with a different author' do
         let(:new_author) { user2 }
 
         it 'leads to two journals' do
@@ -616,7 +646,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe 'on #destroy' do
+  describe '#destroy' do
     let(:project) { create(:project) }
     let(:type) { create(:type) }
     let(:custom_field) do

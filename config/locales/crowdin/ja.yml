@@ -77,7 +77,6 @@ ja:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -96,7 +95,7 @@ ja:
     add_new: 'ヘルプ テキストを追加'
     edit: "%{attribute_caption} のヘルプ テキストを編集"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: 現在認証モードはありません。
@@ -302,7 +301,7 @@ ja:
       settings: "設定"
       form_configuration: "フォーム設定"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "プロジェクト"
       enabled_projects: "有効なプロジェクト"
       edit_query: "テーブルを編集"
@@ -604,6 +603,8 @@ ja:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "削除できません。"
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "は%{count}文字を入力してください。"
       models:
         attachment:
@@ -635,7 +636,7 @@ ja:
               fragment_present: 'フラグメントを含めることはできません。'
               invalid_uri: '有効なURIでなければなりません。'
               relative_uri: '絶対URIでなければなりません。'
-              secured_uri: 'HTTPS/SSL URIでなければなりません。'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'サーバーによって禁止されています。'
             scopes:
               not_match_configured: "利用可能な範囲と一致しません。"
@@ -1347,7 +1348,7 @@ ja:
       no_results:
         title: "表示するアクセス トークンはありません"
         description: "すべてが無効になっています。管理メニューで再度有効にすることができます。"
-      access_token: "アクセス トークン"
+      access_tokens: "Access tokens"
       headers:
         action: "操作"
         expiration: "有効期限"
@@ -2172,13 +2173,14 @@ ja:
   permission_edit_own_time_entries: "自分が記入した作業時間の編集"
   permission_edit_project: "プロジェクトの編集"
   permission_edit_reportings: "レポートの編集"
-  permission_edit_time_entries: "作業時間記録の編集"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "タイムラインの編集"
   permission_edit_wiki_pages: "Wikiページの編集"
   permission_export_work_packages: "ワークパッケージのエクスポート"
   permission_export_wiki_pages: "Wikiページのエクスポート"
   permission_list_attachments: "添付ファイルの一覧表"
-  permission_log_time: "作業時間の記録"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "フォーラムの管理"
   permission_manage_categories: "仕事項目のカテゴリの管理"
   permission_manage_work_package_relations: "ワークパッケージの関係の管理"
@@ -2336,7 +2338,9 @@ ja:
     storage:
       not_available: "このリポジトリのディスク ストレージ消費量は利用できません。"
       update_timeout: "最後のリポジトリに必要なディスク容量の情報を N 分間保持します。\nリポジトリの必要なディスク容量を計算するにはコストがかかるため、パフォーマンスへの影響を減らすにはこの値を増やしてください。"
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "既存の Subversion リポジトリ"
       existing_introduction: "既存のローカル Subversion リポジトリがある場合は、アプリケーション内からアクセスするために、OpenProject とリンクできます。"
@@ -2429,7 +2433,7 @@ ja:
   setting_work_package_list_default_columns: "デフォルトで表示する"
   setting_work_package_properties: "項目名"
   setting_work_package_startdate_is_adddate: "今日の日付を新しいワークパッケージの開始日とする"
-  setting_work_packages_export_limit: "エクスポートする項目数の上限"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "全てのリクエストに対し、ユーザのログイン名、名前、メールアドレスをログに記録する"
   setting_login_required: "認証が必要"
@@ -2542,6 +2546,12 @@ ja:
     カスタムフィールドを使用する場合: カスタムフィールドはプロジェクトごとにもアクティブ化する必要があることを覚えておいてください。
   text_custom_field_hint_activate_per_project_and_type: >
     カスタムフィールドは、ワークパッケージタイプごと、およびプロジェクトごとにアクティブにする必要があります。
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     透明な背景の白いロゴをお勧めします。 従来、および Retina ディスプレイの両方で最高の結果となるように、画像の寸法は、460px x 60px を確認してください。
   text_custom_favicon_instructions: >

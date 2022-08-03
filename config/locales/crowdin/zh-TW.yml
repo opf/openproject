@@ -77,7 +77,6 @@ zh-TW:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -96,7 +95,7 @@ zh-TW:
     add_new: '新增說明文字'
     edit: "編輯 %{attribute_caption} 的說明文字"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: 目前沒有身份驗證模式
@@ -306,7 +305,7 @@ zh-TW:
       settings: "設定"
       form_configuration: "表單設置"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "專案"
       enabled_projects: "已啟用的專案"
       edit_query: "編輯表格"
@@ -608,6 +607,8 @@ zh-TW:
         unknown_property: "不是已知屬性"
         unknown_property_nested: "具有未知路徑 '%{path}'"
         unremovable: "無法移除"
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "長度錯誤 (應該要有 %{count} 個字元)"
       models:
         attachment:
@@ -639,7 +640,7 @@ zh-TW:
               fragment_present: '不能包含片段。'
               invalid_uri: '必須是有效的 uri。'
               relative_uri: '必須是絕對 uri。'
-              secured_uri: '必須是 HTTPS/SSL uri。'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: '被伺服器禁止。'
             scopes:
               not_match_configured: "與可用的範圍不吻合。"
@@ -1351,7 +1352,7 @@ zh-TW:
       no_results:
         title: "沒有可顯示的存取權杖"
         description: "他們全都被停用了。他們可以在管理功能表重新啟用"
-      access_token: "存取權杖"
+      access_tokens: "Access tokens"
       headers:
         action: "動作"
         expiration: "過期"
@@ -2175,13 +2176,14 @@ zh-TW:
   permission_edit_own_time_entries: "編輯自己的時間日誌"
   permission_edit_project: "編輯專案"
   permission_edit_reportings: "編輯報表"
-  permission_edit_time_entries: "編輯時間日誌"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "編輯時間軸"
   permission_edit_wiki_pages: "編輯維基頁面"
   permission_export_work_packages: "匯出工作項目"
   permission_export_wiki_pages: "匯出維基頁面"
   permission_list_attachments: "列出附件"
-  permission_log_time: "記錄耗時"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "管理論壇"
   permission_manage_categories: "管理工作項目類別"
   permission_manage_work_package_relations: "管理工作項目關聯"
@@ -2339,7 +2341,9 @@ zh-TW:
     storage:
       not_available: "這個版本庫沒有可用的磁碟消耗資訊"
       update_timeout: "替一個版本庫維持最後需要的磁碟空間資訊 N 分鐘。\n計算一個版本庫的所需磁碟空間也許要消耗很多效能，增加這個值來降低效能的影響。"
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "現有的 Subversion 版本庫"
       existing_introduction: "如果你已經有一個現有的本機 Subversion 版本庫，你可以連結它以便在 OpenProject 中存取"
@@ -2432,7 +2436,7 @@ zh-TW:
   setting_work_package_list_default_columns: "預設顯示"
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
-  setting_work_packages_export_limit: "工作項目匯出數量限制"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "整合的用戶操作"
   setting_log_requesting_user: "對所有的請求紀錄使用者登入名稱和郵件地址"
   setting_login_required: "需要身份驗證"
@@ -2545,6 +2549,12 @@ zh-TW:
     當使用自訂欄位：請留意自訂欄位需要分別被每個專案個別啟用。
   text_custom_field_hint_activate_per_project_and_type: >
     自訂欄位需要個別被工作項目類別和專案啟用。
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     建議使用背景透明的白色標誌。為了確保在一般及視網膜螢幕上有最佳效果，請確保您的圖片解析度在 460px X 60px。
   text_custom_favicon_instructions: >

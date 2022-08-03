@@ -63,8 +63,8 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
   def wp_hashes_with_string(work_packages)
     work_packages.map do |work_package|
       wp_hash = Hash.new
-      work_package.attributes.each { |key, value| wp_hash[key] = Rack::Utils.escape_html(value) }
-      wp_hash['to_s'] = Rack::Utils.escape_html(work_package.to_s)
+      work_package.attributes.each { |key, value| wp_hash[key] = value }
+      wp_hash['to_s'] = work_package.to_s
       wp_hash
     end
   end

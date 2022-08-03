@@ -23,8 +23,8 @@ tr:
   js:
     ajax:
       hide: "Saklamak"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "Yükleniyor…"
+      updating: "Güncelleniyor..."
     attachments:
       draggable_hint: |
         Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
@@ -231,11 +231,12 @@ tr:
             professional_support: "Profesyonel destek"
             professional_support_text: "İş açısından kritik ortamlarda OpenProject çalıştırma konusunda uzman bilgiye sahip kıdemli destek mühendislerinden güvenilir, yüksek dokunuşlu destek alın."
           button_start_trial: "Deneme sürümüne başla"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "Şimdi Yükselt"
           button_book_now: "Şimdi rezervasyon yaptırın"
           confidence: >
             Açık Kaynak ve açık fikirli olmak üzere, test edilmiş ve desteklenen bir kurumsal sınıf proje yönetimi yazılımının güvenini sunuyoruz.
           link_quote: "Fiyat teklifi alın"
+          more_info: "More information"
           text: >
             OpenProject Enterprise Edition, Topluluk Sürümü'nün üzerine kuruludur. OpenProject ile iş açısından kritik öneme sahip projeleri yöneten 10'dan fazla kullanıcısı olan kuruluşlara yönelik premium özellikler ve profesyonel destek içerir.
           unlimited: "Sınırsız"
@@ -268,8 +269,7 @@ tr:
           one: "İlk sıralama ölçütü"
           two: "İkinci sıralama ölçütü"
           three: "Üçüncü sıralama ölçütleri"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Kurumsal Sürüm.'
     general_text_no: "hayır"
     general_text_yes: "evet"
@@ -369,6 +369,7 @@ tr:
     label_in_more_than: "daha fazla"
     label_incoming_emails: "Gelen e-postalar"
     label_information_plural: "Bilgi"
+    label_invalid: "Invalid"
     label_import: "İçeri Aktar"
     label_latest_activity: "En son etkinlik"
     label_last_updated_on: "Son güncelleme"
@@ -400,8 +401,8 @@ tr:
     label_previous: "Önceki"
     label_per_page: "Sayfa başına:"
     label_please_wait: "Lütfen bekleyin"
-    label_project: "Project"
-    label_project_list: "Projects list"
+    label_project: "Proje"
+    label_project_list: "Projeler listesi"
     label_project_plural: "Projeler"
     label_visibility_settings: "Görünürlük ayarları"
     label_quote_comment: "Yorumu alıntıla"
@@ -414,7 +415,7 @@ tr:
     label_report: "Rapor (bildiri)"
     label_repository_plural: "Depolar"
     label_save_as: "Farklı Kaydet"
-    label_select_project: "Select a project"
+    label_select_project: "Bir proje seçin"
     label_select_watcher: "Takipçi seç..."
     label_selected_filter_list: "Seçilen filtreler"
     label_show_attributes: "Tüm öznitelikleri göster"
@@ -665,14 +666,7 @@ tr:
         projects: "Projeler"
         settings: "Ayarlar"
     time_entry:
-      project: 'Proje'
-      work_package: 'İş paketi'
       work_package_required: 'Önce bir iş paketi seçilmesini gerektirir.'
-      activity: 'Etkinlik'
-      comment: 'Yorum'
-      duration: 'Süre'
-      spent_on: 'Tarih'
-      hours: 'Saat'
       title: 'Zaman kaydet'
     two_factor_authentication:
       label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'
@@ -1001,7 +995,6 @@ tr:
           attribute_highlighting: 'Kitleden sıyrılmak için bazı iş paketlerine mi ihtiyacınız var?'
           relation_columns: 'İş paketleri listesindeki ilişkileri görmek ister misiniz?'
           check_out_link: 'Enterprise sürüme bakın.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'İş paketlerini ilişki türüne göre filtreleme'
       tabs:
@@ -1094,6 +1087,10 @@ tr:
         one: "1 saat"
         other: "%{count} saat"
         zero: "0 s"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Zen modunu etkinleştir'
       button_deactivate: 'Zen modunu devre dışı bırak'
@@ -1190,6 +1187,7 @@ tr:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Form başarıyla gönderildi'
       load_error_message: 'Form yüklenirken bir hata oluştu'

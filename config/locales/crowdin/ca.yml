@@ -77,7 +77,6 @@ ca:
       buttons:
         upgrade: "Actualitza ara"
         contact: "Contacta amb nosaltres per una demostració"
-        more_info: "More information"
       enterprise_info_html: "és una secció <strong class='icon-medal'></strong> Enterprise"
       upgrade_info: "Si us plau, actualitza a una versió de pagament per tal d'activar i començar a utilitzar aquesta funcionalitat en el teu equip."
     journal_aggregation:
@@ -96,7 +95,7 @@ ca:
     add_new: 'Afegeix text d''ajuda'
     edit: "Edita el text d'ajuda per a %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Actualment no hi ha cap mode d'autenticació.
@@ -304,7 +303,7 @@ ca:
       settings: "Configuració"
       form_configuration: "Configuració del formulari"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projectes"
       enabled_projects: "Projectes habilitats"
       edit_query: "Edita la taula"
@@ -606,6 +605,8 @@ ca:
         unknown_property: "no és una propietat coneguda."
         unknown_property_nested: "té la ruta desconeguda '%{path}'."
         unremovable: "no es pot eliminar."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "la longitud és incorrecta (haurien de ser %{count} caràcters)."
       models:
         attachment:
@@ -637,7 +638,7 @@ ca:
               fragment_present: 'no pot contenir un fragment.'
               invalid_uri: 'ha de ser una URI vàlida.'
               relative_uri: 'ha de ser una URI absoluta.'
-              secured_uri: 'ha de ser una URI HTTPS/SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'és vetada pel servidor.'
             scopes:
               not_match_configured: "no coincideix amb els àmbits disponibles."
@@ -1365,7 +1366,7 @@ ca:
       no_results:
         title: "No hi ha tokens d'accés per mostrar"
         description: "Tots ells s'han dehabilitat. Es poden tornar a habilitar al menú d'administració."
-      access_token: "Token d'accés"
+      access_tokens: "Access tokens"
       headers:
         action: "Acció"
         expiration: "Caduca"
@@ -2192,13 +2193,14 @@ ca:
   permission_edit_own_time_entries: "Editar els registres de temps propis"
   permission_edit_project: "Editar projecte"
   permission_edit_reportings: "Editar informes"
-  permission_edit_time_entries: "Editar els registres de temps"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Editar les línies de temps"
   permission_edit_wiki_pages: "Editar les pàgines wiki"
   permission_export_work_packages: "Exportar paquets de treball"
   permission_export_wiki_pages: "Exportar les pàgines wiki"
   permission_list_attachments: "Llista d'adjunts"
-  permission_log_time: "Registrar el temps invertit"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Gestionar els taulers"
   permission_manage_categories: "Gestionar les categories del paquet de treball"
   permission_manage_work_package_relations: "Gestionar les relacions del paquet de treball"
@@ -2354,7 +2356,9 @@ ca:
     storage:
       not_available: "El consum d'emmagatzematge de disc no està disponible per a aquest repositori."
       update_timeout: "Mantenir la darrera informació d'espai de disc necessari per a un dipòsit durant N minuts. Ja que comptar l'espai de disc necessari per un repostori pot ser costós, augmenteu aquest valor per reduir l'impacte en el rendiment."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "Per tal d'utilitzar aquest emmagatzematge de fitxers recorda activar el mòdul i l'emmagatzematge específic a la configuració del projecte desitjat."
     subversion:
       existing_title: "Repositori de Subversion existent"
       existing_introduction: "Si ja teniu un repositori de Subversion, podeu enllaçar-lo amb OpenProject per accedir-hi des de l'aplicació."
@@ -2447,7 +2451,7 @@ ca:
   setting_work_package_list_default_columns: "Mostrar per defecte"
   setting_work_package_properties: "Propietats de paquet de treball"
   setting_work_package_startdate_is_adddate: "Utilitzar la data actual com a data d'inici dels paquets de treball nous"
-  setting_work_packages_export_limit: "Límit d'exportació de paquets de treball"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Registrar login d'usuari, nom i adreça de correu electrònic de totes les sol·licituds"
   setting_login_required: "Es necessita autenticació"
@@ -2560,6 +2564,12 @@ ca:
     When using custom fields: Keep in mind that custom fields need to be activated per project, too.
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_favicon_instructions: >

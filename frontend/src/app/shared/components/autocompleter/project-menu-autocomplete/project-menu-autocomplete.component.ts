@@ -31,6 +31,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
+  ViewEncapsulation,
 } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { combineLatest } from 'rxjs';
@@ -45,6 +47,11 @@ import {
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { insertInList } from 'core-app/shared/components/project-include/insert-in-list';
 import { IProjectData } from 'core-app/shared/components/project-list/project-data';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import {
+  projectListActionSelector,
+  projectListItemDisabled,
+} from 'core-app/shared/components/project-list/project-list.component';
 import { recursiveSort } from 'core-app/shared/components/project-include/recursive-sort';
 import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
@@ -58,8 +65,12 @@ export const projectMenuAutocompleteSelector = 'project-menu-autocomplete';
   providers: [
     SearchableProjectListService,
   ],
+  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./project-menu-autocomplete.component.sass'],
 })
 export class ProjectMenuAutocompleteComponent {
+  @HostBinding('class.op-project-menu-autocomplete') className = true;
+
   dropModalOpen = false;
 
   canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create');
@@ -73,7 +84,7 @@ export class ProjectMenuAutocompleteComponent {
         .filter(
           (project) => {
             if (searchText.length) {
-              const matches = project.name.toLowerCase().includes(searchText.toLowerCase()) || project.identifier.toLowerCase().includes(searchText.toLowerCase());
+              const matches = project.name.toLowerCase().includes(searchText.toLowerCase());
 
               if (!matches) {
                 return false;
@@ -105,6 +116,7 @@ export class ProjectMenuAutocompleteComponent {
       select: this.I18n.t('js.label_select_project'),
     },
     search_placeholder: this.I18n.t('js.include_projects.search_placeholder'),
+    no_results: this.I18n.t('js.include_projects.no_results'),
   };
 
   /* This seems like a way too convoluted loading check, but there's a good reason we need it.
@@ -143,6 +155,31 @@ export class ProjectMenuAutocompleteComponent {
   close():void {
     this.searchableProjectListService.searchText = '';
     this.dropModalOpen = false;
+  }
+
+  onKeydown(event:KeyboardEvent):void {
+    if (event.keyCode === KeyCodes.ENTER) {
+      this.handleKeyEnter(event);
+    }
+
+    this.searchableProjectListService.onKeydown(event);
+  }
+
+  private handleKeyEnter(event:KeyboardEvent):void {
+    const focused = document.activeElement as HTMLElement|undefined;
+
+    // If the current focus is within a list action, return
+    if (focused?.closest(projectListActionSelector)) {
+      return;
+    }
+
+    const first = document.querySelector<HTMLAnchorElement>(`a${projectListActionSelector}:not(${projectListItemDisabled})`);
+
+    if (first) {
+      event.preventDefault();
+      first.focus();
+      window.location.href = first.href;
+    }
   }
 
   currentProjectName():string {

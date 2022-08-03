@@ -30,7 +30,7 @@ require 'spec_helper'
 require_module_spec_helper
 
 # We want to check the case of file_links from multiple storages
-describe 'API v3 file links resource', with_flag: { storages_module_active: true }, type: :request do
+describe 'API v3 file links resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:project) { create(:project) }

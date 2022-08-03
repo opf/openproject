@@ -2,25 +2,26 @@
 es:
   js:
     storages:
-      link_files_in_storage: "Link files in %{storageType}"
-      login: "%{storageType} login"
-      login_to: "Login to %{storageType}"
-      no_connection: "No %{storageType} connection"
-      open_storage: "Open %{storageType}"
+      link_files_in_storage: "Enlace archivos en %{storageType}"
+      login: "%{storageType} iniciar sesión"
+      login_to: "Iniciar sesión en %{storageType}"
+      no_connection: "No hay conexión para %{storageType}"
+      open_storage: "Abrir %{storageType}"
       types:
         nextcloud: "Nextcloud"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator.
-        live_data_error: "Error fetching file details"
+          Algunos ajustes dé %{storageType} no funcionan. Póngase en contacto con el administrador de %{storageType}.
+        live_data_error: "Error obteniendo detalles del archivo"
         live_data_error_description: >
-          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
-        no_file_links: "In order to link files to this work package please do it via %{storageType}."
+          Algunos datos de %{storageType} no se han podido obtener. Intente volver a cargar esta página o póngase en contacto con el administrador de %{storageType}.
+        no_file_links: "Para poder enlazar archivos en este paquete de trabajo, por favor, utiliza %{storageType}."
         not_logged_in: >
-          To add a link, see or upload files related to this work package, please login to %{storageType}.
+          Para añadir un enlace, ver o subir archivos relacionados con este paquete de trabajo, por favor inicie sesión en %{storageType}.
       file_links:
-        download: "Download %{fileName}"
-        no_permission: "You have no permission to see this file."
-        open: 'Open file on storage'
-        open_location: 'Open file in location'
-        remove: "Remove file link"
+        download: "Descargar %{fileName}"
+        no_permission: "No tienes permisos para ver este archivo."
+        open: 'Abrir el fichero en almacenamiento'
+        open_location: 'Abrir fichero en su ubicación'
+        remove: "Eliminar vínculo de fichero"
+        remove_confirmation: "¿Estás seguro de que quieres desvincular el fichero del paquete de trabajo?"

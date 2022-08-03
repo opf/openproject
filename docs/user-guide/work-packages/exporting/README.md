@@ -49,10 +49,10 @@ OpenProject has multiple options of exporting the results to PDF:
 
 
 
-- **PDF** export of the work package list as rows
+- **PDF** export of the work package list as rows.
 - **PDF with descriptions** same as above with work package descriptions output. Note that this does not include a fully rendered markdown description, but a stripped version of it due to technical limitations of the PDF rendering engine.
-- **PDF with attachments** of work packages with their attachments inlined to fit as best as possible
-- **PDF with descriptions and attachments** The above options combined to create a PDF export with work package descriptions and their attachments
+- **PDF with attachments** of work packages with their attachments inlined to fit as best as possible.
+- **PDF with descriptions and attachments** The above options combined to create a PDF export with work package descriptions and their attachments.
 
 
 
@@ -61,8 +61,8 @@ OpenProject has multiple options of exporting the results to PDF:
 OpenProject can export the table for Microsoft Excel with the following options:
 
 - **XLS** a plain sheet that matches the OpenProject work packages table with its columns and work packages as rows matching the selected filter(s).
-- **XLS with descriptions** same as above, but with an additional column for work package descriptions, which cannot be selected in the table
-- **XLS with relations** Same as XLS, but with additional columns to list each work package relation in a separate row with the relation target and its ID and relation type included in the export
+- **XLS with descriptions** same as above, but with an additional column for work package descriptions, which cannot be selected in the table.
+- **XLS with relations** Same as XLS, but with additional columns to list each work package relation in a separate row with the relation target and its ID and relation type included in the export.
 
 > **Note**: To open XLS exported files into Microsoft Excel, ensure you set the encoding to UTF-8. Excel will not auto-detect the encoding or ask you to specify it, but simply open with a wrong encoding under Microsoft Windows.
 

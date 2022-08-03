@@ -467,6 +467,41 @@ describe WorkPackages::BaseContract do
       expect(contract.errors[:due_date])
         .to include message
     end
+
+    context 'when start date is not set and due date is before soonest start date of parent' do
+      let(:schedule_manually) { false }
+
+      before do
+        work_package.schedule_manually = schedule_manually
+        allow(work_package)
+          .to receive(:parent)
+          .and_return(build_stubbed(:work_package))
+        allow(work_package)
+          .to receive(:soonest_start)
+          .and_return(Time.zone.today + 4.days)
+
+        work_package.start_date = nil
+        work_package.due_date = Time.zone.today + 2.days
+      end
+
+      context 'when scheduled automatically' do
+        it 'notes the error' do
+          contract.validate
+
+          message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_relationships',
+                           soonest_start: Time.zone.today + 4.days)
+
+          expect(contract.errors[:due_date])
+            .to match_array [message]
+        end
+      end
+
+      context 'when scheduled manually' do
+        let(:schedule_manually) { true }
+
+        it_behaves_like 'contract is valid'
+      end
+    end
   end
 
   describe 'duration', with_flag: { work_packages_duration_field_active: true } do

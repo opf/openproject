@@ -1,4 +1,6 @@
 .op-project-list-modal
+  max-width: 100%
+
   &--header
     display: flex
     justify-content: space-between
@@ -21,3 +23,9 @@
 
   &--loading
     padding: $spot-spacing-1
+
+  &--no-results
+    @include spot-body-small(normal, italic)
+    margin: $spot-spacing-1-5 $spot-spacing-1
+    color: $spot-color-basic-gray-3
+    flex-grow: 1

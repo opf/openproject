@@ -53,6 +53,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     clear_selection: this.I18n.t('js.include_projects.clear_selection'),
     apply: this.I18n.t('js.include_projects.apply'),
     include_subprojects: this.I18n.t('js.include_projects.include_subprojects'),
+    no_results: this.I18n.t('js.include_projects.no_results'),
   };
 
   public opened = false;
@@ -141,7 +142,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
           .filter(
             (project) => {
               if (searchText.length) {
-                const matches = project.name.toLowerCase().includes(searchText.toLowerCase()) || project.identifier.toLowerCase().includes(searchText.toLowerCase());
+                const matches = project.name.toLowerCase().includes(searchText.toLowerCase());
 
                 if (!matches) {
                   return false;

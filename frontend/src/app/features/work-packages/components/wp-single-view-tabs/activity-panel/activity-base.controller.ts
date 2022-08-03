@@ -73,6 +73,8 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   private initialized = false;
 
+  private comingFromNotifications = false;
+
   constructor(
     readonly apiV3Service:ApiV3Service,
     readonly I18n:I18nService,
@@ -86,6 +88,12 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
     this.reverse = wpActivity.isReversed;
     this.togglerText = this.text.commentsOnly;
+
+    const lastTransitionName = uiRouterGlobals.successfulTransitions.peekTail().from().name as string;
+
+    if (/^notifications/.test(lastTransitionName)) {
+      this.comingFromNotifications = true;
+    }
   }
 
   ngOnInit():void {
@@ -189,6 +197,11 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
     const scrollOffset = notificationElement.offsetTop - (scrollContainer as HTMLElement).offsetTop - this.additionalScrollMargin;
     scrollContainer.scrollTop = scrollOffset;
+
+    // Make sure the scrollContainer is visible on mobile
+    if (this.comingFromNotifications) {
+      scrollContainer.scrollIntoView(true);
+    }
   }
 
   public toggleComments():void {

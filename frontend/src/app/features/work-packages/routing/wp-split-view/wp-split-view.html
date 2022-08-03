@@ -33,14 +33,6 @@
             <wp-subject class="subject-header"></wp-subject>
           </div>
         </div>
-
-        <op-work-package-mark-notification-button
-          *ngIf="(displayNotificationsButton$ | async) && keepTab.currentTabIdentifier === 'activity'"
-          class="work-packages--details-button"
-          [workPackage]="workPackage"
-          buttonClasses="-round"
-          data-qa-selector="mark-notification-read-button"
-        ></op-work-package-mark-notification-button>
       </div>
 
       <div
@@ -52,7 +44,10 @@
   </div>
 
   <div class="work-packages--details-toolbar-container" *ngIf="workPackage">
-    <wp-details-toolbar [workPackage]="workPackage"></wp-details-toolbar>
+    <wp-details-toolbar
+      [workPackage]="workPackage"
+      [displayNotificationsButton]="(displayNotificationsButton$ | async)"
+    ></wp-details-toolbar>
   </div>
 
   <div class="work-packages--details--resizer hidden-for-mobile hide-when-print">

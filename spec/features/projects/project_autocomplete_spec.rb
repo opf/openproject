@@ -50,6 +50,12 @@ describe 'Projects autocomplete page', type: :feature, js: true do
            parent: project2,
            identifier: 'plain-project-2')
   end
+  let!(:project4) do
+    create(:project,
+           name: 'Project with different name and identifier',
+           parent: project2,
+           identifier: 'plain-project-4')
+  end
 
   let!(:other_projects) do
     names = [
@@ -111,6 +117,14 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     top_menu.expect_result 'Plain project'
     top_menu.expect_no_result 'Plain other project'
 
+    # Expect search to match names only and not the identifier
+    top_menu.clear_search
+
+    top_menu.search 'plain'
+    top_menu.expect_result 'Plain project'
+    top_menu.expect_result 'Plain other project'
+    top_menu.expect_no_result 'Project with different name and identifier'
+
     # Expect hierarchy
     top_menu.clear_search
 
@@ -148,5 +162,21 @@ describe 'Projects autocomplete page', type: :feature, js: true do
 
     expect(page).to have_current_path(project_news_index_path(project), ignore_query: true)
     expect(page).to have_selector('.news-menu-item.selected')
+  end
+
+  it 'navigates to the first project upon hitting enter in the search bar' do
+    top_menu.toggle
+    top_menu.expect_open
+
+    # projects are displayed initially
+    top_menu.expect_result project.name
+
+    # Filter for projects
+    top_menu.search '<strong'
+
+    # Visit a project
+    top_menu.autocompleter.send_keys :enter
+
+    top_menu.expect_current_project project2.name
   end
 end

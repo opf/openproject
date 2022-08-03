@@ -236,6 +236,7 @@ fi:
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
+          more_info: "More information"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Rajoittamaton"
@@ -268,8 +269,7 @@ fi:
           one: "Ensimmäinen lajitteluperuste"
           two: "Toinen lajitteluperuste"
           three: "Kolmas lajitteluperuste"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "ei"
     general_text_yes: "kyllä"
@@ -369,6 +369,7 @@ fi:
     label_in_more_than: "suurempi kuin"
     label_incoming_emails: "Saapuvat sähköpostiviestit"
     label_information_plural: "Tieto"
+    label_invalid: "Invalid"
     label_import: "Tuo"
     label_latest_activity: "Viimeisimmät tapahtumat"
     label_last_updated_on: "Viimeisin päivitys"
@@ -665,14 +666,7 @@ fi:
         projects: "Projektit"
         settings: "Asetukset"
     time_entry:
-      project: 'Projekti'
-      work_package: 'Työpaketti'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Tapahtumat'
-      comment: 'Kommentti'
-      duration: 'Kesto'
-      spent_on: 'Päivämäärä'
-      hours: 'Tunnit'
       title: 'Kirjaa työaika'
     two_factor_authentication:
       label_two_factor_authentication: 'Kaksivaiheinen tunnistautuminen'
@@ -1001,7 +995,6 @@ fi:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Täytyy nähdä riippuvuudet tehtävälistassa?'
           check_out_link: 'Check out the Enterprise Edition.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
@@ -1094,6 +1087,10 @@ fi:
         one: "1 t"
         other: "%{count} t"
         zero: "0 t"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Koko näyttö'
       button_deactivate: 'Sulje koko näyttö'
@@ -1190,6 +1187,7 @@ fi:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

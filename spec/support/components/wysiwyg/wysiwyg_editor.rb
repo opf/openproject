@@ -93,16 +93,16 @@ module Components
         attachments.drag_and_drop_file(editable, image_fixture, :bottom)
 
         expect(page)
-            .to have_selector('figure img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
+            .to have_selector('img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
 
         sleep 1
-        expect(page).not_to have_selector('op-toasters-upload-progress', wait: 5)
+        expect(page).to have_no_selector('op-toasters-upload-progress', wait: 5)
 
         # Get the image uploaded last. As there is no way to distinguish between
         # two uploaded images, from the perspective of the user, we do it by getting
         # the id of the attachment uploaded last.
         last_id = Attachment.last.id
-        image = find("figure img[src^=\"/api/v3/attachments/#{last_id}\"]")
+        image = find("img[src^=\"/api/v3/attachments/#{last_id}\"]")
         # Besides testing caption functionality this also slows down clicking on the submit button
         # so that the image is properly embedded
         figure = image.find(:xpath, '../..')
@@ -116,7 +116,8 @@ module Components
           click_hover_toolbar_button 'Toggle caption on'
 
           # Locate figcaption to create comment
-          figcaption = figure.find('figcaption')
+          @figure_find = figure.find('figcaption')
+          figcaption = @figure_find
           figcaption.click
           sleep(0.2)
           figcaption.send_keys(caption)

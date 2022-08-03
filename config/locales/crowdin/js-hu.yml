@@ -238,6 +238,7 @@ hu:
           confidence: >
             A tesztelt és támogatott vállalati szintű projektmenedzsment szoftver bizalmát nyújtjuk - nyílt forráskóddal és nyitott szemmel.
           link_quote: "Árajánlat kérése"
+          more_info: "More information"
           text: >
             Az OpenProject Enterprise Edition a Community Edition tetejére épül. Prémium funkciókat és professzionális támogatást tartalmaz, amelyek elsősorban olyan szervezeteknek szólnak, amelyek több mint 10 felhasználóval rendelkeznek, és amelyek az üzleti szempontból kritikus projekteket irányítják az OpenProject segítségével.
 
@@ -271,8 +272,7 @@ hu:
           one: "Első rendezési feltétel"
           two: "Második rendezési feltétel"
           three: "Harmadik rendezési feltétel"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Vállalati kiadás.'
     general_text_no: "nem"
     general_text_yes: "igen"
@@ -372,6 +372,7 @@ hu:
     label_in_more_than: "több mint"
     label_incoming_emails: "Bejövő e-mailek"
     label_information_plural: "Információk"
+    label_invalid: "Invalid"
     label_import: "Importálás"
     label_latest_activity: "Utolsó aktivitás"
     label_last_updated_on: "Utolsó frissítés"
@@ -669,14 +670,7 @@ hu:
         projects: "Projektek"
         settings: "Beállítások"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Feladatcsoport'
       work_package_required: 'Először ki kell választania egy munkacsomagot.'
-      activity: 'Tevékenység'
-      comment: 'Vélemény'
-      duration: 'Időtartam'
-      spent_on: 'dátum'
-      hours: 'órák'
       title: 'Eltöltött idő rögzítése'
     two_factor_authentication:
       label_two_factor_authentication: 'Kétlépcsős hitelesítés'
@@ -1006,7 +1000,6 @@ hu:
           attribute_highlighting: 'Szüksége van bizonyos munkacsomagokra, hogy kitűnjön a tömegből?'
           relation_columns: 'Szeretné látni a munkacsomag kapcsolatait?'
           check_out_link: 'Tekintse meg az Enterprise Edition-t!'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'A munkacsomagok szűrése relációs típus szerint'
       tabs:
@@ -1099,6 +1092,10 @@ hu:
         one: "1 óra"
         other: "%{count} ó"
         zero: "0 óra"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Zen mód aktiválása'
       button_deactivate: 'Zen mód kikapcsolása'
@@ -1195,6 +1192,7 @@ hu:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'Ez a jelenlegi projekt, amiben vagyunk.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Jelentés sikeresen elküldve'
       load_error_message: 'Hiba történt az eredmény betöltésekor.'

@@ -89,6 +89,11 @@ export interface IProjectAutocompleterData {
 export class ProjectAutocompleterComponent implements ControlValueAccessor {
   @HostBinding('class.op-project-autocompleter') public className = true;
 
+  @HostBinding('class.op-project-autocompleter_inline')
+  public get inlineClass():boolean {
+    return this.isInlineContext;
+  }
+
   projectTracker = (item:IProjectAutocompleteItem):ID => item.href || item.id;
 
   // Load all projects as default
@@ -104,11 +109,15 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Input() public dropdownPosition:'bottom'|'top'|'auto' = 'auto';
 
+  // ID that should be set on the input HTML element. It is used with
+  // <label> tags that have `for=""` set
   @Input() public labelForId = '';
 
   @Input() public apiFilters:ApiV3ListFilter[] = [];
 
   @Input() public appendTo = '';
+
+  @Input() public isInlineContext = false;
 
   // This function allows mapping of the results before they are fed to the tree
   // structuring and destructuring algorithms used internally the this component
@@ -166,7 +175,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
         const filters:ApiV3ListFilter[] = [...this.apiFilters];
 
         if (searchTerm.length) {
-          filters.push(['name_and_identifier', '~', [searchTerm]]);
+          filters.push(['typeahead', '**', [searchTerm]]);
         }
 
         const url = new URL(this.url, window.location.origin);
@@ -185,7 +194,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
           ...params,
         };
         const collectionURL = `${listParamsString(fullParams)}&${url.searchParams.toString()}`;
-        url.searchParams.forEach((key) => url.searchParams.delete(key));
+        url.search = '';
         return this.http.get<IHALCollection<IProject>>(url.toString() + collectionURL);
       },
     )

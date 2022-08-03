@@ -77,7 +77,6 @@ sk:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -96,7 +95,7 @@ sk:
     add_new: 'Pridať text pomocníka'
     edit: "Upraviť text pomocníka pre %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Momentálne nie sú žiadne metódy overovania identity.
@@ -306,7 +305,7 @@ sk:
       settings: "Nastavenia"
       form_configuration: "Konfigurácia formulára"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekty"
       enabled_projects: "Povolené projekty"
       edit_query: "Upraviť tabuľku"
@@ -611,6 +610,8 @@ sk:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "nie je možné zmazať."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "má chybnú dĺžku (správne má byť %{count} znakov)."
       models:
         attachment:
@@ -642,7 +643,7 @@ sk:
               fragment_present: 'nemôže obsahovať fragment.'
               invalid_uri: 'musí byť platný identifikátor URI.'
               relative_uri: 'musí byť absolútna URI.'
-              secured_uri: 'musí byť HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'je zakázané na serveri.'
             scopes:
               not_match_configured: "nezodpovedá dostupným rozsahom."
@@ -1402,7 +1403,7 @@ sk:
       no_results:
         title: "Žiadne prístupové tokeny na zobrazenie"
         description: "Všetky boli deaktivované, opätovne ich možno aktivovať v menu administrácie."
-      access_token: "Prístupový token"
+      access_tokens: "Access tokens"
       headers:
         action: "Akcia"
         expiration: "Expiruje"
@@ -2232,13 +2233,14 @@ sk:
   permission_edit_own_time_entries: "Upraviť vlastné časové záznamy"
   permission_edit_project: "Upraviť projekt"
   permission_edit_reportings: "Upraviť prehľady"
-  permission_edit_time_entries: "Upraviť časové záznamy"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Úprava časovej osi"
   permission_edit_wiki_pages: "Úprava wiki stránok"
   permission_export_work_packages: "Export pracovných balíčkov"
   permission_export_wiki_pages: "Export wiki stránok"
   permission_list_attachments: "Zoznam príloh"
-  permission_log_time: "Protokolovať strávený čas"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Spravovať diskusie"
   permission_manage_categories: "Spravovať kategórie pracovného balíčku"
   permission_manage_work_package_relations: "Spravovať vzťahy pracovných balíčkov"
@@ -2396,7 +2398,9 @@ sk:
     storage:
       not_available: "Spotreba úložného priestoru pre toto úložisko nie je k dispozícii."
       update_timeout: "Uchovávajte posledné požadované informácie o diskovom priestore pre úložisko po dobu minúty N.\nKeď je potrebné počítať požadovaný priestor na disku úložiska, môžete túto hodnotu zvýšiť, aby sa znížil vplyv na výkon."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Existujúce úložisko Subversion (verzia softvéru a kontrola revízie)"
       existing_introduction: "Ak máte existujúce lokálne úložisko Subversion, môžete ho prepojiť s OpenProject a získať tak prístup z aplikácie."
@@ -2489,7 +2493,7 @@ sk:
   setting_work_package_list_default_columns: "Predvolené zobrazenie"
   setting_work_package_properties: "Vlastnosti pracovného balíčka"
   setting_work_package_startdate_is_adddate: "Použiť aktuálny dátum ako počiatočný dátum pre nové pracovné balíčky"
-  setting_work_packages_export_limit: "Limit exportu pracovných balíčkov"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Zaznamenať prihlasovacie meno používateľa, meno a e-mailovú adresu pre všetky požiadavky"
   setting_login_required: "Vyžaduje sa overenie"
@@ -2602,6 +2606,12 @@ sk:
     Ak používate vlastné polia: Upozorňujeme, že tieto musia byť tiež aktivované na každý projekt.
   text_custom_field_hint_activate_per_project_and_type: >
     Vlastné polia je potrebné aktivovať podľa typu pracovného balíčka a projektu.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Odporúčané je biele logo na farebnom pozadí. Pre najlepšie výsledky na všetkých typoch monitorov (štandardných aj retina) použite obrázok s rozmermi 460px x 60px.
   text_custom_favicon_instructions: >

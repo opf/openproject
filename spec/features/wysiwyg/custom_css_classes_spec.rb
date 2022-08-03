@@ -117,15 +117,14 @@ describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
 
   it 'custom classes are placed correctly' do
     editor.in_editor do |_container, editable|
-      expect(editable).to have_css('p.op-uc-p', count: 5)
+      expect(editable).to have_css('p.op-uc-p', count: 6)
       expect(editable).to have_css('h1.op-uc-h1', count: 1)
       expect(editable).to have_css('h2.op-uc-h2', count: 1)
       expect(editable).to have_css('h3.op-uc-h3', count: 1)
       expect(editable).to have_css('h4.op-uc-h4', count: 1)
       expect(editable).to have_css('h5.op-uc-h5', count: 1)
       expect(editable).to have_css('blockquote.op-uc-blockquote', count: 1)
-      expect(editable).to have_css('figure.op-uc-figure', count: 2)
-      expect(editable).to have_css('figure.op-uc-figure div.op-uc-figure--content img.op-uc-image', count: 1)
+      expect(editable).to have_css('figure.op-uc-figure', count: 1)
       expect(editable).to have_css('figure.op-uc-figure.op-uc-figure_align-center table.op-uc-table', count: 1)
       expect(editable).to have_css('table.op-uc-table thead.op-uc-table--head', count: 1)
       expect(editable).to have_css('table.op-uc-table tr.op-uc-table--row', count: 2)

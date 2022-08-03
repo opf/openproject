@@ -77,7 +77,6 @@ sl:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -96,7 +95,7 @@ sl:
     add_new: 'Dodajte besedilo pomoči'
     edit: "Uredite besedilo pomoči za %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Trenutno ni načinov overjanja.
@@ -304,7 +303,7 @@ sl:
       settings: "Nastavitve"
       form_configuration: "Konfiguracija obrazca"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekti"
       enabled_projects: "Omogočeni projekti"
       edit_query: "Uredi tabelo"
@@ -608,6 +607,8 @@ sl:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "ne more biti odstranjeno."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "je napačna dolžina (mora biti %{count} znakov). "
       models:
         attachment:
@@ -639,7 +640,7 @@ sl:
               fragment_present: 'ne more vsebovati delčka.'
               invalid_uri: 'mora biti veljaven URI.'
               relative_uri: 'mora biti absolutni URI.'
-              secured_uri: 'mora biti HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'je prepovedano s strani strežnika. '
             scopes:
               not_match_configured: "ne ustreza razpoložljivim področjem uporabe."
@@ -1399,7 +1400,7 @@ sl:
       no_results:
         title: "Za prikaz ni nobenega računa"
         description: "Vsi so onemogočeni. Ponovno jih je mogoče omogočiti v skrbniškem meniju."
-      access_token: "Žeton za dostop"
+      access_tokens: "Access tokens"
       headers:
         action: "Dejanje"
         expiration: "Poteče"
@@ -2230,13 +2231,14 @@ sl:
   permission_edit_own_time_entries: "Uredi svoje dnevnike"
   permission_edit_project: "Uredi projekt"
   permission_edit_reportings: "Uredi poročila"
-  permission_edit_time_entries: "Uredi dnevnike"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Uredi časovnice"
   permission_edit_wiki_pages: "Uredi wiki strani"
   permission_export_work_packages: "Izvozi delovne pakete"
   permission_export_wiki_pages: "Izvozi wiki strani"
   permission_list_attachments: "Navedi priloge"
-  permission_log_time: "Beleži porabljen čas"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Uredi forume"
   permission_manage_categories: "Upravljajte kategorije delovnih paketov"
   permission_manage_work_package_relations: "Upravljajte razmerja med delovnim paketom"
@@ -2393,7 +2395,9 @@ sl:
     storage:
       not_available: "Poraba diskovne shrambe za to vrsto shrambo ni na voljo."
       update_timeout: "Zadnje potrebne podatke o diskovnem prostoru shranite za N minut.\nKer je lahko štetje potrebnega diskovnega prostora v skladišču drago, povečajte to vrednost, da zmanjšate njegov učinek na zmogljivost."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Obstoječe skladišče podrazličice"
       existing_introduction: "Če imate obstoječe skladišče podrazličic, ga lahko povežete z OpenProjectom, če želite dostopati do njega znotraj aplikacije."
@@ -2486,7 +2490,7 @@ sl:
   setting_work_package_list_default_columns: "Privzet prikaz"
   setting_work_package_properties: "Lastnosti delovnega paketa"
   setting_work_package_startdate_is_adddate: "52/5000\nUporabite trenutni datum kot datum začetka za nove delovne pakete"
-  setting_work_packages_export_limit: "Omejitev izvoza delovnih paketov"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Prijavite uporabniško ime, ime in e-poštni naslov za vse zahteve"
   setting_login_required: "Zahtevano overovljanje"
@@ -2599,6 +2603,12 @@ sl:
     Pri uporabi polj po meri: Upoštevajte, da je treba polja po meri aktivirati tudi za projekt.
   text_custom_field_hint_activate_per_project_and_type: >
     Polja po meri je treba aktivirati  za vrsto delovnega paketa in za projekt.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Priporočljiv je bel logotip na transparentnem ozadju. Za najboljše rezultate na običajnih zaslonih in mrežnici se prepričajte, da so dimenzije vaše slike 460px za 60px.
   text_custom_favicon_instructions: >

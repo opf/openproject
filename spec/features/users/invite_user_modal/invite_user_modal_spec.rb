@@ -56,10 +56,10 @@ describe 'Invite user modal', type: :feature, js: true do
            global_permissions:
   end
 
-  shared_examples 'invites the principal to the project' do
+  shared_examples 'invites the principal to the project' do |skip_project_autocomplete = false|
     it 'invites that principal to the project' do
       perform_enqueued_jobs do
-        modal.run_all_steps
+        modal.run_all_steps(skip_project_autocomplete:)
       end
 
       assignee_field.expect_inactive!
@@ -152,6 +152,13 @@ describe 'Invite user modal', type: :feature, js: true do
         it_behaves_like 'invites the principal to the project' do
           let(:added_principal) { principal }
           let(:mail_membership_recipients) { [principal] }
+        end
+
+        context 'when keeping the default project selection' do
+          it_behaves_like 'invites the principal to the project', skip_project_autocomplete: true do
+            let(:added_principal) { principal }
+            let(:mail_membership_recipients) { [principal] }
+          end
         end
       end
 

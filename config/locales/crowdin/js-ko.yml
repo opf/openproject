@@ -236,6 +236,7 @@ ko:
           confidence: >
             오픈 소스와 오픈 마인드로, 테스트를 거치고 지원이 제공되는 엔터프라이즈급 프로젝트 관리 소프트웨어에 대한 신뢰를 전해드립니다.
           link_quote: "견적 받기"
+          more_info: "More information"
           text: >
             OpenProject Enterprise Edition은 Community Edition 위에서 빌드됩니다. OpenProject로 비즈니스 크리티컬 프로젝트를 관리하는 사용자가 10명이 넘는 조직을 주로 타겟으로 하는 프리미엄 기능과 전문 지원이 제공됩니다.
           unlimited: "무제한"
@@ -268,8 +269,7 @@ ko:
           one: "첫 번째 정렬 기준"
           two: "두 번째 정렬 기준"
           three: "세 번째 정렬 기준"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "아니요"
     general_text_yes: "예"
@@ -369,6 +369,7 @@ ko:
     label_in_more_than: "보다 큼"
     label_incoming_emails: "들어오는 이메일"
     label_information_plural: "정보"
+    label_invalid: "Invalid"
     label_import: "가져오기"
     label_latest_activity: "최근 활동"
     label_last_updated_on: "마지막 업데이트 날짜"
@@ -664,14 +665,7 @@ ko:
         projects: "프로젝트"
         settings: "설정"
     time_entry:
-      project: '프로젝트'
-      work_package: '작업 패키지'
       work_package_required: '먼저 작업 패키지를 선택해야 합니다.'
-      activity: '활동'
-      comment: '코멘트'
-      duration: '기간'
-      spent_on: '날짜'
-      hours: '시간'
       title: '작업시간 기록'
     two_factor_authentication:
       label_two_factor_authentication: '2단계 인증'
@@ -1000,7 +994,6 @@ ko:
           attribute_highlighting: '나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?'
           relation_columns: '작업 패키지 목록에서 관계를 표시해야 합니까?'
           check_out_link: 'Enterprise Edition을 체크아웃하세요.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: '관계 유형별 작업 패키지 필터링'
       tabs:
@@ -1091,6 +1084,10 @@ ko:
         one: "1시간"
         other: "%{count}시간"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Zen 모드 활성화'
       button_deactivate: 'Zen 모드 비활성화'
@@ -1187,6 +1184,7 @@ ko:
         include_all_selected: '모든 하위 프로젝트 포함이 현재 선택되어 있습니다.'
         current_project: '작업 중인 현재 프로젝트입니다.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: '양식을 성공적으로 제출했습니다'
       load_error_message: '양식을 불러오는 중 오류가 발생했습니다'

@@ -50,7 +50,7 @@ it:
       custom_colors: "Colori personalizzati"
       customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "Questa funzionalità è disponibile solo per chi si è iscritto alla Enterprise Edition, come ringraziamento speciale per il contributo finanziario allo sviluppo di OpenProject."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
+      enterprise_more_info: "Nota: il logo utilizzato sarà accessibile al pubblico."
       manage_colors: "Modifica opzioni di selezione del colore"
       instructions:
         alternative-color: "Colore forte, utilizzato di solito per far risaltare il tasto principale sullo schermo."
@@ -77,7 +77,6 @@ it:
       buttons:
         upgrade: "Aggiorna ora"
         contact: "Contattaci per una demo"
-        more_info: "More information"
       enterprise_info_html: "è una funzione Enterprise <strong class='icon-medal'></strong>."
       upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
     journal_aggregation:
@@ -96,7 +95,7 @@ it:
     add_new: 'Aggiungi testo guida'
     edit: "Modifica il testo guida per %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Al momento non vi è alcuna modalità di autenticazione.
@@ -303,7 +302,7 @@ it:
       settings: "Impostazioni"
       form_configuration: "Configurazione del modulo"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Progetti"
       enabled_projects: "Progetti abilitati"
       edit_query: "Modificare la Tabella"
@@ -523,16 +522,16 @@ it:
         begin_deletion: "Inizio cancellazione"
         children: "Sottoelementi"
         done_ratio: "Avanzamento (%)"
-        duration: "Duration"
+        duration: "Durata"
         end_insertion: "Fine inserimento"
         end_deletion: "Fine cancellazione"
-        ignore_non_working_days: "Ignore non working days"
+        ignore_non_working_days: "Ignora giorni non lavorativi"
         parent: "Superiore"
         parent_issue: "Superiore"
         parent_work_package: "Superiore"
         priority: "Priorità"
         progress: "Avanzamento (%)"
-        readonly: "Read only"
+        readonly: "Sola lettura"
         schedule_manually: "Programmazione manuale"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
@@ -606,6 +605,8 @@ it:
         unknown_property: "non è una proprietà conosciuta."
         unknown_property_nested: "ha il percorso sconosciuto '%{path}'."
         unremovable: "non può essere rimosso."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "è della lunghezza sbagliata (dovrebbe essere %{count} caratteri)."
       models:
         attachment:
@@ -637,7 +638,7 @@ it:
               fragment_present: 'non può contenere un frammento.'
               invalid_uri: 'deve essere un URI valido.'
               relative_uri: 'deve essere un URI assoluto.'
-              secured_uri: 'deve essere un URI HTTPS/SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'è vietato dal server.'
             scopes:
               not_match_configured: "non corrisponde a nessuno degli ambiti disponibili."
@@ -1365,7 +1366,7 @@ it:
       no_results:
         title: "Nessun token di accesso da visualizzare"
         description: "Sono stati tutti disabilitati. Possono essere nuovamente abilitati dal menu amministrazione."
-      access_token: "Token di accesso"
+      access_tokens: "Token di accesso"
       headers:
         action: "Azione"
         expiration: "Scade"
@@ -2005,9 +2006,9 @@ it:
   mail_body_backup_token_info: Il token precedente non è più valido.
   mail_body_backup_waiting_period: Il nuovo token sarà abilitato tra %{hours} ore.
   mail_body_backup_token_warning: Se non sei stato tu, accedi immediatamente a OpenProject e ripristinalo di nuovo.
-  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error: L'email che hai inviato a OpenProject non può essere processata.
   mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
-  mail_body_incoming_email_error_logs: "Logs"
+  mail_body_incoming_email_error_logs: "Log"
   mail_body_lost_password: "Per cambiare la password, clicca nel link seguente:"
   mail_body_register: "Benvenuto in %{app_title}. Attiva il tuo account cliccando su questo link:"
   mail_body_register_header_title: "Email di invito come membro del progetto"
@@ -2175,7 +2176,7 @@ it:
   permission_comment_news: "Commentare le novità"
   permission_commit_access: "Accesso in lettura/scrittura all'archivio (commit)"
   permission_copy_projects: "Copiare progetti"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "Crea backup"
   permission_delete_work_package_watchers: "Eliminare osservatori"
   permission_delete_work_packages: "Cancellare macro-attività"
   permission_delete_messages: "Cancellare messaggi"
@@ -2192,13 +2193,14 @@ it:
   permission_edit_own_time_entries: "Modificare i propri registri di orario effettuato"
   permission_edit_project: "Modificare un progetto"
   permission_edit_reportings: "Modificare prospetti"
-  permission_edit_time_entries: "Modificare le registrazioni dell'orario effettuato"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Modificare cronologie"
   permission_edit_wiki_pages: "Modificare pagine wiki"
   permission_export_work_packages: "Esportare macro-attività"
   permission_export_wiki_pages: "Esportare pagine wiki"
   permission_list_attachments: "Elencare allegati"
-  permission_log_time: "Registrazioni dell'orario effettuato"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Gestire forum"
   permission_manage_categories: "Gestire le categorie delle macro-attività"
   permission_manage_work_package_relations: "Gestisci le correlazioni tra macro-attività"
@@ -2356,7 +2358,9 @@ it:
     storage:
       not_available: "Consumo di spazio su disco non è disponibile per questo repository."
       update_timeout: "Mantieni l'ultima informazione sullo spazio su disco richiesto per un archivio di progetto per N minuti.\nPoichè il calcolo dello spazio su disco richiesto per un archivio di progetto può essere un'attività costosa, aumentare questo intervallo riduce l'impatto sulle prestazioni."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Vai alla pagina delle impostazioni"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Archivio Subversion preesistente"
       existing_introduction: "Se si dispone di un archivio Subversion preesistente, è possibile collegarlo con OpenProject per accedervi dall'interno dell'applicazione."
@@ -2449,7 +2453,7 @@ it:
   setting_work_package_list_default_columns: "Visualizza come impostazione predefinita"
   setting_work_package_properties: "Proprietà della macro-attività"
   setting_work_package_startdate_is_adddate: "Usa la data corrente come data di inizio per le nuove macro-attività"
-  setting_work_packages_export_limit: "Limite di esportazione delle macro-attività"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "Azioni utente aggregate all'interno"
   setting_log_requesting_user: "Registra il nome d'accesso, il nome utente, e l'indirizzo mail per tutte le richieste"
   setting_login_required: "Autenticazione richiesta"
@@ -2562,6 +2566,12 @@ it:
     Se utilizzi i campi personalizzati: Tieni presente che i campi personalizzati devono essere attivati anche per ogni progetto.
   text_custom_field_hint_activate_per_project_and_type: >
     I campi personalizzati devono essere attivati per ogni tipo di macro-attività e per ogni progetto.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Un logo bianco su sfondo trasparente è preferibile. Per ottenere i migliori risultati, sia su schermi convenzionali che ad alta risoluzione, assicurati che le dimensioni dell'immagine siano di 460x60 pixels.
   text_custom_favicon_instructions: >
@@ -3037,14 +3047,14 @@ it:
     my_registered_applications: "Applicazioni OAuth registrate"
   oauth_client:
     urn_connection_status:
-      connected: "Connected"
-      error: "Error"
+      connected: "Connesso"
+      error: "Errore"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
-      label_request_token: "Request token"
-      label_refresh_token: "Refresh token"
+      label_redirect_uri: "URI di reindirizzamento"
+      label_request_token: "Richiedi token"
+      label_refresh_token: "Aggiorna token"
     errors:
       oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
       oauth_reported: "OAuth2 provider reported"

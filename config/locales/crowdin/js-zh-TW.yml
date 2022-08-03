@@ -235,6 +235,7 @@ zh-TW:
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "獲取報價"
+          more_info: "More information"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -267,8 +268,7 @@ zh-TW:
           one: "第一個排序條件"
           two: "第二個排序條件"
           three: "第三個排序條件"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: '企業版。'
     general_text_no: "否"
     general_text_yes: "是"
@@ -368,6 +368,7 @@ zh-TW:
     label_in_more_than: "多於"
     label_incoming_emails: "接收到的電子郵件"
     label_information_plural: "資訊"
+    label_invalid: "Invalid"
     label_import: "匯入"
     label_latest_activity: "最新活動"
     label_last_updated_on: "最後更新於"
@@ -663,14 +664,7 @@ zh-TW:
         projects: "專案"
         settings: "設定"
     time_entry:
-      project: '專案'
-      work_package: '工作項目'
       work_package_required: 'Requires selecting a work package first.'
-      activity: '活動'
-      comment: '評論'
-      duration: '時間長度'
-      spent_on: '日期'
-      hours: '小時'
       title: '日誌的時間'
     two_factor_authentication:
       label_two_factor_authentication: '雙重身分驗證'
@@ -999,7 +993,6 @@ zh-TW:
           attribute_highlighting: '需要某些工作包才能從大眾中脫穎而出？'
           relation_columns: '需要檢視工作項目清單的關係嗎'
           check_out_link: '請查閱企業版'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
@@ -1090,6 +1083,10 @@ zh-TW:
         one: "1 h"
         other: "%{count} 小時"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: '啟動 zen 模式'
       button_deactivate: '停用 zen 模式'
@@ -1186,6 +1183,7 @@ zh-TW:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: '檔案已成功提交'
       load_error_message: 'There was an error loading the form'

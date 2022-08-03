@@ -21,13 +21,13 @@ export class WorkPackageFilterValues {
     '!*': this.setToNull.bind(this),
   };
 
-  constructor(public injector:Injector,
+  constructor(
+    public injector:Injector,
     private filters:QueryFilterInstanceResource[],
-    private excluded:string[] = []) {
+    private excluded:string[] = [],
+  ) {}
 
-  }
-
-  public applyDefaultsFromFilters(change:WorkPackageChangeset|Object) {
+  applyDefaultsFromFilters(change:WorkPackageChangeset|Object):void {
     _.each(this.filters, (filter) => {
       // Exclude filters specified in constructor
       if (this.excluded.indexOf(filter.id) !== -1) {
@@ -43,6 +43,11 @@ export class WorkPackageFilterValues {
         });
         this.setValue(change, 'project', projectFilter || filter.values[0]);
 
+        return;
+      }
+
+      // ID filters should never be taken over
+      if (filter.id === 'id') {
         return;
       }
 
@@ -90,7 +95,7 @@ export class WorkPackageFilterValues {
     this.setValue(change, attributeName, { href: null });
   }
 
-  private setValueFor(change:WorkPackageChangeset|Object, field:string, value:string|HalResource) {
+  private setValueFor(change:WorkPackageChangeset|Object, field:string, value:string|HalResource):void {
     const newValue = this.findSpecialValue(value, field) || value;
 
     if (newValue) {
@@ -98,7 +103,7 @@ export class WorkPackageFilterValues {
     }
   }
 
-  private setValue(change:WorkPackageChangeset|{ [id:string]:any }, field:string, value:any) {
+  private setValue(change:WorkPackageChangeset|{ [id:string]:any }, field:string, value:any):void {
     if (change instanceof WorkPackageChangeset) {
       change.setValue(field, value);
     } else {

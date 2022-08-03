@@ -77,7 +77,6 @@ el:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -96,7 +95,7 @@ el:
     add_new: 'Προσθήκη βοηθητικού κειμένου'
     edit: "Επεξεργασία βοηθητικού κειμένου για %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Αυτήν τη στιγμή δεν υπάρχουν λειτουργίες ταυτοποίησης.
@@ -302,7 +301,7 @@ el:
       settings: "Ρυθμίσεις"
       form_configuration: "Διαμόρφωση φόρμας"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Έργα"
       enabled_projects: "Ενεργοποιημένα έργα"
       edit_query: "Επεξεργασία πίνακα"
@@ -605,6 +604,8 @@ el:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "δεν μπορεί να αφαιρεθεί."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "έχει λάθος μέγεθος (πρέπει να είναι %{count} χαρακτήρες)."
       models:
         attachment:
@@ -636,7 +637,7 @@ el:
               fragment_present: 'δεν μπορεί να περιέχει ένα τμήμα (fragment).'
               invalid_uri: 'πρέπει να είναι έγκυρο URI.'
               relative_uri: 'πρέπει να είναι απόλυτο URI.'
-              secured_uri: 'πρέπει να είναι HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'απαγορεύεται από το διακομιστή.'
             scopes:
               not_match_configured: "δεν ταιριάζει με τα διαθέσιμα φυσικά αντικείμενα."
@@ -1364,7 +1365,7 @@ el:
       no_results:
         title: "Δεν υπάρχουν token πρόσβασης για εμφάνιση"
         description: "Όλα έχουν απενεργοποιηθεί. Μπορούν να επανενεργοποιηθούν από το μενού διαχείρισης."
-      access_token: "Token πρόσβασης"
+      access_tokens: "Access tokens"
       headers:
         action: "Ενέργεια"
         expiration: "Λήγει"
@@ -2190,13 +2191,14 @@ el:
   permission_edit_own_time_entries: "Επεξεργασία των δικών μου καταγραφών χρόνου"
   permission_edit_project: "Επεξεργασία του έργου"
   permission_edit_reportings: "Επεξεργασία αναφορών"
-  permission_edit_time_entries: "Επεξεργασία καταγραφών χρόνου"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Επεξεργασία χρονοδιαγραμμάτων"
   permission_edit_wiki_pages: "Επεξεργασία σελίδων wiki"
   permission_export_work_packages: "Εξαγωγή πακέτων εργασίας"
   permission_export_wiki_pages: "Εξαγωγή σελίδων wiki"
   permission_list_attachments: "Λίστα συνημμένων"
-  permission_log_time: "Καταγραφή χρόνου που δαπανήθηκε"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Διαχείριση των φόρουμ"
   permission_manage_categories: "Διαχείριση των κατηγοριών πακέτων εργασίας"
   permission_manage_work_package_relations: "Διαχείριση των συσχετίσεων πακέτων εργασίας"
@@ -2354,7 +2356,9 @@ el:
     storage:
       not_available: "Η κατανάλωση χώρου από τον δίσκο δεν είναι δυνατή σε αυτό το αποθετήριο."
       update_timeout: "Διατήρηση των τελευταίων πληροφοριών απαιτούμενου χώρου δίσκου για ένα αποθετήριο για Ν λεπτά.\nΚαθώς η μέτρηση του απαιτούμενου χώρου δίσκου για ένα αποθετήριο μπορεί να κοστίζει, αυξήστε αυτή την τιμή για να μειώσετε την επίπτωση στην επίδοση."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Υπάρχον αποθετήριο Subversion"
       existing_introduction: "Αν έχετε ένα υπάρχον αποθετήριο Subversion, μπορείτε να το συνδέσετε με το OpenProject για να αποκτήσετε πρόσβαση σε αυτό μέσα από την εφαρμογή."
@@ -2447,7 +2451,7 @@ el:
   setting_work_package_list_default_columns: "Εμφάνιση από προεπιλογή"
   setting_work_package_properties: "Ιδιότητες πακέτου εργασίας"
   setting_work_package_startdate_is_adddate: "Χρήση σημερινής ημερομηνίας ως ημερομηνία έναρξης για νέα πακέτα εργασίας"
-  setting_work_packages_export_limit: "Όριο εξαγωγών πακέτων εργασίας"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Καταγραφή των στοιχείων εισόδου, του ονόματος και της διεύθυνσης email του χρήστη για όλα τα αιτήματα"
   setting_login_required: "Απαιτείται ταυτοποίηση"
@@ -2560,6 +2564,12 @@ el:
     Όταν χρησιμοποιείτε προσαρμοσμένα πεδία: Θυμηθείτε ότι τα προσαρμοσμένα πεδία πρέπει να ενεργοποιημένα και ανά έργο.
   text_custom_field_hint_activate_per_project_and_type: >
     Τα προσαρμοσμένα πεδία πρέπει να είναι ενεργοποιημένα ανά τύπο πακέτου εργασίας και ανά έργο.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Προτείνεται ένα άσπρο λογότυπο με διαφανές φόντο. Για τα καλύτερα αποτελέσματα για συμβατικές και retina οθόνες, σιγουρευτείτε ότι οι διαστάσεις της εικόνας σας είναι 460px με 60px.
   text_custom_favicon_instructions: >

@@ -236,6 +236,7 @@ pl:
           confidence: >
             Dostarczamy sprawdzone i wspierane oprogramowanie klasy korporacyjnej do zarządzania projektami — z otwartym kodem źródłowym i otwartym umysłem.
           link_quote: "Uzyskaj wycenę"
+          more_info: "More information"
           text: >
             Wersja OpenProject Enterprise opiera się na wersji społecznościowej. Zawiera funkcje premium i profesjonalne wsparcie skierowane głównie do organizacji z ponad 10 użytkownikami, które zarządzają projektami o znaczeniu krytycznym dla biznesu za pomocą OpenProject.
           unlimited: "Bez ograniczeń"
@@ -268,8 +269,7 @@ pl:
           one: "Pierwsze kryterium sortowania"
           two: "Drugie kryterium sortowania"
           three: "Trzecie kryterium sortowania"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Wersja Enterprise.'
     general_text_no: "nie"
     general_text_yes: "tak"
@@ -369,6 +369,7 @@ pl:
     label_in_more_than: "w ponad"
     label_incoming_emails: "Przychodzące e-maile"
     label_information_plural: "Informacje"
+    label_invalid: "Invalid"
     label_import: "Importuj"
     label_latest_activity: "Ostatnia aktywność"
     label_last_updated_on: "Ostatnia aktualizacja"
@@ -667,14 +668,7 @@ pl:
         projects: "Projekty"
         settings: "Ustawienia"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Zadanie'
       work_package_required: 'Wymaga wybrania najpierw pakietu roboczego.'
-      activity: 'Działanie'
-      comment: 'Komentarz'
-      duration: 'Czas trwania'
-      spent_on: 'Data'
-      hours: 'Godziny'
       title: 'Rejestruj czas pracy'
     two_factor_authentication:
       label_two_factor_authentication: 'Uwierzytelnianie dwuskładnikowe'
@@ -1003,7 +997,6 @@ pl:
           attribute_highlighting: 'Czy określone pakiety robocze trzeba wyróżnić?'
           relation_columns: 'Chcesz zobaczyć relacje w tej liście pakietów roboczych?'
           check_out_link: 'Sprawdź wersję Enterprise.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtruj pakiety robocze według typu relacji'
       tabs:
@@ -1100,6 +1093,10 @@ pl:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Włącz tryb zen'
       button_deactivate: 'Wyłącz tryb zen'
@@ -1196,6 +1193,7 @@ pl:
         include_all_selected: 'Opcja Uwzględnij wszystkie podprojekty jest obecnie zaznaczona.'
         current_project: 'To jest bieżący projekt, w którym jesteś.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Formularz został przesłany'
       load_error_message: 'Podczas ładowania formularza wystąpił błąd'

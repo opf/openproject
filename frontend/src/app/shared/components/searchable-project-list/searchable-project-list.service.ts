@@ -17,6 +17,7 @@ import {
   projectListItemDisabled,
   projectListRootSelector,
 } from 'core-app/shared/components/project-list/project-list.component';
+import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
 
 @Injectable()
 export class SearchableProjectListService {
@@ -114,6 +115,10 @@ export class SearchableProjectListService {
     // eslint-disable-next-line no-constant-condition
     while (true) {
       if (!container || container.matches(projectListRootSelector)) {
+        // Move to the input when we reach the top of the list
+        if (upwards) {
+          return this.findInputElement();
+        }
         return null;
       }
 
@@ -141,15 +146,41 @@ export class SearchableProjectListService {
   }
 
   onKeydown(event:KeyboardEvent):void {
+    const inputElement = this.findInputElement();
+
     switch (event.keyCode) {
+      case event.shiftKey && KeyCodes.TAB:
       case KeyCodes.UP_ARROW:
+        event.preventDefault();
         this.handleKeyNavigation(true);
         break;
+      case KeyCodes.TAB:
       case KeyCodes.DOWN_ARROW:
+        event.preventDefault();
         this.handleKeyNavigation(false);
         break;
+      case KeyCodes.SPACE:
+        if (inputElement && event.target !== inputElement) {
+          event.preventDefault();
+        }
+        break;
+      case KeyCodes.SHIFT:
+      case KeyCodes.ENTER:
+        break;
       default:
+        if (inputElement && event.target !== inputElement) {
+          inputElement.focus();
+        }
         break;
     }
+  }
+
+  findInputElement():HTMLElement|undefined {
+    const focusCatcherContainer = document.querySelectorAll("[data-list-focus-catcher-container='true']")[0];
+    if (focusCatcherContainer) {
+      return (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement);
+    }
+
+    return undefined;
   }
 }

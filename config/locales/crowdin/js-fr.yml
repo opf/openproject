@@ -236,6 +236,7 @@ fr:
           confidence: >
             Nous fournissons la confiance d'un logiciel de gestion de projet de classe entreprise testé et supporté - en Open Source et un avec esprit ouvert.
           link_quote: "Obtenir un devis"
+          more_info: "More information"
           text: >
             L'Entreprise Edition d'OpenProject s'appuie sur la Community Edition. Elle comprend des fonctionnalités premium et un support professionnel principalement destiné aux organisations comptant plus de 10 utilisateurs gérant des projets critiques avec OpenProject.
           unlimited: "Illimité"
@@ -268,8 +269,7 @@ fr:
           one: "Premier critère de tri"
           two: "Second critère de tri"
           three: "Troisième critère de tri"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "non"
     general_text_yes: "oui"
@@ -369,6 +369,7 @@ fr:
     label_in_more_than: "dans plus de"
     label_incoming_emails: "Courriels entrants"
     label_information_plural: "Information"
+    label_invalid: "Invalid"
     label_import: "Importer"
     label_latest_activity: "Dernière activité"
     label_last_updated_on: "Dernière modification le"
@@ -665,14 +666,7 @@ fr:
         projects: "Projets"
         settings: "Paramètres"
     time_entry:
-      project: 'Projet'
-      work_package: 'Lot de travaux'
       work_package_required: 'Nécessite d''abord la sélection d''un lot de travaux.'
-      activity: 'Activité'
-      comment: 'Commentaire'
-      duration: 'Durée'
-      spent_on: 'date'
-      hours: 'Heures'
       title: 'Consigner temps'
     two_factor_authentication:
       label_two_factor_authentication: 'Authentification à deux facteurs'
@@ -1001,7 +995,6 @@ fr:
           attribute_highlighting: 'Vous avez besoin de lots de travaux qui sortent du lot ?'
           relation_columns: 'Besoin de voir les relations sur la liste des lots de travaux ?'
           check_out_link: 'Découvrez l’édition entreprise.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrer les lots de travaux par type de relation'
       tabs:
@@ -1094,6 +1087,10 @@ fr:
         one: "1h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Activer le mode zen'
       button_deactivate: 'Désactiver le mode zen'
@@ -1185,11 +1182,12 @@ fr:
         all: 'Tous les projets'
         selected: 'Uniquement la sélection'
       search_placeholder: 'Rechercher un projet...'
-      include_subprojects: 'inclure tous les sous-projets'
+      include_subprojects: 'Inclure tous les sous-projets'
       tooltip:
         include_all_selected: 'Inclure tous les sous-projets est actuellement sélectionné.'
         current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Le formulaire a bien été envoyé'
       load_error_message: 'Une erreur s''est produite lors du chargement du formulaire'

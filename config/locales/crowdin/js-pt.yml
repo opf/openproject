@@ -235,6 +235,7 @@ pt:
           confidence: >
             Fornecemos toda a segurança de um software de gestão de projetos de classe empresarial, testado e com suporte - com código aberto e mente aberta.
           link_quote: "Solicitar uma cotação"
+          more_info: "More information"
           text: >
             O OpenProject Enterprise Edition foi construído a partir do Community Edition. Ele conta com recursos premium e suporte profissional, com foco principal em organizações com mais de 10 usuários que gerenciam projetos de negócios críticos com o OpenProject.
           unlimited: "Ilimitado"
@@ -267,8 +268,7 @@ pt:
           one: "Primeiro critério de ordenação"
           two: "Segundo critério de ordenação"
           three: "Terceiro critério de ordenação"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "Mais informações"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "não"
     general_text_yes: "sim"
@@ -368,6 +368,7 @@ pt:
     label_in_more_than: "em mais de"
     label_incoming_emails: "E-mails recebidos"
     label_information_plural: "Informação"
+    label_invalid: "Invalid"
     label_import: "Importar"
     label_latest_activity: "Última atividade"
     label_last_updated_on: "Última atualização em"
@@ -664,14 +665,7 @@ pt:
         projects: "Projetos"
         settings: "Configurações"
     time_entry:
-      project: 'Projeto'
-      work_package: 'Pacote de trabalho'
       work_package_required: 'É necessário selecionar primeiro um pacote de trabalho.'
-      activity: 'Atividade'
-      comment: 'Comentário'
-      duration: 'Duração'
-      spent_on: 'Data'
-      hours: 'Horas'
       title: 'Registro de tempo'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticação de dois fatores'
@@ -1000,7 +994,6 @@ pt:
           attribute_highlighting: 'Precisa de certos pacotes de trabalho para se destacar da massa?'
           relation_columns: 'Precisa ver as relações na lista de pacotes de trabalho?'
           check_out_link: 'Confira a versão Enterprise Edition.'
-          more-info-text: 'Mais informações'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrar pacotes de trabalho por tipo de relação'
       tabs:
@@ -1093,6 +1086,10 @@ pt:
         one: "1 h"
         other: "%{count} hs"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Ativar modo zen'
       button_deactivate: 'Desativar modo zen'
@@ -1189,6 +1186,7 @@ pt:
         include_all_selected: 'Incluir todos os subprojetos está selecionado no momento.'
         current_project: 'Este é o projeto atual em que você está.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'O formulário foi enviado com sucesso'
       load_error_message: 'Ocorreu um erro ao carregar o formulário'

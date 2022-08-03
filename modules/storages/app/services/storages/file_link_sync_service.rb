@@ -142,15 +142,19 @@ class Storages::FileLinkSyncService
   # "24" => { "status" => "Forbidden", "statuscode" => 403 }
   # In case of completely deleted file or other errors we might also get:
   # "24" = { "status" => "Not Found", "statuscode" => 404 }
+  # rubocop:disable Metrics/AbcSize
   def sync_single_file(file_link, origin_file_info_hash)
     file_link.origin_mime_type = origin_file_info_hash["mimetype"]
     file_link.origin_created_by_name = origin_file_info_hash["owner_name"]
+    file_link.origin_last_modified_by_name = origin_file_info_hash["modifier_name"]
     file_link.origin_name = origin_file_info_hash["name"]
     file_link.origin_created_at = Time.zone.at(origin_file_info_hash["ctime"])
     file_link.origin_updated_at = Time.zone.at(origin_file_info_hash["mtime"])
 
     file_link
   end
+
+  # rubocop:enable Metrics/AbcSize
 
   def set_error_for_file_links(storage_file_links)
     @service_result.result += storage_file_links.each { |file_link| file_link.origin_permission = :error }

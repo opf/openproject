@@ -901,6 +901,52 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
     # rubocop:enable RSpec/ExampleLength
   end
 
+  describe 'rescheduling work packages with a parent having a follows relation (Regression #43220)' do
+    let(:predecessor_work_package_attributes) do
+      work_package_attributes.merge(
+        start_date: Time.zone.today + 1.day,
+        due_date: Time.zone.today + 3.days
+      )
+    end
+
+    let!(:predecessor_work_package) do
+      create(:work_package, predecessor_work_package_attributes).tap do |wp|
+        create(:follows_relation, from: parent_work_package, to: wp)
+      end
+    end
+
+    let(:parent_work_package) do
+      create(:work_package, work_package_attributes)
+    end
+
+    let(:expected_parent_dates) do
+      {
+        start_date: Time.zone.today + 4.days,
+        due_date: Time.zone.today + 4.days
+      }
+    end
+
+    let(:expected_child_dates) do
+      {
+        start_date: Time.zone.today + 4.days,
+        due_date: nil
+      }
+    end
+
+    let(:attributes) { { parent: parent_work_package } }
+
+    it 'sets the parent and child dates correctly' do
+      expect(subject)
+        .to be_success
+
+      expect(parent_work_package.reload.slice(:start_date, :due_date).symbolize_keys)
+        .to eq(expected_parent_dates)
+
+      expect(work_package.reload.slice(:start_date, :due_date).symbolize_keys)
+        .to eq(expected_child_dates)
+    end
+  end
+
   describe 'changing the parent' do
     let(:former_parent_attributes) do
       {

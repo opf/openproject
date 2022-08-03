@@ -77,7 +77,6 @@ ro:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -96,7 +95,7 @@ ro:
     add_new: 'Adăugați text de ajutor'
     edit: "Editați textul de ajutor pentru %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: În acest moment nu există moduri de autentificare.
@@ -306,7 +305,7 @@ ro:
       settings: "Setări"
       form_configuration: "Configurarea formularului"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Proiecte"
       enabled_projects: "Proiecte activate"
       edit_query: "Editează tabelul"
@@ -610,6 +609,8 @@ ro:
         unknown_property: "nu este o proprietate cunoscută."
         unknown_property_nested: "are calea necunoscută '%{path}'."
         unremovable: "nu poate fi îndepărtată."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "nu are lungimea corectă (ar trebui să fie de %{count} characters)."
       models:
         attachment:
@@ -641,7 +642,7 @@ ro:
               fragment_present: 'nu poate conține un fragment.'
               invalid_uri: 'trebuie să fie un URI valid.'
               relative_uri: 'trebuie să fie un URI absolut.'
-              secured_uri: 'trebuie să fie un URI HTTPS/SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'este interzisă de către server.'
             scopes:
               not_match_configured: "nu se potrivește cu domeniile de aplicare disponibile."
@@ -1385,7 +1386,7 @@ ro:
       no_results:
         title: "Nu există tichete de acces de afișat"
         description: "Toate au fost dezactivate. Pot fi reactivate în meniul de administrare."
-      access_token: "Tichet de acces"
+      access_tokens: "Access tokens"
       headers:
         action: "Acțiune"
         expiration: "Expirare"
@@ -2213,13 +2214,14 @@ ro:
   permission_edit_own_time_entries: "Editare jurnale de timp proprii"
   permission_edit_project: "Editare proiect"
   permission_edit_reportings: "Editare raportări"
-  permission_edit_time_entries: "Editare jurnale de timp"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Editare linii de timp"
   permission_edit_wiki_pages: "Editare pagini wiki"
   permission_export_work_packages: "Export pachete de lucru"
   permission_export_wiki_pages: "Export pagini wiki"
   permission_list_attachments: "Listare atașamente"
-  permission_log_time: "Înregistrare timp consumat"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Gestionare forumuri"
   permission_manage_categories: "Gestionare categorii de pachete de lucru"
   permission_manage_work_package_relations: "Gestionare relații pachete de lucru"
@@ -2377,7 +2379,9 @@ ro:
     storage:
       not_available: "Consumul de spațiu de stocare nu este disponibil pentru acest repo."
       update_timeout: "Păstraţi informaţia referitoare la spaţiul de stocare necesar pentru un repo timp de N minute. \nDeoarece măsurarea spațiului necesar pentru un repo poate fi costisitoare, creșteți această valoare pentru a reduce impactul în performanță."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Repo Subversion existent"
       existing_introduction: "Dacă aveţi deja un repo de Subversion, puteți să-l conectați cu OpenProject pentru a-l accesa din aplicație."
@@ -2470,7 +2474,7 @@ ro:
   setting_work_package_list_default_columns: "Afișate implicit"
   setting_work_package_properties: "Proprietăți pachet de lucru"
   setting_work_package_startdate_is_adddate: "Folosire data curentă ca dată de început pentru pachetele de lucru noi"
-  setting_work_packages_export_limit: "Limita de export pentru pachetele de lucru"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Auditare utilizator, nume și adresă de email pentru toate cererile"
   setting_login_required: "Autentificare obligatorie"
@@ -2583,6 +2587,12 @@ ro:
     Când utilizați câmpuri personalizate: Rețineți că fiecare câmp personalizat trebuie activat individual în cadrul fiecărui proiect.
   text_custom_field_hint_activate_per_project_and_type: >
     Câmpurile personalizate trebuie să fie activate pentru fiecare pachet de lucru și pentru fiecare proiect.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Este recomandată utilizarea unui logo cu fundal transparent. Pentru a obține rezultate satisfăcătoare pe afișajele convenționale dar și pe cele de tipe retina, asigurați-vă că dimensiunea imaginii este de 460px pe 110px.
   text_custom_favicon_instructions: >

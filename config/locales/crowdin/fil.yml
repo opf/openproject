@@ -77,7 +77,6 @@ fil:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -96,7 +95,7 @@ fil:
     add_new: 'Magdagdag ng tulong na teksto'
     edit: "I-edit na tulong na teksto para sa %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Sa kasalukuyan ay walang mga authentication mode.
@@ -306,7 +305,7 @@ fil:
       settings: "Mga setting"
       form_configuration: "Form kompigurasyon"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Mga proyekto"
       enabled_projects: "Paganahin ang mga proyekto"
       edit_query: "Edit table"
@@ -609,6 +608,8 @@ fil:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "ay ang maling haba (dapat ay %{count} ang mga karakter)."
       models:
         attachment:
@@ -640,7 +641,7 @@ fil:
               fragment_present: 'cannot contain a fragment.'
               invalid_uri: 'must be a valid URI.'
               relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'is forbidden by the server.'
             scopes:
               not_match_configured: "doesn't match available scopes."
@@ -1368,7 +1369,7 @@ fil:
       no_results:
         title: "Walang access token upang ipakita"
         description: "Lahat sila ay hindi na pinagana. Maaari silang paganahin muli sa pagpilian ng tagapangasiwa."
-      access_token: "I-access ang token"
+      access_tokens: "Access tokens"
       headers:
         action: "Aksyon"
         expiration: "Natapos"
@@ -2195,13 +2196,14 @@ fil:
   permission_edit_own_time_entries: "I-edit ang mga log ng oras"
   permission_edit_project: "I-edit ang proyekto"
   permission_edit_reportings: "I- edit ang mga ulat"
-  permission_edit_time_entries: "I-edit ang mga log ng oras"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "I-edit ang mga timeline"
   permission_edit_wiki_pages: "I-edit ang mga work package"
   permission_export_work_packages: "I-export ang mga work package"
   permission_export_wiki_pages: "I-edit ang mga work package"
   permission_list_attachments: "Listahan ng paglalakip"
-  permission_log_time: "Big"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Pamahalain ang mga forum"
   permission_manage_categories: "Pamahalain ang mga kategorya ng work package"
   permission_manage_work_package_relations: "Nauugnay na pamahalin ang work package"
@@ -2357,7 +2359,9 @@ fil:
     storage:
       not_available: "Ang konsumo ng disk storage ay hindi available para sa ganitong repository."
       update_timeout: "Panatilihin ang huling kailangang espasyo disk impormasyon para sa repositoryo ng N minuto.\nBilang pagbibilang ang kailangang espasyo ng disk ng repositoryo ay maaring gastos, palakihin ang hakaga na ito upang mabawasan ang epekto ng pagganap."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Umiiral na subversion respository"
       existing_introduction: "Kung mayroon kang umiiral na Subversion repository, pwedi mo itong ma-link sa OpenProject para ma access ang mga ito mula sa loob ng application."
@@ -2450,7 +2454,7 @@ fil:
   setting_work_package_list_default_columns: "Ipakiita sa pamamagitan ng default"
   setting_work_package_properties: "Ang mga property ng work package"
   setting_work_package_startdate_is_adddate: "Gamitin ang kasulukuyang petsa bilang pagsisimula ng petsa para sa mga bagong work package"
-  setting_work_packages_export_limit: "Limitasyon ng pag-export ng work package"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Log user login, pangalan at mga mail address para sa lahat na hiling"
   setting_login_required: "Kailangan ng pagpapatunay"
@@ -2563,6 +2567,12 @@ fil:
     Kung gagamit ng mga custom na patlang. Laging isaisip na ang mga custom na patlang ay kailangan dapat aktibo bawat proyekto, din.
   text_custom_field_hint_activate_per_project_and_type: >
     Ang mga custom na patlang ay kailangan dapat aktibo sa bawat uri ng work package at bawat proyekto.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Ang puting logo sa transparent background ay inirerekomend. Para sa pinakamahusay na result sa dalawang, conventional at mga displey na retina, siguraduhjn ang iyong dimensyon ng larawan ay 460px by 60px.
   text_custom_favicon_instructions: >

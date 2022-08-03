@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe 'Admin storages', :storage_server_helpers, with_flag: { storages_module_active: true }, type: :feature, js: true do
+describe 'Admin storages', :storage_server_helpers, type: :feature, js: true do
   let(:admin) { create(:admin) }
 
   before do
@@ -48,17 +48,18 @@ describe 'Admin storages', :storage_server_helpers, with_flag: { storages_module
     expect(page).to have_title('New storage')
     expect(page.find('.title-container')).to have_text('New storage')
     expect(page).to have_select 'storages_storage[provider_type]', selected: 'Nextcloud', disabled: true
-    expect(page).to have_field('storages_storage[name]', with: 'Nextcloud')
+    expect(page).to have_field('storages_storage[name]', with: 'My Nextcloud')
 
     # Test the happy path for a valid storage server (host).
     # Mock a valid response (=200) for example.com, so the host validation should succeed
     mock_server_capabilities_response("https://example.com")
+    mock_server_host_response("https://example.com")
     page.find('#storages_storage_name').set("NC 1")
     page.find('#storages_storage_host').set("https://example.com")
-    page.find('button[type=submit]', text: "Continue").click
+    page.find('button[type=submit]', text: "Save and continue setup").click
 
     # Show created oauth application
-    storage_type = I18n.t('storages.provider_types.nextcloud')
+    storage_type = I18n.t('storages.provider_types.nextcloud.name')
     expect(page).to have_title("#{storage_type} #{I18n.t('storages.label_oauth_application_details')}")
     oauth_app_client_id = page.find('#client_id').value
     expect(oauth_app_client_id.length).to eq 43

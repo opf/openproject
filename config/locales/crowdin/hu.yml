@@ -77,7 +77,6 @@ hu:
       buttons:
         upgrade: "Frissítés most"
         contact: "Keressen fel minket a próbaverzióért"
-        more_info: "More information"
       enterprise_info_html: "egy Enterprise <strong class='icon-medal'></strong> funkció."
       upgrade_info: "Kérjük, válasszon egy fizetős csomagot az aktiváláshoz, hogy mihamarabb használhassa a csapatában."
     journal_aggregation:
@@ -96,7 +95,7 @@ hu:
     add_new: 'Súgószöveg hozzáadása'
     edit: "Súgószöveg \"%{attribute_caption}\" szerkesztése"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Jelenleg nincs autentikációs mód.
@@ -306,7 +305,7 @@ hu:
       settings: "Beállítások"
       form_configuration: "Űrlap konfiguráció"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projektek"
       enabled_projects: "Engedélyezett projektek"
       edit_query: "Táblázat szerkesztése"
@@ -608,6 +607,8 @@ hu:
         unknown_property: "nem ismert tulajdonság.\n"
         unknown_property_nested: "ismeretlen '%{path}' elérési útvonal."
         unremovable: "nem törölhető."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "nem megfelelő hosszúságú (%{count} karakter szükséges)."
       models:
         attachment:
@@ -639,7 +640,7 @@ hu:
               fragment_present: 'nem tartalmazhat töredéket.'
               invalid_uri: 'érvényes URI-nak kell lennie.'
               relative_uri: 'abszolút URI-nak kell lennie.'
-              secured_uri: 'HTTPS/SSL URI-nak kell lennie.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'A szerver tiltja a hozzáférést'
             scopes:
               not_match_configured: "nem egyezik a rendelkezésre álló hatókörökkel.\n"
@@ -1371,7 +1372,7 @@ hu:
       no_results:
         title: "Nincs megjeleníthető fiók"
         description: "Mindenki le lett tiltva. Újra engedélyezhetők az adminisztrációs menüben."
-      access_token: "Hozzáférési token"
+      access_tokens: "Access tokens"
       headers:
         action: "Művelet"
         expiration: "Lejár"
@@ -2197,13 +2198,14 @@ hu:
   permission_edit_own_time_entries: "Rögzített eltöltött időim szerkesztése"
   permission_edit_project: "Projekt szerkesztése"
   permission_edit_reportings: "Jelentések szerkesztése"
-  permission_edit_time_entries: "Eltöltött idők szerkesztése"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Idővonalak szerkesztése"
   permission_edit_wiki_pages: "Wiki lapok szerkesztése"
   permission_export_work_packages: "feladatcsoportok exportálása"
   permission_export_wiki_pages: "Wiki oldalak exportálása"
   permission_list_attachments: "Mellékletek listája"
-  permission_log_time: "Eltöltött idő rögzítése"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Fórum kezelése"
   permission_manage_categories: "feladatcsoport kategóriák kezelése"
   permission_manage_work_package_relations: "feladatcsoport kapcsolatok kezelése"
@@ -2361,7 +2363,9 @@ hu:
     storage:
       not_available: "A lemez felhasználási adatai nem érhetőek el a tárolón."
       update_timeout: "Tartsa meg az utolsó szükséges lemezterület-információt egy tárolóhoz N percig. Mivel egy tároló szükséges lemezterületének kiszámítása erőforrás igényes lehet, növelje ezt az értéket a teljesítmény növelésének érdekében."
-      oauth_application_details: "Please copy this values into the Nextcloud OpenProject Integration settings. The client secret value will not be accessible again after you close this window."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Meglévő Subversion tároló"
       existing_introduction: "Ha rendelkezik meglévő Subversion tárolóval, akkor az OpenProject segítségével kapcsolódhat hozzá az alkalmazáson belül."
@@ -2456,7 +2460,7 @@ hu:
   setting_work_package_list_default_columns: "Alapértelmezés megjelenítése"
   setting_work_package_properties: "feladatcsoport tulajdonságok"
   setting_work_package_startdate_is_adddate: "Az aktuális dátum használata, mint kezdő dátuma az új feladatcsoportoknak"
-  setting_work_packages_export_limit: "A feladatcsoportok exportjának a korlátozása"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "Felhasználói műveletek összevontan\n"
   setting_log_requesting_user: "Jelentkezzen be a felhasználóként, név és e-mail cím minden lekéréshez"
   setting_login_required: "Hitelesítés szükséges"
@@ -2572,6 +2576,12 @@ hu:
     Egyéni mezők használatakor: tartsa szem előtt, hogy az egyéni mezőket minden projektben külön aktiválni kell.
   text_custom_field_hint_activate_per_project_and_type: >
     Az egyéni mezőket feladatcsoport típusonként és projektenként egyenként aktiválni kell.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Egy fehér logo átlátszó háttérrel ajánlott. A legjobb eredmény érdekében mint átlagos és retina kijelzőkön is biztosítsa, hogy a kép mérete 460px x 60px-es legyen.
   text_custom_favicon_instructions: >
