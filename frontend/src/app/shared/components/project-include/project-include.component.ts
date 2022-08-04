@@ -214,7 +214,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     this.projects$
       .pipe(this.untilDestroyed())
       .subscribe((projects) => {
-        this.searchableProjectListService.resetActiveResult(projects[0]?.id); 
+        this.searchableProjectListService.resetActiveResult(projects[0]?.id);
       });
   }
 

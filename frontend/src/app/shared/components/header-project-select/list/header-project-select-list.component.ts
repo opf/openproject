@@ -56,7 +56,6 @@ export class OpHeaderProjectSelectListComponent {
       return url;
     }
 
-    return  url + `?jump=${encodeURIComponent(currentMenuItem.content)}`;
+    return `${url}?jump=${encodeURIComponent(currentMenuItem.content)}`;
   }
-
 }

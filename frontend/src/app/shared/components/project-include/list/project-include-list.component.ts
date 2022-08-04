@@ -104,7 +104,6 @@ export class OpProjectIncludeListComponent {
     }
 
     return SpotDropAlignmentOption.BottomLeft;
-
   }
 
   extendedProjectUrl(projectId:string):string {
@@ -115,10 +114,6 @@ export class OpProjectIncludeListComponent {
       return url;
     }
 
-    return  url + `?jump=${encodeURIComponent(currentMenuItem.content)}`;
-  }
-
-  public isActive(_:IProjectData) {
-    return true;
+    return `${url}?jump=${encodeURIComponent(currentMenuItem.content)}`;
   }
 }

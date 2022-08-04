@@ -145,7 +145,7 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     this.projects$
       .pipe(this.untilDestroyed())
       .subscribe((projects) => {
-        this.searchableProjectListService.resetActiveResult(projects[0]?.id); 
+        this.searchableProjectListService.resetActiveResult(projects[0]?.id);
       });
   }
 

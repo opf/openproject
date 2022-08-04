@@ -97,24 +97,26 @@ export class SearchableProjectListService {
             event.preventDefault();
             this.activateSelectedResult(event);
             break;
+          default:
+            break;
         }
       });
   }
 
-  public resetActiveResult(id:ID) {
+  public resetActiveResult(id:ID):void {
     this.activeItemID$.next(id);
   }
 
-  private selectPreviousResult(id:ID, projects:IProjectData[]) {
+  private selectPreviousResult(id:ID, allProjects:IProjectData[]):void {
     const findLastChild = (project:IProjectData):IProjectData => {
       if (project?.children?.length) {
         return findLastChild(project.children[project.children.length - 1]);
       }
-      
+
       return project;
     };
 
-    const findPreviousID = (projects:IProjectData[], parent?:IProjectData):ID|null => { 
+    const findPreviousID = (projects:IProjectData[], parent?:IProjectData):ID|null => {
       for (let i = 0; i < projects.length; i++) {
         if (projects[i].id === id) {
           const previous = findLastChild(projects[i - 1]) || projects[i - 1] || parent;
@@ -130,12 +132,12 @@ export class SearchableProjectListService {
       return null;
     };
 
-    const foundPreviousID = findPreviousID(projects);
-    this.activeItemID$.next(foundPreviousID || projects[0]?.id || 0); 
+    const foundPreviousID = findPreviousID(allProjects);
+    this.activeItemID$.next(foundPreviousID || allProjects[0]?.id || 0);
   }
 
-  private selectNextResult(id:ID, projects:IProjectData[]) {
-    const findNextID = (projects:IProjectData[], nextParent?:IProjectData):ID|null => { 
+  private selectNextResult(id:ID, allProjects:IProjectData[]):void {
+    const findNextID = (projects:IProjectData[], nextParent?:IProjectData):ID|null => {
       for (let i = 0; i < projects.length; i++) {
         if (projects[i].id === id) {
           const next = projects[i].children[0] || projects[i + 1] || nextParent;
@@ -149,19 +151,19 @@ export class SearchableProjectListService {
       }
 
       return null;
-    }
+    };
 
-    const foundNextID = findNextID(projects);
-    this.activeItemID$.next(foundNextID || projects[0]?.id || 0); 
+    const foundNextID = findNextID(allProjects);
+    this.activeItemID$.next(foundNextID || allProjects[0]?.id || 0);
   }
 
-  private activateSelectedResult(event:KeyboardEvent) {
+  private activateSelectedResult(event:KeyboardEvent):void {
     const findSearchableListParent = (el:HTMLElement|null):HTMLElement|null => {
       if (!el) {
         return null;
       }
 
-      if ("searchableListParent" in el.dataset) {
+      if ('searchableListParent' in el.dataset) {
         return el;
       }
 
