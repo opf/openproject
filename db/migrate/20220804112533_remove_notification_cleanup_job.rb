@@ -26,26 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Notifications
-  class CleanupJob < ::Cron::CronJob
-    DEFAULT_RETENTION ||= 30
+class RemoveNotificationCleanupJob < ActiveRecord::Migration[7.0]
+  def up
+    # Remove the cron job no longer desired.
+    # The code itself is removed but keeping it in the database would lead to UninitializedConstant errors.
+    Delayed::Job
+      .where('handler LIKE ?', "%job_class: Notifications::CleanupJob%")
+      .delete_all
 
-    # runs at 2:22 nightly
-    self.cron_expression = '22 2 * * *'
-
-    def perform
-      Notification
-        .where('updated_at < ?', oldest_notification_retention_time)
-        .delete_all
-    end
-
-    private
-
-    def oldest_notification_retention_time
-      days_ago = Setting.notification_retention_period_days.to_i
-      days_ago = DEFAULT_RETENTION if days_ago <= 0
-
-      Time.zone.today - days_ago.days
-    end
+    Setting
+      .where(name: 'notification_retention_period_days')
+      .delete_all
   end
 end
