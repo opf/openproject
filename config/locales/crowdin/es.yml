@@ -95,7 +95,7 @@ es:
     add_new: 'Agregar texto de ayuda'
     edit: "Editar texto de ayuda para %{attribute_caption}"
     enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+      description: 'Proporcione información adicional para atributos (incl. campos personalizados) de los paquetes de trabajo y proyectos. Los textos de ayuda se muestran cuando los usuarios hacen clic en el símbolo de signo de interrogación junto a los campos correspondientes en proyectos y paquetes de trabajo.'
   auth_sources:
     index:
       no_results_content_title: Actualmente no hay modos de autenticación.
@@ -302,7 +302,7 @@ es:
       settings: "Configuración"
       form_configuration: "Configuración del formulario"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        La edición Enterprise te permite personalizar el formulario de configuración con estas funcionalidades adicionales: <br><ul class="%{list_styling_class}"><li><b>Añade nuevos grupos de atributo</b></li> <li><b>Renombra grupos de atributo</b></li> <li><b>Añada tablas de paquetes de trabajo relacionados</b></li> </ul>
       projects: "Proyectos"
       enabled_projects: "Proyectos habilitados"
       edit_query: "Editar tabla"
@@ -2566,11 +2566,11 @@ es:
   text_custom_field_hint_activate_per_project_and_type: >
     Los campos personalizados se deben activar en cada tipo de paquete de trabajo y en cada proyecto por separado.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    La edición Enterprise añadirá estas funcionalidades adicionales para los atributos personalizados de los paquetes de trabajo: <br> <ul> <li><b>Permitir la selección múltiple de atributos personalizados de tipo Lista o Usuario</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    La edición Enterprise añadirá estas funcionalidades adicionales para los campos de estado de los paquetes de trabajo: <br> <ul> <li><b>Permitir marcar como solo lectura los paquetes de trabajo en estados específicos</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    La edición Enterprise añadirá estas funcionalidades adicionales para los atributos personalizados de los proyectos: <br> <ul> <li><b>Añadir atributos personalizados para proyectos a tu lista de proyectos para crear una vista porfolio de proyectos</b></li> </ul>
   text_custom_logo_instructions: >
     Se recomienda usar un logotipo blanco sobre un fondo transparente. Para obtener los mejores resultados, tanto en pantallas convencionales como en las del tipo Retina, asegúrese de que las dimensiones de la imagen sean de 460 × 60 px.
   text_custom_favicon_instructions: >

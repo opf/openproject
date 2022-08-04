@@ -236,7 +236,7 @@ es:
           confidence: >
             Ofrecemos la confianza de un software de gestión de proyectos de categoría empresarial probado y con asistencia: de código abierto y mente abierta.
           link_quote: "Solicitar presupuesto"
-          more_info: "More information"
+          more_info: "Más información"
           text: >
             OpenProject edición Enterprise se basa en la edición de la comunidad (edición Community). Incluye características premium y asistencia profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
           unlimited: "Ilimitado"
@@ -269,7 +269,7 @@ es:
           one: "Primer criterio de ordenación"
           two: "Segundo criterio de ordenación"
           three: "Tercer criterio de ordenación"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
+      upsale_for_more: "Los filtros avanzados te permiten también filtrar los nombres de los archivos y el contenido de los archivos adjuntos del paquete de trabajo. Por favor, actualice a un plan de pago para utilizar esta característica."
       upsale_link: 'Edición Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
@@ -369,7 +369,7 @@ es:
     label_in_more_than: "en más de"
     label_incoming_emails: "Correos electrónicos entrantes"
     label_information_plural: "Información"
-    label_invalid: "Invalid"
+    label_invalid: "Inválido"
     label_import: "Importar"
     label_latest_activity: "Actividad reciente"
     label_last_updated_on: "Ultima actualizacion realizada el"
@@ -1187,7 +1187,7 @@ es:
         include_all_selected: 'Está seleccionada la opción para incluir todos los subproyectos.'
         current_project: 'Este es el proyecto actual.'
         does_not_match_search: 'El proyecto no coincide con los criterios de búsqueda.'
-      no_results: 'No project matches your search criteria.'
+      no_results: 'Ningún producto coincide con tu criterio de búsqueda'
     forms:
       submit_success_message: 'El formulario se envió correctamente'
       load_error_message: 'Se produjo un error al cargar el formulario'
