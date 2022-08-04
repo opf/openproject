@@ -99,15 +99,15 @@ module Components
       end
 
       def autocompleter_item_selector
-        '[data-qa-selector="op-project-list--item"]'
+        '[data-qa-selector="op-header-project-select--item"]'
       end
 
       def autocompleter_item_title_selector
-        '[data-qa-selector="op-project-list--item-title"]'
+        '[data-qa-selector="op-header-project-select--item-title"]'
       end
 
       def autocompleter_item_disabled_title_selector
-        '[data-qa-selector="op-project-list--item-disabled-title"]'
+        '[data-qa-selector="op-header-project-select--item-disabled-title"]'
       end
 
       def autocompleter_results_selector
