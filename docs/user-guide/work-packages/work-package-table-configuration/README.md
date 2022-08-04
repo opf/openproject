@@ -110,6 +110,26 @@ There are several options to filter for the assignee of a work package. You can 
 
 ![assignee-or-assignee-group-filter](assignee-or-assignee-group-filter.png)
 
+### Advanced filters (premium feature)
+
+With the advanced filter you can run a full text search and filter and search not only headings and text contents but also file names or file contents of attached documents to work packages.
+
+Use the filter "Attachment content" or "Attachment file name" to filter attached documents in the work package table.
+
+![advanced-filter-work-package-table](advanced-filter-work-package-table.png)
+
+
+
+For both the file name and the content, you can then differentiate the filtering with the "includes" and "does not include" options for selected keywords and text passages. To do this, please enter the corresponding text in the field next to it. 
+
+
+
+![advanced-filter-options](advanced-filter-options.png)
+
+It will then display the corresponding work package with the attachment.
+
+![openproject-search-work-package-attachments](openproject-search-work-package-attachments.png)
+
 ## Sort the work package list
 
 ### Automatic sorting of the work package list
