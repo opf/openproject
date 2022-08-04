@@ -12,7 +12,6 @@
     flex-grow: 1
     flex-shrink: 1
     min-width: 0 // See: https://css-tricks.com/flexbox-truncated-text/
-    margin-left: 10px
 
   &_wrapped &--name
     white-space: normal
@@ -25,3 +24,6 @@
     @media screen and (max-width: 680px)
       &--name
         display: none
+
+  .op-avatar + .op-principal--name
+    margin-left: $spot-spacing-0_5
