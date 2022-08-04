@@ -27,19 +27,25 @@
       > *:first-child
         flex-shrink: 0
 
+      &:focus
+        @include spot-focus
+
       &_active,
       &:hover
         color: var(--content-link-hover-active-color)
         background-color: $spot-color-basic-gray-6
-
-      &:focus
-        @include spot-focus
+        text-decoration: none
 
       &_disabled
         &,
         &:hover
           color: $spot-color-basic-gray-3
+          background-color: transparent
           cursor: default
+
+      &_active#{&}_disabled
+        color: $spot-color-basic-gray-3
+        background-color: $spot-color-basic-gray-6
 
       &_link
         color: var(--content-link-color)

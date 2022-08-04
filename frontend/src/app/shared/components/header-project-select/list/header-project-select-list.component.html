@@ -23,7 +23,11 @@
   </a>
   <span
     *ngIf="project.disabled"
-    class="spot-list--item-action spot-list--item-action_disabled spot-list--item-action_disabled"
+    [title]="project.name"
+    class="spot-list--item-action spot-list--item-action_disabled"
+    [ngClass]="{
+      'spot-list--item-action_active': (searchableProjectListService.activeItemID$ | async) === project.id
+    }"
   >
     <span
       class="spot-list--item-title spot-list--item-title_ellipse-text"

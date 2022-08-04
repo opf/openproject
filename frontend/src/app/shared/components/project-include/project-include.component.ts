@@ -210,6 +210,12 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     readonly searchableProjectListService:SearchableProjectListService,
   ) {
     super();
+
+    this.projects$
+      .pipe(this.untilDestroyed())
+      .subscribe((projects) => {
+        this.searchableProjectListService.resetActiveResult(projects[0]?.id); 
+      });
   }
 
   public ngOnInit():void {

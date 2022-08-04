@@ -11,6 +11,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
 
 @Component({
   selector: '[op-project-include-list]',
@@ -37,8 +38,6 @@ export class OpProjectIncludeListComponent {
 
   @Input() parentChecked = false;
 
-  @Input() multiSelect = true;
-
   public get currentProjectHref():string|null {
     return this.currentProjectService.apiv3Path;
   }
@@ -53,6 +52,7 @@ export class OpProjectIncludeListComponent {
     readonly I18n:I18nService,
     readonly currentProjectService:CurrentProjectService,
     readonly pathHelper:PathHelperService,
+    readonly searchableProjectListService:SearchableProjectListService,
   ) { }
 
   public isDisabled(project:IProjectData):boolean {
@@ -67,7 +67,7 @@ export class OpProjectIncludeListComponent {
     return this.includeSubprojects && this.parentChecked;
   }
 
-  public updateSelected(selected:string[]):void {
+  public updateList(selected:string[]):void {
     this.update.emit(selected);
   }
 
@@ -85,16 +85,16 @@ export class OpProjectIncludeListComponent {
     }
 
     if (checked) {
-      this.updateSelected(this.selected.filter((selectedHref) => selectedHref !== href));
+      this.updateList(this.selected.filter((selectedHref) => selectedHref !== href));
     } else {
-      this.updateSelected([
+      this.updateList([
         ...this.selected,
         href,
       ]);
     }
   }
 
-  public getAlignment(project:IProjectData, isFirst:boolean, isLast:boolean):SpotDropAlignmentOption {
+  public getTooltipAlignment(project:IProjectData, isFirst:boolean, isLast:boolean):SpotDropAlignmentOption {
     if (!this.root || !isFirst) {
       return SpotDropAlignmentOption.TopLeft;
     }

@@ -3,6 +3,7 @@
   (closed)="close()"
   alignment="bottom-left"
   class="op-project-list-modal"
+  data-searchable-list-parent="true"
 >
   <button
     id="projects-menu"
@@ -36,7 +37,6 @@
         [(ngModel)]="searchableProjectListService.searchText"
         [ngModelOptions]="{standalone: true}"
         data-qa-selector="op-project-menu-autocomplete--search"
-        data-list-focus-catcher-container="true"
         data-modal-focus-catcher-container="true"
         (keydown)="searchableProjectListService.onKeydown($event, projects)"
       >

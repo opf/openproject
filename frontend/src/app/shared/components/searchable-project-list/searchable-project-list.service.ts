@@ -93,8 +93,9 @@ export class SearchableProjectListService {
             this.selectNextResult(activeID, projects);
             break;
           case KeyCodes.ENTER:
+            event.stopPropagation();
             event.preventDefault();
-            this.activateSelectedResult(activeID, projects);
+            this.activateSelectedResult(event);
             break;
         }
       });
@@ -105,10 +106,18 @@ export class SearchableProjectListService {
   }
 
   private selectPreviousResult(id:ID, projects:IProjectData[]) {
+    const findLastChild = (project:IProjectData):IProjectData => {
+      if (project?.children?.length) {
+        return findLastChild(project.children[project.children.length - 1]);
+      }
+      
+      return project;
+    };
+
     const findPreviousID = (projects:IProjectData[], parent?:IProjectData):ID|null => { 
       for (let i = 0; i < projects.length; i++) {
         if (projects[i].id === id) {
-          const previous = projects[i - 1] || parent;
+          const previous = findLastChild(projects[i - 1]) || projects[i - 1] || parent;
           return previous?.id || null;
         }
 
@@ -117,30 +126,51 @@ export class SearchableProjectListService {
           return previous;
         }
       }
-    }
+
+      return null;
+    };
 
     const foundPreviousID = findPreviousID(projects);
     this.activeItemID$.next(foundPreviousID || projects[0]?.id || 0); 
   }
 
   private selectNextResult(id:ID, projects:IProjectData[]) {
-    const findNextID = (projects:IProjectData[], previousParent?:IProjectData):ID|null => { 
-      for (let i = projects.length - 1; i >= 0; i--) {
+    const findNextID = (projects:IProjectData[], nextParent?:IProjectData):ID|null => { 
+      for (let i = 0; i < projects.length; i++) {
         if (projects[i].id === id) {
-          const next = projects[i + 1] || parent;
+          const next = projects[i].children[0] || projects[i + 1] || nextParent;
           return next?.id || null;
         }
 
-        const previous = findNextID(projects[i].children, projects[i]);
-        if (previous !== null) {
-          return previous;
+        const next = findNextID(projects[i].children, projects[i + 1] || nextParent);
+        if (next !== null) {
+          return next;
         }
       }
+
+      return null;
     }
 
     const foundNextID = findNextID(projects);
     this.activeItemID$.next(foundNextID || projects[0]?.id || 0); 
   }
-  private activateSelectedResult() {
+
+  private activateSelectedResult(event:KeyboardEvent) {
+    const findSearchableListParent = (el:HTMLElement|null):HTMLElement|null => {
+      if (!el) {
+        return null;
+      }
+
+      if ("searchableListParent" in el.dataset) {
+        return el;
+      }
+
+      return findSearchableListParent(el.parentElement);
+    };
+
+    const listParent = findSearchableListParent(event.currentTarget as HTMLElement);
+    const focused = document.activeElement;
+    (listParent?.querySelector('.spot-list--item-action_active') as HTMLElement)?.click();
+    (focused as HTMLElement)?.focus();
   }
 }

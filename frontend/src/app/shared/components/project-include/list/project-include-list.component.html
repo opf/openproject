@@ -5,20 +5,19 @@
   [attr.data-list-selector]="projectListItemIdentifier"
 >
   <label
-    *ngIf="multiSelect"
     tabindex="-1"
     class="spot-list--item-action op-project-include-list--item-action"
     (keydown.space)="changeSelected(project)"
     [ngClass]="{
       'spot-list--item-action_disabled': isDisabled(project),
-      'spot-list--item-action_active': isActive(project)
+      'spot-list--item-action_active': (searchableProjectListService.activeItemID$ | async) === project.id
     }"
     [attr.data-list-selector]="projectListActionIdentifier"
     [attr.data-list-disabled]="isDisabled(project) || undefined"
   >
     <spot-tooltip
       class="op-project-include-list--tooltip"
-      [alignment]="getAlignment(project, isFirst, isLast)"
+      [alignment]="getTooltipAlignment(project, isFirst, isLast)"
       [disabled]="!isDisabled(project)"
       [dark]="true"
     >
@@ -31,7 +30,7 @@
           [attr.data-qa-project-include-checked]="(isChecked(project.href) || (includeSubprojects && parentChecked))  ? 1 : 0"
         ></spot-checkbox>
         <div
-          class="spot-list--item-title op-project-include-list--item-title"
+          class="spot-list--item-title spot-list--item-title_ellipsis"
           data-qa-selector="op-project-include-list--item-title"
           [opSearchHighlight]="searchText"
           [title]="project.name"
@@ -49,32 +48,6 @@
     </spot-tooltip>
   </label>
 
-  <ng-container *ngIf="!multiSelect">
-    <a
-      *ngIf="!project.disabled"
-      class="spot-list--item-action op-project-include-list--item-action"
-      [ngClass]="{ 'spot-list--item-action_disabled': project.disabled }"
-      [title]="project.name"
-      [href]="extendedProjectUrl(project.id)"
-      [attr.data-list-selector]="projectListActionIdentifier"
-    >
-    <span
-      class="op-project-include-list--item-title spot-list--item-title"
-      data-qa-selector="op-project-include-list--item-title"
-      [opSearchHighlight]="searchText"
-    >{{ project.name }}</span>
-    </a>
-    <span
-      *ngIf="project.disabled"
-      class="spot-list--item-action spot-list--item-action_disabled spot-list--item-action_disabled"
-    >
-      <span
-        class="spot-list--item-title op-project-include-list--item-title"
-        data-qa-selector="op-project-include-list--item-disabled-title"
-      >{{ project.name }}</span>
-    </span>
-  </ng-container>
-
   <ul
     *ngIf="project.children.length"
     op-project-include-list
@@ -83,7 +56,6 @@
     [includeSubprojects]="includeSubprojects"
     [parentChecked]="parentChecked || isChecked(project.href)"
     [searchText]="searchText"
-    [multiSelect]="multiSelect"
     (update)="updateList($event)"
   ></ul>
 </li>
