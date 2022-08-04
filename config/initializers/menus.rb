@@ -299,7 +299,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :notification_settings,
             { controller: '/admin/settings/aggregation_settings', action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :'menus.admin.aggregation_and_retention',
+            caption: :'menus.admin.aggregation',
             parent: :mail_and_notifications
 
   menu.push :mail_notifications,
