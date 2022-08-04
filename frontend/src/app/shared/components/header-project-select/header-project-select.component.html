@@ -36,7 +36,7 @@
         [placeholder]="text.search_placeholder"
         [(ngModel)]="searchableProjectListService.searchText"
         [ngModelOptions]="{standalone: true}"
-        data-qa-selector="op-project-menu-autocomplete--search"
+        data-qa-selector="op-header-project-select--search"
         data-modal-focus-catcher-container="true"
         (keydown)="searchableProjectListService.onKeydown($event, projects)"
       >
