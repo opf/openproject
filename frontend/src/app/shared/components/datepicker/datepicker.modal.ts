@@ -110,6 +110,8 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
   dateChangedManually$ = new Subject<void>();
 
+  private debounceDelay = 0; // will change after initial render
+
   private changeset:ResourceChangeset;
 
   private datePickerInstance:DatePicker;
@@ -158,9 +160,12 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         //   2. So he/she starts entering the finish date 2022-07-1 .
         //   3. This is already a valid date. Since it is before the start date,the start date would be changed automatically to the first without the debounce.
         //   4. The debounce gives the user enough time to type the last number "9" before the changes are converted to the datepicker and the start date would be affected.
-        debounceTime(800),
+        // debounce delay is 0 for initial display, and then set to 800
+        debounceTime(this.debounceDelay),
       )
       .subscribe(() => {
+        // set debounce delay to its real value
+        this.debounceDelay = 800;
         // Always update the whole form to ensure that no values are lost/inconsistent
         if (this.singleDate) {
           this.updateDate('date', this.dates.date);
