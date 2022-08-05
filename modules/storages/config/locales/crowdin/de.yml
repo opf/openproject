@@ -35,12 +35,12 @@ de:
       too_many_elements_created_at_once: "Zu viele Elemente gleichzeitig erstellt. Maximal %{max} erwartet, %{actual} bekommen."
   storages:
     buttons:
-      done_continue_setup: "Done. Continue setup"
-      replace_openproject_oauth: "Replace OpenProject OAuth"
-      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
-      save_and_continue_setup: "Save and continue setup"
-      save_and_complete_setup: "Save and complete setup"
-      cancel: "Cancel"
+      done_continue_setup: "Fertig. Setup fortsetzen"
+      replace_openproject_oauth: "OpenProject OAuth ersetzen"
+      replace_provider_type_oauth: "Ersetze %{provider_type} OAuth"
+      save_and_continue_setup: "Speichern und Setup fortsetzen"
+      save_and_complete_setup: "Speichern und Setup abschließen"
+      cancel: "Abbrechen"
     page_titles:
       project_settings:
         index: "Dateispeicher in diesem Projekt verfügbar"
