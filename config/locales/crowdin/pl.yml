@@ -1391,7 +1391,7 @@ pl:
     admin:
       mail_notification: "Powiadomienia e-mail"
       mails_and_notifications: "Wiadomości e-mail i powiadomienia"
-      aggregation_and_retention: 'Agregacja i zatrzymanie'
+      aggregation: 'Aggregation'
       api_and_webhooks: "Interfejs API i webhooki"
     quick_add:
       label: "Otwórz menu szybkiego dodawania"
@@ -2475,7 +2475,6 @@ pl:
   setting_email_login: "Użyj adresu e-mail jako loginu"
   setting_enabled_scm: "Włączone SCM"
   setting_enabled_projects_columns: "Widoczny na liście projektów"
-  setting_notification_retention_period_days: "Okres przechowywania powiadomień"
   setting_feeds_enabled: "Włącz kanały"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksymalny rozmiar plików tekstowych wyświetlanych w treści"
@@ -2548,8 +2547,6 @@ pl:
       whitelist_text_html: >
         Zdefiniuj listę poprawnych rozszerzeń plików i/lub typów mime dla przesłanych plików. <br/> Wprowadź rozszerzenia plików (np. <code>%{ext_example}</code>) lub typy mime (np. <code>%{mime_example}</code>). <br/> Pozostaw puste, aby umożliwić przesłanie dowolnego typu pliku. Dozwolone wielokrotne wartości (jeden wiersz dla każdej wartości).
     notifications:
-      retention_text: >
-        Ustaw liczbę dni, w których powiadomienia dla użytkowników (źródło powiadomień w aplikacji) będą przechowywane w systemie. Wszystkie zdarzenia starsze niż ten okres zostaną usunięte.
       events_explanation: 'Zarządza dla których zdarzeń są wysyłane wiadomości e-mail. Pakiety robocze są wyłączone z tej listy, ponieważ ich powiadomienia mogą być skonfigurowane specjalnie dla każdego użytkownika.'
       delay_minutes_explanation: "Wysyłanie wiadomości e-mail może być opóźnione, aby umożliwić użytkownikom ze skonfigurowanymi powiadomieniami w aplikacji potwierdzenie powiadomienia w aplikacji przed wysłaniem wiadomości. Użytkownicy, którzy przeczytali powiadomienie w aplikacji nie otrzymają wiadomości e-mail dla powiadomień już przeczytanych."
     display:

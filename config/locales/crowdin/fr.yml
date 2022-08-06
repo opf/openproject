@@ -1360,7 +1360,7 @@ fr:
     admin:
       mail_notification: "Notifications par courriel"
       mails_and_notifications: "E-mails et notifications"
-      aggregation_and_retention: 'Agrégation et rétention'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API et webhooks"
     quick_add:
       label: "Ouvrir le menu d'ajout rapide"
@@ -2443,7 +2443,6 @@ fr:
   setting_email_login: "Utiliser l'adresse courriel comme login"
   setting_enabled_scm: "Permettre SCM"
   setting_enabled_projects_columns: "Visible dans la liste des projets"
-  setting_notification_retention_period_days: "Période de rétention des notifications"
   setting_feeds_enabled: "Permettre les flux"
   setting_feeds_limit: "Limite du contenu du flux"
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
@@ -2516,8 +2515,6 @@ fr:
       whitelist_text_html: >
         Définissez une liste d'extensions de fichiers et/ou de types MIME valides pour les fichiers téléversés. <br/> Entrez les extensions de fichier (par exemple, <code>%{ext_example}</code>) ou les types mime (par exemple, <code>%{mime_example}</code>). <br/> Laissez vide pour permettre le téléversement de tout type de fichier. Plusieurs valeurs autorisées (une ligne pour chaque valeur).
     notifications:
-      retention_text: >
-        Définissez le nombre de jours pendant lequel les événements de notification pour les utilisateurs (la source des notifications dans l'application) seront conservés dans le système. Tous les événements antérieurs à ce moment seront supprimés.
       events_explanation: 'Définit pour quel événement un e-mail est envoyé. Les lots de travaux sont exclus de cette liste car les notifications pour ceux-ci peuvent être configurées spécifiquement pour chaque utilisateur.'
       delay_minutes_explanation: "L'envoi d'e-mails peut être retardé pour permettre aux utilisateurs ayant des notifications configurées dans l'application de confirmer la notification dans l'application avant l'envoi. Les utilisateurs qui lisent une notification dans l'application ne recevront pas d'e-mail pour la notification déjà lue."
     display:

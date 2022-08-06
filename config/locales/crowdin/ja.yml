@@ -1339,7 +1339,7 @@ ja:
     admin:
       mail_notification: "電子メールの通知"
       mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "クイック追加メニューを開く"
@@ -2420,7 +2420,6 @@ ja:
   setting_email_login: "メールアドレスをログインに使用する"
   setting_enabled_scm: "使用するバージョン管理システム"
   setting_enabled_projects_columns: "プロジェクトリストに表示する"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "フィードを有効にする"
   setting_feeds_limit: "フィードの項目数の上限"
   setting_file_max_size_displayed: "画面表示するテキストファイルの最大サイズ"
@@ -2493,8 +2492,6 @@ ja:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "メール送信を遅らせることで、アプリ内通知を設定したユーザーが、メールを送信前にアプリケーション内で通知を確認できるようにすることができます。 アプリケーション内で通知を読んだユーザーは、すでに読んだ通知の電子メールを受け取りません。"
     display:

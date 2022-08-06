@@ -1359,7 +1359,7 @@ pt:
     admin:
       mail_notification: "Notificações por e-mail"
       mails_and_notifications: "E-mails e notificação"
-      aggregation_and_retention: 'Agregação e retenção'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API e webhooks"
     quick_add:
       label: "Abrir menu de adição rápida"
@@ -2441,7 +2441,6 @@ pt:
   setting_email_login: "Usar e-mail como login"
   setting_enabled_scm: "SCM habilitado"
   setting_enabled_projects_columns: "Visível na lista de projetos"
-  setting_notification_retention_period_days: "Período de retenção de notificação"
   setting_feeds_enabled: "Habilitar Feeds"
   setting_feeds_limit: "Limite de conteúdo de feed"
   setting_file_max_size_displayed: "Tamanho máximo de arquivos de texto exibidos em linha"
@@ -2514,8 +2513,6 @@ pt:
       whitelist_text_html: >
         Defina uma lista de extensões de arquivo válidas e/ou tipos MIME para arquivos carregados. <br/> Insira as extensões de arquivo  (e.x., <code>%{ext_example}</code>) ou tipos de mime (e.x., <code>%{mime_example}</code>). <br/> Deixe em branco para permitir que qualquer tipo de arquivo seja carregado. Vários valores permitidos (uma linha para cada valor). 
     notifications:
-      retention_text: >
-        Defina o número de dias em que os eventos de notificação para usuários (a fonte para notificações no aplicativo) serão mantidos no sistema. Todos os eventos anteriores a esse horário serão excluídos. 
       events_explanation: 'Governa para qual evento um e-mail é enviado. Como as notificações de pacotes de trabalhos podem ser configuradas especificamente para todos os usuários, eles são excluídos desta lista.'
       delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com a notificação configurada no aplicativo confirmem a notificação dentro da aplicação antes que o e-mail seja enviado. Usuários que lerem uma notificação no aplicativo não receberão um e-mail dessa mesma notificação"
     display:

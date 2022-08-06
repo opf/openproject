@@ -1363,7 +1363,7 @@ hu:
     admin:
       mail_notification: "Email értesítés"
       mails_and_notifications: "Emailek és értesítések"
-      aggregation_and_retention: 'Összesítés és megőrzés'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Gyorsmenü megnyitása"
@@ -2447,7 +2447,6 @@ hu:
   setting_email_login: "Használd az e-mail címet a bejellentkezéshez"
   setting_enabled_scm: "SCM engedélyezve"
   setting_enabled_projects_columns: "Látható a projektlistában"
-  setting_notification_retention_period_days: "Értesítés megőrzési időszaka\n"
   setting_feeds_enabled: "Hírcsatornák engedélyezése"
   setting_feeds_limit: "Tartalom szintjének a korlátja"
   setting_file_max_size_displayed: "A szöveg fájl sorainak maximum mérete megjelenítéskor"
@@ -2521,9 +2520,6 @@ hu:
         Határozza meg a feltöltött fájlok érvényes fájlkiterjesztéseinek és/vagy mime típusainak listáját. <br/> Adjon meg fájlkiterjesztéseket (pl. <code>%{ext_example} </code>) vagy mime típusokat (pl. <code>%{mime_example} </code>). <br/> Hagyja üresen, ha bármilyen fájltípust szeretne feltölteni. Több érték megengedett (egy sor minden értékhez).
 
     notifications:
-      retention_text: >
-        Állítsa be, hogy a felhasználók hány napig tartsák az értesítési eseményeket (az alkalmazáson belüli értesítések forrása) a rendszerben. Az ennél régebbi események törlődnek.
-
       events_explanation: "Azt szabályozza, hogy melyik eseményhez küldjön e -mailt. A munkacsomagok nem tartoznak ebbe a listába, mivel a rájuk vonatkozó értesítések kifejezetten minden felhasználó számára konfigurálhatók.\n"
       delay_minutes_explanation: "Az e -mailek küldése késleltethető, hogy az alkalmazások értesítésében beállított felhasználók megerősíthessék az értesítést az alkalmazáson belül, mielőtt levelet küldenek. Azok a felhasználók, akik elolvasták az értesítést az alkalmazáson belül, nem kapnak e -mailt a már olvasott értesítésről.\n"
     display:

@@ -1344,7 +1344,7 @@ th:
     admin:
       mail_notification: "อีเมล์แจ้งเตือน"
       mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "เปิดเมนูเพิ่มด่วน"
@@ -2425,7 +2425,6 @@ th:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "เปิดใช้ SCM"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "เปิดใช้ Feeds"
   setting_feeds_limit: "จำกัดเนื้อหาของ Feed"
   setting_file_max_size_displayed: "ความยาวสูงสุดของไฟล์ตัวอักษรแสดงในบรรทัด"
@@ -2498,8 +2497,6 @@ th:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:

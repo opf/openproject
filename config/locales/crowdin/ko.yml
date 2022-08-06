@@ -1342,7 +1342,7 @@ ko:
     admin:
       mail_notification: "이메일 알림"
       mails_and_notifications: "이메일 및 알림"
-      aggregation_and_retention: '집계 및 보존'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API 및 webhook"
     quick_add:
       label: "빠른 추가 메뉴 열기"
@@ -2421,7 +2421,6 @@ ko:
   setting_email_login: "이메일로 로그인하기"
   setting_enabled_scm: "활성화된 SCM"
   setting_enabled_projects_columns: "프로젝트 목록에 표시"
-  setting_notification_retention_period_days: "알림 보관 기간"
   setting_feeds_enabled: "피드 사용"
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
@@ -2494,8 +2493,6 @@ ko:
       whitelist_text_html: >
         업로드된 파일의 유효한 파일 확장명 및/또는 MIME 형식 목록을 정의합니다. <br/> 파일 확장명(예: <code>%{ext_example}</code>) 또는 MIME 형식(예: <code>%{mime_example}</code>)을 입력합니다. <br/> 모든 파일 형식을 업로드할 수 있도록 허용하려면 비워 둡니다. 여러 값이 허용됩니다(각 값에 대해 한 줄).
     notifications:
-      retention_text: >
-        사용자에 대한 알림 이벤트(앱 내 알림에 대해서)가 시스템에 보관되는 일 수를 설정합니다. 이 시간보다 오래된 모든 이벤트는 삭제됩니다.
       events_explanation: '이메일을 보낼 이벤트를 관리합니다. 작업 패키지에 대한 알림은 각 사용자에 대해 구체적으로 구성할 수 있으므로 작업 패키지는 이 목록에 포함되지 않습니다.'
       delay_minutes_explanation: "인앱 알림이 구성된 사용자가 메일이 전송되기 전에 애플리케이션 내에서 알림을 확인할 수 있도록 이메일 전송이 지연될 수 있습니다. 애플리케이션 내에서 알림을 읽은 사용자는 이미 읽은 알림에 대한 이메일을 받지 않습니다."
     display:
