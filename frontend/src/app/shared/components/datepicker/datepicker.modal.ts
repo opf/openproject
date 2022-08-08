@@ -174,7 +174,10 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         // Always update the whole form to ensure that no values are lost/inconsistent
         if (this.singleDate) {
           this.updateDate('date', this.dates.date);
-        } else {
+        } else if (this.datepickerService.currentlyActivatedDateField === 'start') {
+          this.updateDate('end', this.dates.end);
+          this.updateDate('start', this.dates.start);
+        } else if (this.datepickerService.currentlyActivatedDateField === 'end') {
           this.updateDate('start', this.dates.start);
           this.updateDate('end', this.dates.end);
         }
