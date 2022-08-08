@@ -34,6 +34,7 @@
     class="spot-list--item-floating-actions op-files-tab--file-list-item-floating-actions hidden-for-mobile"
   >
     <a
+      *ngIf="downloadAllowed"
       class="spot-link"
       [title]="text.title.downloadFileLink"
       [href]="fileLink._links.staticOriginDownload.href"
