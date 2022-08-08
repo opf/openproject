@@ -606,9 +606,6 @@ Settings::Definition.define do
       default: nil,
       writable: false
 
-  add :notification_retention_period_days,
-      default: 30
-
   add :notification_email_delay_minutes,
       default: 15
 
