@@ -153,7 +153,8 @@ module API
                  render_nil: false
 
         def current_user_allowed_to_add_work_packages?
-          current_user.allowed_to?(:add_work_packages, project, global: project.nil?)
+          @current_user_allowed_to_add_work_packages ||=
+            current_user.allowed_to?(:add_work_packages, project, global: project.nil?)
         end
 
         def current_user_allowed_to_edit_work_packages?
