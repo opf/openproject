@@ -147,7 +147,7 @@ module OAuthClients
     end
 
     # @returns ServiceResult with result to be :error or any type of object with data
-    def request_with_token_refresh
+    def request_with_token_refresh(oauth_client_token)
       # `yield` needs to returns a ServiceResult:
       #   success: result= any object with data
       #   failure: result= :error or :not_authorized
@@ -161,6 +161,7 @@ module OAuthClients
           return failed_service_result
         end
 
+        oauth_client_token.reload
         yield_service_result = yield # Should contain result=<data> in case of success
       end
 
