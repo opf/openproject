@@ -46,7 +46,7 @@ module TimeEntries
     validate :validate_work_package
 
     validates :spent_on,
-              date: { before_or_equal_to: Proc.new { Time.zone.today },
+              date: { before_or_equal_to: Proc.new { Date.new(9999, 12, 31) },
                       allow_blank: true },
               unless: Proc.new { spent_on.blank? }
 
