@@ -30,7 +30,7 @@ The integration enables you to perform multiple actions in both Nextcloud and Op
 As a user of both Nextcloud and OpenProject, you can benefit from this integration in both platforms:
 
 - **In OpenProject:**
-  In addition to listing files attached to a work package, the Files tab now also shows you Nextcloud files that are linked to the current work package. Secondary actions on each file allow you to directly **open or download the file, show the containing folder in Nextcloud or remove the link**.
+  In addition to listing files attached to a work package, the _Files_ tab now also shows you Nextcloud files that are linked to the current work package. Secondary actions on each file allow you to directly **open or download the file, show the containing folder in Nextcloud or remove the link**.
   ![Empty_status_files](1_0_00-No_files_linked.png)
 
   ![OP_linked_files](1_1_00-All_files_available.png)
@@ -39,7 +39,11 @@ As a user of both Nextcloud and OpenProject, you can benefit from this integrati
   
 
 - **In Nextcloud:**
-  You will be able to access the OpenProject tab in Nextcloud by accessing the details split screen of any file. In this tab, you will be able to search for the work package to which you would like to add a link. Once a work package is linked to a file, you can always unlink it by clicking on the **unlink** icon.
+  On the file or folder that you want to link to a work package click on the three dots and then click on _Details_.
+  
+  ![NC_open_file_details](Nextcloud_open_file_details.png)
+  
+  In the _Details_ open the _OpenProject_ tab. There you will be able to search for the work package and link it. Once a work package is linked to a file, you can always unlink it by clicking on the **unlink** icon.
 
   ![NC_search_WP](0_0_00-File_Relation_Search.png)
 
