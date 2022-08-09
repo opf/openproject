@@ -43,13 +43,17 @@ As a user of both Nextcloud and OpenProject, you can benefit from this integrati
   
   ![NC_open_file_details](Nextcloud_open_file_details.png)
   
-  In the _Details_ open the _OpenProject_ tab. There you will be able to search for the work package and link it. Once a work package is linked to a file, you can always unlink it by clicking on the **unlink** icon.
+  In the _Details_ side panel, click on the the _OpenProject_ tab. This tab lets you link work packages in OpenProject to the current file, and will list all linked work packages. When nothing is yet linked, the list will be empty. To link the file to work package for the first time, use the search bar to search for the work packages in your OpenProject instance, and click on one to link it. 
+  
+  This linked file will then appear underneath the search bar, and will appear on the Files tab of the work package in OpenProject.
+  
+  Once a work package is linked to a file, you can always unlink it by clicking on the **unlink** icon.
 
   ![NC_search_WP](0_0_00-File_Relation_Search.png)
 
   ![NC_linked_WP](0_1_01-File_WP_Actions.png)
 
-  In addition to actions related to the file itself, you can also display the OpenProject widget on your Nextcloud dashboard in order to keep an eye on the the latest changes and updates to linked work packages:
+  In addition to actions related to individual files, can also choose to display the OpenProject widget on your Nextcloud dashboard in order to keep an eye on the the latest changes and updates to linked work packages:
   ![add_NC_widget](Add_OpenProject_widget.png)
 
   ![added_NC_widget](Nextcloud_dashboard.png)
@@ -73,16 +77,16 @@ Further integration efforts are under way. In the near future, you will be able 
 
 ## Possible errors and troubleshooting
 
-- **OpenProject - No permissions to see the file:** If you are unable to to see the details of a file or are unable to open some of the linked files due to issues with permissions, you will be able to see the name, time of last modification and the name of the modifier but you will not be able to perform any further actions. To open or access these files, you will need to contact your Nextcloud administrator or the creator of the file so that they can grant you the necessary permissions.
+- **OpenProject - No permissions to see the file:** If you are unable to see the details of a file or are unable to open some of the linked files due to issues with permissions, you will be able to see the name, time of last modification and the name of the modifier but you will not be able to perform any further actions. To open or access these files, you will need to contact your Nextcloud administrator or the creator of the file so that they can grant you the necessary permissions.
   ![OP_no_permissions](1_1_01-Not_all_files_available.png)
 
-- **OpenProject - User not logged in to Nextcloud:** You might see this error if you are not logged in to Nextcloud. You will still be able to see the list of linked files, but not perform any actions. Simply log in to your Nextcloud account to restore full functionality.
+- **OpenProject - User not logged in to Nextcloud:** You might see this error if you are not logged in to Nextcloud. You will still be able to see the list of linked files, but not perform any actions. To remedy this, simply log in to your Nextcloud account to restore full functionality.
   ![OP_login_error](1_0_01-Log_in_error.png)
 
-- **OpenProject - Connection error:** You will see this error when your OpenProject instance is unable to connect to your Nextcloud instance. In this case, you should contact the instance administrator to identify and to resolve the issue.
+- **OpenProject - Connection error:** You will see this error when your OpenProject instance is unable to connect to your Nextcloud instance for any number of reasons. Your best course of action is to get in touch with the administrator of your OpenProject and Nextcloud instances to identify and to resolve the issue.
   ![OP_connection_error](1_0_02-Connection_broken.png)
 
-- **OpenProject - File fetching error:** In rare ocassions, it is possible for the integration to not be able to fetch all the details of all linked files linked. A simple page refresh should solve the issue, but should the error persist, please contact your instance administrator.
+- **OpenProject - File fetching error:** In rare ocassions, it is possible for the integration to not be able to fetch all the details of all linked files. A simple page refresh should solve the issue, but should the error persist, please contact administrator of your OpenProject and Nextcloud instances.
 
   ![OP_fetching_error](1_0_03-Fetching_error.png)
 
