@@ -26,35 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
-import { InputState } from 'reactivestates';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import Formattable = api.v3.Formattable;
+import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
-export class TimeEntryResource extends HalResource {
-  project:ProjectResource;
+export class HoursDurationDisplayField extends DisplayField {
+  @InjectField() timezoneService:TimezoneService;
 
-  activity:HalResource;
-
-  comment:Formattable;
-
-  workPackage:WorkPackageResource;
-
-  spentOn:string;
-
-  public get state():InputState<this> {
-    return this.states.timeEntries.get(this.id as string) as unknown as InputState<this>;
+  public get valueString() {
+    return this.timezoneService.formattedDuration(this.value, 'hour');
   }
-
-  /**
-   * Exclude the schema _link from the linkable Resources.
-   */
-  public $linkableKeys():string[] {
-    return _.without(super.$linkableKeys(), 'schema');
-  }
-}
-
-export interface TimeEntryResource {
-  delete():Promise<unknown>;
 }

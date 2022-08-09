@@ -91,7 +91,7 @@ class Report::Operator
     new '!', label: :label_not_equals do
       def modify(query, field, *values)
         where_clause = "(#{field} IS NULL"
-        where_clause += " OR #{field} NOT IN #{collection(*values)}" unless values.compact.empty?
+        where_clause += " OR #{field} NOT IN #{collection(*values)}" unless values.all?(&:blank?)
         where_clause += ')'
         query.where where_clause
         query
@@ -117,7 +117,7 @@ class Report::Operator
       def modify(query, field, *values)
         if values.size == 1 && values.first.nil?
           query.where "#{field} IS NULL"
-        elsif values.compact.empty?
+        elsif values.all?(&:blank?)
           query.where '1=0'
         else
           query.where "#{field} IN #{collection(*values)}"

@@ -289,15 +289,15 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li><b>새로운 팀 플래너 모듈</b>(Enterprise 기능)을 사용하면 시각적으로 팀원에게 작업을 할당하여 누가 어떤 작업을 하는지에 대한 개요를 확인할 수 있습니다.</li> <li>커뮤니티 버전용 <b>기본 애자일 보드가 출시</b>됩니다.</li> <li><b>"프로젝트 포함" 필터</b> 옵션을 사용하면 작업 패키지, 달력 및 팀 플래너 등 다양한 프로젝트를 보기에 더욱 쉽게 추가할 수 있습니다.</li> <li>작업 패키지 세부 정보에 <b>새로운 "파일" 탭</b>이 추가되어 작업 패키지에 가능한 모든 정보를 함께 첨부할 수 있습니다.</li> <li><b>그룹에 대한 글로벌 역할</b>이 생성되어 이 역할을 그룹에 할당하고 수퍼유저 그룹을 생성할 수 있습니다.</li> <li>프로젝트 상태에 선택할 수 있는 더 많은 옵션이 제공됩니다.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>이제 BCF 모듈에서는 선택한 작업 패키지 필터, 열 등을 <b>보기</b>로 저장하고 팀원과 공유할 수 있습니다.</li> <li><b>새로운 팀 플래너 모듈</b>(Enterprise 기능)을 사용하면 시각적으로 팀원에게 작업을 할당하여 누가 어떤 작업을 하는지에 대한 개요를 확인할 수 있습니다.</li> <li>커뮤니티 버전용 <b>기본 애자일 보드가 출시</b>됩니다.</li> <li><b>"프로젝트 포함" 필터</b> 옵션을 사용하면 작업 패키지, 달력 및 팀 플래너 등 다양한 프로젝트를 보기에 더욱 쉽게 추가할 수 있습니다.</li> <li>작업 패키지 세부 정보에 <b>새로운 "파일" 탭</b>이 추가되어 작업 패키지에 가능한 모든 정보를 함께 첨부할 수 있습니다.</li> <li><b>그룹에 대한 글로벌 역할</b>이 생성되어 이 역할을 그룹에 할당하고 수퍼유저 그룹을 생성할 수 있습니다.</li> <li>프로젝트 상태에 선택할 수 있는 더 많은 옵션이 제공됩니다.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "활성화"
     label_assignee: '담당자'
     label_add_column_after: "다음 뒤에 열 추가"

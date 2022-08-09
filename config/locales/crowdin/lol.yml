@@ -1341,7 +1341,7 @@ lol:
     admin:
       mail_notification: "crwdns798246:0crwdne798246:0"
       mails_and_notifications: "crwdns810550:0crwdne810550:0"
-      aggregation_and_retention: 'crwdns810552:0crwdne810552:0'
+      aggregation: 'crwdns825698:0crwdne825698:0'
       api_and_webhooks: "crwdns810554:0crwdne810554:0"
     quick_add:
       label: "crwdns798250:0crwdne798250:0"
@@ -2405,7 +2405,6 @@ lol:
   setting_email_login: "crwdns800164:0crwdne800164:0"
   setting_enabled_scm: "crwdns800166:0crwdne800166:0"
   setting_enabled_projects_columns: "crwdns800168:0crwdne800168:0"
-  setting_notification_retention_period_days: "crwdns800170:0crwdne800170:0"
   setting_feeds_enabled: "crwdns800172:0crwdne800172:0"
   setting_feeds_limit: "crwdns800174:0crwdne800174:0"
   setting_file_max_size_displayed: "crwdns800176:0crwdne800176:0"
@@ -2478,8 +2477,6 @@ lol:
       whitelist_text_html: >
         crwdns800306:0%{ext_example}crwdnd800306:0%{mime_example}crwdne800306:0
     notifications:
-      retention_text: >
-        crwdns800308:0crwdne800308:0
       events_explanation: 'crwdns800310:0crwdne800310:0'
       delay_minutes_explanation: "crwdns800312:0crwdne800312:0"
     display:
