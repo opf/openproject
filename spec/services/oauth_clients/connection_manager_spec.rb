@@ -157,7 +157,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
           refresh_token: "UwFp...1FROJ",
           user_id: "admin"
         }.to_json
-        stub_request(:any, File.join(host, '/apps/oauth2/api/v1/token'))
+        stub_request(:any, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
           .to_return(status: 200, body: response_body)
       end
 
@@ -169,7 +169,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
 
     context 'with known error', webmock: true do
       before do
-        stub_request(:post, File.join(host, '/apps/oauth2/api/v1/token'))
+        stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
           .to_return(status: 400, body: { error: error_message }.to_json)
       end
 
@@ -197,7 +197,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
 
     context 'with known reply invalid_grant', webmock: true do
       before do
-        stub_request(:post, File.join(host, '/apps/oauth2/api/v1/token'))
+        stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
           .to_return(status: 400, body: { error: "invalid_grant" }.to_json)
       end
 
@@ -211,7 +211,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
 
     context 'with unknown reply', webmock: true do
       before do
-        stub_request(:post, File.join(host, '/apps/oauth2/api/v1/token'))
+        stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
           .to_return(status: 400, body: { error: "invalid_requesttt" }.to_json)
       end
 
@@ -225,7 +225,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
 
     context 'with reply including JSON syntax error', webmock: true do
       before do
-        stub_request(:post, File.join(host, '/apps/oauth2/api/v1/token'))
+        stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
           .to_return(
             status: 400,
             headers: { 'Content-Type' => 'application/json; charset=utf-8' },
@@ -243,7 +243,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
 
     context 'with 500 reply without body', webmock: true do
       before do
-        stub_request(:post, File.join(host, '/apps/oauth2/api/v1/token'))
+        stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
           .to_return(status: 500)
       end
 
@@ -257,7 +257,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
 
     context 'with bad HTTP response', webmock: true do
       before do
-        stub_request(:post, File.join(host, '/apps/oauth2/api/v1/token')).to_raise(Net::HTTPBadResponse)
+        stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token')).to_raise(Net::HTTPBadResponse)
       end
 
       it 'returns an unspecific error message' do
@@ -270,7 +270,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
 
     context 'with timeout returns internal error', webmock: true do
       before do
-        stub_request(:post, File.join(host, '/apps/oauth2/api/v1/token')).to_timeout
+        stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token')).to_timeout
       end
 
       it 'returns an unspecific error message' do
@@ -303,7 +303,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
           refresh_token: "xUwFp...1FROJ",
           user_id: "admin"
         }.to_json
-        stub_request(:any, File.join(host, '/apps/oauth2/api/v1/token'))
+        stub_request(:any, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
           .to_return(status: 200, body: response_body)
         oauth_client_token
       end
@@ -327,7 +327,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
           refresh_token: "xUwFp...1FROJ",
           user_id: "admin"
         }.to_json
-        stub_request(:any, File.join(host, '/apps/oauth2/api/v1/token'))
+        stub_request(:any, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
           .to_return(status: 200, body: response_body)
 
         oauth_client_token
@@ -343,7 +343,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
 
     context 'with server error from OAuth2 provider' do
       before do
-        stub_request(:any, File.join(host, '/apps/oauth2/api/v1/token'))
+        stub_request(:any, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
           .to_return(status: 400, body: { error: "invalid_request" }.to_json)
         oauth_client_token
       end
@@ -358,7 +358,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
     context 'with successful response but invalid data' do
       before do
         # Simulate timeout
-        stub_request(:any, File.join(host, '/apps/oauth2/api/v1/token'))
+        stub_request(:any, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
           .to_timeout
         oauth_client_token
       end
@@ -458,41 +458,45 @@ describe ::OAuthClients::ConnectionManager, type: :model do
     let(:refresh_service_result) { ServiceResult.success }
 
     subject do
-      instance.request_with_token_refresh { yield_service_result }
+      instance.request_with_token_refresh(oauth_client_token) { yield_service_result }
     end
 
     before do
-      allow(instance).to receive(:refresh_token).and_return refresh_service_result
+      allow(instance).to receive(:refresh_token).and_return(refresh_service_result)
+      allow(oauth_client_token).to receive(:reload)
     end
 
-    context 'with yield=:success and refresh not called' do
-      it 'returns a ServiceResult with success, without refresh' do
+    context 'with yield returning :success' do
+      it 'returns a ServiceResult with success, without refreshing the token' do
         expect(subject.success).to be_truthy
         expect(instance).not_to have_received(:refresh_token)
+        expect(oauth_client_token).not_to have_received(:reload)
       end
     end
 
-    context 'with yield=:error and refresh not called' do
+    context 'with yield returning :error' do
       let(:yield_service_result) { ServiceResult.failure(result: :error) }
 
-      it 'returns a ServiceResult with success, without refresh' do
+      it 'returns a ServiceResult with success, without refreshing the token' do
         expect(subject.success).to be_falsey
         expect(subject.result).to be :error
         expect(instance).not_to have_received(:refresh_token)
+        expect(oauth_client_token).not_to have_received(:reload)
       end
     end
 
-    context 'with yield=:not_authorized and refresh=:success' do
+    context 'with yield returning :not_authorized and the refresh returning a with a success' do
       let(:yield_service_result) { ServiceResult.failure(result: :not_authorized) }
 
       it 'returns a ServiceResult with success, without refresh' do
         expect(subject.success).to be_falsey
         expect(subject.result).to be :not_authorized
         expect(instance).to have_received(:refresh_token)
+        expect(oauth_client_token).to have_received(:reload)
       end
     end
 
-    context 'with yield=:not_authorized and refresh=:failure' do
+    context 'with yield returning :not_authorized and the refresh returning with a :failure' do
       let(:yield_service_result) { ServiceResult.failure(result: :not_authorized) }
       let(:refresh_service_result) { ServiceResult.failure }
 
@@ -500,17 +504,18 @@ describe ::OAuthClients::ConnectionManager, type: :model do
         expect(subject.success).to be_falsey
         expect(subject.result).to be :error
         expect(instance).to have_received(:refresh_token)
+        expect(oauth_client_token).not_to have_received(:reload)
       end
     end
 
-    context 'with yield=:not_authorized first time and success the second time' do
+    context 'with yield returning :not_authorized first time and :success the second time' do
       let(:yield_double_object) { Object.new }
       let(:yield_service_result1) { ServiceResult.failure(result: :not_authorized) }
       let(:yield_service_result2) { ServiceResult.success }
       let(:refresh_service_result) { ServiceResult.success }
 
       subject do
-        instance.request_with_token_refresh { yield_double_object.yield_twice_method }
+        instance.request_with_token_refresh(oauth_client_token) { yield_double_object.yield_twice_method }
       end
 
       before do
@@ -527,6 +532,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
         expect(subject.success).to be_truthy
         expect(subject).to be yield_service_result2
         expect(instance).to have_received(:refresh_token)
+        expect(oauth_client_token).to have_received(:reload)
         expect(yield_double_object).to have_received(:yield_twice_method).twice
       end
     end

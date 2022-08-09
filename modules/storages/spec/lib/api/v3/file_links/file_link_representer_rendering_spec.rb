@@ -125,7 +125,7 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
     describe 'originOpen' do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'originOpen' }
-        let(:href) { "#{storage.host}/f/#{file_link.origin_id}?openfile=1" }
+        let(:href) { "#{storage.host}/index.php/f/#{file_link.origin_id}?openfile=1" }
       end
     end
 
@@ -139,7 +139,7 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
     describe 'originOpenLocation' do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'originOpenLocation' }
-        let(:href) { "#{storage.host}/f/#{file_link.origin_id}?openfile=0" }
+        let(:href) { "#{storage.host}/index.php/f/#{file_link.origin_id}?openfile=0" }
       end
     end
 

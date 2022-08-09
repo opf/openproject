@@ -40,7 +40,7 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
   before do
     if storage_host.present?
       mock_server_capabilities_response(storage_host)
-      mock_server_host_response(storage_host)
+      mock_server_config_check_response(storage_host)
     end
   end
 
@@ -133,16 +133,25 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
         let(:capabilities_response_code) { nil } # use default
         let(:capabilities_response_headers) { nil } # use default
         let(:capabilities_response_major_version) { 22 }
+        let(:check_config_response_body) { nil } # use default
+        let(:check_config_response_code) { nil } # use default
+        let(:check_config_response_headers) { nil } # use default
 
         before do
           # simulate host value changed to have GET request sent to check host URL validity
           storage.host_will_change!
+
           # simulate http response returned upon GET request
           mock_server_capabilities_response(storage_host,
                                             response_code: capabilities_response_code,
                                             response_headers: capabilities_response_headers,
                                             response_body: capabilities_response_body,
                                             response_nextcloud_major_version: capabilities_response_major_version)
+
+          mock_server_config_check_response(storage_host,
+                                            response_code: check_config_response_code,
+                                            response_headers: check_config_response_headers,
+                                            response_body: check_config_response_body)
         end
 
         context 'when connection fails' do
@@ -193,17 +202,16 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
           include_examples 'contract is invalid', host: :minimal_nextcloud_version_unmet
         end
 
-        context 'when Nextcloud instance is not fully set up' do
-          let(:host_response_code) { 302 }
-          let(:host_response_header) { { Location: File.join(storage_host, '/index.php/login') } }
+        context 'when Nextcloud instance is missing the "OpenProject integration" app' do
+          let(:check_config_response_code) { 302 }
 
-          before do
-            mock_server_host_response(storage_host,
-                                      response_code: host_response_code,
-                                      response_headers: host_response_header)
-          end
+          include_examples 'contract is invalid', host: :op_application_not_installed
+        end
 
-          include_examples 'contract is invalid', host: :setup_incomplete
+        context 'when Nextcloud instance is misconfigured and strips AUTHORIZATION header from HTTP request' do
+          let(:check_config_response_body) { { authorization_header: '' }.to_json }
+
+          include_examples 'contract is invalid', host: :authorization_header_missing
         end
       end
     end
