@@ -148,4 +148,72 @@ describe ApplicationController, type: :controller do
       end
     end
   end
+
+  describe 'rack timeout duplicate error suppression' do
+    controller do
+      include OpenProjectErrorHelper
+
+      def index
+        op_handle_error "fail"
+
+        redirect_to root_path
+      end
+    end
+
+    before do
+      allow(::OpenProject.logger).to receive(:error)
+    end
+
+    it "doesn't suppress errors when there is no timeout" do
+      get :index
+
+      expect(::OpenProject.logger).to have_received(:error) do |msg, _|
+        expect(msg).to eq "fail"
+      end
+    end
+
+    context "when there is a rack timeout" do
+      controller do
+        include OpenProjectErrorHelper
+        prepend Rack::Timeout::SuppressInternalErrorReportOnTimeout
+
+        def index
+          op_handle_error "fail"
+
+          redirect_to root_path
+        end
+      end
+
+      before do
+        allow(controller.request.env).to receive(:[]).and_call_original
+        allow(controller.request.env)
+          .to receive(:[])
+          .with(Rack::Timeout::ENV_INFO_KEY)
+          .and_return(OpenStruct.new(state: :timed_out))
+      end
+
+      it "suppresses the (duplicate) error report" do
+        get :index
+
+        expect(::OpenProject.logger).not_to have_received(:error)
+      end
+    end
+
+    context "when used outside of a controller" do
+      let(:object) do
+        klass = Class.new(Object) do
+          include OpenProjectErrorHelper
+          prepend Rack::Timeout::SuppressInternalErrorReportOnTimeout
+        end
+
+        klass.new
+      end
+
+      it "does nothing as there is no duplicate to suppress" do
+        expect { object.op_handle_error "fail" }.not_to raise_error
+
+        expect(::OpenProject.logger).to have_received(:error)
+      end
+    end
+  end
 end
