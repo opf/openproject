@@ -174,6 +174,8 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   public selectedNotificationIndex = 0;
 
+  public selectedNotification: INotification;
+
   stateChanged$ = this.uiRouterGlobals.params$?.pipe(
     this.untilDestroyed(),
     pluck('workPackageId'),
@@ -198,7 +200,7 @@ export class IanCenterService extends UntilDestroyedMixin {
 
     if (this.stateChanged$) {
       this.stateChanged$.subscribe(() => {
-        this.updateSelectedNotificationIndex();
+        this.updateSelectedNotification();
       });
     }
   }
@@ -216,16 +218,11 @@ export class IanCenterService extends UntilDestroyedMixin {
     this.onReload.pipe(take(1)).subscribe((collection) => {
       this.store.update({ activeCollection: collection });
     });
+
     if (facet === 'unread') {
-      this
-        .notifications$
-        .pipe(
-          take(1),
-        ).subscribe((notifications:INotification[][]) => {
-          if (notifications[this.selectedNotificationIndex][0].readIAN) {
-            this.goToCenter();
-          }
-        });
+      if (this.selectedNotification?.readIAN) {
+        this.goToCenter();
+      }
     }
     this.reload.next(true);
   }
@@ -367,7 +364,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     return promise;
   }
 
-  private updateSelectedNotificationIndex() {
+  private updateSelectedNotification() {
     this
       .notifications$
       .pipe(
@@ -379,6 +376,7 @@ export class IanCenterService extends UntilDestroyedMixin {
             if (notifications[i][0]._links.resource
               && idFromLink(notifications[i][0]._links.resource.href) === this.uiRouterGlobals.params.workPackageId) {
               this.selectedNotificationIndex = i;
+              this.selectedNotification = notifications[i][0];
               return;
             }
           }
