@@ -1393,7 +1393,7 @@ ru:
     admin:
       mail_notification: "Уведомления по электронной почте"
       mails_and_notifications: "Письма и уведомления"
-      aggregation: 'Aggregation'
+      aggregation: 'Агрегация'
       api_and_webhooks: "API и вебхуки"
     quick_add:
       label: "Открыть меню быстрого добавления"
