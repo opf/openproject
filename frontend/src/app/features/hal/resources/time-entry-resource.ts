@@ -29,6 +29,7 @@
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { InputState } from 'reactivestates';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import Formattable = api.v3.Formattable;
 
 export class TimeEntryResource extends HalResource {
@@ -37,6 +38,10 @@ export class TimeEntryResource extends HalResource {
   activity:HalResource;
 
   comment:Formattable;
+
+  workPackage:WorkPackageResource;
+
+  spentOn:string;
 
   public get state():InputState<this> {
     return this.states.timeEntries.get(this.id as string) as unknown as InputState<this>;
@@ -48,4 +53,8 @@ export class TimeEntryResource extends HalResource {
   public $linkableKeys():string[] {
     return _.without(super.$linkableKeys(), 'schema');
   }
+}
+
+export interface TimeEntryResource {
+  delete():Promise<unknown>;
 }
