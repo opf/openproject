@@ -68,5 +68,5 @@ pl:
         dn_text: 'Wprowadź pełną nazwę wyróżniającą grupy w LDAP'
         group_text: 'Wybierz istniejącą grupę OpenProject, z którą będą synchronizowani członkowie grupy LDAP'
       upsale:
-        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
+        description: 'Wykorzystaj zsynchronizowane grupy LDAP, aby zarządzać użytkownikami, zmieniać ich uprawnienia lub ułatwiać zarządzanie użytkownikami w różnych grupach.'
 

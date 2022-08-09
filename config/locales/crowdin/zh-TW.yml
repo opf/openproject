@@ -1343,7 +1343,7 @@ zh-TW:
     admin:
       mail_notification: "電子郵件通知"
       mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
@@ -2423,7 +2423,6 @@ zh-TW:
   setting_email_login: "使用信箱登入"
   setting_enabled_scm: "啟用 SCM"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_notification_retention_period_days: "通知保留期"
   setting_feeds_enabled: "啟用 Feed"
   setting_feeds_limit: "Feed 內容限制"
   setting_file_max_size_displayed: "直接显示文字文件內容的最大檔案容量"
@@ -2496,8 +2495,6 @@ zh-TW:
       whitelist_text_html: >
         為上傳的文件定義有效文件副檔名和/或 MIME 類型的列表。 <br/> 輸入文件副檔名（例如 <code>%{ext_example}</code>）或 MIME 類型（例如 <code>%{mime_example}</code>）。 <br/> 留空以允許上傳任何文件類型。允許多個值（每個值一行）。
     notifications:
-      retention_text: >
-        設定用戶的通知事件（應用程式內通知的來源）將保留在系統中的天數。任何早於此時間的事件都將被刪除
       events_explanation: '控制發送電子郵件的事件。工作包不包括在此列表中，因為可以為每個用戶專門配置它們的通知'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
