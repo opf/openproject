@@ -174,7 +174,7 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   public selectedNotificationIndex = 0;
 
-  public selectedNotification: INotification;
+  public selectedNotification:INotification;
 
   stateChanged$ = this.uiRouterGlobals.params$?.pipe(
     this.untilDestroyed(),
@@ -376,7 +376,7 @@ export class IanCenterService extends UntilDestroyedMixin {
             if (notifications[i][0]._links.resource
               && idFromLink(notifications[i][0]._links.resource.href) === this.uiRouterGlobals.params.workPackageId) {
               this.selectedNotificationIndex = i;
-              this.selectedNotification = notifications[i][0];
+              [this.selectedNotification] = notifications[i];
               return;
             }
           }
