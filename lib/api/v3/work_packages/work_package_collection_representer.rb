@@ -184,7 +184,7 @@ module API
         end
 
         def schema_pairs
-          represented
+          @schema_pairs ||= represented
             .map { |work_package| [work_package.project, work_package.type, work_package.available_custom_fields] }
             .uniq
         end
