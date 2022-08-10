@@ -61,7 +61,7 @@ As a user of both Nextcloud and OpenProject, you can benefit from this integrati
   
   ![added_NC_widget](Nextcloud_dashboard.png)
   
-  Additionally, there are find three additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *Connected accounts* you will find these options:
+  Additionally, there are three additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *Connected accounts*, you will find these options:
 
   - **Enable navigation link** displays a link to your OpenProject instance in the Nextcloud header 
   - **Enable unified search for tickets** allows you to access OpenProject work packages via the universal search bar 
