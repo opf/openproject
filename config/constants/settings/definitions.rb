@@ -533,7 +533,7 @@ Settings::Definition.define do
   # Update users' status through the synchronization job
   add :ldap_users_sync_status,
       format: :boolean,
-      default: true,
+      default: false,
       writable: false
 
   add :ldap_tls_options,

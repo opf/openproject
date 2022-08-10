@@ -33,7 +33,12 @@ export const insertInList = (
   const ancestor:IProjectData|undefined = list.find((projectInList) => projectInList.href === ancestorHref);
 
   if (ancestor) {
-    ancestor.children = insertInList(projects, project, ancestor.children, visibleAncestors.slice(1));
+    ancestor.children = insertInList(
+      projects,
+      project,
+      ancestor.children,
+      visibleAncestors.slice(1),
+    );
     return [...list];
   }
 

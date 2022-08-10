@@ -543,4 +543,25 @@ describe 'date inplace editor',
       end
     end
   end
+
+  context 'with a negative time zone', driver: :chrome_new_york_time_zone do
+    it 'can normally select the dates via datepicker (regression #43562)' do
+      start_date.activate!
+      start_date.expect_active!
+
+      start_date.datepicker.expect_year '2016'
+      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.select_day '25'
+
+      sleep 2
+
+      start_date.datepicker.expect_year '2016'
+      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.expect_day '25'
+
+      start_date.save!
+      start_date.expect_inactive!
+      start_date.expect_state_text '2016-01-02 - 2016-01-25'
+    end
+  end
 end

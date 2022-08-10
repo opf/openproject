@@ -169,7 +169,7 @@ export class DatepickerModalService {
     if (date === '') {
       return '';
     }
-    return new Date(new Date(date).setHours(0, 0, 0, 0));
+    return new Date(moment(date).toDate().setHours(0, 0, 0, 0));
   }
 
   // eslint-disable-next-line class-methods-use-this

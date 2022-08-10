@@ -45,9 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field">
     <% disabled = !EnterpriseToken.allows_to?(:readonly_work_packages)  %>
     <%= f.check_box :is_readonly, disabled: disabled %>
-    <div class="form--field-instructions">
-      <p><%= t('statuses.edit.status_readonly_html') %></p>
-    </div>
+
     <% if disabled %>
       <div class="form--field-instructions -no-italic -xwide">
         <%=
@@ -58,7 +56,11 @@ See COPYRIGHT and LICENSE files for more details.
                                 }
         %>
       </div>
-    <% end  %>
+     <% else %>
+      <div class="form--field-instructions">
+        <p><%= t('statuses.edit.status_readonly_html') %></p>
+      </div>
+    <% end %>
   </div>
 
   <%= render partial: '/colors/color_autocomplete_field',

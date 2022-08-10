@@ -118,6 +118,10 @@ export class ConfigurationService {
     return moment.localeData(I18n.locale).firstDayOfWeek();
   }
 
+  public get hostName():string {
+    return this.systemPreference('hostName');
+  }
+
   private loadConfiguration() {
     return this
       .apiV3Service
