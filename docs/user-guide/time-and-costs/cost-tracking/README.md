@@ -10,11 +10,11 @@ keywords: cost tracking, log costs, unit costs
 
 You can log unit costs on a work package within a project to keep track on certain units spent in a project, e.g. travel costs or machines.
 
-| Topic                                                        | Content                                             |
-| ------------------------------------------------------------ | --------------------------------------------------- |
-| [Logging costs to a work package](#logging-costs-to-a-work-package) | How to track costs on a work package?               |
-| [Edit logged costs](#edit-logged-costs)                      | How to edit spent costs logged to a work package?   |
-| [Delete logged costs](#delete-logged-costs)                  | How to delete spent costs logged to a work package? |
+| Topic                                                               | Content                                             |
+|---------------------------------------------------------------------|-----------------------------------------------------|
+| [Logging costs to a work package](#logging-costs-to-a-work-package) | How to track costs on a work package.               |
+| [Edit logged costs](#edit-logged-costs)                             | How to edit spent costs logged to a work package.   |
+| [Delete logged costs](#delete-logged-costs)                         | How to delete spent costs logged to a work package. |
 
 
 ## Logging costs to a work package

@@ -28,7 +28,7 @@ Enable the **Activity** module and click the blue **Save** button.
 
 ![project-settings-modules](project-settings-modules.png)
 
-### How to display the Activities of a project?
+### How to display the Activities of a project
 
 The Activities from a project are displayed in the Activity module.
 
