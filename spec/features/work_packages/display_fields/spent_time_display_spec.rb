@@ -150,7 +150,7 @@ describe 'Logging time within the work package view', type: :feature, js: true d
 
     it 'shows no logging button within the display field' do
       spent_time_field.time_log_icon_visible false
-      spent_time_field.expect_display_value '-'
+      spent_time_field.expect_display_value '0 h'
     end
   end
 
@@ -201,7 +201,7 @@ describe 'Logging time within the work package view', type: :feature, js: true d
       log_time_via_modal
 
       expect(page).to have_selector('tr:nth-of-type(1) .wp-table--cell-td.spentTime', text: '1 h')
-      expect(page).to have_selector('tr:nth-of-type(2) .wp-table--cell-td.spentTime', text: '-')
+      expect(page).to have_selector('tr:nth-of-type(2) .wp-table--cell-td.spentTime', text: '0 h')
     end
   end
 end
