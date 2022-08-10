@@ -231,12 +231,12 @@ uk:
             professional_support: "Професійна підтримка"
             professional_support_text: "Отримайте надійну, комплексну підтримку від досвідчених інженерів, які знають усе про запуск OpenProject у критично важливих для бізнесу середовищах."
           button_start_trial: "Розпочати безкоштовну пробну версію"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "Оновити"
           button_book_now: "Забронювати зараз"
           confidence: >
             Ми надаємо перевірене програмне забезпечення корпоративного класу з — з відкритим кодом і серцем — та забезпечуємо його підтримку.
           link_quote: "Дізнатися ціну"
-          more_info: "More information"
+          more_info: "Додаткові відомості"
           text: >
             Випуск OpenProject Enterprise Edition створено на основі Community Edition. Він включає ексклюзивні функції та професійну підтримку й призначений здебільшого для організацій із більш ніж 10 користувачами, які керують критично важливими для бізнесу проєктами в OpenProject.
           unlimited: "Необмежено"
@@ -269,7 +269,7 @@ uk:
           one: "Перший критерій впорядкування"
           two: "Другий критерій впорядкування"
           three: "Третій критерій впорядкування"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
+      upsale_for_more: "Розширені фільтри дають також змогу фільтрувати список за іменами файлів і вмістом вкладень пакетів робіт. Щоб користуватися цією функцією, перейдіть на платний план."
       upsale_link: 'корпоративне видання.'
     general_text_no: "ні"
     general_text_yes: "так"
@@ -293,11 +293,11 @@ uk:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                Випуск містить низку нових функцій і поліпшень: <br> <ul class="%{list_styling_class}"> <li>Забудьте про нескінченний пошук файлів! Завдяки новій <b>інтеграції Nextcloud</b> в OpenProject 12.2 ви можете знаходити файли у відповідних пакетах робіт і завжди мати під рукою правильну версію. </li> <li>Ми представили <b>новий засіб вибору дат</b> з оновленою поведінкою введення та інформаційним банером із кнопкою, що дає змогу переглядати зв’язки в режимі діаграми Ганта.</li> <li>Ми додали можливість <b>реєструвати час для інших користувачів.</b></li> <li>Позначати сповіщення як прочитані можна також за межами центру сповіщень.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                Випуск містить низку нових функцій і поліпшень: <br> <ul class="%{list_styling_class}"> <li>Забудьте про нескінченний пошук файлів! Завдяки новій <b>інтеграції Nextcloud</b> в OpenProject 12.2 ви можете знаходити файли у відповідних пакетах робіт і завжди мати під рукою правильну версію. </li> <li>Ми представили <b>новий засіб вибору дат</b> з оновленою поведінкою введення та інформаційним банером із кнопкою, що дає змогу переглядати зв’язки в режимі діаграми Ганта.</li> <li>Ми додали можливість <b>реєструвати час для інших користувачів.</b></li> <li>Позначати сповіщення як прочитані можна також за межами центру сповіщень.</li> </ul>
     label_activate: "Активувати"
     label_assignee: 'Виконавець'
     label_add_column_after: "Додати стовпець після"
@@ -369,7 +369,7 @@ uk:
     label_in_more_than: "більше ніж"
     label_incoming_emails: "Вхідні повідомлення"
     label_information_plural: "Інформація"
-    label_invalid: "Invalid"
+    label_invalid: "Неприпустимо"
     label_import: "Імпортувати"
     label_latest_activity: "Останні дії"
     label_last_updated_on: "Останнє оновлення"
@@ -401,8 +401,8 @@ uk:
     label_previous: "Попередній"
     label_per_page: "К-сть на сторінку:"
     label_please_wait: "Будь ласка, зачекайте"
-    label_project: "Project"
-    label_project_list: "Projects list"
+    label_project: "Проєкт"
+    label_project_list: "Список проєктів"
     label_project_plural: "Проекти"
     label_visibility_settings: "Налаштування видимості ..."
     label_quote_comment: "Цитувати цей коментар"
@@ -415,7 +415,7 @@ uk:
     label_report: "Звіт"
     label_repository_plural: "Репозиторії"
     label_save_as: "Зберегти як"
-    label_select_project: "Select a project"
+    label_select_project: "Виберіть проєкт"
     label_select_watcher: "Виберіть спостерігача..."
     label_selected_filter_list: "Вибрані фільтри"
     label_show_attributes: "Показати всі атрибути"
@@ -457,10 +457,10 @@ uk:
     label_unwatch: "Перестати відстежувати"
     label_unwatch_work_package: "Припинити спостерігати за пакетом робіт"
     label_uploaded_by: "Завантажено"
-    label_default_queries: "Default"
-    label_starred_queries: "Favorite"
-    label_global_queries: "Public"
-    label_custom_queries: "Private"
+    label_default_queries: "За замовчуванням"
+    label_starred_queries: "Обрані"
+    label_global_queries: "Публічні"
+    label_custom_queries: "Приватні"
     label_columns: "Стовпці"
     label_attachments: Вкладення
     label_drop_files: Перетягніть файли сюди
@@ -542,7 +542,7 @@ uk:
           many: 'і ще %{count}'
           other: 'і ще %{count}'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'Тут з’являтимуться нові сповіщення про дії, які можуть вас цікавити. Ви можете також переглянути або змінити налаштування часу отримання цих сповіщень.'
           with_current_filter: 'Зараз у цьому поданні немає сповіщень'
         mark_all_read: 'Позначити все як прочитане'
         mark_as_read: 'Позначити як прочитане'
@@ -550,8 +550,8 @@ uk:
         total_count_warning: "Показано стільки останніх сповіщень: %{newest_count}. Ще %{more_count} не показано."
         empty_state:
           no_notification: "Схоже, ви все прочитали."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification_with_current_project_filter: "Схоже, ви переглянули всі сповіщення для вибраного проєкту."
+          no_notification_with_current_filter: "Схоже, ви переглянули всі сповіщення за фільтром %{filter}."
           no_selection: "Натисніть сповіщення, щоб переглянути всі дані про дію."
         new_notifications:
           message: 'Немає нових сповіщень.'
@@ -809,7 +809,7 @@ uk:
       zooms: "Рівень масштабування"
       outlines: "Рівень ієрархії"
     upsale:
-      ee_only: 'Enterprise Edition feature'
+      ee_only: 'Функція Enterprise Edition'
     wiki_formatting:
       strong: "Жирний"
       italic: "Курсив"
@@ -838,12 +838,12 @@ uk:
       comment_updated: "Коментар був успішно оновлений."
       confirm_edit_cancel: "Ви дійсно бажаєте скасувати редагування пакету робіт?"
       datepicker_modal:
-        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
-        manually_scheduled: "Manual scheduling enabled, all relations ignored."
-        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
-        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
-        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        automatically_scheduled_parent: "Автоматично заплановано. Дати отримано зі зв’язків."
+        manually_scheduled: "Увімкнено ручне планування; усі зв’язки ігноруються."
+        start_date_limited_by_relations: "Доступні дати початку й завершення обмежені зв’язками."
+        changing_dates_affects_follow_relations: "Змінення цих дат вплине на дати пов’язаних пакетів робіт."
+        click_on_show_relations_to_open_gantt: 'Натисніть кнопку «%{button_name}», щоб перейти в режим GANTT.'
+        show_relations: 'Показати зв’язки'
       description_filter: "Фільтр"
       description_enter_text: "Введіть текст"
       description_options_hide: "Сховати опції"
@@ -1094,9 +1094,9 @@ uk:
         other: "%{count} год"
         zero: "0 год"
       day:
-        one: "1 day"
-        other: "%{count} days"
-        zero: "0 days"
+        one: "1 день"
+        other: "%{count} д."
+        zero: "0 днів"
     zen_mode:
       button_activate: 'Активуйте режим дзен'
       button_deactivate: 'Деактивуйте режим дзен'
@@ -1163,7 +1163,7 @@ uk:
       role:
         label: 'Ролі у проєкті «%{project}»'
         no_roles_found: 'Ролей не знайдено'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Це роль, яку користувач %{principal} отримає в разі приєднання до вашого проєкту. Роль визначає, які дії йому дозволено та яку інформацію він може бачити. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Дізнатися більше про ролі й дозволи. </a>'
         required: 'Виберіть роль'
         next_button: 'Далі'
       message:
@@ -1192,8 +1192,8 @@ uk:
       tooltip:
         include_all_selected: 'Параметр «Включити всі підпроєкти» зараз увімкнено.'
         current_project: 'Це поточний проєкт, який зараз відкрито.'
-        does_not_match_search: 'Project does not match the search criteria.'
-      no_results: 'No project matches your search criteria.'
+        does_not_match_search: 'Проєкт не відповідає критеріям пошуку.'
+      no_results: 'Жоден проєкт не відповідає вашим критеріям пошуку.'
     forms:
       submit_success_message: 'Форму надіслано'
       load_error_message: 'Сталася помилка під час завантаження форми'
