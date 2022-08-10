@@ -46,36 +46,34 @@ import {
 } from 'rxjs/operators';
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { insertInList } from 'core-app/shared/components/project-include/insert-in-list';
-import { IProjectData } from 'core-app/shared/components/project-list/project-data';
-import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
-import {
-  projectListActionSelector,
-  projectListItemDisabled,
-} from 'core-app/shared/components/project-list/project-list.component';
 import { recursiveSort } from 'core-app/shared/components/project-include/recursive-sort';
 import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
 
-export const projectMenuAutocompleteSelector = 'project-menu-autocomplete';
+export const headerProjectSelectSelector = 'op-header-project-select';
 
 @Component({
-  templateUrl: './project-menu-autocomplete.template.html',
+  templateUrl: './header-project-select.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: projectMenuAutocompleteSelector,
+  selector: headerProjectSelectSelector,
   providers: [
     SearchableProjectListService,
   ],
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./project-menu-autocomplete.component.sass'],
+  styleUrls: ['./header-project-select.component.sass'],
 })
-export class ProjectMenuAutocompleteComponent {
-  @HostBinding('class.op-project-menu-autocomplete') className = true;
+export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
+  @HostBinding('class.op-header-project-select') className = true;
 
-  dropModalOpen = false;
+  public dropModalOpen = false;
 
-  canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create');
+  public textFieldFocused = false;
 
-  projects$ = combineLatest([
+  public canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create');
+
+  public projects$ = combineLatest([
     this.searchableProjectListService.allProjects$,
     this.searchableProjectListService.searchText$.pipe(debounceTime(200)),
   ]).pipe(
@@ -99,7 +97,12 @@ export class ProjectMenuAutocompleteComponent {
           (list, project) => {
             const { ancestors } = project._links;
 
-            return insertInList(projects, project, list, ancestors);
+            return insertInList(
+              projects,
+              project,
+              list,
+              ancestors,
+            );
           },
           [] as IProjectData[],
         ),
@@ -143,7 +146,15 @@ export class ProjectMenuAutocompleteComponent {
     protected currentProject:CurrentProjectService,
     readonly searchableProjectListService:SearchableProjectListService,
     readonly currentUserService:CurrentUserService,
-  ) {}
+  ) {
+    super();
+
+    this.projects$
+      .pipe(this.untilDestroyed())
+      .subscribe((projects) => {
+        this.searchableProjectListService.resetActiveResult(projects);
+      });
+  }
 
   toggleDropModal():void {
     this.dropModalOpen = !this.dropModalOpen;
@@ -155,31 +166,6 @@ export class ProjectMenuAutocompleteComponent {
   close():void {
     this.searchableProjectListService.searchText = '';
     this.dropModalOpen = false;
-  }
-
-  onKeydown(event:KeyboardEvent):void {
-    if (event.keyCode === KeyCodes.ENTER) {
-      this.handleKeyEnter(event);
-    }
-
-    this.searchableProjectListService.onKeydown(event);
-  }
-
-  private handleKeyEnter(event:KeyboardEvent):void {
-    const focused = document.activeElement as HTMLElement|undefined;
-
-    // If the current focus is within a list action, return
-    if (focused?.closest(projectListActionSelector)) {
-      return;
-    }
-
-    const first = document.querySelector<HTMLAnchorElement>(`a${projectListActionSelector}:not(${projectListItemDisabled})`);
-
-    if (first) {
-      event.preventDefault();
-      first.focus();
-      window.location.href = first.href;
-    }
   }
 
   currentProjectName():string {
