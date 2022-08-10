@@ -37,37 +37,40 @@ As a user of both Nextcloud and OpenProject, you can benefit from this integrati
 
   > **Note:** In this version of the integration, you can only link files to work packages on Nextcloud; adding a new link to a Nextcloud file via the OpenProject interface is not yet possible, but will be possible in the near future.
   
-
 - **In Nextcloud:**
   On the file or folder that you want to link to a work package click on the three dots and then click on _Details_.
   
   ![NC_open_file_details](Nextcloud_open_file_details.png)
   
-  In the _Details_ side panel, click on the the _OpenProject_ tab. This tab lets you link work packages in OpenProject to the current file, and will list all linked work packages. When nothing is yet linked, the list will be empty. To link the file to work package for the first time, use the search bar to search for the work packages in your OpenProject instance, and click on one to link it. 
+  In the _Details_ side panel, click on the the _OpenProject_ tab. This tab lets you link work packages in OpenProject to the current file, and will list all linked work packages. When nothing is yet linked, the list will be empty. To link the file to work package for the first time, use the search bar to search for the work packages in your OpenProject instance, and click on one to link it.
   
+  ![NC_empty_status](NC_0_00-FileNoRelation.png)
+  
+  ![NC_search_WP](NC_0_01-FileRelationSearch.png)
+
   This linked file will then appear underneath the search bar, and will appear on the Files tab of the work package in OpenProject.
-  
+
+  ![NC_WP_relation](NC_1_00-FileWPRelation.png)
+
   Once a work package is linked to a file, you can always unlink it by clicking on the **unlink** icon.
-
-  ![NC_search_WP](0_0_00-File_Relation_Search.png)
-
-  ![NC_linked_WP](0_1_01-File_WP_Actions.png)
-
+  
+  ![NC_unlink_WP](NC_1_01-FileWPActions.png)
+  
   In addition to actions related to individual files, can also choose to display the OpenProject widget on your Nextcloud dashboard in order to keep an eye on the the latest changes and updates to linked work packages:
   ![add_NC_widget](Add_OpenProject_widget.png)
-
-  ![added_NC_widget](Nextcloud_dashboard.png)
-
-  Additionally, there are find three additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *Connected accounts* you will find these options:
   
+  ![added_NC_widget](Nextcloud_dashboard.png)
+  
+  Additionally, there are find three additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *Connected accounts* you will find these options:
+
   - **Enable navigation link** displays a link to your OpenProject instance in the Nextcloud header 
   - **Enable unified search for tickets** allows you to access OpenProject work packages via the universal search bar 
   - **Enable notifications for activity in my work packages** sends you notifications when there are updates to linked OpenProject work packages
 
   ![NC_extra_settings](Nextcloud_connected_account.png)
-
+  
   ![NC_extra_navlink](Navigation_link_OpenProject.png)
-
+  
   ![NC_extra_search](Unified_search.png)
 
 
