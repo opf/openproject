@@ -26,31 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/plugins'
+class CleanupWebhookLogsJob < ::Cron::CronJob
+  # runs at 5:28 on Sunday
+  self.cron_expression = '28 5 * * 7'
 
-module OpenProject::Webhooks
-  class Engine < ::Rails::Engine
-    engine_name :openproject_webhooks
-
-    include OpenProject::Plugins::ActsAsOpEngine
-
-    register 'openproject-webhooks',
-             bundled: true,
-             author_url: 'https://www.openproject.org' do
-      menu :admin_menu,
-           :plugin_webhooks,
-           { controller: 'webhooks/outgoing/admin', action: :index },
-           if: Proc.new { User.current.admin? },
-           parent: :api_and_webhooks,
-           caption: :'webhooks.plural'
-    end
-
-    initializer 'webhooks.subscribe_to_notifications' do |app|
-      app.config.after_initialize do
-        ::OpenProject::Webhooks::EventResources.subscribe!
-      end
-    end
-
-    add_cron_jobs { CleanupWebhookLogsJob }
+  # Clean any logs older than 7 days
+  def perform
+    ::Webhooks::Log
+      .where('created_at < ?', 7.days.ago)
+      .delete_all
   end
 end
