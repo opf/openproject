@@ -289,15 +289,15 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li> <b>nowy moduł Planista zespołu</b> (funkcja wersji Enterprise) umożliwia wizualne przypisywanie zadań członkom zespołu, co pozwala uzyskać informacje o tym, kto nad czym pracuje.</li> <li>Wydajemy <b>tablice zwinne</b> dla wersji społecznościowej.</li> <li>Filtr „<b>Uwzględnij projekty</b>” ułatwia dodawanie różnych projektów do widoków, takich jak pakiety robocze, kalendarze i planiści zespołu.</li> <li>Dodaliśmy <b>nową kartę „Pliki”</b> w szczegółach pakietu roboczego, aby dołączać wszystkie możliwe informacje do pakietu roboczego.</li> <li>Utworzyliśmy <b>globalne role dla grup</b>, które można przypisać do grup i utworzyć grupy superużytkowników.</li> <li>Status projektu otrzymał więcej opcji do wyboru.</li> </ul>
+                Wersja ta zawiera wiele nowych funkcji i ulepszeń: <br> <ul class="%{list_styling_class}"> <li> Koniec z niekończącym się wyszukiwaniem plików! Dzięki nowej <b>integracji z Nextcloud</b> w OpenProject 12.2 możesz teraz znaleźć pliki bezpośrednio w odpowiednim pakiecie roboczym i zawsze mieć poprawną wersję pod ręką. </li> <li>Wprowadziliśmy <b>nowy selektor dat</b> z zaktualizowanym sposobem wprowadzania danych oraz baner informacyjny, który zawiera przycisk do pokazywania relacji na wykresie Gantta.</li> <li>Dodaliśmy możliwość <b>rejestrowania czasu dla innych użytkowników.</b></li> <li>Oznaczaj powiadomienia jako przeczytane również poza centrum powiadomień.</li> </ul>.
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>W module BCF można teraz zapisywać wybrane filtry pakietów roboczych, kolumny itd. jako <b>widoki</b> i udostępniać je członkom swojego zespołu.</li> <li> <b>nowy moduł Planista zespołu</b> (funkcja wersji Enterprise) umożliwia wizualne przypisywanie zadań członkom zespołu, co pozwala uzyskać informacje o tym, kto nad czym pracuje.</li> <li>Wydajemy <b>tablice zwinne</b> dla wersji społecznościowej.</li> <li>Filtr „<b>Uwzględnij projekty</b>” ułatwia dodawanie różnych projektów do widoków, takich jak pakiety robocze, kalendarze i planiści zespołu.</li> <li>Dodaliśmy <b>nową kartę „Pliki”</b> w szczegółach pakietu roboczego, aby dołączać wszystkie możliwe informacje do pakietu roboczego.</li> <li>Utworzyliśmy <b>globalne role dla grup</b>, które można przypisać do grup i utworzyć grupy superużytkowników.</li> <li>Status projektu otrzymał więcej opcji do wyboru.</li> </ul>
+                Wersja ta zawiera wiele nowych funkcji i ulepszeń: <br> <ul class="%{list_styling_class}"> <li> Koniec z niekończącym się wyszukiwaniem plików! Dzięki nowej <b>integracji z Nextcloud</b> w OpenProject 12.2 możesz teraz znaleźć pliki bezpośrednio w odpowiednim pakiecie roboczym i zawsze mieć poprawną wersję pod ręką. </li> <li>Wprowadziliśmy <b>nowy selektor dat</b> z zaktualizowanym sposobem wprowadzania danych oraz baner informacyjny, który zawiera przycisk do pokazywania relacji na wykresie Gantta.</li> <li>Dodaliśmy możliwość <b>rejestrowania czasu dla innych użytkowników.</b></li> <li>Oznaczaj powiadomienia jako przeczytane również poza centrum powiadomień.</li> </ul>.
     label_activate: "Aktywuj"
     label_assignee: 'Przypisana osoba'
     label_add_column_after: "Dodaj kolumnę po"
@@ -1163,7 +1163,7 @@ pl:
       role:
         label: 'Rola w %{project}'
         no_roles_found: 'Nie znaleziono żadnych ról'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'To jest rola, którą %{principal} otrzyma po dołączeniu do projektu. Rola określa działania, które można podjąć i widoczne informacje. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Dowiedz się więcej o rolach i uprawnieniach. </a>'
         required: 'Wybierz rolę'
         next_button: 'Następny'
       message:

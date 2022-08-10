@@ -231,12 +231,12 @@ fr:
             professional_support: "Support professionnel"
             professional_support_text: "Obtenez une assitance fiable et à haut contact de la part d'ingénieurs d'assistance expérimentés qui ont une connaissance approfondie de la mise en œuvre d'OpenProject dans des environnements critiques pour l'entreprise."
           button_start_trial: "Commencer l'essai gratuit"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "Mettre à niveau maintenant"
           button_book_now: "Réserver maintenant"
           confidence: >
             Nous fournissons la confiance d'un logiciel de gestion de projet de classe entreprise testé et supporté - en Open Source et un avec esprit ouvert.
           link_quote: "Obtenir un devis"
-          more_info: "More information"
+          more_info: "Plus d'informations"
           text: >
             L'Entreprise Edition d'OpenProject s'appuie sur la Community Edition. Elle comprend des fonctionnalités premium et un support professionnel principalement destiné aux organisations comptant plus de 10 utilisateurs gérant des projets critiques avec OpenProject.
           unlimited: "Illimité"
@@ -269,7 +269,7 @@ fr:
           one: "Premier critère de tri"
           two: "Second critère de tri"
           three: "Troisième critère de tri"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
+      upsale_for_more: "Les filtres avancés vous permettent également de filtrer les noms de fichiers et le contenu des pièces jointes du lot de travaux. Veuillez passer à une offre payante pour utiliser cette fonctionnalité."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "non"
     general_text_yes: "oui"
@@ -289,15 +289,15 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Un <b>nouveau module de planification d'équipe</b> (fonctionnalité Entreprise) vous permet d'attribuer visuellement des tâches aux membres de l'équipe pour avoir un aperçu de qui travaille sur quoi.</li> <li>Nous sommes <b>en train de libérer les tableaux agiles de base</b> pour la version Community. </li> <li>L'option de filtre <b>« Inclure les projets »</b> facilite l'ajout de différents projets à vos vues, comme pour les lots de travail, les calendriers et les planificateurs d'équipe.</li> <li>Nous avons ajouté <b>un nouvel onglet « Fichiers »</b> dans les détails du lot de travail pour avoir toutes les informations possibles attachées à un lot de travail ensemble. </li> <li>Nous avons créé des <b>rôles globaux pour les groupes</b> afin d'attribuer ces rôles aux groupes et de créer des groupes de super-utilisateurs.</li> <li>Le statut du projet a reçu plus d'options parmi lesquelles choisir.</li> </ul>
+                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Plus aucune recherche de fichiers sans fin ! Avec la nouvelle <b>intégration Nextcloud</b> dans OpenProject 12.2, vous pouvez maintenant trouver des fichiers directement dans le lot de travaux respectif et toujours avoir la bonne version à portée de main.</li> <li>Nous avons introduit <b>un nouveau sélecteur de dates</b> avec un comportement de saisie mis à jour et une bannière d'information qui inclut un bouton pour afficher les relevés dans le diagramme de Gantt.</li> <li>Nous avons ajouté la possibilité d'<b>enregistrer du temps pour les autres utilisateurs.</b></li> <li>Marquez les notifications comme lues également en dehors du centre de notification.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Dans le module BCF, vous pouvez désormais enregistrer vos filtres de paquets de travail sélectionnés, vos colonnes, etc. en tant que <b>vues</b> et les partager avec les membres de votre équipe. </li> <li>Un <b>nouveau module de planification d'équipe</b> (fonctionnalité Entreprise) vous permet d'attribuer visuellement des tâches aux membres de l'équipe pour avoir un aperçu de qui travaille sur quoi.</li> <li>Nous sommes <b>en train de libérer les tableaux agiles de base</b> pour la version Community. </li> <li>L'option de filtre <b>« Inclure les projets »</b> facilite l'ajout de différents projets à vos vues, comme pour les lots de travail, les calendriers et les planificateurs d'équipe.</li> <li>Nous avons ajouté <b>un nouvel onglet « Fichiers »</b> dans les détails du lot de travail pour avoir toutes les informations possibles attachées à un lot de travail ensemble. </li> <li>Nous avons créé des <b>rôles globaux pour les groupes</b> afin d'attribuer ces rôles aux groupes et de créer des groupes de super-utilisateurs.</li> <li>Le statut du projet a reçu plus d'options parmi lesquelles choisir.</li> </ul>
+                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Plus aucune recherche de fichiers sans fin ! Avec la nouvelle <b>intégration Nextcloud</b> dans OpenProject 12.2, vous pouvez maintenant trouver des fichiers directement dans le lot de travaux respectif et toujours avoir la bonne version à portée de main.</li> <li>Nous avons introduit <b>un nouveau sélecteur de dates</b> avec un comportement de saisie mis à jour et une bannière d'information qui inclut un bouton pour afficher les relevés dans le diagramme de Gantt.</li> <li>Nous avons ajouté la possibilité d'<b>enregistrer du temps pour les autres utilisateurs.</b></li> <li>Marquez les notifications comme lues également en dehors du centre de notification.</li> </ul>
     label_activate: "Activer"
     label_assignee: 'Responsable'
     label_add_column_after: "Ajouter une colonne au-dessus"
@@ -369,7 +369,7 @@ fr:
     label_in_more_than: "dans plus de"
     label_incoming_emails: "Courriels entrants"
     label_information_plural: "Information"
-    label_invalid: "Invalid"
+    label_invalid: "Non valide"
     label_import: "Importer"
     label_latest_activity: "Dernière activité"
     label_last_updated_on: "Dernière modification le"
@@ -401,8 +401,8 @@ fr:
     label_previous: "Précédent"
     label_per_page: "Par page:"
     label_please_wait: "Veuillez patienter"
-    label_project: "Project"
-    label_project_list: "Projects list"
+    label_project: "Projet"
+    label_project_list: "Liste des projets"
     label_project_plural: "Projets"
     label_visibility_settings: "Paramètres de visibilité"
     label_quote_comment: "Citer ce commentaire"
@@ -415,7 +415,7 @@ fr:
     label_report: "Rapport"
     label_repository_plural: "Dépôts"
     label_save_as: "Enregistrer sous"
-    label_select_project: "Select a project"
+    label_select_project: "Sélectionner un projet"
     label_select_watcher: "Sélectionner un observateur…"
     label_selected_filter_list: "Filtres sélectionnés"
     label_show_attributes: "Afficher tous les attributs"
@@ -457,10 +457,10 @@ fr:
     label_unwatch: "Ne plus suivre"
     label_unwatch_work_package: "Ne plus suivre le lot de travaux"
     label_uploaded_by: "Téléversé par"
-    label_default_queries: "Default"
-    label_starred_queries: "Favorite"
+    label_default_queries: "Par défaut"
+    label_starred_queries: "Favori"
     label_global_queries: "Public"
-    label_custom_queries: "Private"
+    label_custom_queries: "Privé"
     label_columns: "Colonnes"
     label_attachments: Fichiers
     label_drop_files: Déposez des fichiers ici
@@ -540,7 +540,7 @@ fr:
           one: 'et 1 autre'
           other: 'et %{count} autres'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'De nouvelles notifications apparaîtront ici quand il y a des activités qui vous concernent, en attendant, vous pouvez également afficher et modifier vos paramètres de notification pour configurer quand être notifié.'
           with_current_filter: 'Il n''y a pas de notifications dans cette vue pour le moment'
         mark_all_read: 'Tout marquer comme lu'
         mark_as_read: 'Marquer comme lu'
@@ -548,8 +548,8 @@ fr:
         total_count_warning: "Affichage des %{newest_count} notifications les plus récentes. %{more_count} autres ne sont pas affichées."
         empty_state:
           no_notification: "On dirait que vous êtes à jour."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification_with_current_project_filter: "On dirait que vous êtes à jour dans le projet sélectionné."
+          no_notification_with_current_filter: "On dirait que vous êtes à jour pour le filtre %{filter}."
           no_selection: "Cliquez sur une notification pour voir tous les détails de l'activité."
         new_notifications:
           message: 'Il y a de nouvelles notifications.'
@@ -807,7 +807,7 @@ fr:
       zooms: "Niveau de zoom"
       outlines: "Niveau de hiérarchie"
     upsale:
-      ee_only: 'Enterprise Edition feature'
+      ee_only: 'Fonctionnalité de la version Entreprise'
     wiki_formatting:
       strong: "Gras"
       italic: "Italique"
@@ -836,12 +836,12 @@ fr:
       comment_updated: "Le commentaire a été mis à jour avec succès."
       confirm_edit_cancel: "Êtes-vous sûr de vouloir annuler l'édition du lot de travaux ?"
       datepicker_modal:
-        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
-        manually_scheduled: "Manual scheduling enabled, all relations ignored."
-        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
-        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
-        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        automatically_scheduled_parent: "Planification automatique. Les dates sont dérivées des relations."
+        manually_scheduled: "La planification manuelle est activée, toutes les relations sont ignorées."
+        start_date_limited_by_relations: "Les dates de début et de fin disponibles sont limitées par les relations."
+        changing_dates_affects_follow_relations: "La modification de ces dates affectera les dates des lots de travaux connexes."
+        click_on_show_relations_to_open_gantt: 'Cliquez sur « %{button_name} » pour avoir une vue d''ensemble de GANTT.'
+        show_relations: 'Afficher les relations'
       description_filter: "Filtrer"
       description_enter_text: "Saisir texte"
       description_options_hide: "Masquer les options"
@@ -1088,9 +1088,9 @@ fr:
         other: "%{count} h"
         zero: "0 h"
       day:
-        one: "1 day"
-        other: "%{count} days"
-        zero: "0 days"
+        one: "1 jour"
+        other: "%{count} jours"
+        zero: "0 jour"
     zen_mode:
       button_activate: 'Activer le mode zen'
       button_deactivate: 'Désactiver le mode zen'
@@ -1157,7 +1157,7 @@ fr:
       role:
         label: 'Rôle dans %{project}'
         no_roles_found: 'Aucun rôle trouvé.'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'C''est le rôle que %{principal} recevra quand il rejoindra votre projet. Le rôle définit quelles actions il est autorisé à entreprendre et quelles informations il peut voir. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> En savoir plus sur les rôles et les permissions. </a>'
         required: 'Veuillez sélectionner un rôle'
         next_button: 'Suivante'
       message:
@@ -1186,8 +1186,8 @@ fr:
       tooltip:
         include_all_selected: 'Inclure tous les sous-projets est actuellement sélectionné.'
         current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'
-        does_not_match_search: 'Project does not match the search criteria.'
-      no_results: 'No project matches your search criteria.'
+        does_not_match_search: 'Le projet ne correspond pas aux critères de recherche.'
+      no_results: 'Aucun projet ne correspond à vos critères de recherche.'
     forms:
       submit_success_message: 'Le formulaire a bien été envoyé'
       load_error_message: 'Une erreur s''est produite lors du chargement du formulaire'

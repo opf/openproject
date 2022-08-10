@@ -48,9 +48,9 @@ uk:
         main-menu-hover-font-color: "Шрифт головного меню в разі наведення"
         main-menu-border-color: "Контур головного меню"
       custom_colors: "Кольори за власними вподобаннями"
-      customize: "Customize your OpenProject installation with your own logo and colors."
+      customize: "Персоналізуйте свій екземпляр OpenProject за допомогою власного логотипа й кольорів."
       enterprise_notice: "Як особливий «Спасибі!» для їхнього фінансового внеску в розвиток OpenProject, ця маленька функція доступна лише для абонентів підтримки Enterprise Edition."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
+      enterprise_more_info: "Примітка: використаний логотип буде загальнодоступний."
       manage_colors: "Редагувати параметри вибору кольору"
       instructions:
         alternative-color: "Насичений акцентний колір зазвичай використовується для більшості важливих кнопок на екрані."
@@ -95,7 +95,7 @@ uk:
     add_new: 'Додати текст довідки'
     edit: "Редагувати текст довідки для %{attribute_caption}"
     enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+      description: 'Надайте додаткову інформацію для атрибутів (включно з користувацькими полями) пакетів робіт і проєктів. Підказки з’являються, коли користувачі натискають на знак питання біля полів введення в проєктах і пакетах робіт.'
   auth_sources:
     index:
       no_results_content_title: Наразі немає режимів аутентифікації.
@@ -170,7 +170,7 @@ uk:
     execute: 'Виконати %{name}'
     upsale:
       title: 'Власні дії'
-      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
+      description: 'Користувацькі дії – це ярлики набору попередньо визначених дій, які ви можете включати в певні пакети робіт залежно від статусу, ролі, типу або проєкту.'
   custom_fields:
     text_add_new_custom_field: >
       Щоб додати нові користувальницькі поля до проекту, спочатку потрібно створити їх, перш ніж ви зможете додати їх до цього проекту.
@@ -270,7 +270,7 @@ uk:
     upsale:
       title: Прототипи користувачів
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Прототипи користувачів допомагають призначати пакети робіт користувачам, які не входять у ваш проєкт. Вони можуть бути корисні в різних сценаріях. Наприклад, якщо потрібно відстежувати завдання для ресурсу, який поки не доступний або не названий. Або ж ви хочете відстежувати завдання, призначені особі, не надаючи їй доступу до OpenProject.
   prioritiies:
     edit:
       priority_color_text: |
@@ -301,7 +301,7 @@ uk:
       settings: "Налаштування"
       form_configuration: "Конфігурація форми"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        У версії Enterprise Edition можна персоналізувати конфігурацію форми за допомогою таких додаткових функцій: <br> <ul class="%{list_styling_class}">Додавання нових груп атрибутів</b></li> <li><b>Перейменування груп атрибутів</b></li> <li><b>Додавання таблиці пов’язаних пакетів робіт</b></li> </ul>
       projects: "Проекти"
       enabled_projects: "Включені проекти"
       edit_query: "Редагувати таблицю"
@@ -523,16 +523,16 @@ uk:
         begin_deletion: "Початок видалення"
         children: "Субелементи"
         done_ratio: "Прогрес (%)"
-        duration: "Duration"
+        duration: "Тривалість"
         end_insertion: "Кінець вставки"
         end_deletion: "Кінець видалення"
-        ignore_non_working_days: "Ignore non working days"
+        ignore_non_working_days: "Ігнорувати неробочі дні"
         parent: "Джерело"
         parent_issue: "Джерело"
         parent_work_package: "Джерело"
         priority: "Пріоритет"
         progress: "Прогрес (%)"
-        readonly: "Read only"
+        readonly: "Лише читання"
         schedule_manually: "Ручне планування"
         spent_hours: "Трудовитрати"
         spent_time: "Трудовитрати"
@@ -607,7 +607,7 @@ uk:
         unknown_property_nested: "має невідомий шлях «%{path}»."
         unremovable: "неможливо видалити."
         url_not_secure_context: >
-          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
+          не надає захищений контекст. Використовуйте HTTPS або адресу loopback, наприклад localhost.
         wrong_length: "неправильна довжина (повинна бути %{count} символів)."
       models:
         attachment:
@@ -639,7 +639,7 @@ uk:
               fragment_present: "26/5000\nне може містити фрагмент."
               invalid_uri: 'має бути дійсним URI.'
               relative_uri: 'має бути абсолютним URI.'
-              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
+              secured_uri: 'не надає захищений контекст. Використовуйте HTTPS або адресу loopback, наприклад localhost.'
               forbidden_uri: 'заборонено сервером.'
             scopes:
               not_match_configured: "не відповідає доступним областям."
@@ -743,9 +743,9 @@ uk:
             due_date:
               not_start_date: "не на дату початку, хоча це потрібно для етапів."
             duration:
-              larger_than_dates: "is larger than the interval between the start and the finish date."
-              smaller_than_dates: "is smaller than the interval between the start and the finish date."
-              not_available_for_milestones: "is not available for milestone typed work packages."
+              larger_than_dates: "більша за інтервал між датами початку й закінчення."
+              smaller_than_dates: "менша за інтервал між датами початку й закінчення."
+              not_available_for_milestones: "недоступна для пакетів робіт типу «віха»."
             parent:
               cannot_be_milestone: "не може бути важливою подією."
               cannot_be_self_assigned: "– не можна призначити собі."
@@ -1390,7 +1390,7 @@ uk:
     admin:
       mail_notification: "Email сповіщення"
       mails_and_notifications: "Електронні листи й сповіщення"
-      aggregation: 'Aggregation'
+      aggregation: 'Агрегація'
       api_and_webhooks: "API та вебгуки"
     quick_add:
       label: "Відкрити меню швидкого додавання"
@@ -1399,7 +1399,7 @@ uk:
       no_results:
         title: "Немає маркерів доступу для відображення"
         description: "Всі вони були відключені. Їх можна повторно ввімкнути в меню адміністрування."
-      access_tokens: "Access tokens"
+      access_tokens: "Маркери доступу"
       headers:
         action: "Дія"
         expiration: "Закінчується"
@@ -1565,7 +1565,7 @@ uk:
   label_diff: "різниця"
   label_diff_inline: "підключений"
   label_diff_side_by_side: "поряд"
-  label_digital_accessibility: 'Digital accessibility (DE)'
+  label_digital_accessibility: 'Цифрова доступність (ЦД)'
   label_disabled: "Вимкнено"
   label_display: "Дисплей"
   label_display_per_page: "На сторінку: %{value}"
@@ -2041,9 +2041,9 @@ uk:
   mail_body_backup_token_info: Попередній маркер більше не дійсний.
   mail_body_backup_waiting_period: Новий маркер почне діяти через %{hours} год.
   mail_body_backup_token_warning: Якщо це були не ви, негайно ввійдіть в OpenProject і знову скиньте його.
-  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
-  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
-  mail_body_incoming_email_error_logs: "Logs"
+  mail_body_incoming_email_error: Не вдалось обробити електронний лист, надісланий на адресу OpenProject.
+  mail_body_incoming_email_error_in_reply_to: "О %{received_at} %{from_email} написав(-ла)"
+  mail_body_incoming_email_error_logs: "Журнали"
   mail_body_lost_password: "Щоб змінити пароль, натисніть на посилання:"
   mail_body_register: "Вітаємо в %{app_title}. Активуйте свій обліковий запис, перейшовши за цим посиланням:"
   mail_body_register_header_title: "Електронний лист із запрошенням стати учасником проєкту"
@@ -2061,7 +2061,7 @@ uk:
   mail_subject_account_activation_request: "Запит на активацію облікового запису %{value}"
   mail_subject_backup_ready: "Ваша резервна копія готова"
   mail_subject_backup_token_reset: "Скидання маркера резервного копіювання"
-  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
+  mail_subject_incoming_email_error: "Не вдалось обробити електронний лист, надісланий на адресу OpenProject"
   mail_subject_lost_password: "Ваш %{value} пароль"
   mail_subject_register: "Активація облікового запису %{value}"
   mail_subject_reminder: "%{count} призначених на Вас робочих пакетів в найближчі %{days} дні"
@@ -2155,11 +2155,9 @@ uk:
   notice_successful_delete: "Видалення успішно завершене."
   notice_successful_update: "Успішно оновлено."
   notice_successful_update_custom_fields_added_to_project: |
-    Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+    Оновлення завершено. Користувацькі поля активованих типів автоматично активовано у формі пакета робіт. <a href="%{url}" target="_blank">Докладніше</a>.
   notice_successful_update_custom_fields_added_to_type: |
-    Successful update. The active custom fields are automatically activated for
-    the associated projects of this type.
+    Оновлення завершено. Активні користувацькі поля автоматично активовано для пов’язаних проєктів цього типу.
   notice_to_many_principals_to_display: "Є занадто багато результатів.\nЗвузити пошук ввівши назву нового елемента (або групи)."
   notice_user_missing_authentication_method: Користувач ще не вибрав пароль або інший спосіб входу.
   notice_user_invitation_resent: Надіслано запрошення %{email}.
@@ -2212,7 +2210,7 @@ uk:
   permission_comment_news: "Коментування новин"
   permission_commit_access: "Доступ для читання/запису до сховища (фіксація)"
   permission_copy_projects: "Копіювати проекти"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "Створення резервних копій"
   permission_delete_work_package_watchers: "Видалення спостерігачів"
   permission_delete_work_packages: "Видалити робочі пакети"
   permission_delete_messages: "Видалити повідомлення"
@@ -2229,14 +2227,14 @@ uk:
   permission_edit_own_time_entries: "Редагування власного обліку часу"
   permission_edit_project: "Редагувати проект"
   permission_edit_reportings: "Редагування звітів"
-  permission_edit_time_entries: "Edit time logs for other users"
+  permission_edit_time_entries: "Редагувати журнали часу для інших користувачів"
   permission_edit_timelines: "Змінити часові рамки"
   permission_edit_wiki_pages: "Редагування wiki-сторінок"
   permission_export_work_packages: "Експорт робочих пакетів"
   permission_export_wiki_pages: "Експорт wiki-сторінок"
   permission_list_attachments: "Список вкладень"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "Реєструвати власний час"
+  permission_log_time: "Реєструвати час для інших користувачів"
   permission_manage_forums: "Управління форумами"
   permission_manage_categories: "Управління категоріями пакет робота"
   permission_manage_work_package_relations: "Управління зв'язками робочого пакету"
@@ -2306,7 +2304,7 @@ uk:
     assigned_to_role: "Роль виконавця"
     member_of_group: "Група виконавця"
     assignee_or_group: "Правонаступник або приналежність до групи"
-    subproject_id: "Including subproject"
+    subproject_id: "Включно з підпроєктом"
     only_subproject_id: "Лише підпроєкт"
     name_or_identifier: "Ім'я або ідентифікатор"
   repositories:
@@ -2394,9 +2392,9 @@ uk:
     storage:
       not_available: "Споживання дискового сховища недоступне для цього сховища."
       update_timeout: "Зберігайте останню необхідну інформацію про дисковий простір для сховища протягом N хвилин.\nОскільки підрахунок необхідного дискового простору сховища може бути довгим, збільште це значення, щоб зменшити вплив продуктивності."
-      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
-      oauth_application_details_link_text: "Go to settings page"
-      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
+      oauth_application_details: "Секретний ключ клієнта стане недоступним, коли ви закриєте це вікно. Скопіюйте це значення в налаштування інтеграції Nextcloud OpenProject:"
+      oauth_application_details_link_text: "Перейти на сторінку налаштувань"
+      show_warning_details: "Щоб користуватися цим файловим сховищем, активуйте модуль і визначене сховище в налаштуваннях кожного потрібного проєкту."
     subversion:
       existing_title: "Існуюче сховище Subversion"
       existing_introduction: "Якщо у вас є існуюче сховище Subversion, ви можете зв'язати його з OpenProject, щоб отримати доступ до нього з програми."
@@ -2441,7 +2439,7 @@ uk:
   setting_smtp_authentication: "SMTP аутентифікація"
   setting_smtp_user_name: "SMTP користувач:"
   setting_smtp_password: "SMTP пароль:"
-  setting_smtp_domain: "SMTP HELO domain"
+  setting_smtp_domain: "Домен SMTP HELO"
   setting_activity_days_default: "Кількість днів, відображених в Діях"
   setting_app_subtitle: "Підзаголовок додатку"
   setting_app_title: "Назва додатку"
@@ -2489,7 +2487,7 @@ uk:
   setting_work_package_list_default_columns: "Дисплей за замовчуванням"
   setting_work_package_properties: "Властивості робочого пакета"
   setting_work_package_startdate_is_adddate: "Використовувати поточну дату в якості дати початку роботи для нових пакетів"
-  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
+  setting_work_packages_projects_export_limit: "Ліміт експорту пакетів робіт / проєктів"
   setting_journal_aggregation_time_minutes: "Дії користувача зведено протягом"
   setting_log_requesting_user: "Запишіть логін користувача, ім'я та поштову адресу для всіх запитів"
   setting_login_required: "Необхідна аутентифікація"
@@ -2601,11 +2599,11 @@ uk:
   text_custom_field_hint_activate_per_project_and_type: >
     Користувальницькі поля повинні бути активовані за типом робочого пакета та проекту.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    У випуску Enterprise Edition з’являться такі додаткові функції для користувацьких полів пакетів робіт: <br> <ul><li><b>Дозволити вибір кількох користувацьких полів типу «Список» або «Користувач»</b></li> </ul> 
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    У випуску Enterprise Edition з’являться такі додаткові функції для полів статусу пакетів робіт: <br> <ul><li><b>Дозволити позначати пакети робіт певних статусів як доступні тільки для читання</b></li> </ul> 
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    У випуску Enterprise Edition з’являться такі додаткові функції для користувацьких проєктів: <br> <ul><li><b>Додавати користувацькі поля проєктів у список проєктів для створення режиму перегляду портфеля проєктів</b></li> </ul> 
   text_custom_logo_instructions: >
     Рекомендується використовувати білий логотип з прозорим фоном. Для оптимального відображення на звичайних і retina-дисплеях розмір картинки повинен бути 460 на 110 пікселів.
   text_custom_favicon_instructions: >
@@ -3087,49 +3085,49 @@ uk:
     my_registered_applications: "Зареєстровані програми OAuth"
   oauth_client:
     urn_connection_status:
-      connected: "Connected"
-      error: "Error"
-      failed_authorization: "Authorization failed"
+      connected: "Підключено"
+      error: "Помилка"
+      failed_authorization: "Помилка авторизації"
     labels:
-      label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
-      label_request_token: "Request token"
-      label_refresh_token: "Refresh token"
+      label_oauth_integration: "Інтеграція OAuth2"
+      label_redirect_uri: "URI переспрямування"
+      label_request_token: "Маркер запиту"
+      label_refresh_token: "Маркер оновлення"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
-      oauth_reported: "OAuth2 provider reported"
-      oauth_returned_error: "OAuth2 returned an error"
-      oauth_returned_json_error: "OAuth2 returned a JSON error"
-      oauth_returned_http_error: "OAuth2 returned a network error"
-      oauth_returned_standard_error: "OAuth2 returned an internal error"
-      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
-      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
-      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      oauth_authorization_code_grant_had_errors: "Клієнт OAuth2 повернув помилку"
+      oauth_reported: "Клієнт OAuth2 повідомив"
+      oauth_returned_error: "Клієнт OAuth2 повернув помилку"
+      oauth_returned_json_error: "Клієнт OAuth2 повернув помилку JSON"
+      oauth_returned_http_error: "Клієнт OAuth2 повернув помилку мережі"
+      oauth_returned_standard_error: "Клієнт OAuth2 повернув внутрішню помилку"
+      wrong_token_type_returned: "Клієнт OAuth2 повернув неправильний тип маркеру (очікувався тип AccessToken::Bearer)"
+      oauth_issue_contact_admin: "Клієнт OAuth2 повідомив про помилку. Зверніться до системного адміністратора."
+      oauth_client_not_found: "Клієнта OAuth2 не знайдено в кінцевій точці 'callback' (redirect_uri)."
       refresh_token_called_without_existing_token: >
-        Internal error: Called refresh_token without a previously existing token.
-      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+        Внутрішня помилка: здійснено виклик маркера refresh_token без наявного раніше маркера.
+      refresh_token_updated_failed: "Сталася помилка під час оновлення маркера OAuthClientToken"
       oauth_client_not_found_explanation: >
-        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
-      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+        Ця помилка з’являється, якщо оновити client_id та client_secret в OpenProject, але не оновити поле 'Return URI' для постачальника OAuth2.
+      oauth_code_not_present: "Значення 'code' OAuth2 не знайдено в кінцевій точці 'callback' (redirect_uri)."
       oauth_code_not_present_explanation: >
-        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
-      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+        Ця помилка з’являється, якщо вибрати неправильне значення response_type для провайдера OAuth2. Поле Response_type може мати значення 'code' або подібне.
+      oauth_state_not_present: "Значення 'state' OAuth2 не знайдено в кінцевій точці 'callback' (redirect_uri)."
       oauth_state_not_present_explanation: >
-        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+        Значення 'state' указує OpenProject на місце, з якого потрібно продовжити після вдалої авторизації OAuth2. Відсутнє значення 'state' – це внутрішня помилка, яка може статися під час налаштування. Зверніться до системного адміністратора.
       rack_oauth2:
-        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        client_secret_invalid: "Секретний ключ клієнта неприпустимий (client_secret_invalid)"
         invalid_request: >
-          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
-        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
-        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
-        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
-        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
-        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
-        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+          Сервер авторизації OAuth2 повернув відповідь 'invalid_request'. Ця помилка стається в разі повторних спроб авторизації або технічних проблем.
+        invalid_response: "Сервер авторизації OAuth2 повернув неприпустиму відповідь (invalid_response)"
+        invalid_grant: "Сервер авторизації OAuth2 просить вас авторизуватися повторно (invalid_grant)."
+        invalid_client: "Сервер авторизації OAuth2 не розпізнає OpenProject (invalid_client)."
+        unauthorized_client: "Сервер авторизації OAuth2 відхиляє тип дозволу (unauthorized_client)"
+        unsupported_grant_type: "Сервер авторизації OAuth2 просить вас авторизуватися повторно (unsupported_grant_type)."
+        invalid_scope: "Ви не можете отримати доступ до потрібного ресурсу (invalid_scope)."
   http:
     request:
-      failed_authorization: "The server side request failed authorizing itself."
-      missing_authorization: "The server side request failed due to missing authorization information."
+      failed_authorization: "Серверному запиту не вдалось авторизуватися."
+      missing_authorization: "Сталася помилка серверного запиту через відсутність інформації про авторизацію."
     response:
-      unexpected: "Unexpected response received."
+      unexpected: "Отримано неочікувану відповідь."
   you: ви

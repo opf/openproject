@@ -235,7 +235,7 @@ pt:
           confidence: >
             Fornecemos toda a segurança de um software de gestão de projetos de classe empresarial, testado e com suporte - com código aberto e mente aberta.
           link_quote: "Solicitar uma cotação"
-          more_info: "More information"
+          more_info: "Mais informações"
           text: >
             O OpenProject Enterprise Edition foi construído a partir do Community Edition. Ele conta com recursos premium e suporte profissional, com foco principal em organizações com mais de 10 usuários que gerenciam projetos de negócios críticos com o OpenProject.
           unlimited: "Ilimitado"
@@ -268,7 +268,7 @@ pt:
           one: "Primeiro critério de ordenação"
           two: "Segundo critério de ordenação"
           three: "Terceiro critério de ordenação"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
+      upsale_for_more: "Os filtros avançados permitem que você também filtre por nomes de arquivos e conteúdo dos anexos do pacote de trabalho. Faça o upgrade para um plano pago para usar este recurso. "
       upsale_link: 'Enterprise Edition.'
     general_text_no: "não"
     general_text_yes: "sim"
@@ -288,15 +288,15 @@ pt:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Um <b>novo módulo de planejamento de equipe</b> (recurso Enterprise) permite atribuir tarefas visualmente a membros da equipe obtendo uma visão geral de quem está trabalhando e onde.</li> <li>Estamos <b>lançando os quadros ágeis básicos</b> para a versão da comunidade.</li> <li>A opção de <b>filtro "Incluir projetos"</b> facilita a adição de projetos diferentes às suas visualizações, como pacotes de trabalho, calendários e planejadores de equipe.</li> <li>Adicionamos <b>uma nova aba "Arquivos" </b> nos detalhes do pacote de trabalho para ter todas as informações possíveis anexadas a um pacote de trabalho juntas.</li> <li>Criamos <b>papéis globais para grupos</b> para atribuir esses papéis a grupos e criar grupos de superusuários.</li> <li>A situação do projeto recebeu mais opções de escolha.</li> </ul>
+                A versão atual contém vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Chega de buscas infinitas por arquivos! Com nossa nova <b>integração com Nextcloud</b> no OpenProject 12.2, agora você  pode encontrar arquivos diretamente no respetivo pacote de trabalho e sempre ter a versão correta na ponta de seus dedos.</li> <li>Acrescentámos <b>um novo seletor de data</b> com um comportamento de entrada atualizado, e uma barra de informações que conta com um botão para a exibição de relações no gráfico de Gantt.</li> <li>Adicionámos a possibilidade de <b>registrar hora para outros usuários.</b></li> <li>Marcar notificações como lidas também fora do centro de notificações.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>No módulo BCF, agora você pode salvar seus filtros, colunas, etc. do pacote de trabalho selecionado como <b>visualizações</b> e compartilhá-las com os membros de sua equipe.</li> <li>Um <b>novo módulo de planejamento de equipe</b> (recurso Enterprise) permite atribuir tarefas visualmente aos membros da equipe para obter uma visão geral de quem está trabalhando sobre o quê.</li> <li>Estamos <b>lançando os quadros ágeis básicos</b> para a versão Community.</li> <li>A opção <b>"Incluir projetos"</b> facilita a adição de projetos diferentes às suas visualizações, como pacotes de trabalho, calendários e planejadores de equipe.</li> <li>Adicionamos <b>uma nova aba "Arquivos"</b> nos detalhes do pacote de trabalho para ter todas as informações possíveis anexadas a um pacote de trabalho juntas.</li> <li>Criamos <b>papéis globais para grupos</b> para atribuir esses papéis a grupos e criar grupos de superusuários.</li> <li>A situação do projeto recebeu mais opções para escolher.</li> </ul>
+                A versão atual contém vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Chega de buscas infinitas por arquivos! Com nossa nova <b>integração com Nextcloud</b> no OpenProject 12.2, agora você  pode encontrar arquivos diretamente no respetivo pacote de trabalho e sempre ter a versão correta na ponta de seus dedos.</li> <li>Acrescentámos <b>um novo seletor de data</b> com um comportamento de entrada atualizado, e uma barra de informações que conta com um botão para a exibição de relações no gráfico de Gantt.</li> <li>Adicionámos a possibilidade de <b>registrar hora para outros usuários.</b></li> <li>Marcar notificações como lidas também fora do centro de notificações.</li> </ul>
     label_activate: "Ativar"
     label_assignee: 'Atribuído para'
     label_add_column_after: "Adicionar coluna depois"
@@ -368,7 +368,7 @@ pt:
     label_in_more_than: "em mais de"
     label_incoming_emails: "E-mails recebidos"
     label_information_plural: "Informação"
-    label_invalid: "Invalid"
+    label_invalid: "Inválido"
     label_import: "Importar"
     label_latest_activity: "Última atividade"
     label_last_updated_on: "Última atualização em"
@@ -456,10 +456,10 @@ pt:
     label_unwatch: "Deixar de observar"
     label_unwatch_work_package: "Deixar de observar pacote de trabalho"
     label_uploaded_by: "Enviado por"
-    label_default_queries: "Default"
-    label_starred_queries: "Favorite"
-    label_global_queries: "Public"
-    label_custom_queries: "Private"
+    label_default_queries: "Padrão"
+    label_starred_queries: "Favorito"
+    label_global_queries: "Público"
+    label_custom_queries: "Privado"
     label_columns: "Colunas"
     label_attachments: Anexos
     label_drop_files: Solte os arquivos aqui
@@ -539,7 +539,7 @@ pt:
           one: 'e 1 outro'
           other: 'e %{count} outros'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'Novas notificações aparecerão aqui quando houver atividades que você tenha interesse, enquanto isso, você também pode visualizar e modificar suas configurações de notificação para configurar quando ser notificado. '
           with_current_filter: 'Não há notificações nesta visualização no momento'
         mark_all_read: 'Marcar tudo como lido'
         mark_as_read: 'Marcar como lido'
@@ -547,8 +547,8 @@ pt:
         total_count_warning: "Mostrando as %{newest_count} notificações mais recentes. Outras %{more_count} não são exibidas."
         empty_state:
           no_notification: "Parece que você já está com tudo em dia."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification_with_current_project_filter: "Parece que você já está totalmente atualizado com o projeto selecionado."
+          no_notification_with_current_filter: "Parece que você já está totalmente atualizado sobre o filtro %{filter}."
           no_selection: "Clique em uma notificação para visualizar todos os detalhes da atividade."
         new_notifications:
           message: 'Há novas notificações.'
@@ -1087,9 +1087,9 @@ pt:
         other: "%{count} hs"
         zero: "0 h"
       day:
-        one: "1 day"
-        other: "%{count} days"
-        zero: "0 days"
+        one: "1 dia"
+        other: "%{count} dias"
+        zero: "0 dias"
     zen_mode:
       button_activate: 'Ativar modo zen'
       button_deactivate: 'Desativar modo zen'
@@ -1185,8 +1185,8 @@ pt:
       tooltip:
         include_all_selected: 'Incluir todos os subprojetos está selecionado no momento.'
         current_project: 'Este é o projeto atual em que você está.'
-        does_not_match_search: 'Project does not match the search criteria.'
-      no_results: 'No project matches your search criteria.'
+        does_not_match_search: 'O projeto não corresponde ao critério de pesquisa'
+      no_results: 'Nenhum projeto corresponde ao seu critério de busca.'
     forms:
       submit_success_message: 'O formulário foi enviado com sucesso'
       load_error_message: 'Ocorreu um erro ao carregar o formulário'
