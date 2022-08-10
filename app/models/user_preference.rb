@@ -133,7 +133,7 @@ class UserPreference < ApplicationRecord
   end
 
   def workdays
-    super.presence || [1, 2, 3, 4, 5]
+    super.presence
   end
 
   def supported_settings_method?(method_name)

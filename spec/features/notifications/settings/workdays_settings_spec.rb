@@ -14,9 +14,7 @@ describe "Workday notification settings", type: :feature, js: true do
         # Configure the reminders
         settings_page.visit!
 
-        # Expect Mo-Fr to be checked
-        settings_page.expect_workdays %w[Monday Tuesday Wednesday Thursday Friday]
-        settings_page.expect_non_workdays %w[Saturday Sunday]
+        settings_page.expect_non_workdays %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
 
         settings_page.set_workdays Monday: true,
                                    Tuesday: true,
@@ -49,8 +47,7 @@ describe "Workday notification settings", type: :feature, js: true do
         settings_page.visit!
 
         # Expect Mo-Fr to be checked
-        settings_page.expect_workdays %w[Montag Dienstag Mittwoch Donnerstag Freitag]
-        settings_page.expect_non_workdays %w[Samstag Sonntag]
+        settings_page.expect_non_workdays %w[Sonntag Montag Dienstag Mittwoch Donnerstag Freitag Samstag]
 
         settings_page.set_workdays Montag: true,
                                    Dienstag: true,
