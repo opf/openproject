@@ -12,7 +12,7 @@ In OpenProject you can create projects to collaborate with your team members, tr
 Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community Edition nor in the Enterprise cloud or in Enterprise on-premises edition.
 
 | Topic                                                        | Content                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ------------------------------------------------------------ |--------------------------------------------------------------------------------------------------------------------------|
 | [Select a project](../../getting-started/projects/)          | Open a project which you want to work at.                    |
 | [Create a new project](../../getting-started/projects/#create-a-new-project) | Find out how to create a new project in OpenProject.         |
 | [Create a subproject](#create-a-subproject)                  | Create a subproject of an existing project.                  |
