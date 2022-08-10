@@ -43,6 +43,8 @@
         data-list-focus-catcher-container="true"
         data-modal-focus-catcher-container="true"
         (keydown)="searchableProjectListService.onKeydown($event, projects)"
+        (inputFocus)="textFieldFocused = true"
+        (inputBlur)="textFieldFocused = false"
       >
         <span
           slot="before"
@@ -54,6 +56,7 @@
         <ul
           *ngIf="projects.length > 0; else noResultsTemplate"
           class="op-project-include--list"
+          [ngClass]="{ 'spot-list_active': textFieldFocused }"
           op-project-include-list
           [projects]="projects"
           [selected]="selectedProjects"

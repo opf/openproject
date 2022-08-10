@@ -55,18 +55,6 @@ export class OpProjectIncludeListComponent {
     readonly searchableProjectListService:SearchableProjectListService,
   ) { }
 
-  public isDisabled(project:IProjectData):boolean {
-    if (project.disabled) {
-      return true;
-    }
-
-    if (project.href === this.currentProjectHref) {
-      return true;
-    }
-
-    return this.includeSubprojects && this.parentChecked;
-  }
-
   public updateList(selected:string[]):void {
     this.update.emit(selected);
   }
@@ -76,13 +64,12 @@ export class OpProjectIncludeListComponent {
   }
 
   public changeSelected(project:IProjectData):void {
-    const { href } = project;
-    const checked = this.isChecked(href);
-    const disabled = this.isDisabled(project);
-
-    if (disabled) {
+    if (project.disabled) {
       return;
     }
+
+    const { href } = project;
+    const checked = this.isChecked(href);
 
     if (checked) {
       this.updateList(this.selected.filter((selectedHref) => selectedHref !== href));

@@ -30,7 +30,6 @@
       &:focus
         @include spot-focus
 
-      &_active,
       &:hover
         color: var(--content-link-hover-active-color)
         background-color: $spot-color-basic-gray-6
@@ -98,6 +97,11 @@
   &_compact &--item-action,
   &_compact &--item-floating-actions
     padding: $spot-spacing-0_25 $spot-spacing-1
+
+  &_active &--item-action_active
+    color: var(--content-link-hover-active-color)
+    background-color: $spot-color-basic-gray-6
+    text-decoration: none
 
   $item-list: ""
   @for $i from 0 through 10

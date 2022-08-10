@@ -67,11 +67,13 @@ export const headerProjectSelectSelector = 'op-header-project-select';
 export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
   @HostBinding('class.op-header-project-select') className = true;
 
-  dropModalOpen = false;
+  public dropModalOpen = false;
 
-  canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create');
+  public textFieldFocused = false;
 
-  projects$ = combineLatest([
+  public canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create');
+
+  public projects$ = combineLatest([
     this.searchableProjectListService.allProjects$,
     this.searchableProjectListService.searchText$.pipe(debounceTime(200)),
   ]).pipe(
@@ -95,7 +97,12 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
           (list, project) => {
             const { ancestors } = project._links;
 
-            return insertInList(projects, project, list, ancestors);
+            return insertInList(
+              projects,
+              project,
+              list,
+              ancestors,
+            );
           },
           [] as IProjectData[],
         ),
@@ -145,7 +152,7 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     this.projects$
       .pipe(this.untilDestroyed())
       .subscribe((projects) => {
-        this.searchableProjectListService.resetActiveResult(projects[0]?.id);
+        this.searchableProjectListService.resetActiveResult(projects);
       });
   }
 

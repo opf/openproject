@@ -14,8 +14,10 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  tap,
   mergeMap,
   shareReplay,
+  skip,
   take,
 } from 'rxjs/operators';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -57,6 +59,8 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
   };
 
   public opened = false;
+
+  public textFieldFocused = false;
 
   public query$ = this.wpTableFilters.querySpace.query.values$();
 
@@ -128,57 +132,91 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
   public projects$ = combineLatest([
     this.searchableProjectListService.allProjects$,
     this.displayMode$.pipe(distinctUntilChanged()),
-    this.includeSubprojects$,
+    this.includeSubprojects$.pipe(debounceTime(20)),
     this.searchableProjectListService.searchText$.pipe(debounceTime(200)),
-  ])
-    .pipe(
-      debounceTime(50),
+  ]).pipe(
       mergeMap(([projects, displayMode, includeSubprojects, searchText]) => this.selectedProjects$.pipe(
         take(1),
         map((selected) => [projects, displayMode, includeSubprojects, searchText, selected]),
       )),
       map(
-        ([projects, displayMode, includeSubprojects, searchText, selected]:[IProject[], string, boolean, string, string[]]) => projects
-          .filter(
-            (project) => {
-              if (searchText.length) {
-                const matches = project.name.toLowerCase().includes(searchText.toLowerCase());
+        ([projects, displayMode, includeSubprojects, searchText, selected]:[IProject[], string, boolean, string, string[]]) => [
+          projects
+            .filter(
+              (project) => {
+                if (searchText.length) {
+                  const matches = project.name.toLowerCase().includes(searchText.toLowerCase());
 
-                if (!matches) {
-                  return false;
+                  if (!matches) {
+                    return false;
+                  }
                 }
-              }
 
-              if (displayMode !== 'selected') {
-                return true;
-              }
+                if (displayMode !== 'selected') {
+                  return true;
+                }
 
-              if (selected.includes(project._links.self.href)) {
-                return true;
-              }
+                if (selected.includes(project._links.self.href)) {
+                  return true;
+                }
 
-              const hasSelectedAncestor = project._links.ancestors.reduce(
-                (anySelected, ancestor) => anySelected || selected.includes(ancestor.href),
-                false,
-              );
+                const hasSelectedAncestor = project._links.ancestors.reduce(
+                  (anySelected, ancestor) => anySelected || selected.includes(ancestor.href),
+                  false,
+                );
 
-              if (includeSubprojects && hasSelectedAncestor) {
-                return true;
-              }
+                if (includeSubprojects && hasSelectedAncestor) {
+                  return true;
+                }
 
-              return false;
-            },
-          )
-          .sort((a, b) => a._links.ancestors.length - b._links.ancestors.length)
-          .reduce(
-            (list, project) => {
-              const { ancestors } = project._links;
+                return false;
+              },
+            )
+            .sort((a, b) => a._links.ancestors.length - b._links.ancestors.length)
+            .reduce(
+              (list, project) => {
+                const { ancestors } = project._links;
 
-              return insertInList(projects, project, list, ancestors);
-            },
-            [] as IProjectData[],
-          ),
+                return insertInList(
+                  projects,
+                  project,
+                  list,
+                  ancestors,
+                );
+              },
+              [] as IProjectData[],
+            ),
+          includeSubprojects,
+        ],
       ),
+      mergeMap(([projects, includeSubprojects]) => this.selectedProjects$.pipe(
+        map((selected) => [projects, includeSubprojects, selected]),
+      )),
+      map(([projects, includeSubprojects, selected]: [IProjectData[], boolean, string[]]) => {
+        const isDisabled = (project:IProjectData, parentChecked:boolean) => {
+          if (project.disabled) {
+            return true;
+          }
+
+          if (project.href === this.currentProjectService.apiv3Path) {
+            return true;
+          }
+
+          return includeSubprojects && parentChecked;
+        };
+
+        const setDisabledStatus = (project:IProjectData, parentChecked:boolean):IProjectData => {
+          return {
+            ...project,
+            disabled: isDisabled(project, parentChecked),
+            children: project.children.map(
+              (child) => setDisabledStatus(child, parentChecked || selected.includes(project.href)),
+            ),
+          };
+        };
+
+        return projects.map((project) => setDisabledStatus(project, false));
+      }),
       map((projects) => recursiveSort(projects)),
       shareReplay(),
     );
@@ -212,9 +250,13 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     super();
 
     this.projects$
-      .pipe(this.untilDestroyed())
+      .pipe(
+        this.untilDestroyed(),
+        filter(p => p.length > 0),
+        take(1),
+      )
       .subscribe((projects) => {
-        this.searchableProjectListService.resetActiveResult(projects[0]?.id);
+        this.searchableProjectListService.resetActiveResult(projects);
       });
   }
 

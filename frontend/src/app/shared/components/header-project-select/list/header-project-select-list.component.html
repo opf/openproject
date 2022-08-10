@@ -5,6 +5,7 @@
   [attr.data-list-selector]="projectListItemIdentifier"
 >
   <a
+    tabindex="-1"
     *ngIf="!project.disabled"
     class="spot-list--item-action"
     [ngClass]="{
