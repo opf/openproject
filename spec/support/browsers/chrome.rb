@@ -1,7 +1,7 @@
 # Force the latest version of chromedriver using the webdriver gem
 require 'webdrivers/chromedriver'
 
-def register_chrome(language, name: :"chrome_#{language}")
+def register_chrome(language, name: :"chrome_#{language}", override_time_zone: nil)
   Capybara.register_driver name do |app|
     options = Selenium::WebDriver::Chrome::Options.new
 
@@ -75,6 +75,13 @@ def register_chrome(language, name: :"chrome_#{language}")
                        "/session/#{bridge.session_id}/chromium/send_command",
                        cmd: 'Page.setDownloadBehavior',
                        params: { behavior: 'allow', downloadPath: DownloadList::SHARED_PATH.to_s }
+
+      if override_time_zone
+        bridge.http.call :post,
+                         "/session/#{bridge.session_id}/chromium/send_command",
+                         cmd: 'Emulation.setTimezoneOverride',
+                         params: { timezoneId: override_time_zone }
+      end
     end
 
     driver
@@ -108,3 +115,5 @@ end
 register_chrome 'en', name: :chrome_revit_add_in do |options, _capabilities|
   options.add_argument("user-agent='foo bar Revit'")
 end
+
+register_chrome 'en', name: :chrome_new_york_time_zone, override_time_zone: 'America/New_York'
