@@ -19,6 +19,7 @@ example:
     userPreferences:
       href: "/api/v3/my_preferences"
   maximumAttachmentFileSize: 5242880
+  hostName: 'example.com:8080'
   perPageOptions:
     - 1
     - 10
