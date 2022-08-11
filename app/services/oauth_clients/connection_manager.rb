@@ -132,7 +132,16 @@ module OAuthClients
       service_result = refresh_token # `refresh_token` already has exception handling
       return :connected if service_result.success?
 
-      :failed_authorization
+      if service_result.result == 'invalid_request'
+        # This can happen if the Authorization Server invalidated all tokens.
+        # Then the user would ideally be asked to reauthorize.
+        :failed_authorization
+      else
+        # It could also be that some other error happened, i.e. firewall badly configured.
+        # Then the user needs to know that something is technically off. The user could try
+        # to reload the page or contact an admin.
+        :error
+      end
     rescue StandardError
       :error
     end
