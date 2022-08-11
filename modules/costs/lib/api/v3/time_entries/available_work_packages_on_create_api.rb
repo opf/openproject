@@ -31,8 +31,7 @@ module API
     module TimeEntries
       class AvailableWorkPackagesOnCreateAPI < ::API::OpenProjectAPI
         after_validation do
-          authorize_any %i[log_time],
-                        global: true
+          authorize_any %i[log_time log_own_time], global: true
         end
 
         helpers AvailableWorkPackagesHelper
