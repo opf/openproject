@@ -21,15 +21,15 @@ As always, the release contains many more improvements and bug fixes and we reco
 
 With OpenProject 12.2, you can now use Nextcloud, the world’s most-deployed on-premises content collaboration platform, together with OpenProject, the leading free and open source project management software, to combine project management and file management. Data sovereignty and open source are important core values to both OpenProject and Nextcloud, and form the foundational common ground for this integration.
 
-After the first step of the development which brought the integration of OpenProject in the Nextcloud dashboard, we have now extended the functionality to link and display Nextcloud files in OpenProject. Consequently, the productivity of users of both platforms increases significantly. No more endless searching for files. In OpenProject, you can now find project-related files directly in the respective work package.
+After the first step of the development which brought the integration of OpenProject in the Nextcloud dashboard, we have now extended the functionality to link and display Nextcloud files in OpenProject. Consequently, the productivity of users of both platforms increases significantly.
 
-**In OpenProject:** In addition to listing files attached to a work package, the Files tab now also shows you Nextcloud files that are linked to the current work package. Secondary actions on each file allow you to directly **open or download the file, show the containing folder in Nextcloud or remove the link**.
+**In OpenProject:** In addition to listing files attached to a work package, the Files tab now also shows you Nextcloud files that are linked to the current work package. You will easily find your project-related files directly attached to the work packages and always have the latest version at hand. Secondary actions on each file allow you to directly **open or download the file, show the containing folder in Nextcloud or remove the link**.
 
 ![Nextcloud files linked in OpenProject](display-nextcloud-files.png)**In Nextcloud:** You will be able to access the OpenProject tab in Nextcloud by accessing the details split screen of any file. In this tab, you will be able to search for the work package to which you would like to add a link. Once a work package is linked to a file, you can always unlink it by clicking on the **unlink** icon.
 
 ![Link work packages in Nextcloud](link-workpackages-nextcloud.png)
 
-Further integration efforts are under way which include the linking of files from OpenProject, including complete project folders.
+Further integration efforts are under way, that is linking of files from OpenProject and adding complete project folders.
 
 You can find out more [how to use the Nextcloud integration](../../user-guide/nextcloud-integration/) as well as the [how to setup the Nextcloud integration](../../system-admin-guide/integrations/nextcloud/) in our documentation.
 
