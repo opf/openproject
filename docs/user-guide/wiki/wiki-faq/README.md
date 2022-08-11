@@ -28,7 +28,7 @@ The option configure menu item was designed to ease the handling of page structu
 After the initial creation of the page you can select the function. If you select Do not show this wikipage in project navigation the page will be excluded from the menu.
 Otherwise the page will appear in the project navigation and you can select, whether it shall be a subitem of an existing wikipage.
 
-### I created a wiki-page but cannot find it anywhere in the menu - how to access it?
+### I created a wiki-page but cannot find it anywhere in the menu - how can I access it?
 
 After saving a wiki-page, you can create a referencing link for the page to easily access it - either by making it a wiki menu item (s.a.) or by referencing it with a link on the main wiki-page. If this chance was missed you can reaccess the page at any time, by typing in the page’s URL in the browser:
 The example URL would be: openproject.org/projects/your-projects-name/wiki/your-wiki-page’s-name
@@ -48,6 +48,6 @@ Next to the field to enter the page content, some of the basic formatting comman
 Above you see the commands for text styles, headline options and lists, as well as the command to include an image.
 On the right, there is also a help link which displays all commands which can be used for formatting.
 
-### How to create a table of content?
+### How to create a table of content
 
 The macro to create a table of content is {{toc}}.
