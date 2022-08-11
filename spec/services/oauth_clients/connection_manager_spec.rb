@@ -427,7 +427,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
         end
 
         context 'with invalid refresh token' do
-          let(:refresh_service_result) { ServiceResult.failure(result: 'invalid_grant') }
+          let(:refresh_service_result) { ServiceResult.failure(result: 'invalid_request') }
 
           it 'refreshes the access token and returns :failed_authorization' do
             expect(subject).to eq :failed_authorization
