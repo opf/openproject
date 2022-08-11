@@ -132,7 +132,7 @@ module OAuthClients
       service_result = refresh_token # `refresh_token` already has exception handling
       return :connected if service_result.success?
 
-      if service_result.result == 'invalid_grant'
+      if service_result.result == 'invalid_request'
         # This can happen if the Authorization Server invalidated all tokens.
         # Then the user would ideally be asked to reauthorize.
         :failed_authorization
