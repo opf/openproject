@@ -11,10 +11,61 @@ release_date: 2022-08-15
 Release date: 2022-08-15
 
 We released [OpenProject 12.2.0](https://community.openproject.com/versions/1494).
-The release contains several bug fixes and we recommend updating to the newest version.
+This new release brings the long awaited **Nextcloud integration**. No more endless searching for files! With the new Nextcloud integration in OpenProject 12.2, you can easily find your project-related files directly in the respective work package and always have the correct version at your fingertips. Data sovereignty remain a strong common ground for both organizations and the integration fosters and strengthens collaboration between the two companies and improves the productivity of mutual users.
 
-<!--more-->
-#### Bug fixes and changes
+On top, this release launches **improvements of the date picker** as well as the possibility to **log time for other users**, and mark notifications as read also outside the notification center.
+
+As always, the release contains many more improvements and bug fixes and we recommend updating to the newest version promptly.
+
+## File management with Nextcloud
+
+With OpenProject 12.2, you can now use Nextcloud, the world’s most-deployed on-premises content collaboration platform, together with OpenProject, the leading free and open source project management software, to combine project management and file management. Data sovereignty and open source are important core values to both OpenProject and Nextcloud, and form the foundational common ground for this integration.
+
+After the first step of the development which brought the integration of OpenProject in the Nextcloud dashboard, we have now extended the functionality to link and display Nextcloud files in OpenProject. Consequently, the productivity of users of both platforms increases significantly. No more endless searching for files. In OpenProject, you can now find project-related files directly in the respective work package.
+
+**In OpenProject:** In addition to listing files attached to a work package, the Files tab now also shows you Nextcloud files that are linked to the current work package. Secondary actions on each file allow you to directly **open or download the file, show the containing folder in Nextcloud or remove the link**.
+
+![Nextcloud files linked in OpenProject](display-nextcloud-files.png)**In Nextcloud:** You will be able to access the OpenProject tab in Nextcloud by accessing the details split screen of any file. In this tab, you will be able to search for the work package to which you would like to add a link. Once a work package is linked to a file, you can always unlink it by clicking on the **unlink** icon.
+
+![Link work packages in Nextcloud](link-workpackages-nextcloud.png)
+
+Further integration efforts are under way which include the linking of files from OpenProject, including complete project folders.
+
+You can find out more [how to use the Nextcloud integration](../../user-guide/nextcloud-integration/) as well as the [how to setup the Nextcloud integration](../../system-admin-guide/integrations/nextcloud/) in our documentation.
+
+## Alerts when scheduling related work packages
+
+With the OpenProject 12.2 release, the team was working on **improving the date picker** to give you more clarity when scheduling work packages. To choose [automatic or manual scheduling mode](../../user-guide/gantt-chart/scheduling/), the selection box moved to the top of the date picker to be more visible. What is new is that you will now receive alerts about what you are doing and what impact it has on other work packages. We added warning banners that provide information when changing dates of a work package that has relations with other work packages. Both critical information that has bigger consequences to a project’s timeline as well as helpful (but not critical) information will be displayed. On top, you have the possibility to show the relations in the Gantt chart directly from the date picker.
+
+If you are changing e.g. a date of a work package that is a predecessor of another one, you will receive the following warning that tells you that it will impact the schedule of other work packages. 
+
+If you are trying to change a date of a parent work package which has been set to automatic scheduling, you will not be able to change the date and receive the following notification.
+
+![warning in date picker](date-picker-warning.png)
+
+Find out more about how to set and change dates with the [improved date picker](../../user-guide/work-packages/set-change-dates/) in our documentation.
+
+## Log time for other users
+
+OpenProject 12.2 gives the administrator the possibility to grant permissions to log time for other users. With the required permissions, you can now select the team member you want to log time for, from the drop down.
+
+![log time for other users](image-20220811130616209.png)
+
+## Improved navigation bar
+
+When you open the project drop down from the header menu to view all projects, you are now also able to create new projects from there. Simply click on +Project.
+
+The View all projects functionality can be found at the bottom of the drop down by clicking on *Projects list*.
+
+![improved project selection](improved-navigation-bar.png)
+
+## Mark notifications as read outside the Notifications Center
+
+Also, in OpenProject 12.2 you are now able to mark notifications as read also in the work packages details view, outside of the Notification Center. Whenever you receive notifications, you can mark them as read also directly within the details view of your work package with the *Mark as read* button on the top right.
+
+![mark-notifications-as-read](mark-notifications-as-read.png)
+
+###  List of all bug fixes and changes
 
 - Changed: Log time for other users \[[#21754](https://community.openproject.com/wp/21754)\]
 - Changed: Send out an email reply if an incoming email could not be processed correctly \[[#35823](https://community.openproject.com/wp/35823)\]
@@ -107,6 +158,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 #### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
-Special thanks for reporting and finding bugs go to
-
-kak tux, Karl Sebera, Christina Vechkanova, Ulrich Germann, Kiran Kafle, Alexander Seitz, Max Chen, PD Inc Support, Rince wind, Simon Rohart, Sander Kleijwegt, Sreekanth Gopalakris
+- Special thanks for City of Cologne and University of Duisburg-Essen for sponsoring the development of the Nextcloud integration.
+- Special thanks for reporting and finding bugs go to kak tux, Karl Sebera, Christina Vechkanova, Ulrich Germann, Kiran Kafle, Alexander Seitz, Max Chen, PD Inc Support, Rince wind, Simon Rohart, Sander Kleijwegt, Sreekanth Gopalakris.
+- A big thank you to every other dedicated user who has [reported bugs](../../development/report-a-bug) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- A big thank you to all the dedicated users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
