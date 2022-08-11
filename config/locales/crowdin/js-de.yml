@@ -204,6 +204,7 @@ de:
             label_expires_at: "Endet am"
             receive_newsletter: Ich möchte den OpenProject <a target="_blank" href="%{link}">Newsletter</a> erhalten.
             taken_domain: Es kann nur eine aktive Trial pro Domain geben.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Jeder Benutzer kann nur eine Testversion erstellen.
           email_not_received: "Sie haben keine E-Mail erhalten? Sie können die E-Mail mit dem Link auf der rechten Seite noch einmal anfordern."
           try_another_email: "Oder versuchen Sie es mit einer anderen E-Mail-Adresse."

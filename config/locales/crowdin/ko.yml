@@ -48,9 +48,9 @@ ko:
         main-menu-hover-font-color: "가리킬 때 기본 메뉴 글꼴"
         main-menu-border-color: "기본 메뉴 테두리"
       custom_colors: "사용자 정의 색상"
-      customize: "Customize your OpenProject installation with your own logo and colors."
+      customize: "고유한 로고와 색상으로 OpenProject 설치를 사용자 지정하세요."
       enterprise_notice: "OpenProject 개발에의 재정적인 후원에 대한 특별한 감사로 이 작은 기능은 Enterprise Edition 후원자에게만 지원됩니다."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
+      enterprise_more_info: "참고: 사용된 로그는 공개적으로 액세스 가능합니다."
       manage_colors: "색상 선택 옵션 편집"
       instructions:
         alternative-color: "강한 강조 색은 일반적으로 화면의 가장 중요한 버튼에 사용됩니다."
@@ -95,7 +95,7 @@ ko:
     add_new: '도움말 텍스트 추가'
     edit: "%{attribute_caption}에 대한 도움말 텍스트 편집"
     enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+      description: '작업 패키지 및 프로젝트의 특성(사용자 지정 필드 포함)에 대한 추가 정보를 제공합니다. 사용자가 프로젝트 및 작업 패키지의 입력 필드 옆에 있는 물음표 기호를 클릭하면 도움말 텍스트가 표시됩니다.'
   auth_sources:
     index:
       no_results_content_title: 사용인증 모드가 없습니다.
@@ -174,7 +174,7 @@ ko:
     execute: '%{name} 실행'
     upsale:
       title: '사용자 지정 작업'
-      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
+      description: '사용자 지정 작업은 상태, 역할, 유형 또는 프로젝트를 기반으로 특정 작업 패키지에서 사용할 수 있도록 미리 정의된 작업 세트에 대한 원클릭 바로 가기입니다.'
   custom_fields:
     text_add_new_custom_field: >
       프로젝트에 새 사용자 지정 필드를 추가하려면 먼저 해당 필드를 만들어야 합니다. 그래야 이 프로젝트에 해당 필드를 추가할 수 있습니다.
@@ -274,7 +274,7 @@ ko:
     upsale:
       title: 플레이스홀더 사용자
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        플레이스홀더 사용자는 해당 프로젝트에 속하지 않은 사용자에게 작업 패키지를 할당하는 방법으로, 다양한 시나리오에서 유용할 수 있습니다. 예를 들어, 아직 명명되지 않았거나 사용 가능하지 않은 리소스에 대한 작업을 추적해야 하거나, 해당 개인에게 OpenProject에 대한 액세스 권한을 부여하고 싶지 않지만 이들에게 할당된 작업을 추적하려는 경우에 유용합니다.
   prioritiies:
     edit:
       priority_color_text: |
@@ -304,7 +304,7 @@ ko:
       settings: "설정"
       form_configuration: "양식 구성"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise Edition에서는 다음과 같은 추가 기능으로 양식 구성을 사용자 지정할 수 있습니다: <br> <ul class="%{list_styling_class}"> <li><b>새로운 특성 그룹 추가</b></li> <li><b>특성 그룹 이름 바꾸기</b></li> <li><b>관련 작업 패키지 테이블 추가</b></li> </ul>
       projects: "프로젝트"
       enabled_projects: "활성화 된 프로젝트"
       edit_query: "테이블 편집"
@@ -523,16 +523,16 @@ ko:
         begin_deletion: "삭제 시작"
         children: "하위 요소"
         done_ratio: "진행률 (%)"
-        duration: "Duration"
+        duration: "기간"
         end_insertion: "삽입 끝"
         end_deletion: "삭제 끝"
-        ignore_non_working_days: "Ignore non working days"
+        ignore_non_working_days: "휴무일 무시"
         parent: "부모"
         parent_issue: "부모"
         parent_work_package: "부모"
         priority: "우선 순위"
         progress: "진행률 (%)"
-        readonly: "Read only"
+        readonly: "읽기 전용"
         schedule_manually: "수동 스케줄링"
         spent_hours: "소비한 시간"
         spent_time: "소비한 시간"
@@ -607,7 +607,7 @@ ko:
         unknown_property_nested: "- 알 수 없는 경로 '%{path}'이(가) 있습니다."
         unremovable: "- 제거할 수 없습니다."
         url_not_secure_context: >
-          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
+          "보안 컨텍스트"를 제공하지 않습니다. HTTPS 또는 localhost 같은 루프백 주소를 사용하세요.
         wrong_length: "너무 짧습니다 (최소 %{count} 자 이상이어야 합니다)."
       models:
         attachment:
@@ -639,7 +639,7 @@ ko:
               fragment_present: '- 조각을 포함할 수 없습니다.'
               invalid_uri: '- 유효한 URI여야 합니다.'
               relative_uri: '- 절대 URI여야 합니다.'
-              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
+              secured_uri: '"보안 컨텍스트"를 제공하지 않습니다. HTTPS 또는 localhost 같은 루프백 주소를 사용하세요.'
               forbidden_uri: '- 서버에 의해 금지되었습니다.'
             scopes:
               not_match_configured: "- 사용 가능한 범위와 일치하지 않습니다."
@@ -743,9 +743,9 @@ ko:
             due_date:
               not_start_date: "마일스톤에서 요구하지만, 시작 날짜가 없음"
             duration:
-              larger_than_dates: "is larger than the interval between the start and the finish date."
-              smaller_than_dates: "is smaller than the interval between the start and the finish date."
-              not_available_for_milestones: "is not available for milestone typed work packages."
+              larger_than_dates: "시작 날짜와 완료 날짜 사이의 간격보다 큽니다."
+              smaller_than_dates: "시작 날짜와 완료 날짜 사이의 간격보다 작습니다."
+              not_available_for_milestones: "마일스톤 유형 작업 패키지에 사용할 수 없습니다."
             parent:
               cannot_be_milestone: "마일스톤에 포함될 수 없음"
               cannot_be_self_assigned: "- 자신에게 할당할 수 없습니다."
@@ -1342,7 +1342,7 @@ ko:
     admin:
       mail_notification: "이메일 알림"
       mails_and_notifications: "이메일 및 알림"
-      aggregation: 'Aggregation'
+      aggregation: '집계'
       api_and_webhooks: "API 및 webhook"
     quick_add:
       label: "빠른 추가 메뉴 열기"
@@ -1351,7 +1351,7 @@ ko:
       no_results:
         title: "표시할 수 있는 접근 토큰이 없습니다."
         description: "모두 비활성화 되었습니다. 관리 메뉴에서 가용 상태로 되돌릴 수 있습니다."
-      access_tokens: "Access tokens"
+      access_tokens: "액세스 토큰"
       headers:
         action: "액션"
         expiration: "만료"
@@ -1517,7 +1517,7 @@ ko:
   label_diff: "차이"
   label_diff_inline: "인라인"
   label_diff_side_by_side: "나란히"
-  label_digital_accessibility: 'Digital accessibility (DE)'
+  label_digital_accessibility: '디지털 접근성(DE)'
   label_disabled: "사용 안 함"
   label_display: "표시"
   label_display_per_page: "페이지당: %{value}"
@@ -1990,9 +1990,9 @@ ko:
   mail_body_backup_token_info: 이전 토큰은 더 이상 유효하지 않습니다.
   mail_body_backup_waiting_period: '%{hours}시간 후 새 토큰이 활성화됩니다.'
   mail_body_backup_token_warning: 만약 본인이 한 것이 아니라면, OpenProject에 즉시 로그인하고 다시 초기화하십시오.
-  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
-  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
-  mail_body_incoming_email_error_logs: "Logs"
+  mail_body_incoming_email_error: OpenProject로 보낸 이메일을 처리할 수 없습니다.
+  mail_body_incoming_email_error_in_reply_to: "%{received_at} %{from_email} 작성함"
+  mail_body_incoming_email_error_logs: "로그"
   mail_body_lost_password: "암호를 변경하려면 다음 링크를 클릭하세요."
   mail_body_register: "%{app_title}입니다. 다음 링크를 클릭하여 계정을 활성화하세요:"
   mail_body_register_header_title: "프로젝트 멤버 초대 이메일"
@@ -2011,7 +2011,7 @@ ko:
   mail_subject_account_activation_request: "%{value} 계정 활성화 요청"
   mail_subject_backup_ready: "백업이 준비되었습니다"
   mail_subject_backup_token_reset: "백업 토큰 초기화"
-  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
+  mail_subject_incoming_email_error: "OpenProject로 보낸 이메일을 처리할 수 없습니다."
   mail_subject_lost_password: "%{value} 암호"
   mail_subject_register: "%{value} 계정 활성화"
   mail_subject_reminder: "다음 %{days}일 후 만료되는 %{count} 작업 패키지"
@@ -2105,11 +2105,10 @@ ko:
   notice_successful_delete: "삭제에 성공했습니다."
   notice_successful_update: "업데이트에 성공했습니다."
   notice_successful_update_custom_fields_added_to_project: |
-    Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+    업데이트 성공. 활성화된 유형의 사용자 지정 필드는 작업 패키지 양식에서 자동으로 활성화됩니다. <a href="%{url}" target="_blank">자세히 알아보세요</a>.
   notice_successful_update_custom_fields_added_to_type: |
-    Successful update. The active custom fields are automatically activated for
-    the associated projects of this type.
+    업데이트 성공. 활성 사용자 지정 필드는 이 유형의 관련 프로젝트에 대해
+    자동으로 활성화됩니다.
   notice_to_many_principals_to_display: "너무 많은 결과가 있습니다.\n새 멤버(또는 그룹)의 이름을 입력하여 검색 범위를 좁히세요."
   notice_user_missing_authentication_method: 사용자가 암호나 로그인할 수 있는 다른 방법을 선택해야 합니다.
   notice_user_invitation_resent: 초대장이 %{email}(으)로 전송되었습니다.
@@ -2159,7 +2158,7 @@ ko:
   permission_comment_news: "뉴스에 코멘트 달기"
   permission_commit_access: "리포지토리(커밋)에 대한 읽기/쓰기 액세스"
   permission_copy_projects: "프로젝트 복사"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "백업 만들기"
   permission_delete_work_package_watchers: "주시자 삭제"
   permission_delete_work_packages: "작업 패키지 삭제"
   permission_delete_messages: "메시지 삭제"
@@ -2176,14 +2175,14 @@ ko:
   permission_edit_own_time_entries: "내 시간 로그 편집"
   permission_edit_project: "프로젝트 편집"
   permission_edit_reportings: "보고 편집"
-  permission_edit_time_entries: "Edit time logs for other users"
+  permission_edit_time_entries: "다른 사용자의 시간 로그 편집"
   permission_edit_timelines: "타임라인 편집"
   permission_edit_wiki_pages: "위키 페이지 편집"
   permission_export_work_packages: "작업 패키지 내보내기"
   permission_export_wiki_pages: "위키 페이지 내보내기"
   permission_list_attachments: "첨부 파일 나열"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "내 시간 기록"
+  permission_log_time: "다른 사용자의 시간 기록"
   permission_manage_forums: "포럼 관리"
   permission_manage_categories: "작업 패키지 카테고리 관리"
   permission_manage_work_package_relations: "작업 패키지 관계 관리"
@@ -2253,7 +2252,7 @@ ko:
     assigned_to_role: "담당자의 역할"
     member_of_group: "담당자의 그룹"
     assignee_or_group: "담당자 또는 소속 그룹"
-    subproject_id: "Including subproject"
+    subproject_id: "하위 프로젝트 포함"
     only_subproject_id: "하위 프로젝트만"
     name_or_identifier: "이름 또는 식별자"
   repositories:
@@ -2339,9 +2338,9 @@ ko:
     storage:
       not_available: "이 리포지토리에 대한 디스크 저장소 사용량이 사용 가능하지 않습니다."
       update_timeout: "N분 동안 리포지토리의 마지막 필요한 디스크 공간 정보를 유지하세요.\n리포지토리의 필요한 디스크 저장소 공간 계산에는 비용이 많이 소요될 수 있으므로, 이 값을 늘려 성능 영향을 줄이세요."
-      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
-      oauth_application_details_link_text: "Go to settings page"
-      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
+      oauth_application_details: "이 창을 닫으면 클라이언트 비밀 값에 다시 액세스할 수 없습니다. 다음 값을 Nextcloud OpenProject Integration 설정에 복사하세요:"
+      oauth_application_details_link_text: "설정 페이지로 이동"
+      show_warning_details: "이 파일 저장소를 사용하려면 원하는 각 프로젝트의 프로젝트 설정에서 모듈과 특정 저장소를 활성화해야 합니다."
     subversion:
       existing_title: "기존 Subversion 리포지토리"
       existing_introduction: "기존 Subversion 리포지토리가 있는 경우 응용 프로그램 내에서 액세스하기 위해 OpenProject와 이 리포지토리를 연결할 수 있습니다."
@@ -2385,7 +2384,7 @@ ko:
   setting_smtp_authentication: "SMTP 인증"
   setting_smtp_user_name: "SMTP 사용자 이름"
   setting_smtp_password: "SMTP 비밀번호"
-  setting_smtp_domain: "SMTP HELO domain"
+  setting_smtp_domain: "SMTP HELO 도메인"
   setting_activity_days_default: "프로젝트 작업에 표시되는 기간(일)"
   setting_app_subtitle: "응용 프로그램 부제목"
   setting_app_title: "응용 프로그램 제목"
@@ -2433,7 +2432,7 @@ ko:
   setting_work_package_list_default_columns: "기본적으로 사용 안 함"
   setting_work_package_properties: "작업 패키지 속성"
   setting_work_package_startdate_is_adddate: "새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용"
-  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
+  setting_work_packages_projects_export_limit: "작업 패키지/프로젝트 내보내기 제한"
   setting_journal_aggregation_time_minutes: "집계된 사용자 작업"
   setting_log_requesting_user: "모든 요청에 대한 로그 사용자 로그인, 이름 및 메일 주소"
   setting_login_required: "인증이 필요함"
@@ -2545,11 +2544,11 @@ ko:
   text_custom_field_hint_activate_per_project_and_type: >
     사용자 지정 필드는 작업 패키지 유형 및 프로젝트별로 활성화해야 합니다.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    Enterprise Edition은 작업 패키지의 사용자 지정 필드에 대해 다음과 같은 추가적인 기능을 추가합니다: <br> <ul> <li><b>목록 또는 사용자 유형의 사용자 지정 필드에서 다중 선택 허용</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    Enterprise Edition은 작업 패키지의 상태 필드에 대해 다음과 같은 추가적인 기능을 추가합니다: <br> <ul> <li><b>특정 상태에 대해 작업 패키지를 읽기 전용으로 표시 허용</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    Enterprise Edition은 프로젝트의 사용자 지정 필드에 대해 다음과 같은 추가적인 기능을 추가합니다: <br> <ul> <li><b>프로젝트 목록에 프로젝트에 대한 사용자 지정 필드를 추가하여 프로젝트 포트폴리오 보기 만들기</b></li> </ul>
   text_custom_logo_instructions: >
     투명한 배경에 흰색 로고가 권장됩니다. 기존 디스플레이와 레티나 디스플레이 둘 다에서 최상의 결과를 위해 이미지의 크기는 460px x 60px여야 합니다.
   text_custom_favicon_instructions: >
@@ -3022,49 +3021,49 @@ ko:
     my_registered_applications: "등록된 OAuth 애플리케이션"
   oauth_client:
     urn_connection_status:
-      connected: "Connected"
-      error: "Error"
-      failed_authorization: "Authorization failed"
+      connected: "연결됨"
+      error: "오류"
+      failed_authorization: "인증 실패"
     labels:
-      label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
-      label_request_token: "Request token"
-      label_refresh_token: "Refresh token"
+      label_oauth_integration: "OAuth2 통합"
+      label_redirect_uri: "리디렉션 URI"
+      label_request_token: "토큰 요청"
+      label_refresh_token: "토큰 새로고침"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
-      oauth_reported: "OAuth2 provider reported"
-      oauth_returned_error: "OAuth2 returned an error"
-      oauth_returned_json_error: "OAuth2 returned a JSON error"
-      oauth_returned_http_error: "OAuth2 returned a network error"
-      oauth_returned_standard_error: "OAuth2 returned an internal error"
-      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
-      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
-      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      oauth_authorization_code_grant_had_errors: "OAuth2가 오류를 반환했습니다."
+      oauth_reported: "OAuth2 공급자가 보고했습니다."
+      oauth_returned_error: "OAuth2가 오류를 반환했습니다."
+      oauth_returned_json_error: "OAuth2가 JSON 오류를 반환했습니다."
+      oauth_returned_http_error: "OAuth2가 네트워크 오류를 반환했습니다."
+      oauth_returned_standard_error: "OAuth2가 내부 오류를 반환했습니다."
+      wrong_token_type_returned: "OAuth2가 잘못된 유형의 토큰을 반환했습니다. AccessToken::Bearer가 필요합니다."
+      oauth_issue_contact_admin: "OAuth2가 오류를 보고했습니다. 시스템 관리자에게 문의하세요."
+      oauth_client_not_found: "'callback' 엔드포인트(redirect_uri)에서 OAuth2 클라이언트를 찾을 수 없습니다."
       refresh_token_called_without_existing_token: >
-        Internal error: Called refresh_token without a previously existing token.
-      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+        내부 오류: 기존 토큰 없이 refresh_token을 호출했습니다.
+      refresh_token_updated_failed: "OAuthClientToken 업데이트 중에 오류 발생"
       oauth_client_not_found_explanation: >
-        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
-      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+        이 오류는 OpenProject에서 client_id 및 client_secret을 업데이트했지만 OAuth2 공급자에서 'Return URI' 필드를 업데이트하지 않으면 나타납니다.
+      oauth_code_not_present: "'callback' 엔드포인트(redirect_uri)에서 OAuth2 'code'를 찾을 수 없습니다."
       oauth_code_not_present_explanation: >
-        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
-      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+        이 오류는 OAuth2 공급자에서 잘못된 response_type을 선택한 경우 나타납니다. Response_type은 'code' 또는 이와 유사해야 합니다.
+      oauth_state_not_present: "'callback' 엔드포인트(redirect_uri)에서 OAuth2 'state'를 찾을 수 없습니다."
       oauth_state_not_present_explanation: >
-        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+        'state'는 성공적인 OAuth2 인증 후 계속할 위치를 OpenProject에 표시하는 데 사용됩니다. 누락된 'state'는 설정 중에 나타날 수 있는 내부 오류입니다. 시스템 관리자에게 문의하세요.
       rack_oauth2:
-        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        client_secret_invalid: "클라이언트 비밀이 유효하지 않습니다(client_secret_invalid)"
         invalid_request: >
-          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
-        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
-        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
-        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
-        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
-        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
-        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+          OAuth2 인증 서버가 'invalid_request'로 응답했습니다. 이 오류는 인증을 여러 번 시도했거나 기술적인 문제가 있는 경우 나타납니다.
+        invalid_response: "OAuth2 인증 서버가 잘못된 응답을 제공했습니다(invalid_response)."
+        invalid_grant: "OAuth2 인증 서버가 재인증을 요청합니다(invalid_grant)."
+        invalid_client: "OAuth2 인증 서버가 OpenProject를 인식하지 못합니다(invalid_client)."
+        unauthorized_client: "OAuth2 인증 서버가 인증 유형을 거부합니다(unauthorized_client)."
+        unsupported_grant_type: "OAuth2 인증 서버가 재인증을 요청합니다(unsupported_grant_type)."
+        invalid_scope: "요청한 리소스에 액세스할 수 없습니다(invalid_scope)."
   http:
     request:
-      failed_authorization: "The server side request failed authorizing itself."
-      missing_authorization: "The server side request failed due to missing authorization information."
+      failed_authorization: "서버 쪽 요청이 자체 인증에 실패했습니다."
+      missing_authorization: "인증 정보가 누락되어 서버 쪽 요청이 실패했습니다."
     response:
-      unexpected: "Unexpected response received."
+      unexpected: "예기치 않은 응답을 받았습니다."
   you: 당신

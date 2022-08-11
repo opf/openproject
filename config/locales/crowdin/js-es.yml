@@ -205,6 +205,7 @@ es:
             label_expires_at: "Expira el"
             receive_newsletter: Quiero recibir el <a target="_blank" href="%{link}">boletín</a> de OpenProject.
             taken_domain: Solo puede existir una prueba activa por dominio.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Cada usuario solo puede crear una prueba.
           email_not_received: "¿No ha recibido el correo electrónico? Para volver a enviarlo, use el enlace de la derecha."
           try_another_email: "O bien pruebe con otra dirección de correo electrónico."

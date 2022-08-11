@@ -204,6 +204,7 @@ el:
             label_expires_at: "Λήγει στις"
             receive_newsletter: Θέλω να λαμβάνω το <a target="_blank" href="%{link}">ενημερωτικό δελτίο</a> του OpenProject.
             taken_domain: Μπορεί να υπάρχει μόνο μια ενεργή δοκιμαστική συνδρομή ανά τομέα.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Κάθε χρήστης μπορεί να δημιουργήσει μόνο μία δοκιμαστική συνδρομή.
           email_not_received: "Δεν λάβατε email? Μπορείτε να ξαναστείλετε το email με τον σύνδεσμο στα δεξιά."
           try_another_email: "Ή δοκιμάστε με διαφορετική διεύθυνση email."

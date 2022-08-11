@@ -68,5 +68,5 @@ ko:
         dn_text: 'LDAP에서 그룹의 전체 DN 입력'
         group_text: 'LDAP 그룹의 멤버가 동기화되는 기존 OpenProject 그룹 선택'
       upsale:
-        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
+        description: '동기화된 LDAP 그룹을 활용하여 사용자를 관리하고 사용자의 권한을 변경하고 그룹 전체에서 사용자 관리를 용이하게 하세요.'
 

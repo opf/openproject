@@ -204,6 +204,7 @@ da:
             label_expires_at: "Expires at"
             receive_newsletter: Jeg ønsker at modtage OpenProject <a target="_blank" href="%{link}">nyhedsbrevet</a>.
             taken_domain: Der kan kun være én aktiv prøve pr. domæne.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Hver bruger kan kun oprette en prøveversion.
           email_not_received: "Du har ikke modtaget en e-mail? Du kan gensende e-mailen med linket til højre."
           try_another_email: "Eller prøv det med en anden e-mail-adresse."
