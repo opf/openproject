@@ -207,6 +207,7 @@ hu:
             label_expires_at: "Lejárat ekkor"
             receive_newsletter: Szeretném megkapni az OpenProject <a target="_blank" href="%{link}"> hírlevelét </a>.
             taken_domain: Csak egy próbaverzió lehet aktív egy domainen
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Felhasználónkként csak egy próba verzió engedélyezett
           email_not_received: "Nem kapott e -mailt? A jobb oldali linkkel újra elküldheti az e -mailt."
           try_another_email: "Vagy próbálja meg egy másik e-mail címellel."

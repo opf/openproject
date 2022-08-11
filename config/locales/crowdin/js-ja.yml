@@ -206,6 +206,7 @@ ja:
             label_expires_at: "有効期限"
             receive_newsletter: OpenProject <a target="_blank" href="%{link}">ニュースレター</a> を受け取りたい。
             taken_domain: 有効なトライアルはドメインごとに1つしかありません。
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: 各ユーザーはトライアルを1回のみ作成できます。
           email_not_received: "メールが届きませんでしたか？右側のリンクでメールを再送信できます。"
           try_another_email: "または別のメールアドレスでお試しください。"

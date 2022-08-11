@@ -204,6 +204,7 @@ pt:
             label_expires_at: "Expira em"
             receive_newsletter: Quero receber o <a target="_blank" href="%{link}">boletim informativo</a> do OpenProject.
             taken_domain: Pode haver somente uma avaliação ativa por domínio.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Cada usuário pode criar somente uma avaliação.
           email_not_received: "Não recebeu um e-mail? Você pode reenviá-lo através do link à direita."
           try_another_email: "Ou tente com outro endereço de e-mail."

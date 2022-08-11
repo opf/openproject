@@ -205,6 +205,7 @@ tr:
             label_expires_at: "Süre sonu: "
             receive_newsletter: OpenProject almak istiyorum  <a target="_blank" href="%{link}">Bülten</a>.
             taken_domain: Alan adı başına yalnızca bir etkin deneme olabilir.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Her kullanıcı yalnızca bir deneme oluşturabilir.
           email_not_received: "E-posta almadınız mı? Sağdaki bağlantıyı kullanarak e-postayı yeniden gönderebilirsiniz."
           try_another_email: "Veya başka bir e-posta adresiyle deneyin."

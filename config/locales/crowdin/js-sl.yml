@@ -204,6 +204,7 @@ sl:
             label_expires_at: "Izteče ob"
             receive_newsletter: Želim prejemati OpenProject  <a target="_blank" href="%{link}">novice</a>.
             taken_domain: Možen je le en aktivni preizkus na domeno.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Vsak uporabnik ima na voljo le en preizkus.
           email_not_received: "Niste prejeli e-pošte? E-pošto lahko ponovno pošljete s povezavo na desni."
           try_another_email: "Ali pa poskusite z drugim e-poštnim naslovom."
