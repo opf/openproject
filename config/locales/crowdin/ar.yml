@@ -48,8 +48,9 @@ ar:
         main-menu-hover-font-color: "خط القائمة الرئيسية عند الحوالة"
         main-menu-border-color: "حدود القائمة الرئيسية"
       custom_colors: "تخصيص الألوان"
-      customize: "عدل مشروعك الخاص بالشعار الذي تريده.ملاحظه:هذا الشعار سوف يكون مرئي لجميع المستخدمين"
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "كخاصية \"شكرًا!\" على مساهمتهم المالية لتطوير OpenProject، هذه الميزة الصغيرة متاحة فقط للمشتركين في إصدار المؤسسة."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "تعديل خيارات تحديد اللون"
       instructions:
         alternative-color: "لون اللكنة القوية، يستخدم عادة لأهم زر على الشاشة."
@@ -93,6 +94,8 @@ ar:
     show_preview: 'Preview text'
     add_new: 'Add help text'
     edit: "Edit help text for %{attribute_caption}"
+    enterprise:
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: لا يوجد حالياً أنماط تحقيق.
@@ -171,7 +174,7 @@ ar:
     execute: 'Execute %{name}'
     upsale:
       title: 'Custom actions'
-      description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before you can add them to this project.
@@ -271,7 +274,7 @@ ar:
     upsale:
       title: Placeholder users
       description: >
-        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -301,6 +304,8 @@ ar:
     edit:
       settings: "إعدادات"
       form_configuration: "تشكيل النموذج"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "المشاريع"
       enabled_projects: "Enabled projects"
       edit_query: "Edit table"
@@ -607,6 +612,8 @@ ar:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "هو طول خاطئ (يجب أن تكون الأحرف %{count})."
       models:
         attachment:
@@ -638,7 +645,7 @@ ar:
               fragment_present: 'cannot contain a fragment.'
               invalid_uri: 'must be a valid URI.'
               relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'is forbidden by the server.'
             scopes:
               not_match_configured: "doesn't match available scopes."
@@ -744,6 +751,7 @@ ar:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "لا يمكن أن يكون معلما."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1420,7 +1428,7 @@ ar:
     admin:
       mail_notification: "إشعارات البريد الإلكتروني"
       mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
@@ -1429,7 +1437,7 @@ ar:
       no_results:
         title: "لا يوجد رموز وصول تعرض"
         description: "لقد تم الغاء تفعيل كل منهم. يمكن إعادة تفعيلهم من قائمة الإدارة."
-      access_token: "رمزالوصول المميز"
+      access_tokens: "Access tokens"
       headers:
         action: "الإجراء"
         expiration: "انتهاء الصلاحية"
@@ -1530,7 +1538,6 @@ ar:
   label_consent_settings: "User Consent"
   label_wiki_menu_item: عنصر القائمة wiki
   label_select_main_menu_item: حدد عنصر القائمة الرئيسية الجديد
-  label_select_project: "Select a project"
   label_required_disk_storage: "التخزين على القرص المطلوب"
   label_send_invitation: Send invitation
   label_change_plural: "التغييرات"
@@ -1809,7 +1816,6 @@ ar:
   label_product_version: "إصدار المنتج"
   label_professional_support: "الدعم الفني"
   label_profile: "الصفحة الشخصية"
-  label_project_all: "جميع المشاريع"
   label_project_count: "العدد الإجمالي للمشاريع"
   label_project_copy_notifications: "إرسال إشعارات البريد الالكتروني أثناء نسخ المشروع"
   label_project_latest: "أحدث المشاريع"
@@ -2189,6 +2195,12 @@ ar:
   notice_successful_create: "إنشاء ناجح."
   notice_successful_delete: "حذف ناجح."
   notice_successful_update: "تحديث ناجح."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "هناك الكثير من النتائج. تضييق البحث عن طريق كتابة اسم العضو الجديد (أو المجموعة)."
   notice_user_missing_authentication_method: على المستخدم اختيار كلمة مرور أو طريقة أخرى لتسجيل الدخول.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2260,13 +2272,14 @@ ar:
   permission_edit_own_time_entries: "تحرير سجلات الوقت الخاصة"
   permission_edit_project: "تحرير المشروع"
   permission_edit_reportings: "تحرير التقرير"
-  permission_edit_time_entries: "تحرير سجلات الوقت"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "تحرير الجداول الزمنية"
   permission_edit_wiki_pages: "تحرير صفحات wiki"
   permission_export_work_packages: "تصدير مجموعات العمل"
   permission_export_wiki_pages: "تصدير صفحات wiki"
   permission_list_attachments: "قائمة المرفقات"
-  permission_log_time: "تسجيل الوقت المستهلك"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "إدارة منتديات"
   permission_manage_categories: "إدارة فئات مجموعة العمل"
   permission_manage_work_package_relations: "إدارة علاقات حزم العمل"
@@ -2422,6 +2435,9 @@ ar:
     storage:
       not_available: "استهلاك تخزين القرص غير متوفر لهذا المستودع."
       update_timeout: "الاحتفاظ بآخر المعلومات مساحة القرص المطلوبة لمستودع لدقائق ن. العد القرص المطلوب مساحة مستودع قد يكون مكلفاً، بزيادة هذه القيمة الحد من تأثير على الأداء."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "مستودع التخريب موجود"
       existing_introduction: "إذا كان لديك مستودع بوابة محلية القائمة، يمكنك ربطه مع open project للوصول إليها من داخل التطبيق."
@@ -2501,7 +2517,6 @@ ar:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "تمكين SCM"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "تمكين التغذية"
   setting_feeds_limit: "حد محتوى تغذية"
   setting_file_max_size_displayed: "عرض الحد الأقصى لحجم الملفات النصية المضمنة في السطر"
@@ -2514,7 +2529,7 @@ ar:
   setting_work_package_list_default_columns: "عرض بشكل افتراضي"
   setting_work_package_properties: "خصائص مجموعة العمل"
   setting_work_package_startdate_is_adddate: "استخدام التاريخ الحالي كتاريخ البدء لمجموعات العمل الجديدة"
-  setting_work_packages_export_limit: "حد تصدير مجموعات العمل"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "تسجيل الدخول تسجيل دخول المستخدم واسم وعنوان البريد لجميع الطلبات"
   setting_login_required: "مطلوب مصادقة"
@@ -2574,8 +2589,6 @@ ar:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
@@ -2627,6 +2640,12 @@ ar:
     When using custom fields: Keep in mind that custom fields need to be activated per project, too.
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_favicon_instructions: >
@@ -3153,4 +3172,10 @@ ar:
         unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
         unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
         invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: you

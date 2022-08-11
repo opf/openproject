@@ -30,7 +30,7 @@ class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :roadmap, only: :roadmap
 
-  before_action :find_project, except: %i[index level_list new]
+  before_action :find_project, except: %i[index new]
   before_action :authorize, only: %i[copy]
   before_action :authorize_global, only: %i[new]
   before_action :require_admin, only: %i[destroy destroy_info]
@@ -100,14 +100,6 @@ class ProjectsController < ApplicationController
     @project_to_destroy = @project
 
     hide_project_in_layout
-  end
-
-  def level_list
-    projects = Project.project_level_list(Project.visible)
-
-    respond_to do |format|
-      format.json { render json: projects_level_list_json(projects) }
-    end
   end
 
   private

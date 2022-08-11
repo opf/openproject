@@ -205,6 +205,7 @@ pl:
             label_expires_at: "Wygasa"
             receive_newsletter: Chcę otrzymywać <a target="_blank" href="%{link}">biuletyn </a> OpenProject.
             taken_domain: W każdej domenie może być aktywna tylko jedna wersja próbna.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Każdy użytkownik może utworzyć tylko jeden okres próbny.
           email_not_received: "Wiadomość e-mail nie doszła? Możesz ją ponownie wysłać za pomocą linku po prawej stronie."
           try_another_email: "Możesz też spróbować użyć innego adresu e-mail."
@@ -231,10 +232,12 @@ pl:
             professional_support: "Profesjonalne wsparcie"
             professional_support_text: "Uzyskaj niezawodne, wysokiej klasy wsparcie od starszych inżynierów wsparcia technicznego posiadających wiedzę fachową na temat uruchamiania oprogramowania OpenProject w środowiskach o znaczeniu krytycznym dla biznesu."
           button_start_trial: "Rozpocznij bezpłatny okres próbny"
+          button_upgrade: "Aktualizuj teraz"
           button_book_now: "Zarezerwuj teraz"
           confidence: >
             Dostarczamy sprawdzone i wspierane oprogramowanie klasy korporacyjnej do zarządzania projektami — z otwartym kodem źródłowym i otwartym umysłem.
           link_quote: "Uzyskaj wycenę"
+          more_info: "Więcej informacji"
           text: >
             Wersja OpenProject Enterprise opiera się na wersji społecznościowej. Zawiera funkcje premium i profesjonalne wsparcie skierowane głównie do organizacji z ponad 10 użytkownikami, które zarządzają projektami o znaczeniu krytycznym dla biznesu za pomocą OpenProject.
           unlimited: "Bez ograniczeń"
@@ -267,7 +270,7 @@ pl:
           one: "Pierwsze kryterium sortowania"
           two: "Drugie kryterium sortowania"
           three: "Trzecie kryterium sortowania"
-      upsale_for_more: "Bardziej zaawanhsowane filtry zawiera"
+      upsale_for_more: "Zaawansowane filtry umożliwiają również filtrowanie nazw plików i zawartości załączników pakietu roboczego. Ulepsz do płatnego planu, aby korzystać z tej funkcji."
       upsale_link: 'Wersja Enterprise.'
     general_text_no: "nie"
     general_text_yes: "tak"
@@ -287,15 +290,15 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li> <b>nowy moduł Planista zespołu</b> (funkcja wersji Enterprise) umożliwia wizualne przypisywanie zadań członkom zespołu, co pozwala uzyskać informacje o tym, kto nad czym pracuje.</li> <li>Wydajemy <b>tablice zwinne</b> dla wersji społecznościowej.</li> <li>Filtr „<b>Uwzględnij projekty</b>” ułatwia dodawanie różnych projektów do widoków, takich jak pakiety robocze, kalendarze i planiści zespołu.</li> <li>Dodaliśmy <b>nową kartę „Pliki”</b> w szczegółach pakietu roboczego, aby dołączać wszystkie możliwe informacje do pakietu roboczego.</li> <li>Utworzyliśmy <b>globalne role dla grup</b>, które można przypisać do grup i utworzyć grupy superużytkowników.</li> <li>Status projektu otrzymał więcej opcji do wyboru.</li> </ul>
+                Wersja ta zawiera wiele nowych funkcji i ulepszeń: <br> <ul class="%{list_styling_class}"> <li> Koniec z niekończącym się wyszukiwaniem plików! Dzięki nowej <b>integracji z Nextcloud</b> w OpenProject 12.2 możesz teraz znaleźć pliki bezpośrednio w odpowiednim pakiecie roboczym i zawsze mieć poprawną wersję pod ręką. </li> <li>Wprowadziliśmy <b>nowy selektor dat</b> z zaktualizowanym sposobem wprowadzania danych oraz baner informacyjny, który zawiera przycisk do pokazywania relacji na wykresie Gantta.</li> <li>Dodaliśmy możliwość <b>rejestrowania czasu dla innych użytkowników.</b></li> <li>Oznaczaj powiadomienia jako przeczytane również poza centrum powiadomień.</li> </ul>.
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>W module BCF można teraz zapisywać wybrane filtry pakietów roboczych, kolumny itd. jako <b>widoki</b> i udostępniać je członkom swojego zespołu.</li> <li> <b>nowy moduł Planista zespołu</b> (funkcja wersji Enterprise) umożliwia wizualne przypisywanie zadań członkom zespołu, co pozwala uzyskać informacje o tym, kto nad czym pracuje.</li> <li>Wydajemy <b>tablice zwinne</b> dla wersji społecznościowej.</li> <li>Filtr „<b>Uwzględnij projekty</b>” ułatwia dodawanie różnych projektów do widoków, takich jak pakiety robocze, kalendarze i planiści zespołu.</li> <li>Dodaliśmy <b>nową kartę „Pliki”</b> w szczegółach pakietu roboczego, aby dołączać wszystkie możliwe informacje do pakietu roboczego.</li> <li>Utworzyliśmy <b>globalne role dla grup</b>, które można przypisać do grup i utworzyć grupy superużytkowników.</li> <li>Status projektu otrzymał więcej opcji do wyboru.</li> </ul>
+                Wersja ta zawiera wiele nowych funkcji i ulepszeń: <br> <ul class="%{list_styling_class}"> <li> Koniec z niekończącym się wyszukiwaniem plików! Dzięki nowej <b>integracji z Nextcloud</b> w OpenProject 12.2 możesz teraz znaleźć pliki bezpośrednio w odpowiednim pakiecie roboczym i zawsze mieć poprawną wersję pod ręką. </li> <li>Wprowadziliśmy <b>nowy selektor dat</b> z zaktualizowanym sposobem wprowadzania danych oraz baner informacyjny, który zawiera przycisk do pokazywania relacji na wykresie Gantta.</li> <li>Dodaliśmy możliwość <b>rejestrowania czasu dla innych użytkowników.</b></li> <li>Oznaczaj powiadomienia jako przeczytane również poza centrum powiadomień.</li> </ul>.
     label_activate: "Aktywuj"
     label_assignee: 'Przypisana osoba'
     label_add_column_after: "Dodaj kolumnę po"
@@ -367,15 +370,14 @@ pl:
     label_in_more_than: "w ponad"
     label_incoming_emails: "Przychodzące e-maile"
     label_information_plural: "Informacje"
+    label_invalid: "Niewłaściwy"
     label_import: "Importuj"
     label_latest_activity: "Ostatnia aktywność"
     label_last_updated_on: "Ostatnia aktualizacja"
     label_learn_more_link: "Dowiedz się więcej"
     label_less_or_equal: "≤"
     label_less_than_ago: "mniej niż dni temu"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Ładowanie..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Powiadomienia e-mail"
     label_me: "ja"
     label_meeting_agenda: "Plan spotkania"
@@ -388,23 +390,20 @@ pl:
     label_no_data: "Brak danych do pokazania"
     label_no_due_date: "brak daty ukończenia"
     label_no_start_date: "brak daty rozpoczęcia"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Brak wartości"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "Brak"
     label_not_contains: "nie zawierają"
     label_not_equals: "nie jest"
     label_on: "wł"
     label_open_menu: "Otwórz menu"
     label_open_context_menu: "Otwórz menu kontekstowe"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "Otwarte"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Hasło"
     label_previous: "Poprzedni"
     label_per_page: "Na stronie:"
     label_please_wait: "Zaczekaj"
+    label_project: "Projekt"
+    label_project_list: "Lista projektów"
     label_project_plural: "Projekty"
     label_visibility_settings: "Ustawienia widoczności"
     label_quote_comment: "Cytuj komentarz"
@@ -413,11 +412,11 @@ pl:
     label_remove: "Usuń"
     label_remove_column: "Usuń kolumnę"
     label_remove_columns: "Usuń zaznaczone kolumny"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Usuń wiersz"
     label_report: "Raport"
     label_repository_plural: "Repozytoria"
     label_save_as: "Zapisz jako"
+    label_select_project: "Wybierz projekt"
     label_select_watcher: "Wybierz obserwatora..."
     label_selected_filter_list: "Wybrane filtry"
     label_show_attributes: "Pokaż wszystkie atrybuty"
@@ -429,9 +428,6 @@ pl:
     label_sorting: "Sortowanie"
     label_spent_time: "Czas pracy"
     label_star_query: "Dodane do ulubionych"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Aby zapisać, naciśnij Enter."
     label_public_query: "Publiczny"
     label_sum: "Suma"
@@ -462,13 +458,12 @@ pl:
     label_unwatch: "Nie obserwuj"
     label_unwatch_work_package: "Wyłącz obserwowanie zadania"
     label_uploaded_by: "Przesłane przez"
-    label_default_queries: "Widoki domyślne"
-    label_starred_queries: "Widoki ulubione"
-    label_global_queries: "Widoki publiczne"
-    label_custom_queries: "Widoki prywatne"
+    label_default_queries: "Domyślnie"
+    label_starred_queries: "Ulubione"
+    label_global_queries: "Publiczny"
+    label_custom_queries: "Prywatny"
     label_columns: "Kolumny"
     label_attachments: Załączniki
-    label_nextcloud: Nextcloud
     label_drop_files: Upuść pliki tutaj
     label_drop_files_hint: lub kliknij aby dodać pliki
     label_drop_folders_hint: Nie można przesłać folderów jako załącznika. Wybierz pojedyncze pliki.
@@ -548,7 +543,7 @@ pl:
           many: 'i %{count} inne'
           other: 'i %{count} innych'
         no_results:
-          at_all: 'Nowe powiadomienia pojawią się tutaj, gdy pojawi się aktywność, która dotyczy ciebie'
+          at_all: 'Nowe powiadomienia pojawią się tutaj, gdy pojawi się aktywność, która cię dotyczy. W międzyczasie możesz również przeglądać lub modyfikować swoje ustawienia powiadomień, decydując, kiedy mają działać.'
           with_current_filter: 'Obecnie brak powiadomień w tym widoku'
         mark_all_read: 'Oznacz wszystko jako przeczytane'
         mark_as_read: 'Oznacz jako przeczytane'
@@ -556,7 +551,8 @@ pl:
         total_count_warning: "Wyświetlono najnowsze powiadomienia: %{newest_count}. Nie wyświetlono %{more_count}."
         empty_state:
           no_notification: "Wygląda na to, że jesteś już na bieżąco."
-          no_notification_with_current_filter: "Zmień zaangażowanie lub wróć do skrzynki odbiorczej, aby wyświetlić powiadomienia"
+          no_notification_with_current_project_filter: "Wygląda na to, że wszystko jest na bieżąco w wybranym projekcie."
+          no_notification_with_current_filter: "Wygląda na to, że wszystko jest na bieżąco dla filtru: %{filter}."
           no_selection: "Kliknij powiadomienie, aby wyświetlić wszystkie szczegóły aktywności."
         new_notifications:
           message: 'Masz nowe powiadomienia.'
@@ -673,14 +669,7 @@ pl:
         projects: "Projekty"
         settings: "Ustawienia"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Zadanie'
       work_package_required: 'Wymaga wybrania najpierw pakietu roboczego.'
-      activity: 'Działanie'
-      comment: 'Komentarz'
-      duration: 'Czas trwania'
-      spent_on: 'Data'
-      hours: 'Godziny'
       title: 'Rejestruj czas pracy'
     two_factor_authentication:
       label_two_factor_authentication: 'Uwierzytelnianie dwuskładnikowe'
@@ -821,7 +810,7 @@ pl:
       zooms: "Powiększenie"
       outlines: "Poziom hierarchii"
     upsale:
-      ee_only: 'Funkcja dostępna tylko w wersji Enterprise'
+      ee_only: 'Funkcja edycji Enterprise'
     wiki_formatting:
       strong: "Pogrubienie"
       italic: "Kursywa"
@@ -850,12 +839,12 @@ pl:
       comment_updated: "Komentarz zaktualizowano pomyślnie."
       confirm_edit_cancel: "Czy na pewno chcesz anulować edycję pakietu pracy?"
       datepicker_modal:
-        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
-        manually_scheduled: "Manual scheduling enabled, all relations ignored."
-        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
-        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
-        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        automatically_scheduled_parent: "Automatycznie zaplanowano. Daty pochodzą z relacji."
+        manually_scheduled: "Włączono ręczne planowanie, tym samym wszystkie relacje zostają zignorowane."
+        start_date_limited_by_relations: "Dostępne daty rozpoczęcia i zakończenia są ograniczone relacjami."
+        changing_dates_affects_follow_relations: "Zmiana tych dat wpłynie na daty powiązanych pakietów roboczych."
+        click_on_show_relations_to_open_gantt: 'Kliknij "%{button_name}", aby wyświetlić wykres GANTTa.'
+        show_relations: 'Pokaż relacje'
       description_filter: "Filtr"
       description_enter_text: "Wpisz tekst"
       description_options_hide: "Ukryj opcje"
@@ -1041,10 +1030,7 @@ pl:
       filter: "Filtr"
       unselected_title: "Zadanie"
       search_query_label: "Wyszukaj zapisane widoki"
-      search_query_title: "Kliknij, aby wyszukać zapisane widoki"
-      placeholder_query_title: "Ustaw tytuł tego widoku"
     modals:
-      label_settings: "Zmień nazwę widoku"
       label_name: "Nazwa"
       label_delete_page: "Usuń bieżącą stronę"
       button_apply: "Zastosuj"
@@ -1108,6 +1094,10 @@ pl:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 dzień"
+        other: "%{count} dni"
+        zero: "0 dni"
     zen_mode:
       button_activate: 'Włącz tryb zen'
       button_deactivate: 'Wyłącz tryb zen'
@@ -1174,7 +1164,7 @@ pl:
       role:
         label: 'Rola w %{project}'
         no_roles_found: 'Nie znaleziono żadnych ról'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'To jest rola, którą %{principal} otrzyma po dołączeniu do projektu. Rola określa działania, które można podjąć i widoczne informacje. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Dowiedz się więcej o rolach i uprawnieniach. </a>'
         required: 'Wybierz rolę'
         next_button: 'Następny'
       message:
@@ -1203,6 +1193,8 @@ pl:
       tooltip:
         include_all_selected: 'Opcja Uwzględnij wszystkie podprojekty jest obecnie zaznaczona.'
         current_project: 'To jest bieżący projekt, w którym jesteś.'
+        does_not_match_search: 'Projekt nie spełnia kryteriów wyszukiwania.'
+      no_results: 'Żaden projekt nie spełnia kryteriów wyszukiwania.'
     forms:
       submit_success_message: 'Formularz został przesłany'
       load_error_message: 'Podczas ładowania formularza wystąpił błąd'
@@ -1213,5 +1205,3 @@ pl:
         remove: 'Usuń'
       drop_modal:
         Close: 'Zamknij'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

@@ -28,22 +28,43 @@
 
 require_relative '../spec_helper'
 
-describe 'Showing of file links in work package', with_flag: { storages_module_active: true }, type: :feature, js: true do
-  let(:permissions) { %i(view_work_packages edit_work_packages view_file_links) }
+describe 'Showing of file links in work package', type: :feature, js: true do
+  let(:permissions) { %i(view_work_packages edit_work_packages view_file_links manage_file_links) }
   let(:project) { create(:project) }
-  let(:current_user) do
-    create(:user, member_in_project: project, member_with_permissions: permissions)
-  end
+  let(:current_user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
   let(:work_package) { create(:work_package, project:, description: 'Initial description') }
+
   let(:storage) { create(:storage) }
+  let(:oauth_client) { create(:oauth_client, integration: storage) }
+  let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
   let(:file_link) { create(:file_link, container: work_package, storage:) }
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
+
   let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
+  let(:sync_service) { instance_double(::Storages::FileLinkSyncService) }
 
   before do
-    allow(connection_manager).to receive(:authorization_state).and_return(:connected)
-    allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+    allow(::OAuthClients::ConnectionManager)
+      .to receive(:new)
+            .and_return(connection_manager)
+    allow(connection_manager)
+      .to receive(:refresh_token)
+            .and_return(ServiceResult.success(result: oauth_client_token))
+    allow(connection_manager)
+      .to receive(:get_access_token)
+            .and_return(ServiceResult.success(result: oauth_client_token))
+    allow(connection_manager)
+      .to receive(:authorization_state)
+           .and_return(:connected)
+
+    # Mock FileLinkSyncService as if Nextcloud would respond with origin_permission=nil
+    allow(::Storages::FileLinkSyncService)
+      .to receive(:new).and_return(sync_service)
+    allow(sync_service).to receive(:call) do |file_links|
+      ServiceResult.success(result: file_links.each { |file_link| file_link.origin_permission = :view })
+    end
+
     project_storage
     file_link
 
@@ -72,6 +93,27 @@ describe 'Showing of file links in work package', with_flag: { storages_module_a
 
     it 'must not show a file links section' do
       expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]', count: 1)
+    end
+  end
+
+  context 'if user is not authorized in Nextcloud' do
+    before do
+      allow(connection_manager).to receive(:authorization_state).and_return(:failed_authorization)
+      allow(connection_manager).to receive(:get_authorization_uri).and_return('https://example.com/authorize')
+    end
+
+    it 'must show storage information box with login button' do
+      expect(page.find('[data-qa-selector="op-files-tab--storage-information"]')).to have_selector('button', count: 1)
+    end
+  end
+
+  context 'if an error occurred while authorizing to Nextcloud' do
+    before do
+      allow(connection_manager).to receive(:authorization_state).and_return(:error)
+    end
+
+    it 'must show storage information box' do
+      expect(page).to have_selector('[data-qa-selector="op-files-tab--storage-information"]', count: 1)
     end
   end
 end

@@ -5,7 +5,7 @@ cs:
       remove: 'Odstranit widget'
       configure: 'Konfigurovat widget'
       upsale:
-        text: "Některé widgety, například widget s grafem pracovního balíčku, jsou dostupné pouze v "
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise Edition."
         link: 'Enterprise Edice'
       widgets:
         custom_text:
@@ -32,9 +32,9 @@ cs:
         project_status:
           title: 'Stav projektu'
           not_started: 'Nezahájeno'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
+          on_track: 'Dle plánu'
+          off_track: 'Mimo plánu'
+          at_risk: 'Riziko'
           not_set: 'Nenastaveno'
           finished: 'Dokončeno'
           discontinued: 'Zrušeno'

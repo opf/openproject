@@ -118,12 +118,4 @@ describe ProjectsController, type: :routing do
       )
     end
   end
-
-  describe 'level_list' do
-    it do
-      expect(get('/projects/level_list.json')).to route_to(
-        controller: 'projects', action: 'level_list', format: 'json'
-      )
-    end
-  end
 end

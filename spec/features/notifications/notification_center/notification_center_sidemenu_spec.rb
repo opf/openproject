@@ -113,7 +113,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
     # Empty filter sets have a separate message
     side_menu.click_item 'Watching'
     side_menu.finished_loading
-    expect(page).to have_text 'There are no notifications in this view at the moment'
+    expect(page).to have_text "Looks like you're all caught up for Watching filter"
 
     # Marking all as read
     side_menu.click_item 'Inbox'

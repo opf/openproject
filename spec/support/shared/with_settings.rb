@@ -39,8 +39,6 @@ def aggregate_mocked_settings(example, settings)
 end
 
 RSpec.shared_context 'with settings reset' do
-  let(:storages_module_active) { true }
-
   around do |example|
     definitions_before = Settings::Definition.all.dup
     Settings::Definition.send(:reset)
@@ -48,10 +46,6 @@ RSpec.shared_context 'with settings reset' do
   ensure
     Settings::Definition.send(:reset)
     Settings::Definition.instance_variable_set(:@all, definitions_before)
-  end
-
-  before do
-    allow(OpenProject::FeatureDecisions).to receive(:storages_module_active?).and_return(storages_module_active)
   end
 end
 

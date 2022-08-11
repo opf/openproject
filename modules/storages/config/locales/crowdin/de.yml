@@ -24,6 +24,10 @@ de:
               cannot_be_connected_to: "kann nicht verbunden werden."
               minimal_nextcloud_version_unmet: "erfüllt nicht die minimalen Versionsanforderungen (muss Nextcloud 23 oder höher sein)"
               not_nextcloud_server: "ist kein Nextcloud-Server"
+              op_application_not_installed: >
+                appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
+              authorization_header_missing: >
+                is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
         storages/file_link:
           attributes:
             origin_id:
@@ -32,24 +36,31 @@ de:
     errors:
       too_many_elements_created_at_once: "Zu viele Elemente gleichzeitig erstellt. Maximal %{max} erwartet, %{actual} bekommen."
   storages:
+    buttons:
+      done_continue_setup: "Fertig. Setup fortsetzen"
+      replace_openproject_oauth: "OpenProject OAuth ersetzen"
+      replace_provider_type_oauth: "Ersetze %{provider_type} OAuth"
+      save_and_continue_setup: "Speichern und Setup fortsetzen"
+      save_and_complete_setup: "Speichern und Setup abschließen"
+      cancel: "Abbrechen"
     page_titles:
       project_settings:
         index: "Dateispeicher in diesem Projekt verfügbar"
-        new: "Aktiviere einen Datei-Speicher für dieses Projekt"
+        new: "Add a file storage to this project"
     instructions:
-      name: "Bitte verwenden Sie einen kurzen Namen. Er wird als Tab-Titel in der Arbeitspaket-Ansicht verwendet."
-      host: "Die URL Ihrer Speicher-Instanz. Die URL sollte nicht länger als 255 Zeichen lang sein."
+      type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
+      type_link_text: "“Integration OpenProject”"
+      name: "Give your storage a name so that users can differentiate between multiple storages."
+      host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
       no_storage_set_up: "Es wurden noch keine Datei-Speicher eingerichtet."
       setting_up_additional_storages: "Um zusätzliche Datei-Speicher einzurichten, besuchen Sie bitte"
       setting_up_additional_storages_non_admin: "Administratoren können zusätzliche Datei-Speicher in Administration / Datei-Speicher einrichten."
       setting_up_storages: "Zum Einrichten von Datei-Speicher besuchen Sie bitte"
       setting_up_storages_non_admin: "Administratoren können Datei-Speicher in Administration / Datei-Speicher einrichten."
       all_available_storages_already_added: "Alle verfügbaren Speicher sind dem Projekt bereits hinzugefügt."
+      copy_from: "Copy this value from"
       nextcloud:
-        administration: Administration
-        oauth2_clients: OAuth2 clients
-        oauth_client_id: Copy the value from
-        oauth_client_secret: Copy the value from
+        integration: "Nextcloud Administration / OpenProject"
     delete_warning:
       storage: >
         Sind Sie sicher, dass Sie diesen Speicher löschen möchten? Dies löscht auch den Speicher aus allen Projekten, in denen er verwendet wird. Außerdem werden alle Links von Arbeitspaketen zu Dateien gelöscht, die in diesem Speicher gespeichert sind.
@@ -59,7 +70,11 @@ de:
     label_file_link: "Datei-Link"
     label_file_links: "Datei-Links"
     label_name: "Name"
-    label_host: "Host"
+    label_host: "Host URL"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
+    label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "OAuth client details"
     label_provider_type: "Anbieter-Typ"
     label_new_storage: "Neuer Speicher"
@@ -70,6 +85,11 @@ de:
     label_oauth_client_secret: "OAuth Client Secret"
     provider_types:
       label: "Anbieter-Typ"
-      nextcloud: "Nextcloud"
+      nextcloud:
+        name: "Nextcloud"
+        name_placeholder: "e.g. Nextcloud"
+        default_name: "My Nextcloud"
+    confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
     oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
+    notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."

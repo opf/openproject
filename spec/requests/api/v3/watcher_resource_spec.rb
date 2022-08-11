@@ -88,13 +88,13 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
 
     it_behaves_like 'API V3 collection response', 1, 1, 'User'
 
-    context 'user not allowed to see watchers' do
+    context 'for a user not allowed to see watchers' do
       let(:permissions) { [:view_work_packages] }
 
       it_behaves_like 'unauthorized access'
     end
 
-    context 'user not allowed to see work package' do
+    context 'for a user not allowed to see work package' do
       let(:permissions) { [] }
 
       it_behaves_like 'not found',
@@ -177,7 +177,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
       end
     end
 
-    context 'unauthorized user' do
+    context 'for an unauthorized user' do
       context 'when the current user is trying to assign another user as watcher' do
         let(:permissions) { [:view_work_packages] }
 
@@ -205,7 +205,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
       end
     end
 
-    context 'authorized user' do
+    context 'for an authorized user' do
       let(:permissions) { %i[delete_work_package_watchers view_work_packages] }
 
       it 'responds with 204' do
@@ -247,7 +247,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
       end
     end
 
-    context 'unauthorized user' do
+    context 'for an unauthorized user' do
       context 'when the current user tries to deassign another user from the watchers' do
         let(:permissions) { [:view_work_packages] }
 
@@ -268,19 +268,62 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
   describe '#available_watchers' do
     let(:permissions) { %i[add_work_package_watchers view_work_packages] }
     let(:available_watchers_path) { api_v3_paths.available_watchers work_package.id }
-    let(:returned_user_ids) do
-      JSON.parse(subject.body)['_embedded']['elements'].map { |user| user['id'] }
-    end
 
     before do
       available_watcher
       get available_watchers_path
     end
 
-    it_behaves_like 'API V3 collection response', 2, 2, 'User'
+    it_behaves_like 'API V3 collection response', 2, 2, 'User' do
+      let(:elements) { [available_watcher, current_user] }
+    end
 
-    it 'includes a user eligible for watching' do
-      expect(returned_user_ids).to match_array([available_watcher.id, current_user.id])
+    context 'when signaling' do
+      let(:select) { 'total,count,elements/*' }
+
+      let(:available_watchers_path) do
+        "#{api_v3_paths.available_watchers(work_package.id)}?select=#{select}"
+      end
+
+      let(:expected) do
+        {
+          total: 2,
+          count: 2,
+          _embedded: {
+            elements: [
+              {
+                _type: "User",
+                id: available_watcher.id,
+                name: available_watcher.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.user(available_watcher.id),
+                    title: available_watcher.name
+                  }
+                }
+              },
+              {
+                _type: "User",
+                id: current_user.id,
+                name: current_user.name,
+                firstname: current_user.firstname,
+                lastname: current_user.lastname,
+                _links: {
+                  self: {
+                    href: api_v3_paths.user(current_user.id),
+                    title: current_user.name
+                  }
+                }
+              }
+            ]
+          }
+        }
+      end
+
+      it 'is the reduced set of properties of the embedded elements' do
+        expect(last_response.body)
+          .to be_json_eql(expected.to_json)
+      end
     end
 
     context 'when the user does not have the necessary permissions' do
@@ -299,13 +342,13 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
         "#{path}?filters=#{URI::RFC2396_Parser.new.escape(filters)}"
       end
 
-      context 'that does not exist' do
+      context 'when that user does not exist' do
         let(:query) { 'asdfasdfasdfasdf' }
 
         it_behaves_like 'API V3 collection response', 0, 0, 'User'
       end
 
-      context 'that does exist' do
+      context 'when that user does exist' do
         let(:query) { 'strange' }
 
         it_behaves_like 'API V3 collection response', 1, 1, 'User'

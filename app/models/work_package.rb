@@ -159,6 +159,9 @@ class WorkPackage < ApplicationRecord
   # makes virtual modal WorkPackageHierarchy available
   has_closure_tree
 
+  # Add on_destroy paper trail
+  has_paper_trail
+
   ##################### WARNING #####################
   # Do not change the order of acts_as_attachable   #
   # and acts_as_journalized!                        #
@@ -211,8 +214,10 @@ class WorkPackage < ApplicationRecord
     # return work_packages that block me
     return WorkPackage.none if closed?
 
+    blocking_relations = Relation.blocks.where(to_id: self)
+
     WorkPackage
-      .where(id: Relation.blocks.where(to_id: self))
+      .where(id: blocking_relations.select(:from_id))
       .with_status_open
   end
 
@@ -222,17 +227,9 @@ class WorkPackage < ApplicationRecord
       .exists?
   end
 
-  def relations
-    Relation.of_work_package(self)
-  end
-
   def visible_relations(user)
     relations
       .visible(user)
-  end
-
-  def relation(id)
-    Relation.of_work_package(self).find(id)
   end
 
   def add_time_entry(attributes = {})

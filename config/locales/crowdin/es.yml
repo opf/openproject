@@ -48,8 +48,9 @@ es:
         main-menu-hover-font-color: "Fuente del menú principal al mantener el cursor"
         main-menu-border-color: "Borde del menú principal"
       custom_colors: "Colores personalizados"
-      customize: "Personalice su versión de OpenProject con su propio logotipo. Tenga en cuenta que este logotipo estará visible al público."
+      customize: "Personalice su instalación de OpenProject con su logotipo y colores."
       enterprise_notice: "Para agradecerle su contribución económica al desarrollo de OpenProject, esta insignificante función solo está disponible para los suscriptores que apoyan la versión corporativa."
+      enterprise_more_info: "Nota: el logotipo utilizado será de acceso público."
       manage_colors: "Editar opciones de selección de colores"
       instructions:
         alternative-color: "Color de énfasis intenso, que suele usarse para el botón más importante de una pantalla."
@@ -93,6 +94,8 @@ es:
     show_preview: 'Vista previa del texto'
     add_new: 'Agregar texto de ayuda'
     edit: "Editar texto de ayuda para %{attribute_caption}"
+    enterprise:
+      description: 'Proporcione información adicional para atributos (incl. campos personalizados) de los paquetes de trabajo y proyectos. Los textos de ayuda se muestran cuando los usuarios hacen clic en el símbolo de signo de interrogación junto a los campos correspondientes en proyectos y paquetes de trabajo.'
   auth_sources:
     index:
       no_results_content_title: Actualmente no hay modos de autenticación.
@@ -168,7 +171,7 @@ es:
     execute: 'Ejecutar %{name}'
     upsale:
       title: 'Acciones personalizadas'
-      description: 'Las Acciones personalizadas agilizan el trabajo diario mediante la combinación de un conjunto de pasos individuales en un único botón.'
+      description: 'Las acciones personalizadas son accesos directos de un solo clic para crear conjuntos de acciones predefinidas que pueden utilizarse en ciertos paquetes de trabajo basados en el estado, rol, tipo o proyecto.'
   custom_fields:
     text_add_new_custom_field: >
       Para agregar nuevos campos personalizados a un proyecto, primero debe crearlos, y luego añadirlos a este proyecto.
@@ -268,7 +271,7 @@ es:
     upsale:
       title: Usuarios de marcador de posición
       description: >
-        Hay varias situaciones en las que podría asignar trabajo a usuarios que no sean miembros del proyecto. Por ejemplo, puede que necesite contratar a la persona adecuada para el trabajo. O bien puede que no quiera conceder acceso a la información del proyecto, pero necesite llevar un seguimiento de las tareas asignadas a esa persona.
+        Los usuarios de marcadores de posición son una forma de asignar paquetes de trabajo a usuarios que no son parte de su proyecto. Pueden ser útiles en múltiples escenarios; por ejemplo, si necesita rastrear las tareas de un recurso que aún no está nombrado o disponible, o si no quieres dar acceso a esa persona a OpenProject pero quieres seguir las tareas que se le han asignado.
   prioritiies:
     edit:
       priority_color_text: |
@@ -298,6 +301,8 @@ es:
     edit:
       settings: "Configuración"
       form_configuration: "Configuración del formulario"
+      more_info_text_html: >
+        La edición Enterprise te permite personalizar el formulario de configuración con estas funcionalidades adicionales: <br><ul class="%{list_styling_class}"><li><b>Añade nuevos grupos de atributo</b></li> <li><b>Renombra grupos de atributo</b></li> <li><b>Añada tablas de paquetes de trabajo relacionados</b></li> </ul>
       projects: "Proyectos"
       enabled_projects: "Proyectos habilitados"
       edit_query: "Editar tabla"
@@ -534,7 +539,7 @@ es:
         time_entries: "Registro de tiempo"
         type: "Tipo"
         version: "Versión"
-        watcher: "Vigilante"
+        watcher: "Observador"
       'doorkeeper/application':
         uid: "ID de cliente"
         secret: "Clave de cliente secreta"
@@ -600,6 +605,8 @@ es:
         unknown_property: "no es una propiedad conocida."
         unknown_property_nested: "tiene la ruta de acceso desconocida «%{path}»."
         unremovable: "no puede ser eliminado."
+        url_not_secure_context: >
+          no está proveyendo un "Contexto Seguro". Utiliza HTTPS o una dirección loopack, como un localhost.
         wrong_length: "la longitud es incorrecta (debe ser %{count} caracteres)."
       models:
         attachment:
@@ -631,7 +638,7 @@ es:
               fragment_present: 'no puede contener un fragmento.'
               invalid_uri: 'debe ser una URI válida.'
               relative_uri: 'debe ser un URI absoluto.'
-              secured_uri: 'debe ser un URI de HTTPS/SSL.'
+              secured_uri: 'no está proveyendo un "Contexto Seguro". Utiliza HTTPS o una dirección loopack, como un localhost.'
               forbidden_uri: 'está prohibida por el servidor.'
             scopes:
               not_match_configured: "no coincide con los ámbitos disponibles."
@@ -737,6 +744,7 @@ es:
             duration:
               larger_than_dates: "es más largo que el intervalo entre la fecha de inicio y la final."
               smaller_than_dates: "es más corto que el intervalo entre la fecha de inicio y la final."
+              not_available_for_milestones: "no está disponible para paquetes de trabajo con estilo hitos."
             parent:
               cannot_be_milestone: "no puede ser un hito."
               cannot_be_self_assigned: "no se puede asignar a su propio usuario."
@@ -1349,7 +1357,7 @@ es:
     admin:
       mail_notification: "Notificaciones de correo electrónico"
       mails_and_notifications: "Correos electrónicos y notificaciones"
-      aggregation_and_retention: 'Agregación y retención'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API y webhooks"
     quick_add:
       label: "Abrir menú de adición rápida"
@@ -1358,7 +1366,7 @@ es:
       no_results:
         title: "Ningún token de acceso que mostrar"
         description: "Todos ellos han sido desabilitados. Pueden ser rehabilitados en el menú de administración."
-      access_token: "Token de Acceso"
+      access_tokens: "Tokens de acceso"
       headers:
         action: "Acción"
         expiration: "Expira"
@@ -1459,7 +1467,6 @@ es:
   label_consent_settings: "Consentimiento del usuario"
   label_wiki_menu_item: Elemento de menú wiki
   label_select_main_menu_item: Seleccione nuevo elemento de menú principal
-  label_select_project: "Seleccione un proyecto"
   label_required_disk_storage: "Almacenamiento en disco requerido"
   label_send_invitation: Enviar invitación
   label_change_plural: "Cambios"
@@ -1738,7 +1745,6 @@ es:
   label_product_version: "Versión del producto"
   label_professional_support: "Soporte profesional"
   label_profile: "Perfil"
-  label_project_all: "Todos los proyectos"
   label_project_count: "Número total de proyectos"
   label_project_copy_notifications: "Enviar notificaciones por correo electrónico durante la copia del proyecto"
   label_project_latest: "Últimos proyectos"
@@ -2114,6 +2120,11 @@ es:
   notice_successful_create: "Creación exitosa."
   notice_successful_delete: "Eliminado con éxito."
   notice_successful_update: "Actualización correcta."
+  notice_successful_update_custom_fields_added_to_project: |
+    Actualización correcta. Los campos personalizados de los tipos ya activados se activan automáticamente en el formulario de paquete de trabajo. <a href="%{url}" target="_blank">Ver más</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Actualización correcta. Los campos personalizados activos se activan automáticamente para
+    los proyectos asociados de este tipo.
   notice_to_many_principals_to_display: "Hay demasiados resultados.\nAfine la búsqueda ingresando el nombre del nuevo miembro (o grupo)."
   notice_user_missing_authentication_method: El usuario todavía tiene que elegir una contraseña u otra manera de iniciar sesión.
   notice_user_invitation_resent: Se envió una invitación a %{email}.
@@ -2181,13 +2192,14 @@ es:
   permission_edit_own_time_entries: "Editar registros de tiempo propios"
   permission_edit_project: "Editar proyecto"
   permission_edit_reportings: "Editar reportes"
-  permission_edit_time_entries: "Editar registros de tiempo"
+  permission_edit_time_entries: "Editar registros de tiempo para otros usuarios"
   permission_edit_timelines: "Editar líneas de tiempo"
   permission_edit_wiki_pages: "Editar wiki página"
   permission_export_work_packages: "Exportar Paquetes de Trabajo"
   permission_export_wiki_pages: "Exportar wiki página"
   permission_list_attachments: "Lista archivos adjuntos"
-  permission_log_time: "Registro de tiempo empleado"
+  permission_log_own_time: "Registrar tiempo para uno mismo"
+  permission_log_time: "Registrar tiempo para otros usuarios"
   permission_manage_forums: "Administrar foros"
   permission_manage_categories: "Administrar categorías del paquete de trabajo"
   permission_manage_work_package_relations: "Gestionar las relaciones del paquete de trabajo"
@@ -2345,6 +2357,9 @@ es:
     storage:
       not_available: "Consumo de almacenamiento de disco no está disponible para este repositorio."
       update_timeout: "Mantener la última información de espacio de disco requerida para un repositorio de N minutos. Contar el espacio de disco requerido de un repositorio puede ser costoso, aumente este valor para reducir el impacto en el rendimiento."
+      oauth_application_details: "La clave secreta de cliente no será accesible una vez se cierre esta ventana. Por favor, copie estos valores en la configuración de la integración de OpenProject en Nextcloud:"
+      oauth_application_details_link_text: "Ir a la página de configuración"
+      show_warning_details: "Para utilizar este almacenamiento recuerde activar el módulo y el almacenamiento específico en la configuración de cada proyecto deseado."
     subversion:
       existing_title: "Subversion existentes de repositorio"
       existing_introduction: "Si tienes una Subversion de repositorio existente, puede enlazarlo con OpenProject para acceder a él desde dentro de la aplicación."
@@ -2424,7 +2439,6 @@ es:
   setting_email_login: "Usar correo electrónico como nombre de usuario"
   setting_enabled_scm: "SCM activado"
   setting_enabled_projects_columns: "Visible en la lista de proyectos"
-  setting_notification_retention_period_days: "Período de retención de notificación"
   setting_feeds_enabled: "Activar Feeds"
   setting_feeds_limit: "Limite de contenido de feed"
   setting_file_max_size_displayed: "Tamaño máximo de archivos de texto mostrado en linea"
@@ -2437,7 +2451,7 @@ es:
   setting_work_package_list_default_columns: "Mostrar por defecto"
   setting_work_package_properties: "Propiedades de paquete de trabajo"
   setting_work_package_startdate_is_adddate: "Usar fecha actual como fecha de inicio para nuevos paquetes de trabajo"
-  setting_work_packages_export_limit: "Fecha limite para exportar paquete de trabajo"
+  setting_work_packages_projects_export_limit: "Fecha límite para exportar paquete de trabajo o proyectos"
   setting_journal_aggregation_time_minutes: "Acciones de usuario agregadas dentro de"
   setting_log_requesting_user: "Registrar inicio de sesión de usuario, nombre, y dirección de correo para todas las solicitudes"
   setting_login_required: "Autentificación requerida"
@@ -2497,8 +2511,6 @@ es:
       whitelist_text_html: >
         Define una lista de extensiones de archivo válidas o tipos MIME para los archivos cargados. <br/> Escriba las extensiones de archivo (por ejemplo, <code>%{ext_example}</code>) o tipos MIME (<code>%{mime_example}</code>). <br/> Deje vacío este campo para que pueda cargarse cualquier tipo de archivo. Se permiten varios valores (una línea para cada valor).
     notifications:
-      retention_text: >
-        Establecer el número de días que los eventos de notificación para los usuarios (la fuente de las notificaciones dentro de la aplicación) se mantendrá en el sistema. Cualquier evento anterior a este tiempo será eliminado.
       events_explanation: 'Controla para qué evento se envía un correo electrónico. Los paquetes de trabajo se excluyen de esta lista, ya que las notificaciones para estos se pueden configurar específicamente por usuario.'
       delay_minutes_explanation: "El envío de correos electrónicos se puede retrasar para permitir que los usuarios que reciban notificaciones en la aplicación puedan confirmarlas desde la aplicación antes de que se envíe un correo. Los usuarios que lean notificaciones en la aplicación no recibirán correos electrónicos de las notificaciones ya leídas."
     display:
@@ -2550,6 +2562,12 @@ es:
     Si utiliza campos personalizados: tenga en cuenta que los campos personalizados deben activarse también en cada proyecto por separado.
   text_custom_field_hint_activate_per_project_and_type: >
     Los campos personalizados se deben activar en cada tipo de paquete de trabajo y en cada proyecto por separado.
+  text_wp_custom_field_html: >
+    La edición Enterprise añadirá estas funcionalidades adicionales para los atributos personalizados de los paquetes de trabajo: <br> <ul> <li><b>Permitir la selección múltiple de atributos personalizados de tipo Lista o Usuario</b></li> </ul>
+  text_wp_status_read_only_html: >
+    La edición Enterprise añadirá estas funcionalidades adicionales para los campos de estado de los paquetes de trabajo: <br> <ul> <li><b>Permitir marcar como solo lectura los paquetes de trabajo en estados específicos</b></li> </ul>
+  text_project_custom_field_html: >
+    La edición Enterprise añadirá estas funcionalidades adicionales para los atributos personalizados de los proyectos: <br> <ul> <li><b>Añadir atributos personalizados para proyectos a tu lista de proyectos para crear una vista porfolio de proyectos</b></li> </ul>
   text_custom_logo_instructions: >
     Se recomienda usar un logotipo blanco sobre un fondo transparente. Para obtener los mejores resultados, tanto en pantallas convencionales como en las del tipo Retina, asegúrese de que las dimensiones de la imagen sean de 460 × 60 px.
   text_custom_favicon_instructions: >
@@ -3063,4 +3081,10 @@ es:
         unauthorized_client: "El servidor de autorización de OAuth2 no acepta el tipo de garantía (unauthorized_client)"
         unsupported_grant_type: "El servidor de autorización de OAuth2 pide que actualice de nuevo (unsupported_grant_type)"
         invalid_scope: "No tienes permisos para acceder a este recurso (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "La solicitud por parte del servidor no se pudo autorizar a sí misma."
+      missing_authorization: "La solicitud por parte del servidor ha fallado debido a la falta información de autorización."
+    response:
+      unexpected: "Se ha recibido una respuesta inesperada."
   you: su usuario

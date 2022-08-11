@@ -38,15 +38,6 @@ module Pages
         super work_package, project
         @selector = '.work-packages--details'
       end
-
-      def expect_empty_state
-        expect(page).to have_selector('[data-qa-selector="op-empty-state"]')
-      end
-
-      def expect_caught_up
-        text = I18n.t('js.notifications.center.empty_state.no_notification')
-        expect(page).to have_selector('[data-qa-selector="op-empty-state"]', text:)
-      end
     end
   end
 end

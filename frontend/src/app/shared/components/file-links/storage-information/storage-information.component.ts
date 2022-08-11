@@ -27,8 +27,11 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, EventEmitter, Input, Output,
+  ChangeDetectionStrategy, Component, Input,
 } from '@angular/core';
+import {
+  StorageInformationBox,
+} from 'core-app/shared/components/file-links/storage-information/storage-information-box';
 
 @Component({
   selector: 'op-storage-information',
@@ -36,13 +39,5 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StorageInformationComponent {
-  @Input() infoIcon:string;
-
-  @Input() infoTextHeader:string;
-
-  @Input() infoTextContent:string;
-
-  @Input() buttonText:string;
-
-  @Output() buttonClickEventEmitter = new EventEmitter();
+  @Input() viewModel:StorageInformationBox;
 }

@@ -28,6 +28,20 @@
 
 $datepicker--border-radius: 5px
 
+@mixin disabled-day
+  background: $spot-color-basic-white
+  color: $spot-color-basic-gray-4
+  pointer-events: none
+  cursor: not-allowed
+
+  &:hover
+    border-color: transparent
+
+@mixin non-working-day
+  background: $spot-color-basic-gray-6
+  color: $spot-color-basic-gray-3
+  border-radius: 0
+
 .flatpickr-current-month
   display: flex !important
 
@@ -37,10 +51,10 @@ $datepicker--border-radius: 5px
 
 
 .flatpickr-day
-  &.flatpickr-disabled,
+  &.flatpickr-disabled
+    @include disabled-day
   &.flatpickr-non-working-day
-    background: $spot-color-basic-gray-6
-    border-radius: 0
+    @include non-working-day
 
 .flatpickr-calendar.inline
   box-shadow: none !important
@@ -99,6 +113,9 @@ $datepicker--border-radius: 5px
         &:hover
           border-radius: 0
 
+        &.flatpickr-non-working-day
+          @include non-working-day
+
         &.today
           background: $spot-color-indication-current-date
           border-color: $spot-color-indication-current-date
@@ -122,35 +139,28 @@ $datepicker--border-radius: 5px
 
         &.inRange
           background: $spot-color-feedback-info-light
+          color: $spot-color-basic-black
           border-color: $spot-color-feedback-info-light
           border-radius: 0
 
-        &.flatpickr-disabled:not(.selected),
-        &.flatpickr-non-working-day:not(.selected)
-          border-radius: 0
+        &.flatpickr-disabled
+          @include disabled-day
 
-  &.disabled
-    .flatpickr-days
-      .flatpickr-day
-        color: $spot-color-basic-gray-4
-        background: $spot-color-basic-white
-        pointer-events: none
-        cursor: not-allowed
+          &.flatpickr-non-working-day
+            background: $spot-color-basic-gray-6
+            color: $spot-color-basic-gray-4
 
-        &:hover
-          border-color: transparent
+          &.selected,
+          &.startRange,
+          &.endRange
+            background: $spot-color-basic-gray-3
+            border-color: $spot-color-basic-gray-3
+            color: $spot-color-basic-gray-5
 
-        &.selected,
-        &.startRange,
-        &.endRange
-          background: $spot-color-basic-gray-3
-          border-color: $spot-color-basic-gray-3
-          color: $spot-color-basic-gray-5
+          &.inRange
+            background: $spot-color-basic-gray-5
+            border-color: $spot-color-basic-gray-5
+            color: $spot-color-basic-gray-3
 
-        &.inRange
-          background: $spot-color-basic-gray-5
-          border-color: $spot-color-basic-gray-5
-          color: $spot-color-basic-gray-3
-
-        &.today
-          color: $spot-color-basic-gray-4
+          &.today
+            color: $spot-color-basic-gray-4

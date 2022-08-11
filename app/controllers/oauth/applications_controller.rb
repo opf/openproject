@@ -36,7 +36,7 @@ module OAuth
     menu_item :oauth_applications
 
     def index
-      @applications = ::Doorkeeper::Application.includes(:owner).all
+      @applications = ::Doorkeeper::Application.without_integration.includes(:owner).all
     end
 
     def new; end
@@ -58,7 +58,6 @@ module OAuth
         redirect_to action: :show, id: call.result.id
       else
         @errors = call.errors
-        flash[:error] = call.errors.full_messages.join('\n')
         render action: :new
       end
     end

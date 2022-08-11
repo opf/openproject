@@ -10,4 +10,4 @@ es:
     label_assignees: "Asignado a"
     upsale:
       title: "Planificador de equipo"
-      description: "El planificador de equipo muestra un resumen completo de las tareas asignadas a los miembros del equipo, semana a semana. Puede mover, ampliar y reducir visualmente los paquetes de trabajo, e incluso arrastrarlos de un usuario a otro para organizar las cargas de trabajo. ¡Hasta puede crear nuevos paquetes de trabajo o añadir existentes desde el planificador de equipo!"
+      description: "Obtén una visión completa de la planificación de tu equipo con el Planificador de Equipo. Alargar, acortar y mover paquetes de trabajo para modificar fechas o cambiar asignados."

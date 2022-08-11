@@ -114,7 +114,7 @@ module OpenProject
               label: 'links.configuration_guide'
             },
             contact: {
-              href: 'https://www.openproject.org/contact-us/',
+              href: 'https://www.openproject.org/contact/',
               label: 'links.get_in_touch'
             },
             glossary: {
@@ -210,7 +210,27 @@ module OpenProject
               href: 'https://www.openproject.org/docs/'
             },
             contact_us: {
-              href: 'https://www.openproject.org/contact-us'
+              href: 'https://www.openproject.org/contact/'
+            },
+            pricing: {
+              href: 'https://www.openproject.org/pricing/'
+            },
+            enterprise_docs: {
+              form_configuration: {
+                href: 'https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-premium-feature'
+              },
+              attribute_highlighting: {
+                href: 'https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration/#attribute-highlighting-premium-feature'
+              },
+              custom_field_projects: {
+                href: 'https://www.openproject.org/docs/system-admin-guide/custom-fields/custom-fields-projects/'
+              },
+              custom_field_multiselect: {
+                href: 'https://www.openproject.org/docs/system-admin-guide/custom-fields/#create-a-multi-select-custom-field-premium-feature'
+              },
+              status_read_only: {
+                href: 'https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-status/#create-a-new-work-package-status'
+              }
             }
           }
         end

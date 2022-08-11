@@ -102,6 +102,8 @@ class Project < ApplicationRecord
                 author: nil,
                 datetime: :created_at
 
+  has_paper_trail
+
   validates :name,
             presence: true,
             length: { maximum: 255 }
@@ -391,21 +393,6 @@ class Project < ApplicationRecord
     def project_tree(projects, &)
       projects_hierarchy = build_projects_hierarchy(projects)
       project_tree_from_hierarchy(projects_hierarchy, 0, &)
-    end
-
-    def project_level_list(projects)
-      list = []
-      project_tree(projects) do |project, level|
-        element = {
-          project:,
-          level:
-        }
-
-        element.merge!(yield(project)) if block_given?
-
-        list << element
-      end
-      list
     end
 
     private

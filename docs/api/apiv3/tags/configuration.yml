@@ -20,4 +20,5 @@ description: |-
   | :-----------------------: | -------------------------------------------------- | ---------- | --------------------------------- | -------------------- |
   | maximumAttachmentFileSize | The maximum allowed size of an attachment in Bytes | Integer    |                                   | READ                 |
   | perPageOptions            | Page size steps to be offered in paginated list UI | Integer[]  |                                   | READ                 |
+  | hostName                  | The host name configured for the system            | String     |                                   | READ                 |
 name: Configuration

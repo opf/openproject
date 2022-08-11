@@ -204,6 +204,7 @@ sl:
             label_expires_at: "Izteče ob"
             receive_newsletter: Želim prejemati OpenProject  <a target="_blank" href="%{link}">novice</a>.
             taken_domain: Možen je le en aktivni preizkus na domeno.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Vsak uporabnik ima na voljo le en preizkus.
           email_not_received: "Niste prejeli e-pošte? E-pošto lahko ponovno pošljete s povezavo na desni."
           try_another_email: "Ali pa poskusite z drugim e-poštnim naslovom."
@@ -230,10 +231,12 @@ sl:
             professional_support: "Strokovna podpora"
             professional_support_text: "Pridobite zanesljivo in visoko dotično podporo starejših podpornih inženirjev s strokovnim znanjem o izvajanju OpenProject-a v poslovnih kritičnih okoljih."
           button_start_trial: "Začnite z brezplačno preizkusno dobo"
+          button_upgrade: "Upgrade now"
           button_book_now: "Rezerviraj"
           confidence: >
             Zagotavljamo zaupanje preizkušene in podprte programske opreme za upravljanje projektov v podjetniškem razredu - z odprto kodo in odprto miselnostjo.
           link_quote: "Pridobite ponudbo"
+          more_info: "More information"
           text: >
             Izdaja OpenProject Enterprise temelji na različici Community Edition. Vključuje vrhunske funkcije in strokovno podporo, namenjeno predvsem organizacijam z več kot 10 uporabniki, ki z OpenProjectom upravljajo poslovno pomembne projekte.
           unlimited: "Neomejeno"
@@ -266,7 +269,7 @@ sl:
           one: "Prvo merilo za razvrščanje"
           two: "Drugo merilo za razvrščanje"
           three: "Tretje merilo za razvrščanje"
-      upsale_for_more: "Za bolj napredne filtre, si poglejte"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Podjetniška verzija. '
     general_text_no: "ne"
     general_text_yes: "da"
@@ -286,15 +289,15 @@ sl:
           learn_about: "Preberite več o novostih"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "Aktiviraj"
     label_assignee: 'Assignee'
     label_add_column_after: "Dodaj stolpec za"
@@ -366,15 +369,14 @@ sl:
     label_in_more_than: "v več kot"
     label_incoming_emails: "Prihajajoča e-pošta"
     label_information_plural: "Informacije"
+    label_invalid: "Invalid"
     label_import: "Uvozi"
     label_latest_activity: "Zadnja dejavnost"
     label_last_updated_on: "Zadnjič posodobljeno dne"
     label_learn_more_link: "Več o tem"
     label_less_or_equal: "<="
     label_less_than_ago: "pred manj kot nekaj dnevi"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Nalaganje..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "E-poštna obvestila"
     label_me: "jaz"
     label_meeting_agenda: "Dnevni red"
@@ -387,23 +389,20 @@ sl:
     label_no_data: "Ni podatkov za prikaz"
     label_no_due_date: "brez končnega datuma"
     label_no_start_date: "Brez začetnega datuma"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Brez vrednosti"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "Brez"
     label_not_contains: "ne vsebuje"
     label_not_equals: "ni"
     label_on: "vključeno"
     label_open_menu: "Odpri meni"
     label_open_context_menu: "Odpri kontekstni meni"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "odpri"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Geslo"
     label_previous: "Predhodnji"
     label_per_page: "Na stran:"
     label_please_wait: "Prosimo, počakajte"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projekti"
     label_visibility_settings: "Nastavitve vidljivosti"
     label_quote_comment: "Citiraj ta komentar"
@@ -412,11 +411,11 @@ sl:
     label_remove: "Odstrani"
     label_remove_column: "Odstrani stolpec"
     label_remove_columns: "Odstranite izbrane stolpce"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Odstrani vrstico"
     label_report: "Poročilo"
     label_repository_plural: "Repozitoriji"
     label_save_as: "Shrani kot"
+    label_select_project: "Select a project"
     label_select_watcher: "Izberi opazovalca..."
     label_selected_filter_list: "Izbrani kriteriji"
     label_show_attributes: "Prikaži vse atribute"
@@ -428,9 +427,6 @@ sl:
     label_sorting: "Razvrščanje"
     label_spent_time: "Porabljen čas"
     label_star_query: "Priljubljeno"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Pritisnite enter da shranite. "
     label_public_query: "Javno"
     label_sum: "Vsota"
@@ -461,13 +457,12 @@ sl:
     label_unwatch: "Prenehaj slediti"
     label_unwatch_work_package: "Nihče ne spremlja delovnega paketa"
     label_uploaded_by: "Naložil"
-    label_default_queries: "Privzeti pogledi"
-    label_starred_queries: "Priljubljeni pogledi"
-    label_global_queries: "Javni pogledi"
-    label_custom_queries: "Zasebni pogledi"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Stolpci"
     label_attachments: Priponka
-    label_nextcloud: Nextcloud
     label_drop_files: Spustite datoteke tukaj
     label_drop_files_hint: ali kliknite da dodate datoteke
     label_drop_folders_hint: Mape ne morate naložiti kot priponke. Prosim izberite samo eno datoteko. 
@@ -547,7 +542,7 @@ sl:
           few: 'and %{count} others'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -555,7 +550,8 @@ sl:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -672,14 +668,7 @@ sl:
         projects: "Projekti"
         settings: "Nastavitve"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Zahtevek'
       work_package_required: 'Najprej izberite opravilo'
-      activity: 'Aktivnost'
-      comment: 'Komentar'
-      duration: 'Trajanje'
-      spent_on: 'Datum'
-      hours: 'Ure'
       title: 'Beleži čas'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvofaktorna avtentikacija'
@@ -820,7 +809,7 @@ sl:
       zooms: "Stopnja povečave"
       outlines: "Stopnja hierarhije"
     upsale:
-      ee_only: 'Ta možnost je samo v podjetniški izdaji'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Močno"
       italic: "Nagnjeno"
@@ -1040,10 +1029,7 @@ sl:
       filter: "Filtriraj"
       unselected_title: "Zahtevek"
       search_query_label: "Išči shranjenje poglede"
-      search_query_title: "Kliknite za iskanje shranjenih pogledov"
-      placeholder_query_title: "Natavite naslov za ta pogled"
     modals:
-      label_settings: "Preimenuj pogled"
       label_name: "Ime"
       label_delete_page: "Izbriši trenutno stran"
       button_apply: "Potrdi"
@@ -1107,6 +1093,10 @@ sl:
         one: "1 ura"
         other: "%{count} ur"
         zero: "0 ur"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Omogočite zen način'
       button_deactivate: 'Onemogočite zen način'
@@ -1202,6 +1192,8 @@ sl:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Obrazev je bil uspešno oddan'
       load_error_message: 'Pri nalaganju obrazca je prišlo do napake'
@@ -1212,5 +1204,3 @@ sl:
         remove: 'Odstrani'
       drop_modal:
         Close: 'Zapri'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

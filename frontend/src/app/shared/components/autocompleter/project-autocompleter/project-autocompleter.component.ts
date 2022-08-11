@@ -89,6 +89,11 @@ export interface IProjectAutocompleterData {
 export class ProjectAutocompleterComponent implements ControlValueAccessor {
   @HostBinding('class.op-project-autocompleter') public className = true;
 
+  @HostBinding('class.op-project-autocompleter_inline')
+  public get inlineClass():boolean {
+    return this.isInlineContext;
+  }
+
   projectTracker = (item:IProjectAutocompleteItem):ID => item.href || item.id;
 
   // Load all projects as default
@@ -98,13 +103,21 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Input() public focusDirectly = false;
 
+  @Input() public openDirectly = false;
+
   @Input() public multiple = false;
 
+  @Input() public dropdownPosition:'bottom'|'top'|'auto' = 'auto';
+
+  // ID that should be set on the input HTML element. It is used with
+  // <label> tags that have `for=""` set
   @Input() public labelForId = '';
 
   @Input() public apiFilters:ApiV3ListFilter[] = [];
 
-  @Input() public appendTo:string = 'body';
+  @Input() public appendTo = '';
+
+  @Input() public isInlineContext = false;
 
   // This function allows mapping of the results before they are fed to the tree
   // structuring and destructuring algorithms used internally the this component
@@ -114,6 +127,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
   @Input()
   public mapResultsFn:(projects:IProjectAutocompleteItem[]) => IProjectAutocompleteItem[] = (projects) => projects;
 
+  /* eslint-disable-next-line @angular-eslint/no-input-rename */
   @Input('value') public _value:IProjectAutocompleterData|IProjectAutocompleterData[]|null = null;
 
   get value():IProjectAutocompleterData|IProjectAutocompleterData[]|null {
@@ -126,6 +140,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     this.valueChange.emit(value);
     this.onTouched(value);
     setTimeout(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       this.hiddenInput.nativeElement?.dispatchEvent(new Event('change'));
     }, 100);
   }
@@ -134,6 +149,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     return (Array.isArray(this.value) ? this.value?.map((i) => i.id) : this.value?.id) || '';
   }
 
+  /* eslint-disable-next-line @angular-eslint/no-output-rename */
   @Output('valueChange') valueChange = new EventEmitter<IProjectAutocompleterData|IProjectAutocompleterData[]|null>();
 
   @Output() cancel = new EventEmitter();
@@ -159,7 +175,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
         const filters:ApiV3ListFilter[] = [...this.apiFilters];
 
         if (searchTerm.length) {
-          filters.push(['name_and_identifier', '~', [searchTerm]]);
+          filters.push(['typeahead', '**', [searchTerm]]);
         }
 
         const url = new URL(this.url, window.location.origin);
@@ -178,7 +194,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
           ...params,
         };
         const collectionURL = `${listParamsString(fullParams)}&${url.searchParams.toString()}`;
-        url.searchParams.forEach((key) => url.searchParams.delete(key));
+        url.search = '';
         return this.http.get<IHALCollection<IProject>>(url.toString() + collectionURL);
       },
     )
@@ -203,8 +219,10 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     this.value = value;
   }
 
+  // eslint-disable-next-line no-unused-vars
   onChange = (_:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void => {};
 
+  // eslint-disable-next-line no-unused-vars
   onTouched = (_:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void => {};
 
   registerOnChange(fn:(_:IProjectAutocompleterData|IProjectAutocompleterData[]|null) => void):void {

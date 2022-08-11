@@ -1,8 +1,29 @@
+@import '../../app/spot/styles/sass/variables'
+
 .op-enterprise-banner
-  .op-toast
 
-    &.-left-margin
-      margin-left: 1.25rem
+  &--title
+    font-weight: 400
+    font-size: 20px
+    line-height: 24px
+    display: flex
+    margin-top: 10px
 
-    .op-toast--content p
-      margin-bottom: 10px
+  &--description
+    display: block
+    @include spot-body-small
+    margin-bottom: $spot-spacing-0-75
+
+  &--image
+    width: 115px
+    height: 75px
+    padding-right: 20px
+    margin: auto
+
+  &--buttons
+    display: flex
+    justify-content: end
+
+  &--info-button
+    padding-top: 1rem
+    padding-right: 1.5rem

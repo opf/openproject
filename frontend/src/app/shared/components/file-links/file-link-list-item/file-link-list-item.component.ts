@@ -37,15 +37,16 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
 import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
+import { fileLinkViewAllowed } from 'core-app/shared/components/file-links/file-links-constants.const';
+import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
 import {
   getIconForMimeType,
 } from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
-import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -54,28 +55,35 @@ import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileLinkListItemComponent implements OnInit, AfterViewInit {
-  @Input() public resource:HalResource;
-
   @Input() public fileLink:IFileLink;
 
-  @Input() public index:number;
-
   @Input() public allowEditing = false;
+
+  @Input() public disabled = true;
 
   @Output() public removeFileLink = new EventEmitter<void>();
 
   @ViewChild('avatar') avatar:ElementRef;
 
-  public infoTimestampText:string;
+  infoTimestampText:string;
 
-  public fileLinkIcon:IFileIcon;
+  fileLinkIcon:IFileIcon;
 
-  public text = {
+  downloadAllowed:boolean;
+
+  viewAllowed:boolean;
+
+  text = {
     title: {
-      openFile: this.i18n.t('js.label_open_file_link'),
-      openFileLocation: this.i18n.t('js.label_open_file_link_location'),
-      removeFileLink: this.i18n.t('js.label_remove_file_link'),
+      openFile: this.i18n.t('js.storages.file_links.open'),
+      openFileLocation: this.i18n.t('js.storages.file_links.open_location'),
+      removeFileLink: this.i18n.t('js.storages.file_links.remove'),
+      downloadFileLink: '',
     },
+    floatingText: {
+      noViewPermission: this.i18n.t('js.storages.file_links.no_permission'),
+    },
+    removalConfirmation: this.i18n.t('js.storages.file_links.remove_confirmation'),
   };
 
   constructor(
@@ -94,6 +102,15 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
     }
 
     this.fileLinkIcon = getIconForMimeType(this.originData.mimeType);
+
+    this.downloadAllowed = this.originData.mimeType !== 'application/x-op-directory';
+
+    this.text.title.downloadFileLink = this.i18n.t(
+      'js.storages.file_links.download',
+      { fileName: this.fileLink.originData.name },
+    );
+
+    this.viewAllowed = this.fileLink._links.permission.href === fileLinkViewAllowed;
   }
 
   ngAfterViewInit():void {
@@ -104,6 +121,19 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
         { hide: true, link: false },
         { hide: false, size: 'mini' },
       );
+    } else {
+      this.principalRendererService.render(
+        this.avatar.nativeElement,
+        { name: 'Not Available', href: '/placeholder_users/1' },
+        { hide: true, link: false },
+        { hide: false, size: 'mini' },
+      );
+    }
+  }
+
+  public confirmRemoveFileLink():void {
+    if (window.confirm(this.text.removalConfirmation)) {
+      this.removeFileLink.emit();
     }
   }
 }

@@ -2,3 +2,26 @@
 pl:
   js:
     storages:
+      link_files_in_storage: "Połącz pliki w %{storageType}"
+      login: "%{storageType} logowanie"
+      login_to: "Zaloguj się do %{storageType}"
+      no_connection: "Brak połączenia %{storageType}"
+      open_storage: "Otwórz %{storageType}"
+      types:
+        nextcloud: "Nextcloud"
+      information:
+        connection_error: >
+          Niektóre ustawienia %{storageType} nie działają. Skontaktuj się z administratorem %{storageType}.
+        live_data_error: "Błąd podczas pobierania szczegółów pliku"
+        live_data_error_description: >
+          Niektóre dane %{storageType} nie mogą zostać pobrane. Spróbuj odświeżyć tę stronę lub skontaktuj się z administratorem %{storageType}.
+        no_file_links: "Aby połączyć pliki z tym pakietem roboczym, zrób to za pośrednictwem %{storageType}."
+        not_logged_in: >
+          Aby dodać link, zobacz lub wgraj pliki związane z tym pakietem roboczym, zaloguj się do %{storageType}.
+      file_links:
+        download: "Pobierz %{fileName}"
+        no_permission: "Nie masz uprawnień, aby zobaczyć ten plik."
+        open: 'Otwórz plik w pamięci'
+        open_location: 'Otwórz plik w lokalizacji'
+        remove: "Usuń link do pliku"
+        remove_confirmation: "Czy na pewno chcesz odłączyć plik od pakietu roboczego?"

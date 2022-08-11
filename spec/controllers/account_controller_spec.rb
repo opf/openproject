@@ -562,6 +562,7 @@ describe AccountController, type: :controller do
           expect(subject).to respond_with :success
           expect(response).to render_template :register
           expect(assigns[:user]).not_to be_nil
+          expect(assigns[:user].notification_settings.size).to eq(1)
         end
       end
 

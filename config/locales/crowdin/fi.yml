@@ -48,8 +48,9 @@ fi:
         main-menu-hover-font-color: "Main menu font on hover"
         main-menu-border-color: "Main menu border"
       custom_colors: "Mukautetut värit"
-      customize: "Mukauta OpenProject asennusta omalla logollasi. Huom: Tämä logo tulee olemaan julkisesti saatavilla."
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Muokkaa värin valitsemis asetuksia"
       instructions:
         alternative-color: "Strong accent color, typically used for the most important button on a screen."
@@ -93,6 +94,8 @@ fi:
     show_preview: 'Esikatsele teksti'
     add_new: 'Lisää aputeksti'
     edit: "Muokkaa aputeksiä ominaisuudelle %{attribute_caption}"
+    enterprise:
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Tällä hetkellä ei ole todennustiloja.
@@ -171,7 +174,7 @@ fi:
     execute: 'Suorita %{name}'
     upsale:
       title: 'Custom actions'
-      description: 'Mukautettuja toimintoja tehostaa jokapäiväistä työtä yhdistämällä joukko yksittäisiä vaiheita yhdeksi painiketta.'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       Jotta voit lisätä tälle projektille uusia muokattavia kenttiä, tulee sinun ensin luoda ne.
@@ -271,7 +274,7 @@ fi:
     upsale:
       title: Placeholder users
       description: >
-        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -301,6 +304,8 @@ fi:
     edit:
       settings: "Asetukset"
       form_configuration: "Lomakkeen muokkaus"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projektit"
       enabled_projects: "Enabled projects"
       edit_query: "Muokkaa taulukkoa"
@@ -603,6 +608,8 @@ fi:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "ei voida poistaa."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)."
       models:
         attachment:
@@ -634,7 +641,7 @@ fi:
               fragment_present: 'cannot contain a fragment.'
               invalid_uri: 'must be a valid URI.'
               relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'is forbidden by the server.'
             scopes:
               not_match_configured: "doesn't match available scopes."
@@ -740,6 +747,7 @@ fi:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "ei voi olla välitavoite."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1352,7 +1360,7 @@ fi:
     admin:
       mail_notification: "Sähköposti-ilmoitukset"
       mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
@@ -1361,7 +1369,7 @@ fi:
       no_results:
         title: "Ei API-salasanoja"
         description: "All of them have been disabled. They can be re-enabled in the administration menu."
-      access_token: "API-salasana"
+      access_tokens: "Access tokens"
       headers:
         action: "Toiminto"
         expiration: "Vanhentuu"
@@ -1462,7 +1470,6 @@ fi:
   label_consent_settings: "Käyttäjän suostumus"
   label_wiki_menu_item: Wiki-valikkovaihtoehto
   label_select_main_menu_item: Valitse uusi valikkovaihtoehto päävalikkoon
-  label_select_project: "Valitse projekti"
   label_required_disk_storage: "Tarvittava levytila"
   label_send_invitation: Lähetä kutsu
   label_change_plural: "Muutokset"
@@ -1741,7 +1748,6 @@ fi:
   label_product_version: "Tuotteen versio"
   label_professional_support: "Ammatillinen apu"
   label_profile: "Profile"
-  label_project_all: "Kaikki projektit"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Lähetä sähköposti-ilmoituksia projektin kopioinnin aikana"
   label_project_latest: "Uusimmat projektit"
@@ -2117,6 +2123,12 @@ fi:
   notice_successful_create: "Luonti onnistui."
   notice_successful_delete: "Poisto onnistui."
   notice_successful_update: "Päivitys onnistui."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "On liian paljon tuloksia.\nRajata hakua kirjoittamalla nimi uuden jäsenen (tai ryhmä)."
   notice_user_missing_authentication_method: Käyttäjä on vielä valita salasana tai toinen tapa kirjautua sisään.
   notice_user_invitation_resent: Kutsu lähetetty %{email}.
@@ -2184,13 +2196,14 @@ fi:
   permission_edit_own_time_entries: "Muokka omia aikamerkintöjä"
   permission_edit_project: "Muokkaa projektia"
   permission_edit_reportings: "Muokkaa raportointeja"
-  permission_edit_time_entries: "Muokkaa aika lokeja"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Muokkaa aikajanoja"
   permission_edit_wiki_pages: "Muokkaa wiki sivuja"
   permission_export_work_packages: "Vie tehtäviä"
   permission_export_wiki_pages: "Vie wiki-sivuja"
   permission_list_attachments: "Listaa liitteet"
-  permission_log_time: "Lokita käytettyä aikaa"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Hallinnoi keskustelupalstaa"
   permission_manage_categories: "Hallinnoi tapahtumien luokkia"
   permission_manage_work_package_relations: "Hallinnoi tehtävien riippuvuuksia"
@@ -2348,6 +2361,9 @@ fi:
     storage:
       not_available: "Disk storage consumption is not available for this repository."
       update_timeout: "Keep the last required disk space information for a repository for N minutes.\nAs counting the required disk space of a repository may be costly, increase this value to reduce performance impact."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Existing Subversion repository"
       existing_introduction: "If you have an existing Subversion repository, you can link it with OpenProject to access it from within the application."
@@ -2427,7 +2443,6 @@ fi:
   setting_email_login: "Käytä sähköpostiosoitetta kirjautumiseen"
   setting_enabled_scm: "Käytössäoleva versionhallinta"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "Ota syötteet käyttöön"
   setting_feeds_limit: "Syötteen sisällön raja"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
@@ -2440,7 +2455,7 @@ fi:
   setting_work_package_list_default_columns: "Oletuksena näkyvissä"
   setting_work_package_properties: "Tehtävän ominaisuudet"
   setting_work_package_startdate_is_adddate: "Käytä nykyistä päivämäärää uuden tehtävän aloistuspäivänä"
-  setting_work_packages_export_limit: "Tehtävien viennin enimmäismäärä"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Kirjaa lokiin käyttäjien kirjautumiset, nimet ja sähköpostiosoitteet kaikista pyynnöistä"
   setting_login_required: "Pakollinen kirjautuminen"
@@ -2500,8 +2515,6 @@ fi:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
@@ -2553,6 +2566,12 @@ fi:
     When using custom fields: Keep in mind that custom fields need to be activated per project, too.
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_favicon_instructions: >
@@ -3067,4 +3086,10 @@ fi:
         unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
         unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
         invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: you

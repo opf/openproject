@@ -50,6 +50,12 @@ class DateEditField < EditField
     end
   end
 
+  def activate_start_date_within_modal
+    within_modal do
+      find('[data-qa-selector="op-datepicker-modal--start-date-field"]').click
+    end
+  end
+
   def activate_due_date_within_modal
     within_modal do
       find('[data-qa-selector="op-datepicker-modal--end-date-field"]').click
@@ -89,6 +95,12 @@ class DateEditField < EditField
     expect(page).to have_no_selector("#{modal_selector} #{input_selector}")
   end
 
+  def expect_calendar
+    within_modal do
+      expect(page).to have_selector(".flatpickr-calendar")
+    end
+  end
+
   def update(value, save: true, expect_failure: false)
     # Retry to set attributes due to reloading the page after setting
     # an attribute, which may cause an input not to open properly.
@@ -96,7 +108,9 @@ class DateEditField < EditField
       activate_edition
       within_modal do
         if value.is_a?(Array)
-          value.each { |el| select_value(el) }
+          value.each do |el|
+            select_value(el)
+          end
         else
           select_value value
         end

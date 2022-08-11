@@ -205,6 +205,7 @@ si:
             label_expires_at: "කල් ඉකුත්"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
             taken_domain: There can only be one active trial per domain.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
@@ -231,10 +232,12 @@ si:
             professional_support: "වෘත්තීය සහාය"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
+          more_info: "More information"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -267,7 +270,7 @@ si:
           one: "පළමු තෝරා බේරා ගැනීමේ නිර්ණායක"
           two: "දෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
           three: "තෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
-      upsale_for_more: "තවත් දියුණු පෙරහන් සඳහා, පරීක්ෂා කරන්න"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'ව්යවසාය සංස්කරණය.'
     general_text_no: "නැත"
     general_text_yes: "ඔව්"
@@ -287,15 +290,15 @@ si:
           learn_about: "නව විශේෂාංග ගැන වැඩි විස්තර දැනගන්න"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "සක්රිය කරන්න"
     label_assignee: 'Assignee'
     label_add_column_after: "පසු තීරුව එකතු කරන්න"
@@ -367,15 +370,14 @@ si:
     label_in_more_than: "වඩා වැඩි"
     label_incoming_emails: "ලැබෙන විද්යුත් තැපැල්"
     label_information_plural: "තොරතුරු"
+    label_invalid: "Invalid"
     label_import: "ආනයන"
     label_latest_activity: "නවතම ක්රියාකාරකම්"
     label_last_updated_on: "අවසන් වරට යාවත්කාලීන කරන ලදි"
     label_learn_more_link: "වැඩිදුර ඉගෙන ගන්න"
     label_less_or_equal: "<="
     label_less_than_ago: "දින ගණනකට පෙර"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "පැටවීම..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "වි-ල් ස්කිනිම්"
     label_me: "මට"
     label_meeting_agenda: "Agenda"
@@ -388,23 +390,20 @@ si:
     label_no_data: "ප්රදර්ශනය කිරීමට දත්ත නොමැත"
     label_no_due_date: "no finish date"
     label_no_start_date: "ආරම්භක දිනයක් නැත"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "වටිනාකමක් නැත"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "කිසිවක් නැත"
     label_not_contains: "අඩංගු නොවේ"
     label_not_equals: "නැත"
     label_on: "මත"
     label_open_menu: "මෙනුව විවෘත කරන්න"
     label_open_context_menu: "සන්දර්භය මෙනුව විවෘත කරන්න"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "විවෘත"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "මුරපදය"
     label_previous: "පසුගිය"
     label_per_page: "එක් පිටුවකට:"
     label_please_wait: "කරුණාකර රැඳී සිටින්න"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "ව්‍යාපෘති"
     label_visibility_settings: "දෘශ්යතා සැකසුම්"
     label_quote_comment: "මෙම අදහස උපුටා දක්වන්න"
@@ -413,11 +412,11 @@ si:
     label_remove: "ඉවත් කරන්න"
     label_remove_column: "තීරුව ඉවත් කරන්න"
     label_remove_columns: "තෝරාගත් තීරු ඉවත් කරන්න"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "පේළිය ඉවත් කරන්න"
     label_report: "වාර්තාව"
     label_repository_plural: "ගබඩාවලදී"
     label_save_as: "ලෙස සුරකින්න"
+    label_select_project: "Select a project"
     label_select_watcher: "මුරකරුවෙකු තෝරන්න..."
     label_selected_filter_list: "තෝරාගත් පෙරහන්"
     label_show_attributes: "සියලු ගුණාංග පෙන්වන්න"
@@ -429,9 +428,6 @@ si:
     label_sorting: "තෝරා බේරා ගැනීමේ"
     label_spent_time: "වැය කළ කාලය"
     label_star_query: "අනුග්රහය"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "සුරැකීමට ඔබන්න ඇතුල් කරන්න."
     label_public_query: "පොදු"
     label_sum: "මුදල"
@@ -462,13 +458,12 @@ si:
     label_unwatch: "අසන්න"
     label_unwatch_work_package: "වැඩ පැකේජය අසන්න"
     label_uploaded_by: "විසින් උඩුගත"
-    label_default_queries: "පෙරනිමි අදහස්"
-    label_starred_queries: "ප්රියතම අදහස්"
-    label_global_queries: "මහජන අදහස්"
-    label_custom_queries: "පෞද්ගලික අදහස්"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "තීරු"
     label_attachments: ඇමුණුම්
-    label_nextcloud: Nextcloud
     label_drop_files: ගොනු මෙහි අතහැර
     label_drop_files_hint: හෝ ගොනු එකතු කිරීමට ක්ලික් කරන්න
     label_drop_folders_hint: ඔබට ෆෝල්ඩර ඇමුණුමක් ලෙස උඩුගත කළ නොහැක. කරුණාකර තනි ගොනු තෝරන්න.
@@ -546,7 +541,7 @@ si:
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -554,7 +549,8 @@ si:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -671,14 +667,7 @@ si:
         projects: "ව්‍යාපෘති"
         settings: "සැකසුම්"
     time_entry:
-      project: 'ව්යාපෘති'
-      work_package: 'වැඩ පැකේජය'
       work_package_required: 'පළමුව වැඩ පැකේජයක් තෝරා ගැනීම අවශ්ය වේ.'
-      activity: 'ක්‍රියාකාරකම'
-      comment: 'අදහස් දක්වන්න'
-      duration: 'කාල සීමාව'
-      spent_on: 'දිනය'
-      hours: 'පැය'
       title: 'ලොග් වේලාව'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
@@ -819,7 +808,7 @@ si:
       zooms: "විශාලන මට්ටම"
       outlines: "ධූරාවලිය මට්ටම"
     upsale:
-      ee_only: 'ව්යවසාය සංස්කරණය පමණක් විශේෂාංගය'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "ශක්තිමත්"
       italic: "ඇල අකුරු"
@@ -1039,10 +1028,7 @@ si:
       filter: "පෙරහන්"
       unselected_title: "වැඩ පැකේජය"
       search_query_label: "සුරකින ලද අදහස් සොයන්න"
-      search_query_title: "සුරකින ලද අදහස් සෙවීමට ක්ලික් කරන්න"
-      placeholder_query_title: "මෙම මතය සඳහා මාතෘකාවක් සකසන්න"
     modals:
-      label_settings: "දැක්ම නැවත නම්"
       label_name: "නම"
       label_delete_page: "වත්මන් පිටුව මකන්න"
       button_apply: "අයදුම් කරන්න"
@@ -1102,6 +1088,10 @@ si:
         one: "1 h"
         other: "%{count} ඌ"
         zero: "0 ඌ"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'සක්රිය මාදිලිය'
       button_deactivate: 'සෙන් මාදිලිය අක්රිය'
@@ -1197,6 +1187,8 @@ si:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'
@@ -1207,5 +1199,3 @@ si:
         remove: 'ඉවත් කරන්න'
       drop_modal:
         Close: 'වසන්න'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

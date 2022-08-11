@@ -205,6 +205,7 @@ nl:
             label_expires_at: "Verloopt op"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
             taken_domain: There can only be one active trial per domain.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
@@ -231,10 +232,12 @@ nl:
             professional_support: "Professionele ondersteuning"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
+          more_info: "More information"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -267,7 +270,7 @@ nl:
           one: "Eerste sorteercriteria"
           two: "Tweede sorteercriteria"
           three: "Derde sorteercriteria"
-      upsale_for_more: "Voor meer geavanceerde filters, bekijk de"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "Nee"
     general_text_yes: "Ja"
@@ -287,15 +290,15 @@ nl:
           learn_about: "Meer informatie over de nieuwe functies"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "Activeren"
     label_assignee: 'Assignee'
     label_add_column_after: "Kolom toevoegen"
@@ -367,15 +370,14 @@ nl:
     label_in_more_than: "in meer dan"
     label_incoming_emails: "Inkomende e-mails"
     label_information_plural: "Informatie"
+    label_invalid: "Invalid"
     label_import: "Importeren"
     label_latest_activity: "Laatste Activiteit"
     label_last_updated_on: "Laatst geüpdatet op"
     label_learn_more_link: "Meer informatie"
     label_less_or_equal: "<="
     label_less_than_ago: "minder dan dagen geleden"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Laden..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "E-mailnotificaties"
     label_me: "ik"
     label_meeting_agenda: "Agenda"
@@ -388,23 +390,20 @@ nl:
     label_no_data: "Geen gegevens om weer te geven"
     label_no_due_date: "no finish date"
     label_no_start_date: "geen startdatum"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Geen waarde"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "geen"
     label_not_contains: "bevat geen"
     label_not_equals: "is niet"
     label_on: "op"
     label_open_menu: "Menu openen"
     label_open_context_menu: "Toon context menu"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "Open"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Wachtwoord"
     label_previous: "Vorige"
     label_per_page: "Per pagina:"
     label_please_wait: "Een ogenblik geduld"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projecten"
     label_visibility_settings: "Zichtbaarheidsinstellingen"
     label_quote_comment: "Citeer dit commentaar"
@@ -413,11 +412,11 @@ nl:
     label_remove: "Verwijder"
     label_remove_column: "Kolom verwijderen"
     label_remove_columns: "Verwijder geselecteerde kolommen"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Rij verwijderen"
     label_report: "Rapport"
     label_repository_plural: "Repositories"
     label_save_as: "Opslaan als"
+    label_select_project: "Select a project"
     label_select_watcher: "Kies een toezichter..."
     label_selected_filter_list: "Geselecteerde filters"
     label_show_attributes: "Toon alle kenmerken"
@@ -429,9 +428,6 @@ nl:
     label_sorting: "Sortering"
     label_spent_time: "Bestede tijd"
     label_star_query: "Favoriet"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Druk op Enter om te bewaren."
     label_public_query: "Publiek"
     label_sum: "Som"
@@ -462,13 +458,12 @@ nl:
     label_unwatch: "Niet meer volgen"
     label_unwatch_work_package: "Stop met het bekijken van werkpakket"
     label_uploaded_by: "Geüpload door"
-    label_default_queries: "Standaardweergaven"
-    label_starred_queries: "Favoriete weergaven"
-    label_global_queries: "Openbare weergaven"
-    label_custom_queries: "Privé weergaven"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Kolommen"
     label_attachments: Bijlagen
-    label_nextcloud: Nextcloud
     label_drop_files: Bestanden hier neerzetten
     label_drop_files_hint: of klik om bestanden toe te voegen
     label_drop_folders_hint: U kunt geen mappen uploaden als bijlage. Selecteer a. u. b. enkele bestanden.
@@ -546,7 +541,7 @@ nl:
           one: 'en 1 ander'
           other: 'en %{count} anderen'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Alles als gelezen markeren'
         mark_as_read: 'Als gelezen markeren'
@@ -554,7 +549,8 @@ nl:
         total_count_warning: "De %{newest_count} meest recente meldingen weergeven. %{more_count} meer worden niet weergegeven."
         empty_state:
           no_notification: "Het lijkt erop dat u helemaal bij bent."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Klik op een melding om alle activiteit details te bekijken."
         new_notifications:
           message: 'There are new notifications.'
@@ -671,14 +667,7 @@ nl:
         projects: "Projecten"
         settings: "Instellingen"
     time_entry:
-      project: 'Project'
-      work_package: 'Werkpakket'
       work_package_required: 'Vereist eerst een werkpakket te selecteren.'
-      activity: 'Activiteit'
-      comment: 'Commentaar'
-      duration: 'Duur'
-      spent_on: 'Datum'
-      hours: 'Uren'
       title: 'Gelogde tijd'
     two_factor_authentication:
       label_two_factor_authentication: 'Twee-factor-authenticatie'
@@ -819,7 +808,7 @@ nl:
       zooms: "Zoom niveau"
       outlines: "Niveau van de hiërarchie"
     upsale:
-      ee_only: 'Functie alleen voor de Enterprise Editie'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Vet"
       italic: "Schuingedrukt"
@@ -1039,10 +1028,7 @@ nl:
       filter: "Filter"
       unselected_title: "Werkpakket"
       search_query_label: "Zoek opgeslagen weergaven"
-      search_query_title: "Klik om te zoeken naar opgeslagen weergaven"
-      placeholder_query_title: "Een titel voor deze weergave instellen"
     modals:
-      label_settings: "Hernoem weergave"
       label_name: "Naam"
       label_delete_page: "Verwijder huidige pagina"
       button_apply: "Toepassen"
@@ -1102,6 +1088,10 @@ nl:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Zen-modus activeren'
       button_deactivate: 'Deactiveren van zen modus'
@@ -1197,6 +1187,8 @@ nl:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'
@@ -1207,5 +1199,3 @@ nl:
         remove: 'Verwijder'
       drop_modal:
         Close: 'Sluiten'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

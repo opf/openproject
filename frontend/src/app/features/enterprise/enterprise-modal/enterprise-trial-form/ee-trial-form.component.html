@@ -57,7 +57,10 @@
                disabled>
       </div>
     </div>
-    <div *ngIf="eeTrialService.domainTaken" class="form--field-instructions">{{ eeTrialService.errorMsg }}</div>
+    <div class="form--field-instructions">
+      <p *ngIf="requestHost !== configuredHost" [textContent]="text.domain_mismatch"></p>
+      <p *ngIf="eeTrialService.domainTaken" [textContent]="eeTrialService.errorMsg"></p>
+    </div>
   </div>
   <div class="form--field -required">
     <div class="form--field-container">

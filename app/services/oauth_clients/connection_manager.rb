@@ -46,13 +46,15 @@ module OAuthClients
     # Returns an OAuthClientToken object or a String in case a renew is required.
     # @param state (OAuth2 RFC) encapsulates the state of the calling page (URL + params) to return
     # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud only has one global scope.
+    # @return ServiceResult with ServiceResult.result being either an OAuthClientToken or a redirection URL
     def get_access_token(scope: [], state: nil)
       # Check for an already existing token from last call
       token = get_existing_token
       return ServiceResult.success(result: token) if token.present?
 
-      # Return a String with a redirect URL to Nextcloud instead of a token
-      @redirect_url = redirect_to_oauth_authorize(scope:, state:)
+      # Return the Nextcloud OAuth authorization URI that a user needs to open to grant access and eventually obtain
+      # a token.
+      @redirect_url = get_authorization_uri(scope:, state:)
       ServiceResult.failure(result: @redirect_url)
     end
 
@@ -74,11 +76,11 @@ module OAuthClients
       update_oauth_client_token(oauth_client_token, service_result.result)
     end
 
-    # Redirect to the "authorize" endpoint of the OAuth2 Authorization Server.
+    # Returns the URI of the "authorize" endpoint of the OAuth2 Authorization Server.
     # @param state (OAuth2 RFC) is a nonce referencing a cookie containing the calling page (URL + params) to which to
     # return to at the end of the whole flow.
-    # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud only has one global scope.
-    def redirect_to_oauth_authorize(scope: [], state: nil)
+    # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud has only one global scope.
+    def get_authorization_uri(scope: [], state: nil)
       client = rack_oauth_client # Configure and start the rack-oauth2 client
       client.authorization_uri(scope:, state:)
     end
@@ -144,6 +146,28 @@ module OAuthClients
       :error
     end
 
+    # @returns ServiceResult with result to be :error or any type of object with data
+    def request_with_token_refresh(oauth_client_token)
+      # `yield` needs to returns a ServiceResult:
+      #   success: result= any object with data
+      #   failure: result= :error or :not_authorized
+      yield_service_result = yield
+
+      if yield_service_result.failure? && yield_service_result.result == :not_authorized
+        refresh_service_result = refresh_token
+        if refresh_service_result.failure?
+          failed_service_result = ServiceResult.failure(result: :error)
+          failed_service_result.merge!(refresh_service_result)
+          return failed_service_result
+        end
+
+        oauth_client_token.reload
+        yield_service_result = yield # Should contain result=<data> in case of success
+      end
+
+      yield_service_result
+    end
+
     private
 
     # Check if a OAuthClientToken already exists and return nil otherwise.
@@ -200,6 +224,7 @@ module OAuthClients
       oauth_client_scheme = oauth_client_uri.scheme
       oauth_client_host = oauth_client_uri.host
       oauth_client_port = oauth_client_uri.port
+      oauth_client_path = oauth_client_uri.path
 
       Rack::OAuth2::Client.new(
         identifier: @oauth_client.client_id,
@@ -207,8 +232,8 @@ module OAuthClients
         scheme: oauth_client_scheme,
         host: oauth_client_host,
         port: oauth_client_port,
-        authorization_endpoint: "/apps/oauth2/authorize",
-        token_endpoint: "/apps/oauth2/api/v1/token"
+        authorization_endpoint: File.join(oauth_client_path, "/index.php/apps/oauth2/authorize"),
+        token_endpoint: File.join(oauth_client_path, "/index.php/apps/oauth2/api/v1/token")
       )
     end
 

@@ -36,7 +36,7 @@ describe CopyProjectJob, type: :model do
   let(:maildouble) { double('Mail::Message', deliver: true) }
 
   before do
-    allow(maildouble).to receive(:deliver_now).and_return nil
+    allow(maildouble).to receive(:deliver_later)
   end
 
   describe 'copy localizes error message' do
@@ -229,6 +229,8 @@ describe CopyProjectJob, type: :model do
         end
 
         it "notifies the user of the success" do
+          perform_enqueued_jobs
+
           mail = ActionMailer::Base.deliveries
                    .find { |m| m.message_id.start_with? "op.project-#{subject.id}" }
 
@@ -263,6 +265,8 @@ describe CopyProjectJob, type: :model do
         end
 
         it "notifies the user of the success" do
+          perform_enqueued_jobs
+
           mail = ActionMailer::Base.deliveries
                                    .find { |m| m.message_id.start_with? "op.project-#{subject.id}" }
 

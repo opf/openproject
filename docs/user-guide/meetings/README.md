@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Meetings
   priority: 760
 description: Manage meetings with agenda and meeting minutes in OpenProject.
-robots: index, follow
 keywords: meetings
 ---
 
@@ -11,7 +10,8 @@ keywords: meetings
 
 Meetings in OpenProject allow you to manage and document your project meetings at one central place, prepare a meeting agenda together with your team and document and share meeting minutes with your meeting attendees at one central place.
 
-<div class="glossary">**Meetings** is defined as a module that allows the organization of meetings. The module has to be activated in the project settings in order to be displayed in the side navigation.
+<div class="glossary">
+**Meetings** is defined as a module that allows the organization of meetings. The module has to be activated in the project settings in order to be displayed in the side navigation.
 </div>
 
 
@@ -114,6 +114,5 @@ Select **Copy** in the upper right corner.
 
 You can now edit the copied meeting and add the new details. Click the **Save** button to secure your changes.
 
-<div class="alert alert-info" role="alert">
-**Note**: all the settings will be copied, except for the minutes, participants and meeting history. So if you want to keep the minutes as well, you have to copy it separately.</div>
+> **Note**: all the settings will be copied, except for the minutes, participants and meeting history. So if you want to keep the minutes as well, you have to copy it separately.
 

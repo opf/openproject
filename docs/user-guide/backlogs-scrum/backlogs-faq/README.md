@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Backlogs FAQ
   priority: 001
 description: Frequently asked questions regarding the backlogs module
-robots: index, follow
 keywords: backlogs FAQ, back-logs. task board, version, sprint, scrum
 ---
 

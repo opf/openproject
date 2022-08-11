@@ -48,8 +48,9 @@ sl:
         main-menu-hover-font-color: "Pisava glavnega menija, ko z miško lebdimo nad vsebino"
         main-menu-border-color: "Meja glavnega menija"
       custom_colors: "Barve po meri"
-      customize: "Prilagodite namestitev OpenProject z lastnim logotipom. Opomba: Ta logotip bo javno dostopen."
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "Kot posebna zahvala zaradi njihovega finančnega prispevka za razvoj OpenProject, je ta drobna funkcija na voljo samo naročnikom podpore za Enterprise Edition."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Uredi možnosti izbire barve"
       instructions:
         alternative-color: "Močna poudarjena barva, ki se običajno uporablja za najpomembnejši gumb na zaslonu."
@@ -93,6 +94,8 @@ sl:
     show_preview: 'Predogled besedila'
     add_new: 'Dodajte besedilo pomoči'
     edit: "Uredite besedilo pomoči za %{attribute_caption}"
+    enterprise:
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Trenutno ni načinov overjanja.
@@ -170,7 +173,7 @@ sl:
     execute: 'Izvedite %{name}'
     upsale:
       title: 'Custom actions'
-      description: 'Dejanja po meri racionalizirajo vsakodnevno delo s kombiniranjem nabora posameznih korakov v en gumb.'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       Če želite projektu dodati nova polja po meri, jih morate najprej ustvariti, preden jih lahko dodate v ta projekt.
@@ -270,7 +273,7 @@ sl:
     upsale:
       title: Placeholder users
       description: >
-        Obstaja več scenarijev, kjer želite dodeliti delo ljudem, ki niso člani vašega projekta. Mogoče morate samo zaposliti pravo osebo za to delo. Ali pa nočete tej osebi dati dostopa do informacij o projektu, a še vseeno želite slediti nalogam, ki so dodeljene tej osebi.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -299,6 +302,8 @@ sl:
     edit:
       settings: "Nastavitve"
       form_configuration: "Konfiguracija obrazca"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekti"
       enabled_projects: "Omogočeni projekti"
       edit_query: "Uredi tabelo"
@@ -602,6 +607,8 @@ sl:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "ne more biti odstranjeno."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "je napačna dolžina (mora biti %{count} znakov). "
       models:
         attachment:
@@ -633,7 +640,7 @@ sl:
               fragment_present: 'ne more vsebovati delčka.'
               invalid_uri: 'mora biti veljaven URI.'
               relative_uri: 'mora biti absolutni URI.'
-              secured_uri: 'mora biti HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'je prepovedano s strani strežnika. '
             scopes:
               not_match_configured: "ne ustreza razpoložljivim področjem uporabe."
@@ -739,6 +746,7 @@ sl:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "ne more biti mejnik."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1383,7 +1391,7 @@ sl:
     admin:
       mail_notification: "E-poštna obvestila"
       mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Odpri meni za hitro dodajanje"
@@ -1392,7 +1400,7 @@ sl:
       no_results:
         title: "Za prikaz ni nobenega računa"
         description: "Vsi so onemogočeni. Ponovno jih je mogoče omogočiti v skrbniškem meniju."
-      access_token: "Žeton za dostop"
+      access_tokens: "Access tokens"
       headers:
         action: "Dejanje"
         expiration: "Poteče"
@@ -1493,7 +1501,6 @@ sl:
   label_consent_settings: "Soglasje uporabnika"
   label_wiki_menu_item: Element menija Wiki
   label_select_main_menu_item: Izberite nov element v glavnem meniju
-  label_select_project: "Izberi projekt"
   label_required_disk_storage: "Potrebna kapaciteta diska"
   label_send_invitation: Pošlji povabilo
   label_change_plural: "Spremembe"
@@ -1772,7 +1779,6 @@ sl:
   label_product_version: "Različica izdelka"
   label_professional_support: "Strokovna podpora"
   label_profile: "Profil"
-  label_project_all: "Vsi projekti"
   label_project_count: "Skupno število projektov"
   label_project_copy_notifications: "Med kopijo projekta pošljite obvestila po e-pošti"
   label_project_latest: "Zadnji projekti"
@@ -2150,6 +2156,12 @@ sl:
   notice_successful_create: "Ustvarjanje uspelo."
   notice_successful_delete: "Uspešen izbris."
   notice_successful_update: "Posodobitev uspela."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Preveč je rezultatov.\nZmanjšajte iskanje tako, da vtipkate ime novega člana (ali skupine)."
   notice_user_missing_authentication_method: Uporabnik rabi izbrati geslo ali kakšen drug način, da se prijavi.
   notice_user_invitation_resent: Povabilo je bilo poslano na %{email}.
@@ -2219,13 +2231,14 @@ sl:
   permission_edit_own_time_entries: "Uredi svoje dnevnike"
   permission_edit_project: "Uredi projekt"
   permission_edit_reportings: "Uredi poročila"
-  permission_edit_time_entries: "Uredi dnevnike"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Uredi časovnice"
   permission_edit_wiki_pages: "Uredi wiki strani"
   permission_export_work_packages: "Izvozi delovne pakete"
   permission_export_wiki_pages: "Izvozi wiki strani"
   permission_list_attachments: "Navedi priloge"
-  permission_log_time: "Beleži porabljen čas"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Uredi forume"
   permission_manage_categories: "Upravljajte kategorije delovnih paketov"
   permission_manage_work_package_relations: "Upravljajte razmerja med delovnim paketom"
@@ -2382,6 +2395,9 @@ sl:
     storage:
       not_available: "Poraba diskovne shrambe za to vrsto shrambo ni na voljo."
       update_timeout: "Zadnje potrebne podatke o diskovnem prostoru shranite za N minut.\nKer je lahko štetje potrebnega diskovnega prostora v skladišču drago, povečajte to vrednost, da zmanjšate njegov učinek na zmogljivost."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Obstoječe skladišče podrazličice"
       existing_introduction: "Če imate obstoječe skladišče podrazličic, ga lahko povežete z OpenProjectom, če želite dostopati do njega znotraj aplikacije."
@@ -2461,7 +2477,6 @@ sl:
   setting_email_login: "Uporabite e-pošto kot prijavo"
   setting_enabled_scm: "Omogočen SCM"
   setting_enabled_projects_columns: "Vidno na seznamu projektov"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "Omogoči vire"
   setting_feeds_limit: "Omejitev vsebine vira"
   setting_file_max_size_displayed: "Največja velikost besedilnih datotek, prikazanih v vrstici"
@@ -2474,7 +2489,7 @@ sl:
   setting_work_package_list_default_columns: "Privzet prikaz"
   setting_work_package_properties: "Lastnosti delovnega paketa"
   setting_work_package_startdate_is_adddate: "52/5000\nUporabite trenutni datum kot datum začetka za nove delovne pakete"
-  setting_work_packages_export_limit: "Omejitev izvoza delovnih paketov"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Prijavite uporabniško ime, ime in e-poštni naslov za vse zahteve"
   setting_login_required: "Zahtevano overovljanje"
@@ -2534,8 +2549,6 @@ sl:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
@@ -2587,6 +2600,12 @@ sl:
     Pri uporabi polj po meri: Upoštevajte, da je treba polja po meri aktivirati tudi za projekt.
   text_custom_field_hint_activate_per_project_and_type: >
     Polja po meri je treba aktivirati  za vrsto delovnega paketa in za projekt.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Priporočljiv je bel logotip na transparentnem ozadju. Za najboljše rezultate na običajnih zaslonih in mrežnici se prepričajte, da so dimenzije vaše slike 460px za 60px.
   text_custom_favicon_instructions: >
@@ -3109,4 +3128,10 @@ sl:
         unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
         unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
         invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: vi

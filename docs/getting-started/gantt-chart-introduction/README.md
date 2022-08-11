@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Gantt charts introduction
   priority: 600
 description: Introduction to Gantt charts to OpenProject.
-robots: index, follow
 keywords: Gantt charts introduction
 ---
 

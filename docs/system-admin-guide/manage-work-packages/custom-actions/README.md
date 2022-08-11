@@ -4,7 +4,6 @@ sidebar_navigation:
   title: Custom actions
   priority: 960
 description: Intelligent workflows with custom actions.
-robots: index, follow
 keywords: custom actions
 ---
 
@@ -15,6 +14,10 @@ Automated workflows with custom actions support you to easily update several wor
 You can use custom actions to standardize your workflows, avoid errors and reduce manual work for updates.
 
 The workflows with custom actions are a premium feature and only available for [Enterprise Edition](https://www.openproject.org/enterprise-edition/) and [Cloud Edition](https://www.openproject.org/hosting/) customers.
+
+Watch the following video to see how you can configure your custom actions:
+
+![](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Custom-Actions.mp4)
 
 ## Create custom actions
 

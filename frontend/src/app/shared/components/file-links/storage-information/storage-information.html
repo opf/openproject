@@ -1,4 +1,4 @@
-<span class="spot-icon big spot-icon_{{infoIcon}}"></span>
+<span class="spot-icon spot-icon_{{viewModel.iconClass}} op-files-tab--storage-info-box-icon"></span>
 
 <div
   class="text-box"
@@ -6,22 +6,31 @@
   <div
     class="text-box-header"
   >
-    <span [textContent]="infoTextHeader"></span>
+    <span [textContent]="viewModel.header"></span>
   </div>
   <div
     class="text-box-content"
   >
-    <span [textContent]="infoTextContent"></span>
+    <span [textContent]="viewModel.content"></span>
   </div>
 </div>
 
 <div
   class="button-box"
 >
-  <button class="button button_no-margin">
-    <op-icon icon-classes="button--icon spot-icon spot-icon_external-link" class="op-icon--wrapper">
-      <i class="button--icon spot-icon spot-icon_external-link"></i>
+  <button *ngFor="let button of viewModel.buttons"
+    class="button op-files-tab--storage-info-box-button"
+    (click)="button.action()"
+  >
+    <op-icon
+      icon-classes="button--icon spot-icon spot-icon_external-link"
+      class="op-icon--wrapper">
+      <i
+        class="button--icon spot-icon spot-icon_external-link"
+      ></i>
     </op-icon>
-    <span class="button--text">Open Nextcloud</span>
+    <span
+      class="button--text"
+    >{{button.label}}</span>
   </button>
 </div>

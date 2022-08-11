@@ -48,8 +48,9 @@ vi:
         main-menu-hover-font-color: "Phông chữ menu chính khi trỏ chuột"
         main-menu-border-color: "Đường viền menu chính"
       custom_colors: "Tùy chỉnh màu sắc"
-      customize: "Tùy chỉnh cài đặt OpenProject của bạn với logo của riêng bạn: Ghi chú: Logo này sẽ được truy cập công khai."
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Chỉnh sửa màu sắc trong select option"
       instructions:
         alternative-color: "Màu nhấn mạnh, thường được sử dụng cho nút quan trọng nhất trên màn hình."
@@ -93,6 +94,8 @@ vi:
     show_preview: 'Văn bản xem trước'
     add_new: 'Thêm văn bản trợ giúp'
     edit: "Chỉnh sửa văn bản trợ giúp cho %{attribute_caption}"
+    enterprise:
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Không có hiện tại không có chế độ xác thực.
@@ -173,7 +176,7 @@ vi:
     execute: 'Thực hiện %{name}'
     upsale:
       title: 'Custom actions'
-      description: 'Những hành động tùy chỉnh sắp xếp công việc hàng ngày bằng cách kết hợp một bộ các bước cá nhân vào một nút.'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       Để thêm các trường tùy chỉnh mới vào một dự án, trước tiên bạn cần tạo chúng trước khi có thể thêm vào dự án này.
@@ -273,7 +276,7 @@ vi:
     upsale:
       title: Placeholder users
       description: >
-        Có nhiều tình huống nơi bạn muốn gán công việc cho những người không phải là thành viên của dự án của bạn. Việc này có thể đơn giản là bạn vẫn cần phải thuê đúng người cho công việc. Hoặc bạn không muốn cung cấp cho người đó quyền truy cập thông tin của dự án nhưng vẫn muốn theo dõi các nhiệm vụ được giao cho người đó.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -303,6 +306,8 @@ vi:
     edit:
       settings: "Cài đặt"
       form_configuration: "Mẫu cấu hình"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Các dự án"
       enabled_projects: "Các dự án đã bật"
       edit_query: "Chỉnh sửa bảng"
@@ -604,6 +609,8 @@ vi:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "không thể gỡ bỏ."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "độ dài không đúng (phải là %{count} ký tự)."
       models:
         attachment:
@@ -635,7 +642,7 @@ vi:
               fragment_present: 'không thể chứa một đoạn.'
               invalid_uri: 'phải là một URI hợp lệ.'
               relative_uri: 'phải là một URI tuyệt đối.'
-              secured_uri: 'phải là một HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'bị chặn bởi máy chủ.'
             scopes:
               not_match_configured: "không phù hợp bất cứ phạm vi nào."
@@ -741,6 +748,7 @@ vi:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "không thể là một cột mốc."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1337,7 +1345,7 @@ vi:
     admin:
       mail_notification: "Thông báo qua email"
       mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
@@ -1346,7 +1354,7 @@ vi:
       no_results:
         title: "No access tokens to display"
         description: "All of them have been disabled. They can be re-enabled in the administration menu."
-      access_token: "Access token"
+      access_tokens: "Access tokens"
       headers:
         action: "Hành động"
         expiration: "Hết hạn"
@@ -1447,7 +1455,6 @@ vi:
   label_consent_settings: "Sự đồng ý của người dùng"
   label_wiki_menu_item: Khoản mục menu wiki
   label_select_main_menu_item: Chọn mục trình đơn chính mới
-  label_select_project: "Chọn dự án"
   label_required_disk_storage: "Ổ đĩa lưu trữ bắt buộc"
   label_send_invitation: Gửi lời mời
   label_change_plural: "Thay đổi"
@@ -1726,7 +1733,6 @@ vi:
   label_product_version: "Phiên bản sản phẩm"
   label_professional_support: "Hỗ trợ chuyên nghiệp"
   label_profile: "Hồ sơ"
-  label_project_all: "Tất cả các dự án"
   label_project_count: "Tổng số dự án"
   label_project_copy_notifications: "Gửi email thông báo trong quá trình sao chép dự án"
   label_project_latest: "Dự án mới nhất"
@@ -2101,6 +2107,12 @@ vi:
   notice_successful_create: "Successful creation."
   notice_successful_delete: "Successful deletion."
   notice_successful_update: "Successful update."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2167,13 +2179,14 @@ vi:
   permission_edit_own_time_entries: "Edit own time logs"
   permission_edit_project: "Edit project"
   permission_edit_reportings: "Edit reportings"
-  permission_edit_time_entries: "Edit time logs"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Edit timelines"
   permission_edit_wiki_pages: "Edit wiki pages"
   permission_export_work_packages: "Export work packages"
   permission_export_wiki_pages: "Export wiki pages"
   permission_list_attachments: "List attachments"
-  permission_log_time: "Log spent time"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Manage forums"
   permission_manage_categories: "Manage work package categories"
   permission_manage_work_package_relations: "Manage work package relations"
@@ -2331,6 +2344,9 @@ vi:
     storage:
       not_available: "Disk storage consumption is not available for this repository."
       update_timeout: "Keep the last required disk space information for a repository for N minutes.\nAs counting the required disk space of a repository may be costly, increase this value to reduce performance impact."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Existing Subversion repository"
       existing_introduction: "If you have an existing Subversion repository, you can link it with OpenProject to access it from within the application."
@@ -2410,7 +2426,6 @@ vi:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Enabled SCM"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
@@ -2423,7 +2438,7 @@ vi:
   setting_work_package_list_default_columns: "Display by default"
   setting_work_package_properties: "Work package properties"
   setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
-  setting_work_packages_export_limit: "Work packages export limit"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Log user login, name, and mail address for all requests"
   setting_login_required: "Authentication required"
@@ -2483,8 +2498,6 @@ vi:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
@@ -2536,6 +2549,12 @@ vi:
     When using custom fields: Keep in mind that custom fields need to be activated per project, too.
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Nên để một biểu tượng màu trắng trên nền trong suốt. Đó là cách tốt nhất với một con mắt thẩm mỹ, nên đảm bảo kích thước hình ảnh của bạn là 460px bởi 60px.
   text_custom_favicon_instructions: >
@@ -3046,4 +3065,10 @@ vi:
         unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
         unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
         invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: bạn

@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Development concepts
 description: Get an overview of the development process and concepts at OpenProject
-robots: index, follow
 keywords: development concepts, big picture
 ---
 

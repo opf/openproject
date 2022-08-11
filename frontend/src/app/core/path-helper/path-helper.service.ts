@@ -252,10 +252,6 @@ export class PathHelperService {
     return `${this.workPackagesPath()}/bulk`;
   }
 
-  public projectLevelListPath() {
-    return `${this.projectsPath()}/level_list.json`;
-  }
-
   public textFormattingHelp() {
     return `${this.staticBase}/help/text_formatting`;
   }

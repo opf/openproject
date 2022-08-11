@@ -100,8 +100,8 @@ describe WorkPackage, type: :model do
         end
 
         it 'only duplicates are closed' do
-          expect(dup_1.closed?).to be_truthy
-          expect(dup_2.closed?).to be_truthy
+          expect(dup_1).to be_closed
+          expect(dup_2).to be_closed
         end
       end
 
@@ -224,6 +224,33 @@ describe WorkPackage, type: :model do
         context 'no start date exists in related work packages' do
           it { expect(successor_grandchild.soonest_start).to be_nil }
         end
+      end
+    end
+  end
+
+  describe '#destroy' do
+    let(:work_package) { create(:work_package) }
+    let(:other_work_package) { create(:work_package) }
+
+    context 'for a work package with a relation as to' do
+      let!(:to_relation) { create(:follows_relation, from: other_work_package, to: work_package) }
+
+      it 'removes the relation as well as the work package' do
+        work_package.destroy
+
+        expect(Relation)
+          .not_to exist(id: to_relation.id)
+      end
+    end
+
+    context 'for a work package with a relation as from' do
+      let!(:from_relation) { create(:follows_relation, to: other_work_package, from: work_package) }
+
+      it 'removes the relation as well as the work package' do
+        work_package.destroy
+
+        expect(Relation)
+          .not_to exist(id: from_relation.id)
       end
     end
   end

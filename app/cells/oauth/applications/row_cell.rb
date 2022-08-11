@@ -47,10 +47,7 @@ module OAuth
       end
 
       def button_links
-        [
-          edit_link,
-          delete_link(oauth_application_path(application))
-        ]
+        [edit_link, delete_link(oauth_application_path(application))]
       end
     end
   end

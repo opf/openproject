@@ -40,12 +40,13 @@
       </div>
     </div>
   </div>
-  <enterprise-banner
+
+  <op-enterprise-banner
     *ngIf="eeShowBanners"
+    [moreInfoLink]="text.more_info_link"
     [leftMargin]="true"
     [linkMessage]="text.upgrade_to_ee_text"
     [textMessage]="text.teaser_text"
-    opReferrer="boards#board-show"
-  >
-  </enterprise-banner>
+    opReferrer="boards#board-show">
+  </op-enterprise-banner>
 </ng-container>

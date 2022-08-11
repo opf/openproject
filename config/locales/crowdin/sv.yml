@@ -48,8 +48,9 @@ sv:
         main-menu-hover-font-color: "Main menu font on hover"
         main-menu-border-color: "Main menu border"
       custom_colors: "Anpassade färger"
-      customize: "Anpassa din OpenProject-installation med din egna logotyp. OBS: Denna logotyp kommer att vara allmänt tillgänglig."
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "Som ett särskilt Tack! för det ekonomiska bidraget till utvecklingen av OpenProject, är denna lilla funktion endast tillgänglig för Enterprise Edition support-prenumeranter."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Redigera alternativ för valbara färger"
       instructions:
         alternative-color: "Strong accent color, typically used for the most important button on a screen."
@@ -93,6 +94,8 @@ sv:
     show_preview: 'Förhandsgranska text'
     add_new: 'Lägg till hjälptext'
     edit: "Redigera hjälptext för %{attribute_caption}"
+    enterprise:
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Det finns för närvarande inga autentiseringslägen.
@@ -171,7 +174,7 @@ sv:
     execute: 'Verkställ %{name}'
     upsale:
       title: 'Custom actions'
-      description: 'Anpassade åtgärder effektiviserar det dagliga arbetet genom att kombinera en uppsättning enskilda steg till en knapp.'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       Innan du kan lägga till nya anpassade fält till ett projekt måste du skapa dessa.
@@ -271,7 +274,7 @@ sv:
     upsale:
       title: Placeholder users
       description: >
-        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -300,6 +303,8 @@ sv:
     edit:
       settings: "Inställningar"
       form_configuration: "Ställ in formulär"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekt"
       enabled_projects: "Aktiverade projekt"
       edit_query: "Redigera tabell"
@@ -602,6 +607,8 @@ sv:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "kan inte tas bort."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "har fel längd (måste vara %{count} tecken)."
       models:
         attachment:
@@ -633,7 +640,7 @@ sv:
               fragment_present: 'kan inte innehålla ett fragment.'
               invalid_uri: 'måste vara en giltig URI.'
               relative_uri: 'måste vara en absolut URI.'
-              secured_uri: 'måste vara en HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'är förbjudet av servern.'
             scopes:
               not_match_configured: "matchar inte tillgängliga omfattningar."
@@ -739,6 +746,7 @@ sv:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "kan inte vara en milstolpe."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1351,7 +1359,7 @@ sv:
     admin:
       mail_notification: "E-postaviseringar"
       mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
@@ -1360,7 +1368,7 @@ sv:
       no_results:
         title: "Inga åtkomstnycklar att visa"
         description: "Alla nycklar har visats. Du kan återaktivera dom i administrationsmenyn."
-      access_token: "Åtkomstnyckel"
+      access_tokens: "Access tokens"
       headers:
         action: "Åtgärd"
         expiration: "Upphör"
@@ -1461,7 +1469,6 @@ sv:
   label_consent_settings: "Användarsamtycken"
   label_wiki_menu_item: Wiki menyalternativ
   label_select_main_menu_item: Välj ny huvudmenypost
-  label_select_project: "Välj ett projekt"
   label_required_disk_storage: "Erfordrat lagringsutrymme"
   label_send_invitation: Skicka inbjudan
   label_change_plural: "Förändringar"
@@ -1740,7 +1747,6 @@ sv:
   label_product_version: "Produktversion"
   label_professional_support: "Professionell hjälp"
   label_profile: "Profil"
-  label_project_all: "Alla projekt"
   label_project_count: "Totalt antal projekt"
   label_project_copy_notifications: "Skicka e-postaviseringar under projekt kopian"
   label_project_latest: "Senaste projekt"
@@ -2116,6 +2122,12 @@ sv:
   notice_successful_create: "Skapades utan problem."
   notice_successful_delete: "Raderades utan problem."
   notice_successful_update: "Uppdaterades utan problem."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Det finns för många resultat. \nBegränsa sökningen genom att skriva namnet på den nya medlemmen (eller gruppen)."
   notice_user_missing_authentication_method: Användaren har ännu inte valt ett lösenord eller annat sätt logga in.
   notice_user_invitation_resent: En inbjudan har skickats till %{email}.
@@ -2183,13 +2195,14 @@ sv:
   permission_edit_own_time_entries: "Redigera egna tidrapporter"
   permission_edit_project: "Redigera projekt"
   permission_edit_reportings: "Redigera rapporter"
-  permission_edit_time_entries: "Redigera tidrapporter"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Redigera tidslinjer"
   permission_edit_wiki_pages: "Redigera wiki-sidor"
   permission_export_work_packages: "Exportera arbetspaket"
   permission_export_wiki_pages: "Exportera wiki-sidor"
   permission_list_attachments: "Lista bifogade filer"
-  permission_log_time: "Tidrapportera"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Hantera forum"
   permission_manage_categories: "Hantera kategorier för arbetspaket"
   permission_manage_work_package_relations: "Hantera relationer för arbetspaket"
@@ -2345,6 +2358,9 @@ sv:
     storage:
       not_available: "Hårddiskanvändning är inte tillgängligt för den här databasen."
       update_timeout: "Behåll den senaste informationen om hårddiskanvändning för den här databasen i N minuter.\nEftersom beräkningen av detta är resurskrävande kan prestandan förbättras genom att öka det här värdet."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Befintligt Subversion-arkiv"
       existing_introduction: "Om du har ett befintlig Subversion-arkiv, kan du länka det med OpenProject för att komma åt den inifrån programmet."
@@ -2424,7 +2440,6 @@ sv:
   setting_email_login: "Använd e-post som inloggning"
   setting_enabled_scm: "Aktiverade SCM"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "Aktivera Flöden"
   setting_feeds_limit: "Innehållsbegränsning på Flöden"
   setting_file_max_size_displayed: "Maxstorlek på textfiler som visas inline"
@@ -2437,7 +2452,7 @@ sv:
   setting_work_package_list_default_columns: "Visa som standard"
   setting_work_package_properties: "Egenskaper för arbetspaket"
   setting_work_package_startdate_is_adddate: "Använda aktuellt datum som startdatum för nya arbetspaket"
-  setting_work_packages_export_limit: "Gräns för export av arbetspaket"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Logga användarnamn, namn och E-postadress för alla anrop"
   setting_login_required: "Autentisering krävs"
@@ -2497,8 +2512,6 @@ sv:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
@@ -2550,6 +2563,12 @@ sv:
     När du använder anpassade fält: Kom ihåg att dessa även måste aktiveras för varje projekt.
   text_custom_field_hint_activate_per_project_and_type: >
     Anpassade fält behöver aktiveras per arbetspaketstyp och per projekt.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     En vit logotyp på transparent bakgrund rekommenderas. För bästa resultat på både vanliga och Retina-skärmar bör bilden vara minst 460x60 px.
   text_custom_favicon_instructions: >
@@ -3063,4 +3082,10 @@ sv:
         unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
         unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
         invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: you

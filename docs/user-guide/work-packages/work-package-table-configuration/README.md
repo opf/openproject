@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Configure work package table
   priority: 700
 description: How to configure the work package list in OpenProject?
-robots: index, follow
 keywords: work packages table configuration, work package list, columns, filter, group
 ---
 
@@ -65,9 +64,8 @@ To add a filter criterion, choose one from the drop-down list next to **+ Add fi
 
 You can add as many filter criteria as needed. 
 Also, you can filter by [custom fields](../../../system-admin-guide/custom-fields) if you set this in the custom field configuration.
-<div class="alert alert-info" role="alert">
-**Good to know**: Filtering a work packages list will temporarily change the default work package type and default status to the values used in the filters to make newly created work packages visible in the list.
-</div>
+
+> **Good to know**: Filtering a work packages list will temporarily change the default work package type and default status to the values used in the filters to make newly created work packages visible in the list.
 
 
 ### Filtering by text
@@ -112,6 +110,26 @@ There are several options to filter for the assignee of a work package. You can 
 
 ![assignee-or-assignee-group-filter](assignee-or-assignee-group-filter.png)
 
+### Advanced filters (premium feature)
+
+With the advanced filter you can run a full text search and filter and search not only headings and text contents but also file names or file contents of attached documents to work packages.
+
+Use the filter "Attachment content" or "Attachment file name" to filter attached documents in the work package table.
+
+![advanced-filter-work-package-table](advanced-filter-work-package-table.png)
+
+
+
+For both the file name and the content, you can then differentiate the filtering with the "includes" and "does not include" options for selected keywords and text passages. To do this, please enter the corresponding text in the field next to it. 
+
+
+
+![advanced-filter-options](advanced-filter-options.png)
+
+It will then display the corresponding work package with the attachment.
+
+![openproject-search-work-package-attachments](openproject-search-work-package-attachments.png)
+
 ## Sort the work package list
 
 ### Automatic sorting of the work package list
@@ -130,9 +148,7 @@ Clicking the blue **Apply** button will save your changes and display the result
 
 ![sort-work-packages](sort-work-packages.png)
 
-<div class="alert alert-info" role="alert">
-**Please note**:  If you have the hierarchy mode activated, all filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed. 
-</div>
+> **Please note**:  If you have the hierarchy mode activated, all filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed. 
 
 
 
@@ -238,6 +254,4 @@ If you make changes to a saved view, e.g. change a filter criteria, you have to 
 
 If you want to save a completely new work package view, again click on the Settings and select **Save as...** as described [above](#save-work-package-views). 
 
-<div class="alert alert-info" role="alert">
-**Please note**:  You can't change the default "All open" view. Therefore pressing the disc icon won't have any effect on the default view that is displayed when navigating to the work packages module. 
-</div>
+> **Please note**:  You can't change the default "All open" view. Therefore pressing the disc icon won't have any effect on the default view that is displayed when navigating to the work packages module. 

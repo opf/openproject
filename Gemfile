@@ -34,7 +34,7 @@ gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.4.0'
 gem 'activerecord-session_store', '~> 2.0.0'
-gem 'rails', '~> 7.0.3'
+gem 'rails', '~> 7.0', '>= 7.0.3.1'
 gem 'responders', '~> 3.0'
 
 gem 'ffi', '~> 1.15'
@@ -88,7 +88,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.29.0'
+gem 'rouge', '~> 3.30.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 6.0.0'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -157,7 +157,9 @@ gem 'matrix', '~> 0.4.2'
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.1.4'
 
-gem 'meta-tags', '~> 2.16.0'
+gem 'meta-tags', '~> 2.17.0'
+
+gem "paper_trail", "~> 12.3"
 
 group :production do
   # we use dalli as standard memcache client
@@ -172,7 +174,7 @@ gem 'sprockets', '~> 3.7.2' # lock sprockets below 4.0
 gem 'sprockets-rails', '~> 3.4.2'
 
 gem 'puma', '~> 5.6'
-gem 'rack-timeout', '~> 0.6.0', require: "rack/timeout/base"
+gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 gem 'puma-plugin-statsd', '~> 2.0'
 
 gem 'nokogiri', '~> 1.13.4'
@@ -289,19 +291,19 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.6.0'
 
   # ruby linting
-  gem 'rubocop'
-  gem 'rubocop-rails'
-  gem 'rubocop-rspec'
+  gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
 
   # git hooks manager
-  gem 'lefthook'
+  gem 'lefthook', require: false
 
   # Brakeman scanner
   gem 'brakeman', '~> 5.2.0'
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.12.0', require: false
+gem 'bootsnap', '~> 1.13.0', require: false
 
 # API gems
 gem 'grape', '~> 1.6.0'

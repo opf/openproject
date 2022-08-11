@@ -80,7 +80,10 @@ module API
         end
 
         link :logTime,
-             cache_if: -> { current_user_allowed_to(:log_time, context: represented.project) } do
+             cache_if: -> do
+               current_user_allowed_to(:log_time, context: represented.project) ||
+                 current_user_allowed_to(:log_own_time, context: represented.project)
+             end do
           next if represented.new_record?
 
           {
@@ -591,6 +594,12 @@ module API
 
         def spent_time=(value)
           # noop
+        end
+
+        def duration=(value)
+          represented.duration = datetime_formatter.parse_duration_to_days(value,
+                                                                           'duration',
+                                                                           allow_nil: true)
         end
 
         def ordered_custom_actions

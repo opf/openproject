@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Backups
   priority: 710
 description: Backups in the cloud edition.
-robots: index, follow
 keywords: backups
 ---
 
@@ -31,3 +30,14 @@ After having **requested the backup**, you will receive an email notification wi
 In case you have trouble creating your backup, please [get in touch](mailto:support@openproject.com) with us. We can then provide a current or past backup (database + attachments) to you.
 
 This way you can also get your data if you decide to stop using the Enterprise cloud edition.
+
+## Pull a backup via APIv3
+
+It is sometimes good to have backups on other locations (e.g. local vs cloud). You are able to pull a backup via the APIv3 in OpenProject.
+
+*Preconditions:*
+
+1. The Token must be already generated and stored in a secure keystore
+2. The API Key must be known and stored in a secure keystore
+
+You could use our [example bash script](/script/backup-via-apiv3.sh) and integrate it in your crond for running it daily.

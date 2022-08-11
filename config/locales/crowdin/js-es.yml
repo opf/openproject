@@ -205,6 +205,7 @@ es:
             label_expires_at: "Expira el"
             receive_newsletter: Quiero recibir el <a target="_blank" href="%{link}">boletín</a> de OpenProject.
             taken_domain: Solo puede existir una prueba activa por dominio.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Cada usuario solo puede crear una prueba.
           email_not_received: "¿No ha recibido el correo electrónico? Para volver a enviarlo, use el enlace de la derecha."
           try_another_email: "O bien pruebe con otra dirección de correo electrónico."
@@ -231,10 +232,12 @@ es:
             professional_support: "Soporte profesional"
             professional_support_text: "Obtenga ayuda rápida y de confianza de nuestros agentes de asistencia con conocimientos especializados sobre cómo ejecutar OpenProject en entornos empresariales críticos."
           button_start_trial: "Iniciar prueba gratuita"
+          button_upgrade: "Actualizar ahora"
           button_book_now: "Reservar ahora"
           confidence: >
             Ofrecemos la confianza de un software de gestión de proyectos de categoría empresarial probado y con asistencia: de código abierto y mente abierta.
           link_quote: "Solicitar presupuesto"
+          more_info: "Más información"
           text: >
             OpenProject edición Enterprise se basa en la edición de la comunidad (edición Community). Incluye características premium y asistencia profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
           unlimited: "Ilimitado"
@@ -267,7 +270,7 @@ es:
           one: "Primer criterio de ordenación"
           two: "Segundo criterio de ordenación"
           three: "Tercer criterio de ordenación"
-      upsale_for_more: "Para filtros más avanzados, consulte"
+      upsale_for_more: "Los filtros avanzados te permiten también filtrar los nombres de los archivos y el contenido de los archivos adjuntos del paquete de trabajo. Por favor, actualice a un plan de pago para utilizar esta característica."
       upsale_link: 'Edición Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
@@ -287,15 +290,15 @@ es:
           learn_about: "Más información sobre las nuevas características"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>El <b>nuevo módulo Planificador de equipo</b> (característica de la versión Enterprise) permite asignar tareas visualmente a los miembros del equipo y ver un resumen del trabajo de cada uno.</li> <li>Estamos <b>publicando paneles Agile básicos</b> para la versión de la comunidad.</li> <li>El <b>filtro «Incluir proyectos»</b> permite añadir fácilmente varios proyectos a las vistas (por ejemplo, para paquetes de trabajo, calendarios y planificadores de equipo).</li> <li>Hemos añadido <b>una nueva pestaña «Archivos»</b> en los detalles del paquete de trabajo para adjuntar toda la información posible a un paquete de trabajo.</li> <li>Hemos creado <b>roles globales para grupos</b>, que pueden asignarse a grupos y crear grupos de superusuarios.</li> <li>Se han añadido opciones de estado del proyecto.</li> </ul>
+                La versión contiene varias nuevas características y mejoras: <br> <ul class="%{list_styling_class}"> <li>¡No más búsqueda interminable de archivos! Con la nueva <b>integración de Nextcloud</b> en OpenProject 12.2, ahora puedes encontrar archivos directamente en el paquete de trabajo correspondiente y tener siempre la versión correcta al alcance de su mano.</li> <li>Hemos introducido <b>un nuevo selector de fechas</b> con un método de entrada actualizado y un banner de información que incluye un botón para mostrar las relaciones en formato Gantt.</li> <li>Añadimos la posibilidad de <b>registrar tiempo para otros usuarios.</b></li> <li>Marcar las notificaciones como leídas también fuera del centro de notificaciónes.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>En el módulo BCF, ahora puede guardar como <b>vistas</b> los filtros de paquetes de trabajo seleccionados, las columnas, etc., y compartirlas con los miembros del equipo.</li> <li>El <b>nuevo módulo Planificador de equipo</b> (característica de la versión Enterprise) permite asignar tareas visualmente a los miembros del equipo y ver un resumen de las tareas en las que trabaja cada uno.</li> <li>Estamos <b>publicando paneles Agile básicos</b> para la versión de la comunidad.</li> <li>El <b>filtro «Incluir proyectos»</b> permite añadir fácilmente varios proyectos a las vistas (por ejemplo, para paquetes de trabajo, calendarios y planificadores de equipo).</li> <li>Hemos añadido <b>una nueva pestaña «Archivos»</b> en los detalles del paquete de trabajo para adjuntar toda la información posible a un paquete de trabajo.</li> <li>Hemos creado <b>roles globales para grupos</b> que pueden asignarse a grupos y crear grupos de superusuarios.</li> <li>Se han añadido opciones de estado del proyecto.</li> </ul>
+                La versión contiene varias nuevas características y mejoras: <br> <ul class="%{list_styling_class}"> <li>¡No más búsqueda interminable de archivos! Con la nueva <b>integración de Nextcloud</b> en OpenProject 12.2, ahora puedes encontrar archivos directamente en el paquete de trabajo correspondiente y tener siempre la versión correcta al alcance de su mano.</li> <li>Hemos introducido <b>un nuevo selector de fechas</b> con un método de entrada actualizado y un banner de información que incluye un botón para mostrar las relaciones en formato Gantt.</li> <li>Añadimos la posibilidad de <b>registrar tiempo para otros usuarios.</b></li> <li>Marcar las notificaciones como leídas también fuera del centro de notificaciónes.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Asignado a'
     label_add_column_after: "Añadir columna a la derecha"
@@ -367,15 +370,14 @@ es:
     label_in_more_than: "en más de"
     label_incoming_emails: "Correos electrónicos entrantes"
     label_information_plural: "Información"
+    label_invalid: "Inválido"
     label_import: "Importar"
     label_latest_activity: "Actividad reciente"
     label_last_updated_on: "Ultima actualizacion realizada el"
     label_learn_more_link: "Saber más"
     label_less_or_equal: "<="
     label_less_than_ago: "menos que hace unos días"
-    label_link_files_in_storage: "Archivos adjuntos en %{storageType}"
     label_loading: "Cargando..."
-    label_login_to_storage: "Iniciar sesión en %{storageType}"
     label_mail_notification: "Notificaciones de correo electrónico"
     label_me: "yo"
     label_meeting_agenda: "Agenda"
@@ -388,23 +390,20 @@ es:
     label_no_data: "No hay datos disponibles"
     label_no_due_date: "sin fecha límite"
     label_no_start_date: "sin fecha de inicio"
-    label_no_storage_connection: "No %{storageType} conectado"
     label_no_value: "Sin valor"
-    label_no_file_links: "Para poder adjuntar archivos en este paquete de trabajo, por favor, utiliza %{storageType}."
     label_none: "ninguno"
     label_not_contains: "no contiene"
     label_not_equals: "no es"
     label_on: "en"
     label_open_menu: "Abrir menú"
     label_open_context_menu: "Abrir menú contextual"
-    label_open_storage: "Abrir %{storageType}"
     label_open_work_packages: "abrir"
-    label_open_file_link: 'Abrir el fichero en sitio de almacenamiento'
-    label_open_file_link_location: 'Abrir fichero en su ubicación'
     label_password: "Contraseña"
     label_previous: "Anterior"
     label_per_page: "Por pagina:"
     label_please_wait: "Por favor, espere"
+    label_project: "Proyecto"
+    label_project_list: "Lista de proyectos"
     label_project_plural: "Proyectos"
     label_visibility_settings: "Configuración de visibilidad"
     label_quote_comment: "Citar este comentario"
@@ -413,11 +412,11 @@ es:
     label_remove: "Eliminar"
     label_remove_column: "Eliminar columna"
     label_remove_columns: "Eliminar columnas seleccionadas"
-    label_remove_file_link: "Eliminar vínculo de fichero"
     label_remove_row: "Eliminar fila"
     label_report: "Reportar"
     label_repository_plural: "Repositorios"
     label_save_as: "Guardad como"
+    label_select_project: "Seleccione un proyecto"
     label_select_watcher: "Selecciona un observador..."
     label_selected_filter_list: "Filtros seleccionados"
     label_show_attributes: "Mostrar todos los atributos"
@@ -429,9 +428,6 @@ es:
     label_sorting: "Orden"
     label_spent_time: "Tiempo dedicado"
     label_star_query: "Favorecido"
-    label_storage_connection_error: "Alguna configuración de %{storageType} no está funcionando. Por favor, intente iniciar sesión de nuevo o contacte el administrador de %{storageType}."
-    label_storage_login: "%{storageType} iniciar sesión"
-    label_storage_not_connected: "Para añadir un vínculo, ver o subir ficheros relacionados con este paquete de trabajo, por favor, inicie sesión en %{storageType}."
     label_press_enter_to_save: "Presione enter para guardar los cambios."
     label_public_query: "Público"
     label_sum: "Suma"
@@ -462,13 +458,12 @@ es:
     label_unwatch: "Dejar de observar"
     label_unwatch_work_package: "Dejar de observar paquetes de trabajo"
     label_uploaded_by: "Cargado por"
-    label_default_queries: "Vistas predeterminadas"
-    label_starred_queries: "Vistas favoritas"
-    label_global_queries: "Vistas públicas"
-    label_custom_queries: "Vistas privadas"
+    label_default_queries: "Por defecto"
+    label_starred_queries: "Favorito"
+    label_global_queries: "Público"
+    label_custom_queries: "Privado"
     label_columns: "Columnas"
     label_attachments: Archivos adjuntos
-    label_nextcloud: Nextcloud
     label_drop_files: Suelta los archivos aquí
     label_drop_files_hint: o haga clic en agregar archivos
     label_drop_folders_hint: No se pueden cargar carpetas como archivos adjuntos. Seleccione archivos individuales.
@@ -546,7 +541,7 @@ es:
           one: 'y 1 más'
           other: 'y %{count} más'
         no_results:
-          at_all: 'Aquí se mostrarán las nuevas notificaciones cuando haya actividad que le resulte pertinente'
+          at_all: 'Las nuevas notificaciones aparecerán aquí cuando haya alguna actividad que te concierna, mientras tanto, también puedes ver y modificar la configuración de las notificaciones y modificar cuándo quieres ser notificado.'
           with_current_filter: 'No hay notificaciones en esta vista actualmente'
         mark_all_read: 'Marcar todas como leídas'
         mark_as_read: 'Marcar como leída'
@@ -554,7 +549,8 @@ es:
         total_count_warning: "Mostrando las %{newest_count} notificaciones más recientes. %{more_count} más no se muestran."
         empty_state:
           no_notification: "Parece que ya estás al día."
-          no_notification_with_current_filter: "Cambie la implicación o vuelva a la bandeja de entrada para ver las notificaciones"
+          no_notification_with_current_project_filter: "Parece que todo está listo con el proyecto seleccionado."
+          no_notification_with_current_filter: "Parece que todo está listo para el filtro %{filter}."
           no_selection: "Haga clic en una notificación para ver todos los detalles de la actividad."
         new_notifications:
           message: 'Hay nuevas notificaciones.'
@@ -671,14 +667,7 @@ es:
         projects: "Proyectos"
         settings: "Configuración"
     time_entry:
-      project: 'Proyecto'
-      work_package: 'Paquete de trabajo'
       work_package_required: 'Es necesario seleccionar primero un paquete de trabajo.'
-      activity: 'Actividad'
-      comment: 'Comentario'
-      duration: 'Duración'
-      spent_on: 'Fecha'
-      hours: 'Horas'
       title: 'Registro de tiempo'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticación de dos factores'
@@ -819,7 +808,7 @@ es:
       zooms: "Nivel de zoom"
       outlines: "Nivel de jerarquía"
     upsale:
-      ee_only: 'Característica exclusiva de edición Enterprise'
+      ee_only: 'Función de la edición Enterprise'
     wiki_formatting:
       strong: "Negrita"
       italic: "Cursiva"
@@ -1039,10 +1028,7 @@ es:
       filter: "Filtro"
       unselected_title: "Paquete de trabajo"
       search_query_label: "Buscar vistas guardadas"
-      search_query_title: "Haga clic para buscar las vistas guardadas"
-      placeholder_query_title: "Establecer un título para esta vista"
     modals:
-      label_settings: "Cambiar nombre de vista"
       label_name: "Nombre"
       label_delete_page: "Borrar página actual"
       button_apply: "Aplicar"
@@ -1102,6 +1088,10 @@ es:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 día"
+        other: "%{count} días"
+        zero: "0 días"
     zen_mode:
       button_activate: 'Activar modo zen'
       button_deactivate: 'Desactivar modo zen'
@@ -1197,6 +1187,8 @@ es:
       tooltip:
         include_all_selected: 'Está seleccionada la opción para incluir todos los subproyectos.'
         current_project: 'Este es el proyecto actual.'
+        does_not_match_search: 'El proyecto no coincide con los criterios de búsqueda.'
+      no_results: 'Ningún producto coincide con tu criterio de búsqueda'
     forms:
       submit_success_message: 'El formulario se envió correctamente'
       load_error_message: 'Se produjo un error al cargar el formulario'
@@ -1207,5 +1199,3 @@ es:
         remove: 'Eliminar'
       drop_modal:
         Close: 'Cerrar'
-    storages:
-      enter_oauth2_client_secret: 'Por favor incluya la clave de cliente secreta de su OAuth2'

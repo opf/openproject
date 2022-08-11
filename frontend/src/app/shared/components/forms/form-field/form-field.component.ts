@@ -2,6 +2,7 @@ import {
   Component, ContentChild, HostBinding, Input, Optional,
 } from '@angular/core';
 import { AbstractControl, FormGroupDirective, NgControl } from '@angular/forms';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   selector: 'op-form-field',
@@ -33,6 +34,10 @@ export class OpFormFieldComponent {
   @ContentChild(NgControl) ngControl:NgControl;
 
   internalID = `op-form-field-${+new Date()}`;
+
+  text = {
+    invalid: this.I18n.t('js.label_invalid'),
+  };
 
   get errorsID() {
     return `${this.internalID}-errors`;
@@ -68,5 +73,6 @@ export class OpFormFieldComponent {
 
   constructor(
     @Optional() private _formGroupDirective:FormGroupDirective,
+    readonly I18n:I18nService,
   ) {}
 }

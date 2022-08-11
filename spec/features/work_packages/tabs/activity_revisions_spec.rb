@@ -8,7 +8,7 @@ describe 'Activity tab', js: true, selenium: true do
     work_package.update(attributes.merge(updated_at: at))
 
     note_journal = work_package.journals.last
-    note_journal.update(created_at: at, user:)
+    note_journal.update(created_at: at, updated_at: at, user:)
   end
 
   let(:project) { create :project_with_types, public: true }
@@ -20,7 +20,8 @@ describe 'Activity tab', js: true, selenium: true do
                           journal_notes: initial_comment)
 
     note_journal = work_package.journals.last
-    note_journal.update(created_at: 5.days.ago.to_date.to_s)
+    note_journal.update(created_at: 5.days.ago.to_date.to_s,
+                        updated_at: 5.days.ago.to_date.to_s)
 
     work_package
   end
@@ -34,7 +35,7 @@ describe 'Activity tab', js: true, selenium: true do
     work_package.journals[0]
   end
 
-  let!(:note_1) do
+  let!(:note1) do
     attributes = { subject: 'New subject', description: 'Some not so long description.' }
 
     alter_work_package_at(work_package,
@@ -45,7 +46,7 @@ describe 'Activity tab', js: true, selenium: true do
     work_package.journals.last
   end
 
-  let!(:note_2) do
+  let!(:note2) do
     attributes = { journal_notes: 'Another comment by a different user' }
 
     alter_work_package_at(work_package,
@@ -92,8 +93,7 @@ describe 'Activity tab', js: true, selenium: true do
             idx + 1
           end
 
-        date_selector = ".work-package-details-activities-activity:nth-of-type(#{actual_index}) " +
-                        '.activity-date'
+        date_selector = ".work-package-details-activities-activity:nth-of-type(#{actual_index}) .activity-date"
         # Do not use :long format to match the printed date without double spaces
         # on the first 9 days of the month
         expected_date = if activity.is_a?(Journal)
@@ -107,13 +107,13 @@ describe 'Activity tab', js: true, selenium: true do
 
         activity = page.find("#activity-#{idx + 1}")
 
-        if activity.is_a?(Journal) && activity.id != note_1.id
+        if activity.is_a?(Journal) && activity.id != note1.id
           expect(activity).to have_selector('.user', text: activity.user.name)
           expect(activity).to have_selector('.user-comment > .message', text: activity.notes, visible: :all)
         elsif activity.is_a?(Changeset)
           expect(activity).to have_selector('.user', text: User.find(activity.user_id).name)
           expect(activity).to have_selector('.user-comment > .message', text: activity.notes, visible: :all)
-        elsif activity == note_1
+        elsif activity == note1
           expect(activity).to have_selector('.work-package-details-activities-messages .message',
                                             count: 2)
           expect(activity).to have_selector('.message',
@@ -128,8 +128,6 @@ describe 'Activity tab', js: true, selenium: true do
     before do
       work_package_page.visit_tab! 'activity'
       work_package_page.ensure_page_loaded
-      expect(page).to have_selector('.user-comment > .message',
-                                    text: initial_comment)
     end
 
     context 'with permission' do
@@ -144,7 +142,7 @@ describe 'Activity tab', js: true, selenium: true do
                member_through_role: role)
       end
       let(:activities) do
-        [initial_note, note_1, revision, note_2]
+        [initial_note, note1, revision, note2]
       end
 
       context 'with ascending comments' do
@@ -161,7 +159,7 @@ describe 'Activity tab', js: true, selenium: true do
 
       it 'can toggle between activities and comments-only' do
         expect(page).to have_selector('.work-package-details-activities-activity-contents', count: 4)
-        expect(page).to have_selector('.user-comment > .message', text: note_2.notes)
+        expect(page).to have_selector('.user-comment > .message', text: note2.notes)
 
         # Show only comments
         find('.activity-comments--toggler').click
@@ -169,7 +167,7 @@ describe 'Activity tab', js: true, selenium: true do
         # It should remove the middle
         expect(page).to have_selector('.work-package-details-activities-activity-contents', count: 2)
         expect(page).to have_selector('.user-comment > .message', text: initial_comment)
-        expect(page).to have_selector('.user-comment > .message', text: note_2.notes)
+        expect(page).to have_selector('.user-comment > .message', text: note2.notes)
 
         # Show all again
         find('.activity-comments--toggler').click
@@ -223,7 +221,7 @@ describe 'Activity tab', js: true, selenium: true do
                member_through_role: role)
       end
       let(:activities) do
-        [initial_note, note_1, note_2]
+        [initial_note, note1, note2]
       end
 
       context 'with ascending comments' do
@@ -233,18 +231,18 @@ describe 'Activity tab', js: true, selenium: true do
       end
 
       it 'shows the activities, but does not allow commenting' do
-        expect(page).not_to have_selector('.work-packages--activity--add-comment', visible: true)
+        expect(page).not_to have_selector('.work-packages--activity--add-comment', visible: :visible)
       end
     end
   end
 
-  context 'split screen' do
+  context 'when on the split screen' do
     let(:work_package_page) { Pages::SplitWorkPackage.new(work_package, project) }
 
     it_behaves_like 'activity tab'
   end
 
-  context 'full screen' do
+  context 'when on the full screen' do
     let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
 
     it_behaves_like 'activity tab'

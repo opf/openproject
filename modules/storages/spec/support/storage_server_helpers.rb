@@ -31,7 +31,7 @@ module StorageServerHelpers
                                         response_code: nil,
                                         response_headers: nil,
                                         response_body: nil,
-                                        response_nextcloud_major_version: 23)
+                                        response_nextcloud_major_version: 22)
     response_code ||= 200
     response_headers ||= {
       'Content-Type' => 'application/json; charset=utf-8'
@@ -57,6 +57,33 @@ module StorageServerHelpers
     stub_request(
       :get,
       File.join(nextcloud_host, '/ocs/v2.php/cloud/capabilities')
+    ).to_return(
+      status: response_code,
+      headers: response_headers,
+      body: response_body
+    )
+  end
+
+  def mock_server_config_check_response(nextcloud_host,
+                                        response_code: nil,
+                                        response_headers: nil,
+                                        response_body: nil)
+    response_code ||= 200
+    response_headers ||= {
+      'Content-Type' => 'application/json; charset=utf-8'
+    }
+
+    response_body ||=
+      %{
+        {
+          "user_id": "",
+          "authorization_header": "Bearer TESTBEARERTOKEN"
+        }
+      }
+
+    stub_request(
+      :get,
+      File.join(nextcloud_host, 'index.php/apps/integration_openproject/check-config')
     ).to_return(
       status: response_code,
       headers: response_headers,

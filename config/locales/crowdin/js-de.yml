@@ -204,6 +204,7 @@ de:
             label_expires_at: "Endet am"
             receive_newsletter: Ich möchte den OpenProject <a target="_blank" href="%{link}">Newsletter</a> erhalten.
             taken_domain: Es kann nur eine aktive Trial pro Domain geben.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Jeder Benutzer kann nur eine Testversion erstellen.
           email_not_received: "Sie haben keine E-Mail erhalten? Sie können die E-Mail mit dem Link auf der rechten Seite noch einmal anfordern."
           try_another_email: "Oder versuchen Sie es mit einer anderen E-Mail-Adresse."
@@ -230,10 +231,12 @@ de:
             professional_support: "Professioneller Support"
             professional_support_text: "Erhalten Sie zuverlässigen und schnellen Support von erfahrenen OpenProject Software-Ingenieuren."
           button_start_trial: "Kostenlose Testversion starten"
+          button_upgrade: "Upgrade now"
           button_book_now: "Jetzt buchen"
           confidence: >
             OpenProject bietet eine bewährte und hoch-skalierbare Projektmanagement-Software für Unternehmen - mit Open Source und open mind.
           link_quote: "Angebot anfordern"
+          more_info: "More information"
           text: >
             Die OpenProject Enterprise Edition baut auf der Community Edition auf. Die Enterprise Edition umfasst Premium-Funktionen und professionelle Unterstützung und richtet sich primär an Organisationen mit mehr als 10 Benutzern, die unternehmenskritische Projekte mit OpenProject verwalten.
           unlimited: "Unbegrenzt"
@@ -266,7 +269,7 @@ de:
           one: "Erstes Sortierkriterium"
           two: "Zweites Sortierkriterium"
           three: "Drittes Sortierkriterium"
-      upsale_for_more: "Erweiterte Filter finden Sie in der"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise-Edition.'
     general_text_no: "nein"
     general_text_yes: "ja"
@@ -286,15 +289,15 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Ein <b>neues Teamplanermodul</b> (Enterprise-Funktion) ermöglicht es Ihnen, Aufgaben den Teammitgliedern visuell zuzuweisen, um einen Überblick darüber zu bekommen, wer an was arbeitet.</li> <li>Die  <b>einfachen agilen Boards</b> werden für die Community Version freigegeben.</li> <li>Der <b>Filter "Projekte einbeziehen"</b> erleichtert das Hinzufügen verschiedener Projekte zu Ihren Ansichten, z.B. für Arbeitspakete, Kalender und Teamplaner.</li> <li>Arbeitspakete haben einen <b>neuen Reiter "Dateien"</b> um alle verfügbaren Arbeitspaket-Informationen gemeinsam darzustellen.</li> <li>Es gibt nun <b>globale Rollen für Gruppen</b> um Gruppen Rollen zuzuweisen und Superuser-Gruppen zu erstellen.</li> <li>Der Projektstatus wird ergänzt um weitere Optionen.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Im BCF-Modul können Sie nun die ausgewählten Arbeitspaket-Filter, -Spalten usw. als <b>Ansichten</b> speichern und diese mit Ihren Teammitgliedern teilen.</li> <li>Ein <b>neues Teamplanermodul</b> (Enterprise-Funktion) ermöglicht es Ihnen, Aufgaben den Teammitgliedern visuell zuzuweisen, um einen Überblick darüber zu bekommen, wer an was arbeitet.</li> <li>Die  <b>einfachen agilen Boards</b> werden für die Community Version freigegeben.</li> <li>Der <b>Filter "Projekte einbeziehen"</b> erleichtert das Hinzufügen verschiedener Projekte zu Ihren Ansichten, z.B. für Arbeitspakete, Kalender und Teamplaner.</li> <li>Arbeitspakete haben einen <b>neuen Reiter "Dateien"</b> um alle verfügbaren Arbeitspaket-Informationen gemeinsam darzustellen.</li> <li>Es gibt nun <b>globale Rollen für Gruppen</b> um Gruppen Rollen zuzuweisen und Superuser-Gruppen zu erstellen.</li> <li>Der Projektstatus wird ergänzt um weitere Optionen.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "Aktiviere"
     label_assignee: 'Zugewiesen an'
     label_add_column_after: "Spalte danach hinzufügen"
@@ -366,15 +369,14 @@ de:
     label_in_more_than: "in mehr als"
     label_incoming_emails: "Eingehende E-Mails"
     label_information_plural: "Information"
+    label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Letzte Änderungen"
     label_last_updated_on: "Zuletzt aktualisiert am"
     label_learn_more_link: "Mehr Erfahren"
     label_less_or_equal: "<="
     label_less_than_ago: "vor weniger Tagen als"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "Wird geladen…"
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "Email-Benachrichtigungen"
     label_me: "ich"
     label_meeting_agenda: "Agenda"
@@ -387,23 +389,20 @@ de:
     label_no_data: "Nichts anzuzeigen"
     label_no_due_date: "kein Endtermin"
     label_no_start_date: "kein Startdatum"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "Kein Wert"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "keine"
     label_not_contains: "enthält nicht"
     label_not_equals: "ist nicht"
     label_on: "am"
     label_open_menu: "Menü öffnen"
     label_open_context_menu: "Kontextmenü öffnen"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "Offen"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "Passwort"
     label_previous: "Zurück"
     label_per_page: "Pro Seite:"
     label_please_wait: "Bitte warten"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projekte"
     label_visibility_settings: "Sichtbarkeits-Einstellungen"
     label_quote_comment: "Diesen Kommentar zitieren"
@@ -412,11 +411,11 @@ de:
     label_remove: "Entfernen"
     label_remove_column: "Spalte entfernen"
     label_remove_columns: "Ausgewählte Spalten entfernen"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "Zeile entfernen"
     label_report: "Auswertung"
     label_repository_plural: "Projektarchive"
     label_save_as: "Speichern unter"
+    label_select_project: "Select a project"
     label_select_watcher: "Beobachter auswählen ..."
     label_selected_filter_list: "Ausgewählte Filter"
     label_show_attributes: "Alle Attribute anzeigen"
@@ -428,9 +427,6 @@ de:
     label_sorting: "Sortierung"
     label_spent_time: "Aufgewendete Zeit"
     label_star_query: "Favorisiert"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "Drücken Sie Enter zum Speichern."
     label_public_query: "Öffentlich"
     label_sum: "Summe"
@@ -461,13 +457,12 @@ de:
     label_unwatch: "Nicht mehr beobachten"
     label_unwatch_work_package: "Arbeitspaket nicht beobachten"
     label_uploaded_by: "Hochgeladen von"
-    label_default_queries: "Standardansichten"
-    label_starred_queries: "Favoriten"
-    label_global_queries: "Öffentliche Ansichten"
-    label_custom_queries: "Private Ansichten"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Spalten"
     label_attachments: Anhänge
-    label_nextcloud: Nextcloud
     label_drop_files: Dateien hier ablegen
     label_drop_files_hint: oder klicken Sie um Dateien hinzuzufügen
     label_drop_folders_hint: Ordner können nicht als Anhänge hinzugefügt werden. Bitte wählen Sie einzelne Dateien aus.
@@ -545,7 +540,7 @@ de:
           one: 'und ein weiterer'
           other: 'und %{count} weitere'
         no_results:
-          at_all: 'Neue Benachrichtigungen werden hier erscheinen, wenn es Sie betreffende Aktivitäten gibt'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'Es gibt derzeit keine Benachrichtigungen in dieser Ansicht'
         mark_all_read: 'Alles als gelesen markieren'
         mark_as_read: 'Als gelesen markieren'
@@ -553,7 +548,8 @@ de:
         total_count_warning: "Zeige die %{newest_count} neuesten Benachrichtigungen. %{more_count} weitere werden nicht angezeigt."
         empty_state:
           no_notification: "Alle Benachrichtungen abgearbeitet"
-          no_notification_with_current_filter: "Den Filter ändern oder zurück zum Eingang gehen, um Benachrichtigungen anzuzeigen"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Auf eine Benachrichtigung klicken, um alle Aktivitätsdetails anzuzeigen."
         new_notifications:
           message: 'Es gibt neue Benachrichtigungen.'
@@ -670,14 +666,7 @@ de:
         projects: "Projekte"
         settings: "Einstellungen"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Arbeitspaket'
       work_package_required: 'Benötigt zuerst die Auswahl eines Arbeitspakets.'
-      activity: 'Aktivität'
-      comment: 'Kommentar'
-      duration: 'Dauer'
-      spent_on: 'Datum'
-      hours: 'Stunden'
       title: 'Zeit buchen'
     two_factor_authentication:
       label_two_factor_authentication: 'Zwei-Faktor-Authentifizierung'
@@ -818,7 +807,7 @@ de:
       zooms: "Zoomstufe"
       outlines: "Hierarchie-Stufe"
     upsale:
-      ee_only: 'Enterprise-Edition Feature'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Fett"
       italic: "Kursiv"
@@ -1038,10 +1027,7 @@ de:
       filter: "Filter"
       unselected_title: "Arbeitspaket"
       search_query_label: "Gespeicherte Ansichten durchsuchen"
-      search_query_title: "Klicken, um gespeicherte Ansichten zu durchsuchen"
-      placeholder_query_title: "Namen für diese Ansicht eingeben"
     modals:
-      label_settings: "Ansicht umbenennen"
       label_name: "Name"
       label_delete_page: "Aktuelle Ansicht löschen"
       button_apply: "Anwenden"
@@ -1101,6 +1087,10 @@ de:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Zen-Modus aktivieren'
       button_deactivate: 'Zen-Modus deaktivieren'
@@ -1196,6 +1186,8 @@ de:
       tooltip:
         include_all_selected: '"Alle Unterprojekte einbeziehen" ist derzeit ausgewählt.'
         current_project: 'Dies ist das aktuelle Projekt, in dem Sie sich befinden.'
+        does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Das Formular wurde erfolgreich übermittelt'
       load_error_message: 'Beim Laden des Formulars ist ein Fehler aufgetreten'
@@ -1206,5 +1198,3 @@ de:
         remove: 'Entfernen'
       drop_modal:
         Close: 'Schließen'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

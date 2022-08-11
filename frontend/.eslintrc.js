@@ -10,7 +10,11 @@ module.exports = {
     sourceType: "module",
     createDefaultProgram: true
   },
-  plugins: ["@typescript-eslint", "change-detection-strategy", "jasmine"],
+  plugins: [
+    "@typescript-eslint",
+    "change-detection-strategy",
+    "jasmine",
+],
   overrides: [{
     files: ["*.ts"],
     parser: "@typescript-eslint/parser",
@@ -20,8 +24,13 @@ module.exports = {
       sourceType: "module",
       createDefaultProgram: true
     },
-    extends: ["plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/recommended-requiring-type-checking", "plugin:@angular-eslint/recommended", // This is required if you use inline templates in Components
-    "plugin:@angular-eslint/template/process-inline-templates", "airbnb-typescript"],
+    extends: [
+      "plugin:@typescript-eslint/recommended", 
+      "plugin:@typescript-eslint/recommended-requiring-type-checking", 
+      "plugin:@angular-eslint/recommended", // This is required if you use inline templates in Components
+      "plugin:@angular-eslint/template/process-inline-templates", 
+      "airbnb-typescript",
+    ],
     rules: {
       /**
        * Any TypeScript source code (NOT TEMPLATE) related rules you wish to use/reconfigure over and above the
@@ -65,35 +74,45 @@ module.exports = {
         allowAsStatement: true
       }],
 
-      /*
-      // Disable use before define, as irrelevant for TS interfaces
-      "no-use-before-define": "off",
-      "@typescript-eslint/no-use-before-define": "off",
-      */
+      // no param reassignment is a pain when trying to set props on elements
+      "no-param-reassign": "off",
+
       // Whitespace configuration
-      "@typescript-eslint/type-annotation-spacing": ["error", {
-        before: false,
-        after: false,
-        overrides: {
-          arrow: {
-            before: true,
-            after: true
-          }
-        }
-      }],
+      "@typescript-eslint/type-annotation-spacing": [
+        "error",
+        {
+          before: false,
+          after: false,
+          overrides: {
+            arrow: {
+              before: true,
+              after: true,
+            },
+          },
+        },
+      ],
+
+      // HAL has a lot of dangling properties, so allow
+      // usage in properties but not in all other places
+      "no-underscore-dangle": [
+        "warn",
+        {
+          allow: [
+            "_links",
+            "_embedded",
+            "_meta",
+            "_type",
+          ],
+          allowAfterThis: true,
+          allowAfterSuper: false,
+          allowAfterThisConstructor: false,
+          enforceInMethodNames: true,
+          allowFunctionParams: true,
+        },
+      ],
       // Allow empty interfaces for naming purposes (HAL resources)
       "@typescript-eslint/no-empty-interface": "off",
       "import/prefer-default-export": "off",
-      // HAL has a lot of dangling properties, so allow
-      // usage in properties but not in all other places
-      "no-underscore-dangle": ["warn", {
-        allow: ["_links", "_embedded", "_meta", "_type"],
-        allowAfterThis: true,
-        allowAfterSuper: false,
-        allowAfterThisConstructor: false,
-        enforceInMethodNames: true,
-        allowFunctionParams: true
-      }],
       "no-return-assign": ["error", "except-parens"],
       "no-plusplus": ["error", {
         "allowForLoopAfterthoughts": true

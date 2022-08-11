@@ -100,6 +100,13 @@ describe ::API::V3::Activities::ActivityRepresenter, 'rendering' do
       end
     end
 
+    describe 'updatedAt' do
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { journal.updated_at }
+        let(:json_path) { 'updatedAt' }
+      end
+    end
+
     describe 'version' do
       it_behaves_like 'property', :version do
         let(:value) { journal.version }

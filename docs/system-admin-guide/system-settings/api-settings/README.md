@@ -4,7 +4,6 @@ sidebar_navigation:
   priority: 930
 title: API settings
 description: Settings for API functionality of OpenProject
-robots: index, follow
 keywords: API settings
 ---
 # API system settings

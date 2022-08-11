@@ -305,6 +305,20 @@ describe 'form configuration', type: :feature, js: true do
 
       context 'if inactive in project' do
         it 'can be added to the type, but is not shown' do
+          # Disable in project, should be invisible
+          # This step is necessary, since we auto-activate custom fields
+          # when adding them to the form configuration
+          project_settings_page.visit_tab!('custom_fields')
+
+          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: 'MyNumber')
+          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
+
+          id_checkbox = find("#project_work_package_custom_field_ids_#{custom_field.id}")
+          expect(id_checkbox).to be_checked
+          id_checkbox.set(false)
+
+          click_button 'Save'
+
           # Visit work package with that type
           wp_page.visit!
           wp_page.ensure_page_loaded

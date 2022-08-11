@@ -1,3 +1,31 @@
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2022 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import {
   Component,
   ElementRef,
@@ -6,37 +34,37 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  EventClickArg,
-  FullCalendarComponent,
-  ToolbarInput,
-} from '@fullcalendar/angular';
-import { States } from 'core-app/core/states/states.service';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
-import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
-import * as moment from 'moment';
-import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
-import { StateService } from '@uirouter/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { DomSanitizer } from '@angular/platform-browser';
-import { OpTitleService } from 'core-app/core/html/op-title.service';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import {
   CalendarOptions,
   DateSelectArg,
   EventDropArg,
   EventInput,
 } from '@fullcalendar/core';
+import { EventClickArg, FullCalendarComponent, ToolbarInput } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import * as moment from 'moment';
+import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+
+import { States } from 'core-app/core/states/states.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import {
+  WorkPackageViewFiltersService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { StateService } from '@uirouter/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { Subject } from 'rxjs';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import interactionPlugin, { EventResizeDoneArg } from '@fullcalendar/interaction';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import {
+  HalResourceEditingService,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import {
@@ -75,7 +103,6 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     readonly wpListService:WorkPackagesListService,
     readonly querySpace:IsolatedQuerySpace,
     readonly schemaCache:SchemaCacheService,
-    readonly titleService:OpTitleService,
     private element:ElementRef,
     readonly i18n:I18nService,
     readonly toastService:ToastService,
@@ -218,7 +245,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   }
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]) {
-    const events = workPackages.map((workPackage:WorkPackageResource) => {
+    return workPackages.map((workPackage:WorkPackageResource) => {
       const startDate = this.workPackagesCalendar.eventDate(workPackage, 'start');
       const endDate = this.workPackagesCalendar.eventDate(workPackage, 'due');
 
@@ -230,16 +257,10 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         editable: this.workPackagesCalendar.eventDurationEditable(workPackage),
         end: exclusiveEnd,
         allDay: true,
-        className: `__hl_background_type_${workPackage.type.id}`,
+        className: `__hl_background_type_${workPackage.type.id || ''}`,
         workPackage,
       };
     });
-
-    return events;
-  }
-
-  private get initialView():string|undefined {
-    return this.static ? 'dayGridWeek' : undefined;
   }
 
   private async updateEvent(info:EventResizeDoneArg|EventDropArg):Promise<void> {
@@ -257,7 +278,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   private handleDateClicked(info:DateSelectArg) {
     const defaults = {
       startDate: info.startStr,
-      dueDate: this.workPackagesCalendar.getEndDateFromTimestamp(info.end),
+      dueDate: this.workPackagesCalendar.getEndDateFromTimestamp(info.endStr),
     };
 
     void this.$state.go(

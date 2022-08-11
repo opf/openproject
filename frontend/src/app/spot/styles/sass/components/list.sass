@@ -13,8 +13,9 @@
     &-action
       @include spot-body-big
 
+      color: $spot-color-basic-gray-1
       display: flex
-      align-items: flex-start
+      align-items: baseline
       justify-content: flex-start
       padding: $spot-spacing-0_5 $spot-spacing-1
       width: 100%
@@ -26,20 +27,33 @@
       > *:first-child
         flex-shrink: 0
 
+      &:focus
+        @include spot-focus
+
       &:hover
+        color: var(--content-link-hover-active-color)
         background-color: $spot-color-basic-gray-6
         text-decoration: none
 
       &_disabled
+        &,
+        &:hover
+          color: $spot-color-basic-gray-3
+          background-color: transparent
+          cursor: default
+
+      &_active#{&}_disabled
         color: $spot-color-basic-gray-3
-        cursor: default
+        background-color: $spot-color-basic-gray-6
+
+      &_link
+        color: var(--content-link-color)
 
     &-floating-wrapper
       position: relative
       display: flex
 
-      &:hover,
-      &:focus-within
+      &:hover
         background-color: $spot-color-basic-gray-6
 
     &-floating-actions
@@ -65,20 +79,29 @@
       &:not(:last-child)
         margin-left: $spot-spacing-0_5
 
+      &_ellipse-text
+        text-overflow: ellipsis
+        white-space: nowrap
+        overflow: hidden
+        max-width: 100%
+        width: 100%
+
     &-floating-wrapper:hover > &-floating-actions,
     &-floating-actions:focus-within,
     &-floating-actions:hover
       opacity: 1
 
-  &_compact &--item:not(:first-child)
-    margin-top: $spot-spacing-0_25
-
-  &--item > &_compact > &--item:first-child
+  &_compact &--item
     margin-top: $spot-spacing-0_25
 
   &_compact &--item-action,
   &_compact &--item-floating-actions
     padding: $spot-spacing-0_25 $spot-spacing-1
+
+  &_active &--item-action_active
+    color: var(--content-link-hover-active-color)
+    background-color: $spot-color-basic-gray-6
+    text-decoration: none
 
   $item-list: ""
   @for $i from 0 through 10

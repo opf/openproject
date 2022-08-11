@@ -33,7 +33,9 @@ export interface IStorageHalResourceLinks extends IHalResourceLinks {
   self:IHalResourceLink;
   type:IHalResourceLink;
   origin:IHalResourceLink;
+  open:IHalResourceLink;
   authorizationState:IHalResourceLink;
+  authorize?:IHalResourceLink;
 }
 
 export interface IStorage {

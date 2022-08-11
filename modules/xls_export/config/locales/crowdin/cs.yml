@@ -9,5 +9,5 @@ cs:
       xls_with_descriptions: "XLS s popisem"
       xls_with_relations: "XLS se vztahy"
   xls_export:
-    child_of: potomek
-    parent_of: rodič
+    child_of: podřazený
+    parent_of: nadřazený

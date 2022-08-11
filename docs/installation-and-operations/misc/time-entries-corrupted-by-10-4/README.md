@@ -1,8 +1,6 @@
 # Fixing time entries corrupted by upgrading to 10.4.0
 
-<div class="alert alert-info" role="alert">
-**Note**: This guide only concerns installations having upgraded exactly to the OpenProject version 10.4.0. Installations having upgraded to 10.4.1 directly are not affected.
-</div>
+> **Note**: This guide only concerns installations having upgraded exactly to the OpenProject version 10.4.0. Installations having upgraded to 10.4.1 directly are not affected.
 
 The migration scripts that ran as part of the OpenProject 10.4.0 upgrade includes an unfortunate bug that leads to some installations suffering data loss. 
 Installations, that had time entry activities enabled/disabled per project, will have all their time entries assigned to a single time entry activity.

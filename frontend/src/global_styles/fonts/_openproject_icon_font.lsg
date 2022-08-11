@@ -77,6 +77,7 @@
 <li><span class="icon icon-design"></span>design</li>
 <li><span class="icon icon-double-arrow-left"></span>double-arrow-left</li>
 <li><span class="icon icon-double-arrow-right"></span>double-arrow-right</li>
+<li><span class="icon icon-download-arrow"></span>download-arrow</li>
 <li><span class="icon icon-download"></span>download</li>
 <li><span class="icon icon-drag-handle"></span>drag-handle</li>
 <li><span class="icon icon-duplicate"></span>duplicate</li>
@@ -256,6 +257,7 @@
 <li><span class="icon icon-unlocked"></span>unlocked</li>
 <li><span class="icon icon-unordered-list"></span>unordered-list</li>
 <li><span class="icon icon-unwatched"></span>unwatched</li>
+<li><span class="icon icon-upload-arrow"></span>upload-arrow</li>
 <li><span class="icon icon-upload"></span>upload</li>
 <li><span class="icon icon-user-minus"></span>user-minus</li>
 <li><span class="icon icon-user-plus"></span>user-plus</li>

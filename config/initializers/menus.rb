@@ -140,7 +140,7 @@ Redmine::MenuManager.map :my_menu do |menu|
             icon: 'icon2 icon-locked'
   menu.push :access_token,
             { controller: '/my', action: 'access_token' },
-            caption: I18n.t('my_account.access_tokens.access_token'),
+            caption: I18n.t('my_account.access_tokens.access_tokens'),
             icon: 'icon2 icon-key'
   menu.push :notifications,
             { controller: '/my', action: 'notifications' },
@@ -269,9 +269,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/attribute_help_texts' },
             caption: :'attribute_help_texts.label_plural',
             icon: 'icon2 icon-help2',
-            if: Proc.new {
-              User.current.admin? && EnterpriseToken.allows_to?(:attribute_help_texts)
-            }
+            if: Proc.new { User.current.admin? }
 
   menu.push :enumerations,
             { controller: '/enumerations' },
@@ -301,7 +299,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :notification_settings,
             { controller: '/admin/settings/aggregation_settings', action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :'menus.admin.aggregation_and_retention',
+            caption: :'menus.admin.aggregation',
             parent: :mail_and_notifications
 
   menu.push :mail_notifications,
@@ -493,7 +491,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   }.each do |key, caption|
     menu.push :"settings_#{key}",
               { controller: "/projects/settings/#{key}", action: 'show' },
-              caption: caption,
+              caption:,
               parent: :settings
   end
 end

@@ -39,15 +39,20 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import {
+  defaultIfEmpty,
+  filter,
   map,
   shareReplay,
+  switchMap,
 } from 'rxjs/operators';
 import {
   combineLatest,
   Observable,
+  of,
 } from 'rxjs';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @Injectable()
 export class DatepickerModalService {
@@ -55,27 +60,37 @@ export class DatepickerModalService {
 
   private changeset:WorkPackageChangeset = this.locals.changeset as WorkPackageChangeset;
 
-  precedingWorkPackages$:Observable<{ id:string }[]> = this
-    .apiV3Service
-    .work_packages
-    .signalled(
-      ApiV3Filter('precedes', '=', [this.changeset.id]),
-      ['elements/id'],
-    )
+  precedingWorkPackages$:Observable<{ id:string, dueDate?:string, date?:string }[]> = of(this.changeset)
     .pipe(
+      filter((changeset) => !isNewResource(changeset.pristineResource)),
+      switchMap((changeset) => this
+        .apiV3Service
+        .work_packages
+        .signalled(
+          ApiV3Filter('precedes', '=', [changeset.id]),
+          [
+            'elements/id',
+            'elements/dueDate',
+            'elements/date',
+          ],
+        )),
       map((collection:IHALCollection<{ id:string }>) => collection._embedded.elements || []),
+      defaultIfEmpty([]),
       shareReplay(1),
     );
 
-  followingWorkPackages$:Observable<{ id:string }[]> = this
-    .apiV3Service
-    .work_packages
-    .signalled(
-      ApiV3Filter('follows', '=', [this.changeset.id]),
-      ['elements/id'],
-    )
+  followingWorkPackages$:Observable<{ id:string }[]> = of(this.changeset)
     .pipe(
+      filter((changeset) => !isNewResource(changeset.pristineResource)),
+      switchMap((changeset) => this
+        .apiV3Service
+        .work_packages
+        .signalled(
+          ApiV3Filter('follows', '=', [changeset.id]),
+          ['elements/id'],
+        )),
       map((collection:IHALCollection<{ id:string }>) => collection._embedded.elements || []),
+      defaultIfEmpty([]),
       shareReplay(1),
     );
 
@@ -154,7 +169,7 @@ export class DatepickerModalService {
     if (date === '') {
       return '';
     }
-    return new Date(new Date(date).setHours(0, 0, 0, 0));
+    return new Date(moment(date).toDate().setHours(0, 0, 0, 0));
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -186,23 +201,34 @@ export class DatepickerModalService {
     return this.currentlyActivatedDateField === val;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   setDates(dates:DateOption|DateOption[], datePicker:DatePicker, enforceDate?:Date):void {
     const { currentMonth } = datePicker.datepickerInstance;
     const { currentYear } = datePicker.datepickerInstance;
     datePicker.setDates(dates);
 
-    /* eslint-disable no-param-reassign */
     if (enforceDate) {
-      datePicker.datepickerInstance.currentMonth = enforceDate.getMonth();
-      datePicker.datepickerInstance.currentYear = enforceDate.getFullYear();
+      const enforcedMonth = enforceDate.getMonth();
+      const enforcedYear = enforceDate.getFullYear();
+      const monthDiff = enforcedMonth - currentMonth + 12 * (enforcedYear - currentYear);
+
+      // Because of the two-month layout we only have to update the calendar
+      // if the month is further in the past/future than the one additional month that is shown anyway
+      if (Math.abs(monthDiff) > 1) {
+        datePicker.datepickerInstance.currentMonth = enforcedMonth;
+        datePicker.datepickerInstance.currentYear = enforcedYear;
+      } else {
+        this.keepCurrentlyActiveMonth(datePicker, currentMonth, currentYear);
+      }
     } else {
-      // Keep currently active month and avoid jump because of two-month layout
-      datePicker.datepickerInstance.currentMonth = currentMonth;
-      datePicker.datepickerInstance.currentYear = currentYear;
+      this.keepCurrentlyActiveMonth(datePicker, currentMonth, currentYear);
     }
 
     datePicker.datepickerInstance.redraw();
-    /* eslint-enable no-param-reassign */
+  }
+
+  private keepCurrentlyActiveMonth(datePicker:DatePicker, currentMonth:number, currentYear:number) {
+    // Keep currently active month and avoid jump because of two-month layout
+    datePicker.datepickerInstance.currentMonth = currentMonth;
+    datePicker.datepickerInstance.currentYear = currentYear;
   }
 }

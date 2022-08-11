@@ -74,9 +74,13 @@ module Components
         page.find autocompleter_selector
       end
 
-      def expect_result(name)
+      def expect_result(name, disabled: false)
         within search_results do
-          expect(page).to have_selector(autocompleter_item_title_selector, text: name)
+          if disabled
+            expect(page).to have_selector(autocompleter_item_disabled_title_selector, text: name)
+          else
+            expect(page).to have_selector(autocompleter_item_title_selector, text: name)
+          end
         end
       end
 
@@ -95,19 +99,23 @@ module Components
       end
 
       def autocompleter_item_selector
-        '[data-qa-selector="op-project-list--item"]'
+        '[data-qa-selector="op-header-project-select--item"]'
       end
 
       def autocompleter_item_title_selector
-        '[data-qa-selector="op-project-list--item-title"]'
+        '[data-qa-selector="op-header-project-select--item-title"]'
+      end
+
+      def autocompleter_item_disabled_title_selector
+        '[data-qa-selector="op-header-project-select--item-disabled-title"]'
       end
 
       def autocompleter_results_selector
-        '[data-qa-selector="op-project-menu-autocomplete--list"]'
+        '[data-qa-selector="op-header-project-select--list"]'
       end
 
       def autocompleter_selector
-        '[data-qa-selector="op-project-menu-autocomplete--search"] input'
+        '[data-qa-selector="op-header-project-select--search"] input'
       end
     end
   end

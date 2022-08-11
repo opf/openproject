@@ -65,7 +65,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         break;
       case 'log_time':
         this.timeEntryCreateService
-          .create(moment(new Date()), this.workPackage, false)
+          .create(moment(new Date()), this.workPackage, { showWorkPackageField: false })
           .catch(() => {
           // do nothing, the user closed without changes
           });

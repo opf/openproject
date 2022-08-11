@@ -124,6 +124,27 @@ describe UserMailer, type: :mailer do
     end
   end
 
+  describe '#backup_ready' do
+    before do
+      described_class.backup_ready(recipient).deliver_now
+    end
+
+    it_behaves_like 'mail is sent' do
+      it 'has the expected subject' do
+        expect(deliveries.first.subject)
+          .to eql I18n.t("mail_subject_backup_ready")
+      end
+
+      it 'includes the url to the instance' do
+        expect(deliveries.first.body.encoded)
+          .to match Regexp.union(
+            /Your requested backup is ready. You can download it here/,
+            /#{Setting.protocol}:\/\/#{Setting.host_name}/
+          )
+      end
+    end
+  end
+
   describe '#wiki_content_added' do
     let(:wiki_content) { create(:wiki_content) }
 

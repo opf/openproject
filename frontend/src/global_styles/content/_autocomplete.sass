@@ -64,6 +64,7 @@ div.autocomplete
   font-size: 14px
 
   .ng-value-container
+    min-height: 2rem
     width: calc(100% - 30px)
 
     // Override OPs default padding for inputs which looks strange in the autocompleter
@@ -71,6 +72,7 @@ div.autocomplete
       padding-left: 0px
 
   .ng-select-container
+    border-radius: 2px
     z-index: auto !important
     height: 30px !important
     min-height: 30px !important
@@ -118,6 +120,15 @@ div.autocomplete
 
   .op-avatar
     margin-right: 8px
+
+  &.ng-option-marked
+    background-color: $spot-color-basic-gray-6 !important
+
+.ng-dropdown-footer
+  padding: 0 !important
+
+.ng-placeholder
+  line-height: 2rem
 
 .work-package-table--container .ng-dropdown-panel
   z-index: auto !important

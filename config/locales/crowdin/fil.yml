@@ -48,8 +48,9 @@ fil:
         main-menu-hover-font-color: "Main menu font on hover"
         main-menu-border-color: "Main menu border"
       custom_colors: "Naka-kustom ng mga kukay"
-      customize: "I-custimize ang iyong OpenProject installation gamit ang iyong sarilig logo. Tandaan: Ang logo ay pambulikong accesible."
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "Bilang isang espesyal 'Salamat' para sa kanilang tulong na pinansyal upang mabuo ang OpenProject, Ito maliit na tampok ay magagamit para sa Enterprise Edition sinuportahan ng mga tagapasunod."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "I-edit ang kulay ng mga napiling opsyon"
       instructions:
         alternative-color: "Strong accent color, typically used for the most important button on a screen."
@@ -93,6 +94,8 @@ fil:
     show_preview: 'Preview na teksto'
     add_new: 'Magdagdag ng tulong na teksto'
     edit: "I-edit na tulong na teksto para sa %{attribute_caption}"
+    enterprise:
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Sa kasalukuyan ay walang mga authentication mode.
@@ -171,7 +174,7 @@ fil:
     execute: 'Ipatupad ang %{name}'
     upsale:
       title: 'Custom actions'
-      description: 'Ang mga custom aksyon i-streamline ang araw-araw na gawain sa pamamagitan ng pagsasama ng nakatakdang indbidwal na hakbang patungo sa pindutan.'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       Upang magdagdag ng mga kustom na patlang sa isang proyekto kinakailangan mo muna likhain bago ka muna sila idagdag sa proyektong ito.
@@ -271,7 +274,7 @@ fil:
     upsale:
       title: Placeholder users
       description: >
-        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -301,6 +304,8 @@ fil:
     edit:
       settings: "Mga setting"
       form_configuration: "Form kompigurasyon"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Mga proyekto"
       enabled_projects: "Paganahin ang mga proyekto"
       edit_query: "Edit table"
@@ -603,6 +608,8 @@ fil:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "ay ang maling haba (dapat ay %{count} ang mga karakter)."
       models:
         attachment:
@@ -634,7 +641,7 @@ fil:
               fragment_present: 'cannot contain a fragment.'
               invalid_uri: 'must be a valid URI.'
               relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'is forbidden by the server.'
             scopes:
               not_match_configured: "doesn't match available scopes."
@@ -740,6 +747,7 @@ fil:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "hindi maaring maging isang milestone."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -1352,7 +1360,7 @@ fil:
     admin:
       mail_notification: "Mga abiso ng emailba"
       mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
@@ -1361,7 +1369,7 @@ fil:
       no_results:
         title: "Walang access token upang ipakita"
         description: "Lahat sila ay hindi na pinagana. Maaari silang paganahin muli sa pagpilian ng tagapangasiwa."
-      access_token: "I-access ang token"
+      access_tokens: "Access tokens"
       headers:
         action: "Aksyon"
         expiration: "Natapos"
@@ -1462,7 +1470,6 @@ fil:
   label_consent_settings: "User Consent"
   label_wiki_menu_item: Ang aytem ng wiki na pagpipilian
   label_select_main_menu_item: Piliin ang bagong pangunahing pagpipilian aytem
-  label_select_project: "Pumili ng proyekto"
   label_required_disk_storage: "Kinakailangan lalagyan ng disk"
   label_send_invitation: Magpadala ng imbitasyon
   label_change_plural: "Pagbabago"
@@ -1741,7 +1748,6 @@ fil:
   label_product_version: "Produktong bersyon"
   label_professional_support: "Propesyonal na suporta"
   label_profile: "Profile"
-  label_project_all: "Lahat ng mga proyekto"
   label_project_count: "Kabuuang bilang ng mga proyekto"
   label_project_copy_notifications: "Magpadala ng mga email na abiso habang ang proyekto ay kinopya"
   label_project_latest: "Pinakamabagong proyekto"
@@ -2117,6 +2123,12 @@ fil:
   notice_successful_create: "Matagumpay pagkalikha."
   notice_successful_delete: "Matagumpay ang pagtanggal."
   notice_successful_update: "Matagumpay nai-update."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Mayroong maraming resulta.\nI-narrow down ang paghahanap sa pamamagitan ng pagtype ng pangalan ng bagong miyembro (o grupo)."
   notice_user_missing_authentication_method: Ang user ay pipili pa ng password o iba pang paraan para maka pag-sign in.
   notice_user_invitation_resent: Isang imbitasyon ay ipinadala sa %{email}.
@@ -2184,13 +2196,14 @@ fil:
   permission_edit_own_time_entries: "I-edit ang mga log ng oras"
   permission_edit_project: "I-edit ang proyekto"
   permission_edit_reportings: "I- edit ang mga ulat"
-  permission_edit_time_entries: "I-edit ang mga log ng oras"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "I-edit ang mga timeline"
   permission_edit_wiki_pages: "I-edit ang mga work package"
   permission_export_work_packages: "I-export ang mga work package"
   permission_export_wiki_pages: "I-edit ang mga work package"
   permission_list_attachments: "Listahan ng paglalakip"
-  permission_log_time: "Big"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Pamahalain ang mga forum"
   permission_manage_categories: "Pamahalain ang mga kategorya ng work package"
   permission_manage_work_package_relations: "Nauugnay na pamahalin ang work package"
@@ -2346,6 +2359,9 @@ fil:
     storage:
       not_available: "Ang konsumo ng disk storage ay hindi available para sa ganitong repository."
       update_timeout: "Panatilihin ang huling kailangang espasyo disk impormasyon para sa repositoryo ng N minuto.\nBilang pagbibilang ang kailangang espasyo ng disk ng repositoryo ay maaring gastos, palakihin ang hakaga na ito upang mabawasan ang epekto ng pagganap."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Umiiral na subversion respository"
       existing_introduction: "Kung mayroon kang umiiral na Subversion repository, pwedi mo itong ma-link sa OpenProject para ma access ang mga ito mula sa loob ng application."
@@ -2425,7 +2441,6 @@ fil:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Paganahin ang SCM"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "Paganahin ang mga feed"
   setting_feeds_limit: "Limitasyon ng nilalaman na feed"
   setting_file_max_size_displayed: "Max na laki ng mga tekstong file na ipinapakita inline"
@@ -2438,7 +2453,7 @@ fil:
   setting_work_package_list_default_columns: "Ipakiita sa pamamagitan ng default"
   setting_work_package_properties: "Ang mga property ng work package"
   setting_work_package_startdate_is_adddate: "Gamitin ang kasulukuyang petsa bilang pagsisimula ng petsa para sa mga bagong work package"
-  setting_work_packages_export_limit: "Limitasyon ng pag-export ng work package"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Log user login, pangalan at mga mail address para sa lahat na hiling"
   setting_login_required: "Kailangan ng pagpapatunay"
@@ -2498,8 +2513,6 @@ fil:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
@@ -2551,6 +2564,12 @@ fil:
     Kung gagamit ng mga custom na patlang. Laging isaisip na ang mga custom na patlang ay kailangan dapat aktibo bawat proyekto, din.
   text_custom_field_hint_activate_per_project_and_type: >
     Ang mga custom na patlang ay kailangan dapat aktibo sa bawat uri ng work package at bawat proyekto.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Ang puting logo sa transparent background ay inirerekomend. Para sa pinakamahusay na result sa dalawang, conventional at mga displey na retina, siguraduhjn ang iyong dimensyon ng larawan ay 460px by 60px.
   text_custom_favicon_instructions: >
@@ -3065,4 +3084,10 @@ fil:
         unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
         unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
         invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: you

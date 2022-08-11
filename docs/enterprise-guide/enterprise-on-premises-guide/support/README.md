@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Support
   priority: 981
 description: OpenProject Enterprise on-premises support.
-robots: index, follow
 keywords: enterprise edition support, ticket
 ---
 # Enterprise on-premises edition support
@@ -27,7 +26,7 @@ You can create a support ticket on our community platform. Please contact us for
 
 ## Contact us
 
-If you have more questions, please [contact us](https://www.openproject.org/contact-us/).
+If you have more questions, please [contact us](https://www.openproject.org/contact/).
 
 ## Resources for Community Edition users
 

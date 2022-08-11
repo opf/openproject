@@ -3,7 +3,6 @@ sidebar_navigation:
   title: IFC viewer
   priority: 300
 description: How to use the OpenProject IFC-Viewer.
-robots: index, follow
 keywords: BIM, BCF, IFC, Viewer
 ---
 

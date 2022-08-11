@@ -48,8 +48,9 @@ de:
         main-menu-hover-font-color: "Schriftfarbe des Hauptmenüs bei Hover"
         main-menu-border-color: "Rahmenfarbe des Hauptmenüs"
       custom_colors: "Benutzerdefinierte Farben"
-      customize: "Verpassen Sie Ihrer OpenProject Installation ein eigenes Logo. Hinweis: Das Logo ist ohne Authentifizierung einsehbar."
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "Als ein besonderes Dankeschön für Ihre finanzielle Unterstützung in der Entwicklung von OpenProject ist diese Funktionalität nur in Verknüpfung mit einem Enterprise-Edition Abonnement verfügbar."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Farbauswahloptionen bearbeiten"
       instructions:
         alternative-color: "Starke Akzentfarbe, wird normalerweise für die wichtigste Schaltfläche auf dem Bildschirm verwendet."
@@ -93,6 +94,8 @@ de:
     show_preview: 'Vorschau des Hilfe-Textes'
     add_new: 'Hilfe-Text hinzufügen'
     edit: "Hilfe-Text für %{attribute_caption} bearbeiten"
+    enterprise:
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Derzeit gibt es keine Authentifizierungsmodi.
@@ -168,7 +171,7 @@ de:
     execute: '%{name} ausführen'
     upsale:
       title: 'Benutzerdefinierte Aktionen'
-      description: 'Benutzerdefinierte Aktionen optimieren tägliche Arbeit durch die Abarbeitung einer Reihe von Einzelschritten in einen Knopf.'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       Um neue benutzerdefinierte Felder einem Projekt zuzuweisen, müssen Sie diese erst global erstellen, um Sie dann an dieser Stelle aktivieren zu können.
@@ -268,7 +271,7 @@ de:
     upsale:
       title: Platzhalter-Benutzer
       description: >
-        Es gibt mehrere Szenarien, in denen Sie Personen Arbeit zuweisen möchten, die nicht Mitglied Ihres Projekts sind. Es könnte einfach sein, dass Sie immer noch die richtige Person für den Job einstellen müssen. Oder Sie wollen dieser Person keinen Zugriff auf die Projektinformationen gewähren, aber dennoch die dieser Person zugewiesenen Tracking-Aufgaben aufweisen.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -296,6 +299,8 @@ de:
     edit:
       settings: "Einstellungen"
       form_configuration: "Formularkonfiguration"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekte"
       enabled_projects: "Aktivierte Projekte"
       edit_query: "Tabelle bearbeiten"
@@ -598,6 +603,8 @@ de:
         unknown_property: "ist kein bekanntes Attribut."
         unknown_property_nested: "hat den unerwarteten Pfad '%{path}'."
         unremovable: "kann nicht entfernt werden."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)."
       models:
         attachment:
@@ -629,7 +636,7 @@ de:
               fragment_present: 'kann kein Fragment enthalten.'
               invalid_uri: 'muss eine gültige URI sein.'
               relative_uri: 'muss eine absolute URI sein.'
-              secured_uri: 'muss eine HTTPS/SSL-URI sein.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'ist vom Server nicht erlaubt.'
             scopes:
               not_match_configured: "stimmt nicht mit verfügbaren Geltungsbereichen überein."
@@ -735,6 +742,7 @@ de:
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "darf kein Meilenstein sein."
               cannot_be_self_assigned: "kann nicht selbst zugewiesen werden."
@@ -1347,7 +1355,7 @@ de:
     admin:
       mail_notification: "Mailbenachrichtigung"
       mails_and_notifications: "E-Mails und Benachrichtigungen"
-      aggregation_and_retention: 'Aggregation und Zurückhaltung'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API und Webhooks"
     quick_add:
       label: "Schnellmenue öffnen"
@@ -1356,7 +1364,7 @@ de:
       no_results:
         title: "Kein Zugangs-Token kann angezeigt werden"
         description: "Alle wurden deaktiviert. Sie können im Administrations-Menü wieder aktiviert werden."
-      access_token: "Zugangs-Token"
+      access_tokens: "Access tokens"
       headers:
         action: "Aktion"
         expiration: "Läuft aus"
@@ -1457,7 +1465,6 @@ de:
   label_consent_settings: "Nutzer-Einwilligung"
   label_wiki_menu_item: Wiki Menüpunkt
   label_select_main_menu_item: Neuen Hauptmenüpunkt auwählen
-  label_select_project: "Projekt auswählen"
   label_required_disk_storage: "Erforderlicher Festplattenspeicher"
   label_send_invitation: Einladung senden
   label_change_plural: "Änderungen"
@@ -1736,7 +1743,6 @@ de:
   label_product_version: "Produktversion"
   label_professional_support: "Professionelle Unterstützung"
   label_profile: "Profil"
-  label_project_all: "Alle Projekte"
   label_project_count: "Gesamtzahl der Projekte"
   label_project_copy_notifications: "Sende Mailbenachrichtigungen beim Kopieren des Projekts."
   label_project_latest: "Neueste Projekte"
@@ -2112,6 +2118,12 @@ de:
   notice_successful_create: "Erfolgreich angelegt."
   notice_successful_delete: "Erfolgreich gelöscht."
   notice_successful_update: "Erfolgreich aktualisiert."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Es gibt zu viele Treffer.\nBitte engen Sie die Suche ein, indem sie den Namen der Person (oder der Gruppe) eingeben."
   notice_user_missing_authentication_method: Benutzer muss noch ein Passwort oder eine andere Authentifizierungsmethode wählen.
   notice_user_invitation_resent: Eine Einladung wurde an %{email} gesendet.
@@ -2179,13 +2191,14 @@ de:
   permission_edit_own_time_entries: "Selbstgebuchte Aufwände bearbeiten"
   permission_edit_project: "Projekt bearbeiten"
   permission_edit_reportings: "Statusberichte bearbeiten"
-  permission_edit_time_entries: "Gebuchte Aufwände bearbeiten"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Zeitplan-Reporte bearbeiten"
   permission_edit_wiki_pages: "Wiki-Seiten bearbeiten"
   permission_export_work_packages: "Arbeitspakete exportieren"
   permission_export_wiki_pages: "Wiki-Seiten exportieren"
   permission_list_attachments: "Anhänge auflisten"
-  permission_log_time: "Aufwände buchen"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Foren verwalten"
   permission_manage_categories: "Arbeitspaket-Kategorien verwalten"
   permission_manage_work_package_relations: "Arbeitspaket-Beziehungen verwalten"
@@ -2343,6 +2356,9 @@ de:
     storage:
       not_available: "Genutzter Festplattenspeicher ist nicht für dieses Projektarchiv verfügbar."
       update_timeout: "Speichere die Informationen bzgl. des genutzten Festplattenspeichers eines Projektarchivs für N Minuten.\nErhöhen Sie diesen Wert zur Verbesserung der Performance, da die Erfassung des genutzten Festplattenspeichers Ressourcen-intensiv ist."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Vorhandenes Subversion Projektarchiv"
       existing_introduction: "Wenn Sie ein lokales Subversion Verzeichnis haben, können Sie es mit OpenProject verknüpfen um von innerhalb der Anwendung auf dieses zuzugreifen."
@@ -2423,7 +2439,6 @@ de:
   setting_email_login: "E-Mail als Benutzername verwenden"
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
   setting_enabled_projects_columns: "In der Projektliste sichtbar"
-  setting_notification_retention_period_days: "Aufbewahrungsfrist für Benachrichtigungen"
   setting_feeds_enabled: "Feeds aktiviert"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
@@ -2436,7 +2451,7 @@ de:
   setting_work_package_list_default_columns: "Standardmäßig anzeigen"
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
   setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
-  setting_work_packages_export_limit: "Max. Anzahl Arbeitspakete bei CSV/PDF-Export"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "Benutzeraktionen aggregiert innerhalb"
   setting_log_requesting_user: "Logge Benutzer Login, Name und Mailadresse für alle Anfragen"
   setting_login_required: "Authentifizierung erforderlich"
@@ -2496,8 +2511,6 @@ de:
       whitelist_text_html: >
         Legen Sie eine Liste gültiger Dateierweiterungen und/oder Mime-Typen für hochgeladene Dateien fest. <br/> Dateierweiterungen (z. B. <code>%{ext_example}</code>) oder Mime-Typen (z. ., <code>%{mime_example}</code>). <br/> Lassen Sie diese Liste leer, um das Hochladen beliebiger Dateitypen zu erlauben. Mehrere Werte erlaubt (eine Zeile pro Wert).
     notifications:
-      retention_text: >
-        Legen Sie die Anzahl der Tage fest, in denen Benachrichtigungen für Benutzer im System gehalten werden. Alle Ereignisse, die älter als diese Zeit sind, werden gelöscht und stehen nicht mehr als In-App-Benachrichtigungen zur Verfügung.
       events_explanation: 'Bestimmt, für welche Ereignisse eine E-Mail verschickt wird. Arbeitspakete sind von dieser Liste ausgeschlossen, da die Benachrichtigungen hierfür pro Benutzer konfiguriert werden können.'
       delay_minutes_explanation: "Das Senden von E-Mails kann verzögert werden, damit Benutzer über In-App-Benachrichtigungen benachrichtigt werden können, bevor eine E-Mail versendet wird. Benutzer, die eine Benachrichtigung innerhalb der Anwendung lesen, erhalten keine separate E-Mail."
     display:
@@ -2549,6 +2562,12 @@ de:
     Wenn Sie benutzerdefinierte Felder verwenden: Bitte beachten, dass diese auch pro Projekt aktiviert werden müssen.
   text_custom_field_hint_activate_per_project_and_type: >
     Benutzerdefinierte Felder müssen jeweils in Arbeitspaket-Typ und Projekt aktiviert werden.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Ein weißes Logo mit transparentem Hintergrund wird empfohlen. Für ein optimales Ergebnis für konventionelle und Retina-Displays sollte die Bildabmessungen 460 x 110 Pixel betragen.
   text_custom_favicon_instructions: >
@@ -3062,4 +3081,10 @@ de:
         unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
         unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
         invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: Sie

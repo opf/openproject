@@ -3,13 +3,14 @@
 >
   <section
     class="op-tab-content--tab-section"
+    [ngClass]="{ 'op-tab-content--tab-section_no-header': (showAttachmentHeader$ | async) === false }"
     data-qa-selector="op-tab-content--tab-section"
   >
     <div
-      *ngIf="canViewFileLinks$ | async"
+      *ngIf="showAttachmentHeader$ | async"
       class="op-tab-content--header"
     >
-      <span class="spot-icon spot-icon_attachment op-files-tab--icon_clip"></span>
+      <span class="spot-icon spot-icon_attachment op-files-tab--icon op-files-tab--icon_clip"></span>
       <span class="op-tab-content--header-text" [textContent]="text.attachments.label"></span>
     </div>
 
@@ -24,7 +25,7 @@
     class="op-tab-content--tab-section"
   >
     <div class=op-tab-content--header>
-      <span class="spot-icon spot-icon_nextcloud-circle op-files-tab--icon_nextcloud"></span>
+      <span class="spot-icon spot-icon_nextcloud-circle op-files-tab--icon op-files-tab--icon_nextcloud"></span>
       <span class="op-tab-content--header-text" [textContent]="storage.name"></span>
     </div>
 

@@ -4,12 +4,47 @@
 >
   <div class="op-toast -ee-upsale"
        [ngClass]="{'-left-margin': leftMargin }">
+
+    <img [src]="image.enterprise_edition" class="hidden-for-mobile op-enterprise-banner--image">
     <div class="op-toast--content">
-      <p class="-bold" [textContent]="text.enterpriseFeature"></p>
-      <p [textContent]="textMessage"></p>
-      <a [href]="link"
-         target='blank'
-         [textContent]="linkMessage"></a>
+      <div class="op-enterprise-banner--title">
+        <op-icon icon-classes="button--icon icon-medal"></op-icon> &nbsp;
+        <span [textContent]="text.enterpriseFeature"></span>
+      </div>
+      <br>
+
+      <span class="op-enterprise-banner--description" [innerHtml]="textMessage"></span>
+
+      <span class="op-enterprise-banner--description">
+        <strong [textContent]="text.become_hero"></strong> {{text.you_contribute}}
+      </span>
+
+      <div class="op-enterprise-banner--buttons">
+        <a
+          *ngIf="moreInfoLink"
+          [attr.href]="moreInfoLink"
+          class="button--link  op-enterprise-banner--info-button"
+          target=”_blank”>
+          <op-icon icon-classes="icon icon-external-link"></op-icon>
+          {{ text.more_info_text }}
+        </a>
+
+        <a
+          [href]="pricingUrl"
+          target=”_blank”
+          class="button -highlight">
+          <op-icon icon-classes="button--icon icon-medal"></op-icon>
+          {{ text.upgrade }}
+        </a>
+
+        <a
+          [attr.href]="text.more_info_link"
+          target=”_blank”
+          class="button -alt-highlight">
+          {{ text.button_trial }}
+        </a>
+
+      </div>
     </div>
   </div>
 </div>

@@ -37,10 +37,6 @@ module API
         # module available from within the endpoint context.
         helpers API::V3::Utilities::StoragesHelpers
 
-        before do
-          reply_with_not_found_if_module_inactive
-        end
-
         # The `:resources` keyword defines the API namespace -> /api/v3/file_links/...
         resources :file_links do
           # `route_param` extends the route by a route parameter of the endpoint.
@@ -63,6 +59,7 @@ module API
             # Additional API definitions are mounted under the current namespace, hence they are
             # appended to /api/v3/file_links/:file_link_id/...
             mount ::API::V3::FileLinks::FileLinksOpenAPI
+            mount ::API::V3::FileLinks::FileLinksDownloadAPI
           end
         end
       end

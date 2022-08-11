@@ -47,6 +47,7 @@ export const fileIconMappings:Record<string, IFileIcon> = {
   'image/cgm': { icon: 'image1', clazz: 'img' },
 
   'text/plain': { icon: 'file-text', clazz: 'txt' },
+  'text/markdown': { icon: 'file-text', clazz: 'txt' },
   'text/html': { icon: 'file-text', clazz: 'txt' },
   'application/rtf': { icon: 'file-text', clazz: 'txt' },
   'application/xml': { icon: 'file-text', clazz: 'txt' },

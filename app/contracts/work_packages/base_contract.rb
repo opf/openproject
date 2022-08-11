@@ -89,18 +89,15 @@ module WorkPackages
               writable: ->(*) {
                 model.leaf? || model.schedule_manually?
               } do
-      if !model.schedule_manually? && start_before_soonest_start?
-        message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_relationships',
-                         soonest_start: model.soonest_start)
-
-        errors.add :start_date, message, error_symbol: :violates_relationships
-      end
+      validate_after_soonest_start(:start_date)
     end
 
     attribute :due_date,
               writable: ->(*) {
                 model.leaf? || model.schedule_manually?
-              }
+              } do
+      validate_after_soonest_start(:due_date)
+    end
 
     attribute :duration,
               writable: ->(*) {
@@ -146,6 +143,7 @@ module WorkPackages
 
     validate :validate_duration_integer
     validate :validate_duration_matches_dates
+    validate :validate_duration_constraint_for_milestone
 
     def initialize(work_package, user, options: {})
       super
@@ -212,6 +210,15 @@ module WorkPackages
     def validate_estimated_hours
       if !model.estimated_hours.nil? && model.estimated_hours < 0
         errors.add :estimated_hours, :only_values_greater_or_equal_zeroes_allowed
+      end
+    end
+
+    def validate_after_soonest_start(date_attribute)
+      if !model.schedule_manually? && before_soonest_start?(date_attribute)
+        message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_relationships',
+                         soonest_start: model.soonest_start)
+
+        errors.add date_attribute, message, error_symbol: :violates_relationships
       end
     end
 
@@ -338,6 +345,12 @@ module WorkPackages
       end
     end
 
+    def validate_duration_constraint_for_milestone
+      if model.is_milestone? && model.duration != 1
+        errors.add :duration, :not_available_for_milestones
+      end
+    end
+
     def readonly_attributes_unchanged
       super.tap do
         if already_in_readonly_status? && unauthenticated_changed.any?
@@ -360,10 +373,10 @@ module WorkPackages
       list.exists?(id:)
     end
 
-    def start_before_soonest_start?
-      model.start_date &&
+    def before_soonest_start?(date_attribute)
+      model[date_attribute] &&
         model.soonest_start &&
-        model.start_date < model.soonest_start
+        model[date_attribute] < model.soonest_start
     end
 
     def parent_in_different_project?

@@ -7,7 +7,7 @@ es:
       label_unnamed_list: 'Lista sin nombre'
       label_board_type: 'Tipo de panel'
       upsale:
-        teaser_text: '¿Quiere usar plantillas de paneles listas para usar? Los paneles avanzados son una característica de la versión Enterprise. Actualice a un plan de pago.'
+        teaser_text: '¿Quieres automatizar tus flujos de trabajo con Paneles? Los paneles avanzados son una característica de la versión Enterprise. Por favor, actualice a un plan de pago.'
         upgrade: 'Actualizar ahora'
       lists:
         delete: 'Eliminar lista'

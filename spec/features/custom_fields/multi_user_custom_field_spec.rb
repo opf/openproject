@@ -81,7 +81,7 @@ describe "multi select custom values", js: true do
       expect(cvs).to contain_exactly(group, user, placeholder)
 
       cf_edit_field.activate!
-      cf_edit_field.unset_value "Da Real", true
+      cf_edit_field.unset_value "Da Real", multi: true
       cf_edit_field.submit_by_dashboard
 
       wp_page.expect_and_dismiss_toaster(message: "Successful update.")
@@ -144,7 +144,7 @@ describe "multi select custom values", js: true do
 
         page.find(".inline-edit--display-field", text: "Billy Nobbler").click
 
-        cf_edit_field.unset_value "Anton Lupin", true
+        cf_edit_field.unset_value "Anton Lupin", multi: true
         cf_edit_field.set_value "Cooper Quatermaine"
 
         click_on "Reviewer: Save"

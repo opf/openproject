@@ -242,5 +242,23 @@ describe 'Status action board', type: :feature, js: true do
       board_page.expect_card('Open', 'Task 1', present: false)
       board_page.expect_card('Closed', 'Task 1', present: true)
     end
+
+    it 'shows the default column only once (regression #40858)' do
+      board_index.visit!
+
+      # Create new board
+      board_page = board_index.create_board action: :Status
+
+      # expect lists of default status
+      board_page.expect_list 'Open'
+      expect(board_page.list_count).to eq(1)
+
+      # Create another status board
+      second_board_page = board_index.create_board action: :Status, via_toolbar: true
+
+      # Expect only one list with the default status
+      second_board_page.expect_list 'Open'
+      expect(second_board_page.list_count).to eq(1)
+    end
   end
 end

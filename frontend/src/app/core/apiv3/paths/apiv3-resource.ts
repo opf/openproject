@@ -17,6 +17,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
 import { HttpClient } from '@angular/common/http';
+import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
 
 export class ApiV3ResourcePath<T = HalResource> extends SimpleResource {
   readonly injector = this.apiRoot.injector;
@@ -130,7 +131,7 @@ export class ApiV3ResourceCollection<V, T extends ApiV3GettableResource<V>> exte
    * @param resourceClass The APIV3 resource class to instantiate
    */
   public filtered<R = ApiV3GettableResourceCollection<V>>(filters:ApiV3FilterBuilder, params:{ [key:string]:string } = {}, resourceClass?:Constructor<R>):R {
-    const url = this.applyParams(filters, params);
+    const url = addFiltersToPath(this.path, filters, params);
     const cls = resourceClass || ApiV3GettableResourceCollection;
     // eslint-disable-next-line new-cap
     return new cls(this.apiRoot, url.pathname, url.search, this) as R;
@@ -145,38 +146,11 @@ export class ApiV3ResourceCollection<V, T extends ApiV3GettableResource<V>> exte
    * @param params additional URL params to append
    */
   public signalled<R>(filters:ApiV3FilterBuilder, select:string[], params:{ [key:string]:string } = {}):Observable<R> {
-    const url = this.applyParams(filters, { ...params, select: select.join(',') });
+    const url = addFiltersToPath(this.path, filters, { ...params, select: select.join(',') });
 
     return this
       .http
       .get<R>(url.toString());
-  }
-
-  /**
-   * Apply the given parameters to our API path and return an URL instance.
-   *
-   * @param filters {ApiV3FilterBuilder} Filter to be passed to the API
-   * @param params {ApiV3ListParameters} input parameters to apply
-   * @return {URL} the applied params to the path.
-   * @protected
-   */
-  protected applyParams(filters:ApiV3FilterBuilder, params:{ [key:string]:string } = {}):URL {
-    const url = new URL(this.path, window.location.origin);
-
-    if (url.searchParams.has('filters')) {
-      const existingFilters = JSON.parse(url.searchParams.get('filters') as string) as ApiV3Filter[];
-      url.searchParams.set('filters', JSON.stringify(existingFilters.concat(filters.filters)));
-    } else {
-      url.searchParams.set('filters', filters.toJson());
-    }
-
-    Object
-      .keys(params)
-      .forEach((key) => {
-        url.searchParams.set(key, params[key]);
-      });
-
-    return url;
   }
 
   /**

@@ -204,6 +204,7 @@ ru:
             label_expires_at: "Срок действия до"
             receive_newsletter: Я хочу получать <a target="_blank" href="%{link}">новостную рассылку от OpenProject</a>.
             taken_domain: На каждом домене может быть только один активный пробный период.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Каждый пользователь может создать только одну пробную версию.
           email_not_received: "Не получили письмо? Справа вы можете запросить повторную отправку письма со ссылкой."
           try_another_email: "Или попробуйте использовать другой адрес электронной почты."
@@ -230,10 +231,12 @@ ru:
             professional_support: "Профессиональная поддержка"
             professional_support_text: "Получите качественную и оперативную поддержку наших экспертов по применению OpenProject в условиях, отвечающих требованиям бизнеса."
           button_start_trial: "Воспользоваться бесплатной пробной версией"
+          button_upgrade: "Обновить сейчас"
           button_book_now: "Забронировать сейчас"
           confidence: >
             Мы предлагаем надежное и проверенное временем программное решение корпоративного уровня для управления проектами, в котором открытый исходный код сочетается с открытостью к новым идеям.
           link_quote: "Оценка стоимости"
+          more_info: "Больше информации"
           text: >
             Версия OpenProject Enterprise Edition основана на версии Community Edition и включает в себя премиум-функции и профессиональную поддержку для организаций, у которых более 10 пользователей и которые управляют критически важными для бизнеса проектами с помощью OpenProject.
           unlimited: "Без ограничений"
@@ -266,7 +269,7 @@ ru:
           one: "Первый критерий сортировки"
           two: "Второй критерий сортировки"
           three: "Третий критерий сортировки"
-      upsale_for_more: "Для более сложных фильтров, проверить"
+      upsale_for_more: "Расширенные фильтры позволяют также фильтровать имена файлов и содержимое вложений пакета работ. Пожалуйста, перейдите на платный тарифный план, чтобы использовать эту функцию."
       upsale_link: 'Корпоративная версия.'
     general_text_no: "нет"
     general_text_yes: "Да"
@@ -286,15 +289,15 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>В модуле BCF вы можете сохранить выбранные фильтры рабочих пакетов, колонки и т. д. как <b>просмотров</b> и поделиться ими с членами вашей команды.</li> <li>Новый <b>модуль командного планировщика</b> (Enterprise feature) позволяет наглядно назначить задачи членам команды, чтобы получить представление о том, кто над чем работает.</li> <li>Мы <b>выпустили базовые agile-доски</b> для версии Сообщества.</li> <li>Фильтр <b>"Включить проекты"</b> позволяет легко добавлять различные проекты к вашим представлениям, Например, для пакетов работ, календарей и командных планировщиков.</li> <li>Мы добавили <b>новую вкладку "Файлы"</b> в деталях пакета работ для получения всей возможной информации вместе с пакетом работ.</li> <li>Мы создали <b>глобальные роли для групп</b> для назначения этих ролей группам и создания групп суперпользователей.</li> <li>Статус проекта предоставляет больше вариантов выбора.</li> </ul>
+                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Нет более бесконечного поиска файлов! С новой интеграцией <b>Nextcloud</b> в OpenProject 12. , теперь вы можете найти файлы прямо в соответствующем пакете работ и всегда иметь правильную версию под рукой.</li> <li>Мы ввели <b>новый выбор дат</b> с обновленным поведением ввода и информационным баннером, включающим кнопку показа релизов на графике Гантта.</li> <li>Мы добавили возможность <b>журнала времени для других пользователей.</b></li> <li>Помечать уведомления как прочтенные за пределами центра уведомлений.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>В модуле BCF вы можете сохранить выбранные фильтры рабочих пакетов, колонки и т. д. как <b>просмотров</b> и поделиться ими с членами вашей команды.</li> <li>Новый <b>модуль командного планировщика</b> (Enterprise feature) позволяет наглядно назначить задачи членам команды, чтобы получить представление о том, кто над чем работает.</li> <li>Мы <b>выпустили базовые agile-доски</b> для версии Сообщества.</li> <li>Фильтр <b>"Включить проекты"</b> позволяет легко добавлять различные проекты к вашим представлениям, Например, для пакетов работ, календарей и командных планировщиков.</li> <li>Мы добавили <b>новую вкладку "Файлы"</b> в деталях пакета работ для получения всей возможной информации вместе с пакетом работ.</li> <li>Мы создали <b>глобальные роли для групп</b> для назначения этих ролей группам и создания групп суперпользователей.</li> <li>Статус проекта предоставляет больше вариантов выбора.</li> </ul>
+                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Нет более бесконечного поиска файлов! С новой интеграцией <b>Nextcloud</b> в OpenProject 12. , теперь вы можете найти файлы прямо в соответствующем пакете работ и всегда иметь правильную версию под рукой.</li> <li>Мы ввели <b>новый выбор дат</b> с обновленным поведением ввода и информационным баннером, включающим кнопку показа релизов на графике Гантта.</li> <li>Мы добавили возможность <b>журнала времени для других пользователей.</b></li> <li>Помечать уведомления как прочтенные за пределами центра уведомлений.</li> </ul>
     label_activate: "Активировать"
     label_assignee: 'Ответственный'
     label_add_column_after: "Добавить столбец после"
@@ -366,15 +369,14 @@ ru:
     label_in_more_than: "более чем"
     label_incoming_emails: "Входящие письма"
     label_information_plural: "Информация"
+    label_invalid: "Неверно"
     label_import: "Импорт"
     label_latest_activity: "Последние действия"
     label_last_updated_on: "Последний раз обновлено"
     label_learn_more_link: "Узнать больше"
     label_less_or_equal: "<="
     label_less_than_ago: "менее нескольких дней назад"
-    label_link_files_in_storage: "Связать файлы в %{storageType}"
     label_loading: "Загрузка..."
-    label_login_to_storage: "Войти в %{storageType}"
     label_mail_notification: "Уведомления по email"
     label_me: "я"
     label_meeting_agenda: "Повестка дня"
@@ -387,23 +389,20 @@ ru:
     label_no_data: "Нет данных для отображения"
     label_no_due_date: "нет даты окончания"
     label_no_start_date: "без даты начала"
-    label_no_storage_connection: "Нет подключения к %{storageType}"
     label_no_value: "Нет значения"
-    label_no_file_links: "Чтобы связать файлы с этим рабочим пакетом, пожалуйста, сделайте это через %{storageType}."
     label_none: "Ничего"
     label_not_contains: "не содержит"
     label_not_equals: "не"
     label_on: "на"
     label_open_menu: "Открыть меню"
     label_open_context_menu: "Открыть контекстное меню"
-    label_open_storage: "Открыть %{storageType}"
     label_open_work_packages: "открыто"
-    label_open_file_link: 'Открыть файл в хранилище'
-    label_open_file_link_location: 'Открыть файл в расположении'
     label_password: "Пароль"
     label_previous: "Предыдущие"
     label_per_page: "На странице:"
     label_please_wait: "Пожалуйста, подождите"
+    label_project: "Проект"
+    label_project_list: "Список Проектов"
     label_project_plural: "Проекты"
     label_visibility_settings: "Параметры видимости"
     label_quote_comment: "Цитировать этот комментарий"
@@ -412,11 +411,11 @@ ru:
     label_remove: "Удалить"
     label_remove_column: "Удалить столбец"
     label_remove_columns: "Удалить выбранные столбцы"
-    label_remove_file_link: "Удалить ссылку на файл"
     label_remove_row: "Удалить строку"
     label_report: "Отчет"
     label_repository_plural: "Репозитории"
     label_save_as: "Сохранить как"
+    label_select_project: "Выберите проект"
     label_select_watcher: "Выберите наблюдателя..."
     label_selected_filter_list: "Выбранные фильтры"
     label_show_attributes: "Показать все атрибуты"
@@ -428,9 +427,6 @@ ru:
     label_sorting: "Сортировка"
     label_spent_time: "Затраченное время"
     label_star_query: "Добавлено в избранное"
-    label_storage_connection_error: "Некоторые настройки %{storageType} не работают. Пожалуйста, попробуйте войти снова или обратитесь к администратору %{storageType}"
-    label_storage_login: "Логин %{storageType}"
-    label_storage_not_connected: "Для добавления ссылки, просмотра или загрузки файлов, относящиеся к этому пакету работ, войдите в %{storageType}."
     label_press_enter_to_save: "Нажмите ввод для сохранения."
     label_public_query: "Общий"
     label_sum: "Сумма"
@@ -461,13 +457,12 @@ ru:
     label_unwatch: "Прекратить наблюдение"
     label_unwatch_work_package: "Прекратить наблюдение за пакетом работ"
     label_uploaded_by: "Загружено"
-    label_default_queries: "Представления по умолчанию"
-    label_starred_queries: "Избранные представления"
-    label_global_queries: "Публичные представления"
-    label_custom_queries: "Приватные представления"
+    label_default_queries: "По умолчанию"
+    label_starred_queries: "Избранное"
+    label_global_queries: "Публичный"
+    label_custom_queries: "Приватный"
     label_columns: "Столбцы"
     label_attachments: Вложения
-    label_nextcloud: Nextcloud
     label_drop_files: Перетащите файлы сюда
     label_drop_files_hint: или кликните для добавления файлов
     label_drop_folders_hint: Вы не можете загружать папки как вложение. Пожалуйста, выберите один файл.
@@ -547,7 +542,7 @@ ru:
           many: 'и %{count} других'
           other: 'и %{count} других'
         no_results:
-          at_all: 'Новые уведомления по всем действиям, относящимся к Вам, будут отображаться здесь'
+          at_all: 'Новые уведомления связанной с вами деятельности появятся здесь, уведомления и время их получения настраиваются вами.'
           with_current_filter: 'На данный момент в этом представлении нет уведомлений'
         mark_all_read: 'Отметить всё как прочитанное'
         mark_as_read: 'Отметить как прочитанное'
@@ -555,7 +550,8 @@ ru:
         total_count_warning: "Показаны %{newest_count} самые последние уведомления. Ещё %{more_count} не отображаются."
         empty_state:
           no_notification: "Похоже, вы все поймали."
-          no_notification_with_current_filter: "Измените параметры фильтра или вернитесь в папку \"Входящие\" для просмотра уведомлений"
+          no_notification_with_current_project_filter: "Похоже, что все вы попали в выбранный проект."
+          no_notification_with_current_filter: "Похоже, вы все попали под фильтр %{filter}."
           no_selection: "Нажмите на уведомление, чтобы просмотреть все детали активности."
         new_notifications:
           message: 'Есть новые уведомления.'
@@ -672,14 +668,7 @@ ru:
         projects: "Проекты"
         settings: "Параметры"
     time_entry:
-      project: 'Проект'
-      work_package: 'Пакет работ'
       work_package_required: 'Сначала необходимо выбрать пакет работ.'
-      activity: 'Деятельность'
-      comment: 'Комментарий'
-      duration: 'Продолжительность'
-      spent_on: 'Дата'
-      hours: 'Часы'
       title: 'Журналировать время'
     two_factor_authentication:
       label_two_factor_authentication: 'Двухфакторная аутентификация'
@@ -820,7 +809,7 @@ ru:
       zooms: "Масштаб"
       outlines: "Уровень иерархии"
     upsale:
-      ee_only: 'Эта функция есть только в корпоративной версии'
+      ee_only: 'Этот функционал только в корпоративной версии'
     wiki_formatting:
       strong: "Жирный"
       italic: "Наклонный"
@@ -1040,10 +1029,7 @@ ru:
       filter: "Фильтр"
       unselected_title: "Пакет работ"
       search_query_label: "Найти сохраненные представления"
-      search_query_title: "Кликните для поиска сохраненных представлений"
-      placeholder_query_title: "Задать заголовок для этого представления"
     modals:
-      label_settings: "Переименовать представления"
       label_name: "Имя"
       label_delete_page: "Удалить текущую страницу"
       button_apply: "Применить"
@@ -1107,6 +1093,10 @@ ru:
         one: "1 ч"
         other: "%{count} ч"
         zero: "0 ч"
+      day:
+        one: "1 день"
+        other: "%{count} дней"
+        zero: "0 дней"
     zen_mode:
       button_activate: 'Включить дзен-режим'
       button_deactivate: 'Отключить дзен-режим'
@@ -1202,6 +1192,8 @@ ru:
       tooltip:
         include_all_selected: 'Включить все выбранные подпроекты.'
         current_project: 'Это текущий проект, в котором вы находитесь.'
+        does_not_match_search: 'Ни один проект не соответствует критериям поиска.'
+      no_results: 'Ни один проект не соответствует критериям поиска.'
     forms:
       submit_success_message: 'Форма успешно отправлена'
       load_error_message: 'Произошла ошибка при загрузке формы'
@@ -1212,5 +1204,3 @@ ru:
         remove: 'Удалить'
       drop_modal:
         Close: 'Закрыть'
-    storages:
-      enter_oauth2_client_secret: 'Пожалуйста, введите секретный ключ клиента OAuth2'

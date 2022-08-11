@@ -204,6 +204,7 @@ zh-TW:
             label_expires_at: "過期於"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
             taken_domain: There can only be one active trial per domain.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
@@ -230,10 +231,12 @@ zh-TW:
             professional_support: "專業支援"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "開始免費試用"
+          button_upgrade: "Upgrade now"
           button_book_now: "立即預約"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "獲取報價"
+          more_info: "More information"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -266,7 +269,7 @@ zh-TW:
           one: "第一個排序條件"
           two: "第二個排序條件"
           three: "第三個排序條件"
-      upsale_for_more: "有關進階的篩選器, 請查看"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: '企業版。'
     general_text_no: "否"
     general_text_yes: "是"
@@ -286,15 +289,15 @@ zh-TW:
           learn_about: "瞭解更多新功能的資訊"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "啟用"
     label_assignee: 'Assignee'
     label_add_column_after: "在後面增加一欄"
@@ -366,15 +369,14 @@ zh-TW:
     label_in_more_than: "多於"
     label_incoming_emails: "接收到的電子郵件"
     label_information_plural: "資訊"
+    label_invalid: "Invalid"
     label_import: "匯入"
     label_latest_activity: "最新活動"
     label_last_updated_on: "最後更新於"
     label_learn_more_link: "了解更多"
     label_less_or_equal: "<="
     label_less_than_ago: "少於幾天前"
-    label_link_files_in_storage: "Link files in %{storageType}"
     label_loading: "讀取中..."
-    label_login_to_storage: "Login to %{storageType}"
     label_mail_notification: "電子郵件通知"
     label_me: "我"
     label_meeting_agenda: "會議大綱"
@@ -387,23 +389,20 @@ zh-TW:
     label_no_data: "沒有資料可顯示"
     label_no_due_date: "no finish date"
     label_no_start_date: "無開始日期"
-    label_no_storage_connection: "No %{storageType} connection"
     label_no_value: "無值"
-    label_no_file_links: "In order to link files to this work package please do it via %{storageType}."
     label_none: "無"
     label_not_contains: "不包含"
     label_not_equals: "不是"
     label_on: "開啟"
     label_open_menu: "開啟選單"
     label_open_context_menu: "打開選單"
-    label_open_storage: "Open %{storageType}"
     label_open_work_packages: "打開"
-    label_open_file_link: 'Open file on storage'
-    label_open_file_link_location: 'Open file in location'
     label_password: "密碼"
     label_previous: "上一個"
     label_per_page: "每頁："
     label_please_wait: "請稍候"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "專案"
     label_visibility_settings: "可見度設定"
     label_quote_comment: "引述這個評論"
@@ -412,11 +411,11 @@ zh-TW:
     label_remove: "刪除"
     label_remove_column: "移除欄"
     label_remove_columns: "移除所選欄"
-    label_remove_file_link: "Remove file link"
     label_remove_row: "移除列"
     label_report: "報表"
     label_repository_plural: "Repositories"
     label_save_as: "保存為"
+    label_select_project: "Select a project"
     label_select_watcher: "選擇一位關注者"
     label_selected_filter_list: "所選的篩選器"
     label_show_attributes: "顯示所有屬性"
@@ -428,9 +427,6 @@ zh-TW:
     label_sorting: "排序"
     label_spent_time: "耗時"
     label_star_query: "喜好"
-    label_storage_connection_error: "Some %{storageType} settings are not working. Please try to login again or contact your %{storageType} administrator."
-    label_storage_login: "%{storageType} login"
-    label_storage_not_connected: "To add a link, see or upload files related to this work package, please login to %{storageType}."
     label_press_enter_to_save: "按 Enter 即可儲存。"
     label_public_query: "公開"
     label_sum: "總和"
@@ -461,13 +457,12 @@ zh-TW:
     label_unwatch: "取消監看"
     label_unwatch_work_package: "取消關注工作項目"
     label_uploaded_by: "上傳者"
-    label_default_queries: "預設視圖"
-    label_starred_queries: "最愛檢視"
-    label_global_queries: "公開檢視"
-    label_custom_queries: "私密檢視"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "欄"
     label_attachments: 附加檔
-    label_nextcloud: Nextcloud
     label_drop_files: 將檔案拖曳至此處
     label_drop_files_hint: 或按一下要添加的檔
     label_drop_folders_hint: 不能將資料夾作為附件上載。請選擇單個檔。
@@ -544,7 +539,7 @@ zh-TW:
         and_more_users:
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -552,7 +547,8 @@ zh-TW:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -669,14 +665,7 @@ zh-TW:
         projects: "專案"
         settings: "設定"
     time_entry:
-      project: '專案'
-      work_package: '工作項目'
       work_package_required: 'Requires selecting a work package first.'
-      activity: '活動'
-      comment: '評論'
-      duration: '時間長度'
-      spent_on: '日期'
-      hours: '小時'
       title: '日誌的時間'
     two_factor_authentication:
       label_two_factor_authentication: '雙重身分驗證'
@@ -817,7 +806,7 @@ zh-TW:
       zooms: "縮放等級"
       outlines: "層次結構級別"
     upsale:
-      ee_only: '僅企業版功能'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "粗體"
       italic: "斜體"
@@ -1037,10 +1026,7 @@ zh-TW:
       filter: "篩選器"
       unselected_title: "工作項目"
       search_query_label: "搜索保存的視圖"
-      search_query_title: "點擊搜尋保存的視圖"
-      placeholder_query_title: "為此視圖設置標題"
     modals:
-      label_settings: "重新命名視圖"
       label_name: "名稱"
       label_delete_page: "刪除目前的頁面"
       button_apply: "套用"
@@ -1098,6 +1084,10 @@ zh-TW:
         one: "1 h"
         other: "%{count} 小時"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: '啟動 zen 模式'
       button_deactivate: '停用 zen 模式'
@@ -1193,6 +1183,8 @@ zh-TW:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: '檔案已成功提交'
       load_error_message: 'There was an error loading the form'
@@ -1203,5 +1195,3 @@ zh-TW:
         remove: '刪除'
       drop_modal:
         Close: '關閉'
-    storages:
-      enter_oauth2_client_secret: 'Please enter your OAuth2 client secret'

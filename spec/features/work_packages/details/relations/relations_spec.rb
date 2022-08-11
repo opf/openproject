@@ -101,8 +101,8 @@ describe 'Work package relations tab', js: true, selenium: true do
       expect(page).to have_selector('.relation-group--header', text: 'FOLLOWS')
       expect(page).to have_selector('.relation-group--header', text: 'RELATED TO')
 
-      expect(page).to have_selector('.relation-row--type', text: type_1.name)
-      expect(page).to have_selector('.relation-row--type', text: type_2.name)
+      expect(page).to have_selector('.relation-row--type', text: type_1.name.upcase)
+      expect(page).to have_selector('.relation-row--type', text: type_2.name.upcase)
 
       find(toggle_btn_selector).click
       expect(page).to have_selector(toggle_btn_selector, text: 'Group by relation type', wait: 10)

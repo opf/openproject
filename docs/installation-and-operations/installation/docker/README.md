@@ -30,7 +30,7 @@ First, you must clone the [openproject-deploy](https://github.com/opf/openprojec
 git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/12 openproject
 ```
 
-Then, go into the compose folder:
+Then, change into the compose folder, this folder will be the location where you enter all following commands:
 
 ```bash
 cd openproject/compose
@@ -55,8 +55,20 @@ Note that the `docker-compose.yml` file present in the repository can be adjuste
 You can stop the Compose stack by running:
 
 ```
+docker-compose stop
+```
+
+You can stop and remove all containers by running:
+
+```
 docker-compose down
 ```
+
+This will not remove your data which is persisted in named volumes, likely called `compose_opdata` (for attachments) and `compose_pgdata` (for the database). The exact name depends on the name of the directory where
+your `docker-compose.yml` file is stored (`compose` in this case).
+
+If you want to start from scratch and remove the exsiting data you will have to remove these volumes via
+`docker volume rm compose_opdata compose_pgdata`.
 
 ## All-in-one container
 
@@ -84,7 +96,7 @@ For normal usage you probably want to start it in the background, which can be
 achieved with the `-d` flag:
 
 ```bash
-docker run -it -p 8080:80 -e OPENPROJECT_SECRET_KEY_BASE=secret -e OPENPROJECT_HOST__NAME=localhost:8080 openproject/community:12
+docker run -d -p 8080:80 -e OPENPROJECT_SECRET_KEY_BASE=secret -e OPENPROJECT_HOST__NAME=localhost:8080 openproject/community:12
 ```
 
 **Note**: We've had reports of people being unable to start OpenProject this way

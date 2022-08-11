@@ -26,6 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require 'rubocop'
 require 'rubocop/rspec/shared_contexts'
 require 'spec_helper'
 require 'rubocop/rspec/support'

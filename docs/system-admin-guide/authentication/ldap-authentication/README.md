@@ -3,15 +3,12 @@ sidebar_navigation:
   title: LDAP authentication
   priority: 500
 description: Manage LDAP Authentication in OpenProject.
-robots: index, follow
 keywords: ldap authentication
 ---
 
 # Manage LDAP Authentication
 
-<div class="alert alert-info" role="alert">
-**Note**: In order to be able to access the administration panel and manage LDAP authentication you need to be a system admin.
-</div>
+> **Note**: In order to be able to access the administration panel and manage LDAP authentication you need to be a system admin.
 
 To see the list of all available LDAP (Lightweight Directory Access  Protocol) authentications navigate to - > *Administration* and select *-> Authentication* -> *LDAP Authentication* from the menu on the left. You will see the list of all available authentications already created.
 
@@ -144,14 +141,14 @@ Duplicates in the unique attributes (login, email) are not allowed and a second 
 
 By default, OpenProject will synchronize user account details (name, e-mail, login) and their account status from the LDAP through a background worker job every 24 hours. 
 
+### **Enabling status synchronization**
+
+If you wish to synchronize the account status from the LDAP, you can enable status synchronization using the following configuration:
+
+- `ldap_users_sync_status: true`
+- (or the ENV variable `OPENPROJECT_LDAP__USERS__SYNC__STATUS=true`)
+
 The user will be ensured to be active if it can be found in LDAP. Likewise, if the user cannot be found in the LDAP, its associated OpenProject account will be locked.
-
-### **Disabling status synchronization**
-
-If you wish to synchronize account data from the LDAP, but not synchronize the status to the associated OpenProject account, you can do so with the following configuration variable:
-
-- `ldap_users_sync_status: false` 
-- (or the ENV variable `OPENPROJECT_LDAP__USERS__SYNC__STATUS=false`) 
 
 ### Disabling the synchronization job
 
