@@ -2,26 +2,26 @@
 de:
   js:
     storages:
-      link_files_in_storage: "Link files in %{storageType}"
-      login: "%{storageType} login"
-      login_to: "Login to %{storageType}"
-      no_connection: "No %{storageType} connection"
-      open_storage: "Open %{storageType}"
+      link_files_in_storage: "Verknüpfen Sie Dateien in %{storageType}"
+      login: "%{storageType} Login"
+      login_to: "Bei %{storageType} anmelden"
+      no_connection: "Keine %{storageType} Verbindung"
+      open_storage: "Öffne %{storageType}"
       types:
         nextcloud: "Nextcloud"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
-        live_data_error: "Error fetching file details"
+          Einige %{storageType} Einstellungen funktionieren nicht. Bitte kontaktieren Sie Ihren %{storageType} Administrator.
+        live_data_error: "Fehler beim Abrufen der Dateidetails"
         live_data_error_description: >
-          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
-        no_file_links: "In order to link files to this work package please do it via %{storageType}."
+          Einige %{storageType} Daten konnten nicht abgerufen werden. Bitte laden Sie diese Seite neu oder kontaktieren Sie Ihren %{storageType} Administrator.
+        no_file_links: "Um Dateien mit diesem Arbeitspaket zu verknüpfen, machen Sie es bitte über %{storageType}."
         not_logged_in: >
-          To add a link, see or upload files related to this work package, please login to %{storageType}.
+          Um einen Link hinzuzufügen, sehen oder laden Sie Dateien zu diesem Arbeitspaket zusammen, melden Sie sich bitte bei %{storageType} an.
       file_links:
-        download: "Download %{fileName}"
-        no_permission: "You have no permission to see this file."
-        open: 'Open file on storage'
-        open_location: 'Open file in location'
-        remove: "Remove file link"
-        remove_confirmation: "Are you sure you want to unlink the file from the work package?"
+        download: "%{fileName} herunterladen"
+        no_permission: "Sie haben keine Berechtigung, diese Datei zu sehen."
+        open: 'Datei im Speicher öffnen'
+        open_location: 'Datei am Speicherort öffnen'
+        remove: "Datei-Link entfernen"
+        remove_confirmation: "Sind Sie sicher, dass Sie die Verknüpfung der Datei aus dem Arbeitspaket entfernen möchten?"

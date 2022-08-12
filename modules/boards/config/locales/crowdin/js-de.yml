@@ -7,7 +7,7 @@ de:
       label_unnamed_list: 'Unbenannte Liste'
       label_board_type: 'Board-Typ'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
+        teaser_text: 'Möchten Sie Ihre Workflows mit Boards automatisieren? Erweiterte Boards sind eine Enterprise-Funktion. Bitte upgraden Sie auf ein kostenpflichtiges Paket.'
         upgrade: 'Jetzt Upgrade durchführen'
       lists:
         delete: 'Liste löschen'

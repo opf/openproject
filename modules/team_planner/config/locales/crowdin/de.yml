@@ -1,7 +1,7 @@
 #English strings go here
 de:
   permission_view_team_planner: "Teamplaner anzeigen"
-  permission_manage_team_planner: "Teamplaner verwalten"
+  permission_manage_team_planner: "Manage team plan"
   project_module_team_planner_view: "Teamplaner"
   team_planner:
     label_team_planner: "Teamplaner"
@@ -10,4 +10,4 @@ de:
     label_assignees: "Zugewiesene Benutzer"
     upsale:
       title: "Teamplaner"
-      description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees."
+      description: "Erhalten Sie einen kompletten Überblick über die Planung Ihres Teams mit Team Planner. Stretch, verkürzen und ziehen Sie Arbeitspakete zur Änderung von Terminen, Verschieben oder Ändern von Beauftragten."

@@ -5,7 +5,7 @@ ca:
       remove: 'Elimina els widgets'
       configure: 'Configurar widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise Edition."
+        text: "Alguns widgets com la gràfica de paquet de treball només estan disponibles en l'edició Enterprise."
         link: 'Edició Enterprise.'
       widgets:
         custom_text:

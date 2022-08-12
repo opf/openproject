@@ -37,7 +37,7 @@ zh-TW:
         enabled_text: 'The webhook will emit payloads for the defined events below.'
         disabled_text: '點擊編輯按鈕以啟用 Webhook。'
       deliveries:
-        no_results_table: No deliveries have been made for this webhook.
+        no_results_table: No deliveries have been made for this webhook in the past days.
         title: 'Recent deliveries'
         time: 'Delivery time'
       form:
