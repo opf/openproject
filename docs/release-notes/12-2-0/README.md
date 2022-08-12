@@ -159,7 +159,7 @@ In OpenProject 12.2, you are now able to mark work packages with notifications a
 - Epic: Settings connection between Nextcloud and OpenProject (OAuth) \[[#42072](https://community.openproject.com/wp/42072)\]
 
 #### Contributions
-A big thanks to community members for reporting bugs, helping us identify issues and and providing fixes.
+A big thanks to community members for reporting bugs, helping us identify issues and providing fixes.
 
 - Special thanks for City of Cologne and University of Duisburg-Essen for sponsoring the development of the Nextcloud integration.
 - Special thanks for reporting and finding bugs go to kak tux, Karl Sebera, Christina Vechkanova, Ulrich Germann, Kiran Kafle, Alexander Seitz, Max Chen, PD Inc Support, Rince wind, Simon Rohart, Sander Kleijwegt, Sreekanth Gopalakris.
