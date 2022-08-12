@@ -36,7 +36,7 @@ To avoid this, the application can be started in production mode but before this
 * Search for the places where `OPENPROJECT_RACK_PROFILER_ENABLED` is referenced within the code and remove the references to `Rails.env.development?` from the conditions. At the time of writing, this needs to be done at:
   * `config/initializers/rack_profilier.rb`
   * `config/initializers/secure_headers.rb`
-* Readd the profiling gems to your `Gemfile`/`Gemfile.local`/`Gemfile.profiling` since they would otherwise only be available in the development environment:
+* Read the profiling gems to your `Gemfile`/`Gemfile.local`/`Gemfile.profiling` since they would otherwise only be available in the development environment:
 ```
 gem 'flamegraph'
 gem 'rack-mini-profiler'

@@ -37,7 +37,7 @@ ru:
         enabled_text: 'Вебхук выпускать загруженные файлы для определенных событий ниже.'
         disabled_text: 'Нажмите кнопку редактирования, чтобы активировать вебхук.'
       deliveries:
-        no_results_table: Для этого вебхука рассылок не было.
+        no_results_table: No deliveries have been made for this webhook in the past days.
         title: 'Последние рассылки'
         time: 'Время рассылки'
       form:

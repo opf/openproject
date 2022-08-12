@@ -104,4 +104,4 @@ docker run -it \
 ```
 
 
-This will perform all necessary steps to perform the migration. Afterwards, simply remove the `MYSQL_DATABASE_URL`environment variable again and start your container as usual.
+This will perform all necessary steps to perform the migration. Afterwards, simply remove the `MYSQL_DATABASE_URL` environment variable again and start your container as usual.

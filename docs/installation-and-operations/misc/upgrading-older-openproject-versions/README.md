@@ -87,9 +87,9 @@ The steps for this option is as follows:
 
 3. From your backup, restore the configuration and attachment files ([See our restoring guide](../../operation/restoring/) for more information):
 
-   	`tar xzf conf-<timestamp>.tar.gz -C /etc/openproject/conf.d/`
+   `tar xzf conf-<timestamp>.tar.gz -C /etc/openproject/conf.d/`
 
-   	`tar xzf attachments-<timestamp>.tar.gz -C /var/db/openproject/files`
+   `tar xzf attachments-<timestamp>.tar.gz -C /var/db/openproject/files`
 
 4. Run `openproject reconfigure` and select to install a PostgreSQL database
 

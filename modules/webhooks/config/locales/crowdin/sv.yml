@@ -37,7 +37,7 @@ sv:
         enabled_text: 'Webhook kommer att sända ut payloads för de definierade händelserna nedan.'
         disabled_text: 'Klicka på redigeringsknappen för att aktivera webhook.'
       deliveries:
-        no_results_table: Inga leveranser har gjorts för denna webhook.
+        no_results_table: No deliveries have been made for this webhook in the past days.
         title: 'Senaste leveranserna'
         time: 'Leveranstid'
       form:
