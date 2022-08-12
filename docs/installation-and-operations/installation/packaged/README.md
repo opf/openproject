@@ -427,9 +427,9 @@ In that case, you will be shown three additional dialogs to enter the certificat
 If you have a separate server that is terminating SSL and only forwarding/proxying to the OpenProject server, you must select "No" in this dialog. However, there are some parameters you need to put into your outer configuration.
 
 - If you're proxying to the openproject server, you need to forward the HOST header to the internal server. This ensures that the host name of the outer request gets forwarded to the internal server. Otherwise you might see redirects in your browser to the internal host that OpenProject is running on.
-  - In Apache2, set the `ProxyPreserveHost On`directive 
+  - In Apache2, set the `ProxyPreserveHost On` directive 
   - In NginX, use the following value: `proxy_set_header X-Forwarded-Host $host:$server_port;`
-- If you're terminating SSL on the outer server, you need to set the `X-Forwarded-Proto https`header to let OpenProject know that the request is HTTPS, even though its been terminated earlier in the request on the outer server.
+- If you're terminating SSL on the outer server, you need to set the `X-Forwarded-Proto https` header to let OpenProject know that the request is HTTPS, even though its been terminated earlier in the request on the outer server.
   - In Apache2, use `RequestHeader set "X-Forwarded-Proto" https`
   - In Nginx, use `proxy_set_header X-Forwarded-Proto https;`
 
@@ -476,7 +476,7 @@ OpenProject heavily relies on caching, which is why the wizard suggests you to i
 
 With this last step confirmed, the OpenProject wizard will complete, and apply all the configuration options that you have just selected. This might take a few minutes depending on your machine and internet connection, as OpenProject might need to install additional packages (such as the web server, database) depending on your selections.
 
-In case this process crashes or exits with an obvious error, please keep the output and send your configuration from`/etc/openproject/installer.dat` (removing any passwords from it) to us at support@openproject.com , or [reach out to the community forums](https://community.openproject.com/projects/openproject/forums). 
+In case this process crashes or exits with an obvious error, please keep the output and send your configuration from `/etc/openproject/installer.dat` (removing any passwords from it) to us at support@openproject.com , or [reach out to the community forums](https://community.openproject.com/projects/openproject/forums). 
 
 When this process completes, it will have started the internal application and web servers, the background jobs to process work-intensive jobs, and set up the connection to the database.
 
@@ -497,4 +497,3 @@ Here are some pointers to related documentation that you will need to get starte
 
 - [Set up outgoing email notifications (SMTP, sendmail)](../../configuration/outbound-emails/)
 - [Integrate an external authentication provider (LDAP/AD, SAML, OpenID)](../../../system-admin-guide/authentication/)
-

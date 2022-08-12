@@ -33,14 +33,14 @@ In the modal window select the repository ""*opf/openproject*"". Also select a f
 
 > **Important**: Before you make changes always update your local repository.
 
-1. Select the branch you want to work on, e.g.`release/12.1` in the main toolbar.
+1. Select the branch you want to work on, e.g. `release/12.1` in the main toolbar.
 2. Click on the button **Fetch origin** in the main toolbar.
 
 ![fetch origin in github desktop](fetch-origin-in-github-desktop.png)
 
 ## Step 3: Create a new Git branch for your change
 
-1. Select the latest release branch e.g.`release/12.1` as the current branch. 
+1. Select the latest release branch e.g. `release/12.1` as the current branch. 
     ![create new branch - step 1](create-new-branch-step-1.png)
 
 2. In the same drop down click on **New branch**.
