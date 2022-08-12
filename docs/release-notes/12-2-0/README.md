@@ -10,36 +10,37 @@ release_date: 2022-08-15
 
 Release date: 2022-08-15
 
-We released [OpenProject 12.2.0](https://community.openproject.com/versions/1494).
-This new release brings the long awaited **Nextcloud integration**. No more endless searching for files! With the new Nextcloud integration in OpenProject 12.2, you can easily find your project-related files directly in the respective work package and always have the correct version at your fingertips. Data sovereignty remain a strong common ground for both organizations and the integration fosters and strengthens collaboration between the two companies and improves the productivity of mutual users.
+We have now released [OpenProject 12.2.0](https://community.openproject.com/versions/1494).
 
-On top, this release launches **improvements of the date picker** as well as the possibility to **log time for other users**, and mark notifications as read also outside the notification center.
+This new release brings the long-awaited **Nextcloud integration**. No more spending hours searching for the right version of the right file! With OpenProject 12.2, you can easily find your project-related files (stored in Nextcloud) directly from the relevant work packages and always have the correct version at your fingertips. Data sovereignty remains a strong common ground between Nextcloud and OpenProject and this integration strengthens our collaboration while improving the productivity of our users.
 
-As always, the release contains many more improvements and bug fixes and we recommend updating to the newest version promptly.
+Addtionally, this release introduces **improvements to the date picker**, the possibility to **log time for other users** and mark work packages with notifications as read outside of notification center.
+
+As always, this release also contains many more improvements and bug fixes. We recommend updating to the newest version as soon as possible.
 
 ## File management with Nextcloud
 
-With OpenProject 12.2, you can now use Nextcloud, the world’s most-deployed on-premises content collaboration platform, together with OpenProject, the leading free and open source project management software, to combine project management and file management. Data sovereignty and open source are important core values to both OpenProject and Nextcloud, and form the foundational common ground for this integration.
+With OpenProject 12.2, you can now use Nextcloud, the world’s most-deployed on-premises content collaboration platform, together with OpenProject, the leading free and open source project management software, to combine project management and file management. Data sovereignty and open source are important core values to both OpenProject and Nextcloud and form the foundation for this integration.
 
-After the first step of the development which brought the integration of OpenProject in the Nextcloud dashboard, we have now extended the functionality to link and display Nextcloud files in OpenProject. Consequently, the productivity of users of both platforms increases significantly.
+We believe the productivity of users of both platforms will increase significantly as a result of this integration.
 
-**In OpenProject:** In addition to listing files attached to a work package, the Files tab now also shows you Nextcloud files that are linked to the current work package. You will easily find your project-related files directly attached to the work packages and always have the latest version at hand. Secondary actions on each file allow you to directly **open or download the file, show the containing folder in Nextcloud or remove the link**.
+**In OpenProject:** In addition to listing files attached to a work package, the Files tab now also shows you Nextcloud files that are linked to the current work package, allowing users to ensure they always have the latest version at hand. Secondary actions on each file allow you to directly **open or download the file, show the containing folder in Nextcloud or remove the link**.
 
-![Nextcloud files linked in OpenProject](display-nextcloud-files.png)**In Nextcloud:** You will be able to access the OpenProject tab in Nextcloud by accessing the details split screen of any file. In this tab, you will be able to search for the work package to which you would like to add a link. Once a work package is linked to a file, you can always unlink it by clicking on the **unlink** icon.
+![Nextcloud files linked in OpenProject](display-nextcloud-files.png)**In Nextcloud:** You will be able to access the OpenProject tab in Nextcloud by accessing the details split screen of any file. In this tab, you will be able to search for the work package(s) to which you would like to add a link to the current file. Once a work package is linked to a file, you can always unlink it by clicking on the **unlink** icon.
 
 ![Link work packages in Nextcloud](link-workpackages-nextcloud.png)
 
-Further integration efforts are under way, that is linking of files from OpenProject and adding complete project folders.
+Further integration efforts are under way, notably to make it possible to create links to Nextcloud files from directly from OpenProject (it is currently only possible via Nextcloud) and adding complete project folders.
 
 You can find out more [how to use the Nextcloud integration](../../user-guide/nextcloud-integration/) as well as the [how to setup the Nextcloud integration](../../system-admin-guide/integrations/nextcloud/) in our documentation.
 
-## Alerts when scheduling related work packages
+## Contextual information and warnings when scheduling work packages
 
-With the OpenProject 12.2 release, the team was working on **improving the date picker** to give you more clarity when scheduling work packages. To choose [automatic or manual scheduling mode](../../user-guide/gantt-chart/scheduling/), the selection box moved to the top of the date picker to be more visible. What is new is that you will now receive alerts about what you are doing and what impact it has on other work packages. We added warning banners that provide information when changing dates of a work package that has relations with other work packages. Both critical information that has bigger consequences to a project’s timeline as well as helpful (but not critical) information will be displayed. On top, you have the possibility to show the relations in the Gantt chart directly from the date picker.
+For OpenProject 12.2, the team has worked on **improving the date picker** to give you more clarity when scheduling work packages. To choose [automatic or manual scheduling mode](../../user-guide/gantt-chart/scheduling/), the selection box moved to the top of the date picker to be more visible. We are also introducing information and warning banners that provide important contextual information before modifying dates of work packages that have relations with other work packages. 
 
-If you are changing e.g. a date of a work package that is a predecessor of another one, you will receive the following warning that tells you that it will impact the schedule of other work packages. 
+*Blue banners* will indicate information that maybe be helpful (such as if the work package's dates are automatically derived from relations, or if available date ranges are limited by relations) and *orange banners* will warn of possible consequences to other work packages (existing relations being ignored as a result of enabling manual scheduling, or the dates of related work packages changing as a result of changes to the current work package). 
 
-If you are trying to change a date of a parent work package which has been set to automatic scheduling, you will not be able to change the date and receive the following notification.
+Additionally, a new "**Show relations**" on these banners allows you to quickly generate a Gantt view showing all directly related work packages in hierarchy view, so you can preview which work packages might be affected before making a change.
 
 ![warning in date picker](date-picker-warning.png)
 
@@ -47,21 +48,23 @@ Find out more about how to set and change dates with the [improved date picker](
 
 ## Log time for other users
 
-OpenProject 12.2 gives the administrator the possibility to grant permissions to log time for other users. With the required permissions, you can now select the team member you want to log time for, from the drop down.
+OpenProject 12.2 gives an administrator the possibility to grant permissions to log time for other users. With the required permissions, you can now select the team member for whom you want to log time from a drop down. 
 
 ![log time for other users](image-20220811130616209.png)
 
+Find out more about [logging time for other users](../../user-guide/time-and-costs/time-tracking/#logging-and-editing-time-for-other-users) in our documentation.
+
 ## Improved navigation bar
 
-When you open the project drop down from the header menu to view all projects, you are now also able to create new projects from there. Simply click on +Project.
+When you open the project drop down from the header menu to view all projects, you are now also able to create new projects, simply by clicking on **+ Project**.
 
-The View all projects functionality can be found at the bottom of the drop down by clicking on *Projects list*.
+To view all available projects, simply click on the **Projects list** button at the bottom of the modal.
 
 ![improved project selection](improved-navigation-bar.png)
 
-## Mark notifications as read outside the Notifications Center
+## Mark notifications as read outside of Notification Center
 
-Also, in OpenProject 12.2 you are now able to mark notifications as read also in the work packages details view, outside of the Notification Center. Whenever you receive notifications, you can mark them as read also directly within the details view of your work package with the *Mark as read* button on the top right.
+In OpenProject 12.2, you are now able to mark work packages with notifications as read also in the work packages details view by clicking on the **Mark as read** button on the top right toolbar.
 
 ![mark-notifications-as-read](mark-notifications-as-read.png)
 
@@ -156,7 +159,7 @@ Also, in OpenProject 12.2 you are now able to mark notifications as read also in
 - Epic: Settings connection between Nextcloud and OpenProject (OAuth) \[[#42072](https://community.openproject.com/wp/42072)\]
 
 #### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+A big thanks to community members for reporting bugs, helping us identify issues and providing fixes.
 
 - Special thanks for City of Cologne and University of Duisburg-Essen for sponsoring the development of the Nextcloud integration.
 - Special thanks for reporting and finding bugs go to kak tux, Karl Sebera, Christina Vechkanova, Ulrich Germann, Kiran Kafle, Alexander Seitz, Max Chen, PD Inc Support, Rince wind, Simon Rohart, Sander Kleijwegt, Sreekanth Gopalakris.
