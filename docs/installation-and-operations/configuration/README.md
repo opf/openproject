@@ -126,7 +126,7 @@ You can modify the folder that attachments are stored locally. Use the `attachme
 
 To update the path, use `openproject config:set ATTACHMENTS_STORAGE_PATH="/path/to/new/folder"`. Ensure that this is writable by the `openproject` user.
 
-### attachment storage type
+#### attachment storage type
 
 *default: file*
 
@@ -154,8 +154,34 @@ OPENPROJECT_FOG_CREDENTIALS_PROVIDER=AWS
 OPENPROJECT_FOG_CREDENTIALS_REGION="eu-west-1"
 OPENPROJECT_FOG_DIRECTORY=uploads
 </pre>
-
 ```
+
+##### AWS S3 bucket creation example
+
+- in the **AWS console** navigate to the **S3 Bucket service** https://s3.console.aws.amazon.com/s3/
+
+- **Create a bucket** with default settings applied
+
+- In the **Settings** of the bucket navigate to **Permissions** and scroll down to the bottom 
+
+- For the OpenProject Integration to work you will need to apply the **Cross-origin resource sharing (CORS) policy** in the bucket permissions. This permits OpenProject to read from and write to the external storage. The following is the most basic example of the configuration applied in JSON format:
+
+  ```json
+  [
+      {
+          "AllowedHeaders": [],
+          "AllowedMethods": [
+              "POST",
+              "GET"
+          ],
+          "AllowedOrigins": [
+              "https://example.openproject.com"
+          ],
+          "ExposeHeaders": [],
+          "MaxAgeSeconds": 3000
+      }
+  ]
+  ```
 
 #### backend migration
 
