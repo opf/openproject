@@ -205,7 +205,7 @@ fr:
             label_expires_at: "Expire le"
             receive_newsletter: Je veux recevoir la <a target="_blank" href="%{link}">newsletter OpenProject</a>.
             taken_domain: Il ne peut y avoir qu'un seul essai actif par domaine.
-            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
+            domain_mismatch: Le nom d'hôte de la requête actuelle ne correspond pas au nom d'hôte configuré. Veuillez vérifier les paramètres de votre système.
             taken_email: Chaque utilisateur ne peut créer qu'un essai.
           email_not_received: "Vous n'avez pas reçu d'e-mail ? Vous pouvez renvoyer l'e-mail avec le lien à droite."
           try_another_email: "Ou essayez avec une autre adresse e-mail."
@@ -474,7 +474,7 @@ fr:
     label_remove_all_files: Supprimer tous les fichiers
     label_add_description: "Ajouter une description pour %{file}"
     label_upload_notification: "Chargement des fichiers..."
-    label_work_package_upload_notification: "Transfert en cours des fichiers pour le lot de travaux #%{id}: %{subject}"
+    label_work_package_upload_notification: "Transfert en cours des fichiers pour le lot de travaux #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} ajouté par %{author}"
     label_files_to_upload: "Ces fichiers vont être transférés:"
     label_rejected_files: "Ces fichiers ne peuvent pas être transférés:"

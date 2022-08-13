@@ -267,8 +267,7 @@ fr:
     deletion_info:
       heading: "Supprimer l’utilisateur fictif %{name}"
       data_consequences: >
-        Toutes les occurrences de l'utilisateur de remplacement (par exemple, en tant que responsable ou autre valeur utilisateur) seront réaffectées à un compte appelé « Utilisateur supprimé ».
-        Comme les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera pas possible de distinguer les données que l'utilisateur a créées des données d'un autre compte supprimé.
+        Toutes les occurrences de l'utilisateur de remplacement (par exemple, en tant que responsable ou autre valeur utilisateur) seront réaffectées à un compte appelé « Utilisateur supprimé ». Comme les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera pas possible de distinguer les données que l'utilisateur a créées des données d'un autre compte supprimé.
       irreversible: "Cette action est irréversible"
       confirmation: "Saisissez le nom d'utilisateur fictif %{name} pour confirmer ça suppression."
     upsale:
@@ -1248,7 +1247,7 @@ fr:
   error_enterprise_activation_user_limit: "Votre compte n'a pas pu être activé (limite d'utilisateurs atteinte). Veuillez contacter votre administrateur pour obtenir l'accès."
   error_enterprise_token_invalid_domain: "La version Entreprise n'est pas active. Le domaine de votre jeton Entreprise (%{actual}) ne correspond pas au nom d'hôte du système (%{expected})."
   error_failed_to_delete_entry: 'Échec lors de la suppression de cette entrée.'
-  error_in_dependent: "Erreur lors de la tentative de modification de l'objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}"
+  error_in_dependent: "Erreur lors de la tentative de modification de l'objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}" #%{related_id} - %{related_subject} : %{error}"
   error_in_new_dependent: "Erreur lors de la tentative de création d'un objet dépendant : %{dependent_class} - %{related_subject} : %{error}"
   error_invalid_selected_value: "Valeur sélectionnée invalide."
   error_journal_attribute_not_present: "Le journal ne contient pas l’attribut %{attribute}."
@@ -1387,17 +1386,11 @@ fr:
     update_info_mail:
       body: >
         Nous sommes heureux d'annoncer la sortie d'OpenProject 12.0. Il s'agit d'une version majeure qui, nous l'espérons, améliorera considérablement la façon dont vous utilisez OpenProject.
-
         A partir de cette version, nous lançons les notifications in-app. A partir de maintenant, vous recevrez des notifications pour les mises à jour des paquets de travail directement dans OpenProject. Vous pouvez marquer ces notifications comme lues, répondre à un commentaire, ou même modifier directement les attributs du paquet de travail sans quitter le centre de notification.
-
         Cela signifie également que nous n'utiliserons plus les emails pour les notifications. Nous pensons que le nouveau centre de notification est un meilleur endroit pour voir et agir sur ces mises à jour. Néanmoins, si vous souhaitez continuer à recevoir des mises à jour par e-mail, vous pouvez choisir de recevoir des rappels quotidiens à des moments précis de votre choix.
-
         Nous vous conseillons de vérifier vos nouveaux paramètres de notification par défaut et de définir vos préférences via les paramètres de votre compte. Vous pouvez le faire en cliquant sur le bouton "Modifier les paramètres de messagerie" ci-dessous.
-
         Nous espérons que vous trouverez les notifications in-app utiles et qu'elles vous rendront encore plus productif.
-
-        Sincèrement,
-        L'équipe OpenProject
+        Sincèrement, L'équipe OpenProject
       body_header: 'Version 12.0 avec centre de notifications'
       body_subheader: 'Actualités'
       subject: 'Modifications importantes des notifications avec la publication de 12.0'

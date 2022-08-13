@@ -62,7 +62,7 @@ pl:
           status: Status
           version: Wersja
           subproject: Podprojekt
-          subtasks: Nadrzędny-podrzędny 
+          subtasks: Nadrzędny-podrzędny
           basic: Podstawowa
         select_attribute: "Atrybut działania"
       add_list_modal:
