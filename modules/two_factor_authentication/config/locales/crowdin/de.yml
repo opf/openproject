@@ -72,7 +72,7 @@ de:
       text_2fa_disabled: "Der Nutzer hat kein 2FA-Gerät über seine Kontoseite registriert"
     upsale:
       title: 'Zwei-Faktor-Authentifizierung'
-      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
+      description: 'Stärken Sie die Sicherheit Ihrer OpenProject Instanz, indem Sie allen Projektmitgliedern eine Zwei-Faktor-Authentifizierung anbieten (oder durchsetzen).'
     backup_codes:
       none_found: Keine 2FA Backup-Codes für dieses Konto gefunden.
       singular: 2FA Backup-Code

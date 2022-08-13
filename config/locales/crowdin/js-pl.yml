@@ -205,7 +205,7 @@ pl:
             label_expires_at: "Wygasa"
             receive_newsletter: Chcę otrzymywać <a target="_blank" href="%{link}">biuletyn </a> OpenProject.
             taken_domain: W każdej domenie może być aktywna tylko jedna wersja próbna.
-            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
+            domain_mismatch: Obecna nazwa hosta żądania nie pasuje do skonfigurowanej nazwy hosta. Sprawdź dokładnie ustawienia systemu.
             taken_email: Każdy użytkownik może utworzyć tylko jeden okres próbny.
           email_not_received: "Wiadomość e-mail nie doszła? Możesz ją ponownie wysłać za pomocą linku po prawej stronie."
           try_another_email: "Możesz też spróbować użyć innego adresu e-mail."
@@ -474,7 +474,7 @@ pl:
     label_remove_all_files: Usuń wszystkie pliki
     label_add_description: "Dodaj opis do %{file}"
     label_upload_notification: "Przesyłanie plików..."
-    label_work_package_upload_notification: "Wgrywanie plików dla Zestawu Zadań #%{id}: %{subject}"
+    label_work_package_upload_notification: "Wgrywanie plików dla Zestawu Zadań #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id}, dodane przez %{author}"
     label_files_to_upload: "Pliki te zostaną przesłane:"
     label_rejected_files: "Pliki nie mogą być przesłane:"
