@@ -474,7 +474,7 @@ ko:
     label_remove_all_files: 모든 파일을 삭제
     label_add_description: "%{file} 의 설명 추가"
     label_upload_notification: "파일 업로드 중..."
-    label_work_package_upload_notification: "작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩"
+    label_work_package_upload_notification: "작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩" #%{id}: %{subject} 를 위한 파일 업로딩"
     label_wp_id_added_by: "#%{id} - %{author}님이 추가함"
     label_files_to_upload: "이 파일들이 업로드 됩니다."
     label_rejected_files: "파일들이 업로드 할 수 없습니다."
