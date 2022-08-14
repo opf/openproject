@@ -7,9 +7,6 @@ on:
   push:
     tags:
       - v*
-
-  workflow_dispatch:
-  
 jobs:
   publish:
     # restrict this job to base repo for now
