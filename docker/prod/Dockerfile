@@ -1,4 +1,4 @@
-FROM ruby:3.1.2-buster
+FROM ruby@sha256:d6302dfac68aa80fefa75d6539324f73fe592f741b23e07250732d47be8bf985 as build
 MAINTAINER operations@openproject.com
 
 # Allow platform-specific additions. Valid values are: on-prem,saas,bahn
@@ -50,6 +50,33 @@ RUN bundle install --quiet --deployment --path vendor/bundle --no-cache \
 COPY . .
 
 RUN ./docker/prod/setup/postinstall.sh
+
+FROM ruby:3.1.2-buster
+ENV NODE_VERSION="16.15.1"
+ENV BUNDLER_VERSION="2.3.12"
+ENV BUNDLE_PATH__SYSTEM=false
+ENV APP_USER=app
+ENV APP_PATH=/app
+ENV APP_DATA_PATH=/var/openproject/assets
+ENV PGDATA=/var/openproject/pgdata
+ENV PGVERSION="13"
+ENV PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
+
+ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
+ENV RAILS_ENV=production
+ENV RAILS_CACHE_STORE=memcache
+ENV RAILS_GROUPS=production
+ENV RAILS_LOG_TO_STDOUT=1
+ENV RAILS_SERVE_STATIC_FILES=1
+ENV OPENPROJECT_INSTALLATION__TYPE=docker
+# Valid values are: standard,bim
+ENV OPENPROJECT_EDITION=standard
+ENV ATTACHMENTS_STORAGE_PATH=$APP_DATA_PATH/files
+# Set a default key base, ensure to provide a secure value in production environments!
+ENV SECRET_KEY_BASE=OVERWRITE_ME
+
+WORKDIR $APP_PATH
+COPY --from=build $APP_PATH .
 
 # Expose ports for apache and postgres
 EXPOSE 80 5432
