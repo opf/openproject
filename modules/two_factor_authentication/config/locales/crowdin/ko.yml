@@ -116,7 +116,7 @@ ko:
         time_based: '시간 기반'
         account: '계정 이름/발급자'
         setup: |
-          Google 인증자로 2단계 인증 설정을 위해, Apple App Store 또는 Google Play Store에서 애플리케이션을 다운로드하세요. 
+          Google 인증자로 2단계 인증 설정을 위해, Apple App Store 또는 Google Play Store에서 애플리케이션을 다운로드하세요.
           앱을 연 후, 다음 QR 코드를 스캔하여 장치를 등록할 수 있습니다.
         question_cannot_scan: |
           애플리케이션을 사용하여 코드를 스캔할 수 없습니까?
