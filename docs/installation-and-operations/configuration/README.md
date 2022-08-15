@@ -489,15 +489,6 @@ OPENPROJECT_2FA_SNS_SECRET__ACCESS__KEY="YOUR SECRET KEY"
 OPENPROJECT_2FA_SNS_REGION="AWS REGION"
 ```
 
-Further a REST integration could be used:
-
-```
-OPENPROJECT_2FA_ACTIVE__STRATEGIES="[totp,restdt]"
-OPENPROJECT_2FA_RESTDT_SERVICE__URL=http://foo.bar.com/baz
-OPENPROJECT_2FA_RESTDT_USERNAME="RESTDT USER NAME"
-OPENPROJECT_2FA_RESTDT_PASSWORD="RESTDT PASSWORD"
-```
-
 To disable 2FA altogether and remove all menus from the system, so that users cannot register their 2FA devices:
 
 ```
