@@ -32,12 +32,6 @@ module OpenProject
     # To be included into OpenProject::Configuration in order to provide
     # helper methods for easier access to certain configuration options.
     module Helpers
-      ##
-      # Are we behind a TLS terminated session?
-      def secure_connection?
-        https? || rails_force_ssl?
-      end
-
       def direct_uploads
         return false unless direct_uploads_supported?
 
