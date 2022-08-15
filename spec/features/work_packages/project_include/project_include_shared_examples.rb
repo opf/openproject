@@ -103,10 +103,10 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
 
   shared_let(:task) do
     create :work_package,
-           project: project,
+           project:,
            type: type_task,
            assigned_to: user,
-           start_date: Time.zone.today - 2.day,
+           start_date: Time.zone.today - 2.days,
            due_date: Time.zone.today + 1.day,
            subject: 'A task for ' + user.name
   end
@@ -133,7 +133,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
 
   shared_let(:other_task) do
     create :work_package,
-           project: project,
+           project:,
            type: type_task,
            assigned_to: other_user,
            start_date: Time.zone.today,
@@ -146,8 +146,8 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
            project: other_project,
            type: type_task,
            assigned_to: other_user,
-           start_date: Time.zone.today - 2.day,
-           due_date: Time.zone.today + 4.day,
+           start_date: Time.zone.today - 2.days,
+           due_date: Time.zone.today + 4.days,
            subject: 'A task for the other user in other-project'
   end
 
@@ -385,10 +385,19 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.toggle_checkbox(other_project.id)
 
     retry_block do
+      dropdown.expect_checkbox(other_project.id)
+      dropdown.expect_checkbox(other_sub_project.id)
+      dropdown.expect_checkbox(other_sub_sub_project.id, true)
+    end
+
+    retry_block do
+      dropdown.set_filter_selected false
+      dropdown.toggle_checkbox(other_project.id)
+
       dropdown.expect_checkbox(other_project.id, true)
       dropdown.expect_checkbox(other_sub_project.id, true)
       dropdown.expect_checkbox(other_sub_sub_project.id, true)
-      dropdown.expect_no_checkbox(another_sub_sub_project.id)
+      dropdown.expect_checkbox(another_sub_sub_project.id, true)
       dropdown.expect_checkbox(project.id, true)
       dropdown.expect_checkbox(sub_project.id, true)
       dropdown.expect_checkbox(sub_sub_sub_project.id, true)
@@ -397,6 +406,8 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.toggle_include_all_subprojects
 
     retry_block do
+      dropdown.set_filter_selected true
+
       dropdown.expect_checkbox(other_project.id, true)
       dropdown.expect_checkbox(other_sub_project.id)
       dropdown.expect_checkbox(other_sub_sub_project.id, true)
@@ -441,5 +452,13 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
       dropdown.expect_checkbox(sub_project.id)
       dropdown.expect_checkbox(sub_sub_sub_project.id)
     end
+  end
+
+  it 'keeps working even when there are no results (regression #42908)' do
+    dropdown.expect_count 1
+    dropdown.toggle!
+    dropdown.expect_open
+    dropdown.search 'Nonexistent'
+    expect(page).to have_no_selector("[data-qa-selector='op-project-include--loading']")
   end
 end

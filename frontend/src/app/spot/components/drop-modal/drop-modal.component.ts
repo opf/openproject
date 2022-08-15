@@ -1,14 +1,16 @@
 import {
   Component,
+  ElementRef,
+  EventEmitter,
   HostBinding,
   Input,
-  Output,
-  EventEmitter,
   OnDestroy,
+  Output,
 } from '@angular/core';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import SpotDropAlignmentOption from '../../drop-alignment-options';
+import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
 
 @Component({
   selector: 'spot-drop-modal',
@@ -36,6 +38,14 @@ export class SpotDropModalComponent implements OnDestroy {
       setTimeout(() => {
         document.body.addEventListener('click', this.closeEventListener);
         document.body.addEventListener('keydown', this.escapeListener);
+
+        const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
+        if (focusCatcherContainer) {
+          (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement).focus();
+        } else {
+          // Index 1 because the element at index 0 is the trigger button to open the modal
+          (findAllFocusableElementsWithin(this.elementRef.nativeElement)[1] as HTMLElement).focus();
+        }
       });
     } else {
       document.body.removeEventListener('click', this.closeEventListener);
@@ -56,7 +66,10 @@ export class SpotDropModalComponent implements OnDestroy {
     close: this.i18n.t('js.spot.drop_modal.close'),
   };
 
-  constructor(readonly i18n:I18nService) {}
+  constructor(
+    readonly i18n:I18nService,
+    readonly elementRef:ElementRef,
+  ) {}
 
   close():void {
     this.open = false;

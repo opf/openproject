@@ -37,7 +37,7 @@ module API
 
               # Show updated user
               status 200
-              UserRepresenter.create(@user, current_user: current_user)
+              UserRepresenter.create(@user, current_user:)
             else
               fail ::API::Errors::InvalidUserStatusTransition
             end

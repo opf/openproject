@@ -43,7 +43,7 @@ export class NewestActivityOnOverviewComponent extends ActivityPanelBaseControll
 
   public latestActivityInfo:ActivityEntryInfo[] = [];
 
-  public trackByHref = trackByProperty('identifier');
+  public trackByIdentifier = trackByProperty('identifier');
 
   ngOnInit() {
     this.workPackageId = this.workPackage.id!;

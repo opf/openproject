@@ -78,10 +78,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   @include icon-mixin-info1
   color: $nm-color-info-icon
 
-%nm-icon-enterprise
-  @include icon-mixin-enterprise
-  color: $nm-color-info-icon
-
 %error-placeholder
   background-color: $nm-color-error-background
   border-color: var(--content-form-danger-zone-bg-color)
@@ -136,9 +132,13 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-error,
   &.-success,
   &.-warning,
-  &.-info,
-  &.-ee-upsale
+  &.-info
     padding: $nm-box-padding
+  &.-ee-upsale
+    z-index: 1
+
+  &.-left-margin
+    margin-left: 20px
 
   &.-error
     @extend %error-placeholder
@@ -166,7 +166,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-ee-upsale::before
     @extend %info-placeholder
     @include messages-icon
-    @extend %nm-icon-enterprise
 
   &.-upload
     padding: $nm-upload-box-padding
@@ -178,6 +177,8 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   & p, & div, & ul>li, & .button
     font-size: $nm-font-size
 
+  &.-with-bottom-spacing
+    margin-bottom: 2rem
 
 [class^="icon-"]
   &.-error

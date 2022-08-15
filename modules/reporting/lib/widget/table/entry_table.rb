@@ -27,7 +27,7 @@
 #++
 
 class ::Widget::Table::EntryTable < ::Widget::Table
-  FIELDS = %i[spent_on user_id activity_id work_package_id comments project_id]
+  FIELDS = %i[spent_on user_id activity_id work_package_id comments logged_by_id project_id].freeze
 
   def render
     content = content_tag :div, class: 'generic-table--container -with-footer' do
@@ -100,7 +100,14 @@ class ::Widget::Table::EntryTable < ::Widget::Table
   def foot
     content_tag :tfoot do
       content_tag :tr do
-        if show_result(@subject, 0) != show_result(@subject)
+        if show_result(@subject, 0) == show_result(@subject)
+          concat content_tag(:td, '', colspan: FIELDS.size + 1)
+          concat content_tag(:td) {
+            concat content_tag(:div,
+                               show_result(@subject),
+                               class: 'result generic-table--footer-outer')
+          }
+        else
           concat content_tag(:td, '', colspan: FIELDS.size)
           concat content_tag(:td) {
             concat content_tag(:div,
@@ -110,13 +117,6 @@ class ::Widget::Table::EntryTable < ::Widget::Table
           concat content_tag(:td) {
             concat content_tag(:div,
                                show_result(@subject, 0),
-                               class: 'result generic-table--footer-outer')
-          }
-        else
-          concat content_tag(:td, '', colspan: FIELDS.size + 1)
-          concat content_tag(:td) {
-            concat content_tag(:div,
-                               show_result(@subject),
                                class: 'result generic-table--footer-outer')
           }
         end

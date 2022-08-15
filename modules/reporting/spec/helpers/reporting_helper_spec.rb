@@ -63,7 +63,7 @@ describe ReportingHelper, type: :helper do
 
         it 'returns the option value' do
           expect(field_representation_map("custom_field#{custom_field.id}", 3.0))
-            .to eql 3.0
+            .to be 3.0
         end
       end
     end

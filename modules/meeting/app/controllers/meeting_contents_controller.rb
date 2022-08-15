@@ -54,7 +54,7 @@ class MeetingContentsController < ApplicationController
 
     # go to an old version if a version id is given
     @journaled_version = true
-    @content = @content.at_version params[:id] unless params[:id].blank?
+    @content = @content.at_version params[:id] if params[:id].present?
     render 'meeting_contents/show'
   end
 

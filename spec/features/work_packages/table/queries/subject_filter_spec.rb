@@ -34,8 +34,8 @@ describe 'Work package filtering by subject', js: true do
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
-  let!(:wp_match) { create :work_package, project: project, subject: 'R#1234 Foobar' }
-  let!(:wp_nomatch) { create :work_package, project: project, subject: 'R!1234 Foobar' }
+  let!(:wp_match) { create :work_package, project:, subject: 'R#1234 Foobar' }
+  let!(:wp_nomatch) { create :work_package, project:, subject: 'R!1234 Foobar' }
 
   before do
     login_as admin

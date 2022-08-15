@@ -49,7 +49,7 @@ describe CustomActions::Conditions::Role, type: :model do
 
     describe '#fulfilled_by?' do
       let(:project) { double('project', id: 1) }
-      let(:work_package) { double('work_package', project: project, project_id: 1) }
+      let(:work_package) { double('work_package', project:, project_id: 1) }
       let(:user) do
         double('user', id: 3).tap do |user|
           allow(user)

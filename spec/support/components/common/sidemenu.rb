@@ -61,7 +61,7 @@ module Components
       end
 
       def finished_loading
-        expect(page).to have_no_selector('.op-ian-center--loading-indicator')
+        expect(page).to have_no_selector('[data-qa-selector="op-ian-center--loading-indicator"]')
       end
 
       private

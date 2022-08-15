@@ -39,9 +39,9 @@ describe News, type: :model do
     project.reload
   end
 
-  let!(:news) { create(:news, project: project) }
+  let!(:news) { create(:news, project:) }
   let(:permissions) { [] }
-  let(:role) { build(:role, permissions: permissions) }
+  let(:role) { build(:role, permissions:) }
 
   it_behaves_like 'acts_as_watchable included' do
     let(:model_instance) { create(:news) }
@@ -50,36 +50,34 @@ describe News, type: :model do
   end
 
   describe '.latest' do
-    let(:project_news) { News.where(project: project) }
+    let(:project_news) { described_class.where(project:) }
 
     before do
       Role.anonymous
     end
 
     it 'includes news elements from projects where news module is enabled' do
-      expect(News.latest).to match_array [news]
+      expect(described_class.latest).to match_array [news]
     end
 
     it "doesn't include news elements from projects where news module is not enabled" do
       EnabledModule.where(project_id: project.id, name: 'news').delete_all
 
-      expect(News.latest).to be_empty
+      expect(described_class.latest).to be_empty
     end
 
     it 'only includes news elements from projects that are visible to the user' do
       private_project = create(:project, public: false)
       create(:news, project: private_project)
 
-      latest_news = News.latest(user: User.anonymous)
+      latest_news = described_class.latest(user: User.anonymous)
       expect(latest_news).to match_array [news]
     end
 
     it 'limits the number of returned news elements' do
       project_news.delete_all
 
-      10.times do
-        create(:news, project: project)
-      end
+      create_list(:news, 10, project:)
 
       expect(project_news.latest(user: User.current, count:  2).size).to eq(2)
       expect(project_news.latest(user: User.current, count:  6).size).to eq(6)
@@ -89,20 +87,14 @@ describe News, type: :model do
     it 'returns five news elements by default' do
       project_news.delete_all
 
-      2.times do
-        create(:news, project: project)
-      end
+      create_list(:news, 2, project:)
 
       expect(project_news.latest.size).to eq(2)
 
-      3.times do
-        create(:news, project: project)
-      end
+      create_list(:news, 3, project:)
       expect(project_news.latest.size).to eq(5)
 
-      2.times do
-        create(:news, project: project)
-      end
+      create_list(:news, 2, project:)
       expect(project_news.latest.size).to eq(5)
     end
   end
@@ -115,7 +107,7 @@ describe News, type: :model do
       project.members.reload
 
       perform_enqueued_jobs do
-        create(:news, project: project)
+        create(:news, project:)
       end
       expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
@@ -124,15 +116,48 @@ describe News, type: :model do
   describe '#to_param' do
     it 'includes includes id and title for a nicer url' do
       title = 'OpenProject now has a Twitter Account'
-      news  = create(:news, title: title)
+      news  = create(:news, title:)
       slug  = "#{news.id}-openproject-now-has-a-twitter-account"
 
       expect(news.to_param).to eq slug
     end
 
     it 'returns nil for unsaved news' do
-      news = News.new
+      news = described_class.new
       expect(news.to_param).to be_nil
+    end
+  end
+
+  describe '#new_comment' do
+    subject(:comment) { news.new_comment(author: news.author, comments: 'some important words') }
+
+    it 'sets the comment`s news' do
+      expect(comment.commented)
+        .to eq news
+    end
+
+    it 'is saveable' do
+      expect(comment.save)
+        .to be_truthy
+    end
+  end
+
+  describe '#comments_count' do
+    it 'counts the comments on the news when adding' do
+      expect { news.comments.create(author: news.author, comments: 'some important words') }
+        .to change { news.reload.comments_count }
+              .from(0)
+              .to(1)
+    end
+
+    it 'counts the comments on the news when destroying a comment' do
+      comment = news.comments.build(author: news.author, comments: 'some important words')
+      comment.save
+
+      expect { comment.destroy }
+        .to change { news.reload.comments_count }
+              .from(1)
+              .to(0)
     end
   end
 end

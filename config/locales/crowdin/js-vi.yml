@@ -204,6 +204,7 @@ vi:
             label_expires_at: "Hết hạn lúc"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
             taken_domain: There can only be one active trial per domain.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
@@ -230,10 +231,12 @@ vi:
             professional_support: "Hỗ trợ chuyên nghiệp"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Bắt đầu dùng thử miễn phí"
+          button_upgrade: "Upgrade now"
           button_book_now: "Đặt chỗ ngay"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Lấy trích dẫn"
+          more_info: "More information"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -266,7 +269,7 @@ vi:
           one: "Tiêu chí phân loại đầu tiên"
           two: "Tiêu chí phân loại thứ hai"
           three: "Tiêu chí phân loại thứ ba"
-      upsale_for_more: "Để xem thêm các lọc nâng cao, hãy kiểm tra các"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Phiên bản doanh nghiệp.'
     general_text_no: "không"
     general_text_yes: "có"
@@ -286,15 +289,15 @@ vi:
           learn_about: "Tìm hiểu thêm về các tính năng mới"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "Activate"
     label_assignee: 'Assignee'
     label_add_column_after: "Thêm cột phía sau"
@@ -366,6 +369,7 @@ vi:
     label_in_more_than: "nhiều hơn"
     label_incoming_emails: "Các thư đến"
     label_information_plural: "Thông tin"
+    label_invalid: "Invalid"
     label_import: "Nhập"
     label_latest_activity: "Hoạt động mới nhất"
     label_last_updated_on: "Cập nhật lần cuối lúc"
@@ -397,6 +401,8 @@ vi:
     label_previous: "Trước đó"
     label_per_page: "Mỗi trang:"
     label_please_wait: "Vui lòng chờ"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Các dự án"
     label_visibility_settings: "Cài đặt hiển thị"
     label_quote_comment: "Trích bình luận này"
@@ -409,6 +415,7 @@ vi:
     label_report: "Báo cáo"
     label_repository_plural: "Kho lưu trữ"
     label_save_as: "Lưu thành"
+    label_select_project: "Select a project"
     label_select_watcher: "Chọn một người theo dõi..."
     label_selected_filter_list: "Các bộ lọc đã chọn: %s"
     label_show_attributes: "Hiển thị tất cả các thuộc tính"
@@ -450,10 +457,10 @@ vi:
     label_unwatch: "Ngừng theo dõi"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
-    label_default_queries: "Giao diện Mặc định"
-    label_starred_queries: "Mục xem ưa thích"
-    label_global_queries: "Mục xem công khai"
-    label_custom_queries: "Mục xem riêng"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Cột"
     label_attachments: Đính kèm
     label_drop_files: Thả các tập tin ở đây
@@ -532,7 +539,7 @@ vi:
         and_more_users:
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -540,7 +547,8 @@ vi:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -657,14 +665,7 @@ vi:
         projects: "Các dự án"
         settings: "Cài đặt"
     time_entry:
-      project: 'Dự án'
-      work_package: 'Work Package'
       work_package_required: 'Yều cầu chọn một gói công việc đầu tiên.'
-      activity: 'Hoạt động'
-      comment: 'Nhận xét'
-      duration: 'Duration'
-      spent_on: 'Ngày'
-      hours: 'Giờ'
       title: 'Thời gian truy cập'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
@@ -805,7 +806,7 @@ vi:
       zooms: "Zoom level"
       outlines: "Hierarchy level"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Strong"
       italic: "Italic"
@@ -833,6 +834,13 @@ vi:
       comment_send_failed: "Lỗi đã xảy ra. Không thể gửi bình luận."
       comment_updated: "Các bình luận đã được cập nhật thành công."
       confirm_edit_cancel: "Bạn có chắc bạn muốn hủy bỏ chỉnh sửa work package?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Bộ lọc"
       description_enter_text: "Nhập văn bản"
       description_options_hide: "Hide options"
@@ -1018,10 +1026,7 @@ vi:
       filter: "Bộ lọc"
       unselected_title: "Work Package"
       search_query_label: "Tìm trang đã lưu"
-      search_query_title: "Nhấn vào đây để tìm kiếm trang đã lưu"
-      placeholder_query_title: "Thiết lập một tiêu đề cho trang này"
     modals:
-      label_settings: "Đổi tên trang"
       label_name: "Tên"
       label_delete_page: "Xóa trang hiện tại"
       button_apply: "Áp dụng"
@@ -1079,6 +1084,10 @@ vi:
         one: "1 h"
         other: "%{count} giờ"
         zero: "0 giờ"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Kích hoạt chế độ zen'
       button_deactivate: 'Tắt chế độ zen'
@@ -1174,6 +1183,8 @@ vi:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Form đã được gửi thành công'
       load_error_message: 'Đã có lỗi trong khi tải form'

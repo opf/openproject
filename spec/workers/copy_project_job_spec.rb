@@ -66,7 +66,7 @@ describe CopyProjectJob, type: :model do
   describe 'copy project succeeds with errors' do
     let(:admin) { create(:admin) }
     let(:source_project) { create(:project, types: [type]) }
-    let!(:work_package) { create(:work_package, project: source_project, type: type) }
+    let!(:work_package) { create(:work_package, project: source_project, type:) }
     let(:type) { create(:type_bug) }
     let(:custom_field) do
       create(:work_package_custom_field,
@@ -244,8 +244,8 @@ describe CopyProjectJob, type: :model do
         let(:role_add_subproject) { create(:role, permissions: [:add_subprojects]) }
         let(:member_add_subproject) do
           create(:member,
-                 user: user,
-                 project: project,
+                 user:,
+                 project:,
                  roles: [role_add_subproject])
         end
 

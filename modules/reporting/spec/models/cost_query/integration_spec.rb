@@ -46,7 +46,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
   end
 
   describe "the reporting system" do
-    it "should compute group_by and a filter" do
+    it "computes group_by and a filter" do
       @query.group_by :project_id
       @query.filter :status_id, operator: 'o'
       sql_result = @query.result
@@ -62,7 +62,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(sql_count.sort).to eq([2, 2])
     end
 
-    it "should apply two filter and a group_by correctly" do
+    it "applies two filter and a group_by correctly" do
       @query.filter :project_id, operator: '=', value: [project1.id]
       @query.group_by :user_id
       @query.filter :overridden_costs, operator: 'n'
@@ -79,7 +79,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(sql_count.sort).to eq([1, 1])
     end
 
-    it "should apply two different filters on the same field" do
+    it "applies two different filters on the same field" do
       @query.filter :project_id, operator: '=', value: [project1.id, project2.id]
       @query.filter :project_id, operator: '!', value: [project2.id]
 
@@ -87,7 +87,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(sql_result.count).to eq(2)
     end
 
-    it 'should process only _one_ SQL query for any operations on a valid CostQuery' do
+    it 'processes only _one_ SQL query for any operations on a valid CostQuery' do
       number_of_sql_queries = 0
       expect_any_instance_of(CostQuery::SqlStatement).to receive(:to_s) do |*_|
         number_of_sql_queries += 1 unless caller.third.include? 'sql_statement.rb'

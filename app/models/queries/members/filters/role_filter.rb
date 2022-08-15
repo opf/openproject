@@ -28,9 +28,7 @@
 
 class Queries::Members::Filters::RoleFilter < Queries::Members::Filters::MemberFilter
   def allowed_values
-    @allowed_values ||= begin
-      Role.pluck(:name, :id).map { |name, id| [name, id] }
-    end
+    @allowed_values ||= Role.pluck(:name, :id).map { |name, id| [name, id] }
   end
 
   def type

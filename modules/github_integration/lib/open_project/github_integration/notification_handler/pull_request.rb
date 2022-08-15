@@ -76,7 +76,7 @@ module OpenProject::GithubIntegration
         return if work_packages.empty? && pull_request.nil?
 
         OpenProject::GithubIntegration::Services::UpsertPullRequest.new.call(payload.pull_request.to_h,
-                                                                             work_packages: work_packages)
+                                                                             work_packages:)
       end
 
       def journal_entry

@@ -30,17 +30,17 @@ require 'spec_helper'
 describe OpenProject::TextFormatting do
   include OpenProject::TextFormatting
 
-  it 'should markdown formatter' do
+  it 'markdowns formatter' do
     expect(OpenProject::TextFormatting::Formats::Markdown::Formatter).to eq(OpenProject::TextFormatting::Formats.rich_formatter)
     expect(OpenProject::TextFormatting::Formats::Markdown::Helper).to eq(OpenProject::TextFormatting::Formats.rich_helper)
   end
 
-  it 'should plain formatter' do
+  it 'plains formatter' do
     expect(OpenProject::TextFormatting::Formats::Plain::Formatter).to eq(OpenProject::TextFormatting::Formats.plain_formatter)
     expect(OpenProject::TextFormatting::Formats::Plain::Helper).to eq(OpenProject::TextFormatting::Formats.plain_helper)
   end
 
-  it 'should link urls and email addresses' do
+  it 'links urls and email addresses' do
     raw = <<~DIFF
       This is a sample *text* with a link: http://www.redmine.org
       and an email address foo@example.net

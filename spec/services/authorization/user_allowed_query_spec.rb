@@ -39,8 +39,8 @@ describe Authorization::UserAllowedQuery do
     let(:anonymous_role) { build(:anonymous_role) }
     let(:non_member_role) { build(:non_member) }
     let(:member) do
-      build(:member, project: project,
-                                roles: [role])
+      build(:member, project:,
+                     roles: [role])
     end
 
     let(:action) { :view_work_packages }
@@ -68,7 +68,7 @@ describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'should return the user' do
+      it 'returns the user' do
         expect(described_class.query(action, project)).to match_array [user]
       end
     end
@@ -80,7 +80,7 @@ describe Authorization::UserAllowedQuery do
         user.update_attribute(:admin, true)
       end
 
-      it 'should return the user' do
+      it 'returns the user' do
         expect(described_class.query(action, project)).to match_array [user]
       end
     end
@@ -93,7 +93,7 @@ describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'should be empty' do
+      it 'is empty' do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -106,7 +106,7 @@ describe Authorization::UserAllowedQuery do
         role.save!
       end
 
-      it 'should return the user' do
+      it 'returns the user' do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -123,7 +123,7 @@ describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'should be empty' do
+      it 'is empty' do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -143,7 +143,7 @@ describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'should be empty' do
+      it 'is empty' do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -161,7 +161,7 @@ describe Authorization::UserAllowedQuery do
         project.save!
       end
 
-      it 'should return the user' do
+      it 'returns the user' do
         expect(described_class.query(action, project)).to match_array [user]
       end
     end
@@ -179,7 +179,7 @@ describe Authorization::UserAllowedQuery do
         project.save!
       end
 
-      it 'should return the anonymous user' do
+      it 'returns the anonymous user' do
         expect(described_class.query(action, project)).to match_array([anonymous])
       end
     end
@@ -197,7 +197,7 @@ describe Authorization::UserAllowedQuery do
         project.save!
       end
 
-      it 'should be empty' do
+      it 'is empty' do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -213,7 +213,7 @@ describe Authorization::UserAllowedQuery do
         project.save!
       end
 
-      it 'should be empty' do
+      it 'is empty' do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -234,7 +234,7 @@ describe Authorization::UserAllowedQuery do
         non_member.save
       end
 
-      it 'should be empty' do
+      it 'is empty' do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -247,7 +247,7 @@ describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'should return the user' do
+      it 'returns the user' do
         expect(described_class.query(public_action, project)).to match_array [user]
       end
     end
@@ -261,7 +261,7 @@ describe Authorization::UserAllowedQuery do
         project.save
       end
 
-      it 'should return the user and anonymous' do
+      it 'returns the user and anonymous' do
         expect(described_class.query(public_action, project)).to match_array [user, anonymous]
       end
     end
@@ -281,7 +281,7 @@ describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'should be empty' do
+      it 'is empty' do
         expect(described_class.query(permission.name, project)).to eq []
       end
     end
@@ -301,7 +301,7 @@ describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'should return the user' do
+      it 'returns the user' do
         expect(described_class.query(permission.name, project)).to eq [user]
       end
     end
@@ -317,7 +317,7 @@ describe Authorization::UserAllowedQuery do
         project.update(active: false)
       end
 
-      it 'should be empty' do
+      it 'is empty' do
         expect(described_class.query(action, project)).to eq []
       end
     end

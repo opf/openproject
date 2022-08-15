@@ -32,7 +32,7 @@ describe OpenProject::Webhooks::Hook do
   describe '#relative_url' do
     let(:hook) { OpenProject::Webhooks::Hook.new('myhook') }
 
-    it "should return the correct URL" do
+    it "returns the correct URL" do
       expect(hook.relative_url).to eql('webhooks/myhook')
     end
   end
@@ -45,7 +45,7 @@ describe OpenProject::Webhooks::Hook do
       expect(probe).to receive(:call).with(hook, 1, 2, 3)
     end
 
-    it 'should execute the callback with the correct parameters' do
+    it 'executes the callback with the correct parameters' do
       hook.handle(1, 2, 3)
     end
   end

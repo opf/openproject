@@ -26,27 +26,79 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
+import { IStorage } from 'core-app/core/state/storages/storage.model';
+import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
+  selector: 'op-files-tab',
   templateUrl: './op-files-tab.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'op-files-tab',
 })
-export class WorkPackageFilesTabComponent {
-  public workPackage:WorkPackageResource;
+export class WorkPackageFilesTabComponent implements OnInit {
+  workPackage:WorkPackageResource;
 
-  public text = {
+  text = {
     attachments: {
-      label: this.I18n.t('js.label_attachments'),
+      label: this.i18n.t('js.label_attachments'),
+    },
+    file_links: {
+      label: this.i18n.t('js.label_nextcloud'),
     },
   };
 
+  showAttachmentHeader$:Observable<boolean>;
+
+  storages$:Observable<IStorage[]>;
+
   constructor(
-    readonly I18n:I18nService,
-    protected hook:HookService,
+    private readonly i18n:I18nService,
+    private readonly hook:HookService,
+    private readonly currentUserService:CurrentUserService,
+    private readonly projectsResourceService:ProjectsResourceService,
+    private readonly storagesResourceService:StoragesResourceService,
+    private readonly apiV3:ApiV3Service,
+    private readonly toast:ToastService,
   ) { }
+
+  ngOnInit():void {
+    const project = this.workPackage.project as HalResource;
+    if (project.id === null) {
+      return;
+    }
+
+    const canViewFileLinks = this
+      .currentUserService
+      .hasCapabilities$('file_links/view', project.id);
+
+    this.storages$ = this
+      .storagesResourceService
+      .collection(project.href as string)
+      .pipe(
+        catchError((error) => {
+          this.toast.addError(error);
+          throw error;
+        }),
+      );
+
+    this.showAttachmentHeader$ = combineLatest(
+      [
+        this.storages$,
+        canViewFileLinks,
+      ],
+    ).pipe(
+      map(([storages, viewPermission]) => storages.length > 0 && viewPermission),
+    );
+  }
 }

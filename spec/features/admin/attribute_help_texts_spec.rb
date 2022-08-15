@@ -35,11 +35,11 @@ describe 'Attribute help texts', js: true do
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }
   let(:editor) { Components::WysiwygEditor.new }
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
-  let(:relation_columns_allowed) { true }
+  let(:enterprise_token) { true }
 
   describe 'Work package help texts' do
     before do
-      with_enterprise_token(relation_columns_allowed ? :attribute_help_texts : nil)
+      with_enterprise_token(enterprise_token ? :attribute_help_texts : nil)
 
       login_as(admin)
       visit attribute_help_texts_path
@@ -99,7 +99,7 @@ describe 'Attribute help texts', js: true do
 
         # Expect files section to be present
         expect(modal.modal_container).to have_selector('.form--fieldset-legend', text: 'ATTACHMENTS')
-        expect(modal.modal_container).to have_selector('.work-package--attachments--filename')
+        expect(modal.modal_container).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
 
         modal.close!
 
@@ -152,12 +152,11 @@ describe 'Attribute help texts', js: true do
     end
 
     context 'with help texts disallowed by the enterprise token' do
-      let(:relation_columns_allowed) { false }
+      let(:enterprise_token) { false }
 
       it 'hides CRUD to attribute help texts' do
-        expect(page)
-          .to have_selector(".errorExplanation",
-                            text: "The page you were trying to access doesn't exist or has been removed.")
+        expect(page).to have_current_path /upsale/
+        expect(page).to have_text I18n.t('attribute_help_texts.enterprise.description')
       end
     end
   end

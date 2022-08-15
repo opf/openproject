@@ -31,7 +31,7 @@ require 'features/page_objects/notification'
 require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
-feature 'Wiki menu items' do
+describe 'Wiki menu items' do
   let(:user) do
     create :user,
            member_in_project: project,
@@ -42,16 +42,16 @@ feature 'Wiki menu items' do
   let(:project) { create :project, enabled_module_names: %w[wiki] }
   let(:wiki) { project.wiki }
   let(:parent_menu) { wiki.wiki_menu_items.find_by(name: 'wiki') }
-  let(:wiki_page) { create :wiki_page_with_content, wiki: wiki }
+  let(:wiki_page) { create :wiki_page_with_content, wiki: }
   let(:other_wiki_page) do
-    create(:wiki_page_with_content, wiki: wiki, title: "Other page").tap do |page|
+    create(:wiki_page_with_content, wiki:, title: "Other page").tap do |page|
       MenuItems::WikiMenuItem.create!(navigatable_id: page.wiki.id,
                                       title: page.title,
                                       name: page.slug)
     end
   end
   let(:another_wiki_page) do
-    create(:wiki_page_with_content, wiki: wiki)
+    create(:wiki_page_with_content, wiki:)
   end
 
   before do

@@ -52,6 +52,7 @@ module API
       mount ::API::V3::Configuration::ConfigurationAPI
       mount ::API::V3::CustomActions::CustomActionsAPI
       mount ::API::V3::CustomOptions::CustomOptionsAPI
+      mount ::API::V3::Days::DaysAPI
       mount ::API::V3::Notifications::NotificationsAPI
       mount ::API::V3::HelpTexts::HelpTextsAPI
       mount ::API::V3::Memberships::MembershipsAPI
@@ -80,7 +81,7 @@ module API
       mount ::API::V3::Grids::GridsAPI
 
       get '/' do
-        RootRepresenter.new({}, current_user: current_user)
+        RootRepresenter.new({}, current_user:)
       end
 
       get '/spec.json' do

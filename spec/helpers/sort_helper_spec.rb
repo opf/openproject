@@ -29,6 +29,93 @@
 require 'spec_helper'
 
 describe SortHelper, type: :helper do
+  describe '#sort_init/#sort_update/#sort_clause' do
+    # Needed to mimic being included in a controller
+    def controller_name; 'foo'; end
+
+    def action_name; 'bar'; end
+
+    before do
+      sort_init 'attr1', 'desc'
+    end
+
+    context 'with arrays' do
+      before do
+        sort_update(%w[attr1 attr2])
+      end
+
+      it 'returns the first attr in descending order' do
+        expect(sort_clause)
+          .to eql 'attr1 DESC'
+      end
+    end
+
+    context 'with hashes' do
+      before do
+        sort_update('attr1' => 'table1.attr1', 'attr2' => 'table2.attr2')
+      end
+
+      it 'returns the first attr in descending order with the table name prefixed' do
+        expect(sort_clause)
+          .to eql 'table1.attr1 DESC'
+      end
+    end
+
+    context 'with hashes sorting by multiple values' do
+      before do
+        sort_update('attr1' => %w[table1.attr1 table1.attr2], 'attr2' => 'table2.attr2')
+      end
+
+      it 'returns the first attr in descending order' do
+        expect(sort_clause)
+          .to eql 'table1.attr1 DESC, table1.attr2 DESC'
+      end
+    end
+  end
+
+  describe '#sort_init/#sort_update/params/session' do
+    # Needed to mimic being included in a controller
+    def controller_name; 'foo'; end
+
+    def action_name; 'bar'; end
+
+    def params; { sort: sort_param }; end
+
+    def session; @session ||= {}; end
+
+    before do
+      sort_init 'attr1', 'desc'
+      sort_update('attr1' => %w[table1.attr1 table1.attr2], 'attr2' => 'table2.attr2')
+    end
+
+    context 'with valid sort params' do
+      let(:sort_param) { 'attr1,attr2:desc' }
+
+      it 'persists the order in the session' do
+        expect(session['foo_bar_sort'])
+          .to eql 'attr1,attr2:desc'
+      end
+    end
+
+    context 'with invalid sort key' do
+      let(:sort_param) { 'invalid_key' }
+
+      it 'keeps the default sort in the session' do
+        expect(session['foo_bar_sort'])
+          .to eql 'attr1:desc'
+      end
+    end
+
+    context 'with invalid sort direction' do
+      let(:sort_param) { 'attr1:blubs,attr2' }
+
+      it 'falls back to the default sort order in the session' do
+        expect(session['foo_bar_sort'])
+          .to eql 'attr1,attr2'
+      end
+    end
+  end
+
   describe '#sort_header_tag' do
     let(:output) do
       helper.sort_header_tag('id')
@@ -36,9 +123,10 @@ describe SortHelper, type: :helper do
     let(:sort_key) { '' }
     let(:sort_asc) { true }
     let(:sort_criteria) do
-      double('sort_criteria', first_key: sort_key,
-                              first_asc?: sort_asc,
-                              to_param: 'sort_criteria_params').as_null_object
+      instance_double(SortHelper::SortCriteria,
+                      first_key: sort_key,
+                      first_asc?: sort_asc,
+                      to_param: 'sort_criteria_params').as_null_object
     end
 
     before do
@@ -69,7 +157,7 @@ describe SortHelper, type: :helper do
     context 'when sorting by the column' do
       let(:sort_key) { 'id' }
 
-      it 'should add the sort class' do
+      it 'adds the sort class' do
         expect(output).to be_html_eql(%{
           <th title="Ascending sorted by &quot;Id&quot;">
             <div class="generic-table--sort-header-outer">
@@ -89,7 +177,7 @@ describe SortHelper, type: :helper do
       let(:sort_key) { 'id' }
       let(:sort_asc) { false }
 
-      it 'should add the sort class' do
+      it 'adds the sort class' do
         expect(output).to be_html_eql(%{
           <th title="Descending sorted by &quot;Id&quot;">
             <div class="generic-table--sort-header-outer">

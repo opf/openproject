@@ -39,14 +39,14 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
   let!(:open_status) { create :default_status }
   let!(:type_work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            author: user,
            responsible: user
   end
   let!(:other_type_work_package) do
     create :work_package,
-           project: project,
+           project:,
            type: other_type,
            author: user,
            responsible: user
@@ -54,7 +54,7 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
   let!(:other_project_work_package) do
     create :work_package,
            project: other_project,
-           type: type,
+           type:,
            author: user,
            responsible: user
   end
@@ -69,12 +69,12 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
   end
 
   let(:role) do
-    create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
 
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project: project, user: u, roles: [role])
+      create(:member, project:, user: u, roles: [role])
       create(:member, project: other_project, user: u, roles: [role])
     end
   end

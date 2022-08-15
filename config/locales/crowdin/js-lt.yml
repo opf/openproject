@@ -205,6 +205,7 @@ lt:
             label_expires_at: "Nustoja galioti"
             receive_newsletter: Noriu gauti OpenProject <a target="_blank" href="%{link}">naujienlaiškį</a>.
             taken_domain: Gali būti tik vienas aktyvus bandomasis periodas domenui.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Kiekvienas naudotojas gali sukurti tik vieną bandomąjį periodą.
           email_not_received: "Negavote el. laiško? Galite pakartotinai išsiųsti laišką naudodami nuorodą dešinėje."
           try_another_email: "Arba bandykite su kitu el. pašto adresu."
@@ -231,10 +232,12 @@ lt:
             professional_support: "Profesionali pagalba"
             professional_support_text: "Gaukite patikimą, artimą pagalbą iš patyrusių pagalbos inžinierių su ekspertinėmis žiniomis apie OpenProject naudojimą verslui kritinėse aplinkose."
           button_start_trial: "Pradėti bandomąjį laikotarpį"
+          button_upgrade: "Upgrade now"
           button_book_now: "Užsakyti dabar"
           confidence: >
             Mes duodame patikrintos ir palaikomas korporacijos-lygio projektų valdymo programos užtikrintumą -- su atviru kodu ir plačiomis pažiūromis.
           link_quote: "Gauti pasiūlymą"
+          more_info: "More information"
           text: >
             OpenProject Enterprise Edition yra pastatyta virš Community Edition. Papildomai įdėtos „premium“ savybės ir profesionalus aptarnavimas, pagrinde orientuotas į organizacijas su daugiau nei 10 vartotojų, kurie naudodami OpenProject valdo verslui kritinius projektus.
           unlimited: "Neribota"
@@ -267,7 +270,7 @@ lt:
           one: "Pirmasis rikiavimo kriterijus"
           two: "Antrasis rikiavimo kriterijus"
           three: "Trečiasis rikiavimo kriterijus"
-      upsale_for_more: "Norėdami naudoti daugiau papildomų filtrų, išbandykite"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: '„Enterprise Edition“.'
     general_text_no: "ne"
     general_text_yes: "taip"
@@ -287,15 +290,15 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                Laidoje yra kelios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li><b>Komandos plano modulis</b> (Enterprise savybė) leidžia jums vizualiai priskirti užduotis komandos nariams, gauti apžvalgą kas ką daro.</li> <li>Mes <b>išleidžiame bazines agile lentas</b> bendruomenės versijai.</li> <li><b>Filtras „Įtraukti projektus“</b> palengvina pridėti skirtingus projektus į jūsų vaizdus, tokius kaip darbų paketai, kalendoriai ar komandų planai.</li> <li>Mes darbo paketų detalėse pridėjom <b>naują kortelę „Failai“</b>, kurioje bus visa įmanoma informacija apie prie darbo paketo prisegtą informaciją.</li> <li>Mes sukūrėme <b>grupėms globalius vaidmenis</b>, kuriuos galima priskirti grupėms ir sukurti supernaudotojų grupes.</li> <li>Projekto būseną dabar galima nustatyti iš platesnio reikšmių pasirinkimo.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                Laidoje yra kelios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>BCF modulyje jūs dabar galite įrašyti savo parinktus darbų paketų filtrus, stulpelius ir pan. kaip <b>vaizdus</b> ir dalintis jais su savo komandos nariais.</li> <li><b>Komandos plano modulis</b> (Enterprise savybė) leidžia jums vizualiai priskirti užduotis komandos nariams, gauti apžvalgą kas ką daro.</li> <li>Mes <b>išleidžiame bazines agile lentas</b> bendruomenės versijai.</li> <li><b>Filtras „Įtraukti projektus“</b> palengvina pridėti skirtingus projektus į jūsų vaizdus, tokius kaip darbų paketai, kalendoriai ar komandų planai.</li> <li>Mes darbo paketų detalėse pridėjom <b>naują kortelę „Failai“</b>, kurioje bus visa įmanoma informacija apie prie darbo paketo prisegtą informaciją.</li> <li>Mes sukūrėme <b>grupėms globalius vaidmenis</b>, kuriuos galima priskirti grupėms ir sukurti supernaudotojų grupes.</li> <li>Projekto būseną dabar galima nustatyti iš platesnio reikšmių pasirinkimo.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "Aktyvuoti"
     label_assignee: 'Paskirtas'
     label_add_column_after: "Pridėti stulpelį po"
@@ -367,6 +370,7 @@ lt:
     label_in_more_than: "daugiau nei"
     label_incoming_emails: "Gauti el. laiškai"
     label_information_plural: "Informacija"
+    label_invalid: "Invalid"
     label_import: "Importuoti"
     label_latest_activity: "Paskutinė veikla"
     label_last_updated_on: "Paskiausias atnaujinimas"
@@ -398,6 +402,8 @@ lt:
     label_previous: "Ankstesnis"
     label_per_page: "Puslapyje:"
     label_please_wait: "Prašome palaukti"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projektai"
     label_visibility_settings: "Matomumo nustatymai"
     label_quote_comment: "Cituoti šį komentarą"
@@ -410,6 +416,7 @@ lt:
     label_report: "Ataskaita"
     label_repository_plural: "Repozitorijos"
     label_save_as: "Įrašyti kaip"
+    label_select_project: "Select a project"
     label_select_watcher: "Parinkti stebėtoją..."
     label_selected_filter_list: "Parinkti filtrus"
     label_show_attributes: "Rodyti visus atributus"
@@ -451,10 +458,10 @@ lt:
     label_unwatch: "Nestebėti"
     label_unwatch_work_package: "Nebestebėti darbų paketo"
     label_uploaded_by: "Įkėlė"
-    label_default_queries: "Numatytieji vaizdai"
-    label_starred_queries: "Mėgstamiausi vaizdai"
-    label_global_queries: "Vieši vaizdai"
-    label_custom_queries: "Asmeniniai vaizdai"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Stulpeliai"
     label_attachments: Priedai
     label_drop_files: Numeskite failus čia
@@ -536,7 +543,7 @@ lt:
           many: 'ir dar %{count}'
           other: 'ir dar %{count}'
         no_results:
-          at_all: 'Čia pasirodys nauji pranešimai, kai bus su jumis susijusi veikla'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'Šiuo metu šiame vaizde pranešimų nėra'
         mark_all_read: 'Pažymėti visus kaip perskaitytus'
         mark_as_read: 'Žymėti kaip skaitytą'
@@ -544,7 +551,8 @@ lt:
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
         empty_state:
           no_notification: "Panašu, kad jūs pilnai pasivijote."
-          no_notification_with_current_filter: "Keisti įsitraukimą ar grįžti į gautuosius visų pranešimų peržiūrai"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
         new_notifications:
           message: 'Yra naujų pranešimų.'
@@ -661,14 +669,7 @@ lt:
         projects: "Projektai"
         settings: "Nustatymai"
     time_entry:
-      project: 'Projektas'
-      work_package: 'Darbų paketas'
       work_package_required: 'Reikia pirma pasirinkti darbo paketą.'
-      activity: 'Veikla'
-      comment: 'Komentaras'
-      duration: 'Trukmė'
-      spent_on: 'Data'
-      hours: 'Valandų'
       title: 'Registruoti laiką'
     two_factor_authentication:
       label_two_factor_authentication: 'Dviejų veiksnių autentifikavimas'
@@ -809,7 +810,7 @@ lt:
       zooms: "Didinimo lygis"
       outlines: "Hierarchinis lygmuo"
     upsale:
-      ee_only: 'Galimybė tik Enterprise Edition'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Paryškintas"
       italic: "Pasvirasis"
@@ -837,6 +838,13 @@ lt:
       comment_send_failed: "Įvyko klaida. Neįmanoma pateikti komentaro."
       comment_updated: "Komentaras sėkmingai atnaujintas."
       confirm_edit_cancel: "Ar Jūs tikrai norite atšaukti darbo paketo redagavimą?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtras"
       description_enter_text: "Įveskite tekstą"
       description_options_hide: "Slėpti parinktis"
@@ -1022,10 +1030,7 @@ lt:
       filter: "Filtras"
       unselected_title: "Darbų paketas"
       search_query_label: "Įrašytų vaizdų paieška"
-      search_query_title: "Spauskite įrašytų vaizdų paieškai"
-      placeholder_query_title: "Suteikite šiam vaizdui pavadinimą"
     modals:
-      label_settings: "Pervardinti vaizdą"
       label_name: "Vardas"
       label_delete_page: "Trinti dabartinį puslapį"
       button_apply: "Taikyti"
@@ -1089,6 +1094,10 @@ lt:
         one: "1 val"
         other: "%{count} val"
         zero: "0 val"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Įjungti Zen režimą'
       button_deactivate: 'Išjungti Zen režimą'
@@ -1184,6 +1193,8 @@ lt:
       tooltip:
         include_all_selected: 'Įtraukti visus šiuo metu pažymėtus sub-projektus.'
         current_project: 'Tai dabartinis projektas, kuriame jūs esate.'
+        does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Forma buvo sėkmingai pateikta'
       load_error_message: 'Įkeliant formą įvyko klaida'

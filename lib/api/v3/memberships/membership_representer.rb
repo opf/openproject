@@ -74,7 +74,7 @@ module API
         associated_resources :roles,
                              getter: ->(*) do
                                unmarked_roles.map do |role|
-                                 API::V3::Roles::RoleRepresenter.new(role, current_user: current_user)
+                                 API::V3::Roles::RoleRepresenter.new(role, current_user:)
                                end
                              end,
                              link: ->(*) do

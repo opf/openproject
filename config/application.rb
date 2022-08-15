@@ -39,24 +39,12 @@ ActiveSupport::Deprecation.silenced =
   (Rails.env.test? && ENV['CI'])
 
 if defined?(Bundler)
-  # lib directory has to be added to the load path so that
-  # the open_project/plugins files can be found (places under lib).
-  # Now it would be possible to remove that and use require with
-  # lib included but some plugins already use
-  #
-  # require 'open_project/plugins'
-  #
-  # to ensure the code to be loaded. So we provide a compatibility
-  # layer here. One might remove this later.
-  $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
-  require 'open_project/plugins'
-
   # Require the gems listed in Gemfile, including any gems
   # you've limited to :test, :development, or :production.
   Bundler.require(*Rails.groups(:opf_plugins))
 end
 
-require_relative '../lib/open_project/configuration'
+require_relative '../lib_static/open_project/configuration'
 
 module OpenProject
   class Application < Rails::Application
@@ -69,6 +57,9 @@ module OpenProject
     #
     # Use default logging formatter so that PID and timestamp are not suppressed.
     config.log_formatter = ::Logger::Formatter.new
+
+    # Set up the cache store based on our configuration
+    config.cache_store = OpenProject::Configuration.cache_store_configuration
 
     # Set up STDOUT logging if requested
     if ENV["RAILS_LOG_TO_STDOUT"].present?
@@ -97,11 +88,14 @@ module OpenProject
     # http://stackoverflow.com/questions/4590229
     config.middleware.use Rack::TempfileReaper
 
-    config.autoloader = :zeitwerk
     # Custom directories with classes and modules you want to be autoloadable.
     config.enable_dependency_loading = true
     config.paths.add Rails.root.join('lib').to_s, eager_load: true
     config.paths.add Rails.root.join('lib/constraints').to_s, eager_load: true
+
+    # Constants in lib_static should only be loaded once and never be unloaded.
+    # That directory contains configurations and patches to rails core functionality.
+    config.autoload_once_paths << Rails.root.join('lib_static').to_s
 
     # Use our own error rendering for prettier error pages
     config.exceptions_app = routes
@@ -120,6 +114,9 @@ module OpenProject
 
     # Fall back to default locale
     config.i18n.fallbacks = true
+
+    # Enable serialization of types [Symbol, Date, Time]
+    config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::HashWithIndifferentAccess]
 
     # Activate being able to specify the format in which full_message works.
     # Doing this, it is e.g. possible to avoid having the format of '%{attribute} %{message}' which
@@ -185,8 +182,6 @@ module OpenProject
     # This allows for setting the root either via config file or via environment variable.
     config.action_controller.relative_url_root = OpenProject::Configuration['rails_relative_url_root']
 
-    OpenProject::Configuration.configure_cache(config)
-
     config.active_job.queue_adapter = :delayed_job
 
     config.action_controller.asset_host = OpenProject::Configuration::AssetHost.value
@@ -195,6 +190,9 @@ module OpenProject
     # Rails.application.config.active_job.return_false_on_aborted_enqueue = true
 
     config.log_level = OpenProject::Configuration['log_level'].to_sym
+
+    # Enable the Rails 7 cache format
+    config.active_support.cache_format_version = 7.0
 
     def self.root_url
       Setting.protocol + "://" + Setting.host_name

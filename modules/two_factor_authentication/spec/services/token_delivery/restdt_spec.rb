@@ -3,12 +3,12 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt, with_2fa_ee: true do
   describe 'sending messages' do
     let!(:user) { create :user }
-    let!(:device) { create :two_factor_authentication_device_sms, user: user, channel: channel }
+    let!(:device) { create :two_factor_authentication_device_sms, user:, channel: }
 
     let(:service_url) { 'https://example.org/foobar' }
     let(:params) do
       {
-        service_url: service_url,
+        service_url:,
         username: 'foobar',
         password: 'password!'
       }
@@ -27,7 +27,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt, with_2fa
 
     let(:result) { subject.request }
 
-    subject { ::TwoFactorAuthentication::TokenService.new user: user }
+    subject { ::TwoFactorAuthentication::TokenService.new user: }
 
     include_context 'with settings' do
       let(:settings) do

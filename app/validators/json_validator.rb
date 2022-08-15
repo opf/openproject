@@ -98,9 +98,9 @@ class JsonValidator < ActiveModel::EachValidator
 
   def add_type_mismatch_error(record, path, type)
     if path.length == 1
-      record.errors.add(path[0], :type_mismatch, type: type)
+      record.errors.add(path[0], :type_mismatch, type:)
     else
-      record.errors.add(path[0], :type_mismatch_nested, type: type, path: path[1])
+      record.errors.add(path[0], :type_mismatch_nested, type:, path: path[1])
     end
   end
 
@@ -114,9 +114,9 @@ class JsonValidator < ActiveModel::EachValidator
 
   def add_format_error(record, path, expected)
     if path.length == 1
-      record.errors.add(path[0], :format, expected: expected)
+      record.errors.add(path[0], :format, expected:)
     else
-      record.errors.add(path[0], :format_nested, expected: expected, path: path[1])
+      record.errors.add(path[0], :format_nested, expected:, path: path[1])
     end
   end
 

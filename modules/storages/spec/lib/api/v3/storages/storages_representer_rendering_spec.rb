@@ -32,8 +32,18 @@ describe ::API::V3::Storages::StorageRepresenter, 'rendering' do
   let(:storage) { build_stubbed(:storage) }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(storage, current_user: user) }
+  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
 
   subject(:generated) { representer.to_json }
+
+  before do
+    allow(::OAuthClients::ConnectionManager)
+      .to receive(:new).and_return(connection_manager)
+    allow(connection_manager)
+      .to receive(:authorization_state).and_return(:connected)
+    allow(connection_manager)
+      .to receive(:get_authorization_uri).and_return('https://example.com/authorize')
+  end
 
   describe '_links' do
     describe 'self' do
@@ -41,6 +51,21 @@ describe ::API::V3::Storages::StorageRepresenter, 'rendering' do
         let(:link) { 'self' }
         let(:href) { "/api/v3/storages/#{storage.id}" }
         let(:title) { storage.name }
+      end
+    end
+
+    describe 'origin' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'origin' }
+        let(:href) { storage.host }
+      end
+    end
+
+    describe 'connectionState' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'authorizationState' }
+        let(:href) { 'urn:openproject-org:api:v3:storages:authorization:Connected' }
+        let(:title) { 'Connected' }
       end
     end
   end

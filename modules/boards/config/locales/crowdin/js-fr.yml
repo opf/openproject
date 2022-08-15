@@ -7,7 +7,7 @@ fr:
       label_unnamed_list: 'Liste sans nom'
       label_board_type: 'Type de tableau'
       upsale:
-        teaser_text: 'Souhaitez-vous des modèles de tableau prêts à l''emploi ? Les tableaux avancés sont une fonctionnalité Entreprise. Veuillez passer à un plan payant.'
+        teaser_text: 'Voulez-vous automatiser vos flux de travail avec des tableaux ? Les tableaux avancés sont une fonctionnalité d''entreprise. Veuillez passer à une offre payante.'
         upgrade: 'Passer au plan supérieur'
       lists:
         delete: 'Supprimer la liste'

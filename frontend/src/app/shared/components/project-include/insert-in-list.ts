@@ -1,6 +1,6 @@
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
-import { IProjectData } from './project-data';
+import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
 
 const UNDISCLOSED_ANCESTOR = 'urn:openproject-org:api:v3:undisclosed';
 
@@ -23,7 +23,7 @@ export const insertInList = (
         id: project.id,
         name: project.name,
         href: project._links.self.href,
-        found: true,
+        disabled: false,
         children: [],
       },
     ];
@@ -48,7 +48,7 @@ export const insertInList = (
       id: ancestorProject.id,
       name: ancestorProject.name,
       href: ancestorProject._links.self.href,
-      found: false,
+      disabled: true,
       children: insertInList(projects, project, [], visibleAncestors.slice(1)),
     },
   ];

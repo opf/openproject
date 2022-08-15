@@ -65,7 +65,7 @@ module OpenProject
 
           # Collect extra information from payload extender
           # e.g., with saas tenant information
-          extra = ::OpenProject::Logging.extend_payload! log_context[:extra] || {}, { sentry_scope: sentry_scope }
+          extra = ::OpenProject::Logging.extend_payload! log_context[:extra] || {}, { sentry_scope: }
           sentry_scope.set_extras extra
         end
 

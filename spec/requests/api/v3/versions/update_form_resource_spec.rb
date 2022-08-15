@@ -32,7 +32,7 @@ describe ::API::V3::Versions::UpdateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:version) { create(:version, project: project) }
+  let(:version) { create(:version, project:) }
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
@@ -103,7 +103,7 @@ describe ::API::V3::Versions::UpdateFormAPI, content_type: :json do
 
     context 'with wanting to alter the project' do
       let(:other_project) do
-        role = create(:role, permissions: permissions)
+        role = create(:role, permissions:)
 
         create(:project,
                members: { user => role })
@@ -126,7 +126,7 @@ describe ::API::V3::Versions::UpdateFormAPI, content_type: :json do
         expect(subject.body).to have_json_path('_embedded/validationErrors/project')
       end
 
-      it 'notes definingProject to not be writeable' do
+      it 'notes definingProject to not be writable' do
         expect(subject.body)
           .to be_json_eql(false)
           .at_path('_embedded/schema/definingProject/writable')
@@ -148,10 +148,10 @@ describe ::API::V3::Versions::UpdateFormAPI, content_type: :json do
             raw: 'A new description'
           },
           "customField#{int_cf.id}": 5,
-          "startDate": "2018-01-01",
-          "endDate": "2018-01-09",
-          "status": "closed",
-          "sharing": "descendants",
+          startDate: "2018-01-01",
+          endDate: "2018-01-09",
+          status: "closed",
+          sharing: "descendants",
           _links: {
             "customField#{list_cf.id}": {
               href: api_v3_paths.custom_option(list_cf.custom_options.first.id)
@@ -191,10 +191,6 @@ describe ::API::V3::Versions::UpdateFormAPI, content_type: :json do
           .to be_json_eql('descendants'.to_json)
           .at_path('_embedded/payload/sharing')
 
-        # As the definingProject is not writeable
-        expect(body)
-          .not_to have_json_path('_embedded/payload/_links/definingProject')
-
         expect(last_response.body)
           .to be_json_eql(api_v3_paths.custom_option(list_cf.custom_options.first.id).to_json)
           .at_path("_embedded/payload/_links/customField#{list_cf.id}/href")
@@ -202,6 +198,12 @@ describe ::API::V3::Versions::UpdateFormAPI, content_type: :json do
         expect(last_response.body)
           .to be_json_eql(5.to_json)
           .at_path("_embedded/payload/customField#{int_cf.id}")
+      end
+
+      it 'has no definingProject path' do
+        # As the definingProject is not writable
+        expect(body)
+          .not_to have_json_path('_embedded/payload/_links/definingProject')
       end
 
       it 'has a commit link' do

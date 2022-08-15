@@ -42,6 +42,7 @@ describe TimeEntries::UpdateContract do
                     comments: time_entry_comments)
     end
     subject(:contract) { described_class.new(time_entry, current_user) }
+
     let(:permissions) { %i(edit_time_entries) }
 
     context 'if user is not allowed to edit time entries' do
@@ -74,8 +75,8 @@ describe TimeEntries::UpdateContract do
 
           allow(current_user)
             .to receive(:allowed_to?) do |permission, permission_project|
-            new_project_permissions.include?(permission) && p == permission_project ||
-              permissions.include?(permission) && time_entry_project == permission_project
+            (new_project_permissions.include?(permission) && p == permission_project) ||
+              (permissions.include?(permission) && time_entry_project == permission_project)
           end
         end
       end
@@ -119,9 +120,11 @@ describe TimeEntries::UpdateContract do
     end
 
     context 'if the user is changed' do
+      let(:permissions) { %i(edit_own_time_entries) }
+
       it 'is invalid' do
         time_entry.user = other_user
-        expect_valid(false, user_id: %i(error_readonly))
+        expect_valid(false, base: %i(error_unauthorized))
       end
     end
 
@@ -138,6 +141,7 @@ describe TimeEntries::UpdateContract do
 
       context 'if has no permission' do
         let(:permissions) { %i[edit_own_time_entries] }
+
         it 'is invalid' do
           expect_valid(false, base: %i(error_unauthorized))
         end

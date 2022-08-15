@@ -35,9 +35,7 @@ class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::Filters::Bas
     WorkPackage.human_attribute_name(name)
   end
 
-  def project
-    context.project
-  end
+  delegate :project, to: :context
 
   def includes
     nil

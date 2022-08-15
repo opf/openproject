@@ -31,7 +31,7 @@ require 'spec_helper'
 describe WorkPackagePolicy, type: :controller do
   let(:user)         { build_stubbed(:user) }
   let(:project)      { build_stubbed(:project) }
-  let(:work_package) { build_stubbed(:work_package, project: project) }
+  let(:work_package) { build_stubbed(:work_package, project:) }
 
   describe '#allowed?' do
     let(:subject) { described_class.new(user) }

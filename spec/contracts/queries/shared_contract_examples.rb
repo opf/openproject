@@ -32,7 +32,7 @@ require 'contracts/shared/model_contract_shared_context'
 shared_context 'with queries contract' do
   let(:project) { build_stubbed :project }
   let(:query) do
-    build_stubbed(:query, project: project, public: public, user: user)
+    build_stubbed(:query, project:, public:, user:)
   end
 
   let(:current_user) do

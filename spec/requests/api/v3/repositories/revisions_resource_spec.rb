@@ -36,12 +36,12 @@ describe 'API v3 Revisions resource', type: :request do
 
   let(:revision) do
     create(:changeset,
-           repository: repository,
+           repository:,
            comments: 'Some commit message',
            committer: 'foo bar <foo@example.org>')
   end
   let(:repository) do
-    create(:repository_subversion, project: project)
+    create(:repository_subversion, project:)
   end
   let(:project) do
     create(:project, identifier: 'test_project', public: false)
@@ -60,20 +60,20 @@ describe 'API v3 Revisions resource', type: :request do
     let(:get_path) { api_v3_paths.revision revision.id }
 
     context 'when acting as a user with permission to view revisions' do
-      before(:each) do
+      before do
         allow(User).to receive(:current).and_return current_user
         get get_path
       end
 
-      it 'should respond with 200' do
+      it 'responds with 200' do
         expect(last_response.status).to eq(200)
       end
 
       describe 'response body' do
         subject(:response) { last_response.body }
 
-        it 'should respond with revision in HAL+JSON format' do
-          is_expected.to be_json_eql(revision.id.to_json).at_path('id')
+        it 'responds with revision in HAL+JSON format' do
+          expect(subject).to be_json_eql(revision.id.to_json).at_path('id')
         end
       end
 
@@ -85,7 +85,7 @@ describe 'API v3 Revisions resource', type: :request do
     end
 
     context 'when acting as an user without permission to view work package' do
-      before(:each) do
+      before do
         allow(User).to receive(:current).and_return unauthorized_user
         get get_path
       end

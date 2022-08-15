@@ -10,4 +10,4 @@ fr:
     label_assignees: "Responsables"
     upsale:
       title: "Planificateur d'équipe"
-      description: "Le planificateur d'équipe vous donne un aperçu complet de ce sur quoi chaque membre de l'équipe travaille, une semaine à la fois. Déplacez, étirez et réduisez visuellement les lots de travaux, et faites-les même glisser d'un responsable à un autre pour organiser la charge de travail. Vous pouvez même créer de nouveaux lots de travaux ou en ajouter d'autres, tout cela à partir du planificateur d'équipe !"
+      description: "Obtenez un aperçu complet du planning de votre équipe avec le planificateur d'équipe. Allongez, raccourcissez et faites glisser les paquets de travail pour modifier les dates, les déplacer ou changer les assignés."

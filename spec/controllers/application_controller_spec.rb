@@ -53,7 +53,7 @@ describe ApplicationController, type: :controller do
         allow(Setting).to receive(:log_requesting_user?).and_return(true)
       end
 
-      it 'should log the current user' do
+      it 'logs the current user' do
         expect(Rails.logger).to receive(:info).once.with(user_message)
 
         as_logged_in_user(user) do
@@ -61,7 +61,7 @@ describe ApplicationController, type: :controller do
         end
       end
 
-      it 'should log an anonymous user' do
+      it 'logs an anonymous user' do
         expect(Rails.logger).to receive(:info).once.with(anonymous_message)
 
         # no login, so this is done as Anonymous
@@ -74,7 +74,7 @@ describe ApplicationController, type: :controller do
         allow(Setting).to receive(:log_requesting_user?).and_return(false)
       end
 
-      it 'should not log the current user' do
+      it 'does not log the current user' do
         expect(Rails.logger).not_to receive(:info).with(user_message)
 
         as_logged_in_user(user) do
@@ -125,9 +125,9 @@ describe ApplicationController, type: :controller do
 
       it_behaves_like 'handle_unverified_request resets session'
 
-      it 'should give 422' do
+      it 'gives 422' do
         expect(@controller).to receive(:render_error) do |options|
-          expect(options[:status]).to eql(422)
+          expect(options[:status]).to be(422)
         end
 
         @controller.send :handle_unverified_request
@@ -141,10 +141,78 @@ describe ApplicationController, type: :controller do
 
       it_behaves_like 'handle_unverified_request resets session'
 
-      it 'should not render an error' do
+      it 'does not render an error' do
         expect(@controller).not_to receive(:render_error)
 
         @controller.send :handle_unverified_request
+      end
+    end
+  end
+
+  describe 'rack timeout duplicate error suppression' do
+    controller do
+      include OpenProjectErrorHelper
+
+      def index
+        op_handle_error "fail"
+
+        redirect_to root_path
+      end
+    end
+
+    before do
+      allow(::OpenProject.logger).to receive(:error)
+    end
+
+    it "doesn't suppress errors when there is no timeout" do
+      get :index
+
+      expect(::OpenProject.logger).to have_received(:error) do |msg, _|
+        expect(msg).to eq "fail"
+      end
+    end
+
+    context "when there is a rack timeout" do
+      controller do
+        include OpenProjectErrorHelper
+        prepend Rack::Timeout::SuppressInternalErrorReportOnTimeout
+
+        def index
+          op_handle_error "fail"
+
+          redirect_to root_path
+        end
+      end
+
+      before do
+        allow(controller.request.env).to receive(:[]).and_call_original
+        allow(controller.request.env)
+          .to receive(:[])
+          .with(Rack::Timeout::ENV_INFO_KEY)
+          .and_return(OpenStruct.new(state: :timed_out))
+      end
+
+      it "suppresses the (duplicate) error report" do
+        get :index
+
+        expect(::OpenProject.logger).not_to have_received(:error)
+      end
+    end
+
+    context "when used outside of a controller" do
+      let(:object) do
+        klass = Class.new(Object) do
+          include OpenProjectErrorHelper
+          prepend Rack::Timeout::SuppressInternalErrorReportOnTimeout
+        end
+
+        klass.new
+      end
+
+      it "does nothing as there is no duplicate to suppress" do
+        expect { object.op_handle_error "fail" }.not_to raise_error
+
+        expect(::OpenProject.logger).to have_received(:error)
       end
     end
   end

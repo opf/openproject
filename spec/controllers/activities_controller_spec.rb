@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ActivitiesController, type: :controller do
-  before :each do
+  before do
     allow(@controller).to receive(:set_localization)
 
     admin = create(:admin)
@@ -50,7 +50,7 @@ describe ActivitiesController, type: :controller do
       let!(:journal) do
         create(:work_package_journal,
                journable_id: work_package.id,
-               created_at: 3.days.ago.to_date.to_s(:db),
+               created_at: 3.days.ago.to_date.to_fs(:db),
                version: Journal.maximum(:version) + 1,
                data: build(:journal_work_package_journal,
                            subject: work_package.subject,
@@ -70,7 +70,7 @@ describe ActivitiesController, type: :controller do
 
         it do
           assert_select 'h3',
-                        content: /#{3.day.ago.to_date.day}/,
+                        content: /#{3.days.ago.to_date.day}/,
                         sibling: { tag: 'dl',
                                    child: { tag: 'dt',
                                             attributes: { class: /work_package/ },
@@ -119,7 +119,7 @@ describe ActivitiesController, type: :controller do
     shared_context 'index with params' do
       let(:session_values) { defined?(session_hash) ? session_hash : {} }
 
-      before { get :index, params: params, session: session_values }
+      before { get :index, params:, session: session_values }
     end
 
     describe '#atom_feed' do
@@ -129,7 +129,7 @@ describe ActivitiesController, type: :controller do
       context 'work_package' do
         let!(:wp_1) do
           create(:work_package,
-                 project: project,
+                 project:,
                  author: user)
         end
 
@@ -148,7 +148,7 @@ describe ActivitiesController, type: :controller do
         describe 'list' do
           let!(:wp_2) do
             create(:work_package,
-                   project: project,
+                   project:,
                    author: user)
           end
 
@@ -168,15 +168,15 @@ describe ActivitiesController, type: :controller do
       context 'forums' do
         let(:forum) do
           create(:forum,
-                 project: project)
+                 project:)
         end
         let!(:message_1) do
           create(:message,
-                 forum: forum)
+                 forum:)
         end
         let!(:message_2) do
           create(:message,
-                 forum: forum)
+                 forum:)
         end
         let(:params) do
           { project_id: project.id,

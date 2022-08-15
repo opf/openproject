@@ -86,9 +86,13 @@ import {
   CollapsibleSectionComponent,
 } from 'core-app/shared/components/collapsible-section/collapsible-section.component';
 import {
-  ProjectMenuAutocompleteComponent,
-  projectMenuAutocompleteSelector,
-} from 'core-app/shared/components/autocompleter//project-menu-autocomplete/project-menu-autocomplete.component';
+  OpHeaderProjectSelectComponent,
+  headerProjectSelectSelector,
+} from 'core-app/shared/components/header-project-select/header-project-select.component';
+import {
+  ProjectAutocompleterComponent,
+  projectsAutocompleterSelector,
+} from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter.component';
 import {
   RemoteFieldUpdaterComponent,
   remoteFieldUpdaterSelector,
@@ -151,13 +155,17 @@ import {
   freeTrialButtonSelector,
 } from 'core-app/features/enterprise/free-trial-button/free-trial-button.component';
 import {
+  EnterpriseBannerComponent,
+  enterpriseBannerSelector,
+} from 'core-app/shared/components/enterprise-banner/enterprise-banner.component';
+import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector,
 } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component';
 import {
-  EnterpriseBannerBootstrapComponent,
-  enterpriseBannerSelector,
-} from 'core-app/shared/components/enterprise-banner/enterprise-banner-bootstrap.component';
+  NoResultsComponent,
+  noResultsSelector,
+} from 'app/shared/components/no-results/no-results.component';
 import {
   HomescreenNewFeaturesBlockComponent,
   homescreenNewFeaturesBlockSelector,
@@ -229,11 +237,13 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: mainMenuToggleSelector, cls: MainMenuToggleComponent },
   { selector: globalSearchSelector, cls: GlobalSearchInputComponent },
   { selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent },
-  { selector: enterpriseBannerSelector, cls: EnterpriseBannerBootstrapComponent },
+  { selector: enterpriseBannerSelector, cls: EnterpriseBannerComponent },
+  { selector: noResultsSelector, cls: NoResultsComponent },
   { selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent },
   { selector: freeTrialButtonSelector, cls: FreeTrialButtonComponent },
   { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
-  { selector: projectMenuAutocompleteSelector, cls: ProjectMenuAutocompleteComponent },
+  { selector: headerProjectSelectSelector, cls: OpHeaderProjectSelectComponent },
+  { selector: projectsAutocompleterSelector, cls: ProjectAutocompleterComponent },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: opViewSelectSelector, cls: ViewSelectComponent },

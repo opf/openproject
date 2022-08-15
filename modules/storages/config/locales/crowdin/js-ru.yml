@@ -2,3 +2,26 @@
 ru:
   js:
     storages:
+      link_files_in_storage: "Связать файлы в %{storageType}"
+      login: "Логин %{storageType}"
+      login_to: "Войти в %{storageType}"
+      no_connection: "Нет подключения к %{storageType}"
+      open_storage: "Открыть %{storageType}"
+      types:
+        nextcloud: "Nextcloud"
+      information:
+        connection_error: >
+          Некоторые настройки %{storageType} не работают. Обратитесь к администратору %{storageType}.
+        live_data_error: "Ошибка при получении сведений о файле"
+        live_data_error_description: >
+          Не удалось получить некоторые данные из %{storageType} . Пожалуйста, попробуйте перезагрузить эту страницу или обратитесь к администратору %{storageType}.
+        no_file_links: "Чтобы связать файлы с этим рабочим пакетом, пожалуйста, сделайте это через %{storageType}."
+        not_logged_in: >
+          Для добавления ссылки, просмотра или загрузки файлов, относящиеся к этому пакету работ, войдите в %{storageType}.
+      file_links:
+        download: "Скачать %{fileName}"
+        no_permission: "У вас недостаточно прав для просмотра этого файла."
+        open: 'Открыть файл в хранилище'
+        open_location: 'Открыть файл в расположении'
+        remove: "Удалить ссылку на файл"
+        remove_confirmation: "Вы уверены, что хотите удалить файл из пакета работ?"

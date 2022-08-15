@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ForumsController, type: :controller do
   shared_let(:user) { create(:user) }
   let(:project) { create(:project) }
-  let!(:forum) { create(:forum, project: project) }
+  let!(:forum) { create(:forum, project:) }
 
   before do
     disable_flash_sweep
@@ -108,11 +108,11 @@ describe ForumsController, type: :controller do
         expect(forum).to receive(:save).and_return(true)
 
         as_logged_in_user user do
-          post :create, params: params
+          post :create, params:
         end
       end
 
-      it 'should redirect to the index page if successful' do
+      it 'redirects to the index page if successful' do
         expect(response)
           .to redirect_to controller: '/forums',
                           action: 'index',
@@ -129,11 +129,11 @@ describe ForumsController, type: :controller do
         expect(forum).to receive(:save).and_return(false)
 
         as_logged_in_user user do
-          post :create, params: params
+          post :create, params:
         end
       end
 
-      it 'should render the new template' do
+      it 'renders the new template' do
         expect(response).to render_template('new')
       end
     end
@@ -161,12 +161,12 @@ describe ForumsController, type: :controller do
     let(:project) { create(:project) }
     let!(:forum_1) do
       create(:forum,
-             project: project,
+             project:,
              position: 1)
     end
     let!(:forum_2) do
       create(:forum,
-             project: project,
+             project:,
              position: 2)
     end
 
@@ -180,7 +180,7 @@ describe ForumsController, type: :controller do
       before do
         post 'move', params: { id: forum_2.id,
                                project_id: forum_2.project_id,
-                               forum: { move_to: move_to } }
+                               forum: { move_to: } }
       end
 
       it do expect(forum_2.reload.position).to eq(1) end
@@ -199,7 +199,7 @@ describe ForumsController, type: :controller do
   describe '#update' do
     let!(:forum) do
       create(:forum, name: 'Forum name',
-                                description: 'Forum description')
+                     description: 'Forum description')
     end
 
     before do
@@ -215,7 +215,7 @@ describe ForumsController, type: :controller do
         end
       end
 
-      it 'should redirect to the index page if successful' do
+      it 'redirects to the index page if successful' do
         expect(response).to redirect_to controller: '/forums',
                                         action: 'index',
                                         project_id: forum.project_id
@@ -225,7 +225,7 @@ describe ForumsController, type: :controller do
         expect(flash[:notice]).to eq(I18n.t(:notice_successful_update))
       end
 
-      it 'should change the database entry' do
+      it 'changes the database entry' do
         forum.reload
         expect(forum.name).to eq('New name')
         expect(forum.description).to eq('New description')
@@ -241,11 +241,11 @@ describe ForumsController, type: :controller do
         end
       end
 
-      it 'should render the edit template' do
+      it 'renders the edit template' do
         expect(response).to render_template('edit')
       end
 
-      it 'should not change the database entry' do
+      it 'does not change the database entry' do
         forum.reload
         expect(forum.name).to eq('Forum name')
         expect(forum.description).to eq('Forum description')
@@ -254,22 +254,22 @@ describe ForumsController, type: :controller do
   end
 
   describe '#sticky' do
-    let!(:message1) { create(:message, forum: forum) }
-    let!(:message2) { create(:message, forum: forum) }
+    let!(:message1) { create(:message, forum:) }
+    let!(:message2) { create(:message, forum:) }
     let!(:sticked_message1) do
       create(:message, forum_id: forum.id,
-                                  subject: 'How to',
-                                  content: 'How to install this cool app',
-                                  sticky: '1',
-                                  sticked_on: Time.now - 2.minute)
+                       subject: 'How to',
+                       content: 'How to install this cool app',
+                       sticky: '1',
+                       sticked_on: Time.now - 2.minutes)
     end
 
     let!(:sticked_message2) do
       create(:message, forum_id: forum.id,
-                                  subject: 'FAQ',
-                                  content: 'Frequestly asked question',
-                                  sticky: '1',
-                                  sticked_on:
+                       subject: 'FAQ',
+                       content: 'Frequestly asked question',
+                       sticky: '1',
+                       sticked_on:
                                    Time.now - 1.minute)
     end
 
@@ -282,13 +282,14 @@ describe ForumsController, type: :controller do
       it 'renders show' do
         expect(response).to render_template 'show'
       end
-      it 'should be displayed on top' do
+
+      it 'is displayed on top' do
         expect(assigns[:topics][0].id).to eq(sticked_message1.id)
       end
     end
 
     describe 'edit a sticky message' do
-      before(:each) do
+      before do
         sticked_message1.sticky = 0
         sticked_message1.save!
       end
@@ -299,7 +300,7 @@ describe ForumsController, type: :controller do
           get :show, params: { project_id: project.id, id: forum.id }
         end
 
-        it 'it should not be displayed as sticky message' do
+        it 'is not displayed as sticky message' do
           expect(sticked_message1.sticked_on).to be_nil
           expect(assigns[:topics][0].id).not_to eq(sticked_message1.id)
         end
@@ -314,7 +315,7 @@ describe ForumsController, type: :controller do
           get :show, params: { project_id: project.id, id: forum.id }
         end
 
-        it 'it should not be displayed on first position' do
+        it 'is not displayed on first position' do
           expect(assigns[:topics][0].id).to eq(sticked_message2.id)
         end
       end

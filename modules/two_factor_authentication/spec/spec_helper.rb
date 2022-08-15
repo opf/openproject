@@ -2,7 +2,7 @@
 require "spec_helper"
 
 RSpec.configure do |config|
-  config.before(:each) do |example|
+  config.before do |example|
     next unless example.metadata[:with_2fa_ee]
 
     allow(EnterpriseToken)

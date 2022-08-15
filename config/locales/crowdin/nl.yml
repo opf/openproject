@@ -48,8 +48,9 @@ nl:
         main-menu-hover-font-color: "Lettertype hoofdmenu bij zweven"
         main-menu-border-color: "Hoofd menu rand"
       custom_colors: "Aangepaste kleuren"
-      customize: "Aanpassen van uw OpenProject installatie met uw eigen logo. Opmerking: Dit logo zal toegankelijk worden voor het publiek."
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "Als een speciale 'Bedankt!' voor hun financiële bijdrage aan het ontwikkelen van OpenProject, is deze kleine functie alleen beschikbaar voor Enterprise Edition ondersteuning abonnees."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Bewerk de kleur selectie opties"
       instructions:
         alternative-color: "Sterke accentkleur, meestal gebruikt voor de belangrijkste knop op een scherm."
@@ -93,6 +94,8 @@ nl:
     show_preview: 'Voorbeeld Tekst'
     add_new: 'Alt-tekst invullen'
     edit: "Bewerken van help-tekst voor %{attribute_caption}"
+    enterprise:
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Er zijn momenteel geen verificatie methodes.
@@ -168,7 +171,7 @@ nl:
     execute: 'Uitvoeren van %{name}'
     upsale:
       title: 'Custom actions'
-      description: 'Aangepaste acties stroomlijnen dagelijks werk door het combineren van een aantal afzonderlijke stappen in één knop.'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       Om de nieuwe aangepaste velden toevoegen aan een project moet u deze eerst maken voordat u ze aan dit project toevoegen kunt.
@@ -268,7 +271,7 @@ nl:
     upsale:
       title: Placeholder users
       description: >
-        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -298,6 +301,8 @@ nl:
     edit:
       settings: "Instellingen"
       form_configuration: "Formulierconfiguratie"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projecten"
       enabled_projects: "Ingeschakelde projecten"
       edit_query: "Tabel bewerken"
@@ -517,20 +522,23 @@ nl:
         begin_deletion: "Begin van de verwijdering"
         children: "Subelementen"
         done_ratio: "Voortgang (%)"
+        duration: "Duration"
         end_insertion: "Einde van het invoegen"
         end_deletion: "Einde van de verwijdering"
-        version: "Versie"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Bovenliggend werkpakket"
         parent_issue: "Bovenliggend werkpakket"
         parent_work_package: "Bovenliggend werkpakket"
         priority: "Prioriteit"
         progress: "Voortgang (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Bestede tijd"
         spent_time: "Bestede tijd"
         subproject: "Subproject"
         time_entries: "Gelogde tijd"
         type: "Type"
+        version: "Versie"
         watcher: "Kijker"
       'doorkeeper/application':
         uid: "Client-ID"
@@ -597,6 +605,8 @@ nl:
         unknown_property: "is geen bekend eigenschap."
         unknown_property_nested: "heeft het onbekende pad '%{path}' '."
         unremovable: "kan niet verwijderd worden."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "is de verkeerde lengte (dient %{count} karakters te zijn)."
       models:
         attachment:
@@ -628,7 +638,7 @@ nl:
               fragment_present: 'kan geen fragment bevatten.'
               invalid_uri: 'moet een geldige URI zijn.'
               relative_uri: 'moet een absolute URI zijn.'
-              secured_uri: 'moet een HTTPS/SSL URI zijn.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'is verboden door de server.'
             scopes:
               not_match_configured: "komt niet overeen met beschikbare scopes."
@@ -731,6 +741,10 @@ nl:
           attributes:
             due_date:
               not_start_date: "is niet op begindatum, hoewel dit voor mijlpalen vereist is."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "kan geen mijlpaal zijn."
               cannot_be_self_assigned: "kan niet aan zichzelf worden toegewezen."
@@ -1343,7 +1357,7 @@ nl:
     admin:
       mail_notification: "E-mailnotificaties"
       mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
@@ -1352,7 +1366,7 @@ nl:
       no_results:
         title: "Geen toegangstokens weer te geven"
         description: "Alle van hen zijn uitgeschakeld. Zij kunnen opnieuw worden ingeschakeld in het administratie menu."
-      access_token: "Toegangstoken"
+      access_tokens: "Access tokens"
       headers:
         action: "Actie"
         expiration: "Verloopt"
@@ -1453,7 +1467,6 @@ nl:
   label_consent_settings: "Gebruikers toestemming"
   label_wiki_menu_item: Wiki menu-item
   label_select_main_menu_item: Selecteer nieuwe hoofdmenu-item
-  label_select_project: "Selecteer een project"
   label_required_disk_storage: "Vereiste schijfruimte"
   label_send_invitation: Verstuur uitnodiging
   label_change_plural: "Wijzigingen"
@@ -1519,6 +1532,7 @@ nl:
   label_diff: "diff"
   label_diff_inline: "inline"
   label_diff_side_by_side: "Naast elkaar"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "uitgeschakeld"
   label_display: "Weergave"
   label_display_per_page: "Per pagina: %{value}"
@@ -1731,7 +1745,6 @@ nl:
   label_product_version: "Versie van het product"
   label_professional_support: "Professionele ondersteuning"
   label_profile: "Profiel"
-  label_project_all: "Alle projecten"
   label_project_count: "Totale aantal projecten"
   label_project_copy_notifications: "Verzenden van e-mailmeldingen tijdens het project kopiëren"
   label_project_latest: "Meest recente projecten"
@@ -1993,6 +2006,9 @@ nl:
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Om uw wachtwoord te wijzigen, klikt u op op de volgende link:"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
@@ -2011,6 +2027,7 @@ nl:
   mail_subject_account_activation_request: "%{value} account aanvraag dient geactiveerd te worden"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Uw wachtwoord %{value}"
   mail_subject_register: "Uw %{value} account activatie"
   mail_subject_reminder: "%{count} werkpakket(ten) vervallen in de volgende %{days} dagen"
@@ -2102,6 +2119,12 @@ nl:
   notice_successful_create: "Aanmaak geslaagd."
   notice_successful_delete: "Verwijdering geslaagd."
   notice_successful_update: "Succesvolle wijziging."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Er zijn te veel resultaten. Beperk het zoekbereik door een naam in te geven van een nieuw lid (of groep)."
   notice_user_missing_authentication_method: Gebruiker dient nog een wachtwoord te kiezen of een andere manier om in te loggen te bepalen.
   notice_user_invitation_resent: Een nieuwe uitnodiging is verstuurd naar %{email}.
@@ -2169,13 +2192,14 @@ nl:
   permission_edit_own_time_entries: "Bewerk de logboeken van de eigen tijd"
   permission_edit_project: "Project bewerken"
   permission_edit_reportings: "Rapporteringen bewerken"
-  permission_edit_time_entries: "Bewerk de logboeken van de tijd"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Bewerken van tijdlijnen"
   permission_edit_wiki_pages: "Wiki pagina's bewerken"
   permission_export_work_packages: "Werkpakketten exporteren"
   permission_export_wiki_pages: "Wiki pagina's exporteren"
   permission_list_attachments: "Bijlagen weergeven"
-  permission_log_time: "Meld uw bestede tijd"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Forum beheren"
   permission_manage_categories: "Werkpakket Categorieën beheren"
   permission_manage_work_package_relations: "Werkpakket relaties beheren"
@@ -2333,6 +2357,9 @@ nl:
     storage:
       not_available: "Schijf opslag consumptie is niet beschikbaar voor deze repository."
       update_timeout: "Houd de laatste vereiste vrije schijfruimte voor een repository voor N minuten. Als het tellen van de vereiste schijfruimte van een repository kostbaar is, verhoog dit getal om invloed op de prestaties verminderen."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Bestaande Subversion-repository"
       existing_introduction: "Als u een bestaand Subversion repository hebt, kunt u deze koppelen met OpenProject om deze te openen van binnen de toepassing."
@@ -2376,7 +2403,7 @@ nl:
   setting_smtp_authentication: "SMTP-authenticatie"
   setting_smtp_user_name: "SMTP gebruikersnaam"
   setting_smtp_password: "SMTP wachtwoord"
-  setting_smtp_domain: "SMTP-Hallo afzender domein"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Dagen weergegeven op projectactiviteit"
   setting_app_subtitle: "Applicatie ondertitel"
   setting_app_title: "Toepassingsnaam"
@@ -2412,7 +2439,6 @@ nl:
   setting_email_login: "Gebruik e-mail als inlog"
   setting_enabled_scm: "SCM Ingeschakeld"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_notification_retention_period_days: "Meldingen bijhouden periode "
   setting_feeds_enabled: "Feeds inschakelen"
   setting_feeds_limit: "Feed inhoud limiet"
   setting_file_max_size_displayed: "Maximale grootte van tekstbestanden inline weergegeven"
@@ -2425,7 +2451,7 @@ nl:
   setting_work_package_list_default_columns: "Standaard worden weergegeven"
   setting_work_package_properties: "Werkpakketeigenschappen"
   setting_work_package_startdate_is_adddate: "Huidige datum als begindatum voor nieuwe werkpakketten gebruiken"
-  setting_work_packages_export_limit: "Werkpakketten export limiet"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "Gebruikersacties geaggregeerd binnen"
   setting_log_requesting_user: "Gebruikerslogin, naam en e-mailadres voor alle aanvragen vastleggen"
   setting_login_required: "Verificatie vereist"
@@ -2485,8 +2511,6 @@ nl:
       whitelist_text_html: >
         Definieer een lijst met geldige bestandsextensies en/of MIME-types voor geüploade bestanden. <br/> Vul de bestandsextensies in (bijv. <code>%{ext_example}</code>) of MIME-types (bijv. ., <code>%{mime_example}</code>). <br/> Laat leeg om elk bestandstype te kunnen uploaden. Meerdere waarden toegestaan (één regel voor elke waarde).
     notifications:
-      retention_text: >
-        Stel het aantal dagen in dat notificatie gebeurtenissen voor gebruikers (de bron voor in-app meldingen) worden bewaard in het systeem. Gebeurtenissen ouder dan deze tijd worden verwijderd.
       events_explanation: 'Bepaalt voor welke gebeurtenis een e-mail wordt verzonden. Werkpakketten worden uitgesloten van deze lijst omdat de meldingen ervoor kunnen worden geconfigureerd voor elke gebruiker.'
       delay_minutes_explanation: "Het verzenden van e-mail kan worden vertraagd zodat gebruikers met in app geconfigureerde melding binnen de applicatie de melding kunnen bevestigen voordat er een e-mail wordt verzonden. Gebruikers die een melding binnen de applicatie lezen ontvangen geen e-mail voor de reeds gelezen melding."
     display:
@@ -2538,6 +2562,12 @@ nl:
     Bij het gebruik van aangepaste velden: Houd er rekening mee dat aangepaste velden moeten worden geactiveerd per project.
   text_custom_field_hint_activate_per_project_and_type: >
     Aangepaste velden moeten worden geactiveerd per werkpakket type en per project.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Een wit logo op transparante achtergrond wordt aanbevolen. Voor de beste resultaten op zowel conventionele en retina displays, doet u door ervoor te zorgen dat uw afbeelding afmetingen zijn 460px bij 60px.
   text_custom_favicon_instructions: >
@@ -3010,4 +3040,51 @@ nl:
     authorization_error: "Er is een autorisatiefout opgetreden."
     revoke_my_application_confirmation: "Weet u zeker dat u deze applicatie wilt verwijderen? Dit zal %{token_count} actief voor deze verwijderen."
     my_registered_applications: "Geregistreerde OAuth toepassingen"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: you

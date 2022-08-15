@@ -37,12 +37,12 @@ describe 'API v3 Project resource create', type: :request, content_type: :json d
     create(:text_project_custom_field)
   end
   let(:custom_value) do
-    CustomValue.create(custom_field: custom_field,
+    CustomValue.create(custom_field:,
                        value: '1234',
                        customized: project)
   end
   let(:global_role) do
-    create(:global_role, permissions: permissions)
+    create(:global_role, permissions:)
   end
   let(:permissions) { [:add_project] }
   let(:path) { api_v3_paths.projects }

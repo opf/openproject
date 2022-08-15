@@ -8,7 +8,7 @@ describe Ldap::SynchronizeUsersService do
   end
 
   context 'when updating an admin' do
-    let!(:user_aa729) { create :user, login: 'aa729', firstname: 'Foobar', auth_source: auth_source, admin: true }
+    let!(:user_aa729) { create :user, login: 'aa729', firstname: 'Foobar', auth_source:, admin: true }
 
     it 'does not update the admin attribute if not defined (Regression #42396)' do
       expect(user_aa729).to be_admin
@@ -20,59 +20,76 @@ describe Ldap::SynchronizeUsersService do
   end
 
   context 'when updating users' do
-    let!(:user_aa729) { create :user, login: 'aa729', firstname: 'Foobar', auth_source: auth_source }
-    let!(:user_bb459) { create :user, login: 'bb459', firstname: 'Bla', auth_source: auth_source }
+    let!(:user_aa729) { create :user, login: 'aa729', firstname: 'Foobar', auth_source: }
+    let!(:user_bb459) { create :user, login: 'bb459', firstname: 'Bla', auth_source: }
 
-    it 'updates the attributes of those users' do
-      subject
+    context 'when user sync status is enabled',
+            with_config: { ldap_users_sync_status: true } do
 
-      user_aa729.reload
-      user_bb459.reload
+      it 'updates the attributes of those users' do
+        subject
 
-      expect(user_aa729.firstname).to eq 'Alexandra'
-      expect(user_aa729.lastname).to eq 'Adams'
-      expect(user_aa729.mail).to eq 'alexandra@example.org'
+        user_aa729.reload
+        user_bb459.reload
 
-      expect(user_bb459.firstname).to eq 'Belle'
-      expect(user_bb459.lastname).to eq 'Baldwin'
-      expect(user_bb459.mail).to eq 'belle@example.org'
+        expect(user_aa729.firstname).to eq 'Alexandra'
+        expect(user_aa729.lastname).to eq 'Adams'
+        expect(user_aa729.mail).to eq 'alexandra@example.org'
+
+        expect(user_bb459.firstname).to eq 'Belle'
+        expect(user_bb459.lastname).to eq 'Baldwin'
+        expect(user_bb459.mail).to eq 'belle@example.org'
+      end
+
+      it 'updates one user if the other fails' do
+        allow(Users::UpdateService)
+          .to receive(:new)
+                .and_call_original
+
+        allow(Users::UpdateService)
+          .to receive(:new)
+                .with(model: user_aa729, user: User.system)
+                .and_raise("Some bad error happening here")
+
+        subject
+
+        user_aa729.reload
+        user_bb459.reload
+
+        expect(user_aa729.firstname).to eq 'Foobar'
+        expect(user_aa729.lastname).to eq 'Bobbit'
+
+        expect(user_bb459.firstname).to eq 'Belle'
+        expect(user_bb459.lastname).to eq 'Baldwin'
+        expect(user_bb459.mail).to eq 'belle@example.org'
+      end
+
+      it 'reactivates the account if it is locked' do
+        user_aa729.lock!
+
+        expect(user_aa729.reload).to be_locked
+
+        subject
+
+        expect(user_aa729.reload).not_to be_locked
+        expect(user_aa729).to be_active
+      end
+
+      context 'with a user that is in another LDAP' do
+        let(:auth_source2) { create :ldap_auth_source, name: 'Another LDAP' }
+        let(:user_foo) { create :user, login: 'login', auth_source: auth_source2 }
+
+        it 'does not touch that user' do
+          expect(user_foo).to be_active
+
+          subject
+
+          expect(user_foo.reload).to be_active
+        end
+      end
     end
 
-    it 'updates one user if the other fails' do
-      allow(Users::UpdateService)
-        .to receive(:new)
-        .and_call_original
-
-      allow(Users::UpdateService)
-        .to receive(:new)
-        .with(model: user_aa729, user: User.system)
-        .and_raise("Some bad error happening here")
-
-      subject
-
-      user_aa729.reload
-      user_bb459.reload
-
-      expect(user_aa729.firstname).to eq 'Foobar'
-      expect(user_aa729.lastname).to eq 'Bobbit'
-
-      expect(user_bb459.firstname).to eq 'Belle'
-      expect(user_bb459.lastname).to eq 'Baldwin'
-      expect(user_bb459.mail).to eq 'belle@example.org'
-    end
-
-    it 'reactivates the account if it is locked' do
-      user_aa729.lock!
-
-      expect(user_aa729.reload).to be_locked
-
-      subject
-
-      expect(user_aa729.reload).not_to be_locked
-      expect(user_aa729).to be_active
-    end
-
-    context 'when requesting not to sync users status',
+    context 'when user sync status is disabled',
             with_config: { ldap_users_sync_status: false } do
       it 'does not reactivate the account if it is locked' do
         user_aa729.lock!
@@ -87,7 +104,7 @@ describe Ldap::SynchronizeUsersService do
     end
 
     context 'when requesting only a subset of users' do
-      let!(:user_cc414) { create :user, login: 'cc414', auth_source: auth_source }
+      let!(:user_cc414) { create :user, login: 'cc414', auth_source: }
 
       subject do
         described_class.new(auth_source, %w[Aa729 cc414]).call
@@ -115,17 +132,20 @@ describe Ldap::SynchronizeUsersService do
   end
 
   context 'with a user that is no longer in LDAP' do
-    let(:user_foo) { create :user, login: 'login', auth_source: auth_source }
+    let(:user_foo) { create :user, login: 'login', auth_source: }
 
-    it 'locks that user' do
-      expect(user_foo).to be_active
+    context 'when user sync status is enabled',
+            with_config: { ldap_users_sync_status: true } do
+      it 'locks that user' do
+        expect(user_foo).to be_active
 
-      subject
+        subject
 
-      expect(user_foo.reload).to be_locked
+        expect(user_foo.reload).to be_locked
+      end
     end
 
-    context 'when requesting not to sync users status',
+    context 'when user sync status is disabled',
             with_config: { ldap_users_sync_status: false } do
       it 'does not lock that user' do
         expect(user_foo).to be_active
@@ -137,16 +157,4 @@ describe Ldap::SynchronizeUsersService do
     end
   end
 
-  context 'with a user that is in another LDAP' do
-    let(:auth_source2) { create :ldap_auth_source, name: 'Another LDAP' }
-    let(:user_foo) { create :user, login: 'login', auth_source: auth_source2 }
-
-    it 'does not touch that user' do
-      expect(user_foo).to be_active
-
-      subject
-
-      expect(user_foo.reload).to be_active
-    end
-  end
 end

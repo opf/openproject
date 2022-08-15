@@ -31,15 +31,15 @@ module API
     module TimeEntries
       class AvailableWorkPackagesOnCreateAPI < ::API::OpenProjectAPI
         after_validation do
-          authorize_any %i[log_time],
-                        global: true
+          authorize_any %i[log_time log_own_time], global: true
         end
 
         helpers AvailableWorkPackagesHelper
 
         helpers do
           def allowed_scope
-            WorkPackage.where(project_id: Project.allowed_to(User.current, :log_time))
+            WorkPackage.where(project_id: Project.allowed_to(User.current, :log_own_time))
+                       .or(WorkPackage.where(project_id: Project.allowed_to(User.current, :log_time)))
           end
         end
 

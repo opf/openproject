@@ -39,7 +39,12 @@ See COPYRIGHT and LICENSE files for more details.
   <%= content_for(:header_tags) if content_for?(:header_tags) %>
   <meta name="current_menu_item" content="<%= current_menu_item %>"/>
 </head>
-<body class="<%= body_css_classes %> __overflowing_element_container __overflowing_body" data-relative_url_root="<%= root_path %>" data-overflowing-identifier=".__overflowing_body">
+<body
+  class="<%= body_css_classes %> __overflowing_element_container __overflowing_body"
+  data-relative_url_root="<%= root_path %>"
+  data-overflowing-identifier=".__overflowing_body"
+  data-rendered-at="<%= Time.zone.now.iso8601 %>"
+>
 <%= render partial: 'warning_bar/warning_bar' %>
 <noscript>
   <div class="top-shelf">
@@ -158,6 +163,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= content_for :additional_js_dom_ready %>
   }(jQuery));
 <% end %>
+<div class="op-wide-autocomplete-wrapper"></div>
 <%= call_hook :view_layouts_base_body_bottom %>
 </body>
 </html>

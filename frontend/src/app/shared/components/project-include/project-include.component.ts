@@ -5,7 +5,6 @@ import {
   HostBinding,
   OnInit,
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {
   BehaviorSubject,
   combineLatest,
@@ -13,39 +12,36 @@ import {
 import {
   debounceTime,
   distinctUntilChanged,
-  finalize,
+  filter,
   map,
+  tap,
   mergeMap,
   shareReplay,
+  skip,
   take,
 } from 'rxjs/operators';
-
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import {
-  ApiV3ListFilter,
-  ApiV3ListParameters,
-  listParamsString,
-} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { WorkPackageViewIncludeSubprojectsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-include-subprojects.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { IProject } from 'core-app/core/state/projects/project.model';
+import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
+import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
 
-import { IProjectData } from './project-data';
 import { insertInList } from './insert-in-list';
 import { recursiveSort } from './recursive-sort';
-import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
 @Component({
   selector: 'op-project-include',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './project-include.component.html',
   styleUrls: ['./project-include.component.sass'],
+  providers: [
+    SearchableProjectListService,
+  ],
 })
 export class OpProjectIncludeComponent extends UntilDestroyedMixin implements OnInit {
   @HostBinding('class.op-project-include') className = true;
@@ -59,9 +55,12 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     clear_selection: this.I18n.t('js.include_projects.clear_selection'),
     apply: this.I18n.t('js.include_projects.apply'),
     include_subprojects: this.I18n.t('js.include_projects.include_subprojects'),
+    no_results: this.I18n.t('js.include_projects.no_results'),
   };
 
   public opened = false;
+
+  public textFieldFocused = false;
 
   public query$ = this.wpTableFilters.querySpace.query.values$();
 
@@ -82,19 +81,6 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
   }
 
   public displayMode$ = new BehaviorSubject('all');
-
-  private _searchText = '';
-
-  public get searchText():string {
-    return this._searchText;
-  }
-
-  public set searchText(val:string) {
-    this._searchText = val;
-    this.searchText$.next(val);
-  }
-
-  public searchText$ = new BehaviorSubject('');
 
   private _includeSubprojects = true;
 
@@ -133,115 +119,145 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
         if (selectedProjectHrefs.includes(currentProjectHref)) {
           return selectedProjectHrefs;
         }
-        const selectedPrjects = [...selectedProjectHrefs];
+        const selectedProjects = [...selectedProjectHrefs];
         if (currentProjectHref) {
-          selectedPrjects.push(currentProjectHref);
+          selectedProjects.push(currentProjectHref);
         }
-        return selectedPrjects;
+        return selectedProjects;
       }),
     );
 
   public numberOfProjectsInFilter$ = this.projectsInFilter$.pipe(map((selected) => selected.length));
 
-  public allProjects$ = new BehaviorSubject<IProject[]>([]);
-
   public projects$ = combineLatest([
-    this.allProjects$,
+    this.searchableProjectListService.allProjects$,
     this.displayMode$.pipe(distinctUntilChanged()),
-    this.includeSubprojects$,
-    this.searchText$.pipe(debounceTime(200)),
-  ])
-    .pipe(
-      debounceTime(50),
+    this.includeSubprojects$.pipe(debounceTime(20)),
+    this.searchableProjectListService.searchText$.pipe(debounceTime(200)),
+  ]).pipe(
       mergeMap(([projects, displayMode, includeSubprojects, searchText]) => this.selectedProjects$.pipe(
         take(1),
         map((selected) => [projects, displayMode, includeSubprojects, searchText, selected]),
       )),
       map(
-        ([projects, displayMode, includeSubprojects, searchText, selected]:[IProject[], string, boolean, string, string[]]) => projects
-          .filter(
-            (project) => {
-              if (searchText.length) {
-                const matches = project.name.toLowerCase().includes(searchText.toLowerCase()) || project.identifier.toLowerCase().includes(searchText.toLowerCase());
+        ([projects, displayMode, includeSubprojects, searchText, selected]:[IProject[], string, boolean, string, string[]]) => [
+          projects
+            .filter(
+              (project) => {
+                if (searchText.length) {
+                  const matches = project.name.toLowerCase().includes(searchText.toLowerCase());
 
-                if (!matches) {
-                  return false;
+                  if (!matches) {
+                    return false;
+                  }
                 }
-              }
 
-              if (displayMode !== 'selected') {
-                return true;
-              }
+                if (displayMode !== 'selected') {
+                  return true;
+                }
 
-              if (selected.includes(project._links.self.href)) {
-                return true;
-              }
+                if (selected.includes(project._links.self.href)) {
+                  return true;
+                }
 
-              const hasSelectedAncestor = project._links.ancestors.reduce(
-                (anySelected, ancestor) => anySelected || selected.includes(ancestor.href),
-                false,
-              );
+                const hasSelectedAncestor = project._links.ancestors.reduce(
+                  (anySelected, ancestor) => anySelected || selected.includes(ancestor.href),
+                  false,
+                );
 
-              if (includeSubprojects && hasSelectedAncestor) {
-                return true;
-              }
+                if (includeSubprojects && hasSelectedAncestor) {
+                  return true;
+                }
 
-              return false;
-            },
-          )
-          .sort((a, b) => a._links.ancestors.length - b._links.ancestors.length)
-          .reduce(
-            (list, project) => {
-              const { ancestors } = project._links;
+                return false;
+              },
+            )
+            .sort((a, b) => a._links.ancestors.length - b._links.ancestors.length)
+            .reduce(
+              (list, project) => {
+                const { ancestors } = project._links;
 
-              return insertInList(projects, project, list, ancestors);
-            },
-            [] as IProjectData[],
-          ),
+                return insertInList(
+                  projects,
+                  project,
+                  list,
+                  ancestors,
+                );
+              },
+              [] as IProjectData[],
+            ),
+          includeSubprojects,
+        ],
       ),
+      mergeMap(([projects, includeSubprojects]) => this.selectedProjects$.pipe(
+        map((selected) => [projects, includeSubprojects, selected]),
+      )),
+      map(([projects, includeSubprojects, selected]: [IProjectData[], boolean, string[]]) => {
+        const isDisabled = (project:IProjectData, parentChecked:boolean) => {
+          if (project.disabled) {
+            return true;
+          }
+
+          if (project.href === this.currentProjectService.apiv3Path) {
+            return true;
+          }
+
+          return includeSubprojects && parentChecked;
+        };
+
+        const setDisabledStatus = (project:IProjectData, parentChecked:boolean):IProjectData => {
+          return {
+            ...project,
+            disabled: isDisabled(project, parentChecked),
+            children: project.children.map(
+              (child) => setDisabledStatus(child, parentChecked || selected.includes(project.href)),
+            ),
+          };
+        };
+
+        return projects.map((project) => setDisabledStatus(project, false));
+      }),
       map((projects) => recursiveSort(projects)),
       shareReplay(),
     );
 
-  public fetchingProjects$ = new BehaviorSubject(false);
-  public loading$ = combineLatest([
-    this.fetchingProjects$,
-    this.projects$,
-  ]).pipe(
-    map(([isFetching, projects]) => isFetching || projects.length === 0)
+  /* This seems like a way too convoluted loading check, but there's a good reason we need it.
+   * The searchableProjectListService says fetching is "done" when the request returns.
+   * However, this causes flickering on the initial load, since `projects$` still needs
+   * to do the tree calculation. In the template, we show the project-list when `loading$ | async` is false,
+   * but if we would only make this depend on `fetchingProjects$` Angular would still wait with
+   * rendering the project-list until `projects$ | async` has also fired.
+   *
+   * To fix this, we first wait for fetchingProjects$ to be true once,
+   * then switch over to projects$, and after that has pinged once, it switches back to
+   * fetchingProjects$ as the decider for when fetching is done.
+   */
+  public loading$ = this.searchableProjectListService.fetchingProjects$.pipe(
+    filter((fetching) => fetching),
+    take(1),
+    mergeMap(() => this.projects$),
+    mergeMap(() => this.searchableProjectListService.fetchingProjects$),
   );
 
-  public get params():ApiV3ListParameters {
-    const filters:ApiV3ListFilter[] = [
-      ['active', '=', ['t']],
-    ];
-
-    return {
-      filters,
-      pageSize: -1,
-      select: [
-        'elements/id',
-        'elements/name',
-        'elements/identifier',
-        'elements/self',
-        'elements/ancestors',
-        'total',
-        'count',
-        'pageSize',
-      ],
-    };
-  }
-
   constructor(
-    readonly apiV3Service:ApiV3Service,
     readonly I18n:I18nService,
-    readonly http:HttpClient,
     readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly wpIncludeSubprojects:WorkPackageViewIncludeSubprojectsService,
     readonly halResourceService:HalResourceService,
     readonly currentProjectService:CurrentProjectService,
+    readonly searchableProjectListService:SearchableProjectListService,
   ) {
     super();
+
+    this.projects$
+      .pipe(
+        this.untilDestroyed(),
+        filter(p => p.length > 0),
+        take(1),
+      )
+      .subscribe((projects) => {
+        this.searchableProjectListService.resetActiveResult(projects);
+      });
   }
 
   public ngOnInit():void {
@@ -263,34 +279,17 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     this.opened = !this.opened;
 
     if (this.opened) {
-      this.loadAllProjects();
+      this.searchableProjectListService.loadAllProjects();
       this.projectsInFilter$
         .pipe(
           take(1),
         )
         .subscribe((selectedProjects) => {
           this.displayMode = 'all';
-          this.searchText = '';
+          this.searchableProjectListService.searchText = '';
           this.selectedProjects = selectedProjects as string[];
         });
     }
-  }
-
-  public loadAllProjects():void {
-    this.fetchingProjects$.next(true);
-
-    getPaginatedResults<IProject>(
-      (params) => {
-        const collectionURL = listParamsString({ ...this.params, ...params });
-        return this.http.get<IHALCollection<IProject>>(this.apiV3Service.projects.path + collectionURL);
-      },
-    )
-      .pipe(
-        finalize(() => this.fetchingProjects$.next(false)),
-      )
-      .subscribe((projects) => {
-        this.allProjects$.next(projects);
-      });
   }
 
   public clearSelection():void {

@@ -37,9 +37,7 @@ module Queries::Filters::Shared
       include ::Queries::WorkPackages::Filter::MeValueFilterMixin
 
       def allowed_values
-        @allowed_values ||= begin
-          me_allowed_value + super
-        end
+        @allowed_values ||= me_allowed_value + super
       end
     end
   end

@@ -31,7 +31,7 @@ require_module_spec_helper
 require 'contracts/shared/model_contract_shared_context'
 require_relative 'shared_contract_examples'
 
-describe Storages::ProjectStorages::CreateContract, :enable_storages do
+describe Storages::ProjectStorages::CreateContract do
   include_context 'ModelContract shared context'
 
   it_behaves_like 'ProjectStorages contract' do
@@ -40,8 +40,8 @@ describe Storages::ProjectStorages::CreateContract, :enable_storages do
     let(:project_storage) do
       ::Storages::ProjectStorage.new(
         creator: current_user,
-        project: project,
-        storage: storage
+        project:,
+        storage:
       )
     end
     let(:contract) { described_class.new(project_storage, current_user) }
@@ -53,7 +53,7 @@ describe Storages::ProjectStorages::CreateContract, :enable_storages do
 
   context 'when checking creator_id' do
     let(:contract) { described_class.new(project_storage, current_user) }
-    let(:project_storage) { build(:project_storage, creator: creator) }
+    let(:project_storage) { build(:project_storage, creator:) }
     let(:current_user) { build_stubbed(:admin) }
 
     before do

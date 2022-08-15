@@ -53,11 +53,10 @@ See COPYRIGHT and LICENSE files for more details.
         <fieldset class="form--fieldset">
           <legend class="form--fieldset-legend"><%=t(:label_user_new)%></legend>
           <div class="form--field -vertical">
-            <%= hidden_field_tag :user_ids, nil  %>
-            <user-autocompleter data-update-input="user_ids"
+            <op-user-autocompleter data-name='"user_ids"'
                                 data-additional-filter="<%= autocompleter_filters(@group).to_json %>"
                                 class="new-group-members--autocomplete">
-            </user-autocompleter>
+            </op-user-autocompleter>
           </div>
           <div>
             <%= styled_button_tag t(:button_add),

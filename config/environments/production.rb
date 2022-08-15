@@ -125,7 +125,7 @@ OpenProject::Application.configure do
       'Access-Control-Allow-Origin' => '*',
       'Access-Control-Allow-Methods' => 'GET, OPTIONS, HEAD',
       'Cache-Control' => 'public, s-maxage=31536000, max-age=15552000',
-      'Expires' => 1.year.from_now.to_formatted_s(:rfc822).to_s
+      'Expires' => 1.year.from_now.to_fs(:rfc822).to_s
     }
   end
 end

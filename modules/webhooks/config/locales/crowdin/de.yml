@@ -37,7 +37,7 @@ de:
         enabled_text: 'Der Webhook wird Inhalte für die unten definierten Ereignisse senden.'
         disabled_text: 'Klicken Sie auf Bearbeiten, um den Webhook zu aktivieren.'
       deliveries:
-        no_results_table: Für diesen Webhook wurden keine Zustellungen ausgefüührt.
+        no_results_table: Für diesen Webhook wurden in den letzten Tagen keine Zustellungen ausgeführt.
         title: 'Letzte Zustellungen'
         time: 'Zustellzeit'
       form:

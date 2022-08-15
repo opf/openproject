@@ -72,17 +72,20 @@ module API
           def property(name,
                        column: name,
                        representation: nil,
-                       render_if: nil)
-            properties[name] = { column: column, render_if: render_if, representation: representation }
+                       render_if: nil,
+                       join: nil)
+            properties[name] = { column:, render_if:, representation:, join: }
           end
 
           def joins(select, scope)
-            selected_links(select)
-              .select { |_, link| link[:join] }
-              .map do |name, link|
-              join = "LEFT OUTER JOIN #{link[:join][:table]} #{name.to_s.pluralize} ON #{link[:join][:condition]}"
-
-              scope = scope.joins(join).select(link[:join][:select])
+            selected_joins(select).each do |name, column|
+              options = column[:join]
+              condition = <<~SQL.squish
+                LEFT OUTER JOIN
+                  #{options[:table]} #{options[:alias] || name.to_s.pluralize}
+                ON #{options[:condition]}
+              SQL
+              scope = scope.joins(condition).select(options[:select])
             end
 
             scope
@@ -97,14 +100,14 @@ module API
                    render_if: nil,
                    sql: nil,
                    **additional_properties)
-            links[name] = { column: column,
-                            path: path,
-                            title: title,
-                            join: join,
-                            href: href,
-                            render_if: render_if,
-                            sql: sql,
-                            additional_properties: additional_properties }
+            links[name] = { column:,
+                            path:,
+                            title:,
+                            join:,
+                            href:,
+                            render_if:,
+                            sql:,
+                            additional_properties: }
           end
 
           def links_selects(select, walker_result)
@@ -129,14 +132,13 @@ module API
 
           def embedded(name,
                        representation: nil)
-            embeddeds[name] = { representation: representation }
+            embeddeds[name] = { representation: }
           end
 
           def embedded_selects(_selects, walker_results)
             # TODO: This does not yet support signaling
             embeddeds
               .map do |name, link|
-
               representation = if link[:representation]
                                  link[:representation].call(walker_results)
                                else
@@ -231,6 +233,12 @@ module API
             selected(select, properties)
           end
 
+          def selected_joins(select)
+            selected_links(select)
+            .merge(selected_properties(select))
+            .select { |_, column| column[:join] }
+          end
+
           def selected(select, list)
             selects = cleaned_selects(select)
 
@@ -320,6 +328,14 @@ module API
 
           def sql_limit(walker_result)
             walker_result.page_size
+          end
+
+          def join_condition(name, options)
+            <<~SQL.squish
+              LEFT OUTER JOIN
+                #{options[:table]} #{options[:alias] || name.to_s.pluralize}
+              ON #{options[:condition]}
+            SQL
           end
         end
       end

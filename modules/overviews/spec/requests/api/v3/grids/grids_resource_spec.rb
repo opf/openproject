@@ -42,8 +42,8 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   let(:project) { create(:project) }
   let(:grid) do
     create(:overview,
-           project: project,
-           widgets: widgets)
+           project:,
+           widgets:)
   end
   let(:widgets) do
     [create(:grid_widget,

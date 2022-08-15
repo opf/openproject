@@ -45,7 +45,7 @@ module BaseServices
           name_source: -> { service_cls.human_name },
           count_source: ->(source, user) do
             service_cls
-              .new(source: source, target: nil, user: user)
+              .new(source:, target: nil, user:)
               .source_count
           end
         }
@@ -57,7 +57,7 @@ module BaseServices
       raise ArgumentError, "Missing source object" if self.source.nil?
 
       contract_options[:copy_source] = self.source
-      super(user: user, contract_class: contract_class, contract_options: contract_options)
+      super(user:, contract_class:, contract_options:)
     end
 
     def call(params)
@@ -77,13 +77,13 @@ module BaseServices
       # Try to save the result or return its errors
       copy_instance = call.result
       unless copy_instance.save
-        return ServiceResult.new(success: false, result: copy_instance, errors: copy_instance.errors)
+        return ServiceResult.failure(result: copy_instance, errors: copy_instance.errors)
       end
 
       self.class.copy_dependencies.each do |service_cls|
         next if skip_dependency?(params, service_cls)
 
-        call.merge! call_dependent_service(service_cls, target: copy_instance, params: params),
+        call.merge! call_dependent_service(service_cls, target: copy_instance, params:),
                     without_success: true
       end
 
@@ -94,8 +94,8 @@ module BaseServices
 
     ##
     # Disabling sending regular notifications
-    def service_context(&block)
-      in_context(model, false, &block)
+    def service_context(*_args, &)
+      in_context(model, false, &)
     end
 
     ##
@@ -119,9 +119,9 @@ module BaseServices
     # Calls a dependent service with the source and copy instance
     def call_dependent_service(service_cls, target:, params:)
       service_cls
-        .new(source: source, target: target, user: user)
+        .new(source:, target:, user:)
         .with_state(state)
-        .call(params: params)
+        .call(params:)
     end
 
     def initialize_copy(source, params)

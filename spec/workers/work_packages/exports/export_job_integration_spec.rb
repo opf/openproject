@@ -38,24 +38,24 @@ describe WorkPackages::ExportJob, 'Integration' do
   let(:export) do
     create(:work_packages_export)
   end
-  let(:query) { create(:query, name: 'Query report 04/2021 äöü', project: project) }
+  let(:query) { create(:query, name: 'Query report 04/2021 äöü', project:) }
   let(:query_attributes) { {} }
 
   let(:job) { described_class.new(**jobs_args) }
   let(:jobs_args) do
     {
-      export: export,
-      mime_type: mime_type,
-      user: user,
-      options: options,
-      query: query,
-      query_attributes: query_attributes
+      export:,
+      mime_type:,
+      user:,
+      options:,
+      query:,
+      query_attributes:
     }
   end
   let(:options) { {} }
   let(:mime_type) { :pdf }
 
-  subject(:performed_job) do
+  let(:performed_job) do
     job.tap(&:perform_now)
   end
 

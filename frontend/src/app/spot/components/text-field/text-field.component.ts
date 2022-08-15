@@ -6,6 +6,8 @@ import {
   HostBinding,
   HostListener,
   Input,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -31,7 +33,7 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
 
   @Input() name = `spot-text-field-${+(new Date())}`;
 
-  @Input() disabled = false;
+  @HostBinding('class.spot-text-field_disabled') @Input() disabled = false;
 
   @Input() showClearButton = true;
 
@@ -47,6 +49,20 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
     this._value = value;
     this.onChange(value);
     this.onTouched(value);
+  }
+
+  @Output() public inputFocus = new EventEmitter<FocusEvent>();
+
+  @Output() public inputBlur = new EventEmitter<FocusEvent>();
+
+  onInputFocus(event:FocusEvent):void {
+    this.focused = true;
+    this.inputFocus.next(event);
+  }
+
+  onInputBlur(event:FocusEvent):void {
+    this.focused = false;
+    this.inputBlur.next(event);
   }
 
   writeValue(value:string) {

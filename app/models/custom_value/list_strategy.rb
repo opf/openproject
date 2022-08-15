@@ -35,7 +35,7 @@ class CustomValue::ListStrategy < CustomValue::ARObjectStrategy
 
   def typed_value
     super_value = super
-    super_value && super_value.to_s || nil
+    (super_value && super_value.to_s) || nil
   end
 
   private

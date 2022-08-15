@@ -10,4 +10,4 @@ hu:
     label_assignees: "Megbízottak"
     upsale:
       title: "Csoport tervező"
-      description: "A csoport tervező teljes képet nyújt arról, hogy az egyes csapattagok heti bontásban min dolgoznak.\nVizuálisan mozgassa, nyújtsa vagy zsugorítsa a munkacsomagokat, vagy éppen húzza át azokat egy megbízottról egy másikra. A csoport tervezőben új munkacsomagok létrehozása vagy meglévők hozzáadása is lehetséges."
+      description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees."

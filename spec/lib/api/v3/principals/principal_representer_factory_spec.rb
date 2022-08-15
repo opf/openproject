@@ -45,7 +45,7 @@ describe ::API::V3::Principals::PrincipalRepresenterFactory do
   let(:deleted) { build_stubbed :deleted_user }
 
   describe '.create' do
-    subject { described_class.create principal, current_user: current_user }
+    subject { described_class.create principal, current_user: }
 
     context 'with a user' do
       let(:principal) { user }
@@ -83,7 +83,7 @@ describe ::API::V3::Principals::PrincipalRepresenterFactory do
   describe '.create_link_lambda' do
     subject(:link) do
       TestRepresenter
-        .new(represented, current_user: current_user)
+        .new(represented, current_user:)
         .instance_exec(&described_class.create_link_lambda('association'))
     end
 
@@ -127,7 +127,7 @@ describe ::API::V3::Principals::PrincipalRepresenterFactory do
   describe '.create_getter_lambda' do
     subject(:getter) do
       TestRepresenter
-        .new(represented, current_user: current_user, embed_links: embed_links)
+        .new(represented, current_user:, embed_links:)
         .instance_exec(&described_class.create_getter_lambda('association'))
     end
 

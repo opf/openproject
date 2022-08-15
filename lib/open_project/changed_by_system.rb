@@ -26,7 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-
 # OpenProject in its contracts has checks to govern which attributes are writable. Only attributes marked to be
 # writable, can be set by a user.
 # In some scenarios however, the system needs to set calculated attributes, e.g. if a default value is set - the current user

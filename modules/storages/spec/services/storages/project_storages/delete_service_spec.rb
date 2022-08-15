@@ -30,21 +30,21 @@ require 'spec_helper'
 require_module_spec_helper
 require 'services/base_services/behaves_like_delete_service'
 
-describe ::Storages::ProjectStorages::DeleteService, :enable_storages, type: :model do
+describe ::Storages::ProjectStorages::DeleteService, type: :model do
   context 'with records written to DB' do
     let(:user) { create(:user) }
     let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
     let(:project) { create(:project, members: { user => role }) }
     let(:other_project) { create(:project) }
-    let(:project_storage) { create(:project_storage, project: project) }
-    let(:work_package) { create(:work_package, project: project) }
+    let(:project_storage) { create(:project_storage, project:) }
+    let(:work_package) { create(:work_package, project:) }
     let(:other_work_package) { create(:work_package, project: other_project) }
     let(:file_link) { create(:file_link, container: work_package, storage: project_storage.storage) }
     let(:other_file_link) { create(:file_link, container: other_work_package, storage: project_storage.storage) }
 
     it 'destroys the record' do
       project_storage
-      described_class.new(model: project_storage, user: user).call
+      described_class.new(model: project_storage, user:).call
 
       expect(::Storages::ProjectStorage.where(id: project_storage.id))
         .not_to exist
@@ -54,7 +54,7 @@ describe ::Storages::ProjectStorages::DeleteService, :enable_storages, type: :mo
       file_link
       other_file_link
 
-      described_class.new(model: project_storage, user: user).call
+      described_class.new(model: project_storage, user:).call
 
       expect(::Storages::FileLink.where(id: file_link.id))
         .not_to exist

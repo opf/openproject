@@ -44,16 +44,16 @@ describe 'Query name inline edit', js: true do
 
   let(:work_package) do
     create(:work_package,
-           project: project,
+           project:,
            assigned_to: user,
-           type: type)
+           type:)
   end
 
   let(:assignee_query) do
     query = create(:query,
                    name: 'Assignee Query',
-                   project: project,
-                   user: user)
+                   project:,
+                   user:)
 
     query.add_filter('assigned_to_id', '=', [user.id])
     query.save!

@@ -1,8 +1,8 @@
-require 'support/components/ng_select_autocomplete_helpers'
+require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 require_relative './edit_field'
 
 class ProjectStatusField < EditField
-  include ::Components::NgSelectAutocompleteHelpers
+  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
   def input_selector
     '.ng-select.project-status'

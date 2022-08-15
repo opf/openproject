@@ -7,7 +7,7 @@ tr:
       label_unnamed_list: 'Adsız liste'
       label_board_type: 'Yazı tahtası tipi'
       upsale:
-        teaser_text: 'Would you like ready-to-use board templates? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
+        teaser_text: 'Boards ile iş akışlarınızı otomatikleştirmek ister misiniz? Gelişmiş kartlar bir Kurumsal özelliktir. Lütfen ücretli bir plana yükseltin.'
         upgrade: 'Şimdi Yükselt'
       lists:
         delete: 'Listeyi silin'

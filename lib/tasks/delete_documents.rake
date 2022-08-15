@@ -34,7 +34,7 @@ namespace :migrations do
 
     class TemporaryDocument < ActiveRecord::Base
       belongs_to :project
-      belongs_to :category, class_name: 'DocumentCategory', foreign_key: 'category_id'
+      belongs_to :category, class_name: 'DocumentCategory'
     end
 
     desc 'Removes all documents'

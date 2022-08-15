@@ -41,11 +41,12 @@ describe ::Calendar::CalendarsController, type: :controller do
   let(:user) do
     build_stubbed(:user).tap do |user|
       allow(user)
-        .to receive(:allowed_to?) do |permission, p, global:|
+        .to receive(:allowed_to?) do |permission, p|
         permission[:controller] == 'calendar/calendars' &&
           permission[:action] == 'index' &&
           (p.nil? || p == project)
       end
+      allow(user).to receive(:allowed_to_globally?).and_return(false)
     end
   end
 
@@ -60,7 +61,7 @@ describe ::Calendar::CalendarsController, type: :controller do
       it { is_expected.to render_template('calendar/calendars/index') }
     end
 
-    context 'project' do
+    context 'with project' do
       before do
         get :index, params: { project_id: project.id }
       end

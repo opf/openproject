@@ -38,7 +38,7 @@ describe 'Work Package boards updating spec', type: :feature, js: true do
   let!(:status) { create :default_status }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
-  let!(:board_view) { create :board_grid_with_query, name: 'My board', project: project }
+  let!(:board_view) { create :board_grid_with_query, name: 'My board', project: }
 
   before do
     with_enterprise_token :board_view

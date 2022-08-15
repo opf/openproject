@@ -7,7 +7,7 @@ lt:
       label_unnamed_list: 'Bevardis sąrašas'
       label_board_type: 'Lentos tipas'
       upsale:
-        teaser_text: 'Jums reikia iš anksto paruoštų lentos šablonų? Išmaniosios lentos yra Enterprise savybės. Prašome pasikeisti į mokamą planą.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Užsisakykite dabar'
       lists:
         delete: 'Pašalinti sąrašą'

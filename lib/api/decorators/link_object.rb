@@ -52,7 +52,7 @@ module API
 
       property :title,
                exec_context: :decorator,
-               writeable: false,
+               writable: false,
                render_nil: false
 
       def href

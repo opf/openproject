@@ -36,6 +36,8 @@ describe OpenProject::TextFormatting,
   describe '.format_text' do
     shared_let(:project) { create :valid_project }
     let(:identifier) { project.identifier }
+    let(:options) { { project: } }
+
     shared_let(:role) do
       create :role,
              permissions: %i(view_work_packages edit_work_packages
@@ -51,8 +53,6 @@ describe OpenProject::TextFormatting,
     before do
       login_as(project_member)
     end
-
-    let(:options) { { project: project } }
 
     context 'User links' do
       let(:role) do
@@ -301,6 +301,7 @@ describe OpenProject::TextFormatting,
 
           context 'with only_path false (default)', with_settings: { host_name: "openproject.org" } do
             let(:options) { { only_path: false } }
+
             it_behaves_like 'format_text produces' do
               let(:raw) do
                 <<~RAW
@@ -331,7 +332,7 @@ describe OpenProject::TextFormatting,
         create(:group).tap do |group|
           create(:member,
                  principal: group,
-                 project: project,
+                 project:,
                  roles: [role])
         end
       end

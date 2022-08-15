@@ -4,7 +4,7 @@ require 'features/work_packages/details/inplace_editor/shared_examples'
 
 describe 'custom field inplace editor', js: true do
   let(:user) { create :admin }
-  let(:type) { create(:type_standard, custom_fields: custom_fields) }
+  let(:type) { create(:type_standard, custom_fields:) }
   let(:project) do
     create :project,
            types: [type],
@@ -13,8 +13,8 @@ describe 'custom field inplace editor', js: true do
   let(:custom_fields) { [custom_field] }
   let(:work_package) do
     create :work_package,
-           type: type,
-           project: project,
+           type:,
+           project:,
            custom_values: initial_custom_values
   end
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
@@ -59,6 +59,7 @@ describe 'custom field inplace editor', js: true do
     end
 
     it_behaves_like 'a workpackage autocomplete field'
+    it_behaves_like 'not a principal autocomplete field'
   end
 
   describe 'custom field lists' do
@@ -87,7 +88,7 @@ describe 'custom field inplace editor', js: true do
     let(:initial_custom_values) { {} }
 
     def custom_value(value)
-      CustomOption.find_by(value: value).try(:id)
+      CustomOption.find_by(value:).try(:id)
     end
 
     it 'properly updates both values' do
@@ -151,8 +152,9 @@ describe 'custom field inplace editor', js: true do
       end
     end
 
-    context 'no restrictions' do
+    context 'with no restrictions' do
       let(:args) { {} }
+
       it 'renders errors for invalid entries' do
         # Valid input
         field.activate!
@@ -174,7 +176,7 @@ describe 'custom field inplace editor', js: true do
       end
     end
 
-    context 'required' do
+    context 'when required' do
       let(:args) { { is_required: true } }
 
       it 'renders errors for invalid entries' do

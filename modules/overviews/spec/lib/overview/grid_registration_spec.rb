@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Overviews::GridRegistration do
   let(:user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
-  let(:grid) { build_stubbed(:overview, project: project) }
+  let(:grid) { build_stubbed(:overview, project:) }
 
   describe 'writable?' do
     let(:permissions) { %i[manage_overview view_project] }
@@ -33,7 +33,7 @@ describe Overviews::GridRegistration do
 
     context 'if the user lacks the :manage_overview permission and it is a new record' do
       let(:permissions) { %i[view_project] }
-      let(:grid) { Grids::Overview.new **attributes_for(:overview).merge(project: project) }
+      let(:grid) { Grids::Overview.new **attributes_for(:overview).merge(project:) }
 
       it 'is truthy' do
         expect(described_class)

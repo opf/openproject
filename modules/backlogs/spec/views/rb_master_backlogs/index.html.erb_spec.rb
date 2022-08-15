@@ -44,34 +44,34 @@ describe 'rb_master_backlogs/index', type: :view do
   let(:issue_priority) { create(:priority) }
   let(:project) do
     project = create(:project, types: [type_feature, type_task])
-    project.members = [create(:member, principal: user, project: project, roles: [role_allowed])]
+    project.members = [create(:member, principal: user, project:, roles: [role_allowed])]
     project
   end
   let(:story_a) do
     create(:story, status: statuses[0],
-                              project: project,
-                              type: type_feature,
-                              version: sprint,
-                              priority: issue_priority)
+                   project:,
+                   type: type_feature,
+                   version: sprint,
+                   priority: issue_priority)
   end
   let(:story_b) do
     create(:story, status: statuses[1],
-                              project: project,
-                              type: type_feature,
-                              version: sprint,
-                              priority: issue_priority)
+                   project:,
+                   type: type_feature,
+                   version: sprint,
+                   priority: issue_priority)
   end
   let(:story_c) do
     create(:story, status: statuses[2],
-                              project: project,
-                              type: type_feature,
-                              version: sprint,
-                              priority: issue_priority)
+                   project:,
+                   type: type_feature,
+                   version: sprint,
+                   priority: issue_priority)
   end
   let(:stories) { [story_a, story_b, story_c] }
-  let(:sprint) { create(:sprint, project: project) }
+  let(:sprint) { create(:sprint, project:) }
 
-  before :each do
+  before do
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [type_feature.id],
                                                                          'task_type' => type_task.id })
     view.extend RbCommonHelper

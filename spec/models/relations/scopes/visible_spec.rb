@@ -35,21 +35,21 @@ describe Relations::Scopes::Visible, type: :model do
   let(:project1) { create(:project) }
   let(:project2) { create(:project) }
   let(:type) { 'relates' }
-  let!(:relation1) { create(:relation, from: from, to: intermediary, relation_type: type) }
-  let!(:relation2) { create(:relation, from: intermediary, to: to, relation_type: type) }
+  let!(:relation1) { create(:relation, from:, to: intermediary, relation_type: type) }
+  let!(:relation2) { create(:relation, from: intermediary, to:, relation_type: type) }
   let(:user) { create(:user) }
   let(:role) { create(:role, permissions: [:view_work_packages]) }
   let(:member_project1) do
     create(:member,
            project: project1,
-           user: user,
+           user:,
            roles: [role])
   end
 
   let(:member_project2) do
     create(:member,
            project: project2,
-           user: user,
+           user:,
            roles: [role])
   end
 

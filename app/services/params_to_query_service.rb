@@ -46,7 +46,7 @@ class ParamsToQueryService
   private
 
   def new_query
-    query_class.new(user: user)
+    query_class.new(user:)
   end
 
   def apply_filters(query, params)
@@ -106,8 +106,8 @@ class ParamsToQueryService
 
     {
       attributes: values.keys,
-      operators: operators,
-      values: values
+      operators:,
+      values:
     }
   end
 

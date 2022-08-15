@@ -36,17 +36,10 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     set_static_attributes(attributes)
 
     model.change_by_system do
-      set_default_attributes(attributes)
-      update_project_dependent_attributes
+      set_calculated_attributes(attributes)
     end
 
     set_custom_attributes(attributes)
-
-    model.change_by_system do
-      update_dates
-      reassign_invalid_status_if_type_changed
-      set_templated_description
-    end
   end
 
   def set_static_attributes(attributes)
@@ -57,9 +50,19 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     work_package.attributes = assignable_attributes
   end
 
-  def set_default_attributes(attributes)
-    return unless work_package.new_record?
+  def set_calculated_attributes(attributes)
+    if work_package.new_record?
+      set_default_attributes(attributes)
+    else
+      update_dates
+    end
+    update_duration
+    update_project_dependent_attributes
+    reassign_invalid_status_if_type_changed
+    set_templated_description
+  end
 
+  def set_default_attributes(attributes)
     set_default_priority
     set_default_author
     set_default_status
@@ -89,7 +92,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
                                 elsif parent_start_earlier_than_due?
                                   work_package.parent.start_date
                                 elsif Setting.work_package_startdate_is_adddate?
-                                  Date.today
+                                  Time.zone.today
                                 end
   end
 
@@ -110,7 +113,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
 
     # And the new type has a default text
     default_description = work_package.type&.description
-    return unless default_description.present?
+    return if default_description.blank?
 
     # And the current description matches ANY current default text
     return unless work_package.description.blank? || default_description?
@@ -140,13 +143,6 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     initialize_unset_custom_values
   end
 
-  def unify_dates
-    return unless work_package_now_milestone?
-
-    unified_date = work_package.due_date || work_package.start_date
-    work_package.start_date = work_package.due_date = unified_date
-  end
-
   def custom_field_context_changed?
     work_package.type_id_changed? || work_package.project_id_changed?
   end
@@ -161,13 +157,14 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     model.change_by_system do
       set_version_to_nil
       reassign_category
+      set_parent_to_nil
 
       reassign_type unless work_package.type_id_changed?
     end
   end
 
   def update_dates
-    unify_dates
+    unify_dates if work_package_now_milestone?
 
     min_start = new_start_date
 
@@ -177,10 +174,34 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     work_package.start_date = min_start
   end
 
+  def unify_dates
+    unified_date = work_package.due_date || work_package.start_date
+    work_package.start_date = work_package.due_date = unified_date
+  end
+
+  def update_duration
+    return unless date_changed_but_not_duration?
+
+    work_package.duration = if work_package.start_date && work_package.due_date
+                              work_package.due_date - work_package.start_date + 1
+                            else
+                              1
+                            end
+  end
+
   def set_version_to_nil
     if work_package.version &&
-       !work_package.project&.shared_versions.include?(work_package.version)
+       work_package.project &&
+       work_package.project.shared_versions.exclude?(work_package.version)
       work_package.version = nil
+    end
+  end
+
+  def set_parent_to_nil
+    if !Setting.cross_project_work_package_relations? &&
+      !work_package.parent_changed?
+
+      work_package.parent = nil
     end
   end
 
@@ -259,7 +280,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def assignable_statuses
-    instantiate_contract(work_package, user).assignable_statuses(true)
+    instantiate_contract(work_package, user).assignable_statuses(include_default: true)
   end
 
   def min_child_date
@@ -290,5 +311,10 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     start = work_package.start_date || work_package.parent&.start_date
 
     (due && !start) || ((due && start) && (due > start))
+  end
+
+  def date_changed_but_not_duration?
+    (work_package.start_date_changed? || work_package.due_date_changed? || work_package.duration.nil?) &&
+      !work_package.duration_changed?
   end
 end

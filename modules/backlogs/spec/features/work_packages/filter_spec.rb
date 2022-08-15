@@ -51,20 +51,20 @@ describe 'Filter by backlog type', js: true do
 
   let(:member) do
     create(:member,
-           user: user,
-           project: project,
+           user:,
+           project:,
            roles: [create(:role)])
   end
 
   let(:work_package_with_story_type) do
     create(:work_package,
            type: story_type,
-           project: project)
+           project:)
   end
   let(:work_package_with_task_type) do
     create(:work_package,
            type: task_type,
-           project: project)
+           project:)
   end
 
   before do

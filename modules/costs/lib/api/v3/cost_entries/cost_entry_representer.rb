@@ -33,7 +33,7 @@ module API
         include API::Decorators::LinkedResource
         include API::Decorators::DateProperty
 
-        self_link title_getter: ->(*) { nil }
+        self_link title_getter: ->(*) {}
         associated_resource :project
         associated_resource :user
         associated_resource :cost_type

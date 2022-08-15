@@ -39,7 +39,8 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
         .and_return(true)
     end
   end
-  subject { described_class.new(project: project, type: type) }
+
+  subject { described_class.new(project:, type:) }
 
   before do
     login_as(current_user)
@@ -54,11 +55,11 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
   end
 
   it 'does not know assignable statuses' do
-    expect(subject.assignable_values(:status, current_user)).to eql(nil)
+    expect(subject.assignable_values(:status, current_user)).to be_nil
   end
 
   it 'does not know assignable versions' do
-    expect(subject.assignable_values(:version, current_user)).to eql(nil)
+    expect(subject.assignable_values(:version, current_user)).to be_nil
   end
 
   describe '#writable?' do
@@ -87,13 +88,13 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
     end
 
     it 'is the value the type has' do
-      is_expected.to be_milestone
+      expect(subject).to be_milestone
 
       allow(type)
         .to receive(:is_milestone?)
         .and_return(false)
 
-      is_expected.not_to be_milestone
+      expect(subject).not_to be_milestone
     end
 
     it 'has a writable date' do

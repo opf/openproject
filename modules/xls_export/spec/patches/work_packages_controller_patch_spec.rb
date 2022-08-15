@@ -37,15 +37,15 @@ describe WorkPackagesController, type: :controller do
   let(:stub_project) { build_stubbed(:project, identifier: 'test_project', public: false) }
   let(:type) { build_stubbed(:type) }
   let(:stub_work_package) do
-    build_stubbed(:stubbed_work_package,
+    build_stubbed(:work_package,
                   id: 1337,
-                  type: type,
+                  type:,
                   project: stub_project)
   end
 
   let(:current_user) { create(:user) }
 
-  def self.requires_export_permission(&block)
+  def self.requires_export_permission(&)
     describe 'w/ the export permission
               w/o a project' do
       let(:project) { nil }
@@ -58,7 +58,7 @@ describe WorkPackagesController, type: :controller do
                                   .and_return(true)
       end
 
-      instance_eval(&block)
+      instance_eval(&)
     end
 
     describe 'w/ the export permission
@@ -73,7 +73,7 @@ describe WorkPackagesController, type: :controller do
                                   .and_return(true)
       end
 
-      instance_eval(&block)
+      instance_eval(&)
     end
 
     describe 'w/o the export permission' do
@@ -89,7 +89,7 @@ describe WorkPackagesController, type: :controller do
         call_action
       end
 
-      it 'should render a 403' do
+      it 'renders a 403' do
         expect(response.response_code).to eq(403)
       end
     end
@@ -132,18 +132,18 @@ describe WorkPackagesController, type: :controller do
 
             allow(service_instance)
               .to receive(:call)
-              .with(query: query, mime_type: mime_type.to_sym, params: anything)
-              .and_return(ServiceResult.new(result: export_result))
+              .with(query:, mime_type: mime_type.to_sym, params: anything)
+              .and_return(ServiceResult.failure(result: export_result))
           end
 
-          it 'should fulfill the defined should_receives' do
+          it 'fulfills the defined should_receives' do
             call_action
 
             expect(response).to redirect_to job_status_path('uuid of the job')
           end
 
           context 'with json accept' do
-            it 'should fulfill the defined should_receives' do
+            it 'fulfills the defined should_receives' do
               request.headers['Accept'] = 'application/json'
               call_action
               expect(response.body).to eq({ job_id: 'uuid of the job' }.to_json)

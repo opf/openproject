@@ -59,6 +59,8 @@ class Principal < ApplicationRecord
   has_many :projects, through: :memberships
   has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify
 
+  has_paper_trail
+
   scopes :like,
          :human,
          :not_builtin,

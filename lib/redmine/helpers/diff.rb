@@ -61,7 +61,7 @@ module Redmine
               words_add += 1
             else
               del_at ||= pos
-              deleted << ' ' + h(change[2])
+              deleted << (' ' + h(change[2]))
               words_del += 1
             end
           end

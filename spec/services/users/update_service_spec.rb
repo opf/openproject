@@ -40,13 +40,14 @@ describe Users::UpdateService do
     let(:instance) { described_class.new(model: update_user, user: current_user) }
     let(:current_user) { build_stubbed(:admin) }
     let(:update_user) { create(:user, mail: 'correct@example.org') }
-    subject { instance.call(attributes: attributes) }
+
+    subject { instance.call(attributes:) }
 
     context 'when invalid' do
       let(:attributes) { { mail: 'invalid' } }
 
       it 'fails to update' do
-        expect(subject).to_not be_success
+        expect(subject).not_to be_success
 
         update_user.reload
         expect(update_user.mail).to eq('correct@example.org')
@@ -67,8 +68,9 @@ describe Users::UpdateService do
 
       context 'if current_user is no admin' do
         let(:current_user) { build_stubbed(:user) }
+
         it 'is unsuccessful' do
-          expect(subject).to_not be_success
+          expect(subject).not_to be_success
         end
       end
     end

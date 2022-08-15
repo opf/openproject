@@ -46,8 +46,8 @@ describe "POST /api/v3/queries/form", type: :request do
        spentTime startDate status subject type
        updatedAt version).map do |id|
       {
-        '_type': 'QueryColumn::Property',
-        'id': id
+        _type: 'QueryColumn::Property',
+        id:
       }
     end
   end
@@ -55,8 +55,8 @@ describe "POST /api/v3/queries/form", type: :request do
   let(:custom_field_columns_json) do
     [
       {
-        '_type': 'QueryColumn::Property',
-        'id': "customField#{custom_field.id}"
+        _type: 'QueryColumn::Property',
+        id: "customField#{custom_field.id}"
       }
     ]
   end
@@ -64,8 +64,8 @@ describe "POST /api/v3/queries/form", type: :request do
   let(:relation_to_type_columns_json) do
     project.types.map do |type|
       {
-        '_type': 'QueryColumn::RelationToType',
-        'id': "relationsToType#{type.id}"
+        _type: 'QueryColumn::RelationToType',
+        id: "relationsToType#{type.id}"
       }
     end
   end
@@ -73,8 +73,8 @@ describe "POST /api/v3/queries/form", type: :request do
   let(:relation_of_type_columns_json) do
     Relation::TYPES.map do |_, value|
       {
-        '_type': 'QueryColumn::RelationOfType',
-        'id': "relationsOfType#{value[:sym].camelcase}"
+        _type: 'QueryColumn::RelationOfType',
+        id: "relationsOfType#{value[:sym].camelcase}"
       }
     end
   end
@@ -82,8 +82,8 @@ describe "POST /api/v3/queries/form", type: :request do
   let(:non_project_type_relation_column_json) do
     [
       {
-        '_type': 'QueryColumn::RelationToType',
-        'id': "relationsToType#{non_project_type.id}"
+        _type: 'QueryColumn::RelationToType',
+        id: "relationsToType#{non_project_type.id}"
       }
     ]
   end
@@ -104,11 +104,11 @@ describe "POST /api/v3/queries/form", type: :request do
     perform_request.call
   end
 
-  it 'should return 200(OK)' do
+  it 'returns 200(OK)' do
     expect(last_response.status).to eq(200)
   end
 
-  it 'should be of type form' do
+  it 'is of type form' do
     expect(form["_type"]).to eq "Form"
   end
 
@@ -200,8 +200,8 @@ describe "POST /api/v3/queries/form", type: :request do
                                     'allowedValues')
             .map do |column|
             {
-              '_type': column['_type'],
-              'id': column['id']
+              _type: column['_type'],
+              id: column['id']
             }
           end
 
@@ -223,8 +223,8 @@ describe "POST /api/v3/queries/form", type: :request do
                                     'allowedValues')
             .map do |column|
             {
-              '_type': column['_type'],
-              'id': column['id']
+              _type: column['_type'],
+              id: column['id']
             }
           end
 
@@ -292,8 +292,8 @@ describe "POST /api/v3/queries/form", type: :request do
                                     'allowedValues')
             .map do |column|
             {
-              '_type': column['_type'],
-              'id': column['id']
+              _type: column['_type'],
+              id: column['id']
             }
           end
 
@@ -316,8 +316,8 @@ describe "POST /api/v3/queries/form", type: :request do
                                     'allowedValues')
             .map do |column|
             {
-              '_type': column['_type'],
-              'id': column['id']
+              _type: column['_type'],
+              id: column['id']
             }
           end
 
@@ -347,7 +347,7 @@ describe "POST /api/v3/queries/form", type: :request do
                 href: "/api/v3/queries/filters/status"
               },
               operator: {
-                "href": "/api/v3/queries/operators/%3D"
+                href: "/api/v3/queries/operators/%3D"
               },
               values: [
                 {
@@ -403,7 +403,7 @@ describe "POST /api/v3/queries/form", type: :request do
     end
 
     it 'is set to public' do
-      expect(form.dig("_embedded", "payload", "public")).to eq true
+      expect(form.dig("_embedded", "payload", "public")).to be true
     end
 
     it 'has the filters set' do
@@ -558,7 +558,7 @@ describe "POST /api/v3/queries/form", type: :request do
     context "with an unauthorized user trying to set the query public" do
       let(:user) { create :user }
 
-      it "should reject the request" do
+      it "rejects the request" do
         expect(form.dig("_embedded", "validationErrors", "public", "message"))
           .to eq "Public - The user has no permission to create public views."
       end
@@ -580,7 +580,7 @@ describe "POST /api/v3/queries/form", type: :request do
     let(:path_with_cf) do
       uri = Addressable::URI.parse(path)
       uri.query = {
-        filters: [{ "customField#{custom_field.id}": { "operator": "=", "values": ["ABC"] } }]
+        filters: [{ "customField#{custom_field.id}": { operator: "=", values: ["ABC"] } }]
       }.to_query
 
       uri.to_s

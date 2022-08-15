@@ -34,12 +34,12 @@ describe CostQuery, type: :model, reporting_query_helper: true do
   before do
     create(:admin)
     project = create(:project_with_types)
-    work_package = create(:work_package, project: project)
-    create(:time_entry, work_package: work_package, project: project)
+    work_package = create(:work_package, project:)
+    create(:time_entry, work_package:, project:)
   end
 
   describe Report::Transformer do
-    it "should walk down row_first" do
+    it "walks down row_first" do
       @query.group_by :work_package_id
       @query.column :tweek
       @query.row :project_id
@@ -52,7 +52,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
     end
 
-    it "should walk down column_first" do
+    it "walks down column_first" do
       @query.group_by :work_package_id
       @query.column :tweek
       @query.row :project_id

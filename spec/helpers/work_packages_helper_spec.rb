@@ -181,8 +181,8 @@ describe WorkPackagesHelper, type: :helper do
     let(:status) { statuses[0] }
     let(:stub_work_package) do
       build_stubbed(:work_package,
-                    status: status,
-                    priority: priority)
+                    status:,
+                    priority:)
     end
 
     it 'always has the work_package class' do

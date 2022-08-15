@@ -40,7 +40,7 @@ describe 'Omniauth authentication', type: :feature do
         'http://www.example.com'
       end
 
-    { host: host }
+    { host: }
   end
 
   let(:user) do
@@ -74,7 +74,7 @@ describe 'Omniauth authentication', type: :feature do
   end
 
   context 'sign in existing user' do
-    it 'should redirect to back url' do
+    it 'redirects to back url' do
       visit account_lost_password_path
       click_link("Omniauth Developer", match: :first, visible: :all)
 
@@ -87,7 +87,7 @@ describe 'Omniauth authentication', type: :feature do
       expect(current_url).to eql account_lost_password_url
     end
 
-    it 'should sign in user' do
+    it 'signs in user' do
       visit '/auth/developer'
 
       SeleniumHubWaiter.wait
@@ -102,7 +102,7 @@ describe 'Omniauth authentication', type: :feature do
 
     context 'with direct login',
             with_config: { omniauth_direct_login_provider: 'developer' } do
-      it 'should go directly to the developer sign in and then redirect to the back url' do
+      it 'goes directly to the developer sign in and then redirect to the back url' do
         visit my_account_path
         # requires login, redirects to developer login which is why we see the login form now
 
@@ -145,7 +145,7 @@ describe 'Omniauth authentication', type: :feature do
   end
 
   shared_examples 'omniauth user registration' do
-    it 'should register new user' do
+    it 'registers new user' do
       visit '/'
       click_link("Omniauth Developer", match: :first)
 
@@ -186,7 +186,7 @@ describe 'Omniauth authentication', type: :feature do
 
     it_behaves_like 'omniauth user registration'
 
-    it 'should redirect to homescreen' do
+    it 'redirects to homescreen' do
       visit account_lost_password_path
       click_link("Omniauth Developer", match: :first)
 
@@ -259,7 +259,7 @@ describe 'Omniauth authentication', type: :feature do
 
   context 'error occurs' do
     shared_examples 'omniauth signin error' do
-      it 'should fail with generic error message' do
+      it 'fails with generic error message' do
         # set omniauth to test mode will redirect all calls to omniauth
         # directly to the callback and by setting the mock_auth provider
         # to a symbol will force omniauth to fail /auth/failure

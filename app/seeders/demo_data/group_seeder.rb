@@ -56,7 +56,7 @@ module DemoData
               role = Role.find_by(name: project_attr[:role])
 
               Member.create!(
-                project: project,
+                project:,
                 principal: group,
                 roles: [role]
               )

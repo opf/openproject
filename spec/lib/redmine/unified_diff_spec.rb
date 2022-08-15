@@ -43,15 +43,15 @@ module Redmine
                                       )
     end
 
-    it 'should have 1 modified file' do
+    it 'has 1 modified file' do
       expect(@diff.size).to eq(1)
     end
 
-    it 'should have 3 diff items' do
+    it 'has 3 diff items' do
       expect(@diff.first.size).to eq(3)
     end
 
-    it 'should parse the HTML entities correctly' do
+    it 'parses the HTML entities correctly' do
       expect(@diff.first.first.line_right).to eq('<script>someMethod();</script>')
     end
   end
@@ -79,7 +79,7 @@ module Redmine
       end
     end
 
-    it 'should correctly escape elements' do
+    it 'correctlies escape elements' do
       expect(subject[1]).to eq(["Test 2 <span>&lt;</span>_&gt; pouet", "<span></span>"])
       expect(subject[2]).to eq(["<span></span>", "Test 2 <span>&gt;</span>_&gt; pouet"])
     end

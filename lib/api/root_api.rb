@@ -35,6 +35,7 @@ require 'open_project/authentication'
 module API
   class RootAPI < Grape::API
     include OpenProject::Authentication::Scope
+    include ::API::AppsignalAPI
     extend API::Utilities::GrapeHelper
 
     insert_before Grape::Middleware::Error,
@@ -46,7 +47,7 @@ module API
     use OpenProject::Authentication::Manager
 
     helpers API::Caching::Helpers
-    helpers do
+    module Helpers
       def current_user
         User.current
       end
@@ -91,7 +92,7 @@ module API
 
         # Raise if missing header
         content_type = request.content_type
-        error!('Missing content-type header', 406) unless content_type.present?
+        error!('Missing content-type header', 406, { 'Content-Type' => 'text/plain' }) if content_type.blank?
 
         # Allow JSON and JSON+HAL per default
         # and anything that each endpoint may optionally add to that
@@ -116,12 +117,27 @@ module API
         current_user && (current_user.admin? || !current_user.anonymous?)
       end
 
+      # Checks that the current user has the given permission or raise
+      # {API::Errors::Unauthorized}.
+      #
+      # @param permission [String] the permission name
+      #
+      # @param context [Project, Array<Project>, nil] can be:
+      #   * a project : returns true if user is allowed to do the specified
+      #     action on this project
+      #   * a group of projects : returns true if user is allowed on every
+      #     project
+      #   * +nil+ with +options[:global]+ set: check if user has at least one
+      #     role allowed for this action, or falls back to Non Member /
+      #     Anonymous permissions depending if the user is logged
+      #
+      # @param global [Boolean] when +true+ and with +context+ set to +nil+:
+      #   checks that the current user is allowed to do the specified action on
+      #   any project
+      #
+      # @raise [API::Errors::Unauthorized] when permission is not met
       def authorize(permission, context: nil, global: false, user: current_user, &block)
-        auth_service = AuthorizationService.new(permission,
-                                                context: context,
-                                                global: global,
-                                                user: user)
-
+        auth_service = -> { user.allowed_to?(permission, context, global:) }
         authorize_by_with_raise auth_service, &block
       end
 
@@ -149,7 +165,7 @@ module API
 
         authorized = permissions.any? do |permission|
           if global
-            authorize(permission, global: true, user: user) do
+            authorize(permission, global: true, user:) do
               false
             end
           else
@@ -166,7 +182,7 @@ module API
       end
 
       def authorize_logged_in
-        authorize_by_with_raise(current_user.logged? && current_user.active? || current_user.is_a?(SystemUser))
+        authorize_by_with_raise((current_user.logged? && current_user.active?) || current_user.is_a?(SystemUser))
       end
 
       def raise_invalid_query_on_service_failure
@@ -183,6 +199,8 @@ module API
         end
       end
     end
+
+    helpers Helpers
 
     def self.auth_headers
       lambda do
@@ -226,7 +244,7 @@ module API
                    ::API::Errors::InternalError,
                    log: ->(exception) do
                      payload = ::OpenProject::Logging::ThreadPoolContextBuilder.build!
-                     ::OpenProject.logger.error exception, reference: :APIv3, payload: payload
+                     ::OpenProject.logger.error exception, reference: :APIv3, payload:
                    end
 
     # hide internal errors behind the same JSON response as all other errors
@@ -240,6 +258,7 @@ module API
       authenticate
       set_localization
       enforce_content_type
+      ::OpenProject::Appsignal.tag_request(request:)
     end
   end
 end

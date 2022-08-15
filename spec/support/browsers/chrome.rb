@@ -1,15 +1,15 @@
 # Force the latest version of chromedriver using the webdriver gem
 require 'webdrivers/chromedriver'
 
-def register_chrome(language, name: :"chrome_#{language}")
+def register_chrome(language, name: :"chrome_#{language}", override_time_zone: nil)
   Capybara.register_driver name do |app|
     options = Selenium::WebDriver::Chrome::Options.new
 
-    if ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_NO_HEADLESS'])
+    if ActiveRecord::Type::Boolean.new.cast(ENV.fetch('OPENPROJECT_TESTING_NO_HEADLESS', nil))
       # Maximize the window however large the available space is
       options.add_argument('--start-maximized')
       # Open dev tools for quick access
-      if ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_AUTO_DEVTOOLS'])
+      if ActiveRecord::Type::Boolean.new.cast(ENV.fetch('OPENPROJECT_TESTING_AUTO_DEVTOOLS', nil))
         options.add_argument('--auto-open-devtools-for-tabs')
       end
     else
@@ -51,7 +51,7 @@ def register_chrome(language, name: :"chrome_#{language}")
     }
 
     if is_grid
-      driver_opts[:url] = ENV['SELENIUM_GRID_URL']
+      driver_opts[:url] = ENV.fetch('SELENIUM_GRID_URL', nil)
     else
       if Webdrivers::ChromeFinder.location == '/snap/bin/chromium'
         # make chromium snap install work out-of-the-box
@@ -75,6 +75,13 @@ def register_chrome(language, name: :"chrome_#{language}")
                        "/session/#{bridge.session_id}/chromium/send_command",
                        cmd: 'Page.setDownloadBehavior',
                        params: { behavior: 'allow', downloadPath: DownloadList::SHARED_PATH.to_s }
+
+      if override_time_zone
+        bridge.http.call :post,
+                         "/session/#{bridge.session_id}/chromium/send_command",
+                         cmd: 'Emulation.setTimezoneOverride',
+                         params: { timezoneId: override_time_zone }
+      end
     end
 
     driver
@@ -108,3 +115,5 @@ end
 register_chrome 'en', name: :chrome_revit_add_in do |options, _capabilities|
   options.add_argument("user-agent='foo bar Revit'")
 end
+
+register_chrome 'en', name: :chrome_new_york_time_zone, override_time_zone: 'America/New_York'

@@ -44,7 +44,7 @@ class HourlyRatesController < ApplicationController
   # TODO: this should be an index
   def show
     if @project
-      return deny_access unless User.current.allowed_to?(:view_hourly_rates, @project, for: @user)
+      return deny_access unless User.current.allowed_to?(:view_hourly_rates, @project)
 
       @rates = HourlyRate.where(user_id: @user, project_id: @project)
                .order("#{HourlyRate.table_name}.valid_from desc")

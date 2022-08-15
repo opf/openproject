@@ -71,7 +71,7 @@ If there already exist a model in project, you don't have to open the "model man
 
 
 
-## How to rotate the building model?
+## How to rotate the building model
 
 To rotate the IFC model you either left-click on the building viewer and ***rotate the building model by panning*** your cursor **or** use the ***View Cube*** in the right bottom corner for navigation.
 
@@ -135,7 +135,7 @@ The first person perspective changes the way you ineract with the building model
 
 
 
-## How to slice the building model?
+## How to slice the building model
 
 ![Slice Building Model](slice-building-model.png)
 
@@ -145,7 +145,7 @@ To have a deeper look within the building model you are able to slice the whole 
 
 
 
-## How to clear slices?
+## How to clear slices
 
 You are able to clear all slices by using the ***dropdown*** menu next to the "***scissors symbol***" within the ***IFC-Viewer-Toolbar***.
 
@@ -159,7 +159,7 @@ You are able to clear all slices by using the ***dropdown*** menu next to the "*
 
 
 
-## How to select elements?
+## How to select elements
 
 To select elements within the building model, you have to activate the selection mode by clicking on the highlighted toggle button placed in the ***IFC-Viewer toolbar***. After activating the selection mode you are able to select a single or multiple elements within the viewer by left click. Your individual selection won't be reset after leaving the selection mode. You are able to reset your current selection with the context menu (right click).
 

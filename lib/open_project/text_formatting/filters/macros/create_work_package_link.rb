@@ -62,7 +62,7 @@ module OpenProject::TextFormatting::Filters::Macros
         end
 
         ApplicationController.helpers.link_to(
-          I18n.t('macros.create_work_package_link.link_name_type', type_name: type_name),
+          I18n.t('macros.create_work_package_link.link_name_type', type_name:),
           new_project_work_packages_path(project_id: project.identifier, type: type.id),
           class: class_name
         )

@@ -28,13 +28,13 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 3.0.4'
+ruby '~> 3.1.2'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.4.0'
 gem 'activerecord-session_store', '~> 2.0.0'
-gem 'rails', '~> 6.1.5', '>= 6.1.5.1'
+gem 'rails', '~> 7.0', '>= 7.0.3.1'
 gem 'responders', '~> 3.0'
 
 gem 'ffi', '~> 1.15'
@@ -57,8 +57,11 @@ gem 'friendly_id', '~> 5.4.0'
 gem 'acts_as_list', '~> 1.0.1'
 gem 'acts_as_tree', '~> 2.9.0'
 gem 'awesome_nested_set', '~> 3.5.0'
-gem 'rubytree', '~> 1.0.0'
-gem 'typed_dag', '~> 2.0.2'
+gem 'closure_tree', '~> 7.4.0'
+gem 'rubytree', '~> 2.0.0'
+# Only used in down migrations now.
+# Is to be removed once the referencing migrations have been squashed.
+gem 'typed_dag', '~> 2.0.2', require: false
 
 gem 'addressable', '~> 2.8.0'
 
@@ -83,9 +86,9 @@ gem 'html-pipeline', '~> 2.14.0'
 # Tasklist parsing and renderer
 gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
-gem 'escape_utils', '~> 1.0'
+gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.28.0'
+gem 'rouge', '~> 3.29.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 6.0.0'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -148,11 +151,15 @@ gem 'airbrake', '~> 13.0.0', require: false
 
 gem 'prawn', '~> 2.2'
 gem 'prawn-markup', '~> 0.3.0'
+# prawn implictly depends on matrix gem no longer in ruby core with 3.1
+gem 'matrix', '~> 0.4.2'
 
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.1.4'
 
-gem 'meta-tags', '~> 2.16.0'
+gem 'meta-tags', '~> 2.17.0'
+
+gem "paper_trail", "~> 12.3"
 
 group :production do
   # we use dalli as standard memcache client
@@ -162,10 +169,12 @@ end
 
 gem 'i18n-js', '~> 3.9.0'
 gem 'rails-i18n', '~> 7.0.0'
-gem 'sprockets', '~> 3.7.0'
+
+gem 'sprockets', '~> 3.7.2' # lock sprockets below 4.0
+gem 'sprockets-rails', '~> 3.4.2'
 
 gem 'puma', '~> 5.6'
-gem 'rack-timeout', '~> 0.6.0', require: "rack/timeout/base"
+gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 gem 'puma-plugin-statsd', '~> 2.0'
 
 gem 'nokogiri', '~> 1.13.4'
@@ -191,13 +200,16 @@ gem 'mini_magick', '~> 4.11.0', require: false
 gem 'validate_url'
 
 # Sentry error reporting
-gem "sentry-delayed_job", '~> 5.2.0'
-gem "sentry-rails", '~> 5.2.0'
-gem "sentry-ruby", '~> 5.2.0'
+gem "sentry-delayed_job", '~> 5.3.0'
+gem "sentry-rails", '~> 5.3.0'
+gem "sentry-ruby", '~> 5.3.0'
+
+# Appsignal integration
+gem "appsignal", "~> 3.0", require: false
 
 group :test do
   gem 'launchy', '~> 2.5.0'
-  gem 'rack-test', '~> 1.1.0'
+  gem 'rack-test', '~> 2.0.0'
   gem 'shoulda-context', '~> 2.0'
 
   # Test prof provides factories from code
@@ -208,7 +220,7 @@ group :test do
   gem 'rack_session_access'
   gem 'rspec', '~> 3.11.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 5.1.0', group: :development
+  gem 'rspec-rails', '6.0.0.rc1', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
@@ -220,7 +232,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.36.0'
+  gem 'capybara', '~> 3.37.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 4.0'
   gem 'webdrivers', '~> 5.0.0'
@@ -255,16 +267,13 @@ group :development do
   gem 'spring'
   gem 'spring-commands-rspec'
 
-  gem 'rubocop'
-  gem 'rubocop-rails'
-  gem 'rubocop-rspec'
-
   # Gems for living styleguide
   gem 'livingstyleguide', '~> 2.1.0'
   gem 'sassc-rails'
 end
 
 group :development, :test do
+  gem 'dotenv-rails'
   # Require factory_bot for usage with openproject plugins testing
   gem 'factory_bot', '~> 6.2.0'
   # require factory_bot_rails for convenience in core development
@@ -281,15 +290,20 @@ group :development, :test do
   gem 'pry-rescue', '~> 1.5.2'
   gem 'pry-stack_explorer', '~> 0.6.0'
 
+  # ruby linting
+  gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
+
   # git hooks manager
-  gem 'lefthook'
+  gem 'lefthook', require: false
 
   # Brakeman scanner
   gem 'brakeman', '~> 5.2.0'
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.11.0', require: false
+gem 'bootsnap', '~> 1.12.0', require: false
 
 # API gems
 gem 'grape', '~> 1.6.0'
@@ -304,7 +318,7 @@ gem 'disposable', '~> 0.6.2'
 
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do
-    gem 'pg', '~> 1.3.0'
+    gem 'pg', '~> 1.4.0'
   end
 
   # Support application loading when no database exists yet.

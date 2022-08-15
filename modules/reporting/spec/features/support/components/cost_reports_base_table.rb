@@ -38,7 +38,7 @@ module Components
     end
 
     def rows_count(count)
-      expect(page).to have_selector('#result-table tbody tr', count: count)
+      expect(page).to have_selector('#result-table tbody tr', count:)
     end
 
     def expect_action_icon(icon, row, present: true)

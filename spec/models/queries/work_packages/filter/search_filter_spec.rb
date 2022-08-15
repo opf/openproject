@@ -33,10 +33,10 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
   let(:value) { 'bogus' }
   let(:operator) { '**' }
   let(:subject) { 'Some subject' }
-  let(:work_package) { create(:work_package, subject: subject) }
+  let(:work_package) { create(:work_package, subject:) }
   let(:journal) { work_package.journals.last }
   let(:instance) do
-    described_class.create!(name: :search, context: context, operator: operator, values: [value])
+    described_class.create!(name: :search, context:, operator:, values: [value])
   end
 
   shared_examples "subject, description, and comment filter" do
@@ -47,13 +47,13 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
 
       it 'finds in subject' do
         instance.values = ['bogus subject']
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
 
       it 'finds in description' do
         instance.values = ['short description']
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
 
@@ -62,7 +62,7 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
         journal.save
 
         instance.values = [journal.notes]
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
     end
@@ -70,22 +70,24 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
 
   describe 'partial (not fuzzy) match of string in subject (#29832)' do
     subject { WorkPackage.joins(instance.joins).where(instance.where) }
+
     let!(:work_package) { create(:work_package, subject: "big old cat") }
 
     it 'finds in subject' do
       instance.values = ['big cat']
-      is_expected
+      expect(subject)
         .to match_array [work_package]
     end
   end
 
   describe 'partial match of string in subject and description (#29832)' do
     subject { WorkPackage.joins(instance.joins).where(instance.where) }
+
     let!(:work_package) { create(:work_package, subject: "big", description: "cat") }
 
     it 'does not match a partial result currently' do
       instance.values = ['big cat']
-      is_expected
+      expect(subject)
         .to match_array []
     end
   end
@@ -103,7 +105,7 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
         context 'WP with attachment' do
           let(:text) { 'lorem ipsum' }
           let(:filename) { 'plaintext-file.txt' }
-          let(:attachment) { create(:attachment, container: work_package, filename: filename) }
+          let(:attachment) { create(:attachment, container: work_package, filename:) }
 
           before do
             allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return(text)
@@ -132,8 +134,8 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
         context 'with two attachments' do
           let(:text) { 'lorem ipsum' }
           let(:filename) { 'plaintext-file.txt' }
-          let(:attachment) { create(:attachment, container: work_package, filename: filename) }
-          let(:attachment2) { create(:attachment, container: work_package, filename: filename) }
+          let(:attachment) { create(:attachment, container: work_package, filename:) }
+          let(:attachment2) { create(:attachment, container: work_package, filename:) }
 
           before do
             allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return(text)

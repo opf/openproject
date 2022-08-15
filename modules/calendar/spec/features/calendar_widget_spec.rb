@@ -35,7 +35,7 @@ describe 'Calendar drag&dop and resizing', type: :feature, js: true do
   end
   let!(:work_package) do
     create :work_package,
-           project: project,
+           project:,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
            due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
   end

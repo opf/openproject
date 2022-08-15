@@ -59,11 +59,6 @@ export interface CreateAutocompleterValueOption {
   templateUrl: './create-autocompleter.component.html',
   selector: 'create-autocompleter',
   styleUrls: ['./create-autocompleter.component.sass'],
-  providers: [
-    // Provide a new version of the modal invite service,
-    // as otherwise the close event will be shared across all instances
-    OpInviteUserModalService,
-  ]
 })
 export class CreateAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit {
   @Input() public availableValues:CreateAutocompleterValueOption[];
@@ -88,8 +83,6 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   @Input() public hideSelected = false;
 
-  @Input() public showAddNewButton:boolean;
-
   @Output() public onChange = new EventEmitter<HalResource>();
 
   @Output() public onKeydown = new EventEmitter<JQuery.TriggeredEvent>();
@@ -103,8 +96,6 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
   @Output() public onAddNew = new EventEmitter<HalResource>();
 
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
-
-  @InjectField() readonly opInviteUserModalService:OpInviteUserModalService;
 
   @InjectField() readonly I18n:I18nService;
 
@@ -130,16 +121,6 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   ngAfterViewInit() {
     this.onAfterViewInit.emit(this);
-    if (this.opInviteUserModalService) {
-      this.opInviteUserModalService.close
-        .pipe(
-          this.untilDestroyed(),
-          filter((user) => !!user),
-        )
-        .subscribe((user:HalResource) => {
-          this.onAddNew.emit(user);
-        });
-    }
   }
 
   public openSelect() {
@@ -197,9 +178,5 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   public focusInputField() {
     this.ngSelectComponent && this.ngSelectComponent.focus();
-  }
-
-  public isPrincipal(item:CreateAutocompleterValueOption) {
-    return item.href && typeFromHref(item.href) !== null;
   }
 }

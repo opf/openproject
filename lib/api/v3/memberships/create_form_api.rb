@@ -48,7 +48,7 @@ module API
                                    Array(Role.find_by(id: params.delete(:role_ids)))
                                  end || []
 
-                         Member.new(roles: roles)
+                         Member.new(roles:)
                        },
                        api_name: 'Membership',
                        params_modifier: ->(params) do

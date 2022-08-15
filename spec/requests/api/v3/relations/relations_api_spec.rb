@@ -51,18 +51,18 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
           href: "/api/v3/work_packages/#{to.id}"
         }
       },
-      type: type,
-      description: description,
-      delay: delay
+      type:,
+      description:,
+      delay:
     }
   end
   let(:relation) do
     create :relation,
-           from: from,
-           to: to,
+           from:,
+           to:,
            relation_type: type,
-           description: description,
-           delay: delay
+           description:,
+           delay:
   end
 
   before do
@@ -82,26 +82,27 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
       end
     end
 
-    let(:setup) {}
+    let(:setup) do
+      # empty to be overwritten
+    end
+
     before do
       setup
 
-      header "Content-Type", "application/json"
-      post "/api/v3/work_packages/#{from.id}/relations", params.to_json
+      post api_v3_paths.work_package_relations(from.id), params.to_json
     end
 
-    it 'should return 201 (created)' do
+    it 'returns 201 (created)' do
       expect(last_response.status).to eq(201)
     end
 
-    it 'should have created a new relation' do
-      # reflexive relations + created one
-      expect(Relation.count).to eq 3
+    it 'has created a new relation' do
+      expect(Relation.count).to eq 1
     end
 
     it_behaves_like 'creates the relation'
 
-    context 'relation that would create a circular scheduling dependency' do
+    context 'when the relation would create a circular scheduling dependency' do
       let(:from_child) do
         create(:work_package, parent: from)
       end
@@ -120,7 +121,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
       end
 
       it 'responds with error' do
-        expect(last_response.status).to eql 422
+        expect(last_response.status).to be 422
       end
 
       it 'states the reason for the error' do
@@ -130,7 +131,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
       end
     end
 
-    context "'relates to' relation that would create a circular dependency" do
+    context "with a 'relates to' relation that creates a circular dependency" do
       let(:work_package_a) { create(:work_package) }
       let(:work_package_b) { create(:work_package, project: work_package_a.project) }
       let(:work_package_c) { create(:work_package, project: work_package_b.project) }
@@ -157,18 +158,18 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
         relation_b_c
       end
 
-      it 'returns 201 (created) and creates the relation with an inverted direction' do
+      it 'returns 201 (created) and creates the relation' do
         expect(last_response.status)
           .to eq(201)
 
-        expect(Relation.direct.count).to eq 3
+        expect(Relation.count).to eq 3
 
-        new_relation = Relation.direct.last
-
-        expect(new_relation.to)
-          .to eql work_package_c
+        new_relation = Relation.last
 
         expect(new_relation.from)
+          .to eql work_package_c
+
+        expect(new_relation.to)
           .to eql work_package_a
       end
     end
@@ -237,11 +238,10 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
     before do
       relation
 
-      header "Content-Type", "application/json"
-      patch "/api/v3/relations/#{relation.id}", update.to_json
+      patch api_v3_paths.relation(relation.id), update.to_json
     end
 
-    it "should return 200 (ok)" do
+    it "returns 200 (ok)" do
       expect(last_response.status).to eq 200
     end
 
@@ -253,7 +253,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
       expect(relation.reload.delay).to eq new_delay
     end
 
-    it "should return the updated relation" do
+    it "returns the updated relation" do
       rel = ::API::V3::Relations::RelationPayloadRepresenter.new(Relation.new, current_user: user).from_json last_response.body
 
       expect(rel).to eq relation.reload
@@ -266,11 +266,11 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
         }
       end
 
-      it "should return 422" do
+      it "returns 422" do
         expect(last_response.status).to eq 422
       end
 
-      it "should indicate an error with the type attribute" do
+      it "indicates an error with the type attribute" do
         attr = JSON.parse(last_response.body).dig "_embedded", "details", "attribute"
 
         expect(attr).to eq "type"
@@ -290,17 +290,17 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
         }
       end
 
-      it "should return 422" do
+      it "returns 422" do
         expect(last_response.status).to eq 422
       end
 
-      it "should indicate an error with the `from` attribute" do
+      it "indicates an error with the `from` attribute" do
         attr = JSON.parse(last_response.body).dig "_embedded", "details", "attribute"
 
         expect(attr).to eq "from"
       end
 
-      it "should let the user know the attribute is read-only" do
+      it "lets the user know the attribute is read-only" do
         msg = JSON.parse(last_response.body)["message"]
 
         expect(msg).to include "Work package an existing relation's `from` link is immutable"
@@ -314,13 +314,13 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
     let(:permissions) { %i(view_work_packages manage_work_package_relations) }
 
     let(:role) do
-      create :existing_role, permissions: permissions
+      create :existing_role, permissions:
     end
 
     let(:project) { create :project, members: { user => role } }
 
-    let!(:from) { create :work_package, project: project }
-    let!(:to) { create :work_package, project: project }
+    let!(:from) { create :work_package, project: }
+    let!(:to) { create :work_package, project: }
 
     before do
       header "Content-Type", "application/json"
@@ -348,17 +348,17 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
     context "without manage_work_package_relations" do
       let!(:to) { create :work_package }
 
-      it "should return 422" do
+      it "returns 422" do
         expect(last_response.status).to eq 422
       end
 
-      it "should indicate an error with the `to` attribute" do
+      it "indicates an error with the `to` attribute" do
         attr = JSON.parse(last_response.body).dig "_embedded", "details", "attribute"
 
         expect(attr).to eq "to"
       end
 
-      it "should have a localized error message" do
+      it "has a localized error message" do
         message = JSON.parse(last_response.body)["message"]
 
         expect(message).not_to include "translation missing"
@@ -372,17 +372,17 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
     end
 
     let(:permissions) { %i[view_work_packages manage_work_package_relations] }
-    let(:role) { create(:role, permissions: permissions) }
+    let(:role) { create(:role, permissions:) }
 
     let(:current_user) do
       create(:user).tap do |user|
         create(:member,
                project: to.project,
-               user: user,
+               user:,
                roles: [role])
         create(:member,
                project: from.project,
-               user: user,
+               user:,
                roles: [role])
       end
     end
@@ -391,7 +391,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
       delete path
     end
 
-    it "should return 204 and destroy the relation" do
+    it "returns 204 and destroy the relation" do
       expect(last_response.status).to eq 204
       expect(Relation.exists?(relation.id)).to be_falsey
     end
@@ -415,21 +415,21 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
     let(:member_project_to) do
       build(:member,
             project: to.project,
-            user: user,
+            user:,
             roles: [role])
     end
 
     let(:member_project_from) do
       build(:member,
             project: from.project,
-            user: user,
+            user:,
             roles: [role])
     end
     let(:invisible_relation) do
       invisible_wp = create(:work_package)
 
       create :relation,
-             from: from,
+             from:,
              to: invisible_wp
     end
     let(:other_visible_work_package) do
@@ -458,7 +458,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
     end
 
     it 'returns 200' do
-      expect(last_response.status).to eql 200
+      expect(last_response.status).to be 200
     end
 
     it 'returns the visible relation (and only the visible one) satisfying the filter' do
@@ -487,11 +487,11 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
       create(:user).tap do |user|
         create(:member,
                project: to.project,
-               user: user,
+               user:,
                roles: [role])
         create(:member,
                project: from.project,
-               user: user,
+               user:,
                roles: [role])
       end
     end
@@ -502,7 +502,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
 
     context 'for a relation with visible work packages' do
       it 'returns 200' do
-        expect(last_response.status).to eql 200
+        expect(last_response.status).to be 200
       end
 
       it 'returns the relation' do
@@ -512,7 +512,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
         to.reload
 
         expected = API::V3::Relations::RelationRepresenter.new(relation,
-                                                               current_user: current_user,
+                                                               current_user:,
                                                                embed_links: true).to_json
 
         expect(last_response.body)
@@ -525,7 +525,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
         invisible_wp = create(:work_package)
 
         create :relation,
-               from: from,
+               from:,
                to: invisible_wp
       end
 
@@ -534,7 +534,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
       end
 
       it 'returns 404 NOT FOUND' do
-        expect(last_response.status).to eql 404
+        expect(last_response.status).to be 404
       end
     end
   end

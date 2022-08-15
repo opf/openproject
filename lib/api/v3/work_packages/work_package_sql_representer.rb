@@ -57,6 +57,27 @@ module API
         property :id
 
         property :subject
+
+        property :startDate, column: :start_date,
+                             render_if: ->(*) { "is_milestone != true" },
+                             join: { table: :types,
+                                     condition: 'types.id = work_packages.type_id',
+                                     select: 'types.is_milestone is_milestone',
+                                     alias: :types }
+
+        property :dueDate, column: :due_date,
+                           render_if: ->(*) { "is_milestone != true" },
+                           join: { table: :types,
+                                   condition: 'types.id = work_packages.type_id',
+                                   select: 'types.is_milestone is_milestone',
+                                   alias: :types }
+
+        property :date, column: :start_date,
+                        render_if: ->(*) { "is_milestone = true" },
+                        join: { table: :types,
+                                condition: 'types.id = work_packages.type_id',
+                                select: 'types.is_milestone is_milestone',
+                                alias: :types }
       end
     end
   end

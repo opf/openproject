@@ -28,7 +28,85 @@
 
 # Helper for open and download links for a file link object.
 module API::V3::FileLinks::StorageUrlHelper
-  def storage_url_open(file_link)
-    "#{file_link.storage.host}/f/#{file_link.origin_id}"
+  def storage_url_open_file(file_link, open_location: false)
+    location_flag = ActiveModel::Type::Boolean.new.cast(open_location) ? 0 : 1
+
+    "#{file_link.storage.host}/index.php/f/#{file_link.origin_id}?openfile=#{location_flag}"
+  end
+
+  def storage_url_open(storage)
+    "#{storage.host}/index.php/apps/files"
+  end
+
+  # rubocop:disable Metrics/AbcSize
+  def make_download_url(file_link:, user:)
+    storage = file_link.storage
+    oauth_client = storage.oauth_client
+
+    client_token = get_oauth_client_token(user:, oauth_client:)
+    return client_token if client_token.failure?
+
+    direct_download_response = make_direct_download oauth_client:,
+                                                    access_token: client_token.result.access_token,
+                                                    file_id: file_link.origin_id
+    return direct_download_response if direct_download_response.failure?
+
+    download_token = direct_download_token(body: direct_download_response.result)
+    return download_token if download_token.failure?
+
+    url = "#{storage.host}/index.php/apps/integration_openproject/direct/#{download_token.result}/#{file_link.origin_name}"
+    ServiceResult.success(result: url)
+  end
+
+  # rubocop:enable Metrics/AbcSize
+
+  private
+
+  def get_oauth_client_token(user:, oauth_client:)
+    client_token = ::OAuthClients::ConnectionManager
+                     .new(user:, oauth_client:)
+                     .get_access_token
+
+    client_token.success? ? client_token : ServiceResult.failure(result: I18n.t('http.request.missing_authorization'))
+  end
+
+  def make_direct_download(oauth_client:, access_token:, file_id:)
+    response = API::V3::Storages::StorageRequestFactory
+                 .new(oauth_client:)
+                 .download_command
+                 .call(access_token:, file_id:)
+
+    return response if response.failure?
+
+    # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
+    return ServiceResult.failure(result: I18n.t('http.request.failed_authorization')) if response.result.body.blank?
+
+    ServiceResult.success(result: response.result.body)
+  end
+
+  def direct_download_token(body:)
+    token = parse_direct_download_token(body:)
+    if token.blank?
+      Rails.logger.error "Received unexpected json response: #{body}"
+      return ServiceResult.failure(result: I18n.t('http.response.unexpected'))
+    end
+
+    ServiceResult.success(result: token)
+  end
+
+  def parse_direct_download_token(body:)
+    begin
+      json = JSON.parse body
+    rescue JSON::ParserError
+      return nil
+    end
+
+    direct_download_url = json.dig('ocs', 'data', 'url')
+    return nil if direct_download_url.blank?
+
+    path = URI.parse(direct_download_url).path
+    return nil if path.blank?
+
+    path.split('/').last
   end
 end

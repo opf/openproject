@@ -37,10 +37,10 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
   let(:current_user) do
     create :user, member_in_project: project, member_through_role: role
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { [] }
   let(:view_work_packages_role) { create(:role, permissions: [:view_work_packages]) }
-  let(:work_package) { create(:work_package, project: project) }
+  let(:work_package) { create(:work_package, project:) }
   let(:available_watcher) do
     create :user,
            firstname: 'Something',
@@ -88,13 +88,13 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
 
     it_behaves_like 'API V3 collection response', 1, 1, 'User'
 
-    context 'user not allowed to see watchers' do
+    context 'for a user not allowed to see watchers' do
       let(:permissions) { [:view_work_packages] }
 
       it_behaves_like 'unauthorized access'
     end
 
-    context 'user not allowed to see work package' do
+    context 'for a user not allowed to see work package' do
       let(:permissions) { [] }
 
       it_behaves_like 'not found',
@@ -119,17 +119,17 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
       end
     end
 
-    it 'should respond with 201' do
+    it 'responds with 201' do
       expect(subject.status).to eq(201)
     end
 
-    it 'should respond with newly added watcher' do
+    it 'responds with newly added watcher' do
       expect(subject.body).to be_json_eql('User'.to_json).at_path('_type')
     end
 
     it 'sends mails' do
       expect(ActionMailer::Base.deliveries.size)
-        .to eql 1
+        .to be 1
 
       expect(ActionMailer::Base.deliveries.map(&:to).flatten.uniq)
         .to match_array new_watcher.mail
@@ -143,11 +143,11 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
     context 'when user is already watcher' do
       let(:new_watcher) { watching_user }
 
-      it 'should respond with 200' do
+      it 'responds with 200' do
         expect(subject.status).to eq(200)
       end
 
-      it 'should respond with correct watcher' do
+      it 'responds with correct watcher' do
         expect(subject.body).to be_json_eql('User'.to_json).at_path('_type')
       end
     end
@@ -177,7 +177,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
       end
     end
 
-    context 'unauthorized user' do
+    context 'for an unauthorized user' do
       context 'when the current user is trying to assign another user as watcher' do
         let(:permissions) { [:view_work_packages] }
 
@@ -188,7 +188,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
         let(:current_user) { available_watcher }
         let(:new_watcher) { available_watcher }
 
-        it 'should respond with 201' do
+        it 'responds with 201' do
           expect(subject.status).to eq(201)
         end
       end
@@ -205,16 +205,16 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
       end
     end
 
-    context 'authorized user' do
+    context 'for an authorized user' do
       let(:permissions) { %i[delete_work_package_watchers view_work_packages] }
 
-      it 'should respond with 204' do
+      it 'responds with 204' do
         expect(subject.status).to eq(204)
       end
 
       it 'sends mails' do
         expect(ActionMailer::Base.deliveries.size)
-          .to eql 1
+          .to be 1
 
         expect(ActionMailer::Base.deliveries.map(&:to).flatten.uniq)
           .to match_array watching_user.mail
@@ -234,7 +234,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
       context 'when removing user that is not watching' do
         let(:deleted_watcher) { available_watcher }
 
-        it 'should respond with 204' do
+        it 'responds with 204' do
           expect(subject.status).to eq(204)
         end
       end
@@ -247,7 +247,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
       end
     end
 
-    context 'unauthorized user' do
+    context 'for an unauthorized user' do
       context 'when the current user tries to deassign another user from the watchers' do
         let(:permissions) { [:view_work_packages] }
 
@@ -258,7 +258,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
         let(:current_user) { watching_user }
         let(:deleted_watcher) { watching_user }
 
-        it 'should respond with 204' do
+        it 'responds with 204' do
           expect(subject.status).to eq(204)
         end
       end
@@ -268,26 +268,69 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
   describe '#available_watchers' do
     let(:permissions) { %i[add_work_package_watchers view_work_packages] }
     let(:available_watchers_path) { api_v3_paths.available_watchers work_package.id }
-    let(:returned_user_ids) do
-      JSON.parse(subject.body)['_embedded']['elements'].map { |user| user['id'] }
-    end
 
     before do
       available_watcher
       get available_watchers_path
     end
 
-    it_behaves_like 'API V3 collection response', 2, 2, 'User'
+    it_behaves_like 'API V3 collection response', 2, 2, 'User' do
+      let(:elements) { [available_watcher, current_user] }
+    end
 
-    it 'includes a user eligible for watching' do
-      expect(returned_user_ids).to match_array([available_watcher.id, current_user.id])
+    context 'when signaling' do
+      let(:select) { 'total,count,elements/*' }
+
+      let(:available_watchers_path) do
+        "#{api_v3_paths.available_watchers(work_package.id)}?select=#{select}"
+      end
+
+      let(:expected) do
+        {
+          total: 2,
+          count: 2,
+          _embedded: {
+            elements: [
+              {
+                _type: "User",
+                id: available_watcher.id,
+                name: available_watcher.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.user(available_watcher.id),
+                    title: available_watcher.name
+                  }
+                }
+              },
+              {
+                _type: "User",
+                id: current_user.id,
+                name: current_user.name,
+                firstname: current_user.firstname,
+                lastname: current_user.lastname,
+                _links: {
+                  self: {
+                    href: api_v3_paths.user(current_user.id),
+                    title: current_user.name
+                  }
+                }
+              }
+            ]
+          }
+        }
+      end
+
+      it 'is the reduced set of properties of the embedded elements' do
+        expect(last_response.body)
+          .to be_json_eql(expected.to_json)
+      end
     end
 
     context 'when the user does not have the necessary permissions' do
       let(:permissions) { [:view_work_packages] }
 
       it 'responds with 403' do
-        expect(subject.status).to eql(403)
+        expect(subject.status).to be(403)
       end
     end
 
@@ -299,13 +342,15 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
         "#{path}?filters=#{URI::RFC2396_Parser.new.escape(filters)}"
       end
 
-      context 'that does not exist' do
+      context 'when that user does not exist' do
         let(:query) { 'asdfasdfasdfasdf' }
+
         it_behaves_like 'API V3 collection response', 0, 0, 'User'
       end
 
-      context 'that does exist' do
+      context 'when that user does exist' do
         let(:query) { 'strange' }
+
         it_behaves_like 'API V3 collection response', 1, 1, 'User'
       end
     end

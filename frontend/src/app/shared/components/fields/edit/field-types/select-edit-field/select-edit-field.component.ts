@@ -99,8 +99,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     this.value = option || val;
   }
 
-  public showAddNewButton:boolean;
-
   protected valuesLoaded = false;
 
   protected _autocompleterComponent:CreateAutocompleterComponent;
@@ -137,12 +135,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     };
 
     this.valuesLoadingPromise = this.change.getForm().then(() => this.initialValueLoading());
-
-    this.initializeShowAddButton();
-  }
-
-  initializeShowAddButton() {
-    this.showAddNewButton = this.schema.type === 'User';
   }
 
   protected initialValueLoading() {
@@ -200,7 +192,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     return this.fetchAllowedValueQuery(query);
   }
 
-  protected fetchAllowedValueQuery(query?:string) {
+  protected fetchAllowedValueQuery(query?:string):Promise<CollectionResource> {
     return this.schema.allowedValues.$link.$fetch(this.allowedValuesFilter(query)) as Promise<CollectionResource>;
   }
 

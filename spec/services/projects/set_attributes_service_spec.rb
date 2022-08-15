@@ -28,11 +28,10 @@
 
 require 'spec_helper'
 
-# rubocop:disable RSpec/NestedGroups
 describe Projects::SetAttributesService, type: :model do
   let(:user) { build_stubbed(:user) }
   let(:contract_class) do
-    contract = double('contract_class')
+    contract = class_double(Projects::CreateContract)
 
     allow(contract)
       .to receive(:new)
@@ -42,17 +41,17 @@ describe Projects::SetAttributesService, type: :model do
     contract
   end
   let(:contract_instance) do
-    double('contract_instance', validate: contract_valid, errors: contract_errors)
+    instance_double(Projects::CreateContract, validate: contract_valid, errors: contract_errors)
   end
   let(:contract_valid) { true }
   let(:contract_errors) do
-    double('contract_errors')
+    instance_double(ActiveModel::Errors)
   end
   let(:project_valid) { true }
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: project,
-                        contract_class: contract_class)
+                        contract_class:)
   end
   let(:call_attributes) { {} }
   let(:project) do
@@ -70,7 +69,7 @@ describe Projects::SetAttributesService, type: :model do
         .to receive(:valid?)
         .and_return(project_valid)
 
-      expect(contract_instance)
+      allow(contract_instance)
         .to receive(:validate)
         .and_return(contract_valid)
     end
@@ -78,7 +77,14 @@ describe Projects::SetAttributesService, type: :model do
     subject { instance.call(call_attributes) }
 
     it 'is successful' do
-      expect(subject.success?).to be_truthy
+      expect(subject).to be_success
+    end
+
+    it 'calls validation' do
+      subject
+
+      expect(contract_instance)
+        .to have_received(:validate)
     end
 
     it 'sets the attributes' do
@@ -89,10 +95,13 @@ describe Projects::SetAttributesService, type: :model do
     end
 
     it 'does not persist the project' do
-      expect(project)
-        .not_to receive(:save)
+      allow(project)
+        .to receive(:save)
 
       subject
+
+      expect(project)
+        .not_to have_received(:save)
     end
 
     context 'for a new record' do
@@ -195,6 +204,18 @@ describe Projects::SetAttributesService, type: :model do
                   .and_return default_types
         end
 
+        shared_examples "setting custom field defaults" do
+          context 'with custom fields' do
+            let!(:custom_field) { create :text_wp_custom_field, types: }
+            let!(:custom_field_with_no_type) { create :text_wp_custom_field }
+
+            it 'activates the type\'s custom fields' do
+              expect(subject.result.work_package_custom_fields)
+                .to eq([custom_field])
+            end
+          end
+        end
+
         context 'with a value for types provided' do
           let(:call_attributes) do
             {
@@ -206,6 +227,11 @@ describe Projects::SetAttributesService, type: :model do
             expect(subject.result.types)
               .to match_array other_types
           end
+
+          include_examples "setting custom field defaults" do
+            let(:other_types) { [create(:type)] }
+            let(:types) { other_types }
+          end
         end
 
         context 'with no value for types provided' do
@@ -213,16 +239,27 @@ describe Projects::SetAttributesService, type: :model do
             expect(subject.result.types)
               .to match_array default_types
           end
+
+          include_examples "setting custom field defaults" do
+            let(:default_types) { [create(:type)] }
+            let(:types) { default_types }
+          end
         end
 
         context 'with the types being set before' do
+          let(:types) { [build(:type, name: 'lorem')] }
+
           before do
-            project.types.build(name: 'lorem')
+            project.types = types
           end
 
           it 'does not alter the types modules' do
             expect(subject.result.types.map(&:name))
               .to match_array %w(lorem)
+          end
+
+          include_examples "setting custom field defaults" do
+            let(:types) { [create(:type, name: 'lorem')] }
           end
         end
       end
@@ -350,4 +387,3 @@ describe Projects::SetAttributesService, type: :model do
     end
   end
 end
-# rubocop:enable RSpec/NestedGroups

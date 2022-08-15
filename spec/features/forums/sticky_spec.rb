@@ -37,13 +37,13 @@ describe 'sticky messages', type: :feature do
     end
   end
   let!(:message2) do
-    create :message, forum: forum, created_at: Time.now - 2.minute do |message|
-      Message.where(id: message.id).update_all(updated_at: Time.now - 2.minute)
+    create :message, forum: forum, created_at: Time.now - 2.minutes do |message|
+      Message.where(id: message.id).update_all(updated_at: Time.now - 2.minutes)
     end
   end
   let!(:message3) do
-    create :message, forum: forum, created_at: Time.now - 3.minute do |message|
-      Message.where(id: message.id).update_all(updated_at: Time.now - 3.minute)
+    create :message, forum: forum, created_at: Time.now - 3.minutes do |message|
+      Message.where(id: message.id).update_all(updated_at: Time.now - 3.minutes)
     end
   end
 
@@ -65,7 +65,7 @@ describe 'sticky messages', type: :feature do
     end
   end
 
-  scenario 'sticky messages are on top' do
+  it 'sticky messages are on top' do
     expect_order_of_messages(message1, message2, message3)
 
     click_link(message2.subject)

@@ -38,15 +38,15 @@ describe 'API v3 members available projects resource', type: :request do
   end
   let(:own_member) do
     create(:member,
-           roles: [create(:role, permissions: permissions)],
-           project: project,
+           roles: [create(:role, permissions:)],
+           project:,
            user: current_user)
   end
   let(:permissions) { %i[view_versions manage_versions] }
   let(:manage_project) do
     create(:project).tap do |p|
       create(:member,
-             roles: [create(:role, permissions: permissions)],
+             roles: [create(:role, permissions:)],
              project: p,
              user: current_user)
     end
@@ -80,6 +80,7 @@ describe 'API v3 members available projects resource', type: :request do
 
   describe 'GET api/v3/members/available_projects' do
     let(:projects) { [manage_project, view_project, unauthorized_project] }
+    let(:path) { api_v3_paths.versions_available_projects }
 
     before do
       projects
@@ -87,8 +88,6 @@ describe 'API v3 members available projects resource', type: :request do
 
       get path
     end
-
-    let(:path) { api_v3_paths.versions_available_projects }
 
     context 'without params' do
       it 'responds 200 OK' do

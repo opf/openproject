@@ -40,14 +40,14 @@ describe Forum, type: :model do
   describe 'with forum present' do
     let(:forum) { build :forum, name: 'Test forum', description: 'Whatever' }
 
-    it 'should create' do
+    it 'creates' do
       expect(forum.save).to be_truthy
       forum.reload
       expect(forum.name).to eq 'Test forum'
       expect(forum.description).to eq 'Whatever'
       expect(forum.topics_count).to eq 0
       expect(forum.messages_count).to eq 0
-      expect(forum.last_message).to be nil
+      expect(forum.last_message).to be_nil
     end
   end
 end

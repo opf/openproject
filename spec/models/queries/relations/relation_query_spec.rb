@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Queries::Relations::RelationQuery, type: :model do
   let(:instance) { described_class.new }
-  let(:base_scope) { Relation.direct.order(id: :desc) }
+  let(:base_scope) { Relation.order(id: :desc) }
 
   context 'without a filter' do
     describe '#results' do
@@ -55,7 +55,7 @@ describe Queries::Relations::RelationQuery, type: :model do
       it 'is the same as handwriting the query' do
         expected = base_scope
                    .merge(Relation
-                          .where("relations.follows IN ('1') OR relations.blocks IN ('1')"))
+                          .where("relations.relation_type IN ('follows','blocks')"))
                    .visible
 
         expect(instance.results.to_sql).to eql expected.to_sql
@@ -77,6 +77,7 @@ describe Queries::Relations::RelationQuery, type: :model do
 
   context 'with a from filter' do
     let(:current_user) { build_stubbed(:user) }
+
     before do
       login_as(current_user)
       instance.where('from_id', '=', ['1'])

@@ -27,7 +27,7 @@
 #++
 
 shared_examples_for 'GET individual query' do
-  let(:work_package) { create(:work_package, project: project) }
+  let(:work_package) { create(:work_package, project:) }
   let(:filter) { [] }
   let(:path) do
     if filter.any?
@@ -43,7 +43,7 @@ shared_examples_for 'GET individual query' do
     get path
   end
 
-  it 'should succeed' do
+  it 'succeeds' do
     expect(last_response.status).to eq(200)
   end
 
@@ -66,9 +66,9 @@ shared_examples_for 'GET individual query' do
     let(:filter) do
       [
         {
-          "status": {
-            "operator": "c",
-            "values": []
+          status: {
+            operator: "c",
+            values: []
           }
         }
       ]
@@ -85,7 +85,7 @@ shared_examples_for 'GET individual query' do
     let(:filter) do
       [
         {
-          "some": "bogus"
+          some: "bogus"
         }
       ]
     end

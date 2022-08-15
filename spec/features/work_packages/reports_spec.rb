@@ -38,8 +38,8 @@ describe 'work package reports', type: :feature, js: true do
     end
   end
 
-  let!(:wp_1) { create :work_package, project: project, type: type_a, status: type_a.statuses.first }
-  let!(:wp_2) { create :work_package, project: project, type: type_a, status: type_a.statuses.last }
+  let!(:wp_1) { create :work_package, project:, type: type_a, status: type_a.statuses.first }
+  let!(:wp_2) { create :work_package, project:, type: type_a, status: type_a.statuses.last }
 
   let(:wp_table_page) { Pages::WorkPackagesTable.new(project) }
 

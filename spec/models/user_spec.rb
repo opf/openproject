@@ -33,20 +33,21 @@ describe User, type: :model do
   let(:project) { create(:project_with_types) }
   let(:role) { create(:role, permissions: [:view_work_packages]) }
   let(:member) do
-    build(:member, project: project,
-                              roles: [role],
-                              principal: user)
+    build(:member, project:,
+                   roles: [role],
+                   principal: user)
   end
   let(:status) { create(:status) }
   let(:issue) do
     build(:work_package, type: project.types.first,
-                                    author: user,
-                                    project: project,
-                                    status: status)
+                         author: user,
+                         project:,
+                         status:)
   end
 
   describe 'a user with a long login (<= 256 chars)' do
     let(:login) { 'a' * 256 }
+
     it 'is valid' do
       user.login = login
       expect(user).to be_valid
@@ -221,7 +222,7 @@ describe User, type: :model do
       user.save!
     end
 
-    it 'should create a human readable name' do
+    it 'creates a human readable name' do
       expect(user.authentication_provider).to eql('Test Provider')
     end
   end
@@ -239,7 +240,7 @@ describe User, type: :model do
       allow(Setting).to receive(:brute_force_block_minutes).and_return(30)
     end
 
-    it 'should return the single blocked user' do
+    it 'returns the single blocked user' do
       expect(User.blocked.length).to eq(1)
       expect(User.blocked.first.id).to eq(blocked_user.id)
     end
@@ -253,7 +254,7 @@ describe User, type: :model do
         user.auth_source = nil
       end
 
-      it 'should be true' do
+      it 'is true' do
         assert user.change_password_allowed?
       end
     end
@@ -267,7 +268,7 @@ describe User, type: :model do
           user.auth_source = allowed_auth_source
         end
 
-        it 'should allow password changes' do
+        it 'allows password changes' do
           expect(user.change_password_allowed?).to be_truthy
         end
       end
@@ -280,7 +281,7 @@ describe User, type: :model do
           user.auth_source = denied_auth_source
         end
 
-        it 'should not allow password changes' do
+        it 'does not allow password changes' do
           expect(user.change_password_allowed?).to be_falsey
         end
       end
@@ -292,7 +293,7 @@ describe User, type: :model do
         allow(user).to receive(:uses_external_authentication?).and_return(true)
       end
 
-      it 'should not allow a password change' do
+      it 'does not allow a password change' do
         expect(user.change_password_allowed?).to be_falsey
       end
     end
@@ -306,7 +307,7 @@ describe User, type: :model do
     describe 'WHEN the user is watching' do
       let(:watcher) do
         Watcher.new(watchable: issue,
-                    user: user)
+                    user:)
       end
 
       before do
@@ -332,7 +333,7 @@ describe User, type: :model do
     context 'with identity_url' do
       let(:user) { build(:user, identity_url: 'test_provider:veryuniqueid') }
 
-      it 'should return true' do
+      it 'returns true' do
         expect(user.uses_external_authentication?).to be_truthy
       end
     end
@@ -340,7 +341,7 @@ describe User, type: :model do
     context 'without identity_url' do
       let(:user) { build(:user, identity_url: nil) }
 
-      it 'should return false' do
+      it 'returns false' do
         expect(user.uses_external_authentication?).to be_falsey
       end
     end
@@ -356,6 +357,7 @@ describe User, type: :model do
     end
 
     it { expect(@u.valid?).to be_falsey }
+
     it {
       expect(@u.errors[:password]).to include I18n.t('activerecord.errors.messages.too_short',
                                                      count: Setting.password_min_length.to_i)
@@ -378,10 +380,10 @@ describe User, type: :model do
   describe '#try_authentication_for_existing_user' do
     def build_user_double_with_expired_password(is_expired)
       user_double = double('User')
-      allow(user_double).to receive(:check_password?) { true }
-      allow(user_double).to receive(:active?) { true }
-      allow(user_double).to receive(:auth_source) { nil }
-      allow(user_double).to receive(:force_password_change) { false }
+      allow(user_double).to receive(:check_password?).and_return(true)
+      allow(user_double).to receive(:active?).and_return(true)
+      allow(user_double).to receive(:auth_source).and_return(nil)
+      allow(user_double).to receive(:force_password_change).and_return(false)
 
       # check for expired password should always happen
       expect(user_double).to receive(:password_expired?) { is_expired }
@@ -389,19 +391,20 @@ describe User, type: :model do
       user_double
     end
 
-    it 'should not allow login with an expired password' do
+    it 'does not allow login with an expired password' do
       user_double = build_user_double_with_expired_password(true)
 
       # use !! to ensure value is boolean
       expect(!!User.try_authentication_for_existing_user(user_double, 'anypassword')).to \
-        eq(false)
+        be(false)
     end
-    it 'should allow login with a not expired password' do
+
+    it 'allows login with a not expired password' do
       user_double = build_user_double_with_expired_password(false)
 
       # use !! to ensure value is boolean
       expect(!!User.try_authentication_for_existing_user(user_double, 'anypassword')).to \
-        eq(true)
+        be(true)
     end
 
     context 'with an external auth source' do
@@ -417,7 +420,7 @@ describe User, type: :model do
           expect(auth_source).to receive(:authenticate).with('user', 'password').and_return(true)
         end
 
-        it 'should succeed' do
+        it 'succeeds' do
           expect(User.try_authentication_for_existing_user(user_with_external_auth_source, 'password'))
             .to eq(user_with_external_auth_source)
         end
@@ -428,9 +431,9 @@ describe User, type: :model do
           expect(auth_source).to receive(:authenticate).with('user', 'password').and_return(false)
         end
 
-        it 'should fail when the authentication fails' do
+        it 'fails when the authentication fails' do
           expect(User.try_authentication_for_existing_user(user_with_external_auth_source, 'password'))
-            .to eq(nil)
+            .to be_nil
         end
       end
     end
@@ -461,7 +464,7 @@ describe User, type: :model do
         expect do
           system_user = User.system
           expect(system_user).to eq(@u)
-        end.to change(User, :count).by(0)
+        end.not_to change(User, :count)
       end
     end
   end
@@ -479,6 +482,7 @@ describe User, type: :model do
       before do
         default_admin.save
       end
+
       it { expect(User.default_admin_account_changed?).to be_falsey }
     end
 
@@ -529,7 +533,7 @@ describe User, type: :model do
         allow(Setting).to receive(:feeds_enabled?).and_return(false)
       end
 
-      it { expect(User.find_by_rss_key(@rss_key)).to eq(nil) }
+      it { expect(User.find_by_rss_key(@rss_key)).to be_nil }
     end
   end
 
@@ -590,5 +594,9 @@ describe User, type: :model do
         expect(matches.pluck(:id)).to match_array [user1.id, user2.id, user3.id]
       end
     end
+  end
+
+  include_examples 'creates an audit trail on destroy' do
+    subject { create(:attachment) }
   end
 end

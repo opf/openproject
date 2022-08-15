@@ -47,12 +47,11 @@ describe AccountController, type: :controller do
   end
 
   let(:hook) { UserHook.instance }
+  let(:user) { build_stubbed(:user) }
 
   before do
     hook.reset!
   end
-
-  let(:user) { build_stubbed(:user) }
 
   context 'GET #login' do
     let(:setup) {}
@@ -61,7 +60,7 @@ describe AccountController, type: :controller do
     before do
       setup
 
-      get :login, params: params
+      get :login, params:
     end
 
     it 'renders the view' do
@@ -141,13 +140,13 @@ describe AccountController, type: :controller do
     end
 
     describe 'User logging in with back_url' do
-      it 'should redirect to a relative path' do
+      it 'redirects to a relative path' do
         post :login,
              params: { username: admin.login, password: 'adminADMIN!', back_url: '/' }
         expect(response).to redirect_to root_path
       end
 
-      it 'should redirect to an absolute path given the same host' do
+      it 'redirects to an absolute path given the same host' do
         # note: test.host is the hostname during tests
         post :login,
              params: {
@@ -158,7 +157,7 @@ describe AccountController, type: :controller do
         expect(response).to redirect_to '/work_packages/show/1'
       end
 
-      it 'should not redirect to another host' do
+      it 'does not redirect to another host' do
         post :login,
              params: {
                username: admin.login,
@@ -168,7 +167,7 @@ describe AccountController, type: :controller do
         expect(response).to redirect_to my_page_path
       end
 
-      it 'should not redirect to another host with a protocol relative url' do
+      it 'does not redirect to another host with a protocol relative url' do
         post :login,
              params: {
                username: admin.login,
@@ -178,7 +177,7 @@ describe AccountController, type: :controller do
         expect(response).to redirect_to my_page_path
       end
 
-      it 'should not redirect to logout' do
+      it 'does not redirect to logout' do
         post :login,
              params: {
                username: admin.login,
@@ -219,7 +218,7 @@ describe AccountController, type: :controller do
           OpenProject::Configuration['rails_relative_url_root'] = @old_relative_url_root
         end
 
-        it 'should redirect to the same subdirectory with an absolute path' do
+        it 'redirects to the same subdirectory with an absolute path' do
           post :login,
                params: {
                  username: admin.login,
@@ -229,7 +228,7 @@ describe AccountController, type: :controller do
           expect(response).to redirect_to '/openproject/work_packages/show/1'
         end
 
-        it 'should redirect to the same subdirectory with a relative path' do
+        it 'redirects to the same subdirectory with a relative path' do
           post :login,
                params: {
                  username: admin.login,
@@ -239,7 +238,7 @@ describe AccountController, type: :controller do
           expect(response).to redirect_to '/openproject/work_packages/show/1'
         end
 
-        it 'should not redirect to another subdirectory with an absolute path' do
+        it 'does not redirect to another subdirectory with an absolute path' do
           post :login,
                params: {
                  username: admin.login,
@@ -249,7 +248,7 @@ describe AccountController, type: :controller do
           expect(response).to redirect_to my_page_path
         end
 
-        it 'should not redirect to another subdirectory with a relative path' do
+        it 'does not redirect to another subdirectory with a relative path' do
           post :login,
                params: {
                  username: admin.login,
@@ -259,7 +258,7 @@ describe AccountController, type: :controller do
           expect(response).to redirect_to my_page_path
         end
 
-        it 'should not redirect to another subdirectory by going up the path hierarchy' do
+        it 'does not redirect to another subdirectory by going up the path hierarchy' do
           post :login,
                params: {
                  username: admin.login,
@@ -269,7 +268,7 @@ describe AccountController, type: :controller do
           expect(response).to redirect_to my_page_path
         end
 
-        it 'should not redirect to another subdirectory with a protocol relative path' do
+        it 'does not redirect to another subdirectory with a protocol relative path' do
           post :login,
                params: {
                  username: admin.login,
@@ -333,7 +332,7 @@ describe AccountController, type: :controller do
               expect(response).to redirect_to '/login'
 
               # Expect session to be cleared
-              expect(session[:foo]).to eq nil
+              expect(session[:foo]).to be_nil
             end
           end
 
@@ -345,7 +344,7 @@ describe AccountController, type: :controller do
             expect(response).to redirect_to '/login'
 
             # Expect session to be cleared
-            expect(session[:foo]).to eq nil
+            expect(session[:foo]).to be_nil
           end
         end
 
@@ -357,7 +356,7 @@ describe AccountController, type: :controller do
             end
 
             get :logout
-            expect(was_called).to eq true
+            expect(was_called).to be true
             expect(response).to redirect_to home_path
           end
         end
@@ -383,11 +382,11 @@ describe AccountController, type: :controller do
              format: :json
       end
 
-      it 'should return a 410' do
+      it 'returns a 410' do
         expect(response.code.to_s).to eql('410')
       end
 
-      it 'should not login the user' do
+      it 'does not login the user' do
         expect(@controller.send(:current_user).anonymous?).to be_truthy
       end
     end
@@ -488,7 +487,7 @@ describe AccountController, type: :controller do
              }
       end
 
-      it 'should render 404' do
+      it 'renders 404' do
         expect(response.status).to eq 404
       end
     end
@@ -505,7 +504,7 @@ describe AccountController, type: :controller do
              }
       end
 
-      it 'should redirect to the login page' do
+      it 'redirects to the login page' do
         expect(response).to redirect_to '/login'
       end
     end
@@ -515,7 +514,7 @@ describe AccountController, type: :controller do
         post 'login', params: { username: admin.login, password: 'adminADMIN!' }
       end
 
-      it 'should redirect to the login page' do
+      it 'redirects to the login page' do
         expect(response).to redirect_to '/login'
       end
     end
@@ -560,9 +559,10 @@ describe AccountController, type: :controller do
         end
 
         it 'is successful' do
-          is_expected.to respond_with :success
+          expect(subject).to respond_with :success
           expect(response).to render_template :register
           expect(assigns[:user]).not_to be_nil
+          expect(assigns[:user].notification_settings.size).to eq(1)
         end
       end
 
@@ -599,7 +599,7 @@ describe AccountController, type: :controller do
       end
 
       it 'is successful' do
-        is_expected.to respond_with :success
+        expect(subject).to respond_with :success
         expect(response).to render_template :register
         expect(assigns[:user]).not_to be_nil
       end
@@ -632,9 +632,9 @@ describe AccountController, type: :controller do
           end
 
           it 'redirects to the expected path' do
-            is_expected.to respond_with :redirect
+            expect(subject).to respond_with :redirect
             expect(assigns[:user]).not_to be_nil
-            is_expected.to redirect_to(redirect_to_path)
+            expect(subject).to redirect_to(redirect_to_path)
             expect(User.where(login: 'register').last).not_to be_nil
           end
 
@@ -681,11 +681,11 @@ describe AccountController, type: :controller do
           before do
             allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
 
-            post :register, params: params
+            post :register, params:
           end
 
           it "fails" do
-            is_expected.to redirect_to(signin_path)
+            expect(subject).to redirect_to(signin_path)
 
             expect(flash[:error]).to match /user limit reached/
           end
@@ -738,7 +738,7 @@ describe AccountController, type: :controller do
         end
 
         it 'redirects to the login page' do
-          is_expected.to redirect_to '/login'
+          expect(subject).to redirect_to '/login'
         end
 
         it "doesn't activate the user but sends out a token instead" do
@@ -868,7 +868,7 @@ describe AccountController, type: :controller do
         end
 
         it 'registers the user on-the-fly' do
-          is_expected.to respond_with :success
+          expect(subject).to respond_with :success
           expect(response).to render_template :register
 
           post :register,
@@ -884,7 +884,7 @@ describe AccountController, type: :controller do
           user = User.find_by_login('foo')
 
           expect(user).to be_an_instance_of(User)
-          expect(user.auth_source_id).to eql 66
+          expect(user.auth_source_id).to be 66
           expect(user.current_password).to be_nil
         end
       end
@@ -924,7 +924,7 @@ describe AccountController, type: :controller do
 
   context 'POST activate' do
     let!(:admin) { create :admin }
-    let(:user) { create :user, status: status }
+    let(:user) { create :user, status: }
     let(:status) { -1 }
 
     let(:token) { Token::Invitation.create!(user_id: user.id) }
@@ -972,14 +972,14 @@ describe AccountController, type: :controller do
 
     let(:failure) do
       {
-        login: login,
+        login:,
         back_url: '/my/account',
         ttl: 1
       }
     end
 
     let(:auth_source) { create :ldap_auth_source }
-    let(:user) { create :user, status: 2, auth_source: auth_source }
+    let(:user) { create :user, status: 2, auth_source: }
     let(:login) { user.login }
 
     before do
@@ -987,7 +987,7 @@ describe AccountController, type: :controller do
     end
 
     context "with a non-active user" do
-      it "should show the non-active error message" do
+      it "shows the non-active error message" do
         get :auth_source_sso_failed
 
         expect(session[:auth_source_sso_failure]).not_to be_present
@@ -1003,7 +1003,7 @@ describe AccountController, type: :controller do
       let!(:duplicate) { create :user, mail: "login@DerpLAP.net" }
       let(:login) { 'foo' }
       let(:attrs) do
-        { mail: duplicate.mail, login: login, firstname: 'bla', lastname: 'bar' }
+        { mail: duplicate.mail, login:, firstname: 'bla', lastname: 'bar' }
       end
 
       before do
@@ -1024,7 +1024,7 @@ describe AccountController, type: :controller do
       let!(:duplicate) { create :user, mail: "login@DerpLAP.net" }
       let(:login) { 'foo' }
       let(:attrs) do
-        { login: login, firstname: 'bla', lastname: 'bar' }
+        { login:, firstname: 'bla', lastname: 'bar' }
       end
 
       before do
@@ -1044,7 +1044,7 @@ describe AccountController, type: :controller do
 
   describe 'POST #activate' do
     shared_examples 'account activation' do
-      let(:token) { Token::Invitation.create user: user }
+      let(:token) { Token::Invitation.create user: }
 
       let(:activation_params) do
         {
@@ -1060,7 +1060,7 @@ describe AccountController, type: :controller do
         end
 
         it 'fails and shows an expiration warning' do
-          is_expected.to redirect_to('/')
+          expect(subject).to redirect_to('/')
           expect(flash[:warning]).to include 'expired'
         end
 

@@ -48,8 +48,9 @@ fr:
         main-menu-hover-font-color: "Police du menu principal au survol"
         main-menu-border-color: "Bordure du menu principal"
       custom_colors: "Couleurs personnalisées"
-      customize: "Personnalisez votre installation OpenProject avec votre propre logo. Remarque : Ce logo sera accessible publiquement."
+      customize: "Personnalisez votre installation OpenProject avec votre propre logo et couleurs."
       enterprise_notice: "En tant que remerciement spécial pour leur contribution financière au développement d'OpenProject, cette fonctionnalité n’est disponible que pour les titulaires d'une version Enterprise."
+      enterprise_more_info: "Remarque : le logo utilisé sera accessible publiquement."
       manage_colors: "Modifier les options du sélecteur de couleur"
       instructions:
         alternative-color: "Couleur d'accentuation, habituellement utilisée pour le bouton le plus important à l'écran."
@@ -93,6 +94,8 @@ fr:
     show_preview: 'Texte d’aperçu'
     add_new: 'Ajouter le texte d’aide'
     edit: "Modifier le texte d’aide pour %{attribute_caption}"
+    enterprise:
+      description: 'Fournissez des informations supplémentaires pour les attributs (y compris les champs personnalisés) des lots de travaux et des projets. Les textes d''aide sont affichés lorsque les utilisateurs cliquent sur le symbole point d''interrogation à côté des champs de saisie dans les projets et les lots de travaux.'
   auth_sources:
     index:
       no_results_content_title: Il n'y a actuellement aucun mode d'authentification.
@@ -171,7 +174,7 @@ fr:
     execute: 'Exécuter %{name}'
     upsale:
       title: 'Actions personnalisées'
-      description: 'Les actions personnalisées uniformisent le travail quotidien en combinant un ensemble d''étapes individuelles en un seul bouton.'
+      description: 'Les actions personnalisées sont des raccourcis en un clic vers un ensemble d''actions prédéfinies que vous pouvez rendre disponibles sur certains lots de travaux en fonction de l''état, rôle, type ou projet.'
   custom_fields:
     text_add_new_custom_field: >
       Pour ajouter de nouveaux champs personnalisés à un projet, vous devez d’abord les créer avant de pouvoir les ajouter à ce projet.
@@ -264,14 +267,13 @@ fr:
     deletion_info:
       heading: "Supprimer l’utilisateur fictif %{name}"
       data_consequences: >
-        Toutes les occurrences de l'utilisateur de remplacement (par exemple, en tant que responsable ou autre valeur utilisateur) seront réaffectées à un compte appelé « Utilisateur supprimé ».
-        Comme les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera pas possible de distinguer les données que l'utilisateur a créées des données d'un autre compte supprimé.
+        Toutes les occurrences de l'utilisateur de remplacement (par exemple, en tant que responsable ou autre valeur utilisateur) seront réaffectées à un compte appelé « Utilisateur supprimé ». Comme les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera pas possible de distinguer les données que l'utilisateur a créées des données d'un autre compte supprimé.
       irreversible: "Cette action est irréversible"
       confirmation: "Saisissez le nom d'utilisateur fictif %{name} pour confirmer ça suppression."
     upsale:
       title: Utilisateurs de remplacement
       description: >
-        Il existe de multiples scénarios dans lesquels vous souhaitez confier des tâches à des personnes qui ne font pas partie de votre projet. Il se peut simplement que vous ayez encore besoin d'engager la bonne personne pour le travail. Ou vous ne voulez tout simplement pas donner à cette personne l'accès aux informations du projet, mais vous voulez quand même suivre les tâches qui lui sont assignées.
+        Les utilisateurs fictifs sont un moyen d'attribuer des lots de travaux à des utilisateurs qui ne font pas partie de votre projet. Ils peuvent être utiles dans une série de scénarios ; par exemple, si vous avez besoin de suivre des tâches pour une ressource qui n'est pas encore nommée ou disponible, ou si vous ne voulez pas donner à cette personne l'accès à OpenProject mais voulez quand même suivre les tâches qui lui sont assignées.
   prioritiies:
     edit:
       priority_color_text: |
@@ -301,6 +303,8 @@ fr:
     edit:
       settings: "Paramètres"
       form_configuration: "Configuration du formulaire"
+      more_info_text_html: >
+        L'édition Entreprise vous permet de personnaliser la configuration du formulaire avec ces fonctionnalités supplémentaires : <br> <ul class="%{list_styling_class}"> <li><b>Ajouter de nouveaux groupes d'attributs</b></li> <li><b>Renommer les groupes d'attributs</b></li> <li><b>Ajouter une table des lots de travaux connexes</b></li> </ul>
       projects: "Projets"
       enabled_projects: "Projets activés"
       edit_query: "Modifier le tableau"
@@ -520,20 +524,23 @@ fr:
         begin_deletion: "Début de la suppression"
         children: "Sous-éléments"
         done_ratio: "Progrès (%)"
+        duration: "Durée"
         end_insertion: "Fin de l’insertion"
         end_deletion: "Fin de la suppression"
-        version: "Version"
+        ignore_non_working_days: "Ignorer les jours non ouvrables"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
         priority: "Priorité"
         progress: "Progrès (%)"
+        readonly: "Lecture seule"
         schedule_manually: "Planification manuelle"
         spent_hours: "Temps passé"
         spent_time: "Temps passé"
         subproject: "Sous-projet"
         time_entries: "Consigner temps"
         type: "Type"
+        version: "Version"
         watcher: "Observateur"
       'doorkeeper/application':
         uid: "Id du client"
@@ -600,6 +607,8 @@ fr:
         unknown_property: "n'est pas une propriété connue."
         unknown_property_nested: "a le chemin inconnu« '%{path} »."
         unremovable: "ne peut pas être supprimé."
+        url_not_secure_context: >
+          ne fournit pas de « Contexte sécurisé ». Utilisez soit HTTPS, soit une adresse de bouclage, comme localhost.
         wrong_length: "est de mauvaise longueur (devrait être %{count} caractères)."
       models:
         attachment:
@@ -631,7 +640,7 @@ fr:
               fragment_present: 'ne peut pas contenir un fragment.'
               invalid_uri: 'doit être une URI valide.'
               relative_uri: 'doit être une URI absolue.'
-              secured_uri: 'doit être une URI HTTPS/SSL.'
+              secured_uri: 'ne fournit pas de « Contexte sécurisé ». Utilisez soit HTTPS, soit une adresse de bouclage, comme localhost.'
               forbidden_uri: 'est interdit par le serveur.'
             scopes:
               not_match_configured: "ne correspond pas aux portées disponibles."
@@ -734,6 +743,10 @@ fr:
           attributes:
             due_date:
               not_start_date: "n'est pas identique à la date de début, bien que cela soit requis pour les jalons."
+            duration:
+              larger_than_dates: "est plus grand que l'intervalle entre la date de début et la date de fin."
+              smaller_than_dates: "est plus petit que l'intervalle entre la date de début et la date de fin."
+              not_available_for_milestones: "n'est pas disponible pour les lots de travaux de type jalon."
             parent:
               cannot_be_milestone: "ne peut pas être un jalon."
               cannot_be_self_assigned: "ne peut pas être assigné à lui-même."
@@ -1234,7 +1247,7 @@ fr:
   error_enterprise_activation_user_limit: "Votre compte n'a pas pu être activé (limite d'utilisateurs atteinte). Veuillez contacter votre administrateur pour obtenir l'accès."
   error_enterprise_token_invalid_domain: "La version Entreprise n'est pas active. Le domaine de votre jeton Entreprise (%{actual}) ne correspond pas au nom d'hôte du système (%{expected})."
   error_failed_to_delete_entry: 'Échec lors de la suppression de cette entrée.'
-  error_in_dependent: "Erreur lors de la tentative de modification de l'objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}"
+  error_in_dependent: "Erreur lors de la tentative de modification de l'objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}" #%{related_id} - %{related_subject} : %{error}"
   error_in_new_dependent: "Erreur lors de la tentative de création d'un objet dépendant : %{dependent_class} - %{related_subject} : %{error}"
   error_invalid_selected_value: "Valeur sélectionnée invalide."
   error_journal_attribute_not_present: "Le journal ne contient pas l’attribut %{attribute}."
@@ -1346,7 +1359,7 @@ fr:
     admin:
       mail_notification: "Notifications par courriel"
       mails_and_notifications: "E-mails et notifications"
-      aggregation_and_retention: 'Agrégation et rétention'
+      aggregation: 'Agrégation'
       api_and_webhooks: "API et webhooks"
     quick_add:
       label: "Ouvrir le menu d'ajout rapide"
@@ -1355,7 +1368,7 @@ fr:
       no_results:
         title: "Aucun jeton d'accès à afficher"
         description: "Tous ont été désactivés. Ils peuvent être ré-activés dans le menu d'administration."
-      access_token: "Jeton d'accès"
+      access_tokens: "Jetons d’accès"
       headers:
         action: "Action"
         expiration: "Expiration"
@@ -1373,17 +1386,11 @@ fr:
     update_info_mail:
       body: >
         Nous sommes heureux d'annoncer la sortie d'OpenProject 12.0. Il s'agit d'une version majeure qui, nous l'espérons, améliorera considérablement la façon dont vous utilisez OpenProject.
-
         A partir de cette version, nous lançons les notifications in-app. A partir de maintenant, vous recevrez des notifications pour les mises à jour des paquets de travail directement dans OpenProject. Vous pouvez marquer ces notifications comme lues, répondre à un commentaire, ou même modifier directement les attributs du paquet de travail sans quitter le centre de notification.
-
         Cela signifie également que nous n'utiliserons plus les emails pour les notifications. Nous pensons que le nouveau centre de notification est un meilleur endroit pour voir et agir sur ces mises à jour. Néanmoins, si vous souhaitez continuer à recevoir des mises à jour par e-mail, vous pouvez choisir de recevoir des rappels quotidiens à des moments précis de votre choix.
-
         Nous vous conseillons de vérifier vos nouveaux paramètres de notification par défaut et de définir vos préférences via les paramètres de votre compte. Vous pouvez le faire en cliquant sur le bouton "Modifier les paramètres de messagerie" ci-dessous.
-
         Nous espérons que vous trouverez les notifications in-app utiles et qu'elles vous rendront encore plus productif.
-
-        Sincèrement,
-        L'équipe OpenProject
+        Sincèrement, L'équipe OpenProject
       body_header: 'Version 12.0 avec centre de notifications'
       body_subheader: 'Actualités'
       subject: 'Modifications importantes des notifications avec la publication de 12.0'
@@ -1456,7 +1463,6 @@ fr:
   label_consent_settings: "Accord de l'utilisateur"
   label_wiki_menu_item: Élément de menu wiki
   label_select_main_menu_item: Sélectionner nouvel élément de menu principal
-  label_select_project: "Sélectionner un projet"
   label_required_disk_storage: "Espace disque requis"
   label_send_invitation: Envoyer une invitation
   label_change_plural: "Changements"
@@ -1522,6 +1528,7 @@ fr:
   label_diff: "diff"
   label_diff_inline: "en ligne"
   label_diff_side_by_side: "côte à côte"
+  label_digital_accessibility: 'Accessibilité numérique (DE)'
   label_disabled: "désactivé"
   label_display: "Affichage"
   label_display_per_page: "Par page: %{value}"
@@ -1734,7 +1741,6 @@ fr:
   label_product_version: "Version du produit"
   label_professional_support: "Support professionnel"
   label_profile: "Profil"
-  label_project_all: "Tous les projets"
   label_project_count: "Nombre total de projets"
   label_project_copy_notifications: "Notifier par courriel lors de la copie du projet"
   label_project_latest: "Derniers projets"
@@ -1996,6 +2002,9 @@ fr:
   mail_body_backup_token_info: Le jeton précédent n'est plus valide.
   mail_body_backup_waiting_period: Le nouveau jeton sera activé dans %{hours} heures.
   mail_body_backup_token_warning: Si ce n'était pas vous, connectez-vous immédiatement à OpenProject et réinitialisez-le à nouveau.
+  mail_body_incoming_email_error: L'e-mail que vous avez envoyé à OpenProject n'a pas pu être traité.
+  mail_body_incoming_email_error_in_reply_to: "Le %{received_at} %{from_email} a écrit"
+  mail_body_incoming_email_error_logs: "Journaux"
   mail_body_lost_password: "Pour changer votre mot de passe, cliquez sur le lien suivant:"
   mail_body_register: "Bienvenue sur %{app_title}. Veuillez activer votre compte en cliquant sur ce lien :"
   mail_body_register_header_title: "E-mail d'invitation du membre du projet"
@@ -2014,6 +2023,7 @@ fr:
   mail_subject_account_activation_request: "Requête pour l'activation du compte %{value}"
   mail_subject_backup_ready: "Votre sauvegarde est prête"
   mail_subject_backup_token_reset: "Réinitialisation du jeton de sauvegarde"
+  mail_subject_incoming_email_error: "Un e-mail que vous avez envoyé à OpenProject n'a pas pu être traité."
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_subject_register: "Votre activation du compte %{value}"
   mail_subject_reminder: "%{count} lot(s) de travaux à échéance dans les %{days} prochains jours"
@@ -2106,6 +2116,12 @@ fr:
   notice_successful_create: "Création réussie."
   notice_successful_delete: "Suppression réussie."
   notice_successful_update: "Mise à jour réussie."
+  notice_successful_update_custom_fields_added_to_project: |
+    Mise à jour réussie. Les champs personnalisés des types activés sont automatiquement activés
+    sur le formulaire du lot de travaux. <a href="%{url}" target="_blank">Voir plus</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Mise à jour réussie. Les champs personnalisés actifs sont automatiquement activés pour
+    les projets associés de ce type.
   notice_to_many_principals_to_display: "Il y a trop de résultats.\nLimitez la recherche en tapant le nom du nouveau membre (ou groupe)."
   notice_user_missing_authentication_method: L'utilisateur n'a pas encore choisi de mot de passe ou un autre moyen de s'authentifier.
   notice_user_invitation_resent: Une invitation a été envoyée à %{email}.
@@ -2156,7 +2172,7 @@ fr:
   permission_comment_news: "Commenter les actualités"
   permission_commit_access: "Accès au dépôt en lecture/écriture (« commit »)"
   permission_copy_projects: "Copier des projets"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "Créer une sauvegarde"
   permission_delete_work_package_watchers: "Supprimer des observateurs"
   permission_delete_work_packages: "Supprimer des lots de travaux"
   permission_delete_messages: "Supprimer des messages"
@@ -2173,13 +2189,14 @@ fr:
   permission_edit_own_time_entries: "Éditer mes propres enregistrements de temps"
   permission_edit_project: "Éditer le projet"
   permission_edit_reportings: "Éditer rapports"
-  permission_edit_time_entries: "Éditer les enregistrements de temps"
+  permission_edit_time_entries: "Modifier les journaux de temps pour les autres utilisateurs"
   permission_edit_timelines: "Éditer les lignes du temps"
   permission_edit_wiki_pages: "Éditer les pages wiki"
   permission_export_work_packages: "Exporter les lots de travaux"
   permission_export_wiki_pages: "Exporter les pages wiki"
   permission_list_attachments: "Lister les pièces jointes"
-  permission_log_time: "Enregistrer le temps passé"
+  permission_log_own_time: "Enregistrer son propre temps"
+  permission_log_time: "Saisir le temps pour d'autres utilisateurs"
   permission_manage_forums: "Gérer les forums"
   permission_manage_categories: "Gérer les catégories de lots de travaux"
   permission_manage_work_package_relations: "Gérer les relations des lots de travaux"
@@ -2249,7 +2266,7 @@ fr:
     assigned_to_role: "Rôle du Destinataire"
     member_of_group: "Groupe du Destinataire"
     assignee_or_group: "Cessionnaire ou groupe d’appartenance"
-    subproject_id: "Including subproject"
+    subproject_id: "Inclure le sous-projet"
     only_subproject_id: "Seulement le sous-projet"
     name_or_identifier: "Nom ou identifiant"
   repositories:
@@ -2337,6 +2354,9 @@ fr:
     storage:
       not_available: "La consommation d'espace disque n'est pas disponible pour ce dépôt."
       update_timeout: "Garder les dernières informations de l'espace disque requis pour un dépôt pendant N minutes.\nEtant donné que l'opération de comptabilisation de l'espace disque requis pour un dépôt peut être coûteuse, augmentez cette valeur pour réduire l'impact sur les performances."
+      oauth_application_details: "La valeur secrète du client ne sera plus accessible après la fermeture de cette fenêtre. Veuillez copier ces valeurs dans les paramètres d'intégration Nextcloud OpenProject :"
+      oauth_application_details_link_text: "Aller à la page des paramètres"
+      show_warning_details: "Pour utiliser ce stockage de fichiers, n'oubliez pas d'activer le module et le stockage spécifique dans les paramètres du projet de chaque projet souhaité."
     subversion:
       existing_title: "Dépôt Subversion existant"
       existing_introduction: "Si vous avez un dépôt Subversion existant, vous pouvez le lier avec OpenProject pour y accéder depuis l'application."
@@ -2380,7 +2400,7 @@ fr:
   setting_smtp_authentication: "Authentification SMTP"
   setting_smtp_user_name: "Utilisateur SMTP"
   setting_smtp_password: "Mot de passe SMTP"
-  setting_smtp_domain: "Domaine SMTP HELLO"
+  setting_smtp_domain: "Domaine SMTP HELO"
   setting_activity_days_default: "Nombre des jours affichés dans l'activité du projet"
   setting_app_subtitle: "Sous-titre de l'Application"
   setting_app_title: "Titre de l'Application"
@@ -2416,7 +2436,6 @@ fr:
   setting_email_login: "Utiliser l'adresse courriel comme login"
   setting_enabled_scm: "Permettre SCM"
   setting_enabled_projects_columns: "Visible dans la liste des projets"
-  setting_notification_retention_period_days: "Période de rétention des notifications"
   setting_feeds_enabled: "Permettre les flux"
   setting_feeds_limit: "Limite du contenu du flux"
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
@@ -2429,7 +2448,7 @@ fr:
   setting_work_package_list_default_columns: "Afficher par défaut"
   setting_work_package_properties: "Propriétés du Lot de Travaux"
   setting_work_package_startdate_is_adddate: "Utiliser la date actuelle comme date de début des nouveaux lots de travaux"
-  setting_work_packages_export_limit: "Nombre limite de lots de travaux exportés"
+  setting_work_packages_projects_export_limit: "Limite d'exportation des lots de travaux/projets"
   setting_journal_aggregation_time_minutes: "Actions utilisateur agrégées dans"
   setting_log_requesting_user: "Enregister le login utilisateur, nom et adresse courriel pour toutes les requêtes"
   setting_login_required: "Authentification requise"
@@ -2489,8 +2508,6 @@ fr:
       whitelist_text_html: >
         Définissez une liste d'extensions de fichiers et/ou de types MIME valides pour les fichiers téléversés. <br/> Entrez les extensions de fichier (par exemple, <code>%{ext_example}</code>) ou les types mime (par exemple, <code>%{mime_example}</code>). <br/> Laissez vide pour permettre le téléversement de tout type de fichier. Plusieurs valeurs autorisées (une ligne pour chaque valeur).
     notifications:
-      retention_text: >
-        Définissez le nombre de jours pendant lequel les événements de notification pour les utilisateurs (la source des notifications dans l'application) seront conservés dans le système. Tous les événements antérieurs à ce moment seront supprimés.
       events_explanation: 'Définit pour quel événement un e-mail est envoyé. Les lots de travaux sont exclus de cette liste car les notifications pour ceux-ci peuvent être configurées spécifiquement pour chaque utilisateur.'
       delay_minutes_explanation: "L'envoi d'e-mails peut être retardé pour permettre aux utilisateurs ayant des notifications configurées dans l'application de confirmer la notification dans l'application avant l'envoi. Les utilisateurs qui lisent une notification dans l'application ne recevront pas d'e-mail pour la notification déjà lue."
     display:
@@ -2542,6 +2559,12 @@ fr:
     Lorsque vous utilisez des champs personnalisés : n’oubliez pas que les champs personnalisés doivent être activés par projet également.
   text_custom_field_hint_activate_per_project_and_type: >
     Les champs personnalisés doivent être activés par type de lot de travaux et par projet.
+  text_wp_custom_field_html: >
+    L'Édition Entreprise ajoutera ces fonctionnalités supplémentaires pour les champs personnalisés des Lots de Travaux : <br> <ul> <li><b>Autoriser la sélection multiple pour les champs personnalisés de type Liste ou Utilisateur</b></li> </ul>
+  text_wp_status_read_only_html: >
+    L'édition Entreprise ajoutera ces fonctionnalités supplémentaires pour les champs de statut des lots de travaux : <br> <ul> <li><b>Permet de marquer les lots de travaux en lecture seule pour des statuts spécifiques</b></li> </ul>
+  text_project_custom_field_html: >
+    L'édition Entreprise ajoutera ces fonctionnalités supplémentaires pour les champs personnalisés des projets : <br> <ul> <li><b>Ajouter des champs personnalisés pour les projets à votre liste de projets pour créer une vue du portefeuille de projets</b></li> </ul>
   text_custom_logo_instructions: >
     Un logo blanc sur fond transparent est recommandé. Pour obtenir les meilleurs résultats sur les deux, affichage classique et retina, assurez-vous que les dimensions de votre image soient de 460px par 60px.
   text_custom_favicon_instructions: >
@@ -3014,4 +3037,51 @@ fr:
     authorization_error: "Une erreur d'autorisation s'est produite."
     revoke_my_application_confirmation: "Voulez-vous vraiment supprimer cette application ? Ceci va révoquer %{token_count} actif pour elle."
     my_registered_applications: "Applications OAuth enregistrées"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connecté"
+      error: "Erreur"
+      failed_authorization: "Échec de l'autorisation"
+    labels:
+      label_oauth_integration: "Intégration OAuth2"
+      label_redirect_uri: "URI de redirection"
+      label_request_token: "Demande de jeton"
+      label_refresh_token: "Actualiser le jeton"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 a renvoyé une erreur"
+      oauth_reported: "Fournisseur OAuth2 signalé"
+      oauth_returned_error: "OAuth2 a renvoyé une erreur"
+      oauth_returned_json_error: "OAuth2 a renvoyé une erreur JSON"
+      oauth_returned_http_error: "OAuth2 a renvoyé une erreur réseau"
+      oauth_returned_standard_error: "OAuth2 a renvoyé une erreur interne"
+      wrong_token_type_returned: "OAuth2 a retourné un mauvais type de jeton, AccessToken::Bearer était attendu"
+      oauth_issue_contact_admin: "OAuth2 a signalé une erreur. Veuillez contacter votre administrateur système."
+      oauth_client_not_found: "Client OAuth2 introuvable dans le point de terminaison « callback » (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Erreur interne : a appelé refresh_token sans jeton existant.
+      refresh_token_updated_failed: "Erreur lors de la mise à jour d'OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        Cette erreur apparaît après avoir mis à jour le client_id et client_secret dans OpenProject, mais ne pas avoir mis à jour le champ « URI » dans le fournisseur OAuth2.
+      oauth_code_not_present: "« Code » OAuth2 introuvable dans le point de terminaison « callback » (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        Cette erreur apparaît si vous avez sélectionné le mauvais response_type dans le fournisseur OAuth2. Response_type doit être « code » ou similaire.
+      oauth_state_not_present: "« État » OAuth2 introuvable dans le point de terminaison « callback » (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        L'attribut « state » est utilisé pour indiquer à OpenProject où continuer après une autorisation OAuth2 réussie. Un « state » manquant est une erreur interne qui peut apparaître pendant l'installation. Veuillez contacter votre administrateur système.
+      rack_oauth2:
+        client_secret_invalid: "Le secret du client est invalide (client_secret_invalid)"
+        invalid_request: >
+          Le serveur d'autorisation OAuth2 a répondu avec « invalid_request ». Cette erreur apparaît si vous essayez d'autoriser plusieurs fois ou en cas de problème technique.
+        invalid_response: "Le serveur d'autorisation OAuth2 fourni une réponse invalide (invalid_response)"
+        invalid_grant: "Le serveur d'autorisation OAuth2 vous demande d'autoriser à nouveau (invalid_grant)."
+        invalid_client: "Le serveur d'autorisation OAuth2 ne reconnaît pas OpenProject (invalid_client)."
+        unauthorized_client: "Le serveur d'autorisation OAuth2 rejette le type d'autorisation (unauthorized_client)"
+        unsupported_grant_type: "Le serveur d'autorisation OAuth2 vous demande d'autoriser à nouveau (unsupported_grant_type)."
+        invalid_scope: "Vous n'êtes pas autorisé à accéder à la ressource demandée (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "La requête côté serveur a échoué en s'autorisant elle-même."
+      missing_authorization: "La requête latérale du serveur a échoué en raison de l'absence d'informations d'autorisation."
+    response:
+      unexpected: "Réponse inattendue reçue."
   you: vous

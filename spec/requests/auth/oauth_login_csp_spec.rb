@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'CSP appends on login form from oauth',
          type: :rails_request do
   let!(:redirect_uri) { 'https://foobar.com' }
-  let!(:oauth_app) { create(:oauth_application, redirect_uri: redirect_uri) }
+  let!(:oauth_app) { create(:oauth_application, redirect_uri:) }
   let(:oauth_path) do
     "/oauth/authorize?response_type=code&client_id=#{oauth_app.uid}&redirect_uri=#{CGI.escape(redirect_uri)}&scope=api_v3"
   end

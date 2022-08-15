@@ -44,7 +44,7 @@ versions_002:
   updated_at: 2006-07-19 21:00:33 +02:00
   id: 2
   description: Stable release
-  effective_date: <%= 20.day.from_now.to_date.to_s(:db) %>
+  effective_date: <%= 20.day.from_now.to_date.to_fs(:db) %>
   status: locked
   sharing: 'none'
 versions_003:

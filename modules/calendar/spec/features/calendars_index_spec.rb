@@ -48,8 +48,8 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
 
   let(:query) do
     create(:query_with_view_work_packages_calendar,
-           project: project,
-           user: user,
+           project:,
+           user:,
            public: true)
   end
 
@@ -95,7 +95,7 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
       end
 
       context 'when the view is non-public' do
-        let(:query) { create :query, user: user, project: project, public: false }
+        let(:query) { create :query, user:, project:, public: false }
 
         it 'does not show a non-public view' do
           expect(page).to have_text 'There is currently nothing to display.'

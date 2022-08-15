@@ -3,7 +3,7 @@ require 'spec_helper'
 describe AttributeHelpTextsController, type: :controller do
   let(:user) { build_stubbed :admin }
   let(:model) { build :work_package_help_text }
-  let(:relation_columns_allowed) { true }
+  let(:enterprise_token) { true }
 
   let(:find_expectation) do
     allow(AttributeHelpText)
@@ -13,7 +13,7 @@ describe AttributeHelpTextsController, type: :controller do
   end
 
   before do
-    with_enterprise_token(relation_columns_allowed ? :attribute_help_texts : nil)
+    with_enterprise_token(enterprise_token ? :attribute_help_texts : nil)
     login_as user
   end
 
@@ -30,10 +30,10 @@ describe AttributeHelpTextsController, type: :controller do
     end
 
     context 'with help texts disallowed by the enterprise token' do
-      let(:relation_columns_allowed) { false }
+      let(:enterprise_token) { false }
 
-      it 'returns 404' do
-        expect(response.status).to eql 404
+      it 'redirects to upsale' do
+        expect(response).to redirect_to upsale_attribute_help_texts_path
       end
     end
   end
@@ -53,10 +53,10 @@ describe AttributeHelpTextsController, type: :controller do
     end
 
     context 'with help texts disallowed by the enterprise token' do
-      let(:relation_columns_allowed) { false }
+      let(:enterprise_token) { false }
 
-      it 'returns 404' do
-        expect(response.status).to eql 404
+      it 'redirects to upsale' do
+        expect(response).to redirect_to upsale_attribute_help_texts_path
       end
     end
 
@@ -135,14 +135,14 @@ describe AttributeHelpTextsController, type: :controller do
     end
 
     context 'with help texts disallowed by the enterprise token' do
-      let(:relation_columns_allowed) { false }
+      let(:enterprise_token) { false }
 
       before do
         call
       end
 
-      it 'returns 404' do
-        expect(response.status).to eql 404
+      it 'redirects to upsale' do
+        expect(response).to redirect_to upsale_attribute_help_texts_path
       end
     end
   end

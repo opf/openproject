@@ -1,4 +1,4 @@
-<div class="inline-label ng-select-container">
+<div class="inline-label">
   <ng-select
     #ngSelectInstance
     [(ngModel)]="model"
@@ -21,7 +21,7 @@
     [name]="name"
     [id]="id"
     [attr.accesskey]="accesskey||undefined"
-    bindLabel="name"
+    [bindLabel]="bindLabel"
     [bindValue]="bindValue"
     [markFirst]="markFirst"
     [notFoundText]="notFoundText"
@@ -41,6 +41,8 @@
     [searchable]="searchable"
     [selectableGroupAsModel]="selectableGroupAsModel"
     [trackByFn]="trackByFn"
+    [compareWith]="compareWith"
+    [searchFn]="searchFn"
     [labelForId]="labelForId"
     [inputAttrs]="inputAttrs"
     [tabIndex]="tabIndex"
@@ -51,8 +53,8 @@
     [keyDownFn]="keyDownFn"
 
     (change)="changed($event)"
-    (open)="opened($event)"
-    (close)="closed($event)"
+    (open)="opened()"
+    (close)="closed()"
     (blur)="blured($event)"
     (focus)="focused($event)"
     (clear)="cleared($event)"
@@ -97,7 +99,7 @@
       let-search="searchTerm"
     >
       <ng-container
-        [ngTemplateOutlet]="optionTemplate ? optionTemplate : defaultOption"
+        [ngTemplateOutlet]="optionTemplate || defaultOption"
         [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
       ></ng-container>
     </ng-template>
@@ -185,6 +187,7 @@
 <ng-template let-item let-search="search" let-clear="clear" #defaultLabel>
   <ng-container *ngIf="resource === 'work_packages'">
     <span
+      *ngIf="item.id"
       class="ng-value-label"
       [ngOptionHighlight]="search"
     >

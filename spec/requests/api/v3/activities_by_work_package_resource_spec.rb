@@ -39,7 +39,7 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
     let(:current_user) do
       create(:user, member_in_project: project, member_through_role: role)
     end
-    let(:role) { create(:role, permissions: permissions) }
+    let(:role) { create(:role, permissions:) }
     let(:permissions) { %i(view_work_packages add_work_package_notes) }
 
     before do
@@ -52,14 +52,14 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
       end
 
       it 'succeeds' do
-        expect(last_response.status).to eql 200
+        expect(last_response.status).to be 200
       end
 
       context 'not allowed to see work package' do
         let(:current_user) { create(:user) }
 
         it 'fails with HTTP Not Found' do
-          expect(last_response.status).to eql 404
+          expect(last_response.status).to be 404
         end
       end
     end
@@ -96,7 +96,7 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
         include_context 'create activity'
 
         it 'responds with error' do
-          expect(last_response.status).to eql 422
+          expect(last_response.status).to be 422
         end
 
         it 'notes the error' do

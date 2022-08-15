@@ -37,7 +37,7 @@ sk:
         enabled_text: 'The webhook will emit payloads for the defined events below.'
         disabled_text: 'Click the edit button to activate the webhook.'
       deliveries:
-        no_results_table: No deliveries have been made for this webhook.
+        no_results_table: No deliveries have been made for this webhook in the past days.
         title: 'Recent deliveries'
         time: 'Delivery time'
       form:

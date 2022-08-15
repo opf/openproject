@@ -33,14 +33,14 @@ module WorkPackages
 
       def alter_work_package(work_package, attributes)
         WorkPackages::UpdateService
-          .new(user: user, model: work_package)
+          .new(user:, model: work_package)
           .call(**attributes.symbolize_keys)
       end
 
       def call_move_hook(work_package, params)
         call_hook(:controller_work_packages_bulk_edit_before_save,
-                  params: params,
-                  work_package: work_package)
+                  params:,
+                  work_package:)
       end
     end
   end

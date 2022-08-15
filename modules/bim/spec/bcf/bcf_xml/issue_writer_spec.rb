@@ -84,8 +84,8 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
   end
   let(:bcf_issue) do
     create(:bcf_issue_with_comment,
-           work_package: work_package,
-           markup: markup)
+           work_package:,
+           markup:)
   end
   let(:priority) { create :priority_low }
   let(:current_user) { create(:user) }
@@ -94,11 +94,11 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
   let(:work_package) do
     create(:work_package,
            project_id: project.id,
-           priority: priority,
+           priority:,
            author: current_user,
            assigned_to: current_user,
-           due_date: due_date,
-           type: type)
+           due_date:,
+           type:)
   end
 
   before do
@@ -167,7 +167,7 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
       expect(subject.at('BimSnippet')['SnippetType']).to be_eql "JSON"
     end
 
-    it 'it exports all BCF comments' do
+    it 'exports all BCF comments' do
       expect(subject.at('/Markup/Comment[1]/Comment').content).to eql("Some BCF comment.")
     end
 
@@ -176,7 +176,7 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
       work_package.save!
 
       expect(subject.at('/Markup/Comment[2]/Comment').content).to eql("Some note created in OP.")
-      expect(Bim::Bcf::Comment.count).to eql(2)
+      expect(Bim::Bcf::Comment.count).to be(2)
     end
 
     it 'replaces the BCF viewpoints names to use its uuid only' do

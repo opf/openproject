@@ -43,7 +43,7 @@ module Queries::Filters::Shared
       end
 
       def self.create!(custom_field:, custom_field_context:, **options)
-        new(custom_field: custom_field, custom_field_context: custom_field_context, **options)
+        new(custom_field:, custom_field_context:, **options)
       end
 
       def project

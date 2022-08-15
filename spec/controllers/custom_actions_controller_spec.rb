@@ -73,7 +73,7 @@ describe CustomActionsController, type: :controller do
 
       it 'renders enterprise_token' do
         expect(response.response_code)
-          .to eql 403
+          .to be 403
       end
     end
   end
@@ -88,13 +88,14 @@ describe CustomActionsController, type: :controller do
 
       it 'returns 403' do
         expect(response.response_code)
-          .to eql 403
+          .to be 403
       end
     end
   end
 
   describe '#index' do
     let(:call) { get :index }
+
     before do
       allow(CustomAction)
         .to receive(:order_by_position)
@@ -110,7 +111,7 @@ describe CustomActionsController, type: :controller do
 
       it 'returns 200' do
         expect(response.response_code)
-          .to eql 200
+          .to be 200
       end
 
       it 'renders index template' do
@@ -144,7 +145,7 @@ describe CustomActionsController, type: :controller do
 
       it 'returns 200' do
         expect(response.response_code)
-          .to eql 200
+          .to be 200
       end
 
       it 'renders new template' do
@@ -163,7 +164,7 @@ describe CustomActionsController, type: :controller do
   end
 
   describe '#create' do
-    let(:call) { post :create, params: params }
+    let(:call) { post :create, params: }
     let(:current_user) { admin }
     let(:service_success) { true }
     let(:permitted_params) do
@@ -236,7 +237,7 @@ describe CustomActionsController, type: :controller do
       { id: "42" }
     end
     let(:call) do
-      get :edit, params: params
+      get :edit, params:
     end
 
     before do
@@ -255,7 +256,7 @@ describe CustomActionsController, type: :controller do
 
       it 'returns 200' do
         expect(response.response_code)
-          .to eql 200
+          .to be 200
       end
 
       it 'renders edit template' do
@@ -283,7 +284,7 @@ describe CustomActionsController, type: :controller do
 
       it 'returns 404 NOT FOUND' do
         expect(response.response_code)
-          .to eql 404
+          .to be 404
       end
     end
 
@@ -292,7 +293,7 @@ describe CustomActionsController, type: :controller do
   end
 
   describe '#update' do
-    let(:call) { patch :update, params: params }
+    let(:call) { patch :update, params: }
     let(:current_user) { admin }
     let(:service_success) { true }
     let(:permitted_params) do
@@ -312,7 +313,7 @@ describe CustomActionsController, type: :controller do
 
       allow(CustomActions::UpdateService)
         .to receive(:new)
-        .with(user: admin, action: action)
+        .with(user: admin, action:)
         .and_return(service)
 
       allow(service)
@@ -382,7 +383,7 @@ describe CustomActionsController, type: :controller do
 
       it 'returns 404 NOT FOUND' do
         expect(response.response_code)
-          .to eql 404
+          .to be 404
       end
     end
 
@@ -391,7 +392,7 @@ describe CustomActionsController, type: :controller do
   end
 
   describe '#destroy' do
-    let(:call) { delete :destroy, params: params }
+    let(:call) { delete :destroy, params: }
     let(:current_user) { admin }
     let(:params) do
       { id: "42" }
@@ -435,7 +436,7 @@ describe CustomActionsController, type: :controller do
 
       it 'returns 404 NOT FOUND' do
         expect(response.response_code)
-          .to eql 404
+          .to be 404
       end
     end
 

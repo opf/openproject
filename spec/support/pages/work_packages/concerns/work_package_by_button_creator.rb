@@ -69,7 +69,7 @@ module Pages
         private
 
         def create_page_class_instance(_type)
-          create_page_class.new(project: project)
+          create_page_class.new(project:)
         end
 
         def create_page_class

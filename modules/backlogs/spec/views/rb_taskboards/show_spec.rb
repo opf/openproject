@@ -48,36 +48,36 @@ describe 'rb_taskboards/show', type: :view do
   let(:issue_priority) { create(:priority) }
   let(:project) do
     project = create(:project, types: [type_feature, type_task])
-    project.members = [create(:member, principal: user1, project: project, roles: [role_allowed]),
-                       create(:member, principal: user2, project: project, roles: [role_forbidden])]
+    project.members = [create(:member, principal: user1, project:, roles: [role_allowed]),
+                       create(:member, principal: user2, project:, roles: [role_forbidden])]
     project
   end
 
   let(:story_a) do
     create(:story, status: statuses[0],
-                              project: project,
-                              type: type_feature,
-                              version: sprint,
-                              priority: issue_priority)
+                   project:,
+                   type: type_feature,
+                   version: sprint,
+                   priority: issue_priority)
   end
   let(:story_b) do
     create(:story, status: statuses[1],
-                              project: project,
-                              type: type_feature,
-                              version: sprint,
-                              priority: issue_priority)
+                   project:,
+                   type: type_feature,
+                   version: sprint,
+                   priority: issue_priority)
   end
   let(:story_c) do
     create(:story, status: statuses[2],
-                              project: project,
-                              type: type_feature,
-                              version: sprint,
-                              priority: issue_priority)
+                   project:,
+                   type: type_feature,
+                   version: sprint,
+                   priority: issue_priority)
   end
   let(:stories) { [story_a, story_b, story_c] }
-  let(:sprint) { create(:sprint, project: project) }
+  let(:sprint) { create(:sprint, project:) }
   let(:task) do
-    task = create(:task, project: project, status: statuses[0], version: sprint, type: type_task)
+    task = create(:task, project:, status: statuses[0], version: sprint, type: type_task)
     # This is necessary as for some unknown reason passing the parent directly
     # leads to the task searching for the parent with 'root_id' is NULL, which
     # is not the case as the story has its own id as root_id
@@ -85,11 +85,11 @@ describe 'rb_taskboards/show', type: :view do
     task
   end
   let(:impediment) do
-    create(:impediment, project: project, status: statuses[0], version: sprint, blocks_ids: task.id.to_s,
-                                   type: type_task)
+    create(:impediment, project:, status: statuses[0], version: sprint, blocks_ids: task.id.to_s,
+                        type: type_task)
   end
 
-  before :each do
+  before do
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [type_feature.id],
                                                                          'task_type' => type_task.id })
     view.extend RbCommonHelper

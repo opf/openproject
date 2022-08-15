@@ -40,7 +40,7 @@ module Pages
                     :type_id
 
       def initialize(project:, model_id: nil, type_id: nil)
-        super(project: project)
+        super(project:)
         self.model_id = model_id
         self.type_id = type_id
       end

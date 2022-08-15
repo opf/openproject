@@ -40,19 +40,19 @@ describe EnabledModule, type: :model do
       expect(project.wiki.start_page).to eq('Wiki')
     end
 
-    it 'should not create a separate wiki when one exists already' do
-      expect(project.wiki).to_not be_nil
+    it 'does not create a separate wiki when one exists already' do
+      expect(project.wiki).not_to be_nil
 
       expect do
         project.enabled_module_names = []
         project.reload
-      end.to_not change { Wiki.count }
+      end.not_to change { Wiki.count }
 
       expect do
         project.enabled_module_names = ['wiki']
-      end.to_not change { Wiki.count }
+      end.not_to change { Wiki.count }
 
-      expect(project.wiki).to_not be_nil
+      expect(project.wiki).not_to be_nil
     end
 
     context 'with disabled module' do
@@ -66,7 +66,7 @@ describe EnabledModule, type: :model do
         project.enabled_module_names = ['wiki']
         project.reload
 
-        expect(project.wiki).to_not be_nil
+        expect(project.wiki).not_to be_nil
         expect(project.wiki.start_page).to eq('Wiki')
       end
     end
@@ -80,22 +80,22 @@ describe EnabledModule, type: :model do
     end
 
     shared_examples 'does not create a repository when one exists' do
-      let!(:repository) { create(:repository_git, project: project) }
+      let!(:repository) { create(:repository_git, project:) }
 
-      it 'should not create a separate repository when one exists already' do
+      it 'does not create a separate repository when one exists already' do
         project.reload
-        expect(project.repository).to_not be_nil
+        expect(project.repository).not_to be_nil
 
         expect do
           project.enabled_module_names = []
           project.reload
-        end.to_not change { Repository.count }
+        end.not_to change { Repository.count }
 
         expect do
           project.enabled_module_names = ['repository']
-        end.to_not change { Repository.count }
+        end.not_to change { Repository.count }
 
-        expect(project.repository).to_not be_nil
+        expect(project.repository).not_to be_nil
       end
     end
 
@@ -111,13 +111,13 @@ describe EnabledModule, type: :model do
 
     context 'with enabled setting' do
       let(:vendor) { 'git' }
-
-      include_context 'with tmpdir'
       let(:config) do
         {
           git: { manages: File.join(tmpdir, 'git') }
         }
       end
+
+      include_context 'with tmpdir'
 
       before do
         allow(Setting).to receive(:enabled_scm).and_return(['git'])

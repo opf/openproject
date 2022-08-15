@@ -32,7 +32,7 @@ describe Journals::CompletedJob, type: :model do
   let(:send_mail) { true }
 
   let(:journal) do
-    build_stubbed(:journal, journable: journable).tap do |j|
+    build_stubbed(:journal, journable:).tap do |j|
       allow(Journal)
         .to receive(:find)
               .with(j.id.to_s)
@@ -106,8 +106,8 @@ describe Journals::CompletedJob, type: :model do
         expect(OpenProject::Notifications)
           .to have_received(:send)
                 .with(event,
-                      journal: journal,
-                      send_mail: send_mail)
+                      journal:,
+                      send_mail:)
       end
     end
 

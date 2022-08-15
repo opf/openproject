@@ -44,6 +44,7 @@ module OpenProject
         login_as user
         allow(user).to receive(:time_zone).and_return(ActiveSupport::TimeZone['Athens'])
       end
+
       it 'returns a date in the user timezone for a utc timestamp' do
         Time.zone = 'UTC'
         time = Time.zone.local(2013, 0o6, 30, 23, 59)
@@ -79,11 +80,12 @@ module OpenProject
       it 'includes en' do
         expect(all_languages).to include(:en)
       end
+
       it 'includes de' do
         expect(all_languages).to include(:de)
       end
 
-      it 'should return no js language as they are duplicates of the rest of the other language' do
+      it 'returns no js language as they are duplicates of the rest of the other language' do
         expect(all_languages.any? { |l| /\Ajs-/.match(l.to_s) }).to be_falsey
       end
 
@@ -114,7 +116,7 @@ module OpenProject
       end
 
       Setting.all_languages.each do |lang|
-        it "should set I18n.locale to #{lang}" do
+        it "sets I18n.locale to #{lang}" do
           allow(I18n).to receive(:locale=)
           expect(I18n).to receive(:locale=).with(lang)
 
@@ -122,7 +124,7 @@ module OpenProject
         end
       end
 
-      it 'should not set I18n.locale to an invalid language' do
+      it 'does not set I18n.locale to an invalid language' do
         allow(Setting).to receive(:available_languages).and_return([:en])
 
         expect(I18n).not_to receive(:locale=).with(:de)
@@ -144,11 +146,11 @@ module OpenProject
       end
 
       it 'is the language if it is active' do
-        expect(find_language(:de)).to eql :de
+        expect(find_language(:de)).to be :de
       end
 
       it 'can be found by uppercase if it is active' do
-        expect(find_language(:DE)).to eql :de
+        expect(find_language(:DE)).to be :de
       end
 
       it 'is nil if non valid string is passed' do
@@ -167,7 +169,7 @@ module OpenProject
       before do
         allow(::I18n)
           .to receive(:t)
-          .with('translation_with_a_link', locale: locale)
+          .with('translation_with_a_link', locale:)
           .and_return('There is a [link](url_1) in this translation! Maybe even [two](url_2)?')
       end
 
@@ -182,6 +184,7 @@ module OpenProject
 
       context 'with locale' do
         let(:locale) { :de }
+
         it 'uses the passed locale' do
           translated = link_translate :translation_with_a_link, links: urls, locale: locale
 

@@ -124,6 +124,27 @@ describe UserMailer, type: :mailer do
     end
   end
 
+  describe '#backup_ready' do
+    before do
+      described_class.backup_ready(recipient).deliver_now
+    end
+
+    it_behaves_like 'mail is sent' do
+      it 'has the expected subject' do
+        expect(deliveries.first.subject)
+          .to eql I18n.t("mail_subject_backup_ready")
+      end
+
+      it 'includes the url to the instance' do
+        expect(deliveries.first.body.encoded)
+          .to match Regexp.union(
+            /Your requested backup is ready. You can download it here/,
+            /#{Setting.protocol}:\/\/#{Setting.host_name}/
+          )
+      end
+    end
+  end
+
   describe '#wiki_content_added' do
     let(:wiki_content) { create(:wiki_content) }
 
@@ -193,7 +214,7 @@ describe UserMailer, type: :mailer do
       end
 
       let(:message) do
-        build_stubbed(:message, parent: parent).tap do |msg|
+        build_stubbed(:message, parent:).tap do |msg|
           allow(msg)
             .to receive(:project)
                   .and_return(msg.forum.project)
@@ -226,6 +247,63 @@ describe UserMailer, type: :mailer do
       it 'includes the password' do
         expect(html_body)
           .to have_content(pwd)
+      end
+    end
+  end
+
+  describe '#incoming_email_error' do
+    let(:logs) { ['info: foo', 'error: bar'] }
+    let(:recipient) { user }
+    let(:current_time) { "2022-11-03 9:15".to_time }
+    let(:mail_subject) { 'New work package 42' }
+    let(:message_id) { '000501c8d452$a95cd7e0$0a00a8c0@osiris' }
+    let(:from) { 'l.lustig@openproject.com' }
+    let(:body) { "Project: demo-project" }
+
+    let(:incoming_email) do
+      {
+        message_id:,
+        from:,
+        subject: mail_subject,
+        quote: body,
+        text: body
+      }
+    end
+
+    let(:outgoing_email) { deliveries.first }
+
+    before do
+      described_class
+        .incoming_email_error(user, incoming_email, logs)
+        .deliver_now
+    end
+
+    it_behaves_like 'mail is sent' do
+      it "references the incoming email's subject in its own" do
+        expect(outgoing_email.subject).to eql "Re: #{mail_subject}"
+      end
+
+      it "it's a reply to the incoming email" do
+        expect(message_id).to include outgoing_email.in_reply_to
+        expect(message_id).to include outgoing_email.references
+      end
+
+      it "contains the incoming email's quoted content" do
+        expect(html_body).to include body
+      end
+
+      it 'contains the date the mail was received' do
+        expect(html_body).to include "11/03/2022 09:15 AM"
+      end
+
+      it 'contains the email address from which the email was sent' do
+        expect(html_body).to include from
+      end
+
+      it 'contains the logs' do
+        logs.each do |log|
+          expect(html_body).to include log
+        end
       end
     end
   end

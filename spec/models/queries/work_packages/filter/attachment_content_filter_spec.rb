@@ -40,7 +40,7 @@ describe Queries::WorkPackages::Filter::AttachmentContentFilter, type: :model do
       let(:value) { 'ipsum' }
       let(:operator) { '~' }
       let(:instance) do
-        described_class.create!(name: :search, context: context, operator: operator, values: [value])
+        described_class.create!(name: :search, context:, operator:, values: [value])
       end
 
       let(:work_package) { create(:work_package) }

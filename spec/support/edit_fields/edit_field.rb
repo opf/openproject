@@ -1,7 +1,7 @@
 class EditField
   include Capybara::DSL
   include RSpec::Matchers
-  include ::Components::NgSelectAutocompleteHelpers
+  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
   attr_reader :selector,
               :property_name,
@@ -15,6 +15,7 @@ class EditField
 
     @property_name = property_name.to_s
     @context = context
+    @field_type = derive_field_type
 
     @selector = selector || ".inline-edit--container.#{property_name}"
   end
@@ -48,8 +49,9 @@ class EditField
   end
 
   def expect_state_text(text)
-    expect(context).to have_selector(@selector, text: text)
+    expect(context).to have_selector(@selector, text:)
   end
+
   alias :expect_text :expect_state_text
 
   def expect_value(value)
@@ -76,6 +78,7 @@ class EditField
       end
     end
   end
+
   alias :activate_edition :activate!
 
   def openSelectField
@@ -93,6 +96,7 @@ class EditField
   def active?
     @context.has_selector? "#{@selector} #{input_selector}", wait: 1
   end
+
   alias :editing? :active?
 
   def expect_active!
@@ -150,7 +154,7 @@ class EditField
     if select
       select_autocomplete field_container, query: query, results_selector: 'body'
     else
-      search_autocomplete field_container, query: query, results_selector: 'body'
+      search_autocomplete field_container, query:, results_selector: 'body'
     end
   end
 
@@ -161,14 +165,15 @@ class EditField
   ##
   # Set or select the given value.
   # For fields of type select, will check for an option with that value.
-  def unset_value(content, multi = false)
+  def unset_value(content = nil, multi: false)
+    activate!
     scroll_to_element(input_element)
 
     if field_type.end_with?('-autocompleter')
       if multi
         page.find('.ng-value-label', visible: :all, text: content).sibling('.ng-value-icon').click
       else
-        page.find('.ng-dropdown-panel .ng-option', visible: :all, text: '-').click
+        ng_select_clear(field_container)
       end
     else
       input_element.set('')
@@ -237,26 +242,20 @@ class EditField
     field_container.find('.ng-input input')
   end
 
-  def field_type
-    @field_type ||= begin
-      case property_name.to_s
-      when 'version'
-        'version-autocompleter'
-      when 'assignee',
-           'responsible',
-           'priority',
-           'status',
-           'type',
-           'category',
-           'workPackage'
-        'create-autocompleter'
-      when 'project'
-        'op-autocompleter'
-      when 'activity'
-        'activity-autocompleter'
-      else
-        :input
-      end.to_s
+  def derive_field_type
+    case property_name.to_sym
+    when :version
+      'version-autocompleter'
+    when :assignee, :responsible, :user
+      'op-user-autocompleter'
+    when :priority, :status, :type, :category, :workPackage, :parent
+      'create-autocompleter'
+    when :project
+      'op-autocompleter'
+    when :activity
+      'activity-autocompleter'
+    else
+      'input'
     end
   end
 end

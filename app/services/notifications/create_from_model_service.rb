@@ -41,15 +41,28 @@ class Notifications::CreateFromModelService
     self.model = model
   end
 
+  # Creates Notifications according to the various settings:
+  # * configured by the individual users
+  # * the send_notifications property provided
+  # and also by the properties of the journal, e.g.:
+  # * a work package mentioning a user
+  # * a news begin watched
+  # This method might be called multiple times, mostly when a journal is aggregated.
+  # On the second run, the potentially existing Notifications need to be taken into account by
+  # * updating them if the user is still to be notified: resetting the read_ian to false if the strategy supports ian
+  # * destroying them if the user is no longer to be notified
   def call(send_notifications)
-    result = ServiceResult.new success: !abort_sending?(send_notifications)
+    result = ServiceResult.new success: !abort_sending?
 
     return result if result.failure?
 
-    notification_receivers.each do |recipient_id, reasons|
-      call = create_notification(recipient_id, reasons)
-      result.add_dependent!(call)
+    current_notifications = notification_receivers(send_notifications).transform_values(&:first)
+
+    current_notifications.each do |recipient_id, reason|
+      result.add_dependent!(update_or_create_notification(recipient_id, reason))
     end
+
+    delete_outdated_notifications(current_notifications.keys)
 
     result
   end
@@ -58,14 +71,20 @@ class Notifications::CreateFromModelService
 
   attr_accessor :model
 
-  def create_notification(recipient_id, reasons)
+  # In case a notification already exists (because the journal was aggregated)
+  # an existing notification is updated
+  def update_or_create_notification(recipient_id, reason)
+    update_notification(recipient_id, reason) or create_notification(recipient_id, reason)
+  end
+
+  def create_notification(recipient_id, reason)
     notification_attributes = {
-      recipient_id: recipient_id,
-      project: project,
-      resource: resource,
-      journal: journal,
+      recipient_id:,
+      project:,
+      resource:,
+      journal:,
       actor: user_with_fallback,
-      reason: reasons.first,
+      reason:,
       read_ian: strategy.supports_ian? ? false : nil,
       mail_reminder_sent: strategy.supports_mail_digest? ? false : nil,
       mail_alert_sent: strategy.supports_mail? ? false : nil
@@ -76,8 +95,29 @@ class Notifications::CreateFromModelService
       .call(notification_attributes)
   end
 
-  def notification_receivers
+  def update_notification(recipient_id, reason)
+    existing_notification = Notification
+                              .find_by(resource:, journal:, recipient_id:)
+
+    return unless existing_notification
+
+    Notifications::UpdateService
+      .new(model: existing_notification, user:, contract_class: EmptyContract)
+      .call(read_ian: strategy.supports_ian? ? false : nil,
+            reason:)
+  end
+
+  def delete_outdated_notifications(current_recipient_ids)
+    Notification
+      .where(journal:)
+      .where.not(recipient_id: current_recipient_ids)
+      .destroy_all
+  end
+
+  def notification_receivers(send_notifications)
     receivers = receivers_hash
+
+    return receivers unless send_notification?(send_notifications)
 
     strategy.reasons.each do |reason|
       add_receivers_by_reason(receivers, reason)
@@ -93,8 +133,6 @@ class Notifications::CreateFromModelService
   end
 
   def settings_of_mentioned
-    return NotificationSetting.none if has_aggregated_notification?(journal)
-
     project_applicable_settings(mentioned_ids,
                                 project,
                                 NotificationSetting::MENTIONED)
@@ -233,11 +271,9 @@ class Notifications::CreateFromModelService
     }
   end
 
-  def abort_sending?(send_notifications)
-    !send_notification?(send_notifications) ||
-      model.nil? ||
+  def abort_sending?
+    model.nil? ||
       !model.class.exists?(id: model.id) ||
-      journal&.noop? ||
       !supported?
   end
 
@@ -257,14 +293,6 @@ class Notifications::CreateFromModelService
 
   def remove_self_recipient(receivers)
     receivers.delete(user_with_fallback.id)
-  end
-
-  ##
-  # If the journal has any mentioned notification
-  # then the mention was aggregated to a new journal
-  # by +Notifications::AggregatedJournalService+
-  def has_aggregated_notification?(journal)
-    Notification.exists?(journal_id: journal.id, reason: :mentioned)
   end
 
   def receivers_hash

@@ -38,7 +38,7 @@ describe User, type: :model do
     @dlopper = User.find(3)
   end
 
-  it 'should create' do
+  it 'creates' do
     user = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
 
     user.login = 'jsmith'
@@ -61,7 +61,7 @@ describe User, type: :model do
   end
 
   context 'User.login' do
-    it 'should be case-insensitive.' do
+    it 'is case-insensitive.' do
       u = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
       u.login = 'newuser'
       u.password = 'adminADMIN!'
@@ -73,11 +73,11 @@ describe User, type: :model do
       u.password = 'adminADMIN!'
       u.password_confirmation = 'adminADMIN!'
       assert !u.save
-      assert_includes u.errors[:login], I18n.translate('activerecord.errors.messages.taken')
+      assert_includes u.errors[:login], I18n.t('activerecord.errors.messages.taken')
     end
   end
 
-  it 'should mail uniqueness should not be case sensitive' do
+  it 'mails uniqueness should not be case sensitive' do
     u = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
     u.login = 'newuser1'
     u.password = 'adminADMIN!'
@@ -89,25 +89,25 @@ describe User, type: :model do
     u.password = 'adminADMIN!'
     u.password_confirmation = 'adminADMIN!'
     assert !u.save
-    assert_includes u.errors[:mail], I18n.translate('activerecord.errors.messages.taken')
+    assert_includes u.errors[:mail], I18n.t('activerecord.errors.messages.taken')
   end
 
-  it 'should validate login presence' do
+  it 'validates login presence' do
     @admin.login = ''
     assert !@admin.save
     assert_equal 1, @admin.errors.count
   end
 
   context 'User#try_to_login' do
-    it 'should fall-back to case-insensitive if user login is not found as-typed.' do
+    it 'fall-backs to case-insensitive if user login is not found as-typed.' do
       user = User.try_to_login('AdMin', 'adminADMIN!')
       assert_kind_of User, user
       assert_equal 'admin', user.login
     end
 
-    it 'should select the exact matching user first' do
+    it 'selects the exact matching user first' do
       case_sensitive_user = create(:user, login: 'changed', password: 'adminADMIN!',
-                                                     password_confirmation: 'adminADMIN!')
+                                          password_confirmation: 'adminADMIN!')
       # bypass validations to make it appear like existing data
       case_sensitive_user.update_attribute(:login, 'ADMIN')
 
@@ -117,7 +117,7 @@ describe User, type: :model do
     end
   end
 
-  it 'should password' do
+  it 'passwords' do
     user = User.try_to_login('admin', 'adminADMIN!')
     assert_kind_of User, user
     assert_equal 'admin', user.login
@@ -129,7 +129,7 @@ describe User, type: :model do
     assert_equal 'admin', user.login
   end
 
-  it 'should name format' do
+  it 'names format' do
     assert_equal 'Smith, John', @jsmith.name(:lastname_coma_firstname)
     Setting.user_format = :firstname_lastname
     assert_equal 'John Smith', @jsmith.reload.name
@@ -137,7 +137,7 @@ describe User, type: :model do
     assert_equal 'jsmith', @jsmith.reload.name
   end
 
-  it 'should lock' do
+  it 'locks' do
     user = User.try_to_login('jsmith', 'jsmith')
     assert_equal @jsmith, user
 
@@ -148,9 +148,9 @@ describe User, type: :model do
     assert_equal nil, user
   end
 
-  context '.try_to_login' do
+  describe '.try_to_login' do
     context 'with good credentials' do
-      it 'should return the user' do
+      it 'returns the user' do
         user = User.try_to_login('admin', 'adminADMIN!')
         assert_kind_of User, user
         assert_equal 'admin', user.login
@@ -158,16 +158,16 @@ describe User, type: :model do
     end
 
     context 'with wrong credentials' do
-      it 'should return nil' do
+      it 'returns nil' do
         assert_nil User.try_to_login('admin', 'foo')
       end
     end
   end
 
   if ldap_configured?
-    context '#try_to_login using LDAP' do
+    describe '#try_to_login using LDAP' do
       context 'with failed connection to the LDAP server' do
-        it 'should return nil' do
+        it 'returns nil' do
           @auth_source = LdapAuthSource.find(1)
           allow_any_instance_of(AuthSource).to receive(:initialize_ldap_con).and_raise(Net::LDAP::Error, 'Cannot connect')
 
@@ -176,7 +176,7 @@ describe User, type: :model do
       end
 
       context 'with an unsuccessful authentication' do
-        it 'should return nil' do
+        it 'returns nil' do
           assert_equal nil, User.try_to_login('edavis', 'wrong')
         end
       end
@@ -187,14 +187,14 @@ describe User, type: :model do
         end
 
         context 'with a successful authentication' do
-          it "should create a new user account if it doesn't exist" do
+          it "creates a new user account if it doesn't exist" do
             assert_difference('User.count') do
               user = User.try_to_login('edavis', '123456')
               assert !user.admin?
             end
           end
 
-          it 'should retrieve existing user' do
+          it 'retrieves existing user' do
             user = User.try_to_login('edavis', '123456')
             user.admin = true
             user.save!
@@ -212,7 +212,7 @@ describe User, type: :model do
     puts 'Skipping LDAP tests.'
   end
 
-  it 'should return existing or new anonymous' do
+  it 'returns existing or new anonymous' do
     anon = User.anonymous
     assert !anon.new_record?
     assert_kind_of AnonymousUser, anon
@@ -220,7 +220,7 @@ describe User, type: :model do
 
   it { is_expected.to have_one :rss_token }
 
-  it 'should rss key' do
+  it 'rsses key' do
     assert_nil @jsmith.rss_token
     key = @jsmith.rss_key
     assert_equal 64, key.length
@@ -232,22 +232,22 @@ describe User, type: :model do
   it { is_expected.to have_one :api_token }
 
   context 'User#find_by_api_key' do
-    it 'should return nil if no matching key is found' do
+    it 'returns nil if no matching key is found' do
       assert_nil User.find_by_api_key('zzzzzzzzz')
     end
 
-    it 'should return nil if the key is found for an inactive user' do
+    it 'returns nil if the key is found for an inactive user' do
       user = create(:user, status: User.statuses[:locked])
-      token = build(:api_token, user: user)
+      token = build(:api_token, user:)
       user.api_token = token
       user.save
 
       assert_nil User.find_by_api_key(token.value)
     end
 
-    it 'should return the user if the key is found for an active user' do
+    it 'returns the user if the key is found for an active user' do
       user = create(:user, status: User.statuses[:active])
-      token = build(:api_token, user: user)
+      token = build(:api_token, user:)
       user.api_token = token
       user.save
 
@@ -255,7 +255,7 @@ describe User, type: :model do
     end
   end
 
-  it 'should roles for project' do
+  it 'roleses for project' do
     # user with a role
     roles = @jsmith.roles_for_project(Project.find(1))
     assert_kind_of Role, roles.first
@@ -265,7 +265,7 @@ describe User, type: :model do
     assert_nil @dlopper.roles_for_project(Project.find(2)).detect(&:member?)
   end
 
-  it 'should projects by role for user with role' do
+  it 'projectses by role for user with role' do
     user = User.find(2)
     assert_kind_of Hash, user.projects_by_role
     assert_equal 2, user.projects_by_role.size
@@ -273,16 +273,16 @@ describe User, type: :model do
     assert_equal [2], user.projects_by_role[Role.find(2)].map(&:id).sort
   end
 
-  it 'should projects by role for user with no role' do
+  it 'projectses by role for user with no role' do
     user = create(:user)
     assert_equal({}, user.projects_by_role)
   end
 
-  it 'should projects by role for anonymous' do
+  it 'projectses by role for anonymous' do
     assert_equal({}, User.anonymous.projects_by_role)
   end
 
-  it 'should comments sorting preference' do
+  it 'commentses sorting preference' do
     assert !@jsmith.wants_comments_in_reverse_order?
     @jsmith.pref.comments_sorting = 'asc'
     assert !@jsmith.wants_comments_in_reverse_order?
@@ -290,7 +290,7 @@ describe User, type: :model do
     assert @jsmith.wants_comments_in_reverse_order?
   end
 
-  it 'should find by mail should be case insensitive' do
+  it 'finds by mail should be case insensitive' do
     u = User.find_by_mail('JSmith@somenet.foo')
     refute_nil u
     assert_equal 'jsmith@somenet.foo', u.mail

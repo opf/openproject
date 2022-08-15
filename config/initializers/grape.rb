@@ -25,9 +25,12 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
-module Grape
-  class Endpoint
-    include ::API::V3::Utilities::PathHelper
+Rails.application.reloader.to_prepare do
+  # rubocop:disable Lint/ConstantDefinitionInBlock
+  module Grape
+    class Endpoint
+      include ::API::V3::Utilities::PathHelper
+    end
   end
+  # rubocop:enable Lint/ConstantDefinitionInBlock
 end

@@ -49,7 +49,7 @@ module OpenProject::TextFormatting
             end
 
             begin
-              macro_class.apply(macro, result: result, context: context)
+              macro_class.apply(macro, result:, context:)
             rescue StandardError => e
               Rails.logger.error("Failed to insert macro #{macro_class}: #{e} - #{e.message}")
               macro.replace macro_error_placeholder(macro_class, e.message)

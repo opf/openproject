@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-shared_context 'represents the created user' do |expected_attributes|
+shared_examples 'represents the created user' do |expected_attributes|
   it 'returns the represented user' do
     send_request
 
@@ -80,7 +80,7 @@ shared_examples 'create user request flow' do
     let(:status) { 'invited' }
     let(:invitation_request) do
       {
-        status: status,
+        status:,
         email: 'foo@example.org'
       }
     end
@@ -117,7 +117,7 @@ shared_examples 'create user request flow' do
     end
 
     context 'missing email' do
-      let(:parameters) { { status: status } }
+      let(:parameters) { { status: } }
 
       it 'marks the mail as missing' do
         send_request

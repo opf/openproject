@@ -34,8 +34,8 @@ describe Project, type: :model do
   shared_let(:admin) { create :admin }
 
   let(:active) { true }
-  let(:project) { create(:project, active: active) }
-  let(:build_project) { build_stubbed(:project, active: active) }
+  let(:project) { create(:project, active:) }
+  let(:build_project) { build_stubbed(:project, active:) }
   let(:user) { create(:user) }
 
   describe '#active?' do
@@ -73,7 +73,7 @@ describe Project, type: :model do
   context 'when the wiki module is enabled' do
     let(:project) { create(:project, disable_modules: 'wiki') }
 
-    before :each do
+    before do
       project.enabled_module_names = project.enabled_module_names | ['wiki']
       project.save
       project.reload
@@ -122,7 +122,7 @@ describe Project, type: :model do
     let(:status) { build_stubbed(:project_status) }
     let(:stubbed_project) do
       build_stubbed(:project,
-                    status: status)
+                    status:)
     end
 
     it 'has a status' do
@@ -142,7 +142,7 @@ describe Project, type: :model do
 
   describe 'name' do
     let(:name) { '     Hello    World   ' }
-    let(:project) { described_class.new attributes_for(:project, name: name) }
+    let(:project) { described_class.new attributes_for(:project, name:) }
 
     context 'with white spaces in the name' do
       it 'trims the name' do
@@ -167,7 +167,7 @@ describe Project, type: :model do
     let(:project) { create(:project_with_types) }
     let(:type) { project.types.first }
     let(:other_type) { create(:type) }
-    let(:project_work_package) { create(:work_package, type: type, project: project) }
+    let(:project_work_package) { create(:work_package, type:, project:) }
     let(:other_project) { create(:project, types: [other_type, type]) }
     let(:other_project_work_package) { create(:work_package, type: other_type, project: other_project) }
 
@@ -180,8 +180,8 @@ describe Project, type: :model do
   end
 
   describe 'Views belonging to queries that belong to the project' do
-    let(:query) { create(:query, project: project) }
-    let(:view) { create(:view, query: query) }
+    let(:query) { create(:query, project:) }
+    let(:view) { create(:view, query:) }
 
     it 'destroys the views and queries when project gets destroyed' do
       view
@@ -190,5 +190,9 @@ describe Project, type: :model do
       expect { query.reload }.to raise_error ActiveRecord::RecordNotFound
       expect { view.reload }.to raise_error ActiveRecord::RecordNotFound
     end
+  end
+
+  include_examples 'creates an audit trail on destroy' do
+    subject { create(:attachment) }
   end
 end

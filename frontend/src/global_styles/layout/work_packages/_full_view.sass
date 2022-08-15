@@ -111,9 +111,10 @@
 
     .tabcontent
       height: 100%
-      overflow: auto
+      overflow-y: auto
+      overflow-x: hidden
       @include styled-scroll-bar
-      padding-right: 5px
+      padding-right: 8px
 
     .work-package-details-activities-activity-contents ul.work-package-details-activities-messages
       padding-left: 0
@@ -135,11 +136,6 @@
       width: 18px
       &::before
         left: 0
-
-  &--tab-breadcrumb
-    text-align: right
-    padding-right: 1rem
-    margin-bottom: 5px
 
 .nosidebar
   ul.subject-header

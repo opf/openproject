@@ -44,7 +44,7 @@ describe OpenProject::Notifications do
       end
     end
 
-    it 'should deliver a notification' do
+    it 'delivers a notification' do
       OpenProject::Notifications.send('notifications_spec_send', payload)
     end
   end

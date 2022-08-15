@@ -69,7 +69,13 @@ module API
 
         property :start_of_week,
                  getter: ->(*) {
-                   Setting.start_of_week.to_i unless Setting.start_of_week.blank?
+                   Setting.start_of_week.to_i if Setting.start_of_week.present?
+                 },
+                 render_nil: true
+
+        property :host_name,
+                 getter: ->(*) {
+                   Setting.host_name
                  },
                  render_nil: true
 
@@ -86,7 +92,7 @@ module API
 
         def user_preferences
           UserPreferences::UserPreferenceRepresenter.new(current_user.pref,
-                                                         current_user: current_user)
+                                                         current_user:)
         end
 
         def date_format
@@ -133,10 +139,10 @@ module API
           end
         end
 
-        def reformated(setting, &block)
+        def reformated(setting, &)
           setting
             .to_s
-            .gsub(/%\w/, &block)
+            .gsub(/%\w/, &)
             .presence
         end
       end

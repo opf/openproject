@@ -135,7 +135,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
 
     batch_file = render_work_packages(
       work_packages_batch(batch_index),
-      first: first,
+      first:,
       filename: "pdf_batch_#{batch_index}"
     ) do
       write_footers!
@@ -223,7 +223,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
 
   def write_headers!
     pdf.font style: :normal, size: 8
-    pdf.table([data_headers], column_widths: column_widths)
+    pdf.table([data_headers], column_widths:)
   end
 
   def data_headers
@@ -266,7 +266,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
       make_column_value work_package, column[:name]
     end
 
-    pdf.table([values], column_widths: column_widths)
+    pdf.table([values], column_widths:)
   end
 
   def write_attachments!(work_package)
@@ -283,7 +283,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
                                  colspan: column_objects.size,
                                  background_color: 'DDDDDD')
 
-      pdf.table([[group_cell]], column_widths: column_widths)
+      pdf.table([[group_cell]], column_widths:)
 
       group
     else

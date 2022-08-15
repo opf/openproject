@@ -45,7 +45,6 @@ module OpenProject
     ATTACHMENT_CREATED = 'attachment_created'.freeze
 
     JOURNAL_CREATED = 'journal_created'.freeze
-    JOURNAL_AGGREGATE_BEFORE_DESTROY = 'journal_aggregate_before_destroy'.freeze
 
     MEMBER_CREATED = 'member_created'.freeze
     MEMBER_UPDATED = 'member_updated'.freeze

@@ -29,6 +29,8 @@ export class SpotCheckboxComponent implements ControlValueAccessor {
 
   @ViewChild('input') public input:ElementRef;
 
+  @Input() tabindex = 0;
+
   @Input() disabled = false;
 
   @Input() name = `spot-checkbox-${+(new Date())}`;

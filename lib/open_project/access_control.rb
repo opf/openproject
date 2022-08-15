@@ -40,6 +40,8 @@ module OpenProject
         @modules += mapper.mapped_modules
         @project_modules_without_permissions ||= []
         @project_modules_without_permissions += mapper.project_modules_without_permissions
+
+        clear_caches
       end
 
       # Get a sorted array of module names

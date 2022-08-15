@@ -60,7 +60,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
     create(:member,
            principal: other_user,
            roles: [role],
-           project: project)
+           project:)
   end
 
   describe 'GET api/v3/capabilities' do
@@ -69,7 +69,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
       other_user_member
     end
     let(:filters) { nil }
-    let(:path) { api_v3_paths.path_for(:capabilities, filters: filters, sort_by: [%i(id asc)]) }
+    let(:path) { api_v3_paths.path_for(:capabilities, filters:, sort_by: [%i(id asc)]) }
 
     before do
       setup
@@ -133,7 +133,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
       end
       let(:path) do
         api_v3_paths.path_for(:capabilities,
-                              filters: filters,
+                              filters:,
                               sort_by: [%i(id asc)],
                               select: '*,elements/*',
                               page_size: 2,
@@ -329,7 +329,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
 
     context 'when signaling to only include a subset of properties' do
       let(:current_user_permissions) { %i[manage_members] }
-      let(:path) { api_v3_paths.path_for(:capabilities, filters: filters, sort_by: [%i(id asc)], select: 'elements/id') }
+      let(:path) { api_v3_paths.path_for(:capabilities, filters:, sort_by: [%i(id asc)], select: 'elements/id') }
 
       let(:filters) do
         [{ 'principalId' => {

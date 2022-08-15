@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/components/ng_select_autocomplete_helpers'
+require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
 module Components
   module WorkPackages
     class Relations
       include Capybara::DSL
       include RSpec::Matchers
-      include ::Components::NgSelectAutocompleteHelpers
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       attr_reader :work_package
 
@@ -110,7 +110,7 @@ module Components
                                       text: relation_label.upcase,
                                       wait: 10)
 
-        expect(page).to have_selector('.relation-row--type', text: to.type.name)
+        expect(page).to have_selector('.relation-row--type', text: to.type.name.upcase)
 
         expect(page).to have_selector('.wp-relations--subject-field', text: to.subject)
 
@@ -126,7 +126,7 @@ module Components
       end
 
       def expect_relation_by_text(text)
-        expect(relations_group).to have_selector('.wp-relations--subject-field', text: text)
+        expect(relations_group).to have_selector('.wp-relations--subject-field', text:)
       end
 
       def expect_no_relation(relatable)
@@ -142,7 +142,7 @@ module Components
         SeleniumHubWaiter.wait
         autocomplete = find("[data-qa-selector='wp-relations-autocomplete']")
         select_autocomplete autocomplete,
-                            query: query,
+                            query:,
                             results_selector: '.ng-dropdown-panel-items',
                             select_text: work_package.id
       end

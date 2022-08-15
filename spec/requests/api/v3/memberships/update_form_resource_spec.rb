@@ -32,19 +32,18 @@ describe ::API::V3::Memberships::UpdateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:member) { create(:member, project: project, roles: [role, another_role]) }
+  let(:member) { create(:member, project:, roles: [role, another_role]) }
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
            member_in_project: project,
            member_through_role: role)
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:other_role) { create(:role) }
   let(:another_role) { create(:role) }
   let(:other_user) { create(:user) }
   let(:permissions) { [:manage_members] }
-  let(:project) { create(:project) }
   let(:path) { api_v3_paths.membership_form(member.id) }
   let(:parameters) do
     {
@@ -147,10 +146,10 @@ describe ::API::V3::Memberships::UpdateFormAPI, content_type: :json do
 
     context 'with wanting to alter the project' do
       let(:other_project) do
-        role = create(:role, permissions: permissions)
+        role = create(:role, permissions:)
 
         create(:project,
-               members: { user => role } )
+               members: { user => role })
       end
       let(:parameters) do
         {
@@ -170,7 +169,7 @@ describe ::API::V3::Memberships::UpdateFormAPI, content_type: :json do
         expect(subject.body).to have_json_path('_embedded/validationErrors/project')
       end
 
-      it 'notes project to not be writeable' do
+      it 'notes project to not be writable' do
         expect(subject.body)
           .to be_json_eql(false)
           .at_path('_embedded/schema/project/writable')
@@ -204,7 +203,7 @@ describe ::API::V3::Memberships::UpdateFormAPI, content_type: :json do
         expect(subject.body).to have_json_path('_embedded/validationErrors/user')
       end
 
-      it 'notes principal to not be writeable' do
+      it 'notes principal to not be writable' do
         expect(subject.body)
           .to be_json_eql(false)
           .at_path('_embedded/schema/principal/writable')

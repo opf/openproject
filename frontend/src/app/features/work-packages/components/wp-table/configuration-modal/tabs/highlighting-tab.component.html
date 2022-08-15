@@ -1,11 +1,14 @@
 <div>
-  <enterprise-banner class="ee-attribute-highlighting-upsale"
-                     *ngIf="eeShowBanners"
-                     [linkMessage]="text.upsaleCheckOutLink"
-                     [textMessage]="text.upsaleAttributeHighlighting"
-                     opReferrer="wp-attribute-highlighting#attribute-highlighting">
-  </enterprise-banner>
-  <form>
+  <op-enterprise-banner
+    class="ee-attribute-highlighting-upsale"
+    *ngIf="eeShowBanners"
+    [linkMessage]="text.upsaleCheckOutLink"
+    [textMessage]="text.upsaleAttributeHighlighting"
+    [moreInfoLink]="text.more_info_link"
+    opReferrer="wp-attribute-highlighting#attribute-highlighting">
+  </op-enterprise-banner>
+
+  <form *ngIf="!eeShowBanners">
     <p [textContent]="text.highlighting_mode.description"></p>
     <div class="form--field">
       <label class="form--label">
@@ -17,7 +20,7 @@
                name="highlighting_mode_switch">
         <span [textContent]="text.highlighting_mode.inline"></span>&nbsp;
       </label>
-      
+
       <div class="form--field-container">
         <div class="form--select-container">
           <ng-select #highlightedAttributesNgSelect

@@ -29,10 +29,10 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 storages resource', :enable_storages, type: :request, content_type: :json do
+describe 'API v3 storages resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  let(:permissions) { %i(view_file_links) }
+  let(:permissions) { %i(view_work_packages view_file_links) }
   let(:project) { create(:project) }
 
   let(:current_user) do
@@ -43,11 +43,22 @@ describe 'API v3 storages resource', :enable_storages, type: :request, content_t
     create(:storage, creator: current_user)
   end
 
+  let(:project_storage) do
+    create(:project_storage, project:, storage:)
+  end
+
+  let(:authorize_url) { 'https://example.com/authorize' }
+  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
+
   subject(:last_response) do
     get path
   end
 
   before do
+    allow(connection_manager).to receive(:get_authorization_uri).and_return(authorize_url)
+    allow(connection_manager).to receive(:authorization_state).and_return(:connected)
+    allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+    project_storage
     login_as current_user
   end
 
@@ -66,7 +77,7 @@ describe 'API v3 storages resource', :enable_storages, type: :request, content_t
     let(:path) { api_v3_paths.storage(storage.id) }
 
     context 'when user belongs to a project using the given storage' do
-      let!(:project_storage) { create(:project_storage, project: project, storage: storage) }
+      let!(:project_storage) { create(:project_storage, project:, storage:) }
 
       it_behaves_like 'successful storage response'
 
@@ -95,8 +106,50 @@ describe 'API v3 storages resource', :enable_storages, type: :request, content_t
       it_behaves_like 'successful storage response'
     end
 
-    context 'when storages module is inactive', :disable_storages do
-      it_behaves_like 'not found'
+    context 'when OAuth authorization server is involved' do
+      shared_examples 'a storage authorization result' do |expected:, has_authorize_link:|
+        subject { last_response.body }
+
+        before do
+          allow(connection_manager).to receive(:authorization_state).and_return(authorization_state)
+        end
+
+        it "returns #{expected}" do
+          expect(subject).to be_json_eql(expected.to_json).at_path('_links/authorizationState/href')
+        end
+
+        it "has #{has_authorize_link ? '' : 'no'} authorize link" do
+          if has_authorize_link
+            expect(subject).to be_json_eql(authorize_url.to_json).at_path('_links/authorize/href')
+          else
+            expect(subject).not_to have_json_path('_links/authorize/href')
+          end
+        end
+      end
+
+      context 'when authorization succeeds and storage is connected' do
+        let(:authorization_state) { :connected }
+
+        include_examples 'a storage authorization result',
+                         expected: ::API::V3::Storages::URN_CONNECTION_CONNECTED,
+                         has_authorize_link: false
+      end
+
+      context 'when authorization fails' do
+        let(:authorization_state) { :failed_authorization }
+
+        include_examples 'a storage authorization result',
+                         expected: ::API::V3::Storages::URN_CONNECTION_AUTH_FAILED,
+                         has_authorize_link: true
+      end
+
+      context 'when authorization fails with an error' do
+        let(:authorization_state) { :error }
+
+        include_examples 'a storage authorization result',
+                         expected: ::API::V3::Storages::URN_CONNECTION_ERROR,
+                         has_authorize_link: false
+      end
     end
   end
 end

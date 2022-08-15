@@ -45,7 +45,7 @@ class WorkPackages::UpdateAncestorsService
       modified.all? { |wp| wp.save(validate: false) }
     end
 
-    result = ServiceResult.new(success: success, result: work_package)
+    result = ServiceResult.new(success:, result: work_package)
 
     modified.each do |wp|
       result.add_dependent!(ServiceResult.new(success: !wp.changed?, result: wp))
@@ -200,6 +200,7 @@ class WorkPackages::UpdateAncestorsService
   def related_for_work_package(work_package, relation_type)
     scope = work_package
             .send(relation_type)
+            .where.not(id: work_package.id)
 
     if send("#{relation_type}_joins")
       scope = scope.joins(send("#{relation_type}_joins"))

@@ -33,9 +33,9 @@ module Attachments
 
       if attachment.save
         attachment.reload # necessary so that the fog file uploader path is correct
-        ServiceResult.new success: true, result: attachment
+        ServiceResult.success result: attachment
       else
-        ServiceResult.new success: false, result: attachment
+        ServiceResult.failure result: attachment
       end
     end
 

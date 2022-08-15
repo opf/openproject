@@ -16,7 +16,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
-import { NotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
+import { INotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
 
 export const myNotificationsPageComponentSelector = 'op-notifications-page';
 
@@ -155,8 +155,8 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   public saveChanges():void {
     const prefs = this.storeService.store.getValue();
     const notificationSettings = (this.form.value as IFullNotificationSettingsValue);
-    const globalNotification = prefs.notifications.find((notification) => !notification._links.project.href) as NotificationSetting;
-    const globalPrefs:NotificationSetting = {
+    const globalNotification = prefs.notifications.find((notification) => !notification._links.project.href) as INotificationSetting;
+    const globalPrefs:INotificationSetting = {
       ...globalNotification,
       _links: { project: { href: null } },
       watched: true,
@@ -169,7 +169,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       workPackageCommented: notificationSettings.workPackageCommented,
     };
 
-    const projectPrefs:NotificationSetting[] = notificationSettings.projectSettings.map((settings) => ({
+    const projectPrefs:INotificationSetting[] = notificationSettings.projectSettings.map((settings) => ({
       _links: { project: { href: settings.project.href } },
       watched: true,
       mentioned: true,

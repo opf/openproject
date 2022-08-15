@@ -8,7 +8,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
 
   let(:column_names) { %w[type id subject status assigned_to priority] }
   let(:query) do
-    query = build(:query, user: current_user, project: project)
+    query = build(:query, user: current_user, project:)
 
     query.filters.clear
     query.column_names = column_names
@@ -39,29 +39,23 @@ describe XlsExport::WorkPackage::Exporter::XLS do
   context 'with relations' do
     let(:options) { { show_relations: true } }
 
-    let(:parent) { create :work_package, project: project, subject: 'Parent' }
+    let(:parent) { create :work_package, project:, subject: 'Parent' }
     let(:child_1) do
-      create :work_package, parent: parent, project: project, subject: 'Child 1'
+      create :work_package, parent:, project:, subject: 'Child 1'
     end
     let(:child_2) do
-      create :work_package, parent: parent, project: project, subject: 'Child 2'
+      create :work_package, parent:, project:, subject: 'Child 2'
     end
 
-    let(:single) { create :work_package, project: project, subject: 'Single' }
-    let(:followed) { create :work_package, project: project, subject: 'Followed' }
+    let(:single) { create :work_package, project:, subject: 'Single' }
+    let(:followed) { create :work_package, project:, subject: 'Followed' }
 
     let(:child_2_child) do
-      create :work_package, parent: child_2, project: project, subject: "Child 2's child"
+      create :work_package, parent: child_2, project:, subject: "Child 2's child"
     end
 
     let(:relation) do
-      child_2.new_relation.tap do |r|
-        r.to = followed
-        r.relation_type = 'follows'
-        r.delay = 0
-        r.description = 'description foobar'
-        r.save
-      end
+      create(:follows_relation, from: child_2, to: followed, description: 'description foobar')
     end
 
     let(:relations) { [relation] }
@@ -176,7 +170,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     end
     let(:custom_value) do
       create(:custom_value,
-             custom_field: custom_field)
+             custom_field:)
     end
     let(:type) do
       type = project.types.first
@@ -189,8 +183,8 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     end
     let(:work_packages) do
       wps = create_list(:work_package, 4,
-                        project: project,
-                        type: type)
+                        project:,
+                        type:)
       wps[0].estimated_hours = 27.5
       wps[0].save!
       wps[1].send(:"custom_field_#{custom_field.id}=", 1)
@@ -209,7 +203,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
         .and_return('costs_currency' => 'EUR', 'costs_currency_format' => '%n %u')
     end
 
-    it 'should successfully export the work packages with a cost column' do
+    it 'successfullies export the work packages with a cost column' do
       expect(sheet.rows.size).to eq(4 + 1)
 
       cost_column = sheet.columns.last.to_a
@@ -221,7 +215,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     context 'with german locale' do
       let(:current_user) { create(:admin, language: :de) }
 
-      it 'should successfully export the work packages with a cost column localized' do
+      it 'successfullies export the work packages with a cost column localized' do
         I18n.with_locale :de do
           sheet
         end
@@ -234,7 +228,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
       end
     end
 
-    it 'should include estimated hours' do
+    it 'includes estimated hours' do
       expect(sheet.rows.size).to eq(4 + 1)
 
       # Check row after header row
@@ -249,7 +243,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     let(:work_package) do
       create(:work_package,
              description: 'some arbitrary description',
-             project: project,
+             project:,
              type: project.types.first)
     end
     let(:work_packages) { [work_package] }
@@ -267,7 +261,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     let(:work_package) do
       create(:work_package,
              subject: 'underscore_is included',
-             project: project,
+             project:,
              type: project.types.first)
     end
     let(:work_packages) { [work_package] }
@@ -284,7 +278,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
   describe 'empty result' do
     let(:work_packages) { [] }
 
-    it 'should yield an empty XLS file' do
+    it 'yields an empty XLS file' do
       expect(sheet.rows.size).to eq(1) # just the headers
     end
   end
@@ -293,7 +287,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     let(:zone) { +2 }
     let(:work_package) do
       create(:work_package,
-             project: project,
+             project:,
              type: project.types.first)
     end
     let(:work_packages) { [work_package] }
@@ -310,7 +304,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
       allow(current_user).to receive(:time_zone).and_return(zone)
     end
 
-    it 'should adapt the datetime fields to the user time zone' do
+    it 'adapts the datetime fields to the user time zone' do
       work_package.reload
       updated_at_cell = sheet.rows.last.to_a.last
       expect(updated_at_cell).to eq(i18n_helper.format_time(work_package.updated_at).to_s)
@@ -320,7 +314,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
   describe 'with derived estimated hours' do
     let(:work_package) do
       create(:work_package,
-             project: project,
+             project:,
              derived_estimated_hours: 15.0,
              type: project.types.first)
     end
@@ -328,7 +322,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
 
     let(:column_names) { %w[subject status updated_at estimated_hours] }
 
-    it 'should adapt the datetime fields to the user time zone' do
+    it 'adapts the datetime fields to the user time zone' do
       work_package.reload
       estimated_cell = sheet.rows.last.to_a.last
       expect(estimated_cell).to eq '(15.0)'
@@ -338,7 +332,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
   describe 'with derived estimated hours and estimated_hours set to zero' do
     let(:work_package) do
       create(:work_package,
-             project: project,
+             project:,
              derived_estimated_hours: 15.0,
              estimated_hours: 0.0,
              type: project.types.first)
@@ -347,7 +341,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
 
     let(:column_names) { %w[subject status updated_at estimated_hours] }
 
-    it 'it outputs both values' do
+    it 'outputs both values' do
       work_package.reload
       estimated_cell = sheet.rows.last.to_a.last
       expect(estimated_cell).to eq '0.0 (15.0)'

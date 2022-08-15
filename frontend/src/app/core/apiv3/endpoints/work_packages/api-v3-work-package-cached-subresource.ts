@@ -52,7 +52,7 @@ export class ApiV3WorkPackageCachedSubresource extends ApiV3GettableResource<Wor
   }
 
   protected get cache():WorkPackageCache {
-    return (this.parent as ApiV3WorkPackagesPaths).cache;
+    return (this.parent as unknown as ApiV3WorkPackagesPaths).cache;
   }
 
   private updateSchemas(schemas:CollectionResource<SchemaResource>) {

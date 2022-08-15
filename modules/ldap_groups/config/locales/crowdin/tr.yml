@@ -67,4 +67,6 @@ tr:
           Bu seçeneği etkinleştirirseniz, bulunan kullanıcılar da otomatik olarak OpenProject'te oluşturulur. Bu olmadan, yalnızca OpenProject'teki mevcut hesaplar gruplara eklenecektir.
         dn_text: 'LDAP''ye grubun tam DN''sini girin'
         group_text: 'LDAP grubunun üyelerinin senkronize edileceği mevcut bir OpenProject grubunu seçin.'
+      upsale:
+        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
 

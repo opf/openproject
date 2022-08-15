@@ -48,8 +48,9 @@ ca:
         main-menu-hover-font-color: "Font del menú principal en passar el ratolí"
         main-menu-border-color: "Vora del menú principal"
       custom_colors: "Colors personalitzats"
-      customize: "Adapteu la vostra instal·lació d'OpenProject amb el vostre logo. Nota: aquest logo serà accessible públicament."
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "Com 'Gràcies!' especial per la contribució financera al desenvolupament d'OpenProject, aquesta minúscula característica sols és disponible pels subscriptors a l'edició Enterprise ."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Edita les opcions de selecció de colors"
       instructions:
         alternative-color: "Color d'accent fort, típicament utilitzat per al botó més important de la pantalla."
@@ -93,6 +94,8 @@ ca:
     show_preview: 'Previsualitzar text'
     add_new: 'Afegeix text d''ajuda'
     edit: "Edita el text d'ajuda per a %{attribute_caption}"
+    enterprise:
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Actualment no hi ha cap mode d'autenticació.
@@ -169,7 +172,7 @@ ca:
     execute: 'Executa %{name}'
     upsale:
       title: 'Custom actions'
-      description: 'Les accions personalitzades agilitzen el treball quotidià combinant un conjunt de passos individuals en un sol botó.'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       Per afegir nous camps personalitzats a un projecte primer heu de crear-los abans de poder-los afegir a aquest projecte.
@@ -269,7 +272,7 @@ ca:
     upsale:
       title: Placeholder users
       description: >
-        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -299,6 +302,8 @@ ca:
     edit:
       settings: "Configuració"
       form_configuration: "Configuració del formulari"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projectes"
       enabled_projects: "Projectes habilitats"
       edit_query: "Edita la taula"
@@ -517,20 +522,23 @@ ca:
         begin_deletion: "Inici de la supressió"
         children: "Sub-elements"
         done_ratio: "Progrés (%)"
+        duration: "Duration"
         end_insertion: "Final de la inserció"
         end_deletion: "Final de la supressió"
-        version: "Versió"
+        ignore_non_working_days: "Ignore non working days"
         parent: "Pare"
         parent_issue: "Pare"
         parent_work_package: "Pare"
         priority: "Prioritat"
         progress: "Progrés (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Temps invertit"
         spent_time: "Temps invertit"
         subproject: "Subprojecte"
         time_entries: "Temps de registre"
         type: "Tipus"
+        version: "Versió"
         watcher: "Observador"
       'doorkeeper/application':
         uid: "ID de Client"
@@ -597,6 +605,8 @@ ca:
         unknown_property: "no és una propietat coneguda."
         unknown_property_nested: "té la ruta desconeguda '%{path}'."
         unremovable: "no es pot eliminar."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "la longitud és incorrecta (haurien de ser %{count} caràcters)."
       models:
         attachment:
@@ -628,7 +638,7 @@ ca:
               fragment_present: 'no pot contenir un fragment.'
               invalid_uri: 'ha de ser una URI vàlida.'
               relative_uri: 'ha de ser una URI absoluta.'
-              secured_uri: 'ha de ser una URI HTTPS/SSL.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'és vetada pel servidor.'
             scopes:
               not_match_configured: "no coincideix amb els àmbits disponibles."
@@ -731,6 +741,10 @@ ca:
           attributes:
             due_date:
               not_start_date: "no és en la data d'inici, tot i que és necessari per les fites."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
             parent:
               cannot_be_milestone: "no pot ser una fita."
               cannot_be_self_assigned: "no pot ser assignat a si mateix."
@@ -1343,7 +1357,7 @@ ca:
     admin:
       mail_notification: "Avisos de correu electrònic"
       mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
+      aggregation: 'Agregació'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
@@ -1352,7 +1366,7 @@ ca:
       no_results:
         title: "No hi ha tokens d'accés per mostrar"
         description: "Tots ells s'han dehabilitat. Es poden tornar a habilitar al menú d'administració."
-      access_token: "Token d'accés"
+      access_tokens: "Access tokens"
       headers:
         action: "Acció"
         expiration: "Caduca"
@@ -1453,7 +1467,6 @@ ca:
   label_consent_settings: "User Consent"
   label_wiki_menu_item: Element de menú Wiki
   label_select_main_menu_item: Seleccioneu nou element de menú principal
-  label_select_project: "Seleccioneu un projecte"
   label_required_disk_storage: "Emmagatzematge de disc necessari"
   label_send_invitation: Send invitation
   label_change_plural: "Canvis"
@@ -1519,6 +1532,7 @@ ca:
   label_diff: "diferencies"
   label_diff_inline: "en línia"
   label_diff_side_by_side: "costat per costat"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "desactivada"
   label_display: "Mostrar"
   label_display_per_page: "Per pàgina: %{value}"
@@ -1731,7 +1745,6 @@ ca:
   label_product_version: "Versió del producte"
   label_professional_support: "Suport professional"
   label_profile: "Perfil"
-  label_project_all: "Tots els projectes"
   label_project_count: "Nombre total de projectes"
   label_project_copy_notifications: "Envia notificacions de correu electrònic durant la còpia del projecte"
   label_project_latest: "Últims projectes"
@@ -1993,6 +2006,9 @@ ca:
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Per a canviar la contrasenya, feu clic en l'enllaç següent:"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
@@ -2011,6 +2027,7 @@ ca:
   mail_subject_account_activation_request: "Sol·licitud d'activació del compte de %{value}"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "La vostra contrasenya %{value}"
   mail_subject_register: "L'activació del compte %{value}"
   mail_subject_reminder: "%{count} paquet(s) de treball pendents en els següents %{days} dies"
@@ -2103,6 +2120,12 @@ ca:
   notice_successful_create: "Creat correctament."
   notice_successful_delete: "Esborrat correctament."
   notice_successful_update: "S'ha modificat correctament."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Hi ha massa resultats.\nAfini la cerca escrivint el nom del nou membre (o grup)."
   notice_user_missing_authentication_method: L'usuari encara ha de triar una contrassenya o una altra manera d'iniciar la sessió.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2170,13 +2193,14 @@ ca:
   permission_edit_own_time_entries: "Editar els registres de temps propis"
   permission_edit_project: "Editar projecte"
   permission_edit_reportings: "Editar informes"
-  permission_edit_time_entries: "Editar els registres de temps"
+  permission_edit_time_entries: "Edita els temps registrats per altres usuaris"
   permission_edit_timelines: "Editar les línies de temps"
   permission_edit_wiki_pages: "Editar les pàgines wiki"
   permission_export_work_packages: "Exportar paquets de treball"
   permission_export_wiki_pages: "Exportar les pàgines wiki"
   permission_list_attachments: "Llista d'adjunts"
-  permission_log_time: "Registrar el temps invertit"
+  permission_log_own_time: "Registra temps propi"
+  permission_log_time: "Registra temps per altres usuaris"
   permission_manage_forums: "Gestionar els taulers"
   permission_manage_categories: "Gestionar les categories del paquet de treball"
   permission_manage_work_package_relations: "Gestionar les relacions del paquet de treball"
@@ -2332,6 +2356,9 @@ ca:
     storage:
       not_available: "El consum d'emmagatzematge de disc no està disponible per a aquest repositori."
       update_timeout: "Mantenir la darrera informació d'espai de disc necessari per a un dipòsit durant N minuts. Ja que comptar l'espai de disc necessari per un repostori pot ser costós, augmenteu aquest valor per reduir l'impacte en el rendiment."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      show_warning_details: "Per tal d'utilitzar aquest emmagatzematge de fitxers recorda activar el mòdul i l'emmagatzematge específic a la configuració del projecte desitjat."
     subversion:
       existing_title: "Repositori de Subversion existent"
       existing_introduction: "Si ja teniu un repositori de Subversion, podeu enllaçar-lo amb OpenProject per accedir-hi des de l'aplicació."
@@ -2375,7 +2402,7 @@ ca:
   setting_smtp_authentication: "Autenticació SMTP"
   setting_smtp_user_name: "Nom d'usuari SMTP"
   setting_smtp_password: "Contrasenya SMTP"
-  setting_smtp_domain: "domini HELLO SMTP"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Dies a mostrar a l'activitat del projecte"
   setting_app_subtitle: "Subtítol de l'aplicació"
   setting_app_title: "Títol de l'aplicació"
@@ -2411,7 +2438,6 @@ ca:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Activar SCM"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "Habilita els canals"
   setting_feeds_limit: "Límit de contingut del canals"
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
@@ -2424,7 +2450,7 @@ ca:
   setting_work_package_list_default_columns: "Mostrar per defecte"
   setting_work_package_properties: "Propietats de paquet de treball"
   setting_work_package_startdate_is_adddate: "Utilitzar la data actual com a data d'inici dels paquets de treball nous"
-  setting_work_packages_export_limit: "Límit d'exportació de paquets de treball"
+  setting_work_packages_projects_export_limit: "Límit d'exportació de paquets de treball/projectes"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Registrar login d'usuari, nom i adreça de correu electrònic de totes les sol·licituds"
   setting_login_required: "Es necessita autenticació"
@@ -2484,8 +2510,6 @@ ca:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
@@ -2537,6 +2561,12 @@ ca:
     When using custom fields: Keep in mind that custom fields need to be activated per project, too.
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_favicon_instructions: >
@@ -3010,4 +3040,51 @@ ca:
     authorization_error: "An authorization error has occurred."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: you

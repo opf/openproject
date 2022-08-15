@@ -49,12 +49,14 @@ class WorkPackages::DeleteService < ::BaseServices::Delete
   end
 
   def destroy(work_package)
-    work_package.reload.destroy
+    work_package.destroy
+  rescue ActiveRecord::StaleObjectError
+    destroy(work_package.reload)
   end
 
   def destroy_descendants(descendants, result)
     descendants.each do |descendant|
-      result.add_dependent!(ServiceResult.new(success: descendant.destroy, result: descendant))
+      result.add_dependent!(ServiceResult.new(success: destroy(descendant), result: descendant))
     end
   end
 

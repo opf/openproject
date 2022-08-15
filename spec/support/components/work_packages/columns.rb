@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../ng_select_autocomplete_helpers'
+require_relative '../autocompleter/ng_select_autocomplete_helpers'
 
 module Components
   module WorkPackages
     class Columns
       include Capybara::DSL
       include RSpec::Matchers
-      include ::Components::NgSelectAutocompleteHelpers
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       attr_accessor :trigger_parent
 
@@ -145,8 +145,8 @@ module Components
 
       private
 
-      def within_modal(&block)
-        page.within('.wp-table--configuration-modal', &block)
+      def within_modal(&)
+        page.within('.wp-table--configuration-modal', &)
       end
 
       def modal_open?

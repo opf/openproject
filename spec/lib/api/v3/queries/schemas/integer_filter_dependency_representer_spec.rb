@@ -32,14 +32,14 @@ describe ::API::V3::Queries::Schemas::IntegerFilterDependencyRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project) }
-  let(:query) { build_stubbed(:query, project: project) }
+  let(:query) { build_stubbed(:query, project:) }
   let(:filter) { Queries::WorkPackages::Filter::DoneRatioFilter.create!(context: query) }
   let(:form_embedded) { false }
 
   let(:instance) do
     described_class.new(filter,
                         operator,
-                        form_embedded: form_embedded)
+                        form_embedded:)
   end
 
   subject(:generated) { instance.to_json }

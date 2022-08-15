@@ -30,7 +30,7 @@ class CustomValue::FloatStrategy < CustomValue::FormatStrategy
   include ActionView::Helpers::NumberHelper
 
   def typed_value
-    unless value.blank?
+    if value.present?
       value.to_f
     end
   end

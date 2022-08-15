@@ -4,6 +4,12 @@ require "support/pages/work_packages/abstract_work_package"
 describe "multi select custom values", js: true do
   shared_let(:admin) { create :admin }
   let(:current_user) { admin }
+  let(:wp_page) { Pages::FullWorkPackage.new work_package }
+  let(:cf_edit_field) do
+    field = wp_page.edit_field "customField#{custom_field.id}"
+    field.field_type = 'create-autocompleter'
+    field
+  end
 
   shared_let(:type) { create :type }
   shared_let(:project) { create :project, types: [type] }
@@ -19,14 +25,6 @@ describe "multi select custom values", js: true do
     )
   end
 
-  let(:wp_page) { Pages::FullWorkPackage.new work_package }
-
-  let(:cf_edit_field) do
-    field = wp_page.edit_field "customField#{custom_field.id}"
-    field.field_type = 'create-autocompleter'
-    field
-  end
-
   before do
     login_as current_user
     wp_page.visit!
@@ -34,7 +32,7 @@ describe "multi select custom values", js: true do
   end
 
   describe 'with mixed users, group, and placeholdders' do
-    let(:work_package) { create :work_package, project: project, type: type }
+    let(:work_package) { create :work_package, project:, type: }
 
     let!(:user) do
       create :user,
@@ -58,7 +56,7 @@ describe "multi select custom values", js: true do
              member_through_role: role
     end
 
-    it "should be shown and allowed to be updated" do
+    it "is shown and allowed to be updated" do
       expect(page).to have_text custom_field.name
 
       cf_edit_field.activate!
@@ -83,7 +81,7 @@ describe "multi select custom values", js: true do
       expect(cvs).to contain_exactly(group, user, placeholder)
 
       cf_edit_field.activate!
-      cf_edit_field.unset_value "Da Real", true
+      cf_edit_field.unset_value "Da Real", multi: true
       cf_edit_field.submit_by_dashboard
 
       wp_page.expect_and_dismiss_toaster(message: "Successful update.")
@@ -139,14 +137,14 @@ describe "multi select custom values", js: true do
         wp
       end
 
-      it "should be shown and allowed to be updated" do
+      it "is shown and allowed to be updated" do
         expect(page).to have_text custom_field.name
         expect(page).to have_text "Billy Nobbler"
         expect(page).to have_text "Anton Lupin"
 
         page.find(".inline-edit--display-field", text: "Billy Nobbler").click
 
-        cf_edit_field.unset_value "Anton Lupin", true
+        cf_edit_field.unset_value "Anton Lupin", multi: true
         cf_edit_field.set_value "Cooper Quatermaine"
 
         click_on "Reviewer: Save"

@@ -43,6 +43,7 @@ describe CustomActions::Actions::AssignedTo, type: :model do
      { value: users.first.id, label: users.first.name },
      { value: users.last.id, label: users.last.name }]
   end
+
   it_behaves_like 'base custom action'
   it_behaves_like 'associated custom action' do
     describe '#allowed_values' do
@@ -58,6 +59,7 @@ describe CustomActions::Actions::AssignedTo, type: :model do
   describe 'current_user special value' do
     let(:work_package) { build_stubbed(:work_package) }
     let(:user) { build_stubbed(:user) }
+
     subject { described_class.new }
 
     before do

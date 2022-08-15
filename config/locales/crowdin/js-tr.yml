@@ -23,8 +23,8 @@ tr:
   js:
     ajax:
       hide: "Saklamak"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "Yükleniyor…"
+      updating: "Güncelleniyor..."
     attachments:
       draggable_hint: |
         Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
@@ -205,6 +205,7 @@ tr:
             label_expires_at: "Süre sonu: "
             receive_newsletter: OpenProject almak istiyorum  <a target="_blank" href="%{link}">Bülten</a>.
             taken_domain: Alan adı başına yalnızca bir etkin deneme olabilir.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Her kullanıcı yalnızca bir deneme oluşturabilir.
           email_not_received: "E-posta almadınız mı? Sağdaki bağlantıyı kullanarak e-postayı yeniden gönderebilirsiniz."
           try_another_email: "Veya başka bir e-posta adresiyle deneyin."
@@ -231,10 +232,12 @@ tr:
             professional_support: "Profesyonel destek"
             professional_support_text: "İş açısından kritik ortamlarda OpenProject çalıştırma konusunda uzman bilgiye sahip kıdemli destek mühendislerinden güvenilir, yüksek dokunuşlu destek alın."
           button_start_trial: "Deneme sürümüne başla"
+          button_upgrade: "Şimdi Yükselt"
           button_book_now: "Şimdi rezervasyon yaptırın"
           confidence: >
             Açık Kaynak ve açık fikirli olmak üzere, test edilmiş ve desteklenen bir kurumsal sınıf proje yönetimi yazılımının güvenini sunuyoruz.
           link_quote: "Fiyat teklifi alın"
+          more_info: "More information"
           text: >
             OpenProject Enterprise Edition, Topluluk Sürümü'nün üzerine kuruludur. OpenProject ile iş açısından kritik öneme sahip projeleri yöneten 10'dan fazla kullanıcısı olan kuruluşlara yönelik premium özellikler ve profesyonel destek içerir.
           unlimited: "Sınırsız"
@@ -267,7 +270,7 @@ tr:
           one: "İlk sıralama ölçütü"
           two: "İkinci sıralama ölçütü"
           three: "Üçüncü sıralama ölçütleri"
-      upsale_for_more: "Daha gelişmiş filtreler için kontrol edin"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Kurumsal Sürüm.'
     general_text_no: "hayır"
     general_text_yes: "evet"
@@ -287,15 +290,15 @@ tr:
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "Etkinleştir"
     label_assignee: 'Assignee'
     label_add_column_after: "Sonrasına sütun ekle"
@@ -367,6 +370,7 @@ tr:
     label_in_more_than: "daha fazla"
     label_incoming_emails: "Gelen e-postalar"
     label_information_plural: "Bilgi"
+    label_invalid: "Invalid"
     label_import: "İçeri Aktar"
     label_latest_activity: "En son etkinlik"
     label_last_updated_on: "Son güncelleme"
@@ -398,6 +402,8 @@ tr:
     label_previous: "Önceki"
     label_per_page: "Sayfa başına:"
     label_please_wait: "Lütfen bekleyin"
+    label_project: "Proje"
+    label_project_list: "Projeler listesi"
     label_project_plural: "Projeler"
     label_visibility_settings: "Görünürlük ayarları"
     label_quote_comment: "Yorumu alıntıla"
@@ -410,6 +416,7 @@ tr:
     label_report: "Rapor (bildiri)"
     label_repository_plural: "Depolar"
     label_save_as: "Farklı Kaydet"
+    label_select_project: "Bir proje seçin"
     label_select_watcher: "Takipçi seç..."
     label_selected_filter_list: "Seçilen filtreler"
     label_show_attributes: "Tüm öznitelikleri göster"
@@ -451,10 +458,10 @@ tr:
     label_unwatch: "İzleme"
     label_unwatch_work_package: "İş pakaketini izlemeyi bırak"
     label_uploaded_by: "Yükleyen"
-    label_default_queries: "Varsayılan görünümler"
-    label_starred_queries: "Gözde görünümler"
-    label_global_queries: "Herkese açık görünümler"
-    label_custom_queries: "Gizli görünümler"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Sütunlar"
     label_attachments: Ekler
     label_drop_files: Dosyaları buraya bırakın
@@ -534,7 +541,7 @@ tr:
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Tümünü okundu olarak işaretle'
         mark_as_read: 'Okundu olarak işaretle'
@@ -542,7 +549,8 @@ tr:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'Yeni bildirimler var'
@@ -659,14 +667,7 @@ tr:
         projects: "Projeler"
         settings: "Ayarlar"
     time_entry:
-      project: 'Proje'
-      work_package: 'İş paketi'
       work_package_required: 'Önce bir iş paketi seçilmesini gerektirir.'
-      activity: 'Etkinlik'
-      comment: 'Yorum'
-      duration: 'Süre'
-      spent_on: 'Tarih'
-      hours: 'Saat'
       title: 'Zaman kaydet'
     two_factor_authentication:
       label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'
@@ -807,7 +808,7 @@ tr:
       zooms: "Yakınlaştırma düzeyi"
       outlines: "Hiyerarşi düzeyi"
     upsale:
-      ee_only: 'Enterprise Edition özelliği'
+      ee_only: 'Enterprise Edition feature'
     wiki_formatting:
       strong: "Kalın"
       italic: "İtalik"
@@ -835,6 +836,13 @@ tr:
       comment_send_failed: "Bir hata oluştu. Yorum gönderilemedi."
       comment_updated: "Yorum başarıyla güncelleştirildi."
       confirm_edit_cancel: "İş paketini düzenlemeyi iptal etmek istediğinizden emin misiniz?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
       description_filter: "Filtre"
       description_enter_text: "Metin girin"
       description_options_hide: "Seçenekleri gizle"
@@ -1020,10 +1028,7 @@ tr:
       filter: "Filtre"
       unselected_title: "İş paketi"
       search_query_label: "Kayıtlı görünümleri ara"
-      search_query_title: "Kayıtlı görünümleri aramak için tıklayın"
-      placeholder_query_title: "Bu görünüm için bir başlık belirleyin"
     modals:
-      label_settings: "Görünümü yeniden isimlendir"
       label_name: "İsim"
       label_delete_page: "Şu anki sayfayı sil"
       button_apply: "Uygula"
@@ -1083,6 +1088,10 @@ tr:
         one: "1 saat"
         other: "%{count} saat"
         zero: "0 s"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Zen modunu etkinleştir'
       button_deactivate: 'Zen modunu devre dışı bırak'
@@ -1178,6 +1187,8 @@ tr:
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Form başarıyla gönderildi'
       load_error_message: 'Form yüklenirken bir hata oluştu'

@@ -40,7 +40,7 @@ describe "updating a cost report's cost type", type: :feature, js: true do
   end
 
   let!(:cost_entry) do
-    create :cost_entry, user: user, project: project, cost_type: cost_type
+    create :cost_entry, user:, project:, cost_type:
   end
 
   let(:report_page) { ::Pages::CostReportPage.new project }

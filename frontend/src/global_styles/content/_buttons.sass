@@ -92,6 +92,16 @@ a.button
     &:hover, &:focus, &.-active
       background: var(--button--background-hover-color)
 
+  &.-without-button-styling
+    @include without-link-styling
+    background: transparent
+    border: none
+    margin: 0
+    padding: 0
+
+    &:hover
+      background: transparent
+
   &.-tiny
     @include button-size(tiny)
 

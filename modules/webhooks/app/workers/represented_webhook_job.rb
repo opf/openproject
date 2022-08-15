@@ -61,8 +61,8 @@ class RepresentedWebhookJob < WebhookJob
     end
 
     ::Webhooks::Log.create(
-      webhook: webhook,
-      event_name: event_name,
+      webhook:,
+      event_name:,
       url: webhook.url,
       request_headers: headers,
       request_body: body,

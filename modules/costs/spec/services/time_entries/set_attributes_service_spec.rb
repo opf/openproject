@@ -30,15 +30,15 @@ require 'spec_helper'
 
 describe TimeEntries::SetAttributesService, type: :model do
   let(:user) { build_stubbed(:user) }
-  let(:activity) { build_stubbed(:time_entry_activity, project: project) }
-  let!(:default_activity) { build_stubbed(:time_entry_activity, project: project, is_default: true) }
+  let(:activity) { build_stubbed(:time_entry_activity, project:) }
+  let!(:default_activity) { build_stubbed(:time_entry_activity, project:, is_default: true) }
   let(:work_package) { build_stubbed(:work_package) }
   let(:project) { build_stubbed(:project) }
-  let(:spent_on) { Date.today.to_s }
+  let(:spent_on) { Time.zone.today.to_s }
   let(:hours) { 5.0 }
   let(:comments) { 'some comment' }
   let(:contract_instance) do
-    contract = double('contract_instance')
+    contract = double('contract_instance') # rubocop:disable RSpec/VerifiedDoubles
     allow(contract)
       .to receive(:validate)
       .and_return(contract_valid)
@@ -48,14 +48,14 @@ describe TimeEntries::SetAttributesService, type: :model do
     contract
   end
 
-  let(:contract_errors) { double('contract_errors') }
+  let(:contract_errors) { double('contract_errors') } # rubocop:disable RSpec/VerifiedDoubles
   let(:contract_valid) { true }
   let(:time_entry_valid) { true }
 
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: time_entry_instance,
-                        contract_class: contract_class)
+                        contract_class:)
   end
   let(:time_entry_instance) { TimeEntry.new }
   let(:contract_class) do
@@ -83,7 +83,7 @@ describe TimeEntries::SetAttributesService, type: :model do
   end
 
   it 'is a success' do
-    is_expected
+    expect(subject)
       .to be_success
   end
 
@@ -115,12 +115,12 @@ describe TimeEntries::SetAttributesService, type: :model do
   context 'with params' do
     let(:params) do
       {
-        work_package: work_package,
-        project: project,
-        activity: activity,
-        spent_on: spent_on,
-        comments: comments,
-        hours: hours
+        work_package:,
+        project:,
+        activity:,
+        spent_on:,
+        comments:,
+        hours:
       }
     end
 
@@ -131,8 +131,8 @@ describe TimeEntries::SetAttributesService, type: :model do
         project_id: project.id,
         activity_id: activity.id,
         spent_on: Date.parse(spent_on),
-        comments: comments,
-        hours: hours
+        comments:,
+        hours:
       }.with_indifferent_access
     end
 
@@ -166,7 +166,7 @@ describe TimeEntries::SetAttributesService, type: :model do
   context 'with project not specified' do
     let(:params) do
       {
-        work_package: work_package
+        work_package:
       }
     end
 
@@ -178,15 +178,33 @@ describe TimeEntries::SetAttributesService, type: :model do
     end
   end
 
+  context 'with another user setting logged by' do
+    let(:other_user) { create :user }
+    let(:time_entry_instance) { create :time_entry, user: other_user, logged_by: other_user, hours: 1 }
+
+    let(:params) do
+      {
+        hours: 1234
+      }
+    end
+
+    it 'updates the entry, and updates the logged by' do
+      expect { subject }
+        .to change(time_entry_instance, :hours).from(1).to(1234)
+        .and change(time_entry_instance, :logged_by).from(other_user).to(user)
+
+      expect(time_entry_instance.user).to eq other_user
+    end
+  end
+
   context 'with an invalid contract' do
     let(:contract_valid) { false }
     let(:expect_time_instance_save) do
-      expect(time_entry_instance)
-        .not_to receive(:save)
+      expect(time_entry_instance).not_to receive(:save)  # rubocop:disable RSpec/MessageSpies
     end
 
     it 'returns failure' do
-      is_expected
+      expect(subject)
         .not_to be_success
     end
 

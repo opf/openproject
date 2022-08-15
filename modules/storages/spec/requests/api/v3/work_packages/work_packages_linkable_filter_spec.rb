@@ -28,11 +28,8 @@
 
 require 'spec_helper'
 require_module_spec_helper
-require_relative 'shared_filter_examples'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'API v3 work packages resource with filters for the linkable to storage attribute',
-         :enable_storages,
          type: :request,
          content_type: :json do
   include API::V3::Utilities::PathHelper
@@ -56,10 +53,10 @@ describe 'API v3 work packages resource with filters for the linkable to storage
 
   let(:storage) { create(:storage, creator: current_user) }
 
-  let(:project_storage1) { create(:project_storage, project: project1, storage: storage) }
-  let(:project_storage2) { create(:project_storage, project: project2, storage: storage) }
+  let(:project_storage1) { create(:project_storage, project: project1, storage:) }
+  let(:project_storage2) { create(:project_storage, project: project2, storage:) }
 
-  let(:file_link) { create(:file_link, creator: current_user, container: work_package4, storage: storage) }
+  let(:file_link) { create(:file_link, creator: current_user, container: work_package4, storage:) }
 
   subject(:response) { last_response }
 
@@ -78,7 +75,7 @@ describe 'API v3 work packages resource with filters for the linkable to storage
   end
 
   describe 'GET /api/v3/work_packages' do
-    let(:path) { api_v3_paths.path_for :work_packages, filters: filters }
+    let(:path) { api_v3_paths.path_for :work_packages, filters: }
 
     before do
       get path
@@ -124,8 +121,6 @@ describe 'API v3 work packages resource with filters for the linkable to storage
           let(:elements) { [] }
         end
       end
-
-      include_examples 'filter unavailable when storages module is inactive'
     end
 
     context 'with filter for storage url' do
@@ -168,9 +163,6 @@ describe 'API v3 work packages resource with filters for the linkable to storage
           let(:elements) { [] }
         end
       end
-
-      include_examples 'filter unavailable when storages module is inactive'
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

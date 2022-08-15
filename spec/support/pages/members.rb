@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/components/ng_select_autocomplete_helpers'
+require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 require 'support/pages/page'
 
 module Pages
   class Members < Page
-    include ::Components::NgSelectAutocompleteHelpers
+    include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
     attr_reader :project_identifier
 
@@ -93,7 +93,7 @@ module Pages
     end
 
     def has_added_group?(name, visible: true)
-      has_added_user? name, visible: visible, css: "tr.group"
+      has_added_user? name, visible:, css: "tr.group"
     end
 
     ##
@@ -107,12 +107,12 @@ module Pages
     def has_user?(name, roles: nil, group_membership: nil, group: false)
       css = group ? "tr.group" : "tr"
       has_selector?(css, text: user_name_to_text(name)) &&
-        (roles.nil? || has_roles?(name, roles, group: group)) &&
+        (roles.nil? || has_roles?(name, roles, group:)) &&
         (group_membership.nil? || group_membership == has_group_membership?(name))
     end
 
     def has_group?(name, roles: nil)
-      has_user?(name, roles: roles, group: true)
+      has_user?(name, roles:, group: true)
     end
 
     def find_user(name)
@@ -170,7 +170,7 @@ module Pages
     end
 
     def select_principal!(principal_name)
-      select_autocomplete page.find("members-autocompleter"),
+      select_autocomplete page.find("op-members-autocompleter"),
                           query: principal_name,
                           results_selector: '.ng-dropdown-panel-items'
     end
@@ -187,8 +187,8 @@ module Pages
     end
 
     def search_principal!(query)
-      search_autocomplete page.find("members-autocompleter"),
-                          query: query,
+      search_autocomplete page.find("op-members-autocompleter"),
+                          query:,
                           results_selector: '.ng-dropdown-panel-items'
     end
 

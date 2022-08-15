@@ -150,7 +150,7 @@ module Pages
       moved_element = find(story_selector(moved))
       target_element = find(story_selector(target))
 
-      drag_n_drop_element from: moved_element, to: target_element, offset_x: 0, offset_y: before ? +10 : +20
+      drag_n_drop_element from: moved_element, to: target_element, offset_x: 0, offset_y: before ? -5 : +10
     end
 
     def fold_backlog(backlog)
@@ -227,7 +227,7 @@ module Pages
     def expect_stories_in_order(backlog, *stories)
       within_backlog(backlog) do
         ids = stories.map { |s| "story_#{s.id}" }
-        existing_ids_in_order = all(ids.map { |id| "##{id}" }.join(', ')).map { |element| element[:id] }
+        existing_ids_in_order = all(ids.map { |id| "##{id}" }.join(', ')).pluck(:id)
 
         expect(existing_ids_in_order)
           .to eql(ids)
@@ -261,12 +261,12 @@ module Pages
 
     private
 
-    def within_story(story, &block)
-      within(story_selector(story), &block)
+    def within_story(story, &)
+      within(story_selector(story), &)
     end
 
-    def within_backlog(backlog, &block)
-      within(backlog_selector(backlog), &block)
+    def within_backlog(backlog, &)
+      within(backlog_selector(backlog), &)
     end
 
     def backlog_selector(backlog)

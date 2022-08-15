@@ -70,19 +70,19 @@ describe ::API::V3::WorkPackageCollectionFromQueryParamsService,
   end
 
   describe '#call' do
-    let(:params) { { project: project } }
+    let(:params) { { project: } }
 
     subject { instance.call(params) }
 
     before do
       allow(Query)
         .to receive(:new_default)
-        .with(name: '_', project: project)
+        .with(name: '_', project:)
         .and_return(query)
     end
 
     it 'is successful' do
-      is_expected
+      expect(subject)
         .to eql(mock_wp_collection_service_response)
     end
   end

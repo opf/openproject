@@ -32,53 +32,53 @@ describe TimeEntry, type: :model do
   let(:project) { create(:project_with_types, public: false) }
   let(:project2) { create(:project_with_types, public: false) }
   let(:work_package) do
-    create(:work_package, project: project,
-                                     type: project.types.first,
-                                     author: user)
+    create(:work_package, project:,
+                          type: project.types.first,
+                          author: user)
   end
   let(:work_package2) do
     create(:work_package, project: project2,
-                                     type: project2.types.first,
-                                     author: user2)
+                          type: project2.types.first,
+                          author: user2)
   end
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
   let(:date) { Date.today }
   let(:rate) { build(:cost_rate) }
-  let!(:hourly_one) { create(:hourly_rate, valid_from: 2.days.ago, project: project, user: user) }
-  let!(:hourly_three) { create(:hourly_rate, valid_from: 4.days.ago, project: project, user: user) }
-  let!(:hourly_five) { create(:hourly_rate, valid_from: 6.days.ago, project: project, user: user) }
-  let!(:default_hourly_one) { create(:default_hourly_rate, valid_from: 2.days.ago, project: project, user: user2) }
-  let!(:default_hourly_three) { create(:default_hourly_rate, valid_from: 4.days.ago, project: project, user: user2) }
-  let!(:default_hourly_five) { create(:default_hourly_rate, valid_from: 6.days.ago, project: project, user: user2) }
+  let!(:hourly_one) { create(:hourly_rate, valid_from: 2.days.ago, project:, user:) }
+  let!(:hourly_three) { create(:hourly_rate, valid_from: 4.days.ago, project:, user:) }
+  let!(:hourly_five) { create(:hourly_rate, valid_from: 6.days.ago, project:, user:) }
+  let!(:default_hourly_one) { create(:default_hourly_rate, valid_from: 2.days.ago, project:, user: user2) }
+  let!(:default_hourly_three) { create(:default_hourly_rate, valid_from: 4.days.ago, project:, user: user2) }
+  let!(:default_hourly_five) { create(:default_hourly_rate, valid_from: 6.days.ago, project:, user: user2) }
   let(:hours) { 5.0 }
   let(:time_entry) do
     create(:time_entry,
-           project: project,
-           work_package: work_package,
+           project:,
+           work_package:,
            spent_on: date,
-           hours: hours,
-           user: user,
+           hours:,
+           user:,
            rate: hourly_one,
            comments: 'lorem')
   end
 
   let(:time_entry2) do
     create(:time_entry,
-           project: project,
-           work_package: work_package,
+           project:,
+           work_package:,
            spent_on: date,
-           hours: hours,
-           user: user,
+           hours:,
+           user:,
            rate: hourly_one,
            comments: 'lorem')
   end
 
   def is_member(project, user, permissions)
     create(:member,
-           project: project,
-           user: user,
-           roles: [create(:role, permissions: permissions)])
+           project:,
+           user:,
+           roles: [create(:role, permissions:)])
   end
 
   describe '#hours' do
@@ -108,7 +108,7 @@ describe TimeEntry, type: :model do
     end
   end
 
-  it 'should always prefer overridden_costs' do
+  it 'alwayses prefer overridden_costs' do
     allow(User).to receive(:current).and_return(user)
 
     value = rand(500)
@@ -119,12 +119,12 @@ describe TimeEntry, type: :model do
   end
 
   describe 'given rate' do
-    before(:each) do
+    before do
       allow(User).to receive(:current).and_return(user)
       @default_example = time_entry2
     end
 
-    it 'should return the current costs depending on the number of hours' do
+    it 'returns the current costs depending on the number of hours' do
       (0..100).each do |hours|
         time_entry.hours = hours
         time_entry.save!
@@ -132,7 +132,7 @@ describe TimeEntry, type: :model do
       end
     end
 
-    it 'should update cost if a new rate is added at the end' do
+    it 'updates cost if a new rate is added at the end' do
       time_entry.user = User.current
       time_entry.spent_on = Time.now
       time_entry.hours = 1
@@ -149,7 +149,7 @@ describe TimeEntry, type: :model do
       expect(time_entry.costs).to eq(hourly.rate)
     end
 
-    it 'should update cost if a new rate is added in between' do
+    it 'updates cost if a new rate is added in between' do
       time_entry.user = User.current
       time_entry.spent_on = 3.days.ago.to_date
       time_entry.hours = 1
@@ -166,7 +166,7 @@ describe TimeEntry, type: :model do
       expect(time_entry.costs).to eq(hourly.rate)
     end
 
-    it 'should update cost if a spent_on changes' do
+    it 'updates cost if a spent_on changes' do
       time_entry.hours = 1
       (5.days.ago.to_date..Date.today).each do |time|
         time_entry.spent_on = time.to_date
@@ -175,7 +175,7 @@ describe TimeEntry, type: :model do
       end
     end
 
-    it 'should update cost if a rate is removed' do
+    it 'updates cost if a rate is removed' do
       time_entry.spent_on = hourly_one.valid_from
       time_entry.hours = 1
       time_entry.save!
@@ -188,7 +188,7 @@ describe TimeEntry, type: :model do
       expect(time_entry.costs).to eq(hourly_five.rate)
     end
 
-    it 'should be able to change order of rates (sorted by valid_from)' do
+    it 'is able to change order of rates (sorted by valid_from)' do
       time_entry.spent_on = hourly_one.valid_from
       time_entry.save!
       expect(time_entry.rate).to eq(hourly_one)
@@ -200,12 +200,12 @@ describe TimeEntry, type: :model do
   end
 
   describe 'default rate' do
-    before(:each) do
+    before do
       allow(User).to receive(:current).and_return(user)
       @default_example = time_entry2
     end
 
-    it 'should return the current costs depending on the number of hours' do
+    it 'returns the current costs depending on the number of hours' do
       (0..100).each do |hours|
         @default_example.hours = hours
         @default_example.save!
@@ -213,7 +213,7 @@ describe TimeEntry, type: :model do
       end
     end
 
-    it 'should update cost if a new rate is added at the end' do
+    it 'updates cost if a new rate is added at the end' do
       @default_example.user = user2
       @default_example.spent_on = Time.now.to_date
       @default_example.hours = 1
@@ -229,7 +229,7 @@ describe TimeEntry, type: :model do
       expect(@default_example.costs).to eq(hourly.rate)
     end
 
-    it 'should update cost if a new rate is added in between' do
+    it 'updates cost if a new rate is added in between' do
       @default_example.user = user2
       @default_example.spent_on = 3.days.ago.to_date
       @default_example.hours = 1
@@ -245,7 +245,7 @@ describe TimeEntry, type: :model do
       expect(@default_example.costs).to eq(hourly.rate)
     end
 
-    it 'should update cost if a spent_on changes' do
+    it 'updates cost if a spent_on changes' do
       @default_example.hours = 1
       (5.days.ago.to_date..Date.today).each do |time|
         @default_example.spent_on = time.to_date
@@ -254,7 +254,7 @@ describe TimeEntry, type: :model do
       end
     end
 
-    it 'should update cost if a rate is removed' do
+    it 'updates cost if a rate is removed' do
       @default_example.spent_on = default_hourly_one.valid_from
       @default_example.hours = 1
       @default_example.save!
@@ -267,7 +267,7 @@ describe TimeEntry, type: :model do
       expect(@default_example.costs).to eq(default_hourly_five.rate)
     end
 
-    it 'should be able to switch between default hourly rate and hourly rate' do
+    it 'is able to switch between default hourly rate and hourly rate' do
       @default_example.user = user2
       @default_example.rate = default_hourly_one
       @default_example.save!

@@ -46,9 +46,7 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
     @cf.name
   end
 
-  def null_handling(asc)
-    custom_field.null_handling(asc)
-  end
+  delegate :null_handling, to: :custom_field
 
   def custom_field
     @cf
@@ -100,7 +98,7 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
     WorkPackage
       .where(id: query.results.work_packages)
       .left_joins(:custom_values)
-      .where(custom_values: { custom_field: custom_field })
+      .where(custom_values: { custom_field: })
       .where.not(custom_values: { value: nil })
       .where.not(custom_values: { value: '' })
   end

@@ -16,8 +16,8 @@ module OpenProject::Bim::Patches::WorkPackageSeederPatch
         work_package.update_columns(created_at: Time.now,
                                     author_id: user.id,
                                     assigned_to_id: find_assignee_id(attributes[:assigned_to]),
-                                    start_date: start_date,
-                                    due_date: due_date)
+                                    start_date:,
+                                    due_date:)
 
         update_parent(work_package, attributes)
       else

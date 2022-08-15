@@ -37,7 +37,7 @@ describe Groups::UpdateContract do
     let(:group) do
       build_stubbed(:group,
                     name: group_name,
-                    group_users: group_users)
+                    group_users:)
     end
 
     let(:contract) { described_class.new(group, current_user) }

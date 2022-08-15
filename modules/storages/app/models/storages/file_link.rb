@@ -56,6 +56,14 @@ class Storages::FileLink < ApplicationRecord
   # origin_id is the Nextcloud ID of the file and should be valid.
   validates :origin_id, presence: true
 
+  # Is this file shared with me in Nextcloud?
+  # This attribute is _not_ to be stored in the DB
+  attr_writer :origin_permission
+
+  def origin_permission
+    @origin_permission || nil
+  end
+
   # A standard Rails custom query:
   # https://www.rubyguides.com/2019/10/scopes-in-ruby-on-rails/
   # Purpose: limit to FileLink visible by given user.

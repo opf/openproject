@@ -71,9 +71,9 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
   end
   let(:representer) do
     described_class.create(contract,
-                           self_link: self_link,
+                           self_link:,
                            form_embedded: embedded,
-                           current_user: current_user)
+                           current_user:)
   end
 
   context 'generation' do
@@ -81,7 +81,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
 
     describe '_type' do
       it 'is indicated as Schema' do
-        is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
+        expect(subject).to be_json_eql('Schema'.to_json).at_path('_type')
       end
     end
 
@@ -155,13 +155,13 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
         let(:embedded) { true }
 
         it 'contains no link to the allowed values' do
-          is_expected.not_to have_json_path("#{path}/_links/allowedValues")
+          expect(subject).not_to have_json_path("#{path}/_links/allowedValues")
         end
 
         it 'embeds the allowed values' do
           allowed_widgets.each_with_index do |identifier, index|
             href_path = "#{path}/_embedded/allowedValues/#{index}/identifier"
-            is_expected.to be_json_eql(identifier.to_json).at_path(href_path)
+            expect(subject).to be_json_eql(identifier.to_json).at_path(href_path)
           end
         end
       end

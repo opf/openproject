@@ -15,7 +15,7 @@ post:
 
     The file's id and name are considered mandatory information. The rest of the origin meta data SHOULD be provided
     by the client. The _mimeType_ SHOULD be a standard mime type. An empty mime type will be handled as unknown. To link
-    a folder, the custom mime type `inode/directory` MUST be used.
+    a folder, the custom mime type `application/x-op-directory` MUST be used.
 
     Up to 20 file links can be submitted at once.
 
@@ -60,15 +60,7 @@ post:
           schema:
             $ref: '../components/schemas/file_link_collection_read_model.yml'
     '400':
-      content:
-        application/hal+json:
-          schema:
-            $ref: "../components/schemas/error_response.yml"
-          example:
-            _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-            message: The request body was invalid.
-      description: Occurs when the client did not send a valid JSON object in the request body.
+      $ref: "../components/responses/invalid_request_body.yml"
     '403':
       content:
         application/hal+json:
@@ -97,6 +89,10 @@ post:
         Returned if the work package does not exist or the client does not have sufficient permissions to see it.
 
         **Required permission:** view work package, view file links
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
     '422':
       content:
         application/hal+json:
@@ -118,6 +114,9 @@ get:
     - File links
   description: |-
     Gets all file links of a work package.
+    
+    As a side effect, for every file link a request is sent to the storage's origin to fetch live data and patch
+    the file link's data before returning, as well as retrieving permissions of the user on this origin file. 
   parameters:
     - name: id
       description: Work package id
@@ -126,6 +125,18 @@ get:
       schema:
         type: integer
       example: 1337
+    - name: filters
+      in: query
+      description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
+        endpoint. The following filters are supported:
+
+        - storage
+      required: false
+      example: '[{"storage":{"operator":"=","values":["42"]}}]'
+      schema:
+        type: string
   responses:
     '200':
       description: OK

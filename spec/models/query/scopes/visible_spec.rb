@@ -41,25 +41,25 @@ describe Queries::Scopes::Visible, type: :model do
     let!(:private_user_query) do
       create(:query,
              name: 'Private user query',
-             project: project,
-             user: user)
+             project:,
+             user:)
     end
     let!(:private_other_user_query) do
       create(:query,
              name: 'Private other user query',
-             project: project)
+             project:)
     end
     let!(:private_user_query_lacking_permissions) do
       create(:query,
              name: 'Private user query lacking permission',
              project: create(:project,
                              members: { user => create(:role, permissions: []) }),
-             user: user)
+             user:)
     end
     let!(:public_query) do
       create(:query,
              name: 'Public query',
-             project: project,
+             project:,
              public: true)
     end
     let!(:public_query_lacking_permissions) do
@@ -73,7 +73,7 @@ describe Queries::Scopes::Visible, type: :model do
       create(:query,
              name: 'Global user query',
              project: nil,
-             user: user)
+             user:)
     end
     let!(:global_other_user_query) do
       create(:query,

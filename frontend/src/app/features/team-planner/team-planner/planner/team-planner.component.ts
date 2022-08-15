@@ -1,3 +1,31 @@
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2022 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -85,6 +113,7 @@ import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/ca
 import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
+import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -142,7 +171,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       filter((dragging) => !!dragging),
       map((dragging) => {
         const workPackage = (dragging as EventDragStartArg).event.extendedProps.workPackage as WorkPackageResource;
-        const dateEditable = this.calendar.dateEditable(workPackage);
+        const dateEditable = this.workPackagesCalendar.dateEditable(workPackage);
         const resourceEditable = this.eventResourceEditable(workPackage);
         return dateEditable && resourceEditable;
       }),
@@ -266,7 +295,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   principals$ = this.principalIds$
     .pipe(
       this.untilDestroyed(),
-      mergeMap((ids:string[]) => this.principalsResourceService.query.byIds(ids)),
+      mergeMap((ids:string[]) => this.principalsResourceService.lookupMany(ids)),
       debounceTime(50),
       distinctUntilChanged((prev, curr) => prev.length === curr.length && prev.length === 0),
       shareReplay(1),
@@ -284,6 +313,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     private I18n:I18nService,
     readonly injector:Injector,
     readonly calendar:OpCalendarService,
+    readonly workPackagesCalendar:OpWorkPackagesCalendarService,
     readonly halEditing:HalResourceEditingService,
     readonly halNotification:HalResourceNotificationService,
     readonly schemaCache:SchemaCacheService,
@@ -381,13 +411,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     void this.configuration.initialized
       .then(() => {
         this.calendarOptions$.next(
-          this.calendar.calendarOptions({
+          this.workPackagesCalendar.calendarOptions({
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
             selectable: true,
             plugins: [resourceTimelinePlugin, interactionPlugin],
             titleFormat: { year: 'numeric', month: 'long', day: 'numeric' },
             buttonText: { today: this.text.today },
-            initialView: this.calendar.initialView || 'resourceTimelineWeek',
+            initialView: this.workPackagesCalendar.initialView || 'resourceTimelineWeek',
             headerToolbar: {
               left: '',
               center: 'title',
@@ -511,7 +541,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     failureCallback:(error:unknown) => void,
   ):void|PromiseLike<EventInput[]> {
     this
-      .calendar
+      .workPackagesCalendar
       .currentWorkPackages$
       .pipe(
         withLatestFrom(this.assigneeCaps$),
@@ -531,7 +561,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         failureCallback,
       );
 
-    void this.calendar.updateTimeframe(fetchInfo, this.projectIdentifier);
+    void this.workPackagesCalendar.updateTimeframe(fetchInfo, this.projectIdentifier);
   }
 
   /**
@@ -685,7 +715,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         }
 
         const assignee = this.wpAssignee(workPackage);
-        const durationEditable = this.calendar.eventDurationEditable(workPackage);
+        const durationEditable = this.workPackagesCalendar.eventDurationEditable(workPackage);
         const resourceEditable = this.eventResourceEditable(workPackage);
 
         return {
@@ -711,7 +741,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.openNewSplitCreate(
       info.startStr,
       // end date is exclusive
-      this.calendar.getEndDateFromTimestamp(info.end),
+      this.workPackagesCalendar.getEndDateFromTimestamp(info.endStr),
       info.resource?.id || '',
     );
   }
@@ -762,7 +792,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private async updateEvent(info:EventResizeDoneArg|EventDropArg|EventReceiveArg):Promise<void> {
-    const changeset = this.calendar.updateDates(info);
+    const changeset = this.workPackagesCalendar.updateDates(info);
 
     const resource = info.event.getResources()[0];
     if (resource) {
@@ -803,7 +833,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   ):{ [key:string]:string|string[] } {
     const constraints:{ [key:string]:string|string[] } = {};
 
-    if (!this.calendar.eventDurationEditable(wp) && !wp.date) {
+    if (!this.workPackagesCalendar.eventDurationEditable(wp) && !wp.date) {
       constraints.start = this.wpStartDate(wp);
       constraints.end = this.wpEndDate(wp);
     }
@@ -822,11 +852,11 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private wpStartDate(wp:WorkPackageResource):string {
-    return this.calendar.eventDate(wp, 'start');
+    return this.workPackagesCalendar.eventDate(wp, 'start');
   }
 
   private wpEndDate(wp:WorkPackageResource):string {
-    const endDate = this.calendar.eventDate(wp, 'due');
+    const endDate = this.workPackagesCalendar.eventDate(wp, 'due');
     return moment(endDate).add(1, 'days').format('YYYY-MM-DD');
   }
 

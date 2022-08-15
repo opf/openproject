@@ -39,7 +39,7 @@ describe Projects::Scopes::ActivatedTimeActivity, type: :model do
     context 'without project specific overrides' do
       context 'and being active' do
         it 'returns all projects' do
-          is_expected
+          expect(subject)
             .to match_array [project, other_project]
         end
       end
@@ -50,7 +50,7 @@ describe Projects::Scopes::ActivatedTimeActivity, type: :model do
         end
 
         it 'returns no projects' do
-          is_expected
+          expect(subject)
             .to be_empty
         end
       end
@@ -64,7 +64,7 @@ describe Projects::Scopes::ActivatedTimeActivity, type: :model do
 
       context 'and being active' do
         it 'returns the project the activity is activated in' do
-          is_expected
+          expect(subject)
             .to match_array [project]
         end
       end
@@ -75,7 +75,7 @@ describe Projects::Scopes::ActivatedTimeActivity, type: :model do
         end
 
         it 'returns only the projects the activity is activated in' do
-          is_expected
+          expect(subject)
             .to match_array [project]
         end
       end

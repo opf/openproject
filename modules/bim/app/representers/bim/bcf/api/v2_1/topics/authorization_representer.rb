@@ -40,7 +40,7 @@ module Bim::Bcf::API::V2_1
     property :topic_status,
              getter: ->(decorator:, **) {
                if decorator.manage_bcf_allowed?
-                 assignable_statuses(model.new_record?).pluck(:name)
+                 assignable_statuses(include_default: model.new_record?).pluck(:name)
                else
                  []
                end

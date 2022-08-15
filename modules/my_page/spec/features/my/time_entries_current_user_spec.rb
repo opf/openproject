@@ -37,24 +37,24 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
   let!(:other_activity) { create :time_entry_activity }
   let!(:work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            author: user,
            subject: 'First work package'
   end
   let!(:other_work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            author: user,
            subject: 'Another task'
   end
   let!(:visible_time_entry) do
     create :time_entry,
-           work_package: work_package,
-           project: project,
-           activity: activity,
-           user: user,
+           work_package:,
+           project:,
+           activity:,
+           user:,
            spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
            hours: 3,
            comments: 'My comment'
@@ -62,38 +62,38 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
   let!(:visible_time_entry_on_project) do
     FactoryBot.create :time_entry,
                       work_package: nil,
-                      project: project,
-                      activity: activity,
-                      user: user,
+                      project:,
+                      activity:,
+                      user:,
                       spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
                       hours: 1,
                       comments: 'My comment'
   end
   let!(:other_visible_time_entry) do
     create :time_entry,
-           work_package: work_package,
-           project: project,
-           activity: activity,
-           user: user,
+           work_package:,
+           project:,
+           activity:,
+           user:,
            spent_on: Date.today.beginning_of_week(:sunday) + 4.days,
            hours: 2,
            comments: 'My other comment'
   end
   let!(:last_week_visible_time_entry) do
     create :time_entry,
-           work_package: work_package,
-           project: project,
-           activity: activity,
-           user: user,
+           work_package:,
+           project:,
+           activity:,
+           user:,
            spent_on: Date.today - (Date.today.wday + 3).days,
            hours: 8,
            comments: 'My last week comment'
   end
   let!(:invisible_time_entry) do
     create :time_entry,
-           work_package: work_package,
-           project: project,
-           activity: activity,
+           work_package:,
+           project:,
+           activity:,
            user: other_user,
            hours: 4
   end
@@ -106,7 +106,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
   let(:user) do
     create(:user,
            member_in_project: project,
-           member_with_permissions: %i[view_time_entries edit_time_entries view_work_packages log_time])
+           member_with_permissions: %i[view_time_entries edit_time_entries view_work_packages log_own_time])
   end
   let(:my_page) do
     Pages::My::Page.new
@@ -184,6 +184,8 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     time_logging_modal.has_field_with_value 'spentOn', (Date.today.beginning_of_week(:sunday) + 3.days).strftime
 
+    time_logging_modal.shows_field 'user', false
+
     expect(page)
       .not_to have_selector('.ng-spinner-loader')
 
@@ -205,7 +207,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     sleep(0.1)
 
-    time_logging_modal.perform_action 'Create'
+    time_logging_modal.perform_action 'Save'
     time_logging_modal.is_visible false
 
     my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_create)
@@ -220,7 +222,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
       .to have_content "Total: 10.00"
 
     expect(TimeEntry.count)
-      .to eql 6
+      .to be 6
 
     ## Editing an entry
 

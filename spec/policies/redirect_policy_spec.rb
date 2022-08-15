@@ -37,9 +37,9 @@ describe RedirectPolicy, type: :controller do
   let(:policy) do
     described_class.new(
       back_url,
-      default: default,
+      default:,
       hostname: host,
-      return_escaped: return_escaped
+      return_escaped:
     )
   end
   let(:subject) { policy.redirect_url }
@@ -92,6 +92,7 @@ describe RedirectPolicy, type: :controller do
 
   context 'without escaped return URLs' do
     let(:return_escaped) { false }
+
     it_behaves_like 'valid redirect URL', '/work_packages/1234?filter=[foo,bar]'
     it_behaves_like 'valid redirect URL', 'http://test.host/?a=\11\15'
   end

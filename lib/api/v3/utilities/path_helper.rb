@@ -92,6 +92,10 @@ module API
             "#{root_path}api/v3"
           end
 
+          def self.same_origin?(url)
+            url.to_s.start_with? root_url
+          end
+
           index :action
           show :action
 
@@ -190,6 +194,30 @@ module API
 
           def self.custom_option(id)
             "#{root}/custom_options/#{id}"
+          end
+
+          def self.day(date)
+            "#{days}/#{date}"
+          end
+
+          def self.days
+            "#{root}/days"
+          end
+
+          def self.days_week
+            "#{days}/week"
+          end
+
+          def self.days_week_day(day)
+            "#{days_week}/#{day}"
+          end
+
+          def self.days_non_working
+            "#{root}/days/non_working"
+          end
+
+          def self.days_non_working_day(date)
+            "#{days_non_working}/#{date}"
           end
 
           index :help_text
@@ -456,8 +484,9 @@ module API
             "#{work_package_relations(work_package_id)}/#{id}"
           end
 
-          def self.work_package_available_relation_candidates(id)
-            "#{work_package(id)}/available_relation_candidates"
+          def self.work_package_available_relation_candidates(id, type: nil)
+            query = "?type=#{type}" if type
+            "#{work_package(id)}/available_relation_candidates#{query}"
           end
 
           def self.work_package_revisions(id)
@@ -473,7 +502,7 @@ module API
                 "#{project_id}-#{type_id}"
               end
 
-              filter = [{ id: { operator: '=', values: values } }]
+              filter = [{ id: { operator: '=', values: } }]
 
               path + "?filters=#{CGI.escape(filter.to_s)}"
             end
@@ -497,8 +526,8 @@ module API
               sortBy: sort_by&.to_json,
               groupBy: group_by,
               pageSize: page_size,
-              offset: offset,
-              select: select
+              offset:,
+              select:
             }.compact_blank
 
             if query_params.any?

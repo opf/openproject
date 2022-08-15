@@ -26,11 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 require_relative './migration_utils/utils'
+require_relative 'migration_utils/typed_dag'
 
 class RebuildDag < ActiveRecord::Migration[5.0]
   include ::Migration::Utils
 
   def up
+    Migration::MigrationUtils::TypedDag.configure
+
     truncate_closure_entries
     remove_duplicate_relations
 
@@ -48,7 +51,7 @@ class RebuildDag < ActiveRecord::Migration[5.0]
               unique: true
 
     say_with_time 'Building the directed acyclic graph of all relations. This might take a while.' do
-      WorkPackage.rebuild_dag! 1000
+      Migration::MigrationUtils::TypedDag::WorkPackage.rebuild_dag! 1000
     end
 
     add_count_index

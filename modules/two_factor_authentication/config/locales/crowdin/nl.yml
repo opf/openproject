@@ -73,7 +73,7 @@ nl:
       text_2fa_disabled: "De gebruiker heeft geen 2FA-apparaat ingesteld via zijn 'Mijn accountpagina'"
     upsale:
       title: 'Two-factor authentication'
-      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
+      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: Geen 2FA back-upcodes gevonden voor dit account.
       singular: Back-up code

@@ -10,6 +10,8 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { WorkPackageRelationsService } from '../wp-relations.service';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+
 
 @Component({
   selector: 'wp-relation-row',
@@ -199,5 +201,9 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
       })
       .catch((err:any) => this.notificationService.handleRawError(err,
         this.relatedWorkPackage));
+  }
+
+  public highlightingClassForWpType():string {
+    return Highlighting.inlineClass('type', this.relatedWorkPackage.type.id!);
   }
 }

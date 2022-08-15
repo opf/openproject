@@ -33,13 +33,13 @@ describe ::API::V3::Groups::GroupCollectionRepresenter do
   let(:groups) do
     build_stubbed_list(:group, 3).tap do |groups|
       allow(groups)
-        .to receive(:per_page)
-        .with(page_size)
+        .to receive(:offset)
+        .with(page - 1)
         .and_return(groups)
 
       allow(groups)
-        .to receive(:page)
-        .with(page)
+        .to receive(:limit)
+        .with(page_size)
         .and_return(groups)
 
       allow(groups)
@@ -52,8 +52,8 @@ describe ::API::V3::Groups::GroupCollectionRepresenter do
     described_class.new(groups,
                         self_link: self_base_link,
                         per_page: page_size,
-                        page: page,
-                        current_user: current_user)
+                        page:,
+                        current_user:)
   end
   let(:total) { 3 }
   let(:page) { 1 }

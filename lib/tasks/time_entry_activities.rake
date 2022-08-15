@@ -67,7 +67,7 @@ namespace 'openproject' do
 
     entries = begin
       connection = ActiveRecord::Base
-                   .establish_connection(ENV['BACKUP_DATABASE_URL'])
+                   .establish_connection(ENV.fetch('BACKUP_DATABASE_URL', nil))
                    .connection
 
       if connection.select_all(check_statement).any?

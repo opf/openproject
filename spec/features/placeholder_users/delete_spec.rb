@@ -79,7 +79,7 @@ describe 'delete placeholder user', type: :feature, js: true do
     let!(:member) do
       create :member,
              principal: placeholder_user,
-             project: project,
+             project:,
              roles: [create(:role)]
     end
 

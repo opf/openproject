@@ -35,13 +35,13 @@ describe ::API::V3::Notifications::NotificationCollectionRepresenter do
     build_stubbed_list(:notification,
                        3).tap do |items|
       allow(items)
-        .to receive(:per_page)
+        .to receive(:limit)
               .with(page_size)
               .and_return(items)
 
       allow(items)
-        .to receive(:page)
-              .with(page)
+        .to receive(:offset)
+              .with(page - 1)
               .and_return(items)
 
       allow(items)
@@ -54,9 +54,9 @@ describe ::API::V3::Notifications::NotificationCollectionRepresenter do
     described_class.new(notifications,
                         self_link: self_base_link,
                         per_page: page_size,
-                        page: page,
-                        groups: groups,
-                        current_user: current_user)
+                        page:,
+                        groups:,
+                        current_user:)
   end
   let(:total) { 3 }
   let(:page) { 1 }

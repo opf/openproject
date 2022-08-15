@@ -48,8 +48,9 @@ pt:
         main-menu-hover-font-color: "Fonte do menu principal ao passar o mouse"
         main-menu-border-color: "Margem do menu principal"
       custom_colors: "Cores personalizadas"
-      customize: "Personalize a instalação do OpenProject com sua própria logomarca. Nota: Esta logomarca será acessível ao público."
+      customize: "Personalize sua instalação do OpenProject com seu próprio logotipo e cores."
       enterprise_notice: "Como um 'Obrigado!' especial a sua contribuição financeira para desenvolver o OpenProject, esse pequeno recurso está disponível somente para assinantes do suporte da versão Enterprise Edition."
+      enterprise_more_info: "Nota: o logotipo usado será acessível ao público."
       manage_colors: "Editar opções de seleção de cor"
       instructions:
         alternative-color: "Cor de destaque forte, normalmente usada para o botão mais importante na tela."
@@ -93,6 +94,8 @@ pt:
     show_preview: 'Pré-visualização de texto'
     add_new: 'Adicionar texto de ajuda'
     edit: "Editar texto de ajuda para %{attribute_caption}"
+    enterprise:
+      description: 'Forneça informações adicionais para os atributos (incl. campos personalizados) dos pacotes de trabalho e projetos. Os textos de ajuda são exibidos quando os usuários clicam no símbolo de interrogação ao lado dos campos de entrada nos projetos e pacotes de trabalho.  '
   auth_sources:
     index:
       no_results_content_title: Atualmente, não existem modos de autenticação.
@@ -170,7 +173,7 @@ pt:
     execute: 'Executar %{name}'
     upsale:
       title: 'Ações personalizadas'
-      description: 'As ações personalizadas simplificam o trabalho diário combinando um conjunto de etapas em um único botão.'
+      description: 'Ações personalizadas são atalhos de um clique para um conjunto de ações pré-definidas que você pode disponibilizar em certos pacotes de trabalho com base no status, papel, tipo ou projeto.'
   custom_fields:
     text_add_new_custom_field: >
       Para adicionar campos personalizados a um projeto é necessário criá-los primeiro para depois adicioná-los a este projeto.
@@ -270,7 +273,7 @@ pt:
     upsale:
       title: Usuários de espaço reservado
       description: >
-        Existem vários cenários em que você deseja atribuir trabalho a pessoas que não são membros do seu projeto. Pode ser simplesmente que você ainda precise contratar a pessoa certa para o trabalho. Ou você não quer dar acesso a essas informações do projeto, mas ainda quer acompanhar as tarefas atribuídas a essa pessoa.
+        Usuários reservados são uma maneira de atribuir pacotes de trabalho aos usuários que não fazem parte do seu projeto. Eles podem ser úteis numa série de cenários; por exemplo, se você precisa acompanhar as tarefas de uma fonte que ainda não é nomeada ou disponível, ou se você não deseja dar a essa pessoa acesso ao OpenProject mas ainda quer acompanhar as tarefas atribuídas a ela.
   prioritiies:
     edit:
       priority_color_text: |
@@ -300,6 +303,8 @@ pt:
     edit:
       settings: "Configurações"
       form_configuration: "Configuração do formulário"
+      more_info_text_html: >
+        A Enterprise Edition (Edução Corporativa) permite que você personalizer a configuração de formulários com estes recursos adicionais<br><ul class="%{list_styling_class}"><li><b>Adicionar novos grupos de atributos</b></li><li><b>Renomear grupos de atributos</b></li>Adicionar uma tabela de pacotes de trabalho relacionados</b></li> </ul>
       projects: "Projetos"
       enabled_projects: "Projetos habilitados"
       edit_query: "Editar tabela"
@@ -519,20 +524,23 @@ pt:
         begin_deletion: "Início da exclusão"
         children: "Subelementos"
         done_ratio: "Progresso (%)"
+        duration: "Duração"
         end_insertion: "Final da inserção"
         end_deletion: "Final da exclusão"
-        version: "Versão"
+        ignore_non_working_days: "Ignorar dias feriados e fim de semana"
         parent: "Pai"
         parent_issue: "Pai"
         parent_work_package: "Pai"
         priority: "Prioridade"
         progress: "Progresso (%)"
+        readonly: "Somente leitura"
         schedule_manually: "Agendamento manual"
         spent_hours: "Tempo gasto"
         spent_time: "Tempo gasto"
         subproject: "Subprojeto"
         time_entries: "Registro de tempo"
         type: "Tipo"
+        version: "Versão"
         watcher: "Observador"
       'doorkeeper/application':
         uid: "ID do cliente"
@@ -599,6 +607,8 @@ pt:
         unknown_property: "não é uma propriedade conhecida."
         unknown_property_nested: "possui o caminho desconhecido '%{path}'."
         unremovable: "não pode ser removido."
+        url_not_secure_context: >
+          não está fornecendo um "Secure Context". Você pode tanto usar HTTPS  ou um endereço loopback.
         wrong_length: "é o tamanho errado (deve ser %{count} caracteres)."
       models:
         attachment:
@@ -630,7 +640,7 @@ pt:
               fragment_present: 'não pode conter um fragmento.'
               invalid_uri: 'deve ser um URI válido.'
               relative_uri: 'deve ser um URI absoluto.'
-              secured_uri: 'deve ser um URI HTTPS/SSL.'
+              secured_uri: 'não está fornecendo um "Secure Context". Você pode tanto usar HTTPS  ou um endereço loopback.'
               forbidden_uri: 'é proibido pelo servidor.'
             scopes:
               not_match_configured: "não corresponde a escopos disponíveis."
@@ -733,6 +743,10 @@ pt:
           attributes:
             due_date:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
+            duration:
+              larger_than_dates: "é maior que o intervalo entre a data de início e de fim."
+              smaller_than_dates: "é menor que o intervalo entre a data de início e a data de término."
+              not_available_for_milestones: "Não está disponível para pacotes de trabalho do tipo marco"
             parent:
               cannot_be_milestone: "não pode ser um marco."
               cannot_be_self_assigned: "não pode ser atribuído a ele mesmo."
@@ -1345,7 +1359,7 @@ pt:
     admin:
       mail_notification: "Notificações por e-mail"
       mails_and_notifications: "E-mails e notificação"
-      aggregation_and_retention: 'Agregação e retenção'
+      aggregation: 'Agregação'
       api_and_webhooks: "API e webhooks"
     quick_add:
       label: "Abrir menu de adição rápida"
@@ -1354,7 +1368,7 @@ pt:
       no_results:
         title: "Nenhum tokens de acesso para exibir"
         description: "Todos foram desativados. Eles podem ser re-ativados no menu Administração."
-      access_token: "Token de acesso"
+      access_tokens: "Tokens de acesso"
       headers:
         action: "Ação"
         expiration: "Expira"
@@ -1455,7 +1469,6 @@ pt:
   label_consent_settings: "Consentimento do usuário"
   label_wiki_menu_item: Item do menu da wiki
   label_select_main_menu_item: Selecione novo item do menu principal
-  label_select_project: "Selecionar um projeto"
   label_required_disk_storage: "Armazenamento em disco necessário"
   label_send_invitation: Enviar Convite
   label_change_plural: "Mudanças"
@@ -1521,6 +1534,7 @@ pt:
   label_diff: "diff"
   label_diff_inline: "em linha"
   label_diff_side_by_side: "lado a lado"
+  label_digital_accessibility: 'Acessibilidade digital (DE)'
   label_disabled: "desativado"
   label_display: "Display"
   label_display_per_page: "Por página: %{value}"
@@ -1733,7 +1747,6 @@ pt:
   label_product_version: "Versão do produto"
   label_professional_support: "Suporte profissional"
   label_profile: "Perfil"
-  label_project_all: "Todos os projetos"
   label_project_count: "Número total de projetos"
   label_project_copy_notifications: "Enviar notificações por email durante a cópia do projeto"
   label_project_latest: "Últimos projetos"
@@ -1995,6 +2008,9 @@ pt:
   mail_body_backup_token_info: O token anterior não é mais válido.
   mail_body_backup_waiting_period: O novo token será habilitado em %{hours} horas.
   mail_body_backup_token_warning: Se não foi você, acesse o OpenProject imediatamente e redefina-o novamente.
+  mail_body_incoming_email_error: O e-mail que você enviou para o OpenProject não pôde ser processado.
+  mail_body_incoming_email_error_in_reply_to: "Em %{received_at} %{from_email} escreveu"
+  mail_body_incoming_email_error_logs: "Registros"
   mail_body_lost_password: "Para alterar sua senha, clique no link a seguir:"
   mail_body_register: "Bem-vindo ao %{app_title}. Por favor, ative sua conta clicando neste link:"
   mail_body_register_header_title: "E-mail de convite a membro do projeto"
@@ -2012,6 +2028,7 @@ pt:
   mail_subject_account_activation_request: "solicitação de ativação de conta %{value}"
   mail_subject_backup_ready: "Seu backup está pronto"
   mail_subject_backup_token_reset: "Redefinir token de backup"
+  mail_subject_incoming_email_error: "O e-mail que você enviou para o OpenProject não pôde ser processado."
   mail_subject_lost_password: "Sua senha %{value}"
   mail_subject_register: "Sua ativação de conta: %{value}"
   mail_subject_reminder: "%{count} pacote(s) de trabalho finalizam nos próximos %{days} dias:"
@@ -2104,6 +2121,11 @@ pt:
   notice_successful_create: "Criado com sucesso."
   notice_successful_delete: "Exclusão bem sucedida."
   notice_successful_update: "Atualizado com sucesso."
+  notice_successful_update_custom_fields_added_to_project: |
+    Atualização bem-sucedida. Os campos personalizados dos tipos ativados são ativados automaticamente
+    no formulário do pacote de trabalho. <a href="%{url}" target="_blank">Ver mais</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Atualização bem-sucedida. Os campos personalizados ativos são ativados automaticamente para os projetos associados deste tipo 
   notice_to_many_principals_to_display: "Existem muitos resultados. Reduza a busca, digitando o nome do novo membro (ou grupo)."
   notice_user_missing_authentication_method: Usuário ainda tem que escolher uma senha ou outra maneira de acesso.
   notice_user_invitation_resent: Um convite foi enviado para %{email}.
@@ -2171,13 +2193,14 @@ pt:
   permission_edit_own_time_entries: "Editar os próprios registros de tempo"
   permission_edit_project: "Editar projeto"
   permission_edit_reportings: "Editar relatórios"
-  permission_edit_time_entries: "Editar registros de tempo"
+  permission_edit_time_entries: "Editar registro de hora para outros usuários"
   permission_edit_timelines: "Editar cronogramas"
   permission_edit_wiki_pages: "Editar páginas wiki"
   permission_export_work_packages: "Exportar pacotes de trabalho"
   permission_export_wiki_pages: "Exportar páginas wiki"
   permission_list_attachments: "Lista de anexos"
-  permission_log_time: "Registrar o tempo gasto"
+  permission_log_own_time: "Registrar própria hora"
+  permission_log_time: "Registrar hora para outros usuários"
   permission_manage_forums: "Gerenciar fóruns"
   permission_manage_categories: "Gerenciar categorias de pacote de trabalho"
   permission_manage_work_package_relations: "Gerenciar relações de pacote de trabalho"
@@ -2335,6 +2358,9 @@ pt:
     storage:
       not_available: "Consumo de armazenamento em disco não está disponível para este repositório."
       update_timeout: "Manter as últimas informações de espaço em disco necessário para um repositório por N minutos. Como contar o espaço em disco necessário de um repositório pode ser custoso, aumente este valor para reduzir o impacto no desempenho."
+      oauth_application_details: "O valor secreto do cliente não poderá ser acessado novamente após esta janela ser fechada. Copie estes valores nas configurações de Integração do Nextcloud OpenProject:"
+      oauth_application_details_link_text: "Ir para a página de configurações"
+      show_warning_details: "Para usar este armazenamento de arquivos, lembre-se de ativar o módulo e o armazenamento específico nas configurações de projeto de cada projeto desejado."
     subversion:
       existing_title: "Repositório Subversion existente"
       existing_introduction: "Se você tem um repositório Subversion, você pode vinculá-lo com o OpenProject para acessá-lo de dentro do aplicativo."
@@ -2414,7 +2440,6 @@ pt:
   setting_email_login: "Usar e-mail como login"
   setting_enabled_scm: "SCM habilitado"
   setting_enabled_projects_columns: "Visível na lista de projetos"
-  setting_notification_retention_period_days: "Período de retenção de notificação"
   setting_feeds_enabled: "Habilitar Feeds"
   setting_feeds_limit: "Limite de conteúdo de feed"
   setting_file_max_size_displayed: "Tamanho máximo de arquivos de texto exibidos em linha"
@@ -2427,7 +2452,7 @@ pt:
   setting_work_package_list_default_columns: "Exibir por padrão"
   setting_work_package_properties: "Propriedades do pacote de trabalho"
   setting_work_package_startdate_is_adddate: "Usar a data atual como data para início dos novos pacotes de trabalho"
-  setting_work_packages_export_limit: "Limite para exportação de pacotes de trabalho"
+  setting_work_packages_projects_export_limit: "Limite de exportação de pacote de trabalho / projetos"
   setting_journal_aggregation_time_minutes: "Ações do usuário agregadas em"
   setting_log_requesting_user: "Registrar início de sessão do usuário, nome e endereço de e-mail para todas as requisições"
   setting_login_required: "Autenticação requerida"
@@ -2487,8 +2512,6 @@ pt:
       whitelist_text_html: >
         Defina uma lista de extensões de arquivo válidas e/ou tipos MIME para arquivos carregados. <br/> Insira as extensões de arquivo  (e.x., <code>%{ext_example}</code>) ou tipos de mime (e.x., <code>%{mime_example}</code>). <br/> Deixe em branco para permitir que qualquer tipo de arquivo seja carregado. Vários valores permitidos (uma linha para cada valor). 
     notifications:
-      retention_text: >
-        Defina o número de dias em que os eventos de notificação para usuários (a fonte para notificações no aplicativo) serão mantidos no sistema. Todos os eventos anteriores a esse horário serão excluídos. 
       events_explanation: 'Governa para qual evento um e-mail é enviado. Como as notificações de pacotes de trabalhos podem ser configuradas especificamente para todos os usuários, eles são excluídos desta lista.'
       delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com a notificação configurada no aplicativo confirmem a notificação dentro da aplicação antes que o e-mail seja enviado. Usuários que lerem uma notificação no aplicativo não receberão um e-mail dessa mesma notificação"
     display:
@@ -2540,6 +2563,12 @@ pt:
     Quando utilizar campos personalizados: lembre-se de que os campos personalizados precisam ser ativados também por projeto.
   text_custom_field_hint_activate_per_project_and_type: >
     Os campos personalizados precisam ser ativados por tipo de pacote de trabalho e por projeto.
+  text_wp_custom_field_html: >
+    A Enterprise Edition (Edição corporative) conta com estes recursos adicionais para os campos personalizados dos pacotes de trabalho: <br> <ul> <li><b>Permite a seleção múltipla de campos personalizados do tipo Lista ou Usuário</b></li> </ul>
+  text_wp_status_read_only_html: >
+    A Enterprise Edition (Edição corporative) conta com estes recursos adicionais para os campos personalizados dos pacotes de trabalho: <br> <ul> <li><b>Permite marcar pacotes de trabalho como "apenas leitura" para status específicos</b></li> </ul>
+  text_project_custom_field_html: >
+    A Enterprise Edition (Edição corporativa) contará com estes recursos adicionais para campos personalizados dos Projetos: <br> <ul> <li><b>Adicionar campos personalizados para projetos a sua Lista de projetos para criar uma visão do portfólio de projetos</b></li> </ul>
   text_custom_logo_instructions: >
     Recomenda-se um logotipo branco sobre fundo transparente. Para obter melhores resultados em telas convencionais e de retina, certifique-se de que as dimensões de sua imagem são de 460px por 60px.
   text_custom_favicon_instructions: >
@@ -3012,4 +3041,51 @@ pt:
     authorization_error: "Ocorreu um erro de autorização."
     revoke_my_application_confirmation: "Você quer realmente remover esta aplicação? Isso irá revogar %{token_count} ativo(s) para ele."
     my_registered_applications: "Aplicações OAuth registradas"
+  oauth_client:
+    urn_connection_status:
+      connected: "Conectado"
+      error: "Erro"
+      failed_authorization: "Falha na autorização"
+    labels:
+      label_oauth_integration: "Integração OAuth2"
+      label_redirect_uri: "Redirecionar URI"
+      label_request_token: "Solicitar token"
+      label_refresh_token: "Atualizar token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 retornou um erro"
+      oauth_reported: "Provedor OAuth2 relatado"
+      oauth_returned_error: "OAuth2 retornou um erro"
+      oauth_returned_json_error: "OAuth2 retornou um erro JSON"
+      oauth_returned_http_error: "OAuth2 retornou um erro de rede"
+      oauth_returned_standard_error: "OAuth2 retornou um erro interno"
+      wrong_token_type_returned: "OAuth2 retornou um tipo errado de token, esperando AccessToken::Portador"
+      oauth_issue_contact_admin: "OAuth2 relatou um erro. Entre em contato com o administrador do sistema."
+      oauth_client_not_found: "Cliente OAuth2 não encontrado no ponto de extremidade 'callback' (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Erro interno: Atualizar token sem um token existente anteriormente.
+      refresh_token_updated_failed: "Erro durante a atualização do OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        Este erro aparece depois que você atualizou o client_id e client_secret no OpenProject, mas não atualizou o campo 'Return URI' no provedor OAuth2.
+      oauth_code_not_present: "O código OAuth2 não foi encontrado no parâmetro 'callback' (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        Este erro aparece se você selecionou o parâmetro response_type errado no provedor OAuth2. A resposta _type deve ser 'código' ou similar.
+      oauth_state_not_present: "OAuth2 'state' não encontrado no endpoint 'callback' (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        O 'state' é usado para indicar ao OpenProject onde continuar após uma autorização OAuth2 bem-sucedida. Um 'state' ausente é um erro interno que pode aparecer durante a configuração. Por favor contate o administrador do sistema.
+      rack_oauth2:
+        client_secret_invalid: "Segredo do cliente inválido (client_secret_invalid)"
+        invalid_request: >
+          O Servidor de Autorização do OAuth2 respondeu com 'invalid_request'. Este erro aparece se você tentar autorizar várias vezes ou em caso de problemas técnicos.
+        invalid_response: "O Servidor de Autorização OAuth2 forneceu uma resposta inválida (invalid_response)"
+        invalid_grant: "O Servidor de Autorização OAuth2 pede a você para reautorizar (invalid_grant)."
+        invalid_client: "O Servidor de Autorização OAuth2 não reconhece o OpenProject (invalid_client)."
+        unauthorized_client: "O Servidor de Autorização OAuth2 rejeita o tipo de concessão (unauthorized_client)"
+        unsupported_grant_type: "O Servidor de Autorização OAuth2 pede a você para reautorizar (unported_grant_type)."
+        invalid_scope: "Você não tem permissão para acessar o recurso solicitado (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "A solicitação do lado do servidor falhou ao se autorizar."
+      missing_authorization: "A solicitação do lado do servidor falhou devido à falta de informações de autorização."
+    response:
+      unexpected: "Resposta inesperada recebida."
   you: você

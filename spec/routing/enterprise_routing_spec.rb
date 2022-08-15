@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe EnterprisesController, type: :routing do
   context "when `ee_manager_visible`" do
-    it 'should connect GET /admin/enterprise to enterprises#show' do
+    it 'connects GET /admin/enterprise to enterprises#show' do
       allow(OpenProject::Configuration).to receive(:ee_manager_visible?).and_return(true)
       expect(get('/admin/enterprise')).to route_to(controller: 'enterprises',
                                                    action: 'show')

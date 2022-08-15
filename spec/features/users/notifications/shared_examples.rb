@@ -3,8 +3,8 @@ shared_examples 'notification settings workflow' do
     let!(:project) { create :project }
     let!(:project_alt) { create :project }
     let!(:role) { create :role, permissions: %i[view_project] }
-    let!(:member) { create :member, user: user, project: project, roles: [role] }
-    let!(:member_two) { create :member, user: user, project: project_alt, roles: [role] }
+    let!(:member) { create :member, user:, project:, roles: [role] }
+    let!(:member_two) { create :member, user:, project: project_alt, roles: [role] }
 
     it 'allows to control notification settings' do
       # Expect default settings
@@ -36,9 +36,9 @@ shared_examples 'notification settings workflow' do
       user.reload
       notification_settings = user.notification_settings
       expect(notification_settings.count).to eq 3
-      expect(notification_settings.where(project: project).count).to eq 1
+      expect(notification_settings.where(project:).count).to eq 1
 
-      project_settings = notification_settings.find_by(project: project)
+      project_settings = notification_settings.find_by(project:)
       expect(project_settings.involved).to be_truthy
       expect(project_settings.mentioned).to be_truthy
       expect(project_settings.watched).to be_truthy

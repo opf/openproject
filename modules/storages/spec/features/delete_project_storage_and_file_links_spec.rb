@@ -30,7 +30,7 @@ require_relative '../spec_helper'
 
 # Test if the deletion of a ProjectStorage actually deletes related FileLink
 # objects.
-describe 'Delete ProjectStorage with FileLinks', :enable_storages, type: :feature, js: true do
+describe 'Delete ProjectStorage with FileLinks', type: :feature, js: true do
   let(:user) { create(:user) }
   let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
   let(:project) do
@@ -41,10 +41,10 @@ describe 'Delete ProjectStorage with FileLinks', :enable_storages, type: :featur
            enabled_module_names: %i[storages work_package_tracking])
   end
   let(:storage) { create(:storage, name: "Storage 1") }
-  let(:work_package) { create(:work_package, project: project) }
-  let(:project_storage) { create(:project_storage, storage: storage, project: project) }
-  let(:file_link) { create(:file_link, storage: storage, container: work_package) }
-  let(:second_file_link) { create(:file_link, container: work_package, storage: storage) }
+  let(:work_package) { create(:work_package, project:) }
+  let(:project_storage) { create(:project_storage, storage:, project:) }
+  let(:file_link) { create(:file_link, storage:, container: work_package) }
+  let(:second_file_link) { create(:file_link, container: work_package, storage:) }
 
   before do
     # The objects defined by let(...) above are lazy instantiated, so we need

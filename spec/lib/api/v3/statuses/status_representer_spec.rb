@@ -53,8 +53,9 @@ describe ::API::V3::Statuses::StatusRepresenter do
         it { is_expected.to be_json_eql(status.is_default.to_json).at_path('isDefault') }
         it { is_expected.to be_json_eql(status.is_readonly.to_json).at_path('isReadonly') }
         it { is_expected.to be_json_eql(status.position.to_json).at_path('position') }
+
         it {
-          is_expected.to be_json_eql(status.default_done_ratio.to_json).at_path('defaultDoneRatio')
+          expect(subject).to be_json_eql(status.default_done_ratio.to_json).at_path('defaultDoneRatio')
         }
       end
     end

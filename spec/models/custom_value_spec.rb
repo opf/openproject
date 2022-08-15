@@ -31,7 +31,7 @@ require 'spec_helper'
 describe CustomValue do
   let(:format) { 'bool' }
   let(:custom_field) { create(:custom_field, field_format: format) }
-  let(:custom_value) { create(:custom_value, custom_field: custom_field, value: value) }
+  let(:custom_value) { create(:custom_value, custom_field:, value:) }
 
   describe '#typed_value' do
     subject { custom_value }
@@ -46,24 +46,24 @@ describe CustomValue do
       let(:format) { 'bool' }
       let(:value) { true }
 
-      context 'is true' do
+      context 'when it is true' do
         it { expect(subject.typed_value).to eql(value) }
       end
 
-      context 'is false' do
+      context 'when it is false' do
         let(:value) { false }
 
         it { expect(subject.typed_value).to eql(value) }
       end
 
-      context 'is nil' do
+      context 'when it is nil' do
         let(:value) { nil }
 
         it { expect(subject.typed_value).to eql(value) }
       end
     end
 
-    describe 'integer custom value' do
+    describe 'string custom value' do
       let(:format) { 'string' }
       let(:value) { 'This is a string!' }
 
@@ -90,7 +90,7 @@ describe CustomValue do
 
       it { expect(subject.typed_value).to eql(value) }
 
-      context 'date format', with_settings: { date_format: '%Y/%m/%d' } do
+      context 'for a date format', with_settings: { date_format: '%Y/%m/%d' } do
         it { expect(subject.formatted_value).to eq('2016/12/01') }
       end
     end
@@ -107,9 +107,320 @@ describe CustomValue do
     end
   end
 
+  describe '#valid?' do
+    let(:custom_field) { build_stubbed(:custom_field, field_format:, is_required:, min_length:, max_length:, regexp:) }
+    let(:custom_value) { described_class.new(custom_field:, value:) }
+    let(:is_required) { false }
+    let(:min_length) { 0 }
+    let(:max_length) { 0 }
+    let(:regexp) { nil }
+
+    context 'for a data custom field' do
+      let(:field_format) { 'date' }
+
+      context 'with a valid date' do
+        let(:value) { '1975-07-14' }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with some non date string' do
+        let(:value) { 'abc' }
+
+        it 'is invalid' do
+          expect(custom_value)
+            .not_to be_valid
+        end
+      end
+    end
+
+    context 'for a string custom field' do
+      let(:field_format) { 'string' }
+
+      context 'with some string' do
+        let(:value) { 'abc' }
+
+        it 'is invalid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with a nil value' do
+        let(:value) { nil }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with an empty value' do
+        let(:value) { '' }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with a nil value when required' do
+        let(:value) { nil }
+        let(:is_required) { true }
+
+        it 'is invalid' do
+          expect(custom_value)
+            .not_to be_valid
+        end
+      end
+
+      context 'with an empty value when required' do
+        let(:value) { '' }
+        let(:is_required) { true }
+
+        it 'is invalid' do
+          expect(custom_value)
+            .not_to be_valid
+        end
+      end
+
+      context 'with an empty value when having a min_length' do
+        let(:value) { '' }
+        let(:min_length) { 1 }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with too short a value when having a min_length' do
+        let(:value) { 'a' }
+        let(:min_length) { 2 }
+
+        it 'is invalid' do
+          expect(custom_value)
+            .not_to be_valid
+        end
+      end
+
+      context 'with too long a value when having a max_length' do
+        let(:value) { 'a' * 6 }
+        let(:max_length) { 5 }
+
+        it 'is invalid' do
+          expect(custom_value)
+            .not_to be_valid
+        end
+      end
+
+      context 'with a value of the correct length when having a max_length and a min_value' do
+        let(:value) { 'a' * 4 }
+        let(:min_length) { 4 }
+        let(:max_length) { 4 }
+
+        it 'is invalid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with an empty value when having a regexp' do
+        let(:value) { '' }
+        let(:regexp) { '^[A-Z0-9]*$' }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with a not matching value when having a regexp' do
+        let(:value) { 'a' }
+        let(:regexp) { '^[A-Z0-9]*$' }
+
+        it 'is invalid' do
+          expect(custom_value)
+            .not_to be_valid
+        end
+      end
+
+      context 'with a matching value when having a regexp' do
+        let(:value) { 'A' }
+        let(:regexp) { '^[A-Z0-9]*$' }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+    end
+
+    context 'for a list custom field' do
+      let(:custom_option1) { build_stubbed(:custom_option, value: 'value1') }
+      let(:custom_option2) { build_stubbed(:custom_option, value: 'value1') }
+      let(:custom_field) { build_stubbed(:custom_field, field_format: 'list', custom_options: [custom_option1, custom_option2]) }
+
+      context 'with a value from the list' do
+        let(:value) { custom_option1.id }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with some string' do
+        let(:value) { 'abc' }
+
+        it 'is invalid' do
+          expect(custom_value)
+            .not_to be_valid
+        end
+      end
+
+      context 'with nil string' do
+        let(:value) { nil }
+
+        it 'is invalid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+    end
+
+    context 'for an int custom field' do
+      let(:field_format) { 'int' }
+
+      context 'with a valid int string' do
+        let(:value) { '123' }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with a valid negative int string' do
+        let(:value) { '-123' }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with a valid positive int string' do
+        let(:value) { '+123' }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with some non int string' do
+        let(:value) { 'abc' }
+
+        it 'is invalid' do
+          expect(custom_value)
+            .not_to be_valid
+        end
+      end
+
+      context 'with a float string' do
+        let(:value) { '5.5' }
+
+        it 'is invalid' do
+          expect(custom_value)
+            .not_to be_valid
+        end
+      end
+
+      context 'with an empty string' do
+        let(:value) { '' }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+    end
+
+    context 'for a float custom field' do
+      let(:field_format) { 'float' }
+
+      context 'with a valid float string' do
+        let(:value) { '123.5' }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with a valid negative float string' do
+        let(:value) { '-123.5' }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with a valid positive float string' do
+        let(:value) { '+123.5' }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with some non float string' do
+        let(:value) { 'abc' }
+
+        it 'is invalid' do
+          expect(custom_value)
+            .not_to be_valid
+        end
+      end
+
+      context 'with an int string' do
+        let(:value) { '5' }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with an empty string' do
+        let(:value) { '' }
+
+        it 'is valid' do
+          expect(custom_value)
+            .to be_valid
+        end
+      end
+
+      context 'with a mixed string' do
+        let(:value) { '6.5a' }
+
+        it 'is invalid' do
+          expect(custom_value)
+            .not_to be_valid
+        end
+      end
+    end
+  end
+
   describe 'value/value=' do
     let(:custom_value) { build_stubbed(:custom_value) }
-    let(:strategy_double) { double('strategy_double') }
+    let(:strategy_double) { instance_double(CustomValue::FormatStrategy) }
 
     it 'calls the strategy for parsing and uses that value' do
       original_value = 'original value'

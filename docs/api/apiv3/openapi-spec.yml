@@ -1,5 +1,6 @@
 ---
 openapi: 3.0.0
+
 info:
   description: |-
     You're looking at the current **stable** documentation of the OpenProject APIv3. If you're interested in the current
@@ -84,7 +85,7 @@ info:
     You can then use one the following guides to perform the supported OAuth 2.0 flows:
 
     - [Authorization code flow](https://oauth.net/2/grant-types/authorization-code)
-    
+
     - [Authorization code flow with PKCE](https://doorkeeper.gitbook.io/guides/ruby-on-rails/pkce-flow), recommended for clients unable to keep the client_secret confidential.
 
     - [Client credentials](https://oauth.net/2/grant-types/client-credentials/) - Requires an application to be bound to an impersonating user for non-public access
@@ -134,6 +135,7 @@ info:
     If no `Accept-Encoding` header is send, `Accept-Encoding: identity` is assumed which will result in the API responding uncompressed.
   title: OpenProject API V3 (Stable)
   version: '3'
+
 servers:
   - url: https://qa.openproject-edge.com
     description: Edge QA instance
@@ -141,6 +143,7 @@ servers:
     description: Staging instance
   - url: https://community.openproject.org
     description: Community instance
+
 paths:
   "/api/v3":
     "$ref": "./paths/root.yml"
@@ -172,6 +175,18 @@ paths:
     "$ref": "./paths/custom_action_execute.yml"
   "/api/v3/custom_options/{id}":
     "$ref": "./paths/custom_option.yml"
+  "/api/v3/days/non_working":
+    "$ref": "./paths/days_non_working.yml"
+  "/api/v3/days/non_working/{date}":
+    "$ref": "./paths/days_non_working_date.yml"
+  "/api/v3/days/week":
+    "$ref": "./paths/days_week.yml"
+  "/api/v3/days/week/{day}":
+    "$ref": "./paths/days_week_day.yml"
+  "/api/v3/days":
+    "$ref": "./paths/days.yml"
+  "/api/v3/days/{date}":
+    "$ref": "./paths/days_date.yml"
   "/api/v3/documents":
     "$ref": "./paths/documents.yml"
   "/api/v3/documents/{id}":
@@ -186,6 +201,8 @@ paths:
     "$ref": "./paths/file_link.yml"
   "/api/v3/file_links/{id}/open":
     "$ref": "./paths/file_link_open.yml"
+  "/api/v3/file_links/{id}/download":
+    "$ref": "./paths/file_link_download.yml"
   "/api/v3/grids":
     "$ref": "./paths/grids.yml"
   "/api/v3/grids/form":
@@ -408,6 +425,8 @@ paths:
     "$ref": "./paths/work_package_available_watchers.yml"
   "/api/v3/work_packages/{id}/file_links":
     "$ref": "./paths/work_package_file_links.yml"
+  "/api/v3/work_packages/{id}/update_file_links":
+    "$ref": "./paths/work_package_update_file_links.yml"
   "/api/v3/work_packages/{id}/form":
     "$ref": "./paths/work_package_form.yml"
   "/api/v3/work_packages/{id}/revisions":
@@ -418,6 +437,7 @@ paths:
     "$ref": "./paths/work_package_watchers.yml"
   "/api/v3/work_packages/{id}/watchers/{user_id}":
     "$ref": "./paths/work_package_watcher.yml"
+
 components:
   examples:
     Project:
@@ -436,6 +456,15 @@ components:
       "$ref": "./components/examples/view_work_packages_table.yml"
     ViewTeamPlanner:
       "$ref": "./components/examples/view_team_planner.yml"
+      
+  responses:
+    InvalidRequestBody:
+      "$ref": "./components/responses/invalid_request_body.yml"
+    MissingContentType:
+      "$ref": "./components/responses/missing_content_type.yml"
+    UnsupportedMediaType:
+      "$ref": "./components/responses/unsupported_media_type.yml"
+
   schemas:
     ActivityModel:
       "$ref": "./components/schemas/activity_model.yml"
@@ -493,6 +522,10 @@ components:
       "$ref": "./components/schemas/custom_option_model.yml"
     CustomactionModel:
       "$ref": "./components/schemas/customaction_model.yml"
+    DayCollectionModel:
+      "$ref": "./components/schemas/day_collection_model.yml"
+    DayModel:
+      "$ref": "./components/schemas/day_model.yml"
     Default_QueryModel:
       "$ref": "./components/schemas/default_query_model.yml"
     Default_Query_for_ProjectModel:
@@ -583,6 +616,8 @@ components:
       "$ref": "./components/schemas/membership_update_form.yml"
     NewsModel:
       "$ref": "./components/schemas/news_model.yml"
+    NonWorkingDayModel:
+      "$ref": "./components/schemas/non_working_day_model.yml"
     NotificationCollectionModel:
       "$ref": "./components/schemas/notification_collection_model.yml"
     NotificationModel:
@@ -701,6 +736,10 @@ components:
       "$ref": "./components/schemas/update_project.yml"
     Update_time_entry:
       "$ref": "./components/schemas/update_time_entry.yml"
+    UserCollectionModel:
+      "$ref": "./components/schemas/user_collection_model.yml"
+    UserCreateModel:
+      "$ref": "./components/schemas/user_create_model.yml"
     UserModel:
       "$ref": "./components/schemas/user_model.yml"
     UserPreferencesModel:
@@ -711,8 +750,6 @@ components:
       "$ref": "./components/schemas/user_create_form.yml"
     User_update_form:
       "$ref": "./components/schemas/user_update_form.yml"
-    UsersModel:
-      "$ref": "./components/schemas/users_model.yml"
     VersionModel:
       "$ref": "./components/schemas/version_model.yml"
     Version_create_form:
@@ -749,6 +786,16 @@ components:
       "$ref": "./components/schemas/view_user_schema_model.yml"
     WatchersModel:
       "$ref": "./components/schemas/watchers_model.yml"
+    WeekDayCollectionModel:
+      "$ref": "./components/schemas/week_day_collection_model.yml"
+    WeekDayCollectionWriteModel:
+      "$ref": "./components/schemas/week_day_collection_write_model.yml"
+    WeekDayModel:
+      "$ref": "./components/schemas/week_day_model.yml"
+    WeekDaySelfLinkModel:
+      "$ref": "./components/schemas/week_day_self_link_model.yml"
+    WeekDayWriteModel:
+      "$ref": "./components/schemas/week_day_write_model.yml"
     Wiki_PageModel:
       "$ref": "./components/schemas/wiki_page_model.yml"
     Work_PackageModel:
@@ -813,5 +860,6 @@ tags:
   - "$ref": "./tags/views.yml"
   - "$ref": "./tags/wiki_pages.yml"
   - "$ref": "./tags/work_packages.yml"
+  - "$ref": "./tags/work_schedule.yml"
 security:
   - BasicAuth: []

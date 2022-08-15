@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::CustomOptions::CustomOptionRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:custom_option) { build_stubbed(:custom_option, custom_field: custom_field) }
+  let(:custom_option) { build_stubbed(:custom_option, custom_field:) }
   let(:custom_field) { build_stubbed(:list_wp_custom_field) }
   let(:user) { build_stubbed(:user) }
   let(:representer) do
@@ -50,15 +50,15 @@ describe ::API::V3::CustomOptions::CustomOptionRepresenter do
     end
 
     it 'has the type "CustomOption"' do
-      is_expected.to be_json_eql('CustomOption'.to_json).at_path('_type')
+      expect(subject).to be_json_eql('CustomOption'.to_json).at_path('_type')
     end
 
     it 'has an id' do
-      is_expected.to be_json_eql(custom_option.id.to_json).at_path('id')
+      expect(subject).to be_json_eql(custom_option.id.to_json).at_path('id')
     end
 
     it 'has a value' do
-      is_expected.to be_json_eql(custom_option.to_s.to_json).at_path('value')
+      expect(subject).to be_json_eql(custom_option.to_s.to_json).at_path('value')
     end
   end
 end

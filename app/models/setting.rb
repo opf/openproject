@@ -29,6 +29,7 @@
 class Setting < ApplicationRecord
   extend CallbacksHelper
   extend Aliases
+  extend MailSettings
 
   ENCODINGS = %w(US-ASCII
                  windows-1250
@@ -120,7 +121,7 @@ class Setting < ApplicationRecord
       Settings::Definition.all
     end
 
-    def method_missing(method, *args, &block)
+    def method_missing(method, *args, &)
       if exists?(accessor_base_name(method))
         create_setting_accessors(accessor_base_name(method))
 
@@ -165,7 +166,7 @@ class Setting < ApplicationRecord
       raise NoMethodError, "#{name} is not writable but can be set through env vars or configuration.yml file."
     end
 
-    write_attribute(:value, formatted_value(val))
+    self[:value] = formatted_value(val)
   end
 
   def formatted_value(value)
@@ -185,7 +186,7 @@ class Setting < ApplicationRecord
 
   def self.[]=(name, value)
     old_value = cached_or_default(name)
-    new_setting = find_or_initialize_by(name: name)
+    new_setting = find_or_initialize_by(name:)
     new_setting.value = value
 
     # Keep the current cache key,

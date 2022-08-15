@@ -30,13 +30,13 @@ require 'spec_helper'
 
 describe Grids::CreateContract, 'for Boards::Grid' do
   let(:project) { build_stubbed(:project) }
+  let(:instance) { described_class.new(grid, user) }
   let(:user) { build_stubbed(:user) }
   let(:grid) do
-    create(:board_grid, project: project)
+    create(:board_grid, project:)
   end
-  include_context 'model contract'
 
-  let(:instance) { described_class.new(grid, user) }
+  include_context 'model contract'
 
   describe 'user_id' do
     it_behaves_like 'is not writable' do

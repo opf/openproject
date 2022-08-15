@@ -25,15 +25,14 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
-require 'features/support/components/ui_autocomplete'
+require 'support/components/autocompleter/autocomplete_helpers'
 
 module Components
   module Projects
     class TopMenu
       include Capybara::DSL
       include RSpec::Matchers
-      include ::Components::UIAutocompleteHelpers
+      include ::Components::Autocompleter::AutocompleteHelpers
 
       def toggle
         page.find('#projects-menu').click
@@ -52,7 +51,7 @@ module Components
       end
 
       def search(query)
-        search_autocomplete(autocompleter, query: query)
+        search_autocomplete(autocompleter, query:, results_selector: autocompleter_results_selector)
       end
 
       def clear_search
@@ -63,7 +62,8 @@ module Components
       def search_and_select(query)
         select_autocomplete autocompleter,
                             results_selector: autocompleter_results_selector,
-                            query: query
+                            item_selector: autocompleter_item_title_selector,
+                            query:
       end
 
       def search_results
@@ -74,12 +74,48 @@ module Components
         page.find autocompleter_selector
       end
 
+      def expect_result(name, disabled: false)
+        within search_results do
+          if disabled
+            expect(page).to have_selector(autocompleter_item_disabled_title_selector, text: name)
+          else
+            expect(page).to have_selector(autocompleter_item_title_selector, text: name)
+          end
+        end
+      end
+
+      def expect_no_result(name)
+        within search_results do
+          expect(page).to have_no_selector(autocompleter_item_title_selector, text: name)
+        end
+      end
+
+      def expect_item_with_hierarchy_level(hierarchy_level:, item_name:)
+        within search_results do
+          hierarchy_selector  = hierarchy_level.times.collect { autocompleter_item_selector }.join(' ')
+          expect(page)
+            .to have_selector("#{hierarchy_selector} #{autocompleter_item_title_selector}", text: item_name)
+        end
+      end
+
+      def autocompleter_item_selector
+        '[data-qa-selector="op-header-project-select--item"]'
+      end
+
+      def autocompleter_item_title_selector
+        '[data-qa-selector="op-header-project-select--item-title"]'
+      end
+
+      def autocompleter_item_disabled_title_selector
+        '[data-qa-selector="op-header-project-select--item-disabled-title"]'
+      end
+
       def autocompleter_results_selector
-        '.project-menu-autocomplete--results'
+        '[data-qa-selector="op-header-project-select--list"]'
       end
 
       def autocompleter_selector
-        '#project_autocompletion_input'
+        '[data-qa-selector="op-header-project-select--search"] input'
       end
     end
   end

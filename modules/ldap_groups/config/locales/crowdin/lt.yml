@@ -67,4 +67,6 @@ lt:
           Jei jūs įjungsite šį nustatymą, visiems rastiems naudotojams bus automatiškai sukurti OpenProject naudotojai. Neįjungus, tik dabar esantys OpenProject naudotojai bus pridėti į grupes.
         dn_text: 'Įveskite LDAP grupės pilną DN.'
         group_text: 'Parinkite esamą OpenProject grupę, su kuria būtų sinchronizuojami LDAP grupės nariai'
+      upsale:
+        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
 

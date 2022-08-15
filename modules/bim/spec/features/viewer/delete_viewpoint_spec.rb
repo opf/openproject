@@ -35,14 +35,14 @@ describe 'Delete viewpoint in model viewer',
   let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
   let(:user) { create :admin }
 
-  let!(:work_package) { create(:work_package, project: project) }
-  let!(:bcf) { create :bcf_issue, work_package: work_package }
+  let!(:work_package) { create(:work_package, project:) }
+  let!(:bcf) { create :bcf_issue, work_package: }
   let!(:viewpoint) { create :bcf_viewpoint, issue: bcf, viewpoint_name: 'minimal_hidden_except_one' }
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
            title: 'minimal',
-           project: project,
+           project:,
            uploader: user)
   end
 

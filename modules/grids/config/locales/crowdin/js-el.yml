@@ -5,7 +5,7 @@ el:
       remove: 'Αφαίρεση widget'
       configure: 'Ρύθμιση widget'
       upsale:
-        text: "Ορισμένα γραφικά στοιχεία (widget), όπως το γραφικό στοιχείο πακέτων εργασίας, είναι διαθέσιμα μόνο στην "
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise Edition."
         link: 'Enterprise Edition.'
       widgets:
         custom_text:

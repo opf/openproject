@@ -33,45 +33,45 @@ describe Story, type: :model do
   let(:role) { @role ||= create(:role) }
   let(:status1) { @status1 ||= create(:status, name: 'status 1', is_default: true) }
   let(:type_feature) { @type_feature ||= create(:type_feature) }
-  let(:version) { @version ||= create(:version, project: project) }
-  let(:version2) { create(:version, project: project) }
-  let(:sprint) { @sprint ||= create(:sprint, project: project) }
+  let(:version) { @version ||= create(:version, project:) }
+  let(:version2) { create(:version, project:) }
+  let(:sprint) { @sprint ||= create(:sprint, project:) }
   let(:issue_priority) { @issue_priority ||= create(:priority) }
   let(:task_type) { create(:type_task) }
   let(:task) do
-    create(:story, version: version,
-                              project: project,
-                              status: status1,
-                              type: task_type,
-                              priority: issue_priority)
+    create(:story, version:,
+                   project:,
+                   status: status1,
+                   type: task_type,
+                   priority: issue_priority)
   end
   let(:story1) do
-    create(:story, version: version,
-                              project: project,
-                              status: status1,
-                              type: type_feature,
-                              priority: issue_priority)
+    create(:story, version:,
+                   project:,
+                   status: status1,
+                   type: type_feature,
+                   priority: issue_priority)
   end
 
   let(:story2) do
-    create(:story, version: version,
-                              project: project,
-                              status: status1,
-                              type: type_feature,
-                              priority: issue_priority)
+    create(:story, version:,
+                   project:,
+                   status: status1,
+                   type: type_feature,
+                   priority: issue_priority)
   end
 
   let(:project) do
     unless @project
       @project = build(:project)
       @project.members = [build(:member, principal: user,
-                                                    project: @project,
-                                                    roles: [role])]
+                                         project: @project,
+                                         roles: [role])]
     end
     @project
   end
 
-  before(:each) do
+  before do
     ActionController::Base.perform_caching = false
 
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
@@ -86,7 +86,7 @@ describe Story, type: :model do
     describe '#backlogs' do
       describe "WITH one sprint
                 WITH the sprint having 1 story" do
-        before(:each) do
+        before do
           story1
         end
 
@@ -148,7 +148,7 @@ describe Story, type: :model do
 
       describe "WITH one sprint
                 WITH the sprint having one story in this project and one story in another project" do
-        before(:each) do
+        before do
           version.sharing = 'system'
           version.save!
 
@@ -165,7 +165,7 @@ describe Story, type: :model do
       describe "WITH one sprint
                 WITH the sprint having two storys
                 WITH one being the child of the other" do
-        before(:each) do
+        before do
           story1.parent_id = story2.id
 
           story1.save
@@ -177,7 +177,7 @@ describe Story, type: :model do
       describe "WITH one sprint
                 WITH the sprint having one story
                 WITH the story having a child task" do
-        before(:each) do
+        before do
           task.parent_id = story1.id
 
           task.save
@@ -189,7 +189,7 @@ describe Story, type: :model do
       describe "WITH one sprint
                 WITH the sprint having one story and one task
                 WITH the two having no connection" do
-        before(:each) do
+        before do
           task
           story1
         end

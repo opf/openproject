@@ -77,6 +77,7 @@ describe Projects::Storage, type: :model do
 
     context 'with a project with all modules' do
       let(:repository1) { create(:repository_git, project: project1) }
+
       before do
         repository1.update(required_storage_bytes: 543211234)
       end

@@ -45,7 +45,7 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         render :show,
-               locals: { work_package: work_package, menu_name: project_or_wp_query_menu },
+               locals: { work_package:, menu_name: project_or_wp_query_menu },
                layout: 'angular/angular'
       end
 
@@ -86,11 +86,11 @@ class WorkPackagesController < ApplicationController
   def export_list(mime_type)
     job_id = WorkPackages::Exports::ScheduleService
       .new(user: current_user)
-      .call(query: @query, mime_type: mime_type, params: params)
+      .call(query: @query, mime_type:, params:)
       .result
 
     if request.headers['Accept']&.include?('application/json')
-      render json: { job_id: job_id }
+      render json: { job_id: }
     else
       redirect_to job_status_path(job_id)
     end
@@ -113,7 +113,7 @@ class WorkPackagesController < ApplicationController
            layout: false,
            content_type: 'application/atom+xml',
            locals: { title: "#{Setting.app_title} - #{work_package}",
-                     journals: journals }
+                     journals: }
   end
 
   def atom_list

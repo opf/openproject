@@ -45,7 +45,7 @@ module OpenProject::OpenIDConnect
 
     initializer "openid_connect.configure" do
       ::Settings::Definition.add(
-        OpenProject::OpenIDConnect::CONFIG_KEY, value: {}, writable: false
+        OpenProject::OpenIDConnect::CONFIG_KEY, default: {}, writable: false
       )
     end
 
@@ -57,7 +57,7 @@ module OpenProject::OpenIDConnect
         SecureHeaders::Configuration.default.cookies[:samesite][:lax] = false
         # Need to reload the secure_headers config to
         # avoid having set defaults (e.g. https) when changing the cookie values
-        load Rails.root + 'config/initializers/secure_headers.rb'
+        load Rails.root.join("config/initializers/secure_headers.rb")
       end
     end
 

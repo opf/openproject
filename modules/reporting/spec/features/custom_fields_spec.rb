@@ -36,24 +36,24 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
   let(:work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            custom_values: initial_custom_values
   end
 
   let!(:time_entry1) do
     create :time_entry,
-           user: user,
-           work_package: work_package,
-           project: project,
+           user:,
+           work_package:,
+           project:,
            hours: 10
   end
 
   let!(:time_entry2) do
     create :time_entry,
-           user: user,
-           work_package: work_package,
-           project: project,
+           user:,
+           work_package:,
+           project:,
            hours: 2.50
   end
 
@@ -80,8 +80,8 @@ describe 'Custom fields reporting', type: :feature, js: true do
     # as this caused problems with casting the nil value of the custom value to 0.
     let!(:work_package2) do
       create :work_package,
-             project: project,
-             type: type
+             project:,
+             type:
     end
 
     before do
@@ -159,15 +159,15 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
       let!(:work_package2) do
         create :work_package,
-               project: project,
+               project:,
                custom_values: { custom_field_2.id => custom_value_for(custom_field_2, 'A') }
       end
 
       let!(:time_entry1) do
         create :time_entry,
-               user: user,
+               user:,
                work_package: work_package2,
-               project: project,
+               project:,
                hours: 10
       end
 

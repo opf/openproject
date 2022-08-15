@@ -50,10 +50,11 @@ describe 'Work package transitive status workflows', js: true do
     work_package = create :work_package,
                           project: project,
                           type: type,
-                          created_at: 5.days.ago.to_date.to_s(:db)
+                          created_at: 5.days.ago.to_date.to_fs(:db)
 
-    note_journal = work_package.journals.last
-    note_journal.update(created_at: 5.days.ago.to_date.to_s)
+    note_journal = work_package.journals.reload.last
+    note_journal.update(created_at: 5.days.ago.to_date.to_s,
+                        updated_at: 5.days.ago.to_date.to_s)
 
     work_package
   end

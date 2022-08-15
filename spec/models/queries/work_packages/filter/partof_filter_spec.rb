@@ -33,7 +33,7 @@ describe Queries::WorkPackages::Filter::PartofFilter, type: :model do
     let(:class_key) { :partof }
 
     it_behaves_like 'filter for relation' do
-      let(:relation_type) { :part_of }
+      let(:relation_type) { :partof }
     end
   end
 end

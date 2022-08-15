@@ -46,7 +46,7 @@ describe 'filter work packages', js: true do
 
       wp
     end
-    let(:work_package_without_watcher) { create :work_package, project: project }
+    let(:work_package_without_watcher) { create :work_package, project: }
 
     before do
       work_package_with_watcher
@@ -56,7 +56,7 @@ describe 'filter work packages', js: true do
     end
 
     # Regression test for bug #24114 (broken watcher filter)
-    it 'should only filter work packages by watcher' do
+    it 'onlies filter work packages by watcher' do
       filters.open
       loading_indicator_saveguard
 
@@ -69,11 +69,11 @@ describe 'filter work packages', js: true do
   end
 
   context 'by version in project' do
-    let(:version) { create :version, project: project }
+    let(:version) { create :version, project: }
     let(:work_package_with_version) do
-      create :work_package, project: project, subject: 'With version', version: version
+      create :work_package, project:, subject: 'With version', version:
     end
-    let(:work_package_without_version) { create :work_package, subject: 'Without version', project: project }
+    let(:work_package_without_version) { create :work_package, subject: 'Without version', project: }
 
     before do
       work_package_with_version
@@ -118,9 +118,42 @@ describe 'filter work packages', js: true do
     end
   end
 
+  context 'when filtering by status in project' do
+    let(:status) { create :status, name: 'Open status' }
+    let(:closed_status) { create :closed_status, name: 'Closed status' }
+    let(:work_package_with_status) do
+      create :work_package, project:, subject: 'With open status', status:
+    end
+    let(:work_package_without_status) { create :work_package, subject: 'With closed status', project:, status: closed_status }
+
+    before do
+      work_package_with_status
+      work_package_without_status
+
+      wp_table.visit!
+    end
+
+    it 'allows filtering and matching the selected value' do
+      filters.open
+
+      filters.remove_filter :status
+      filters.expect_no_filter_by :status
+      filters.add_filter_by('Status', 'is', status.name)
+
+      loading_indicator_saveguard
+      wp_table.expect_work_package_listed work_package_with_status
+      wp_table.ensure_work_package_not_listed! work_package_without_status
+
+      filters.open_autocompleter :status
+
+      expect(page).to have_selector('.ng-option', text: closed_status.name)
+      expect(page).to have_no_selector('.ng-option', text: status.name)
+    end
+  end
+
   context 'by finish date outside of a project' do
-    let(:work_package_with_due_date) { create :work_package, project: project, due_date: Date.today }
-    let(:work_package_without_due_date) { create :work_package, project: project, due_date: Date.today + 5.days }
+    let(:work_package_with_due_date) { create :work_package, project:, due_date: Date.today }
+    let(:work_package_without_due_date) { create :work_package, project:, due_date: Date.today + 5.days }
     let(:wp_table) { ::Pages::WorkPackagesTable.new }
 
     before do
@@ -341,12 +374,12 @@ describe 'filter work packages', js: true do
     let(:attachment_a) { build(:attachment, filename: 'attachment-first.pdf') }
     let(:attachment_b) { build(:attachment, filename: 'attachment-second.pdf') }
     let(:wp_with_attachment_a) do
-      create :work_package, subject: 'WP attachment A', project: project, attachments: [attachment_a]
+      create :work_package, subject: 'WP attachment A', project:, attachments: [attachment_a]
     end
     let(:wp_with_attachment_b) do
-      create :work_package, subject: 'WP attachment B', project: project, attachments: [attachment_b]
+      create :work_package, subject: 'WP attachment B', project:, attachments: [attachment_b]
     end
-    let(:wp_without_attachment) { create :work_package, subject: 'WP no attachment', project: project }
+    let(:wp_without_attachment) { create :work_package, subject: 'WP no attachment', project: }
     let(:wp_table) { ::Pages::WorkPackagesTable.new }
 
     before do
@@ -452,17 +485,17 @@ describe 'filter work packages', js: true do
     end
 
     it "does not offer attachment filters" do
-      expect(page).to_not have_select 'add_filter_select', with_options: ['Attachment content', 'Attachment file name']
+      expect(page).not_to have_select 'add_filter_select', with_options: ['Attachment content', 'Attachment file name']
     end
   end
 
   describe 'specific filters' do
     describe 'filters on date by created_at (Regression #28459)' do
       let!(:wp_updated_today) do
-        create :work_package, subject: 'Created today', project: project, created_at: (Date.today + 12.hours)
+        create :work_package, subject: 'Created today', project:, created_at: (Date.today + 12.hours)
       end
       let!(:wp_updated_5d_ago) do
-        create :work_package, subject: 'Created 5d ago', project: project, created_at: (Date.today - 5.days)
+        create :work_package, subject: 'Created 5d ago', project:, created_at: (Date.today - 5.days)
       end
 
       it do
@@ -486,8 +519,8 @@ describe 'filter work packages', js: true do
   end
 
   describe 'keep the filter attribute order (Regression #33136)' do
-    let(:version1) { create :version, project: project, name: 'Version 1', id: 1 }
-    let(:version2) { create :version, project: project, name: 'Version 2', id: 2 }
+    let(:version1) { create :version, project:, name: 'Version 1', id: 1 }
+    let(:version2) { create :version, project:, name: 'Version 2', id: 2 }
 
     it do
       wp_table.visit!
@@ -508,10 +541,10 @@ describe 'filter work packages', js: true do
   end
 
   describe 'add parent WP filter' do
-    let(:wp_parent) { create :work_package, project: project, subject: 'project' }
-    let(:wp_child1) { create :work_package, project: project, subject: 'child 1', parent: wp_parent }
-    let(:wp_child2) { create :work_package, project: project, subject: 'child 2', parent: wp_parent }
-    let(:wp_default) { create :work_package, project: project, subject: 'default' }
+    let(:wp_parent) { create :work_package, project:, subject: 'project' }
+    let(:wp_child1) { create :work_package, project:, subject: 'child 1', parent: wp_parent }
+    let(:wp_child2) { create :work_package, project:, subject: 'child 2', parent: wp_parent }
+    let(:wp_default) { create :work_package, project:, subject: 'default' }
 
     it do
       wp_parent

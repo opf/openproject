@@ -82,17 +82,13 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
   def operator_strategy
     super_value = super
 
-    if !super_value
-      case operator
-      when 'o'
-        Queries::Operators::OpenWorkPackages
-      when 'c'
-        Queries::Operators::ClosedWorkPackages
-      when '*'
-        Queries::Operators::All
-      end
-    else
-      super_value
-    end
+    super_value || case operator
+                   when 'o'
+                     Queries::Operators::OpenWorkPackages
+                   when 'c'
+                     Queries::Operators::ClosedWorkPackages
+                   when '*'
+                     Queries::Operators::All
+                   end
   end
 end

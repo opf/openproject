@@ -34,14 +34,10 @@ class Storages::Admin::StoragesController < ApplicationController
   # specify which model #find_model_object should look up
   model_object Storages::Storage
 
-  # Will return a 404 if the storages module has not been made available through
-  # a feature flag.
-  before_action :ensure_storages_module_active
-
   # Before executing any action below: Make sure the current user is an admin
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
-  before_action :find_model_object, only: %i[show destroy edit update]
+  before_action :find_model_object, only: %i[show destroy edit update replace_oauth_application]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -86,11 +82,11 @@ class Storages::Admin::StoragesController < ApplicationController
   def create
     service_result = Storages::Storages::CreateService.new(user: current_user).call(permitted_storage_params)
     @object = service_result.result
+    @oauth_application = oauth_application(service_result)
 
-    if service_result.success?
+    if service_result.success? && @oauth_application
       flash[:notice] = I18n.t(:notice_successful_create)
-      # admin_settings_storage_path is automagically created by Ruby routes.
-      redirect_to admin_settings_storage_path(@object)
+      render :show_oauth_application
     else
       @errors = service_result.errors
       render :new
@@ -129,17 +125,31 @@ class Storages::Admin::StoragesController < ApplicationController
       .call
 
     # Displays a message box on the next page
-    flash[:info] = I18n.t(:notice_successful_delete)
+    flash[:notice] = I18n.t(:notice_successful_delete)
 
     # Redirect to the index page
     redirect_to admin_settings_storages_path
+  end
+
+  def replace_oauth_application
+    @object.oauth_application.destroy
+    service_result = ::Storages::OAuthApplications::CreateService.new(storage: @object, user: current_user).call
+
+    if service_result.success?
+      flash[:notice] = I18n.t('storages.notice_oauth_application_replaced')
+      @oauth_application = service_result.result
+      render :show_oauth_application
+    else
+      @errors = service_result.errors
+      render :edit
+    end
   end
 
   # Used by: admin layout
   # Breadcrumbs is something like OpenProject > Admin > Storages.
   # This returns the name of the last part (Storages admin page)
   def default_breadcrumb
-    if action_name == :index
+    if action_name == 'index'
       t(:project_module_storages)
     else
       ActionController::Base.helpers.link_to(t(:project_module_storages), admin_settings_storages_path)
@@ -154,10 +164,8 @@ class Storages::Admin::StoragesController < ApplicationController
 
   private
 
-  def ensure_storages_module_active
-    return if OpenProject::FeatureDecisions.storages_module_active?
-
-    raise ActionController::RoutingError, 'Not Found'
+  def oauth_application(service_result)
+    service_result.dependent_results&.first&.result
   end
 
   # Called by create and update above in order to check if the
@@ -165,6 +173,6 @@ class Storages::Admin::StoragesController < ApplicationController
   def permitted_storage_params
     params
       .require(:storages_storage)
-      .permit('name', 'provider_type', 'host')
+      .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret')
   end
 end

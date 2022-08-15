@@ -28,9 +28,7 @@
 
 class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter::WorkPackageFilter
   def allowed_values
-    @allowed_values ||= begin
-      roles.map { |r| [r.name, r.id.to_s] }
-    end
+    @allowed_values ||= roles.map { |r| [r.name, r.id.to_s] }
   end
 
   def available?

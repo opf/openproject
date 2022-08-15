@@ -34,7 +34,7 @@ describe 'common/_validation_error', type: :view do
   before do
     view.content_for(:error_details, 'Clear this!')
 
-    render partial: 'common/validation_error.html.erb',
+    render partial: 'common/validation_error',
            locals: { error_messages: error_message,
                      classes: 'Foo',
                      object_name: 'Test' }

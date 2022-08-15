@@ -46,7 +46,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     end
   end
 
-  it 'should render single menu node' do
+  it 'renders single menu node' do
     node = Redmine::MenuManager::MenuItem.new(:testing, '/test', caption: 'This is a test')
     @response.body = render_single_menu_node(node)
 
@@ -54,7 +54,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     assert_select(html_node.root, 'a.testing-menu-item', 'This is a test')
   end
 
-  it 'should render menu node' do
+  it 'renders menu node' do
     single_node = Redmine::MenuManager::MenuItem.new(:single_node, '/test', {})
     @response.body = render_menu_node(single_node, nil)
 
@@ -64,7 +64,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     end
   end
 
-  it 'should render menu node with nested items' do
+  it 'renders menu node with nested items' do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node, '/test', {})
     parent_node << Redmine::MenuManager::MenuItem.new(:child_one_node, '/test', {})
     parent_node << Redmine::MenuManager::MenuItem.new(:child_two_node, '/test', {})
@@ -90,7 +90,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     end
   end
 
-  it 'should render menu node with children' do
+  it 'renders menu node with children' do
     User.current = User.find(1)
 
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
@@ -119,7 +119,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     end
   end
 
-  it 'should render menu node with nested items and children' do
+  it 'renders menu node with nested items and children' do
     User.current = User.find(1)
 
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
@@ -168,7 +168,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     end
   end
 
-  it 'should render menu node with children without an array' do
+  it 'renders menu node with children without an array' do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      { controller: 'work_packages', action: 'index' },
                                                      children: Proc.new do |_p|
@@ -181,7 +181,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     end
   end
 
-  it 'should render menu node with incorrect children' do
+  it 'renders menu node with incorrect children' do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      { controller: 'work_packages', action: 'index' },
                                                      children: Proc.new { |_p| ['a string'] })
@@ -191,7 +191,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     end
   end
 
-  it 'should first level menu items for should yield all items if passed a block' do
+  it 'firsts level menu items for should yield all items if passed a block' do
     menu_name = :test_first_level_menu_items_for_should_yield_all_items_if_passed_a_block
     Redmine::MenuManager.map menu_name do |menu|
       menu.push(:a_menu, '/', {})
@@ -207,7 +207,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     assert_equal 3, items_yielded.size
   end
 
-  it 'should first level menu items for should return all items' do
+  it 'firsts level menu items for should return all items' do
     menu_name = :test_first_level_menu_items_for_should_return_all_items
     Redmine::MenuManager.map menu_name do |menu|
       menu.push(:a_menu, '/', {})
@@ -219,7 +219,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     assert_equal 3, items.size
   end
 
-  it 'should first level menu items for should skip unallowed items on a project' do
+  it 'firsts level menu items for should skip unallowed items on a project' do
     menu_name = :test_first_level_menu_items_for_should_skip_unallowed_items_on_a_project
     Redmine::MenuManager.map menu_name do |menu|
       menu.push(:a_menu, { controller: 'work_packages', action: 'index' }, {})
@@ -233,7 +233,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     assert_equal 2, items.size
   end
 
-  it 'should first level menu items for should skip items that fail the conditions' do
+  it 'firsts level menu items for should skip items that fail the conditions' do
     menu_name = :test_first_level_menu_items_for_should_skip_items_that_fail_the_conditions
     Redmine::MenuManager.map menu_name do |menu|
       menu.push(:a_menu, { controller: 'work_packages', action: 'index' }, {})

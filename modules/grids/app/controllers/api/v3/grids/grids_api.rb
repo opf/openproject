@@ -46,7 +46,7 @@ module API
                                             grid_scope: query.filter_scope,
                                             page: to_i_or_nil(params[:offset]),
                                             per_page: resolve_page_size(params[:pageSize]),
-                                            current_user: current_user)
+                                            current_user:)
             else
               raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
             end
@@ -67,7 +67,7 @@ module API
 
             get do
               GridRepresenter.new(@grid,
-                                  current_user: current_user)
+                                  current_user:)
             end
 
             mount ::API::V3::Attachments::AttachmentsByGridAPI
@@ -94,7 +94,7 @@ module API
                                                                      representer = strategy.options_representer.constantize
 
                                                                      widget.options = representer
-                                                                                      .new(OpenStruct.new, current_user: current_user)
+                                                                                      .new(OpenStruct.new, current_user:)
                                                                                       .from_hash(widget.options)
                                                                                       .to_h
                                                                                       .with_indifferent_access

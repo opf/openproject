@@ -79,7 +79,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
           title: status.name
         }
 
-        is_expected
+        expect(subject)
           .to be_json_eql([expected].to_json)
           .at_path('_links/values')
       end
@@ -95,20 +95,20 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
           templated: true
         }
 
-        is_expected
+        expect(subject)
           .to be_json_eql([expected].to_json)
                 .at_path('_links/values')
       end
     end
 
     it 'has _type StatusQueryFilter' do
-      is_expected
+      expect(subject)
         .to be_json_eql('StatusQueryFilter'.to_json)
         .at_path('_type')
     end
 
     it 'has name Status' do
-      is_expected
+      expect(subject)
         .to be_json_eql('Status'.to_json)
         .at_path('name')
     end
@@ -135,7 +135,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
           title: 'Anonymous'
         }
 
-        is_expected
+        expect(subject)
           .to be_json_eql([expected].to_json)
                 .at_path('_links/values')
       end
@@ -174,7 +174,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
           title: subproject.name
         }
 
-        is_expected
+        expect(subject)
           .to be_json_eql([expected].to_json)
                 .at_path('_links/values')
       end
@@ -192,13 +192,13 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
 
       describe '_links' do
         it 'has no values link' do
-          is_expected
+          expect(subject)
             .not_to have_json_path('_links/values')
         end
       end
 
       it "has a 'values' array property" do
-        is_expected
+        expect(subject)
           .to be_json_eql(values.to_json)
           .at_path('values')
       end
@@ -207,14 +207,14 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
     context 'with a bool custom field filter' do
       let(:bool_cf) { create(:bool_wp_custom_field) }
       let(:filter) do
-        Queries::WorkPackages::Filter::CustomFieldFilter.create!(name: "cf_#{bool_cf.id}", operator: operator, values: values)
+        Queries::WorkPackages::Filter::CustomFieldFilter.create!(name: "cf_#{bool_cf.id}", operator:, values:)
       end
 
       context "with 't' as filter value" do
         let(:values) { [OpenProject::Database::DB_VALUE_TRUE] }
 
         it "has `true` for 'values'" do
-          is_expected
+          expect(subject)
             .to be_json_eql([true].to_json)
             .at_path('values')
         end
@@ -224,7 +224,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
         let(:values) { [OpenProject::Database::DB_VALUE_FALSE] }
 
         it "has `true` for 'values'" do
-          is_expected
+          expect(subject)
             .to be_json_eql([false].to_json)
             .at_path('values')
         end
@@ -234,7 +234,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
         let(:values) { ['blubs'] }
 
         it "has `true` for 'values'" do
-          is_expected
+          expect(subject)
             .to be_json_eql([false].to_json)
             .at_path('values')
         end

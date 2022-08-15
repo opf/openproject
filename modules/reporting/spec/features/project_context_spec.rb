@@ -16,9 +16,9 @@ describe 'Cost report project context', type: :feature, js: true do
 
   it "switches the project context when visiting another project's cost report" do
     visit cost_reports_path(project1)
-    expect(page).to have_selector('#project_id_arg_1_val option', text: project1.name)
+    expect(page).to have_selector('.ng-value-label', text: project1.name)
 
     visit cost_reports_path(project2)
-    expect(page).to have_selector('#project_id_arg_1_val option', text: project2.name)
+    expect(page).to have_selector('.ng-value-label', text: project2.name)
   end
 end
