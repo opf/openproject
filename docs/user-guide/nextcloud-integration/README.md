@@ -29,7 +29,7 @@ The integration enables you to perform multiple actions in both Nextcloud and Op
 
 The following video gives you a short overview of how to use this integration:
 
-![OpenProject Nextcloud integration video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/video_filename.mp4)
+![OpenProject Nextcloud integration video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Nextcloud-Integration-2.mp4)
 
 As a user of both Nextcloud and OpenProject, you can benefit from this integration in both platforms:
 
