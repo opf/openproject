@@ -41,6 +41,7 @@ $datepicker--border-radius: 5px
   background: $spot-color-basic-gray-6
   color: $spot-color-basic-gray-3
   border-radius: 0
+  pointer-events: none
 
 .flatpickr-current-month
   display: flex !important
@@ -116,6 +117,9 @@ $datepicker--border-radius: 5px
         &.flatpickr-non-working-day
           @include non-working-day
 
+          &.inRange
+            color: $spot-color-feedback-info-dark
+
         &.today
           background: $spot-color-indication-current-date
           border-color: $spot-color-indication-current-date
@@ -149,6 +153,11 @@ $datepicker--border-radius: 5px
           &.flatpickr-non-working-day
             background: $spot-color-basic-gray-6
             color: $spot-color-basic-gray-4
+
+            &.inRange
+              color: $spot-color-basic-gray-5
+              background: $spot-color-basic-gray-6
+              border-color: $spot-color-basic-gray-6
 
           &.selected,
           &.startRange,

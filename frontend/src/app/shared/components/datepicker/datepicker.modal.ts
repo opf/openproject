@@ -136,6 +136,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
     this.singleDate = this.changeset.isWritable('date');
     this.scheduleManually = !!this.changeset.value('scheduleManually');
+    this.includeNonWorkingDays = !this.changeset.value('ignoreNonWorkingDays');
 
     if (this.singleDate) {
       this.dates.date = this.changeset.value('date') as string;
@@ -288,7 +289,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
           this.onDataChange();
         },
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
-          if (this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj)) {
+          if (!this.includeNonWorkingDays && this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj)) {
             dayElem.classList.add('flatpickr-non-working-day');
           }
 
