@@ -121,7 +121,7 @@ user = User.find_by(login: 'foobar')
 user.allowed_to?(:view_members, project) # true or false
 ```
 
-The same is true for permissions outside a project using`user.allowed_to_globally?(permission)`. This will either test a global permission such as `:add_project` or return `true` whenever the user has such a permission in any project.
+The same is true for permissions outside a project using `user.allowed_to_globally?(permission)`. This will either test a global permission such as `:add_project` or return `true` whenever the user has such a permission in any project.
 
 
 

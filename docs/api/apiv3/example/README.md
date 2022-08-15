@@ -282,7 +282,7 @@ Sending a POST request to that link, as specified via the `method` attribute nex
 ![work package empty update form](./wp-update-form-blank.png)
 
 The body of the request needs to include the current `lockVersion` of the work package. The `lockVersion` property prevents conflicting modifications in scenarios where one user changes a work package and another
-user overwrites that change unknowingly because she/he did not notice the update having been made in the meantime. The `lockVersion` is listed as one of the work package`s properties.
+user overwrites that change unknowingly because she/he did not notice the update having been made in the meantime. The `lockVersion` is listed as one of the work package's properties.
 
 The form itself is the same as the form for creating work packages with `payload`, `schema` and `validationErrors` helping the client to perform the update. Again a couple of changes can be prepared before the
 actual change is performed:
@@ -310,6 +310,3 @@ Deletion of work packages is done be issuing a DELETE request to the work packag
 ![work package delete](./wp-delete.png)
 
 The `Content-Type: application/json` header was set in Postman by hand this time as no body is required.
-
-
-

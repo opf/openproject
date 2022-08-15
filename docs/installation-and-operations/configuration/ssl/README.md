@@ -65,13 +65,13 @@ Please ensure that if you're proxying to the openproject server, you set the HOS
 
 On your outer proxying server, set these commands:
 
-- In Apache2, set the `ProxyPreserveHost On`directive 
+- In Apache2, set the `ProxyPreserveHost On` directive 
 
 - In NginX, use the following value: `proxy_set_header X-Forwarded-Host $host:$server_port;`
 
   
 
-If you're terminating SSL on the outer server, you need to set the `X-Forwarded-Proto https`header to let OpenProject know that the request is HTTPS, even though its been terminated earlier in the request on the outer server.
+If you're terminating SSL on the outer server, you need to set the `X-Forwarded-Proto https` header to let OpenProject know that the request is HTTPS, even though it has been terminated earlier in the request on the outer server.
 
 - In Apache2, use `RequestHeader set "X-Forwarded-Proto" https`
 - In Nginx, use `proxy_set_header X-Forwarded-Proto https;`

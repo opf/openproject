@@ -52,6 +52,13 @@ x86_64
 
 ### Ubuntu 22.04
 
+Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
+
+```bash
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates wget
+```
+
 Import the PGP key used to sign our packages:
 
 ```bash
@@ -80,6 +87,13 @@ Then finish the installation by reading the [*Initial configuration*](#initial-c
 
 ### Ubuntu 20.04
 
+Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
+
+```bash
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates wget
+```
+
 Import the PGP key used to sign our packages:
 
 ```bash
@@ -104,6 +118,13 @@ Then finish the installation by reading the [*Initial configuration*](#initial-c
 
 ### Ubuntu 18.04
 
+Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
+
+```bash
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates wget
+```
+
 Import the PGP key used to sign our packages:
 
 ```bash
@@ -127,6 +148,13 @@ sudo apt-get install openproject
 Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
 ### Ubuntu 16.04
+
+Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
+
+```bash
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates wget
+```
 
 Import the PGP key used to sign our packages:
 
@@ -154,6 +182,13 @@ Then finish the installation by reading the [*Initial configuration*](#initial-c
 
 ### Debian 11
 
+Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
+
+```bash
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates wget
+```
+
 Import the PGP key used to sign our packages:
 
 ```bash
@@ -178,6 +213,13 @@ Then finish the installation by reading the [*Initial configuration*](#initial-c
 
 ### Debian 10
 
+Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
+
+```bash
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates wget
+```
+
 Import the PGP key used to sign our packages:
 
 ```bash
@@ -201,6 +243,13 @@ sudo apt-get install openproject
 Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
 ### Debian 9
+
+Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
+
+```bash
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates wget
+```
 
 Import the PGP key used to sign our packages:
 
@@ -341,18 +390,18 @@ OpenProject comes in two editions:
 You can find more about the BIM edition on [this page](https://www.openproject.org/bim-project-management/).
 
 > This wizard step is only available on the following distributions:
-> 
+>
 > * RHEL/CentOS 8
 > * Ubuntu 20.04
 > * Ubuntu 18.04
 > * Debian 10
 > * Debian 11
-> 
+>
 > On older distributions, this wizard step won't be displayed, and the installation will default to the default edition.
 
 ## Step 2: PostgreSQL database configuration
 
-OpenProject requires a PostgreSQL database to store your data. This wizard step allows you to choose an option for the PostgreSQL database connection: 
+OpenProject requires a PostgreSQL database to store your data. This wizard step allows you to choose an option for the PostgreSQL database connection:
 
 ![01-postgres](01-postgres.png)
 
@@ -427,9 +476,9 @@ In that case, you will be shown three additional dialogs to enter the certificat
 If you have a separate server that is terminating SSL and only forwarding/proxying to the OpenProject server, you must select "No" in this dialog. However, there are some parameters you need to put into your outer configuration.
 
 - If you're proxying to the openproject server, you need to forward the HOST header to the internal server. This ensures that the host name of the outer request gets forwarded to the internal server. Otherwise you might see redirects in your browser to the internal host that OpenProject is running on.
-  - In Apache2, set the `ProxyPreserveHost On`directive 
+  - In Apache2, set the `ProxyPreserveHost On` directive 
   - In NginX, use the following value: `proxy_set_header X-Forwarded-Host $host:$server_port;`
-- If you're terminating SSL on the outer server, you need to set the `X-Forwarded-Proto https`header to let OpenProject know that the request is HTTPS, even though its been terminated earlier in the request on the outer server.
+- If you're terminating SSL on the outer server, you need to set the `X-Forwarded-Proto https` header to let OpenProject know that the request is HTTPS, even though its been terminated earlier in the request on the outer server.
   - In Apache2, use `RequestHeader set "X-Forwarded-Proto" https`
   - In Nginx, use `proxy_set_header X-Forwarded-Proto https;`
 
@@ -441,9 +490,9 @@ If you have a separate server that is terminating SSL and only forwarding/proxyi
 
 The installer will not set up an external web server for accessing. You will need to either install and set up a web server such as Apache2 or Nginx to function as the web server forwarding to our internal server listening at `localhost:6000` by proxying.
 
-Only choose this option if you have a local Apache2 installed that the OpenProject package may not control, or need to use a different web server such as Nginx. Please note that not all functionality (especially regarding Repositories) are supported on Nginx. 
+Only choose this option if you have a local Apache2 installed that the OpenProject package may not control, or need to use a different web server such as Nginx. Please note that not all functionality (especially regarding Repositories) are supported on Nginx.
 
-When installing with an existing Apache2, you can take a look at the source of our [installation  templates](https://github.com/pkgr/addon-apache2/tree/master/conf) for guidance on how to set up the integration. 
+When installing with an existing Apache2, you can take a look at the source of our [installation  templates](https://github.com/pkgr/addon-apache2/tree/master/conf) for guidance on how to set up the integration.
 
 [Here's an exemplary configuration](./openproject-apache-example.conf) that might work for you.
 
@@ -476,7 +525,7 @@ OpenProject heavily relies on caching, which is why the wizard suggests you to i
 
 With this last step confirmed, the OpenProject wizard will complete, and apply all the configuration options that you have just selected. This might take a few minutes depending on your machine and internet connection, as OpenProject might need to install additional packages (such as the web server, database) depending on your selections.
 
-In case this process crashes or exits with an obvious error, please keep the output and send your configuration from`/etc/openproject/installer.dat` (removing any passwords from it) to us at support@openproject.com , or [reach out to the community forums](https://community.openproject.com/projects/openproject/forums). 
+In case this process crashes or exits with an obvious error, please keep the output and send your configuration from `/etc/openproject/installer.dat` (removing any passwords from it) to us at support@openproject.com , or [reach out to the community forums](https://community.openproject.com/projects/openproject/forums). 
 
 When this process completes, it will have started the internal application and web servers, the background jobs to process work-intensive jobs, and set up the connection to the database.
 
@@ -497,4 +546,3 @@ Here are some pointers to related documentation that you will need to get starte
 
 - [Set up outgoing email notifications (SMTP, sendmail)](../../configuration/outbound-emails/)
 - [Integrate an external authentication provider (LDAP/AD, SAML, OpenID)](../../../system-admin-guide/authentication/)
-
