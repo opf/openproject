@@ -917,6 +917,7 @@ en:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days: 'Include non-working days'
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
@@ -973,6 +974,7 @@ en:
         description: "Description"
         date: "Date"
         dueDate: "Finish date"
+        duration: "Duration"
         estimatedTime: "Estimated time"
         spentTime: "Spent time"
         category: "Category"

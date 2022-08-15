@@ -108,6 +108,23 @@
             </a>
           </div>
         </div>
+        <div class="form--field op-datepicker-modal--date-form"
+             data-qa-selector="datepicker-duration"
+        >
+          <label class="form--label"
+                 [textContent]="text.duration">
+          </label>
+          <div class="form--field-container">
+            <div class="form--text-field-container op-datepicker-modal--date-container">
+              <spot-text-field
+                     name="duration"
+                     data-qa-selector="op-datepicker-modal--duration-field"
+                     class="op-datepicker-modal--date-field"
+                     [disabled]="!isSchedulable"
+              ></spot-text-field>
+            </div>
+          </div>
+        </div>
       </ng-container>
     </div>
 
@@ -115,17 +132,38 @@
            hidden>
   </div>
 
-  <div class="op-modal--footer">
-    <button
-      (click)="cancel()"
-      class="op-datepicker-modal--action button"
-      data-qa-selector="op-datepicker-modal--action"
-      [textContent]="text.cancel"
-    ></button>
-    <button
-      class="op-datepicker-modal--action button -highlight"
-      data-qa-selector="op-datepicker-modal--action"
-      [textContent]="text.save"
-    ></button>
+  <div class="op-modal--footer op-modal--footer_split-actions">
+    <div>
+      <div class="form--field -no-margin op-datepicker-modal--scheduling-action-container">
+        <div class="form--field-container">
+          <label class="form--label-with-check-box">
+            <div class="form--check-box-container">
+              <input type="checkbox"
+                     name="include-non-working-days"
+                     class="form--check-box"
+                     data-qa-selector="op-datepicker-modal--include-non-working-days"
+                     [ngModel]="includeNonWorkingDays"
+                     (ngModelChange)="changeNonWorkingDays()">
+            </div>
+            {{ text.includeNonWorkingDays }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <button
+        (click)="cancel()"
+        class="op-datepicker-modal--action button"
+        data-qa-selector="op-datepicker-modal--action"
+        [textContent]="text.cancel"
+      ></button>
+      <button
+        class="op-datepicker-modal--action button -highlight"
+        data-qa-selector="op-datepicker-modal--action"
+        [textContent]="text.save"
+      ></button>
+    </div>
+
   </div>
 </form>

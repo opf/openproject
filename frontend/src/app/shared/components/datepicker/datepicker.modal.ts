@@ -93,6 +93,8 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     date: this.I18n.t('js.work_packages.properties.date'),
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
     endDate: this.I18n.t('js.work_packages.properties.dueDate'),
+    duration: this.I18n.t('js.work_packages.properties.duration'),
+    includeNonWorkingDays: this.I18n.t('js.work_packages.datepicker_modal.include_non_working_days'),
     placeholder: this.I18n.t('js.placeholders.default'),
     today: this.I18n.t('js.label_today'),
   };
@@ -102,6 +104,8 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
   singleDate = false;
 
   scheduleManually = false;
+
+  includeNonWorkingDays = false;
 
   htmlId = '';
 
@@ -186,6 +190,12 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
   changeSchedulingMode():void {
     this.scheduleManually = !this.scheduleManually;
+    this.initializeDatepicker();
+    this.cdRef.detectChanges();
+  }
+
+  changeNonWorkingDays():void {
+    this.includeNonWorkingDays = !this.includeNonWorkingDays;
     this.initializeDatepicker();
     this.cdRef.detectChanges();
   }
