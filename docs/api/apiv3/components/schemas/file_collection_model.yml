@@ -1,0 +1,56 @@
+# Schema: FileCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  This file links collection
+                  
+                  **Resource**: FileLinkCollectionReadModel
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: './file_link_origin_data_model.yml'
+
+example:
+  _type: Collection
+  total: 2
+  count: 2
+  _links:
+    self:
+      href: '/api/v3/storages/42/files'
+  _embedded:
+    elements:
+      - id: 1337
+        name: logo.png
+        mimeType: image/png
+        size: 16042
+        createdAt: '2021-12-19T09:42:10.170Z'
+        lastModifiedAt: '2021-12-20T14:00:13.987Z'
+        createdByName: Luke Skywalker
+        lastModifiedByName: Anakin Skywalker
+      - id: 1338
+        name: README.md
+        mimeType: text/markdown
+        size: 3742
+        createdAt: '2021-12-20T09:42:10.170Z'
+        lastModifiedAt: '2021-12-21T14:00:13.987Z'
+        createdByName: Leia Organa
+        lastModifiedByName: Leia Organa
