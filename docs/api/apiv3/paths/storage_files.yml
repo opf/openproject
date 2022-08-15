@@ -6,9 +6,12 @@ get:
   tags:
     - File links
   description: |-
-    Gets a collection of file data from a storage. When giving no `root` context, the result is the content of the
-    document root. With `root` context given, the result contains the collections of file data from without the given
-    root file id.
+    Gets a collection of file data from a storage. 
+    
+    If no `root` context was given, the result is the content of the document root. With `root` context given, the
+    result contains the collections of file data from without the given root file id.
+    
+    If given `root` context is no directory, but a file, the collection contains this file data as a single element. 
   parameters:
     - name: id
       description: Storage id
