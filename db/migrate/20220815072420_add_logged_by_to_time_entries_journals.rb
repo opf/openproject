@@ -4,6 +4,10 @@ class AddLoggedByToTimeEntriesJournals < ActiveRecord::Migration[7.0]
 
     reversible do |change|
       change.up do
+        Journal::TimeEntryJournal
+          .where.not(user_id: User.select(:id))
+          .update_all(user_id: DeletedUser.first.id)
+
         execute <<~SQL.squish
           UPDATE time_entry_journals
           SET logged_by_id = user_id
