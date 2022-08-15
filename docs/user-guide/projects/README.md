@@ -156,9 +156,9 @@ If you want to delete a project, navigate to the [Project settings](project-sett
 
 ![delete a project](delete-a-project.png)
 
-Also, you can delete a project via the [projects overview](#global-projects-overview---view-all-projects).
+Also, you can delete a project via the [projects overview](#projects-list).
 
-** Note**: Deleting projects is only available for System administrators.
+**Note**: Deleting projects is only available for System administrators.
 
 
 ## Projects list
@@ -225,7 +225,7 @@ Click on the **Modules** icon with the dots in the header navigation. These are 
 
 Here you will find
 
-- The [global projects list](#global-projects-overview---view-all-projects)
+- The [global projects list](#projects-list)
 - The global work packages list (see below)
 - The global news overview
 - The global time and costs module
