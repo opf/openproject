@@ -295,7 +295,7 @@ We offer our Professional Support for Enterprise on-premises users and Enterpris
 
 If you use the Community Edition please feel free to use our [forums](https://community.openproject.org/projects/openproject/forums) for exchange with other users.
 
-To learn more about OpenProject and how its features work please have a look at [this FAQ](#how-can-i-learn-more-about-openproject-and-how-to-use-it).
+To learn more about OpenProject and how its features work please have a look at [this FAQ](#how-can-i-learn-more-about-openproject).
 
 ### Do you support Univention users?
 
