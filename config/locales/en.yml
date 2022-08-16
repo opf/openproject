@@ -1829,7 +1829,7 @@ en:
   label_project_new: "New project"
   label_project_plural: "Projects"
   label_project_settings: "Project settings"
-  label_project_storage_plural: "Project storages"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "View all projects"
   label_project_show_details: "Show project details"
