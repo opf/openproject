@@ -193,6 +193,8 @@ docker run -d --env-file path/to/file ...
 By default, OpenProject will expect a HTTPS request in production systems.
 In most cases, you will have an external web server or load balancer terminating the SSL/TLS connection and proxy/reverse-proxy to the docker container. You will then have to set up the web server to forward the protocol information (usually, this is `X-Forwarded-Proto` but depends on your web server).
 
+**Note**: This does not imply the docker container itself is running on SSL.
+
 If you _really_ want to disable HTTPS responses by OpenProject, you will need to add the environment variable `OPENPROJECT_HTTPS=false`. Note that this will disable secure cookies for session cookies, and is strongly discouraged for any production system.
 
 #### Disabling HSTS headers and insecure request upgrade
