@@ -956,5 +956,18 @@ describe Settings::Definition do
           .to eq 0.5
       end
     end
+
+    context 'with a boolean provided with a proc default' do
+      let(:instance) do
+        described_class.new 'bogus',
+                            format: :boolean,
+                            default: -> { false }
+      end
+
+      it 'calls the proc as a default' do
+        expect(instance.default)
+          .to be false
+      end
+    end
   end
 end

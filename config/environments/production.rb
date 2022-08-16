@@ -80,10 +80,10 @@ OpenProject::Application.configure do
   config.ssl_options = {
     # Disable redirect on the internal SYS API
     redirect: {
-      hsts: OpenProject::Configuration.hsts?,
+      hsts: OpenProject::Configuration.hsts_enabled?,
       exclude: ->(request) do
         # Disable redirects when hsts is disabled
-        return true unless OpenProject::Configuration.hsts?
+        return true unless OpenProject::Configuration.hsts_enabled?
 
         # Respect the relative URL
         relative_url = Regexp.escape(OpenProject::Configuration['rails_relative_url_root'])

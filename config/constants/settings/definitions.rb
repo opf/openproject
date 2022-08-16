@@ -668,14 +668,14 @@ Settings::Definition.define do
   # Assume we're running in an TLS terminated connection.
   add :https,
       format: :boolean,
-      default: Rails.env.production?,
+      default: -> { Rails.env.production? },
       writable: false
 
   # Allow disabling of HSTS headers and http -> https redirects
   # for non-localhost hosts
   add :hsts,
       format: :boolean,
-      default: -> { https? },
+      default: true,
       writable: false
 
   add :registration_footer,

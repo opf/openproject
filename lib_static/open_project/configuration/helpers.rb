@@ -39,6 +39,13 @@ module OpenProject
       end
 
       ##
+      # Is hsts really enabled? We only return true
+      # if the setting is true AND HTTPS mode is on.
+      def hsts_enabled?
+        https? && hsts?
+      end
+
+      ##
       # We only allow direct uploads to S3 as we are using the carrierwave_direct
       # gem which only supports S3 for the time being.
       #
