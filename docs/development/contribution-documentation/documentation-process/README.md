@@ -112,6 +112,10 @@ In the same drop down click on "New branch". In this window **insert a branch na
 
 ![create new branch - step 2](create-new-branch-step-2.png)
 
+After that Publish your branch to the forked remote repository on github.com.
+
+![create new branch - step 3](create-new-branch-step-3.png)
+
 
 
 ## Step 11: Open the files you want to change in Typora
@@ -144,7 +148,7 @@ A pull request is a workflow to ask for a review from the OpenProject team. With
 
 
 
-Here select the latest release branch e.g. `release/12.2` in the **"base:"** dropdown on the left side. In the **"compare:"** dropdown select the branch you have changed.
+Your Pull Request will be created in the browser **on github.com** Here select the latest release branch e.g. `release/12.2` in the **"base:"** dropdown on the left side. In the **"compare:"** dropdown select the branch you have changed.
 
 ![create pull request](create-pull-request.png)
 

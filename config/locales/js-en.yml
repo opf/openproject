@@ -173,7 +173,7 @@ en:
           language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
         dropdown:
           macros: 'Macros'
-          chose_macro: 'Chose macro'
+          chose_macro: 'Choose macro'
         toc: 'Table of contents'
         toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
         wiki_page_include:
