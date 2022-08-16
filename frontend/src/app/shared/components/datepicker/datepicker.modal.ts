@@ -107,6 +107,10 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
   includeNonWorkingDays = false;
 
+  duration:number;
+
+  formattedDuration:string;
+
   htmlId = '';
 
   dates:{ [key in DateKeys]:string } = {
@@ -137,6 +141,8 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     this.singleDate = this.changeset.isWritable('date');
     this.scheduleManually = !!this.changeset.value('scheduleManually');
     this.includeNonWorkingDays = !this.changeset.value('ignoreNonWorkingDays');
+    this.duration = this.changeset.value('duration') as number;
+    this.formattedDuration = this.timezoneService.formattedDuration(this.duration.toString(), 'days');
 
     if (this.singleDate) {
       this.dates.date = this.changeset.value('date') as string;
@@ -268,6 +274,14 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
   showFieldAsActive(field:DateKeys):boolean {
     return this.datepickerService.isStateOfCurrentActivatedField(field) && this.isSchedulable;
+  }
+
+  handleDurationFocusIn():void {
+    this.formattedDuration = this.timezoneService.toDays(this.duration.toString()).toString();
+  }
+
+  handleDurationFocusOut():void {
+    this.formattedDuration = this.timezoneService.formattedDuration(this.duration.toString(), 'days');
   }
 
   private initializeDatepicker(minimalDate?:Date|null) {

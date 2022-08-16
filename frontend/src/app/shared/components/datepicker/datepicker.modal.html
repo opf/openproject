@@ -120,7 +120,10 @@
                      name="duration"
                      data-qa-selector="op-datepicker-modal--duration-field"
                      class="op-datepicker-modal--date-field"
+                     [(ngModel)]="formattedDuration"
                      [disabled]="!isSchedulable"
+                     (focusin)="handleDurationFocusIn()"
+                     (focusout)="handleDurationFocusOut()"
               ></spot-text-field>
             </div>
           </div>
