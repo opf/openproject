@@ -3085,7 +3085,7 @@ uk:
       label_refresh_token: "Маркер оновлення"
     errors:
       oauth_authorization_code_grant_had_errors: "Клієнт OAuth2 повернув помилку"
-      oauth_reported: "Клієнт OAuth2 повідомив"
+      oauth_reported: "Постачальник OAuth2 повідомив:"
       oauth_returned_error: "Клієнт OAuth2 повернув помилку"
       oauth_returned_json_error: "Клієнт OAuth2 повернув помилку JSON"
       oauth_returned_http_error: "Клієнт OAuth2 повернув помилку мережі"
@@ -3100,7 +3100,7 @@ uk:
         Ця помилка з’являється, якщо оновити client_id та client_secret в OpenProject, але не оновити поле 'Return URI' для постачальника OAuth2.
       oauth_code_not_present: "Значення 'code' OAuth2 не знайдено в кінцевій точці 'callback' (redirect_uri)."
       oauth_code_not_present_explanation: >
-        Ця помилка з’являється, якщо вибрати неправильне значення response_type для провайдера OAuth2. Поле Response_type може мати значення 'code' або подібне.
+        Ця помилка з’являється, якщо вибрати неправильне значення response_type для постачальника OAuth2. Поле Response_type може мати значення 'code' або подібне.
       oauth_state_not_present: "Значення 'state' OAuth2 не знайдено в кінцевій точці 'callback' (redirect_uri)."
       oauth_state_not_present_explanation: >
         Значення 'state' указує OpenProject на місце, з якого потрібно продовжити після вдалої авторизації OAuth2. Відсутнє значення 'state' – це внутрішня помилка, яка може статися під час налаштування. Зверніться до системного адміністратора.

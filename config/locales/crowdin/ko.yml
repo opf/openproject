@@ -3024,7 +3024,7 @@ ko:
       label_refresh_token: "토큰 새로고침"
     errors:
       oauth_authorization_code_grant_had_errors: "OAuth2가 오류를 반환했습니다."
-      oauth_reported: "OAuth2 공급자가 보고했습니다."
+      oauth_reported: "OAuth2 공급자가 다음을 보고했습니다:"
       oauth_returned_error: "OAuth2가 오류를 반환했습니다."
       oauth_returned_json_error: "OAuth2가 JSON 오류를 반환했습니다."
       oauth_returned_http_error: "OAuth2가 네트워크 오류를 반환했습니다."

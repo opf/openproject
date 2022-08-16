@@ -473,7 +473,7 @@ pt:
     label_remove_all_files: Excluir todos os arquivos
     label_add_description: "Adicionar uma descrição para %{file}"
     label_upload_notification: "Enviando arquivos..."
-    label_work_package_upload_notification: "Enviando arquivos para o pacote de trabalho #%{id}: %{subject}"
+    label_work_package_upload_notification: "Enviando arquivos para o pacote de trabalho #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} adicionado por %{author}"
     label_files_to_upload: "Estes arquivos serão enviados:"
     label_rejected_files: "Estes arquivos não podem ser enviados:"
