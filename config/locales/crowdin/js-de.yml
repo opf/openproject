@@ -204,7 +204,7 @@ de:
             label_expires_at: "Endet am"
             receive_newsletter: Ich möchte den OpenProject <a target="_blank" href="%{link}">Newsletter</a> erhalten.
             taken_domain: Es kann nur eine aktive Trial pro Domain geben.
-            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
+            domain_mismatch: Der Hostname der aktuellen Anfrage stimmt nicht mit dem konfigurierten Hostnamen überein. Bitte überprüfen Sie Ihre Systemeinstellungen.
             taken_email: Jeder Benutzer kann nur eine Testversion erstellen.
           email_not_received: "Sie haben keine E-Mail erhalten? Sie können die E-Mail mit dem Link auf der rechten Seite noch einmal anfordern."
           try_another_email: "Oder versuchen Sie es mit einer anderen E-Mail-Adresse."
@@ -231,12 +231,12 @@ de:
             professional_support: "Professioneller Support"
             professional_support_text: "Erhalten Sie zuverlässigen und schnellen Support von erfahrenen OpenProject Software-Ingenieuren."
           button_start_trial: "Kostenlose Testversion starten"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "Jetzt Upgrade durchführen"
           button_book_now: "Jetzt buchen"
           confidence: >
             OpenProject bietet eine bewährte und hoch-skalierbare Projektmanagement-Software für Unternehmen - mit Open Source und open mind.
           link_quote: "Angebot anfordern"
-          more_info: "More information"
+          more_info: "Weitere Informationen"
           text: >
             Die OpenProject Enterprise Edition baut auf der Community Edition auf. Die Enterprise Edition umfasst Premium-Funktionen und professionelle Unterstützung und richtet sich primär an Organisationen mit mehr als 10 Benutzern, die unternehmenskritische Projekte mit OpenProject verwalten.
           unlimited: "Unbegrenzt"
@@ -269,7 +269,7 @@ de:
           one: "Erstes Sortierkriterium"
           two: "Zweites Sortierkriterium"
           three: "Drittes Sortierkriterium"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
+      upsale_for_more: "Erweiterte Filter erlauben es Ihnen auch nach Dateinamen und Inhalten von Arbeitspaket-Anhängen zu filtern. Um diese Funktion zu nutzen, upgraden Sie bitte auf einen unserer kostenpflichtigen Enterprise-Pläne."
       upsale_link: 'Enterprise-Edition.'
     general_text_no: "nein"
     general_text_yes: "ja"
@@ -293,11 +293,11 @@ de:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Keine endlose Suche nach Dateien! Mit der neuen <b>Nextcloud Integration</b> in OpenProject 12. , können Sie nun Dateien direkt im jeweiligen Arbeitspaket finden und immer die richtige Version zur Hand haben.</li> <li>Wir haben <b>einen neuen Datumswähler</b> mit aktualisiertem Eingabeverhalten und einem Informationsbanner eingeführt, der einen Button zur Darstellung von releations im Gantt-Diagramm enthält.</li> <li>Wir haben die Möglichkeit hinzugefügt <b>Log-Zeit für andere Benutzer.</b></li> <li>Markiere Benachrichtigungen auch außerhalb des Benachrichtigungszentrums.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Keine endlose Suche nach Dateien! Mit der neuen <b>Nextcloud Integration</b> in OpenProject 12. , können Sie nun Dateien direkt im jeweiligen Arbeitspaket finden und immer die richtige Version zur Hand haben.</li> <li>Wir haben <b>einen neuen Datumswähler</b> mit aktualisiertem Eingabeverhalten und einem Informationsbanner eingeführt, der einen Button zur Darstellung von releations im Gantt-Diagramm enthält.</li> <li>Wir haben die Möglichkeit hinzugefügt <b>Log-Zeit für andere Benutzer.</b></li> <li>Markiere Benachrichtigungen auch außerhalb des Benachrichtigungszentrums.</li> </ul>
     label_activate: "Aktiviere"
     label_assignee: 'Zugewiesen an'
     label_add_column_after: "Spalte danach hinzufügen"
@@ -369,7 +369,7 @@ de:
     label_in_more_than: "in mehr als"
     label_incoming_emails: "Eingehende E-Mails"
     label_information_plural: "Information"
-    label_invalid: "Invalid"
+    label_invalid: "Ungültig"
     label_import: "Import"
     label_latest_activity: "Letzte Änderungen"
     label_last_updated_on: "Zuletzt aktualisiert am"
@@ -401,8 +401,8 @@ de:
     label_previous: "Zurück"
     label_per_page: "Pro Seite:"
     label_please_wait: "Bitte warten"
-    label_project: "Project"
-    label_project_list: "Projects list"
+    label_project: "Projekt"
+    label_project_list: "Projektliste"
     label_project_plural: "Projekte"
     label_visibility_settings: "Sichtbarkeits-Einstellungen"
     label_quote_comment: "Diesen Kommentar zitieren"
@@ -415,7 +415,7 @@ de:
     label_report: "Auswertung"
     label_repository_plural: "Projektarchive"
     label_save_as: "Speichern unter"
-    label_select_project: "Select a project"
+    label_select_project: "Projekt auswählen"
     label_select_watcher: "Beobachter auswählen ..."
     label_selected_filter_list: "Ausgewählte Filter"
     label_show_attributes: "Alle Attribute anzeigen"
@@ -457,10 +457,10 @@ de:
     label_unwatch: "Nicht mehr beobachten"
     label_unwatch_work_package: "Arbeitspaket nicht beobachten"
     label_uploaded_by: "Hochgeladen von"
-    label_default_queries: "Default"
+    label_default_queries: "Standard"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
-    label_custom_queries: "Private"
+    label_global_queries: "Öffentlich"
+    label_custom_queries: "Privat"
     label_columns: "Spalten"
     label_attachments: Anhänge
     label_drop_files: Dateien hier ablegen
@@ -473,7 +473,7 @@ de:
     label_remove_all_files: Alle Dateien löschen
     label_add_description: "Fügen Sie eine Beschreibung für %{file} hinzu"
     label_upload_notification: "Dateien werden hochgeladen..."
-    label_work_package_upload_notification: "Hochladen von Dateien für Arbeitspaket #%{id}: %{subject}"
+    label_work_package_upload_notification: "Hochladen von Dateien für Arbeitspaket #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} erstellt von %{author}"
     label_files_to_upload: "Diese Dateien werden hochgeladen:"
     label_rejected_files: "Diese Dateien können nicht hochgeladen werden:"
@@ -540,7 +540,7 @@ de:
           one: 'und ein weiterer'
           other: 'und %{count} weitere'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'Neue Benachrichtigungen erscheinen hier, wenn es Aktivitäten gibt, die Sie betreffen in der Zwischenzeit können Sie auch Ihre Benachrichtigungseinstellungen anzeigen und ändern, um zu konfigurieren, wann Sie benachrichtigt werden sollen.'
           with_current_filter: 'Es gibt derzeit keine Benachrichtigungen in dieser Ansicht'
         mark_all_read: 'Alles als gelesen markieren'
         mark_as_read: 'Als gelesen markieren'
@@ -548,8 +548,8 @@ de:
         total_count_warning: "Zeige die %{newest_count} neuesten Benachrichtigungen. %{more_count} weitere werden nicht angezeigt."
         empty_state:
           no_notification: "Alle Benachrichtungen abgearbeitet"
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification_with_current_project_filter: "Sieht so aus, als ob Sie bei dem ausgewählten Projekt mit allem auf dem Laufenden sind.\n"
+          no_notification_with_current_filter: "Sieht so aus, als ob Sie bei %{filter} mit allem auf dem Laufenden sind."
           no_selection: "Auf eine Benachrichtigung klicken, um alle Aktivitätsdetails anzuzeigen."
         new_notifications:
           message: 'Es gibt neue Benachrichtigungen.'
@@ -807,7 +807,7 @@ de:
       zooms: "Zoomstufe"
       outlines: "Hierarchie-Stufe"
     upsale:
-      ee_only: 'Enterprise Edition feature'
+      ee_only: 'Enterprise Edition Funktion'
     wiki_formatting:
       strong: "Fett"
       italic: "Kursiv"
@@ -836,12 +836,12 @@ de:
       comment_updated: "Der Kommentar wurde erfolgreich aktualisiert."
       confirm_edit_cancel: "Die Bearbeitung dieses Arbeitspakets wirklich abbrechen?"
       datepicker_modal:
-        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
-        manually_scheduled: "Manual scheduling enabled, all relations ignored."
-        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
-        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
-        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        automatically_scheduled_parent: "Automatisch geplant. Daten werden aus Beziehungen abgeleitet."
+        manually_scheduled: "Manuelle Terminplanung aktiviert, alle Beziehungen wurden ignoriert."
+        start_date_limited_by_relations: "Die verfügbaren Start- und Endtermine sind durch Beziehungen begrenzt."
+        changing_dates_affects_follow_relations: "Das Ändern dieser Daten wirkt sich auf die Termine verwandter Arbeitspakete aus."
+        click_on_show_relations_to_open_gantt: 'Klicken Sie auf "%{button_name}" für eine GANTT-Übersicht.'
+        show_relations: 'Beziehungen anzeigen'
       description_filter: "Filter"
       description_enter_text: "Text eingeben"
       description_options_hide: "Optionen ausblenden"
@@ -867,7 +867,7 @@ de:
         title: 'Neues Arbeitspaket'
         header: 'Neu: %{type}'
         header_no_type: 'Neues Arbeitspaket (Typ noch nicht gesetzt)'
-        header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})'
+        header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})' #%{id})'
         button: 'Erstellen'
       copy:
         title: 'Arbeitspaket kopieren'
@@ -1088,9 +1088,9 @@ de:
         other: "%{count} h"
         zero: "0 h"
       day:
-        one: "1 day"
-        other: "%{count} days"
-        zero: "0 days"
+        one: "1 Tag"
+        other: "%{count} Tage"
+        zero: "0 Tage"
     zen_mode:
       button_activate: 'Zen-Modus aktivieren'
       button_deactivate: 'Zen-Modus deaktivieren'
@@ -1186,8 +1186,8 @@ de:
       tooltip:
         include_all_selected: '"Alle Unterprojekte einbeziehen" ist derzeit ausgewählt.'
         current_project: 'Dies ist das aktuelle Projekt, in dem Sie sich befinden.'
-        does_not_match_search: 'Project does not match the search criteria.'
-      no_results: 'No project matches your search criteria.'
+        does_not_match_search: 'Projekt entspricht nicht den Suchkriterien.'
+      no_results: 'Kein Projekt entspricht Ihren Suchkriterien.'
     forms:
       submit_success_message: 'Das Formular wurde erfolgreich übermittelt'
       load_error_message: 'Beim Laden des Formulars ist ein Fehler aufgetreten'

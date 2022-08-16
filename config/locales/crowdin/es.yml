@@ -1357,7 +1357,7 @@ es:
     admin:
       mail_notification: "Notificaciones de correo electrónico"
       mails_and_notifications: "Correos electrónicos y notificaciones"
-      aggregation: 'Aggregation'
+      aggregation: 'Agregación'
       api_and_webhooks: "API y webhooks"
     quick_add:
       label: "Abrir menú de adición rápida"

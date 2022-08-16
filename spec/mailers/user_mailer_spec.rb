@@ -255,14 +255,20 @@ describe UserMailer, type: :mailer do
     let(:logs) { ['info: foo', 'error: bar'] }
     let(:recipient) { user }
     let(:current_time) { "2022-11-03 9:15".to_time }
-    let(:incoming_email) do
-      Mail.new(subject: mail_subject, message_id:, body:, from:)
-    end
-
     let(:mail_subject) { 'New work package 42' }
-    let(:message_id) { '<000501c8d452$a95cd7e0$0a00a8c0@osiris>' }
+    let(:message_id) { '000501c8d452$a95cd7e0$0a00a8c0@osiris' }
     let(:from) { 'l.lustig@openproject.com' }
     let(:body) { "Project: demo-project" }
+
+    let(:incoming_email) do
+      {
+        message_id:,
+        from:,
+        subject: mail_subject,
+        quote: body,
+        text: body
+      }
+    end
 
     let(:outgoing_email) { deliveries.first }
 

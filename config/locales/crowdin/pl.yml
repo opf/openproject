@@ -264,8 +264,7 @@ pl:
     deletion_info:
       heading: "Usuń użytkownika zastępczego %{name}"
       data_consequences: >
-        Wszystkie wystąpienia użytkownika zastępczego (np. jako osoby przypisanej, odpowiedzialnej lub inne wartości użytkownika) zostaną przypisane do konta o nazwie „Usunięty użytkownik”.
-        Jako że do tego konta przypisywane są dane każdego usuniętego konta, nie można odróżnić danych utworzonych przez użytkownika od danych innego usuniętego konta.
+        Wszystkie wystąpienia użytkownika zastępczego (np. jako osoby przypisanej, odpowiedzialnej lub inne wartości użytkownika) zostaną przypisane do konta o nazwie „Usunięty użytkownik”. Jako że do tego konta przypisywane są dane każdego usuniętego konta, nie można odróżnić danych utworzonych przez użytkownika od danych innego usuniętego konta.
       irreversible: "To działanie jest nieodwracalne."
       confirmation: "Wprowadź nazwę użytkownika zastępczego %{name}, aby potwierdzić usunięcie."
     upsale:
@@ -1279,7 +1278,7 @@ pl:
   error_enterprise_activation_user_limit: "Twoje konto nie mogło zostać aktywowane (osiągnięty limit użytkownika). Skontaktuj się z administratorem, aby uzyskać dostęp."
   error_enterprise_token_invalid_domain: "Wersja Enterprise jest nieaktywna. Domena Twojego tokenu Enterprise (%{actual}) nie odpowiada nazwie hosta systemu (%{expected})."
   error_failed_to_delete_entry: 'Nie udało się usunąć tego wpisu.'
-  error_in_dependent: "Błąd podczas próby zmiany obiektu zależnego: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Błąd podczas próby zmiany obiektu zależnego: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Błąd podczas próby utworzenia obiektu zależnego: %{dependent_class} — %{related_subject}: %{error}"
   error_invalid_selected_value: "Nieprawidłowa wybrana wartość."
   error_journal_attribute_not_present: "Dziennik nie zawiera atrybutu %{attribute}."
@@ -1418,17 +1417,11 @@ pl:
     update_info_mail:
       body: >
         Z radością ogłaszamy wydanie wersji OpenProject 12.0. Mamy nadzieję, że to niezwykle ważne wydanie znacznie usprawni sposób korzystania z OpenProject.
-
         Począwszy od tej wersji, wprowadzamy powiadomienia w aplikacji. Od teraz będziesz otrzymywać powiadomienia o aktualizacjach pakietów roboczych bezpośrednio w OpenProject. Możesz oznaczyć te powiadomienia jako przeczytane, odpowiedzieć na komentarze lub nawet bezpośrednio modyfikować atrybuty pakietu roboczego bez opuszczania centrum powiadomień.
-
         Oznacza to również, że nie będziemy już używać wiadomości e-mail do wysyłania powiadomień. Naszym zdaniem nowe centrum powiadomień jest lepszym miejscem do przeglądania tych aktualizacji i podejmowania działań. Niemniej jednak, jeśli zależy ci na otrzymywaniu aktualizacji pocztą elektroniczną, możesz otrzymywać codzienne przypomnienia e-mail w wybranych przez siebie porach.
-
         Pamiętaj, aby zweryfikować nowe domyślne ustawienia powiadomień i ustawić swoje preferencje dotyczące powiadomień i przypomnień e-mail w ustawieniach konta. W celu dokonania zmian wybierz poniższy przycisk "Zmień ustawienia poczty elektronicznej".
-
         Mamy nadzieję, że z powodzeniem będziesz korzystać z powiadomień w aplikacji, a Twoja wydajność dzięki nim znacznie się zwiększy.
-
-        Pozdrawiamy,
-        Zespół OpenProject
+        Pozdrawiamy, Zespół OpenProject
       body_header: 'Wersja 12.0 z Centrum powiadomień'
       body_subheader: 'Aktualności'
       subject: 'Ważne zmiany w powiadomieniach w wydaniu 12.0'

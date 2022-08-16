@@ -37,7 +37,7 @@ tr:
         enabled_text: 'Web kancası, aşağıda tanımlanan etkinlikler için yük taşıyacaktır.'
         disabled_text: 'Web kancasını etkinleştirmek için düzenle düğmesine tıklayın.'
       deliveries:
-        no_results_table: Bu web kancası için teslimat yapılmamıştır.
+        no_results_table: No deliveries have been made for this webhook in the past days.
         title: 'Son teslimatlar'
         time: 'Teslimat süresi'
       form:

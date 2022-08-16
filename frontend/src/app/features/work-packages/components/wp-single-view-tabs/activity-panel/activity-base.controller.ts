@@ -43,6 +43,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
+import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
@@ -82,6 +83,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly wpActivity:WorkPackagesActivityService,
     readonly storeService:WpSingleViewService,
+    readonly browserDetector:BrowserDetector,
     private wpSingleViewService:WpSingleViewService,
   ) {
     super();
@@ -90,8 +92,10 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     this.togglerText = this.text.commentsOnly;
 
     const lastTransitionName = uiRouterGlobals.successfulTransitions.peekTail().from().name as string;
+    const comingFromNotifications = /^notifications/.test(lastTransitionName);
+    const firstRouteOnMobile = lastTransitionName === '' && this.browserDetector.isMobile;
 
-    if (/^notifications/.test(lastTransitionName)) {
+    if (comingFromNotifications || firstRouteOnMobile) {
       this.comingFromNotifications = true;
     }
   }

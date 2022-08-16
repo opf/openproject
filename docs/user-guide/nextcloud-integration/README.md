@@ -27,39 +27,54 @@ The integration enables you to perform multiple actions in both Nextcloud and Op
 
 ## How to use this integration
 
+The following video gives you a short overview of how to use this integration:
+
+![OpenProject Nextcloud integration video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/video_filename.mp4)
+
 As a user of both Nextcloud and OpenProject, you can benefit from this integration in both platforms:
 
 - **In OpenProject:**
-  In addition to listing files attached to a work package, the Files tab now also shows you Nextcloud files that are linked to the current work package. Secondary actions on each file allow you to directly **open or download the file, show the containing folder in Nextcloud or remove the link**.
+  In addition to listing files attached to a work package, the _Files_ tab now also shows you Nextcloud files that are linked to the current work package. Secondary actions on each file allow you to directly **open or download the file, show the containing folder in Nextcloud or remove the link**.
   ![Empty_status_files](1_0_00-No_files_linked.png)
 
   ![OP_linked_files](1_1_00-All_files_available.png)
 
   > **Note:** In this version of the integration, you can only link files to work packages on Nextcloud; adding a new link to a Nextcloud file via the OpenProject interface is not yet possible, but will be possible in the near future.
   
-
 - **In Nextcloud:**
-  You will be able to access the OpenProject tab in Nextcloud by accessing the details split screen of any file. In this tab, you will be able to search for the work package to which you would like to add a link. Once a work package is linked to a file, you can always unlink it by clicking on the **unlink** icon.
-
-  ![NC_search_WP](0_0_00-File_Relation_Search.png)
-
-  ![NC_linked_WP](0_1_01-File_WP_Actions.png)
-
-  In addition to actions related to the file itself, you can also display the OpenProject widget on your Nextcloud dashboard in order to keep an eye on the the latest changes and updates to linked work packages:
-  ![add_NC_widget](Add_OpenProject_widget.png)
-
-  ![added_NC_widget](Nextcloud_dashboard.png)
-
-  Additionally, there are find three additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *Connected accounts* you will find these options:
+  On the file or folder that you want to link to a work package click on the three dots and then click on _Details_.
   
+  ![NC_open_file_details](Nextcloud_open_file_details.png)
+  
+  In the _Details_ side panel, click on the the _OpenProject_ tab. This tab lets you link work packages in OpenProject to the current file, and will list all linked work packages. When nothing is yet linked, the list will be empty. To link the file to work package for the first time, use the search bar to search for the work packages in your OpenProject instance, and click on one to link it.
+  
+  ![NC_empty_status](NC_0_00-FileNoRelation.png)
+  
+  ![NC_search_WP](NC_0_01-FileRelationSearch.png)
+
+  This linked file will then appear underneath the search bar, and will appear on the Files tab of the work package in OpenProject.
+
+  ![NC_WP_relation](NC_1_00-FileWPRelation.png)
+
+  Once a work package is linked to a file, you can always unlink it by clicking on the **unlink** icon.
+  
+  ![NC_unlink_WP](NC_1_01-FileWPActions.png)
+  
+  In addition to actions related to individual files, can also choose to display the OpenProject widget on your Nextcloud dashboard in order to keep an eye on the the latest changes and updates to linked work packages:
+  ![add_NC_widget](Add_OpenProject_widget.png)
+  
+  ![added_NC_widget](Nextcloud_dashboard.png)
+  
+  Additionally, there are three additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *Connected accounts*, you will find these options:
+
   - **Enable navigation link** displays a link to your OpenProject instance in the Nextcloud header 
   - **Enable unified search for tickets** allows you to access OpenProject work packages via the universal search bar 
   - **Enable notifications for activity in my work packages** sends you notifications when there are updates to linked OpenProject work packages
 
   ![NC_extra_settings](Nextcloud_connected_account.png)
-
+  
   ![NC_extra_navlink](Navigation_link_OpenProject.png)
-
+  
   ![NC_extra_search](Unified_search.png)
 
 
@@ -69,16 +84,16 @@ Further integration efforts are under way. In the near future, you will be able 
 
 ## Possible errors and troubleshooting
 
-- **OpenProject - No permissions to see the file:** If you are unable to to see the details of a file or are unable to open some of the linked files due to issues with permissions, you will be able to see the name, time of last modification and the name of the modifier but you will not be able to perform any further actions. To open or access these files, you will need to contact your Nextcloud administrator or the creator of the file so that they can grant you the necessary permissions.
+- **OpenProject - No permissions to see the file:** If you are unable to see the details of a file or are unable to open some of the linked files due to issues with permissions, you will be able to see the name, time of last modification and the name of the modifier but you will not be able to perform any further actions. To open or access these files, you will need to contact your Nextcloud administrator or the creator of the file so that they can grant you the necessary permissions.
   ![OP_no_permissions](1_1_01-Not_all_files_available.png)
 
-- **OpenProject - User not logged in to Nextcloud:** You might see this error if you are not logged in to Nextcloud. You will still be able to see the list of linked files, but not perform any actions. Simply log in to your Nextcloud account to restore full functionality.
+- **OpenProject - User not logged in to Nextcloud:** You might see this error if you are not logged in to Nextcloud. You will still be able to see the list of linked files, but not perform any actions. To remedy this, simply log in to your Nextcloud account to restore full functionality.
   ![OP_login_error](1_0_01-Log_in_error.png)
 
-- **OpenProject - Connection error:** You will see this error when your OpenProject instance is unable to connect to your Nextcloud instance. In this case, you should contact the instance administrator to identify and to resolve the issue.
+- **OpenProject - Connection error:** You will see this error when your OpenProject instance is unable to connect to your Nextcloud instance for any number of reasons. Your best course of action is to get in touch with the administrator of your OpenProject and Nextcloud instances to identify and to resolve the issue.
   ![OP_connection_error](1_0_02-Connection_broken.png)
 
-- **OpenProject - File fetching error:** In rare ocassions, it is possible for the integration to not be able to fetch all the details of all linked files linked. A simple page refresh should solve the issue, but should the error persist, please contact your instance administrator.
+- **OpenProject - File fetching error:** In rare ocassions, it is possible for the integration to not be able to fetch all the details of all linked files. A simple page refresh should solve the issue, but should the error persist, please contact administrator of your OpenProject and Nextcloud instances.
 
   ![OP_fetching_error](1_0_03-Fetching_error.png)
 

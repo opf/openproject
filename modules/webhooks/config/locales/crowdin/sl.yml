@@ -37,7 +37,7 @@ sl:
         enabled_text: 'Spletna zanka bo oddala koristne obremenitve za spodaj opredeljene dogodke.'
         disabled_text: 'Kliknite gumb za urejanje, da aktivirate spletno zanko.'
       deliveries:
-        no_results_table: Za ta webhook ni bilo opravljenih nobenih dobav.
+        no_results_table: No deliveries have been made for this webhook in the past days.
         title: 'Nedavne dostave'
         time: 'Čas dostave'
       form:

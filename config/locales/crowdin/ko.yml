@@ -267,8 +267,7 @@ ko:
     deletion_info:
       heading: "플레이스홀더 사용자 %{name} 삭제"
       data_consequences: >
-        플레이스홀더 사용자의 모든 항목(예: 담당자, 책임자, 기타 사용자 값 등)은 "삭제된 사용자"라는 계정에 다시 할당됩니다.
-        삭제된 모든 계정의 데이터는 이 계정에 다시 할당되기 때문에 사용자가 생성한 데이터와 다른 삭제된 계정의 데이터를 구별할 수 없습니다.
+        플레이스홀더 사용자의 모든 항목(예: 담당자, 책임자, 기타 사용자 값 등)은 "삭제된 사용자"라는 계정에 다시 할당됩니다. 삭제된 모든 계정의 데이터는 이 계정에 다시 할당되기 때문에 사용자가 생성한 데이터와 다른 삭제된 계정의 데이터를 구별할 수 없습니다.
       irreversible: "이 작업은 취소할 수 없습니다"
       confirmation: "삭제를 확인하려면 플레이스홀더 사용자 이름 %{name}(을)를 입력하세요."
     upsale:
@@ -1230,7 +1229,7 @@ ko:
   error_enterprise_activation_user_limit: "사용자 계정을 활성화할 수 없습니다(사용자 제한에 도달함). 액세스하려면 관리자에게 문의하세요."
   error_enterprise_token_invalid_domain: "Enterprise Edition이 활성화되지 않았습니다. 해당 Enterprise 토큰의 도메인(%{actual})이 시스템의 호스트 이름(%{expected})과 일치하지 않습니다."
   error_failed_to_delete_entry: '항목 삭제에 실패하였습니다.'
-  error_in_dependent: "종속 개체를 변경하려는 중에 오류가 발생했습니다: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "종속 개체를 변경하려는 중에 오류가 발생했습니다: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "종속 개체를 생성하려는 중에 오류가 발생했습니다: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "선택된 값이 유효하지 않습니다."
   error_journal_attribute_not_present: "저널에 %{attribute} 특성이 없습니다."
@@ -1369,17 +1368,11 @@ ko:
     update_info_mail:
       body: >
         OpenProject 12.0 릴리스를 발표하게 되어 기쁩니다. 이 메이저 릴리스는 OpenProject를 사용하는 방식을 크게 개선할 것으로 예상됩니다.
-
         이 릴리스부터 인앱 알림을 도입합니다. 이제부터 OpenProject에서 작업 패키지 업데이트에 대한 알림을 직접 받게 됩니다. 이러한 알림을 읽음으로 표시하거나, 코멘트에 답하거나, 알림 센터를 나가지 않고도 작업 패키지 특성을 직접 수정할 수도 있습니다.
-
         즉, 더 이상 알림용으로 이메일을 사용하지 않을 것입니다. 알림 센터가 이러한 업데이트를 확인하고 조치를 취하기에 더 좋은 공간이라고 생각합니다. 그러나 이메일로 업데이트를 계속 받으려면 선택한 특정 시간에 매일 이메일 미리 알림을 받도록 선택할 수 있습니다.
-
         새로운 기본 알림 설정을 확인하고 계정 설정에서 알림 및 이메일 미리 알림에 대한 기본 설정을 지정해야 합니다. 아래의 "이메일 설정 변경" 버튼으로 이 작업을 수행할 수 있습니다.
-
         인앱 알림이 유용하고 생산성을 더욱 개선하는 데 도움이 되기를 바랍니다.
-
-        감사합니다.
-        OpenProject 팀
+        감사합니다. OpenProject 팀
       body_header: '버전 12.0, 알림 센터 포함'
       body_subheader: '뉴스'
       subject: '12.0 릴리스의 알림에 대한 중요 변경 사항'
@@ -1991,14 +1984,14 @@ ko:
   mail_body_backup_waiting_period: '%{hours}시간 후 새 토큰이 활성화됩니다.'
   mail_body_backup_token_warning: 만약 본인이 한 것이 아니라면, OpenProject에 즉시 로그인하고 다시 초기화하십시오.
   mail_body_incoming_email_error: OpenProject로 보낸 이메일을 처리할 수 없습니다.
-  mail_body_incoming_email_error_in_reply_to: "%{received_at} %{from_email} 작성함"
+  mail_body_incoming_email_error_in_reply_to: "%{received_at}, %{from_email} 작성함"
   mail_body_incoming_email_error_logs: "로그"
   mail_body_lost_password: "암호를 변경하려면 다음 링크를 클릭하세요."
   mail_body_register: "%{app_title}입니다. 다음 링크를 클릭하여 계정을 활성화하세요:"
   mail_body_register_header_title: "프로젝트 멤버 초대 이메일"
   mail_body_register_user: "%{name}님께, "
   mail_body_register_links_html: |
-    웨비나(%{webinar_link})가 제공되는 Youtube 채널(%{youtube_link})을 찾아보고 
+    웨비나(%{webinar_link})가 제공되는 Youtube 채널(%{youtube_link})을 찾아보고
     “시작하기” 동영상(%{get_started_link})을 보고 OpenProject에서의 첫 단계를 최대한 수월하게 진행하세요.
     <br />
     추가 질문이 있으시면 설명서(%{documentation_link})를 참조하거나 관리자에게 문의하세요.
@@ -3031,7 +3024,7 @@ ko:
       label_refresh_token: "토큰 새로고침"
     errors:
       oauth_authorization_code_grant_had_errors: "OAuth2가 오류를 반환했습니다."
-      oauth_reported: "OAuth2 공급자가 보고했습니다."
+      oauth_reported: "OAuth2 공급자가 다음을 보고했습니다:"
       oauth_returned_error: "OAuth2가 오류를 반환했습니다."
       oauth_returned_json_error: "OAuth2가 JSON 오류를 반환했습니다."
       oauth_returned_http_error: "OAuth2가 네트워크 오류를 반환했습니다."
