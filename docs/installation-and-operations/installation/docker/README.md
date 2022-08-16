@@ -88,11 +88,11 @@ docker run -it -p 8080:80 \
 Explanation of the used configuration values:
 
 - `-p 8080:80` binds the port 80 of the container to 8080 on the machine running docker.
-- `OPENPROJECT_SECRET_KEY_BASE`  sets the secret key base for Rails. Please use a pseudorandom value for this and treat it like a password.
+- `OPENPROJECT_SECRET_KEY_BASE` sets the secret key base for Rails. Please use a pseudo-random value for this and treat it like a password.
 - `OPENPROJECT_HOST__NAME` sets the host name of the application. This value is used for generating forms and links in emails, and needs to match the external request host name (The value users are seeing in their browsers).
-- `OPENPROJECT_HTTPS=false`  disables the on-by-default HTTPS mode of OpenProject so you can access the instance over HTTP-only. For all production system, we strongly advice to not set this to false and instead set up a proper TLS/SSL termination on your outer web server.
+- `OPENPROJECT_HTTPS=false` disables the on-by-default HTTPS mode of OpenProject so you can access the instance over HTTP-only. For all production systems we strongly advise not to set this to false, and instead set up a proper TLS/SSL termination on your outer web server.
 
- This will take a bit of time the first time you launch it, but after a few
+This will take a bit of time the first time you launch it, but after a few
 minutes you should see a success message indicating the default administration
 password (login: `admin`, password: `admin`).
 
