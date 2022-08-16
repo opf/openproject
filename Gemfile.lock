@@ -569,10 +569,11 @@ GEM
     iso8601 (0.13.0)
     jmespath (1.6.1)
     json (2.6.2)
-    json-jwt (1.14.0)
+    json-jwt (1.15.2)
       activesupport (>= 4.2)
       aes_key_wrap
       bindata
+      httpclient
     json_schemer (0.2.21)
       ecma-re-validator (~> 0.3)
       hana (~> 1.3)
