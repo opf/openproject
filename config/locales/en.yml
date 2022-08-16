@@ -314,7 +314,7 @@ en:
       description: >
         Placeholder users are a way to assign work packages to users who are not part of your project.
         They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available,
-         or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+         or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
