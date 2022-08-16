@@ -4,10 +4,10 @@ require 'features/work_packages/work_packages_page'
 require 'support/edit_fields/edit_field'
 
 describe 'Activity tab', js: true, selenium: true do
-  def alter_work_package_at(work_package, attributes:, at:, user: User.current)
+  def alter_work_package_at(work_package, attributes:, at:, user:)
     work_package.update(attributes.merge(updated_at: at))
 
-    note_journal = work_package.journals.last
+    note_journal = work_package.journals.reorder(:id).last
     note_journal.update(created_at: at, updated_at: at, user:)
   end
 
@@ -19,9 +19,9 @@ describe 'Activity tab', js: true, selenium: true do
                           subject: initial_subject,
                           journal_notes: initial_comment)
 
-    note_journal = work_package.journals.last
-    note_journal.update(created_at: 5.days.ago.to_date.to_s,
-                        updated_at: 5.days.ago.to_date.to_s)
+    note_journal = work_package.journals.reorder(:id).last
+    note_journal.update(created_at: 5.days.ago.to_date.to_fs(:db),
+                        updated_at: 5.days.ago.to_date.to_fs(:db))
 
     work_package
   end
@@ -43,7 +43,7 @@ describe 'Activity tab', js: true, selenium: true do
                           at: 3.days.ago.to_date.to_fs(:db),
                           user:)
 
-    work_package.journals.last
+    work_package.journals.reorder(:id).last
   end
 
   let!(:note2) do
@@ -54,7 +54,7 @@ describe 'Activity tab', js: true, selenium: true do
                           at: 1.day.ago.to_date.to_fs(:db),
                           user: create(:admin))
 
-    work_package.journals.last
+    work_package.journals.reorder(:id).last
   end
 
   let!(:revision) do
