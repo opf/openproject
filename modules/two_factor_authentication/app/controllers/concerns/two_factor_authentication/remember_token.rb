@@ -29,7 +29,7 @@ module ::TwoFactorAuthentication
         value: new_token!(@authenticated_user),
         httponly: true,
         expires: remember_2fa_days.days.from_now,
-        secure: OpenProject::Configuration.secure_connection?
+        secure: OpenProject::Configuration.https?
       }
     end
 

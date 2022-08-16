@@ -1685,6 +1685,7 @@ en:
   label_index_by_title: "Index by title"
   label_information: "Information"
   label_information_plural: "Information"
+  label_installation_guides: 'Installation guides'
   label_integer: "Integer"
   label_internal: "Internal"
   label_introduction_video: "Introduction video"
@@ -3053,12 +3054,13 @@ en:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Protocol setting mismatch'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request
         is an <code>%{actual_protocol}</code> request.
-        This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>.
+        Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Hostname setting mismatch'
       text_html: >

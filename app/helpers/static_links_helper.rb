@@ -37,4 +37,13 @@ module StaticLinksHelper
             class: 'openproject--static-link',
             target: '_blank', rel: 'noopener'
   end
+
+  ##
+  # Link to the correct installation guides for the current selected method
+  def installation_guide_link
+    val = OpenProject::Configuration.installation_type
+    link = OpenProject::Static::Links.links[:"#{val}_installation"] || OpenProject::Static::Links.links[:installation_guides]
+
+    link[:href]
+  end
 end
