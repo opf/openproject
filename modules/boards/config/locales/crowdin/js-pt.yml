@@ -42,9 +42,9 @@ pt:
         action_text: >
           Um quadro com listas filtradas por atributo %{attribute} . Mover pacotes de trabalho para outras listas irá atualizar seu atributo.
         action_text_subprojects: >
-          Quadro com colunas automatizadas para subprojetos. Arrastar pacotes de trabalho para outras listas atualiza os (sub)projetos de acordo. 
+          Quadro com colunas automatizadas para subprojetos. Arrastar pacotes de trabalho para outras listas atualiza os (sub)projetos de acordo.
         action_text_subtasks: >
-          Quadro com colunas automatizadas para sub-elementos. Arrastar pacotes de trabalho para outras listas atualiza os pais de acordo. 
+          Quadro com colunas automatizadas para sub-elementos. Arrastar pacotes de trabalho para outras listas atualiza os pais de acordo.
         action_text_status: >
           Quadro de estilo kanban com colunas para estados como Afazeres, Em andamento, Pronto
         action_text_assignee: >
