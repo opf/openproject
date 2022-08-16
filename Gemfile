@@ -299,7 +299,7 @@ group :development, :test do
   gem 'lefthook', require: false
 
   # Brakeman scanner
-  gem 'brakeman', '~> 5.2.0'
+  gem 'brakeman', '~> 5.3.0'
   gem 'danger-brakeman'
 end
 
