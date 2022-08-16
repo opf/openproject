@@ -729,7 +729,7 @@ GEM
     psych (4.0.4)
       stringio
     public_suffix (4.0.7)
-    puffing-billy (3.0.3)
+    puffing-billy (3.0.4)
       addressable (~> 2.5)
       em-http-request (~> 1.1, >= 1.1.0)
       em-synchrony
