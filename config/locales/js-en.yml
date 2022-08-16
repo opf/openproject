@@ -1004,7 +1004,6 @@ en:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Columns"
         group_by: "Group results by"

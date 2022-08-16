@@ -91,7 +91,7 @@ describe 'description inplace editor', js: true, selenium: true do
     let(:description_text) { '' }
 
     it 'renders a placeholder' do
-      field.expect_state_text 'Description: Click to edit...'
+      field.expect_state_text '-'
 
       field.activate!
       # An empty description is also allowed

@@ -37,16 +37,19 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   /** We cache the previously used fields to avoid reinitialization */
   private fieldCache:{ [key:string]:DisplayField } = {};
 
-  constructor(public readonly injector:Injector,
+  constructor(
+    public readonly injector:Injector,
     public readonly container:'table'|'single-view'|'timeline',
-    public readonly options:{ [key:string]:any } = {}) {
+    public readonly options:{ [key:string]:unknown } = {},
+  ) {
   }
 
-  public render(resource:T,
+  public render(
+    resource:T,
     name:string,
     change:ResourceChangeset<T>|null,
-    placeholder?:string):HTMLSpanElement {
-    const [field, span] = this.renderFieldValue(resource, name, change, placeholder);
+  ):HTMLSpanElement {
+    const [field, span] = this.renderFieldValue(resource, name, change);
 
     if (field === null) {
       return span;
@@ -57,14 +60,16 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     return span;
   }
 
-  public renderFieldValue(resource:T,
+  public renderFieldValue(
+    resource:T,
     requestedAttribute:string,
     change:ResourceChangeset<T>|null,
-    placeholder?:string):[DisplayField|null, HTMLSpanElement] {
+  ):[DisplayField|null, HTMLSpanElement] {
     const span = document.createElement('span');
     const schema = this.schema(resource, change);
     const attributeName = this.attributeName(requestedAttribute, schema);
-    const fieldSchema = schema.ofProperty(attributeName);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    const fieldSchema = schema.ofProperty(attributeName) as IFieldSchema;
 
     // If the resource does not have that field, return an empty
     // span (e.g., for the table).
@@ -73,7 +78,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     }
 
     const field = this.getField(resource, fieldSchema, attributeName, change);
-    field.render(span, this.getText(field, fieldSchema, placeholder), fieldSchema.options);
+    field.render(span, this.getText(field), fieldSchema.options);
 
     const { title } = field;
     if (title) {
@@ -84,13 +89,16 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     return [field, span];
   }
 
-  public getField(resource:T,
+  public getField(
+    resource:T,
     fieldSchema:IFieldSchema,
     attributeName:string,
-    change:ResourceChangeset<T>|null):DisplayField {
+    change:ResourceChangeset<T>|null,
+  ):DisplayField {
     let field = this.fieldCache[attributeName];
 
     if (!field) {
+      // eslint-disable-next-line no-multi-assign
       field = this.fieldCache[attributeName] = this.getFieldForCurrentContext(resource, attributeName, fieldSchema);
     }
 
@@ -127,10 +135,11 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     return this.displayFieldService.getField(resource, attributeName, fieldSchema, context);
   }
 
-  private getText(field:DisplayField, fieldSchema:IFieldSchema, placeholder?:string):string {
+  private getText(field:DisplayField):string {
     if (field.isEmpty()) {
-      return placeholder || this.getDefaultPlaceholder(fieldSchema);
+      return cellEmptyPlaceholder;
     }
+
     return field.valueString;
   }
 
@@ -158,13 +167,14 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     }
   }
 
-  private isAttributeEditable(schema:SchemaResource, fieldName:string) {
+  private isAttributeEditable(schema:SchemaResource, fieldName:string):boolean {
     // We need to handle start/due date cases like they were combined dates
     if (['startDate', 'dueDate', 'date'].includes(fieldName)) {
       fieldName = 'combinedDate';
     }
 
-    return schema.isAttributeEditable(fieldName);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    return schema.isAttributeEditable(fieldName) as boolean;
   }
 
   private getAriaLabel(field:DisplayField, schema:SchemaResource):string {
@@ -182,7 +192,8 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       titleContent = labelContent;
     }
 
-    if (field.writable && schema.isAttributeEditable(field.name)) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    if (field.writable && !!schema.isAttributeEditable(field.name)) {
       return this.I18n.t('js.inplace.button_edit', { attribute: `${field.displayName} ${titleContent}` });
     }
     return `${field.displayName} ${titleContent}`;
@@ -202,27 +213,25 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
    * @param schema
    * @param attribute
    */
-  private attributeName(attribute:string, schema:SchemaResource) {
+  private attributeName(attribute:string, schema:SchemaResource):string {
     if (schema.mappedName) {
-      return schema.mappedName(attribute);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      return schema.mappedName(attribute) as string;
     }
+
     return attribute;
   }
 
-  private getDefaultPlaceholder(fieldSchema:IFieldSchema):string {
-    if (fieldSchema.type === 'Formattable') {
-      return this.I18n.t('js.work_packages.placeholders.formattable', { name: fieldSchema.name });
-    }
-
-    return cellEmptyPlaceholder;
-  }
-
-  private schema(resource:T, change:ResourceChangeset<T>|null) {
+  private schema(resource:T, change:ResourceChangeset<T>|null):SchemaResource {
     if (change) {
       return change.schema;
-    } if (this.halEditing.typedState(resource).hasValue()) {
-      return this.halEditing.typedState(resource).value!.schema;
     }
+
+    if (this.halEditing.typedState(resource).hasValue()) {
+      const val = this.halEditing.typedState(resource).value as { schema:SchemaResource };
+      return val.schema;
+    }
+
     return this.schemaCache.of(resource);
   }
 }

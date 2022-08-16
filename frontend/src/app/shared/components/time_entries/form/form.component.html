@@ -10,10 +10,10 @@
            [textContent]="schema.user.name">
       </div>
       <div class="attributes-map--value">
-        <editable-attribute-field [resource]="entry"
+        <op-editable-attribute-field [resource]="entry"
                                   [wrapperClasses]="'-tiny'"
                                   [fieldName]="'user'">
-        </editable-attribute-field>
+        </op-editable-attribute-field>
       </div>
     </ng-container>
 
@@ -22,10 +22,10 @@
          [textContent]="schema.spentOn.name">
     </div>
     <div class="attributes-map--value">
-      <editable-attribute-field [resource]="entry"
+      <op-editable-attribute-field [resource]="entry"
                                 [wrapperClasses]="'-tiny'"
                                 [fieldName]="'spentOn'">
-      </editable-attribute-field>
+      </op-editable-attribute-field>
     </div>
 
     <div class="attributes-map--key"
@@ -33,10 +33,10 @@
          [textContent]="schema.hours.name">
     </div>
     <div class="attributes-map--value">
-      <editable-attribute-field [resource]="entry"
+      <op-editable-attribute-field [resource]="entry"
                                 [wrapperClasses]="'-tiny'"
                                 [fieldName]="'hours'">
-      </editable-attribute-field>
+      </op-editable-attribute-field>
     </div>
 
     <ng-container *ngIf="showWorkPackageField">
@@ -45,9 +45,9 @@
            [textContent]="schema.workPackage.name">
       </div>
       <div class="attributes-map--value">
-        <editable-attribute-field [resource]="entry"
+        <op-editable-attribute-field [resource]="entry"
                                   [fieldName]="'workPackage'">
-        </editable-attribute-field>
+        </op-editable-attribute-field>
       </div>
     </ng-container>
 
@@ -56,10 +56,10 @@
          [textContent]="schema.activity.name">
     </div>
     <div class="attributes-map--value">
-      <editable-attribute-field *ngIf="workPackageSelected"
+      <op-editable-attribute-field *ngIf="workPackageSelected"
                                 [resource]="entry"
                                 [fieldName]="'activity'">
-      </editable-attribute-field>
+      </op-editable-attribute-field>
       <i *ngIf="!workPackageSelected"
          [textContent]="text.wpRequired">
       </i>
@@ -70,9 +70,9 @@
          [textContent]="schema.comment.name">
     </div>
     <div class="attributes-map--value">
-      <editable-attribute-field [resource]="entry"
+      <op-editable-attribute-field [resource]="entry"
                                 [fieldName]="'comment'">
-      </editable-attribute-field>
+      </op-editable-attribute-field>
     </div>
 
     <ng-container *ngFor="let cf of customFields">
@@ -81,9 +81,9 @@
            [textContent]="cf.label">
       </div>
       <div class="attributes-map--value">
-        <editable-attribute-field [resource]="entry"
+        <op-editable-attribute-field [resource]="entry"
                                   [fieldName]="cf.key">
-        </editable-attribute-field>
+        </op-editable-attribute-field>
       </div>
     </ng-container>
   </div>
