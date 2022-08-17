@@ -51,11 +51,9 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
-import { DatepickerModalService } from 'core-app/shared/components/datepicker/services/datepicker.modal.service';
 import {
   debounce,
   switchMap,
-  take,
 } from 'rxjs/operators';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import {
@@ -65,6 +63,14 @@ import {
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
+import { DateModalSchedulingService } from 'core-app/shared/components/datepicker/services/date-modal-scheduling.service';
+import {
+  areDatesEqual,
+  onDayCreate,
+  parseDate,
+  setDates,
+  validDate,
+} from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -85,7 +91,7 @@ export type FieldUpdates =
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
-    DatepickerModalService,
+    DateModalSchedulingService,
     DateModalRelationsService,
   ],
 })
@@ -96,7 +102,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   @InjectField() halEditing:HalResourceEditingService;
 
-  @InjectField() datepickerService:DatepickerModalService;
+  @InjectField() dateModalScheduling:DateModalSchedulingService;
 
   @InjectField() dateModalRelations:DateModalRelationsService;
 
@@ -283,8 +289,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   updateDate(key:DateKeys, val:string|null):void {
     // Expected minimal format YYYY-M-D => 8 characters OR empty
     if (val !== null && (val.length >= 8 || val.length === 0)) {
-      if (this.datepickerService.validDate(val) && this.datePickerInstance) {
-        const dateValue = this.datepickerService.parseDate(val) || undefined;
+      if (validDate(val) && this.datePickerInstance) {
+        const dateValue = parseDate(val) || undefined;
         this.enforceManualChangesToDatepicker(false, dateValue);
       }
     }
@@ -303,7 +309,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   setToday(key:DateKeys):void {
-    const today = this.datepickerService.parseDate(new Date());
+    const today = parseDate(new Date());
     this.dates[key] = this.timezoneService.formattedISODate(today);
 
     if (today instanceof Date) {
@@ -391,15 +397,13 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
           this.cdRef.detectChanges();
         },
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
-          this
-            .datepickerService
-            .onDayCreate(
-              dayElem,
-              this.includeNonWorkingDays,
-              this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
-              minimalDate,
-              this.isDayDisabled(dayElem, minimalDate),
-            );
+          onDayCreate(
+            dayElem,
+            this.includeNonWorkingDays,
+            this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
+            minimalDate,
+            this.isDayDisabled(dayElem, minimalDate),
+          );
         },
       },
       null,
@@ -407,8 +411,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   private enforceManualChangesToDatepicker(toggleField = true, enforceDate?:Date) {
-    let startDate = this.datepickerService.parseDate(this.dates.start || '');
-    let endDate = this.datepickerService.parseDate(this.dates.end || '');
+    let startDate = parseDate(this.dates.start || '');
+    let endDate = parseDate(this.dates.end || '');
 
     if (startDate && endDate) {
       // If the start date is manually changed to be after the end date,
@@ -428,7 +432,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     }
 
     const dates = [startDate, endDate];
-    this.datepickerService.setDates(dates, this.datePickerInstance, enforceDate);
+    setDates(dates, this.datePickerInstance, enforceDate);
 
     if (toggleField) {
       this.toggleCurrentActivatedField();
@@ -449,8 +453,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
            3. Everything in between the current start and end date is dependent on the currently activated field.
            * */
 
-          const parsedStartDate = this.datepickerService.parseDate(this.dates.start || '') as Date;
-          const parsedEndDate = this.datepickerService.parseDate(this.dates.end || '') as Date;
+          const parsedStartDate = parseDate(this.dates.start || '') as Date;
+          const parsedEndDate = parseDate(this.dates.end || '') as Date;
 
           if (selectedDate < parsedStartDate) {
             this.overwriteDatePickerWithNewDates([selectedDate, parsedEndDate]);
@@ -462,7 +466,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
               this.overwriteDatePickerWithNewDates([selectedDate, selectedDate]);
               this.toggleCurrentActivatedField();
             }
-          } else if (this.datepickerService.areDatesEqual(selectedDate, parsedStartDate) || this.datepickerService.areDatesEqual(selectedDate, parsedEndDate)) {
+          } else if (areDatesEqual(selectedDate, parsedStartDate) || areDatesEqual(selectedDate, parsedEndDate)) {
             this.overwriteDatePickerWithNewDates([selectedDate, selectedDate]);
           } else {
             const newDates = this.isStateOfCurrentActivatedField('start') ? [selectedDate, parsedEndDate] : [parsedStartDate, selectedDate];
@@ -501,7 +505,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   private overwriteDatePickerWithNewDates(dates:Date[]) {
-    this.datepickerService.setDates(dates, this.datePickerInstance);
+    setDates(dates, this.datePickerInstance);
     this.handleDatePickerChange(dates);
   }
 
@@ -544,10 +548,10 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     this.includeNonWorkingDays = payload.ignoreNonWorkingDays;
 
     this.setDurationDaysFromUpstream(payload.duration);
-    const parsedStartDate = this.datepickerService.parseDate(this.dates.start) as Date;
-    const parsedEndDate = this.datepickerService.parseDate(this.dates.end) as Date;
+    const parsedStartDate = parseDate(this.dates.start) as Date;
+    const parsedEndDate = parseDate(this.dates.end) as Date;
 
-    this.datepickerService.setDates([parsedStartDate, parsedEndDate], this.datePickerInstance);
+    setDates([parsedStartDate, parsedEndDate], this.datePickerInstance);
     this.cdRef.detectChanges();
   }
 

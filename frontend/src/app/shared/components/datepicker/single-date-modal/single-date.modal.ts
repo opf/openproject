@@ -51,7 +51,6 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
-import { DatepickerModalService } from 'core-app/shared/components/datepicker/services/datepicker.modal.service';
 import {
   debounce,
   switchMap,
@@ -66,7 +65,9 @@ import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
 import { DateModalSchedulingService } from 'core-app/shared/components/datepicker/services/date-modal-scheduling.service';
 import {
+  onDayCreate,
   parseDate,
+  setDates,
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 
@@ -76,7 +77,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
-    DatepickerModalService,
+    DateModalSchedulingService,
     DateModalRelationsService,
   ],
 })
@@ -87,7 +88,7 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
 
   @InjectField() halEditing:HalResourceEditingService;
 
-  @InjectField() datepickerService:DatepickerModalService;
+  @InjectField() dateModalScheduling:DateModalSchedulingService;
 
   @InjectField() dateModalRelations:DateModalRelationsService;
 
@@ -154,7 +155,6 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     this.changeset = locals.changeset as ResourceChangeset;
     this.htmlId = `wp-datepicker-${locals.fieldName as string}`;
 
-    this.scheduleManually = !!this.changeset.value('scheduleManually');
     this.includeNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
 
     this.date = this.changeset.value('date');
@@ -192,7 +192,7 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
   }
 
   changeSchedulingMode():void {
-    this.scheduleManually = !this.scheduleManually;
+    this.dateModalScheduling.toggleSchedulingMode();
     this.initializeDatepicker();
     this.cdRef.detectChanges();
   }
@@ -216,8 +216,8 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     this.changeset.setValue('scheduleManually', this.scheduleManually);
 
     // Apply the dates if they could be changed
-    if (this.isSchedulable) {
-      this.changeset.setValue('date', this.date );
+    if (this.dateModalScheduling.isSchedulable) {
+      this.changeset.setValue('date', this.date);
     }
 
     this.closeMe();
@@ -230,15 +230,15 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
   updateDate(val:string|null):void {
     // Expected minimal format YYYY-M-D => 8 characters OR empty
     if (val !== null && (val.length >= 8 || val.length === 0)) {
-      if (this.datepickerService.validDate(val) && this.datePickerInstance) {
-        const dateValue = this.datepickerService.parseDate(val) || undefined;
+      if (validDate(val) && this.datePickerInstance) {
+        const dateValue = parseDate(val) || undefined;
         this.enforceManualChangesToDatepicker(dateValue);
       }
     }
   }
 
   setToday():void {
-    const today = this.datepickerService.parseDate(new Date()) as Date;
+    const today = parseDate(new Date()) as Date;
     this.date = this.timezoneService.formattedISODate(today);
     this.enforceManualChangesToDatepicker(today);
   }
@@ -251,13 +251,6 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
       of: target,
       collision: 'flipfit',
     });
-  }
-
-  /**
-   * Returns whether the user can alter the dates of the work package.
-   */
-  get isSchedulable():boolean {
-    return this.scheduleManually || !this.dateModalRelations.isParent;
   }
 
   private initializeDatepicker(minimalDate?:Date|null) {
@@ -283,15 +276,13 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
           this.cdRef.detectChanges();
         },
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
-          this
-            .datepickerService
-            .onDayCreate(
-              dayElem,
-              this.includeNonWorkingDays,
-              this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
-              minimalDate,
-              this.isDayDisabled(dayElem, minimalDate),
-            );
+          onDayCreate(
+            dayElem,
+            this.includeNonWorkingDays,
+            this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
+            minimalDate,
+            this.dateModalScheduling.isDayDisabled(dayElem, minimalDate),
+          );
         },
       },
       null,
@@ -299,16 +290,12 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
   }
 
   private enforceManualChangesToDatepicker(enforceDate?:Date) {
-    const date = this.datepickerService.parseDate(this.date || '');
-    this.datepickerService.setDates(date, this.datePickerInstance, enforceDate);
+    const date = parseDate(this.date || '');
+    setDates(date, this.datePickerInstance, enforceDate);
   }
 
   private onDataChange() {
     this.onDataUpdated.emit(this.date || '');
-  }
-
-  private isDayDisabled(dayElement:DayElement, minimalDate?:Date|null):boolean {
-    return !this.isSchedulable || (!this.scheduleManually && !!minimalDate && dayElement.dateObj <= minimalDate);
   }
 
   /**
@@ -324,7 +311,7 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     this.date = payload.date;
     this.includeNonWorkingDays = payload.ignoreNonWorkingDays;
 
-    const parsedDate = this.datepickerService.parseDate(payload.date) as Date;
+    const parsedDate = parseDate(payload.date) as Date;
     this.enforceManualChangesToDatepicker(parsedDate);
   }
 }

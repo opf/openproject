@@ -51,7 +51,7 @@ import {
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { DatepickerModalService } from 'core-app/shared/components/datepicker/services/datepicker.modal.service';
+import { parseDate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 
 @Injectable()
 export class DateModalRelationsService {
@@ -102,7 +102,6 @@ export class DateModalRelationsService {
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     private apiV3Service:ApiV3Service,
-    private datepickerService:DatepickerModalService,
   ) {}
 
   getMinimalDateFromPreceeding():Observable<Date|null> {
@@ -128,7 +127,7 @@ export class DateModalRelationsService {
 
       const relationDate = relation.dueDate || relation.date;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const parsedRelationDate = this.datepickerService.parseDate(relationDate!);
+      const parsedRelationDate = parseDate(relationDate!);
 
       if (!minimalDate || minimalDate < parsedRelationDate) {
         minimalDate = parsedRelationDate === '' ? null : parsedRelationDate;

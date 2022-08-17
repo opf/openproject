@@ -33,14 +33,32 @@ import {
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
+import { DayElement } from 'flatpickr/dist/types/instance';
 
 @Injectable()
-export class DatepickerModalService {
+export class DateModalSchedulingService {
   private changeset:WorkPackageChangeset = this.locals.changeset as WorkPackageChangeset;
+
+  scheduleManually = !!this.changeset.value('scheduleManually');
 
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly dateModalRelations:DateModalRelationsService,
   ) {}
 
+  toggleSchedulingMode():void {
+    this.scheduleManually = !this.scheduleManually;
+  }
 
+  /**
+   * Returns whether the user can alter the dates of the work package.
+   */
+  get isSchedulable():boolean {
+    return this.scheduleManually || !this.dateModalRelations.isParent;
+  }
+
+  isDayDisabled(dayElement:DayElement, minimalDate?:Date|null):boolean {
+    return !this.isSchedulable || (!this.scheduleManually && !!minimalDate && dayElement.dateObj <= minimalDate);
+  }
 }
