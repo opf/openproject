@@ -542,7 +542,16 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
   }
 
   private initialActivatedField():DateFields {
-    return this.locals.fieldName === 'dueDate' ? 'end' : 'start';
+    switch (this.locals.fieldName) {
+      case 'startDate':
+        return 'start';
+      case 'dueDate':
+        return 'end';
+      case 'duration':
+        return 'duration';
+      default:
+        return 'start';
+    }
   }
 
   private minimalDateFromPrecedingRelationship(relations:{ id:string, dueDate?:string, date?:string }[]):Date|null {
