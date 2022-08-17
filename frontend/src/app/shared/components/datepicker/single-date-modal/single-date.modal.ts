@@ -279,15 +279,15 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
           this.cdRef.detectChanges();
         },
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
-          if (!this.includeNonWorkingDays && this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj)) {
-            dayElem.classList.add('flatpickr-non-working-day');
-          }
-
-          if (this.isDayDisabled(dayElem, minimalDate)) {
-            dayElem.classList.add('flatpickr-disabled');
-          }
-
-          dayElem.setAttribute('data-iso-date', dayElem.dateObj.toISOString());
+          this
+            .datepickerService
+            .onDayCreate(
+              dayElem,
+              this.includeNonWorkingDays,
+              this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
+              minimalDate,
+              this.isDayDisabled(dayElem, minimalDate),
+            );
         },
       },
       null,

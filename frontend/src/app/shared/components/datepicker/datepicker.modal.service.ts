@@ -35,6 +35,8 @@ import { DateOption } from 'flatpickr/dist/types/options';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import flatpickr from 'flatpickr';
+import { DayElement } from 'flatpickr/dist/types/instance';
 
 @Injectable()
 export class DatepickerModalService {
@@ -105,6 +107,24 @@ export class DatepickerModalService {
     }
 
     datePicker.datepickerInstance.redraw();
+  }
+
+  onDayCreate(
+    dayElem:DayElement,
+    includeNonWorkingDays:boolean,
+    isNonWorkingDay:boolean,
+    minimalDate:Date|null|undefined,
+    isDayDisabled:boolean,
+  ):void {
+    if (!includeNonWorkingDays && isNonWorkingDay) {
+      dayElem.classList.add('flatpickr-non-working-day');
+    }
+
+    if (isDayDisabled) {
+      dayElem.classList.add('flatpickr-disabled');
+    }
+
+    dayElem.setAttribute('data-iso-date', dayElem.dateObj.toISOString());
   }
 
   private keepCurrentlyActiveMonth(datePicker:DatePicker, currentMonth:number, currentYear:number) {
