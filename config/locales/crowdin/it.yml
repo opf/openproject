@@ -264,8 +264,7 @@ it:
     deletion_info:
       heading: "Elimina l'utente segnaposto %{name}"
       data_consequences: >
-        Tutte le occorrenze dell'utente segnaposto (ad esempio, come assegnatario, responsabile o altri valori) saranno riassegnate a un account chiamato "Utente eliminato".
-        Poiché i dati di ogni account eliminato vengono riassegnati a questo account, non sarà possibile distinguere i dati creati dall'utente dai dati di un altro account eliminato.
+        Tutte le occorrenze dell'utente segnaposto (ad esempio, come assegnatario, responsabile o altri valori) saranno riassegnate a un account chiamato "Utente eliminato". Poiché i dati di ogni account eliminato vengono riassegnati a questo account, non sarà possibile distinguere i dati creati dall'utente dai dati di un altro account eliminato.
       irreversible: "Questa azione è irreversibile"
       confirmation: "Inserisci il nome utente del segnaposto %{name} per confermare l'eliminazione."
     upsale:
@@ -1245,7 +1244,7 @@ it:
   error_enterprise_activation_user_limit: "Il tuo account potrebbe non essere attivo (raggiunto il limite utente). Si prega di contattare l'amministratore per ottenere l'accesso."
   error_enterprise_token_invalid_domain: "L'Enterprise Edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
   error_failed_to_delete_entry: 'Cancellazione voce non riuscita.'
-  error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Errore nel tentativo di creare un oggetto dipendente: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valore selezionato non valido."
   error_journal_attribute_not_present: "Il diario non contiene l'attributo %{attribute}."
@@ -1384,17 +1383,11 @@ it:
     update_info_mail:
       body: >
         Siamo lieti di annunciare il rilascio di OpenProject 12.0. Si tratta di una versione importante che si spera migliorerà significativamente il modo in cui si utilizza OpenProject.
-
         A partire da questa versione, stiamo introducendo le notifiche in-app. D'ora in poi, riceverai notifiche per gli aggiornamenti ai pacchetti di lavoro direttamente in OpenProject. È possibile contrassegnare queste notifiche come lette, rispondere a un commento o persino modificare direttamente gli attributi del pacchetto di lavoro senza uscire dal centro notifiche.
-
         Ciò significa anche che non utilizzeremo più le e-mail per le notifiche. Riteniamo che il nuovo centro notifiche sia un posto migliore per visualizzare e agire in base a questi aggiornamenti. Tuttavia, se desideri continuare a ricevere aggiornamenti via e-mail, puoi scegliere di ricevere promemoria giornalieri via e-mail in momenti particolari di tua scelta.
-
         Assicurati di verificare le nuove impostazioni di notifica predefinite e imposta le tue preferenze per le notifiche e i promemoria via e-mail tramite le impostazioni del tuo account. Puoi farlo tramite il pulsante "Modifica impostazioni e-mail" qui sotto. Ci auguriamo che tu trovi utili le notifiche in-app e che ti rendano ancora più produttivo.
-
-        Sinceramente 
-
+        Sinceramente
         Il team di OpenProject
-
       body_header: 'Versione 12.0 con Centro Notifiche'
       body_subheader: 'Notizie'
       subject: 'Modifiche importanti alle notifiche con il rilascio della versione 12.0'

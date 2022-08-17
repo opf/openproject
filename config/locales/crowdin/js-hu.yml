@@ -38,10 +38,8 @@ hu:
       attachments_disabled: "A mellékletek nem tartozhatnak bele, mivel meghaladják a megengedett maximális méretet. Ezt a konfiguráción keresztül módosíthatja (szerver újraindítását igényli).\n"
       info: >
         Itt indíthat biztonsági mentést. A folyamat a rendelkezésre álló adatmennyiségtől (különösen a mellékletektől) függően eltarthat egy ideig. Ha elkészült, kapni fog egy e -mailt.
-
       note: >
         Egy új biztonsági mentés felülír minden előzőt. Naponta csak korlátozott számú biztonsági mentés kérhető.
-
       last_backup: 'Utolsó biztonsági mentés:'
       last_backup_from: 'Legutóbbi biztonsági mentés: '
       title: "Az OpenProject biztonsági mentése\n"
@@ -153,7 +151,7 @@ hu:
           language_hint: 'Adja meg a kiemeléshez használt formázási nyelvet (ha támogatott).'
         dropdown:
           macros: 'Makrók'
-          chose_macro: 'Makró választás'
+          chose_macro: 'Choose macro'
         toc: 'Tartalomjegyzék'
         toolbar_help: 'Kattintson a widget kiválasztásához és az eszköztár megjelenítéséhez. Kattintson duplán a widget szerkesztéséhez'
         wiki_page_include:
@@ -242,7 +240,6 @@ hu:
           more_info: "More information"
           text: >
             Az OpenProject Enterprise Edition a Community Edition tetejére épül. Prémium funkciókat és professzionális támogatást tartalmaz, amelyek elsősorban olyan szervezeteknek szólnak, amelyek több mint 10 felhasználóval rendelkeznek, és amelyek az üzleti szempontból kritikus projekteket irányítják az OpenProject segítségével.
-
           unlimited: "Korlátlan"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
@@ -477,7 +474,7 @@ hu:
     label_remove_all_files: Összes fájl törlése
     label_add_description: "Adjon meg leírást a %{file} fájlhoz"
     label_upload_notification: "Fájl feltöltése folyamatban"
-    label_work_package_upload_notification: "Fájlok feltöltése a #%{id}: %{subject} feladatcsoporthoz"
+    label_work_package_upload_notification: "Fájlok feltöltése a #%{id}: %{subject} feladatcsoporthoz" #%{id}: %{subject} feladatcsoporthoz"
     label_wp_id_added_by: "%{id} hozzáadva %{author} által"
     label_files_to_upload: "Ezek a fájlok kerülnek feltöltésre:"
     label_rejected_files: "Ezeket a fájlokat nem lehet felölteni:"
@@ -611,7 +608,6 @@ hu:
     project:
       required_outside_context: >
         Kérjük, válasszon egy projektet a munkacsomag létrehozásához az összes attribútum megtekintéséhez. Csak olyan projekteket választhat ki, amelyek aktiválták a fenti típust.
-
       context: 'Projekt kontextus'
       work_package_belongs_to: 'Ez a feladatcsoport a(z) %{projectname} nevű projekthez tartozik.'
       click_to_switch_context: 'Munkacsomag megnyitása a projektben.'
@@ -808,7 +804,6 @@ hu:
         slider: "Nagyítás/kicsinyítés"
         description: >
           Válassza ki a megjelenítendő kezdeti nagyítási szintet, ha az automatikus nagyítás nem áll rendelkezésre.
-
     tl_toolbar:
       zooms: "Nagyítási szint"
       outlines: "Hierarchia szint"

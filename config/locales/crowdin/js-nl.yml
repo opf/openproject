@@ -151,7 +151,7 @@ nl:
           language_hint: 'Voer de opmaaktaal die wordt gebruikt voor het benadrukken(indien ondersteund).'
         dropdown:
           macros: 'Macro''s'
-          chose_macro: 'Kies macro'
+          chose_macro: 'Choose macro'
         toc: 'Inhoudsopgave'
         toolbar_help: 'Klik op widget en geef de werkbalk weer. Dubbelklikken om de widget te bewerken'
         wiki_page_include:
@@ -474,7 +474,7 @@ nl:
     label_remove_all_files: Verwijder alle bestanden
     label_add_description: "Een beschrijving voor %{file} toevoegen"
     label_upload_notification: "Uploaden van bestanden..."
-    label_work_package_upload_notification: "Uploaden van bestanden voor werk pakket #%{id}: %{subject}"
+    label_work_package_upload_notification: "Uploaden van bestanden voor werk pakket #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} toegevoegd door %{author}"
     label_files_to_upload: "Deze bestanden worden geüpload:"
     label_rejected_files: "Deze bestanden kunnen niet worden geüpload:"

@@ -151,7 +151,7 @@ da:
           language_hint: 'Indtast det formateringssprog, der skal bruges til at fremhæve (hvis det understøttes).'
         dropdown:
           macros: 'Makroer'
-          chose_macro: 'Vælg makro'
+          chose_macro: 'Choose macro'
         toc: 'Indholdsfortegnelse'
         toolbar_help: 'Klik for at vælge widget og vis værktøjslinjen. Dobbeltklik for at redigere widget'
         wiki_page_include:
@@ -473,7 +473,7 @@ da:
     label_remove_all_files: Slet alle filer
     label_add_description: "Tilføj en beskrivelse af %{file}"
     label_upload_notification: "Uploader filer..."
-    label_work_package_upload_notification: "Upload af filer til arbejdspakke #%{id}: %{subject}"
+    label_work_package_upload_notification: "Upload af filer til arbejdspakke #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Disse filer vil blive uploadet:"
     label_rejected_files: "Disse filer kan ikke uploades:"

@@ -151,7 +151,7 @@ ko:
           language_hint: '강조 표시(지원되는 경우)에 사용할 서식 언어를 입력하세요.'
         dropdown:
           macros: '매크로'
-          chose_macro: '매크로 선택'
+          chose_macro: 'Choose macro'
         toc: '목차'
         toolbar_help: '위젯을 선택하고 도구 모음을 표시하려면 클릭하세요. 위젯을 편집하려면 두 번 클릭하세요.'
         wiki_page_include:

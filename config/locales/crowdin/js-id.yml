@@ -151,7 +151,7 @@ id:
           language_hint: 'Masukan format bahasa yang akan digunakan untuk menyorot(jika didukung).'
         dropdown:
           macros: 'Makro'
-          chose_macro: 'Pilih makro'
+          chose_macro: 'Choose macro'
         toc: 'Daftar isi'
         toolbar_help: 'Klik untuk memilih widget dan menampilkan toolbar. klik dua kali untuk mengedit widget'
         wiki_page_include:
@@ -474,7 +474,7 @@ id:
     label_remove_all_files: Hapus semua file
     label_add_description: "Tambahkan deskripsi untuk %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Upload file untuk Work package #%{id}: %{subject}"
+    label_work_package_upload_notification: "Upload file untuk Work package #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Upload file berikut:"
     label_rejected_files: "File ini tidak bisa di-upload:"

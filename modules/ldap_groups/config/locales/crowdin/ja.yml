@@ -42,8 +42,7 @@ ja:
         group_name_attribute_text: 'OpenProject グループ名の設定に使用する LDAP グループの属性を入力します。'
         filter_string_text: 'OpenProject と同期するための LDAP グループを返すRFC4515 LDAP フィルタを入力します。'
         base_dn_text: >
-          このフィルタに使用する検索ベース DN を入力します。選択したLDAP接続のベースのDNの下にある必要があります。
-          接続のベース DN を再利用するには、このオプションを空にしてください。
+          このフィルタに使用する検索ベース DN を入力します。選択したLDAP接続のベースのDNの下にある必要があります。 接続のベース DN を再利用するには、このオプションを空にしてください。
     synchronized_groups:
       add_new: '同期済 LDAP グループを追加'
       destroy:

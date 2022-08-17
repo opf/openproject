@@ -151,7 +151,7 @@ fr:
           language_hint: 'Entrez le langage de formatage qui sera utilisé pour mettre en évidence (si pris en charge).'
         dropdown:
           macros: 'Macros'
-          chose_macro: 'Choisir une macro'
+          chose_macro: 'Choose macro'
         toc: 'Table des matières'
         toolbar_help: 'Cliquez pour sélectionner le widget et afficher la barre d’outils. Double-cliquez pour modifier le widget'
         wiki_page_include:

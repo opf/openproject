@@ -151,7 +151,7 @@ vi:
           language_hint: 'Nhập ngôn ngữ định dạng sẽ được sử dụng để làm nổi bật (nếu được hỗ trợ).'
         dropdown:
           macros: 'Macro'
-          chose_macro: 'Chọn macro'
+          chose_macro: 'Choose macro'
         toc: 'Mục lục'
         toolbar_help: 'Bấm vào để chọn tiện ích và hiển thị thanh công cụ. Bấm đúp để chỉnh sửa tiện ích'
         wiki_page_include:
@@ -473,7 +473,7 @@ vi:
     label_remove_all_files: Xóa tất cả các tập tin
     label_add_description: "Thêm mô tả cho %{file}"
     label_upload_notification: "Tải lên tệp tin..."
-    label_work_package_upload_notification: "Tải file cho một công việc #%{id}: %{subject}"
+    label_work_package_upload_notification: "Tải file cho một công việc #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Những tập tin này sẽ được tải lên:"
     label_rejected_files: "Các tệp này không thể được tải lên:"

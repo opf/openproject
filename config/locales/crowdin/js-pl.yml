@@ -151,7 +151,7 @@ pl:
           language_hint: 'Wprowadź język formatowania, który będzie używany do wyróżniania (jeśli jest obsługiwany).'
         dropdown:
           macros: 'Makra'
-          chose_macro: 'Wybierz makro'
+          chose_macro: 'Choose macro'
         toc: 'Spis treści'
         toolbar_help: 'Kliknij, aby wybrać widżet i wyświetlić pasek narzędzi. Kliknij dwukrotnie, aby edytować widżet'
         wiki_page_include:

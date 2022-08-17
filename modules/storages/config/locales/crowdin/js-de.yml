@@ -15,9 +15,9 @@ de:
         live_data_error: "Fehler beim Abrufen der Dateidetails"
         live_data_error_description: >
           Einige %{storageType} Daten konnten nicht abgerufen werden. Bitte laden Sie diese Seite neu oder kontaktieren Sie Ihren %{storageType} Administrator.
-        no_file_links: "Um Dateien mit diesem Arbeitspaket zu verknüpfen, machen Sie es bitte über %{storageType}."
+        no_file_links: "Verknüpfen Sie Dateien mit diesem Arbeitspaket bitte über %{storageType}."
         not_logged_in: >
-          Um einen Link hinzuzufügen, sehen oder laden Sie Dateien zu diesem Arbeitspaket zusammen, melden Sie sich bitte bei %{storageType} an.
+          Um einen Link hinzuzufügen, mit diesem Arbeitspaket verknüpfte Dateien zu sehen oder hochzuladen, melden Sie sich bitte bei %{storageType} an.
       file_links:
         download: "%{fileName} herunterladen"
         no_permission: "Sie haben keine Berechtigung, diese Datei zu sehen."

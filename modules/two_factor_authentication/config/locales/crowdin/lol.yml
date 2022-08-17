@@ -132,8 +132,6 @@ lol:
     message_bird:
       sms_delivery_failed: 'crwdns498311:0crwdne498311:0'
       voice_delivery_failed: 'crwdns498313:0crwdne498313:0'
-    restdt:
-      delivery_failed_with_code: 'crwdns498317:0%{code}crwdne498317:0'
     strategies:
       totp: 'crwdns498319:0crwdne498319:0'
       sns: 'crwdns498321:0crwdne498321:0'

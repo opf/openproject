@@ -151,7 +151,7 @@ si:
           language_hint: 'අවධාරණය කිරීම සඳහා භාවිතා කරනු ලබන ආකෘතිකරණ භාෂාව ඇතුළත් කරන්න (සහාය දක්වන්නේ නම්).'
         dropdown:
           macros: 'මැක්රෝස්'
-          chose_macro: 'සාර්ව තෝරා'
+          chose_macro: 'Choose macro'
         toc: 'අන්තර්ගත වගුව'
         toolbar_help: 'විජට් තෝරා ගැනීමට ක්ලික් කරන්න සහ මෙවලම් තීරුව පෙන්වන්න. විජට් සංස්කරණය කිරීමට ද්වි-ක්ලික් කරන්න'
         wiki_page_include:
@@ -474,7 +474,7 @@ si:
     label_remove_all_files: සියලුම ගොනු මකන්න
     label_add_description: "%{file}සඳහා විස්තරයක් එක් කරන්න"
     label_upload_notification: "ගොනු උඩුගත කිරීම..."
-    label_work_package_upload_notification: "වැඩ පැකේජය සඳහා ගොනු උඩුගත කිරීම #%{id}: %{subject}"
+    label_work_package_upload_notification: "වැඩ පැකේජය සඳහා ගොනු උඩුගත කිරීම #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} විසින් එකතු කරන ලද %{author}"
     label_files_to_upload: "මෙම ගොනු උඩුගත කරනු ඇත:"
     label_rejected_files: "මෙම ගොනු උඩුගත කළ නොහැක:"

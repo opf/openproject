@@ -151,7 +151,7 @@ tr:
           language_hint: 'Vurgulamak için kullanılacak formatlama dilini girin (destekleniyorsa).'
         dropdown:
           macros: 'Makrolar'
-          chose_macro: 'Makro seçin'
+          chose_macro: 'Choose macro'
         toc: 'İçindekiler'
         toolbar_help: 'Widget''ı seçmek ve araç çubuğunu göstermek için tıklayın. Widget''ı düzenlemek için çift tıklayın'
         wiki_page_include:

@@ -151,7 +151,7 @@ fil:
           language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
         dropdown:
           macros: 'Macros'
-          chose_macro: 'Chose macro'
+          chose_macro: 'Choose macro'
         toc: 'Table of contents'
         toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
         wiki_page_include:
@@ -474,7 +474,7 @@ fil:
     label_remove_all_files: Burahin ang lahat ang mga file
     label_add_description: "Magdagdag ng deskripsyon para sa %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Pag-upload ng mga file para sa Work package #%{id}: %{subject}"
+    label_work_package_upload_notification: "Pag-upload ng mga file para sa Work package #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Itong mga file ay naka-upload:"
     label_rejected_files: "Itong mga fike ay hindi ma-upload:"

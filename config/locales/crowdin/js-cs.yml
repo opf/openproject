@@ -151,7 +151,7 @@ cs:
           language_hint: 'Zadejte jazyk, který bude použit pro zvýraznění (pokud je podporováno).'
         dropdown:
           macros: 'Makra'
-          chose_macro: 'Vybrat makro'
+          chose_macro: 'Choose macro'
         toc: 'Obsah'
         toolbar_help: 'Klikněte pro výběr widgetu a zobrazení panelu nástrojů. Dvojklikem upravíte widget'
         wiki_page_include:

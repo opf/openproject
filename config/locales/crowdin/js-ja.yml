@@ -152,7 +152,7 @@ ja:
           language_hint: '強調表示に使用する言語の書式を入力します（サポートされている場合）。'
         dropdown:
           macros: 'マクロ'
-          chose_macro: 'マクロを選ぶ'
+          chose_macro: 'Choose macro'
         toc: '目次'
         toolbar_help: 'クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集'
         wiki_page_include:
@@ -657,9 +657,7 @@ ja:
         error_no_table_configured: "%{group} のテーブルを設定してください。"
         reset_title: "フォーム設定をリセット"
         confirm_reset: >
-          警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。
-           
-          コンテキスト| リクエストコンテキスト
+          警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。   コンテキスト| リクエストコンテキスト
         upgrade_to_ee: "オンプレミス版 Enterprise Edition へのアップグレード"
         upgrade_to_ee_text: "この機能が必要な場合、あなたは超プロです! Enterprise Edition クライアントになることによって私達のオープン ソース開発者を支援していただけませんか?"
         more_information: "詳細情報"

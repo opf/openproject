@@ -2,8 +2,8 @@
 de:
   permission_view_file_links: "Datei-Links anzeigen"
   permission_manage_file_links: "Datei-Links verwalten"
-  permission_manage_storages_in_project: "Datei-Speicher im Projekt verwalten"
-  project_module_storages: "Datei-Speicher"
+  permission_manage_storages_in_project: "Dateispeicher im Projekt verwalten"
+  project_module_storages: "Dateispeicher"
   activerecord:
     models:
       storages/storage: "Speicher"
@@ -11,7 +11,7 @@ de:
       storages/storage:
         name: "Name"
         creator: "Ersteller"
-        provider_type: "Anbieter"
+        provider_type: "Anbieter-Typ"
       storages/file_link:
         origin_id: "Ursprungs-ID"
     errors:
@@ -25,7 +25,7 @@ de:
               minimal_nextcloud_version_unmet: "erfüllt nicht die minimalen Versionsanforderungen (muss Nextcloud 23 oder höher sein)"
               not_nextcloud_server: "ist kein Nextcloud-Server"
               op_application_not_installed: >
-                Die App "OpenProject Integration" scheint noch nicht installiert zu sein. Bitte installieren Sie sie zuerst diese App und versuchen es dann noch einmal.
+                scheint die App "OpenProject Integration" nicht installiert zu haben. Bitte installieren Sie diese zuerst und versuchen es danach erneut.
               authorization_header_missing: >
                 ist nicht vollständig eingerichtet. Die Nextcloud Instanz erhält nicht den "Authorisierung"-Header, was für eine auf Bearer Token basierende Autorisierung von API-Anfragen notwendig ist. Bitte überprüfen Sie Ihre HTTP-Server-Konfiguration.
         storages/file_link:
@@ -46,26 +46,26 @@ de:
     page_titles:
       project_settings:
         index: "Dateispeicher in diesem Projekt verfügbar"
-        new: "Einen Datei-Speicher zum Projekt hinzufügen"
+        new: "Einen Dateispeicher zum Projekt hinzufügen"
     instructions:
-      type: "Bitte stellen Sie sicher, dass Sie Administrationsrechte in Ihrer Nextcloud Instanz haben und die folgende Anwendung vor dem Setup installiert haben:"
+      type: "Bitte stellen Sie sicher, dass Sie Administrationsrechte in Ihrer Nextcloud-Instanz haben und die folgende Anwendung vor dem Setup installiert wurde:"
       type_link_text: "„OpenProject Integration“"
-      name: "Geben Sie Ihrem Speicher einen Namen, damit Benutzer zwischen mehreren Speichermedien unterscheiden können."
-      host: "Bitte fügen ergänzen Sie die Host-Adresse Ihres Speichers (einschließlich https://). Sie sollte nicht länger als 255 Zeichen sein."
-      no_storage_set_up: "Es wurden noch keine Datei-Speicher eingerichtet."
-      setting_up_additional_storages: "Um zusätzliche Datei-Speicher einzurichten, besuchen Sie bitte"
-      setting_up_additional_storages_non_admin: "Administratoren können zusätzliche Datei-Speicher in Administration / Datei-Speicher einrichten."
-      setting_up_storages: "Zum Einrichten von Datei-Speicher besuchen Sie bitte"
-      setting_up_storages_non_admin: "Administratoren können Datei-Speicher in Administration / Datei-Speicher einrichten."
+      name: "Geben Sie Ihrem Speicher einen Namen, damit Benutzer zwischen mehreren Speichern unterscheiden können."
+      host: "Bitte ergänzen Sie die Host-Adresse Ihres Speichers (einschließlich https://). Sie sollte nicht länger als 255 Zeichen sein."
+      no_storage_set_up: "Es wurden noch keine Dateispeicher eingerichtet."
+      setting_up_additional_storages: "Um zusätzliche Dateispeicher einzurichten, besuchen Sie bitte"
+      setting_up_additional_storages_non_admin: "Administratoren können zusätzliche Dateispeicher in Administration / Dateispeicher einrichten."
+      setting_up_storages: "Zum Einrichten von Dateispeichern besuchen Sie bitte"
+      setting_up_storages_non_admin: "Administratoren können Dateispeicher in Administration / Dateispeicher einrichten."
       all_available_storages_already_added: "Alle verfügbaren Speicher sind dem Projekt bereits hinzugefügt."
       copy_from: "Diesen Wert kopieren von"
       nextcloud:
         integration: "Nextcloud Administration / OpenProject"
     delete_warning:
       storage: >
-        Sind Sie sicher, dass Sie diesen Speicher löschen möchten? Dies löscht auch den Speicher aus allen Projekten, in denen er verwendet wird. Außerdem werden alle Links von Arbeitspaketen zu Dateien gelöscht, die in diesem Speicher gespeichert sind.
+        Sind Sie sicher, dass Sie diesen Speicher löschen möchten? Dies löscht den Speicher auch aus allen Projekten, in denen er verwendet wird. Außerdem werden alle Links von Arbeitspaketen zu Dateien gelöscht, die in diesem Speicher gespeichert sind.
       project_storage: >
-        Sind Sie sicher, dass Sie diesen Datei-Speicher aus diesem Projekt entfernen möchten? Dies wird auch alle Links zu Dateien entfernen, die für dieses Projekt in diesem Speicher gespeichert sind.
+        Sind Sie sicher, dass Sie diesen Dateispeicher aus diesem Projekt entfernen möchten? Dies wird auch alle Links zu Dateien entfernen, die für dieses Projekt in diesem Speicher gespeichert sind.
     label_creator: "Ersteller"
     label_file_link: "Datei-Link"
     label_file_links: "Datei-Links"

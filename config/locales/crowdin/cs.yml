@@ -267,8 +267,7 @@ cs:
     deletion_info:
       heading: "Odstranit zástupného uživatele %{name}"
       data_consequences: >
-        Všechny výskyty zástupného uživatele (např. jako pověřené nebo odpovědné nebo jiné uživatelské hodnoty) budou přeřazeny na účet nazvaný "Smazaný uživatel".
-        Vzhledem k tomu, že data každého smazaného účtu jsou znovu přiřazena k tomuto účtu, nebude možné rozlišit data, která uživatel vytvořil od dat jiného smazaného účtu.
+        Všechny výskyty zástupného uživatele (např. jako pověřené nebo odpovědné nebo jiné uživatelské hodnoty) budou přeřazeny na účet nazvaný "Smazaný uživatel". Vzhledem k tomu, že data každého smazaného účtu jsou znovu přiřazena k tomuto účtu, nebude možné rozlišit data, která uživatel vytvořil od dat jiného smazaného účtu.
       irreversible: "Tato akce je nevratná"
       confirmation: "Zadejte název zástupného uživatele %{name} pro potvrzení odstranění."
     upsale:
@@ -944,7 +943,7 @@ cs:
         Po vytvoření nového tokenu budete moci požádat o zálohu pouze po 24 hodinách. Toto je bezpečnostní opatření. Poté můžete kdykoliv požádat o zálohu.
     text_token_deleted: Záložní token odstraněn. Zálohy jsou nyní zakázány.
     error:
-      invalid_token: Neplatný nebo chybí záložní token 
+      invalid_token: Neplatný nebo chybí záložní token
       token_cooldown: Záložní token bude platný za %{hours} hodin.
       backup_pending: Záloha je již v pořadí.
       limit_reached: Můžete provádět pouze %{limit} záloh denně.
@@ -1282,7 +1281,7 @@ cs:
   error_enterprise_activation_user_limit: "Váš účet nebyl aktivován (dosažen limit počtu uživatelů). Prosím obraťte se na správce pro získání přístupu."
   error_enterprise_token_invalid_domain: "Enterprise Edition není aktivní. Doména Tvoje Enterprise tokenu (%{actual}) neodpovídá hostiteli systému (%{expected})."
   error_failed_to_delete_entry: 'Nepodařilo se odstranit tento záznam.'
-  error_in_dependent: "Chyba při pokusu o změnu závislého objektu: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Chyba při pokusu o změnu závislého objektu: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neplatná vybraná hodnota."
   error_journal_attribute_not_present: "Deník neobsahuje atribut %{attribute}."
@@ -1421,17 +1420,11 @@ cs:
     update_info_mail:
       body: >
         Jsme rádi, že oznamujeme vydání OpenProject 12.0. Je to významná verze, která doufejme výrazně zlepší způsob, jakým používáte OpenProject.
-
         Počínaje touto verzí přinášíme oznámení v aplikaci. Od nynějška budete dostávat upozornění na aktualizace pracovních balíčků přímo v OpenProject. Tato oznámení můžete označit jako přečtená, odpovědět na komentář nebo dokonce přímo upravit atributy pracovního balíčku, aniž byste opustili oznamovací centrum.
-
         To také znamená, že již nebudeme používat e-maily pro oznámení. Myslíme si, že nové centrum oznámení je lepším místem pro prohlížení a jednání na základě těchto aktualizací. Nicméně, pokud chcete nadále dostávat aktualizace prostřednictvím e-mailu, můžete si vybrat denní připomenutí e-mailem v určitých okamžicích vašeho výběru.
-
         Ujistěte se prosím, že jste si ověřili své nové výchozí nastavení oznámení a nastavte své předvolby pro upozornění a připomenutí e-mailem v nastavení vašeho účtu. Můžete to udělat pomocí tlačítka "Změnit nastavení e-mailu".
-
         Doufáme, že najdete oznámení v aplikacích užitečná a že vás učiní ještě produktivnějšími.
-
-        S pozdravem,
-        OpenProject tým
+        S pozdravem, OpenProject tým
       body_header: 'Verze 12.0 s oznamovacím centrem'
       body_subheader: 'Novinky'
       subject: 'Důležité změny oznámení s vydáním 12.0'
