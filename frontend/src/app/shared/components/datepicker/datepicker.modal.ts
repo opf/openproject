@@ -140,7 +140,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
     this.singleDate = this.changeset.isWritable('date');
     this.scheduleManually = !!this.changeset.value('scheduleManually');
-    this.includeNonWorkingDays = !this.changeset.value('ignoreNonWorkingDays');
+    this.includeNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
     this.duration = this.changeset.value('duration') as number;
     this.formattedDuration = this.timezoneService.formattedDuration(this.duration.toString(), 'days');
 
