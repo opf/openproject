@@ -264,14 +264,13 @@ es:
     deletion_info:
       heading: "Eliminar usuario de marcador de posición %{name}"
       data_consequences: >
-        Todas las repeticiones del usuario de marcador de posición (por ejemplo, como asignado, responsable u otros valores de usuario) se reasignarán a una cuenta denominada «Usuario eliminado».
-        Como los datos de todas las cuentas eliminadas se reasignarán a esta cuenta, no podrán distinguirse los datos del usuario de los datos creados con cualquier otra cuenta eliminada.
+        Todas las repeticiones del usuario de marcador de posición (por ejemplo, como asignado, responsable u otros valores de usuario) se reasignarán a una cuenta denominada «Usuario eliminado». Como los datos de todas las cuentas eliminadas se reasignarán a esta cuenta, no podrán distinguirse los datos del usuario de los datos creados con cualquier otra cuenta eliminada.
       irreversible: "Esta acción no se puede deshacer"
       confirmation: "Escriba el nombre de usuario de marcador de posición %{name} para confirmar la eliminación."
     upsale:
       title: Usuarios de marcador de posición
       description: >
-        Los usuarios de marcadores de posición son una forma de asignar paquetes de trabajo a usuarios que no son parte de su proyecto. Pueden ser útiles en múltiples escenarios; por ejemplo, si necesita rastrear las tareas de un recurso que aún no está nombrado o disponible, o si no quieres dar acceso a esa persona a OpenProject pero quieres seguir las tareas que se le han asignado.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -1245,7 +1244,7 @@ es:
   error_enterprise_activation_user_limit: "Su cuenta no puede ser activada (se alcanzó el límite del usuario). Por favor, contacte su administrador para obtener acceso."
   error_enterprise_token_invalid_domain: "La versión Enterprise Edition no está activa. Su dominio del token de Enterprise (%{actual}) no coincide con el nombre de host del sistema (%{expected})."
   error_failed_to_delete_entry: 'No se puede eliminar esta entrada.'
-  error_in_dependent: "Error al intentar alterar el objeto dependiente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error al intentar alterar el objeto dependiente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error al crear el objeto dependiente: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "El valor seleccionado no es válido."
   error_journal_attribute_not_present: "El diario no contiene el atributo %{attribute}."
@@ -1384,17 +1383,11 @@ es:
     update_info_mail:
       body: >
         Nos complace anunciar la publicación de la versión OpenProject 12.0. Esta, es una nueva versión con muchos cambios que esperamos simplifiquen y mejoren en gran medida la forma en que usa OpenProject.
-
         Para empezar, con esta versión introducimos las notificaciones dentro de la aplicación. Des de ahora, va a recibir notificaciones por actualizaciones en los paquetes de trabajo directamente en OpenProject. Puede marcar estas notificaciones como leídas, contestar a comentarios e incluso modificar los atributos de un paquete de trabajo sin salir del centro de notificaciones.
-
         Esto también supone que no se van a usar más los correos electrónicos para este tipo de notificaciones. Creemos que el centro de notificaciones es el mejor sitio para ver y realizar cambios sobre estas actualizaciones. No obstante, si desea continuar recibiendo notificaciones vía correo electrónico, puede seleccionar recibir correos recordatorios diarios en horas concretas de su elección.
-
         Por favor, asegúrese de validar sus nuevas configuraciones de notificaciones que se han reseteado por defecto y a posteriori puede crear y modificar sus preferencias tanto para las notificaciones dentro de la aplicación como para los recordatorios vía correo electrónico en la configuración de su cuenta. También puede hacer estos cambios usando el botón abajo "Cambiar configuración de correo electrónico".
-
         Esperamos que las nuevas notificaciones dentro la aplicación le sean útiles y le ayuden a ser aún más productivo.
-
-        Sinceramente,
-        El equipo de OpenProject
+        Sinceramente, El equipo de OpenProject
       body_header: 'Versión 12.0 con el Centro de notificaciones'
       body_subheader: 'Noticias'
       subject: 'Cambios importantes en las notificaciones con la publicación de la versión 12.0'
@@ -1609,6 +1602,7 @@ es:
   label_index_by_title: "Índice por título"
   label_information: "Información"
   label_information_plural: "Información"
+  label_installation_guides: 'Installation guides'
   label_integer: "Número entero"
   label_internal: "Interno"
   label_introduction_video: "Vídeo de introducción"
@@ -2873,10 +2867,10 @@ es:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Error de coincidencia de configuración de protocolo'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        La aplicación se ejecuta con el protocolo <code>%{set_protocol}</code>, pero el protocolo de la solicitud es <code>%{actual_protocol}</code>. Se producirán errores. Vaya a <a href="%{setting_path}">Ajustes de sistema</a> y cambie la configuración de «Protocolo» para corregir este problema.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Error de coincidencia de configuración de nombre de host'
       text_html: >

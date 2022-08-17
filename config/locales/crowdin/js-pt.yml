@@ -151,7 +151,7 @@ pt:
           language_hint: 'Informe a linguagem de formatação que será usada para destacar (se suportado).'
         dropdown:
           macros: 'Macros'
-          chose_macro: 'Escolher macro'
+          chose_macro: 'Choose macro'
         toc: 'Tabela de conteúdos'
         toolbar_help: 'Clique para selecionar o widget e mostrar a barra de ferramentas. Clique duas vezes para editar o widget'
         wiki_page_include:

@@ -151,7 +151,7 @@ es:
           language_hint: 'Especifique el lenguaje de formato que se usará para resaltar (si se admite).'
         dropdown:
           macros: 'Macros'
-          chose_macro: 'Seleccionar macro'
+          chose_macro: 'Choose macro'
         toc: 'Índice'
         toolbar_help: 'Haga clic para seleccionar un widget y mostrar la barra de herramientas. Haga doble clic para editar un widget'
         wiki_page_include:
@@ -474,7 +474,7 @@ es:
     label_remove_all_files: Borrar todos los archivos
     label_add_description: "Añadir una descripción para %{file}"
     label_upload_notification: "Cargando archivos…"
-    label_work_package_upload_notification: "Cargando archivos para el paquete de trabajo #%{id}: %{subject}"
+    label_work_package_upload_notification: "Cargando archivos para el paquete de trabajo #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} añadido por %{author}"
     label_files_to_upload: "Estos archivos se cargarán:"
     label_rejected_files: "Estos archivos no pueden ser cargados:"
@@ -758,7 +758,7 @@ es:
         farRight: 'Extremo derecho'
         showNone: '-- Sin etiqueta --'
         description: >
-          Seleccione los atributos que quiera que se muestren en las posiciones correspondientes del diagrama de Gantt en todo momento. Tenga en cuenta que, al mantener el ratón sobre un elemento, se mostrarán las etiquetas de fecha, en lugar de estos atributos. 
+          Seleccione los atributos que quiera que se muestren en las posiciones correspondientes del diagrama de Gantt en todo momento. Tenga en cuenta que, al mantener el ratón sobre un elemento, se mostrarán las etiquetas de fecha, en lugar de estos atributos.
       button_activate: 'Mostrar diagrama de Gantt'
       button_deactivate: 'Ocultar diagrama de Gantt'
       cancel: Cancelar

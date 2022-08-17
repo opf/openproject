@@ -151,7 +151,7 @@ ro:
           language_hint: 'Introduceți limbajul de formatare care va fi utilizat pentru evidențiere (dacă există suport pentru acesta).'
         dropdown:
           macros: 'Macro'
-          chose_macro: 'Alegeți macro'
+          chose_macro: 'Choose macro'
         toc: 'Cuprins'
         toolbar_help: 'Faceți clic pentru a selecta widgetul și pentru a afișa bara de instrumente. Faceți dublu clic pentru a edita widgetul'
         wiki_page_include:
@@ -473,7 +473,7 @@ ro:
     label_remove_all_files: Ştergeţi toate fişierele
     label_add_description: "Adăugați o descriere pentru %{file}"
     label_upload_notification: "Se încarcă fișierele..."
-    label_work_package_upload_notification: "Fişierele pentru pachetul de lucru #%{id}: %{subject} sunt în curs de încărcare"
+    label_work_package_upload_notification: "Fişierele pentru pachetul de lucru #%{id}: %{subject} sunt în curs de încărcare" #%{id}: %{subject} sunt în curs de încărcare"
     label_wp_id_added_by: "#%{id} adaugat de %{author}"
     label_files_to_upload: "Următoarele fişiere vor fi încărcate:"
     label_rejected_files: "Următoarele fişiere nu pot fi încărcate:"

@@ -81,7 +81,7 @@ de:
       upgrade_info: "Bitte steigen Sie auf einen kostenpflichtigen Plan um, um diese Funktion zu aktivieren und in Ihrem Team zu verwenden."
     journal_aggregation:
       explanation:
-        text: "Individuelle Aktionen eines Benutzers (z.B. ein Arbeitspaket zweimal aktualisieren) werden zu einer einzigen Aktion zusammengefasst, wenn ihr Altersunterschied kleiner ist als der angegebene Zeitraum. Sie werden als eine einzige Aktion innerhalb der Anwendung angezeigt. Dadurch werden Benachrichtigungen um die gleiche Zeit verzögert, wodurch die Anzahl der gesendeten E-Mails verringert wird und sich auch auf die Verzögerung von %{webhook_link} auswirkt."
+        text: "Individuelle Aktionen eines Benutzers (z.B. ein Arbeitspaket zweimal aktualisieren) werden zu einer einzigen Aktion zusammengefasst, wenn ihr Altersunterschied kleiner ist als der angegebene Zeitraum. Sie werden als eine einzige Aktion innerhalb der Anwendung angezeigt. Dadurch werden Benachrichtigungen um die gleiche Zeit verzögert, wodurch die Anzahl der gesendeten E-Mails verringert wird. Dies wirkt sich auch auf die Verzögerung von %{webhook_link} aus."
         link: "Webhook"
   announcements:
     show_until: Anzeigen bis
@@ -171,7 +171,7 @@ de:
     execute: '%{name} ausführen'
     upsale:
       title: 'Benutzerdefinierte Aktionen'
-      description: 'Benutzerdefinierte Aktionen sind Ein-Klick-Verknüpfungen zu einer Reihe vordefinierter Aktionen, die Sie für bestimmte Arbeitspakete, basierend auf dem Status zur Verfügung stellen können Rolle, Typ oder Projekt.'
+      description: 'Benutzerdefinierte Aktionen sind Ein-Klick-Verknüpfungen zu einer Reihe vordefinierter Aktionen, die Sie für bestimmte Arbeitspakete verfügbar machen können, basierend auf Status, Rolle, Typ oder Projekt.'
   custom_fields:
     text_add_new_custom_field: >
       Um neue benutzerdefinierte Felder einem Projekt zuzuweisen, müssen Sie diese erst global erstellen, um Sie dann an dieser Stelle aktivieren zu können.
@@ -270,7 +270,7 @@ de:
     upsale:
       title: Platzhalter-Benutzer
       description: >
-        Platzhalternutzer sind eine Möglichkeit, einem Arbeitspaket Nutzer zuzuweisen, die nicht Teil Ihres Projekts sind. Sie können in einer Reihe von Szenarien nützlich sein; zum Beispiel, wenn Sie Aufgaben für eine noch nicht benannte oder verfügbare Ressource verfolgen müssen oder wenn Sie dieser Person keinen Zugriff auf OpenProject gewähren wollen, aber trotzdem Aufgaben verfolgen wollen, die diesen Nutzer zugewiesen sind.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -327,7 +327,7 @@ de:
       could_not_be_saved: "Die folgenden Arbeitspakete konnten nicht gespeichert werden:"
       none_could_be_saved: "Keines der %{total} Arbeitspakete konnte aktualisiert werden."
       x_out_of_y_could_be_saved: "%{failing} von %{total} Arbeitspaketen konnten nicht aktualisiert werden, aber %{success} wurden aktualisiert."
-      selected_because_descendants: "Während %{selected} Arbeitspakete ausgewählt wurden, sind insgesamt %{total} Arbeitspakete betroffen, die untergeordnete Arbeitspakete enthalten."
+      selected_because_descendants: "Während %{selected} Arbeitspakete ausgewählt wurden, sind insgesamt %{total} Arbeitspakete betroffen, inklusive untergeordneter Arbeitspakete."
       descendant: "untergeordnetes Arbeitspaket eines ausgewählten Arbeitspaketes"
     move:
       no_common_statuses_exists: "Es gibt keine gemeinsamen Status für die ausgewählten Arbeitspakete. Ihr Status kann daher nicht verändert werden."
@@ -829,7 +829,7 @@ de:
       project: "Projekt"
       query: "Benutzerdefinierte Abfrage"
       role:
-        one: "Rollen"
+        one: "Rolle"
         other: "Rollen"
       type: "Typ"
       user: "Benutzer"
@@ -912,7 +912,7 @@ de:
     label_reset_token: "Backup-Token zurücksetzen"
     label_token_users: "Folgende Benutzer haben aktive Backup-Token"
     reset_token:
-      action_create: Anlegen
+      action_create: Erstellen
       action_reset: Zurücksetzen
       heading_reset: "Backup-Token zurücksetzen"
       heading_create: "Backup-Token erstellen"
@@ -1278,7 +1278,7 @@ de:
     project: 'Projekt bearbeitet'
     changeset: 'Projektarchiv-Änderung bearbeitet'
     message: Nachricht bearbeitet
-    news: Nachrichten
+    news: Neuigkeiten
     reply: Antwort erstellt
     time_entry: 'Zeiterfassungseintrag bearbeitet'
     wiki_page: 'Wiki-Seite bearbeitet'
@@ -1317,7 +1317,7 @@ de:
   general_text_No: "Nein"
   general_text_Yes: "Ja"
   general_text_true: "ja"
-  general_text_false: "true"
+  general_text_false: "falsch"
   gui_validation_error: "1 Fehler"
   gui_validation_error_plural: "%{count} Fehler"
   homescreen:
@@ -1328,10 +1328,10 @@ de:
     blocks:
       community: "OpenProject Community"
       upsale:
-        title: "Auf Enterprise-Edition upgraden"
+        title: "Auf Enterprise Edition upgraden"
         more_info: "Weitere Informationen"
     links:
-      upgrade_enterprise_edition: "Auf Enterprise-Edition upgraden"
+      upgrade_enterprise_edition: "Auf Enterprise Edition upgraden"
       postgres_migration: "Migration Ihrer Installation zu PostgreSQL"
       user_guides: "Benutzerhandbuch"
       faq: "Häufig gestellte Fragen"
@@ -1387,7 +1387,7 @@ de:
         Wir hoffen, dass Sie das Benachrichtigungszentrum nützlich finden und dass es Ihre Arbeit mit OpenProject produktiver macht.
         Mit freundlichen Grüßen Das OpenProject Team
       body_header: 'Version 12.0 mit Benachrichtigungszentrum'
-      body_subheader: 'Nachrichten'
+      body_subheader: 'Neuigkeiten'
       subject: 'Wichtige Änderungen an Benachrichtigungen mit der Veröffentlichung von 12.0'
   label_accessibility: "Barrierefreiheit"
   label_account: "Konto"
@@ -1446,7 +1446,7 @@ de:
   label_forums_locked: "Gesperrt"
   label_forum_new: "Neues Forum"
   label_forum_plural: "Foren"
-  label_forum_sticky: "Wichtig (immer oben)"
+  label_forum_sticky: "Angepinnt"
   label_boolean: "Boolesch"
   label_branch: "Zweig"
   label_browse: "Codebrowser"
@@ -1600,6 +1600,7 @@ de:
   label_index_by_title: "Seiten nach Titel"
   label_information: "Information"
   label_information_plural: "Information"
+  label_installation_guides: 'Installation guides'
   label_integer: "Zahl"
   label_internal: "Intern"
   label_introduction_video: "Einführungsvideo"
@@ -2142,7 +2143,7 @@ de:
         units:
           byte:
             one: "Byte"
-            other: "Byte"
+            other: "Bytes"
           gb: "GB"
           kb: "kB"
           mb: "MB"
@@ -2249,7 +2250,7 @@ de:
   project_module_activity: "Aktivität"
   project_module_forums: "Foren"
   project_module_work_package_tracking: "Arbeitspakete-Verfolgung"
-  project_module_news: "Nachrichten"
+  project_module_news: "Neuigkeiten"
   project_module_repository: "Projektarchiv"
   project_module_wiki: "Wiki"
   query:
@@ -2395,7 +2396,7 @@ de:
   setting_smtp_authentication: "SMTP-Authentifizierung"
   setting_smtp_user_name: "SMTP Benutzername"
   setting_smtp_password: "SMTP Passwort"
-  setting_smtp_domain: "SMTP HELO Domäne"
+  setting_smtp_domain: "SMTP HELO-Domain"
   setting_activity_days_default: "Anzahl Tage pro Seite der Projekt-Aktivität"
   setting_app_subtitle: "Applikations-Untertitel"
   setting_app_title: "Applikations-Titel"
@@ -2557,7 +2558,7 @@ de:
   text_wp_custom_field_html: >
     Die Enterprise Edition fügt diese zusätzlichen Funktionen für benutzerdefinierte Felder von Arbeitspaketen hinzu: <br> <ul> <li><b>Erlaubt Mehrfachauswahl für benutzerdefinierte Felder der Typenliste oder Benutzer</b></li> </ul>
   text_wp_status_read_only_html: >
-    Die Enterprise Edition fügt diese zusätzlichen Funktionen für die Statusfelder der Arbeitspakete hinzu: <br> <ul> <li><b>Erlaubt die Markierung von Arbeitspaketen nur für bestimmte Status</b></li> </ul>
+    Die Enterprise Edition fügt diese zusätzlichen Funktionen für die Statusfelder der Arbeitspakete hinzu: <br> <ul> <li><b>Erlaubt die Markierung von Arbeitspaketen als read-only für bestimmte Status</b></li> </ul>
   text_project_custom_field_html: >
     Die Enterprise Edition fügt diese zusätzlichen Funktionen für die benutzerdefinierten Felder der Projekte hinzu: <br> <ul> <li><b>Fügt benutzerdefinierte Felder für Projekte zu Ihrer Projektliste hinzu, um eine Portfolioansicht zu erstellen</b></li> </ul>
   text_custom_logo_instructions: >
@@ -2650,7 +2651,7 @@ de:
       time: "%H:%M"
     pm: "nachmittags"
   timeframe:
-    show: "Zeitausschnitt bestimmen"
+    show: "Zeitausschnitt anzeigen"
     end: "bis"
     start: "von"
   timelines:
@@ -2865,10 +2866,10 @@ de:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Einstellung des Web-Protokolls stimmt nicht überein'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Ihre Anwendung läuft mit der Web-Protokoll-Einstellung auf <code>%{set_protocol}</code>, aber die Anfrage ist eine <code>%{actual_protocol}</code> Anfrage. Dies führt zu Fehlern! Gehen Sie zu <a href="%{setting_path}">Systemeinstellungen</a> und ändern Sie die Einstellung "Protokoll", um dies zu korrigieren.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Einstellung des Hostnamens stimmt nicht überein'
       text_html: >
@@ -3059,19 +3060,19 @@ de:
         Dieser Fehler tritt auf, nachdem Sie die client_id und client_secret in OpenProject aktualisiert haben, aber das Feld 'Return URI' im OAuth2-Provider nicht aktualisiert haben.
       oauth_code_not_present: "OAuth2 'code' nicht im 'callback' Endpunkt gefunden (redirect_uri)."
       oauth_code_not_present_explanation: >
-        Dieser Fehler tritt auf, wenn Sie die falsche response_type im OAuth2-Provider ausgewählt haben. Response_type sollte 'code' oder ähnlich sein.
+        Dieser Fehler tritt auf, wenn Sie den falschen response_type im OAuth2-Provider ausgewählt haben. Response_type sollte 'code' oder ähnlich sein.
       oauth_state_not_present: "OAuth2 'state' nicht im 'callback' Endpunkt gefunden (redirect_uri)."
       oauth_state_not_present_explanation: >
-        Das 'state' wird verwendet, um auf OpenProject anzuzeigen, wo nach einer erfolgreichen OAuth2-Autorisierung fortgesetzt werden soll. Ein fehlender Status ist ein interner Fehler, der während der Einrichtung auftreten kann. Bitte kontaktieren Sie Ihren Systemadministrator.
+        Der 'state' wird verwendet, um OpenProject anzuzeigen, wo nach einer erfolgreichen OAuth2-Autorisierung fortgesetzt werden soll. Ein fehlender 'state' ist ein interner Fehler, der während der Einrichtung auftreten kann. Bitte kontaktieren Sie Ihren Systemadministrator.
       rack_oauth2:
         client_secret_invalid: "Client Geheimcode ist ungültig (client_secret_invalid)"
         invalid_request: >
-          Der OAuth2 Authorization Server hat mit 'invalid_request' geantwortet. Dieser Fehler tritt auf, wenn Sie mehrmals autorisieren oder technische Probleme auftreten.
+          Der OAuth2 Authorization Server hat mit 'invalid_request' geantwortet. Dieser Fehler tritt auf, wenn Sie mehrmals versuchen zu autorisieren oder technische Probleme auftreten.
         invalid_response: "OAuth2 Authorization Server hat eine ungültige Antwort gegeben (invalid_response)"
-        invalid_grant: "Der OAuth2 Authorization Server bittet Sie um Reauthorisierung (invalid_grant)."
+        invalid_grant: "Der OAuth2 Authorization Server bittet Sie um Reautorisierung (invalid_grant)."
         invalid_client: "Der OAuth2 Authorization Server erkennt OpenProject nicht (invalid_client)."
         unauthorized_client: "Der OAuth2 Authorization Server lehnt den Grant-Typ (unauthorized_client) ab"
-        unsupported_grant_type: "Der OAuth2 Authorization Server bittet Sie um Reauthorisierung (unsupported_grant_type)."
+        unsupported_grant_type: "Der OAuth2 Authorization Server bittet Sie um Reautorisierung (unsupported_grant_type)."
         invalid_scope: "Sie sind nicht berechtigt, auf die angeforderte Ressource zuzugreifen (invalid_scope)."
   http:
     request:
