@@ -401,6 +401,7 @@ import { OpenprojectFileLinksModule } from 'core-app/shared/components/file-link
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { DatepickerBannerComponent } from 'core-app/shared/components/datepicker/banner/datepicker-banner.component';
+import { SingleDateModalComponent } from 'core-app/shared/components/datepicker/single-date-modal/single-date.modal';
 
 @NgModule({
   imports: [
@@ -610,6 +611,7 @@ import { DatepickerBannerComponent } from 'core-app/shared/components/datepicker
     SaveQueryModalComponent,
     WpDestroyModalComponent,
     DatePickerModalComponent,
+    SingleDateModalComponent,
     DatepickerBannerComponent,
 
     // CustomActions
