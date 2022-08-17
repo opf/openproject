@@ -59,6 +59,7 @@ describe 'custom field inplace editor', js: true do
     end
 
     it_behaves_like 'a workpackage autocomplete field'
+    it_behaves_like 'not a principal autocomplete field'
   end
 
   describe 'custom field lists' do
@@ -151,7 +152,7 @@ describe 'custom field inplace editor', js: true do
       end
     end
 
-    context 'no restrictions' do
+    context 'with no restrictions' do
       let(:args) { {} }
 
       it 'renders errors for invalid entries' do
@@ -175,7 +176,7 @@ describe 'custom field inplace editor', js: true do
       end
     end
 
-    context 'required' do
+    context 'when required' do
       let(:args) { { is_required: true } }
 
       it 'renders errors for invalid entries' do

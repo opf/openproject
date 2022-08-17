@@ -146,7 +146,7 @@ For packaged installations, the openproject package behaves just like every othe
 
 ### After upgrading I receive the error message "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation." What does that mean?
 
-For some updates of OpenProject, the database layout needs to be adapted to support new features and fix bugs. These changes need to be carried out as part of the update process. This is why it is important to always run `sudo openproject configure`as part of the update process. 
+For some updates of OpenProject, the database layout needs to be adapted to support new features and fix bugs. These changes need to be carried out as part of the update process. This is why it is important to always run `sudo openproject configure` as part of the update process. 
 
 Please also have a look at [our upgrade guide](../operation/upgrading).
 

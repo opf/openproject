@@ -71,7 +71,9 @@ import { DynamicContentModalComponent } from 'core-app/shared/components/modals/
 import { PasswordConfirmationModalComponent } from 'core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal';
 import { WpPreviewModalComponent } from 'core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal';
 import { ConfirmFormSubmitController } from 'core-app/shared/components/modals/confirm-form-submit/confirm-form-submit.directive';
-import { ProjectMenuAutocompleteComponent } from 'core-app/shared/components/autocompleter/project-menu-autocomplete/project-menu-autocomplete.component';
+import { OpHeaderProjectSelectComponent } from 'core-app/shared/components/header-project-select/header-project-select.component';
+import { OpHeaderProjectSelectListComponent } from 'core-app/shared/components/header-project-select/list/header-project-select-list.component';
+
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { MainMenuResizerComponent } from 'core-app/shared/components/resizer/resizer/main-menu-resizer.component';
 import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
@@ -214,8 +216,9 @@ export function initializeServices(injector:Injector) {
     MainMenuResizerComponent,
     MainMenuToggleComponent,
 
-    // Project autocompleter
-    ProjectMenuAutocompleteComponent,
+    // Project selector
+    OpHeaderProjectSelectComponent,
+    OpHeaderProjectSelectListComponent,
 
     // Form configuration
     OpDragScrollDirective,

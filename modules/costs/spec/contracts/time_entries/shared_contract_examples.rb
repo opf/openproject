@@ -48,13 +48,13 @@ shared_examples_for 'time entry contract' do
     build_stubbed(:time_entry_activity)
   end
   let(:time_entry_activity_active) { true }
-  let(:time_entry_spent_on) { Date.today }
+  let(:time_entry_spent_on) { Time.zone.today }
   let(:time_entry_hours) { 5 }
   let(:time_entry_comments) { "A comment" }
   let(:work_package_visible) { true }
   let(:time_entry_day_sum) { 5 }
   let(:activities_scope) do
-    scope = double('activities')
+    scope = class_double(TimeEntryActivity)
 
     if time_entry_activity
       allow(scope)
@@ -78,7 +78,7 @@ shared_examples_for 'time entry contract' do
       .to receive(:active_in_project)
       .and_return(TimeEntryActivity.none)
 
-    of_user_and_day_scope = double('of_user_and_day_scope')
+    of_user_and_day_scope = instance_double(ActiveRecord::Relation)
 
     allow(TimeEntry)
       .to receive(:of_user_and_day)
@@ -162,6 +162,38 @@ shared_examples_for 'time entry contract' do
     end
   end
 
+  context 'when spent_on is outside the year limits to prevent overflow in postgres' do
+    let(:time_entry_spent_on) { Date.new(10000) }
+
+    it 'is invalid' do
+      expect_valid(false, spent_on: %i(date_before_or_equal_to))
+    end
+  end
+
+  context 'when spent_on is in the future' do
+    let(:time_entry_spent_on) { Date.new(9999) }
+
+    it 'is valid' do
+      expect_valid(true)
+    end
+  end
+
+  context 'when spent_on is today' do
+    let(:time_entry_spent_on) { Time.zone.today }
+
+    it 'is valid' do
+      expect_valid(true)
+    end
+  end
+
+  context 'when spent_on is in the past' do
+    let(:time_entry_spent_on) { Time.zone.yesterday }
+
+    it 'is valid' do
+      expect_valid(true)
+    end
+  end
+
   context 'when hours is nil' do
     let(:time_entry_hours) { nil }
 
@@ -175,14 +207,6 @@ shared_examples_for 'time entry contract' do
 
     it 'is invalid' do
       expect_valid(false, hours: %i(invalid))
-    end
-  end
-
-  context 'when hours is nil' do
-    let(:time_entry_hours) { nil }
-
-    it 'is invalid' do
-      expect_valid(false, hours: %i(blank))
     end
   end
 
@@ -227,8 +251,8 @@ shared_examples_for 'time entry contract' do
   end
 
   describe 'assignable_versions' do
-    let(:project_versions) { double('project versions') }
-    let(:wp_versions) { double('work_package versions') }
+    let(:project_versions) { [instance_double(Version)] }
+    let(:wp_versions) { [instance_double(Version)] }
 
     before do
       if time_entry_project

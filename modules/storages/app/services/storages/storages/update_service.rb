@@ -40,8 +40,8 @@ module Storages::Storages
         persist_service_result = ::OAuth::PersistApplicationService
          .new(application, user:)
          .call({
-                 name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.provider_type}")})",
-                 redirect_uri: File.join(storage.host, "apps/integration_openproject/oauth-redirect")
+                 name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.provider_type}.name")})",
+                 redirect_uri: File.join(storage.host, "index.php/apps/integration_openproject/oauth-redirect")
                })
         service_call.add_dependent!(persist_service_result)
       end

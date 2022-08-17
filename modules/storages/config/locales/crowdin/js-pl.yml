@@ -2,26 +2,26 @@
 pl:
   js:
     storages:
-      link_files_in_storage: "Link files in %{storageType}"
-      login: "%{storageType} login"
-      login_to: "Login to %{storageType}"
-      no_connection: "No %{storageType} connection"
-      open_storage: "Open %{storageType}"
+      link_files_in_storage: "Połącz pliki w %{storageType}"
+      login: "%{storageType} logowanie"
+      login_to: "Zaloguj się do %{storageType}"
+      no_connection: "Brak połączenia %{storageType}"
+      open_storage: "Otwórz %{storageType}"
       types:
         nextcloud: "Nextcloud"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
-        live_data_error: "Error fetching file details"
+          Niektóre ustawienia %{storageType} nie działają. Skontaktuj się z administratorem %{storageType}.
+        live_data_error: "Błąd podczas pobierania szczegółów pliku"
         live_data_error_description: >
-          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
-        no_file_links: "In order to link files to this work package please do it via %{storageType}."
+          Niektóre dane %{storageType} nie mogą zostać pobrane. Spróbuj odświeżyć tę stronę lub skontaktuj się z administratorem %{storageType}.
+        no_file_links: "Aby połączyć pliki z tym pakietem roboczym, zrób to za pośrednictwem %{storageType}."
         not_logged_in: >
-          To add a link, see or upload files related to this work package, please login to %{storageType}.
+          Aby dodać link, zobacz lub wgraj pliki związane z tym pakietem roboczym, zaloguj się do %{storageType}.
       file_links:
-        download: "Download %{fileName}"
-        no_permission: "You have no permission to see this file."
-        open: 'Open file on storage'
-        open_location: 'Open file in location'
-        remove: "Remove file link"
-        remove_confirmation: "Are you sure you want to unlink the file from the work package?"
+        download: "Pobierz %{fileName}"
+        no_permission: "Nie masz uprawnień, aby zobaczyć ten plik."
+        open: 'Otwórz plik w pamięci'
+        open_location: 'Otwórz plik w lokalizacji'
+        remove: "Usuń link do pliku"
+        remove_confirmation: "Czy na pewno chcesz odłączyć plik od pakietu roboczego?"

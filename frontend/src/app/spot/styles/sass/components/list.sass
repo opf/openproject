@@ -27,18 +27,24 @@
       > *:first-child
         flex-shrink: 0
 
+      &:focus
+        @include spot-focus
+
       &:hover
         color: var(--content-link-hover-active-color)
         background-color: $spot-color-basic-gray-6
-
-      &:focus
-        @include spot-focus
+        text-decoration: none
 
       &_disabled
         &,
         &:hover
           color: $spot-color-basic-gray-3
+          background-color: transparent
           cursor: default
+
+      &_active#{&}_disabled
+        color: $spot-color-basic-gray-3
+        background-color: $spot-color-basic-gray-6
 
       &_link
         color: var(--content-link-color)
@@ -73,6 +79,13 @@
       &:not(:last-child)
         margin-left: $spot-spacing-0_5
 
+      &_ellipse-text
+        text-overflow: ellipsis
+        white-space: nowrap
+        overflow: hidden
+        max-width: 100%
+        width: 100%
+
     &-floating-wrapper:hover > &-floating-actions,
     &-floating-actions:focus-within,
     &-floating-actions:hover
@@ -84,6 +97,11 @@
   &_compact &--item-action,
   &_compact &--item-floating-actions
     padding: $spot-spacing-0_25 $spot-spacing-1
+
+  &_active &--item-action_active
+    color: var(--content-link-hover-active-color)
+    background-color: $spot-color-basic-gray-6
+    text-decoration: none
 
   $item-list: ""
   @for $i from 0 through 10

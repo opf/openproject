@@ -185,7 +185,7 @@ module OpenProject
         # To fix this we find out the earliest available revision here
         # and start from there.
         def start_revision
-          cmd = %w(log -r1:HEAD --limit 1) + [target('')]
+          cmd = %w(log -r1:HEAD --limit 1 --stop-on-copy) + [target('')]
 
           rev = capture_svn(cmd).lines.map(&:strip)
             .select { |line| line =~ /\Ar\d+ \|/ }

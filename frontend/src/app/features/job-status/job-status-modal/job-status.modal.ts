@@ -16,6 +16,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { JobStatusEnum, JobStatusInterface } from 'core-app/features/job-status/job-status.interface';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
 
 @Component({
   templateUrl: './job-status.modal.html',
@@ -94,7 +95,7 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
       ).subscribe(
         (response) => this.onResponse(response),
         (error) => this.handleError(error),
-        () => this.isLoading = false,
+        () => { this.isLoading = false; },
       );
   }
 
@@ -144,9 +145,9 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
     this.cdRef.detectChanges();
   }
 
-  private handleRedirect(payload:any) {
+  private handleRedirect(payload:JobStatusInterface['payload']) {
     if (payload?.redirect && !payload?.errors) {
-      setTimeout(() => window.location.href = payload.redirect, 2000);
+      setTimeout(() => { window.location.href = payload.redirect as string; }, 2000);
       this.message += `. ${this.text.redirect}`;
     }
   }
@@ -158,12 +159,25 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
         .get(redirectionUrl, {
           observe: 'response',
           responseType: 'text',
+          // This might or might not be an external request (depending on the configuration of an S3 storage)
+          // But not having headers like X-CSRF-TOKEN set works in both cases.
+          headers: {
+            [EXTERNAL_REQUEST_HEADER]: 'true',
+          },
         })
         .subscribe((response) => {
           this.downloadHref = response.url;
 
           this.cdRef.detectChanges();
           this.downloadLink.nativeElement.click();
+        }, (error:HttpErrorResponse) => {
+          // In this case, most typically, there is a CORS error.
+          // Instead of failing completely, we show a manual link for the user to click themselves.
+          if (error.status === 0) {
+            this.downloadHref = redirectionUrl;
+
+            this.cdRef.detectChanges();
+          }
         });
     }
   }

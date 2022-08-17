@@ -509,7 +509,7 @@ describe MailHandler, type: :model do
               it 'responds with an error email' do
                 expect(UserMailer).to have_received(:incoming_email_error) do |user, mail, logs|
                   expect(user).to eq anno_user
-                  expect(mail.subject).to eq "Ticket by unknown user"
+                  expect(mail[:subject]).to eq "Ticket by unknown user"
                   expect(logs).to eq [expected.sub(/^MailHandler/, "error")]
                 end
               end

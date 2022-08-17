@@ -76,4 +76,21 @@ describe ::Storages::Storages::UpdateService, type: :model do
     expect(service_result.errors.symbols_for(:creator_id)).to contain_exactly(:error_readonly)
     expect(storage.reload.creator).to eq(storage_creator)
   end
+
+  describe 'updates the nested OAuth application' do
+    let(:storage) { create(:storage) }
+    let!(:oauth_application) { create(:oauth_application, integration: storage) }
+    let(:user) { create(:admin) }
+    let(:name) { 'Awesome Storage' }
+
+    subject do
+      described_class
+        .new(user:, model: storage)
+        .call({ name: })
+    end
+
+    it 'must update the name of the OAuth application' do
+      expect(subject.result.oauth_application.name).to eq("#{name} (#{storage.provider_type.to_s.capitalize})")
+    end
+  end
 end

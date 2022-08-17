@@ -37,7 +37,7 @@ el:
         enabled_text: 'Το webhook θα εκπέμπει payloads για τα συμβάντα που έχουν οριστεί παρακάτω.'
         disabled_text: 'Κάντε κλικ στο κουμπί επεξεργασίας για να ενεργοποιήσετε το webhook.'
       deliveries:
-        no_results_table: Δεν έχουν γίνει διανομές για αυτό το webhook.
+        no_results_table: No deliveries have been made for this webhook in the past days.
         title: 'Πρόσφατες διανομές'
         time: 'Χρόνος παράδοσης'
       form:

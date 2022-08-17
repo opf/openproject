@@ -77,7 +77,6 @@ lol:
       buttons:
         upgrade: "crwdns655649:0crwdne655649:0"
         contact: "crwdns655651:0crwdne655651:0"
-        more_info: "crwdns822236:0crwdne822236:0"
       enterprise_info_html: "crwdns655653:0crwdne655653:0"
       upgrade_info: "crwdns655655:0crwdne655655:0"
     journal_aggregation:
@@ -96,7 +95,7 @@ lol:
     add_new: 'crwdns494803:0crwdne494803:0'
     edit: "crwdns494805:0%{attribute_caption}crwdne494805:0"
     enterprise:
-      description: 'crwdns823052:0crwdne823052:0'
+      description: 'crwdns825464:0crwdne825464:0'
   auth_sources:
     index:
       no_results_content_title: crwdns494807:0crwdne494807:0
@@ -288,7 +287,7 @@ lol:
       settings: "crwdns495031:0crwdne495031:0"
       form_configuration: "crwdns495033:0crwdne495033:0"
       more_info_text_html: >
-        crwdns822242:0%{list_styling_class}crwdne822242:0
+        crwdns825466:0%{list_styling_class}crwdne825466:0
       projects: "crwdns495035:0crwdne495035:0"
       enabled_projects: "crwdns495037:0crwdne495037:0"
       edit_query: "crwdns495039:0crwdne495039:0"
@@ -1342,7 +1341,7 @@ lol:
     admin:
       mail_notification: "crwdns496809:0crwdne496809:0"
       mails_and_notifications: "crwdns808258:0crwdne808258:0"
-      aggregation_and_retention: 'crwdns808260:0crwdne808260:0'
+      aggregation: 'crwdns825700:0crwdne825700:0'
       api_and_webhooks: "crwdns808262:0crwdne808262:0"
     quick_add:
       label: "crwdns496813:0crwdne496813:0"
@@ -2406,7 +2405,6 @@ lol:
   setting_email_login: "crwdns498995:0crwdne498995:0"
   setting_enabled_scm: "crwdns498997:0crwdne498997:0"
   setting_enabled_projects_columns: "crwdns498999:0crwdne498999:0"
-  setting_notification_retention_period_days: "crwdns499001:0crwdne499001:0"
   setting_feeds_enabled: "crwdns499003:0crwdne499003:0"
   setting_feeds_limit: "crwdns499005:0crwdne499005:0"
   setting_file_max_size_displayed: "crwdns499007:0crwdne499007:0"
@@ -2479,8 +2477,6 @@ lol:
       whitelist_text_html: >
         crwdns499137:0%{ext_example}crwdnd499137:0%{mime_example}crwdne499137:0
     notifications:
-      retention_text: >
-        crwdns499139:0crwdne499139:0
       events_explanation: 'crwdns499141:0crwdne499141:0'
       delay_minutes_explanation: "crwdns499143:0crwdne499143:0"
     display:
@@ -2532,6 +2528,12 @@ lol:
     crwdns499211:0crwdne499211:0
   text_custom_field_hint_activate_per_project_and_type: >
     crwdns499213:0crwdne499213:0
+  text_wp_custom_field_html: >
+    crwdns825468:0crwdne825468:0
+  text_wp_status_read_only_html: >
+    crwdns825470:0crwdne825470:0
+  text_project_custom_field_html: >
+    crwdns825472:0crwdne825472:0
   text_custom_logo_instructions: >
     crwdns499215:0crwdne499215:0
   text_custom_favicon_instructions: >

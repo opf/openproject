@@ -28,7 +28,7 @@
 
 require_relative '../../../spec_helper'
 
-describe Storages::Storages::BaseContract, :storage_server_helpers, with_flag: { storages_module_active: true }, webmock: true do
+describe Storages::Storages::BaseContract, :storage_server_helpers, webmock: true do
   let(:current_user) { create(:admin) }
   let(:storage_host) { 'https://host1.example.com' }
   let(:storage) { build(:storage, host: storage_host) }
@@ -36,7 +36,7 @@ describe Storages::Storages::BaseContract, :storage_server_helpers, with_flag: {
 
   it 'checks the storage url only when changed' do
     capabilities_request = mock_server_capabilities_response(storage_host)
-    host_request = mock_server_host_response(storage_host)
+    host_request = mock_server_config_check_response(storage_host)
     contract.valid?
     expect(capabilities_request).to have_been_made.once
     expect(host_request).to have_been_made.once

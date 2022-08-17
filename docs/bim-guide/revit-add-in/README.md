@@ -29,7 +29,7 @@ If you can answer all questions with "yes" you are ready to start using our Revi
 
 
 
-## How to install?
+## How to install
 
 
 
@@ -84,15 +84,15 @@ After you have downloaded the file, please run it to start the installation proc
 
 
 
-## How to update from an earlier version?
+## How to update from an earlier version
 
-If you already have an earlier version installed, simply follow the same steps as for a new installation ([How to install?](#how-to-install)). The existing **OpenProject Revit AddIn** will be updated.
-
-
+If you already have an earlier version installed, simply follow the same steps as for a new installation ([How to install](#how-to-install)). The existing **OpenProject Revit AddIn** will be updated.
 
 
 
-## How to login?
+
+
+## How to login
 
 After Installing the OpenProject BIM AddIn you can find a new tab within the Revit taskbar named "OpenProject". To login you have to open the **settings** first.
 
@@ -180,7 +180,7 @@ OpenProject BIM and Revit automatically synchronize all BIM work packages. You d
 
 
 
-## How to uninstall the OpenProject Revit add-in?
+## How to uninstall the OpenProject Revit add-in
 
 To remove the **OpenProject Revit AddIn** remove the AddIn like any other AddIn from Revit. First close any running instance of Revit. Then you'll have to enter the directory `C:\ProgramData\Autodesk\Revit\Addins\<REVIT_VERSION>`. There you must delete the file `OpenProject.Revit.addin` and the folder `OpenProject.Revit`. After a restart of Revit, the **OpenProject Revit AddIn** is no longer available.
 

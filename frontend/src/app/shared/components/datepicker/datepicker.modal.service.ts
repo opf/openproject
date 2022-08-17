@@ -169,7 +169,7 @@ export class DatepickerModalService {
     if (date === '') {
       return '';
     }
-    return new Date(new Date(date).setHours(0, 0, 0, 0));
+    return new Date(moment(date).toDate().setHours(0, 0, 0, 0));
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -201,23 +201,34 @@ export class DatepickerModalService {
     return this.currentlyActivatedDateField === val;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   setDates(dates:DateOption|DateOption[], datePicker:DatePicker, enforceDate?:Date):void {
     const { currentMonth } = datePicker.datepickerInstance;
     const { currentYear } = datePicker.datepickerInstance;
     datePicker.setDates(dates);
 
-    /* eslint-disable no-param-reassign */
     if (enforceDate) {
-      datePicker.datepickerInstance.currentMonth = enforceDate.getMonth();
-      datePicker.datepickerInstance.currentYear = enforceDate.getFullYear();
+      const enforcedMonth = enforceDate.getMonth();
+      const enforcedYear = enforceDate.getFullYear();
+      const monthDiff = enforcedMonth - currentMonth + 12 * (enforcedYear - currentYear);
+
+      // Because of the two-month layout we only have to update the calendar
+      // if the month is further in the past/future than the one additional month that is shown anyway
+      if (Math.abs(monthDiff) > 1) {
+        datePicker.datepickerInstance.currentMonth = enforcedMonth;
+        datePicker.datepickerInstance.currentYear = enforcedYear;
+      } else {
+        this.keepCurrentlyActiveMonth(datePicker, currentMonth, currentYear);
+      }
     } else {
-      // Keep currently active month and avoid jump because of two-month layout
-      datePicker.datepickerInstance.currentMonth = currentMonth;
-      datePicker.datepickerInstance.currentYear = currentYear;
+      this.keepCurrentlyActiveMonth(datePicker, currentMonth, currentYear);
     }
 
     datePicker.datepickerInstance.redraw();
-    /* eslint-enable no-param-reassign */
+  }
+
+  private keepCurrentlyActiveMonth(datePicker:DatePicker, currentMonth:number, currentYear:number) {
+    // Keep currently active month and avoid jump because of two-month layout
+    datePicker.datepickerInstance.currentMonth = currentMonth;
+    datePicker.datepickerInstance.currentYear = currentYear;
   }
 }

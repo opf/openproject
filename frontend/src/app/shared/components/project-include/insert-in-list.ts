@@ -1,6 +1,6 @@
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
-import { IProjectData } from '../project-list/project-data';
+import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
 
 const UNDISCLOSED_ANCESTOR = 'urn:openproject-org:api:v3:undisclosed';
 

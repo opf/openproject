@@ -5,7 +5,7 @@ zh-TW:
       remove: '移除元件'
       configure: '設定小工具'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise Edition."
         link: 'Enterprise Edition.'
       widgets:
         custom_text:

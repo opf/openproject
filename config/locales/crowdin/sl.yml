@@ -23,7 +23,7 @@ sl:
   no_results_title_text: Ni elementov za prikaz
   activities:
     index:
-      no_results_title_text: Na projektu ni bilo nobene aktivnosti v izbranem časovnem okviru 
+      no_results_title_text: Na projektu ni bilo nobene aktivnosti v izbranem časovnem okviru
   admin:
     plugins:
       no_results_title_text: Trenutno vtičniki niso na voljo
@@ -77,7 +77,6 @@ sl:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -96,7 +95,7 @@ sl:
     add_new: 'Dodajte besedilo pomoči'
     edit: "Uredite besedilo pomoči za %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Trenutno ni načinov overjanja.
@@ -152,7 +151,7 @@ sl:
       simple_tls_description: "Implicitno šifriranje TLS, vendar ni potrjevanja potrdila. Uporabljajte previdno in implicitno zaupanje povezave LDAP."
       start_tls_description: "Izrecno šifriranje TLS s popolno veljavnostjo. Uporabite za LDAP prek TLS / SSL."
       section_more_info_link_html: >
-        Razdelek zadeva varnost povezave tega vira za preverjanje pristnosti LDAP. Če želite več informacij, obiščite <a href="%{link}">the Net::LDAP documentation</a>. 
+        Razdelek zadeva varnost povezave tega vira za preverjanje pristnosti LDAP. Če želite več informacij, obiščite <a href="%{link}">the Net::LDAP documentation</a>.
   forums:
     show:
       no_results_title_text: Trenutno ni nobenih objav za forum.
@@ -233,7 +232,7 @@ sl:
       custom_fields:
         no_results_title_text: Nobeno polje po meri trenutno ni na voljo.
       types:
-        no_results_title_text: Trenutno ni na voljo nobenih vrst. 
+        no_results_title_text: Trenutno ni na voljo nobenih vrst.
       versions:
         no_results_title_text: Trenutno ni nobene različice za projekt.
         no_results_content_text: Ustvari novo različico
@@ -267,8 +266,7 @@ sl:
     deletion_info:
       heading: "Izbriši nadomestnega uporabnika %{name}"
       data_consequences: >
-        Vsi pojavi nadomestnega uporabnika (npr., kot nosilec naloge, odgovorni ali druge vrednosti) bodo preneseni na račun imenovan "Izbrisan uporabnik".
-        Podatki iz vsakega izbrisanega računa so preneseni na ta račun, zato ne bo možno razlikovati med podatki, ki jih je uporabnik ustvaril in podatki iz drugega izbirsanega računa.
+        Vsi pojavi nadomestnega uporabnika (npr., kot nosilec naloge, odgovorni ali druge vrednosti) bodo preneseni na račun imenovan "Izbrisan uporabnik". Podatki iz vsakega izbrisanega računa so preneseni na ta račun, zato ne bo možno razlikovati med podatki, ki jih je uporabnik ustvaril in podatki iz drugega izbirsanega računa.
       irreversible: "To dejanje je nepreklicno"
       confirmation: "Vnesite nadomestno uporabniško ime %{name} za potrditev izbrisa."
     upsale:
@@ -304,7 +302,7 @@ sl:
       settings: "Nastavitve"
       form_configuration: "Konfiguracija obrazca"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekti"
       enabled_projects: "Omogočeni projekti"
       edit_query: "Uredi tabelo"
@@ -351,7 +349,7 @@ sl:
         priority:
           no_results_title_text: Trenutno ni na voljo nobenih prednostnih nalog.
         type:
-          no_results_title_text: Trenutno ni na voljo nobenih vrst. 
+          no_results_title_text: Trenutno ni na voljo nobenih vrst.
         version:
           no_results_title_text: Trenutno ni na voljo nobene različice.
   label_invitation: Povabilo
@@ -1280,7 +1278,7 @@ sl:
   error_enterprise_activation_user_limit: "Vašega računa ni bilo mogoče aktivirati (dosežena uporabniška omejitev). Če želite dobiti dostop, se obrnite na skrbnika."
   error_enterprise_token_invalid_domain: "Podjetniška verzija ni aktivna. Domena vašega žetona podjetja (%{actual}) se ne ujema z imenom gostitelja sistema (%{expected})."
   error_failed_to_delete_entry: 'Izbris tega vnosa ni bilo mogoče.'
-  error_in_dependent: "Napaka pri spremembi odvisnega predmeta: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Napaka pri spremembi odvisnega predmeta: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neveljavna izbrana vrednost."
   error_journal_attribute_not_present: "Dnevnik ne vsebuje atributa %{attribute}."
@@ -1392,7 +1390,7 @@ sl:
     admin:
       mail_notification: "E-poštna obvestila"
       mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Odpri meni za hitro dodajanje"
@@ -1419,17 +1417,11 @@ sl:
     update_info_mail:
       body: >
         We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-
         Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-
         This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-
         We hope you find in-app notifications useful and that they makes you even more productive.
-
-        Sincerely,
-        The OpenProject team
+        Sincerely, The OpenProject team
       body_header: 'Version 12.0 with Notification Center'
       body_subheader: 'Novice'
       subject: 'Important changes to notifications with the release of 12.0'
@@ -2478,7 +2470,6 @@ sl:
   setting_email_login: "Uporabite e-pošto kot prijavo"
   setting_enabled_scm: "Omogočen SCM"
   setting_enabled_projects_columns: "Vidno na seznamu projektov"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "Omogoči vire"
   setting_feeds_limit: "Omejitev vsebine vira"
   setting_file_max_size_displayed: "Največja velikost besedilnih datotek, prikazanih v vrstici"
@@ -2551,8 +2542,6 @@ sl:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
@@ -2604,6 +2593,12 @@ sl:
     Pri uporabi polj po meri: Upoštevajte, da je treba polja po meri aktivirati tudi za projekt.
   text_custom_field_hint_activate_per_project_and_type: >
     Polja po meri je treba aktivirati  za vrsto delovnega paketa in za projekt.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Priporočljiv je bel logotip na transparentnem ozadju. Za najboljše rezultate na običajnih zaslonih in mrežnici se prepričajte, da so dimenzije vaše slike 460px za 60px.
   text_custom_favicon_instructions: >
@@ -3052,7 +3047,6 @@ sl:
     client_id: "ID odjemalca"
     client_secret_notice: >
       To je edini čas, ko lahko natisnemo skrivnost stranke. Prosimo, zapišite jo in ohranite varno. To bi moralo biti obravnavano kot geslo in ga OpenProject ne more pozneje pridobiti.
-
     authorization_dialog:
       authorize: "Avtorizacija"
       cancel: "Prekličite in zavrnite avtorizacijo."

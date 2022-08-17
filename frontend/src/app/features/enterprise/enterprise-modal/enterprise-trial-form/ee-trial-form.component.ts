@@ -32,6 +32,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EnterpriseTrialData, EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { localizeLink } from 'core-app/shared/helpers/i18n/localized-link';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 const newsletterURL = 'https://www.openproject.org/newsletter/';
 
@@ -44,12 +45,17 @@ export class EETrialFormComponent {
   // Retain used values
   userData:Partial<EnterpriseTrialData> = this.eeTrialService.userData$.getValueOr({});
 
+  // The current request host
+  requestHost = window.location.host;
+  // The configured host name
+  configuredHost = this.configurationService.hostName;
+
   trialForm = this.formBuilder.group({
     company: [this.userData.company, Validators.required],
     first_name: [this.userData.first_name, Validators.required],
     last_name: [this.userData.last_name, Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    domain: [this.userData.domain || window.location.host, Validators.required],
+    domain: [this.userData.domain || this.configuredHost, Validators.required],
     general_consent: [null, Validators.required],
     newsletter_consent: null,
     language: this.currentUserService.language,
@@ -72,6 +78,7 @@ export class EETrialFormComponent {
     label_last_name: this.I18n.t('js.admin.enterprise.trial.form.label_last_name'),
     label_email: this.I18n.t('js.label_email'),
     label_domain: this.I18n.t('js.admin.enterprise.trial.form.label_domain'),
+    domain_mismatch: this.I18n.t('js.admin.enterprise.trial.form.domain_mismatch'),
     privacy_policy: this.I18n.t('js.admin.enterprise.trial.form.privacy_policy'),
     receive_newsletter: this.I18n.t('js.admin.enterprise.trial.form.receive_newsletter', { link: newsletterURL }),
     terms_of_service: this.I18n.t('js.admin.enterprise.trial.form.terms_of_service'),
@@ -81,6 +88,7 @@ export class EETrialFormComponent {
     readonly I18n:I18nService,
     private formBuilder:FormBuilder,
     readonly currentUserService:CurrentUserService,
+    readonly configurationService:ConfigurationService,
     public eeTrialService:EnterpriseTrialService) {
 
   }

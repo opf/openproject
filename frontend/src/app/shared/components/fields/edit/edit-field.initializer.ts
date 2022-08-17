@@ -84,7 +84,8 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addSpecificFieldType('Project', ProjectStatusEditFieldComponent, 'status', ['status'])
       .addSpecificFieldType('TimeEntry', PlainFormattableEditFieldComponent, 'comment', ['comment'])
       .addSpecificFieldType('TimeEntry', TimeEntryWorkPackageEditFieldComponent, 'workPackage', ['WorkPackage'])
-      .addSpecificFieldType('TimeEntry', HoursDurationEditFieldComponent, 'hours', ['hours']);
+      .addSpecificFieldType('TimeEntry', HoursDurationEditFieldComponent, 'hours', ['hours'])
+      .addSpecificFieldType('WorkPackage', HoursDurationEditFieldComponent, 'remainingTime', ['remainingTime']);
 
     selectAutocompleterRegisterService.register(VersionAutocompleterComponent, 'Version');
     selectAutocompleterRegisterService.register(WorkPackageAutocompleterComponent, 'WorkPackage');

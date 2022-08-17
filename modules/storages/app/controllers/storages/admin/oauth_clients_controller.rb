@@ -85,12 +85,6 @@ class Storages::Admin::OAuthClientsController < ApplicationController
 
   private
 
-  def ensure_storages_module_active
-    return if OpenProject::FeatureDecisions.storages_module_active?
-
-    raise ActionController::RoutingError, 'Not Found'
-  end
-
   # Called by create and update above in order to check if the
   # update parameters are correctly set.
   def permitted_oauth_client_params

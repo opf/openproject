@@ -401,9 +401,13 @@ Settings::Definition.define do
       default: 'enterprise-on-premises---euro---1-year',
       writable: false
 
-  add :feature_storages_module_active,
-      default: Rails.env.development?,
-      format: :boolean
+  # feature flags
+  # To add a feature flag register a new definition for a configuration variable
+  #
+  # Example:
+  # add :feature_your_module_active,
+  #     default: Rails.env.development?,
+  #     format: :boolean
 
   add :feeds_enabled,
       default: true
@@ -529,7 +533,7 @@ Settings::Definition.define do
   # Update users' status through the synchronization job
   add :ldap_users_sync_status,
       format: :boolean,
-      default: true,
+      default: false,
       writable: false
 
   add :ldap_tls_options,
@@ -601,9 +605,6 @@ Settings::Definition.define do
       format: :string,
       default: nil,
       writable: false
-
-  add :notification_retention_period_days,
-      default: 30
 
   add :notification_email_delay_minutes,
       default: 15

@@ -32,7 +32,10 @@ module API
       class WorkPackageCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
         def initialize(models,
                        self_link:,
-                       groups:, total_sums:, current_user:, query: {},
+                       groups:,
+                       total_sums:,
+                       current_user:,
+                       query: {},
                        project: nil,
                        page: nil,
                        per_page: nil,

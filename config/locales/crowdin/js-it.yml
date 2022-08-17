@@ -151,7 +151,7 @@ it:
           language_hint: 'Specifica il linguaggio di formattazione che verrà utilizzato per evidenziare (se supportato).'
         dropdown:
           macros: 'Macro'
-          chose_macro: 'Scegli macro'
+          chose_macro: 'Choose macro'
         toc: 'Indice'
         toolbar_help: 'Clicca per selezionare widget e visualizzare la barra degli strumenti. Fai doppio clic per modificare i widget'
         wiki_page_include:
@@ -205,6 +205,7 @@ it:
             label_expires_at: "Scade il"
             receive_newsletter: Voglio ricevere la <a target="_blank" href="%{link}">newsletter</a> di OpenProject.
             taken_domain: Puoi avere solo una prova attiva per ogni dominio.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Ogni utente può creare solo una prova.
           email_not_received: "Non hai ricevuto l'e-mail? Puoi inviarla di nuovo tramite il link qui a destra."
           try_another_email: "O provare con un altro indirizzo email."
@@ -231,11 +232,12 @@ it:
             professional_support: "Supporto professionale"
             professional_support_text: "Ottieni un supporto affidabile e di livello da esperti tecnici con conoscenze dettagliate sulla gestione di OpenProject in ambienti critici per le imprese."
           button_start_trial: "Inizia la prova gratuita"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "Aggiorna ora"
           button_book_now: "Prenota ora"
           confidence: >
             Forniamo la sicurezza di un software di gestione di progetti di classe aziendale collaudato e supportato, con l'Open Source e una mente aperta.
           link_quote: "Richiedi un preventivo"
+          more_info: "Ulteriori informazioni"
           text: >
             OpenProject Enterprise Edition si basa sull'edizione Community Edition. Include caratteristiche premium e supporto professionale principalmente rivolto alle organizzazioni con più di 10 utenti che gestiscono progetti critici di business con OpenProject.
           unlimited: "Illimitato"
@@ -268,8 +270,7 @@ it:
           one: "Primo criterio di ordinamento"
           two: "Secondo criterio di ordinamento"
           three: "Terzo criterio di ordinamento"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "I filtri avanzati consentono di filtrare anche i nomi dei file e il contenuto degli allegati delle macro-attività. Esegui l'upgrade a un piano a pagamento per utilizzare questa funzione."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "no"
     general_text_yes: "si"
@@ -289,17 +290,15 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Un <b>nuovo modulo di pianificazione del team</b> (funzione Enterprise) consente di assegnare visivamente le attività al team membri per avere una panoramica di chi sta lavorando a cosa.</li> <li>Stiamo <b>rilasciando le agile board di base</b> per la versione Community.</li> <li>L'<b>opzione di filtro "Includi progetti"</b> semplifica l'aggiunta di diversi progetti alle visualizzazioni, ad esempio per macro-attività, calendari e pianificatori di team.</li> <li>Abbiamo aggiunto <b>una nuova scheda "File"</b> nei dettagli delle macro-attività per avere tutte le informazioni possibili di una macro-attività in un unico punto.</li> <li>Abbiamo creato <b>ruoli globali per i gruppi</b> per assegnare questi ruoli ai gruppi e creare un gruppi di superutenti.</li> <li>È possibile scegliere lo stato del progetto tra più opzioni.</li> </ul>
-
+                Questa versione contiene diverse nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Non dovrai più cercare file senza fine! Con la nuova <b>integrazione Nextcloud</b> in OpenProject 12.2, ora puoi trovare i file direttamente nella rispettiva macro-attività e avere sempre la versione corretta a portata di mano.</li> <li>Abbiamo introdotto il <b>a nuovo selettore di date</b> con una nuova modalità di input e un banner informativo che include un pulsante per mostrare le relazioni nel diagramma di Gantt.</li> <li>Abbiamo aggiunto la possibilità di <b>registrare il tempo per altri utenti.</li> <li> b></li> <li>Contrassegna le notifiche come lette anche al di fuori del centro notifiche.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Nel modulo BCF ora puoi salvare filtri, colonne e altri elementi selezionati delle macro-attività come <b>viste</b> e condividerli con i membri del tuo team.</li> <li>Un <b>nuovo modulo di pianificazione del team</b> (funzione Enterprise) consente di assegnare visivamente le attività al team membri per avere una panoramica di chi sta lavorando a cosa.</li> <li>Stiamo <b>rilasciando le agile board di base</b> per la versione Community.</li> <li>L'<b>opzione di filtro "Includi progetti"</b> semplifica l'aggiunta di diversi progetti alle visualizzazioni, ad esempio per macro-attività, calendari e pianificatori di team.</li> <li>Abbiamo aggiunto <b>una nuova scheda "File"</b> nei dettagli delle macro-attività per avere tutte le informazioni possibili di una macro-attività in un unico punto.</li> <li>Abbiamo creato <b>ruoli globali per i gruppi</b> per assegnare questi ruoli ai gruppi e creare un gruppi di superutenti.</li> <li>È possibile scegliere lo stato del progetto tra più opzioni.</li> </ul>
-
+                Questa versione contiene diverse nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Non dovrai più cercare file senza fine! Con la nuova <b>integrazione Nextcloud</b> in OpenProject 12.2, ora puoi trovare i file direttamente nella rispettiva macro-attività e avere sempre la versione corretta a portata di mano.</li> <li>Abbiamo introdotto il <b>nuovo selettore di date</b> con una nuova modalità di input e un banner informativo che include un pulsante per mostrare le relazioni nel diagramma di Gantt.</li> <li>Abbiamo aggiunto la possibilità di <b>registrare il tempo per altri utenti.</li> <li> b></li> <li>Contrassegna le notifiche come lette anche al di fuori del centro notifiche.</li> </ul>
     label_activate: "Attiva"
     label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"
@@ -371,7 +370,7 @@ it:
     label_in_more_than: "in più di"
     label_incoming_emails: "Email in arrivo"
     label_information_plural: "Informazioni"
-    label_invalid: "Invalid"
+    label_invalid: "Non valido"
     label_import: "Importazione"
     label_latest_activity: "Ultima attività"
     label_last_updated_on: "Ultimo aggiornamento il"
@@ -403,8 +402,8 @@ it:
     label_previous: "Precedente"
     label_per_page: "Per pagina:"
     label_please_wait: "Attendere"
-    label_project: "Project"
-    label_project_list: "Projects list"
+    label_project: "Progetto"
+    label_project_list: "Elenco progetti"
     label_project_plural: "Progetti"
     label_visibility_settings: "Impostazioni di visibilità"
     label_quote_comment: "Annota questo commento"
@@ -417,7 +416,7 @@ it:
     label_report: "Segnalano"
     label_repository_plural: "Archivi"
     label_save_as: "Salva come"
-    label_select_project: "Select a project"
+    label_select_project: "Seleziona un progetto"
     label_select_watcher: "Seleziona un osservatore..."
     label_selected_filter_list: "Filtri selezionati"
     label_show_attributes: "Mostra tutti gli attributi"
@@ -459,10 +458,10 @@ it:
     label_unwatch: "Smetti di Osservare"
     label_unwatch_work_package: "Smetti di osservare macro-attività"
     label_uploaded_by: "Caricato da"
-    label_default_queries: "Default"
-    label_starred_queries: "Favorite"
-    label_global_queries: "Public"
-    label_custom_queries: "Private"
+    label_default_queries: "Predefinito"
+    label_starred_queries: "Preferito"
+    label_global_queries: "Pubblico"
+    label_custom_queries: "Privato"
     label_columns: "Colonne"
     label_attachments: Allegati
     label_drop_files: Trascina i file qui
@@ -475,7 +474,7 @@ it:
     label_remove_all_files: Elimina tutti i file
     label_add_description: "Aggiunge una descrizione per %{file}"
     label_upload_notification: "Caricamento dei file..."
-    label_work_package_upload_notification: "Caricamento dei file per la macro-attività #%{id}: %{subject} in corso"
+    label_work_package_upload_notification: "Caricamento dei file per la macro-attività #%{id}: %{subject} in corso" #%{id}: %{subject} in corso"
     label_wp_id_added_by: "#%{id} aggiunto da%{author}"
     label_files_to_upload: "Verranno caricati questi files:"
     label_rejected_files: "Questi file non possono essere caricati:"
@@ -542,7 +541,7 @@ it:
           one: 'e 1 altro'
           other: 'e altri %{count}'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'Nuove notifiche appariranno qui quando c''è un''attività che ti riguarda, nel frattempo puoi anche visualizzare e modificare le tue impostazioni di notifica per configurare quando essere notificato.'
           with_current_filter: 'Non ci sono notifiche in questa vista al momento'
         mark_all_read: 'Segna tutti come letti'
         mark_as_read: 'Segna come letto'
@@ -550,8 +549,8 @@ it:
         total_count_warning: "Mostrando le %{newest_count} notifiche più recenti. %{more_count} altre non vengono visualizzate."
         empty_state:
           no_notification: "Sembra che siate tutti coinvolti."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification_with_current_project_filter: "Sembra che siate tutti coinvolti nel progetto selezionato."
+          no_notification_with_current_filter: "A quanto pare ti piace molto il filtro %{filter}."
           no_selection: "Clicca su una notifica per visualizzare tutti i dettagli dell'attività."
         new_notifications:
           message: 'Ci sono nuove notifiche.'
@@ -809,7 +808,7 @@ it:
       zooms: "Livello di zoom"
       outlines: "Livello della gerarchia"
     upsale:
-      ee_only: 'Enterprise Edition feature'
+      ee_only: 'Funzionalità di Enterprise Edition'
     wiki_formatting:
       strong: "Grassetto"
       italic: "Corsivo"
@@ -838,12 +837,12 @@ it:
       comment_updated: "Il commento è stato aggiornato correttamente."
       confirm_edit_cancel: "Sei sicuro di voler annullare la modifica della macro-attività?"
       datepicker_modal:
-        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
-        manually_scheduled: "Manual scheduling enabled, all relations ignored."
-        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
-        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
-        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        automatically_scheduled_parent: "Pianificato automaticamente. Le date derivano dalle relazioni."
+        manually_scheduled: "Programmazione manuale abilitata, tutte le relazioni sono ignorate."
+        start_date_limited_by_relations: "Le date di inizio e di fine disponibili sono limitate dalle relazioni."
+        changing_dates_affects_follow_relations: "La modifica di queste date influenzerà le date delle relative macro-attività."
+        click_on_show_relations_to_open_gantt: 'Clicca su "%{button_name}" per la panoramica GANTT.'
+        show_relations: 'Visualizza relazioni'
       description_filter: "Filtro"
       description_enter_text: "Inserisci testo"
       description_options_hide: "Nascondi opzioni"
@@ -997,7 +996,6 @@ it:
           attribute_highlighting: 'Vuoi che alcune macro-attività si distinguano dalla massa?'
           relation_columns: 'Vuoi visualizzare le relazioni nell''elenco di macro-attività?'
           check_out_link: 'Scopri Enterprise Edition.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtra le macro-attività per tipo di relazione'
       tabs:
@@ -1091,9 +1089,9 @@ it:
         other: "%{count} o"
         zero: "0 o"
       day:
-        one: "1 day"
-        other: "%{count} days"
-        zero: "0 days"
+        one: "1 giorno"
+        other: "%{count} giorni"
+        zero: "0 giorni"
     zen_mode:
       button_activate: 'Attiva modalità zen'
       button_deactivate: 'Disattiva modalità zen'
@@ -1160,7 +1158,7 @@ it:
       role:
         label: 'Ruolo in %{project}'
         no_roles_found: 'Nessun ruolo è stato trovato'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Questo è il ruolo che %{principal} riceverà una volta unitosi al progetto. Il ruolo definisce che azioni possono intraprendere e che informazioni possono vedere. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Scopri di più sui ruoli e sulle autorizzazioni. </a>'
         required: 'Sei pregato di selezionare un ruolo'
         next_button: 'Prossimo'
       message:
@@ -1189,8 +1187,8 @@ it:
       tooltip:
         include_all_selected: 'Includi tutti i sotto-progetti attualmente selezionati.'
         current_project: 'Questo è il progetto corrente in cui ti trovi.'
-        does_not_match_search: 'Project does not match the search criteria.'
-      no_results: 'No project matches your search criteria.'
+        does_not_match_search: 'Il progetto non corrisponde ai criteri di ricerca.'
+      no_results: 'Nessun progetto corrisponde ai tuoi criteri di ricerca'
     forms:
       submit_success_message: 'Il modulo è stato inviato correttamente'
       load_error_message: 'Si è verificato un errore caricando il modulo'

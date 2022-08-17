@@ -34,24 +34,15 @@ module API
       class WatchersAPI < ::API::OpenProjectAPI
         helpers ::API::Utilities::UrlPropsParsingHelper
 
-        get '/available_watchers' do
-          authorize(:add_work_package_watchers, context: @work_package.project)
-
-          service = ParamsToQueryService.new(User, current_user)
-          query = service.call(params)
-
-          if query.valid?
-            users = query.results.merge(@work_package.addable_watcher_users).includes(:preference)
-            ::API::V3::Users::UserCollectionRepresenter.new(
-              users,
-              self_link: api_v3_paths.users,
-              page: to_i_or_nil(params[:offset]),
-              per_page: resolve_page_size(params[:pageSize]),
-              current_user:
-            )
-          else
-            raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+        resources :available_watchers do
+          after_validation do
+            authorize(:add_work_package_watchers, context: @work_package.project)
           end
+
+          get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
+                 .new(model: User,
+                      scope: -> { @work_package.addable_watcher_users.includes(:preference) })
+                 .mount
         end
 
         resources :watchers do

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'OAuthClient callback endpoint', with_flag: { storages_module_active: true }, type: :request do
+describe 'OAuthClient callback endpoint', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

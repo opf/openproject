@@ -261,9 +261,9 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   /**
    * The end date from fullcalendar is open, which means it targets
    * the next day instead of current day 23:59:59.
-   * @param end
+   * @param end A string representation of the end date
    */
-  public getEndDateFromTimestamp(end:Date):string {
+  public getEndDateFromTimestamp(end:string):string {
     return moment(end).subtract(1, 'd').format('YYYY-MM-DD');
   }
 

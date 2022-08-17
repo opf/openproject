@@ -31,7 +31,8 @@ require 'spec_helper'
 describe RootSeeder,
          'standard edition',
          with_config: { edition: 'standard' },
-         with_settings: { journal_aggregation_time_minutes: 0 } do
+         with_settings: { journal_aggregation_time_minutes: 0 },
+         with_flag: { work_packages_duration_field_active: true } do
   before do
     allow($stdout).to receive(:puts) { |msg| Rails.logger.info(msg) }
   end

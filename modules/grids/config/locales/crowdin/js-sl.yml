@@ -5,7 +5,7 @@ sl:
       remove: 'Odstrani gradnik'
       configure: 'Oblikuj gradnik'
       upsale:
-        text: "Nekateri gradniki, kot delovni paket graf Gradnik, so dostopni samo v"
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise Edition."
         link: 'Enterprise Edition.'
       widgets:
         custom_text:

@@ -89,7 +89,7 @@ module Authentication
         end
       end
     rescue StandardError => e
-      OpenProject.logger.error "[OmniAuth strategy #{strategy.name}] Failed to inspect OmniAuth response: #{e.message}"
+      OpenProject.logger.error "[OmniAuth strategy #{strategy&.name}] Failed to inspect OmniAuth response: #{e.message}"
     end
 
     ##

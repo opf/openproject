@@ -121,6 +121,8 @@ en:
                   - subject
                   - start_date
                   - due_date
+                  - duration
+                  - assigned_to
               - name: Milestones
                 status: open
                 type: :default_type_milestone
@@ -194,6 +196,7 @@ en:
                   - subject
                   - start_date
                   - due_date
+                  - duration
               - name: Milestones
                 status: open
                 type: :default_type_milestone
@@ -231,7 +234,7 @@ en:
                 :status: default_status_new
                 :type: default_type_milestone
                 :assigned_to: Planners
-                :duration: 0
+                :duration: 1
               - :start: 7
                 :subject: Basic evaluation
                 :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
@@ -285,7 +288,7 @@ en:
                     :status: default_status_new
                     :type: default_type_milestone
                     :assigned_to: Planners
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Summarize the results
                         :type: follows
@@ -354,7 +357,7 @@ en:
                 :status: default_status_new
                 :type: default_type_milestone
                 :assigned_to: Planners
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Summarize results
                     :type: follows
@@ -393,7 +396,7 @@ en:
                     :status: default_status_new
                     :type: default_type_milestone
                     :assigned_to: Planners
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Finishing design
                         :type: follows
@@ -530,7 +533,7 @@ en:
                       *   Bring some drinks, snacks and your smile
                     :status: default_status_new
                     :type: default_type_milestone
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Final touches
                         :type: follows
@@ -581,6 +584,7 @@ en:
                   - subject
                   - start_date
                   - due_date
+                  - duration
               - name: Milestones
                 status: open
                 type: :default_type_milestone
@@ -618,7 +622,7 @@ en:
                 :status: default_status_new
                 :type: default_type_milestone
                 :assigned_to: BIM Managers
-                :duration: 0
+                :duration: 1
               - :start: 15
                 :subject: Project preperation
                 :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
@@ -676,7 +680,7 @@ en:
                     :status: seeders.bim.default_status_resolved
                     :type: default_type_milestone
                     :assigned_to: BIM Coordinators
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Creating the BIM execution plan
                         :type: follows
@@ -689,7 +693,7 @@ en:
                 :status: default_status_new
                 :type: default_type_milestone
                 :assigned_to: BIM Managers
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Project preperation
                     :type: follows
@@ -745,7 +749,7 @@ en:
                     :status: default_status_new
                     :type: default_type_milestone
                     :assigned_to: BIM Modellers
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Initial, internal model check and revising
                         :type: follows
@@ -776,7 +780,7 @@ en:
                     :status: default_status_new
                     :type: default_type_task
                     :assigned_to: BIM Modellers
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Submitting initial BIM model
                         :type: follows
@@ -824,7 +828,7 @@ en:
                     :status: default_status_new
                     :type: default_type_milestone
                     :assigned_to: BIM Modellers
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: First Cycle, internal model check and revising
                         :type: follows
@@ -871,7 +875,7 @@ en:
                     :status: default_status_new
                     :type: default_type_milestone
                     :assigned_to: Lead BIM Coordinators
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Issue management, first cycle
                         :type: follows
@@ -886,7 +890,7 @@ en:
                 :status: default_status_new
                 :type: default_type_phase
                 :assigned_to: Lead BIM Coordinators
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Finishing coordination, first cycle
                     :type: follows
@@ -897,7 +901,7 @@ en:
                 :status: default_status_new
                 :type: default_type_phase
                 :assigned_to: Lead BIM Coordinators
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Modelling & coordinating, second cycle
                     :type: follows
@@ -907,7 +911,7 @@ en:
                 :status: default_status_new
                 :type: default_type_phase
                 :assigned_to: Lead BIM Coordinators
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Modelling & coordinating, ... cycle
                     :type: follows
@@ -918,7 +922,7 @@ en:
                 :status: default_status_new
                 :type: default_type_phase
                 :assigned_to: BIM Coordinators
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Modelling & coordinating, (n-th minus 1) cycle
                     :type: follows
@@ -929,7 +933,7 @@ en:
                 :status: default_status_new
                 :type: default_type_milestone
                 :assigned_to: BIM Coordinators
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Modelling & coordinating n-th cycle
                     :type: follows
@@ -980,7 +984,7 @@ en:
                     :status: default_status_new
                     :type: default_type_milestone
                     :assigned_to: BIM Coordinators
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Construct the building
                         :type: follows
@@ -1013,7 +1017,7 @@ en:
                 :status: default_status_new
                 :type: default_type_milestone
                 :assigned_to: Lead BIM Coordinators
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Finish construction
                     :type: follows
@@ -1022,7 +1026,7 @@ en:
                 :description: Enjoy your building :)
                 :status: default_status_new
                 :type: default_type_phase
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Handover for Facility Management
                     :type: follows
@@ -1091,6 +1095,7 @@ en:
                   - subject
                   - start_date
                   - due_date
+                  - duration
               - name: Milestones
                 status: open
                 type: :default_type_milestone

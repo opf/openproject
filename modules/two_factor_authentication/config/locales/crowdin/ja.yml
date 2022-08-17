@@ -136,8 +136,6 @@ ja:
     message_bird:
       sms_delivery_failed: 'MessageBird SMSの配信に失敗しました。'
       voice_delivery_failed: 'MessageBirdの音声通話に失敗しました。'
-    restdt:
-      delivery_failed_with_code: 'トークンの配信に失敗しました。 (エラーコード %{code})'
     strategies:
       totp: '認証システム アプリケーション'
       sns: 'Amazon SNS'
