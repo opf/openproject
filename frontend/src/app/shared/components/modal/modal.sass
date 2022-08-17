@@ -84,6 +84,13 @@
       justify-content: space-between
       align-items: baseline
 
+      @media screen and (max-width: 679px)
+        flex-wrap: wrap
+
+        *:last-child
+          flex-grow: 1
+          text-align: right
+
     .button
       margin-bottom: 0
 
