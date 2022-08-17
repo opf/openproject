@@ -155,7 +155,11 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         .work_packages
         .id(this.changeset.id)
         .form
-        .forPayload({ ...fieldsToUpdate, lockVersion: this.changeset.value<string>('lockVersion') })),
+        .forPayload({
+          ...fieldsToUpdate,
+          lockVersion: this.changeset.value<string>('lockVersion'),
+          ignoreNonWorkingDays: this.includeNonWorkingDays,
+        })),
     )
     .subscribe((form) => this.updateDatesFromForm(form));
 
@@ -266,6 +270,8 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
   changeNonWorkingDays():void {
     this.includeNonWorkingDays = !this.includeNonWorkingDays;
     this.initializeDatepicker();
+    // Resent the current start and end dates so duration can be calculated again.
+    this.dateUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
     this.cdRef.detectChanges();
   }
 
