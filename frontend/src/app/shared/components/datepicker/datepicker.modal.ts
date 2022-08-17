@@ -218,12 +218,41 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         // Always update the whole form to ensure that no values are lost/inconsistent
         if (this.singleDate) {
           this.updateDate('date', this.dates.date);
-        } else if (this.datepickerService.currentlyActivatedDateField === 'start') {
+          return;
+        }
+
+        const activeField = this.datepickerService.currentlyActivatedDateField;
+
+        if (activeField === 'start') {
           this.updateDate('end', this.dates.end);
           this.updateDate('start', this.dates.start);
         } else if (this.datepickerService.currentlyActivatedDateField === 'end') {
           this.updateDate('start', this.dates.start);
           this.updateDate('end', this.dates.end);
+        }
+
+        const startPresent = this.dates.start !== '';
+        const endPresent = this.dates.end !== '';
+
+        // In case of start and due, update form
+        if (startPresent && endPresent) {
+          this.dateUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+        }
+
+        // In case of start and duration and end date is null
+        if (startPresent && !endPresent && activeField !== 'end' && this.duration) {
+          this.dateUpdates$.next({
+            startDate: this.dates.start,
+            duration: this.durationAsIso8601,
+          });
+        }
+
+        // In case of end and duration and start date is null
+        if (!startPresent && endPresent && activeField !== 'start' && this.duration) {
+          this.dateUpdates$.next({
+            dueDate: this.dates.end,
+            duration: this.durationAsIso8601,
+          });
         }
       });
   }
@@ -321,18 +350,22 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     if (this.dates.start) {
       this.dateUpdates$.next({
         startDate: this.dates.start,
-        duration: this.timezoneService.toISODuration(this.duration, 'days'),
+        duration: this.durationAsIso8601,
       });
     } else if (this.dates.end) {
       this.dateUpdates$.next({
         dueDate: this.dates.end,
-        duration: this.timezoneService.toISODuration(this.duration, 'days'),
+        duration: this.durationAsIso8601,
       });
     }
   }
 
   updateDuration(value:string|number):void {
     this.duration = typeof value === 'string' ? parseInt(value, 10) : value;
+  }
+
+  private get durationAsIso8601():string {
+    return this.timezoneService.toISODuration(this.duration, 'days');
   }
 
   private showDurationWithDays() {
@@ -408,6 +441,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
   }
 
   private handleDatePickerChange(dates:Date[]) {
+    console.warn(dates);
     switch (dates.length) {
       case 1: {
         const selectedDate = dates[0];
@@ -431,8 +465,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
             if (this.datepickerService.isStateOfCurrentActivatedField('end')) {
               this.overwriteDatePickerWithNewDates([parsedStartDate, selectedDate]);
             } else {
-              this.dates.start = this.timezoneService.formattedISODate(selectedDate);
-              this.dates.end = '';
+              this.overwriteDatePickerWithNewDates([selectedDate, selectedDate]);
               this.datepickerService.toggleCurrentActivatedField();
             }
           } else if (this.datepickerService.areDatesEqual(selectedDate, parsedStartDate) || this.datepickerService.areDatesEqual(selectedDate, parsedEndDate)) {
@@ -444,6 +477,15 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         } else if (this.datepickerService.currentlyActivatedDateField !== 'duration') {
           this.dates[this.datepickerService.currentlyActivatedDateField] = this.timezoneService.formattedISODate(selectedDate);
           this.datepickerService.toggleCurrentActivatedField();
+
+          // If duration has been set, calculate the other date field
+          if (this.datepickerService.currentlyActivatedDateField === 'start' && this.duration) {
+            this.dateUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
+          }
+
+          if (this.datepickerService.currentlyActivatedDateField === 'end' && this.duration) {
+            this.dateUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
+          }
         }
 
         break;
@@ -453,6 +495,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         this.dates.start = this.timezoneService.formattedISODate(dates[0]);
         this.dates.end = this.timezoneService.formattedISODate(dates[1]);
         this.datepickerService.toggleCurrentActivatedField();
+        this.dateUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
         break;
       }
       default: {
