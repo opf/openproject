@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-describe WorkPackages::SetAttributesService, type: :model do
+describe WorkPackages::SetAttributesService,
+         type: :model,
+         with_flag: { work_packages_duration_field_active: true } do
   let(:user) { build_stubbed(:user) }
   let(:project) do
     p = build_stubbed(:project)
@@ -47,6 +49,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     WorkPackage.new
   end
   let(:initial_type) { build_stubbed(:type) }
+  let(:milestone_type) { build_stubbed(:type_milestone) }
   let(:statuses) { [] }
   let(:contract_class) { WorkPackages::UpdateContract }
   let(:mock_contract) do
@@ -575,11 +578,24 @@ describe WorkPackages::SetAttributesService, type: :model do
             .to eql Time.zone.today
         end
 
-        it "sets the duration to 1" do
+        it "sets the duration to nil" do
           subject
 
           expect(work_package.duration)
-            .to eq 1
+            .to be_nil
+        end
+
+        context 'when the work package type is milestone' do
+          before do
+            work_package.type = milestone_type
+          end
+
+          it "sets the duration to 1" do
+            subject
+
+            expect(work_package.duration)
+              .to eq 1
+          end
         end
       end
     end
@@ -598,11 +614,24 @@ describe WorkPackages::SetAttributesService, type: :model do
             .to eq(Time.zone.today + 1.day)
         end
 
-        it "sets the duration to 1" do
+        it "sets the duration to nil" do
           subject
 
           expect(work_package.duration)
-            .to eq 1
+            .to be_nil
+        end
+
+        context 'when the work package type is milestone' do
+          before do
+            work_package.type = milestone_type
+          end
+
+          it "sets the duration to 1" do
+            subject
+
+            expect(work_package.duration)
+              .to eq 1
+          end
         end
       end
     end
@@ -724,7 +753,10 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'with start date nilled' do
-      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
+      let(:traits) { [] }
+      let(:work_package) do
+        build_stubbed(:work_package, *traits, start_date: Time.zone.today, due_date: Time.zone.today + 5.days)
+      end
       let(:call_attributes) { { start_date: nil } }
       let(:attributes) { {} }
 
@@ -743,17 +775,31 @@ describe WorkPackages::SetAttributesService, type: :model do
             .to eq(Time.zone.today + 5.days)
         end
 
-        it "sets the duration to 1" do
+        it "sets the duration to nil" do
           subject
 
           expect(work_package.duration)
-            .to eq 1
+            .to be_nil
+        end
+
+        context 'when the work package type is milestone' do
+          let(:traits) { [:is_milestone] }
+
+          it "sets the duration to 1" do
+            subject
+
+            expect(work_package.duration)
+              .to eq 1
+          end
         end
       end
     end
 
     context 'with due date nilled' do
-      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
+      let(:traits) { [] }
+      let(:work_package) do
+        build_stubbed(:work_package, *traits, start_date: Time.zone.today, due_date: Time.zone.today + 5.days)
+      end
       let(:call_attributes) { { due_date: nil } }
       let(:attributes) { {} }
 
@@ -772,11 +818,22 @@ describe WorkPackages::SetAttributesService, type: :model do
             .to be_nil
         end
 
-        it "sets the duration to 1" do
+        it "sets the duration to nil" do
           subject
 
           expect(work_package.duration)
-            .to eq 1
+            .to be_nil
+        end
+
+        context 'when the work package type is milestone' do
+          let(:traits) { [:is_milestone] }
+
+          it "sets the duration to 1" do
+            subject
+
+            expect(work_package.duration)
+              .to eq 1
+          end
         end
       end
     end
