@@ -105,9 +105,9 @@ module WorkPackages
       def working_week_days
         return @working_week_days if defined?(@working_week_days)
 
-        # WeekDay day of the week is stored as ISO, meaning Sunday is 7.
-        # Ruby Date#wday value for Sunday is 0.
-        # To make both work, an array of 8 elements is created
+        # WeekDay day of the week is stored as ISO, meaning Monday is 1 and Sunday is 7.
+        # Ruby Date#wday value for Sunday is 0 and it goes until 6 Saturday.
+        # To accomodate both versions 0-6, 1-7, an array of 8 elements is created
         # where array[0] = array[7] = value for Sunday
         #
         # Because the database table for WeekDay could be empty or incomplete
