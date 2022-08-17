@@ -325,7 +325,7 @@ module WorkPackages
       return if id.nil? || model.changed.exclude?(id_attribute)
 
       unless principal_visible?(id, list)
-        errors.add :base,
+        errors.add attribute,
                    I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                           property: I18n.t("attributes.#{attribute}"))
       end
