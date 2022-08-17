@@ -76,7 +76,7 @@ In the compose folder you will find the file `docker-compose.yml` which can be e
 
 #### BIM Edition
 
-If you would like to install or change to BIM inside a Docker environment, please navigate to the [Docker](../installation-and-operations/changing-to-bim-edition#docker) paragraph at the [Changing to BIM Edition](../installation-and-operations/changing-to-bim-edition) documentation. 
+In order to install or change to BIM inside a Docker environment, please navigate to the [Docker](../installation-and-operations/changing-to-bim-edition#docker) paragraph at the [Changing to BIM Edition](../installation-and-operations/changing-to-bim-edition) documentation. 
 
 
 
