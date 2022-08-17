@@ -239,15 +239,15 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * @param {string} key The attribute to read
    * @return {any} Either the value from the overridden change, or the default value
    */
-  public value(key:string) {
+  public value<T>(key:string):T {
     // Overridden value by user?
     if (this.changeset.contains(key)) {
-      return this.changeset.getValue(key);
+      return this.changeset.getValue(key) as T;
     }
 
     // Return whatever is on the base.
     // TODO this needs to be typed
-    return this.pristineResource[key];
+    return this.pristineResource[key] as T;
   }
 
   /**
