@@ -51,7 +51,7 @@ import {
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { DatepickerModalService } from 'core-app/shared/components/datepicker/datepicker.modal.service';
+import { DatepickerModalService } from 'core-app/shared/components/datepicker/services/datepicker.modal.service';
 
 @Injectable()
 export class DateModalRelationsService {

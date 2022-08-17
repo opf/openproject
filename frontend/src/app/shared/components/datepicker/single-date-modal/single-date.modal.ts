@@ -51,11 +51,10 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
-import { DatepickerModalService } from 'core-app/shared/components/datepicker/datepicker.modal.service';
+import { DatepickerModalService } from 'core-app/shared/components/datepicker/services/datepicker.modal.service';
 import {
   debounce,
   switchMap,
-  take,
 } from 'rxjs/operators';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import {
