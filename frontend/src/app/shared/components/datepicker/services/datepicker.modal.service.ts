@@ -30,12 +30,9 @@ import {
   Inject,
   Injectable,
 } from '@angular/core';
-import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
-import { DateOption } from 'flatpickr/dist/types/options';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { DayElement } from 'flatpickr/dist/types/instance';
 
 @Injectable()
 export class DatepickerModalService {
@@ -45,90 +42,5 @@ export class DatepickerModalService {
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
   ) {}
 
-  /**
-   * Map the date to the internal format,
-   * setting to null if it's empty.
-   * @param date
-   */
-  // eslint-disable-next-line class-methods-use-this
-  mappedDate(date:string):string|null {
-    return date === '' ? null : date;
-  }
 
-  // eslint-disable-next-line class-methods-use-this
-  parseDate(date:Date|string):Date|'' {
-    if (date instanceof Date) {
-      return new Date(date.setHours(0, 0, 0, 0));
-    }
-    if (date === '') {
-      return '';
-    }
-    return new Date(moment(date).toDate().setHours(0, 0, 0, 0));
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  validDate(date:Date|string):boolean {
-    return (date instanceof Date)
-      || (date === '')
-      || !!new Date(date).valueOf();
-  }
-
-  areDatesEqual(firstDate:Date|string, secondDate:Date|string):boolean {
-    const parsedDate1 = this.parseDate(firstDate);
-    const parsedDate2 = this.parseDate(secondDate);
-
-    if ((typeof (parsedDate1) === 'string') || (typeof (parsedDate2) === 'string')) {
-      return false;
-    }
-    return parsedDate1.getTime() === parsedDate2.getTime();
-  }
-
-  setDates(dates:DateOption|DateOption[], datePicker:DatePicker, enforceDate?:Date):void {
-    const { currentMonth } = datePicker.datepickerInstance;
-    const { currentYear } = datePicker.datepickerInstance;
-    datePicker.setDates(dates);
-
-    if (enforceDate) {
-      const enforcedMonth = enforceDate.getMonth();
-      const enforcedYear = enforceDate.getFullYear();
-      const monthDiff = enforcedMonth - currentMonth + 12 * (enforcedYear - currentYear);
-
-      // Because of the two-month layout we only have to update the calendar
-      // if the month is further in the past/future than the one additional month that is shown anyway
-      if (Math.abs(monthDiff) > 1) {
-        datePicker.datepickerInstance.currentMonth = enforcedMonth;
-        datePicker.datepickerInstance.currentYear = enforcedYear;
-      } else {
-        this.keepCurrentlyActiveMonth(datePicker, currentMonth, currentYear);
-      }
-    } else {
-      this.keepCurrentlyActiveMonth(datePicker, currentMonth, currentYear);
-    }
-
-    datePicker.datepickerInstance.redraw();
-  }
-
-  onDayCreate(
-    dayElem:DayElement,
-    includeNonWorkingDays:boolean,
-    isNonWorkingDay:boolean,
-    minimalDate:Date|null|undefined,
-    isDayDisabled:boolean,
-  ):void {
-    if (!includeNonWorkingDays && isNonWorkingDay) {
-      dayElem.classList.add('flatpickr-non-working-day');
-    }
-
-    if (isDayDisabled) {
-      dayElem.classList.add('flatpickr-disabled');
-    }
-
-    dayElem.setAttribute('data-iso-date', dayElem.dateObj.toISOString());
-  }
-
-  private keepCurrentlyActiveMonth(datePicker:DatePicker, currentMonth:number, currentYear:number) {
-    // Keep currently active month and avoid jump because of two-month layout
-    datePicker.datepickerInstance.currentMonth = currentMonth;
-    datePicker.datepickerInstance.currentYear = currentYear;
-  }
 }

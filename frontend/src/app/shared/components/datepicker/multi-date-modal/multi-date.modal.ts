@@ -269,8 +269,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
     // Apply the dates if they could be changed
     if (this.isSchedulable) {
-      this.changeset.setValue('startDate', this.datepickerService.mappedDate(this.dates.start || ''));
-      this.changeset.setValue('dueDate', this.datepickerService.mappedDate(this.dates.end || ''));
+      this.changeset.setValue('startDate', this.dates.start);
+      this.changeset.setValue('dueDate', this.dates.end);
     }
 
     this.closeMe();

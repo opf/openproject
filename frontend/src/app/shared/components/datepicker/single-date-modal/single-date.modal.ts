@@ -64,6 +64,11 @@ import {
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
+import { DateModalSchedulingService } from 'core-app/shared/components/datepicker/services/date-modal-scheduling.service';
+import {
+  parseDate,
+  validDate,
+} from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 
 @Component({
   templateUrl: './single-date.modal.html',
@@ -212,7 +217,7 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
 
     // Apply the dates if they could be changed
     if (this.isSchedulable) {
-      this.changeset.setValue('date', this.datepickerService.mappedDate(this.date || ''));
+      this.changeset.setValue('date', this.date );
     }
 
     this.closeMe();
