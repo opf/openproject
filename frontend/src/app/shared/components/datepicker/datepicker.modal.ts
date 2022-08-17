@@ -63,6 +63,7 @@ import {
 } from 'rxjs';
 
 export type DateKeys = 'date'|'start'|'end';
+export type DateFields = DateKeys|'duration';
 
 @Component({
   templateUrl: './datepicker.modal.html',
@@ -272,15 +273,17 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     return this.scheduleManually || !this.datepickerService.isParent;
   }
 
-  showFieldAsActive(field:DateKeys):boolean {
+  showFieldAsActive(field:DateFields):boolean {
     return this.datepickerService.isStateOfCurrentActivatedField(field) && this.isSchedulable;
   }
 
   handleDurationFocusIn():void {
+    this.datepickerService.setCurrentActivatedField('duration');
     this.formattedDuration = this.timezoneService.toDays(this.duration.toString()).toString();
   }
 
   handleDurationFocusOut():void {
+    this.datepickerService.setCurrentActivatedField('start');
     this.formattedDuration = this.timezoneService.formattedDuration(this.duration.toString(), 'days');
   }
 
@@ -386,7 +389,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
             const newDates = this.datepickerService.isStateOfCurrentActivatedField('start') ? [selectedDate, parsedEndDate] : [parsedStartDate, selectedDate];
             this.overwriteDatePickerWithNewDates(newDates);
           }
-        } else {
+        } else if (this.datepickerService.currentlyActivatedDateField !== 'duration') {
           this.dates[this.datepickerService.currentlyActivatedDateField] = this.timezoneService.formattedISODate(selectedDate);
           this.datepickerService.toggleCurrentActivatedField();
         }
@@ -422,7 +425,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     this.onDataUpdated.emit(output);
   }
 
-  private initialActivatedField():DateKeys {
+  private initialActivatedField():DateFields {
     return this.locals.fieldName === 'dueDate' ? 'end' : 'start';
   }
 
