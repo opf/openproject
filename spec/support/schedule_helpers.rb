@@ -26,38 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :work_package do
-    transient do
-      custom_values { nil }
+Dir[Rails.root.join('spec/support/schedule_helpers/*.rb')].each { |f| require f }
+
+RSpec.configure do |config|
+  config.extend ScheduleHelpers::LetSchedule
+  config.include ScheduleHelpers::ExampleMethods
+
+  RSpec::Matchers.define :match_schedule do |expected|
+    match do |actual_work_packages|
+      expected_chart = ScheduleHelpers::Chart.for(expected)
+      actual_chart = ScheduleHelpers::Chart.from_work_packages(actual_work_packages)
+
+      @expected, @actual = ScheduleHelpers::ChartRepresenter.normalized_to_s(expected_chart, actual_chart)
+
+      values_match? @expected, @actual
     end
 
-    priority
-    project factory: :project_with_types
-    status
-    sequence(:subject) { |n| "WorkPackage No. #{n}" }
-    description { |i| "Description for '#{i.subject}'" }
-    author factory: :user
-    created_at { Time.zone.now }
-    updated_at { Time.zone.now }
-    duration { WorkPackages::Shared::Days.for(self).duration(start_date&.to_date, due_date&.to_date) }
-
-    callback(:after_build) do |work_package, evaluator|
-      work_package.type = work_package.project.types.first unless work_package.type
-
-      custom_values = evaluator.custom_values || {}
-
-      if custom_values.is_a? Hash
-        custom_values.each_pair do |custom_field_id, value|
-          work_package.custom_values.build custom_field_id:, value:
-        end
-      else
-        custom_values.each { |cv| work_package.custom_values << cv }
-      end
-    end
-
-    callback(:after_stub) do |wp, arguments|
-      wp.type = wp.project.types.first unless wp.type_id || arguments.instance_variable_get(:@overrides).has_key?(:type)
-    end
+    diffable
+    attr_reader :expected, :actual
   end
 end

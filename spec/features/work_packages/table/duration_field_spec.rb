@@ -5,11 +5,12 @@ describe 'Duration field in the work package table',
          js: true do
   shared_let(:current_user) { create :admin }
   shared_let(:work_package) do
+    next_monday = Time.zone.today.beginning_of_week.next_occurring(:monday)
     create :work_package,
            subject: 'moved',
            author: current_user,
-           start_date: Time.zone.today.beginning_of_week.next_occurring(:monday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           start_date: next_monday,
+           due_date: next_monday.next_occurring(:thursday)
   end
 
   let!(:wp_table) { Pages::WorkPackagesTable.new(work_package.project) }
@@ -33,6 +34,6 @@ describe 'Duration field in the work package table',
   end
 
   it 'shows the duration as days' do
-    duration.expect_state_text '3 days'
+    duration.expect_state_text '4 days'
   end
 end

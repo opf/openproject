@@ -124,6 +124,9 @@ Naming/PredicateName:
   ForbiddenPrefixes:
     - is_
 
+Naming/VariableNumber:
+  AllowedPatterns:
+    - '\w_20\d\d' # allow dates like christmas_2022 or date_2034_04_12
 
 # There are valid cases in which to use methods like:
 # * update_all
@@ -207,6 +210,7 @@ RSpec/NamedSubject:
 RSpec/ContextWording:
   Prefixes:
     - as
+    - 'on'
     - when
     - with
     - without
