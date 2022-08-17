@@ -209,7 +209,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
         let_schedule(<<~CHART, ignore_non_working_days: false)
           days          | MTWTFSS   |
           work_package  | X         |
-          follower      |     X..XX  | follows work_package
+          follower      |     X..XX | follows work_package
         CHART
 
         before do
@@ -739,7 +739,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
     end
 
-    context 'when moving backwards with the parent having a predecessor not limiting movement' do
+    context 'when moving backwards with the parent having a predecessor limiting movement' do
       let_schedule(<<~CHART, ignore_non_working_days: false)
         days             | mtwtfssMTWTFSS |
         work_package     |        ]       |
@@ -989,6 +989,35 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
           work_package |    ]            |
           follower1    |     X..XX       |
           follower2    |          XXX..X |
+        CHART
+      end
+    end
+
+    context 'when moving forward with some delay and spaces between the followers' do
+      let_schedule(<<~CHART, ignore_non_working_days: false)
+        days         | MTWTFSSm     sm     sm     |
+        work_package | ]                          |
+        follower1    |  XXX                       | follows work_package
+        follower2    |        XXXX                | follows follower1 with delay 3
+        follower3    |                 XXX..XX    | follows follower2
+        follower4    |                         XX | follows follower3
+      CHART
+
+      before do
+        change_schedule([work_package], <<~CHART)
+          days         | MTWTFSS |
+          work_package |    ]    |
+        CHART
+      end
+
+      it 'reschedules all the followers keeping the delay and compacting the extra spaces' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | MTWTFSSm     sm     sm     sm |
+          work_package |    ]                          |
+          follower1    |     X..XX                     |
+          follower2    |               XXXX            |
+          follower3    |                   X..XXXX     |
+          follower4    |                          X..X |
         CHART
       end
     end

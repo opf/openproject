@@ -105,11 +105,19 @@ module WorkPackages
       def working_week_days
         return @working_week_days if defined?(@working_week_days)
 
+        # WeekDay day of the week is stored as ISO, meaning Sunday is 7.
+        # Ruby Date#wday value for Sunday is 0.
+        # To make both work, an array of 8 elements is created
+        # where array[0] = array[7] = value for Sunday
+        #
+        # Because the database table for WeekDay could be empty or incomplete
+        # (like in tests), the initial array is built with all days considered
+        # working (value is `true`)
         @working_week_days = [true] * 8
         WeekDay.pluck(:day, :working).each do |day, working|
           @working_week_days[day] = working
         end
-        @working_week_days[0] = @working_week_days[7] # Sunday is 7 in iso or 0 in other implementations
+        @working_week_days[0] = @working_week_days[7] # value for Sunday is present at index 0 AND index 7
         @working_week_days
       end
 
