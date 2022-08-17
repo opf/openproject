@@ -35,12 +35,17 @@ import { OpModalComponent } from 'core-app/shared/components/modal/modal.compone
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import {
+  WorkPackageViewFocusService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { StateService } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import {
+  WorkPackageNotificationService,
+} from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackageService } from 'core-app/features/work-packages/services/work-package.service';
+import isNotNull from 'core-app/core/state/is-not-null';
 
 @Component({
   templateUrl: './wp-destroy.modal.html',
@@ -85,7 +90,7 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
     super(locals, cdRef, elementRef);
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     super.ngOnInit();
 
     this.workPackages = this.locals.workPackages;
@@ -98,10 +103,10 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
     }
 
     this.text.title = this.I18n.t('js.modals.destroy_work_package.title', { label: this.workPackageLabel }),
-    this.text.text = this.I18n.t('js.modals.destroy_work_package.text', {
-      label: this.workPackageLabel,
-      count: this.workPackages.length,
-    });
+      this.text.text = this.I18n.t('js.modals.destroy_work_package.text', {
+        label: this.workPackageLabel,
+        count: this.workPackages.length,
+      });
 
     this.text.childCount = (wp:WorkPackageResource) => {
       const count = this.children(wp).length;
@@ -110,30 +115,33 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
 
     this.text.hasChildren = (wp:WorkPackageResource) => this.I18n.t('js.modals.destroy_work_package.has_children', { childUnits: this.text.childCount(wp) }),
 
-    this.text.deletesChildren = this.I18n.t('js.modals.destroy_work_package.deletes_children');
+      this.text.deletesChildren = this.I18n.t('js.modals.destroy_work_package.deletes_children');
   }
 
-  public get blockedDueToUnconfirmedChildren() {
+  public get blockedDueToUnconfirmedChildren():boolean {
     return this.mustConfirmChildren && !this.childrenDeletionConfirmed;
   }
 
-  public get mustConfirmChildren() {
-    const result = false;
+  public get mustConfirmChildren():boolean {
+    let result = false;
 
     if (this.singleWorkPackage && this.singleWorkPackageChildren) {
-      const result = this.singleWorkPackageChildren.length > 0;
+      result = this.singleWorkPackageChildren.length > 0;
     }
 
     return result || !!_.find(this.workPackages, (wp) => wp.children && wp.children.length > 0);
   }
 
-  public confirmDeletion($event:Event) {
+  public confirmDeletion($event:Event):boolean {
     if (this.busy || this.blockedDueToUnconfirmedChildren) {
       return false;
     }
 
     this.busy = true;
-    this.workPackageService.performBulkDelete(this.workPackages.map((el) => el.id!), true)
+    const ids = this.workPackages
+      .map((el) => el.id)
+      .filter(isNotNull);
+    this.workPackageService.performBulkDelete(ids, true)
       .then(() => {
         this.busy = false;
         this.closeMe($event);

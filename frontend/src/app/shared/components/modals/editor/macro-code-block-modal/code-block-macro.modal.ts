@@ -96,7 +96,7 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
   }
 
   ngAfterViewInit():void {
-    void import('codemirror').then((imported:any) => {
+    import('codemirror').then((imported:any) => {
       const CodeMirror = imported.default;
       this.codeMirrorInstance = CodeMirror.fromTextArea(
         this.codeMirrorPane.nativeElement,
