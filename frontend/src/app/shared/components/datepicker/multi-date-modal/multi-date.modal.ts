@@ -64,6 +64,7 @@ import {
 } from 'rxjs';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -85,6 +86,7 @@ export type FieldUpdates =
   encapsulation: ViewEncapsulation.None,
   providers: [
     DatepickerModalService,
+    DateModalRelationsService,
   ],
 })
 export class MultiDateModalComponent extends OpModalComponent implements AfterViewInit {
@@ -95,6 +97,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   @InjectField() halEditing:HalResourceEditingService;
 
   @InjectField() datepickerService:DatepickerModalService;
+
+  @InjectField() dateModalRelations:DateModalRelationsService;
 
   @InjectField() browserDetector:BrowserDetector;
 
@@ -183,13 +187,10 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   ngAfterViewInit():void {
     this
-      .datepickerService
-      .precedingWorkPackages$
-      .pipe(
-        take(1),
-      )
-      .subscribe((relation) => {
-        this.initializeDatepicker(this.minimalDateFromPrecedingRelationship(relation));
+      .dateModalRelations
+      .getMinimalDateFromPreceeding()
+      .subscribe((date) => {
+        this.initializeDatepicker(date);
         this.onDataChange();
       });
 
@@ -330,7 +331,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
    * Returns whether the user can alter the dates of the work package.
    */
   get isSchedulable():boolean {
-    return this.scheduleManually || !this.datepickerService.isParent;
+    return this.scheduleManually || !this.dateModalRelations.isParent;
   }
 
   showFieldAsActive(field:DateFields):boolean {
@@ -523,30 +524,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       default:
         return 'start';
     }
-  }
-
-  private minimalDateFromPrecedingRelationship(relations:{ id:string, dueDate?:string, date?:string }[]):Date|null {
-    if (relations.length === 0) {
-      return null;
-    }
-
-    let minimalDate:Date|null = null;
-
-    relations.forEach((relation) => {
-      if (!relation.dueDate && !relation.date) {
-        return;
-      }
-
-      const relationDate = relation.dueDate || relation.date;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const parsedRelationDate = this.datepickerService.parseDate(relationDate!);
-
-      if (!minimalDate || minimalDate < parsedRelationDate) {
-        minimalDate = parsedRelationDate === '' ? null : parsedRelationDate;
-      }
-    });
-
-    return minimalDate;
   }
 
   private isDayDisabled(dayElement:DayElement, minimalDate?:Date|null):boolean {

@@ -33,12 +33,12 @@ import {
   Input,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { DatepickerModalService } from 'core-app/shared/components/datepicker/datepicker.modal.service';
 import {
   map,
   take,
 } from 'rxjs/operators';
 import { StateService } from '@uirouter/core';
+import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
 
 @Component({
   selector: 'op-datepicker-banner',
@@ -48,25 +48,25 @@ import { StateService } from '@uirouter/core';
 export class DatepickerBannerComponent {
   @Input() scheduleManually = false;
 
-  hasRelations$ = this.datepickerService.hasRelations$;
+  hasRelations$ = this.dateModalRelations.hasRelations$;
 
   hasPrecedingRelations$ = this
-    .datepickerService
+    .dateModalRelations
     .precedingWorkPackages$
     .pipe(
       map((relations) => relations?.length > 0),
     );
 
   hasFollowingRelations$ = this
-    .datepickerService
+    .dateModalRelations
     .followingWorkPackages$
     .pipe(
       map((relations) => relations?.length > 0),
     );
 
-  isParent = this.datepickerService.isParent;
+  isParent = this.dateModalRelations.isParent;
 
-  isChild = this.datepickerService.isChild;
+  isChild = this.dateModalRelations.isChild;
 
   text = {
     automatically_scheduled_parent: this.I18n.t('js.work_packages.datepicker_modal.automatically_scheduled_parent'),
@@ -81,7 +81,7 @@ export class DatepickerBannerComponent {
   };
 
   constructor(
-    readonly datepickerService:DatepickerModalService,
+    readonly dateModalRelations:DateModalRelationsService,
     readonly injector:Injector,
     readonly I18n:I18nService,
     readonly state:StateService,
@@ -91,7 +91,7 @@ export class DatepickerBannerComponent {
     evt.preventDefault();
 
     this
-      .datepickerService
+      .dateModalRelations
       .getInvolvedWorkPackageIds()
       .pipe(
         take(1),

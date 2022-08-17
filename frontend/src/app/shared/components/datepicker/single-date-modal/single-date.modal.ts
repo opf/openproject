@@ -64,6 +64,7 @@ import {
 } from 'rxjs';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
 
 @Component({
   templateUrl: './single-date.modal.html',
@@ -72,6 +73,7 @@ import { FormResource } from 'core-app/features/hal/resources/form-resource';
   encapsulation: ViewEncapsulation.None,
   providers: [
     DatepickerModalService,
+    DateModalRelationsService,
   ],
 })
 export class SingleDateModalComponent extends OpModalComponent implements AfterViewInit {
@@ -82,6 +84,8 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
   @InjectField() halEditing:HalResourceEditingService;
 
   @InjectField() datepickerService:DatepickerModalService;
+
+  @InjectField() dateModalRelations:DateModalRelationsService;
 
   @InjectField() browserDetector:BrowserDetector;
 
@@ -154,13 +158,10 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
 
   ngAfterViewInit():void {
     this
-      .datepickerService
-      .precedingWorkPackages$
-      .pipe(
-        take(1),
-      )
-      .subscribe((relation) => {
-        this.initializeDatepicker(this.minimalDateFromPrecedingRelationship(relation));
+      .dateModalRelations
+      .getMinimalDateFromPreceeding()
+      .subscribe((date) => {
+        this.initializeDatepicker(date);
         this.onDataChange();
       });
 
@@ -252,7 +253,7 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
    * Returns whether the user can alter the dates of the work package.
    */
   get isSchedulable():boolean {
-    return this.scheduleManually || !this.datepickerService.isParent;
+    return this.scheduleManually || !this.dateModalRelations.isParent;
   }
 
   private initializeDatepicker(minimalDate?:Date|null) {
@@ -300,30 +301,6 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
 
   private onDataChange() {
     this.onDataUpdated.emit(this.date || '');
-  }
-
-  private minimalDateFromPrecedingRelationship(relations:{ id:string, dueDate?:string, date?:string }[]):Date|null {
-    if (relations.length === 0) {
-      return null;
-    }
-
-    let minimalDate:Date|null = null;
-
-    relations.forEach((relation) => {
-      if (!relation.dueDate && !relation.date) {
-        return;
-      }
-
-      const relationDate = relation.dueDate || relation.date;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const parsedRelationDate = this.datepickerService.parseDate(relationDate!);
-
-      if (!minimalDate || minimalDate < parsedRelationDate) {
-        minimalDate = parsedRelationDate === '' ? null : parsedRelationDate;
-      }
-    });
-
-    return minimalDate;
   }
 
   private isDayDisabled(dayElement:DayElement, minimalDate?:Date|null):boolean {
