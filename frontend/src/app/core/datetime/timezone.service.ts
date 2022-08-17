@@ -149,6 +149,10 @@ export class TimezoneService {
     return Number(moment.duration(durationString).asDays().toFixed(2));
   }
 
+  public toISODuration(input:string|number, unit:'hours'|'days'):string {
+    return moment.duration(input, unit).toIsoString();
+  }
+
   public formattedDuration(durationString:string, unit:'hour'|'days' = 'hour'):string {
     switch (unit) {
       case 'hour':
