@@ -460,7 +460,7 @@ We will show both possibilities later in the configuration.
 
 ### 3) Create stack
 
-To create a stack you need a stack file. The easiest way is to just copy OpenProject's [docker-compose.yml](https://github.com/opf/openproject/blob/release/12.0/docker-compose.yml). Just download it and save it as, say, `openproject-stack.yml`.
+To create a stack you need a stack file. The easiest way is to just copy OpenProject's [docker-compose.yml](https://github.com/opf/openproject/blob/release/12.2/docker-compose.yml). Just download it and save it as, say, `openproject-stack.yml`.
 
 #### Configuring storage
 
@@ -587,7 +587,7 @@ docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
 qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:12   
-cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:10                
+cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:13                
 uvtfnc9dnlbn        openproject_proxy    replicated          1/1                 openproject/community:12   *:8080->80/tcp
 g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:12   
 canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/community:12   
