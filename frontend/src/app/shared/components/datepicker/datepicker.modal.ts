@@ -54,16 +54,30 @@ import flatpickr from 'flatpickr';
 import { DatepickerModalService } from 'core-app/shared/components/datepicker/datepicker.modal.service';
 import {
   debounce,
+  switchMap,
   take,
+  tap,
 } from 'rxjs/operators';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import {
   Subject,
   timer,
 } from 'rxjs';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
 
 export type DateKeys = 'date'|'start'|'end';
 export type DateFields = DateKeys|'duration';
+
+type StartUpdate = { startDate:string };
+type EndUpdate = { dueDate:string };
+type DurationUpdate = { duration:string };
+type NonWorkingDatesUpdates = StartUpdate&EndUpdate&DurationUpdate&{ ignoreNonWorkingDays:boolean };
+export type FieldUpdates =
+  (StartUpdate&EndUpdate)
+  |(StartUpdate&DurationUpdate)
+  |(EndUpdate&DurationUpdate)
+  |NonWorkingDatesUpdates;
 
 @Component({
   templateUrl: './datepicker.modal.html',
@@ -129,12 +143,29 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
   private datePickerInstance:DatePicker;
 
+  private dateUpdates$ = new Subject<FieldUpdates>();
+  // { start: '123123', duration: '10' }
+
+  private dateUpdateRequests$ = this
+    .dateUpdates$
+    .pipe(
+      this.untilDestroyed(),
+      switchMap((fieldsToUpdate:FieldUpdates) => this
+        .apiV3Service
+        .work_packages
+        .id(this.changeset.id)
+        .form
+        .forPayload({ ...fieldsToUpdate, lockVersion: this.changeset.value<string>('lockVersion') })),
+    )
+    .subscribe((form) => this.updateDatesFromForm(form));
+
   constructor(
     readonly injector:Injector,
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
     readonly configurationService:ConfigurationService,
+    readonly apiV3Service:ApiV3Service,
   ) {
     super(locals, cdRef, elementRef);
     this.changeset = locals.changeset as ResourceChangeset;
@@ -144,9 +175,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     this.scheduleManually = !!this.changeset.value('scheduleManually');
     this.includeNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
 
-    const durationDays = this.timezoneService.toDays(this.changeset.value('duration'));
-    this.updateDuration(durationDays);
-    this.showDurationWithDays();
+    this.setDurationDaysFromUpstream(this.changeset.value('duration'));
 
     if (this.singleDate) {
       this.dates.date = this.changeset.value('date') as string;
@@ -165,9 +194,9 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
       .pipe(
         take(1),
       ).subscribe((relation) => {
-        this.initializeDatepicker(this.minimalDateFromPrecedingRelationship(relation));
-        this.onDataChange();
-      });
+      this.initializeDatepicker(this.minimalDateFromPrecedingRelationship(relation));
+      this.onDataChange();
+    });
 
     this
       .dateChangedManually$
@@ -288,6 +317,18 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
   handleDurationFocusOut():void {
     this.datepickerService.setCurrentActivatedField('start');
     this.showDurationWithDays();
+
+    if (this.dates.start) {
+      this.dateUpdates$.next({
+        startDate: this.dates.start,
+        duration: this.timezoneService.toISODuration(this.duration, 'days'),
+      });
+    } else if (this.dates.end) {
+      this.dateUpdates$.next({
+        dueDate: this.dates.end,
+        duration: this.timezoneService.toISODuration(this.duration, 'days'),
+      });
+    }
   }
 
   updateDuration(value:string|number):void {
@@ -372,13 +413,13 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         const selectedDate = dates[0];
         if (this.dates.start && this.dates.end) {
           /**
-          Overwrite flatpickr default behavior by not starting a new date range everytime but preserving either start or end date.
-          There are three cases to cover.
-          1. Everything before the current start date will become the new start date (independent of the active field)
-          2. Everything after the current end date will become the new end date if that is the currently active field.
-          If the active field is the start date, the selected date becomes the new start date and the end date is cleared.
-          3. Everything in between the current start and end date is dependent on the currently activated field.
-          * */
+           Overwrite flatpickr default behavior by not starting a new date range everytime but preserving either start or end date.
+           There are three cases to cover.
+           1. Everything before the current start date will become the new start date (independent of the active field)
+           2. Everything after the current end date will become the new end date if that is the currently active field.
+           If the active field is the start date, the selected date becomes the new start date and the end date is cleared.
+           3. Everything in between the current start and end date is dependent on the currently activated field.
+           * */
 
           const parsedStartDate = this.datepickerService.parseDate(this.dates.start) as Date;
           const parsedEndDate = this.datepickerService.parseDate(this.dates.end) as Date;
@@ -466,5 +507,37 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
   private isDayDisabled(dayElement:DayElement, minimalDate?:Date|null):boolean {
     return !this.isSchedulable || (!this.scheduleManually && !!minimalDate && dayElement.dateObj <= minimalDate);
+  }
+
+  /**
+   * Update the datepicker dates and properties from a form response
+   * that includes derived/calculated values.
+   *
+   * @param form
+   * @private
+   */
+  private updateDatesFromForm(form:FormResource) {
+    const payload = form.payload as { startDate:string, dueDate:string, duration:string, ignoreNonWorkingDays:boolean };
+    this.dates.start = payload.startDate;
+    this.dates.end = payload.dueDate;
+    this.includeNonWorkingDays = payload.ignoreNonWorkingDays;
+
+    this.setDurationDaysFromUpstream(payload.duration);
+    const parsedStartDate = this.datepickerService.parseDate(this.dates.start) as Date;
+    const parsedEndDate = this.datepickerService.parseDate(this.dates.end) as Date;
+
+    this.datepickerService.setDates([parsedStartDate, parsedEndDate], this.datePickerInstance);
+    this.cdRef.detectChanges();
+  }
+
+  /**
+   * Updates the duration property and the displayed value
+   * @param value
+   * @private
+   */
+  private setDurationDaysFromUpstream(value:string) {
+    const durationDays = this.timezoneService.toDays(value);
+    this.updateDuration(durationDays);
+    this.showDurationWithDays();
   }
 }
