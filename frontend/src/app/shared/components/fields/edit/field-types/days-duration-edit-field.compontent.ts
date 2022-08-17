@@ -29,73 +29,21 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
-  OnInit,
 } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { take } from 'rxjs/operators';
-import { DatePickerModalComponent } from 'core-app/shared/components/datepicker/datepicker.modal';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
+import { DatePickerEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-picker-edit-field.component';
 
 @Component({
   template: `
     <input type="number"
            class="inline-edit--field op-input"
            [ngModel]="formattedValue"
-           [disabled]="true"
+           disabled="disabled"
            [id]="handler.htmlId" />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DaysDurationEditFieldComponent extends EditFieldComponent implements OnInit, OnDestroy {
-  @InjectField() readonly timezoneService:TimezoneService;
-
-  @InjectField() opModalService:OpModalService;
-
-  private modal:DatePickerModalComponent;
-
+export class DaysDurationEditFieldComponent extends DatePickerEditFieldComponent {
   public get formattedValue():number {
     return Number(moment.duration(this.value).asDays().toFixed(0));
-  }
-
-  ngOnInit():void {
-    super.ngOnInit();
-
-    this.handler
-      .$onUserActivate
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe(() => {
-        this.showDatePickerModal();
-      });
-  }
-
-  ngOnDestroy():void {
-    super.ngOnDestroy();
-    this.modal?.closeMe();
-  }
-
-  public showDatePickerModal():void {
-    this.modal = this
-      .opModalService
-      .show(DatePickerModalComponent, this.injector, { changeset: this.change, fieldName: this.name }, true);
-
-    const { modal } = this;
-
-    setTimeout(() => {
-      const modalElement = jQuery(modal.elementRef.nativeElement).find('.op-datepicker-modal');
-      const field = jQuery(this.elementRef.nativeElement);
-      modal.reposition(modalElement, field);
-    });
-
-    modal
-      .closingEvent
-      .pipe(take(1))
-      .subscribe(() => {
-        void this.handler.handleUserSubmit();
-      });
   }
 }
