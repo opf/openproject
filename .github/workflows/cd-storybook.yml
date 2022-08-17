@@ -4,7 +4,7 @@ on:
     branches:
       - feature/storybook
       - dev
-      - release/*
+
 permissions:
   contents: read
 
@@ -24,4 +24,4 @@ jobs:
           curl -i --fail -H"authorization: Bearer $TOKEN" \
             -XPOST -H"Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/$DS_REPOSITORY/actions/workflows/$DS_CD_WORKFLOW_ID/dispatches \
-            -d '{"ref": "${{ github.ref }}"}'
+            -d '{"ref": "dev"}'
