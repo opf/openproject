@@ -30,10 +30,6 @@ import {
   Inject,
   Injectable,
 } from '@angular/core';
-import {
-  DateFields,
-  DateKeys,
-} from 'core-app/shared/components/datepicker/datepicker.modal';
 import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
 import { DateOption } from 'flatpickr/dist/types/options';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
@@ -59,8 +55,6 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @Injectable()
 export class DatepickerModalService {
-  currentlyActivatedDateField:DateFields;
-
   private changeset:WorkPackageChangeset = this.locals.changeset as WorkPackageChangeset;
 
   precedingWorkPackages$:Observable<{ id:string, dueDate?:string, date?:string }[]> = of(this.changeset)
@@ -190,18 +184,6 @@ export class DatepickerModalService {
       return false;
     }
     return parsedDate1.getTime() === parsedDate2.getTime();
-  }
-
-  setCurrentActivatedField(val:DateFields):void {
-    this.currentlyActivatedDateField = val;
-  }
-
-  toggleCurrentActivatedField():void {
-    this.currentlyActivatedDateField = this.currentlyActivatedDateField === 'start' ? 'end' : 'start';
-  }
-
-  isStateOfCurrentActivatedField(val:DateFields):boolean {
-    return this.currentlyActivatedDateField === val;
   }
 
   setDates(dates:DateOption|DateOption[], datePicker:DatePicker, enforceDate?:Date):void {

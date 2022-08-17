@@ -1,0 +1,146 @@
+<form
+  class="op-modal op-datepicker-modal loading-indicator--location"
+  data-qa-selector="op-datepicker-modal"
+  [attr.id]="htmlId"
+  #modalContainer
+  data-indicator-name="modal"
+  (submit)="save($event)"
+>
+  <op-datepicker-banner [scheduleManually]="scheduleManually"></op-datepicker-banner>
+  <div class="op-modal--body form -vertical">
+    <div class="form--field op-datepicker-modal--scheduling-action-container">
+      <div class="form--field-container">
+        <label class="form--label-with-check-box">
+          <div class="form--check-box-container">
+            <input type="checkbox"
+                   name="scheduling"
+                   class="form--check-box op-datepicker-modal--scheduling-action"
+                   data-qa-selector="op-datepicker-modal--scheduling-action"
+                   [ngModel]="scheduleManually"
+                   (ngModelChange)="changeSchedulingMode()">
+          </div>
+          {{ text.manualScheduling }}
+        </label>
+      </div>
+    </div>
+
+    <div class="op-datepicker-modal--dates-container">
+      <div class="form--field op-datepicker-modal--date-form"
+           data-qa-selector="datepicker-start-date"
+      >
+        <label class="form--label"
+               [textContent]="text.startDate">
+        </label>
+        <div class="form--field-container">
+          <div class="form--text-field-container op-datepicker-modal--date-container">
+            <spot-text-field
+              name="startDate"
+              data-qa-selector="op-datepicker-modal--start-date-field"
+              class="op-datepicker-modal--date-field"
+              [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('start')}"
+              [(ngModel)]="dates.start"
+              (ngModelChange)="dateChangedManually$.next()"
+              [disabled]="!isSchedulable"
+              [showClearButton]="currentlyActivatedDateField === 'end'"
+              (focusin)="setCurrentActivatedField('start')"
+            ></spot-text-field>
+          </div>
+        </div>
+        <div class="form--field-extra-actions">
+          <a *ngIf="showTodayLink()"
+             (click)="setToday('start')"
+             [textContent]="text.today">
+          </a>
+        </div>
+      </div>
+      <div class="form--field op-datepicker-modal--date-form"
+           data-qa-selector="datepicker-end-date"
+      >
+        <label class="form--label"
+               [textContent]="text.endDate">
+        </label>
+        <div class="form--field-container">
+          <div class="form--text-field-container op-datepicker-modal--date-container">
+            <spot-text-field
+              name="endDate"
+              data-qa-selector="op-datepicker-modal--end-date-field"
+              class="op-datepicker-modal--date-field"
+              [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('end')}"
+              [(ngModel)]="dates.end"
+              (ngModelChange)="dateChangedManually$.next()"
+              [disabled]="!isSchedulable"
+              [showClearButton]="currentlyActivatedDateField === 'end'"
+              (focusin)="setCurrentActivatedField('end')"
+            ></spot-text-field>
+          </div>
+        </div>
+        <div class="form--field-extra-actions">
+          <a *ngIf="showTodayLink()"
+             (click)="setToday('end')"
+             [textContent]="text.today">
+          </a>
+        </div>
+      </div>
+      <div class="form--field op-datepicker-modal--date-form"
+           data-qa-selector="datepicker-duration"
+      >
+        <label class="form--label"
+               [textContent]="text.duration">
+        </label>
+        <div class="form--field-container">
+          <div class="form--text-field-container op-datepicker-modal--date-container">
+            <spot-text-field
+              name="duration"
+              data-qa-selector="op-datepicker-modal--duration-field"
+              class="op-datepicker-modal--date-field"
+              [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('duration')}"
+              [ngModel]="displayedDuration"
+              (ngModelChange)="updateDuration($event)"
+              [disabled]="!isSchedulable"
+              (focusin)="handleDurationFocusIn()"
+              (focusout)="handleDurationFocusOut()"
+            ></spot-text-field>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <input id="flatpickr-input"
+           hidden>
+  </div>
+
+  <div class="op-modal--footer op-modal--footer_split-actions">
+    <div>
+      <div class="form--field -no-margin op-datepicker-modal--scheduling-action-container">
+        <div class="form--field-container">
+          <label class="form--label-with-check-box">
+            <div class="form--check-box-container">
+              <input type="checkbox"
+                     name="include-non-working-days"
+                     class="form--check-box"
+                     data-qa-selector="op-datepicker-modal--include-non-working-days"
+                     [ngModel]="includeNonWorkingDays"
+                     (ngModelChange)="changeNonWorkingDays()">
+            </div>
+            {{ text.includeNonWorkingDays }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <button
+        (click)="cancel()"
+        class="op-datepicker-modal--action button"
+        data-qa-selector="op-datepicker-modal--action"
+        [textContent]="text.cancel"
+      ></button>
+      <button
+        class="op-datepicker-modal--action button -highlight"
+        data-qa-selector="op-datepicker-modal--action"
+        [textContent]="text.save"
+      ></button>
+    </div>
+
+  </div>
+</form>

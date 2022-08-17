@@ -31,11 +31,11 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { DateEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-edit-field/date-edit-field.component';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { DatePickerModalComponent } from 'core-app/shared/components/datepicker/datepicker.modal';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { SingleDateModalComponent } from 'core-app/shared/components/datepicker/single-date-modal/single-date.modal';
 import { take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/multi-date-modal/multi-date.modal';
 
 @Component({
   template: `
@@ -81,11 +81,11 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
   }
 
   private showDatePickerModal():void {
-    const component = this.change.schema.isMilestone ? SingleDateModalComponent : DatePickerModalComponent;
+    const component = this.change.schema.isMilestone ? SingleDateModalComponent : MultiDateModalComponent;
     // eslint-disable-next-line no-multi-assign
     const modal = this.modal = this
       .opModalService
-      .show<SingleDateModalComponent|DatePickerModalComponent>(component, this.injector, { changeset: this.change, fieldName: this.name }, true);
+      .show<SingleDateModalComponent|MultiDateModalComponent>(component, this.injector, { changeset: this.change, fieldName: this.name }, true);
 
     setTimeout(() => {
       const modalElement = jQuery(modal.elementRef.nativeElement).find('.op-datepicker-modal');

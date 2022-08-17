@@ -67,7 +67,7 @@ import { FormResource } from 'core-app/features/hal/resources/form-resource';
 
 @Component({
   templateUrl: './single-date.modal.html',
-  styleUrls: ['../datepicker.modal.sass', '../datepicker_mobile.modal.sass'],
+  styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
