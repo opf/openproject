@@ -195,6 +195,7 @@ export function registerWorkPackageMouseHandler(this:void,
 
   function mouseMoveOnEmptyCellFn(offsetDayStart:number, mouseDownType:MouseDirection) {
     return (ev:JQuery.MouseMoveEvent) => {
+      placeholderForEmptyCell.remove();
       const relativePosition = Math.abs(cell.getBoundingClientRect().x - ev.clientX);
       const offsetDayCurrent = Math.floor(relativePosition / renderInfo.viewParams.pixelPerDay);
       const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');

@@ -95,15 +95,16 @@ export class TimelineCellRenderer {
 
   public displayPlaceholderUnderCursor(ev:MouseEvent, renderInfo:RenderInfo):HTMLElement {
     const days = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
+    const wpDuration = Number(moment.duration(renderInfo.workPackage.duration).asDays().toFixed(0));
+    const width = wpDuration * renderInfo.viewParams.pixelPerDay || 30;
 
     const placeholder = document.createElement('div');
     placeholder.style.pointerEvents = 'none';
     placeholder.style.position = 'absolute';
     placeholder.style.height = '1em';
-    placeholder.style.width = '30px';
+    placeholder.style.width = `${width}px`;
     placeholder.style.zIndex = '9999';
     placeholder.style.left = `${days * renderInfo.viewParams.pixelPerDay}px`;
-
     this.applyTypeColor(renderInfo, placeholder);
 
     return placeholder;
@@ -202,7 +203,10 @@ export class TimelineCellRenderer {
 
     if (dateForCreate) {
       projection.startDate = dateForCreate;
-      projection.dueDate = dateForCreate;
+      projection.dueDate = moment(dateForCreate)
+        .add(renderInfo.workPackage.duration || "P1D")
+        .add(-1, 'days')
+        .format('YYYY-MM-DD');
       direction = 'dragright';
     }
 
