@@ -77,7 +77,7 @@ Lint/Void:
   Enabled: false
 
 Lint/AmbiguousBlockAssociation:
-  IgnoredMethods: [change]
+  AllowedMethods: [change]
 
 
 Metrics/ClassLength:
