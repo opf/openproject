@@ -86,7 +86,7 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
     }
   }
 
-  public applyAndClose(evt:JQuery.TriggeredEvent) {
+  public applyAndClose(evt:Event):void {
     this.content = this.codeMirrorInstance.getValue();
     const lang = this.language || 'text';
     this.languageClass = `language-${lang}`;
@@ -95,8 +95,8 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
     this.closeMe(evt);
   }
 
-  ngAfterViewInit() {
-    import('codemirror').then((imported:any) => {
+  ngAfterViewInit():void {
+    void import('codemirror').then((imported:any) => {
       const CodeMirror = imported.default;
       this.codeMirrorInstance = CodeMirror.fromTextArea(
         this.codeMirrorPane.nativeElement,

@@ -1,7 +1,9 @@
-<div class="op-modal op-enterprise-modal">
-  <op-modal-header (close)="closeModal($event)">{{headerText()}}</op-modal-header>
+<div class="spot-modal op-enterprise-modal">
+  <div class="spot-modal--header">{{headerText()}}</div>
 
-  <div [ngSwitch]="openWindow()" class="op-modal--body">
+  <div class="spot-modal--divider"></div>
+
+  <div [ngSwitch]="openWindow()" class="spot-modal--body">
     <!-- first modal window -->
     <div *ngSwitchCase="1">
       <enterprise-trial-form></enterprise-trial-form>
@@ -28,7 +30,7 @@
     </div>
   </div>
 
-  <div class="op-modal--footer">
+  <div class="spot-modal--footer">
     <div *ngIf="!eeTrialService.status || eeTrialService.cancelled; else mailSubmitted">
       <button
         class="confirm-form-submit--cancel button"

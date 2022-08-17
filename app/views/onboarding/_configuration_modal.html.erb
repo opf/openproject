@@ -29,22 +29,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 <div class="modal-delivery-element">
   <%= labelled_tabular_form_for current_user, url: { action: 'user_settings', controller: 'onboarding' }, html: { id: 'user-form' } do |f| %>
-    <div class="op-modal--header op-modal--header_highlight">
-      <%= avatar(current_user) %>
-      <h1 class="op-modal--title">
-        <%= I18n.t('onboarding.welcome', app_title: Setting.app_title) %>, <%= current_user.name %>
-      </h1>
-      <button
-        type="button"
-        class="op-modal--close-button"
-        title="<%= t('js.close_popup_title') %>"
-        aria-label="<%= t('js.close_popup_title') %>"
-      >
-        <%= op_icon('icon-close') %>
-      </button>
+    <div class="spot-modal--header">
+      <%= I18n.t('onboarding.welcome', app_title: Setting.app_title) %>, <%= current_user.name %>
     </div>
 
-    <div class="onboarding--main op-modal--body">
+    <div class="spot-modal--divider"></div>
+
+    <div class="onboarding--main spot-modal--body">
       <b><%= I18n.t('onboarding.select_language') %></b>
       <fieldset class="form--fieldset">
         <div class="form--field">
@@ -53,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
       </fieldset>
     </div>
 
-    <div class="onboarding--footer op-modal--footer">
+    <div class="onboarding--footer spot-modal--footer">
       <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
     </div>
   <% end %>

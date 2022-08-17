@@ -1,9 +1,11 @@
 <div
-  class="op-modal op-modal_wide-fixed job-status--modal"
+  class="spot-modal spot-modal_wide-fixed job-status--modal"
 >
-  <op-modal-header (close)="closeMe($event)">{{ title }}</op-modal-header>
+  <div class="spot-modal--header">{{ title }}</div>
 
-  <div class="op-modal--body">
+  <div class="spot-modal--divider"></div>
+
+  <div class="spot-modal--body">
     <div class="loading-indicator--location"
          data-indicator-name="modal">
       <div class="status-icon-wrapper" *ngIf="!isLoading && statusIcon">

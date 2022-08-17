@@ -72,7 +72,7 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
   };
 
   constructor(readonly elementRef:ElementRef,
-    readonly WorkPackageService:WorkPackageService,
+    readonly workPackageService:WorkPackageService,
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
@@ -127,13 +127,13 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
     return result || !!_.find(this.workPackages, (wp) => wp.children && wp.children.length > 0);
   }
 
-  public confirmDeletion($event:JQuery.TriggeredEvent) {
+  public confirmDeletion($event:Event) {
     if (this.busy || this.blockedDueToUnconfirmedChildren) {
       return false;
     }
 
     this.busy = true;
-    this.WorkPackageService.performBulkDelete(this.workPackages.map((el) => el.id!), true)
+    this.workPackageService.performBulkDelete(this.workPackages.map((el) => el.id!), true)
       .then(() => {
         this.busy = false;
         this.closeMe($event);

@@ -341,7 +341,7 @@ module Pages
     def open_and_fill_add_list_modal(name)
       open_add_list_modal
       sleep(0.1)
-      page.find('.op-modal .new-list--action-select input').set(name)
+      page.find('.spot-modal .new-list--action-select input').set(name)
     end
 
     def open_add_list_modal

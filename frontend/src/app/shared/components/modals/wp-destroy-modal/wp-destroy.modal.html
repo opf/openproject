@@ -1,11 +1,13 @@
 <div
-  class="op-modal op-modal_autoheight wp-table--configuration-modal -danger-zone loading-indicator--location"
+  class="spot-modal spot-modal_autoheight wp-table--configuration-modal loading-indicator--location"
   data-indicator-name="modal"
   id="wp_destroy_modal"
 >
-  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
+  <div class="spot-modal--header">{{text.title}}</div>
 
-  <div class="op-modal--body">
+  <div class="spot-modal--divider"></div>
+
+  <div class="spot-modal--body">
     <ng-container *ngIf="singleWorkPackage">
       <p>
         <span [textContent]="text.text"></span>
@@ -63,7 +65,7 @@
     </div>
   </div>
 
-  <div class="op-modal--footer">
+  <div class="spot-modal--footer">
     <button
       class="button"
       [textContent]="text.cancel"

@@ -1,14 +1,16 @@
 <form
-  class="op-modal wp-table--configuration-modal loading-indicator--location"
+  class="spot-modal wp-table--configuration-modal loading-indicator--location"
   data-indicator-name="modal"
   name="modalSaveForm"
   (submit)="saveQueryAs($event)"
 >
-  <op-modal-header (close)="closeMe($event)">{{text.save_as}}</op-modal-header>
+  <div class="spot-modal--header">{{text.save_as}}</div>
+
+  <div class="spot-modal--divider"></div>
 
   <div
     name="modalSaveForm"
-    class="op-modal--body form"
+    class="spot-modal--body form"
   >
     <div class="form--field -required">
       <label class="form--label" for="save-query-name" [textContent]="text.label_name"></label>
@@ -38,7 +40,7 @@
     </section>
   </div>
 
-  <div class="op-modal--footer">
+  <div class="spot-modal--footer">
     <button
       type="button"
       class="button -with-icon icon-cancel"

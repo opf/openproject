@@ -1,10 +1,12 @@
 <div
-    class="op-modal op-modal_wide wp-table--configuration-modal loading-indicator--location"
+    class="spot-modal spot-modal_wide wp-table--configuration-modal loading-indicator--location"
     data-indicator-name="modal"
 >
-  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
+  <div class="spot-modal--header">{{text.title}}</div>
 
-  <div class="op-modal--body">
+  <div class="spot-modal--divider"></div>
+
+  <div class="spot-modal--body">
 
     <ng-container *ngIf="!!prependModalComponent">
       <ng-container *ngComponentOutlet="prependModalComponent; injector: injector"></ng-container>
@@ -20,10 +22,10 @@
     </op-scrollable-tabs>
     <div class="tab-content" #tabContentOutlet></div>
   </div>
-  <div class="op-modal--footer">
+  <div class="spot-modal--footer">
     <button
         class="button -highlight"
-        data-qa-selector="op-modal-wp-table-configuration-save-button"
+        data-qa-selector="spot-modal-wp-table-configuration-save-button"
         [textContent]="text.applyButton"
         (click)="saveChanges()"
     >

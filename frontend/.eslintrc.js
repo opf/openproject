@@ -68,6 +68,9 @@ module.exports = {
         // Who cares about line length
         "max-len": "off",
 
+        // Allow short circuit evaluations
+        "@typescript-eslint/no-unused-expressions": ["error", { "allowShortCircuit": true }],
+
         // Force single quotes to align with ruby
         quotes: "off",
         "@typescript-eslint/quotes": ["error", "single", { avoidEscape: true }],

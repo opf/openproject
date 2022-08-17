@@ -2,9 +2,11 @@
   [formGroup]="messageForm"
   (ngSubmit)="onSubmit($event)"
 >
-  <op-modal-header (close)="close.emit()">{{ text.title() }}</op-modal-header>
+  <div class="spot-modal--header">{{text.title()}}</div>
 
-  <div class="op-modal--body op-form">
+  <div class="spot-modal--divider"></div>
+
+  <div class="spot-modal--body op-form">
     <op-form-field [label]="text.label">
       <p class="op-form-field--description" slot="description">
         {{ text.description() }}
@@ -19,7 +21,7 @@
     </op-form-field>
   </div>
 
-  <div class="op-modal--footer">
+  <div class="spot-modal--footer">
     <button
       type="button"
       class="button"

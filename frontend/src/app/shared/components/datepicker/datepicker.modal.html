@@ -1,5 +1,5 @@
 <form
-  class="op-modal op-datepicker-modal loading-indicator--location"
+  class="spot-modal op-datepicker-modal loading-indicator--location"
   data-qa-selector="op-datepicker-modal"
   [attr.id]="htmlId"
   #modalContainer
@@ -7,7 +7,7 @@
   (submit)="save($event)"
 >
   <op-datepicker-banner [scheduleManually]="scheduleManually"></op-datepicker-banner>
-  <div class="op-modal--body form -vertical">
+  <div class="spot-modal--body form -vertical">
     <div class="form--field op-datepicker-modal--scheduling-action-container">
       <div class="form--field-container">
         <label class="form--label-with-check-box">
@@ -115,7 +115,7 @@
            hidden>
   </div>
 
-  <div class="op-modal--footer">
+  <div class="spot-modal--footer">
     <button
       (click)="cancel()"
       class="op-datepicker-modal--action button"

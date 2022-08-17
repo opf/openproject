@@ -50,7 +50,7 @@ export class DynamicContentModalComponent extends OpModalComponent implements On
     super(locals, cdRef, elementRef);
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     super.ngOnInit();
 
     // Append the dynamic body
@@ -64,13 +64,13 @@ export class DynamicContentModalComponent extends OpModalComponent implements On
     // other elements you have added the dynamic-content-modal--close-button class.
     jQuery(document.body)
       .on('click.opdynamicmodal',
-        '.op-modal--close-button, [dynamic-content-modal-close-button]',
-        (evt:JQuery.TriggeredEvent) => {
+        '.spot-modal--close-button, [dynamic-content-modal-close-button]',
+        (evt:Event) => {
           this.closeMe(evt);
         });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy():void {
     jQuery(document.body).off('click.opdynamicmodal');
     super.ngOnDestroy();
   }

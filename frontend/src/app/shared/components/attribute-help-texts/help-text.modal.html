@@ -1,13 +1,15 @@
 <div
-  class="op-modal op-modal_autoheight attribute-help-text--modal loading-indicator--location"
+  class="spot-modal spot-modal_autoheight attribute-help-text--modal loading-indicator--location"
   data-indicator-name="modal"
 >
-  <op-modal-header (close)="closeMe($event)">
-    <span class="icon-context icon-help1"></span>
+  <div class="spot-modal--header">
+    <span class="spot-icon spot-icon_help1"></span>
     <span [textContent]="helpText.attributeCaption"></span>
-  </op-modal-header>
+  </div>
 
-  <div class="op-modal--body op-modal--body_limited-height">
+  <div class="spot-modal--divider"></div>
+
+  <div class="spot-modal--body spot-modal--body_limited-height">
     <div
       class="op-uc-container op-uc-container__no-permalinks"
       [innerHtml]="helpText.helpText.html"
@@ -19,7 +21,7 @@
     ></attachments>
   </div>
 
-  <div class="op-modal--footer">
+  <div class="spot-modal--footer">
     <a
       class="help-text--edit-button button"
       *ngIf="helpText.editText"

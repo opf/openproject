@@ -33,9 +33,9 @@ export function detectOnboardingTour():void {
       currentTourPart = '';
       sessionStorage.setItem(onboardingTourStorageKey, 'readyToStart');
 
-      waitForElement('.onboarding-modal .op-modal--close-button', 'body', () => {
+      waitForElement('.onboarding-modal .spot-modal--close-button', 'body', () => {
         // Start automatically when the language selection is closed
-        jQuery('.op-modal--close-button').click(() => {
+        jQuery('.spot-modal--close-button').click(() => {
           tourCancelled = true;
           void triggerTour('homescreen');
         });
