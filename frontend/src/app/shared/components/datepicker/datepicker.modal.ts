@@ -98,6 +98,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     includeNonWorkingDays: this.I18n.t('js.work_packages.datepicker_modal.include_non_working_days'),
     placeholder: this.I18n.t('js.placeholders.default'),
     today: this.I18n.t('js.label_today'),
+    days: (count:number) => this.I18n.t('js.units.day', { count }),
   };
 
   onDataUpdated = new EventEmitter<string>();
@@ -110,7 +111,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
   duration:number;
 
-  formattedDuration:string;
+  displayedDuration:string;
 
   htmlId = '';
 
@@ -142,8 +143,10 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     this.singleDate = this.changeset.isWritable('date');
     this.scheduleManually = !!this.changeset.value('scheduleManually');
     this.includeNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
-    this.duration = this.changeset.value('duration') as number;
-    this.formattedDuration = this.timezoneService.formattedDuration(this.duration.toString(), 'days');
+
+    const durationDays = this.timezoneService.toDays(this.changeset.value('duration'));
+    this.updateDuration(durationDays);
+    this.showDurationWithDays();
 
     if (this.singleDate) {
       this.dates.date = this.changeset.value('date') as string;
@@ -279,12 +282,20 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
   handleDurationFocusIn():void {
     this.datepickerService.setCurrentActivatedField('duration');
-    this.formattedDuration = this.timezoneService.toDays(this.duration.toString()).toString();
+    this.displayedDuration = this.duration.toString(10);
   }
 
   handleDurationFocusOut():void {
     this.datepickerService.setCurrentActivatedField('start');
-    this.formattedDuration = this.timezoneService.formattedDuration(this.duration.toString(), 'days');
+    this.showDurationWithDays();
+  }
+
+  updateDuration(value:string|number):void {
+    this.duration = typeof value === 'string' ? parseInt(value, 10) : value;
+  }
+
+  private showDurationWithDays() {
+    this.displayedDuration = this.text.days(this.duration);
   }
 
   private initializeDatepicker(minimalDate?:Date|null) {
