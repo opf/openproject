@@ -151,7 +151,7 @@ it:
           language_hint: 'Specifica il linguaggio di formattazione che verrà utilizzato per evidenziare (se supportato).'
         dropdown:
           macros: 'Macro'
-          chose_macro: 'Scegli macro'
+          chose_macro: 'Choose macro'
         toc: 'Indice'
         toolbar_help: 'Clicca per selezionare widget e visualizzare la barra degli strumenti. Fai doppio clic per modificare i widget'
         wiki_page_include:
@@ -474,7 +474,7 @@ it:
     label_remove_all_files: Elimina tutti i file
     label_add_description: "Aggiunge una descrizione per %{file}"
     label_upload_notification: "Caricamento dei file..."
-    label_work_package_upload_notification: "Caricamento dei file per la macro-attività #%{id}: %{subject} in corso"
+    label_work_package_upload_notification: "Caricamento dei file per la macro-attività #%{id}: %{subject} in corso" #%{id}: %{subject} in corso"
     label_wp_id_added_by: "#%{id} aggiunto da%{author}"
     label_files_to_upload: "Verranno caricati questi files:"
     label_rejected_files: "Questi file non possono essere caricati:"

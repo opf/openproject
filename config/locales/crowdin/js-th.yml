@@ -35,7 +35,7 @@ th:
       remove: "ลบ %{name}"
       active: "ใช้งาน %{label} %{name}"
     backup:
-      attachments_disabled: ไม่สามารถรวมไฟล์แนบได้เนื่องจากเกินขนาดโดยรวมสูงสุดที่อนุญาต คุณสามารถเปลี่ยนค่านี้ได้ผ่านการกำหนดค่า (ต้องรีสตาร์ทเซิร์ฟเวอร์) 
+      attachments_disabled: ไม่สามารถรวมไฟล์แนบได้เนื่องจากเกินขนาดโดยรวมสูงสุดที่อนุญาต คุณสามารถเปลี่ยนค่านี้ได้ผ่านการกำหนดค่า (ต้องรีสตาร์ทเซิร์ฟเวอร์)
       info: >
         คุณสามารถเรียกใช้การสำรองข้อมูลได้ที่นี่ กระบวนการนี้อาจใช้เวลาสักครู่ขึ้นอยู่กับปริมาณข้อมูล (โดยเฉพาะไฟล์แนบ) ที่คุณมี คุณจะได้รับอีเมลเมื่อพร้อม
       note: >
@@ -151,7 +151,7 @@ th:
           language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
         dropdown:
           macros: 'Macros'
-          chose_macro: 'Chose macro'
+          chose_macro: 'Choose macro'
         toc: 'Table of contents'
         toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
         wiki_page_include:
@@ -474,7 +474,7 @@ th:
     label_remove_all_files: ลบไฟล์ทั้งหมด
     label_add_description: "เพิ่มคำอธิบายสำหรับ %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
+    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "These files will be uploaded:"
     label_rejected_files: "These files cannot be uploaded:"

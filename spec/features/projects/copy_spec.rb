@@ -118,7 +118,14 @@ describe 'Projects copy',
 
     let(:parent_field) { ::FormFields::SelectFormField.new :parent }
 
+    let(:storage) { create(:storage) }
+    let(:project_storage) { create(:project_storage, project:, storage:) }
+    let(:file_link) { create(:file_link, container: work_package, storage:) }
+
     before do
+      project_storage
+      file_link
+
       login_as user
 
       # Clear all jobs that would later on to having emails send.
@@ -196,6 +203,10 @@ describe 'Projects copy',
       expect(copied_page).not_to be_nil
       expect(copied_page.attachments.count).to eq 1
       expect(copied_page.attachments.first.filename).to eq 'attachment.pdf'
+
+      # Expect ProjectStores and their FileLinks were copied
+      expect(copied_project.projects_storages.count).to eq(project.projects_storages.count)
+      expect(copied_project.work_packages[0].file_links.count).to eq(project.work_packages[0].file_links.count)
 
       # custom field is copied over where the author is the current user
       # Using the db directly due to performance and clarity

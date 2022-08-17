@@ -31,7 +31,8 @@ require 'spec_helper'
 describe RootSeeder,
          'BIM edition',
          with_config: { edition: 'bim' },
-         with_settings: { journal_aggregation_time_minutes: 0 } do
+         with_settings: { journal_aggregation_time_minutes: 0 },
+         with_flag: { work_packages_duration_field_active: true } do
   it 'create the demo data' do
     expect { described_class.new.do_seed! }.not_to raise_error
 

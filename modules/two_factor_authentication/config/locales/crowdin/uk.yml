@@ -136,8 +136,6 @@ uk:
     message_bird:
       sms_delivery_failed: 'Помилка доставки SMS MessageBird.'
       voice_delivery_failed: 'Помилка голосового дзвінка MessageBird.'
-    restdt:
-      delivery_failed_with_code: 'Помилка доставки маркера. (Error code %{code})'
     strategies:
       totp: 'Програма-автентифікатор'
       sns: 'Amazon SNS'

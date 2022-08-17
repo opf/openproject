@@ -136,8 +136,6 @@ ro:
     message_bird:
       sms_delivery_failed: 'Livrarea SMS-urilor MessageBird a eșuat.'
       voice_delivery_failed: 'Apelul vocal MessageBird a eșuat.'
-    restdt:
-      delivery_failed_with_code: 'Livrarea jetonului a eșuat. (Cod de eroare %{code})'
     strategies:
       totp: 'Aplicația Authenticator'
       sns: 'Amazon SNS'

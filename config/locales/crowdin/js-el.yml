@@ -151,7 +151,7 @@ el:
           language_hint: 'Εισάγετε την γλώσσα μορφοποίησης που θα χρησιμοποιηθεί για επισημάνσεις (αν υποστηρίζεται).'
         dropdown:
           macros: 'Μακροεντολές'
-          chose_macro: 'Επιλογή μακροεντολής'
+          chose_macro: 'Choose macro'
         toc: 'Πίνακας περιεχομένων'
         toolbar_help: 'Κάντε κλικ για να επιλέξετε widget και να εμφανίσετε τη γραμμή εργαλείων. Κάντε διπλό κλικ για να επεξεργαστείτε το widget'
         wiki_page_include:
@@ -473,7 +473,7 @@ el:
     label_remove_all_files: Διαγράψτε όλα τα αρχεία
     label_add_description: "Προσθέστε περιγραφή για το αρχείο %{file}"
     label_upload_notification: "Μεταφόρτωση αρχείων..."
-    label_work_package_upload_notification: "Μεταφόρτωση αρχείων για το Πακέτο εργασίας #%{id}: %{subject}"
+    label_work_package_upload_notification: "Μεταφόρτωση αρχείων για το Πακέτο εργασίας #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} προστέθηκε από %{author}"
     label_files_to_upload: "Τα αρχεία αυτά θα μεταφορτωθούν:"
     label_rejected_files: "Δεν ήταν δυνατή η μεταφόρτωση αυτών των αρχείων:"

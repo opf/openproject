@@ -307,7 +307,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:type) { 'Duration' }
         let(:name) { I18n.t('activerecord.attributes.work_package.duration') }
         let(:required) { false }
-        let(:writable) { false }
+        let(:writable) { true }
       end
 
       context 'when the work package is a milestone' do
@@ -342,7 +342,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:type) { 'Boolean' }
         let(:name) { I18n.t('activerecord.attributes.work_package.ignore_non_working_days') }
         let(:required) { false }
-        let(:writable) { false }
+        let(:writable) { true }
       end
 
       context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do

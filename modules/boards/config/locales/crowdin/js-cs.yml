@@ -44,7 +44,7 @@ cs:
         action_text_subprojects: >
           Boj s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem aktualizuje (pod)projekt.
         action_text_subtasks: >
-          Tabule s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem 
+          Tabule s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem
         action_text_status: >
           Základní tabule ve stylu kanbanu se sloupci pro status jako je do Do, Probíhá, Done.
         action_text_assignee: >

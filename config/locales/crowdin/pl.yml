@@ -607,7 +607,7 @@ pl:
         unknown_property_nested: "ma nieznaną ścieżkę '%{path}'."
         unremovable: "nie można usunąć."
         url_not_secure_context: >
-          nie zapewnia "bezpiecznego kontekstu". Ewentualnie użyj HTTPS lub adresu pętli zwrotnej, takiej jak localhost.
+          nie zapewnia „bezpiecznego kontekstu”. Użyj protokołu HTTPS albo adresu pętli zwrotnej, takiej jak localhost.
         wrong_length: "ma nieprawidłową długość (powinno mieć %{count} znaków)."
       models:
         attachment:
@@ -2036,7 +2036,7 @@ pl:
   mail_body_backup_waiting_period: Nowy token zostanie włączony za %{hours} godz.
   mail_body_backup_token_warning: Jeśli to nie Ty, zaloguj się natychmiast do OpenProject i zresetuj go ponownie.
   mail_body_incoming_email_error: E-mail wysłany do OpenProject nie został przetworzony.
-  mail_body_incoming_email_error_in_reply_to: "O %{received_at} %{from_email} napisano"
+  mail_body_incoming_email_error_in_reply_to: "O %{received_at} z adresu %{from_email} napisano"
   mail_body_incoming_email_error_logs: "Dzienniki"
   mail_body_lost_password: "Aby zmienić hasło, kliknij na poniższy link:"
   mail_body_register: "Witamy w %{app_title}. Aktywuj swoje konto, klikając ten link:"
@@ -3088,7 +3088,7 @@ pl:
       label_refresh_token: "Odśwież token"
     errors:
       oauth_authorization_code_grant_had_errors: "OAuth2 zwrócił błąd"
-      oauth_reported: "Zgłoszono dostawcę OAuth2"
+      oauth_reported: "Dostawca OAuth2 zgłosił"
       oauth_returned_error: "OAuth2 zwrócił błąd"
       oauth_returned_json_error: "OAuth2 zwrócił błąd JSON"
       oauth_returned_http_error: "OAuth2 zwrócił błąd sieciowy"
