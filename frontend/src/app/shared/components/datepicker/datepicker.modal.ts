@@ -56,7 +56,6 @@ import {
   debounce,
   switchMap,
   take,
-  tap,
 } from 'rxjs/operators';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import {
@@ -72,12 +71,12 @@ export type DateFields = DateKeys|'duration';
 type StartUpdate = { startDate:string };
 type EndUpdate = { dueDate:string };
 type DurationUpdate = { duration:string };
-type NonWorkingDatesUpdates = StartUpdate&EndUpdate&DurationUpdate&{ ignoreNonWorkingDays:boolean };
+type DateUpdate = { date:string };
 export type FieldUpdates =
   (StartUpdate&EndUpdate)
   |(StartUpdate&DurationUpdate)
   |(EndUpdate&DurationUpdate)
-  |NonWorkingDatesUpdates;
+  |DateUpdate;
 
 @Component({
   templateUrl: './datepicker.modal.html',
@@ -197,10 +196,11 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
       .precedingWorkPackages$
       .pipe(
         take(1),
-      ).subscribe((relation) => {
-      this.initializeDatepicker(this.minimalDateFromPrecedingRelationship(relation));
-      this.onDataChange();
-    });
+      )
+      .subscribe((relation) => {
+        this.initializeDatepicker(this.minimalDateFromPrecedingRelationship(relation));
+        this.onDataChange();
+      });
 
     this
       .dateChangedManually$
@@ -270,8 +270,18 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
   changeNonWorkingDays():void {
     this.includeNonWorkingDays = !this.includeNonWorkingDays;
     this.initializeDatepicker();
-    // Resent the current start and end dates so duration can be calculated again.
-    this.dateUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+
+    // If we're single date, update the date
+    if (this.singleDate) {
+      if (!this.includeNonWorkingDays) {
+        // Resent the current start and end dates so duration can be calculated again.
+        this.dateUpdates$.next({ date: this.dates.date });
+      }
+    } else {
+      // Resent the current start and end dates so duration can be calculated again.
+      this.dateUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+    }
+
     this.cdRef.detectChanges();
   }
 
@@ -392,9 +402,15 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
           this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
         },
         onChange: (dates:Date[]) => {
-          this.handleDatePickerChange(dates);
+          if (this.singleDate && dates.length > 0) {
+            this.dates.date = this.timezoneService.formattedISODate(dates[0]);
+            this.enforceManualChangesToDatepicker(false, dates[0]);
+          } else {
+            this.handleDatePickerChange(dates);
+          }
 
           this.onDataChange();
+          this.cdRef.detectChanges();
         },
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           if (!this.includeNonWorkingDays && this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj)) {
@@ -447,11 +463,10 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
   }
 
   private handleDatePickerChange(dates:Date[]) {
-    console.warn(dates);
     switch (dates.length) {
       case 1: {
         const selectedDate = dates[0];
-        if (this.dates.start && this.dates.end) {
+        if (this.dates.start !== '' && this.dates.end !== '') {
           /**
            Overwrite flatpickr default behavior by not starting a new date range everytime but preserving either start or end date.
            There are three cases to cover.
@@ -565,7 +580,17 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
    * @param form
    * @private
    */
-  private updateDatesFromForm(form:FormResource) {
+  private updateDatesFromForm(form:FormResource):void {
+    if (this.singleDate) {
+      const payload = form.payload as { date:string, ignoreNonWorkingDays:boolean };
+      this.dates.date = payload.date;
+      this.includeNonWorkingDays = payload.ignoreNonWorkingDays;
+      const parsedDate = this.datepickerService.parseDate(this.dates.date) as Date;
+      this.enforceManualChangesToDatepicker(false, parsedDate);
+
+      return;
+    }
+
     const payload = form.payload as { startDate:string, dueDate:string, duration:string, ignoreNonWorkingDays:boolean };
     this.dates.start = payload.startDate;
     this.dates.end = payload.dueDate;
