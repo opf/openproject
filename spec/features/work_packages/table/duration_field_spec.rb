@@ -34,6 +34,6 @@ describe 'Duration field in the work package table',
   end
 
   it 'shows the duration as days' do
-    duration.expect_state_text '3 days'
+    duration.expect_state_text '4 days'
   end
 end
