@@ -7,7 +7,7 @@
     <span [textContent]="helpText.attributeCaption"></span>
   </div>
 
-  <div class="spot-modal--divider"></div>
+  <div class="spot-divider"></div>
 
   <div class="spot-modal--body spot-modal--body_limited-height">
     <div
@@ -21,15 +21,17 @@
     ></attachments>
   </div>
 
-  <div class="spot-modal--footer">
-    <a
-      class="help-text--edit-button button"
-      *ngIf="helpText.editText"
-      [attr.href]="helpTextLink"
-      [attr.title]="text.edit"
-    >
-      <op-icon icon-classes="button--icon icon-edit"></op-icon>
-      <span class="button--text" [textContent]="text.edit"></span>
-    </a>
+  <div class="spot-modal--footer spot-action-bar">
+    <div class="spot-action-bar--right">
+      <a
+        class="help-text--edit-button button spot-action-bar--action"
+        *ngIf="helpText.editText"
+        [attr.href]="helpTextLink"
+        [attr.title]="text.edit"
+      >
+        <op-icon icon-classes="button--icon icon-edit"></op-icon>
+        <span class="button--text" [textContent]="text.edit"></span>
+      </a>
+    </div>
   </div>
 </div>

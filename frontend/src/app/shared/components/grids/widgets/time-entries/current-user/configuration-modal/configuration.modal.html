@@ -4,7 +4,7 @@
 
   <div class="spot-modal--header">{{text.displayedDays}}</div>
 
-  <div class="spot-modal--divider"></div>
+  <div class="spot-divider"></div>
 
   <div class="spot-modal--body">
     <div class="form--field -trailing-label" *ngFor="let day of days; let index = index">
@@ -17,16 +17,18 @@
     </div>
   </div>
 
-  <div class="spot-modal--footer">
-    <button
-      class="button"
-      [textContent]="text.cancelButton"
-      (click)="closeMe($event)"
-    ></button>
-    <button
-      class="button -highlight"
-      [textContent]="text.applyButton"
-      (click)="saveChanges()"
-    ></button>
+  <div class="spot-modal--footer spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        class="button spot-action-bar--action"
+        [textContent]="text.cancelButton"
+        (click)="closeMe($event)"
+      ></button>
+      <button
+        class="button -highlight spot-action-bar--action"
+        [textContent]="text.applyButton"
+        (click)="saveChanges()"
+      ></button>
+    </div>
   </div>
 </div>

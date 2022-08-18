@@ -5,7 +5,7 @@
 >
   <div class="spot-modal--header">{{text.title}}</div>
 
-  <div class="spot-modal--divider"></div>
+  <div class="spot-divider"></div>
 
   <div class="spot-modal--body">
     <p>
@@ -18,15 +18,17 @@
     </p>
   </div>
 
-  <div class="spot-modal--footer">
-    <button class="confirm-form-submit--continue button"
-            [ngClass]="dangerHighlighting ? '-danger': '-highlight'"
-            (click)="confirmAndClose($event)"
-            [textContent]="text.button_continue"
-    ></button>
-    <button class="confirm-form-submit--cancel button"
-            (click)="closeMe($event)"
-            [textContent]="text.button_cancel"
-    ></button>
+  <div class="spot-modal--footer spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button class="confirm-form-submit--continue button spot-action-bar--action"
+              [ngClass]="dangerHighlighting ? '-danger': '-highlight'"
+              (click)="confirmAndClose($event)"
+              [textContent]="text.button_continue"
+      ></button>
+      <button class="confirm-form-submit--cancel button spot-action-bar--action"
+              (click)="closeMe($event)"
+              [textContent]="text.button_cancel"
+      ></button>
+    </div>
   </div>
 </div>

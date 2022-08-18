@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= I18n.t('onboarding.welcome', app_title: Setting.app_title) %>, <%= current_user.name %>
     </div>
 
-    <div class="spot-modal--divider"></div>
+    <div class="spot-divider"></div>
 
     <div class="onboarding--main spot-modal--body">
       <b><%= I18n.t('onboarding.select_language') %></b>
@@ -44,8 +44,10 @@ See COPYRIGHT and LICENSE files for more details.
       </fieldset>
     </div>
 
-    <div class="onboarding--footer spot-modal--footer">
-      <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+    <div class="onboarding--footer spot-modal--footer spot-action-bar">
+      <div class="spot-action-bar--right">
+        <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark spot-action-bar--action' %>
+      </div>
     </div>
   <% end %>
 </div>

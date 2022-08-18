@@ -5,7 +5,7 @@
 >
   <div class="spot-modal--header">{{text.title}}</div>
 
-  <div class="spot-modal--divider"></div>
+  <div class="spot-divider"></div>
 
   <div class="spot-modal--body">
     <ng-container *ngIf="singleWorkPackage">
@@ -58,24 +58,26 @@
                  name="confirm-children-deletion"
                  id="confirm-children-deletion"
                  [(ngModel)]="childrenDeletionConfirmed"
-                 class="form--check-box" />
+                 class="form--check-box"/>
         </div>
         {{ text.label_confirm_children_deletion }}
       </label>
     </div>
   </div>
 
-  <div class="spot-modal--footer">
-    <button
-      class="button"
-      [textContent]="text.cancel"
-      (click)="closeMe($event)"
-    ></button>
-    <button
-      class="button -danger"
-      [textContent]="text.confirm"
-      [attr.disabled]="busy || blockedDueToUnconfirmedChildren || undefined"
-      (click)="confirmDeletion($event)"
-    ></button>
+  <div class="spot-modal--footer spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        class="button spot-action-bar--action"
+        [textContent]="text.cancel"
+        (click)="closeMe($event)"
+      ></button>
+      <button
+        class="button -danger spot-action-bar--action"
+        [textContent]="text.confirm"
+        [attr.disabled]="busy || blockedDueToUnconfirmedChildren || undefined"
+        (click)="confirmDeletion($event)"
+      ></button>
+    </div>
   </div>
 </div>

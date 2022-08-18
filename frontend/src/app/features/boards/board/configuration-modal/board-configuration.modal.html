@@ -1,25 +1,27 @@
 <div
-    class="spot-modal wp-table--configuration-modal loading-indicator--location"
-    data-indicator-name="modal"
+  class="spot-modal wp-table--configuration-modal loading-indicator--location"
+  data-indicator-name="modal"
 >
   <div class="spot-modal--header">{{text.title}}</div>
 
-  <div class="spot-modal--divider"></div>
+  <div class="spot-divider"></div>
 
   <div class="spot-modal--body">
     <div class="tab-content" #tabContentOutlet></div>
   </div>
 
-  <div class="spot-modal--footer">
-    <button
-      class="button"
-      [textContent]="text.cancelButton"
-      (click)="closeMe($event)"
-    ></button>
-    <button
-      class="button -highlight"
-      [textContent]="text.applyButton"
-      (click)="saveChanges()"
-    ></button>
+  <div class="spot-modal--footer spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        class="button spot-action-bar--action"
+        [textContent]="text.cancelButton"
+        (click)="closeMe($event)"
+      ></button>
+      <button
+        class="button -highlight spot-action-bar--action"
+        [textContent]="text.applyButton"
+        (click)="saveChanges()"
+      ></button>
+    </div>
   </div>
 </div>

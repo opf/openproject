@@ -89,22 +89,26 @@ Currently selected value is {{ toggleValue }}
 <h1>Checkbox</h1>
 
 <label>
-  <spot-checkbox></spot-checkbox> Unchecked
+  <spot-checkbox></spot-checkbox>
+  Unchecked
 </label>
 
 <label>
-  <spot-checkbox [checked]="true"></spot-checkbox> Checked
+  <spot-checkbox [checked]="true"></spot-checkbox>
+  Checked
 </label>
 
 <label>
-  <spot-checkbox [disabled]="true"></spot-checkbox> Disabled
+  <spot-checkbox [disabled]="true"></spot-checkbox>
+  Disabled
 </label>
 
 <label>
   <spot-checkbox
     [checked]="true"
     [disabled]="true"
-  ></spot-checkbox> Disabled checked
+  ></spot-checkbox>
+  Disabled checked
 </label>
 
 <label>
@@ -454,7 +458,8 @@ Currently selected value is {{ toggleValue }}
     type="button"
     class="spot-button spot-button_main"
     (click)="dropModalOpen = !dropModalOpen"
-  >Open Modal</button>
+  >Open Modal
+  </button>
   <ng-container slot="body">
     <div class="spot-container">
       <h1 class="spot-header-small">Test</h1>
@@ -531,6 +536,44 @@ Currently selected value is {{ toggleValue }}
     <button class="spot-button spot-button_main">
       Another Action
     </button>
+  </div>
+</div>
+
+<h1>Modals</h1>
+
+<div class="spot-modal">
+  <div class="spot-modal--header">Default size modal</div>
+  <div class="spot-modal--body">Here is some text in the body. Additionally this is a destructive action.</div>
+  <div class="spot-modal--footer spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button class="spot-button spot-button_outlined spot-button_main spot-action-bar--action">
+        Cancel
+      </button>
+      <button class="spot-button spot-button_danger spot-action-bar--action">
+        <span class="spot-icon spot-icon_delete"></span>
+        <span>Delete</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="spot-modal spot-modal_wide">
+  <div class="spot-modal--header">
+    <span class="spot-icon spot-icon_help1"></span>
+    <span>Wide modal</span>
+  </div>
+  <div class="spot-divider"></div>
+  <div class="spot-modal--body">
+    <p>Here is some text in the body.</p>
+    <p>But this modal has a mininmal height!</p>
+  </div>
+  <div class="spot-modal--footer spot-action-bar">
+    <div class="spot-action-bar--right">
+      <span>Some explanatory text.</span>
+      <button class="spot-button spot-button_main spot-action-bar--action">
+        OK
+      </button>
+    </div>
   </div>
 </div>
 

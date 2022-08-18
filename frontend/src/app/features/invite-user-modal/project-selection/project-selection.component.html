@@ -4,7 +4,7 @@
 >
   <div class="spot-modal--header">{{text.title}}</div>
 
-  <div class="spot-modal--divider"></div>
+  <div class="spot-divider"></div>
 
   <div class="spot-modal--body op-form">
     <op-form-field
@@ -62,7 +62,9 @@
     </op-form-field>
   </div>
 
-  <div class="spot-modal--footer">
-    <button class="button -highlight">{{ text.nextButton }}</button>
+  <div class="spot-modal--footer spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button class="button -highlight spot-action-bar--action">{{ text.nextButton }}</button>
+    </div>
   </div>
 </form>

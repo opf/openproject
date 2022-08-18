@@ -10,7 +10,7 @@
     <div class="spot-modal--header">
       <%= log_entry.class.human_attribute_name('response_body') %>
     </div>
-    <div class="spot-modal--divider"></div>
+    <div class="spot-divider"></div>
     <div class="spot-modal--body">
       <h2>Headers</h2>
       <pre class="webhooks--response-headers"><%- log_entry.response_headers.each do |k, v| -%><strong><%= k -%></strong>:  <span><%= v -%></span><br/><%- end -%></pre>
@@ -20,14 +20,16 @@
         <%= log_entry.response_body %>
       </pre>
     </div>
-    <div class="spot-modal--footer">
-      <button
-        class="button"
-        title="<%= t(:button_close) %>"
-        dynamic-content-modal-close-button
-      >
-        <%= t(:button_close) %>
-      </button>
+    <div class="spot-modal--footer spot-action-bar">
+      <div class="spot-action-bar--right">
+        <button
+          class="button spot-action-bar--action"
+          title="<%= t(:button_close) %>"
+          dynamic-content-modal-close-button
+        >
+          <%= t(:button_close) %>
+        </button>
+      </div>
     </div>
   </div>
 </section>

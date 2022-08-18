@@ -7,7 +7,7 @@
     <span [textContent]="text.title"></span>
   </div>
 
-  <div class="spot-modal--divider"></div>
+  <div class="spot-divider"></div>
 
   <div class="ngdialog-body spot-modal--body">
     <te-form #editForm
@@ -18,23 +18,23 @@
     </te-form>
   </div>
 
-  <div class="spot-modal--footer spot-modal--footer_split-actions">
-    <div>
-      <button class="button -danger"
+  <div class="spot-modal--footer spot-action-bar">
+    <div class="spot-action-bar--left">
+      <button class="button -danger spot-action-bar--action"
               *ngIf="deleteAllowed"
               (click)="destroy()"
               [textContent]="text.delete"
               [attr.title]="text.delete">
       </button>
     </div>
-    <div>
-      <button class="button"
+    <div class="spot-action-bar--right">
+      <button class="button spot-action-bar--action"
               *ngIf="saveAllowed"
               (click)="closeMe($event)"
               [textContent]="text.cancel"
               [attr.title]="text.cancel">
       </button>
-      <button class="button -highlight button_no-margin"
+      <button class="button -highlight button_no-margin spot-action-bar--action"
               *ngIf="saveAllowed"
               (click)="saveEntry()"
               [attr.title]="text.save"
