@@ -129,7 +129,7 @@ gem 'rack-protection', '~> 2.2.0'
 gem 'rack-attack', '~> 6.6.0'
 
 # CSP headers
-gem 'secure_headers', '~> 6.3.0'
+gem 'secure_headers', '~> 6.4.0'
 
 # Browser detection for incompatibility checks
 gem 'browser', '~> 5.3.0'
@@ -200,9 +200,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 gem 'validate_url'
 
 # Sentry error reporting
-gem "sentry-delayed_job", '~> 5.3.0'
-gem "sentry-rails", '~> 5.3.0'
-gem "sentry-ruby", '~> 5.3.0'
+gem "sentry-delayed_job", '~> 5.4.0'
+gem "sentry-rails", '~> 5.4.0'
+gem "sentry-ruby", '~> 5.4.0'
 
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
@@ -299,7 +299,7 @@ group :development, :test do
   gem 'lefthook', require: false
 
   # Brakeman scanner
-  gem 'brakeman', '~> 5.2.0'
+  gem 'brakeman', '~> 5.3.0'
   gem 'danger-brakeman'
 end
 

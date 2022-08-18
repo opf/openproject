@@ -901,7 +901,8 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
     # rubocop:enable RSpec/ExampleLength
   end
 
-  describe 'rescheduling work packages with a parent having a follows relation (Regression #43220)' do
+  describe 'rescheduling work packages with a parent having a follows relation (Regression #43220)',
+           with_flag: { work_packages_duration_field_active: true } do
     let(:predecessor_work_package_attributes) do
       work_package_attributes.merge(
         start_date: Time.zone.today + 1.day,

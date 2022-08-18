@@ -29,6 +29,7 @@
 module Settings
   class Definition
     ENV_PREFIX = 'OPENPROJECT_'.freeze
+    AR_BOOLEAN_TYPE = ActiveRecord::Type::Boolean.new
 
     attr_accessor :name,
                   :format,
@@ -387,7 +388,7 @@ module Settings
       when :float
         value.to_f
       when :boolean
-        ActiveRecord::Type::Boolean.new.cast(value)
+        AR_BOOLEAN_TYPE.cast(value)
       when :symbol
         value.to_sym
       else

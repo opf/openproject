@@ -31,7 +31,8 @@
 # example.
 RSpec.shared_context 'with blank access control state' do
   around do |example|
-    stash = stash_instance_variables(OpenProject::AccessControl, :@permissions, :@modules, :@project_modules_without_permissions)
+    stash = stash_instance_variables(OpenProject::AccessControl, :@mapped_permissions, :@modules,
+                                     :@project_modules_without_permissions)
     OpenProject::AccessControl.clear_caches
     example.run
   ensure
