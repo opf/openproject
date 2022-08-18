@@ -1,4 +1,4 @@
-<spot-text-field
+<spot-input-field
   [ngModel]="searchString$ | async"
   (ngModelChange)="searchString$.next($event)"
   data-qa-selector="op-add-existing-pane--search-input"
@@ -8,7 +8,7 @@
     slot="before"
     class="spot-icon spot-icon_search"
   ></span>
-</spot-text-field>
+</spot-input-field>
 
 <ng-container
   *ngIf="(isLoading$ | async) === false; else loadingTemplate"

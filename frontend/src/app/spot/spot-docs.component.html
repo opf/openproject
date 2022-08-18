@@ -368,31 +368,31 @@ Currently selected value is {{ toggleValue }}
   ></spot-filter-chip>
 </section>
 
-<h1>Text Field</h1>
+<h1>Input Field</h1>
 
 <section class="space-children">
   <input
-    class="spot-text-field"
+    class="spot-input-field"
     placeholder="Placeholder value"
   />
 
   <input
-    class="spot-text-field"
+    class="spot-input-field"
     value="Test value"
   />
 
-  <spot-text-field
+  <spot-input-field
     placeholder="Placeholder value"
     value="Test value"
     name="textfield-name"
-  ></spot-text-field>
+  ></spot-input-field>
 
-  <spot-text-field
+  <spot-input-field
     placeholder="Placeholder value"
     [(ngModel)]="textFieldValue"
-  ></spot-text-field>
+  ></spot-input-field>
 
-  <spot-text-field
+  <spot-input-field
     placeholder="Placeholder value"
     [(ngModel)]="textFieldValue"
   >
@@ -400,9 +400,9 @@ Currently selected value is {{ toggleValue }}
       slot="after"
       class="spot-icon spot-icon_bell"
     ></span>
-  </spot-text-field>
+  </spot-input-field>
 
-  <spot-text-field
+  <spot-input-field
     placeholder="Placeholder value"
     [(ngModel)]="textFieldValue"
   >
@@ -414,9 +414,9 @@ Currently selected value is {{ toggleValue }}
       slot="after"
       class="spot-icon spot-icon_bell"
     ></span>
-  </spot-text-field>
+  </spot-input-field>
 
-  <spot-text-field
+  <spot-input-field
     placeholder="Placeholder value"
     [(ngModel)]="textFieldValue"
   >
@@ -424,7 +424,15 @@ Currently selected value is {{ toggleValue }}
       slot="before"
       class="spot-icon spot-icon_bell"
     ></span>
-  </spot-text-field>
+  </spot-input-field>
+
+  <spot-input-field
+    placeholder="Placeholder number"
+    [(ngModel)]="numberFieldValue"
+    [type]="'number'"
+  >
+  </spot-input-field>
+
 </section>
 
 <h1>Drop Modal</h1>
@@ -459,7 +467,7 @@ Currently selected value is {{ toggleValue }}
     <div class="spot-container">
       <h1 class="spot-header-small">Test</h1>
 
-      <spot-text-field
+      <spot-input-field
         placeholder="Placeholder value"
         [(ngModel)]="textFieldValue"
       >
@@ -467,7 +475,7 @@ Currently selected value is {{ toggleValue }}
           slot="before"
           class="spot-icon spot-icon_bell"
         ></span>
-      </spot-text-field>
+      </spot-input-field>
     </div>
   </ng-container>
 </spot-drop-modal>

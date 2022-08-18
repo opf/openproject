@@ -34,7 +34,7 @@
       class="spot-container op-project-list-modal--body"
       *ngIf="projects$ | async as projects"
     >
-      <spot-text-field
+      <spot-input-field
         [placeholder]="text.search_placeholder"
         name="project-include-search"
         [(ngModel)]="searchableProjectListService.searchText"
@@ -50,7 +50,7 @@
           slot="before"
           class="spot-icon spot-icon_search"
         ></span>
-      </spot-text-field>
+      </spot-input-field>
 
       <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
         <ul

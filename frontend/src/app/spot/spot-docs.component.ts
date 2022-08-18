@@ -15,6 +15,8 @@ export class SpotDocsComponent {
 
   textFieldValue = 'ngModel value';
 
+  numberFieldValue = 42;
+
   dropModalOpen = false;
 
   dropModalAlignment = 'bottom-left';
