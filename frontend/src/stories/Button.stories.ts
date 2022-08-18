@@ -19,22 +19,3 @@ Default.args = {
   type: 'default',
   label: 'Default button style',
 };
-
-export const Main = Template.bind({});
-// More on args: https://storybook.js.org/docs/angular/writing-stories/args
-Main.args = {
-  type: 'main',
-  label: 'Primary action',
-};
-
-export const Accent = Template.bind({});
-Accent.args = {
-  type: 'accent',
-  label: 'Secondary action',
-};
-
-export const Danger = Template.bind({});
-Danger.args = {
-  type: 'danger',
-  label: 'Dangerous action',
-};
