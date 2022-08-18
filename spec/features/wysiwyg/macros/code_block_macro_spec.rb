@@ -98,12 +98,12 @@ describe 'Wysiwyg code block macro',
         editor.in_editor do |container,|
           editor.click_toolbar_button 'Insert code snippet'
 
-          expect(page).to have_selector('.op-modal')
+          expect(page).to have_selector('.spot-modal')
 
           # CM wraps an accessor to the editor instance on the outer container
           cm = page.find('.CodeMirror')
           page.execute_script('arguments[0].CodeMirror.setValue(arguments[1]);', cm.native, 'asdf')
-          find('.op-modal--submit-button').click
+          find('.spot-modal--submit-button').click
 
           expect(container).to have_selector('.op-uc-code-block', text: 'asdf')
 
@@ -133,7 +133,7 @@ describe 'Wysiwyg code block macro',
         editor.in_editor do |container,|
           editor.click_toolbar_button 'Insert code snippet'
 
-          expect(page).to have_selector('.op-modal')
+          expect(page).to have_selector('.spot-modal')
 
           # CM wraps an accessor to the editor instance on the outer container
           cm = page.find('.CodeMirror')
@@ -145,7 +145,7 @@ describe 'Wysiwyg code block macro',
           expect(page).to have_selector('.cm-keyword', text: 'def')
           expect(page).to have_selector('.cm-def', text: 'foobar')
 
-          find('.op-modal--submit-button').click
+          find('.spot-modal--submit-button').click
 
           # Expect macro saved to editor
           expect(container).to have_selector('.op-uc-code-block', text: snippet)
@@ -176,7 +176,7 @@ describe 'Wysiwyg code block macro',
 
           widget = container.find('.op-uc-code-block')
           page.driver.browser.action.double_click(widget.native).perform
-          expect(page).to have_selector('.op-modal')
+          expect(page).to have_selector('.spot-modal')
 
           expect(page).to have_selector('.op-uc-code-block--language', text: 'ruby')
           expect(page).to have_selector('.cm-keyword', text: 'def')

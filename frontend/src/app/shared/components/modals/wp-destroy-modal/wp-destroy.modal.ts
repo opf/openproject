@@ -66,7 +66,7 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
   // Need to confirm deletion when children are involved
   public childrenDeletionConfirmed = false;
 
-  public text:any = {
+  public text = {
     label_visibility_settings: this.I18n.t('js.label_visibility_settings'),
     button_save: this.I18n.t('js.modals.button_save'),
     confirm: this.I18n.t('js.button_confirm'),
@@ -74,6 +74,13 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
     cancel: this.I18n.t('js.button_cancel'),
     close: this.I18n.t('js.close_popup_title'),
     label_confirm_children_deletion: this.I18n.t('js.modals.destroy_work_package.confirm_deletion_children'),
+    title: '',
+    text: '',
+    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
+    childCount: (wp:WorkPackageResource):string => '',
+    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
+    hasChildren: (wp:WorkPackageResource):string => '',
+    deletesChildren: '',
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -102,20 +109,22 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
       this.singleWorkPackageChildren = this.singleWorkPackage.children;
     }
 
-    this.text.title = this.I18n.t('js.modals.destroy_work_package.title', { label: this.workPackageLabel }),
-      this.text.text = this.I18n.t('js.modals.destroy_work_package.text', {
-        label: this.workPackageLabel,
-        count: this.workPackages.length,
-      });
+    this.text.title = this.I18n.t('js.modals.destroy_work_package.title', { label: this.workPackageLabel });
+    this.text.text = this.I18n.t('js.modals.destroy_work_package.text', {
+      label: this.workPackageLabel,
+      count: this.workPackages.length,
+    });
 
     this.text.childCount = (wp:WorkPackageResource) => {
       const count = this.children(wp).length;
       return this.I18n.t('js.units.child_work_packages', { count });
     };
 
-    this.text.hasChildren = (wp:WorkPackageResource) => this.I18n.t('js.modals.destroy_work_package.has_children', { childUnits: this.text.childCount(wp) }),
-
-      this.text.deletesChildren = this.I18n.t('js.modals.destroy_work_package.deletes_children');
+    this.text.hasChildren = (wp:WorkPackageResource) => {
+      const childUnits = this.text.childCount(wp);
+      return this.I18n.t('js.modals.destroy_work_package.has_children', { childUnits });
+    };
+    this.text.deletesChildren = this.I18n.t('js.modals.destroy_work_package.deletes_children');
   }
 
   public get blockedDueToUnconfirmedChildren():boolean {

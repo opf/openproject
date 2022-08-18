@@ -34,7 +34,7 @@ module Components
     def initialize; end
 
     def container
-      '.op-modal'
+      '.spot-modal'
     end
 
     def expect_open

@@ -350,7 +350,7 @@ module Pages
     end
 
     def add_list_modal_shows_warning(value, with_link: false)
-      within page.find('.op-modal') do
+      within page.find('.spot-modal') do
         warning = '.op-toast.-warning'
         link = '.op-toast--content a'
 
