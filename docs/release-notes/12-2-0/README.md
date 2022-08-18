@@ -72,7 +72,7 @@ In OpenProject 12.2, you are now able to mark work packages with notifications a
 
 ### Changed settings for HTTPs management
 
-In 12.2., the way settings are being handled for controlling HTTPs mode of OpenProject have changed.
+In 12.2, the way settings are being handled for controlling HTTPs mode of OpenProject have changed.
 In case of a packaged installation, the configuration from the packager wizard will result in the correct configuration.
 
 For docker and manual installations, you will need to set the environment variable `OPENPROJECT_HTTPS=false` if you actively want to disable HTTPS mode.

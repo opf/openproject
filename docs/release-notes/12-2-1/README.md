@@ -17,7 +17,7 @@ The release contains a critical bug fixes that resolves a data corruption issue 
 
 ## Important bug fix for activity records
 
-In OpenProject 12.2.0., a critical bug may randomly corrupt the activity records in the database, controlling
+In OpenProject 12.2.0, a critical bug may randomly corrupt the activity records in the database, controlling
 the display and aggregation of changes in work packages, meetings, wiki pages, and so on.
 
 When aggregating an activity (the user edits the same object within the first 5 minutes), wrong database object might have being removed, resulting in errors when trying to update that item afterwards.
