@@ -97,6 +97,7 @@
               [ngModel]="displayedDuration"
               (ngModelChange)="updateDuration($event)"
               [disabled]="!isSchedulable"
+              [type]="showFieldAsActive('duration') ? 'number' : 'text'"
               (focusin)="handleDurationFocusIn()"
               (focusout)="handleDurationFocusOut()"
             ></spot-input-field>
