@@ -302,7 +302,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       shareReplay(1),
     );
 
-  isMobile$ = this.deviceService.isMobile$;
+  isMobile = this.deviceService.isMobile;
 
   constructor(
     private $state:StateService,
@@ -486,7 +486,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               },
             ],
             resources: skeletonResources,
-            resourceAreaWidth: this.isMobile$.getValue() ? '60px' : '180px',
+            resourceAreaWidth: this.isMobile ? '60px' : '180px',
             select: this.handleDateClicked.bind(this) as unknown,
             resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
             resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
