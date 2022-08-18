@@ -31,6 +31,7 @@ require 'spec_helper'
 describe WorkPackages::SetAttributesService,
          type: :model,
          with_flag: { work_packages_duration_field_active: true } do
+  let(:today) { Time.zone.today }
   let(:user) { build_stubbed(:user) }
   let(:project) do
     p = build_stubbed(:project)
@@ -85,6 +86,8 @@ describe WorkPackages::SetAttributesService,
     end
 
     it 'sets the value' do
+      next if !defined?(attributes) || attributes.blank?
+
       subject
 
       attributes.each do |attribute, key|
@@ -838,7 +841,8 @@ describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'with duration explicitly set' do
+    # TODO: Why is this scenario here? Now we recompute start_date based on duration and due_date. Should we remove it or revisit?
+    xcontext 'with duration explicitly set' do
       let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
       let(:call_attributes) { { due_date: Time.zone.today + 2.days, duration: 8 } }
       let(:attributes) { {} }
@@ -863,6 +867,188 @@ describe WorkPackages::SetAttributesService,
 
           expect(work_package.duration)
             .to eq 8
+        end
+      end
+    end
+
+    context 'when deriving one value from the two others' do
+      # rubocop:disable Layout/ExtraSpacing, Layout/SpaceInsideArrayPercentLiteral, Layout/SpaceInsidePercentLiteralDelimiters, Layout/LineLength
+      all_possible_scenarios = [
+        { initial: %i[start_date  due_date  duration], set: %i[], expected: {} },
+        { initial: %i[start_date                    ], set: %i[], expected: {} },
+        { initial: %i[            due_date          ], set: %i[], expected: {} },
+        { initial: %i[                      duration], set: %i[], expected: {} },
+        { initial: %i[                              ], set: %i[], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[start_date], expected: { change: :duration } },
+        { initial: %i[start_date                    ], set: %i[start_date], expected: {} },
+        { initial: %i[            due_date          ], set: %i[start_date], expected: { change: :duration } },
+        { initial: %i[                      duration], set: %i[start_date], expected: { change: :due_date } },
+        { initial: %i[                              ], set: %i[start_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], nilled: %i[start_date], expected: { nilify: :duration } },
+        { initial: %i[start_date                    ], nilled: %i[start_date], expected: {} },
+        { initial: %i[            due_date          ], nilled: %i[start_date], expected: {} },
+        { initial: %i[                      duration], nilled: %i[start_date], expected: {} },
+        { initial: %i[                              ], nilled: %i[start_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[due_date], expected: { change: :duration } },
+        { initial: %i[start_date                    ], set: %i[due_date], expected: { change: :duration } },
+        { initial: %i[            due_date          ], set: %i[due_date], expected: {} },
+        { initial: %i[                      duration], set: %i[due_date], expected: { change: :start_date } },
+        { initial: %i[                              ], set: %i[due_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], nilled: %i[due_date], expected: { nilify: :duration } },
+        { initial: %i[start_date                    ], nilled: %i[due_date], expected: {} },
+        { initial: %i[            due_date          ], nilled: %i[due_date], expected: {} },
+        { initial: %i[                      duration], nilled: %i[due_date], expected: {} },
+        { initial: %i[                              ], nilled: %i[due_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[duration], expected: { change: :due_date } },
+        { initial: %i[start_date                    ], set: %i[duration], expected: { change: :due_date } },
+        { initial: %i[            due_date          ], set: %i[duration], expected: { change: :start_date } },
+        { initial: %i[                      duration], set: %i[duration], expected: {} },
+        { initial: %i[                              ], set: %i[duration], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], nilled: %i[duration], expected: { nilify: :due_date } },
+        { initial: %i[start_date                    ], nilled: %i[duration], expected: {} },
+        { initial: %i[            due_date          ], nilled: %i[duration], expected: {} },
+        { initial: %i[                      duration], nilled: %i[duration], expected: {} },
+        { initial: %i[                              ], nilled: %i[duration], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[start_date due_date], expected: { change: :duration } },
+        { initial: %i[start_date                    ], set: %i[start_date due_date], expected: { change: :duration } },
+        { initial: %i[            due_date          ], set: %i[start_date due_date], expected: { change: :duration } },
+        { initial: %i[                      duration], set: %i[start_date due_date], expected: { change: :duration } },
+        { initial: %i[                              ], set: %i[start_date due_date], expected: { change: :duration } },
+
+        { initial: %i[start_date  due_date  duration], set: %i[start_date], nilled: %i[due_date], expected: { nilify: :duration } },
+        { initial: %i[start_date                    ], set: %i[start_date], nilled: %i[due_date], expected: {} },
+        { initial: %i[            due_date          ], set: %i[start_date], nilled: %i[due_date], expected: {} },
+        # TODO: is below scenario below ok? Problem is we can't detect that the user supplied nil as there is no change in the model
+        { initial: %i[                      duration], set: %i[start_date], nilled: %i[due_date], expected: { change: :due_date } },
+        { initial: %i[                              ], set: %i[start_date], nilled: %i[due_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[due_date], nilled: %i[start_date], expected: { nilify: :duration } },
+        { initial: %i[start_date                    ], set: %i[due_date], nilled: %i[start_date], expected: {} },
+        { initial: %i[            due_date          ], set: %i[due_date], nilled: %i[start_date], expected: {} },
+        # TODO: is below scenario below ok? Problem is we can't detect that the user supplied nil as there is no change in the model
+        { initial: %i[                      duration], set: %i[due_date], nilled: %i[start_date], expected: { change: :start_date } },
+        { initial: %i[                              ], set: %i[due_date], nilled: %i[start_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], nilled: %i[start_date due_date], expected: {} },
+        { initial: %i[start_date                    ], nilled: %i[start_date due_date], expected: {} },
+        { initial: %i[            due_date          ], nilled: %i[start_date due_date], expected: {} },
+        { initial: %i[                      duration], nilled: %i[start_date due_date], expected: {} },
+        { initial: %i[                              ], nilled: %i[start_date due_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[start_date duration], expected: { change: :due_date } },
+        { initial: %i[start_date                    ], set: %i[start_date duration], expected: { change: :due_date } },
+        { initial: %i[            due_date          ], set: %i[start_date duration], expected: { change: :due_date } },
+        { initial: %i[                      duration], set: %i[start_date duration], expected: { change: :due_date } },
+        { initial: %i[                              ], set: %i[start_date duration], expected: { change: :due_date } },
+
+        { initial: %i[start_date  due_date  duration], set: %i[start_date], nilled: %i[duration], expected: { nilify: :due_date } },
+        { initial: %i[start_date                    ], set: %i[start_date], nilled: %i[duration], expected: {} },
+        # TODO: is below scenario below ok? Problem is we can't detect that the user supplied nil as there is no change in the model
+        { initial: %i[            due_date          ], set: %i[start_date], nilled: %i[duration], expected: { change: :duration } },
+        { initial: %i[                      duration], set: %i[start_date], nilled: %i[duration], expected: {} },
+        { initial: %i[                              ], set: %i[start_date], nilled: %i[duration], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[duration], nilled: %i[start_date], expected: { nilify: :due_date } },
+        { initial: %i[start_date                    ], set: %i[duration], nilled: %i[start_date], expected: {} },
+        # TODO: is below scenario below ok? Problem is we can't detect that the user supplied nil as there is no change in the model
+        { initial: %i[            due_date          ], set: %i[duration], nilled: %i[start_date], expected: { change: :start_date } },
+        { initial: %i[                      duration], set: %i[duration], nilled: %i[start_date], expected: {} },
+        { initial: %i[                              ], set: %i[duration], nilled: %i[start_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], nilled: %i[start_date duration], expected: {} },
+        { initial: %i[start_date                    ], nilled: %i[start_date duration], expected: {} },
+        { initial: %i[            due_date          ], nilled: %i[start_date duration], expected: {} },
+        { initial: %i[                      duration], nilled: %i[start_date duration], expected: {} },
+        { initial: %i[                              ], nilled: %i[start_date duration], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[due_date duration], expected: { change: :start_date } },
+        { initial: %i[start_date                    ], set: %i[due_date duration], expected: { change: :start_date } },
+        { initial: %i[            due_date          ], set: %i[due_date duration], expected: { change: :start_date } },
+        { initial: %i[                      duration], set: %i[due_date duration], expected: { change: :start_date } },
+        { initial: %i[                              ], set: %i[due_date duration], expected: { change: :start_date } },
+
+        { initial: %i[start_date  due_date  duration], set: %i[due_date], nilled: %i[duration], expected: { nilify: :start_date } },
+        # TODO: is below scenario below ok? Problem is we can't detect that the user supplied nil as there is no change in the model
+        { initial: %i[start_date                    ], set: %i[due_date], nilled: %i[duration], expected: { change: :duration } },
+        { initial: %i[            due_date          ], set: %i[due_date], nilled: %i[duration], expected: {} },
+        { initial: %i[                      duration], set: %i[due_date], nilled: %i[duration], expected: {} },
+        { initial: %i[                              ], set: %i[due_date], nilled: %i[duration], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[duration], nilled: %i[due_date], expected: { nilify: :start_date } },
+        # TODO: is below scenario below ok? Problem is we can't detect that the user supplied nil as there is no change in the model
+        { initial: %i[start_date                    ], set: %i[duration], nilled: %i[due_date], expected: { change: :due_date } },
+        { initial: %i[            due_date          ], set: %i[duration], nilled: %i[due_date], expected: {} },
+        { initial: %i[                      duration], set: %i[duration], nilled: %i[due_date], expected: {} },
+        { initial: %i[                              ], set: %i[duration], nilled: %i[due_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], nilled: %i[due_date duration], expected: {} },
+        { initial: %i[start_date                    ], nilled: %i[due_date duration], expected: {} },
+        { initial: %i[            due_date          ], nilled: %i[due_date duration], expected: {} },
+        { initial: %i[                      duration], nilled: %i[due_date duration], expected: {} },
+        { initial: %i[                              ], nilled: %i[due_date duration], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[start_date due_date duration], expected: {} },
+        { initial: %i[start_date                    ], set: %i[start_date due_date duration], expected: {} },
+        { initial: %i[            due_date          ], set: %i[start_date due_date duration], expected: {} },
+        { initial: %i[                      duration], set: %i[start_date due_date duration], expected: {} },
+        { initial: %i[                              ], set: %i[start_date due_date duration], expected: {} }
+      ]
+      # rubocop:enable Layout/ExtraSpacing, Layout/SpaceInsideArrayPercentLiteral, Layout/SpaceInsidePercentLiteralDelimiters, Layout/LineLength
+
+      let(:initial_attributes) { { start_date: today, due_date: today + 49.days, duration: 50 } }
+      let(:set_attributes) { { start_date: today + 10.days, due_date: today + 12.days, duration: 3 } }
+      let(:nil_attributes) { { start_date: nil, due_date: nil, duration: nil } }
+
+      all_possible_scenarios.each do |scenario|
+        initial = scenario[:initial]
+        set = scenario[:set] || []
+        nilled = scenario[:nilled] || []
+        expected = scenario[:expected]
+        expected_change = expected[:change]
+        expected_nilify = expected[:nilify]
+        unchanged = %i[start_date due_date duration] - set - nilled - expected.values
+
+        context_description = []
+        context_description << "with initial values for #{initial.inspect}" if initial.any?
+        context_description << "without any initial values" if initial.none?
+        context_description << "with #{set.inspect} set" if set.any?
+        context_description << "with #{nilled.inspect} nilled" if nilled.any?
+        context_description << "without any attributes set" if set.none? && nilled.none?
+
+        context context_description.join(", and ") do
+          let(:work_package_attributes) { nil_attributes.merge(initial_attributes.slice(*initial)) }
+          let(:work_package) { build_stubbed(:work_package, work_package_attributes) }
+          let(:call_attributes) { nil_attributes.slice(*nilled).merge(set_attributes.slice(*set)) }
+
+          it_behaves_like 'service call' do
+            if expected_change
+              it "changes #{expected_change.inspect}" do
+                expect { subject }
+                  .to change(work_package, expected_change)
+              end
+            end
+
+            if expected_nilify
+              it "sets #{expected_nilify.inspect} to nil" do
+                expect { subject }
+                  .to change(work_package, expected_nilify).to(nil)
+              end
+            end
+
+            if unchanged.any?
+              it "does not change #{unchanged.map(&:inspect).join(' and ')}" do
+                expect { subject }
+                  .not_to change { work_package.slice(*unchanged) }
+              end
+            end
+          end
         end
       end
     end

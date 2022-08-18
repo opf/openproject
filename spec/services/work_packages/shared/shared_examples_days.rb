@@ -55,6 +55,12 @@ RSpec.shared_examples 'it returns duration' do |expected_duration, start_date, d
   end
 end
 
+RSpec.shared_examples 'start_date' do |due_date:, duration:, expected:|
+  it "start_date(#{due_date.to_fs(:wday_date)}, #{duration}) => #{expected.to_fs(:wday_date)}" do
+    expect(subject.start_date(due_date, duration)).to eq(expected)
+  end
+end
+
 RSpec.shared_examples 'due_date' do |start_date:, duration:, expected:|
   it "due_date(#{start_date.to_fs(:wday_date)}, #{duration}) => #{expected.to_fs(:wday_date)}" do
     expect(subject.due_date(start_date, duration)).to eq(expected)

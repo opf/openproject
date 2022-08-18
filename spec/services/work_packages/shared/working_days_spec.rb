@@ -103,6 +103,48 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
     end
   end
 
+  describe '#start_date' do
+    it 'returns the start date for a due date and a duration' do
+      expect(subject.start_date(monday_2022_08_01, 1)).to eq(monday_2022_08_01)
+    end
+
+    it 'raises an error if duration is 0 or negative' do
+      expect { subject.start_date(monday_2022_08_01, 0) }
+        .to raise_error ArgumentError, 'duration must be strictly positive'
+      expect { subject.start_date(monday_2022_08_01, -10) }
+        .to raise_error ArgumentError, 'duration must be strictly positive'
+    end
+
+    it 'returns nil if due_date is nil' do
+      expect(subject.start_date(nil, 1)).to be_nil
+    end
+
+    it 'returns nil if duration is nil' do
+      expect(subject.start_date(monday_2022_08_01, nil)).to be_nil
+    end
+
+    context 'without any week days created' do
+      it 'returns the due date considering all days as working days' do
+        expect(subject.start_date(monday_2022_08_01, 1)).to eq(monday_2022_08_01)
+        expect(subject.start_date(monday_2022_08_01, 7)).to eq(monday_2022_08_01 - 6) # Tuesday of previous week
+      end
+    end
+
+    context 'with weekend days (Saturday and Sunday)', :weekend_saturday_sunday do
+      include_examples 'start_date', due_date: monday_2022_08_01, duration: 1, expected: monday_2022_08_01
+      include_examples 'start_date', due_date: monday_2022_08_01, duration: 5, expected: monday_2022_08_01 - 6.days
+      include_examples 'start_date', due_date: wednesday_2022_08_03, duration: 10, expected: wednesday_2022_08_03 - 13.days
+
+      # really contrived one... Unlikely to happen.
+      include_examples 'start_date', due_date: saturday_2022_07_30, duration: 1, expected: friday_2022_07_29
+    end
+
+    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+      include_examples 'start_date', due_date: Date.new(2022, 12, 26), duration: 2, expected: Date.new(2022, 12, 24)
+      include_examples 'start_date', due_date: Date.new(2023, 1, 2), duration: 8, expected: Date.new(2022, 12, 24)
+    end
+  end
+
   describe '#due_date' do
     it 'returns the due date for a start date and a duration' do
       expect(subject.due_date(monday_2022_08_01, 1)).to eq(monday_2022_08_01)

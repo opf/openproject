@@ -51,16 +51,73 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def set_calculated_attributes(attributes)
+    derivable = derivable_attribute
     if work_package.new_record?
       set_default_attributes(attributes)
     else
       update_dates
     end
     update_duration
+    update_derivable(derivable)
     update_project_dependent_attributes
     reassign_invalid_status_if_type_changed
     set_templated_description
   end
+
+  # rubocop:disable Metrics/PerceivedComplexity, Lint/DuplicateBranch
+  def derivable_attribute
+    # Algorithm:
+    #
+    # Check if one not modified while other two are set, in the order :duration,
+    # :due_date, :start_date, and return the first one that matches. Then check
+    # if one is nil and one is set, which should trigger the computation of the
+    # unchanged third one. Do it in the order :duration, :due_date, :start_date
+    # and return the first one that matches.
+    if unchanged?(:duration) && both_set?(:start_date, :due_date)
+      :duration
+    elsif unchanged?(:due_date) && both_set?(:start_date, :duration)
+      :due_date
+    elsif unchanged?(:start_date) && both_set?(:due_date, :duration)
+      :start_date
+    elsif unchanged?(:duration) && only_one_is_nil?(:start_date, :due_date)
+      :duration
+    elsif unchanged?(:due_date) && only_one_is_nil?(:start_date, :duration)
+      :due_date
+    elsif unchanged?(:start_date) && only_one_is_nil?(:due_date, :duration)
+      :start_date
+    end
+  end
+  # rubocop:enable Metrics/PerceivedComplexity, Lint/DuplicateBranch
+
+  def unchanged?(field)
+    !work_package.send("#{field}_changed?")
+  end
+
+  def both_set?(*fields)
+    work_package.values_at(*fields).count(&:nil?) == 0
+  end
+
+  def only_one_is_nil?(*fields)
+    work_package.values_at(*fields).count(&:nil?) == 1
+  end
+
+  # rubocop:disable Metrics/AbcSize
+  def update_derivable(derivable)
+    case derivable
+    when :duration
+      work_package.duration =
+        if work_package.milestone?
+          1
+        else
+          days.duration(work_package.start_date, work_package.due_date)
+        end
+    when :due_date
+      work_package.due_date = days.due_date(work_package.start_date, work_package.duration)
+    when :start_date
+      work_package.start_date = days.start_date(work_package.due_date, work_package.duration)
+    end
+  end
+  # rubocop:enable Metrics/AbcSize
 
   def set_default_attributes(attributes)
     set_default_priority
@@ -180,14 +237,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def update_duration
-    return unless date_changed_but_not_duration?
-
-    work_package.duration =
-      if work_package.milestone?
-        1
-      else
-        WorkPackages::Shared::Days.for(work_package).duration(work_package.start_date, work_package.due_date)
-      end
+    work_package.duration = 1 if work_package.milestone?
   end
 
   def set_version_to_nil
@@ -273,7 +323,8 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def new_due_date(min_start)
-    min_start + (children_duration || work_package.duration) - 1
+    duration = children_duration || work_package.duration
+    days.due_date(min_start, duration)
   end
 
   def work_package
@@ -292,8 +343,11 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     max = max_child_date
 
     return unless max
+    days.duration(min_child_date, max_child_date)
+  end
 
-    max - min_child_date + 1
+  def days
+    WorkPackages::Shared::Days.for(work_package)
   end
 
   def max_child_date
@@ -312,10 +366,5 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     start = work_package.start_date || work_package.parent&.start_date
 
     (due && !start) || ((due && start) && (due > start))
-  end
-
-  def date_changed_but_not_duration?
-    (work_package.start_date_changed? || work_package.due_date_changed? || work_package.duration.nil?) &&
-      !work_package.duration_changed?
   end
 end

@@ -55,4 +55,9 @@ post:
   - Work Packages
   description: ''
   operationId: Work_Package_Edit_Form
+  requestBody:
+    content:
+      application/json:
+        schema:
+          "$ref": "../components/schemas/work_package_model.yml"
   summary: Work Package Edit Form
