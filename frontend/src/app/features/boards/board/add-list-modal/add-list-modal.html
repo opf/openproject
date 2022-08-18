@@ -48,13 +48,13 @@
   <div class="spot-modal--footer spot-action-bar">
     <div class="spot-action-bar--right">
       <button
-        class="confirm-form-submit--cancel button spot-action-bar--action"
+        class="confirm-form-submit--cancel button button_no-margin spot-action-bar--action"
         (click)="closeMe($event)"
         [textContent]="text.button_cancel"
         [attr.title]="text.button_cancel"
       ></button>
       <button
-        class="confirm-form-submit--submit button -highlight spot-action-bar--action"
+        class="confirm-form-submit--submit button button_no-margin -highlight spot-action-bar--action"
         (click)="create()"
         [disabled]="!this.selectedAttribute || inFlight"
         [textContent]="text.button_add"

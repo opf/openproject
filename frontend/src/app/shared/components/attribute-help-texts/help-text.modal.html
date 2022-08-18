@@ -2,7 +2,10 @@
   class="spot-modal spot-modal_autoheight attribute-help-text--modal loading-indicator--location"
   data-indicator-name="modal"
 >
-  <div class="spot-modal--header">
+  <div
+    class="spot-modal--header"
+    data-qa-selector="attribute-help-text--header"
+  >
     <span class="spot-icon spot-icon_help1"></span>
     <span [textContent]="helpText.attributeCaption"></span>
   </div>
@@ -24,7 +27,7 @@
   <div class="spot-modal--footer spot-action-bar">
     <div class="spot-action-bar--right">
       <a
-        class="help-text--edit-button button spot-action-bar--action"
+        class="help-text--edit-button button button_no-margin spot-action-bar--action"
         *ngIf="helpText.editText"
         [attr.href]="helpTextLink"
         [attr.title]="text.edit"

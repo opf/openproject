@@ -20,7 +20,7 @@
 
   <div class="spot-modal--footer spot-action-bar">
     <div class="spot-action-bar--left">
-      <button class="button -danger spot-action-bar--action"
+      <button class="button button_no-margin -danger spot-action-bar--action"
               *ngIf="deleteAllowed"
               (click)="destroy()"
               [textContent]="text.delete"
@@ -28,7 +28,7 @@
       </button>
     </div>
     <div class="spot-action-bar--right">
-      <button class="button spot-action-bar--action"
+      <button class="button button_no-margin spot-action-bar--action"
               *ngIf="saveAllowed"
               (click)="closeMe($event)"
               [textContent]="text.cancel"

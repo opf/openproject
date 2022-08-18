@@ -16,11 +16,11 @@
 
   <div class="spot-modal--footer spot-action-bar">
     <div class="spot-action-bar--right">
-      <button class="button -highlight -with-icon icon-checkmark spot-action-bar--action"
+      <button class="button button_no-margin -highlight -with-icon icon-checkmark spot-action-bar--action"
               (click)="saveQuery($event)"
               [textContent]="text.button_save">
       </button>
-      <button class="button -with-icon icon-cancel spot-action-bar--action"
+      <button class="button button_no-margin -with-icon icon-cancel spot-action-bar--action"
               [textContent]="text.button_cancel"
               [disabled]="isBusy"
               (click)="closeMe($event)">
