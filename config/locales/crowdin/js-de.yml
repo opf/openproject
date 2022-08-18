@@ -151,7 +151,7 @@ de:
           language_hint: 'Geben Sie eine Sprache für Syntaxhervorhebung ein, die für das Hervorheben des Code-Snippets verwendet wird (sofern unterstützt).'
         dropdown:
           macros: 'Makros'
-          chose_macro: 'Choose macro'
+          chose_macro: 'Makro auswählen'
         toc: 'Inhaltsverzeichnis'
         toolbar_help: 'Klicken Sie auf das Widget zum Auswählen und Anzeigen der Symbolleiste. Doppelklicken zum Editieren des Makros'
         wiki_page_include:
@@ -568,7 +568,7 @@ de:
         reasons:
           mentioned:
             title: 'Wenn ich @erwähnt werde'
-            description: 'Jedes mal eine Benachrichtigung erhalten, wenn ich irgendwo erwähnt werde'
+            description: 'Jedes Mal eine Benachrichtigung erhalten, wenn ich irgendwo erwähnt werde'
           involved:
             title: 'Mir zugewiesen oder verantwortlich'
             description: 'Benachrichtigungen für Aktivitäten auf Arbeitspaketen erhalten, wenn ich zugewiesen oder verantwortlich bin'
@@ -910,7 +910,7 @@ de:
         subproject: "Unterprojekt"
         title: "Titel"
         type: "Typ"
-        updatedAt: "Aktualisiert"
+        updatedAt: "Aktualisiert am"
         versionName: "Version"
         version: "Version"
       default_queries:
@@ -1099,7 +1099,7 @@ de:
       search: "Suche"
       close_search: "Suche schließen"
       current_project: "In diesem Projekt"
-      current_project_and_all_descendants: "In diesem Projekt + Unterprojekte"
+      current_project_and_all_descendants: "In diesem Projekt + Unterprojekten"
       title:
         all_projects: "alle Projekte"
         project_and_subprojects: "und alle Unterprojekte"
@@ -1121,13 +1121,13 @@ de:
       project:
         label: 'Projekt'
         required: 'Bitte wählen Sie ein Projekt'
-        lacking_permission: 'Bitte wählen Sie ein anderes Projekt, da Ihnen die Berechtigungen fehlen, Nutzer zu dem aktuell ausgewählten Projekt zuzuweisen.'
+        lacking_permission: 'Bitte wählen Sie ein anderes Projekt, da Ihnen die Berechtigungen fehlen, Nutzer dem aktuell ausgewählten Projekt zuzuweisen.'
         lacking_permission_info: 'Ihnen fehlt die Berechtigung, Benutzer dem Projekt zuzuweisen, in dem Sie sich gerade befinden. Sie müssen ein anderes auswählen.'
         next_button: 'Weiter'
         no_results: 'Keine Projekte gefunden'
         no_invite_rights: 'Sie dürfen keine Mitglieder zu diesem Projekt hinzufügen'
       type:
-        required: 'Bitte wählen Sie die Typen aus, die eingeladen werden sollen'
+        required: 'Bitte wählen Sie die Benutzer-Typen aus, die eingeladen werden sollen'
         user:
           title: 'Benutzer'
           description: 'Berechtigungen basierend auf der zugewiesenen Rolle im ausgewählten Projekt'
@@ -1153,7 +1153,7 @@ de:
         required:
           user: 'Bitte einen Benutzer auswählen'
           placeholder: 'Bitte einen Platzhalter auswählen'
-          group: 'Bitte wählen Sie eine Gruppe'
+          group: 'Bitte eine Gruppe auswählen'
       role:
         label: 'Rolle in %{project}'
         no_roles_found: 'Keine Rollen gefunden'
@@ -1181,7 +1181,7 @@ de:
       selected_filter:
         all: 'Alle Projekte'
         selected: 'Nur ausgewählte'
-      search_placeholder: 'Projekte durchsuchen...'
+      search_placeholder: 'Projekt durchsuchen...'
       include_subprojects: 'Alle Unterprojekte einbeziehen'
       tooltip:
         include_all_selected: '"Alle Unterprojekte einbeziehen" ist derzeit ausgewählt.'
