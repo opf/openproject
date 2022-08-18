@@ -42,7 +42,7 @@ export class SubprojectBoardHeaderComponent {
   idFromLink = idFromLink;
 
   text = {
-    project: this.I18n.t('js.time_entry.project'),
+    project: this.I18n.t('js.label_project'),
   };
 
   constructor(readonly pathHelper:PathHelperService,

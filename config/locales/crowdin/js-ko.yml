@@ -151,7 +151,7 @@ ko:
           language_hint: '강조 표시(지원되는 경우)에 사용할 서식 언어를 입력하세요.'
         dropdown:
           macros: '매크로'
-          chose_macro: '매크로 선택'
+          chose_macro: 'Choose macro'
         toc: '목차'
         toolbar_help: '위젯을 선택하고 도구 모음을 표시하려면 클릭하세요. 위젯을 편집하려면 두 번 클릭하세요.'
         wiki_page_include:
@@ -492,7 +492,7 @@ ko:
         next: '다음'
         got_it: '확인'
       steps:
-        help_menu: '도움말(?) 메뉴에서 <b>기타 도움말 리소스</b>가 제공됩니다. 여기에서 사용자 가이드와 유용한 사용 방법 동영상 등을 찾을 수 있습니다. <br> OpenProject로 즐겁게 작업하세요!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: '프로젝트에 참여할 새로운 <b>멤버</b>를 초대하세요.'
         project_selection: '준비된 데모 프로젝트 중 하나를 클릭하세요. 데모 데이터는 현재 영어로만 제공됩니다. <br> 일반 <b>데모 프로젝트</b>는 클래식 프로젝트 관리에 최적이지만, 애자일 프로젝트 관리에는 <b>스크럼 프로젝트</b>가 더 적합합니다.'
         quick_add_button: '헤더 탐색에서 더하기(+) 아이콘을 클릭하여 <b>새 프로젝트를 생성</b>하거나 <b>동료를 초대</b>하세요.'
@@ -757,7 +757,7 @@ ko:
         farRight: '맨 오른쪽'
         showNone: '-- 레이블 없음 --'
         description: >
-          항상 Gantt 차트의 각 위치에 표시할 특성을 선택하세요. 요소를 가리키면 해당 특성 대신 날짜 레이블이 표시됩니다.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Gantt 차트 표시'
       button_deactivate: 'Gantt 차트 숨기기'
       cancel: 취소

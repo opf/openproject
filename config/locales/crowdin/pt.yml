@@ -251,7 +251,7 @@ pt:
       no_results_title_text: Atualmente não há tokens de acesso disponíveis.
   news:
     index:
-      no_results_title_text: Atualmente, não há notícias para reportar.
+      no_results_title_text: Atualmente, não há notícias para comunicar.
       no_results_content_text: Adicionar um item de notícias
   users:
     groups:
@@ -266,14 +266,13 @@ pt:
     deletion_info:
       heading: "Excluir usuário do espaço reservado %{name}"
       data_consequences: >
-        Todas as ocorrências do usuário de espaço reservado (por exemplo, como responsável, competente ou outros valores de usuário) serão reatribuídas a uma conta chamada "Usuário excluído".
-        Como os dados de todas as contas excluídas são reatribuídos a esta conta, não será possível diferenciar os dados criados por usuários de dados excluídos por outra conta.
+        Todas as ocorrências do usuário de espaço reservado (por exemplo, como responsável, competente ou outros valores de usuário) serão reatribuídas a uma conta chamada "Usuário excluído". Como os dados de todas as contas excluídas são reatribuídos a esta conta, não será possível diferenciar os dados criados por usuários de dados excluídos por outra conta.
       irreversible: "Esta ação é irreversível"
       confirmation: "Digite o nome de usuário do espaço reservado %{name} para confirmar a exclusão."
     upsale:
       title: Usuários de espaço reservado
       description: >
-        Usuários reservados são uma maneira de atribuir pacotes de trabalho aos usuários que não fazem parte do seu projeto. Eles podem ser úteis numa série de cenários; por exemplo, se você precisa acompanhar as tarefas de uma fonte que ainda não é nomeada ou disponível, ou se você não deseja dar a essa pessoa acesso ao OpenProject mas ainda quer acompanhar as tarefas atribuídas a ela.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -1226,7 +1225,7 @@ pt:
         description_html: "Filtrar e ordenar em campos personalizados é um recurso da edição empresarial."
   enumeration_activities: "Atividades de controle de tempo"
   enumeration_work_package_priorities: "Prioridades do pacote de trabalho"
-  enumeration_reported_project_statuses: "Situação relatada do projeto"
+  enumeration_reported_project_statuses: "Situação de projeto comunicada"
   error_auth_source_sso_failed: "Single Sign-On (SSO) para o usuário '%{value}' falhou"
   error_can_not_archive_project: "Este projeto não pode ser arquivado: %{errors}"
   error_can_not_delete_entry: "Não é possível excluir a entrada"
@@ -1247,7 +1246,7 @@ pt:
   error_enterprise_activation_user_limit: "Sua conta não pôde ser ativada (limite de usuários atingido). Por favor, contate o administrador para obter acesso."
   error_enterprise_token_invalid_domain: "A Enterprise Edition não esta ativa. Seu domínio do token Enterprise (%{actual}) não corresponde ao nome do host do sistema (%{expected})."
   error_failed_to_delete_entry: 'Falha ao excluir esta entrada.'
-  error_in_dependent: "Erro ao tentar alterar o objeto dependente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Erro ao tentar alterar o objeto dependente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Erro ao tentar criar objeto dependente: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valor selecionado inválido."
   error_journal_attribute_not_present: "O diário não contem atributo %{attribute}."
@@ -1386,17 +1385,11 @@ pt:
     update_info_mail:
       body: >
         Estamos ansiosos para anunciar o lançamento do OpenProject 12.0. É um grande lançamento que esperamos que melhore significativamente a forma como você usa o OpenProject.
-
         Neste lançamento, estamos apresentando as notificações no aplicativo. de agora em diante, você receberá notificações para as atualizações nos pacotes de trabalho diretamente no OpenProject. Você pode marcas estas notificações como lidas, responder a um comentário ou até mesmo modificar diretamente atributos do pacote de trabalho sem sair do centro de notificações.
-
         Isto também significa que não iremos mais utilizar e-mail para notificações. Achamos que um novo centro de notificações é o melhor lugar para visualizar e tomar as ações necessárias para estas atualizações. No entanto, se você deseja continuar a receber atualizações por e-mail, opte por receber lembretes diários por e-mail em horários específicos de sua escolha.
-
         Certifique-se de verificar suas novas configurações de notificação padrão e de definir suas preferências sobre notificações e lembretes por e-mail nas configurações de sua conta. Você pode fazer isso através do botão “Alterar configurações de e-mail” abaixo.
-
         Esperamos que você ache nossas notificações no aplicativo útil e que ela aumente sua produtividade.
-
-        Atenciosamente,
-        Equipe OpenProject
+        Atenciosamente, Equipe OpenProject
       body_header: 'Versão 12.0 com a Central de Notificações'
       body_subheader: 'Notícias'
       subject: 'Alterações importantes das notificações com o lançamento da versão 12.0'
@@ -1611,6 +1604,7 @@ pt:
   label_index_by_title: "Índice por título"
   label_information: "Informação"
   label_information_plural: "Informações"
+  label_installation_guides: 'Installation guides'
   label_integer: "Número inteiro"
   label_internal: "Interno"
   label_introduction_video: "Vídeo de introdução"
@@ -1779,7 +1773,7 @@ pt:
   label_renamed: "renomeado"
   label_reply_plural: "Respostas"
   label_report: "Relatório"
-  label_report_bug: "Relatar um bug"
+  label_report_bug: "Comunicar um bug"
   label_report_plural: "Relatórios"
   label_reported_work_packages: "Pacotes de trabalho criados"
   label_reporting: "Relatório"
@@ -2009,7 +2003,7 @@ pt:
   mail_body_backup_waiting_period: O novo token será habilitado em %{hours} horas.
   mail_body_backup_token_warning: Se não foi você, acesse o OpenProject imediatamente e redefina-o novamente.
   mail_body_incoming_email_error: O e-mail que você enviou para o OpenProject não pôde ser processado.
-  mail_body_incoming_email_error_in_reply_to: "Em %{received_at} %{from_email} escreveu"
+  mail_body_incoming_email_error_in_reply_to: "Às %{received_at}, %{from_email} escreveu"
   mail_body_incoming_email_error_logs: "Registros"
   mail_body_lost_password: "Para alterar sua senha, clique no link a seguir:"
   mail_body_register: "Bem-vindo ao %{app_title}. Por favor, ative sua conta clicando neste link:"
@@ -2059,7 +2053,7 @@ pt:
   mail_user_activation_limit_reached:
     subject: Limite de ativação de usuários atingido
     message: |
-      Um novo usuário (%{email}) tentou criar uma conta em um ambiente do OpenProject que você gerencia (%{host}). 
+      Um novo usuário (%{email}) tentou criar uma conta em um ambiente do OpenProject que você gerencia (%{host}).
       O usuário não conseguiu ativar sua conta pois o limite máximo de usuários foi atingido.
     steps:
       label: "Para permitir que o usuário entre você pode: "
@@ -2125,7 +2119,7 @@ pt:
     Atualização bem-sucedida. Os campos personalizados dos tipos ativados são ativados automaticamente
     no formulário do pacote de trabalho. <a href="%{url}" target="_blank">Ver mais</a>.
   notice_successful_update_custom_fields_added_to_type: |
-    Atualização bem-sucedida. Os campos personalizados ativos são ativados automaticamente para os projetos associados deste tipo 
+    Atualização bem-sucedida. Os campos personalizados ativos são ativados automaticamente para os projetos associados deste tipo
   notice_to_many_principals_to_display: "Existem muitos resultados. Reduza a busca, digitando o nome do novo membro (ou grupo)."
   notice_user_missing_authentication_method: Usuário ainda tem que escolher uma senha ou outra maneira de acesso.
   notice_user_invitation_resent: Um convite foi enviado para %{email}.
@@ -2510,7 +2504,7 @@ pt:
     brute_force_prevention: "Bloqueio automatizado de usuário"
     attachments:
       whitelist_text_html: >
-        Defina uma lista de extensões de arquivo válidas e/ou tipos MIME para arquivos carregados. <br/> Insira as extensões de arquivo  (e.x., <code>%{ext_example}</code>) ou tipos de mime (e.x., <code>%{mime_example}</code>). <br/> Deixe em branco para permitir que qualquer tipo de arquivo seja carregado. Vários valores permitidos (uma linha para cada valor). 
+        Defina uma lista de extensões de arquivo válidas e/ou tipos MIME para arquivos carregados. <br/> Insira as extensões de arquivo  (e.x., <code>%{ext_example}</code>) ou tipos de mime (e.x., <code>%{mime_example}</code>). <br/> Deixe em branco para permitir que qualquer tipo de arquivo seja carregado. Vários valores permitidos (uma linha para cada valor).
     notifications:
       events_explanation: 'Governa para qual evento um e-mail é enviado. Como as notificações de pacotes de trabalhos podem ser configuradas especificamente para todos os usuários, eles são excluídos desta lista.'
       delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com a notificação configurada no aplicativo confirmem a notificação dentro da aplicação antes que o e-mail seja enviado. Usuários que lerem uma notificação no aplicativo não receberão um e-mail dessa mesma notificação"
@@ -2781,7 +2775,7 @@ pt:
       level5: "Expandir nível 5"
       all: "Mostrar todos"
     reporting_for_project:
-      show: "Situação reportada do projeto: %{title}"
+      show: "Situação comunicada ao projeto: %{title}"
       edit_delete: "relatório de situações para o projeto: %{title}"
       history: "História para a situação de projeto: %{title}"
     reporting:
@@ -2874,10 +2868,10 @@ pt:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Incompatibilidade de configuração do protocolo'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Seu aplicativo está sendo executado com sua configuração de protocolo definida para <code>%{set_protocol}</code>, mas solicitação é uma solicitação <code>%{actual_protocol}</code>. Isto pode provocar erros! Avance para as <a href="%{setting_path}">Configurações do sistema</a> e altere a configuração "Protocolo" para corrigir isto.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Incompatibilidade de configuração do anfitrião'
       text_html: >
@@ -3053,13 +3047,13 @@ pt:
       label_refresh_token: "Atualizar token"
     errors:
       oauth_authorization_code_grant_had_errors: "OAuth2 retornou um erro"
-      oauth_reported: "Provedor OAuth2 relatado"
+      oauth_reported: "Provedor OAuth2 comunicou"
       oauth_returned_error: "OAuth2 retornou um erro"
       oauth_returned_json_error: "OAuth2 retornou um erro JSON"
       oauth_returned_http_error: "OAuth2 retornou um erro de rede"
       oauth_returned_standard_error: "OAuth2 retornou um erro interno"
       wrong_token_type_returned: "OAuth2 retornou um tipo errado de token, esperando AccessToken::Portador"
-      oauth_issue_contact_admin: "OAuth2 relatou um erro. Entre em contato com o administrador do sistema."
+      oauth_issue_contact_admin: "OAuth2 comunicou um erro. Entre em contato com o administrador do sistema."
       oauth_client_not_found: "Cliente OAuth2 não encontrado no ponto de extremidade 'callback' (redirect_uri)."
       refresh_token_called_without_existing_token: >
         Erro interno: Atualizar token sem um token existente anteriormente.

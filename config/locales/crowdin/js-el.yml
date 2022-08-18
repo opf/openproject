@@ -151,7 +151,7 @@ el:
           language_hint: 'Εισάγετε την γλώσσα μορφοποίησης που θα χρησιμοποιηθεί για επισημάνσεις (αν υποστηρίζεται).'
         dropdown:
           macros: 'Μακροεντολές'
-          chose_macro: 'Επιλογή μακροεντολής'
+          chose_macro: 'Choose macro'
         toc: 'Πίνακας περιεχομένων'
         toolbar_help: 'Κάντε κλικ για να επιλέξετε widget και να εμφανίσετε τη γραμμή εργαλείων. Κάντε διπλό κλικ για να επεξεργαστείτε το widget'
         wiki_page_include:
@@ -473,7 +473,7 @@ el:
     label_remove_all_files: Διαγράψτε όλα τα αρχεία
     label_add_description: "Προσθέστε περιγραφή για το αρχείο %{file}"
     label_upload_notification: "Μεταφόρτωση αρχείων..."
-    label_work_package_upload_notification: "Μεταφόρτωση αρχείων για το Πακέτο εργασίας #%{id}: %{subject}"
+    label_work_package_upload_notification: "Μεταφόρτωση αρχείων για το Πακέτο εργασίας #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} προστέθηκε από %{author}"
     label_files_to_upload: "Τα αρχεία αυτά θα μεταφορτωθούν:"
     label_rejected_files: "Δεν ήταν δυνατή η μεταφόρτωση αυτών των αρχείων:"
@@ -491,7 +491,7 @@ el:
         next: 'Επόμενο'
         got_it: 'Το κατάλαβα'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -757,7 +757,7 @@ el:
         farRight: 'Πολύ δεξιά'
         showNone: '-- Χωρίς ετικέτας --'
         description: >
-          Επιλέξτε τα χαρακτηριστικά που θέλετε να εμφανίζονται στις αντίστοιχες θέσεις του διαγράμματος Gantt συνεχώς. Σημειώστε πως όταν τοποθετείτε το ποντίκι πάνω από ένα στοιχείο, θα εμφανίζονται οι ετικέτες ημερομηνίας αντί για αυτά τα χαρακτηριστικά.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Εμφάνιση διαγράμματος Gantt'
       button_deactivate: 'Απόκρυψη διαγράμματος Gantt'
       cancel: Ακύρωση

@@ -151,7 +151,7 @@ it:
           language_hint: 'Specifica il linguaggio di formattazione che verrà utilizzato per evidenziare (se supportato).'
         dropdown:
           macros: 'Macro'
-          chose_macro: 'Scegli macro'
+          chose_macro: 'Choose macro'
         toc: 'Indice'
         toolbar_help: 'Clicca per selezionare widget e visualizzare la barra degli strumenti. Fai doppio clic per modificare i widget'
         wiki_page_include:
@@ -474,7 +474,7 @@ it:
     label_remove_all_files: Elimina tutti i file
     label_add_description: "Aggiunge una descrizione per %{file}"
     label_upload_notification: "Caricamento dei file..."
-    label_work_package_upload_notification: "Caricamento dei file per la macro-attività #%{id}: %{subject} in corso"
+    label_work_package_upload_notification: "Caricamento dei file per la macro-attività #%{id}: %{subject} in corso" #%{id}: %{subject} in corso"
     label_wp_id_added_by: "#%{id} aggiunto da%{author}"
     label_files_to_upload: "Verranno caricati questi files:"
     label_rejected_files: "Questi file non possono essere caricati:"
@@ -492,7 +492,7 @@ it:
         next: 'Prossimo'
         got_it: 'Capito'
       steps:
-        help_menu: 'Il menu Aiuto (?) fornisce <b>ulteriori risorse di aiuto</b>. Qui puoi trovare una guida utente, video utili e altro ancora. <br> Goditi il tuo lavoro con OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invita nuovi <b>membri</b> per entrare al tuo progetto.'
         project_selection: 'Clicca su uno dei progetti demo che abbiamo preparato. I dati demo sono attualmente disponibili solo in inglese. <br> Il <b>progetto demo</b> generale si adatta meglio alla gestione dei progetti classica, mentre il <b>progetto Scrum</b> è migliore per la gestione agile dei progetti.'
         quick_add_button: 'Clicca sull''icona più (+) nella navigazione dell''intestazione per <b>creare un nuovo progetto</b> o per <b>invitare colleghi</b>.'
@@ -758,7 +758,7 @@ it:
         farRight: 'Estrema destra'
         showNone: '-- Nessuna etichetta --'
         description: >
-          Seleziona gli attributi che desideri mostrare nelle rispettive posizioni del diagramma di Gantt in ogni momento. Nota che al passaggio del mouse su un elemento, verranno visualizzate le etichette delle date anziché questi attributi.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Mostra Diagramma di Gantt'
       button_deactivate: 'Nascondi Diagramma di Gantt'
       cancel: Annulla

@@ -67,5 +67,5 @@ de:
         dn_text: 'Geben Sie den vollständigen DN der Gruppe im LDAP ein'
         group_text: 'Wählen Sie eine bestehende OpenProject-Gruppe aus, in die Mitglieder der LDAP-Gruppe synchronisiert werden sollen'
       upsale:
-        description: 'Nutzen Sie die synchronisierten LDAP-Gruppen, um Benutzer zu verwalten, ihre Berechtigungen zu ändern und die Benutzerverwaltung über Gruppen hinweg zu vereinfachen.'
+        description: 'Nutzen Sie synchronisierte LDAP-Gruppen, um Benutzer zu verwalten, ihre Berechtigungen zu ändern und die Benutzerverwaltung über Gruppen hinweg zu vereinfachen.'
 

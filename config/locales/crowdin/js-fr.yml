@@ -151,7 +151,7 @@ fr:
           language_hint: 'Entrez le langage de formatage qui sera utilisé pour mettre en évidence (si pris en charge).'
         dropdown:
           macros: 'Macros'
-          chose_macro: 'Choisir une macro'
+          chose_macro: 'Choose macro'
         toc: 'Table des matières'
         toolbar_help: 'Cliquez pour sélectionner le widget et afficher la barre d’outils. Double-cliquez pour modifier le widget'
         wiki_page_include:
@@ -492,7 +492,7 @@ fr:
         next: 'Suivante'
         got_it: 'J''ai compris'
       steps:
-        help_menu: 'Le menu Aide (?) fournit des <b>ressources d''aide supplémentaires</b>. Vous y trouverez un guide utilisateur et des vidéos pratiques et plus encore. <br> Profitez de votre travail avec OpenProject !'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invitez de nouveaux <b>membres</b> à rejoindre votre projet.'
         project_selection: 'Veuillez cliquer sur l''un des projets de démonstration que nous avons préparés. Les données de démonstration ne sont actuellement disponibles qu''en anglais. <br> Le <b>projet démo général</b> convient le mieux pour la gestion de projet classique, tandis que le <b>projet Scrum</b> est meilleur pour la gestion de projet agile.'
         quick_add_button: 'Cliquez sur l''icône plus (+) dans l''en-tête de navigation pour <b>créer un nouveau projet</b> ou <b>inviter des collègues</b>.'
@@ -758,7 +758,7 @@ fr:
         farRight: 'Extrême droite'
         showNone: '-- Aucune étiquette --'
         description: >
-          Sélectionnez les attributs que vous voulez afficher à tout moment dans les positions respectives du diagramme de Gantt. Notez que, quand vous passez le curseur sur un élément, ses libellés de date seront affichés à la place de ces attributs.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Afficher le diagramme de Gantt'
       button_deactivate: 'Masquer le diagramme de Gantt'
       cancel: Annuler

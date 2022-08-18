@@ -152,7 +152,7 @@ ja:
           language_hint: '強調表示に使用する言語の書式を入力します（サポートされている場合）。'
         dropdown:
           macros: 'マクロ'
-          chose_macro: 'マクロを選ぶ'
+          chose_macro: 'Choose macro'
         toc: '目次'
         toolbar_help: 'クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集'
         wiki_page_include:
@@ -493,7 +493,7 @@ ja:
         next: '次へ'
         got_it: '了承'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -657,9 +657,7 @@ ja:
         error_no_table_configured: "%{group} のテーブルを設定してください。"
         reset_title: "フォーム設定をリセット"
         confirm_reset: >
-          警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。
-           
-          コンテキスト| リクエストコンテキスト
+          警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。   コンテキスト| リクエストコンテキスト
         upgrade_to_ee: "オンプレミス版 Enterprise Edition へのアップグレード"
         upgrade_to_ee_text: "この機能が必要な場合、あなたは超プロです! Enterprise Edition クライアントになることによって私達のオープン ソース開発者を支援していただけませんか?"
         more_information: "詳細情報"
@@ -760,7 +758,7 @@ ja:
         farRight: '右端'
         showNone: '-- ラベルなし --'
         description: >
-          毎回、ガントチャートのそれぞれの位置に表示する属性を選択します。要素にカーソルを合わせたときに、その属性の代わりに、日付ラベルが表示されることに注意してください。
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'ガントチャートの表示'
       button_deactivate: 'ガントチャートを隠す'
       cancel: キャンセル

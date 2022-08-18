@@ -427,7 +427,7 @@ You can set this `DATABASE_URL` parameter yourself to a PostgreSQL database URL.
 sudo openproject config:set DATABASE_URL="postgresql://[user[:password]@][host][:port][/dbname][?param1=value1&...]
 ```
 
-## Step 3: Apache2 web server
+## Step 3: Apache2 web server and SSL termination
 
 OpenProject comes with an internal ruby application server, but this server only listens on a local interface. To receive connections from the outside world, it needs a web server that will act as a proxy to forward incoming connections to the OpenProject application server.
 
@@ -469,6 +469,10 @@ In that case, you will be shown three additional dialogs to enter the certificat
 
 
 
+Enabling this mode will result in OpenProject only responding to HTTPS requests, and upgrade any non-secured requests to HTTPS. It will also output HTTP Strict Transport Security (HSTS) headers to the client.
+
+
+
 **External SSL/TLS termination**
 
 > **Note**: If you terminate SSL externally before the request hits the OpenProject server, you need to follow the following instructions to avoid errors in routing. If you want to use SSL on the server running OpenProject, skip this section.
@@ -500,6 +504,8 @@ When installing with an existing Apache2, you can take a look at the source of o
 
 **Please note:** If you reconfigure the OpenProject application and switch to `skip`, you might run into errors with the Apache configuration file, as that will not be automatically remove. Please double-check you removed references to the `openproject.conf` if you do reconfigure.
 
+
+
 ## Step 4: SVN/Git integration server
 
 If you have selected to auto-install an Apache2 web server, you will be asked whether you want to install Git and Subversion repository support. In case you do not need it or when in doubt, choose **Skip** for both options.
@@ -520,6 +526,22 @@ The wizard will ask you for an administrative email address so that it can creat
 OpenProject heavily relies on caching, which is why the wizard suggests you to install a local memcached server the OpenProject instances can connect to. You should always set this to `install` unless you have a reason to configure another caching mechanism - for example when configuring multiple shared instances of OpenProject.
 
 ![06-cache](06-cache.png)
+
+## Step 7: Host name and Protocol (only when Apache installation was skipped)
+
+This step is only shown if you decided to skip the Apache installation. OpenProject still needs to know what external host name you're running on, as well as if you're using HTTPS or not.
+
+First, enter the fully qualified domain where your OpenProject installation will be reached at. This will be used to generate full links from OpenProject, such as in emails.
+
+![Select the OpenProject host name](07a-hostname.png)
+
+
+
+Next, tell OpenProject whether you have SSL termination enabled somewhere in your stack. Please note that you need to set up protocol forwarding by the means mentioned in the "Skip Apache installation" step above.
+
+![HTTPS setting](07b-protocol.png)
+
+
 
 ## Result
 

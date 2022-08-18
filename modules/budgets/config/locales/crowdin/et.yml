@@ -63,7 +63,7 @@ et:
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "View all budgets"
   label_yes: "Jah"
-  notice_budget_conflict: "WorkPackages must be of the same project."
+  notice_budget_conflict: "Work packages must be of the same project."
   notice_no_budgets_available: "Ühtegi eelarvet pole saadaval."
   permission_edit_budgets: "Eelarvete muutmine"
   permission_view_budgets: "View budgets"

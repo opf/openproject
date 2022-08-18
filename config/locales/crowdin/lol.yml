@@ -261,7 +261,7 @@ lol:
     upsale:
       title: crwdns810536:0crwdne810536:0
       description: >
-        crwdns823900:0crwdne823900:0
+        crwdns830170:0crwdne830170:0
   prioritiies:
     edit:
       priority_color_text: |
@@ -1582,6 +1582,7 @@ lol:
   label_index_by_title: "crwdns798702:0crwdne798702:0"
   label_information: "crwdns798704:0crwdne798704:0"
   label_information_plural: "crwdns798706:0crwdne798706:0"
+  label_installation_guides: 'crwdns830172:0crwdne830172:0'
   label_integer: "crwdns798708:0crwdne798708:0"
   label_internal: "crwdns798710:0crwdne798710:0"
   label_introduction_video: "crwdns798712:0crwdne798712:0"
@@ -2839,10 +2840,10 @@ lol:
   warning_protocol_mismatch_html: >
     crwdns800914:0crwdne800914:0
   warning_bar:
-    protocol_mismatch:
-      title: 'crwdns800916:0crwdne800916:0'
+    https_mismatch:
+      title: 'crwdns830174:0crwdne830174:0'
       text_html: >
-        crwdns800918:0%{set_protocol}crwdnd800918:0%{actual_protocol}crwdnd800918:0%{setting_path}crwdne800918:0
+        crwdns830176:0%{set_protocol}crwdnd830176:0%{actual_protocol}crwdnd830176:0%{setting_value}crwdnd830176:0%{more_info_path}crwdne830176:0
     hostname_mismatch:
       title: 'crwdns800920:0crwdne800920:0'
       text_html: >

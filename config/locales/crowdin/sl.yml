@@ -23,7 +23,7 @@ sl:
   no_results_title_text: Ni elementov za prikaz
   activities:
     index:
-      no_results_title_text: Na projektu ni bilo nobene aktivnosti v izbranem časovnem okviru 
+      no_results_title_text: Na projektu ni bilo nobene aktivnosti v izbranem časovnem okviru
   admin:
     plugins:
       no_results_title_text: Trenutno vtičniki niso na voljo
@@ -151,7 +151,7 @@ sl:
       simple_tls_description: "Implicitno šifriranje TLS, vendar ni potrjevanja potrdila. Uporabljajte previdno in implicitno zaupanje povezave LDAP."
       start_tls_description: "Izrecno šifriranje TLS s popolno veljavnostjo. Uporabite za LDAP prek TLS / SSL."
       section_more_info_link_html: >
-        Razdelek zadeva varnost povezave tega vira za preverjanje pristnosti LDAP. Če želite več informacij, obiščite <a href="%{link}">the Net::LDAP documentation</a>. 
+        Razdelek zadeva varnost povezave tega vira za preverjanje pristnosti LDAP. Če želite več informacij, obiščite <a href="%{link}">the Net::LDAP documentation</a>.
   forums:
     show:
       no_results_title_text: Trenutno ni nobenih objav za forum.
@@ -232,7 +232,7 @@ sl:
       custom_fields:
         no_results_title_text: Nobeno polje po meri trenutno ni na voljo.
       types:
-        no_results_title_text: Trenutno ni na voljo nobenih vrst. 
+        no_results_title_text: Trenutno ni na voljo nobenih vrst.
       versions:
         no_results_title_text: Trenutno ni nobene različice za projekt.
         no_results_content_text: Ustvari novo različico
@@ -266,14 +266,13 @@ sl:
     deletion_info:
       heading: "Izbriši nadomestnega uporabnika %{name}"
       data_consequences: >
-        Vsi pojavi nadomestnega uporabnika (npr., kot nosilec naloge, odgovorni ali druge vrednosti) bodo preneseni na račun imenovan "Izbrisan uporabnik".
-        Podatki iz vsakega izbrisanega računa so preneseni na ta račun, zato ne bo možno razlikovati med podatki, ki jih je uporabnik ustvaril in podatki iz drugega izbirsanega računa.
+        Vsi pojavi nadomestnega uporabnika (npr., kot nosilec naloge, odgovorni ali druge vrednosti) bodo preneseni na račun imenovan "Izbrisan uporabnik". Podatki iz vsakega izbrisanega računa so preneseni na ta račun, zato ne bo možno razlikovati med podatki, ki jih je uporabnik ustvaril in podatki iz drugega izbirsanega računa.
       irreversible: "To dejanje je nepreklicno"
       confirmation: "Vnesite nadomestno uporabniško ime %{name} za potrditev izbrisa."
     upsale:
       title: Placeholder users
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -350,7 +349,7 @@ sl:
         priority:
           no_results_title_text: Trenutno ni na voljo nobenih prednostnih nalog.
         type:
-          no_results_title_text: Trenutno ni na voljo nobenih vrst. 
+          no_results_title_text: Trenutno ni na voljo nobenih vrst.
         version:
           no_results_title_text: Trenutno ni na voljo nobene različice.
   label_invitation: Povabilo
@@ -1279,7 +1278,7 @@ sl:
   error_enterprise_activation_user_limit: "Vašega računa ni bilo mogoče aktivirati (dosežena uporabniška omejitev). Če želite dobiti dostop, se obrnite na skrbnika."
   error_enterprise_token_invalid_domain: "Podjetniška verzija ni aktivna. Domena vašega žetona podjetja (%{actual}) se ne ujema z imenom gostitelja sistema (%{expected})."
   error_failed_to_delete_entry: 'Izbris tega vnosa ni bilo mogoče.'
-  error_in_dependent: "Napaka pri spremembi odvisnega predmeta: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Napaka pri spremembi odvisnega predmeta: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neveljavna izbrana vrednost."
   error_journal_attribute_not_present: "Dnevnik ne vsebuje atributa %{attribute}."
@@ -1418,17 +1417,11 @@ sl:
     update_info_mail:
       body: >
         We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-
         Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-
         This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-
         We hope you find in-app notifications useful and that they makes you even more productive.
-
-        Sincerely,
-        The OpenProject team
+        Sincerely, The OpenProject team
       body_header: 'Version 12.0 with Notification Center'
       body_subheader: 'Novice'
       subject: 'Important changes to notifications with the release of 12.0'
@@ -1643,6 +1636,7 @@ sl:
   label_index_by_title: "Razvrsti po naslovu"
   label_information: "Informacije"
   label_information_plural: "Informacije"
+  label_installation_guides: 'Installation guides'
   label_integer: "Celo število"
   label_internal: "Notranji"
   label_introduction_video: "Predstavitveni video"
@@ -2916,10 +2910,10 @@ sl:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Neusklajenost nastavitve protokola'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Neskladje nastavitve imena gostitelja'
       text_html: >
@@ -3054,7 +3048,6 @@ sl:
     client_id: "ID odjemalca"
     client_secret_notice: >
       To je edini čas, ko lahko natisnemo skrivnost stranke. Prosimo, zapišite jo in ohranite varno. To bi moralo biti obravnavano kot geslo in ga OpenProject ne more pozneje pridobiti.
-
     authorization_dialog:
       authorize: "Avtorizacija"
       cancel: "Prekličite in zavrnite avtorizacijo."

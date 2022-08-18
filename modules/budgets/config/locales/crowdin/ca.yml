@@ -63,7 +63,7 @@ ca:
   label_example_placeholder: 'ex. %{decimal}'
   label_view_all_budgets: "Mostra tots els pressupostos"
   label_yes: "Si"
-  notice_budget_conflict: "Els paquets de treball han de ser del mateix projecte."
+  notice_budget_conflict: "Work packages must be of the same project."
   notice_no_budgets_available: "No hi ha pressupostos disponibles."
   permission_edit_budgets: "Editar pressupost"
   permission_view_budgets: "Mostrar pressupost"

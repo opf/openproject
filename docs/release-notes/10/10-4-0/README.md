@@ -81,7 +81,7 @@ View full 3D objects in OpenProject in IFC format. Select and display the model 
 
 ![OpenProject-BIM_IFC-viewer](OpenProject-BIM_IFC-viewer.png)
 
-### Switch between 3D and 2D view** for your building model in OpenProject.
+### Switch between 3D and 2D view for your building model in OpenProject.
 
 You can change between a 3D view or 2D view of the building model in OpenProject.
 

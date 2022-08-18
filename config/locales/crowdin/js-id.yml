@@ -151,7 +151,7 @@ id:
           language_hint: 'Masukan format bahasa yang akan digunakan untuk menyorot(jika didukung).'
         dropdown:
           macros: 'Makro'
-          chose_macro: 'Pilih makro'
+          chose_macro: 'Choose macro'
         toc: 'Daftar isi'
         toolbar_help: 'Klik untuk memilih widget dan menampilkan toolbar. klik dua kali untuk mengedit widget'
         wiki_page_include:
@@ -474,7 +474,7 @@ id:
     label_remove_all_files: Hapus semua file
     label_add_description: "Tambahkan deskripsi untuk %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Upload file untuk Work package #%{id}: %{subject}"
+    label_work_package_upload_notification: "Upload file untuk Work package #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Upload file berikut:"
     label_rejected_files: "File ini tidak bisa di-upload:"
@@ -492,7 +492,7 @@ id:
         next: 'Lanjut'
         got_it: 'Got it'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -757,7 +757,7 @@ id:
         farRight: 'Jauh sekali'
         showNone: '-- Tidak ada label --'
         description: >
-          Pilih atribut-atribut yang ingin Anda tampilkan dalam posisi masing-masing di bagan gantt setiap saat. Perhatikan bahwa ketika kursor menunjuk sebuah elemen, label tanggalnya akan ditampilkan sebagai ganti atributnya.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       cancel: Batal
