@@ -492,7 +492,7 @@ uk:
         next: 'Далі'
         got_it: 'Зрозуміло'
       steps:
-        help_menu: 'Меню довідки (?) містить <b>додаткові допоміжні ресурси</b>. Тут ви можете знайти посібник користувача й корисні відеовказівки тощо. <br> Насолоджуйтеся роботою з OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Запросіть нових <b>учасників</b> до свого проєкту.'
         project_selection: 'Виберіть одну з демоверсій проєктів, які ми підготували. Дані демоверсії зараз доступні лише англійською. <br> Звичайна <b>демоверсія проєкту</b> найкраще підходить для класичного керування проєктами, тоді як <b>проєкт Scrum</b> корисніший для гнучкого керування проєктами.'
         quick_add_button: 'Натисніть на значок плюса (+) на панелі заголовків, щоб <b>створити новий проєкт</b> або <b>запросити колег</b>.'
@@ -760,7 +760,7 @@ uk:
         farRight: 'Далі вправо'
         showNone: '- Немає мітки -'
         description: >
-          Виберіть атрибути, які потрібно відображати у відповідних положеннях діаграми Ганта в будь-який час. Зверніть увагу, що під час наведення елемента замість цих атрибутів буде показано його мітки.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Показати діаграму Ганта'
       button_deactivate: 'Сховати діаграму Ганта'
       cancel: Скасувати

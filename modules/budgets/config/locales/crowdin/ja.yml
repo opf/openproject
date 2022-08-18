@@ -63,7 +63,7 @@ ja:
   label_example_placeholder: '例： %{decimal}'
   label_view_all_budgets: "全ての予算を表示"
   label_yes: "はい"
-  notice_budget_conflict: "作業項目は同一プロジェクトである必要があります。"
+  notice_budget_conflict: "Work packages must be of the same project."
   notice_no_budgets_available: "予算がありません。"
   permission_edit_budgets: "予算の編集"
   permission_view_budgets: "予算の表示"

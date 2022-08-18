@@ -492,7 +492,7 @@ si:
         next: 'ඊළඟ'
         got_it: 'ඒක ගත්තා'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -758,7 +758,7 @@ si:
         farRight: 'ඈත හරි'
         showNone: '— ලේබලයක් නැත —'
         description: >
-          ඔබට සෑම විටම ගැන්ට් ප්රස්ථාරයේ අදාළ ස්ථානවල පෙන්වීමට අවශ්ය ගුණාංග තෝරන්න. මූලද්රව්යයක් සැරිසරන විට, මෙම ගුණාංග වෙනුවට එහි දිනය ලේබල් පෙන්වනු ලැබේ.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Gantt සටහන පෙන්වන්න'
       button_deactivate: 'Gantt සටහන සඟවන්න'
       cancel: අවලංගු කරන්න

@@ -492,7 +492,7 @@ nl:
         next: 'Volgende'
         got_it: 'Begrepen'
       steps:
-        help_menu: 'Het Help (?) menu biedt <b>extra hulpbronnen</b>. Hier kunt u een gebruikershandleiding en handige how-to videos en meer vinden. <br> Veel plezier met uw werk met OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Nodig nieuwe <b>leden</b> uit om deel te nemen aan uw project.'
         project_selection: 'Klik a.u.b. op een van de demoprojecten die we hebben voorbereid. Demogegevens zijn momenteel alleen beschikbaar in het Engels. <br> Het algemene <b>demo project</b> past het beste bij klassiek projectbeheer. terwijl het <b>Scrum-project</b> beter is voor agile projectbeheer.'
         quick_add_button: 'Klik op het plus (+) pictogram in de koptekst navigatie om <b>een nieuw project te maken</b> of <b>collega''s uit te nodigen</b>.'
@@ -758,7 +758,7 @@ nl:
         farRight: 'Uiterst rechts'
         showNone: '--Geen label--'
         description: >
-          Selecteer de kenmerken die u wilt te allen tijde in de respectieve standpunten van het Gantt-diagram worden weergegeven. Merk op dat wanneer u over een element zweeft, de datumlabels worden weergegeven in plaats van deze kenmerken.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Toon Gantt-diagram'
       button_deactivate: 'Verberg Gantt-diagram'
       cancel: Annuleren

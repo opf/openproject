@@ -492,7 +492,7 @@ hu:
         next: ' Következő'
         got_it: 'Rendben'
       steps:
-        help_menu: "A Súgó (?) Menü <b> további súgóforrásokat </b> tartalmaz. Itt megtalálhatja a felhasználói útmutatót, valamint hasznos útmutatókat és egyebeket. <br> Élvezze munkáját az OpenProject segítségével!\n"
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Új <b>tagok</b> meghívása, hogy a projekthez csatlakozzanak.'
         project_selection: 'Kérjük, válasszon egyet a projektek közül, amelyek használható példa adatokat tartalmaznak az induláshoz. <br> A <b> Demo projekt </b> a legjobban megfelel a klasszikus projektmenedzsmentnek, míg a <b> Scrum projekt </b> jobb az agilis projektmenedzsment számára.'
         quick_add_button: 'Kattintson a fejlécben található (+) ikonra hogy   <b>create a new project</b> vagy  <b>invite coworkers</b>.'
@@ -758,7 +758,7 @@ hu:
         farRight: 'Jobb szélen'
         showNone: '--Nincs címke--'
         description: >
-          Válassza ki azokat az attribútumokat, amiket a Gantt-diagramon mindig látni szeretne. Vegye figyelembe, hogy az egér elemre mozdításával a dátumcímkék jelennek meg ezen attribútumok helyén.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Gannt diagramm megtekintése'
       button_deactivate: 'Gannt diagramm elrejtése'
       cancel: Mégsem
