@@ -31,14 +31,14 @@ require 'spec_helper'
 describe Queries::Members::MemberQuery, type: :model do
   let(:admin) { create(:admin) }
   let(:instance) { described_class.new(user: admin) }
-  let(:manual_reference_scope) { Member.from(Member.all.distinct, :members).order(id: :desc) }
+  let(:manual_reference_scope) { Member.all.order(id: :desc) }
 
   # Objects required for testing with filters
   let(:group1) { create(:group) }
   let(:group2) { create(:group) }
   let(:project) { create(:project) }
   let(:role) { create(:role, permissions: %i[edit_project]) }
-  let(:member) { create(:member, user: admin, project: project, roles: [role]) }
+  let(:member) { create(:member, user: admin, project:, roles: [role]) }
 
   # We need to be admin user to get the simplified default_scope from MemberQuery
   before do
