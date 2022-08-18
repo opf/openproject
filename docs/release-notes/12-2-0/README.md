@@ -66,9 +66,23 @@ To view all available projects, simply click on the **Projects list** button at 
 
 In OpenProject 12.2, you are now able to mark work packages with notifications as read also in the work packages details view by clicking on the **Mark as read** button on the top right toolbar.
 
-![mark-notifications-as-read](mark-notifications-as-read.png)
+![mark-notifications-as-read](mark-notifications-as-read.png)o
 
-###  List of all bug fixes and changes
+## Deprecations and breaking changes
+
+### Changed settings for HTTPs management
+
+In 12.2., the way settings are being handled for controlling HTTPs mode of OpenProject have changed.
+In case of a packaged installation, the configuration from the packager wizard will result in the correct configuration.
+
+For docker and manual installations, you will need to set the environment variable `OPENPROJECT_HTTPS=false` if you actively want to disable HTTPS mode.
+
+For more information, please see the respective installation pages:
+
+- [Packaged installation](../../installation-and-operations/installation/packaged/#step-3-apache2-web-server-and-ssl-termination)
+- [Docker installation](../../installation-and-operations/installation/docker/#initial-configuration)
+
+##  List of all bug fixes and changes
 
 - Changed: Log time for other users \[[#21754](https://community.openproject.com/wp/21754)\]
 - Changed: Send out an email reply if an incoming email could not be processed correctly \[[#35823](https://community.openproject.com/wp/35823)\]
