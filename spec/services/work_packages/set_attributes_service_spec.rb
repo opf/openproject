@@ -1017,6 +1017,55 @@ describe WorkPackages::SetAttributesService,
         end
       end
     end
+
+    context 'with non-working days' do
+      shared_let(:week_days) { create(:week_days) }
+      let(:monday) { Time.zone.today.beginning_of_week }
+      let(:wednesday) { monday + 2.days }
+      let(:next_monday) { monday + 7.days }
+
+      context 'when start date changes' do
+        let(:work_package) { build_stubbed(:work_package, start_date: monday, due_date: next_monday) }
+        let(:call_attributes) { { start_date: wednesday } }
+
+        it_behaves_like 'service call' do
+          it "updates the duration without including non-working days" do
+            expect { subject }
+              .to change(work_package, :duration)
+              .from(6)
+              .to(4)
+          end
+        end
+      end
+
+      context 'when due date changes' do
+        let(:work_package) { build_stubbed(:work_package, start_date: monday, due_date: next_monday) }
+        let(:call_attributes) { { due_date: monday + 14.days } }
+
+        it_behaves_like 'service call' do
+          it "updates the duration without including non-working days" do
+            expect { subject }
+              .to change(work_package, :duration)
+              .from(6)
+              .to(11)
+          end
+        end
+      end
+
+      context 'when duration changes' do
+        let(:work_package) { build_stubbed(:work_package, start_date: monday, due_date: next_monday) }
+        let(:call_attributes) { { duration: "13" } }
+
+        it_behaves_like 'service call' do
+          it "updates the due date from start date and duration and skips the non-working days" do
+            expect { subject }
+              .to change(work_package, :due_date)
+              .from(next_monday)
+              .to(wednesday + 14.days)
+          end
+        end
+      end
+    end
   end
 
   context 'for priority' do
