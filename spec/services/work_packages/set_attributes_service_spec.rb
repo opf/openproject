@@ -841,36 +841,6 @@ describe WorkPackages::SetAttributesService,
       end
     end
 
-    # TODO: Why is this scenario here? Now we recompute start_date based on duration and due_date. Should we remove it or revisit?
-    xcontext 'with duration explicitly set' do
-      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
-      let(:call_attributes) { { due_date: Time.zone.today + 2.days, duration: 8 } }
-      let(:attributes) { {} }
-
-      it_behaves_like 'service call' do
-        it 'keeps the start date' do
-          subject
-
-          expect(work_package.start_date)
-            .to eq(Time.zone.today)
-        end
-
-        it 'sets the due date' do
-          subject
-
-          expect(work_package.due_date)
-            .to eq(Time.zone.today + 2.days)
-        end
-
-        it "sets the faulty duration (for error reporting)" do
-          subject
-
-          expect(work_package.duration)
-            .to eq 8
-        end
-      end
-    end
-
     context 'when deriving one value from the two others' do
       # rubocop:disable Layout/ExtraSpacing, Layout/SpaceInsideArrayPercentLiteral, Layout/SpaceInsidePercentLiteralDelimiters, Layout/LineLength
       all_possible_scenarios = [
