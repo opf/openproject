@@ -925,15 +925,13 @@ describe WorkPackages::SetAttributesService,
         { initial: %i[start_date  due_date  duration], set: %i[start_date], nilled: %i[due_date], expected: { nilify: :duration } },
         { initial: %i[start_date                    ], set: %i[start_date], nilled: %i[due_date], expected: {} },
         { initial: %i[            due_date          ], set: %i[start_date], nilled: %i[due_date], expected: {} },
-        # TODO: is below scenario below ok? Problem is we can't detect that the user supplied nil as there is no change in the model
-        { initial: %i[                      duration], set: %i[start_date], nilled: %i[due_date], expected: { change: :due_date } },
+        { initial: %i[                      duration], set: %i[start_date], nilled: %i[due_date], expected: { nilify: :duration, same: :due_date } },
         { initial: %i[                              ], set: %i[start_date], nilled: %i[due_date], expected: {} },
 
         { initial: %i[start_date  due_date  duration], set: %i[due_date], nilled: %i[start_date], expected: { nilify: :duration } },
         { initial: %i[start_date                    ], set: %i[due_date], nilled: %i[start_date], expected: {} },
         { initial: %i[            due_date          ], set: %i[due_date], nilled: %i[start_date], expected: {} },
-        # TODO: is below scenario below ok? Problem is we can't detect that the user supplied nil as there is no change in the model
-        { initial: %i[                      duration], set: %i[due_date], nilled: %i[start_date], expected: { change: :start_date } },
+        { initial: %i[                      duration], set: %i[due_date], nilled: %i[start_date], expected: { nilify: :duration, same: :start_date } },
         { initial: %i[                              ], set: %i[due_date], nilled: %i[start_date], expected: {} },
 
         { initial: %i[start_date  due_date  duration], nilled: %i[start_date due_date], expected: {} },
@@ -950,15 +948,13 @@ describe WorkPackages::SetAttributesService,
 
         { initial: %i[start_date  due_date  duration], set: %i[start_date], nilled: %i[duration], expected: { nilify: :due_date } },
         { initial: %i[start_date                    ], set: %i[start_date], nilled: %i[duration], expected: {} },
-        # TODO: is below scenario below ok? Problem is we can't detect that the user supplied nil as there is no change in the model
-        { initial: %i[            due_date          ], set: %i[start_date], nilled: %i[duration], expected: { change: :duration } },
+        { initial: %i[            due_date          ], set: %i[start_date], nilled: %i[duration], expected: { nilify: :due_date, same: :duration } },
         { initial: %i[                      duration], set: %i[start_date], nilled: %i[duration], expected: {} },
         { initial: %i[                              ], set: %i[start_date], nilled: %i[duration], expected: {} },
 
         { initial: %i[start_date  due_date  duration], set: %i[duration], nilled: %i[start_date], expected: { nilify: :due_date } },
         { initial: %i[start_date                    ], set: %i[duration], nilled: %i[start_date], expected: {} },
-        # TODO: is below scenario below ok? Problem is we can't detect that the user supplied nil as there is no change in the model
-        { initial: %i[            due_date          ], set: %i[duration], nilled: %i[start_date], expected: { change: :start_date } },
+        { initial: %i[            due_date          ], set: %i[duration], nilled: %i[start_date], expected: { nilify: :due_date, same: :start_date } },
         { initial: %i[                      duration], set: %i[duration], nilled: %i[start_date], expected: {} },
         { initial: %i[                              ], set: %i[duration], nilled: %i[start_date], expected: {} },
 
@@ -975,15 +971,13 @@ describe WorkPackages::SetAttributesService,
         { initial: %i[                              ], set: %i[due_date duration], expected: { change: :start_date } },
 
         { initial: %i[start_date  due_date  duration], set: %i[due_date], nilled: %i[duration], expected: { nilify: :start_date } },
-        # TODO: is below scenario below ok? Problem is we can't detect that the user supplied nil as there is no change in the model
-        { initial: %i[start_date                    ], set: %i[due_date], nilled: %i[duration], expected: { change: :duration } },
+        { initial: %i[start_date                    ], set: %i[due_date], nilled: %i[duration], expected: { nilify: :start_date, same: :duration } },
         { initial: %i[            due_date          ], set: %i[due_date], nilled: %i[duration], expected: {} },
         { initial: %i[                      duration], set: %i[due_date], nilled: %i[duration], expected: {} },
         { initial: %i[                              ], set: %i[due_date], nilled: %i[duration], expected: {} },
 
         { initial: %i[start_date  due_date  duration], set: %i[duration], nilled: %i[due_date], expected: { nilify: :start_date } },
-        # TODO: is below scenario below ok? Problem is we can't detect that the user supplied nil as there is no change in the model
-        { initial: %i[start_date                    ], set: %i[duration], nilled: %i[due_date], expected: { change: :due_date } },
+        { initial: %i[start_date                    ], set: %i[duration], nilled: %i[due_date], expected: { nilify: :start_date, same: :due_date } },
         { initial: %i[            due_date          ], set: %i[duration], nilled: %i[due_date], expected: {} },
         { initial: %i[                      duration], set: %i[duration], nilled: %i[due_date], expected: {} },
         { initial: %i[                              ], set: %i[duration], nilled: %i[due_date], expected: {} },
@@ -1012,8 +1006,9 @@ describe WorkPackages::SetAttributesService,
         nilled = scenario[:nilled] || []
         expected = scenario[:expected]
         expected_change = expected[:change]
+        expected_same = expected[:same]
         expected_nilify = expected[:nilify]
-        unchanged = %i[start_date due_date duration] - set - nilled - expected.values
+        unchanged = %i[start_date due_date duration] - set - nilled - expected.values + [expected_same].compact
 
         context_description = []
         context_description << "with initial values for #{initial.inspect}" if initial.any?

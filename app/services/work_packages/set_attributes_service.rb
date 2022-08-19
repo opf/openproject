@@ -73,32 +73,32 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     # if one is nil and one is set, which should trigger the computation of the
     # unchanged third one. Do it in the order :duration, :due_date, :start_date
     # and return the first one that matches.
-    if unchanged?(:duration) && both_set?(:start_date, :due_date)
+    if attribute_not_set_in_params?(:duration) && both_present?(:start_date, :due_date)
       :duration
-    elsif unchanged?(:due_date) && both_set?(:start_date, :duration)
+    elsif attribute_not_set_in_params?(:due_date) && both_present?(:start_date, :duration)
       :due_date
-    elsif unchanged?(:start_date) && both_set?(:due_date, :duration)
+    elsif attribute_not_set_in_params?(:start_date) && both_present?(:due_date, :duration)
       :start_date
-    elsif unchanged?(:duration) && only_one_is_nil?(:start_date, :due_date)
+    elsif attribute_not_set_in_params?(:duration) && only_one_present?(:start_date, :due_date)
       :duration
-    elsif unchanged?(:due_date) && only_one_is_nil?(:start_date, :duration)
+    elsif attribute_not_set_in_params?(:due_date) && only_one_present?(:start_date, :duration)
       :due_date
-    elsif unchanged?(:start_date) && only_one_is_nil?(:due_date, :duration)
+    elsif attribute_not_set_in_params?(:start_date) && only_one_present?(:due_date, :duration)
       :start_date
     end
   end
   # rubocop:enable Metrics/PerceivedComplexity, Lint/DuplicateBranch
 
-  def unchanged?(field)
-    !work_package.send("#{field}_changed?")
+  def attribute_not_set_in_params?(field)
+    !params.has_key?(field)
   end
 
-  def both_set?(*fields)
-    work_package.values_at(*fields).count(&:nil?) == 0
+  def both_present?(*fields)
+    work_package.values_at(*fields).all?(&:present?)
   end
 
-  def only_one_is_nil?(*fields)
-    work_package.values_at(*fields).count(&:nil?) == 1
+  def only_one_present?(*fields)
+    work_package.values_at(*fields).count(&:present?) == 1
   end
 
   # rubocop:disable Metrics/AbcSize
