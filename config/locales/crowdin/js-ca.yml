@@ -270,7 +270,7 @@ ca:
           one: "Primer criteri d'ordenació"
           two: "Segon criteri d'ordenació"
           three: "Tercer criteri d'ordenació"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
+      upsale_for_more: "Els filtres avançats et permeten també filtrar per noms de fitxer o contingut adjuntat en paquets de treball. Si us plau, actualitza a un pla de pagament per utilitzar aquesta funció."
       upsale_link: 'Edició Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
@@ -294,11 +294,11 @@ ca:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                La nova versió inclou vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>S'ha acabat la cerca infinita de fitxers! Amb la nova <b>integració de Nextcloud</b> a OpenProject 12.2, ara podràs trobar els teus fitxers directament en els respectius paquets de treball i sempre tenir la versió correcta a les teves mans.</li> <li>Hem introduït <b>un nou selector de dates</b> amb un comportament actualitzat i un bàner informatiu que inclou un botó per veure les relacions a la gràfica Gantt.</li> <li>Hem afegit la possibilitat de <b>registrar temps per altres usuaris.</b></li> <li>Marca com a llegides notificacions també fora del centre de notificacions.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                La nova versió inclou vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>S'ha acabat la cerca infinita de fitxers! Amb la nova <b>integració de Nextcloud</b> a OpenProject 12.2, ara podràs trobar els teus fitxers directament en els respectius paquets de treball i sempre tenir la versió correcta a les teves mans.</li> <li>Hem introduït <b>un nou selector de dates</b> amb un comportament actualitzat i un bàner informatiu que inclou un botó per veure les relacions a la gràfica Gantt.</li> <li>Hem afegit la possibilitat de <b>registrar temps per altres usuaris.</b></li> <li>Marca com a llegides notificacions també fora del centre de notificacions.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Assignee'
     label_add_column_after: "Afegir columna desprès"

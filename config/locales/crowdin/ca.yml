@@ -95,7 +95,7 @@ ca:
     add_new: 'Afegeix text d''ajuda'
     edit: "Edita el text d'ajuda per a %{attribute_caption}"
     enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+      description: 'Proveeix informació addicional pels atributs (inclosos camps personalitzats) dels paquets de treball o projectes. Els texts d''ajuda es mostren quan l''usuari fa clic al signe d''interrogació al costat dels valors de camp en projectes i paquets de treball.'
   auth_sources:
     index:
       no_results_content_title: Actualment no hi ha cap mode d'autenticació.
@@ -302,7 +302,7 @@ ca:
       settings: "Configuració"
       form_configuration: "Configuració del formulari"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        L'edició Enterprise et permet personalitzar la configuració de formularis amb aquestes funcionalitats addicionals: <br> <ul class="%{list_styling_class}"><ul class="%{list_styling_class}"> <li><b>Afegeix nous grups d'atributs</b></li> <li><b>Canvia el nom dels grups d'atributs</b></li> <li><b>Afegeix una taula de paquets de treball relacionats</b></li> </ul>
       projects: "Projectes"
       enabled_projects: "Projectes habilitats"
       edit_query: "Edita la taula"
@@ -605,7 +605,7 @@ ca:
         unknown_property_nested: "té la ruta desconeguda '%{path}'."
         unremovable: "no es pot eliminar."
         url_not_secure_context: >
-          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
+          no està proveint un "Context Segur". Utilitza HTTPS o bé una adreça de retroalimentació, com un host local.
         wrong_length: "la longitud és incorrecta (haurien de ser %{count} caràcters)."
       models:
         attachment:
@@ -637,7 +637,7 @@ ca:
               fragment_present: 'no pot contenir un fragment.'
               invalid_uri: 'ha de ser una URI vàlida.'
               relative_uri: 'ha de ser una URI absoluta.'
-              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
+              secured_uri: 'no està proveint un "Context Segur". Utilitza HTTPS o bé una adreça de retroalimentació, com un host local.'
               forbidden_uri: 'és vetada pel servidor.'
             scopes:
               not_match_configured: "no coincideix amb els àmbits disponibles."
@@ -2557,11 +2557,11 @@ ca:
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    L'edició Enterprise afegirà funcionalitats addicionals pels camps personalitzats de paquets de treball: <br> <ul> <li><b>Permet múltiple selecció dels camps personalitzats pels estils Llista o Usuari</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    L'edició Enterprise afegirà funcionalitats addicionals pels estats de paquets de treball: <br> <ul> <li><b>Permet marcar paquets de treball com a només lectura per a estats específics</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    L'edició Enterprise afegirà funcionalitats addicionals pels camps personalitzats de projectes: <br> <ul> <li><b>Afegeix camps personalitzats pels teus projectes a la teva llista de projectes per crear una vista de cartera de projectes</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_favicon_instructions: >

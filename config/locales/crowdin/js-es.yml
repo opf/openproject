@@ -151,7 +151,7 @@ es:
           language_hint: 'Especifique el lenguaje de formato que se usará para resaltar (si se admite).'
         dropdown:
           macros: 'Macros'
-          chose_macro: 'Choose macro'
+          chose_macro: 'Seleccionar macro'
         toc: 'Índice'
         toolbar_help: 'Haga clic para seleccionar un widget y mostrar la barra de herramientas. Haga doble clic para editar un widget'
         wiki_page_include:
