@@ -69,10 +69,6 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
   }
 
   private renderLabels(vp:TimelineViewParameters):void {
-    if (this.activeZoomLevel === vp.settings.zoomLevel) {
-      return;
-    }
-
     this.gridContainer.empty();
 
     switch (vp.settings.zoomLevel) {
