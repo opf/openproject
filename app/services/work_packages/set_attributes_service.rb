@@ -74,11 +74,11 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   # fields are set. Matching is done in the order :duration, :due_date,
   # :start_date. The first one to match is returned.
   def derivable_attribute_by_others_presence
-    if attribute_not_set_in_params?(:duration) && both_present?(:start_date, :due_date)
+    if attribute_not_set_in_params?(:duration) && all_present?(:start_date, :due_date)
       :duration
-    elsif attribute_not_set_in_params?(:due_date) && both_present?(:start_date, :duration)
+    elsif attribute_not_set_in_params?(:due_date) && all_present?(:start_date, :duration)
       :due_date
-    elsif attribute_not_set_in_params?(:start_date) && both_present?(:due_date, :duration)
+    elsif attribute_not_set_in_params?(:start_date) && all_present?(:due_date, :duration)
       :start_date
     end
   end
@@ -109,7 +109,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def only_one_present?(*fields)
-    work_package.values_at(*fields).count(&:present?) == 1
+    work_package.values_at(*fields).one?(&:present?)
   end
 
   # rubocop:disable Metrics/AbcSize
