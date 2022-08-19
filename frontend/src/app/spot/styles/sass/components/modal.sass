@@ -1,3 +1,7 @@
+@import './modal-close-button'
+@import './modal-overlay'
+@import './modal-overrides'
+
 .spot-modal
   position: relative
   display: flex
@@ -15,8 +19,13 @@
   overflow-y: auto
   @include styled-scroll-bar
 
-  @media (max-width: 680px), (max-height: 500px)
+  @media (max-width: 680px)
     width: calc(100vw - 2rem)
+    max-height: calc(100vh - 6rem)
+
+    @media (max-height: 500px)
+      max-height: calc(100vh - 2rem)
+      max-width: calc(100vw - 6rem)
 
   &_wide
     width: 70rem

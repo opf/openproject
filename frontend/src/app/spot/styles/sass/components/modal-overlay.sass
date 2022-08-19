@@ -12,6 +12,11 @@
 
   &_active
     display: flex
+    flex-direction: column-reverse
+
+    @media (max-height: 500px)
+      // reorder elements to be displayed in row on very small heights
+      flex-direction: row-reverse
 
   &_not-full-screen
     background: transparent

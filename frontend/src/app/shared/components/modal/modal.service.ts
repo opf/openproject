@@ -69,6 +69,11 @@ export class OpModalService {
     hostElement.classList.add('spot-modal-overlay');
     document.body.appendChild(hostElement);
 
+    const closeButton = document.createElement('button');
+    closeButton.classList.add('spot-button', 'spot-modal-close-button');
+    closeButton.innerHTML = '<span class="spot-icon spot-icon_close"></span>';
+    hostElement.appendChild(closeButton);
+
     // Listen to keystrokes on window to close context menus
     window.addEventListener('keydown', (evt:KeyboardEvent) => {
       if (this.active && this.active.closeOnEscape && evt.key === 'Escape') {
@@ -82,6 +87,12 @@ export class OpModalService {
       if (this.active
         && !this.opening
         && this.portalHostElement === evt.target as Element) {
+        this.close();
+      }
+    });
+
+    closeButton.addEventListener('click', () => {
+      if (this.active && !this.opening) {
         this.close();
       }
     });
