@@ -48,9 +48,9 @@ tr:
         main-menu-hover-font-color: "Fareyle üzerine gelindiğinde ana menü yazı tipi"
         main-menu-border-color: "Ana menü kenarlığı"
       custom_colors: "Özel renkler"
-      customize: "Customize your OpenProject installation with your own logo and colors."
+      customize: "OpenProject kurulumunuzu kendi logonuz ve renklerinizle özelleştirin."
       enterprise_notice: "OpenProject'in geliştirilmesine finansal destek verenlere özel olarak 'Teşekkür ederiz!'. Bu küçük özellik sadece Enterprise Sürüm alan destekçilerimize özeldir."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
+      enterprise_more_info: "Not: Kullanılan logo herkese açık olacaktır."
       manage_colors: "Renk seçim seçeneklerini düzenle"
       instructions:
         alternative-color: "Güçlü vurgu rengi, genellikle ekrandaki en önemli düğme için kullanılır."
@@ -75,10 +75,10 @@ tr:
       book_now: 'Şimdi rezervasyon yaptırın'
       get_quote: 'Fiyat teklifi alın'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
-      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+        upgrade: "Hemen Yükselt"
+        contact: "Demo için bizimle iletişime geçin"
+      enterprise_info_html: "bir Kurumsal  <strong class='icon-medal'></strong>  özelliktir."
+      upgrade_info: "Etkinleştirmek ve ekibinizde kullanmaya başlamak için lütfen ücretli bir plana yükseltin."
     journal_aggregation:
       explanation:
         text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
@@ -173,8 +173,8 @@ tr:
     edit: 'Özel eylem %{name} Düzenle'
     execute: '%{name} yürütmek'
     upsale:
-      title: 'Custom actions'
-      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
+      title: 'Özel eylemler'
+      description: 'Özel eylemler, duruma, role, türe veya projeye göre belirli iş paketlerinde kullanıma sunabileceğiniz bir dizi önceden tanımlanmış eylemin tek tıkla kısayollarıdır.'
   custom_fields:
     text_add_new_custom_field: >
       Bir projeye yeni özel alanlar eklemeden önce onları oluşturmalısınız.
@@ -263,7 +263,7 @@ tr:
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "Delete placeholder user"
+    delete_tooltip: "Yer tutucu kullanıcısını silin."
     deletion_info:
       heading: "%{name} yer tutucu kullanıcısını sil."
       data_consequences: >
@@ -271,7 +271,7 @@ tr:
       irreversible: "Bu işlem geri alınamaz"
       confirmation: "Silme işlemini onaylamak için yer tutucu %{name} ismini girin."
     upsale:
-      title: Placeholder users
+      title: Yer tutucu kullanıcı
       description: >
         Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
@@ -463,12 +463,12 @@ tr:
         code: 'Durum'
         explanation: 'Durum tanımlaması'
         codes:
-          not_started: 'Not started'
+          not_started: 'Başlamadı'
           on_track: 'Takipte'
           at_risk: 'Riskli'
           off_track: 'Kapalı parça'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: 'Tamamlandı'
+          discontinued: 'Devam ettirilmedi'
       query:
         column_names: "Sütunlar"
         relations_to_type_column: "%{type} ile ilişkileri"
@@ -524,16 +524,16 @@ tr:
         begin_deletion: "Silme işleminin başlangıcı"
         children: "Alt öğeler"
         done_ratio: "İlerleme (%)"
-        duration: "Duration"
+        duration: "Süre"
         end_insertion: "Ekleme işlemi bitti"
         end_deletion: "Silme işlemi bitti"
-        ignore_non_working_days: "Ignore non working days"
+        ignore_non_working_days: "Çalışma dışı günleri yoksay"
         parent: "Üst"
         parent_issue: "Üst"
         parent_work_package: "Üst"
         priority: "Öncelik"
         progress: "İlerleme (%)"
-        readonly: "Read only"
+        readonly: "Salt okunur"
         schedule_manually: "Manuel zamanlamayı etkinleştir"
         spent_hours: "Harcanan zaman"
         spent_time: "Harcanan zaman"
@@ -572,7 +572,7 @@ tr:
         even: "çift olmalı."
         exclusion: "ayrılmıştır."
         file_too_large: "çok büyük (en büyük boyut %{count} bayt)."
-        filter_does_not_exist: "filter does not exist."
+        filter_does_not_exist: "Filtre mevcut değil"
         format: "Beklenen biçim '%{expected}' ile eşleşmiyor."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "%{count}'ten büyük olması gerekir."

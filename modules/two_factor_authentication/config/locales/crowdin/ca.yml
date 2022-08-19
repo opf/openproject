@@ -137,7 +137,7 @@ ca:
       sms_delivery_failed: 'MessageBird SMS delivery failed.'
       voice_delivery_failed: 'MessageBird voice call failed.'
     restdt:
-      delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
+      delivery_failed_with_code: 'L''entrega del token ha fallat. (Codi d''error %{code})'
     strategies:
       totp: 'Authenticator application'
       sns: 'Amazon SNS'
