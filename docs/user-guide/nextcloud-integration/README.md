@@ -93,7 +93,7 @@ Further integration efforts are under way. In the near future, you will be able 
 - **OpenProject - Connection error:** You will see this error when your OpenProject instance is unable to connect to your Nextcloud instance for any number of reasons. Your best course of action is to get in touch with the administrator of your OpenProject and Nextcloud instances to identify and to resolve the issue.
   ![OP_connection_error](1_0_02-Connection_broken.png)
 
-- **OpenProject - File fetching error:** In rare ocassions, it is possible for the integration to not be able to fetch all the details of all linked files. A simple page refresh should solve the issue, but should the error persist, please contact administrator of your OpenProject and Nextcloud instances.
+- **OpenProject - File fetching error:** In rare occasions, it is possible for the integration to not be able to fetch all the details of all linked files. A simple page refresh should solve the issue, but should the error persist, please contact administrator of your OpenProject and Nextcloud instances.
 
   ![OP_fetching_error](1_0_03-Fetching_error.png)
 
