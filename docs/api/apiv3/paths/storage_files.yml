@@ -25,7 +25,7 @@ get:
       in: query
       required: false
       schema:
-        type: integer
+        type: string
       example: 53
   responses:
     '200':
