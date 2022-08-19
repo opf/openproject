@@ -25,6 +25,28 @@ The integration enables you to perform multiple actions in both Nextcloud and Op
 - View all files linked to a specific work package (on OpenProject)
 - Retain close control of content to avoid risk of non-compliance or data leaks
 
+## User connection and login
+
+When you have both an account in OpenProject and Nextcloud is time for you to connect them by following the next steps:
+
+1. Access your Nextcloud instance in OpenProject using the files tab and click the button **Nextcloud login**:
+   ![NC_login](1_0_01-Files_Tab-Log_in_error.png)
+
+2. In the same browser tab a new Nextcloud screen will appear where you can click **Log in** and include your credentials:
+   ![NC_login_step2](login_nc_step2-1.png)
+
+   ![NC_login_step2](login_nc_step2-2.png)
+
+3. Once you are logged in Nextcloud now you should **Grant access** to OpenProject:
+   ![NC_login_step2](login_nc_step3.png)
+
+4. Once the login and grant access in Nextcloud side is completed, you will be redirected to OpenProject where you will authorize Nextcloud to access the API from OpenProject by clicking the button **Authorize**:
+   ![NC_login_step2](login_nc_step4.png)
+
+5. You will be redirect to the work package you where trying to link files to as now your personal setup for the Nextcloud integration is completed.
+
+> **Note:** You can always disconnect your personal instance setup from Nextcloud going to *Settings > Connected* accounts and clicking on the button **Disconnect from OpenProject**.
+
 ## How to use this integration
 
 The following video gives you a short overview of how to use this integration:
