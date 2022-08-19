@@ -104,7 +104,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     !params.has_key?(field)
   end
 
-  def both_present?(*fields)
+  def all_present?(*fields)
     work_package.values_at(*fields).all?(&:present?)
   end
 
