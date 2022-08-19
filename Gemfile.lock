@@ -916,7 +916,7 @@ GEM
     sentry-rails (5.4.1)
       railties (>= 5.0)
       sentry-ruby (~> 5.4.1)
-    sentry-ruby (5.4.1)
+    sentry-ruby (5.4.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
     shoulda-context (2.0.0)
     shoulda-matchers (5.1.0)
