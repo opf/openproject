@@ -47,10 +47,6 @@ export class DateModalSchedulingService {
     readonly dateModalRelations:DateModalRelationsService,
   ) {}
 
-  toggleSchedulingMode():void {
-    this.scheduleManually = !this.scheduleManually;
-  }
-
   /**
    * Returns whether the user can alter the dates of the work package.
    */

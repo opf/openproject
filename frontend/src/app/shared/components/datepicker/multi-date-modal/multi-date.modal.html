@@ -7,20 +7,39 @@
   (submit)="save($event)"
 >
   <op-datepicker-banner [scheduleManually]="scheduleManually"></op-datepicker-banner>
+
   <div class="op-modal--body form -vertical">
-    <div class="form--field op-datepicker-modal--scheduling-action-container">
-      <div class="form--field-container">
-        <label class="form--label-with-check-box">
-          <div class="form--check-box-container">
-            <input type="checkbox"
-                   name="scheduling"
-                   class="form--check-box op-datepicker-modal--scheduling-action"
-                   data-qa-selector="op-datepicker-modal--scheduling-action"
-                   [ngModel]="scheduleManually"
-                   (ngModelChange)="changeSchedulingMode()">
-          </div>
-          {{ text.manualScheduling }}
+    <div class="op-datepicker-modal--toggle-actions-container">
+      <div class="form--field">
+        <label class="form--label">
+          {{text.scheduling.title}}
         </label>
+        <div class="form--field-container">
+          <spot-toggle
+            [options]="schedulingOptions"
+            [value]="scheduleManually"
+            [name]="'scheduling'"
+            [(ngModel)]="scheduleManually"
+            (ngModelChange)="changeSchedulingMode()"
+            data-qa-selector="op-datepicker-modal--scheduling-action"
+          ></spot-toggle>
+        </div>
+      </div>
+
+      <div class="form--field">
+        <label class="form--label">
+          {{ text.includeNonWorkingDays.title }}
+        </label>
+        <div class="form--field-container">
+          <spot-toggle
+            [options]="includeNonWorkingDaysOptions"
+            [value]="includeNonWorkingDays"
+            [name]="'include-non-working-days'"
+            [(ngModel)]="includeNonWorkingDays"
+            (ngModelChange)="changeNonWorkingDays()"
+            data-qa-selector="op-datepicker-modal--include-non-working-days"
+          ></spot-toggle>
+        </div>
       </div>
     </div>
 
@@ -109,38 +128,17 @@
            hidden>
   </div>
 
-  <div class="op-modal--footer op-modal--footer_split-actions">
-    <div>
-      <div class="form--field -no-margin op-datepicker-modal--scheduling-action-container">
-        <div class="form--field-container">
-          <label class="form--label-with-check-box">
-            <div class="form--check-box-container">
-              <input type="checkbox"
-                     name="include-non-working-days"
-                     class="form--check-box"
-                     data-qa-selector="op-datepicker-modal--include-non-working-days"
-                     [ngModel]="includeNonWorkingDays"
-                     (ngModelChange)="changeNonWorkingDays()">
-            </div>
-            {{ text.includeNonWorkingDays }}
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <button
-        (click)="cancel()"
-        class="op-datepicker-modal--action button"
-        data-qa-selector="op-datepicker-modal--action"
-        [textContent]="text.cancel"
-      ></button>
-      <button
-        class="op-datepicker-modal--action button -highlight"
-        data-qa-selector="op-datepicker-modal--action"
-        [textContent]="text.save"
-      ></button>
-    </div>
-
+  <div class="op-modal--footer">
+    <button
+      (click)="cancel()"
+      class="op-datepicker-modal--action button"
+      data-qa-selector="op-datepicker-modal--action"
+      [textContent]="text.cancel"
+    ></button>
+    <button
+      class="op-datepicker-modal--action button -highlight"
+      data-qa-selector="op-datepicker-modal--action"
+      [textContent]="text.save"
+    ></button>
   </div>
 </form>

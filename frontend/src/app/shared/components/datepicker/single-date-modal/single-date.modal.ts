@@ -99,18 +99,36 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
   text = {
     save: this.I18n.t('js.button_save'),
     cancel: this.I18n.t('js.button_cancel'),
-    manualScheduling: this.I18n.t('js.scheduling.manual'),
     date: this.I18n.t('js.work_packages.properties.date'),
-    includeNonWorkingDays: this.I18n.t('js.work_packages.datepicker_modal.include_non_working_days'),
     placeholder: this.I18n.t('js.placeholders.default'),
     today: this.I18n.t('js.label_today'),
+    scheduling: {
+      title: this.I18n.t('js.scheduling.title'),
+      manual: this.I18n.t('js.scheduling.manual'),
+      default: this.I18n.t('js.scheduling.default'),
+    },
+    includeNonWorkingDays: {
+      title: this.I18n.t('js.work_packages.datepicker_modal.include_non_working_days.title'),
+      yes: this.I18n.t('js.work_packages.datepicker_modal.include_non_working_days.true'),
+      no: this.I18n.t('js.work_packages.datepicker_modal.include_non_working_days.false'),
+    },
   };
 
   onDataUpdated = new EventEmitter<string>();
 
   scheduleManually = false;
 
+  schedulingOptions = [
+    { value: true, title: this.text.scheduling.manual },
+    { value: false, title: this.text.scheduling.default },
+  ];
+
   includeNonWorkingDays = false;
+
+  includeNonWorkingDaysOptions = [
+    { value: true, title: this.text.includeNonWorkingDays.yes },
+    { value: false, title: this.text.includeNonWorkingDays.no },
+  ];
 
   htmlId = '';
 
@@ -192,13 +210,11 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
   }
 
   changeSchedulingMode():void {
-    this.dateModalScheduling.toggleSchedulingMode();
     this.initializeDatepicker();
     this.cdRef.detectChanges();
   }
 
   changeNonWorkingDays():void {
-    this.includeNonWorkingDays = !this.includeNonWorkingDays;
     this.initializeDatepicker();
 
     // If we're single date, update the date
