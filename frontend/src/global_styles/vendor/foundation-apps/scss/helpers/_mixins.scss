@@ -120,4 +120,4 @@
   clip: auto;
 }
 
-$text-input-selectors: 'input[type="text"]:not(.spot-input-field--input), input[type="password"]:not(.spot-input-field--input), input[type="date"]:not(.spot-input-field--input), input[type="datetime"]:not(.spot-input-field--input), input[type="datetime-local"]:not(.spot-input-field--input), input[type="month"]:not(.spot-input-field--input), input[type="week"]:not(.spot-input-field--input), input[type="email"]:not(.spot-input-field--input), input[type="number"]:not(.spot-input-field--input), input[type="search"]:not(.spot-input-field--input), input[type="tel"]:not(.spot-input-field--input), input[type="time"]:not(.spot-input-field--input), input[type="url"]:not(.spot-input-field--input), input[type="color"]:not(.spot-input-field--input), textarea';
+$text-input-selectors: 'input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="email"], input[type="number"], input[type="search"], input[type="tel"], input[type="time"], input[type="url"], input[type="color"], textarea';

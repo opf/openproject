@@ -11,21 +11,19 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-type AllowedInputTypes = 'text'|'number';
-
 @Component({
-  selector: 'spot-input-field',
-  templateUrl: './input-field.component.html',
+  selector: 'spot-text-field',
+  templateUrl: './text-field.component.html',
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => SpotInputFieldComponent),
+    useExisting: forwardRef(() => SpotTextFieldComponent),
     multi: true,
   }],
 })
-export class SpotInputFieldComponent implements ControlValueAccessor {
-  @HostBinding('class.spot-input-field') public className = true;
+export class SpotTextFieldComponent implements ControlValueAccessor {
+  @HostBinding('class.spot-text-field') public className = true;
 
-  @HostBinding('class.spot-input-field_focused') public focused = false;
+  @HostBinding('class.spot-text-field_focused') public focused = false;
 
   @HostListener('click') public onParentClick() {
     this.input.nativeElement.focus();
@@ -33,15 +31,13 @@ export class SpotInputFieldComponent implements ControlValueAccessor {
 
   @ViewChild('input') public input:ElementRef;
 
-  @Input() name = `spot-input-field-${+(new Date())}`;
+  @Input() name = `spot-text-field-${+(new Date())}`;
 
-  @HostBinding('class.spot-input-field_disabled') @Input() disabled = false;
+  @HostBinding('class.spot-text-field_disabled') @Input() disabled = false;
 
   @Input() showClearButton = true;
 
   @Input() public placeholder = '';
-
-  @Input() public type:AllowedInputTypes = 'text';
 
   @Input('value') public _value = '';
 

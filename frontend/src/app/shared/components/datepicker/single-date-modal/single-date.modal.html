@@ -31,14 +31,14 @@
         </label>
         <div class="form--field-container">
           <div class="form--text-field-container op-datepicker-modal--date-container">
-            <spot-input-field
+            <spot-text-field
               name="date"
               class="op-datepicker-modal--date-field"
               [ngClass]="{ 'op-datepicker-modal--date-field_current': this.dateModalScheduling.isSchedulable }"
               [(ngModel)]="date"
               (ngModelChange)="dateChangedManually$.next()"
               [showClearButton]="true"
-            ></spot-input-field>
+            ></spot-text-field>
           </div>
         </div>
         <div class="form--field-extra-actions">

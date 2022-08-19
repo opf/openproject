@@ -33,7 +33,7 @@
         </label>
         <div class="form--field-container">
           <div class="form--text-field-container op-datepicker-modal--date-container">
-            <spot-input-field
+            <spot-text-field
               name="startDate"
               data-qa-selector="op-datepicker-modal--start-date-field"
               class="op-datepicker-modal--date-field"
@@ -43,7 +43,7 @@
               [disabled]="!isSchedulable"
               [showClearButton]="currentlyActivatedDateField === 'end'"
               (focusin)="setCurrentActivatedField('start')"
-            ></spot-input-field>
+            ></spot-text-field>
           </div>
         </div>
         <div class="form--field-extra-actions">
@@ -61,7 +61,7 @@
         </label>
         <div class="form--field-container">
           <div class="form--text-field-container op-datepicker-modal--date-container">
-            <spot-input-field
+            <spot-text-field
               name="endDate"
               data-qa-selector="op-datepicker-modal--end-date-field"
               class="op-datepicker-modal--date-field"
@@ -71,7 +71,7 @@
               [disabled]="!isSchedulable"
               [showClearButton]="currentlyActivatedDateField === 'end'"
               (focusin)="setCurrentActivatedField('end')"
-            ></spot-input-field>
+            ></spot-text-field>
           </div>
         </div>
         <div class="form--field-extra-actions">
@@ -89,7 +89,7 @@
         </label>
         <div class="form--field-container">
           <div class="form--text-field-container op-datepicker-modal--date-container">
-            <spot-input-field
+            <spot-text-field
               name="duration"
               data-qa-selector="op-datepicker-modal--duration-field"
               class="op-datepicker-modal--date-field"
@@ -99,7 +99,7 @@
               [disabled]="!isSchedulable"
               (focusin)="handleDurationFocusIn()"
               (focusout)="handleDurationFocusOut()"
-            ></spot-input-field>
+            ></spot-text-field>
           </div>
         </div>
       </div>
