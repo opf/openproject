@@ -64,22 +64,34 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     set_templated_description
   end
 
-  # rubocop:disable Metrics/PerceivedComplexity, Lint/DuplicateBranch
   def derivable_attribute
-    # Algorithm:
-    #
-    # Check if one not modified while other two are set, in the order :duration,
-    # :due_date, :start_date, and return the first one that matches. Then check
-    # if one is nil and one is set, which should trigger the computation of the
-    # unchanged third one. Do it in the order :duration, :due_date, :start_date
-    # and return the first one that matches.
+    derivable_attribute_by_others_presence || derivable_attribute_by_others_absence
+  end
+
+  # Returns a field derivable by the presence of the two others.
+  #
+  # A field is derivable if it has not been set explicitly while the other two
+  # fields are set. Matching is done in the order :duration, :due_date,
+  # :start_date. The first one to match is returned.
+  def derivable_attribute_by_others_presence
     if attribute_not_set_in_params?(:duration) && both_present?(:start_date, :due_date)
       :duration
     elsif attribute_not_set_in_params?(:due_date) && both_present?(:start_date, :duration)
       :due_date
     elsif attribute_not_set_in_params?(:start_date) && both_present?(:due_date, :duration)
       :start_date
-    elsif attribute_not_set_in_params?(:duration) && only_one_present?(:start_date, :due_date)
+    end
+  end
+
+  # Returns a field derivable by the absence of one of the two others.
+  #
+  # A field is derivable if it has not been set explicitly while the other two
+  # fields have one set and one nil. Matching is done in the order :duration, :due_date,
+  # :start_date. The first one to match is returned.
+  #
+  # Note: if both other fields are nil, then the field is not derivable
+  def derivable_attribute_by_others_absence
+    if attribute_not_set_in_params?(:duration) && only_one_present?(:start_date, :due_date)
       :duration
     elsif attribute_not_set_in_params?(:due_date) && only_one_present?(:start_date, :duration)
       :due_date
@@ -87,7 +99,6 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
       :start_date
     end
   end
-  # rubocop:enable Metrics/PerceivedComplexity, Lint/DuplicateBranch
 
   def attribute_not_set_in_params?(field)
     !params.has_key?(field)
