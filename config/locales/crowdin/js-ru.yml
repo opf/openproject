@@ -491,7 +491,7 @@ ru:
         next: 'Следующий'
         got_it: 'Понятно'
       steps:
-        help_menu: 'Меню Справка (?) предоставляет <b>дополнительные вспомогательные ресурсы</b>. Здесь вы можете найти руководство пользователя и полезные видео инструкций и многое другое. <br> Наслаждайтесь вашей работой с OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Пригласите в ваш проект <b>новых участников</b>.'
         project_selection: 'Пожалуйста, выберите один из демонстрационных проектов, которые мы подготовили. Демонстрационные данные в настоящее время доступны только на английском языке. <br> Общий <b>демо проект</b> подходит наилучшим образом для управления классическими проектами в то время как <b>Scrum проект</b> лучше подходит для agile-управления проектами.'
         quick_add_button: 'Нажмите на значок плюс (+) в заголовке навигации, чтобы <b>создать новый проект</b> или <b>пригласить коллег</b>.'
@@ -759,7 +759,7 @@ ru:
         farRight: 'Крайний справа'
         showNone: '-- Не метка --'
         description: >
-          Укажите атрибуты, которые вы бы хотели видеть в диаграмме Гантта всегда. Заметьте, что при наведении указателя мыши на элемент, вместо этих атрибутов будет показана их даты.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Показать диаграмму Ганта'
       button_deactivate: 'Скрыть диаграмму Ганта'
       cancel: Отмена

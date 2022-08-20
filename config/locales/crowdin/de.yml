@@ -1600,6 +1600,7 @@ de:
   label_index_by_title: "Seiten nach Titel"
   label_information: "Information"
   label_information_plural: "Information"
+  label_installation_guides: 'Installationsanleitungen'
   label_integer: "Zahl"
   label_internal: "Intern"
   label_introduction_video: "Einführungsvideo"
@@ -2867,10 +2868,10 @@ de:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Einstellung des Web-Protokolls stimmt nicht überein'
+    https_mismatch:
+      title: 'HTTPS-Modus Setup stimmt nicht überein'
       text_html: >
-        Ihre Anwendung läuft mit der Web-Protokoll-Einstellung auf <code>%{set_protocol}</code>, aber die Anfrage ist eine <code>%{actual_protocol}</code> Anfrage. Dies führt zu Fehlern! Gehen Sie zu <a href="%{setting_path}">Systemeinstellungen</a> und ändern Sie die Einstellung "Protokoll", um dies zu korrigieren.
+        Ihre Anwendung läuft mit dem HTTPS-Modus auf <code>%{set_protocol}</code>, aber die Anfrage ist eine <code>%{actual_protocol}</code> Anfrage. Dies führt zu Fehlern! Sie müssen folgenden Konfigurationswert setzen: <code>%{setting_value}</code>. Bitte lesen Sie in der <a href="%{more_info_path}">die Installationsdokumentation</a> , wie Sie diese Konfiguration einstellen.
     hostname_mismatch:
       title: 'Einstellung des Hostnamens stimmt nicht überein'
       text_html: >

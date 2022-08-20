@@ -758,7 +758,7 @@ es:
         farRight: 'Extremo derecho'
         showNone: '-- Sin etiqueta --'
         description: >
-          Seleccione los atributos que quiera que se muestren en las posiciones correspondientes del diagrama de Gantt en todo momento. Tenga en cuenta que, al mantener el ratón sobre un elemento, se mostrarán las etiquetas de fecha, en lugar de estos atributos.
+          Seleccione los atributos que quiera que se muestren en las posiciones correspondientes del diagrama de Gantt en todo momento. Tenga en cuenta que, al mantener el ratón sobre un elemento, se mostrarán las etiquetas de fecha en lugar de estos atributos.
       button_activate: 'Mostrar diagrama de Gantt'
       button_deactivate: 'Ocultar diagrama de Gantt'
       cancel: Cancelar
