@@ -57,7 +57,7 @@ module Components
       container.find_field 'startDate'
     end
 
-    def end_date_field
+    def due_date_field
       container.find_field 'endDate'
     end
 
@@ -66,9 +66,24 @@ module Components
     end
 
     def set_duration(value)
-      duration = find_field 'duration'
-      duration.click
-      duration.set value
+      duration_field.click
+      duration_field.set value
+
+      # Focus a different field
+      start_date_field.click
+    end
+
+    def set_start_date(value)
+      start_date_field.click
+      start_date_field.set value
+
+      # Focus a different field
+      due_date_field.click
+    end
+
+    def set_due_date(value)
+      due_date_field.click
+      due_date_field.set value
 
       # Focus a different field
       start_date_field.click
@@ -78,8 +93,9 @@ module Components
       duration = find_field 'duration'
       duration.click
 
-      remove_btn = container.find('[data-qa-selector="datepicker-duration"] .spot-text-field--clear-button')
-      remove_btn.click
+      container
+        .find('[data-qa-selector="datepicker-duration"] .spot-text-field--clear-button')
+        .click
 
       # Focus a different field
       start_date_field.click
