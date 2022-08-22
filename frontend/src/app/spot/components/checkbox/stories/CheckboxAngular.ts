@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 
 @Component({
-  templateUrl: './CheckboxAngular.stories.html',
+  templateUrl: './CheckboxAngular.html',
 })
 export class CheckboxAngularStoryComponent {
   @Input() disabled = false;

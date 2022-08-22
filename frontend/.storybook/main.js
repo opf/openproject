@@ -9,6 +9,7 @@ module.exports = {
     "@storybook/addon-interactions",
     "@storybook/preset-scss",
     "storybook-addon-designs",
+    "./plugin-iframe/src/preset.js"
   ],
   framework: "@storybook/angular",
   core: {
