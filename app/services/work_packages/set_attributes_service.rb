@@ -68,36 +68,49 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     derivable_attribute_by_others_presence || derivable_attribute_by_others_absence
   end
 
-  # Returns a field derivable by the presence of the two others.
+  # Returns a field derivable by the presence of the two others, or +nil+
+  # if none was found.
   #
-  # A field is derivable if it has not been set explicitly while the other two
-  # fields are set. Matching is done in the order :duration, :due_date,
-  # :start_date. The first one to match is returned.
+  # Matching is done in the order :duration, :due_date, :start_date. The first
+  # one to match is returned.
+  #
+  # If +ignore_non_working_days+ has been changed, then +duration+ must stay the
+  # same and only +due_date+ and +start_date+ can be derivable.
   def derivable_attribute_by_others_presence
-    if attribute_not_set_in_params?(:duration) && all_present?(:start_date, :due_date)
-      :duration
-    elsif attribute_not_set_in_params?(:due_date) && all_present?(:start_date, :duration)
-      :due_date
-    elsif attribute_not_set_in_params?(:start_date) && all_present?(:due_date, :duration)
-      :start_date
-    end
+    fields = %i[duration due_date start_date]
+    fields = fields.without(:duration) if work_package.ignore_non_working_days_changed?
+    fields.find { |field| derivable_by_others_presence?(field) }
   end
 
-  # Returns a field derivable by the absence of one of the two others.
+  # Returns true if given +field+ is derivable from the presence of the two
+  # others.
   #
   # A field is derivable if it has not been set explicitly while the other two
-  # fields have one set and one nil. Matching is done in the order :duration, :due_date,
-  # :start_date. The first one to match is returned.
+  # fields are set.
+  def derivable_by_others_presence?(field)
+    others = %i[start_date due_date duration].without(field)
+    attribute_not_set_in_params?(field) && all_present?(*others)
+  end
+
+  # Returns a field derivable by the absence of one of the two others, or +nil+
+  # if none was found.
+  #
+  # Matching is done in the order :duration, :due_date, :start_date. The first
+  # one to match is returned.
+  def derivable_attribute_by_others_absence
+    %i[duration due_date start_date].find { |field| derivable_by_others_absence?(field) }
+  end
+
+  # Returns true if given +field+ is derivable from the absence of one of the
+  # two others.
+  #
+  # A field is derivable if it has not been set explicitly while the other two
+  # fields have one set and one nil.
   #
   # Note: if both other fields are nil, then the field is not derivable
-  def derivable_attribute_by_others_absence
-    if attribute_not_set_in_params?(:duration) && only_one_present?(:start_date, :due_date)
-      :duration
-    elsif attribute_not_set_in_params?(:due_date) && only_one_present?(:start_date, :duration)
-      :due_date
-    elsif attribute_not_set_in_params?(:start_date) && only_one_present?(:due_date, :duration)
-      :start_date
-    end
+  def derivable_by_others_absence?(field)
+    others = %i[start_date due_date duration].without(field)
+    attribute_not_set_in_params?(field) && only_one_present?(*others)
   end
 
   def attribute_not_set_in_params?(field)

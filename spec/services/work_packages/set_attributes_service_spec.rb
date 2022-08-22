@@ -1071,6 +1071,90 @@ describe WorkPackages::SetAttributesService,
           end
         end
       end
+
+      context 'when duration and end_date both change' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+        end
+        let(:call_attributes) { { due_date: next_monday + 1.day, duration: 4 } }
+
+        it_behaves_like 'service call' do
+          it "updates the start date and skips the non-working days" do
+            expect { subject }
+              .to change(work_package, :start_date)
+              .from(monday)
+              .to(monday.next_occurring(:thursday))
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is switched to true' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+        end
+        let(:call_attributes) { { ignore_non_working_days: true } }
+
+        it_behaves_like 'service call' do
+          it "updates the due date from start date and duration to include the non-working days" do
+            # start_date and duration are checked too to ensure they did not change
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday, due_date: next_monday, duration: 6)
+              .to(start_date: monday, due_date: next_monday - 2.days, duration: 6)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is switched to false' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { ignore_non_working_days: false } }
+
+        it_behaves_like 'service call' do
+          it "updates the due date from start date and duration to skip the non-working days" do
+            # start_date and duration are checked too to ensure they did not change
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday, due_date: next_monday, duration: 8)
+              .to(start_date: monday, due_date: next_monday + 2.days, duration: 8)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is changed AND "finish date" is cleared' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { ignore_non_working_days: false, due_date: nil } }
+
+        it_behaves_like 'service call' do
+          it "does not recompute the due date and nilifies the due date and the duration instead" do
+            # start_date and duration are checked too to ensure they did not change
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday, due_date: next_monday, duration: 8)
+              .to(start_date: monday, due_date: nil, duration: nil)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is changed AND "finish date" is set to another date' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { ignore_non_working_days: false, due_date: wednesday } }
+
+        it_behaves_like 'service call' do
+          it "updates the start date from due date and duration to skip the non-working days" do
+            # start_date and duration are checked too to ensure they did not change
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday, due_date: next_monday, duration: 8)
+              .to(start_date: wednesday - 9.days, due_date: wednesday, duration: 8)
+          end
+        end
+      end
     end
   end
 
