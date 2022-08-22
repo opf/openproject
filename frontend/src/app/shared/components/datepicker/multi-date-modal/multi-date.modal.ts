@@ -53,6 +53,8 @@ import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
 import {
   debounce,
+  skip,
+  skipWhile,
   switchMap,
 } from 'rxjs/operators';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
@@ -170,6 +172,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   private dateUpdates$ = new Subject<FieldUpdates>();
 
+  // We're loading relations and don't want anything to fire beforehand
+  private initialized = false;
+
   private dateUpdateRequests$ = this
     .dateUpdates$
     .pipe(
@@ -216,11 +221,14 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       .subscribe((date) => {
         this.initializeDatepicker(date);
         this.onDataChange();
+        this.initialized = true;
       });
 
     this
       .dateChangedManually$
       .pipe(
+        // Skip the first values for start and end date
+        skip(2),
         // Avoid that the manual changes are moved to the datepicker too early.
         // The debounce is chosen quite large on purpose to catch the following case:
         //   1. Start date is for example 2022-07-15. The user wants to set the end date to the 19th.
@@ -274,6 +282,11 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   changeNonWorkingDays():void {
+    // The spot-toggle fires on initializing
+    if (!this.initialized) {
+      return;
+    }
+
     this.initializeDatepicker();
 
     // Resent the current start and end dates so duration can be calculated again.
