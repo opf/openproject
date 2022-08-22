@@ -315,4 +315,26 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_duration 3
     end
   end
+
+  describe 'when all values set, changing the start date to the future in the picker (Scenario 13)' do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse('2021-02-09'),
+        due_date: Date.parse('2021-02-11'),
+        duration: 3
+      }
+    end
+
+    it 'sets the other two values' do
+      datepicker.expect_start_date '2021-02-09'
+      datepicker.expect_due_date '2021-02-11'
+      datepicker.expect_duration 3
+
+      datepicker.set_date '2021-03-03'
+
+      datepicker.expect_start_date '2021-03-03'
+      datepicker.expect_due_date '2021-03-03'
+      datepicker.expect_duration 1
+    end
+  end
 end
