@@ -73,5 +73,16 @@ module Components
       # Focus a different field
       start_date_field.click
     end
+
+    def clear_duration
+      duration = find_field 'duration'
+      duration.click
+
+      remove_btn = container.find('[data-qa-selector="datepicker-duration"] .spot-text-field--clear-button')
+      remove_btn.click
+
+      # Focus a different field
+      start_date_field.click
+    end
   end
 end
