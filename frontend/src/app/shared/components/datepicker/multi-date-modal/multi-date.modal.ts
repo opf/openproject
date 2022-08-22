@@ -79,7 +79,7 @@ export type DateFields = DateKeys|'duration';
 
 type StartUpdate = { startDate:string };
 type EndUpdate = { dueDate:string };
-type DurationUpdate = { duration:string|number };
+type DurationUpdate = { duration:string|number|null };
 type DateUpdate = { date:string };
 export type FieldUpdates =
   (StartUpdate&EndUpdate)
@@ -149,7 +149,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     { value: false, title: this.text.includeNonWorkingDays.no },
   ];
 
-  duration:number;
+  duration:number|null;
 
   displayedDuration:string;
 
@@ -379,7 +379,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   handleDurationFocusIn():void {
     this.setCurrentActivatedField('duration');
-    this.displayedDuration = this.duration.toString(10);
+    this.displayedDuration = this.duration ? this.duration.toString(10) : '';
   }
 
   handleDurationFocusOut():void {
@@ -400,15 +400,27 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   updateDuration(value:string|number):void {
-    this.duration = typeof value === 'string' ? parseInt(value, 10) : value;
+    if (value === '') {
+      this.duration = null;
+    } else {
+      this.duration = typeof value === 'string' ? parseInt(value, 10) : value;
+    }
   }
 
-  private get durationAsIso8601():string {
-    return this.timezoneService.toISODuration(this.duration, 'days');
+  private get durationAsIso8601():string|null {
+    if (this.duration) {
+      return this.timezoneService.toISODuration(this.duration, 'days');
+    }
+
+    return null;
   }
 
   private showDurationWithDays() {
-    this.displayedDuration = this.text.days(this.duration);
+    if (this.duration) {
+      this.displayedDuration = this.text.days(this.duration);
+    } else {
+      this.displayedDuration = '';
+    }
   }
 
   private initializeDatepicker(minimalDate?:Date|null) {
