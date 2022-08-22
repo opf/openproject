@@ -65,6 +65,7 @@ import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
 import { DateModalSchedulingService } from 'core-app/shared/components/datepicker/services/date-modal-scheduling.service';
 import {
+  mappedDate,
   onDayCreate,
   parseDate,
   setDates,
@@ -233,7 +234,7 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
 
     // Apply the dates if they could be changed
     if (this.dateModalScheduling.isSchedulable) {
-      this.changeset.setValue('date', this.date);
+      this.changeset.setValue('date', mappedDate(this.date));
     }
 
     this.closeMe();

@@ -67,6 +67,7 @@ import { DateModalRelationsService } from 'core-app/shared/components/datepicker
 import { DateModalSchedulingService } from 'core-app/shared/components/datepicker/services/date-modal-scheduling.service';
 import {
   areDatesEqual,
+  mappedDate,
   onDayCreate,
   parseDate,
   setDates,
@@ -303,8 +304,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
     // Apply the dates if they could be changed
     if (this.isSchedulable) {
-      this.changeset.setValue('startDate', this.dates.start);
-      this.changeset.setValue('dueDate', this.dates.end);
+      this.changeset.setValue('startDate', mappedDate(this.dates.start));
+      this.changeset.setValue('dueDate', mappedDate(this.dates.end));
+      this.changeset.setValue('duration', this.durationAsIso8601);
     }
 
     this.closeMe();
