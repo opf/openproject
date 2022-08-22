@@ -509,7 +509,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         this.dates.start = this.timezoneService.formattedISODate(dates[0]);
         this.dates.end = this.timezoneService.formattedISODate(dates[1]);
         this.toggleCurrentActivatedField();
-        this.dateUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
         break;
       }
       default: {
