@@ -381,4 +381,29 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_duration 4
     end
   end
+
+  describe 'when all values set and include NWD true, changing include NWD to false (Scenario 16)' do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse('2021-02-11'),
+        due_date: Date.parse('2021-02-14'),
+        duration: 4,
+        ignore_non_working_days: true
+      }
+    end
+
+    it 'sets the finish date to 16th' do
+      datepicker.expect_start_date '2021-02-11'
+      datepicker.expect_due_date '2021-02-14'
+      datepicker.expect_duration 4
+      datepicker.expect_ignore_non_working_days true
+
+      datepicker.ignore_non_working_days false
+
+      datepicker.expect_ignore_non_working_days false
+      datepicker.expect_start_date '2021-02-11'
+      datepicker.expect_due_date '2021-02-16'
+      datepicker.expect_duration 4
+    end
+  end
 end

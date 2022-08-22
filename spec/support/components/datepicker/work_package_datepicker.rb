@@ -89,17 +89,27 @@ module Components
       start_date_field.click
     end
 
+    def expect_ignore_non_working_days(val)
+      text = ignore_non_working_days_option(val)
+
+      container
+        .find('[data-qa-selector="spot-toggle--option"][data-qa-active-toggle]', text: text)
+    end
+
     def ignore_non_working_days(val)
-      text =
-        if val
-          'Include non-working days'
-        else
-          'Working days only'
-        end
+      text = ignore_non_working_days_option(val)
 
       container
         .find('[data-qa-selector="spot-toggle--option"]', text: text)
         .click
+    end
+
+    def ignore_non_working_days_option(val)
+      if val
+        'Include non-working days'
+      else
+        'Working days only'
+      end
     end
 
     def clear_duration
