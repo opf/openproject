@@ -79,7 +79,7 @@ export type DateFields = DateKeys|'duration';
 
 type StartUpdate = { startDate:string };
 type EndUpdate = { dueDate:string };
-type DurationUpdate = { duration:string };
+type DurationUpdate = { duration:string|number };
 type DateUpdate = { date:string };
 export type FieldUpdates =
   (StartUpdate&EndUpdate)
@@ -289,9 +289,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
     this.initializeDatepicker();
 
-    // Resent the current start and end dates so duration can be calculated again.
-    if (!!this.dates.start && !!this.dates.end) {
-      this.dateUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+    // Resent the current start and duration so that the end date is calculated
+    if (!!this.dates.start && !!this.duration) {
+      this.dateUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
     }
 
     this.cdRef.detectChanges();
