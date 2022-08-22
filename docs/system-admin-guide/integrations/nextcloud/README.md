@@ -24,6 +24,9 @@ To activate your integration to OpenProject in Nextcloud, navigate to the built-
 
 Once the OpenProject integration app is downloaded and enabled, you can access it from within the _Settings_ page, via the side menu. Start by entering the _Host URL_ of your desired OpenProject instance.
 
+#### Important
+If your OpenProject is hosted locally, it might be possible, that Nextcloud detects that by some defined rules. In that case, NextCloud will refuse to connect to it. To be able to use a "local" OpenProject server the `allow_local_remote_servers` setting needs to be set in NextCloud. For that edit the file `config/config.php` and add the parameter `'allow_local_remote_servers' => true,` to the existing `$CONFIG` array, or set the setting using the occ command: `php occ config:system:set allow_local_remote_servers --value 1`
+
 ![Nextcloud_host](3_2_01-NC_Step_1.png)
 
 Click on the **Save** button and open your OpenProject instance in a new browser tab.
