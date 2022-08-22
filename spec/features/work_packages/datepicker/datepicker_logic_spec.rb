@@ -88,7 +88,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     it 'sets finish date to 19th if duration of 10 set' do
       datepicker.expect_start_date '2021-02-08'
       datepicker.expect_due_date ''
-      datepicker.expect_duration 0
+      datepicker.expect_duration ''
 
       datepicker.set_duration 10
 
@@ -98,7 +98,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
 
       apply_and_expect_saved duration: 10,
                              start_date: Date.parse('2021-02-08'),
-                             due_date: Date.parse('2021-02-08')
+                             due_date: Date.parse('2021-02-19')
     end
   end
 
@@ -114,7 +114,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     it 'sets only the duration' do
       datepicker.expect_start_date ''
       datepicker.expect_due_date ''
-      datepicker.expect_duration 0
+      datepicker.expect_duration ''
 
       datepicker.set_duration 10
 
@@ -140,7 +140,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     it 'sets the start date to 2021-02-08' do
       datepicker.expect_start_date ''
       datepicker.expect_due_date '2021-02-19'
-      datepicker.expect_duration 0
+      datepicker.expect_duration ''
 
       datepicker.set_duration 10
 
@@ -200,7 +200,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_due_date '2021-02-19'
       datepicker.expect_duration 10
 
-      apply_and_expect_saved duration: 12,
+      apply_and_expect_saved duration: 10,
                              start_date: Date.parse('2021-02-08'),
                              due_date: Date.parse('2021-02-19')
     end
