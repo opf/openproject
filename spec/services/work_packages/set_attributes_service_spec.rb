@@ -1024,6 +1024,7 @@ describe WorkPackages::SetAttributesService,
       let(:tuesday) { monday + 1.day }
       let(:wednesday) { monday + 2.days }
       let(:friday) { monday + 4.days }
+      let(:sunday) { monday + 6.days }
       let(:next_monday) { monday + 7.days }
       let(:next_tuesday) { monday + 8.days }
 
@@ -1121,6 +1122,38 @@ describe WorkPackages::SetAttributesService,
               .to change { work_package.slice(:start_date, :due_date, :duration) }
               .from(start_date: monday, due_date: next_monday, duration: 8)
               .to(start_date: monday, due_date: next_monday + 2.days, duration: 8)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is switched to false and "start date" is on a non-working day' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday - 1.day, due_date: friday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { ignore_non_working_days: false } }
+
+        it_behaves_like 'service call' do
+          it "updates the start date to be on next working day, and due date to accomodate duration" do
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday - 1.day, due_date: friday, duration: 6)
+              .to(start_date: monday, due_date: next_monday, duration: 6)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is switched to false and "finish date" is on a non-working day' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: nil, due_date: sunday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { ignore_non_working_days: false } }
+
+        it_behaves_like 'service call' do
+          it "updates the finish date to be on next working day" do
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: nil, due_date: sunday, duration: nil)
+              .to(start_date: nil, due_date: next_monday, duration: nil)
           end
         end
       end
