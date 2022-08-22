@@ -51,9 +51,6 @@ describe 'Datepicker modal logic test cases (WP #43539)',
   let(:date_field) { work_packages_page.edit_field(:combinedDate) }
   let(:datepicker) { date_field.datepicker }
 
-  let(:bug_attributes) { nil }
-  let(:milestone_attributes) { nil }
-
   let(:work_package) { bug_wp }
 
   def apply_and_expect_saved(attributes)
@@ -69,8 +66,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
   end
 
   before do
-    bug_wp.update!(bug_attributes) unless bug_attributes.nil?
-    milestone_wp.update!(milestone_attributes) unless milestone_attributes.nil?
+    work_package.update!(current_attributes)
     login_as(user)
 
     work_packages_page.visit!
@@ -81,7 +77,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
   end
 
   context 'when start_date set, update due_date (test case 1)' do
-    let(:bug_attributes) do
+    let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
         due_date: nil,
@@ -107,7 +103,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
   end
 
   describe 'when no values set, update duration (test case 2)' do
-    let(:bug_attributes) do
+    let(:current_attributes) do
       {
         start_date: nil,
         due_date: nil,
@@ -129,6 +125,58 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       apply_and_expect_saved duration: 10,
                              start_date: nil,
                              due_date: nil
+    end
+  end
+
+  describe 'when due date set, update duration (test case 3)' do
+    let(:current_attributes) do
+      {
+        start_date: nil,
+        due_date: Date.parse('2021-02-19'),
+        duration: nil
+      }
+    end
+
+    it 'sets only the duration' do
+      datepicker.expect_start_date ''
+      datepicker.expect_due_date '2021-02-19'
+      datepicker.expect_duration 0
+
+      datepicker.set_duration 10
+
+      datepicker.expect_start_date '2021-02-08'
+      datepicker.expect_due_date '2021-02-19'
+      datepicker.expect_duration 10
+
+      apply_and_expect_saved duration: 10,
+                             start_date: Date.parse('2021-02-08'),
+                             due_date: Date.parse('2021-02-19')
+    end
+  end
+
+  describe 'when all values set, update duration (test case 4)' do
+    let(:current_attributes) do
+      {
+        start_date:  Date.parse('2021-02-08'),
+        due_date: Date.parse('2021-02-19'),
+        duration: 10
+      }
+    end
+
+    it 'sets only the duration' do
+      datepicker.expect_start_date '2021-02-08'
+      datepicker.expect_due_date '2021-02-19'
+      datepicker.expect_duration 10
+
+      datepicker.set_duration 11
+
+      datepicker.expect_start_date '2021-02-08'
+      datepicker.expect_due_date '2021-02-22'
+      datepicker.expect_duration 11
+
+      apply_and_expect_saved duration: 12,
+                             start_date: Date.parse('2021-02-08'),
+                             due_date: Date.parse('2021-02-22')
     end
   end
 end
