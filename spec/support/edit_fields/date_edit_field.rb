@@ -15,7 +15,7 @@ class DateEditField < EditField
   end
 
   def datepicker
-    @datepicker ||= ::Components::Datepicker.new modal_selector
+    @datepicker ||= ::Components::WorkPackageDatepicker.new modal_selector
   end
 
   def modal_selector
