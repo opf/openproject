@@ -132,10 +132,6 @@ class UserPreference < ApplicationRecord
     super.presence || { enabled: false }.with_indifferent_access
   end
 
-  def workdays
-    super.presence
-  end
-
   def supported_settings_method?(method_name)
     UserPreferences::Schema.properties.include?(method_name.to_s.gsub(/\?|=\z/, ''))
   end
