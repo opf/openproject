@@ -36,6 +36,13 @@ module WorkPackages
         (start_date..due_date).count
       end
 
+      def start_date(due_date, duration)
+        return nil unless due_date && duration
+        raise ArgumentError, 'duration must be strictly positive' if duration.is_a?(Integer) && duration <= 0
+
+        due_date - duration + 1
+      end
+
       def due_date(start_date, duration)
         return nil unless start_date && duration
         raise ArgumentError, 'duration must be strictly positive' if duration.is_a?(Integer) && duration <= 0

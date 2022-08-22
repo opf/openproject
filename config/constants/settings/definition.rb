@@ -382,6 +382,8 @@ module Settings
     def cast(value)
       return nil if value.nil?
 
+      value = value.call if value.respond_to?(:call)
+
       case format
       when :integer
         value.to_i
@@ -392,11 +394,7 @@ module Settings
       when :symbol
         value.to_sym
       else
-        if value.respond_to?(:call)
-          value.call
-        else
-          value
-        end
+        value
       end
     end
 

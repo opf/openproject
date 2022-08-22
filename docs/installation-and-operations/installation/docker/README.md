@@ -78,8 +78,19 @@ The fastest way to get an OpenProject instance up and running is to run the
 following command:
 
 ```bash
-docker run -it -p 8080:80 -e OPENPROJECT_SECRET_KEY_BASE=secret -e OPENPROJECT_HOST__NAME=localhost:8080 openproject/community:12
+docker run -it -p 8080:80 \
+  -e OPENPROJECT_SECRET_KEY_BASE=secret \
+  -e OPENPROJECT_HOST__NAME=localhost:8080 \
+  -e OPENPROJECT_HTTPS=false \
+  openproject/community:12
 ```
+
+Explanation of the used configuration values:
+
+- `-p 8080:80` binds the port 80 of the container to 8080 on the machine running docker.
+- `OPENPROJECT_SECRET_KEY_BASE` sets the secret key base for Rails. Please use a pseudo-random value for this and treat it like a password.
+- `OPENPROJECT_HOST__NAME` sets the host name of the application. This value is used for generating forms and links in emails, and needs to match the external request host name (The value users are seeing in their browsers).
+- `OPENPROJECT_HTTPS=false` disables the on-by-default HTTPS mode of OpenProject so you can access the instance over HTTP-only. For all production systems we strongly advise not to set this to false, and instead set up a proper TLS/SSL termination on your outer web server.
 
 This will take a bit of time the first time you launch it, but after a few
 minutes you should see a success message indicating the default administration
@@ -96,7 +107,11 @@ For normal usage you probably want to start it in the background, which can be
 achieved with the `-d` flag:
 
 ```bash
-docker run -d -p 8080:80 -e OPENPROJECT_SECRET_KEY_BASE=secret -e OPENPROJECT_HOST__NAME=localhost:8080 openproject/community:12
+docker run -d -p 8080:80 \
+  -e OPENPROJECT_SECRET_KEY_BASE=secret \
+  -e OPENPROJECT_HOST__NAME=localhost:8080 \
+  -e OPENPROJECT_HTTPS=false \
+  openproject/community:12
 ```
 
 **Note**: We've had reports of people being unable to start OpenProject this way
@@ -107,7 +122,7 @@ seems to be to add `-t` to your run command, even if you run in detached mode.
 ## Using this container in production
 
 The one-liner above is great to get started quickly, but we strongly advise against
-using this setup for production purposes.
+using this setup for production purposes, as it disables HTTPS mode and is insecure.
 
 Also, if you want to run OpenProject in production you need to ensure that your data is not
 lost if you restart the container.
@@ -124,8 +139,8 @@ those directories mounted:
 sudo mkdir -p /var/lib/openproject/{pgdata,assets} 
 
 docker run -d -p 8080:80 --name openproject \
-  -e OPENPROJECT_HOST__NAME=openproject.example.com \ # The public facing host name
-  -e OPENPROJECT_SECRET_KEY_BASE=secret \ # The secret key base used for cookies
+  -e OPENPROJECT_HOST__NAME=openproject.example.com \
+  -e OPENPROJECT_SECRET_KEY_BASE=secret \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
   openproject/community:12
@@ -172,6 +187,23 @@ docker run -d -e KEY1=VALUE1 -e KEY2=VALUE2 ...
 # or
 docker run -d --env-file path/to/file ...
 ```
+
+#### Disabling HTTPS mode
+
+By default, OpenProject will expect a HTTPS request in production systems.
+In most cases, you will have an external web server or load balancer terminating the SSL/TLS connection and proxy/reverse-proxy to the docker container. You will then have to set up the web server to forward the protocol information (usually, this is `X-Forwarded-Proto` but depends on your web server).
+
+**Note**: This does not imply the docker container itself is running on SSL.
+
+If you _really_ want to disable HTTPS responses by OpenProject, you will need to add the environment variable `OPENPROJECT_HTTPS=false`. Note that this will disable secure cookies for session cookies, and is strongly discouraged for any production system.
+
+#### Disabling HSTS headers and insecure request upgrade
+
+If OpenProject is running as HTTPS, it will output HTTP Strict Transport Security (HSTS) headers by default, which will force the browser to upgrade a request to HTTPS even before calling the web server. On the server side, if a request is still issued through HTTP, OpenProject will return a redirect to HTTPS.
+
+In most cases, you will want to leave this enabled. If you disabled HTTPS mode above, this flag will also be disabled.
+
+If you _really_ want to disable HSTS headers and request upgrades, you will need to set the setting `OPENPROJECT_HSTS=false`.
 
 For more advanced configuration, please have a look at the [Advanced configuration](../../configuration) section.
 
@@ -249,11 +281,8 @@ If you want to run OpenProject in a subdirectory on your server, first you will
 need to configure OpenProject accordingly by adding the following options to the `docker run` call:
 
 ```
--e OPENPROJECT_RAILS__RELATIVE__URL__ROOT=/openproject \
--e OPENPROJECT_RAILS__FORCE__SSL=true \
+-e OPENPROJECT_RAILS__RELATIVE__URL__ROOT=/openproject
 ```
-
-The `force ssl` option can be left out if you are not using HTTPS.
 
 The apache configuration for this configuration then looks like this:
 

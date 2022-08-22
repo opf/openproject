@@ -33,7 +33,7 @@ class Setting
     ##
     # Restore the previous Setting.protocol now replaced by https?
     def protocol
-      if OpenProject::Configuration.secure_connection?
+      if OpenProject::Configuration.https?
         'https'
       else
         'http'

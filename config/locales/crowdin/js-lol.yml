@@ -491,7 +491,7 @@ lol:
         next: 'crwdns787632:0crwdne787632:0'
         got_it: 'crwdns787634:0crwdne787634:0'
       steps:
-        help_menu: 'crwdns787636:0crwdne787636:0'
+        help_menu: 'crwdns830268:0crwdne830268:0'
         members: 'crwdns787638:0crwdne787638:0'
         project_selection: 'crwdns787640:0crwdne787640:0'
         quick_add_button: 'crwdns787642:0crwdne787642:0'
@@ -757,7 +757,7 @@ lol:
         farRight: 'crwdns788054:0crwdne788054:0'
         showNone: 'crwdns788056:0crwdne788056:0'
         description: >
-          crwdns788058:0crwdne788058:0
+          crwdns830270:0crwdne830270:0
       button_activate: 'crwdns788060:0crwdne788060:0'
       button_deactivate: 'crwdns788062:0crwdne788062:0'
       cancel: crwdns788064:0crwdne788064:0

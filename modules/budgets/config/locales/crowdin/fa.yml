@@ -63,7 +63,7 @@ fa:
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "View all budgets"
   label_yes: "Yes"
-  notice_budget_conflict: "WorkPackages must be of the same project."
+  notice_budget_conflict: "Work packages must be of the same project."
   notice_no_budgets_available: "No budgets available."
   permission_edit_budgets: "Edit budgets"
   permission_view_budgets: "View budgets"

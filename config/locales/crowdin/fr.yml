@@ -273,7 +273,7 @@ fr:
     upsale:
       title: Utilisateurs de remplacement
       description: >
-        Les utilisateurs fictifs sont un moyen d'attribuer des lots de travaux à des utilisateurs qui ne font pas partie de votre projet. Ils peuvent être utiles dans une série de scénarios ; par exemple, si vous avez besoin de suivre des tâches pour une ressource qui n'est pas encore nommée ou disponible, ou si vous ne voulez pas donner à cette personne l'accès à OpenProject mais voulez quand même suivre les tâches qui lui sont assignées.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -1605,6 +1605,7 @@ fr:
   label_index_by_title: "Index par titre"
   label_information: "Information"
   label_information_plural: "Information"
+  label_installation_guides: 'Installation guides'
   label_integer: "Nombre entier"
   label_internal: "Interne"
   label_introduction_video: "Vidéo de présentation"
@@ -2872,10 +2873,10 @@ fr:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Incompatibilité des paramètres de protocole'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Votre application est en cours d'exécution avec sa configuration de protocole définie sur <code>%{set_protocol}</code>, mais la requête est une requête <code>%{actual_protocol}</code> . Cela causera des erreurs ! Allez dans <a href="%{setting_path}">Paramètres système</a> et modifiez le paramètre « Protocole » pour corriger cela.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Incompatibilité des paramètres du nom d''hôte'
       text_html: >

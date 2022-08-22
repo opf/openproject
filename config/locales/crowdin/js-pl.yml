@@ -492,7 +492,7 @@ pl:
         next: 'Następny'
         got_it: 'OK'
       steps:
-        help_menu: 'Menu Pomoc (?) zapewnia <b>dodatkowe zasoby pomocy</b>. Tutaj znajdziesz przewodnik użytkownika, pomocne filmy instruktażowe i wiele więcej. <br> Życzymy miłej pracy w OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Zaproś nowych <b>członków</b> do swojego projektu.'
         project_selection: 'Kliknij na jeden z projektów demonstracyjnych, które przygotowaliśmy. Dane demonstracyjne są obecnie dostępne tylko w języku angielskim. <br> Ogólny <b>projekt demo</b> najlepiej pasuje do klasycznego zarządzania projektami, natomiast <b>projekt Scrum</b> jest lepszy do zwinnego zarządzania projektami.'
         quick_add_button: 'Kliknij ikonę plus (+) w nawigacji nagłówka, aby <b>utworzyć nowy projekt</b> lub <b>zaprosić współpracowników</b>.'
@@ -760,7 +760,7 @@ pl:
         farRight: 'Po prawej'
         showNone: '-- Brak etykiety --'
         description: >
-          Wybierz atrybuty które chcesz zawsze wyświetlać w odpowiednich miejscach wykresu Gantta. Przy przesunięciu kursora na element, zostaną pokazane jego etykiety daty zamiast tych atrybutów.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Pokaż wykres Gantta'
       button_deactivate: 'Ukryj wykres Gantta'
       cancel: Anuluj

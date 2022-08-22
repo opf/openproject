@@ -60,7 +60,7 @@ As a user of both Nextcloud and OpenProject, you can benefit from this integrati
   
   ![NC_unlink_WP](NC_1_01-FileWPActions.png)
   
-  In addition to actions related to individual files, can also choose to display the OpenProject widget on your Nextcloud dashboard in order to keep an eye on the the latest changes and updates to linked work packages:
+  In addition to actions related to individual files, you can also choose to display the OpenProject widget on your Nextcloud dashboard in order to keep an eye on the the latest changes and updates to linked work packages:
   ![add_NC_widget](Add_OpenProject_widget.png)
   
   ![added_NC_widget](Nextcloud_dashboard.png)

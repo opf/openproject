@@ -1602,6 +1602,7 @@ es:
   label_index_by_title: "Índice por título"
   label_information: "Información"
   label_information_plural: "Información"
+  label_installation_guides: 'Guías de instalación'
   label_integer: "Número entero"
   label_internal: "Interno"
   label_introduction_video: "Vídeo de introducción"
@@ -1746,7 +1747,7 @@ es:
   label_project_new: "Nuevo proyecto"
   label_project_plural: "Proyectos"
   label_project_settings: "Configuración del proyecto"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "Almacenamiento"
   label_projects_storage_information: "%{count} proyectos utilizando %{storage} de almacenamiento en disco"
   label_project_view_all: "Ver todos los proyectos"
   label_project_show_details: "Mostrar los detalles del proyecto"
@@ -1898,7 +1899,7 @@ es:
   label_wiki_start: "Página de inicio"
   label_work_package: "Paquete de trabajo"
   label_work_package_attachments: "Datos adjuntos de paquete de trabajo"
-  label_work_package_file_link_plural: "Work package file links"
+  label_work_package_file_link_plural: "Enlaces de archivo de paquete de trabajo"
   label_work_package_category_new: "Nueva categoría"
   label_work_package_category_plural: "Categorías de paquete de trabajo"
   label_work_package_hierarchy: "Jerarquía del paquete de trabajo"
@@ -2868,10 +2869,10 @@ es:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Error de coincidencia de configuración de protocolo'
+    https_mismatch:
+      title: 'La configuración del modo HTTPS no coincide'
       text_html: >
-        La aplicación se ejecuta con el protocolo <code>%{set_protocol}</code>, pero el protocolo de la solicitud es <code>%{actual_protocol}</code>. Se producirán errores. Vaya a <a href="%{setting_path}">Ajustes de sistema</a> y cambie la configuración de «Protocolo» para corregir este problema.
+        Tu aplicación se está ejecutando con el modo HTTPS establecido en <code>%{set_protocol}</code>, pero la solicitud es una solicitud <code>%{actual_protocol}</code> . ¡Esto producirá errores! Necesitará establecer el siguiente valor de configuración: <code>%{setting_value}</code>. Consulte <a href="%{more_info_path}">la documentación de instalación</a> sobre cómo completar esta configuración.
     hostname_mismatch:
       title: 'Error de coincidencia de configuración de nombre de host'
       text_html: >

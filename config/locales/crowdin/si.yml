@@ -273,7 +273,7 @@ si:
     upsale:
       title: Placeholder users
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -1605,6 +1605,7 @@ si:
   label_index_by_title: "මාතෘකාව අනුව දර්ශකය"
   label_information: "තොරතුරු"
   label_information_plural: "තොරතුරු"
+  label_installation_guides: 'Installation guides'
   label_integer: "නිඛිල"
   label_internal: "අභ්යන්තර"
   label_introduction_video: "හැඳින්වීම වීඩියෝ"
@@ -2873,10 +2874,10 @@ si:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'ප්රොටොකෝලය සැකසුම'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        ඔබගේ යෙදුම <code>%{set_protocol}</code>දක්වා සකසා ඇති එහි ප්රොටෝකෝලය සැකසුම සමඟ ක්රියාත්මක වේ, නමුත් ඉල්ලීම <code>%{actual_protocol}</code> ඉල්ලීමකි. මෙය දෝෂ වලට හේතු වනු ඇත! <a href="%{setting_path}">පද්ධති සැකසුම්</a> වෙත ගොස් මෙය නිවැරදි කිරීම සඳහා “ප්රොටෝකෝලය” සැකසුම වෙනස් කරන්න.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'නොගැලපීම් සැකසීම සත්කාරක නාමය'
       text_html: >

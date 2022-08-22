@@ -491,7 +491,7 @@ ro:
         next: 'Înainte'
         got_it: 'Am înțeles'
       steps:
-        help_menu: 'Meniul Ajutor (?) oferă <b>resurse suplimentare de ajutor</b>. Aici puteți găsi un ghid de utilizator și videoclipuri de utilitate și multe altele. <br> Bucurați-vă de munca dvs. cu OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invitați noi <b>membri</b> să se alăture proiectului dumneavoastră.'
         project_selection: 'Vă rugăm să faceți clic pe unul dintre proiectele demo pe care le-am pregătit. Datele demo sunt disponibile în prezent doar în limba engleză. <br> Proiectul demonstrativ <b>general</b> se potrivește cel mai bine pentru gestionarea proiectelor clasice, în timp ce proiectul <b>Scrum</b> este mai bun pentru managementul agile al proiectului.'
         quick_add_button: 'Dă click pe pictograma plus (+) din antetul navigării pentru a <b>crea un nou proiect</b> sau <b>invita colaboratori</b>.'
@@ -758,7 +758,7 @@ ro:
         farRight: 'Extrema dreaptă'
         showNone: '-- Fără etichetă --'
         description: >
-          Selectați atributele pe care doriți să le afișați în permanență în pozițiile respective ale diagramei Gantt. Rețineți că, atunci când treceți cu degetul peste un element, etichetele de date ale acestuia vor fi afișate în locul acestor atribute.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Grafic Gantt'
       button_deactivate: 'Grafic Gantt'
       cancel: Anulare

@@ -492,7 +492,7 @@ lt:
         next: 'Kitas'
         got_it: 'Supratau'
       steps:
-        help_menu: 'Pagalbos (?) meniu yra <b>papildomi pagalbos resursai</b>. Čia jūs galite rasti naudotojo vadovą, naudingus video kaip atlikti veiksmus ir dar daugiau. <br>Sėkmės naudojant OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Pakvieskite naujus <b>narius</b> prisijungti prie projekto.'
         project_selection: 'Prašome paspausti ant vieno iš mūsų paruoštų demonstracinių projektų. Demonstraciniai duomenys yra tik anglų kalba. <br> <b>Demo project</b> geriausiai tinka klasikiniam projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.'
         quick_add_button: 'Paspauskite pliuso (+) ženklą navigacijos antraštėje ir <b>sukursite naują projektą</b> arba </b>pakviesite bendradarbius</b>.'
@@ -760,7 +760,7 @@ lt:
         farRight: 'Toli dešinėje'
         showNone: '-- Be etiketės --'
         description: >
-          Pasirinkite atributus, kuriuos visada norite pamatyti atitinkamose Ganto grafiko pozicijose. Atkreipkite dėmesį, kad kai pelės klavišas užvestas virš elemento, jo datos informacija bus rodoma vietoj šių atributų.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Parodyti Gantto diagramą'
       button_deactivate: 'Paslėpti Gantto diagramą'
       cancel: Nutraukti

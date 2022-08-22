@@ -63,7 +63,7 @@ sv:
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Visa alla budgetar"
   label_yes: "Ja"
-  notice_budget_conflict: "Arbetspaketen måste tillhöra samma projekt."
+  notice_budget_conflict: "Work packages must be of the same project."
   notice_no_budgets_available: "Inga budgetar tillgängliga."
   permission_edit_budgets: "Redigera budgetar"
   permission_view_budgets: "Visa budgetar"

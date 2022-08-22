@@ -63,7 +63,7 @@ fi:
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Näytä kaikki budjetit"
   label_yes: "Kyllä"
-  notice_budget_conflict: "Tehtävien tulee olla samasta projektista."
+  notice_budget_conflict: "Work packages must be of the same project."
   notice_no_budgets_available: "Budjetteja ei ole saatavilla."
   permission_edit_budgets: "Budjettien muokkaus"
   permission_view_budgets: "Budjettien tarkasteleminen"
