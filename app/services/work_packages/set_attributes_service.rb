@@ -68,17 +68,21 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     derivable_attribute_by_others_presence || derivable_attribute_by_others_absence
   end
 
-  # Returns a field derivable by the presence of the two others, or +nil+
-  # if none was found.
+  # Returns a field derivable by the presence of the two others, or +nil+ if
+  # none was found.
   #
   # Matching is done in the order :duration, :due_date, :start_date. The first
   # one to match is returned.
   #
-  # If +ignore_non_working_days+ has been changed, then +duration+ must stay the
-  # same and only +due_date+ and +start_date+ can be derivable.
+  # If +ignore_non_working_days+ has been changed, try deriving +due_date+ and
+  # +start_date+ before +duration+.
   def derivable_attribute_by_others_presence
-    fields = %i[duration due_date start_date]
-    fields = fields.without(:duration) if work_package.ignore_non_working_days_changed?
+    fields =
+      if work_package.ignore_non_working_days_changed?
+        %i[due_date start_date duration]
+      else
+        %i[duration due_date start_date]
+      end
     fields.find { |field| derivable_by_others_presence?(field) }
   end
 
