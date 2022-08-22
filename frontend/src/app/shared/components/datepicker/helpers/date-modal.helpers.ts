@@ -30,7 +30,6 @@ import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker
 import { DateOption } from 'flatpickr/dist/types/options';
 import { DayElement } from 'flatpickr/dist/types/instance';
 
-
 // eslint-disable-next-line class-methods-use-this
 export function parseDate(date:Date|string):Date|'' {
   if (date instanceof Date) {
@@ -59,7 +58,7 @@ export function areDatesEqual(firstDate:Date|string, secondDate:Date|string):boo
   return parsedDate1.getTime() === parsedDate2.getTime();
 }
 
-export function keepCurrentlyActiveMonth(datePicker:DatePicker, currentMonth:number, currentYear:number) {
+export function keepCurrentlyActiveMonth(datePicker:DatePicker, currentMonth:number, currentYear:number):void {
   // Keep currently active month and avoid jump because of two-month layout
   datePicker.datepickerInstance.currentMonth = currentMonth;
   datePicker.datepickerInstance.currentYear = currentYear;
@@ -107,4 +106,3 @@ export function onDayCreate(
 
   dayElem.setAttribute('data-iso-date', dayElem.dateObj.toISOString());
 }
-
