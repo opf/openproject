@@ -302,6 +302,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     // Apply the changed scheduling mode if any
     this.changeset.setValue('scheduleManually', this.scheduleManually);
 
+    // Apply include NWD
+    this.changeset.setValue('ignoreNonWorkingDays', this.includeNonWorkingDays);
+
     // Apply the dates if they could be changed
     if (this.isSchedulable) {
       this.changeset.setValue('startDate', mappedDate(this.dates.start));
