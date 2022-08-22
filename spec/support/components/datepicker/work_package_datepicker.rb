@@ -90,11 +90,16 @@ module Components
     end
 
     def ignore_non_working_days(val)
-      if val
-        container.click_on 'Include non-working days'
-      else
-        container.click_on 'Working days only'
-      end
+      text =
+        if val
+          'Include non-working days'
+        else
+          'Working days only'
+        end
+
+      container
+        .find('[data-qa-selector="spot-toggle--option"]', text: text)
+        .click
     end
 
     def clear_duration
