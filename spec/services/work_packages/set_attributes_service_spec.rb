@@ -1025,7 +1025,9 @@ describe WorkPackages::SetAttributesService,
       let(:next_monday) { monday + 7.days }
 
       context 'when start date changes' do
-        let(:work_package) { build_stubbed(:work_package, start_date: monday, due_date: next_monday) }
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+        end
         let(:call_attributes) { { start_date: wednesday } }
 
         it_behaves_like 'service call' do
@@ -1039,7 +1041,9 @@ describe WorkPackages::SetAttributesService,
       end
 
       context 'when due date changes' do
-        let(:work_package) { build_stubbed(:work_package, start_date: monday, due_date: next_monday) }
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+        end
         let(:call_attributes) { { due_date: monday + 14.days } }
 
         it_behaves_like 'service call' do
@@ -1053,7 +1057,9 @@ describe WorkPackages::SetAttributesService,
       end
 
       context 'when duration changes' do
-        let(:work_package) { build_stubbed(:work_package, start_date: monday, due_date: next_monday) }
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+        end
         let(:call_attributes) { { duration: "13" } }
 
         it_behaves_like 'service call' do
@@ -1061,7 +1067,7 @@ describe WorkPackages::SetAttributesService,
             expect { subject }
               .to change(work_package, :due_date)
               .from(next_monday)
-              .to(wednesday + 14.days)
+              .to(monday + 16.days)
           end
         end
       end
