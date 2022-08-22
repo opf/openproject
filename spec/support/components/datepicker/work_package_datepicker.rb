@@ -35,7 +35,7 @@ module Components
     end
 
     ##
-    # Expect start date
+    # Expect due date
     def expect_due_date(value)
       expect(container).to have_field('endDate', with: value, wait: 10)
     end

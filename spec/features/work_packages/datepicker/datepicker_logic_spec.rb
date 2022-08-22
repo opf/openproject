@@ -39,8 +39,8 @@ describe 'Datepicker modal logic test cases (WP #43539)',
   shared_let(:type_milestone) { create(:type_milestone) }
   shared_let(:project) { create(:project, types: [type_bug, type_milestone]) }
 
-  shared_let(:bug_wp) { create :work_package, project:, type: type_bug }
-  shared_let(:milestone_wp) { create :work_package, project:, type: type_milestone }
+  shared_let(:bug_wp) { create :work_package, project:, type: type_bug, ignore_non_working_days: false }
+  shared_let(:milestone_wp) { create :work_package, project:, type: type_milestone, ignore_non_working_days: false }
 
   # assume sat+sun are non working days
   shared_let(:weekdays) { create :week_days }
@@ -174,7 +174,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_due_date '2021-02-22'
       datepicker.expect_duration 11
 
-      apply_and_expect_saved duration: 12,
+      apply_and_expect_saved duration: 11,
                              start_date: Date.parse('2021-02-08'),
                              due_date: Date.parse('2021-02-22')
     end

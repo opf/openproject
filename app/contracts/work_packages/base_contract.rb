@@ -463,9 +463,7 @@ module WorkPackages
     end
 
     def calculated_duration
-      return nil unless model.due_date && model.start_date
-
-      model.due_date - model.start_date + 1
+      @calculated_duration ||= WorkPackages::Shared::Days.for(model).duration(model.start_date, model.due_date)
     end
   end
 end
