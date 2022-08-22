@@ -206,33 +206,6 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set and include NWD, reduce duration (test case 5a)' do
-    let(:current_attributes) do
-      {
-        start_date: Date.parse('2021-02-08'),
-        due_date: Date.parse('2021-02-22'),
-        duration: 11,
-        ignore_non_working_days: true
-      }
-    end
-
-    it 'sets the duration to 10' do
-      datepicker.expect_start_date '2021-02-08'
-      datepicker.expect_due_date '2021-02-22'
-      datepicker.expect_duration 11
-
-      datepicker.set_duration 10
-
-      datepicker.expect_start_date '2021-02-08'
-      datepicker.expect_due_date '2021-02-21'
-      datepicker.expect_duration 10
-
-      apply_and_expect_saved duration: 12,
-                             start_date: Date.parse('2021-02-08'),
-                             due_date: Date.parse('2021-02-21')
-    end
-  end
-
   describe 'when all values set, remove duration (test case 6)' do
     let(:current_attributes) do
       {

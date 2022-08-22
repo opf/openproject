@@ -89,6 +89,14 @@ module Components
       start_date_field.click
     end
 
+    def ignore_non_working_days(val)
+      if val
+        container.click_on 'Include non-working days'
+      else
+        container.click_on 'Working days only'
+      end
+    end
+
     def clear_duration
       duration = find_field 'duration'
       duration.click
