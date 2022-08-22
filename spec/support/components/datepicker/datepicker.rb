@@ -23,9 +23,11 @@ module Components
     ##
     # Select year from input
     def select_year(value)
-      flatpickr_container
-        .first('.numInput.cur-year')
-        .set value
+      retry_block do
+        flatpickr_container
+          .first('.numInput.cur-year')
+          .set value
+      end
     end
 
     ##
