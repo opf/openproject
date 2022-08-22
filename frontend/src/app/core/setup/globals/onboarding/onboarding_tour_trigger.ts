@@ -33,6 +33,17 @@ export function detectOnboardingTour():void {
       currentTourPart = '';
       sessionStorage.setItem(onboardingTourStorageKey, 'readyToStart');
 
+      // Start automatically when modal is closed by backdrop click
+      waitForElement('.spot-modal-overlay_active', 'body', () => {
+        const elementsByClassName = document.getElementsByClassName('spot-modal-overlay_active');
+        Array.from(elementsByClassName).forEach((modalOverlay) => {
+          modalOverlay.addEventListener('click', () => {
+            tourCancelled = true;
+            void triggerTour('homescreen');
+          });
+        });
+      });
+
       // Start automatically when the escape button is pressed
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && !tourCancelled) {

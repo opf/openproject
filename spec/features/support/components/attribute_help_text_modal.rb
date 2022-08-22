@@ -57,8 +57,10 @@ module Components
     end
 
     def close!
-      # make backdrop click
-      page.find('.spot-modal-overlay').click(x: 0, y: 200)
+      # make backdrop click an the pixel x:10,y:10
+      page.find('.spot-modal-overlay').tap do |element|
+        element.click(x: -((element.native.size.width / 2) - 10), y: -((element.native.size.height / 2) - 10))
+      end
       expect(page).to have_no_selector('[data-qa-selector="attribute-help-text--header"]', text: help_text.attribute_caption)
     end
 

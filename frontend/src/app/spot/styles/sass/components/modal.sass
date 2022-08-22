@@ -17,13 +17,12 @@
   max-height: calc(100vh - 2rem)
 
   overflow-y: auto
-  @include styled-scroll-bar
 
   @media (max-width: 680px)
     width: calc(100vw - 2rem)
-    max-height: calc(100vh - 6rem)
+    max-height: calc(100vh - 5rem)
 
-    @media (max-height: 500px)
+    @media (max-height: 480px)
       max-height: calc(100vh - 2rem)
       max-width: calc(100vw - 6rem)
 
@@ -57,6 +56,8 @@
         color: var(--header-item-font-color)
 
   &--body
+    @include styled-scroll-bar
+
     display: flex
     flex-direction: column
     padding: 1rem

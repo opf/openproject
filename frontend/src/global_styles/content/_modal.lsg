@@ -48,47 +48,19 @@
       </li>
     </ul>
   </div>
-</div>
-
-```
-
-## Modals: Highlighted and with footer
-
-```
-<div class="spot-modal -highlight">
-  <div class="spot-modal--header">
-    Welcome to OpenProject
-  </div>
-  <div class="spot-divider"></div>
-  <div class="spot-modal--body">
-    <b>Please select your language</b>
-    <fieldset class="form--fieldset">
-      <div class="form--field">
-        <label class="form--label" title="Language" for="user_language">Language</label>
-        <span class="form--field-container">
-          <span class="form--select-container -slim">
-            <select class="form--select">
-              <option value="de">Deutsch</option>
-              <option selected="selected" value="en">English</option>
-              <option value="fr">Français</option>
-            </select>
-          </span>
-        </span>
-      </div>
-    </fieldset>
-  </div>
   <div class="spot-modal--footer spot-action-bar">
     <div class="spot-action-bar--right">
-      <button name="button" type="submit" class="button button_no-margin -highlight spot-action-bar--action">Save</button>
+      <button name="button" type="submit" class="button button_no-margin spot-action-bar--action">Close</button>
     </div>
   </div>
 </div>
-```
-
-## Modals: Danger zone highlighting
 
 ```
-<div class="spot-modal -highlight -danger-zone">
+
+## Modals: Danger zone (highlighted buttons)
+
+```
+<div class="spot-modal">
   <div class="spot-modal--header">
     <span class="spot-icon spot-icon_warning"></span>
     <span>Confirm deletion of Work Package</span>
