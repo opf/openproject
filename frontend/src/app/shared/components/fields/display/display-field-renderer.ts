@@ -23,7 +23,6 @@ export const readOnlyClassName = '-read-only';
 export const placeholderClassName = '-placeholder';
 export const displayClassName = 'inline-edit--display-field';
 export const editFieldContainerClass = 'inline-edit--container';
-export const cellEmptyPlaceholder = '-';
 
 export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   @InjectField() displayFieldService:DisplayFieldService;
@@ -137,7 +136,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
 
   private getText(field:DisplayField):string {
     if (field.isEmpty()) {
-      return cellEmptyPlaceholder;
+      return field.placeholder;
     }
 
     return field.valueString;

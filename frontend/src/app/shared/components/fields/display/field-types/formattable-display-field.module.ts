@@ -58,6 +58,14 @@ export class FormattableDisplayField extends DisplayField {
     DynamicBootstrapper.bootstrapOptionalEmbeddable(this.appRef, div);
   }
 
+  get placeholder():string {
+    if (this.name === 'description') {
+      return this.I18n.t('js.placeholders.description');
+    }
+
+    return super.placeholder;
+  }
+
   public get isFormattable():boolean {
     return true;
   }
