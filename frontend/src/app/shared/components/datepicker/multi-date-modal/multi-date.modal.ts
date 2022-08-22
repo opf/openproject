@@ -81,8 +81,11 @@ type StartUpdate = { startDate:string };
 type EndUpdate = { dueDate:string };
 type DurationUpdate = { duration:string|number|null };
 type DateUpdate = { date:string };
+
 export type FieldUpdates =
-  (StartUpdate&EndUpdate)
+  StartUpdate
+  |EndUpdate
+  |(StartUpdate&EndUpdate)
   |(StartUpdate&DurationUpdate)
   |(EndUpdate&DurationUpdate)
   |DateUpdate;
@@ -292,6 +295,16 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     // Resent the current start and duration so that the end date is calculated
     if (!!this.dates.start && !!this.duration) {
       this.dateUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
+    }
+
+    // If only one of the dates is set, sent that
+    // Resent the current start and duration so that the end date is calculated
+    if (!!this.dates.start && !this.dates.end) {
+      this.dateUpdates$.next({ startDate: this.dates.start });
+    }
+
+    if (!!this.dates.end && !this.dates.start) {
+      this.dateUpdates$.next({ dueDate: this.dates.end });
     }
 
     this.cdRef.detectChanges();
