@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'support/edit_fields/edit_field'
 
-describe 'Datepicker modal logic',
+describe 'Datepicker modal logic test cases (WP #43539)',
          with_settings: { date_format: '%Y-%m-%d' },
          with_flag: { work_packages_duration_field_active: true },
          js: true do
@@ -41,7 +41,6 @@ describe 'Datepicker modal logic',
 
   shared_let(:bug_wp) { create :work_package, project:, type: type_bug }
   shared_let(:milestone_wp) { create :work_package, project:, type: type_milestone }
-
 
   # assume sat+sun are non working days
   shared_let(:weekdays) { create :week_days }
@@ -57,6 +56,18 @@ describe 'Datepicker modal logic',
 
   let(:work_package) { bug_wp }
 
+  def apply_and_expect_saved(attributes)
+    date_field.save!
+
+    work_packages_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+
+    work_package.reload
+
+    attributes.each do |attr, value|
+      expect(work_package.send(attr)).to eq value
+    end
+  end
+
   before do
     bug_wp.update!(bug_attributes) unless bug_attributes.nil?
     milestone_wp.update!(milestone_attributes) unless milestone_attributes.nil?
@@ -69,7 +80,7 @@ describe 'Datepicker modal logic',
     date_field.expect_active!
   end
 
-  describe '#43539 Scenario 1' do
+  context 'when start_date set, update due_date (test case 1)' do
     let(:bug_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -81,11 +92,43 @@ describe 'Datepicker modal logic',
     it 'sets finish date to 19th if duration of 10 set' do
       datepicker.expect_start_date '2021-02-08'
       datepicker.expect_due_date ''
-      datepicker.set_duration '10'
+      datepicker.expect_duration 0
+
+      datepicker.set_duration 10
 
       datepicker.expect_start_date '2021-02-08'
       datepicker.expect_due_date '2021-02-19'
-      datepicker.expect_duration '10'
+      datepicker.expect_duration 10
+
+      apply_and_expect_saved duration: 10,
+                             start_date: Date.parse('2021-02-08'),
+                             due_date: Date.parse('2021-02-08')
+    end
+  end
+
+  describe 'when no values set, update duration (test case 2)' do
+    let(:bug_attributes) do
+      {
+        start_date: nil,
+        due_date: nil,
+        duration: nil
+      }
+    end
+
+    it 'sets only the duration' do
+      datepicker.expect_start_date ''
+      datepicker.expect_due_date ''
+      datepicker.expect_duration 0
+
+      datepicker.set_duration 10
+
+      datepicker.expect_start_date ''
+      datepicker.expect_due_date ''
+      datepicker.expect_duration 10
+
+      apply_and_expect_saved duration: 10,
+                             start_date: nil,
+                             due_date: nil
     end
   end
 end
