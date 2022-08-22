@@ -4,9 +4,9 @@
      data-selector="wp-single-view">
   <div class="wp-new--subject-wrapper"
        *ngIf="isNewResource">
-    <editable-attribute-field [resource]="workPackage"
+    <op-editable-attribute-field [resource]="workPackage"
                               [wrapperClasses]="'-no-label'"
-                              [fieldName]="'subject'"></editable-attribute-field>
+                              [fieldName]="'subject'"></op-editable-attribute-field>
   </div>
 
   <div class="wp-info-wrapper">
@@ -54,8 +54,8 @@
                                [attributeScope]="'WorkPackage'"></attribute-help-text>
         </div>
         <div class="attributes-key-value--value-container">
-          <editable-attribute-field [resource]="workPackage"
-                                    [fieldName]="descriptor.name"></editable-attribute-field>
+          <op-editable-attribute-field [resource]="workPackage"
+                                    [fieldName]="descriptor.name"></op-editable-attribute-field>
         </div>
       </div>
     </div>
@@ -85,11 +85,11 @@
 
   <div class="attributes-group description-group">
     <div class="single-attribute work-packages--details--description">
-      <editable-attribute-field [fieldName]="'description'"
+      <op-editable-attribute-field [fieldName]="'description'"
                                 [resource]="workPackage"
                                 [isDropTarget]="true"
                                 [wrapperClasses]="'-no-label'">
-      </editable-attribute-field>
+      </op-editable-attribute-field>
     </div>
   </div>
 
