@@ -604,6 +604,7 @@ rw:
       default: '-'
       subject: 'Enter subject here'
       selection: 'Please select'
+      description: 'Description: Click to edit...'
       relation_description: 'Click to add description for this relation'
     project:
       required_outside_context: >
@@ -929,7 +930,6 @@ rw:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Columns"
         group_by: "Group results by"

@@ -606,6 +606,7 @@ uk:
       default: '-'
       subject: 'Введіть тему тут'
       selection: 'Будь ласка, виберіть'
+      description: 'Description: Click to edit...'
       relation_description: 'Нажмите, чтобы добавить описание для этой связи'
     project:
       required_outside_context: >
@@ -931,7 +932,6 @@ uk:
       placeholders:
         default: "-"
         date: "Виберіть дату"
-        formattable: "%{name}: натисніть, щоб редагувати..."
       query:
         column_names: "Стовпці"
         group_by: "Групувати результати по"

@@ -604,6 +604,7 @@ it:
       default: '-'
       subject: 'Inserisci l''oggetto qui'
       selection: 'Si prega di selezionare'
+      description: 'Description: Click to edit...'
       relation_description: 'Clicca per aggiungere una descrizione per la relazione'
     project:
       required_outside_context: >
@@ -929,7 +930,6 @@ it:
       placeholders:
         default: "-"
         date: "Seleziona data"
-        formattable: "%{name}: Clicca per modificare..."
       query:
         column_names: "Colonne"
         group_by: "Raggruppa i risultati per"

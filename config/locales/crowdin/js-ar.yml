@@ -608,6 +608,7 @@ ar:
       default: '-'
       subject: 'Enter subject here'
       selection: 'من فضلك اختر'
+      description: 'Description: Click to edit...'
       relation_description: 'انقر لإضافة وصف لهذه العلاقة'
     project:
       required_outside_context: >
@@ -933,7 +934,6 @@ ar:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "الأعمدة"
         group_by: "نتائج المجموعة حسب"

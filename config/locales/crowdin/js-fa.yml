@@ -604,6 +604,7 @@ fa:
       default: '-'
       subject: 'موضوع را اینجا وارد نمایید'
       selection: 'لطفا انتخاب کنید'
+      description: 'Description: Click to edit...'
       relation_description: 'Click to add description for this relation'
     project:
       required_outside_context: >
@@ -929,7 +930,6 @@ fa:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "ستون‌ها"
         group_by: "دسته بندی نتایج با"

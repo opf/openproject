@@ -604,6 +604,7 @@ tr:
       default: '-'
       subject: 'Buraya konuyu girin'
       selection: 'Lütfen seçin'
+      description: 'Description: Click to edit...'
       relation_description: 'Bu ilişkiye açıklama eklemek için tıklayın'
     project:
       required_outside_context: >
@@ -929,7 +930,6 @@ tr:
       placeholders:
         default: "-"
         date: "Tarih seçin"
-        formattable: "%{name}: Düzenlemek için tıklayın ..."
       query:
         column_names: "Sütunlar"
         group_by: "Sonuçları grupla"

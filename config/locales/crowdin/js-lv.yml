@@ -605,6 +605,7 @@ lv:
       default: '-'
       subject: 'Enter subject here'
       selection: 'Lūdzu, atlasiet'
+      description: 'Description: Click to edit...'
       relation_description: 'Click to add description for this relation'
     project:
       required_outside_context: >
@@ -930,7 +931,6 @@ lv:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Kolonnas"
         group_by: "Grupēt rezultātus pēc"

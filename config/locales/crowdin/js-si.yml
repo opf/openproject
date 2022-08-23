@@ -604,6 +604,7 @@ si:
       default: '-'
       subject: 'මෙහි විෂය ඇතුලත් කරන්න'
       selection: 'කරුණාකර තෝරන්න'
+      description: 'Description: Click to edit...'
       relation_description: 'මෙම සම්බන්ධයෙන් විස්තර එකතු කිරීමට ක්ලික් කරන්න'
     project:
       required_outside_context: >
@@ -929,7 +930,6 @@ si:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: සංස්කරණය කිරීමට ක්ලික් කරන්න..."
       query:
         column_names: "තීරු"
         group_by: "කණ්ඩායම් ප්රතිඵල විසින්"
