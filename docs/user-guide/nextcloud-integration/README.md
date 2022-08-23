@@ -25,6 +25,28 @@ The integration enables you to perform multiple actions in both Nextcloud and Op
 - View all files linked to a specific work package (on OpenProject)
 - Retain close control of content to avoid risk of non-compliance or data leaks
 
+## Connecting your OpenProject and Nextcloud accounts
+
+To begin using this integration, you will need to first connect your OpenProject and Nextcloud accounts. To do this, open any work package in a project where a Nextcloud file storage has been added and enabled by an administrator and follow these steps:
+
+1. Go to the Files tab and click the button **Nextcloud login**:
+   ![NC_login](1_0_01-Files_Tab-Log_in_error.png)
+
+2. You will see a Nextcloud screen asking you to log in before granting OpenProject access to your Nextcloud account. You will also see a security warning, but since you are indeed trying to connect the two accounts, you can safety ignore it. Click on **Log in** and enter your Nextcloud credentials:
+   ![NC_login_step2](login_nc_step2-1.png)
+
+   ![NC_login_step2](login_nc_step2-2.png)
+
+3. Once you are logged in to Nextcloud, click on the **Grant access** button to confirm you want to give OpenProject access to your Nextcloud account:
+   ![NC_login_step2](login_nc_step3.png)
+
+4. You will now will be redirected back to OpenProject, where you will be asked to grant Nextcloud read and write access to your OpenProject account via the API. This is necessary for the integration to function. Click on the **Authorize** button.
+   ![NC_login_step2](login_nc_step4.png)
+
+5. You have now completed the one-time process to connect your two accounts and will be directed back to the original work package, where you can now view and open any Nextcloud files that are already linked, or start linking new ones.
+
+> **Note:** To disconnect the link between your OpenProject and Nextcloud accounts, head on over the Next and navigate to *Settings > Connected accounts*. There, clicking **Disconnect from OpenProject** button. To re-link the two accounts, simply follow the above instructions again.
+
 ## How to use this integration
 
 The following video gives you a short overview of how to use this integration:
