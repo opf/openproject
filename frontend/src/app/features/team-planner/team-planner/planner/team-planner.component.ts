@@ -898,7 +898,24 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       )
       .subscribe(([assignable, principals]) => {
         const api = this.ucCalendar.getApi();
+        if (!wp.ignoreNonWorkingDays) {
+          let currentStartDate = this.ucCalendar.getApi().view.currentStart;
+          const currentEndDate = moment(this.ucCalendar.getApi().view.currentEnd).add('1', 'day').toDate();
+          const nonWorkingDays = new Array<{ start:Date, end:Date }>();
 
+          while (currentStartDate.toString() !== currentEndDate.toString()) {
+            if (this.weekdayService.isNonWorkingDay(currentStartDate)) {
+              nonWorkingDays.push({
+                start: currentStartDate,
+                end: currentStartDate,
+              });
+            }
+            currentStartDate = moment(currentStartDate).add('1', 'day').toDate();
+          }
+          nonWorkingDays.forEach((day) => {
+            api.addEvent({ ...day }, 'background');
+          });
+        }
         const eventBase = {
           start: moment().subtract('1', 'month').toDate(),
           end: moment().add('1', 'month').toDate(),
