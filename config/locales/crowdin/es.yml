@@ -738,6 +738,8 @@ es:
         work_package:
           is_not_a_valid_target_for_time_entries: "Paquete de trabajo #%{id} no es un objetivo válido para reasignar las entradas de tiempo."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "no es en fecha de inicio, aunque esto es necesario para hitos."
             duration:
@@ -1602,6 +1604,7 @@ es:
   label_index_by_title: "Índice por título"
   label_information: "Información"
   label_information_plural: "Información"
+  label_installation_guides: 'Guías de instalación'
   label_integer: "Número entero"
   label_internal: "Interno"
   label_introduction_video: "Vídeo de introducción"
@@ -2868,10 +2871,10 @@ es:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Error de coincidencia de configuración de protocolo'
+    https_mismatch:
+      title: 'La configuración del modo HTTPS no coincide'
       text_html: >
-        La aplicación se ejecuta con el protocolo <code>%{set_protocol}</code>, pero el protocolo de la solicitud es <code>%{actual_protocol}</code>. Se producirán errores. Vaya a <a href="%{setting_path}">Ajustes de sistema</a> y cambie la configuración de «Protocolo» para corregir este problema.
+        Tu aplicación se está ejecutando con el modo HTTPS establecido en <code>%{set_protocol}</code>, pero la solicitud es una solicitud <code>%{actual_protocol}</code> . ¡Esto producirá errores! Necesitará establecer el siguiente valor de configuración: <code>%{setting_value}</code>. Consulte <a href="%{more_info_path}">la documentación de instalación</a> sobre cómo completar esta configuración.
     hostname_mismatch:
       title: 'Error de coincidencia de configuración de nombre de host'
       text_html: >

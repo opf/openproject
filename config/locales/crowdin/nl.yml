@@ -270,7 +270,7 @@ nl:
     upsale:
       title: Placeholder users
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -738,6 +738,8 @@ nl:
         work_package:
           is_not_a_valid_target_for_time_entries: "Werkpakket #%{id} is niet een geldig doel voor het opnieuw toewijzen van de tijden."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "is niet op begindatum, hoewel dit voor mijlpalen vereist is."
             duration:
@@ -1602,6 +1604,7 @@ nl:
   label_index_by_title: "indexeren op titel"
   label_information: "Informatie"
   label_information_plural: "Informatie"
+  label_installation_guides: 'Installation guides'
   label_integer: "Integer"
   label_internal: "Intern"
   label_introduction_video: "Introductie video"
@@ -2868,10 +2871,10 @@ nl:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Protocol instelling komen niet overeen'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Uw programma wordt uitgevoerd met de protocolinstelling ingesteld op <code>%{set_protocol}</code>, maar het verzoek is een verzoek van <code>%{actual_protocol}</code> . Dit resulteert in fouten! Ga naar <a href="%{setting_path}">Systeeminstellingen</a> en verander de instelling "Protocol" om dit te corrigeren.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Hostnaam instellingen komen niet overeen'
       text_html: >

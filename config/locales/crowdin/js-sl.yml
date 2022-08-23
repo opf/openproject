@@ -491,7 +491,7 @@ sl:
         next: 'Naprej'
         got_it: 'Razumem'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -605,6 +605,7 @@ sl:
       default: '-'
       subject: 'Vnesite temo tukaj'
       selection: 'Prosimo izberite'
+      description: 'Description: Click to edit...'
       relation_description: 'Kliknite, da dodate opis za to povezavo'
     project:
       required_outside_context: >
@@ -759,7 +760,7 @@ sl:
         farRight: 'Čisto desno'
         showNone: '-- Brez labele --'
         description: >
-          Izberite atribute, ki jih želite ves čas prikazati na ustreznih mestih Gantograma. Upoštevajte, da se ob premikanju elementa namesto teh atributov prikažejo njegove datumske nalepke.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Prikaži gantogram'
       button_deactivate: 'Skrij gantogram'
       cancel: Prekliči
@@ -930,7 +931,6 @@ sl:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Kliknite za urejanje..."
       query:
         column_names: "Stolpci"
         group_by: "Rezultati grupirani po"

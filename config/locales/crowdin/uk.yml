@@ -268,7 +268,7 @@ uk:
     upsale:
       title: Прототипи користувачів
       description: >
-        Прототипи користувачів допомагають призначати пакети робіт користувачам, які не входять у ваш проєкт. Вони можуть бути корисні в різних сценаріях. Наприклад, якщо потрібно відстежувати завдання для ресурсу, який поки не доступний або не названий. Або ж ви хочете відстежувати завдання, призначені особі, не надаючи їй доступу до OpenProject.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -738,6 +738,8 @@ uk:
         work_package:
           is_not_a_valid_target_for_time_entries: "Робочий пакет #%{id} не є дійсною ціллю для перепризначення записів часу."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "не на дату початку, хоча це потрібно для етапів."
             duration:
@@ -1634,6 +1636,7 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
+  label_installation_guides: 'Installation guides'
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
@@ -2906,10 +2909,10 @@ uk:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Невідповідність налаштувань протоколу'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Ваш додаток запущено з протоколом <code>%{set_protocol}</code>, але в запиті використовується <code>%{actual_protocol}</code>. Це призведе до помилок! Виберіть <a href="%{setting_path}">Системні налаштування</a> та змініть параметр «Протокол» на правильний.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Невідповідність налаштуванням імені хосту'
       text_html: >

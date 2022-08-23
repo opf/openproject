@@ -491,7 +491,7 @@ lol:
         next: 'crwdns787632:0crwdne787632:0'
         got_it: 'crwdns787634:0crwdne787634:0'
       steps:
-        help_menu: 'crwdns787636:0crwdne787636:0'
+        help_menu: 'crwdns830268:0crwdne830268:0'
         members: 'crwdns787638:0crwdne787638:0'
         project_selection: 'crwdns787640:0crwdne787640:0'
         quick_add_button: 'crwdns787642:0crwdne787642:0'
@@ -603,6 +603,7 @@ lol:
       default: 'crwdns787790:0crwdne787790:0'
       subject: 'crwdns787792:0crwdne787792:0'
       selection: 'crwdns787794:0crwdne787794:0'
+      description: 'crwdns830274:0crwdne830274:0'
       relation_description: 'crwdns787796:0crwdne787796:0'
     project:
       required_outside_context: >
@@ -757,7 +758,7 @@ lol:
         farRight: 'crwdns788054:0crwdne788054:0'
         showNone: 'crwdns788056:0crwdne788056:0'
         description: >
-          crwdns788058:0crwdne788058:0
+          crwdns830270:0crwdne830270:0
       button_activate: 'crwdns788060:0crwdne788060:0'
       button_deactivate: 'crwdns788062:0crwdne788062:0'
       cancel: crwdns788064:0crwdne788064:0
@@ -928,7 +929,6 @@ lol:
       placeholders:
         default: "crwdns788338:0crwdne788338:0"
         date: "crwdns788340:0crwdne788340:0"
-        formattable: "crwdns788342:0%{name}crwdne788342:0"
       query:
         column_names: "crwdns788344:0crwdne788344:0"
         group_by: "crwdns788346:0crwdne788346:0"

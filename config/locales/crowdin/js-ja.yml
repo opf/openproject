@@ -493,7 +493,7 @@ ja:
         next: '次へ'
         got_it: '了承'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -604,6 +604,7 @@ ja:
       default: '-'
       subject: 'ここにタイトルを入力します'
       selection: '選択してください'
+      description: 'Description: Click to edit...'
       relation_description: 'クリックしてこの関係に説明を追加'
     project:
       required_outside_context: >
@@ -758,7 +759,7 @@ ja:
         farRight: '右端'
         showNone: '-- ラベルなし --'
         description: >
-          毎回、ガントチャートのそれぞれの位置に表示する属性を選択します。要素にカーソルを合わせたときに、その属性の代わりに、日付ラベルが表示されることに注意してください。
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'ガントチャートの表示'
       button_deactivate: 'ガントチャートを隠す'
       cancel: キャンセル
@@ -929,7 +930,6 @@ ja:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: クリックして編集..."
       query:
         column_names: "列"
         group_by: "グループ化"

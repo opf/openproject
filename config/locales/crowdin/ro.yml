@@ -273,7 +273,7 @@ ro:
     upsale:
       title: Placeholder users
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -742,6 +742,8 @@ ro:
         work_package:
           is_not_a_valid_target_for_time_entries: "Pachetul de lucru #%{id} nu este o ţintă validă pentru reasocierea timpilor de lucru."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "nu este în data de început, deși acest lucru este necesar pentru repere de etapă."
             duration:
@@ -1622,6 +1624,7 @@ ro:
   label_index_by_title: "Indexare după titlu"
   label_information: "Informații"
   label_information_plural: "Informații"
+  label_installation_guides: 'Installation guides'
   label_integer: "Număr întreg"
   label_internal: "Intern"
   label_introduction_video: "Video de introducere"
@@ -2893,10 +2896,10 @@ ro:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Necorespundere de setare a protocolului'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Aplicația dvs. rulează cu setarea protocolului setată la <code>%{set_protocol}</code>, dar cererea este un <code>%{actual_protocol}</code> cerere. Acest lucru va duce la erori! Mergeți la <a href="%{setting_path}">Setări de sistem</a> și modificați setarea "Protocol" pentru a corecta acest lucru.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Nepotrivire de setare a numelui de gazdă'
       text_html: >

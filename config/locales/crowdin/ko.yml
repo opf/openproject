@@ -273,7 +273,7 @@ ko:
     upsale:
       title: 플레이스홀더 사용자
       description: >
-        플레이스홀더 사용자는 해당 프로젝트에 속하지 않은 사용자에게 작업 패키지를 할당하는 방법으로, 다양한 시나리오에서 유용할 수 있습니다. 예를 들어, 아직 명명되지 않았거나 사용 가능하지 않은 리소스에 대한 작업을 추적해야 하거나, 해당 개인에게 OpenProject에 대한 액세스 권한을 부여하고 싶지 않지만 이들에게 할당된 작업을 추적하려는 경우에 유용합니다.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -739,6 +739,8 @@ ko:
         work_package:
           is_not_a_valid_target_for_time_entries: "작업 패키지 #%{id}은(는) 시간 항목 재할당에 올바른 대상이 아닙니다."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "마일스톤에서 요구하지만, 시작 날짜가 없음"
             duration:
@@ -1587,6 +1589,7 @@ ko:
   label_index_by_title: "제목별 색인"
   label_information: "정보"
   label_information_plural: "정보"
+  label_installation_guides: 'Installation guides'
   label_integer: "정수"
   label_internal: "내부"
   label_introduction_video: "소개 동영상"
@@ -2848,10 +2851,10 @@ ko:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: '프로토콜 설정 불일치'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        해당 애플리케이션이 <code>%{set_protocol}</code>(으)로 지정된 프로토콜 설정으로 실행되고 있지만, 이 요청은 <code>%{actual_protocol}</code> 요청입니다. 이로 인해 오류가 발생하게 됩니다! <a href="%{setting_path}">시스템 설정</a>으로 이동하고 "프로토콜" 설정을 변경하여 이 오류를 수정하세요.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: '호스트 이름 설정 불일치'
       text_html: >

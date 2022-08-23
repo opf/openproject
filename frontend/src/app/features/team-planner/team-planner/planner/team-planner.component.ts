@@ -114,6 +114,7 @@ import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -301,6 +302,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       shareReplay(1),
     );
 
+  isMobile = this.deviceService.isMobile;
+
   constructor(
     private $state:StateService,
     private configuration:ConfigurationService,
@@ -323,6 +326,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly actions$:ActionsService,
     readonly toastService:ToastService,
     readonly loadingIndicatorService:LoadingIndicatorService,
+    readonly deviceService:DeviceService,
   ) {
     super();
   }
@@ -436,7 +440,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                   {
                     field: 'title',
                     headerContent: {
-                      html: `<span class="spot-icon spot-icon_user"></span> <span>${this.text.assignee}</span>`,
+                      html: `<span class="spot-icon spot-icon_user"></span> <span class="hidden-for-mobile">${this.text.assignee}</span>`,
                     },
                   },
                 ],
@@ -454,7 +458,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                   {
                     field: 'title',
                     headerContent: {
-                      html: `<span class="spot-icon spot-icon_user"></span> <span>${this.text.assignee}</span>`,
+                      html: `<span class="spot-icon spot-icon_user"></span> <span class="hidden-for-mobile">${this.text.assignee}</span>`,
                     },
                   },
                 ],
@@ -482,7 +486,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               },
             ],
             resources: skeletonResources,
-            resourceAreaWidth: '180px',
+            resourceAreaWidth: this.isMobile ? '60px' : '180px',
             select: this.handleDateClicked.bind(this) as unknown,
             resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
             resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),

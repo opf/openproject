@@ -271,7 +271,7 @@ ja:
     upsale:
       title: Placeholder users
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -736,6 +736,8 @@ ja:
         work_package:
           is_not_a_valid_target_for_time_entries: "ワークパッケージ #%{id} は、作業時間の再割り当ての対象としては有効ではありません。"
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "は開始日になっていません。これはマイルストーンの場倍、必要である。"
             duration:
@@ -1584,6 +1586,7 @@ ja:
   label_index_by_title: "索引（名前順）"
   label_information: "情報"
   label_information_plural: "情報"
+  label_installation_guides: 'Installation guides'
   label_integer: "整数"
   label_internal: "社内"
   label_introduction_video: "紹介ビデオ"
@@ -2847,10 +2850,10 @@ ja:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'プロトコル設定が一致しません'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        アプリケーションはプロトコル設定を<code>%{set_protocol}</code>に設定していますが、リクエストは<code>%{actual_protocol}</code>です。<a href="%{setting_path}">システム設定</a>でプロトコル設定を変更してください。
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'ホスト名の設定が一致しません'
       text_html: >

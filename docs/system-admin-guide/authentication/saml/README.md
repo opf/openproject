@@ -25,7 +25,7 @@ In order to use integrate OpenProject as a service provider (SP) using SAML, you
 
 - needs to be able to handle SAML 2.0 redirect Single-Sign On (SSO) flows, in some implementations also referred to as WebSSO
 - has a known or configurable set of attributes that map to the following required OpenProject attributes. The way these attribute mappings will be defined is described later in this document.
-  - **login**: A stable attribute used to uniquely identify the user. This willl most commonly map to an account ID, samAccountName or email (but please note that emails are often interchangeable, and this might result in logins changing in OpenProject).
+  - **login**: A stable attribute used to uniquely identify the user. This will most commonly map to an account ID, samAccountName or email (but please note that emails are often interchangeable, and this might result in logins changing in OpenProject).
   - **email**: The email attribute of the user being authenticated
   - **first name** and **last name** of the user.
 - provides the public certificate or certificate fingerprint (SHA1) in use for communicating with the idP.
@@ -132,10 +132,10 @@ OPENPROJECT_SAML_SAML_ISSUER="https://<openproject.host>"
 # Either `OPENPROJECT_SAML_SAML_IDP__CERT` or `OPENPROJECT_SAML_SAML_IDP__CERT__FINGERPRINT` must be present!
 OPENPROJECT_SAML_SAML_IDP__CERT="-----BEGIN CERTIFICATE-----<cert one liner>-----END CERTIFICATE-----"
 OPENPROJECT_SAML_SAML_IDP__CERT__FINGERPRINT="da:39:a3:ee:5e:6b:4b:0d:32:55:bf:ef:95:60:18:90:af:d8:07:09"
-# Replace with your single sign on URL, the exact value depends on your idP implemention
+# Replace with your single sign on URL, the exact value depends on your idP implementation
 OPENPROJECT_SAML_SAML_IDP__SSO__TARGET__URL="https://<hostname of your idp>/application/saml/<slug>/sso/binding/post/"
 
-# (Optinal) Replace with your redirect flow single sign out URL that we should redirect to
+# (Optional) Replace with your redirect flow single sign out URL that we should redirect to
 OPENPROJECT_SAML_SAML_IDP__SLO__TARGET__URL=""
 
 # 

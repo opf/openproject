@@ -13,9 +13,10 @@ describe 'Activity tab', js: true, selenium: true do
 
   let(:project) { create :project_with_types, public: true }
   let!(:work_package) do
+    at = 5.days.ago.to_date.to_fs(:db)
     work_package = create(:work_package,
                           project:,
-                          created_at: 5.days.ago.to_date.to_fs(:db),
+                          created_at: at,
                           subject: initial_subject,
                           journal_notes: initial_comment)
 
@@ -32,7 +33,7 @@ describe 'Activity tab', js: true, selenium: true do
   let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
 
   let(:initial_note) do
-    work_package.journals[0]
+    work_package.journals.reload.first
   end
 
   let!(:note1) do
