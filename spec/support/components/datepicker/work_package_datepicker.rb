@@ -89,6 +89,18 @@ module Components
       start_date_field.click
     end
 
+    def expect_start_highlighted
+      expect(container).to have_selector('[data-qa-selector="op-datepicker-modal--start-date-field"][data-qa-highlighted]')
+    end
+
+    def expect_due_highlighted
+      expect(container).to have_selector('[data-qa-selector="op-datepicker-modal--end-date-field"][data-qa-highlighted]')
+    end
+
+    def expect_duration_highlighted
+      expect(container).to have_selector('[data-qa-selector="op-datepicker-modal--duration-field"][data-qa-highlighted]')
+    end
+
     def expect_ignore_non_working_days(val)
       text = ignore_non_working_days_option(val)
 

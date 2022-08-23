@@ -76,7 +76,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     date_field.expect_active!
   end
 
-  context 'when start_date set, update due_date (test case 1)' do
+  context 'when start_date set, update duration (test case 1)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -454,6 +454,50 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_start_date '2021-02-15'
       datepicker.expect_due_date '2021-03-02'
       datepicker.expect_duration 11
+
+      apply_and_expect_saved duration: 11,
+                             start_date: Date.parse('2021-02-15'),
+                             due_date: Date.parse('2021-03-02'),
+                             ignore_non_working_days: false
+    end
+  end
+
+  describe 'when all values set and duration highlighted, select date in datepicker' do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse('2021-02-08'),
+        due_date: Date.parse('2021-02-11'),
+        duration: 4
+      }
+    end
+
+    it 'sets start to the selected value, keeps finish date' do
+      datepicker.expect_start_date '2021-02-08'
+      datepicker.expect_due_date '2021-02-11'
+      datepicker.expect_duration 4
+
+      # Focus duration
+      datepicker.duration_field.click
+      datepicker.expect_duration_highlighted
+
+      # Select date in datepicker
+      datepicker.select_day 5
+
+      datepicker.expect_start_date '2021-02-05'
+      datepicker.expect_due_date '2021-02-11'
+      datepicker.expect_duration 5
+
+      # Focus is on finish date
+      datepicker.expect_due_highlighted
+      datepicker.select_day 10
+
+      datepicker.expect_start_date '2021-02-05'
+      datepicker.expect_due_date '2021-02-10'
+      datepicker.expect_duration 4
+
+      apply_and_expect_saved duration: 4,
+                             start_date: Date.parse('2021-02-05'),
+                             due_date: Date.parse('2021-02-10')
     end
   end
 end

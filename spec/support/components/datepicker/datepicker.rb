@@ -66,7 +66,7 @@ module Components
 
     ##
     # Expect the selected month
-    def expect_month(mont)
+    def expect_month(month)
       month = Date::MONTHNAMES.index(month) if month.is_a?(String)
 
       # Month is 0-index in select
