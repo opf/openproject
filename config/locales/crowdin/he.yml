@@ -743,6 +743,8 @@ he:
         work_package:
           is_not_a_valid_target_for_time_entries: "חבילת עבודה #%{id} אינה יעד אפשרי לשיוך של ערכי הזמן."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "is not on start date, although this is required for milestones."
             duration:

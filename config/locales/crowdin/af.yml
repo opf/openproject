@@ -741,6 +741,8 @@ af:
         work_package:
           is_not_a_valid_target_for_time_entries: "Werkspakket #%{id} is nie 'n geldige teiken vir hertoewysing van die tyd inskrywings nie."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "is not on start date, although this is required for milestones."
             duration:

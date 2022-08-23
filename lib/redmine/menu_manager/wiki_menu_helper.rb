@@ -31,8 +31,9 @@ module Redmine::MenuManager::WikiMenuHelper
     return unless project.enabled_module_names.include? 'wiki'
 
     project_wiki = project.wiki
+    return if project_wiki.nil?
 
-    MenuItems::WikiMenuItem.main_items(project_wiki).each do |main_item|
+    wiki_main_items(project_wiki).each do |main_item|
       Redmine::MenuManager.loose :project_menu do |menu|
         push_wiki_main_menu(menu, main_item, project)
 
@@ -79,6 +80,16 @@ module Redmine::MenuManager::WikiMenuHelper
   end
 
   private
+
+  def wiki_main_items(wiki)
+    ##
+    # Ensure a main item exists if it got deleted somewhere
+    MenuItems::WikiMenuItem
+      .main_items(wiki)
+      .tap do |items|
+      wiki.create_menu_item_for_start_page if items.empty?
+    end
+  end
 
   def push_wiki_menu_partial(main_item, menu)
     menu.push :wiki_menu_partial,

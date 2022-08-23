@@ -737,6 +737,8 @@ el:
         work_package:
           is_not_a_valid_target_for_time_entries: "Το πακέτο εργασίας #%{id} δεν είναι έγκυρος στόχος για ανάθεση των καταχωρήσεων χρόνου."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "δεν είναι στην ημερομηνία έναρξης, παρόλο που απαιτείται από τα ορόσημα."
             duration:

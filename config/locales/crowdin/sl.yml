@@ -740,6 +740,8 @@ sl:
         work_package:
           is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "ni začeten datum, čeprav je to pomembno za mejnike."
             duration:

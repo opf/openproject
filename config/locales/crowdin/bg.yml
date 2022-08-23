@@ -741,6 +741,8 @@ bg:
         work_package:
           is_not_a_valid_target_for_time_entries: "Работен пакет #%{id} не е валидна цел за преразпределяне на времевите записи."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "не е на начална дата, въпреки че това е необходимо за важни събития."
             duration:

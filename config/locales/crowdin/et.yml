@@ -741,6 +741,8 @@ et:
         work_package:
           is_not_a_valid_target_for_time_entries: "Töötunde ei sobi üle kanda teemale #%{id}."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "verstapostil on vajalik määrata alguskuupäev."
             duration:

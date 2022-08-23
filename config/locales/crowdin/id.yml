@@ -737,6 +737,8 @@ id:
         work_package:
           is_not_a_valid_target_for_time_entries: "Paket-Penugasan #%{id} tidak valid untuk reassigning di Time entri."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "tanggal mulai dan berakhir pada milestone harus sama."
             duration:
