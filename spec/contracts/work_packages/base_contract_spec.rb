@@ -450,6 +450,17 @@ describe WorkPackages::BaseContract do
         it_behaves_like 'contract is valid'
       end
     end
+
+    context 'when setting due date and duration without start date',
+            with_flag: { work_packages_duration_field_active: true } do
+      before do
+        work_package.duration = 1
+        work_package.start_date = nil
+        work_package.due_date = Time.zone.today
+      end
+
+      it_behaves_like 'contract is invalid', start_date: :cannot_be_null
+    end
   end
 
   describe 'due date' do
@@ -501,6 +512,17 @@ describe WorkPackages::BaseContract do
 
         it_behaves_like 'contract is valid'
       end
+    end
+
+    context 'when setting start date and duration without due date',
+            with_flag: { work_packages_duration_field_active: true } do
+      before do
+        work_package.duration = 1
+        work_package.start_date = Time.zone.today
+        work_package.due_date = nil
+      end
+
+      it_behaves_like 'contract is invalid', due_date: :cannot_be_null
     end
   end
 
@@ -613,6 +635,16 @@ describe WorkPackages::BaseContract do
       end
 
       it_behaves_like 'contract is valid'
+    end
+
+    context 'when setting start date and due date without duration' do
+      before do
+        work_package.duration = nil
+        work_package.start_date = Time.zone.today
+        work_package.due_date = Time.zone.today
+      end
+
+      it_behaves_like 'contract is invalid', duration: :cannot_be_null
     end
   end
 
