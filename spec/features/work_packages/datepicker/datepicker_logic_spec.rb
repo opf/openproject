@@ -560,4 +560,43 @@ describe 'Datepicker modal logic test cases (WP #43539)',
                              due_date: Date.parse('2021-02-10')
     end
   end
+
+  describe 'when all values set and duration highlighted, select dates in datepicker' do
+    let(:current_attributes) do
+      {
+        start_date: nil,
+        due_date: nil,
+        duration: nil
+      }
+    end
+
+    it 'sets start to the selected value, moves to finish date' do
+      datepicker.expect_start_date ''
+      datepicker.expect_due_date ''
+      datepicker.expect_duration ''
+
+      # Focus duration
+      datepicker.duration_field.click
+      datepicker.expect_duration_highlighted
+
+      # Select date in datepicker
+      datepicker.set_date Date.parse('2021-02-05')
+
+      datepicker.expect_start_date '2021-02-05'
+      datepicker.expect_due_highlighted
+
+      datepicker.expect_due_date ''
+      datepicker.expect_duration ''
+
+      datepicker.select_day 9
+
+      datepicker.expect_start_date '2021-02-05'
+      datepicker.expect_due_date '2021-02-09'
+      datepicker.expect_duration 3
+
+      apply_and_expect_saved duration: 3,
+                             start_date: Date.parse('2021-02-05'),
+                             due_date: Date.parse('2021-02-09')
+    end
+  end
 end
