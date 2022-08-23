@@ -741,6 +741,8 @@ fil:
         work_package:
           is_not_a_valid_target_for_time_entries: "Ang work package #%{id} ay hindi balido sa target para mag-reassign ng mga oras na entry."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "hindi sa petsa ng pagsisimula, kahit naa ito ay kinakailangan para sa mga milestone."
             duration:

@@ -122,7 +122,7 @@ sl:
         text_cannot_scan: |
           Če ne morete skenirati kode, lahko vnos vnesete ročno z naslednjimi podrobnostmi:
         description: |
-          Registrirajte program za preverjanje pristnosti aplikacij za uporabo s programom OpenProject tako, da uporabite avtentikacijski standard enkratnega gesla, ki temelji na času. 
+          Registrirajte program za preverjanje pristnosti aplikacij za uporabo s programom OpenProject tako, da uporabite avtentikacijski standard enkratnega gesla, ki temelji na času.
           Pogosti primeri so Google Authenticator ali Authy.
       sms:
         title: 'Uporabite mobilni telefon'

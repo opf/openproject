@@ -738,6 +738,8 @@ nl:
         work_package:
           is_not_a_valid_target_for_time_entries: "Werkpakket #%{id} is niet een geldig doel voor het opnieuw toewijzen van de tijden."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "is niet op begindatum, hoewel dit voor mijlpalen vereist is."
             duration:

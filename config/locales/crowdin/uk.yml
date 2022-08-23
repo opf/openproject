@@ -738,6 +738,8 @@ uk:
         work_package:
           is_not_a_valid_target_for_time_entries: "Робочий пакет #%{id} не є дійсною ціллю для перепризначення записів часу."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "не на дату початку, хоча це потрібно для етапів."
             duration:

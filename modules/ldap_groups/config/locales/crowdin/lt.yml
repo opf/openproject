@@ -42,8 +42,7 @@ lt:
         group_name_attribute_text: 'Įveskite LDAP grupės atributą, kuris bus naudojamas nustatant OpenProject grupės pavadinimą.'
         filter_string_text: 'Įveskite RFC4515 LDAP filtrą, kuris iš jūsų LDAP grąžina sinchronizavimui su OpenProjectu reikalingas grupes.'
         base_dn_text: >
-          Įveskite paieškos pagrindo DN norėdami naudoti šį filtrą. Jis turi būti pasirinktos LDAP jungties pagrindo DN viduje.
-          Palikite šį nustatymą tuščia, jei norite naudoti LDAP jungties pagrindo DN.
+          Įveskite paieškos pagrindo DN norėdami naudoti šį filtrą. Jis turi būti pasirinktos LDAP jungties pagrindo DN viduje. Palikite šį nustatymą tuščia, jei norite naudoti LDAP jungties pagrindo DN.
     synchronized_groups:
       add_new: 'Pridėti sinchronizuotą LDAP grupę'
       destroy:

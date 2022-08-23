@@ -738,6 +738,8 @@ ca:
         work_package:
           is_not_a_valid_target_for_time_entries: "Treball paquet #%{id} no és un objectiu vàlid per a reassignar les entrades de temps."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "no és en la data d'inici, tot i que és necessari per les fites."
             duration:

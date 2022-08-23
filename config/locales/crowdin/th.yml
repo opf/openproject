@@ -740,6 +740,8 @@ th:
         work_package:
           is_not_a_valid_target_for_time_entries: "ชุดภารกิจ #%{id} ไม่ใช่เป้าหมายที่ถูกต้องสำหรับการกำหนดรายการเวลา"
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "is not on start date, although this is required for milestones."
             duration:

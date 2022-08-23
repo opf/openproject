@@ -740,6 +740,8 @@ lt:
         work_package:
           is_not_a_valid_target_for_time_entries: "Darbų paketas #%{id} nėra tinkamas laiko įrašų perskirstymo pasirinkimas."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "nėra pradžios data, nors tai reikalinga svarbiems etapams."
             duration:

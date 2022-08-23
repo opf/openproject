@@ -736,6 +736,8 @@ ja:
         work_package:
           is_not_a_valid_target_for_time_entries: "ワークパッケージ #%{id} は、作業時間の再割り当ての対象としては有効ではありません。"
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "は開始日になっていません。これはマイルストーンの場倍、必要である。"
             duration:

@@ -742,6 +742,8 @@ vi:
         work_package:
           is_not_a_valid_target_for_time_entries: "Work package #%{id} không phải là một mục tiêu hợp lệ để gán lại các mục thời gian."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "không phải ngày bắt đầu, mặc dù điều này là cần thiết cho các mốc quan trọng."
             duration:
