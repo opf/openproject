@@ -494,6 +494,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             editable: true,
             droppable: true,
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
+            eventResizeStart: (resizeInfo:EventResizeDoneArg) => this.addBackgroundEvents(resizeInfo.event),
+            eventResizeStop: () => this.removeBackGroundEvents(),
             eventDragStart: (dragInfo:EventDragStartArg) => {
               if (dragInfo.event.source?.id === 'skeleton') {
                 return;
