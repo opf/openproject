@@ -61,7 +61,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import interactionPlugin, { EventResizeDoneArg } from '@fullcalendar/interaction';
+import interactionPlugin, { EventDragStartArg, EventDragStopArg, EventResizeDoneArg } from '@fullcalendar/interaction';
 import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
@@ -72,6 +72,7 @@ import {
   OpWorkPackagesCalendarService,
 } from 'core-app/features/calendar/op-work-packages-calendar.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -113,6 +114,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     readonly currentProject:CurrentProjectService,
     readonly halEditing:HalResourceEditingService,
     readonly halNotification:HalResourceNotificationService,
+    readonly weekdayService:WeekdayService,
   ) {
     super();
   }
@@ -184,6 +186,24 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       },
       eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
       eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
+      eventResizeStart: (resizeInfo:EventResizeDoneArg) => {
+        const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
+        
+        if (!wp.ignoreNonWorkingDays) {
+          this.addBackgroundEventsForNonWorkingDays();
+        }
+      },
+      eventResizeStop: () => this.removeBackGroundEvents(),
+      eventDragStart: (dragInfo:EventDragStartArg) => {
+        const { el } = dragInfo;
+        el.style.pointerEvents = 'none';
+        this.addBackgroundEventsForNonWorkingDays();
+      },
+      eventDragStop: (dragInfo:EventDragStopArg) => {
+        const { el } = dragInfo;
+        el.style.removeProperty('pointer-events');
+        this.removeBackGroundEvents();
+      },
       eventClick: (evt:EventClickArg) => {
         const workPackageId = (evt.event.extendedProps.workPackage as WorkPackageResource).id as string;
         // Currently the calendar widget is shown on multiple pages,
@@ -257,6 +277,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         editable: this.workPackagesCalendar.eventDurationEditable(workPackage),
         end: exclusiveEnd,
         allDay: true,
+        backgroundColor: '#FFFFFF',
+        borderColor: '#FFFFFF',
         className: `__hl_background_type_${workPackage.type.id || ''}`,
         workPackage,
       };
@@ -288,5 +310,34 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         tabIdentifier: 'overview',
       },
     );
+  }
+
+  private removeBackGroundEvents() {
+    this
+      .ucCalendar
+      .getApi()
+      .getEvents()
+      .filter((el) => el.source?.id === 'background')
+      .forEach((el) => el.remove());
+  }
+
+  private addBackgroundEventsForNonWorkingDays() {
+    const api = this.ucCalendar.getApi();
+    let currentStartDate = this.ucCalendar.getApi().view.currentStart;
+    const currentEndDate = moment(this.ucCalendar.getApi().view.currentEnd).add('1', 'day').toDate();
+    const nonWorkingDays = new Array<{ start:Date, end:Date }>();
+
+    while (currentStartDate.toString() !== currentEndDate.toString()) {
+      if (this.weekdayService.isNonWorkingDay(currentStartDate)) {
+        nonWorkingDays.push({
+          start: currentStartDate,
+          end: currentStartDate,
+        });
+      }
+      currentStartDate = moment(currentStartDate).add('1', 'day').toDate();
+    }
+    nonWorkingDays.forEach((day) => {
+      api.addEvent({ ...day }, 'background');
+    });
   }
 }
