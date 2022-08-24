@@ -1,4 +1,4 @@
-import { addons, types } from '@storybook/addons';
+import { addons } from '@storybook/addons';
 
 const ADDON_ID = 'iframe';
 

@@ -1,0 +1,36 @@
+import { moduleMetadata, Meta, Story } from '@storybook/angular';
+import { I18nShim } from 'test/i18n-shim';
+
+import { OpSpotModule } from '../../../spot.module';
+import { SpotDropModalComponent } from '../drop-modal.component';
+import { SbDropModalListComponent } from './DropModalList.component';
+
+window.I18n = new I18nShim();
+
+<Meta 
+  title="Blocks/DropModal"
+  component={SpotDropModalComponent}
+  decorators={[
+    moduleMetadata({
+      imports: [
+        OpSpotModule,
+      ],
+    }),
+  ]}
+  parameters={{
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=917%3A7920',
+    },
+  }}
+/>
+
+## Documentation
+
+The include projects drop modal allows users to include projects other than the current one, so that the current view (be it table view, the team planner, boards view...) also displays work packages of these included projects.
+
+<Story name="Angular component">
+  {{
+    component: SbDropModalListComponent,
+  }}
+</Story>

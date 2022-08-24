@@ -30,7 +30,6 @@ const Angular:Story = (args) => ({
 });
 
 export const AngularStory = Angular.bind({});
-AngularStory.parameters = { component: SpotCheckboxComponent };
 AngularStory.storyName = 'Angular component';
 
 const htmlTemplate = require('!!raw-loader!./CheckboxHTML.html').default as string; // eslint-disable-line

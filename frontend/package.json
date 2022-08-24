@@ -183,7 +183,7 @@
     "lint:eslint": "eslint",
     "generate-typings": "tsc -d -p src/tsconfig.app.json",
     "docs:json": "compodoc -p ./tsconfig.base.json -e json -d .",
-    "storybook:serve": "npm run docs:json && start-storybook -p 6006",
+    "storybook:serve": "npm run docs:json && start-storybook -p 6006 --no-manager-cache",
     "storybook:build": "npm run docs:json && build-storybook"
   }
 }
