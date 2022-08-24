@@ -237,7 +237,7 @@ tr:
           confidence: >
             Açık Kaynak ve açık fikirli olmak üzere, test edilmiş ve desteklenen bir kurumsal sınıf proje yönetimi yazılımının güvenini sunuyoruz.
           link_quote: "Fiyat teklifi alın"
-          more_info: "More information"
+          more_info: "Daha fazla bilgi"
           text: >
             OpenProject Enterprise Edition, Topluluk Sürümü'nün üzerine kuruludur. OpenProject ile iş açısından kritik öneme sahip projeleri yöneten 10'dan fazla kullanıcısı olan kuruluşlara yönelik premium özellikler ve profesyonel destek içerir.
           unlimited: "Sınırsız"
@@ -292,11 +292,11 @@ tr:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/openproject-11-2-release
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/openproject-11-2-release
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "Etkinleştir"
@@ -370,7 +370,7 @@ tr:
     label_in_more_than: "daha fazla"
     label_incoming_emails: "Gelen e-postalar"
     label_information_plural: "Bilgi"
-    label_invalid: "Invalid"
+    label_invalid: "Geçersiz"
     label_import: "İçeri Aktar"
     label_latest_activity: "En son etkinlik"
     label_last_updated_on: "Son güncelleme"

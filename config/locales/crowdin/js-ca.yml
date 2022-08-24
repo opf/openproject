@@ -929,7 +929,7 @@ ca:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: Clica aquí per editar..."
       query:
         column_names: "Columnes"
         group_by: "Agrupa els resultats per"
