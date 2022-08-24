@@ -135,8 +135,10 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
       include_examples 'start_date', due_date: monday_2022_08_01, duration: 5, expected: monday_2022_08_01 - 6.days
       include_examples 'start_date', due_date: wednesday_2022_08_03, duration: 10, expected: wednesday_2022_08_03 - 13.days
 
-      # really contrived one... Unlikely to happen.
+      # contrived one... But can happen when date is coming from an external entity, like soonest start.
       include_examples 'start_date', due_date: saturday_2022_07_30, duration: 1, expected: friday_2022_07_29
+      include_examples 'start_date', due_date: saturday_2022_07_30, duration: 2, expected: friday_2022_07_29 - 1.day
+      include_examples 'start_date', due_date: saturday_2022_07_30, duration: 6, expected: friday_2022_07_29 - 7.days
     end
 
     context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
@@ -177,8 +179,10 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
       include_examples 'due_date', start_date: monday_2022_08_01, duration: 5, expected: monday_2022_08_01 + 4.days
       include_examples 'due_date', start_date: wednesday_2022_08_03, duration: 10, expected: wednesday_2022_08_03 + 13.days
 
-      # really contrived one... Unlikely to happen.
+      # contrived one... But can happen when date is coming from an external entity, like soonest start.
       include_examples 'due_date', start_date: saturday_2022_07_30, duration: 1, expected: monday_2022_08_01
+      include_examples 'due_date', start_date: saturday_2022_07_30, duration: 2, expected: monday_2022_08_01 + 1.day
+      include_examples 'due_date', start_date: saturday_2022_07_30, duration: 6, expected: monday_2022_08_01 + 7.days
     end
 
     context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
