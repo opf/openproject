@@ -53,6 +53,19 @@ To begin using this integration, you will need to first connect your OpenProject
 
 > **Note:** To disconnect the link between your OpenProject and Nextcloud accounts, head on over to Nextcloud and navigate to _Settings → Connected accounts_. There, clicking **Disconnect from OpenProject** button. To re-link the two accounts, simply follow the above instructions again.
 
+## Disconnecting your OpenProject account from Nextcloud
+
+You can disconnect you OpenProject account from the logged-in Nextcloud account if you wish. It might be that you were
+logged in with the wrong OpenProject account and accidentally connected it to you Nextcloud account. In order to do that
+there is an option within the settings page of your OpenProject account called **Client Tokens**:
+
+![OpenProject account settings page](account_settings.png)
+
+Here you can see all connection to any Nextcloud storages that are active at the current time. Click the **disconnect**
+link next to the storage you want to disconnect.
+
+Now you can had back to your project and log in again.
+
 ## Using the Nextcloud integration
 
 The following video gives you a short overview of how to use this integration:

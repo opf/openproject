@@ -1,0 +1,77 @@
+<p><%= t(:text_client_access_token_hint) %></p>
+
+<% if !granted_applications.empty? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container" style="max-height: 340px;">
+      <table id="access-token-table" class="generic-table">
+        <colgroup>
+          <col opHighlightCol>
+          <col opHighlightCol>
+          <col opHighlightCol>
+          <col opHighlightCol>
+        </colgroup>
+        <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <%= t('attributes.name') %>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <%= User.human_attribute_name(:created_at) %>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <%= I18n.t('my_account.access_tokens.headers.expiration') %>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <%= I18n.t('my_account.access_tokens.headers.action') %>
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <% granted_applications.each do |application, tokens| %>
+          <% latest = tokens.sort_by(&:created_at).last %>
+          <tr id="oauth-application-grant-<%= application.id %>">
+            <td>
+              <%= t('oauth.application.named', name: application.name) %>
+
+              (<%= t('oauth.x_active_tokens', count: tokens.count) %>)
+            </td>
+            <td>
+              <span><%= format_time(latest.created_at) %></span>
+            </td>
+            <td>
+              <span><%= format_time(latest.created_at + latest.expires_in.seconds) %></span>
+            </td>
+            <td>
+              <%= link_to t(:button_disconnect),
+                          revoke_my_oauth_application_path(application_id: application.id),
+                          data: { confirm: I18n.t('oauth.disconnect_my_application_confirmation',
+                                                  token_count: t('oauth.x_active_tokens', count: tokens.count)) },
+                          method: :post,
+                          class: 'icon icon-remove-link' %>
+            </td>
+          </tr>
+        <% end %>
+        <%= call_hook(:view_access_tokens_table, user: @user) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% else %>
+  <%= no_results_box %>
+<% end %>

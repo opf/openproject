@@ -118,8 +118,8 @@ describe 'authorization for BCF api',
     access_token = body['access_token']
 
     # Should show that grant in my account
-    visit my_account_path
-    click_on 'Access token'
+    visit my_access_token_path(tab: 'ClientTokens')
+    # click_on 'Access token'
 
     expect(page).to have_selector("#oauth-application-grant-#{app.id}", text: app.name)
     expect(page).to have_selector('td', text: app.name)

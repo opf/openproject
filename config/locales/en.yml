@@ -1046,6 +1046,7 @@ en:
   button_delete: "Delete"
   button_decline: "Decline"
   button_delete_watcher: "Delete watcher %{name}"
+  button_disconnect: "Disconnect"
   button_download: "Download"
   button_duplicate: "Duplicate"
   button_edit: "Edit"
@@ -2680,7 +2681,8 @@ en:
       skip_last_comma: "false"
 
   text_accessibility_hint: "The accessibility mode is designed for users who are blind, motorically handicaped or have a bad eyesight. For the latter focused elements are specially highlighted. Please notice, that the Backlogs module is not available in this mode."
-  text_access_token_hint: "Access tokens allow you to grant external applications access to resources in OpenProject."
+  text_provided_access_token_hint: "Provided tokens allow you to grant external applications access to resources in OpenProject."
+  text_client_access_token_hint: "Client tokens allow you to grant OpenProject access to resources in external applications."
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Are you sure?"
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
@@ -3254,7 +3256,7 @@ en:
       By default, OpenProject provides OAuth 2.0 authorization via %{authorization_code_flow_link}.
       You can optionally enable %{client_credentials_flow_link}, but you must provide a user on whose behalf requests will be performed.
     authorization_error: "An authorization error has occurred."
-    revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
+    disconnect_my_application_confirmation: "Do you really want to disconnect fropm this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
 
   oauth_client:
