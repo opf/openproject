@@ -37,7 +37,7 @@ describe 'date inplace editor',
          with_settings: { date_format: '%Y-%m-%d' },
          js: true, selenium: true do
   let(:project) { create :project_with_types, public: true }
-  let(:work_package) { create :work_package, project:, start_date: Date.parse('2016-01-02') }
+  let(:work_package) { create :work_package, project:, start_date: Date.parse('2016-01-02'), duration: nil }
   let(:user) { create :admin }
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -163,7 +163,7 @@ describe 'date inplace editor',
   end
 
   context 'with the start date empty' do
-    let(:work_package) { create :work_package, project:, start_date: nil }
+    let(:work_package) { create :work_package, project:, start_date: nil, duration: nil }
 
     it 'can set "today" as a date via the provided link' do
       start_date.activate!

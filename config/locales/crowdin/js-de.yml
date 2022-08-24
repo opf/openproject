@@ -151,7 +151,7 @@ de:
           language_hint: 'Geben Sie eine Sprache für Syntaxhervorhebung ein, die für das Hervorheben des Code-Snippets verwendet wird (sofern unterstützt).'
         dropdown:
           macros: 'Makros'
-          chose_macro: 'Choose macro'
+          chose_macro: 'Makro auswählen'
         toc: 'Inhaltsverzeichnis'
         toolbar_help: 'Klicken Sie auf das Widget zum Auswählen und Anzeigen der Symbolleiste. Doppelklicken zum Editieren des Makros'
         wiki_page_include:
@@ -491,7 +491,7 @@ de:
         next: 'Weiter'
         got_it: 'Verstanden'
       steps:
-        help_menu: 'Das Menü Hilfe (?) bietet <b>zusätzliche Hilfe-Ressourcen</b>. Hier finden Sie eine Benutzeranleitung, hilfreiche Videos und vieles mehr. <br> Viel Spaß bei Ihrer Arbeit mit OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Sie können hier neue <b>Mitglieder</b> zu Ihrem Projekt hinzufügen.'
         project_selection: 'Bitte wählen Sie eines der Projekte mit Demodaten aus. Die Demodaten sind derzeit lediglich in englischer Sprache verfügbar. <br> Das <b>„Demo project“</b> eignet sich für klassisches Projektmanagement, das <b>„Scrum project“</b> ist geeignet für agiles Projektmanagement.'
         quick_add_button: 'Klicken Sie auf das Plus (+) Symbol in der Navigationsleiste um <b>neue Projekte zu erzeugen</b> oder <b>MitarbeiterInnen einzuladen</b>.'
@@ -568,7 +568,7 @@ de:
         reasons:
           mentioned:
             title: 'Wenn ich @erwähnt werde'
-            description: 'Jedes mal eine Benachrichtigung erhalten, wenn ich irgendwo erwähnt werde'
+            description: 'Jedes Mal eine Benachrichtigung erhalten, wenn ich irgendwo erwähnt werde'
           involved:
             title: 'Mir zugewiesen oder verantwortlich'
             description: 'Benachrichtigungen für Aktivitäten auf Arbeitspaketen erhalten, wenn ich zugewiesen oder verantwortlich bin'
@@ -603,6 +603,7 @@ de:
       default: '-'
       subject: 'Titel hier eingeben'
       selection: 'Bitte auswählen'
+      description: 'Description: Click to edit...'
       relation_description: 'Klicken, um eine Beschreibung für diese Beziehung anzulegen'
     project:
       required_outside_context: >
@@ -757,7 +758,7 @@ de:
         farRight: 'Rechts außen'
         showNone: '-- Keine Beschriftung --'
         description: >
-          Wählen Sie die Attribute, die an den jeweiligen Positionen des Gantt-Diagramms zu jeder Zeit angezeigt werden sollen. Bedenken Sie, dass beim Überfahren eines Elements die Datumswerte angezeigt werden anstatt dieser Attribute.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Gantt-Diagramm zeigen'
       button_deactivate: 'Gantt-Diagramm ausblenden'
       cancel: Abbrechen
@@ -910,7 +911,7 @@ de:
         subproject: "Unterprojekt"
         title: "Titel"
         type: "Typ"
-        updatedAt: "Aktualisiert"
+        updatedAt: "Aktualisiert am"
         versionName: "Version"
         version: "Version"
       default_queries:
@@ -928,7 +929,6 @@ de:
       placeholders:
         default: "-"
         date: "Zeitraum auswählen"
-        formattable: "%{name}: Klicken zum Bearbeiten..."
       query:
         column_names: "Spalten"
         group_by: "Gruppiere Ergebnisse nach"
@@ -1099,7 +1099,7 @@ de:
       search: "Suche"
       close_search: "Suche schließen"
       current_project: "In diesem Projekt"
-      current_project_and_all_descendants: "In diesem Projekt + Unterprojekte"
+      current_project_and_all_descendants: "In diesem Projekt + Unterprojekten"
       title:
         all_projects: "alle Projekte"
         project_and_subprojects: "und alle Unterprojekte"
@@ -1121,13 +1121,13 @@ de:
       project:
         label: 'Projekt'
         required: 'Bitte wählen Sie ein Projekt'
-        lacking_permission: 'Bitte wählen Sie ein anderes Projekt, da Ihnen die Berechtigungen fehlen, Nutzer zu dem aktuell ausgewählten Projekt zuzuweisen.'
+        lacking_permission: 'Bitte wählen Sie ein anderes Projekt, da Ihnen die Berechtigungen fehlen, Nutzer dem aktuell ausgewählten Projekt zuzuweisen.'
         lacking_permission_info: 'Ihnen fehlt die Berechtigung, Benutzer dem Projekt zuzuweisen, in dem Sie sich gerade befinden. Sie müssen ein anderes auswählen.'
         next_button: 'Weiter'
         no_results: 'Keine Projekte gefunden'
         no_invite_rights: 'Sie dürfen keine Mitglieder zu diesem Projekt hinzufügen'
       type:
-        required: 'Bitte wählen Sie die Typen aus, die eingeladen werden sollen'
+        required: 'Bitte wählen Sie die Benutzer-Typen aus, die eingeladen werden sollen'
         user:
           title: 'Benutzer'
           description: 'Berechtigungen basierend auf der zugewiesenen Rolle im ausgewählten Projekt'
@@ -1153,7 +1153,7 @@ de:
         required:
           user: 'Bitte einen Benutzer auswählen'
           placeholder: 'Bitte einen Platzhalter auswählen'
-          group: 'Bitte wählen Sie eine Gruppe'
+          group: 'Bitte eine Gruppe auswählen'
       role:
         label: 'Rolle in %{project}'
         no_roles_found: 'Keine Rollen gefunden'
@@ -1181,7 +1181,7 @@ de:
       selected_filter:
         all: 'Alle Projekte'
         selected: 'Nur ausgewählte'
-      search_placeholder: 'Projekte durchsuchen...'
+      search_placeholder: 'Projekt durchsuchen...'
       include_subprojects: 'Alle Unterprojekte einbeziehen'
       tooltip:
         include_all_selected: '"Alle Unterprojekte einbeziehen" ist derzeit ausgewählt.'

@@ -270,7 +270,7 @@ pl:
     upsale:
       title: Użytkownicy zastępczy
       description: >
-        Użytkownicy zastępczy to sposób na przypisanie pakietów pracy do użytkowników, którzy nie są częścią twojego projektu. Może to być przydatne w wielu scenariuszach, na przykład, jeśli potrzebujesz śledzić zadania dla zasobu, który nie jest jeszcze nazwany lub dostępny, lub jeśli nie chcesz dać tej osobie dostępu do OpenProject, ale nadal chcesz śledzić zadania przypisane do niej.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -1636,6 +1636,7 @@ pl:
   label_index_by_title: "Indeks tytułów"
   label_information: "Informacje"
   label_information_plural: "Informacje"
+  label_installation_guides: 'Installation guides'
   label_integer: "Liczba całkowita"
   label_internal: "Wewnętrzne"
   label_introduction_video: "Film wprowadzający"
@@ -1780,6 +1781,7 @@ pl:
   label_project_new: "Nowy projekt"
   label_project_plural: "Projekty"
   label_project_settings: "Ustawienia projektu"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} projektów zużywających %{storage} przestrzeni dyskowej"
   label_project_view_all: "Zobacz wszystkie projekty"
   label_project_show_details: "Pokaż szczegóły projektu"
@@ -1931,6 +1933,7 @@ pl:
   label_wiki_start: "Strona startowa"
   label_work_package: "Zadanie"
   label_work_package_attachments: "Załączniki pakietu roboczego"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Nowa kategoria"
   label_work_package_category_plural: "Kategorie pakietów roboczych"
   label_work_package_hierarchy: "Hierarchia zadań"
@@ -2907,10 +2910,10 @@ pl:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Niezgodność ustawienia protokołu'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Twoja aplikacja jest uruchomiona z ustawieniem protokołu <code>%{set_protocol}</code>, ale żądane jest ustawienie <code>%{actual_protocol}</code>. To doprowadzi do błędów! Przejdź do obszaru <a href="%{setting_path}">Ustawienia</a> i zmień ustawienie Protokół, aby to skorygować.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Niezgodność ustawienia nazwy hosta'
       text_html: >

@@ -86,7 +86,8 @@ describe 'Project templates', type: :feature, js: true do
       login_as current_user
     end
 
-    it 'can instantiate the project with the copy permission' do
+    it 'can instantiate the project with the copy permission',
+       with_flag: { work_packages_duration_field_active: true } do
       visit new_project_path
 
       name_field.set_value 'Foo bar'

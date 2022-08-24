@@ -1605,6 +1605,7 @@ fr:
   label_index_by_title: "Index par titre"
   label_information: "Information"
   label_information_plural: "Information"
+  label_installation_guides: 'Guides d''installation'
   label_integer: "Nombre entier"
   label_internal: "Interne"
   label_introduction_video: "Vidéo de présentation"
@@ -1749,6 +1750,7 @@ fr:
   label_project_new: "Nouveau projet"
   label_project_plural: "Projets"
   label_project_settings: "Paramètres du projet"
+  label_project_storage_plural: "Stockages"
   label_projects_storage_information: "%{count} projets utilisant %{storage} d'espace disque"
   label_project_view_all: "Afficher tous les projets"
   label_project_show_details: "Afficher les détails du projet"
@@ -1900,6 +1902,7 @@ fr:
   label_wiki_start: "Page d'accueil"
   label_work_package: "Lot de travaux"
   label_work_package_attachments: "Pièces jointes du lot de travaux"
+  label_work_package_file_link_plural: "Liens des fichiers du lot de travaux"
   label_work_package_category_new: "Nouvelle catégorie"
   label_work_package_category_plural: "Catégories de Lots de Travaux"
   label_work_package_hierarchy: "Hiérarchie du lot de travaux"
@@ -2870,10 +2873,10 @@ fr:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Incompatibilité des paramètres de protocole'
+    https_mismatch:
+      title: 'Mauvaise configuration du mode HTTPS'
       text_html: >
-        Votre application est en cours d'exécution avec sa configuration de protocole définie sur <code>%{set_protocol}</code>, mais la requête est une requête <code>%{actual_protocol}</code> . Cela causera des erreurs ! Allez dans <a href="%{setting_path}">Paramètres système</a> et modifiez le paramètre « Protocole » pour corriger cela.
+        Votre application fonctionne avec le mode HTTPS réglé sur <code>%{set_protocol}</code>, mais la requête est une requête <code>%{actual_protocol}</code>. Cela entraînera des erreurs ! Vous devrez définir la valeur de configuration suivante : <code>%{setting_value}</code>. Veuillez consulter <a href="%{more_info_path}">la documentation d'installation</a> pour savoir comment régler cette configuration.
     hostname_mismatch:
       title: 'Incompatibilité des paramètres du nom d''hôte'
       text_html: >

@@ -63,7 +63,7 @@ da:
   label_example_placeholder: 'f.eks. %{decimal}'
   label_view_all_budgets: "Se alle budgetter"
   label_yes: "Ja"
-  notice_budget_conflict: "Arbejdspakker skal være fra samme projekt."
+  notice_budget_conflict: "Work packages must be of the same project."
   notice_no_budgets_available: "Ingen tilgængelige budgetter."
   permission_edit_budgets: "Redigér budgetter"
   permission_view_budgets: "Se budgetter"

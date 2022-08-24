@@ -40,7 +40,7 @@ module WarningBarHelper
   end
 
   def setting_protocol_mismatched?
-    request.ssl? != OpenProject::Configuration.secure_connection?
+    request.ssl? != OpenProject::Configuration.https?
   end
 
   def setting_hostname_mismatched?

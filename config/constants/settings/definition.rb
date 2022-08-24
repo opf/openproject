@@ -29,6 +29,7 @@
 module Settings
   class Definition
     ENV_PREFIX = 'OPENPROJECT_'.freeze
+    AR_BOOLEAN_TYPE = ActiveRecord::Type::Boolean.new
 
     attr_accessor :name,
                   :format,
@@ -381,21 +382,19 @@ module Settings
     def cast(value)
       return nil if value.nil?
 
+      value = value.call if value.respond_to?(:call)
+
       case format
       when :integer
         value.to_i
       when :float
         value.to_f
       when :boolean
-        ActiveRecord::Type::Boolean.new.cast(value)
+        AR_BOOLEAN_TYPE.cast(value)
       when :symbol
         value.to_sym
       else
-        if value.respond_to?(:call)
-          value.call
-        else
-          value
-        end
+        value
       end
     end
 

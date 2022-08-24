@@ -56,11 +56,13 @@ module Components
         raise ArgumentError, "Invalid value #{value} for day, expected 1-31"
       end
 
-      container
-        .first('.flatpickr-days .flatpickr-day:not(.nextMonthDay):not(.prevMonthDay)',
-               text: value,
-               exact_text: true)
-        .click
+      retry_block do
+        container
+          .first('.flatpickr-days .flatpickr-day:not(.nextMonthDay):not(.prevMonthDay)',
+                 text: value,
+                 exact_text: true)
+          .click
+      end
     end
 
     ##

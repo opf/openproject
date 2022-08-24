@@ -272,7 +272,7 @@ hu:
     upsale:
       title: Teszt felhasználók
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -1602,6 +1602,7 @@ hu:
   label_index_by_title: "Index cím szerint"
   label_information: "Információk"
   label_information_plural: "Információk"
+  label_installation_guides: 'Installation guides'
   label_integer: "Egész szám"
   label_internal: "Belső"
   label_introduction_video: "Bemutató videó"
@@ -1746,6 +1747,7 @@ hu:
   label_project_new: "Új projekt"
   label_project_plural: "Projektek"
   label_project_settings: "Projekt beállítások"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{storage} lemezterületet %{count} projekt használja"
   label_project_view_all: "Minden projekt megtekintése"
   label_project_show_details: "Projekt részleteinek megjelenítése"
@@ -1897,6 +1899,7 @@ hu:
   label_wiki_start: "Kezdő oldal"
   label_work_package: "Feladatcsoport"
   label_work_package_attachments: "Munkacsomag mellékletek"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Új kategória"
   label_work_package_category_plural: "Munkacsomag kategóriák"
   label_work_package_hierarchy: "Feladatcsoport hierarchia"
@@ -2867,10 +2870,10 @@ hu:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Protokol beállítási eltérés'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Az alkalmazás fut, amelynek protokollbeállítása <code>%{set_protocol} </code>, de a kérelem <code>%{actual_protocol} </code> kérés. Ez hibákat eredményez! Lépjen a <a href="%{setting_path}"> Rendszerbeállítások </a> pontra, és javítsa ki a "Protokoll" beállítást.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Hosztnév beállítási eltérés'
       text_html: >

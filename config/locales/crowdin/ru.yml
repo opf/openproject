@@ -272,7 +272,7 @@ ru:
     upsale:
       title: Пользователи-заполнители
       description: >
-        Пользователи Placeholder - это способ назначить пакеты работ пользователям, которые не являются частью вашего проекта. Они могут быть полезными в различных сценариях; например, если вам нужно отслеживать задачи для ресурса, который еще не назван или недоступен или если вы не хотите дать этому человеку доступ к OpenProject, но по-прежнему хотите отслеживать назначенные ему задачи.
+        Пользователи Placeholder - это способ назначить пакеты работ пользователям, которые не являются частью вашего проекта. Они могут быть полезными в различных сценариях; например, если вам нужно отслеживать задачи для ресурса, который еще не назван или недоступен или если вы не хотите дать этому человеку доступ к OpenProject, но все равно хотите отслеживать задачи, назначенные ему.
   prioritiies:
     edit:
       priority_color_text: |
@@ -1638,6 +1638,7 @@ ru:
   label_index_by_title: "Индекс по названию"
   label_information: "Информация"
   label_information_plural: "Информация"
+  label_installation_guides: 'Инструкции по установке'
   label_integer: "Целое число"
   label_internal: "Внутренние"
   label_introduction_video: "Вводное видео"
@@ -1782,6 +1783,7 @@ ru:
   label_project_new: "Новый проект"
   label_project_plural: "Проекты"
   label_project_settings: "Настройки проекта"
+  label_project_storage_plural: "Хранилища"
   label_projects_storage_information: "%{count} проектов используют %{storage} дискового пространства"
   label_project_view_all: "Просмотреть все проекты"
   label_project_show_details: "Показать детали проекта"
@@ -1933,6 +1935,7 @@ ru:
   label_wiki_start: "Начальная страница"
   label_work_package: "Пакет работ"
   label_work_package_attachments: "Вложения пакета работ"
+  label_work_package_file_link_plural: "Ссылки на файл пакета работ"
   label_work_package_category_new: "Новая категория"
   label_work_package_category_plural: "Категории пакета работ"
   label_work_package_hierarchy: "Иерархия пакета работ"
@@ -2908,10 +2911,10 @@ ru:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Несоответствие настроек протокола'
+    https_mismatch:
+      title: 'Несоответствие режима HTTPS'
       text_html: >
-        Ваше приложение запущено с протоколом <code>%{set_protocol}</code>, но в запросе используется протокол <code>%{actual_protocol}</code>. Во избежание ошибок откройте <a href="%{setting_path}">системные настройки</a> и измените протокол.
+        Приложение работает с режимом HTTPS, установленным в <code>%{set_protocol}</code>, но запрос - это <code>%{actual_protocol}</code> запрос. Это приведет к ошибкам! Вам нужно установить следующее значение конфигурации: <code>%{setting_value}</code>. Смотрите <a href="%{more_info_path}">установочную документацию</a> о том, как установить эту конфигурацию.
     hostname_mismatch:
       title: 'Несоответствие настроек имени хоста'
       text_html: >
