@@ -6,6 +6,8 @@ import {
   RenderInfo,
   timelineElementCssClass,
 } from '../wp-timeline';
+
+import { MouseDirection } from './wp-timeline-cell-mouse-handler';
 import { CellDateMovement, LabelPosition, TimelineCellRenderer } from './timeline-cell-renderer';
 import {
   classNameFarRightLabel,
@@ -76,7 +78,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   public onDaysMoved(change:WorkPackageChangeset,
     dayUnderCursor:Moment,
     delta:number,
-    direction:'left' | 'right' | 'both' | 'create' | 'dragright') {
+    _direction:MouseDirection):CellDateMovement {
     const initialDate = change.pristineResource.date;
     const dates:CellDateMovement = {};
 
@@ -90,8 +92,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   public onMouseDown(ev:MouseEvent,
     dateForCreate:string | null,
     renderInfo:RenderInfo,
-    labels:WorkPackageCellLabels,
-    elem:HTMLElement):'left' | 'right' | 'both' | 'create' | 'dragright' {
+    labels:WorkPackageCellLabels):MouseDirection {
     // check for active selection mode
     if (renderInfo.viewParams.activeSelectionMode) {
       renderInfo.viewParams.activeSelectionMode(renderInfo.workPackage);

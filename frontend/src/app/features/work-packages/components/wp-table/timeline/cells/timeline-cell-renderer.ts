@@ -10,7 +10,12 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
-import { classNameBarLabel, classNameLeftHandle, classNameRightHandle } from './wp-timeline-cell-mouse-handler';
+import {
+  classNameBarLabel,
+  classNameLeftHandle,
+  classNameRightHandle,
+  MouseDirection
+} from './wp-timeline-cell-mouse-handler';
 import {
   classNameFarRightLabel,
   classNameHideOnHover,
@@ -125,7 +130,7 @@ export class TimelineCellRenderer {
   public onDaysMoved(change:WorkPackageChangeset,
     dayUnderCursor:Moment,
     delta:number,
-    direction:'left'|'right'|'both'|'create'|'dragright'):CellDateMovement {
+    direction:MouseDirection):CellDateMovement {
     const initialStartDate = change.pristineResource.startDate;
     const initialDueDate = change.pristineResource.dueDate;
 
@@ -166,8 +171,7 @@ export class TimelineCellRenderer {
   public onMouseDown(ev:MouseEvent,
     dateForCreate:string|null,
     renderInfo:RenderInfo,
-    labels:WorkPackageCellLabels,
-    elem:HTMLElement):'left'|'right'|'both'|'dragright'|'create' {
+    labels:WorkPackageCellLabels):MouseDirection {
     // check for active selection mode
     if (renderInfo.viewParams.activeSelectionMode) {
       renderInfo.viewParams.activeSelectionMode(renderInfo.workPackage);
@@ -176,7 +180,7 @@ export class TimelineCellRenderer {
     }
 
     const projection = renderInfo.change.projectedResource;
-    let direction:'left'|'right'|'both'|'dragright';
+    let direction:Exclude<MouseDirection, 'create'>;
 
     // Update the cursor and maybe set start/due values
     if (jQuery(ev.target!).hasClass(classNameLeftHandle)) {
