@@ -67,7 +67,7 @@ docker-compose down
 This will not remove your data which is persisted in named volumes, likely called `compose_opdata` (for attachments) and `compose_pgdata` (for the database). The exact name depends on the name of the directory where
 your `docker-compose.yml` file is stored (`compose` in this case).
 
-If you want to start from scratch and remove the exsiting data you will have to remove these volumes via
+If you want to start from scratch and remove the existing data you will have to remove these volumes via
 `docker volume rm compose_opdata compose_pgdata`.
 
 ## All-in-one container

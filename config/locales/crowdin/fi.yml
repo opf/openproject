@@ -741,6 +741,8 @@ fi:
         work_package:
           is_not_a_valid_target_for_time_entries: "Tehtävä #%{id} ei ole kelvollinen kohde aikakirjauksille."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "ei ole aloituspäivänä, vaikka välitavoite vaatii sen olevan."
             duration:

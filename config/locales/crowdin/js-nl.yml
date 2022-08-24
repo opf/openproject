@@ -604,6 +604,7 @@ nl:
       default: '-'
       subject: 'Onderwerp hier invoeren'
       selection: 'Gelieve te selecteren'
+      description: 'Description: Click to edit...'
       relation_description: 'Klik om een beschrijving voor deze relatie toe te voegen'
     project:
       required_outside_context: >
@@ -929,7 +930,6 @@ nl:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Klik om te bewerken..."
       query:
         column_names: "Kolommen"
         group_by: "Groepeer resultaten op"

@@ -606,6 +606,7 @@ lt:
       default: '-'
       subject: 'Įveskite temą čia'
       selection: 'Prašome pasirinkti'
+      description: 'Description: Click to edit...'
       relation_description: 'Paspauskite, kad pridėtumėte šio ryšio aprašymą'
     project:
       required_outside_context: >
@@ -931,7 +932,6 @@ lt:
       placeholders:
         default: "-"
         date: "Parinkite datą"
-        formattable: "%{name}: Spauskite keitimui..."
       query:
         column_names: "Stulpeliai"
         group_by: "Grupuoti rezultatus pagal"

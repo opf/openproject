@@ -604,6 +604,7 @@ hu:
       default: '-'
       subject: 'Itt adja meg a témát'
       selection: 'Kérem válasszon'
+      description: 'Description: Click to edit...'
       relation_description: 'Kapcsolat leírásának hozzáadása ide kattintva'
     project:
       required_outside_context: >
@@ -929,7 +930,6 @@ hu:
       placeholders:
         default: "-"
         date: "Dátum kiválasztása"
-        formattable: "%{name}: kattints a módosításhoz!"
       query:
         column_names: "Oszlopok"
         group_by: "Csoport szintű eredmények"

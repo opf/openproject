@@ -602,6 +602,7 @@ vi:
       default: '-'
       subject: 'Nhập tiêu đề ở đây'
       selection: 'Vui lòng chọn'
+      description: 'Description: Click to edit...'
       relation_description: 'Click to add description for this relation'
     project:
       required_outside_context: >
@@ -927,7 +928,6 @@ vi:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Bấm vào để chỉnh sửa..."
       query:
         column_names: "Cột"
         group_by: "Nhóm kết quả bởi"

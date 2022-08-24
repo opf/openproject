@@ -604,6 +604,7 @@ fil:
       default: '-'
       subject: 'Ipasok ang paksa dito'
       selection: 'Pakiusap pumili'
+      description: 'Description: Click to edit...'
       relation_description: 'Pindutin upang magdagdag ng deskripsyon sa kaugnay na ito'
     project:
       required_outside_context: >
@@ -929,7 +930,6 @@ fil:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Mga hanay"
         group_by: "Mga resulta sa grupo sa pamamagitan ng"

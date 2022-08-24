@@ -21,7 +21,7 @@ If that is not the case, you are likely using a self-provisioned database or a r
 
 In the following, we assume that you initially let OpenProject setup your PostgreSQL installation, using a local database. 
 
-NOTE: RedHat and CentOS are slightly different, depending on which PostgreSQL pacakge/repository will be used.
+NOTE: RedHat and CentOS are slightly different, depending on which PostgreSQL package/repository will be used.
 For the documentation parts titled RedHat/CentOS RedHat Enterprise Linux 8 was used.
 
 

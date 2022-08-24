@@ -28,7 +28,7 @@ You can change the start and finish dates of work packages by opening the date p
 You can open the date picker for a work package from a number of different places:
 
 - By clicking on the date field in the work package [details view](../work-package-views/#work-package-full-screen-view)
-- By clicking the the date field in the work pacakge [split screen view](../work-package-views/#work-package-split-screen-view) (from any other view, including [notification center](../../notifications), [team planner](../../team-planner/), [boards](../../agile-boards)...)
+- By clicking the the date field in the work package [split screen view](../work-package-views/#work-package-split-screen-view) (from any other view, including [notification center](../../notifications), [team planner](../../team-planner/), [boards](../../agile-boards)...)
 - By clicking the start or finish date fields in [list view](../work-package-views/#work-package-list-view)
 
 
@@ -85,7 +85,7 @@ Checking  "Manual scheduling" enables [manual scheduling mode](../../gantt-chart
 
 Manual scheduling also decouples the start and end dates of parent and children work packages. This means that the dates of parents are no longer constrained by those of the children, and children can be scheduled outside of the range of parent work packages. These relationships are completely ignored as far as scheduling is concerned.
 
-Manual scheduling can be useful when you need to anchor a work package to fixed dates, for example because the dates of preceeding or following work packages are not yet known. 
+Manual scheduling can be useful when you need to anchor a work package to fixed dates, for example because the dates of preceding or following work packages are not yet known. 
 
 ## Information and warning banners
 
@@ -107,13 +107,13 @@ It is nevertheless possible to input specific start and finish dates for such wo
 
 ![A blue banner informing the user that certain dates are limited by relations](banner-dates-limited.png)
 
-This information banner is displayed when certain date ranges are disabled due to constraints imposed by follows/preceeds relations. For example, a work packages following another one cannot be scheduled before the finish date of the the preceeding one.
+This information banner is displayed when certain date ranges are disabled due to constraints imposed by follows/precedes relations. For example, a work packages following another one cannot be scheduled before the finish date of the the preceding one.
 
 ### Manually scheduled, relations ignored
 
 ![An orange banner warning the user that manual scheduling will ignore existing relations](banner-manual-relations-ignored.png)
 
-This warning banner is displayed when you enable manual scheduling on work packages that have follows/preceeds or parent/child relations, which are now ignored and no longer limit which dates can be selected for this work package. This also means that changes a manually scheduled work package no longer affect others, despite those exisiting relations.
+This warning banner is displayed when you enable manual scheduling on work packages that have follows/precedes or parent/child relations, which are now ignored and no longer limit which dates can be selected for this work package. This also means that changes a manually scheduled work package no longer affect others, despite those existing relations.
 
 This banner is _not_ displayed when manual scheduling is enabled on work packages without relations.
 

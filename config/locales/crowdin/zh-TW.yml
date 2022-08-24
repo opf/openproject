@@ -740,6 +740,8 @@ zh-TW:
         work_package:
           is_not_a_valid_target_for_time_entries: "工作項目 #%{id} 不是重新分配時間項目有效的目標"
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "不在開始的日期，儘管它是里程碑所必需的。"
             duration:

@@ -743,6 +743,8 @@ cs:
         work_package:
           is_not_a_valid_target_for_time_entries: "Pracovní balíček #%{id} není platný cíl pro přeřazení časových záznamů."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "není v počátečním datu, i když je to nutné pro milníky."
             duration:

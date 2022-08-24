@@ -740,6 +740,8 @@ sv:
         work_package:
           is_not_a_valid_target_for_time_entries: "Arbetspaket #%{id} är inte ett giltigt mål för omfördelning av tidrapporterna."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "är inte på startdatum, även om detta behövs för milstolpar."
             duration:

@@ -602,6 +602,7 @@ zh-TW:
       default: '-'
       subject: '在此輸入主旨'
       selection: '請選擇'
+      description: 'Description: Click to edit...'
       relation_description: '按一下以便為此關係添加描述'
     project:
       required_outside_context: >
@@ -927,7 +928,6 @@ zh-TW:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "欄"
         group_by: "分組依據"

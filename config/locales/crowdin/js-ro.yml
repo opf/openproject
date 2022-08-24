@@ -604,6 +604,7 @@ ro:
       default: '-'
       subject: 'Introduceţi subiectul aici'
       selection: 'Vă rugăm să selectaţi'
+      description: 'Description: Click to edit...'
       relation_description: 'Click pentru a adauga o descriere pentru această relaţie'
     project:
       required_outside_context: >
@@ -929,7 +930,6 @@ ro:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Coloane"
         group_by: "Grupare rezultate"

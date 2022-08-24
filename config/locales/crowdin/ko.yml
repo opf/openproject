@@ -739,6 +739,8 @@ ko:
         work_package:
           is_not_a_valid_target_for_time_entries: "작업 패키지 #%{id}은(는) 시간 항목 재할당에 올바른 대상이 아닙니다."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "마일스톤에서 요구하지만, 시작 날짜가 없음"
             duration:

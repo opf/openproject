@@ -742,6 +742,8 @@ ro:
         work_package:
           is_not_a_valid_target_for_time_entries: "Pachetul de lucru #%{id} nu este o ţintă validă pentru reasocierea timpilor de lucru."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "nu este în data de început, deși acest lucru este necesar pentru repere de etapă."
             duration:

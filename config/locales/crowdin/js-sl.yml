@@ -605,6 +605,7 @@ sl:
       default: '-'
       subject: 'Vnesite temo tukaj'
       selection: 'Prosimo izberite'
+      description: 'Description: Click to edit...'
       relation_description: 'Kliknite, da dodate opis za to povezavo'
     project:
       required_outside_context: >
@@ -930,7 +931,6 @@ sl:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Kliknite za urejanje..."
       query:
         column_names: "Stolpci"
         group_by: "Rezultati grupirani po"

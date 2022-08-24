@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
+require 'bundler'
+Bundler.setup(:default, :development)
+
 require 'pathname'
 require 'json'
 require 'rest-client'
@@ -76,5 +80,5 @@ get_json(last_test_action['jobs_url'])
 if errors.empty?
   warn "No rspec errors found :-/"
 else
-  puts errors.flatten.uniq.join(" ")
+  puts errors.flatten.uniq.map { "'#{_1}'" }.join(" ")
 end

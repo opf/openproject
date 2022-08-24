@@ -604,6 +604,7 @@ fi:
       default: '-'
       subject: 'Lisää aihe'
       selection: 'Valitse'
+      description: 'Description: Click to edit...'
       relation_description: 'Painamalla tästä voit lisätä kuvauksen tälle suhteelle'
     project:
       required_outside_context: >
@@ -929,7 +930,6 @@ fi:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Muokkaa klikkaamalla..."
       query:
         column_names: "Sarakkeet"
         group_by: "Ryhmittele tulokset"

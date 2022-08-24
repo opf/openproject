@@ -740,6 +740,8 @@ pt:
         work_package:
           is_not_a_valid_target_for_time_entries: "Pacote de trabalho #%{id} não é válido para re-atribuir os registros de horas gastas."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
             duration:

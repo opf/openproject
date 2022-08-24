@@ -604,6 +604,7 @@ bg:
       default: '-'
       subject: 'Enter subject here'
       selection: 'Моля изберете'
+      description: 'Description: Click to edit...'
       relation_description: 'Click to add description for this relation'
     project:
       required_outside_context: >
@@ -929,7 +930,6 @@ bg:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Колони"
         group_by: "Групай резултатите по"

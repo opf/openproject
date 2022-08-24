@@ -743,6 +743,8 @@ sk:
         work_package:
           is_not_a_valid_target_for_time_entries: "Pracovný balík #%{id} nepredstavuje platný cieľ pre pridelené položky času."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "nemá rovnakú hodnotu ako dátum začiatku, aj keď je to požadované pre pracovné balíčky typu \"míľnik\"."
             duration:

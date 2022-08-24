@@ -246,7 +246,7 @@ An example where this comes into play is the [`CustomText`](https://github.com/o
 
 - [`EditForm`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/edit/edit-form/edit-form.ts) base class
 - [`EditFormComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/edit/edit-form/edit-form.component.ts#L28-L27) Angular `<edit-form>` component 
-- [`EditableAttributeFieldComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/edit/field/editable-attribute-field.component.ts) Angular `<editable-attribute-field>` component for attributes within the edit form
+- [`EditableAttributeFieldComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/edit/field/editable-attribute-field.component.ts) Angular `<op-editable-attribute-field>` component for attributes within the edit form
 - [`DisplayField`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/display) definitions containing all display fields and the service to instantiate them.
 - [`DisplayFieldRenderer`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/display/display-field-renderer.ts) to manually render display fields from JavaScript
 - [`DisplayFieldComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/display/display-field.component.ts) an Angular component to render display fields
@@ -269,9 +269,9 @@ On the example of a work package, this following code snippet would create an ed
 
 ```html
 <edit-form *ngIf="workPackage" [resource]="workPackage">
-    <editable-attribute-field [resource]="workPackage"
+    <op-editable-attribute-field [resource]="workPackage"
                               fieldName="subject">
-    </editable-attribute-field>
+    </op-editable-attribute-field>
 </edit-form>
 ```
 

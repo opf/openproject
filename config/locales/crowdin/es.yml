@@ -738,6 +738,8 @@ es:
         work_package:
           is_not_a_valid_target_for_time_entries: "Paquete de trabajo #%{id} no es un objetivo válido para reasignar las entradas de tiempo."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "no es en fecha de inicio, aunque esto es necesario para hitos."
             duration:

@@ -745,6 +745,8 @@ ar:
         work_package:
           is_not_a_valid_target_for_time_entries: "مجموعة العمل #%{id} ليست هدفًا صالحًا لإعادة تعيين إدخالات الوقت."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "ليس في تاريخ البدء، وعلى الرغم من أن هذا المطلوب للمعالم."
             duration:
