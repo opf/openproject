@@ -618,11 +618,16 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   /**
    * Updates the duration property and the displayed value
-   * @param value
+   * @param value a ISO8601 duration string or null
    * @private
    */
-  private setDurationDaysFromUpstream(value:string) {
-    const durationDays = this.timezoneService.toDays(value);
-    this.updateDuration(durationDays);
+  private setDurationDaysFromUpstream(value:string|null) {
+    const durationDays = value ? this.timezoneService.toDays(value) : null;
+
+    if (durationDays !== null && durationDays > 0) {
+      this.updateDuration(durationDays);
+    } else {
+      this.duration = null;
+    }
   }
 }
