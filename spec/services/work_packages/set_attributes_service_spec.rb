@@ -1592,6 +1592,7 @@ describe WorkPackages::SetAttributesService,
     let(:work_package) do
       wp = build_stubbed(:work_package,
                          project:,
+                         ignore_non_working_days: true,
                          schedule_manually: true,
                          start_date: Time.zone.today,
                          due_date: Time.zone.today + 5.days)
@@ -1617,6 +1618,28 @@ describe WorkPackages::SetAttributesService,
 
           expect(work_package.start_date).to eql(Time.zone.today + 3.days)
           expect(work_package.due_date).to eql(Time.zone.today + 8.days)
+        end
+      end
+    end
+
+    context 'when the soonest start date is a non-working day' do
+      let(:saturday) { Time.zone.today.beginning_of_week.next_occurring(:saturday) }
+      let(:next_monday) { saturday.next_occurring(:monday) }
+      let(:soonest_start) { saturday }
+
+      before do
+        create(:week_days)
+        work_package.ignore_non_working_days = false
+      end
+
+      it_behaves_like 'service call' do
+        it 'sets the start date to the soonest possible start date being a working day' do
+          subject
+
+          expect(work_package).to have_attributes(
+            start_date: next_monday,
+            due_date: next_monday + 7.days
+          )
         end
       end
     end
