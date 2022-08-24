@@ -1,100 +1,183 @@
 ---
 sidebar_navigation:
-  title: Nextcloud integration setup
+  title: Nextcloud integration
   priority: 600
-description: Nextcloud integration setup
-keywords: integrations, apps, Nextcloud
+description: Set up Nextcloud as a file storage in your OpenProject instance
+keywords: Nextcloud file storage integration
 ---
 
-# OpenProject and Nextcloud integration setup 
 
-The integration between OpenProject and Nextcloud has the potential to improve the productivity of all users. It combines the strengths of Nextcloud, the world's most deployed on-premises collaborative file storage platform and OpenProject, the leading free and open source project management and collaboration software
 
-This integration allows you to link files and folders in Nextcloud with work packages in OpenProject, allowing you to see all files related to a work package (in Open Project) and all work packages related to a file (in Nextcloud). As a project member, you no longer need to lose time trying to find the right files to be able to complete your tasks, and the integration of OpenProject-specific notifications on Nextcloud dashboard ensures that no change goes unnoticed. 
+# Nextcloud integration
 
-## Step-by-step setup instructions
+| Topic                      | Description                                                  |
+| ----------------------------------- | :----------------------------------------------------------- |
+| [Minimum requirements](work-package-settings)            | Minimum version requirements to enable the integration       |
+| [Setting up the integration](work-package-settings)      | Connect your Nextcloud and OpenProject instances as an administrator |
+| [Resetting OAuth values](work-package-types)             | Create and manage work package types.                        |
+| [Deleting a Nextcloud file storage](work-package-status) | Create and manage work package status.                       |
+| [Using the integration](work-package-workflows) | Create and manage workflows for work packages in OpenProject. |
 
-For integrating with OpenProject 12.2, the minimum required version of Nextcloud is 22. For the Nextcloud app  "OpenProject integration" that extends your Nextcloud installation, the minimum required version is 2.0.0. To be able to configure this integration, you need to have administrator privileges in both your Nextcloud and OpenProject instances.
+OpenProject offers close integration with Nextcloud to allow users to:
 
-**1. Add the "OpenProject integration" app and connect the instance** - in Nextcloud
+- Link files and folders stored in Nextcloud with OpenProject work packages
+- View, open and download files and folder linked to a work package via the Files tab
+- View all work packages linked to a file
+- View OpenProject notifications via the Nextcloud dashboard
 
-To activate your integration to OpenProject in Nextcloud, navigate to the built-in app store. You find the app store in the menu that opens when you click your round user avatar in the top right corner. In the app store click on _Integrations_. There you will find the "OpenProject integration" app. You can also use the search field in the top right corner to look for the OpenProject integration app. Once you have found the app, click the button **Download and enable**.
 
-![Nextcloud_app_store](Nextcloud_app_store.png)
 
-Once the OpenProject integration app is downloaded and enabled, you can access it from within the _Settings_ page, via the side menu. Start by entering the _Host URL_ of your desired OpenProject instance.
+## Minimum requirements
 
-![Nextcloud_host](3_2_01-NC_Step_1.png)
+Please note these minimum version requirements for the integration to work:
 
-Click on the **Save** button and open your OpenProject instance in a new browser tab.
+- OpenProject version 12.2 (or above)
+- Nextcloud version 22 (or above)
+- The [OpenProject integration](https://apps.nextcloud.com/apps/integration_openproject) app, version 2.0.0 (or above)
 
-**2. Introduce the basic information of your integration** - in OpenProject
 
-Make sure you are logged in as an administrator in your OpenProject instance. Navigate to *File storages* from the Administration page. To start configuring your new Nextcloud integration, click on the **Add (+)** button to add a new file storage.
 
-![Storage_index](3_0_00-OP_OAuth_Empty_Index.png)
+## Setting up the integration
 
-By default, the storage *Provider type* is set to _Nextcloud_; this does not need to be modified. To proceed, enter a *Name* to your Nextcloud storage. This name will be visible to all the users using it. We highly recommended choosing a clear and distinct name that allows users to differentiate it from other potential file storages integrations in the future. You will also need to set the *Host URL* of your Nextcloud instance. The *Host URL* is the web address of your Nextcloud instance. Make sure you include the _https://_ bit of the address.
+> **Important**: You need to have administrator privileges in both your Nextcloud and OpenProject instances to set up this integration.
 
-![Storage_basic_information](3_0_01-OP_General_Info.png)
+#### 1. Add the "OpenProject integration" app in Nextcloud and point it to your OpenProject instance
 
-Once you fill in all mandatory fields, click on the **Save and continue setup** button.
+Start by opening your Nextcloud instance as an administrator.
 
-**3. Generate and copy the OpenProject OAuth values** - in OpenProject and Nextcloud
+Navigate to the Nextcloud app store by clicking on *your avatar in the top right corner → Apps*. 
 
-In this step, the *OpenProject OAuth values* are generated automatically. These values are needed to permit OpenProject to connect to Nextcloud. If you have not done so yet, we recommend you have two browser tabs open: the current one with OpenProject and the former one with Nextcloud. Now copy the two *OpenProject OAuth values* from the OpenProject tab to the respective fields in the Nextcloud tab. Simply paste them into the respective _OpenProject OAuth settings_ fields.
+![Go to the Nextcloud app store ](apps-in-top-right-menu.png)
 
-> **Important**: The *OpenProjects OAuth values (client ID and client secret)* are not accessible again after you close the window. Please make sure you copy the generated values you see in the _Nextcloud OpenProject Integration settings_. Treat these values with care. Do not save them in any public place. Simply treat them as carefully as you would treat an important password.
+On the left menu, click on **Integration** and look for the "[OpenProject integration](https://apps.nextcloud.com/apps/integration_openproject)" app. 
 
-![OP_OAuth_values](3_1_00-OP_OAuth_application_details.png)
+You can also use the search field in the top right corner and type "OpenProject" to find it. Once you have found the app, click the **Download and enable** button.
 
-![Nextcloud_OP_OAuth_values](3_2_03-NC_Step_2.png)
+![Download and enable the OpenProject integration app](Nextcloud_OpenProject_integration_app.png)
 
-Once you have copied the values, click on the **Save** button to proceed to the next step in Nextcloud.
+Once the OpenProject integration app is downloaded and enabled, navigate to the settings page by clicking on *your avatar in the top right corner → Settings*. On the left-side menu, click on **OpenProject integration**
 
-**4. Generate and copy the Nextcloud OAuth values** - in Nextcloud and OpenProject
+In the configuration page that appears, you'll see a blank text field titled **OpenProject host**. Enter the address of the OpenProject instance you would like to connect with Nextcloud (including "https://").
 
-As in the previous step, the *OAuth values* are generated automatically, but this time on the Nextcloud end. These values are needed to allow the connection from Nextcloud to OpenProject, so you will need to once again copy them here and paste them in OpenProject (without closing the Nextcloud tab). If you had not clicked the **Done. Continue setup** button in the OpenProject tab in the previous step, you can do so now to proceed to the screen where you will be able to paste the Nextcloud OAuth values in OpenProject.
+![Enter your OpenProject instance URL in the OpenProject host field](3_2_01-NC_Step_1.png)
 
-![Nextcloud_NC_OAuth_values](3_2_04-NC_Step_3.png)
+Click on the **Save** button. 
+
+The next part of the setup will require you to enter OpenProject OAuth values here, but before we do that, you will need to generate them in OpenProject. To do so, navigate to your OpenProject instance in a new browser tab. 
+
+#### 2. Create a Nextcloud file storage in your OpenProject instance
+
+Navigate to your administration settings page by clicking on *your avatar in the top right corner → Administration*. From the side menu on the left, click on **File storages**.
+
+Click on **+ Storage** to add a new file storage.
+
+![File storages in the Administration settings](admin-file-storages.png)
+
+A new page titled **New storage** will appear, where you will be able to configure your new Nextcloud storage.
+
+By default, **Provider type** is set to Nextcloud. This does not need to be modified. 
+
+Give a **name** to this new storage. This will be visible to all users in all projects using this file storage. We highly recommended choosing a distinct name that allows users to differentiate it from any other file storages you may add in the future. 
+
+Next, enter the **Host URL** of your Nextcloud instance. This is simply the address of your Nextcloud instance, including the "https://".
+
+![Adding a new storage via OpenProject Administration settings](new-storage-admin.png)
+
+Click on **Save and continue setup**. Your new storage is now created, but before you can use it, you will need to exchange OAUth IDs and secrets between your Nextcloud and OpenProject instances. You will do this in the next step.
+
+#### 3. Enter OpenProject OAuth values in Nextcloud settings
+
+At this point, you will see a page titled **OpenProject OAuth application details**.
+
+Note that OpenProject has automatically generated an OAuth **client ID** and a **client secret**. These values are needed to permit Nextcloud to connect to OpenProject.
+
+> **Important**: These generated values are not accessible again after you close the window. Please do not navigate away from this page before copying them over to Nextcloud, as instructed below. Treat these values with care, as you would an important password. Please do not reveal them to anyone else.
+
+
+
+![OpenProject generates OAuth values to copy over to Nextcloud](OP-OAuth-values.png)
+
+Go back to the browser tab where you were configuring the **OpenProject integration** app. (We recommend you have two browser tabs open: the current one with OpenProject and the former one with Nextcloud).
+
+Copy the two generated values (client ID and secret) from the OpenProject tab to the respective fields in Nextcloud, namely **OpenProject OAuth client ID** and **OpenProject OAuth client secret**. 
+
+![OAuth values generated by OpenProject are entered into Nextcloud app configuration](3_2_03-NC_Step_2.png)
+
+Once you have copied the values, click on **Save** to proceed to the next step.
+
+#### 4. Enter Nextcloud OAuth values in OpenProject
+
+In the page that appears, you will see new OAuth values that are once again generated automatically, but this time by Nextcloud.
+
+OpenProject will need these values to be able to connect to your Nextcloud instance.
+
+Much like in the previous step, you will need to copy these two generated values (**Nextcloud OAuth client ID** and **Nextcloud OAtuh client secret**) and paste them into OpenProject.
+
+![Nextcloud also generates OAuth values that need to be copied to OpenProject](3_2_04-NC_Step_3.png)
+
+Navigate back to your OpenProject tab and click on the **Done. Continue setup** button on the screen you previously left it at. You will now see a screen where you will be able to enter the Nextcloud values. 
 
 ![OpenProject_NC_OAuth_values](3_3_01-OP_OAuth_application_details.png)
 
-Once these values are entered, you can click the button **Save and complete setup** in your OpenProject tab and the **Yes, I have copied these values** in Nextcloud. Once this is done, your instance configuration is complete.
+Once you hava entered the client ID and client secrets on this page, click on **Save and complete setup**. In the next screen, click on **Yes, I have copied these values**. At this point, your instance configuration is complete and you should see a green banner confirming this.
 
-![OpenProject_success](3_4_00-OAuth-OP_Success.png)
+![Integration successfully completed on the OpenProject end](/Users/parimal/Documents/GitHub/openproject/docs/system-admin-guide/integrations/nextcloud/Nextcloud-set-up-in-OP.png)
 
-![Nextcloud_success](3_2_05-NC_Success.png)
+The **OpenProject integration** page on your Nextcloud tab should also indicate that the integration is complete with three green check marks.
 
-**5. Enable the file storages module and activate it in the desired project** - in OpenProject
+![Integration successfully set up on the Nextcloud end, three green checks visible](3_2_05-NC_Success.png)
 
-Now that the integration setup is complete and ready to use, there is just one more step for you as administrator: in every project in which you want to use the integration you need to activate the *File storages* module and add your recently configured file storage to the project.
+#### 5. Add your new Nextcloud file storage to a project
 
-To activate the module, go to the **Project settings** in the desired project and access the **Modules** entry in the side menu. There, activate the *File storages* module. Once this is done, a new menu entry called **File storages** appears at the bottom of the side menu, where you can select your new Nextcloud integration.
+The integration is now complete, and your OpenProject and Nextcloud instances are ready to share information. The next step is to make the Nextcloud file storage you just created available to individual projects.
 
-![module_activation](Settings_modules.png)
+To do so, navigate to any existing project in your OpenProject instance and click on  **Project settings** **→ Modules**. There, active the **File Storages** module by clicking on the checkbox next to it and then clicking on **Save**.
 
-![settings_files_storages](Settings_files_storages.png)
+![List of modules activated for a project](project-modules.png)
 
-## How to reset your OAuth values
+Click on this new **Files storages** menu entry. It will take you to a page titled **File storages available in this project**, which is normally empty.
 
-If you need to reset the values of the Nextcloud integration (as an administrator), you can always reset the OAuth values from both sides of the integration by clicking on the **Reset OAuth values** (in Nextcloud) or **Replace OAuth values** (in OpenProject) buttons.
+Click on **+ Storage**.
+
+![List of file storages available to a project, empty](file-storages-available-in-project.png)
+
+In the page that follows, under, make sure your newly-created Nextcloud file storage is selected under **Storage**. If you only have one Nextcloud file storage set up (which is the most likely scenario), it should already be selected by default.
+
+![Add your new file storage to a project](add-file-storage-to-project.png)
+
+Click on **Add** to add your new Nextcloud file storage to this project.
+
+The Nextcloud file storage is now available to all work packages in this project. 
+
+> **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../..//user-guide/nextcloud-integration/).
+
+## Resetting OAuth values
+
+If you wish to reset OAuth values for any reason, you can do so on either side by clicking on the **Reset OAuth values** button (in Nextcloud settings) or the **Replace OAuth values** button (in OpenProject admin settings).
 
 > **Important**: When you reset/replace these values, you will need to update the configuration with the new OAuth credentials from the side you are resetting. This will also require all users to re-authorize OpenProject to access their Nextcloud account by logging in again.
 
-![nextcloud_reset_OPOAuth](3_2_06-NC_OP_OAuth_Replace.png)
+![A dialogue asking the user to confirm they want to replace OpenProject OAuth values](3_2_06-NC_OP_OAuth_Replace.png)
 
-![nextcloud_reset_NCOAuth](3_2_07-NC__OAuth_Replace.png)
-
-![openproject_reset_OAuth](3_4_03-OP_Replace_Alert.png)
+![A dialogue asking the user to confirm they want to replace OpenProject OAuth values](3_4_03-OP_Replace_Alert.png)
 
 
-## How to delete a file storage integration
+## Deleting a Nextcloud file storage
 
-As an administrator, you can always delete the integration to Nextcloud using the **Delete** button in  the OpenProject settings or the **Reset** button in the Nextcloud settings.
+You can delete a Nextcloud file storage either at a project level or at an instance-level. 
 
-> **Important:** If you perform this action, the integration will be reset and deleted and all settings and user connections that were created will be deleted. This means that should you want to reconfigure the integration, you will need complete the entire setup process once again.
+Deleting a file storage at a project level simply makes it unavailable to that particular project, without affecting the integration for other projects. Project admins can do so by navigating to *Project settings → File storages* and clicking the **delete** icon next to the file storage you would like to remove.
+
+![Click on the delete icon next to the file storage in the project settings to remove it from the project](file-storage-list-project.png)
+
+Deleting a file storage at an instance level deletes the Nextcloud integration completely and make it unaccessible to all projects in that instance. Should an instance administrator nevertheless want to do so, they navigate to *Administration → File storages* and clicking the **delete** icon next to the file storage they would like to remove.
+
+![Click on the delete icon next to the file storage in administration settings to delete it from this instance](file-storage-list-admin.png)
+
+> **Important:** Deleting a file storage as an instance administrator will also delete all settings and links between work packages and Nextcloud files/folders. This means that should you want to reconnect your Nextcloud instance with OpenProject, will need complete the entire setup process once again.
+
+
 
 ## Using the integration
 
-Once the file storage is added and enabled for projects, your users are able to take full advantage of the Nextcloud-OpenProject integration. For more information on how link Nextcloud files to work packages in OpenProject and access linked work packages in Nextcloud, please refer to the [Nextcloud integration user guide](../../../user-guide/nextcloud-integration/).
+Once the file storage is added and enabled for projects, your users are able to take full advantage of the integration between Nextcloud and OpenProject. For more information on how link Nextcloud files to work packages in OpenProject and access linked work packages in Nextcloud, please refer to the [Nextcloud integration user guide](../../../user-guide/nextcloud-integration/).
