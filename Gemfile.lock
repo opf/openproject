@@ -629,7 +629,7 @@ GEM
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
     minisyntax (0.2.5)
-    minitest (5.16.2)
+    minitest (5.16.3)
     msgpack (1.5.4)
     multi_json (1.15.0)
     multipart-post (2.2.3)
@@ -706,7 +706,7 @@ GEM
     prawn (2.4.0)
       pdf-core (~> 0.9.0)
       ttfunk (~> 1.7)
-    prawn-markup (0.3.6)
+    prawn-markup (0.3.7)
       nokogiri
       prawn
       prawn-table
@@ -913,9 +913,9 @@ GEM
     sentry-delayed_job (5.4.1)
       delayed_job (>= 4.0)
       sentry-ruby (~> 5.4.1)
-    sentry-rails (5.4.1)
+    sentry-rails (5.4.2)
       railties (>= 5.0)
-      sentry-ruby (~> 5.4.1)
+      sentry-ruby (~> 5.4.2)
     sentry-ruby (5.4.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
     shoulda-context (2.0.0)
