@@ -73,6 +73,7 @@ import {
   setDates,
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
+import { DateOption } from 'flatpickr/dist/types/options';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -153,8 +154,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   ];
 
   duration:number|null;
-
-  displayedDuration:string;
 
   currentlyActivatedDateField:DateFields;
 
@@ -392,12 +391,22 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   handleDurationFocusIn():void {
     this.setCurrentActivatedField('duration');
-    this.displayedDuration = this.duration ? this.duration.toString(10) : '';
+  }
+
+  get displayedDuration():string {
+    if (!this.duration) {
+      return '';
+    }
+
+    if (this.isStateOfCurrentActivatedField('duration')) {
+      return this.duration.toString(10);
+    }
+
+    return this.text.days(this.duration);
   }
 
   handleDurationFocusOut():void {
     this.setCurrentActivatedField('start');
-    this.showDurationWithDays();
 
     if (this.dates.start) {
       this.dateUpdates$.next({
@@ -426,14 +435,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     }
 
     return null;
-  }
-
-  private showDurationWithDays() {
-    if (this.duration) {
-      this.displayedDuration = this.text.days(this.duration);
-    } else {
-      this.displayedDuration = '';
-    }
   }
 
   private initializeDatepicker(minimalDate?:Date|null) {
@@ -501,7 +502,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     switch (dates.length) {
       case 1: {
         const selectedDate = dates[0];
-        if (this.dates.start !== '' && this.dates.end !== '') {
+        if (this.dates.start && this.dates.end) {
           /**
            Overwrite flatpickr default behavior by not starting a new date range everytime but preserving either start or end date.
            There are three cases to cover.
@@ -521,7 +522,10 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
             if (this.isStateOfCurrentActivatedField('end')) {
               this.overwriteDatePickerWithNewDates([parsedStartDate, selectedDate]);
             } else {
-              this.overwriteDatePickerWithNewDates([selectedDate, selectedDate]);
+              // Reset duration and end
+              this.dates.end = null;
+              this.duration = null;
+              this.overwriteDatePickerWithNewDates([selectedDate]);
               this.toggleCurrentActivatedField();
             }
           } else if (areDatesEqual(selectedDate, parsedStartDate) || areDatesEqual(selectedDate, parsedEndDate)) {
@@ -620,6 +624,5 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   private setDurationDaysFromUpstream(value:string) {
     const durationDays = this.timezoneService.toDays(value);
     this.updateDuration(durationDays);
-    this.showDurationWithDays();
   }
 }
