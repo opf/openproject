@@ -325,7 +325,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       }
     end
 
-    it 'sets the other two values' do
+    it 'unsets the other two values' do
       datepicker.expect_start_date '2021-02-09'
       datepicker.expect_due_date '2021-02-11'
       datepicker.expect_duration 3
@@ -333,8 +333,8 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.set_date '2021-03-03'
 
       datepicker.expect_start_date '2021-03-03'
-      datepicker.expect_due_date '2021-03-03'
-      datepicker.expect_duration 1
+      datepicker.expect_due_date ''
+      datepicker.expect_duration ''
     end
   end
 
