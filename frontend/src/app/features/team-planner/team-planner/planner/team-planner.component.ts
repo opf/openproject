@@ -494,7 +494,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             editable: true,
             droppable: true,
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
-            eventResizeStart: (resizeInfo:EventResizeDoneArg) => this.addBackgroundEvents(resizeInfo.event),
+            eventResizeStart: (resizeInfo:EventResizeDoneArg) => {
+              const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
+              if (!wp.ignoreNonWorkingDays) {
+                this.addBackgroundEventsForNonWorkingDays();
+              }
+            },
             eventResizeStop: () => this.removeBackGroundEvents(),
             eventDragStart: (dragInfo:EventDragStartArg) => {
               if (dragInfo.event.source?.id === 'skeleton') {
@@ -901,22 +906,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .subscribe(([assignable, principals]) => {
         const api = this.ucCalendar.getApi();
         if (!wp.ignoreNonWorkingDays) {
-          let currentStartDate = this.ucCalendar.getApi().view.currentStart;
-          const currentEndDate = moment(this.ucCalendar.getApi().view.currentEnd).add('1', 'day').toDate();
-          const nonWorkingDays = new Array<{ start:Date, end:Date }>();
-
-          while (currentStartDate.toString() !== currentEndDate.toString()) {
-            if (this.weekdayService.isNonWorkingDay(currentStartDate)) {
-              nonWorkingDays.push({
-                start: currentStartDate,
-                end: currentStartDate,
-              });
-            }
-            currentStartDate = moment(currentStartDate).add('1', 'day').toDate();
-          }
-          nonWorkingDays.forEach((day) => {
-            api.addEvent({ ...day }, 'background');
-          });
+          this.addBackgroundEventsForNonWorkingDays();
         }
         const eventBase = {
           start: moment().subtract('1', 'month').toDate(),
@@ -940,5 +930,25 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .getEvents()
       .filter((el) => el.source?.id === 'background')
       .forEach((el) => el.remove());
+  }
+
+  private addBackgroundEventsForNonWorkingDays() {
+    const api = this.ucCalendar.getApi();
+    let currentStartDate = this.ucCalendar.getApi().view.currentStart;
+    const currentEndDate = moment(this.ucCalendar.getApi().view.currentEnd).add('1', 'day').toDate();
+    const nonWorkingDays = new Array<{ start:Date, end:Date }>();
+
+    while (currentStartDate.toString() !== currentEndDate.toString()) {
+      if (this.weekdayService.isNonWorkingDay(currentStartDate)) {
+        nonWorkingDays.push({
+          start: currentStartDate,
+          end: currentStartDate,
+        });
+      }
+      currentStartDate = moment(currentStartDate).add('1', 'day').toDate();
+    }
+    nonWorkingDays.forEach((day) => {
+      api.addEvent({ ...day }, 'background');
+    });
   }
 }
