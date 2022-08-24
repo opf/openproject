@@ -462,6 +462,36 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
+  describe 'when only start date set and include NWD true, changing include NWD to false (Scenario 19)' do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse('2021-02-13'),
+        due_date: nil,
+        duration: nil,
+        ignore_non_working_days: true
+      }
+    end
+
+    it 'sets start to 15th' do
+      datepicker.expect_start_date '2021-02-13'
+      datepicker.expect_due_date ''
+      datepicker.expect_duration ''
+      datepicker.expect_ignore_non_working_days true
+
+      datepicker.ignore_non_working_days false
+
+      datepicker.expect_ignore_non_working_days false
+      datepicker.expect_start_date '2021-02-15'
+      datepicker.expect_due_date ''
+      datepicker.expect_duration ''
+
+      apply_and_expect_saved duration: nil,
+                             start_date: Date.parse('2021-02-15'),
+                             due_date: nil,
+                             ignore_non_working_days: false
+    end
+  end
+
   describe 'when all values set and duration highlighted, select date in datepicker' do
     let(:current_attributes) do
       {
