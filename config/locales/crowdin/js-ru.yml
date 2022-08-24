@@ -605,7 +605,7 @@ ru:
       default: '-'
       subject: 'Введите тему здесь'
       selection: 'Пожалуйста, выберите'
-      description: 'Description: Click to edit...'
+      description: 'Описание: Нажмите для редактирования...'
       relation_description: 'Нажмите, чтобы добавить описание для этой связи'
     project:
       required_outside_context: >
