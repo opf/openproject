@@ -355,8 +355,8 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.set_date '2021-02-03'
 
       datepicker.expect_start_date '2021-02-03'
-      datepicker.expect_due_date '2021-02-11'
-      datepicker.expect_duration 7
+      datepicker.expect_due_date '2021-02-05'
+      datepicker.expect_duration 3
     end
   end
 
