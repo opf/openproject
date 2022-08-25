@@ -452,12 +452,12 @@ describe 'Datepicker modal logic test cases (WP #43539)',
 
       datepicker.expect_ignore_non_working_days false
       datepicker.expect_start_date '2021-02-15'
-      datepicker.expect_due_date '2021-03-02'
+      datepicker.expect_due_date '2021-03-01'
       datepicker.expect_duration 11
 
       apply_and_expect_saved duration: 11,
                              start_date: Date.parse('2021-02-15'),
-                             due_date: Date.parse('2021-03-02'),
+                             due_date: Date.parse('2021-03-01'),
                              ignore_non_working_days: false
     end
   end
