@@ -100,14 +100,6 @@ export class TimezoneService {
   }
 
   /**
-   * Return whether the date is in the past
-   * @param dateString
-   */
-  public inThePast(dateString:string):boolean {
-    return this.daysFromToday(dateString) <= -1;
-  }
-
-  /**
    * Returns the number of days from today the given dateString is apart.
    * Negative means the date lies in the past.
    * @param dateString

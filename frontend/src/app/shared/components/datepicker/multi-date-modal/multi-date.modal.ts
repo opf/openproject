@@ -70,6 +70,7 @@ import {
   setDates,
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -397,8 +398,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   handleDurationFocusOut():void {
-    this.setCurrentActivatedField('start');
-
     // If we cleared duration or left it empty
     // reset the value to what start and due are, if they too are set
     if (!this.duration && this.dates.start && this.dates.end) {
@@ -497,75 +496,119 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   private handleDatePickerChange(dates:Date[]) {
-    switch (dates.length) {
-      case 1: {
-        const selectedDate = dates[0];
-        if (this.dates.start && this.dates.end) {
-          /**
-           Overwrite flatpickr default behavior by not starting a new date range everytime but preserving either start or end date.
-           There are three cases to cover.
-           1. Everything before the current start date will become the new start date (independent of the active field)
-           2. Everything after the current end date will become the new end date if that is the currently active field.
-           If the active field is the start date, the selected date becomes the new start date and the end date is cleared.
-           3. Everything in between the current start and end date is dependent on the currently activated field.
-           * */
-
-          const parsedStartDate = parseDate(this.dates.start || '') as Date;
-          const parsedEndDate = parseDate(this.dates.end || '') as Date;
-
-          if (selectedDate < parsedStartDate) {
-            this.overwriteDatePickerWithNewDates([selectedDate, parsedEndDate]);
-            this.setCurrentActivatedField('end');
-          } else if (selectedDate > parsedEndDate) {
-            if (this.isStateOfCurrentActivatedField('end')) {
-              this.overwriteDatePickerWithNewDates([parsedStartDate, selectedDate]);
-            } else {
-              // Reset duration and end
-              this.dates.end = null;
-              this.duration = null;
-              this.overwriteDatePickerWithNewDates([selectedDate]);
-              this.toggleCurrentActivatedField();
-            }
-          } else if (areDatesEqual(selectedDate, parsedStartDate) || areDatesEqual(selectedDate, parsedEndDate)) {
-            this.overwriteDatePickerWithNewDates([selectedDate, selectedDate]);
-          } else {
-            const newDates = this.isStateOfCurrentActivatedField('start') ? [selectedDate, parsedEndDate] : [parsedStartDate, selectedDate];
-            this.overwriteDatePickerWithNewDates(newDates);
-          }
-        } else if (this.currentlyActivatedDateField !== 'duration') {
-          this.dates[this.currentlyActivatedDateField] = this.timezoneService.formattedISODate(selectedDate);
-          this.toggleCurrentActivatedField();
-
-          // If duration has been set, calculate the other date field
-          if (this.currentlyActivatedDateField === 'start' && !!this.dates.start && this.duration) {
-            this.dateUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
-          }
-
-          if (this.currentlyActivatedDateField === 'end' && !!this.dates.end && this.duration) {
-            this.dateUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
-          }
-        }
-
-        break;
-      }
-      case 2: {
-        // Write the dates to the input fields
-        this.dates.start = this.timezoneService.formattedISODate(dates[0]);
-        this.dates.end = this.timezoneService.formattedISODate(dates[1]);
-        this.toggleCurrentActivatedField();
-        break;
-      }
-      default: {
-        break;
-      }
+    if (dates.length === 2) {
+      this.handleMultiDateUpdate(dates);
+    } else {
+      this.handleSingleDateUpdate(dates[0]);
     }
 
     this.cdRef.detectChanges();
   }
 
+  private handleMultiDateUpdate(dates:Date[]) {
+    // Write the dates to the input fields
+    this.dates.start = this.timezoneService.formattedISODate(dates[0]);
+    this.dates.end = this.timezoneService.formattedISODate(dates[1]);
+    this.toggleCurrentActivatedField();
+  }
+
+  private handleSingleDateUpdate(selectedDate:Date) {
+    if (this.currentlyActivatedDateField === 'duration') {
+      this.durationActiveDateSelected(selectedDate);
+    } else if (this.dates.start && this.dates.end) {
+      this.replaceDatesWithNewSelection(selectedDate);
+    } else {
+      // Active is on start or end, the other is missing. Update active and derive other date
+      this.setDateAndDeriveOther(this.currentlyActivatedDateField, selectedDate);
+      // Toggle the active date to the other one
+      this.toggleCurrentActivatedField();
+    }
+  }
+
+  /**
+   * The duration field is active and a date was clicked in the datepicker.
+   *
+   * If the duration field has a value:
+   *  - start date is updated, derive end date, set end date active
+   * If the duration field has no value:
+   *   - start_date is updated, no value is derived, set end date active
+   *
+   * @param selectedDate The date selected
+   * @private
+   */
+  private durationActiveDateSelected(selectedDate:Date) {
+    // Click on datepicker always updates the start date
+    this.dates.start = this.timezoneService.formattedISODate(selectedDate);
+
+    // Focus moves to finish date
+    this.setCurrentActivatedField('end');
+
+    // If duration has value, derive end date from start and duration
+    if (this.duration) {
+      this.dateUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
+    }
+  }
+
+  /**
+   * The active field was updated in the datepicker, while not both dates are set currently.
+   *
+   * This means we want to derive the non-active field using the duration, if that is set.
+   *
+   * @param field The active field that was changed
+   * @param selectedDate The date selected
+   * @private
+   */
+  private setDateAndDeriveOther(field:'start'|'end', selectedDate:Date) {
+    this.dates[field] = this.timezoneService.formattedISODate(selectedDate);
+
+    // If duration has been set, calculate the other date field
+    if (this.currentlyActivatedDateField === 'start' && !!this.dates.start && this.duration) {
+      this.dateUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
+    }
+
+    if (this.currentlyActivatedDateField === 'end' && !!this.dates.end && this.duration) {
+      this.dateUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
+    }
+  }
+
+  private replaceDatesWithNewSelection(selectedDate:Date) {
+    /**
+     Overwrite flatpickr default behavior by not starting a new date range everytime but preserving either start or end date.
+     There are three cases to cover.
+     1. Everything before the current start date will become the new start date (independent of the active field)
+     2. Everything after the current end date will become the new end date if that is the currently active field.
+     If the active field is the start date, the selected date becomes the new start date and the end date is cleared.
+     3. Everything in between the current start and end date is dependent on the currently activated field.
+     * */
+
+    const parsedStartDate = parseDate(this.dates.start || '') as Date;
+    const parsedEndDate = parseDate(this.dates.end || '') as Date;
+
+    if (selectedDate < parsedStartDate) {
+      this.overwriteDatePickerWithNewDates([selectedDate, parsedEndDate]);
+      this.setCurrentActivatedField('end');
+    } else if (selectedDate > parsedEndDate) {
+      if (this.isStateOfCurrentActivatedField('end')) {
+        this.overwriteDatePickerWithNewDates([parsedStartDate, selectedDate]);
+      } else {
+        // Reset duration and end
+        this.dates.end = null;
+        this.duration = null;
+        this.overwriteDatePickerWithNewDates([selectedDate]);
+        this.toggleCurrentActivatedField();
+      }
+    } else if (areDatesEqual(selectedDate, parsedStartDate) || areDatesEqual(selectedDate, parsedEndDate)) {
+      this.overwriteDatePickerWithNewDates([selectedDate, selectedDate]);
+    } else {
+      const newDates = this.isStateOfCurrentActivatedField('start') ? [selectedDate, parsedEndDate] : [parsedStartDate, selectedDate];
+      this.overwriteDatePickerWithNewDates(newDates);
+    }
+  }
+
   private overwriteDatePickerWithNewDates(dates:Date[]) {
     setDates(dates, this.datePickerInstance);
-    this.handleDatePickerChange(dates);
+    // TODO check if necessary
+    // this.handleDatePickerChange(dates);
   }
 
   private onDataChange() {
