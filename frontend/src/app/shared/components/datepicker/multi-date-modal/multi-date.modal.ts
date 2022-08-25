@@ -174,9 +174,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   private dateUpdates$ = new Subject<FieldUpdates>();
 
-  // We're loading relations and don't want anything to fire beforehand
-  private initialized = false;
-
   private dateUpdateRequests$ = this
     .dateUpdates$
     .pipe(
@@ -223,7 +220,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       .subscribe((date) => {
         this.initializeDatepicker(date);
         this.onDataChange();
-        this.initialized = true;
       });
 
     this
@@ -284,11 +280,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   changeNonWorkingDays():void {
-    // The spot-toggle fires on initializing
-    if (!this.initialized) {
-      return;
-    }
-
     this.initializeDatepicker();
 
     // Resent the current start and duration so that the end date is calculated

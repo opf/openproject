@@ -9,7 +9,8 @@
     type="radio"
     [name]="name"
     [value]="option.value"
-    [(ngModel)]="value"
+    [ngModel]="value"
+    (ngModelChange)="onToggle($event)"
   />
   {{ option.title }}
 </label>
