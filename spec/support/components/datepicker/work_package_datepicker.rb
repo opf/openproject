@@ -6,17 +6,19 @@ module Components
     # Select month from datepicker
     def select_month(month)
       month = Date::MONTHNAMES.index(month) if month.is_a?(String)
-      current_month = Date::MONTHNAMES.index(flatpickr_container.first('.cur-month').text)
+      retry_block do
+        current_month = Date::MONTHNAMES.index(flatpickr_container.first('.cur-month').text)
 
-      if current_month < month
-        while current_month < month
-          flatpickr_container.find('.flatpickr-next-month').click
-          current_month = Date::MONTHNAMES.index(flatpickr_container.first('.cur-month').text)
-        end
-      elsif current_month > month
-        while current_month > month
-          flatpickr_container.find('.flatpickr-prev-month').click
-          current_month = Date::MONTHNAMES.index(flatpickr_container.first('.cur-month').text)
+        if current_month < month
+          while current_month < month
+            flatpickr_container.find('.flatpickr-next-month').click
+            current_month = Date::MONTHNAMES.index(flatpickr_container.first('.cur-month').text)
+          end
+        elsif current_month > month
+          while current_month > month
+            flatpickr_container.find('.flatpickr-prev-month').click
+            current_month = Date::MONTHNAMES.index(flatpickr_container.first('.cur-month').text)
+          end
         end
       end
     end
