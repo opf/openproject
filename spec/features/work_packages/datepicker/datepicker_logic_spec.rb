@@ -220,6 +220,8 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_due_date '2021-02-12'
       datepicker.expect_duration 3
 
+      # The spec clears faster than the due date is filled, wait a bit
+      sleep 1
       datepicker.clear_duration
 
       datepicker.expect_start_date '2021-02-09'

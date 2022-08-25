@@ -71,6 +71,7 @@ import {
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { whenOutside } from 'core-app/shared/directives/focus/contain-helpers';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -112,6 +113,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   @InjectField() browserDetector:BrowserDetector;
 
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
+
+  @ViewChild('durationField', { read: ElementRef }) durationField:ElementRef<HTMLElement>;
 
   text = {
     save: this.I18n.t('js.button_save'),
@@ -399,9 +402,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   handleDurationFocusOut():void {
-    // Apply changed duration with a timeout
-    // in case we clicked the clear button
-    setTimeout(() => this.applyChangedDuration(), 25);
+    // Apply changed duration once we really exited the field
+    whenOutside(this.durationField.nativeElement, () => this.applyChangedDuration());
   }
 
   applyChangedDuration():void {
