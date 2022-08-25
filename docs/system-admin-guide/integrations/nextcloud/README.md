@@ -12,11 +12,11 @@ keywords: Nextcloud file storage integration
 
 | Topic                      | Description                                                  |
 | ----------------------------------- | :----------------------------------------------------------- |
-| [Minimum requirements](work-package-settings)            | Minimum version requirements to enable the integration       |
-| [Setting up the integration](work-package-settings)      | Connect your Nextcloud and OpenProject instances as an administrator |
-| [Resetting OAuth values](work-package-types)             | Create and manage work package types.                        |
-| [Deleting a Nextcloud file storage](work-package-status) | Create and manage work package status.                       |
-| [Using the integration](work-package-workflows) | Create and manage workflows for work packages in OpenProject. |
+| [Minimum requirements](#minimum-requirements)            | Minimum version requirements to enable the integration       |
+| [Setting up the integration](#setting-up-the-integration)      | Connect your Nextcloud and OpenProject instances as an administrator |
+| [Resetting OAuth values](#resetting-oauth-values)             | Create and manage work package types.                        |
+| [Deleting a Nextcloud file storage](#deleting-a-nextcloud-file-storage) | Create and manage work package status.                       |
+| [Using the integration](#using-the-integration) | Create and manage workflows for work packages in OpenProject. |
 
 OpenProject offers close integration with Nextcloud to allow users to:
 
