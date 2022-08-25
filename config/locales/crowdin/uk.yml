@@ -742,10 +742,12 @@ uk:
               format: "%{message}"
             due_date:
               not_start_date: "не на дату початку, хоча це потрібно для етапів."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "більша за інтервал між датами початку й закінчення."
               smaller_than_dates: "менша за інтервал між датами початку й закінчення."
               not_available_for_milestones: "недоступна для пакетів робіт типу «віха»."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "не може бути важливою подією."
               cannot_be_self_assigned: "– не можна призначити собі."
@@ -753,6 +755,7 @@ uk:
               not_a_valid_parent: "зазначено невірно"
             start_date:
               violates_relationships: "може бути встановлено лише для %{soonest_start} або пізнішої версії, щоб не порушувати зв'язки робочого пакету."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "є недійсним оскільки немає дійсного переходу від старого до нового статусу ролей поточного користувача."
               status_invalid_in_type: "недійсний, оскільки поточного стану не існує в цьому типі."
