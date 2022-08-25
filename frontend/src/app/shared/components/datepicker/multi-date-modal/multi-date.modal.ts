@@ -251,7 +251,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
           this.updateDate('end', this.dates.end);
         }
 
-        // In case of start and due, update form
+        // In case of start and duration, update form
         if (!!this.dates.start && !!this.duration) {
           this.dateUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
         }

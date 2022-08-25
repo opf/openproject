@@ -76,7 +76,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     date_field.expect_active!
   end
 
-  context 'when start_date set, update duration (test case 1)' do
+  context 'when only start_date set, updating duration (test case 1)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -85,7 +85,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       }
     end
 
-    it 'sets finish date to 19th if duration of 10 set' do
+    it 'sets finish date' do
       datepicker.expect_start_date '2021-02-08'
       datepicker.expect_due_date ''
       datepicker.expect_duration ''
@@ -102,7 +102,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when no values set, update duration (test case 2)' do
+  describe 'when no values set, updating duration (test case 2)' do
     let(:current_attributes) do
       {
         start_date: nil,
@@ -128,7 +128,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when due date set, update duration (test case 3)' do
+  describe 'when only due date set, updating duration (test case 3)' do
     let(:current_attributes) do
       {
         start_date: nil,
@@ -137,7 +137,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       }
     end
 
-    it 'sets the start date to 2021-02-08' do
+    it 'sets the start date' do
       datepicker.expect_start_date ''
       datepicker.expect_due_date '2021-02-19'
       datepicker.expect_duration ''
@@ -154,7 +154,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, changing duration (test case 4)' do
+  describe 'when all values set, increasing duration (test case 4)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -163,7 +163,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       }
     end
 
-    it 'sets the duration to 11 days' do
+    it 'updates the finish date to a later date' do
       datepicker.expect_start_date '2021-02-08'
       datepicker.expect_due_date '2021-02-19'
       datepicker.expect_duration 10
@@ -180,7 +180,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, reduce duration (test case 5)' do
+  describe 'when all values set, reducing duration (test case 5)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -189,7 +189,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       }
     end
 
-    it 'sets the duration to 10' do
+    it 'updates the finish date to an earlier date' do
       datepicker.expect_start_date '2021-02-08'
       datepicker.expect_due_date '2021-02-22'
       datepicker.expect_duration 11
@@ -206,7 +206,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, remove duration (test case 6)' do
+  describe 'when all values set, removing duration (test case 6)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-09'),
@@ -228,7 +228,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, change start date (test case 7)' do
+  describe 'when all values set, changing start date (test case 7)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -250,7 +250,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, change due date (test case 8)' do
+  describe 'when all values set, changing due date (test case 8)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-09'),
@@ -272,7 +272,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when only duration set, set finish date (test case 9)' do
+  describe 'when only duration set, setting finish date (test case 9)' do
     let(:current_attributes) do
       {
         start_date: nil,
@@ -294,7 +294,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when only due date set, set start date (test case 10)' do
+  describe 'when only due date set, setting start date (test case 10)' do
     let(:current_attributes) do
       {
         start_date: nil,
@@ -347,7 +347,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       }
     end
 
-    it 'sets due date to 5th, conserves duration' do
+    it 'conserves the duration and updates the finish date' do
       datepicker.expect_start_date '2021-02-09'
       datepicker.expect_due_date '2021-02-11'
       datepicker.expect_duration 3
@@ -369,7 +369,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       }
     end
 
-    it 'sets the finish date to 14th' do
+    it 'conserves the duration and updates the finish date' do
       datepicker.expect_start_date '2021-02-11'
       datepicker.expect_due_date '2021-02-16'
       datepicker.expect_duration 4
@@ -392,7 +392,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       }
     end
 
-    it 'sets the finish date to 16th' do
+    it 'conserves the duration and updates the finish date' do
       datepicker.expect_start_date '2021-02-11'
       datepicker.expect_due_date '2021-02-14'
       datepicker.expect_duration 4
@@ -417,7 +417,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       }
     end
 
-    it 'sets start to 15th, finish date to 16th' do
+    it 'shifts the start date to soonest working day, and updates finish date to conserve duration' do
       datepicker.expect_start_date '2021-02-13'
       datepicker.expect_due_date '2021-02-14'
       datepicker.expect_duration 2
@@ -442,7 +442,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       }
     end
 
-    it 'sets start to 15th, finish date to 16th' do
+    it 'shifts the start date to soonest working day, and updates finish date to conserve duration' do
       datepicker.expect_start_date '2021-02-13'
       datepicker.expect_due_date '2021-02-23'
       datepicker.expect_duration 11
@@ -472,7 +472,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       }
     end
 
-    it 'sets start to 15th' do
+    it 'shifts the start date to soonest working day' do
       datepicker.expect_start_date '2021-02-13'
       datepicker.expect_due_date ''
       datepicker.expect_duration ''
@@ -502,7 +502,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       }
     end
 
-    it 'sets finish to 22th' do
+    it 'shifts the finish date to soonest working day' do
       datepicker.expect_start_date ''
       datepicker.expect_due_date '2021-02-21'
       datepicker.expect_duration ''
@@ -522,7 +522,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set and duration highlighted, select date in datepicker' do
+  describe 'when all values set and duration highlighted, selecting date in datepicker' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -561,7 +561,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set and duration highlighted, select dates in datepicker' do
+  describe 'when all values set and duration highlighted, selecting dates in datepicker' do
     let(:current_attributes) do
       {
         start_date: nil,
