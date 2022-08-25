@@ -250,6 +250,32 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
+  # Same as scenario 7, with error state in the middle
+  describe 'when all values set, setting the start date to invalid value, then to a valid value' do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse('2021-02-08'),
+        due_date: Date.parse('2021-02-11'),
+        duration: 4
+      }
+    end
+
+    it 'adjusts the duration' do
+      datepicker.expect_start_date '2021-02-08'
+      datepicker.expect_due_date '2021-02-11'
+      datepicker.expect_duration 4
+
+      # simulate someone deleting some chars to type a new date
+      datepicker.set_start_date '2021-02-'
+      sleep 2
+      datepicker.set_start_date '2021-02-09'
+
+      datepicker.expect_start_date '2021-02-09'
+      datepicker.expect_due_date '2021-02-11'
+      datepicker.expect_duration 3
+    end
+  end
+
   describe 'when all values set, changing due date (test case 8)' do
     let(:current_attributes) do
       {
