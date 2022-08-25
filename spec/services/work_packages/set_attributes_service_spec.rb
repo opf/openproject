@@ -28,7 +28,10 @@
 
 require 'spec_helper'
 
-describe WorkPackages::SetAttributesService, type: :model do
+describe WorkPackages::SetAttributesService,
+         type: :model,
+         with_flag: { work_packages_duration_field_active: true } do
+  let(:today) { Time.zone.today }
   let(:user) { build_stubbed(:user) }
   let(:project) do
     p = build_stubbed(:project)
@@ -47,6 +50,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     WorkPackage.new
   end
   let(:initial_type) { build_stubbed(:type) }
+  let(:milestone_type) { build_stubbed(:type_milestone) }
   let(:statuses) { [] }
   let(:contract_class) { WorkPackages::UpdateContract }
   let(:mock_contract) do
@@ -82,6 +86,8 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     it 'sets the value' do
+      next if !defined?(attributes) || attributes.blank?
+
       subject
 
       attributes.each do |attribute, key|
@@ -575,11 +581,24 @@ describe WorkPackages::SetAttributesService, type: :model do
             .to eql Time.zone.today
         end
 
-        it "sets the duration to 1" do
+        it "sets the duration to nil" do
           subject
 
           expect(work_package.duration)
-            .to eq 1
+            .to be_nil
+        end
+
+        context 'when the work package type is milestone' do
+          before do
+            work_package.type = milestone_type
+          end
+
+          it "sets the duration to 1" do
+            subject
+
+            expect(work_package.duration)
+              .to eq 1
+          end
         end
       end
     end
@@ -598,11 +617,24 @@ describe WorkPackages::SetAttributesService, type: :model do
             .to eq(Time.zone.today + 1.day)
         end
 
-        it "sets the duration to 1" do
+        it "sets the duration to nil" do
           subject
 
           expect(work_package.duration)
-            .to eq 1
+            .to be_nil
+        end
+
+        context 'when the work package type is milestone' do
+          before do
+            work_package.type = milestone_type
+          end
+
+          it "sets the duration to 1" do
+            subject
+
+            expect(work_package.duration)
+              .to eq 1
+          end
         end
       end
     end
@@ -724,7 +756,10 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'with start date nilled' do
-      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
+      let(:traits) { [] }
+      let(:work_package) do
+        build_stubbed(:work_package, *traits, start_date: Time.zone.today, due_date: Time.zone.today + 5.days)
+      end
       let(:call_attributes) { { start_date: nil } }
       let(:attributes) { {} }
 
@@ -743,17 +778,31 @@ describe WorkPackages::SetAttributesService, type: :model do
             .to eq(Time.zone.today + 5.days)
         end
 
-        it "sets the duration to 1" do
+        it "sets the duration to nil" do
           subject
 
           expect(work_package.duration)
-            .to eq 1
+            .to be_nil
+        end
+
+        context 'when the work package type is milestone' do
+          let(:traits) { [:is_milestone] }
+
+          it "sets the duration to 1" do
+            subject
+
+            expect(work_package.duration)
+              .to eq 1
+          end
         end
       end
     end
 
     context 'with due date nilled' do
-      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
+      let(:traits) { [] }
+      let(:work_package) do
+        build_stubbed(:work_package, *traits, start_date: Time.zone.today, due_date: Time.zone.today + 5.days)
+      end
       let(:call_attributes) { { due_date: nil } }
       let(:attributes) { {} }
 
@@ -772,40 +821,388 @@ describe WorkPackages::SetAttributesService, type: :model do
             .to be_nil
         end
 
-        it "sets the duration to 1" do
+        it "sets the duration to nil" do
           subject
 
           expect(work_package.duration)
-            .to eq 1
+            .to be_nil
+        end
+
+        context 'when the work package type is milestone' do
+          let(:traits) { [:is_milestone] }
+
+          it "sets the duration to 1" do
+            subject
+
+            expect(work_package.duration)
+              .to eq 1
+          end
         end
       end
     end
 
-    context 'with duration explicitly set' do
-      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
-      let(:call_attributes) { { due_date: Time.zone.today + 2.days, duration: 8 } }
-      let(:attributes) { {} }
+    context 'when deriving one value from the two others' do
+      # rubocop:disable Layout/ExtraSpacing, Layout/SpaceInsideArrayPercentLiteral, Layout/SpaceInsidePercentLiteralDelimiters, Layout/LineLength
+      all_possible_scenarios = [
+        { initial: %i[start_date  due_date  duration], set: %i[], expected: {} },
+        { initial: %i[start_date                    ], set: %i[], expected: {} },
+        { initial: %i[            due_date          ], set: %i[], expected: {} },
+        { initial: %i[                      duration], set: %i[], expected: {} },
+        { initial: %i[                              ], set: %i[], expected: {} },
 
-      it_behaves_like 'service call' do
-        it 'keeps the start date' do
-          subject
+        { initial: %i[start_date  due_date  duration], set: %i[start_date], expected: { change: :duration } },
+        { initial: %i[start_date                    ], set: %i[start_date], expected: {} },
+        { initial: %i[            due_date          ], set: %i[start_date], expected: { change: :duration } },
+        { initial: %i[                      duration], set: %i[start_date], expected: { change: :due_date } },
+        { initial: %i[                              ], set: %i[start_date], expected: {} },
 
-          expect(work_package.start_date)
-            .to eq(Time.zone.today)
+        { initial: %i[start_date  due_date  duration], nilled: %i[start_date], expected: { nilify: :duration } },
+        { initial: %i[start_date                    ], nilled: %i[start_date], expected: {} },
+        { initial: %i[            due_date          ], nilled: %i[start_date], expected: {} },
+        { initial: %i[                      duration], nilled: %i[start_date], expected: {} },
+        { initial: %i[                              ], nilled: %i[start_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[due_date], expected: { change: :duration } },
+        { initial: %i[start_date                    ], set: %i[due_date], expected: { change: :duration } },
+        { initial: %i[            due_date          ], set: %i[due_date], expected: {} },
+        { initial: %i[                      duration], set: %i[due_date], expected: { change: :start_date } },
+        { initial: %i[                              ], set: %i[due_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], nilled: %i[due_date], expected: { nilify: :duration } },
+        { initial: %i[start_date                    ], nilled: %i[due_date], expected: {} },
+        { initial: %i[            due_date          ], nilled: %i[due_date], expected: {} },
+        { initial: %i[                      duration], nilled: %i[due_date], expected: {} },
+        { initial: %i[                              ], nilled: %i[due_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[duration], expected: { change: :due_date } },
+        { initial: %i[start_date                    ], set: %i[duration], expected: { change: :due_date } },
+        { initial: %i[            due_date          ], set: %i[duration], expected: { change: :start_date } },
+        { initial: %i[                      duration], set: %i[duration], expected: {} },
+        { initial: %i[                              ], set: %i[duration], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], nilled: %i[duration], expected: { nilify: :due_date } },
+        { initial: %i[start_date                    ], nilled: %i[duration], expected: {} },
+        { initial: %i[            due_date          ], nilled: %i[duration], expected: {} },
+        { initial: %i[                      duration], nilled: %i[duration], expected: {} },
+        { initial: %i[                              ], nilled: %i[duration], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[start_date due_date], expected: { change: :duration } },
+        { initial: %i[start_date                    ], set: %i[start_date due_date], expected: { change: :duration } },
+        { initial: %i[            due_date          ], set: %i[start_date due_date], expected: { change: :duration } },
+        { initial: %i[                      duration], set: %i[start_date due_date], expected: { change: :duration } },
+        { initial: %i[                              ], set: %i[start_date due_date], expected: { change: :duration } },
+
+        { initial: %i[start_date  due_date  duration], set: %i[start_date], nilled: %i[due_date], expected: { nilify: :duration } },
+        { initial: %i[start_date                    ], set: %i[start_date], nilled: %i[due_date], expected: {} },
+        { initial: %i[            due_date          ], set: %i[start_date], nilled: %i[due_date], expected: {} },
+        { initial: %i[                      duration], set: %i[start_date], nilled: %i[due_date], expected: { nilify: :duration, same: :due_date } },
+        { initial: %i[                              ], set: %i[start_date], nilled: %i[due_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[due_date], nilled: %i[start_date], expected: { nilify: :duration } },
+        { initial: %i[start_date                    ], set: %i[due_date], nilled: %i[start_date], expected: {} },
+        { initial: %i[            due_date          ], set: %i[due_date], nilled: %i[start_date], expected: {} },
+        { initial: %i[                      duration], set: %i[due_date], nilled: %i[start_date], expected: { nilify: :duration, same: :start_date } },
+        { initial: %i[                              ], set: %i[due_date], nilled: %i[start_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], nilled: %i[start_date due_date], expected: {} },
+        { initial: %i[start_date                    ], nilled: %i[start_date due_date], expected: {} },
+        { initial: %i[            due_date          ], nilled: %i[start_date due_date], expected: {} },
+        { initial: %i[                      duration], nilled: %i[start_date due_date], expected: {} },
+        { initial: %i[                              ], nilled: %i[start_date due_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[start_date duration], expected: { change: :due_date } },
+        { initial: %i[start_date                    ], set: %i[start_date duration], expected: { change: :due_date } },
+        { initial: %i[            due_date          ], set: %i[start_date duration], expected: { change: :due_date } },
+        { initial: %i[                      duration], set: %i[start_date duration], expected: { change: :due_date } },
+        { initial: %i[                              ], set: %i[start_date duration], expected: { change: :due_date } },
+
+        { initial: %i[start_date  due_date  duration], set: %i[start_date], nilled: %i[duration], expected: { nilify: :due_date } },
+        { initial: %i[start_date                    ], set: %i[start_date], nilled: %i[duration], expected: {} },
+        { initial: %i[            due_date          ], set: %i[start_date], nilled: %i[duration], expected: { nilify: :due_date, same: :duration } },
+        { initial: %i[                      duration], set: %i[start_date], nilled: %i[duration], expected: {} },
+        { initial: %i[                              ], set: %i[start_date], nilled: %i[duration], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[duration], nilled: %i[start_date], expected: { nilify: :due_date } },
+        { initial: %i[start_date                    ], set: %i[duration], nilled: %i[start_date], expected: {} },
+        { initial: %i[            due_date          ], set: %i[duration], nilled: %i[start_date], expected: { nilify: :due_date, same: :start_date } },
+        { initial: %i[                      duration], set: %i[duration], nilled: %i[start_date], expected: {} },
+        { initial: %i[                              ], set: %i[duration], nilled: %i[start_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], nilled: %i[start_date duration], expected: {} },
+        { initial: %i[start_date                    ], nilled: %i[start_date duration], expected: {} },
+        { initial: %i[            due_date          ], nilled: %i[start_date duration], expected: {} },
+        { initial: %i[                      duration], nilled: %i[start_date duration], expected: {} },
+        { initial: %i[                              ], nilled: %i[start_date duration], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[due_date duration], expected: { change: :start_date } },
+        { initial: %i[start_date                    ], set: %i[due_date duration], expected: { change: :start_date } },
+        { initial: %i[            due_date          ], set: %i[due_date duration], expected: { change: :start_date } },
+        { initial: %i[                      duration], set: %i[due_date duration], expected: { change: :start_date } },
+        { initial: %i[                              ], set: %i[due_date duration], expected: { change: :start_date } },
+
+        { initial: %i[start_date  due_date  duration], set: %i[due_date], nilled: %i[duration], expected: { nilify: :start_date } },
+        { initial: %i[start_date                    ], set: %i[due_date], nilled: %i[duration], expected: { nilify: :start_date, same: :duration } },
+        { initial: %i[            due_date          ], set: %i[due_date], nilled: %i[duration], expected: {} },
+        { initial: %i[                      duration], set: %i[due_date], nilled: %i[duration], expected: {} },
+        { initial: %i[                              ], set: %i[due_date], nilled: %i[duration], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[duration], nilled: %i[due_date], expected: { nilify: :start_date } },
+        { initial: %i[start_date                    ], set: %i[duration], nilled: %i[due_date], expected: { nilify: :start_date, same: :due_date } },
+        { initial: %i[            due_date          ], set: %i[duration], nilled: %i[due_date], expected: {} },
+        { initial: %i[                      duration], set: %i[duration], nilled: %i[due_date], expected: {} },
+        { initial: %i[                              ], set: %i[duration], nilled: %i[due_date], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], nilled: %i[due_date duration], expected: {} },
+        { initial: %i[start_date                    ], nilled: %i[due_date duration], expected: {} },
+        { initial: %i[            due_date          ], nilled: %i[due_date duration], expected: {} },
+        { initial: %i[                      duration], nilled: %i[due_date duration], expected: {} },
+        { initial: %i[                              ], nilled: %i[due_date duration], expected: {} },
+
+        { initial: %i[start_date  due_date  duration], set: %i[start_date due_date duration], expected: {} },
+        { initial: %i[start_date                    ], set: %i[start_date due_date duration], expected: {} },
+        { initial: %i[            due_date          ], set: %i[start_date due_date duration], expected: {} },
+        { initial: %i[                      duration], set: %i[start_date due_date duration], expected: {} },
+        { initial: %i[                              ], set: %i[start_date due_date duration], expected: {} }
+      ]
+      # rubocop:enable Layout/ExtraSpacing, Layout/SpaceInsideArrayPercentLiteral, Layout/SpaceInsidePercentLiteralDelimiters, Layout/LineLength
+
+      let(:initial_attributes) { { start_date: today, due_date: today + 49.days, duration: 50 } }
+      let(:set_attributes) { { start_date: today + 10.days, due_date: today + 12.days, duration: 3 } }
+      let(:nil_attributes) { { start_date: nil, due_date: nil, duration: nil } }
+
+      all_possible_scenarios.each do |scenario|
+        initial = scenario[:initial]
+        set = scenario[:set] || []
+        nilled = scenario[:nilled] || []
+        expected = scenario[:expected]
+        expected_change = expected[:change]
+        expected_same = expected[:same]
+        expected_nilify = expected[:nilify]
+        unchanged = %i[start_date due_date duration] - set - nilled - expected.values + [expected_same].compact
+
+        context_description = []
+        context_description << "with initial values for #{initial.inspect}" if initial.any?
+        context_description << "without any initial values" if initial.none?
+        context_description << "with #{set.inspect} set" if set.any?
+        context_description << "with #{nilled.inspect} nilled" if nilled.any?
+        context_description << "without any attributes set" if set.none? && nilled.none?
+
+        context context_description.join(", and ") do
+          let(:work_package_attributes) { nil_attributes.merge(initial_attributes.slice(*initial)) }
+          let(:work_package) { build_stubbed(:work_package, work_package_attributes) }
+          let(:call_attributes) { nil_attributes.slice(*nilled).merge(set_attributes.slice(*set)) }
+
+          it_behaves_like 'service call' do
+            if expected_change
+              it "changes #{expected_change.inspect}" do
+                expect { subject }
+                  .to change(work_package, expected_change)
+              end
+            end
+
+            if expected_nilify
+              it "sets #{expected_nilify.inspect} to nil" do
+                expect { subject }
+                  .to change(work_package, expected_nilify).to(nil)
+              end
+            end
+
+            if unchanged.any?
+              it "does not change #{unchanged.map(&:inspect).join(' and ')}" do
+                expect { subject }
+                  .not_to change { work_package.slice(*unchanged) }
+              end
+            end
+          end
         end
+      end
+    end
 
-        it 'sets the due date' do
-          subject
+    context 'with non-working days' do
+      shared_let(:week_days) { create(:week_days) }
+      let(:monday) { Time.zone.today.beginning_of_week }
+      let(:tuesday) { monday + 1.day }
+      let(:wednesday) { monday + 2.days }
+      let(:friday) { monday + 4.days }
+      let(:sunday) { monday + 6.days }
+      let(:next_monday) { monday + 7.days }
+      let(:next_tuesday) { monday + 8.days }
 
-          expect(work_package.due_date)
-            .to eq(Time.zone.today + 2.days)
+      context 'when start date changes' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
         end
+        let(:call_attributes) { { start_date: wednesday } }
 
-        it "sets the faulty duration (for error reporting)" do
-          subject
+        it_behaves_like 'service call' do
+          it "updates the duration without including non-working days" do
+            expect { subject }
+              .to change(work_package, :duration)
+              .from(6)
+              .to(4)
+          end
+        end
+      end
 
-          expect(work_package.duration)
-            .to eq 8
+      context 'when due date changes' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+        end
+        let(:call_attributes) { { due_date: monday + 14.days } }
+
+        it_behaves_like 'service call' do
+          it "updates the duration without including non-working days" do
+            expect { subject }
+              .to change(work_package, :duration)
+              .from(6)
+              .to(11)
+          end
+        end
+      end
+
+      context 'when duration changes' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+        end
+        let(:call_attributes) { { duration: "13" } }
+
+        it_behaves_like 'service call' do
+          it "updates the due date from start date and duration and skips the non-working days" do
+            expect { subject }
+              .to change(work_package, :due_date)
+              .from(next_monday)
+              .to(monday + 16.days)
+          end
+        end
+      end
+
+      context 'when duration and end_date both change' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+        end
+        let(:call_attributes) { { due_date: next_tuesday, duration: 4 } }
+
+        it_behaves_like 'service call' do
+          it "updates the start date and skips the non-working days" do
+            expect { subject }
+              .to change(work_package, :start_date)
+              .from(monday)
+              .to(monday.next_occurring(:thursday))
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is switched to true' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+        end
+        let(:call_attributes) { { ignore_non_working_days: true } }
+
+        it_behaves_like 'service call' do
+          it "updates the due date from start date and duration to include the non-working days" do
+            # start_date and duration are checked too to ensure they did not change
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday, due_date: next_monday, duration: 6)
+              .to(start_date: monday, due_date: next_monday - 2.days, duration: 6)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is switched to false' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { ignore_non_working_days: false } }
+
+        it_behaves_like 'service call' do
+          it "updates the due date from start date and duration to skip the non-working days" do
+            # start_date and duration are checked too to ensure they did not change
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday, due_date: next_monday, duration: 8)
+              .to(start_date: monday, due_date: next_monday + 2.days, duration: 8)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is switched to false and "start date" is on a non-working day' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday - 1.day, due_date: friday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { ignore_non_working_days: false } }
+
+        it_behaves_like 'service call' do
+          it "updates the start date to be on next working day, and due date to accomodate duration" do
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday - 1.day, due_date: friday, duration: 6)
+              .to(start_date: monday, due_date: next_monday, duration: 6)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is switched to false and "finish date" is on a non-working day' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: nil, due_date: sunday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { ignore_non_working_days: false } }
+
+        it_behaves_like 'service call' do
+          it "updates the finish date to be on next working day" do
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: nil, due_date: sunday, duration: nil)
+              .to(start_date: nil, due_date: next_monday, duration: nil)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is changed AND "finish date" is cleared' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { ignore_non_working_days: false, due_date: nil } }
+
+        it_behaves_like 'service call' do
+          it "does not recompute the due date and nilifies the due date and the duration instead" do
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday, due_date: next_monday, duration: 8)
+              .to(start_date: monday, due_date: nil, duration: nil)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is changed AND "finish date" is set to another date' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { due_date: wednesday, ignore_non_working_days: false } }
+
+        it_behaves_like 'service call' do
+          it "updates the start date from due date and duration to skip the non-working days" do
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday, due_date: next_monday, duration: 8)
+              .to(start_date: wednesday - 9.days, due_date: wednesday, duration: 8)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is changed AND "start date" and "finish date" are set to other dates' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { start_date: friday, due_date: next_tuesday, ignore_non_working_days: false } }
+
+        it_behaves_like 'service call' do
+          it "updates the duration from start date and due date" do
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday, due_date: next_monday, duration: 8)
+              .to(start_date: friday, due_date: next_tuesday, duration: 3)
+          end
         end
       end
     end
@@ -1195,6 +1592,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     let(:work_package) do
       wp = build_stubbed(:work_package,
                          project:,
+                         ignore_non_working_days: true,
                          schedule_manually: true,
                          start_date: Time.zone.today,
                          due_date: Time.zone.today + 5.days)
@@ -1220,6 +1618,28 @@ describe WorkPackages::SetAttributesService, type: :model do
 
           expect(work_package.start_date).to eql(Time.zone.today + 3.days)
           expect(work_package.due_date).to eql(Time.zone.today + 8.days)
+        end
+      end
+    end
+
+    context 'when the soonest start date is a non-working day' do
+      let(:saturday) { Time.zone.today.beginning_of_week.next_occurring(:saturday) }
+      let(:next_monday) { saturday.next_occurring(:monday) }
+      let(:soonest_start) { saturday }
+
+      before do
+        create(:week_days)
+        work_package.ignore_non_working_days = false
+      end
+
+      it_behaves_like 'service call' do
+        it 'sets the start date to the soonest possible start date being a working day' do
+          subject
+
+          expect(work_package).to have_attributes(
+            start_date: next_monday,
+            due_date: next_monday + 7.days
+          )
         end
       end
     end

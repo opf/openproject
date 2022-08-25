@@ -264,14 +264,13 @@ pl:
     deletion_info:
       heading: "Usuń użytkownika zastępczego %{name}"
       data_consequences: >
-        Wszystkie wystąpienia użytkownika zastępczego (np. jako osoby przypisanej, odpowiedzialnej lub inne wartości użytkownika) zostaną przypisane do konta o nazwie „Usunięty użytkownik”.
-        Jako że do tego konta przypisywane są dane każdego usuniętego konta, nie można odróżnić danych utworzonych przez użytkownika od danych innego usuniętego konta.
+        Wszystkie wystąpienia użytkownika zastępczego (np. jako osoby przypisanej, odpowiedzialnej lub inne wartości użytkownika) zostaną przypisane do konta o nazwie „Usunięty użytkownik”. Jako że do tego konta przypisywane są dane każdego usuniętego konta, nie można odróżnić danych utworzonych przez użytkownika od danych innego usuniętego konta.
       irreversible: "To działanie jest nieodwracalne."
       confirmation: "Wprowadź nazwę użytkownika zastępczego %{name}, aby potwierdzić usunięcie."
     upsale:
       title: Użytkownicy zastępczy
       description: >
-        Użytkownicy zastępczy to sposób na przypisanie pakietów pracy do użytkowników, którzy nie są częścią twojego projektu. Może to być przydatne w wielu scenariuszach, na przykład, jeśli potrzebujesz śledzić zadania dla zasobu, który nie jest jeszcze nazwany lub dostępny, lub jeśli nie chcesz dać tej osobie dostępu do OpenProject, ale nadal chcesz śledzić zadania przypisane do niej.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -608,7 +607,7 @@ pl:
         unknown_property_nested: "ma nieznaną ścieżkę '%{path}'."
         unremovable: "nie można usunąć."
         url_not_secure_context: >
-          nie zapewnia "bezpiecznego kontekstu". Ewentualnie użyj HTTPS lub adresu pętli zwrotnej, takiej jak localhost.
+          nie zapewnia „bezpiecznego kontekstu”. Użyj protokołu HTTPS albo adresu pętli zwrotnej, takiej jak localhost.
         wrong_length: "ma nieprawidłową długość (powinno mieć %{count} znaków)."
       models:
         attachment:
@@ -741,12 +740,16 @@ pl:
         work_package:
           is_not_a_valid_target_for_time_entries: "Zadanie #%{id} jest niepoprawnym celem do ponownego rozpisania czasu."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "nie jest w dniu rozpoczęcia, chociaż jest to wymagane dla Kamieni Milowych."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "jest większy niż interwał między datą rozpoczęcia i zakończenia."
               smaller_than_dates: "jest krótszy niż interwał między datą rozpoczęcia i zakończenia."
               not_available_for_milestones: "nie jest dostępny dla pakietów prac wpisywanych jako \"kamienie milowe\"."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "nie może być kamieniem milowym."
               cannot_be_self_assigned: "nie może być przypisany do siebie."
@@ -754,6 +757,7 @@ pl:
               not_a_valid_parent: "jest nieprawidłowe."
             start_date:
               violates_relationships: "aby nie naruszyć relacji pakietu pracy, należy ustawić datę %{soonest_start} lub późniejszą."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "jest niewłaściwy z powodu braku prawidłowego przekształcenia ze starego do nowego statusu dla aktualnej roli użytkownika."
               status_invalid_in_type: "jest nieprawidłowy, ponieważ bieżący stan nie istnieje w tym typie."
@@ -1279,7 +1283,7 @@ pl:
   error_enterprise_activation_user_limit: "Twoje konto nie mogło zostać aktywowane (osiągnięty limit użytkownika). Skontaktuj się z administratorem, aby uzyskać dostęp."
   error_enterprise_token_invalid_domain: "Wersja Enterprise jest nieaktywna. Domena Twojego tokenu Enterprise (%{actual}) nie odpowiada nazwie hosta systemu (%{expected})."
   error_failed_to_delete_entry: 'Nie udało się usunąć tego wpisu.'
-  error_in_dependent: "Błąd podczas próby zmiany obiektu zależnego: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Błąd podczas próby zmiany obiektu zależnego: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Błąd podczas próby utworzenia obiektu zależnego: %{dependent_class} — %{related_subject}: %{error}"
   error_invalid_selected_value: "Nieprawidłowa wybrana wartość."
   error_journal_attribute_not_present: "Dziennik nie zawiera atrybutu %{attribute}."
@@ -1418,17 +1422,11 @@ pl:
     update_info_mail:
       body: >
         Z radością ogłaszamy wydanie wersji OpenProject 12.0. Mamy nadzieję, że to niezwykle ważne wydanie znacznie usprawni sposób korzystania z OpenProject.
-
         Począwszy od tej wersji, wprowadzamy powiadomienia w aplikacji. Od teraz będziesz otrzymywać powiadomienia o aktualizacjach pakietów roboczych bezpośrednio w OpenProject. Możesz oznaczyć te powiadomienia jako przeczytane, odpowiedzieć na komentarze lub nawet bezpośrednio modyfikować atrybuty pakietu roboczego bez opuszczania centrum powiadomień.
-
         Oznacza to również, że nie będziemy już używać wiadomości e-mail do wysyłania powiadomień. Naszym zdaniem nowe centrum powiadomień jest lepszym miejscem do przeglądania tych aktualizacji i podejmowania działań. Niemniej jednak, jeśli zależy ci na otrzymywaniu aktualizacji pocztą elektroniczną, możesz otrzymywać codzienne przypomnienia e-mail w wybranych przez siebie porach.
-
         Pamiętaj, aby zweryfikować nowe domyślne ustawienia powiadomień i ustawić swoje preferencje dotyczące powiadomień i przypomnień e-mail w ustawieniach konta. W celu dokonania zmian wybierz poniższy przycisk "Zmień ustawienia poczty elektronicznej".
-
         Mamy nadzieję, że z powodzeniem będziesz korzystać z powiadomień w aplikacji, a Twoja wydajność dzięki nim znacznie się zwiększy.
-
-        Pozdrawiamy,
-        Zespół OpenProject
+        Pozdrawiamy, Zespół OpenProject
       body_header: 'Wersja 12.0 z Centrum powiadomień'
       body_subheader: 'Aktualności'
       subject: 'Ważne zmiany w powiadomieniach w wydaniu 12.0'
@@ -1643,6 +1641,7 @@ pl:
   label_index_by_title: "Indeks tytułów"
   label_information: "Informacje"
   label_information_plural: "Informacje"
+  label_installation_guides: 'Installation guides'
   label_integer: "Liczba całkowita"
   label_internal: "Wewnętrzne"
   label_introduction_video: "Film wprowadzający"
@@ -1787,6 +1786,7 @@ pl:
   label_project_new: "Nowy projekt"
   label_project_plural: "Projekty"
   label_project_settings: "Ustawienia projektu"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} projektów zużywających %{storage} przestrzeni dyskowej"
   label_project_view_all: "Zobacz wszystkie projekty"
   label_project_show_details: "Pokaż szczegóły projektu"
@@ -1938,6 +1938,7 @@ pl:
   label_wiki_start: "Strona startowa"
   label_work_package: "Zadanie"
   label_work_package_attachments: "Załączniki pakietu roboczego"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Nowa kategoria"
   label_work_package_category_plural: "Kategorie pakietów roboczych"
   label_work_package_hierarchy: "Hierarchia zadań"
@@ -2043,7 +2044,7 @@ pl:
   mail_body_backup_waiting_period: Nowy token zostanie włączony za %{hours} godz.
   mail_body_backup_token_warning: Jeśli to nie Ty, zaloguj się natychmiast do OpenProject i zresetuj go ponownie.
   mail_body_incoming_email_error: E-mail wysłany do OpenProject nie został przetworzony.
-  mail_body_incoming_email_error_in_reply_to: "O %{received_at} %{from_email} napisano"
+  mail_body_incoming_email_error_in_reply_to: "O %{received_at} z adresu %{from_email} napisano"
   mail_body_incoming_email_error_logs: "Dzienniki"
   mail_body_lost_password: "Aby zmienić hasło, kliknij na poniższy link:"
   mail_body_register: "Witamy w %{app_title}. Aktywuj swoje konto, klikając ten link:"
@@ -2599,11 +2600,11 @@ pl:
   text_custom_field_hint_activate_per_project_and_type: >
     Pola niestandardowe wymagają aktywacji w każdym poszczególnym typie zadań i projekcie.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    Edycja Enterprise doda te dodatkowe funkcje dla niestandardowych pól pakietów roboczych: <br> <ul> <li><b>Zezwól na wielokrotny wybór niestandardowych pól typu Lista lub Użytkownik</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    Edycja Enterprise doda te dodatkowe funkcje dla pól statusów pakietów roboczych: <br> <ul> <li><b>Zezwól na oznaczanie pakietów roboczych jako tylko do odczytu w przypadku określonych statusów</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    Edycja Enterprise doda te dodatkowe funkcje dla niestandardowych pól projektów: <br> <ul> <li><b>Dodaj niestandardowe pola projektów do listy projektów, aby utworzyć widok portfolio projektów</b></li> </ul>
   text_custom_logo_instructions: >
     Na bezbarwnym tle zaleca się stosowanie białego logo. Najlepsze rezultaty - zarówno na tradycyjnych jak i wyświetlaczach retina - są dla obrazów o rozdzielczości 460x60 px.
   text_custom_favicon_instructions: >
@@ -2914,10 +2915,10 @@ pl:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Niezgodność ustawienia protokołu'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Twoja aplikacja jest uruchomiona z ustawieniem protokołu <code>%{set_protocol}</code>, ale żądane jest ustawienie <code>%{actual_protocol}</code>. To doprowadzi do błędów! Przejdź do obszaru <a href="%{setting_path}">Ustawienia</a> i zmień ustawienie Protokół, aby to skorygować.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Niezgodność ustawienia nazwy hosta'
       text_html: >
@@ -3095,7 +3096,7 @@ pl:
       label_refresh_token: "Odśwież token"
     errors:
       oauth_authorization_code_grant_had_errors: "OAuth2 zwrócił błąd"
-      oauth_reported: "Zgłoszono dostawcę OAuth2"
+      oauth_reported: "Dostawca OAuth2 zgłosił"
       oauth_returned_error: "OAuth2 zwrócił błąd"
       oauth_returned_json_error: "OAuth2 zwrócił błąd JSON"
       oauth_returned_http_error: "OAuth2 zwrócił błąd sieciowy"

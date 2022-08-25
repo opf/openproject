@@ -9,15 +9,15 @@ keywords: FAQ, introduction, tutorial, project management software, frequently a
 
 Welcome to the central overview of frequently asked questions for OpenProject.
 
-| Topic                                                        | Content                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Learn more about OpenProject](#learn-more-about-openproject) | General questions about OpenProject, security, setup and much more |
-| [How to ... in OpenProject?](#how-to--in-openproject)        | Questions about how to achieve certain outcomes in OpenProject that do not fit elsewhere |
-| [FAQ regarding features](#faq-regarding-features)            | Information about frequent feature requests                  |
-| [FAQ regarding OpenProject BIM edition](#faq-regarding-openproject-bim-edition) | Questions concerning the additional BCF module for OpenProject and the BIM edition |
-| [Migration](#migration)                                      | Questions regarding migrating to OpenProject from e.g. Bitnami or from other OpenProject versions |
-| [Other](#other)                                              | Additional questions, e.g. about contribution, training, support |
-| [Topic-specific FAQ](#topic-specific-faq)                    | Links to other FAQ sections                                  |
+| Topic                                                                           | Content                                                                                           |
+|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| [Learn more about OpenProject](#learn-more-about-openproject)                   | General questions about OpenProject, security, setup and much more                                |
+| [How to ... in OpenProject](#how-to--in-openproject)                            | Questions about how to achieve certain outcomes in OpenProject that do not fit elsewhere          |
+| [FAQ regarding features](#faq-regarding-features)                               | Information about frequent feature requests                                                       |
+| [FAQ regarding OpenProject BIM edition](#faq-regarding-openproject-bim-edition) | Questions concerning the additional BCF module for OpenProject and the BIM edition                |
+| [Migration](#migration)                                                         | Questions regarding migrating to OpenProject from e.g. Bitnami or from other OpenProject versions |
+| [Other](#other)                                                                 | Additional questions, e.g. about contribution, training, support                                  |
+| [Topic-specific FAQ](#topic-specific-faq)                                       | Links to other FAQ sections                                                                       |
 
 
 ## Learn more about OpenProject
@@ -40,7 +40,7 @@ The system requirements can be found [here](../installation-and-operations/syste
 
 Apart from using OpenProject in the cloud (OpenProject Enterprise cloud) OpenProject can be installed in two different ways: The packaged installation of OpenProject is the recommended way to install and maintain OpenProject using DEB or RPM packages. There's also a Docker based installation option.
 
-### How can I learn more about OpenProject and how to use it?
+### How can I learn more about OpenProject?
 
 Here are resources to get to know OpenProject:
 
@@ -85,7 +85,7 @@ However, if you're still using an old OpenProject subscription there may be limi
 
 In the Community Edition and in the Enterprise on-premises edition you can use the standard LDAP authentication. However, the Enterprise on-premises edition also includes LDAP group synchronization. This allows you to synchronize group members from LDAP with groups in OpenProject. The respective documentation can be found [here](../system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/#synchronize-ldap-and-openproject-groups-premium-feature).
 
-## How to ... in OpenProject?
+## How to ... in OpenProject
 
 Most of this kind of questions will be answered in the respective sections for each topic (see links below). However, there may be some FAQ that do not really fit elsewhere:
 
@@ -295,7 +295,7 @@ We offer our Professional Support for Enterprise on-premises users and Enterpris
 
 If you use the Community Edition please feel free to use our [forums](https://community.openproject.org/projects/openproject/forums) for exchange with other users.
 
-To learn more about OpenProject and how its features work please have a look at [this FAQ](#how-can-i-learn-more-about-openproject-and-how-to-use-it).
+To learn more about OpenProject and how its features work please have a look at [this FAQ](#how-can-i-learn-more-about-openproject).
 
 ### Do you support Univention users?
 

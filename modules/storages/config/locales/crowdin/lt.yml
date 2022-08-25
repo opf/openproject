@@ -24,8 +24,10 @@ lt:
               cannot_be_connected_to: "negali būti prijungtas prie."
               minimal_nextcloud_version_unmet: "neatitinka minimalių versijos reikalavimų (turi būti Nextcloud 23 ar aukštesnis)"
               not_nextcloud_server: "nėra Nextcloud serveris"
-              setup_incomplete: >
-                is not fully set up. That Nextcloud instance still redirects to a URL containing 'index.php'. That is a strong indicator that the server does not have mod_rewrite, mod_headers and/or mod_env fully configured, which is necessary for a Bearer token based authorization of API requests.
+              op_application_not_installed: >
+                appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
+              authorization_header_missing: >
+                is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
         storages/file_link:
           attributes:
             origin_id:

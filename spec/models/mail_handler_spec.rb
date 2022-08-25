@@ -509,7 +509,7 @@ describe MailHandler, type: :model do
               it 'responds with an error email' do
                 expect(UserMailer).to have_received(:incoming_email_error) do |user, mail, logs|
                   expect(user).to eq anno_user
-                  expect(mail.subject).to eq "Ticket by unknown user"
+                  expect(mail[:subject]).to eq "Ticket by unknown user"
                   expect(logs).to eq [expected.sub(/^MailHandler/, "error")]
                 end
               end
@@ -794,7 +794,7 @@ describe MailHandler, type: :model do
               "status_id" => [original_status.id, resolved_status.id],
               "assigned_to_id" => [nil, other_user.id],
               "start_date" => [nil, Date.parse("Fri, 01 Jan 2010")],
-              "duration" => [1, 365],
+              "duration" => [nil, 365],
               "custom_fields_#{float_cf.id}" => [nil, "52.6"]
             )
         end

@@ -71,9 +71,9 @@ describe OpenProject::AccessControl do
     end
 
     after do
-      raise 'Test outdated' unless described_class.instance_variable_defined?(:@permissions)
+      raise 'Test outdated' unless described_class.instance_variable_defined?(:@mapped_permissions)
 
-      described_class.instance_variable_set(:@permissions, all_former_permissions)
+      described_class.instance_variable_set(:@mapped_permissions, all_former_permissions)
       described_class.clear_caches
     end
 

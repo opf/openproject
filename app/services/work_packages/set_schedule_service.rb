@@ -56,11 +56,23 @@ class WorkPackages::SetScheduleService
 
   private
 
+  # rubocop:disable Metrics/AbcSize
   def schedule_by_parent
     work_packages
       .select { |wp| wp.start_date.nil? && wp.parent }
-      .each { |wp| wp.start_date = wp.parent.soonest_start }
+      .each do |wp|
+        days = WorkPackages::Shared::Days.for(wp)
+        wp.start_date = days.soonest_working_day(wp.parent.soonest_start)
+        if wp.due_date || wp.duration
+          wp.due_date = [
+            wp.start_date,
+            days.due_date(wp.start_date, wp.duration),
+            wp.due_date
+          ].compact.max
+        end
+      end
   end
+  # rubocop:enable Metrics/AbcSize
 
   # Finds all work packages that need to be rescheduled because of a
   # rescheduling of the service's work package and reschedules them.
@@ -137,45 +149,61 @@ class WorkPackages::SetScheduleService
     elsif !scheduled.start_date && min_start_date
       schedule_on_missing_dates(scheduled, min_start_date)
     elsif !delta.zero?
-      reschedule_by_delta(scheduled, delta, min_start_date)
+      reschedule_by_delta(scheduled, delta, min_start_date, dependency)
     end
   end
 
   def reschedule_to_date(scheduled, date)
     new_start_date = [scheduled.start_date, date].compact.max
-    set_dates(scheduled,
-              new_start_date,
-              (scheduled.due_date && !scheduled.duration.nil?) && (new_start_date + scheduled.duration - 1))
+    # a new due date is set only if the moving work package already has one
+    if scheduled.due_date
+      new_due_date = [
+        WorkPackages::Shared::Days.for(scheduled).due_date(new_start_date, scheduled.duration),
+        new_start_date,
+        scheduled.due_date
+      ].compact.max
+    end
+
+    set_dates(scheduled, new_start_date, new_due_date)
   end
 
-  def reschedule_by_delta(scheduled, delta, min_start_date)
-    required_delta = [min_start_date - (scheduled.start_date || min_start_date), [delta, 0].min].max
-
-    scheduled.start_date += required_delta
-    scheduled.due_date += required_delta if scheduled.due_date
-  end
-
-  # If the start_date of scheduled is nil at this point something
-  # went wrong before. So we fix it now by setting the date.
   def schedule_on_missing_dates(scheduled, min_start_date)
+    min_start_date = WorkPackages::Shared::Days.for(scheduled).soonest_working_day(min_start_date)
     set_dates(scheduled,
               min_start_date,
               scheduled.due_date && scheduled.due_date < min_start_date ? min_start_date : scheduled.due_date)
   end
 
+  def reschedule_by_delta(scheduled, moved_delta, min_start_date, dependency)
+    days = WorkPackages::Shared::Days.for(dependency.work_package)
+
+    # TODO: can it be moved to dependency?
+    min_start_delta = days.delta(previous: scheduled.start_date || min_start_date, current: min_start_date)
+    required_delta = [min_start_delta, [moved_delta, 0].min].max
+
+    scheduled_days = WorkPackages::Shared::Days.for(scheduled)
+    new_start_date = scheduled_days.add_days(scheduled.start_date, required_delta)
+    new_due_date = scheduled_days.add_days(scheduled.due_date, required_delta) if scheduled.due_date
+    scheduled.start_date = new_start_date
+    scheduled.due_date = new_due_date
+  end
+
   def follows_delta(dependency)
     if dependency.moving_predecessors.any?
-      date_rescheduling_delta(dependency.moving_predecessors.first)
+      date_rescheduling_delta(dependency.moving_predecessors.first, dependency.work_package)
     else
       0
     end
   end
 
-  def date_rescheduling_delta(predecessor)
+  def date_rescheduling_delta(predecessor, follower)
+    days = WorkPackages::Shared::Days.for(follower)
     if predecessor.due_date.present?
-      predecessor.due_date - (predecessor.due_date_before_last_save || predecessor.due_date_was || predecessor.due_date)
+      previous_due_date = predecessor.due_date_before_last_save || predecessor.due_date_was || predecessor.due_date
+      days.delta(previous: previous_due_date, current: predecessor.due_date)
     elsif predecessor.start_date.present?
-      predecessor.start_date - (predecessor.start_date_before_last_save || predecessor.start_date_was || predecessor.start_date)
+      previous_start_date = predecessor.start_date_before_last_save || predecessor.start_date_was || predecessor.start_date
+      days.delta(previous: previous_start_date, current: predecessor.start_date)
     else
       0
     end
@@ -184,11 +212,8 @@ class WorkPackages::SetScheduleService
   def set_dates(work_package, start_date, due_date)
     work_package.start_date = start_date
     work_package.due_date = due_date
-    work_package.duration = if start_date && due_date
-                              due_date - start_date + 1
-                            else
-                              # This needs to change to nil once duration can be set
-                              1
-                            end
+    work_package.duration = WorkPackages::Shared::Days
+                              .for(work_package)
+                              .duration(start_date, due_date)
   end
 end

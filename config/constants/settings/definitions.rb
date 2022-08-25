@@ -533,7 +533,7 @@ Settings::Definition.define do
   # Update users' status through the synchronization job
   add :ldap_users_sync_status,
       format: :boolean,
-      default: true,
+      default: false,
       writable: false
 
   add :ldap_tls_options,
@@ -666,16 +666,16 @@ Settings::Definition.define do
       writable: false
 
   # Assume we're running in an TLS terminated connection.
-  # This does not affect HSTS, use +rails_force_ssl+ for that.
   add :https,
       format: :boolean,
-      default: Rails.env.production?,
+      default: -> { Rails.env.production? },
       writable: false
 
-  # Enable HTTPS and HSTS
-  add :rails_force_ssl,
+  # Allow disabling of HSTS headers and http -> https redirects
+  # for non-localhost hosts
+  add :hsts,
       format: :boolean,
-      default: Rails.env.production?,
+      default: true,
       writable: false
 
   add :registration_footer,

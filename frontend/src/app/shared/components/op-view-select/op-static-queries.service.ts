@@ -127,7 +127,7 @@ export class StaticQueriesService {
         uiSref: 'work-packages',
         uiParams: {
           query_id: '',
-          query_props: '{"c":["id","type","subject","status","startDate","dueDate"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',
+          query_props: '{"c":["id","type","subject","status","startDate","dueDate","duration"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',
         },
         view: 'WorkPackagesTable',
       },

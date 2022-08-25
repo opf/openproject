@@ -15,10 +15,10 @@ This guide describes how to contribute to the OpenProject documentation, includi
 
 This guide aims to help users that are new to Git and Markdown to contribute to the OpenProject documentation. There are a two very helpful tools that makes it extremely easy to contribute to OpenProject:
 
-| Tool               | Purpose of this tool                                         | Website and download                              |
-| ------------------ | ------------------------------------------------------------ | ------------------------------------------------- |
-| **Typora**         | Typora is an application that enables you to easily edit markdown files. The markdown file format is used for the OpenProject documentation which allows you to focus on the content instead of the formatting. | [desktop.github.com](https://desktop.github.com/) |
-| **GitHub Desktop** | Desktop is an application that enables you to interact with GitHub using a GUI instead of the command line or a web browser. | [typora.io](https://typora.io/)                   |
+| Tool               | Purpose of this tool                                         | Website and download                               |
+| ------------------ | ------------------------------------------------------------ |----------------------------------------------------|
+| **Typora**         | Typora is an application that enables you to easily edit markdown files. The markdown file format is used for the OpenProject documentation which allows you to focus on the content instead of the formatting. | [typora.io](https://typora.io/)                    |
+| **GitHub Desktop** | Desktop is an application that enables you to interact with GitHub using a GUI instead of the command line or a web browser. | [desktop.github.com](https://desktop.github.com/) |
 
 ## Step 1: Create user account on GitHub.com
 
@@ -112,6 +112,10 @@ In the same drop down click on "New branch". In this window **insert a branch na
 
 ![create new branch - step 2](create-new-branch-step-2.png)
 
+After that Publish your branch to the forked remote repository on github.com.
+
+![create new branch - step 3](create-new-branch-step-3.png)
+
 
 
 ## Step 11: Open the files you want to change in Typora
@@ -144,7 +148,7 @@ A pull request is a workflow to ask for a review from the OpenProject team. With
 
 
 
-Here select the latest release branch e.g. `release/12.2` in the **"base:"** dropdown on the left side. In the **"compare:"** dropdown select the branch you have changed.
+Your Pull Request will be created in the browser **on github.com** Here select the latest release branch e.g. `release/12.2` in the **"base:"** dropdown on the left side. In the **"compare:"** dropdown select the branch you have changed.
 
 ![create pull request](create-pull-request.png)
 

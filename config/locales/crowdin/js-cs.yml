@@ -151,7 +151,7 @@ cs:
           language_hint: 'Zadejte jazyk, který bude použit pro zvýraznění (pokud je podporováno).'
         dropdown:
           macros: 'Makra'
-          chose_macro: 'Vybrat makro'
+          chose_macro: 'Choose macro'
         toc: 'Obsah'
         toolbar_help: 'Klikněte pro výběr widgetu a zobrazení panelu nástrojů. Dvojklikem upravíte widget'
         wiki_page_include:
@@ -205,6 +205,7 @@ cs:
             label_expires_at: "Vyprší v"
             receive_newsletter: Chci dostávat<a target="_blank" href="%{link}">newsletter OpenProject</a>.
             taken_domain: V každé doméně může být pouze jedna aktivní zkušební verze.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Každý uživatel může vytvořit pouze jednu zkušební verzi.
           email_not_received: "Neobdrželi jste e-mail? Můžete znovu odeslat e-mail s odkazem vpravo."
           try_another_email: "Nebo to zkuste s jinou e-mailovou adresou."
@@ -426,7 +427,7 @@ cs:
     label_sort_lower: "Přesunout níž"
     label_sorting: "Řazení"
     label_spent_time: "Strávený čas"
-    label_star_query: "Oblíbené"
+    label_star_query: "Oblíbená"
     label_press_enter_to_save: "Stiskněte Enter pro uložení."
     label_public_query: "Veřejné"
     label_sum: "Suma"
@@ -491,7 +492,7 @@ cs:
         next: 'Další'
         got_it: 'Rozumím'
       steps:
-        help_menu: 'Menu nápovědy (?) poskytuje <b>další zdroje nápovědy</b>. Zde můžete najít uživatelskou příručku a užitečný jak na videa a další. <br> Užijte si vaši práci s OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Pozvěte nové <b>členy</b> , aby se připojili k vašemu projektu.'
         project_selection: 'Pro začátek klikněte na jeden z projektů s ukázkovými daty. <br> <b>Demo projekt</b> vyhovuje nejlepší pro klasické řízení projektu, zatímco projekt <b>Scrum</b> je lepší pro řízení projektu Agile'
         quick_add_button: 'Klikněte na ikonu plus (+) v záhlaví pro <b>vytvoření nového projektu</b> nebo pro <b>pozvání spolupracovníků</b>.'
@@ -605,6 +606,7 @@ cs:
       default: '-'
       subject: 'Zde zadejte předmět'
       selection: 'Zvolte prosím'
+      description: 'Description: Click to edit...'
       relation_description: 'Kliknutím přidáte popis pro tento vztah'
     project:
       required_outside_context: >
@@ -647,7 +649,7 @@ cs:
           membership_updated: 'Členství bylo aktualizováno'
         title: 'E-mail upozornění '
         pause:
-          label: 'Dočasně pozastavit denní posílání oznámení e-mailem'
+          label: 'Dočasně pozastavit denní připomenutí e-mailem'
           first_day: 'První den'
           last_day: 'Poslední den'
     text_are_you_sure: "Jste si jisti?"
@@ -759,7 +761,7 @@ cs:
         farRight: 'Dále vpravo'
         showNone: '-- Bez popisku --'
         description: >
-          Vyberte atributy, které chcete zobrazit v příslušných pozicích Ganttova diagramu. Všimněte si, že při najetí kursorem myši budou místo těchto atributů zobrazeny jeho popisky s daty.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Zobrazit Ganttův diagram'
       button_deactivate: 'Skrýt Ganttův diagram'
       cancel: Zrušit
@@ -930,7 +932,6 @@ cs:
       placeholders:
         default: "-"
         date: "Vybrat datum"
-        formattable: "%{name}: Klikněte pro editaci..."
       query:
         column_names: "Sloupce"
         group_by: "Seskupit výsledky podle"

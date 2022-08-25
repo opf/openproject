@@ -205,7 +205,6 @@ hu:
   incoming_mails:
     ignore_filenames: >
       Adja meg azoknak a neveknek a listáját, amelyeket figyelmen kívül kell hagyni a bejövő levelek mellékleteinek feldolgozásakor (pl. Aláírások vagy ikonok). Írjon be egy fájlnevet soronként.
-
   projects:
     delete:
       scheduled: "A törlés ütemezésre került, és a háttérben történik. Értesítést kap az eredményről.\n"
@@ -263,19 +262,17 @@ hu:
   placeholder_users:
     right_to_manage_members_missing: >
       Nem törölheti a teszt felhasználót. Nincs joga a tagok kezeléséhez minden olyan projektben, amelynek a teszt felhasználó tagja.
-
     delete_tooltip: "Teszt felhasználó törlése"
     deletion_info:
       heading: "Teszt felhasználó%{name} törlése"
       data_consequences: >
-        A teszt felhasználó minden előfordulása (pl. Mint jogosult, felelős vagy más felhasználói érték) át lesz rendelve a "Törölt felhasználó" nevű fiókba.
-        Mivel minden törölt fiók adatait újra hozzárendeli ehhez a fiókhoz, nem lehet megkülönböztetni a felhasználó által létrehozott adatokat egy másik törölt fiók adataitól.
+        A teszt felhasználó minden előfordulása (pl. Mint jogosult, felelős vagy más felhasználói érték) át lesz rendelve a "Törölt felhasználó" nevű fiókba. Mivel minden törölt fiók adatait újra hozzárendeli ehhez a fiókhoz, nem lehet megkülönböztetni a felhasználó által létrehozott adatokat egy másik törölt fiók adataitól.
       irreversible: "Ez a művelet visszavonhatatlan"
       confirmation: "Adja meg a teszt felhasználó nevét %{name} a törlés megerősítéséhez."
     upsale:
       title: Teszt felhasználók
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -741,12 +738,16 @@ hu:
         work_package:
           is_not_a_valid_target_for_time_entries: "A  #%{id} feladatcsoport nem érvényes cél az idő bejegyzések ismételt hozzárendeléséhez."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "nincs kezdő dátum, ez szükséges a fordulóponthoz."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "nem lehet egy mérföldkő."
               cannot_be_self_assigned: "nem rendelhető önmagához.\n"
@@ -754,6 +755,7 @@ hu:
               not_a_valid_parent: "érvénytelen."
             start_date:
               violates_relationships: "csak %{soonest_start} vagy későbbre lehet állítani, hogy ne okozzon problémát a munkacsomag kapcsolataiban."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "érvénytelen, mert nincs érvényes átmenet a régi és új felhasználói szerepkör állapota között."
               status_invalid_in_type: "érvénytelen, mert az aktuális állapot nem létezik ebben a típusban."
@@ -923,18 +925,14 @@ hu:
       heading_create: "Visszaállítási kulcs létrehozása"
       implications: >
         A biztonsági mentések engedélyezésével a szükséges jogosultságokkal és ezzel a biztonsági mentési jogkivonattal rendelkező felhasználók letölthetnek egy biztonsági másolatot, amely tartalmazza az OpenProject telepítés összes adatát. Ez magában foglalja az összes többi felhasználó adatait.
-
       info: >
         A biztonsági mentés létrehozásához biztonsági másolatot kell generálnia. Minden alkalommal, amikor biztonsági másolatot szeretne kérni, meg kell adnia ezt a tokent. A biztonsági mentés törlésével letilthatja a biztonsági mentést ennél a felhasználónál.
-
       verification: >
         Írja be a %{word} billentyűt, hogy megerősítse, hogy %{action} a biztonsági mentés tokent szeretné használni.
-
       verification_word_reset: visszaállít
       verification_word_create: létrehoz
       warning: >
         Új token létrehozásakor csak 24 óra elteltével kérhet biztonsági másolatot. Ez biztonsági intézkedés. Ezt követően bármikor kérhet biztonsági másolatot a jogkivonat használatával.
-
     text_token_deleted: Visszaállítási kulcs törölve. A visszaállítások kikapcsolva.
     error:
       invalid_token: Érvénytelen vagy hiányzó visszaállítási kulcs
@@ -1251,7 +1249,7 @@ hu:
   error_enterprise_activation_user_limit: "Fiókját nem lehet aktiválni (elérte a felhasználói korlátot). Kérjük, lépjen kapcsolatba rendszergazdájával a hozzáféréshez."
   error_enterprise_token_invalid_domain: "Az Enterprise Edition nem aktív. Vállalati jogkivonata domainje (%{actual}) nem egyezik a rendszer gazdagépnevével (%{expected})."
   error_failed_to_delete_entry: 'Nem sikerült törölni ezt a bejegyzést.'
-  error_in_dependent: "Hiba a függő objektum módosítása során: %{dependent_class} # %{related_id} - %{related_subject}: %{error}\n"
+  error_in_dependent: "Hiba a függő objektum módosítása során: %{dependent_class} # %{related_id} - %{related_subject}: %{error}\n" #%{related_id} - %{related_subject}: %{error}\n"
   error_in_new_dependent: "Hiba a függő objektum létrehozása során: %{dependent_class} - %{related_subject}: %{error}\n"
   error_invalid_selected_value: "Kijelölt érték érvénytelen."
   error_journal_attribute_not_present: "A lap nem tartalmaz attribútumot %{attribute}."
@@ -1390,17 +1388,11 @@ hu:
     update_info_mail:
       body: >
         We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-
         Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-
         This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-
         We hope you find in-app notifications useful and that they makes you even more productive.
-
-        Sincerely,
-        The OpenProject team
+        Sincerely, The OpenProject team
       body_header: 'Version 12.0 with Notification Center'
       body_subheader: 'Hírek'
       subject: 'Important changes to notifications with the release of 12.0'
@@ -1615,6 +1607,7 @@ hu:
   label_index_by_title: "Index cím szerint"
   label_information: "Információk"
   label_information_plural: "Információk"
+  label_installation_guides: 'Installation guides'
   label_integer: "Egész szám"
   label_internal: "Belső"
   label_introduction_video: "Bemutató videó"
@@ -1759,6 +1752,7 @@ hu:
   label_project_new: "Új projekt"
   label_project_plural: "Projektek"
   label_project_settings: "Projekt beállítások"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{storage} lemezterületet %{count} projekt használja"
   label_project_view_all: "Minden projekt megtekintése"
   label_project_show_details: "Projekt részleteinek megjelenítése"
@@ -1910,6 +1904,7 @@ hu:
   label_wiki_start: "Kezdő oldal"
   label_work_package: "Feladatcsoport"
   label_work_package_attachments: "Munkacsomag mellékletek"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Új kategória"
   label_work_package_category_plural: "Munkacsomag kategóriák"
   label_work_package_hierarchy: "Feladatcsoport hierarchia"
@@ -2392,7 +2387,6 @@ hu:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) engedélyezett származások"
   setting_apiv3_cors_origins_text_html: >
     Ha a CORS engedélyezve van, ezek azok az eredetiek, amelyek hozzáférhetnek az OpenProject API-hoz. <br/> Kérjük, olvassa el a <a href="%{origin_link}" target="_blank">Dokumentáció az Origin fejlécről</a> című dokumentumot az elvárt értékek megadásáról.
-
   setting_apiv3_max_page_size: "Maximum API page size"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
@@ -2400,7 +2394,6 @@ hu:
   setting_apiv3_docs_enabled: "Dokumentumok oldal engedélyezése\n"
   setting_apiv3_docs_enabled_instructions_html: >
     Ha a Dokumentumok oldal engedélyezve van, interaktív nézetet kaphat az APIv3 dokumentációjáról a <a href="%{link}" target="_blank">%{link} </a> alatt.
-
   setting_attachment_whitelist: "Mellékletfeltöltési fehérlista"
   setting_email_delivery_method: "E-mail küldés módja"
   setting_sendmail_location: "A sendmail program elérési útja"
@@ -2518,7 +2511,6 @@ hu:
     attachments:
       whitelist_text_html: >
         Határozza meg a feltöltött fájlok érvényes fájlkiterjesztéseinek és/vagy mime típusainak listáját. <br/> Adjon meg fájlkiterjesztéseket (pl. <code>%{ext_example} </code>) vagy mime típusokat (pl. <code>%{mime_example} </code>). <br/> Hagyja üresen, ha bármilyen fájltípust szeretne feltölteni. Több érték megengedett (egy sor minden értékhez).
-
     notifications:
       events_explanation: "Azt szabályozza, hogy melyik eseményhez küldjön e -mailt. A munkacsomagok nem tartoznak ebbe a listába, mivel a rájuk vonatkozó értesítések kifejezetten minden felhasználó számára konfigurálhatók.\n"
       delay_minutes_explanation: "Az e -mailek küldése késleltethető, hogy az alkalmazások értesítésében beállított felhasználók megerősíthessék az értesítést az alkalmazáson belül, mielőtt levelet küldenek. Azok a felhasználók, akik elolvasták az értesítést az alkalmazáson belül, nem kapnak e -mailt a már olvasott értesítésről.\n"
@@ -2527,7 +2519,6 @@ hu:
         Ha a "%{day_of_week_setting_name}" vagy a "%{first_week_setting_name}" opciók közül valamelyik be van állítva, akkor a másiknak is be kell lennie, hogy elkerüljük az ellentmondásokat a frontendben.
       first_week_of_year_text: >
         Válassza ki azt a január dátumot, amely az év első hetében található. Ez az érték a hét első napjával együtt határozza meg az év hetek teljes számát.
-
     projects:
       section_new_projects: "Új projekt beállításai"
       section_project_overview: "A projekt áttekintési lista beállítása"
@@ -2630,7 +2621,6 @@ hu:
   text_notice_too_many_values_are_inperformant: "Megjegyzés: Az oldalanként több mint 100 elem megjelenítésekor az oldal betöltési ideje  növekedhet."
   text_notice_security_badge_displayed_html: >
     Megjegyzés: ha engedélyezve van, akkor a telepítési állapotot jelző jelvény jelenik meg a <a href="%{information_panel_path}">%{information_panel_label} </a> adminisztrációs panelen és a kezdőlapon. Csak a rendszergazdák számára jelenik meg. <br/> A jelvény ellenőrzi az aktuális OpenProject verziót a hivatalos OpenProject kiadási adatbázishoz képest, hogy figyelmeztesse Önt minden frissítésre vagy ismert biztonsági résre. Ha többet szeretne megtudni arról, hogy mit tartalmaz az ellenőrzés, milyen adatokra van szükség az elérhető frissítésekhez, és hogyan tilthatja le ezt az ellenőrzést, keresse fel a <a href="%{more_info_url}"> konfigurációs dokumentációt </a>.
-
   text_own_membership_delete_confirmation: "Értesítem arról, hogy eltávolít néhány vagy az összes jogosultságot, és ezt követően már nem lehet szerkeszteni ezt a projektet. Biztosan folytatni kívánja?"
   text_plugin_assets_writable: "Plugin eszközök könyvtára írható"
   text_powered_by: "Készítette %{link}"
@@ -2885,10 +2875,10 @@ hu:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Protokol beállítási eltérés'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Az alkalmazás fut, amelynek protokollbeállítása <code>%{set_protocol} </code>, de a kérelem <code>%{actual_protocol} </code> kérés. Ez hibákat eredményez! Lépjen a <a href="%{setting_path}"> Rendszerbeállítások </a> pontra, és javítsa ki a "Protokoll" beállítást.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Hosztnév beállítási eltérés'
       text_html: >
@@ -3015,7 +3005,6 @@ hu:
         name: "Az alkalmazás neve. Ez más felhasználók számára jelenik meg engedélyezéskor.\n"
         redirect_uri_html: >
           Az engedélyezett URL -címek átirányíthatók a jogosult felhasználókra. Soronként egy bejegyzés. <br/> Ha asztali alkalmazást regisztrál, használja a következő URL -t.
-
         confidential: "Ellenőrizze, hogy az alkalmazást olyan helyen használják-e, ahol az ügyféltitkot bizalmasan lehet kezelni. A natív mobilalkalmazások és az egyoldalas alkalmazások feltételezhetően nem bizalmasak."
         scopes: "Ellenőrizze azokat a hatóköröket, amelyekhez az alkalmazás hozzáférést biztosít. Ha nem ellenőrzi a hatókört, akkor az api_v3 feltételezzük."
         client_credential_user_id: "Választható felhasználói azonosító, amelyet az ügyfelek az alkalmazás használatakor megszemélyesíthetnek. Üresen hagyva csak nyilvános hozzáférést engedélyez\n"
@@ -3024,7 +3013,6 @@ hu:
     client_id: "Ügyfél azonosító"
     client_secret_notice: >
       Ez az egyetlen alkalom, amikor kinyomtathatjuk az ügyfél titkát, jegyezze fel és tartsa biztonságban. Jelszóként kell kezelni, és az OpenProject később nem tudja lekérni.
-
     authorization_dialog:
       authorize: "Engedélyez"
       cancel: "Az engedély visszavonása és megtagadása.\n"

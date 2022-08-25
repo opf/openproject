@@ -267,14 +267,13 @@ ro:
     deletion_info:
       heading: "Ștergeți utilizatorul de tip placeholder %{name}"
       data_consequences: >
-        Toate prezențele utilizatorului de tip "placeholder" (de exemplu, ca destinatar, responsabil sau alte valori de utilizator) vor fi realocate unui cont numit "Utilizator eliminat".
-        Deoarece datele fiecărui cont șters sunt realocate acestui cont, nu va fi posibilă deosebirea datelor create de utilizator de datele unui alt cont șters.
+        Toate prezențele utilizatorului de tip "placeholder" (de exemplu, ca destinatar, responsabil sau alte valori de utilizator) vor fi realocate unui cont numit "Utilizator eliminat". Deoarece datele fiecărui cont șters sunt realocate acestui cont, nu va fi posibilă deosebirea datelor create de utilizator de datele unui alt cont șters.
       irreversible: "Această acțiune este ireversibilă"
       confirmation: "Introduceți numele de utilizator de tip placeholder %{name} pentru a confirma ștergerea."
     upsale:
       title: Placeholder users
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -743,12 +742,16 @@ ro:
         work_package:
           is_not_a_valid_target_for_time_entries: "Pachetul de lucru #%{id} nu este o ţintă validă pentru reasocierea timpilor de lucru."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "nu este în data de început, deși acest lucru este necesar pentru repere de etapă."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "nu poate fi un reper de etapă."
               cannot_be_self_assigned: "nu poate fi atribuit singur."
@@ -756,6 +759,7 @@ ro:
               not_a_valid_parent: "este invalid."
             start_date:
               violates_relationships: "poate fi setată doar pe %{soonest_start} sau mai târziu pentru a nu viola relațiile între pachetele de lucru."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "este invalid, deoarece nu există nici o tranziție validă din vechea în noua stare pentru rolurile utilizatorului curent."
               status_invalid_in_type: "nu este valabilă deoarece starea curentă nu există în acest tip."
@@ -1265,7 +1269,7 @@ ro:
   error_enterprise_activation_user_limit: "Contul dvs. nu a putut fi activat (limita utilizatorilor a fost atinsă). Contactați administratorul dvs. pentru a avea acces."
   error_enterprise_token_invalid_domain: "Ediția Enterprise Edition nu este activă. Domeniul (%{actual}) al token-ului Enterprise nu se potrivește cu numele de gazdă al sistemului (%{expected})."
   error_failed_to_delete_entry: 'Nu s-a reușit ștergerea acestei intrări.'
-  error_in_dependent: "Eroare la încercarea de a modifica un obiect dependent: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Eroare la încercarea de a modifica un obiect dependent: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valoare selectată invalidă."
   error_journal_attribute_not_present: "Jurnalul nu conține atributul %{attribute}."
@@ -1404,17 +1408,11 @@ ro:
     update_info_mail:
       body: >
         We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-
         Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-
         This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-
         We hope you find in-app notifications useful and that they makes you even more productive.
-
-        Sincerely,
-        The OpenProject team
+        Sincerely, The OpenProject team
       body_header: 'Version 12.0 with Notification Center'
       body_subheader: 'Noutăţi'
       subject: 'Important changes to notifications with the release of 12.0'
@@ -1629,6 +1627,7 @@ ro:
   label_index_by_title: "Indexare după titlu"
   label_information: "Informații"
   label_information_plural: "Informații"
+  label_installation_guides: 'Installation guides'
   label_integer: "Număr întreg"
   label_internal: "Intern"
   label_introduction_video: "Video de introducere"
@@ -1773,6 +1772,7 @@ ro:
   label_project_new: "Proiect nou"
   label_project_plural: "Proiecte"
   label_project_settings: "Setările proiectului"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} proiecte folosind %{storage} spațiu pe disc"
   label_project_view_all: "Vizualizare toate proiectele"
   label_project_show_details: "Arată detaliile proietului"
@@ -1924,6 +1924,7 @@ ro:
   label_wiki_start: "Pagină de start"
   label_work_package: "Pachet de lucru"
   label_work_package_attachments: "Anexe la pachetul de lucru"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Categorie nouă"
   label_work_package_category_plural: "Categorii de pachete de lucru"
   label_work_package_hierarchy: "Ierarhia pachetelor de lucru"
@@ -2308,10 +2309,10 @@ ro:
       base_url_text: "Baza URL utilizată pentru generarea URL-urilor de descărcare (checkout) - de exemplu https://serverulmeu.example.org/repos/. \nNotă: Baza URL este folosită doar pentru rescrierea URL-urilor de extragere în repo-urile gestionate. Alte repo-uri nu sunt afectate."
       default_instructions:
         git: |-
-          Datele conţinute în acest repo pot fi descărcate în computerul dumneavoastră cu Git. 
+          Datele conţinute în acest repo pot fi descărcate în computerul dumneavoastră cu Git.
           Vă rugăm să consultaţi documentaţia Git dacă aveţi nevoie de informaţii suplimentare despre procedura de descărcare (checkout) şi aplicațiile client disponibile.
         subversion: |-
-          Datele conţinute în acest repo pot fi descărcate în computerul dumneavoastră cu Subversion. 
+          Datele conţinute în acest repo pot fi descărcate în computerul dumneavoastră cu Subversion.
           Vă rugăm să consultaţi documentaţia Subversion dacă aveţi nevoie de informaţii suplimentare despre procedura de descărcare (checkout) şi aplicațiile client disponibile.
       enable_instructions_text: "Afișează instrucțiunile de descărcare definite mai jos pe toate paginile care au legătură cu repo-ul."
       instructions: "Instrucțiuni de checkout"
@@ -2898,10 +2899,10 @@ ro:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Necorespundere de setare a protocolului'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Aplicația dvs. rulează cu setarea protocolului setată la <code>%{set_protocol}</code>, dar cererea este un <code>%{actual_protocol}</code> cerere. Acest lucru va duce la erori! Mergeți la <a href="%{setting_path}">Setări de sistem</a> și modificați setarea "Protocol" pentru a corecta acest lucru.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Nepotrivire de setare a numelui de gazdă'
       text_html: >

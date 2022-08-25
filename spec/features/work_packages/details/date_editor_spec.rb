@@ -37,7 +37,7 @@ describe 'date inplace editor',
          with_settings: { date_format: '%Y-%m-%d' },
          js: true, selenium: true do
   let(:project) { create :project_with_types, public: true }
-  let(:work_package) { create :work_package, project:, start_date: Date.parse('2016-01-02') }
+  let(:work_package) { create :work_package, project:, start_date: Date.parse('2016-01-02'), duration: nil }
   let(:user) { create :admin }
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -163,7 +163,7 @@ describe 'date inplace editor',
   end
 
   context 'with the start date empty' do
-    let(:work_package) { create :work_package, project:, start_date: nil }
+    let(:work_package) { create :work_package, project:, start_date: nil, duration: nil }
 
     it 'can set "today" as a date via the provided link' do
       start_date.activate!
@@ -541,6 +541,27 @@ describe 'date inplace editor',
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                                       text: 'Manual scheduling enabled, all relations ignored.')
       end
+    end
+  end
+
+  context 'with a negative time zone', driver: :chrome_new_york_time_zone do
+    it 'can normally select the dates via datepicker (regression #43562)' do
+      start_date.activate!
+      start_date.expect_active!
+
+      start_date.datepicker.expect_year '2016'
+      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.select_day '25'
+
+      sleep 2
+
+      start_date.datepicker.expect_year '2016'
+      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.expect_day '25'
+
+      start_date.save!
+      start_date.expect_inactive!
+      start_date.expect_state_text '2016-01-02 - 2016-01-25'
     end
   end
 end

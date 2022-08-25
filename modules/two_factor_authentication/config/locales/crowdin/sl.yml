@@ -122,7 +122,7 @@ sl:
         text_cannot_scan: |
           Če ne morete skenirati kode, lahko vnos vnesete ročno z naslednjimi podrobnostmi:
         description: |
-          Registrirajte program za preverjanje pristnosti aplikacij za uporabo s programom OpenProject tako, da uporabite avtentikacijski standard enkratnega gesla, ki temelji na času. 
+          Registrirajte program za preverjanje pristnosti aplikacij za uporabo s programom OpenProject tako, da uporabite avtentikacijski standard enkratnega gesla, ki temelji na času.
           Pogosti primeri so Google Authenticator ali Authy.
       sms:
         title: 'Uporabite mobilni telefon'
@@ -135,8 +135,6 @@ sl:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS dostava ni uspela.'
       voice_delivery_failed: 'MessageBird glasovni klic ni uspel.'
-    restdt:
-      delivery_failed_with_code: "\nDostava žetona ni uspela. (Koda napake %{code})"
     strategies:
       totp: 'Aplikacija za preverjanje avtenčnosti '
       sns: 'Amazon SNS'

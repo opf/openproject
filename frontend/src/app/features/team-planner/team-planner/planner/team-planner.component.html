@@ -3,7 +3,7 @@
   [ngClass]="{'op-team-planner_with_left_side_pane' : (showAddExistingPane | async)}"
 >
   <ng-container
-    *ngIf="(calendarOptions$ | async) as calendarOptions"
+    *ngIf="(calendarOptions$ | async) && !isMobile"
   >
     <button
       #addExistingToggle
@@ -71,6 +71,7 @@
         <op-principal
           [principal]="resource.extendedProps.principal"
           class="tp-assignee--principal op-principal_wrapped"
+          [hideName]="isMobile"
         ></op-principal>
         <button
           type="button"

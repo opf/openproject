@@ -34,5 +34,6 @@ FactoryBot.define do
     spent_on { Date.today }
     activity factory: :time_entry_activity
     hours { 1.0 }
+    logged_by { user }
   end
 end

@@ -41,7 +41,7 @@ module API
             path ||= plural_name
 
             define_singleton_method(plural_name) do
-              "#{root}/#{path}"
+              RequestStore.store[:"cached_#{plural_name}"] ||= "#{root}/#{path}"
             end
           end
           private_class_method :index
@@ -52,7 +52,9 @@ module API
           private_class_method :show
 
           def self.create_form(name)
-            define_singleton_method(:"create_#{name}_form") { build_path(name, "form") }
+            define_singleton_method(:"create_#{name}_form") do
+              RequestStore.store[:"cached_create_#{name}_form"] ||= build_path(name, "form")
+            end
           end
           private_class_method :create_form
 
@@ -62,7 +64,9 @@ module API
           private_class_method :update_form
 
           def self.schema(name)
-            define_singleton_method(:"#{name}_schema") { build_path(name, "schema") }
+            define_singleton_method(:"#{name}_schema") do
+              RequestStore.store[:"cached_#{name}_schema"] ||= build_path(name, "schema")
+            end
           end
           private_class_method :schema
 
@@ -89,7 +93,7 @@ module API
           end
 
           def self.root
-            "#{root_path}api/v3"
+            RequestStore.store[:cached_root] ||= "#{root_path}api/v3"
           end
 
           def self.same_origin?(url)
@@ -484,8 +488,9 @@ module API
             "#{work_package_relations(work_package_id)}/#{id}"
           end
 
-          def self.work_package_available_relation_candidates(id)
-            "#{work_package(id)}/available_relation_candidates"
+          def self.work_package_available_relation_candidates(id, type: nil)
+            query = "?type=#{type}" if type
+            "#{work_package(id)}/available_relation_candidates#{query}"
           end
 
           def self.work_package_revisions(id)

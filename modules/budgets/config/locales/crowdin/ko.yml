@@ -63,7 +63,7 @@ ko:
   label_example_placeholder: '예: %{decimal}'
   label_view_all_budgets: "모든 예산 보기"
   label_yes: "예"
-  notice_budget_conflict: "작업 패키지는 동일한 프로젝트에 속해야 합니다."
+  notice_budget_conflict: "Work packages must be of the same project."
   notice_no_budgets_available: "사용 가능한 예산이 없습니다."
   permission_edit_budgets: "예산 편집"
   permission_view_budgets: "예산 보기"

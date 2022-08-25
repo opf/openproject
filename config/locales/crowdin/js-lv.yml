@@ -151,7 +151,7 @@ lv:
           language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
         dropdown:
           macros: 'Macros'
-          chose_macro: 'Chose macro'
+          chose_macro: 'Choose macro'
         toc: 'Table of contents'
         toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
         wiki_page_include:
@@ -205,6 +205,7 @@ lv:
             label_expires_at: "Expires at"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
             taken_domain: There can only be one active trial per domain.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
@@ -473,7 +474,7 @@ lv:
     label_remove_all_files: Dzēst visus failus
     label_add_description: "Pievienot aprakstu priekš %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Augšupielādēt failus Darba pakai #%{id}: %{subject}"
+    label_work_package_upload_notification: "Augšupielādēt failus Darba pakai #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Šie faili tiks augšupielādēti:"
     label_rejected_files: "Nevar augšupielādēt šos failus:"
@@ -491,7 +492,7 @@ lv:
         next: 'Nākošā'
         got_it: 'Got it'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -604,6 +605,7 @@ lv:
       default: '-'
       subject: 'Enter subject here'
       selection: 'Lūdzu, atlasiet'
+      description: 'Description: Click to edit...'
       relation_description: 'Click to add description for this relation'
     project:
       required_outside_context: >
@@ -758,7 +760,7 @@ lv:
         farRight: 'Far right'
         showNone: '-- No label --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering an element, its date labels will be shown instead of these attributes.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       cancel: Atcelt
@@ -929,7 +931,6 @@ lv:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Kolonnas"
         group_by: "Grupēt rezultātus pēc"
@@ -1089,11 +1090,9 @@ lv:
       hour:
         one: "1 h"
         other: "%{count} h"
-        zero: "0 h"
       day:
         one: "1 day"
         other: "%{count} days"
-        zero: "0 days"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'

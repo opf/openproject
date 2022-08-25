@@ -63,7 +63,7 @@ es:
   label_example_placeholder: 'Por ejemplo, %{decimal}'
   label_view_all_budgets: "Ver todos los presupuestos"
   label_yes: "Sí"
-  notice_budget_conflict: "Los paquetes de trabajo deben de estar en un mismo proyecto."
+  notice_budget_conflict: "Los paquetes de trabajo deben ser del mismo proyecto."
   notice_no_budgets_available: "No hay presupuestos disponibles."
   permission_edit_budgets: "Editar presupuestos"
   permission_view_budgets: "Ver los presupuestos"

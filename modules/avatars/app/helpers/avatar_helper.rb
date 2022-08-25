@@ -121,7 +121,7 @@ module AvatarHelper
 
   def default_gravatar_options
     {
-      secure: OpenProject::Configuration.secure_connection?,
+      secure: OpenProject::Configuration.https?,
       default: OpenProject::Configuration.gravatar_fallback_image
     }
   end

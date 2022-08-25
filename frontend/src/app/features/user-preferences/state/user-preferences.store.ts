@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
 import {
   Store,
   StoreConfig,
@@ -45,7 +44,7 @@ function createInitialState():IUserPreference {
       enabled: true,
       times: ['08:00'],
     },
-    workdays: [1, 2, 3, 4, 5],
+    workdays: [],
     immediateReminders: {
       mentioned: false,
     },

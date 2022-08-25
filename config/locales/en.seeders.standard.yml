@@ -84,6 +84,7 @@ en:
                   - status
                   - start_date
                   - due_date
+                  - duration
                   - assigned_to
               - name: Milestones
                 type: :default_type_milestone

@@ -151,7 +151,7 @@ pl:
           language_hint: 'Wprowadź język formatowania, który będzie używany do wyróżniania (jeśli jest obsługiwany).'
         dropdown:
           macros: 'Makra'
-          chose_macro: 'Wybierz makro'
+          chose_macro: 'Choose macro'
         toc: 'Spis treści'
         toolbar_help: 'Kliknij, aby wybrać widżet i wyświetlić pasek narzędzi. Kliknij dwukrotnie, aby edytować widżet'
         wiki_page_include:
@@ -205,6 +205,7 @@ pl:
             label_expires_at: "Wygasa"
             receive_newsletter: Chcę otrzymywać <a target="_blank" href="%{link}">biuletyn </a> OpenProject.
             taken_domain: W każdej domenie może być aktywna tylko jedna wersja próbna.
+            domain_mismatch: Obecna nazwa hosta żądania nie pasuje do skonfigurowanej nazwy hosta. Sprawdź dokładnie ustawienia systemu.
             taken_email: Każdy użytkownik może utworzyć tylko jeden okres próbny.
           email_not_received: "Wiadomość e-mail nie doszła? Możesz ją ponownie wysłać za pomocą linku po prawej stronie."
           try_another_email: "Możesz też spróbować użyć innego adresu e-mail."
@@ -293,11 +294,11 @@ pl:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                Wersja ta zawiera wiele nowych funkcji i ulepszeń: <br> <ul class="%{list_styling_class}"> <li> Koniec z niekończącym się wyszukiwaniem plików! Dzięki nowej <b>integracji z Nextcloud</b> w OpenProject 12.2 możesz teraz znaleźć pliki bezpośrednio w odpowiednim pakiecie roboczym i zawsze mieć poprawną wersję pod ręką. </li> <li>Wprowadziliśmy <b>nowy selektor dat</b> z zaktualizowanym sposobem wprowadzania danych oraz baner informacyjny, który zawiera przycisk do pokazywania relacji na wykresie Gantta.</li> <li>Dodaliśmy możliwość <b>rejestrowania czasu dla innych użytkowników.</b></li> <li>Oznaczaj powiadomienia jako przeczytane również poza centrum powiadomień.</li> </ul>.
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                Wersja ta zawiera wiele nowych funkcji i ulepszeń: <br> <ul class="%{list_styling_class}"> <li> Koniec z niekończącym się wyszukiwaniem plików! Dzięki nowej <b>integracji z Nextcloud</b> w OpenProject 12.2 możesz teraz znaleźć pliki bezpośrednio w odpowiednim pakiecie roboczym i zawsze mieć poprawną wersję pod ręką. </li> <li>Wprowadziliśmy <b>nowy selektor dat</b> z zaktualizowanym sposobem wprowadzania danych oraz baner informacyjny, który zawiera przycisk do pokazywania relacji na wykresie Gantta.</li> <li>Dodaliśmy możliwość <b>rejestrowania czasu dla innych użytkowników.</b></li> <li>Oznaczaj powiadomienia jako przeczytane również poza centrum powiadomień.</li> </ul>.
     label_activate: "Aktywuj"
     label_assignee: 'Przypisana osoba'
     label_add_column_after: "Dodaj kolumnę po"
@@ -473,7 +474,7 @@ pl:
     label_remove_all_files: Usuń wszystkie pliki
     label_add_description: "Dodaj opis do %{file}"
     label_upload_notification: "Przesyłanie plików..."
-    label_work_package_upload_notification: "Wgrywanie plików dla Zestawu Zadań #%{id}: %{subject}"
+    label_work_package_upload_notification: "Wgrywanie plików dla Zestawu Zadań #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id}, dodane przez %{author}"
     label_files_to_upload: "Pliki te zostaną przesłane:"
     label_rejected_files: "Pliki nie mogą być przesłane:"
@@ -491,7 +492,7 @@ pl:
         next: 'Następny'
         got_it: 'OK'
       steps:
-        help_menu: 'Menu Pomoc (?) zapewnia <b>dodatkowe zasoby pomocy</b>. Tutaj znajdziesz przewodnik użytkownika, pomocne filmy instruktażowe i wiele więcej. <br> Życzymy miłej pracy w OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Zaproś nowych <b>członków</b> do swojego projektu.'
         project_selection: 'Kliknij na jeden z projektów demonstracyjnych, które przygotowaliśmy. Dane demonstracyjne są obecnie dostępne tylko w języku angielskim. <br> Ogólny <b>projekt demo</b> najlepiej pasuje do klasycznego zarządzania projektami, natomiast <b>projekt Scrum</b> jest lepszy do zwinnego zarządzania projektami.'
         quick_add_button: 'Kliknij ikonę plus (+) w nawigacji nagłówka, aby <b>utworzyć nowy projekt</b> lub <b>zaprosić współpracowników</b>.'
@@ -605,6 +606,7 @@ pl:
       default: '-'
       subject: 'Wpisz tutaj temat'
       selection: 'Proszę wybrać'
+      description: 'Description: Click to edit...'
       relation_description: 'Kliknij, aby dodać opis do tej relacji'
     project:
       required_outside_context: >
@@ -759,7 +761,7 @@ pl:
         farRight: 'Po prawej'
         showNone: '-- Brak etykiety --'
         description: >
-          Wybierz atrybuty które chcesz zawsze wyświetlać w odpowiednich miejscach wykresu Gantta. Przy przesunięciu kursora na element, zostaną pokazane jego etykiety daty zamiast tych atrybutów.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Pokaż wykres Gantta'
       button_deactivate: 'Ukryj wykres Gantta'
       cancel: Anuluj
@@ -930,7 +932,6 @@ pl:
       placeholders:
         default: "-"
         date: "Wybierz datę"
-        formattable: "%{name}: kliknij, aby edytować..."
       query:
         column_names: "Kolumny"
         group_by: "Grupuj wyniki"
@@ -1163,7 +1164,7 @@ pl:
       role:
         label: 'Rola w %{project}'
         no_roles_found: 'Nie znaleziono żadnych ról'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'To jest rola, którą %{principal} otrzyma po dołączeniu do projektu. Rola określa działania, które można podjąć i widoczne informacje. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Dowiedz się więcej o rolach i uprawnieniach. </a>'
         required: 'Wybierz rolę'
         next_button: 'Następny'
       message:

@@ -48,9 +48,9 @@ tr:
         main-menu-hover-font-color: "Fareyle üzerine gelindiğinde ana menü yazı tipi"
         main-menu-border-color: "Ana menü kenarlığı"
       custom_colors: "Özel renkler"
-      customize: "Customize your OpenProject installation with your own logo and colors."
+      customize: "OpenProject kurulumunuzu kendi logonuz ve renklerinizle özelleştirin."
       enterprise_notice: "OpenProject'in geliştirilmesine finansal destek verenlere özel olarak 'Teşekkür ederiz!'. Bu küçük özellik sadece Enterprise Sürüm alan destekçilerimize özeldir."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
+      enterprise_more_info: "Not: Kullanılan logo herkese açık olacaktır."
       manage_colors: "Renk seçim seçeneklerini düzenle"
       instructions:
         alternative-color: "Güçlü vurgu rengi, genellikle ekrandaki en önemli düğme için kullanılır."
@@ -75,10 +75,10 @@ tr:
       book_now: 'Şimdi rezervasyon yaptırın'
       get_quote: 'Fiyat teklifi alın'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
-      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+        upgrade: "Hemen Yükselt"
+        contact: "Demo için bizimle iletişime geçin"
+      enterprise_info_html: "bir Kurumsal  <strong class='icon-medal'></strong>  özelliktir."
+      upgrade_info: "Etkinleştirmek ve ekibinizde kullanmaya başlamak için lütfen ücretli bir plana yükseltin."
     journal_aggregation:
       explanation:
         text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
@@ -173,8 +173,8 @@ tr:
     edit: 'Özel eylem %{name} Düzenle'
     execute: '%{name} yürütmek'
     upsale:
-      title: 'Custom actions'
-      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
+      title: 'Özel eylemler'
+      description: 'Özel eylemler, duruma, role, türe veya projeye göre belirli iş paketlerinde kullanıma sunabileceğiniz bir dizi önceden tanımlanmış eylemin tek tıkla kısayollarıdır.'
   custom_fields:
     text_add_new_custom_field: >
       Bir projeye yeni özel alanlar eklemeden önce onları oluşturmalısınız.
@@ -263,18 +263,17 @@ tr:
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "Delete placeholder user"
+    delete_tooltip: "Yer tutucu kullanıcısını silin."
     deletion_info:
       heading: "%{name} yer tutucu kullanıcısını sil."
       data_consequences: >
-        Yer tutucu kullanıcının adının geçtiği her şey (örn. devralan, sorumlu veya diğer kullanıcı değerleri) "Silinmiş Kullanıcı" olarak anılan bir hesaba atanacaktır.
-        Silinmiş tüm hesapların bilgileri bu hesaba atandığından bu kullanıcının oluşturduğu veriler başka bir silinmiş hesap tarafından oluşturulmuş verilerden ayrılamaz.
+        Yer tutucu kullanıcının adının geçtiği her şey (örn. devralan, sorumlu veya diğer kullanıcı değerleri) "Silinmiş Kullanıcı" olarak anılan bir hesaba atanacaktır. Silinmiş tüm hesapların bilgileri bu hesaba atandığından bu kullanıcının oluşturduğu veriler başka bir silinmiş hesap tarafından oluşturulmuş verilerden ayrılamaz.
       irreversible: "Bu işlem geri alınamaz"
       confirmation: "Silme işlemini onaylamak için yer tutucu %{name} ismini girin."
     upsale:
-      title: Placeholder users
+      title: Yer tutucu kullanıcı
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -464,12 +463,12 @@ tr:
         code: 'Durum'
         explanation: 'Durum tanımlaması'
         codes:
-          not_started: 'Not started'
+          not_started: 'Başlamadı'
           on_track: 'Takipte'
           at_risk: 'Riskli'
           off_track: 'Kapalı parça'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: 'Tamamlandı'
+          discontinued: 'Devam ettirilmedi'
       query:
         column_names: "Sütunlar"
         relations_to_type_column: "%{type} ile ilişkileri"
@@ -525,16 +524,16 @@ tr:
         begin_deletion: "Silme işleminin başlangıcı"
         children: "Alt öğeler"
         done_ratio: "İlerleme (%)"
-        duration: "Duration"
+        duration: "Süre"
         end_insertion: "Ekleme işlemi bitti"
         end_deletion: "Silme işlemi bitti"
-        ignore_non_working_days: "Ignore non working days"
+        ignore_non_working_days: "Çalışma dışı günleri yoksay"
         parent: "Üst"
         parent_issue: "Üst"
         parent_work_package: "Üst"
         priority: "Öncelik"
         progress: "İlerleme (%)"
-        readonly: "Read only"
+        readonly: "Salt okunur"
         schedule_manually: "Manuel zamanlamayı etkinleştir"
         spent_hours: "Harcanan zaman"
         spent_time: "Harcanan zaman"
@@ -573,7 +572,7 @@ tr:
         even: "çift olmalı."
         exclusion: "ayrılmıştır."
         file_too_large: "çok büyük (en büyük boyut %{count} bayt)."
-        filter_does_not_exist: "filter does not exist."
+        filter_does_not_exist: "Filtre mevcut değil"
         format: "Beklenen biçim '%{expected}' ile eşleşmiyor."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "%{count}'ten büyük olması gerekir."
@@ -742,12 +741,16 @@ tr:
         work_package:
           is_not_a_valid_target_for_time_entries: "İş paketi #%{id} zaman girdilerini yeniden atama için geçerli bir hedef değil."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "kilometre taşları için gerekli olmasına rağmen başlangıç tarihi değil."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "kilometre taşı olamaz."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -755,6 +758,7 @@ tr:
               not_a_valid_parent: "geçersizdir."
             start_date:
               violates_relationships: "yalnızca %{soonest_start} veya daha sonra iş paketi üst bağımlılık ilişkilerini ihlal etmediğinde ayarlanabilir."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "geçerli kullanıcının rolleri için eski durumdan yeni duruma geçerli bir geçiş mevcut olmadığından geçersiz."
               status_invalid_in_type: "Geçerli durum bu türde bulunmadığından geçersiz."
@@ -1248,7 +1252,7 @@ tr:
   error_enterprise_activation_user_limit: "Hesabınız etkinleştirilemedi (kullanıcı limitine ulaşıldı). Erişim sağlamak için lütfen yöneticinize başvurun."
   error_enterprise_token_invalid_domain: "Enterprise Edition etkin değil. Kurumsal simgenizin etki alanı (%{actual}) sistemin ana makine adıyla (%{expected}) eşleşmiyor."
   error_failed_to_delete_entry: 'Girdi silinemedi.'
-  error_in_dependent: "Bağımlı nesneyi değiştirmeye çalışırken hata: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Bağımlı nesneyi değiştirmeye çalışırken hata: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Seçili değeri geçersiz."
   error_journal_attribute_not_present: "Günlük  %{attribute} özniteliği içermiyor."
@@ -1387,17 +1391,11 @@ tr:
     update_info_mail:
       body: >
         We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-
         Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-
         This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-
         We hope you find in-app notifications useful and that they makes you even more productive.
-
-        Sincerely,
-        The OpenProject team
+        Sincerely, The OpenProject team
       body_header: 'Version 12.0 with Notification Center'
       body_subheader: 'Haberler'
       subject: 'Important changes to notifications with the release of 12.0'
@@ -1612,6 +1610,7 @@ tr:
   label_index_by_title: "Başlığa göre dizin"
   label_information: "Bilgi"
   label_information_plural: "Bilgi"
+  label_installation_guides: 'Kurulum kılavuzları'
   label_integer: "Tamsayı"
   label_internal: "Dahili"
   label_introduction_video: "Tanıtım videosu"
@@ -1756,6 +1755,7 @@ tr:
   label_project_new: "Yeni proje"
   label_project_plural: "Projeler"
   label_project_settings: "Proje Ayarları"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} proje %{storage} disk alanı kullanıyor"
   label_project_view_all: "Tüm projeleri görüntüle"
   label_project_show_details: "Proje detaylarını göster"
@@ -1907,6 +1907,7 @@ tr:
   label_wiki_start: "Başlangıç sayfası"
   label_work_package: "İş paketi"
   label_work_package_attachments: "İş paketi ekleri"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Yeni kategori"
   label_work_package_category_plural: "İş paketi kategorileri"
   label_work_package_hierarchy: "İş paketi hiyerarşisi"
@@ -2877,10 +2878,10 @@ tr:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Protokol ayarı uyuşmazlığı'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Uygulamanız, protokol ayarı <code>%{set_protocol}</code>,olarak ayarlanmış şekilde çalışıyor, ancak istek bir <code>%{actual_protocol}</code> isteğidir. Bu hatalarla sonuçlanacaktır! <a href="%{setting_path}"> Sistem ayarları </a> 'na gidin ve bunu düzeltmek için "Protokol" ayarını değiştirin.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Ana bilgisayar adı ayar uyuşmazlığı'
       text_html: >

@@ -2,26 +2,26 @@
 uk:
   js:
     storages:
-      link_files_in_storage: "Link files in %{storageType}"
-      login: "%{storageType} login"
-      login_to: "Login to %{storageType}"
-      no_connection: "No %{storageType} connection"
-      open_storage: "Open %{storageType}"
+      link_files_in_storage: "Додати посилання на файли в сховищі %{storageType}"
+      login: "Облікові дані %{storageType}"
+      login_to: "Увійти в %{storageType}"
+      no_connection: "Немає підключення до сховища %{storageType}"
+      open_storage: "Відкрити сховище %{storageType}"
       types:
         nextcloud: "Nextcloud"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
-        live_data_error: "Error fetching file details"
+          Деякі налаштування сховища %{storageType} не працюють. Зверніться до адміністратора %{storageType}.
+        live_data_error: "Не вдалось отримати докладні відомості про файл"
         live_data_error_description: >
-          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
-        no_file_links: "In order to link files to this work package please do it via %{storageType}."
+          Не вдалось отримати деякі дані сховища %{storageType}. Перезавантажте цю сторінку або зверніться до адміністратора %{storageType}.
+        no_file_links: "Додати посилання на файли в цей пакет робіт можна за допомогою сховища %{storageType}."
         not_logged_in: >
-          To add a link, see or upload files related to this work package, please login to %{storageType}.
+          Щоб додати посилання, переглянути або завантажити файли, пов’язані з цим пакетом робіт, увійдіть у %{storageType}.
       file_links:
-        download: "Download %{fileName}"
-        no_permission: "You have no permission to see this file."
-        open: 'Open file on storage'
-        open_location: 'Open file in location'
-        remove: "Remove file link"
-        remove_confirmation: "Are you sure you want to unlink the file from the work package?"
+        download: "Завантажити %{fileName}"
+        no_permission: "У вас немає дозволу на перегляд цього файлу."
+        open: 'Відкрити файл у сховищі'
+        open_location: 'Відкрити файл у папці'
+        remove: "Видалити посилання на файл"
+        remove_confirmation: "Справді видалити посилання на файл із пакета робіт?"

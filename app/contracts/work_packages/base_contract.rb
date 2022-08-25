@@ -145,6 +145,8 @@ module WorkPackages
     validate :validate_duration_matches_dates
     validate :validate_duration_constraint_for_milestone
 
+    validate :validate_duration_and_dates_are_not_derivable
+
     def initialize(work_package, user, options: {})
       super
 
@@ -336,7 +338,7 @@ module WorkPackages
     end
 
     def validate_duration_matches_dates
-      return unless calculated_duration && model.duration
+      return unless calculated_duration && model.duration && OpenProject::FeatureDecisions.work_packages_duration_field_active?
 
       if calculated_duration > model.duration
         errors.add :duration, :smaller_than_dates
@@ -349,6 +351,21 @@ module WorkPackages
       if model.is_milestone? && model.duration != 1
         errors.add :duration, :not_available_for_milestones
       end
+    end
+
+    def validate_duration_and_dates_are_not_derivable
+      return unless OpenProject::FeatureDecisions.work_packages_duration_field_active?
+
+      %i[start_date due_date duration].each do |field|
+        if not_set_but_others_are_present?(field)
+          errors.add field, :cannot_be_null
+        end
+      end
+    end
+
+    def not_set_but_others_are_present?(field)
+      other_fields = %i[start_date due_date duration].without(field)
+      model[field].nil? && model.values_at(*other_fields).all?(&:present?)
     end
 
     def readonly_attributes_unchanged
@@ -463,9 +480,7 @@ module WorkPackages
     end
 
     def calculated_duration
-      return nil unless model.due_date && model.start_date
-
-      model.due_date - model.start_date + 1
+      @calculated_duration ||= WorkPackages::Shared::Days.for(model).duration(model.start_date, model.due_date)
     end
   end
 end

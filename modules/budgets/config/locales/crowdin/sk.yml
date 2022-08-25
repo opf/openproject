@@ -63,7 +63,7 @@ sk:
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Zobraziť všetky rozpočty"
   label_yes: "Áno"
-  notice_budget_conflict: "Pracovné balíčky musia byť z rovnakého projektu."
+  notice_budget_conflict: "Work packages must be of the same project."
   notice_no_budgets_available: "Nie sú k dispozícii žiadne rozpočty."
   permission_edit_budgets: "Upraviť rozpočty"
   permission_view_budgets: "Zobraziť rozpočty"
