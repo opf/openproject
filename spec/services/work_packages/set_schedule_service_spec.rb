@@ -109,11 +109,12 @@ describe WorkPackages::SetScheduleService do
     work_package
   end
 
-  def create_follower_child(parent, start, due)
-    create_follower(start,
-                    due,
-                    {},
-                    parent:)
+  def create_child(parent, start_date, due_date)
+    create(:work_package,
+           subject: "child of #{parent.subject}",
+           start_date:,
+           due_date:,
+           parent:)
   end
 
   subject { instance.call(attributes) }
@@ -142,12 +143,7 @@ describe WorkPackages::SetScheduleService do
           .to eql(due_date),
               "Expected work package ##{wp.id} '#{wp.subject}' to have due date #{due_date}, got #{result.due_date}"
 
-        duration = if start_date && due_date
-                     (due_date - start_date + 1).to_i
-                   else
-                     # This needs to change to nil once duration can be set
-                     1
-                   end
+        duration = WorkPackages::Shared::AllDays.new.duration(start_date, due_date)
 
         expect(result.duration)
           .to eql(duration),
@@ -694,7 +690,7 @@ describe WorkPackages::SetScheduleService do
     let(:child_start_date) { follower1_start_date }
     let(:child_due_date) { follower1_due_date }
 
-    let(:child_work_package) { create_follower_child(following_work_package1, child_start_date, child_due_date) }
+    let(:child_work_package) { create_child(following_work_package1, child_start_date, child_due_date) }
 
     let!(:following) do
       [following_work_package1,
@@ -723,8 +719,8 @@ describe WorkPackages::SetScheduleService do
     let(:child2_start_date) { follower1_start_date + 8.days }
     let(:child2_due_date) { follower1_due_date }
 
-    let(:child1_work_package) { create_follower_child(following_work_package1, child1_start_date, child1_due_date) }
-    let(:child2_work_package) { create_follower_child(following_work_package1, child2_start_date, child2_due_date) }
+    let(:child1_work_package) { create_child(following_work_package1, child1_start_date, child1_due_date) }
+    let(:child2_work_package) { create_child(following_work_package1, child2_start_date, child2_due_date) }
 
     let!(:following) do
       [following_work_package1,
@@ -923,13 +919,22 @@ describe WorkPackages::SetScheduleService do
               .and_return(new_parent_work_package)
     end
 
-    context "with the parent being restricted in it's ability to be moved" do
+    context "with the parent being restricted in its ability to be moved" do
       let(:soonest_date) { Time.zone.today + 3.days }
 
-      it 'sets the start date to the earliest possible date' do
+      it 'sets the start date and due date to the earliest possible date' do
         subject
 
         expect(work_package.start_date).to eql(Time.zone.today + 3.days)
+        expect(work_package.due_date).to eql(Time.zone.today + 3.days)
+      end
+
+      it 'does not change the due date if after the newly set start date' do
+        work_package.due_date = Time.zone.today + 5.days
+        subject
+
+        expect(work_package.start_date).to eql(Time.zone.today + 3.days)
+        expect(work_package.due_date).to eql(Time.zone.today + 5.days)
       end
     end
 

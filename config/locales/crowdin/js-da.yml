@@ -151,7 +151,7 @@ da:
           language_hint: 'Indtast det formateringssprog, der skal bruges til at fremhæve (hvis det understøttes).'
         dropdown:
           macros: 'Makroer'
-          chose_macro: 'Vælg makro'
+          chose_macro: 'Choose macro'
         toc: 'Indholdsfortegnelse'
         toolbar_help: 'Klik for at vælge widget og vis værktøjslinjen. Dobbeltklik for at redigere widget'
         wiki_page_include:
@@ -204,6 +204,7 @@ da:
             label_expires_at: "Expires at"
             receive_newsletter: Jeg ønsker at modtage OpenProject <a target="_blank" href="%{link}">nyhedsbrevet</a>.
             taken_domain: Der kan kun være én aktiv prøve pr. domæne.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Hver bruger kan kun oprette en prøveversion.
           email_not_received: "Du har ikke modtaget en e-mail? Du kan gensende e-mailen med linket til højre."
           try_another_email: "Eller prøv det med en anden e-mail-adresse."
@@ -472,7 +473,7 @@ da:
     label_remove_all_files: Slet alle filer
     label_add_description: "Tilføj en beskrivelse af %{file}"
     label_upload_notification: "Uploader filer..."
-    label_work_package_upload_notification: "Upload af filer til arbejdspakke #%{id}: %{subject}"
+    label_work_package_upload_notification: "Upload af filer til arbejdspakke #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Disse filer vil blive uploadet:"
     label_rejected_files: "Disse filer kan ikke uploades:"
@@ -490,7 +491,7 @@ da:
         next: 'Næste'
         got_it: 'Forstået'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -602,6 +603,7 @@ da:
       default: '-'
       subject: 'Enter subject here'
       selection: 'Vælg venligst'
+      description: 'Description: Click to edit...'
       relation_description: 'Click to add description for this relation'
     project:
       required_outside_context: >
@@ -756,7 +758,7 @@ da:
         farRight: 'Far right'
         showNone: '-- No label --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering an element, its date labels will be shown instead of these attributes.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       cancel: Annuller
@@ -927,7 +929,6 @@ da:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Klik for at redigere..."
       query:
         column_names: "Kolonner"
         group_by: "Gruppér resultater efter"

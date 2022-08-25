@@ -17,13 +17,13 @@ A few notes:
 
 | Topic                                                                                     | Content                                     |
 |-------------------------------------------------------------------------------------------|:--------------------------------------------|
-| [Main view](#main-view---start-a-new-or-select-an-existing-team-planner)                  | How to start a team planner?                |
-| [Planning calendar basics](#planning-calendar-basics)                                     | How to navigate the team planner?           |
-| [Getting started](#getting-started)                                                       | How to get started?                         |
-| [Adding team members](#step-1-adding-team-members)                                        | How to add team members?                    |
-| [Adding/working with work package strips](#step-2-addingworking-with-work-package-strips) | How to work with work package strips?       |
-| [Work package strip detail view](#work-package-strip-detail-view)                         | How to access the work package detail view? |
-| [Removing a work package strip](#removing-a-work-package-strip)                           | How to remove a work package strip?         |
+| [Main view](#main-view---start-a-new-or-select-an-existing-team-planner)                  | How to start a team planner.                |
+| [Planning calendar basics](#planning-calendar-basics)                                     | How to navigate the team planner.           |
+| [Getting started](#getting-started)                                                       | How to get started.                         |
+| [Adding team members](#step-1-adding-team-members)                                        | How to add team members.                    |
+| [Adding/working with work package strips](#step-2-addingworking-with-work-package-strips) | How to work with work package strips.       |
+| [Work package strip detail view](#work-package-strip-detail-view)                         | How to access the work package detail view. |
+| [Removing a work package strip](#removing-a-work-package-strip)                           | How to remove a work package strip.         |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Team-Planner.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
@@ -48,7 +48,7 @@ A few notes:
 
 ![Overview of the planning calendar basics](planning-calendar-basics.png)
 
-How to navigate the team planner? - The numbers below correspond with the above image:
+How to navigate the team planner - the numbers below correspond with the above image:
 
 1. The top header: Click on the top header (where it says **Team planner** in the picture above) to edit the name of your new team planning calendar. The top header is in edit mode by default, so you can just click right on the text. This is where you can give the new team planning calendar its new name. Your new name gets saved automatically by exiting the top header (by clicking somewhere else, for example).
 2. Use the **+ add existing** button to add an existing work package to your view. Note: You cannot create new work packages from the team planner module. Create new work packages in the work package module, then select them in the team planner.

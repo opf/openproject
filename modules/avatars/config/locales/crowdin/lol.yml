@@ -1,38 +1,38 @@
 #English strings go here
 lol:
-  label_avatar: "crwdns547105:0crwdne547105:0"
-  label_avatar_plural: "crwdns547107:0crwdne547107:0"
-  label_current_avatar: "crwdns547109:0crwdne547109:0"
-  label_choose_avatar: "crwdns547111:0crwdne547111:0"
-  message_avatar_uploaded: "crwdns547113:0crwdne547113:0"
-  error_image_upload: "crwdns547115:0crwdne547115:0"
-  error_image_size: "crwdns547117:0crwdne547117:0"
-  button_change_avatar: "crwdns547119:0crwdne547119:0"
-  are_you_sure_delete_avatar: "crwdns547121:0crwdne547121:0"
-  avatar_deleted: "crwdns547123:0crwdne547123:0"
-  unable_to_delete_avatar: "crwdns547125:0crwdne547125:0"
-  wrong_file_format: "crwdns547127:0crwdne547127:0"
-  empty_file_error: "crwdns547129:0crwdne547129:0"
+  label_avatar: "crwdns494221:0crwdne494221:0"
+  label_avatar_plural: "crwdns494231:0crwdne494231:0"
+  label_current_avatar: "crwdns494233:0crwdne494233:0"
+  label_choose_avatar: "crwdns494235:0crwdne494235:0"
+  message_avatar_uploaded: "crwdns494237:0crwdne494237:0"
+  error_image_upload: "crwdns494239:0crwdne494239:0"
+  error_image_size: "crwdns494241:0crwdne494241:0"
+  button_change_avatar: "crwdns494243:0crwdne494243:0"
+  are_you_sure_delete_avatar: "crwdns494245:0crwdne494245:0"
+  avatar_deleted: "crwdns494247:0crwdne494247:0"
+  unable_to_delete_avatar: "crwdns494249:0crwdne494249:0"
+  wrong_file_format: "crwdns494251:0crwdne494251:0"
+  empty_file_error: "crwdns494253:0crwdne494253:0"
   avatars:
-    label_avatar: "crwdns547131:0crwdne547131:0"
-    label_gravatar: 'crwdns547133:0crwdne547133:0'
-    label_current_avatar: 'crwdns547135:0crwdne547135:0'
-    label_local_avatar: 'crwdns547137:0crwdne547137:0'
+    label_avatar: "crwdns494255:0crwdne494255:0"
+    label_gravatar: 'crwdns494257:0crwdne494257:0'
+    label_current_avatar: 'crwdns494259:0crwdne494259:0'
+    label_local_avatar: 'crwdns494261:0crwdne494261:0'
     text_current_avatar: |
-      crwdns547139:0crwdne547139:0
+      crwdns494263:0crwdne494263:0
     text_upload_instructions: |
-      crwdns547141:0crwdne547141:0
-    text_change_gravatar_html: 'crwdns547143:0%{gravatar_url}crwdne547143:0'
+      crwdns494265:0crwdne494265:0
+    text_change_gravatar_html: 'crwdns494267:0%{gravatar_url}crwdne494267:0'
     text_your_local_avatar: |
-      crwdns547145:0crwdne547145:0
+      crwdns494269:0crwdne494269:0
     text_local_avatar_over_gravatar: |
-      crwdns547147:0crwdne547147:0
+      crwdns494271:0crwdne494271:0
     text_your_current_gravatar: |
-      crwdns547149:0crwdne547149:0
+      crwdns494273:0crwdne494273:0
     settings:
-      enable_gravatars: 'crwdns547151:0crwdne547151:0'
-      gravatar_default: "crwdns547153:0crwdne547153:0"
-      enable_local_avatars: 'crwdns547155:0crwdne547155:0'
+      enable_gravatars: 'crwdns494275:0crwdne494275:0'
+      gravatar_default: "crwdns494277:0crwdne494277:0"
+      enable_local_avatars: 'crwdns494279:0crwdne494279:0'
 
 
 

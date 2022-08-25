@@ -42,7 +42,6 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { compareByHrefOrString } from 'core-app/shared/helpers/angular/tracking-functions';
 import { OpAutocompleterFooterTemplateDirective } from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
 
 import { OpAutocompleterService } from './services/op-autocompleter.service';
@@ -158,6 +157,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @Input() public trackByFn ? = null;
 
+  @Input() public compareWith ? = (a:unknown, b:unknown):boolean => a === b;
+
   @Input() public clearOnBackspace?:boolean = true;
 
   @Input() public labelForId ? = null;
@@ -204,8 +205,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   @Output() public scroll = new EventEmitter<{ start:number; end:number }>();
 
   @Output() public scrollToEnd = new EventEmitter();
-
-  public compareByHrefOrString = compareByHrefOrString;
 
   public active:Set<string>;
 

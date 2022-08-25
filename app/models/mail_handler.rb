@@ -613,7 +613,28 @@ class MailHandler < ActionMailer::Base
   def report_errors
     return if logs.empty?
 
-    UserMailer.incoming_email_error(user, email, logs).deliver_later
+    UserMailer.incoming_email_error(user, mail_as_hash(email), logs).deliver_later
+  end
+
+  def mail_as_hash(email)
+    {
+      message_id: email.message_id,
+      subject: email.subject,
+      from: email.from&.first || '(unknown from address)',
+      quote: incoming_email_quote(email),
+      text: incoming_email_text(email)
+    }
+  end
+
+  def incoming_email_text(mail)
+    mail.text_part.present? ? mail.text_part.body.to_s : mail.body.to_s
+  end
+
+  def incoming_email_quote(mail)
+    quote = incoming_email_text(mail)
+    quoted = String(quote).lines.join("> ")
+
+    "> #{quoted}"
   end
 
   def work_package_create_contract_class

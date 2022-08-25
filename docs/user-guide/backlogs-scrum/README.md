@@ -18,10 +18,10 @@ A **backlog** is defined as a plugin that allows to use the backlogs feature in 
 
 Please note that this user guide does not represent an introduction into scrum methodology, but merely explains the scrum-related functionalities and user instructions in OpenProject.
 
-| Topic                                       | Content                                                      |
-| ------------------------------------------- | ------------------------------------------------------------ |
-| [Working with backlogs](work-with-backlogs) | How to work with backlogs for Scrum projects in OpenProject? |
-| [Manage sprints](manage-sprints)            | How to set up the product backlog, bug backlog, and create a new sprint in the backlogs view? |
-| [Task board view](taskboard)                | How to work with the taskboard?                              |
+| Topic                                       | Content                                                                                       |
+|---------------------------------------------|-----------------------------------------------------------------------------------------------|
+| [Working with backlogs](work-with-backlogs) | How to work with backlogs for Scrum projects in OpenProject.                                  |
+| [Manage sprints](manage-sprints)            | How to set up the product backlog, bug backlog, and create a new sprint in the backlogs view. |
+| [Task board view](taskboard)                | How to work with the taskboard.                                                               |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Agile-and-Scrum-Backlogs.mp4" type="video/mp4" controls="" style="width:100%"></video>

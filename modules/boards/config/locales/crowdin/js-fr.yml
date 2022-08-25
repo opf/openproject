@@ -7,7 +7,7 @@ fr:
       label_unnamed_list: 'Liste sans nom'
       label_board_type: 'Type de tableau'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
+        teaser_text: 'Voulez-vous automatiser vos flux de travail avec des tableaux ? Les tableaux avancés sont une fonctionnalité d''entreprise. Veuillez passer à une offre payante.'
         upgrade: 'Passer au plan supérieur'
       lists:
         delete: 'Supprimer la liste'

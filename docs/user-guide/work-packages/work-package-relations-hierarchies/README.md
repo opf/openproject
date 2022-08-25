@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Work package relations and hierarchies
   priority: 600
-description: How to add or configure work package relations?
+description: How to add or configure work package relations.
 keywords: relations, hierarchies, child, parent, blocked, includes, part of
 ---
 
@@ -52,7 +52,7 @@ As a user of [Enterprise on-premises](https://www.openproject.org/enterprise-edi
 
 This is useful if you want to get an overview of certain types of relationships between work packages. You can for example see which work packages are blocking other work packages.
 
-To add relation columns, navigate to the upper right corner of the work package table and cick on the icon with the three dots. **... insert columns** an type the name of the relation into the search bar. Then select the relation and click on apply.
+To add relation columns, navigate to the upper right corner of the work package table and click on the icon with the three dots. **... insert columns** an type the name of the relation into the search bar. Then select the relation and click on apply.
 
 ![work package add relation as column](work-package-add-relation-as-column.png)
 
@@ -108,6 +108,6 @@ You can also add a column with information about parent work packages:
 
 1. Click on the gear wheel in the upper right corner of the work package table to open the work package table configuration.
 2. Select "Parent" from the drop down menu and click on apply.
-3. Now the column with the information about a parant relation is displayed in the work package table.
+3. Now the column with the information about a parent relation is displayed in the work package table.
 
 ![select parent as column](select-parent-as-column.png)

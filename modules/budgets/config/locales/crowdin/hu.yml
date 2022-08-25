@@ -63,7 +63,7 @@ hu:
   label_example_placeholder: 'például %{decimal}'
   label_view_all_budgets: "Minden költség megtekintése"
   label_yes: "Igen"
-  notice_budget_conflict: "Munkacsomagok ugyanabból a projektből kell származzanak."
+  notice_budget_conflict: "Work packages must be of the same project."
   notice_no_budgets_available: "Nincs költségvetés."
   permission_edit_budgets: "Költségvetés szerkesztése"
   permission_view_budgets: "Költségvetések megtekintése"

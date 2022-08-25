@@ -151,7 +151,7 @@ pt:
           language_hint: 'Informe a linguagem de formatação que será usada para destacar (se suportado).'
         dropdown:
           macros: 'Macros'
-          chose_macro: 'Escolher macro'
+          chose_macro: 'Choose macro'
         toc: 'Tabela de conteúdos'
         toolbar_help: 'Clique para selecionar o widget e mostrar a barra de ferramentas. Clique duas vezes para editar o widget'
         wiki_page_include:
@@ -204,6 +204,7 @@ pt:
             label_expires_at: "Expira em"
             receive_newsletter: Quero receber o <a target="_blank" href="%{link}">boletim informativo</a> do OpenProject.
             taken_domain: Pode haver somente uma avaliação ativa por domínio.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Cada usuário pode criar somente uma avaliação.
           email_not_received: "Não recebeu um e-mail? Você pode reenviá-lo através do link à direita."
           try_another_email: "Ou tente com outro endereço de e-mail."
@@ -235,7 +236,7 @@ pt:
           confidence: >
             Fornecemos toda a segurança de um software de gestão de projetos de classe empresarial, testado e com suporte - com código aberto e mente aberta.
           link_quote: "Solicitar uma cotação"
-          more_info: "More information"
+          more_info: "Mais informações"
           text: >
             O OpenProject Enterprise Edition foi construído a partir do Community Edition. Ele conta com recursos premium e suporte profissional, com foco principal em organizações com mais de 10 usuários que gerenciam projetos de negócios críticos com o OpenProject.
           unlimited: "Ilimitado"
@@ -268,7 +269,7 @@ pt:
           one: "Primeiro critério de ordenação"
           two: "Segundo critério de ordenação"
           three: "Terceiro critério de ordenação"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
+      upsale_for_more: "Os filtros avançados permitem que você também filtre por nomes de arquivos e conteúdo dos anexos do pacote de trabalho. Faça o upgrade para um plano pago para usar este recurso. "
       upsale_link: 'Enterprise Edition.'
     general_text_no: "não"
     general_text_yes: "sim"
@@ -292,11 +293,11 @@ pt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                A versão atual contém vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Chega de buscas infinitas por arquivos! Com nossa nova <b>integração com Nextcloud</b> no OpenProject 12.2, agora você  pode encontrar arquivos diretamente no respetivo pacote de trabalho e sempre ter a versão correta na ponta de seus dedos.</li> <li>Acrescentámos <b>um novo seletor de data</b> com um comportamento de entrada atualizado, e uma barra de informações que conta com um botão para a exibição de relações no gráfico de Gantt.</li> <li>Adicionámos a possibilidade de <b>registrar hora para outros usuários.</b></li> <li>Marcar notificações como lidas também fora do centro de notificações.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                A versão atual contém vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Chega de buscas infinitas por arquivos! Com nossa nova <b>integração com Nextcloud</b> no OpenProject 12.2, agora você  pode encontrar arquivos diretamente no respetivo pacote de trabalho e sempre ter a versão correta na ponta de seus dedos.</li> <li>Acrescentámos <b>um novo seletor de data</b> com um comportamento de entrada atualizado, e uma barra de informações que conta com um botão para a exibição de relações no gráfico de Gantt.</li> <li>Adicionámos a possibilidade de <b>registrar hora para outros usuários.</b></li> <li>Marcar notificações como lidas também fora do centro de notificações.</li> </ul>
     label_activate: "Ativar"
     label_assignee: 'Atribuído para'
     label_add_column_after: "Adicionar coluna depois"
@@ -368,7 +369,7 @@ pt:
     label_in_more_than: "em mais de"
     label_incoming_emails: "E-mails recebidos"
     label_information_plural: "Informação"
-    label_invalid: "Invalid"
+    label_invalid: "Inválido"
     label_import: "Importar"
     label_latest_activity: "Última atividade"
     label_last_updated_on: "Última atualização em"
@@ -456,10 +457,10 @@ pt:
     label_unwatch: "Deixar de observar"
     label_unwatch_work_package: "Deixar de observar pacote de trabalho"
     label_uploaded_by: "Enviado por"
-    label_default_queries: "Default"
-    label_starred_queries: "Favorite"
-    label_global_queries: "Public"
-    label_custom_queries: "Private"
+    label_default_queries: "Padrão"
+    label_starred_queries: "Favorito"
+    label_global_queries: "Público"
+    label_custom_queries: "Privado"
     label_columns: "Colunas"
     label_attachments: Anexos
     label_drop_files: Solte os arquivos aqui
@@ -472,7 +473,7 @@ pt:
     label_remove_all_files: Excluir todos os arquivos
     label_add_description: "Adicionar uma descrição para %{file}"
     label_upload_notification: "Enviando arquivos..."
-    label_work_package_upload_notification: "Enviando arquivos para o pacote de trabalho #%{id}: %{subject}"
+    label_work_package_upload_notification: "Enviando arquivos para o pacote de trabalho #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} adicionado por %{author}"
     label_files_to_upload: "Estes arquivos serão enviados:"
     label_rejected_files: "Estes arquivos não podem ser enviados:"
@@ -490,7 +491,7 @@ pt:
         next: 'Próxima'
         got_it: 'Entendi'
       steps:
-        help_menu: 'O menu Ajuda (?) fornece <b>recursos adicionais de ajuda</b>. Aqui você pode encontrar um guia do usuário e vídeos de ajuda úteis e muito mais. <br> Aproveite seu trabalho com o OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Convide novos <b>membros</b> para participar de seu projeto.'
         project_selection: 'Clique em um dos projetos de demonstração que preparamos. Os dados de demonstração atualmente estão disponíveis somente em inglês. <br> O geral <b>projeto demo</b> é mais adequado para gerenciamento de projeto clássico, enquanto o <b>projeto Scrum</b> é melhor para gerenciamento de projeto ágil.'
         quick_add_button: 'Clique no ícone mais (+) no menu de navegação para <b>criar um novo projeto</b> ou para <b>convidar colegas de trabalho</b>.'
@@ -539,7 +540,7 @@ pt:
           one: 'e 1 outro'
           other: 'e %{count} outros'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'Novas notificações aparecerão aqui quando houver atividades que você tenha interesse, enquanto isso, você também pode visualizar e modificar suas configurações de notificação para configurar quando ser notificado. '
           with_current_filter: 'Não há notificações nesta visualização no momento'
         mark_all_read: 'Marcar tudo como lido'
         mark_as_read: 'Marcar como lido'
@@ -547,8 +548,8 @@ pt:
         total_count_warning: "Mostrando as %{newest_count} notificações mais recentes. Outras %{more_count} não são exibidas."
         empty_state:
           no_notification: "Parece que você já está com tudo em dia."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification_with_current_project_filter: "Parece que você já está totalmente atualizado com o projeto selecionado."
+          no_notification_with_current_filter: "Parece que você já está totalmente atualizado sobre o filtro %{filter}."
           no_selection: "Clique em uma notificação para visualizar todos os detalhes da atividade."
         new_notifications:
           message: 'Há novas notificações.'
@@ -602,6 +603,7 @@ pt:
       default: '-'
       subject: 'Informe o assunto aqui'
       selection: 'Por favor selecione'
+      description: 'Description: Click to edit...'
       relation_description: 'Clique para adicionar a descrição para esta relação'
     project:
       required_outside_context: >
@@ -756,7 +758,7 @@ pt:
         farRight: 'Extrema direita'
         showNone: '-- Sem rótulo --'
         description: >
-          Selecione os atributos que você deseja ver nas respectivas posições do gráfico de Gantt em todos os momentos. Observe que, ao pairar sobre um elemento, seus marcadores de data serão exibidos em vez desses atributos.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Exibir gráfico de Gantt'
       button_deactivate: 'Ocultar gráfico de Gantt'
       cancel: Cancelar
@@ -927,7 +929,6 @@ pt:
       placeholders:
         default: "-"
         date: "Selecionar data"
-        formattable: "%{name}: Clique para editar..."
       query:
         column_names: "Colunas"
         group_by: "Agrupar resultados por"
@@ -1087,9 +1088,9 @@ pt:
         other: "%{count} hs"
         zero: "0 h"
       day:
-        one: "1 day"
-        other: "%{count} days"
-        zero: "0 days"
+        one: "1 dia"
+        other: "%{count} dias"
+        zero: "0 dias"
     zen_mode:
       button_activate: 'Ativar modo zen'
       button_deactivate: 'Desativar modo zen'
@@ -1185,8 +1186,8 @@ pt:
       tooltip:
         include_all_selected: 'Incluir todos os subprojetos está selecionado no momento.'
         current_project: 'Este é o projeto atual em que você está.'
-        does_not_match_search: 'Project does not match the search criteria.'
-      no_results: 'No project matches your search criteria.'
+        does_not_match_search: 'O projeto não corresponde ao critério de pesquisa'
+      no_results: 'Nenhum projeto corresponde ao seu critério de busca.'
     forms:
       submit_success_message: 'O formulário foi enviado com sucesso'
       load_error_message: 'Ocorreu um erro ao carregar o formulário'

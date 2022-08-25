@@ -10,12 +10,12 @@ keywords: create wiki
 
 In OpenProject you can create and edit wiki pages together with your team to document important project information.
 
-| Feature                                                      | Documentation for                             |
-| ------------------------------------------------------------ | --------------------------------------------- |
-| [Create a new wiki page](#create-a-new-wiki-page)            | How to create a new wiki page?                |
-| [Edit a wiki page](#edit-a-wiki-page)                        | How to make changes to an existing wiki page? |
-| [Create a wiki page structure](#create-a-wiki-page-structure) | How to create a wiki page structure?          |
-| [Watch a wiki page](#watch-a-wiki-page)                      | How to watch a wiki page?                     |
+| Feature                                                       | Documentation for                             |
+|---------------------------------------------------------------|-----------------------------------------------|
+| [Create a new wiki page](#create-a-new-wiki-page)             | How to create a new wiki page.                |
+| [Edit a wiki page](#edit-a-wiki-page)                         | How to make changes to an existing wiki page. |
+| [Create a wiki page structure](#create-a-wiki-page-structure) | How to create a wiki page structure.          |
+| [Watch a wiki page](#watch-a-wiki-page)                       | How to watch a wiki page.                     |
 
 ## Create a new wiki page
 

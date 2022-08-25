@@ -43,7 +43,7 @@ describe ::Storages::Admin::StoragesController, webmock: true, type: :controller
   before do
     login_as admin
     mock_server_capabilities_response(host)
-    mock_server_host_response(host)
+    mock_server_config_check_response(host)
     post :create, params:
   end
 

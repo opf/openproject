@@ -37,7 +37,7 @@ ja:
         enabled_text: 'Webhookは、以下に定義されているイベントのペイロードを発行します。'
         disabled_text: '編集ボタンをクリックすると、Webhookをアクティブにします。'
       deliveries:
-        no_results_table: このWebhookの配信は行われていません。
+        no_results_table: No deliveries have been made for this webhook in the past days.
         title: '最近の配信'
         time: '配信時間'
       form:

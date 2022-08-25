@@ -64,7 +64,7 @@ const OpVersionI18n = '12_2';
 export class HomescreenNewFeaturesBlockComponent {
   public isStandardEdition:boolean;
 
-  new_features_image = imagePath('12_1_features.png');
+  new_features_image = imagePath('12_2_features.png');
 
   public text = {
     newFeatures: this.i18n.t('js.label_new_features'),

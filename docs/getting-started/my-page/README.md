@@ -11,10 +11,10 @@ keywords: my page, personal overview page, dashboard
 The My Page is your **personal dashboard** with important overarching project information, such as work package reports, news, spent time, or a calendar. It can be configured to your specific needs.
 
 | Topic                                           | Content                                    |
-| ----------------------------------------------- | ------------------------------------------ |
+|-------------------------------------------------|--------------------------------------------|
 | [My Page introduction](#my-page-introduction)   | What is My Page and what can I do with it? |
-| [Configure the My Page](#configure-the-my-page) | How to add and edit widgets on My Page?    |
-| [My spent time widget](#my-spent-time-widget)   | How to track spent time on My Page?        |
+| [Configure the My Page](#configure-the-my-page) | How to add and edit widgets on My Page.    |
+| [My spent time widget](#my-spent-time-widget)   | How to track spent time on My Page.        |
 
 ## My Page introduction
 

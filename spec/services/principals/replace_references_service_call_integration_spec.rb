@@ -335,7 +335,23 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
             spent_on: "date '2012-02-02'",
             tyear: 2021,
             tmonth: 12,
-            tweek: 5 }
+            tweek: 5,
+            logged_by_id: principal.id }
+        end
+      end
+
+      it_behaves_like 'rewritten record',
+                      :time_entry,
+                      :logged_by_id do
+        let(:attributes) do
+          { project_id: 1,
+            hours: 5,
+            activity_id: 1,
+            spent_on: "date '2012-02-02'",
+            tyear: 2021,
+            tmonth: 12,
+            tweek: 5,
+            user_id: principal.id }
         end
       end
 
@@ -349,7 +365,23 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
             spent_on: "date '2012-02-02'",
             tyear: 2021,
             tmonth: 12,
-            tweek: 5 }
+            tweek: 5,
+            logged_by_id: principal.id }
+        end
+      end
+
+      it_behaves_like 'rewritten record',
+                      :journal_time_entry_journal,
+                      :logged_by_id do
+        let(:attributes) do
+          { project_id: 1,
+            hours: 5,
+            activity_id: 1,
+            spent_on: "date '2012-02-02'",
+            tyear: 2021,
+            tmonth: 12,
+            tweek: 5,
+            user_id: principal.id }
         end
       end
     end

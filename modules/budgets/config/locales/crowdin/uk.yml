@@ -63,7 +63,7 @@ uk:
   label_example_placeholder: 'наприклад, %{decimal}'
   label_view_all_budgets: "Переглянути всі бюджети"
   label_yes: "Так"
-  notice_budget_conflict: "Робочі пакети повинні бути одного проекту."
+  notice_budget_conflict: "Робочі пакети повинні бути з одного проекту."
   notice_no_budgets_available: "Немає доступних бюджетів."
   permission_edit_budgets: "Редагувати бюджети"
   permission_view_budgets: "Переглянути бюджети"

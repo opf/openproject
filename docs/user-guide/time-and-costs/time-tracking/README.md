@@ -13,15 +13,15 @@ Users can book their time or units spent on an activity within a project directl
 > **Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
 
 
-| Topic                                                        | Content                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Logging time](#logging-time-in-the-work-package-view)       | How to log time to work packages
-| [Logging time via commit message](#logging-time-via-commit-message) | How to log time via a commit message to a work package?      |
-| [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package                   |
-| [Delete time entries](#delete-time-entries)                  | How to delete time entries logged to a work package         |
-| [Logging and editing time for other users](#logging-and-editing-time-for-other-users)       | How to log time to work packages                            |
-| [Spent time widget on the My Page](#spent-time-widget-on-the-my-page) | How to easily track and display spent time in the spent time widget on the MyPage? |
-| [Track time with Toggl](./toggl-integration)                 | How to track spent time with Toggl integration              |
+| Topic                                                                                 | Content                                                                            |
+|---------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+| [Logging time](#logging-time-in-the-work-package-view)                                | How to log time to work packages.                                                  |
+| [Logging time via commit message](#logging-time-via-commit-message)                   | How to log time via a commit message to a work package.                            |
+| [Edit logged time](#edit-logged-time)                                                 | How to edit logged time on a work package.                                         |
+| [Delete time entries](#delete-time-entries)                                           | How to delete time entries logged to a work package.                               |
+| [Logging and editing time for other users](#logging-and-editing-time-for-other-users) | How to log time to work packages.                                                  |
+| [Spent time widget on the My Page](#spent-time-widget-on-the-my-page)                 | How to easily track and display spent time in the spent time widget on the MyPage. |
+| [Track time with Toggl](./toggl-integration)                                          | How to track spent time with Toggl integration.                                    |
 
 
 ## Logging time in the work package view

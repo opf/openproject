@@ -1,8 +1,8 @@
 # /api/v3/storages/{id}
 ---
 get:
-  summary: Gets a file link.
-  operationId: Get_Storage
+  summary: Gets a storage.
+  operationId: get_storage
   tags:
     - File links
   description: |-

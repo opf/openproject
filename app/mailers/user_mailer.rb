@@ -229,34 +229,23 @@ class UserMailer < ApplicationMailer
   # a work package, or forum message for instance.
   #
   # @param [User] user User who sent the email
-  # @param [Mail] mail Sent email
-  # @param [Array<String>] List of logs collected during processing of the email
+  # @param [Object] mail The mail object prepared by the mail handler
+  # @param [Array<String>] logs List of logs collected during processing of the email
   def incoming_email_error(user, mail, logs)
     @user = user
-    @mail = mail
     @logs = logs
+    @mail_from = mail[:from]
     @received_at = DateTime.now
-    @incoming_text = incoming_email_text mail
-    @quote = incoming_email_quote mail
+    @incoming_text = mail[:text]
+    @quote = mail[:quote]
 
-    headers['References'] = ["<#{mail.message_id}>"]
-    headers['In-Reply-To'] = ["<#{mail.message_id}>"]
+    headers['References'] = ["<#{mail[:message_id]}>"]
+    headers['In-Reply-To'] = ["<#{mail[:message_id]}>"]
 
-    send_mail user, mail.subject.present? ? "Re: #{mail.subject}" : I18n.t("mail_subject_incoming_email_error")
+    send_mail user, mail[:subject].present? ? "Re: #{mail[:subject]}" : I18n.t("mail_subject_incoming_email_error")
   end
 
   private
-
-  def incoming_email_text(mail)
-    mail.text_part.present? ? mail.text_part.body.to_s : mail.body.to_s
-  end
-
-  def incoming_email_quote(mail)
-    quote = incoming_email_text(mail)
-    quoted = String(quote).lines.join("> ")
-
-    "> #{quoted}"
-  end
 
   def open_project_wiki_headers(wiki_content)
     open_project_headers 'Project' => wiki_content.project.identifier,

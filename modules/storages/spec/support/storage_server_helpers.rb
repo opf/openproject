@@ -64,18 +64,30 @@ module StorageServerHelpers
     )
   end
 
-  def mock_server_host_response(nextcloud_host,
-                                response_code: nil,
-                                response_headers: nil)
+  def mock_server_config_check_response(nextcloud_host,
+                                        response_code: nil,
+                                        response_headers: nil,
+                                        response_body: nil)
     response_code ||= 200
-    response_headers ||= {}
+    response_headers ||= {
+      'Content-Type' => 'application/json; charset=utf-8'
+    }
+
+    response_body ||=
+      %{
+        {
+          "user_id": "",
+          "authorization_header": "Bearer TESTBEARERTOKEN"
+        }
+      }
 
     stub_request(
       :get,
-      nextcloud_host
+      File.join(nextcloud_host, 'index.php/apps/integration_openproject/check-config')
     ).to_return(
       status: response_code,
-      headers: response_headers
+      headers: response_headers,
+      body: response_body
     )
   end
 end

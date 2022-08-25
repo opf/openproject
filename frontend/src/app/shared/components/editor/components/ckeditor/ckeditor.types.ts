@@ -66,4 +66,6 @@ export interface ICKEditorContext {
   };
   // context link to append on preview requests
   previewContext?:string;
+  // disabled specific mentions
+  disabledMentions?:['user'|'work_package'];
 }

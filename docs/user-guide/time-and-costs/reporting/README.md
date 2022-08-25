@@ -13,14 +13,14 @@ You can easily report spent time and costs in OpenProject and filter, group and 
 > **Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
 
 
-| Topic                                                      | Content                                            |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Time and costs report](#time-and-costs-reports)             | How to open time and costs reports in OpenProject?           |
-| [Change time and costs reports](#change-time-and-costs-reports) | How to change the view of the reports, e.g. to filter, group by and select units to be displayed? |
-| [Filter cost reports](#filter-cost-reports)                  | How to filter time and cost reports?                         |
-| [Group by criteria for cost reports](#group-by-criteria-for-cost-reports) | How to group time and cost reports?                          |
-| [Select units to display](#select-units-to-display)          | How to choose the unit to be displayed in a report?          |
-| [Export time and cost reports](#export-time-and-cost-reports) | How to export time and cost reports to Excel?                |
+| Topic                                                                     | Content                                                                                           |
+|---------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| [Time and costs report](#time-and-costs-reports)                          | How to open time and costs reports in OpenProject.                                                |
+| [Change time and costs reports](#change-time-and-costs-reports)           | How to change the view of the reports, e.g. to filter, group by and select units to be displayed. |
+| [Filter cost reports](#filter-cost-reports)                               | How to filter time and cost reports.                                                              |
+| [Group by criteria for cost reports](#group-by-criteria-for-cost-reports) | How to group time and cost reports.                                                               |
+| [Select units to display](#select-units-to-display)                       | How to choose the unit to be displayed in a report.                                               |
+| [Export time and cost reports](#export-time-and-cost-reports)             | How to export time and cost reports to Excel.                                                     |
 
 ## Time and costs reports
 

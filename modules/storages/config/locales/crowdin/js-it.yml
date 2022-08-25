@@ -2,26 +2,26 @@
 it:
   js:
     storages:
-      link_files_in_storage: "Link files in %{storageType}"
-      login: "%{storageType} login"
-      login_to: "Login to %{storageType}"
-      no_connection: "No %{storageType} connection"
-      open_storage: "Open %{storageType}"
+      link_files_in_storage: "Collega file in %{storageType}"
+      login: "Accesso %{storageType}"
+      login_to: "Accedi a %{storageType}"
+      no_connection: "Nessuna connessione %{storageType}"
+      open_storage: "Apri %{storageType}"
       types:
         nextcloud: "Nextcloud"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
-        live_data_error: "Error fetching file details"
+          Alcune impostazioni %{storageType} non funzionano. Contatta l'amministratore %{storageType}.
+        live_data_error: "Errore nel recupero dei dettagli del file"
         live_data_error_description: >
-          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
-        no_file_links: "In order to link files to this work package please do it via %{storageType}."
+          Alcuni dati %{storageType} non possono essere recuperati. Prova a ricaricare questa pagina o contatta l'amministratore %{storageType}.
+        no_file_links: "Per collegare i file a questa macro-attività, farlo tramite %{storageType}."
         not_logged_in: >
-          To add a link, see or upload files related to this work package, please login to %{storageType}.
+          Per aggiungere un link, vedere o caricare i file relativi a questo pacchetto di lavoro, accedi a %{storageType}.
       file_links:
-        download: "Download %{fileName}"
-        no_permission: "You have no permission to see this file."
-        open: 'Open file on storage'
-        open_location: 'Open file in location'
-        remove: "Remove file link"
-        remove_confirmation: "Are you sure you want to unlink the file from the work package?"
+        download: "Scarica %{fileName}"
+        no_permission: "Non hai i permessi per accedere al file."
+        open: 'Apri file su memoria'
+        open_location: 'Apri file nella posizione'
+        remove: "Rimuovi collegamento al file"
+        remove_confirmation: "Vuoi davvero scollegare il file dalla macro-attività?"

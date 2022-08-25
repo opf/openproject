@@ -35,7 +35,7 @@ class AnnouncementMailer < ApplicationMailer
   include OpenProject::TextFormatting
   helper :mail_notification
 
-  def announce(user, subject:, body:, body_header: nil, body_subheader: nil)
+  def announce(user, subject:, body:, salutation: :firstname, body_header: nil, body_subheader: nil)
     with_locale_for(user) do
       localized_subject = localized(subject)
 
@@ -44,6 +44,7 @@ class AnnouncementMailer < ApplicationMailer
         locals = {
           body: localized(body),
           user:,
+          salutation: user_salutation(user, salutation),
           header_summary: localized_subject,
           body_header: localized(body_header),
           body_subheader: localized(body_subheader)
@@ -62,6 +63,15 @@ class AnnouncementMailer < ApplicationMailer
       I18n.t(input)
     else
       input
+    end
+  end
+
+  def user_salutation(user, salutation)
+    case salutation
+    when :firstname
+      I18n.t(:'mail.salutation', user: user.firstname)
+    else
+      salutation % { firstname: user.firstname, lastname: user.lastname, name: user.name }
     end
   end
 end

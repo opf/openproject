@@ -12,16 +12,16 @@ keywords: gantt chart, timeline, project plan, gantchart
 The **Gantt chart** in OpenProject displays the work packages in a timeline. You can collaboratively create and manage your project plan. Have your project timelines available for all team members and share up-to-date information with stakeholders. You can add start and finish dates and adapt it with drag and drop in the Gantt chart. Also, you can add dependencies, predecessor or follower within the Gantt chart.
 </div>
 
-| Topic                                                        | Content                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Activate the Gantt chart](#activate-the-gantt-chart)        | How to activate the Gantt chart in OpenProject?              |
-| [Create a new element](#create-a-new-element-in-the-gantt-chart) | How to add a new item to the Gantt chart?                    |
-| [Relations in the Gantt chart](#relations-in-the-gantt-chart) | Create and display dependencies in the Gantt chart.          |
-| [Understanding the colors and lines in the Gantt chart](#understanding-the-colors-and-lines-in-the-gantt-chart) | What do the clamps, lines and symbols in the Gantt chart mean? |
-| [Gantt chart configuration](#gantt-chart-configuration)      | How to configure the view of your Gantt chart, e.g. add labels? |
-| [Gantt chart views](#gantt-chart-views)                      | How to zoom in and out and activate the Zen mode?            |
-| [Multi project views](#multi-project-views)                  | Create project overarching timelines.                        |
-| [Aggregation by project](#aggregation-by-project)            | How to display an aggregated view of all milestones of multiple projects? |
+| Topic                                                                                                           | Content                                                                   |
+|-----------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| [Activate the Gantt chart](#activate-the-gantt-chart)                                                           | How to activate the Gantt chart in OpenProject.                           |
+| [Create a new element](#create-a-new-element-in-the-gantt-chart)                                                | How to add a new item to the Gantt chart.                                 |
+| [Relations in the Gantt chart](#relations-in-the-gantt-chart)                                                   | Create and display dependencies in the Gantt chart.                       |
+| [Understanding the colors and lines in the Gantt chart](#understanding-the-colors-and-lines-in-the-gantt-chart) | What do the clamps, lines and symbols in the Gantt chart mean?            |
+| [Gantt chart configuration](#gantt-chart-configuration)                                                         | How to configure the view of your Gantt chart, e.g. add labels.           |
+| [Gantt chart views](#gantt-chart-views)                                                                         | How to zoom in and out and activate the Zen mode.                         |
+| [Multi project views](#multi-project-views)                                                                     | Create project overarching timelines.                                     |
+| [Aggregation by project](#aggregation-by-project)                                                               | How to display an aggregated view of all milestones of multiple projects. |
 
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Project-Plan-and-Timelines-Gantt-charts.mp4" type="video/mp4" controls="" style="width:100%"></video>
@@ -46,7 +46,7 @@ To **change the order of an item** in the Gantt chart, click the **drag and drop
 
 ![create-new-element-gantt-chart](create-new-element-gantt-chart.gif)
 
-### How to change the duration of an element in the Gantt chart?
+### How to change the duration of an element in the Gantt chart
 
 To change the duration of a work package in the Gantt chart view, hover over the work package in the Gantt chart and use the little arrows on its ends to adjust the start date or finish date. This will shorten or prolong its duration.
 To move a work package on the time line just click on it and drag and drop it to the desired point of time. This will change its start and finish date.
@@ -95,7 +95,7 @@ Click the **Apply** button to save your changes.
 
 ![configure-gantt-chart](configure-gantt-chart.gif)
 
-### How to export data from a Gantt diagram?
+### How to export data from a Gantt diagram
 
 To export the data from your Gantt chart there are several possibilities:
 
@@ -103,7 +103,7 @@ To export the data from your Gantt chart there are several possibilities:
 * [Print (e.g. to PDF)](#how-to-print-a-gantt-chart)
 * [Synchronize data from OpenProject to Excel](../../system-admin-guide/integrations/excel-synchronization/) ←→ MS Project
 
-### How to print a Gantt chart?
+### How to print a Gantt chart
 
 The Gantt chart can be printed via the browser's printing function. It is optimized for Chrome.
 

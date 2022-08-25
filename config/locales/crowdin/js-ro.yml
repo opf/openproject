@@ -151,7 +151,7 @@ ro:
           language_hint: 'Introduceți limbajul de formatare care va fi utilizat pentru evidențiere (dacă există suport pentru acesta).'
         dropdown:
           macros: 'Macro'
-          chose_macro: 'Alegeți macro'
+          chose_macro: 'Choose macro'
         toc: 'Cuprins'
         toolbar_help: 'Faceți clic pentru a selecta widgetul și pentru a afișa bara de instrumente. Faceți dublu clic pentru a edita widgetul'
         wiki_page_include:
@@ -204,6 +204,7 @@ ro:
             label_expires_at: "Expiră la"
             receive_newsletter: Doresc să primesc <a target="_blank" href="%{link}">buletinul informativ</a> OpenProject.
             taken_domain: Nu poate exista decât un singur proces activ pe domeniu.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Fiecare utilizator poate crea doar o singură încercare.
           email_not_received: "Nu ați primit un e-mail? Puteți retrimite e-mailul cu ajutorul linkului din dreapta."
           try_another_email: "Sau încercați cu o altă adresă de e-mail."
@@ -472,7 +473,7 @@ ro:
     label_remove_all_files: Ştergeţi toate fişierele
     label_add_description: "Adăugați o descriere pentru %{file}"
     label_upload_notification: "Se încarcă fișierele..."
-    label_work_package_upload_notification: "Fişierele pentru pachetul de lucru #%{id}: %{subject} sunt în curs de încărcare"
+    label_work_package_upload_notification: "Fişierele pentru pachetul de lucru #%{id}: %{subject} sunt în curs de încărcare" #%{id}: %{subject} sunt în curs de încărcare"
     label_wp_id_added_by: "#%{id} adaugat de %{author}"
     label_files_to_upload: "Următoarele fişiere vor fi încărcate:"
     label_rejected_files: "Următoarele fişiere nu pot fi încărcate:"
@@ -490,7 +491,7 @@ ro:
         next: 'Înainte'
         got_it: 'Am înțeles'
       steps:
-        help_menu: 'Meniul Ajutor (?) oferă <b>resurse suplimentare de ajutor</b>. Aici puteți găsi un ghid de utilizator și videoclipuri de utilitate și multe altele. <br> Bucurați-vă de munca dvs. cu OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invitați noi <b>membri</b> să se alăture proiectului dumneavoastră.'
         project_selection: 'Vă rugăm să faceți clic pe unul dintre proiectele demo pe care le-am pregătit. Datele demo sunt disponibile în prezent doar în limba engleză. <br> Proiectul demonstrativ <b>general</b> se potrivește cel mai bine pentru gestionarea proiectelor clasice, în timp ce proiectul <b>Scrum</b> este mai bun pentru managementul agile al proiectului.'
         quick_add_button: 'Dă click pe pictograma plus (+) din antetul navigării pentru a <b>crea un nou proiect</b> sau <b>invita colaboratori</b>.'
@@ -603,6 +604,7 @@ ro:
       default: '-'
       subject: 'Introduceţi subiectul aici'
       selection: 'Vă rugăm să selectaţi'
+      description: 'Description: Click to edit...'
       relation_description: 'Click pentru a adauga o descriere pentru această relaţie'
     project:
       required_outside_context: >
@@ -757,7 +759,7 @@ ro:
         farRight: 'Extrema dreaptă'
         showNone: '-- Fără etichetă --'
         description: >
-          Selectați atributele pe care doriți să le afișați în permanență în pozițiile respective ale diagramei Gantt. Rețineți că, atunci când treceți cu degetul peste un element, etichetele de date ale acestuia vor fi afișate în locul acestor atribute.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Grafic Gantt'
       button_deactivate: 'Grafic Gantt'
       cancel: Anulare
@@ -928,7 +930,6 @@ ro:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Coloane"
         group_by: "Grupare rezultate"

@@ -35,8 +35,16 @@ module API
       include API::Decorators::FormattableProperty
 
       def initialize(
-        type:, name:, location: nil, required: true, has_default: false, writable: true,
-        attribute_group: nil, description: nil, current_user: nil, deprecated: nil
+        type:,
+        name:,
+        location: nil,
+        required: true,
+        has_default: false,
+        writable: true,
+        attribute_group: nil,
+        description: nil,
+        current_user: nil,
+        deprecated: nil
       )
         @type = type
         @name = name
