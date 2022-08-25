@@ -509,7 +509,13 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     // Write the dates to the input fields
     this.dates.start = this.timezoneService.formattedISODate(dates[0]);
     this.dates.end = this.timezoneService.formattedISODate(dates[1]);
-    this.toggleCurrentActivatedField();
+
+    if (this.currentlyActivatedDateField === 'duration') {
+      this.durationActiveDateSelected(dates[0]);
+    } else if (this.dates.start && this.dates.end) {
+      this.dateUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+      this.toggleCurrentActivatedField();
+    }
   }
 
   private handleSingleDateUpdate(selectedDate:Date) {
