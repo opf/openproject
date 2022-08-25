@@ -27,6 +27,7 @@
 //++
 
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Input,
@@ -76,6 +77,7 @@ import { WeekdayService } from 'core-app/core/days/weekday.service';
 
 @Component({
   templateUrl: './wp-calendar.template.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./wp-calendar.sass'],
   selector: 'op-wp-calendar',
   providers: [
@@ -168,8 +170,21 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     const additionalOptions:{ [key:string]:unknown } = {
       height: '100%',
       headerToolbar: this.buildHeader(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      events: this.calendarEventsFunction.bind(this),
+      eventSources: [
+        {
+          id: 'work_packages',
+          events: this.calendarEventsFunction.bind(this) as unknown,
+        },
+        {
+          events: [],
+          id: 'background',
+          color: 'red',
+          background: 'red',
+          textColor: 'white',
+          display: 'background',
+          editable: false,
+        },
+      ],
       plugins: [
         dayGridPlugin,
         interactionPlugin,
@@ -181,6 +196,9 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       editable: true,
       eventDidMount: (evt:CalendarViewEvent) => {
         const { el, event } = evt;
+        if (event.source?.id === 'background') {
+          return;
+        }
         const workPackage = event.extendedProps.workPackage as WorkPackageResource;
         el.dataset.workPackageId = workPackage.id as string;
       },
@@ -188,16 +206,16 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
       eventResizeStart: (resizeInfo:EventResizeDoneArg) => {
         const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
-        
         if (!wp.ignoreNonWorkingDays) {
           this.addBackgroundEventsForNonWorkingDays();
         }
       },
       eventResizeStop: () => this.removeBackGroundEvents(),
       eventDragStart: (dragInfo:EventDragStartArg) => {
-        const { el } = dragInfo;
-        el.style.pointerEvents = 'none';
-        this.addBackgroundEventsForNonWorkingDays();
+        const wp = dragInfo.event.extendedProps.workPackage as WorkPackageResource;
+        if (!wp.ignoreNonWorkingDays) {
+          this.addBackgroundEventsForNonWorkingDays();
+        }
       },
       eventDragStop: (dragInfo:EventDragStopArg) => {
         const { el } = dragInfo;
@@ -277,8 +295,6 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         editable: this.workPackagesCalendar.eventDurationEditable(workPackage),
         end: exclusiveEnd,
         allDay: true,
-        backgroundColor: '#FFFFFF',
-        borderColor: '#FFFFFF',
         className: `__hl_background_type_${workPackage.type.id || ''}`,
         workPackage,
       };
@@ -323,15 +339,15 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
 
   private addBackgroundEventsForNonWorkingDays() {
     const api = this.ucCalendar.getApi();
-    let currentStartDate = this.ucCalendar.getApi().view.currentStart;
-    const currentEndDate = moment(this.ucCalendar.getApi().view.currentEnd).add('1', 'day').toDate();
-    const nonWorkingDays = new Array<{ start:Date, end:Date }>();
+    let currentStartDate = this.ucCalendar.getApi().view.activeStart;
+    const currentEndDate = this.ucCalendar.getApi().view.activeEnd;
+    const nonWorkingDays = new Array<{ start:Date|string, end:Date|string }>();
 
     while (currentStartDate.toString() !== currentEndDate.toString()) {
       if (this.weekdayService.isNonWorkingDay(currentStartDate)) {
         nonWorkingDays.push({
-          start: currentStartDate,
-          end: currentStartDate,
+          start: moment(currentStartDate).format('YYYY-MM-DD'),
+          end: moment(currentStartDate).add('1', 'day').format('YYYY-MM-DD'),
         });
       }
       currentStartDate = moment(currentStartDate).add('1', 'day').toDate();
