@@ -22,12 +22,12 @@ This integration makes it possible for you to:
 
 
 
-| Topic                                                        | Description                                                  |
-| ------------------------------------------------------------ | :----------------------------------------------------------- |
+| Topic                                                                                                     | Description                                                                               |
+|-----------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------|
 | [Connecting your OpenProject and Nextcloud accounts](#connecting-your-openproject-and-nextcloud-accounts) | How to connect your Nextcloud and OpenProject accounts to be able to use this integration |
-| [Using the Nextcloud integration](#using-the-Nextcloud-integration) | How to link/unlink files and folders to work packages and view and download linked files |
-| [Next steps for the integration](#next-steps-for-the-integration) | What is planned in future releases                           |
-| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them                   |
+| [Using the Nextcloud integration](#using-the-nextcloud-integration)                                       | How to link/unlink files and folders to work packages and view and download linked files  |
+| [Next steps for the integration](#next-steps-for-the-integration)                                         | What is planned in future releases                                                        |
+| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting)                               | Common errors and how to troubleshoot them                                                |
 
 
 
