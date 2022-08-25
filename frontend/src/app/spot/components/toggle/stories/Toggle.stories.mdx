@@ -1,11 +1,14 @@
-import { moduleMetadata, Meta, Story } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
 
 import { OpSpotModule } from '../../../spot.module';
 import { SpotToggleComponent } from '../toggle.component';
 
 <Meta 
   title="Blocks/Toggle"
+
   component={SpotToggleComponent}
+
   decorators={[
     moduleMetadata({
       imports: [
@@ -13,6 +16,7 @@ import { SpotToggleComponent } from '../toggle.component';
       ],
     }),
   ]}
+
   parameters={{
     design: {
       type: 'figma',
@@ -21,53 +25,55 @@ import { SpotToggleComponent } from '../toggle.component';
   }}
 />
 
-## Documentation
-
-The include projects drop modal allows users to include projects other than the current one, so that the current view (be it table view, the team planner, boards view...) also displays work packages of these included projects.
-
 export const Template = (args) => ({
   props: { 
     name: args.name,
     value: args.value,
     options: args.options,
   },
+
+  parameters: {
+    layout: 'centered',
+  },
 });
 
-<Story
-  name="No value set"
-  args={{
-    options: [
-      { value: 'first', title: 'First option' },
-      { value: 'second', title: 'Second option' },
-    ],
-  }}
->
-  {Template.bind({})}
-</Story>
+<Canvas>
+  <Story
+    name="No value set"
+    args={{
+      options: [
+        { value: 'first', title: 'First option' },
+        { value: 'second', title: 'Second option' },
+      ],
+    }}
+  >
+    {Template.bind({})}
+  </Story>
 
-<Story
-  name="Preset value"
-  args={{
-    options: [
-      { value: 'first', title: 'First option' },
-      { value: 'second', title: 'Second option' },
-    ],
-    value: 'second',
-  }}
->
-  {Template.bind({})}
-</Story>
+  <Story
+    name="Preset value"
+    args={{
+      options: [
+        { value: 'first', title: 'First option' },
+        { value: 'second', title: 'Second option' },
+      ],
+      value: 'second',
+    }}
+  >
+    {Template.bind({})}
+  </Story>
 
-<Story
-  name="More than two options"
-  args={{
-    options: [
-      { value: 'first', title: 'First option' },
-      { value: 'second', title: 'Second option' },
-      { value: 'third', title: 'Third option' },
-      { value: 'best', title: 'Best option' },
-    ],
-  }}
->
-  {Template.bind({})}
-</Story>
+  <Story
+    name="More than two options"
+    args={{
+      options: [
+        { value: 'first', title: 'First option' },
+        { value: 'second', title: 'Second option' },
+        { value: 'third', title: 'Third option' },
+        { value: 'best', title: 'Best option' },
+      ],
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
