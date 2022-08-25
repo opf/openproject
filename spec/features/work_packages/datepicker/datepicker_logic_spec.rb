@@ -347,7 +347,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       }
     end
 
-    it 'updates the duration to 7' do
+    it 'sets due date to 5th, conserves duration' do
       datepicker.expect_start_date '2021-02-09'
       datepicker.expect_due_date '2021-02-11'
       datepicker.expect_duration 3
