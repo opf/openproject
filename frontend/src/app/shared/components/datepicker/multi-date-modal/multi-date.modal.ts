@@ -330,6 +330,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       this.dates[key] = mappedDate(val);
       const dateValue = parseDate(val || '') || undefined;
       this.enforceManualChangesToDatepicker(false, dateValue);
+      this.cdRef.detectChanges();
     }
   }
 
