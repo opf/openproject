@@ -398,6 +398,12 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   handleDurationFocusOut():void {
+    // Apply changed duration with a timeout
+    // in case we clicked the clear button
+    setTimeout(() => this.applyChangedDuration(), 25);
+  }
+
+  applyChangedDuration():void {
     // If we cleared duration or left it empty
     // reset the value and the due date
     if (!this.duration) {
