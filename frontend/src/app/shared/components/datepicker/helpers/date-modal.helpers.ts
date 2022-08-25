@@ -51,11 +51,10 @@ export function parseDate(date:Date|string):Date|'' {
   return new Date(moment(date).toDate().setHours(0, 0, 0, 0));
 }
 
-// eslint-disable-next-line class-methods-use-this
 export function validDate(date:Date|string):boolean {
   return (date instanceof Date)
     || (date === '')
-    || !!new Date(date).valueOf();
+    || !!/^\d{4}-\d{2}-\d{2}$/.exec(date);
 }
 
 export function areDatesEqual(firstDate:Date|string, secondDate:Date|string):boolean {

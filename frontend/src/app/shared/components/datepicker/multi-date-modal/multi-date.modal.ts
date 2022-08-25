@@ -52,15 +52,12 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
 import {
-  debounce,
-  skip,
+  debounceTime,
+  filter,
   switchMap,
 } from 'rxjs/operators';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
-import {
-  Subject,
-  timer,
-} from 'rxjs';
+import { Subject } from 'rxjs';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
@@ -73,7 +70,6 @@ import {
   setDates,
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
-import { DateOption } from 'flatpickr/dist/types/options';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -164,9 +160,10 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     end: null,
   };
 
-  dateChangedManually$ = new Subject<void>();
+  // Manual changes from the inputs to start and end dates
+  startDateChanged$ = new Subject<string|null>();
 
-  private debounceDelay = 0; // will change after initial render
+  endDateChanged$ = new Subject<string|null>();
 
   private changeset:ResourceChangeset;
 
@@ -223,58 +220,58 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       });
 
     this
-      .dateChangedManually$
+      .startDateChanged$
       .pipe(
-        // Skip the first values for start and end date
-        skip(2),
+        this.untilDestroyed(),
+        // Skip values that are already set as the current model
+        filter((newStart) => newStart !== this.dates.start),
         // Avoid that the manual changes are moved to the datepicker too early.
         // The debounce is chosen quite large on purpose to catch the following case:
         //   1. Start date is for example 2022-07-15. The user wants to set the end date to the 19th.
         //   2. So he/she starts entering the finish date 2022-07-1 .
         //   3. This is already a valid date. Since it is before the start date,the start date would be changed automatically to the first without the debounce.
         //   4. The debounce gives the user enough time to type the last number "9" before the changes are converted to the datepicker and the start date would be affected.
-        //
-        // Debounce delay is 0 for initial display, and then set to 800
-        debounce(() => timer(this.debounceDelay)),
+        debounceTime(500),
       )
-      .subscribe(() => {
-        // set debounce delay to its real value
-        this.debounceDelay = 800;
+      .subscribe((newStart) => {
+        this.updateDate('start', newStart);
 
-        const activeField = this.currentlyActivatedDateField;
-
-        if (activeField === 'start') {
-          this.updateDate('end', this.dates.end);
-          this.updateDate('start', this.dates.start);
-        } else if (this.currentlyActivatedDateField === 'end') {
-          this.updateDate('start', this.dates.start);
-          this.updateDate('end', this.dates.end);
-        }
-
-        // In case of start and duration, update form
+        // IF start and duration is present, update it with start and duration
         if (!!this.dates.start && !!this.duration) {
           this.dateUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
         }
 
-        // In case of start and due, update form
+        // In case of start and due, but no duration, update form with start and due
         if (!this.duration && !!this.dates.start && !!this.dates.end) {
           this.dateUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
         }
+      });
 
-        // In case of start and duration and end date is null
-        if (!!this.dates.start && !this.dates.end && activeField !== 'end' && this.duration) {
-          this.dateUpdates$.next({
-            startDate: this.dates.start,
-            duration: this.durationAsIso8601,
-          });
+    this
+      .endDateChanged$
+      .pipe(
+        this.untilDestroyed(),
+        // Skip values that are already set as the current model
+        filter((newEnd) => mappedDate(newEnd) !== this.dates.end),
+        // Avoid that the manual changes are moved to the datepicker too early.
+        // The debounce is chosen quite large on purpose to catch the following case:
+        //   1. Start date is for example 2022-07-15. The user wants to set the end date to the 19th.
+        //   2. So he/she starts entering the finish date 2022-07-1 .
+        //   3. This is already a valid date. Since it is before the start date,the start date would be changed automatically to the first without the debounce.
+        //   4. The debounce gives the user enough time to type the last number "9" before the changes are converted to the datepicker and the start date would be affected.
+        debounceTime(500),
+      )
+      .subscribe((newEnd) => {
+        this.updateDate('end', newEnd);
+
+        // IF start is present, update start and end date, deriving duration
+        if (!!this.dates.start && !!this.dates.end) {
+          this.dateUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
         }
 
-        // In case of end and duration and start date is null
-        if (!this.dates.start && !!this.dates.end && activeField !== 'start' && this.duration) {
-          this.dateUpdates$.next({
-            dueDate: this.dates.end,
-            duration: this.durationAsIso8601,
-          });
+        // IF start is missing, but duration is set, derive start date
+        if (!this.dates.start && !!this.duration && !!this.dates.end) {
+          this.dateUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
         }
       });
   }
@@ -328,12 +325,10 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   updateDate(key:DateKeys, val:string|null):void {
-    // Expected minimal format YYYY-M-D => 8 characters OR empty
-    if (val !== null && (val.length >= 8 || val.length === 0)) {
-      if (validDate(val) && this.datePickerInstance) {
-        const dateValue = parseDate(val) || undefined;
-        this.enforceManualChangesToDatepicker(false, dateValue);
-      }
+    if ((val === null || validDate(val)) && this.datePickerInstance) {
+      this.dates[key] = mappedDate(val);
+      const dateValue = parseDate(val || '') || undefined;
+      this.enforceManualChangesToDatepicker(false, dateValue);
     }
   }
 
