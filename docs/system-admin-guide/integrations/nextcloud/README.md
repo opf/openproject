@@ -121,7 +121,7 @@ Navigate back to your OpenProject tab and click on the **Done. Continue setup** 
 
 Once you hava entered the client ID and client secrets on this page, click on **Save and complete setup**. In the next screen, click on **Yes, I have copied these values**. At this point, your instance configuration is complete and you should see a green banner confirming this.
 
-![Integration successfully completed on the OpenProject end](/Users/parimal/Documents/GitHub/openproject/docs/system-admin-guide/integrations/nextcloud/Nextcloud-set-up-in-OP.png)
+![Integration successfully completed on the OpenProject end](Nextcloud-set-up-in-OP.png)
 
 The **OpenProject integration** page on your Nextcloud tab should also indicate that the integration is complete with three green check marks.
 
@@ -149,7 +149,7 @@ Click on **Add** to add your new Nextcloud file storage to this project.
 
 The Nextcloud file storage is now available to all work packages in this project. 
 
-> **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../..//user-guide/nextcloud-integration/).
+> **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../user-guide/nextcloud-integration/).
 
 ## Resetting OAuth values
 
