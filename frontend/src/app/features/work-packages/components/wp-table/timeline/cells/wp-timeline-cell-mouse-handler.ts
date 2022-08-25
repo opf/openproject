@@ -171,8 +171,7 @@ export function registerWorkPackageMouseHandler(this:void,
       bar.style.pointerEvents = 'none';
       ev.preventDefault();
 
-      const offsetDayStart = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
-      const clickStart = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayStart, 'days');
+      const [clickStart, offsetDayStart] = renderer.cursorDateAndDayOffset(ev, renderInfo);
       const dateForCreate = clickStart.format('YYYY-MM-DD');
       const mouseDownType = renderer.onMouseDown(ev, dateForCreate, renderInfo, labels);
       renderer.update(bar, labels, renderInfo);

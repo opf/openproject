@@ -9,6 +9,7 @@ import { WorkPackageChangeset } from 'core-app/features/work-packages/components
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import {
   classNameBarLabel,
@@ -56,6 +57,8 @@ export class TimelineCellRenderer {
 
   @InjectField() TimezoneService:TimezoneService;
 
+  @InjectField() weekdayService:WeekdayService;
+
   @InjectField() schemaCache:SchemaCacheService;
 
   @InjectField() I18n!:I18nService;
@@ -94,9 +97,9 @@ export class TimelineCellRenderer {
   }
 
   public displayPlaceholderUnderCursor(ev:MouseEvent, renderInfo:RenderInfo):HTMLElement {
-    const days = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
-    const wpDuration = Number(moment.duration(renderInfo.workPackage.duration).asDays().toFixed(0));
-    const width = wpDuration * renderInfo.viewParams.pixelPerDay || 30;
+    const [dateUnderCursor, dayOffset] = this.cursorDateAndDayOffset(ev, renderInfo);
+    const duration = this.displayDurationForDate(renderInfo, dateUnderCursor);
+    const width = duration * renderInfo.viewParams.pixelPerDay || 30;
 
     const placeholder = document.createElement('div');
     placeholder.style.pointerEvents = 'none';
@@ -104,7 +107,7 @@ export class TimelineCellRenderer {
     placeholder.style.height = '1em';
     placeholder.style.width = `${width}px`;
     placeholder.style.zIndex = '9999';
-    placeholder.style.left = `${days * renderInfo.viewParams.pixelPerDay}px`;
+    placeholder.style.left = `${dayOffset * renderInfo.viewParams.pixelPerDay}px`;
     this.applyTypeColor(renderInfo, placeholder);
 
     return placeholder;
@@ -202,11 +205,11 @@ export class TimelineCellRenderer {
     }
 
     if (dateForCreate) {
+      const [dateUnderCursor, _] = this.cursorDateAndDayOffset(ev, renderInfo);
+      const duration = this.displayDurationForDate(renderInfo, dateUnderCursor) - 1;
+
       projection.startDate = dateForCreate;
-      projection.dueDate = moment(dateForCreate)
-        .add(renderInfo.workPackage.duration || "P1D")
-        .add(-1, 'days')
-        .format('YYYY-MM-DD');
+      projection.dueDate = moment(dateForCreate).add(duration, 'days').format('YYYY-MM-DD');
       direction = 'dragright';
     }
 
@@ -262,6 +265,12 @@ export class TimelineCellRenderer {
     return true;
   }
 
+  public cursorDateAndDayOffset(ev:MouseEvent, renderInfo: RenderInfo):[Moment, number] {
+    const dayOffset = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
+    const dateUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(dayOffset, 'days');
+    return [dateUnderCursor, dayOffset];
+  }
+
   protected checkForActiveSelectionMode(renderInfo:RenderInfo, element:HTMLElement) {
     if (renderInfo.viewParams.activeSelectionMode) {
       element.style.backgroundImage = ''; // required! unable to disable "fade out bar" with css
@@ -271,6 +280,39 @@ export class TimelineCellRenderer {
         element.style.background = 'none';
       }
     }
+  }
+
+  /**
+   * Takes the date under the cursor and the work package's duration.
+   * It calculates the adjusted duration based on the number of NonWorkingDays
+   * that fall in the range of the ( date .. date + duration ).
+   * @param renderInfo
+   * @param date where we start the duration calculation from
+   * @return {number} the NonWorkingDays adjusted duration
+   */
+
+  protected displayDurationForDate(renderInfo: RenderInfo, date:Moment):number {
+    const workPackage = renderInfo.workPackage;
+    let duration = Number(moment.duration(workPackage.duration || "P1D").asDays().toFixed(0));
+
+    if (workPackage.ignoreNonWorkingDays) {
+      return duration;
+    }
+
+    const dateDisplayEnd = renderInfo.viewParams.dateDisplayEnd;
+    let newDuration = 0;
+
+    for (newDuration; newDuration < duration; newDuration++) {
+      const currentDate = date.clone().add(newDuration, 'days');
+
+      // Break out of the loop when we reach end of the visible table
+      if (currentDate > dateDisplayEnd) {
+        break;
+      }
+      // Extend the duration if the currentDate is non-working
+      this.weekdayService.isNonWorkingDay(currentDate.toDate()) && duration++;
+    }
+    return newDuration;
   }
 
   getMarginLeftOfLeftSide(renderInfo:RenderInfo):number {
