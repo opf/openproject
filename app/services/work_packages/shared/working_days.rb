@@ -38,10 +38,10 @@ module WorkPackages
       end
 
       def start_date(due_date, duration)
+        assert_strictly_positive_duration(duration)
         return nil unless due_date && duration
-        raise ArgumentError, 'duration must be strictly positive' if duration.is_a?(Integer) && duration <= 0
 
-        start_date = due_date
+        start_date = latest_working_day(due_date)
         until duration <= 1 && working?(start_date)
           start_date -= 1
           duration -= 1 if working?(start_date)
@@ -50,10 +50,10 @@ module WorkPackages
       end
 
       def due_date(start_date, duration)
+        assert_strictly_positive_duration(duration)
         return nil unless start_date && duration
-        raise ArgumentError, 'duration must be strictly positive' if duration.is_a?(Integer) && duration <= 0
 
-        due_date = start_date
+        due_date = soonest_working_day(start_date)
         until duration <= 1 && working?(due_date)
           due_date += 1
           duration -= 1 if working?(due_date)
@@ -104,6 +104,19 @@ module WorkPackages
 
       def no_duration
         OpenProject::FeatureDecisions.work_packages_duration_field_active? ? nil : 1
+      end
+
+      def assert_strictly_positive_duration(duration)
+        raise ArgumentError, 'duration must be strictly positive' if duration.is_a?(Integer) && duration <= 0
+      end
+
+      def latest_working_day(date)
+        return unless date
+
+        until working?(date)
+          date -= 1
+        end
+        date
       end
 
       def working_week_day?(date)

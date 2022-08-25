@@ -83,7 +83,7 @@ describe Burndown, type: :model do
     describe 'WITH the today date fixed to April 4th, 2011 and having a 10 (working days) sprint' do
       before do
         allow(Time).to receive(:now).and_return(Time.utc(2011, 'apr', 4, 20, 15, 1))
-        allow(Date).to receive(:today).and_return(Date.civil(2011, 0o4, 0o4))
+        allow(Date).to receive(:today).and_return(Date.civil(2011, 4, 4))
       end
 
       describe 'WITH having a version in the future' do

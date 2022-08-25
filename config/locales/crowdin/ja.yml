@@ -740,10 +740,12 @@ ja:
               format: "%{message}"
             due_date:
               not_start_date: "は開始日になっていません。これはマイルストーンの場倍、必要である。"
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "はマイルストーンにすることはできません。"
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -751,6 +753,7 @@ ja:
               not_a_valid_parent: "は不正な値です。"
             start_date:
               violates_relationships: "は、ワークパッケージの関係に違反しないように %{soonest_start} またはそれ以降にのみ設定できます。"
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "現在のユーザロールでは旧ステータスから新ステータスへの有効な遷移がないため無効"
               status_invalid_in_type: "現在のステータスがこのタイプに存在しないため無効です。"

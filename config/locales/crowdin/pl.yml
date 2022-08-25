@@ -744,10 +744,12 @@ pl:
               format: "%{message}"
             due_date:
               not_start_date: "nie jest w dniu rozpoczęcia, chociaż jest to wymagane dla Kamieni Milowych."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "jest większy niż interwał między datą rozpoczęcia i zakończenia."
               smaller_than_dates: "jest krótszy niż interwał między datą rozpoczęcia i zakończenia."
               not_available_for_milestones: "nie jest dostępny dla pakietów prac wpisywanych jako \"kamienie milowe\"."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "nie może być kamieniem milowym."
               cannot_be_self_assigned: "nie może być przypisany do siebie."
@@ -755,6 +757,7 @@ pl:
               not_a_valid_parent: "jest nieprawidłowe."
             start_date:
               violates_relationships: "aby nie naruszyć relacji pakietu pracy, należy ustawić datę %{soonest_start} lub późniejszą."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "jest niewłaściwy z powodu braku prawidłowego przekształcenia ze starego do nowego statusu dla aktualnej roli użytkownika."
               status_invalid_in_type: "jest nieprawidłowy, ponieważ bieżący stan nie istnieje w tym typie."

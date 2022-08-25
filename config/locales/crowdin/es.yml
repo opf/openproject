@@ -742,10 +742,12 @@ es:
               format: "%{message}"
             due_date:
               not_start_date: "no es en fecha de inicio, aunque esto es necesario para hitos."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "es más largo que el intervalo entre la fecha de inicio y la final."
               smaller_than_dates: "es más corto que el intervalo entre la fecha de inicio y la final."
               not_available_for_milestones: "no está disponible para paquetes de trabajo con estilo hitos."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "no puede ser un hito."
               cannot_be_self_assigned: "no se puede asignar a su propio usuario."
@@ -753,6 +755,7 @@ es:
               not_a_valid_parent: "no es válido."
             start_date:
               violates_relationships: "sólo se puede establecer a %{soonest_start} o posterior para que no se violen las relaciones de los paquetes de trabajo."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "no es válido porque no existe ninguna transición desde el estado antiguo al nuevo para los roles del usuario actual."
               status_invalid_in_type: "no es válido porque el estado actual no existe en este tipo."

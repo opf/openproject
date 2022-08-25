@@ -742,10 +742,12 @@ it:
               format: "%{message}"
             due_date:
               not_start_date: "non è sulla data di inizio, nonostante sia obbligatorio per i traguardi."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "è più grande dell'intervallo tra la data di inizio e quella di fine."
               smaller_than_dates: "è inferiore all'intervallo tra la data di inizio e quella di fine."
               not_available_for_milestones: "non è disponibile per le macro-attività con pietre miliari digitate."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "non può essere un traguardo."
               cannot_be_self_assigned: "non può essere assegnato a se stesso."
@@ -753,6 +755,7 @@ it:
               not_a_valid_parent: "non è valido."
             start_date:
               violates_relationships: "può essere impostata solo su %{soonest_start} o successiva per non violare le relazioni dei pacchetti di lavoro."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "non è valido perché non esiste alcuna transizione valida dal vecchio al nuovo status sulla base del ruolo dell'utente attuale."
               status_invalid_in_type: "non è valido perché lo stato attuale non esiste per questo tipo."

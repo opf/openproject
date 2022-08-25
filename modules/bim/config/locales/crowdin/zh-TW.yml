@@ -89,10 +89,10 @@ zh-TW:
               invalid_ifc_file: "提供的檔案不是一個有效的 IFC 檔案。"
         bim/bcf/viewpoint:
           bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
-          index_not_integer: "index is not an integer."
-          invalid_clipping_planes: "clipping_planes is invalid."
-          invalid_components: "components is invalid."
-          invalid_lines: "lines is invalid."
+          index_not_integer: "索引不是整數"
+          invalid_clipping_planes: "剪裁平面是無效的"
+          invalid_components: "元件是無效的"
+          invalid_lines: "線是無效的"
           invalid_orthogonal_camera: "orthogonal_camera is invalid."
           invalid_perspective_camera: "perspective_camera is invalid."
           mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
@@ -103,21 +103,21 @@ zh-TW:
         bim/bcf/issue:
           uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
-    label_ifc_models: 'IFC models'
-    label_new_ifc_model: 'New IFC model'
-    label_show_defaults: 'Show defaults'
-    label_default_ifc_models: 'Default IFC models'
-    label_edit_defaults: 'Edit defaults'
+    label_ifc_models: 'IFC 模型'
+    label_new_ifc_model: '新 IFC 模型'
+    label_show_defaults: '顯示預設'
+    label_default_ifc_models: '預設 IFC 模型'
+    label_edit_defaults: '編輯預設'
     no_defaults_warning:
-      title: 'No IFC model was set as default for this project.'
-      check_1: 'Check that you have uploaded at least one IFC model.'
-      check_2: 'Check that at least one IFC model is set to "Default".'
-    no_results: "No IFC models have been uploaded in this project."
+      title: '沒有 IFC 模型設定為這個專案的預設'
+      check_1: '檢查您至少有上傳一個 IFC 模型'
+      check_2: '檢查至少有一個 IFC 模型設定為"預設"。'
+    no_results: "沒有 IFC 模型有上傳到這個專案。"
     conversion_status:
-      label: 'Processing?'
-      pending: 'Pending'
-      processing: 'Processing'
-      completed: 'Completed'
+      label: '處理中？'
+      pending: '待處理'
+      processing: '處理中'
+      completed: '已完成'
       error: '錯誤'
     processing_notice:
       processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'

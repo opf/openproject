@@ -841,36 +841,6 @@ describe WorkPackages::SetAttributesService,
       end
     end
 
-    # TODO: Why is this scenario here? Now we recompute start_date based on duration and due_date. Should we remove it or revisit?
-    xcontext 'with duration explicitly set' do
-      let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
-      let(:call_attributes) { { due_date: Time.zone.today + 2.days, duration: 8 } }
-      let(:attributes) { {} }
-
-      it_behaves_like 'service call' do
-        it 'keeps the start date' do
-          subject
-
-          expect(work_package.start_date)
-            .to eq(Time.zone.today)
-        end
-
-        it 'sets the due date' do
-          subject
-
-          expect(work_package.due_date)
-            .to eq(Time.zone.today + 2.days)
-        end
-
-        it "sets the faulty duration (for error reporting)" do
-          subject
-
-          expect(work_package.duration)
-            .to eq 8
-        end
-      end
-    end
-
     context 'when deriving one value from the two others' do
       # rubocop:disable Layout/ExtraSpacing, Layout/SpaceInsideArrayPercentLiteral, Layout/SpaceInsidePercentLiteralDelimiters, Layout/LineLength
       all_possible_scenarios = [
@@ -1043,6 +1013,195 @@ describe WorkPackages::SetAttributesService,
                   .not_to change { work_package.slice(*unchanged) }
               end
             end
+          end
+        end
+      end
+    end
+
+    context 'with non-working days' do
+      shared_let(:week_days) { create(:week_days) }
+      let(:monday) { Time.zone.today.beginning_of_week }
+      let(:tuesday) { monday + 1.day }
+      let(:wednesday) { monday + 2.days }
+      let(:friday) { monday + 4.days }
+      let(:sunday) { monday + 6.days }
+      let(:next_monday) { monday + 7.days }
+      let(:next_tuesday) { monday + 8.days }
+
+      context 'when start date changes' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+        end
+        let(:call_attributes) { { start_date: wednesday } }
+
+        it_behaves_like 'service call' do
+          it "updates the duration without including non-working days" do
+            expect { subject }
+              .to change(work_package, :duration)
+              .from(6)
+              .to(4)
+          end
+        end
+      end
+
+      context 'when due date changes' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+        end
+        let(:call_attributes) { { due_date: monday + 14.days } }
+
+        it_behaves_like 'service call' do
+          it "updates the duration without including non-working days" do
+            expect { subject }
+              .to change(work_package, :duration)
+              .from(6)
+              .to(11)
+          end
+        end
+      end
+
+      context 'when duration changes' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+        end
+        let(:call_attributes) { { duration: "13" } }
+
+        it_behaves_like 'service call' do
+          it "updates the due date from start date and duration and skips the non-working days" do
+            expect { subject }
+              .to change(work_package, :due_date)
+              .from(next_monday)
+              .to(monday + 16.days)
+          end
+        end
+      end
+
+      context 'when duration and end_date both change' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+        end
+        let(:call_attributes) { { due_date: next_tuesday, duration: 4 } }
+
+        it_behaves_like 'service call' do
+          it "updates the start date and skips the non-working days" do
+            expect { subject }
+              .to change(work_package, :start_date)
+              .from(monday)
+              .to(monday.next_occurring(:thursday))
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is switched to true' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+        end
+        let(:call_attributes) { { ignore_non_working_days: true } }
+
+        it_behaves_like 'service call' do
+          it "updates the due date from start date and duration to include the non-working days" do
+            # start_date and duration are checked too to ensure they did not change
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday, due_date: next_monday, duration: 6)
+              .to(start_date: monday, due_date: next_monday - 2.days, duration: 6)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is switched to false' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { ignore_non_working_days: false } }
+
+        it_behaves_like 'service call' do
+          it "updates the due date from start date and duration to skip the non-working days" do
+            # start_date and duration are checked too to ensure they did not change
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday, due_date: next_monday, duration: 8)
+              .to(start_date: monday, due_date: next_monday + 2.days, duration: 8)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is switched to false and "start date" is on a non-working day' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday - 1.day, due_date: friday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { ignore_non_working_days: false } }
+
+        it_behaves_like 'service call' do
+          it "updates the start date to be on next working day, and due date to accomodate duration" do
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday - 1.day, due_date: friday, duration: 6)
+              .to(start_date: monday, due_date: next_monday, duration: 6)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is switched to false and "finish date" is on a non-working day' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: nil, due_date: sunday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { ignore_non_working_days: false } }
+
+        it_behaves_like 'service call' do
+          it "updates the finish date to be on next working day" do
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: nil, due_date: sunday, duration: nil)
+              .to(start_date: nil, due_date: next_monday, duration: nil)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is changed AND "finish date" is cleared' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { ignore_non_working_days: false, due_date: nil } }
+
+        it_behaves_like 'service call' do
+          it "does not recompute the due date and nilifies the due date and the duration instead" do
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday, due_date: next_monday, duration: 8)
+              .to(start_date: monday, due_date: nil, duration: nil)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is changed AND "finish date" is set to another date' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { due_date: wednesday, ignore_non_working_days: false } }
+
+        it_behaves_like 'service call' do
+          it "updates the start date from due date and duration to skip the non-working days" do
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday, due_date: next_monday, duration: 8)
+              .to(start_date: wednesday - 9.days, due_date: wednesday, duration: 8)
+          end
+        end
+      end
+
+      context 'when "ignore non-working days" is changed AND "start date" and "finish date" are set to other dates' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: true)
+        end
+        let(:call_attributes) { { start_date: friday, due_date: next_tuesday, ignore_non_working_days: false } }
+
+        it_behaves_like 'service call' do
+          it "updates the duration from start date and due date" do
+            expect { subject }
+              .to change { work_package.slice(:start_date, :due_date, :duration) }
+              .from(start_date: monday, due_date: next_monday, duration: 8)
+              .to(start_date: friday, due_date: next_tuesday, duration: 3)
           end
         end
       end
@@ -1433,6 +1592,7 @@ describe WorkPackages::SetAttributesService,
     let(:work_package) do
       wp = build_stubbed(:work_package,
                          project:,
+                         ignore_non_working_days: true,
                          schedule_manually: true,
                          start_date: Time.zone.today,
                          due_date: Time.zone.today + 5.days)
@@ -1458,6 +1618,28 @@ describe WorkPackages::SetAttributesService,
 
           expect(work_package.start_date).to eql(Time.zone.today + 3.days)
           expect(work_package.due_date).to eql(Time.zone.today + 8.days)
+        end
+      end
+    end
+
+    context 'when the soonest start date is a non-working day' do
+      let(:saturday) { Time.zone.today.beginning_of_week.next_occurring(:saturday) }
+      let(:next_monday) { saturday.next_occurring(:monday) }
+      let(:soonest_start) { saturday }
+
+      before do
+        create(:week_days)
+        work_package.ignore_non_working_days = false
+      end
+
+      it_behaves_like 'service call' do
+        it 'sets the start date to the soonest possible start date being a working day' do
+          subject
+
+          expect(work_package).to have_attributes(
+            start_date: next_monday,
+            due_date: next_monday + 7.days
+          )
         end
       end
     end
