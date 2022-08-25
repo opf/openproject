@@ -399,18 +399,18 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   handleDurationFocusOut():void {
     // If we cleared duration or left it empty
-    // reset the value to what start and due are, if they too are set
-    if (!this.duration && this.dates.start && this.dates.end) {
-      this.dateUpdates$.next({
-        startDate: this.dates.start,
-        dueDate: this.dates.end,
-      });
-    } else if (this.duration && this.dates.start) {
+    // reset the value and the due date
+    if (!this.duration) {
+      this.updateDate('end', null);
+      return;
+    }
+
+    if (this.dates.start) {
       this.dateUpdates$.next({
         startDate: this.dates.start,
         duration: this.durationAsIso8601,
       });
-    } else if (this.duration && this.dates.end) {
+    } else if (this.dates.end) {
       this.dateUpdates$.next({
         dueDate: this.dates.end,
         duration: this.durationAsIso8601,
