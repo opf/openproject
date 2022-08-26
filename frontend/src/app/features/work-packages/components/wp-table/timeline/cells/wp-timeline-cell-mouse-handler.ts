@@ -147,17 +147,22 @@ export function registerWorkPackageMouseHandler(this:void,
       return;
     }
 
-    const isEditable = (wp.isLeaf || wp.scheduleManually) && renderer.canMoveDates(wp);
+    // placeholder logic
+    placeholderForEmptyCell && placeholderForEmptyCell.remove();
+    placeholderForEmptyCell = renderer.displayPlaceholderUnderCursor(ev, renderInfo);
+
+    const isEditable =
+      (wp.isLeaf || wp.scheduleManually)
+      && renderer.canMoveDates(wp)
+      && !renderer.isCursorOnInvalidDay(ev, renderInfo);
 
     if (!isEditable) {
       cell.style.cursor = 'not-allowed';
       return;
     }
 
-    // placeholder logic
+    // display placeholder only if the timeline is editable
     cell.style.cursor = '';
-    placeholderForEmptyCell && placeholderForEmptyCell.remove();
-    placeholderForEmptyCell = renderer.displayPlaceholderUnderCursor(ev, renderInfo);
     cell.appendChild(placeholderForEmptyCell);
 
     // abort if mouse leaves cell
@@ -168,6 +173,13 @@ export function registerWorkPackageMouseHandler(this:void,
     // create logic
     cell.onmousedown = (ev) => {
       placeholderForEmptyCell.remove();
+
+      if (renderer.isCursorOnInvalidDay(ev, renderInfo)) {
+        deactivate(true);
+        ev.preventDefault();
+        return;
+      }
+
       bar.style.pointerEvents = 'none';
       ev.preventDefault();
 
@@ -184,8 +196,8 @@ export function registerWorkPackageMouseHandler(this:void,
       jBody.on('mousemove.emptytimelinecell', mouseMoveOnEmptyCellFn(offsetDayStart, mouseDownType));
       jBody.on('mouseup.emptytimelinecell', () => deactivate(false));
 
-      cell.onmouseup = () => {
-        deactivate(false);
+      cell.onmouseup = (ev) => {
+        deactivate(renderer.isCursorOnInvalidDay(ev, renderInfo));
       };
 
       jBody.on('keyup.timelinecell', keyPressFn);

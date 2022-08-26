@@ -315,6 +315,16 @@ export class TimelineCellRenderer {
     return newDuration;
   }
 
+  isCursorOnInvalidDay(ev:MouseEvent, renderInfo:RenderInfo):boolean {
+    const workPackage = renderInfo.workPackage;
+    if (workPackage.ignoreNonWorkingDays) {
+      return false;
+    };
+
+    const [currentDate, _] = this.cursorDateAndDayOffset(ev, renderInfo);
+    return this.weekdayService.isNonWorkingDay(currentDate.toDate());
+  }
+
   getMarginLeftOfLeftSide(renderInfo:RenderInfo):number {
     const projection = renderInfo.change.projectedResource;
 
