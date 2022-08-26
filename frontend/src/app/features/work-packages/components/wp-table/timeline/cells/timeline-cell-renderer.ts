@@ -305,7 +305,7 @@ export class TimelineCellRenderer {
     for (newDuration; newDuration < duration; newDuration++) {
       const currentDate = date.clone().add(newDuration, 'days');
 
-      // Break out of the loop when we reach end of the visible table
+      // Stop adding duration when we reach end of the visible table
       if (currentDate > dateDisplayEnd) {
         break;
       }
