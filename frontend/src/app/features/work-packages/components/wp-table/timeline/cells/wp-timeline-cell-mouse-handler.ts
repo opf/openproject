@@ -154,7 +154,7 @@ export function registerWorkPackageMouseHandler(this:void,
     const isEditable =
       (wp.isLeaf || wp.scheduleManually)
       && renderer.canMoveDates(wp)
-      && !renderer.isCursorOnInvalidDay(ev, renderInfo);
+      && !renderer.cursorOrDatesAreNonWorking(ev, renderInfo);
 
     if (!isEditable) {
       cell.style.cursor = 'not-allowed';
@@ -174,8 +174,7 @@ export function registerWorkPackageMouseHandler(this:void,
     cell.onmousedown = (ev) => {
       placeholderForEmptyCell.remove();
 
-      if (renderer.isCursorOnInvalidDay(ev, renderInfo)) {
-        deactivate(true);
+      if (renderer.cursorOrDatesAreNonWorking(ev, renderInfo)) {
         ev.preventDefault();
         return;
       }
@@ -197,7 +196,7 @@ export function registerWorkPackageMouseHandler(this:void,
       jBody.on('mouseup.emptytimelinecell', () => deactivate(false));
 
       cell.onmouseup = (ev) => {
-        deactivate(renderer.isCursorOnInvalidDay(ev, renderInfo));
+        deactivate(false);
       };
 
       jBody.on('keyup.timelinecell', keyPressFn);
@@ -231,8 +230,12 @@ export function registerWorkPackageMouseHandler(this:void,
     workPackageTimeline.resetCursor();
     mouseDownStartDay = null;
 
-    // const renderInfo = getRenderInfo();
-    if (cancelled || renderInfo.change.isEmpty()) {
+    // Cancel changes if the startDate or dueDate are not allowed
+    const { startDate, dueDate } = renderInfo.change.projectedResource
+    const invalidDates =
+      renderer.cursorOrDatesAreNonWorking([moment(startDate), moment(dueDate)], renderInfo)
+
+    if (cancelled || renderInfo.change.isEmpty() || invalidDates) {
       cancelChange();
     } else {
       const stopAndRefresh = () => {

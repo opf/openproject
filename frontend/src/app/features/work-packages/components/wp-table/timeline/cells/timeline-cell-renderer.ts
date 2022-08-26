@@ -315,16 +315,6 @@ export class TimelineCellRenderer {
     return newDuration;
   }
 
-  isCursorOnInvalidDay(ev:MouseEvent, renderInfo:RenderInfo):boolean {
-    const workPackage = renderInfo.workPackage;
-    if (workPackage.ignoreNonWorkingDays) {
-      return false;
-    };
-
-    const [currentDate, _] = this.cursorDateAndDayOffset(ev, renderInfo);
-    return this.weekdayService.isNonWorkingDay(currentDate.toDate());
-  }
-
   getMarginLeftOfLeftSide(renderInfo:RenderInfo):number {
     const projection = renderInfo.change.projectedResource;
 
@@ -461,6 +451,18 @@ export class TimelineCellRenderer {
     }
   }
 
+  cursorOrDatesAreNonWorking(evOrDates:MouseEvent|Moment[], renderInfo:RenderInfo):boolean {
+    if (renderInfo.workPackage.ignoreNonWorkingDays) {
+      return false;
+    };
+
+    const dates = (evOrDates instanceof MouseEvent) ?
+      [this.cursorDateAndDayOffset(evOrDates, renderInfo)[0]] :
+      evOrDates;
+
+    return dates.some((date) => this.weekdayService.isNonWorkingDay(date.toDate()));
+  }
+
   /**
    * Changes the presentation of the work package.
    *
@@ -510,6 +512,17 @@ export class TimelineCellRenderer {
 
       childrenDurationBar.appendChild(childrenDurationHoverContainer);
       row.appendChild(childrenDurationBar);
+    }
+
+    // Check for non-working days and display a not-allowed cursor
+    // when the startDate, dueDate are non-working days
+    const { startDate, dueDate } = renderInfo.change.projectedResource;
+    const invalidDates = this.cursorOrDatesAreNonWorking([moment(startDate), moment(dueDate)], renderInfo)
+
+    if (invalidDates) {
+      this.workPackageTimeline.forceCursor('not-allowed');
+    } else {
+      this.workPackageTimeline.forceCursor('');
     }
   }
 
