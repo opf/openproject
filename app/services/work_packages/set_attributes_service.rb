@@ -51,14 +51,13 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def set_calculated_attributes(attributes)
-    derivable = derivable_attribute
     if work_package.new_record?
       set_default_attributes(attributes)
     else
       update_dates
     end
     update_duration
-    update_derivable(derivable)
+    update_derivable
     update_project_dependent_attributes
     reassign_invalid_status_if_type_changed
     set_templated_description
@@ -130,8 +129,8 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   # rubocop:disable Metrics/AbcSize
-  def update_derivable(derivable)
-    case derivable
+  def update_derivable
+    case derivable_attribute
     when :duration
       work_package.duration =
         if work_package.milestone?
