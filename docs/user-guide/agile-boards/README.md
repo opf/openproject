@@ -151,7 +151,9 @@ Apart from the Status board you can **update a work package's status** directly 
 
  ![OpenProject-Boards_update-status](OpenProject-Boards_update-status-1568640175105.png)
 
-A **double click on a card** will open the work package's **fullscreen view.** The **arrow** on top will bring you back to the boards view. ![OpenProject-Boards_card-details](OpenProject-Boards_card-details-1568640191629.png)
+A **double click on a card** will open the work package's **fullscreen view.** The **arrow** on top will bring you back to the boards view. 
+
+![Bildschirmfoto 2022-08-26 um 09.58.31](Bildschirmfoto 2022-08-26 um 09.58.31.png)
 
 Clicking on **Open details view** (the blue "**i**") will open the work package's **[split screen view](../work-packages/work-package-views/#work-package-split-screen-view)**. You can close it by clicking on the **"x"** in its upper right corner.
 
