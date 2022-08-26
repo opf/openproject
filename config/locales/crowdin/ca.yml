@@ -1592,7 +1592,7 @@ ca:
   label_here: aquí
   label_hide: "Amagar"
   label_history: "Història"
-  label_hierarchy_leaf: "Full de jerarquia"
+  label_hierarchy_leaf: "Branca de jerarquia"
   label_home: "Inici"
   label_subject_or_id: "Subjecte o ID"
   label_impressum: "Avís legal"
@@ -2549,7 +2549,7 @@ ca:
   text_assign_to_project: "Assignar al projecte"
   text_form_configuration: >
     Pots configurar quins camps seran mostrats en el formulari del paquet de treball. Pots agrupar els camps lliurement per mostrar les necessitats del teu domini.
-  text_form_configuration_required_attribute: "Attribute is marked required and thus always shown"
+  text_form_configuration_required_attribute: "L'atribut està marcat com a requerit i per tant s'ha de mostrar sempre"
   text_caracters_maximum: "%{count} caràcters com a màxim."
   text_caracters_minimum: "Com a mínim ha de tenir %{count} caràcters."
   text_comma_separated: "Es permeten valors múltiples (separats per una coma)."
@@ -2571,7 +2571,7 @@ ca:
     This is the tiny icon that appears in your browser window/tab next to the page's title. It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
     This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It's needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
-  text_database_allows_tsv: "Database allows TSVector (optional)"
+  text_database_allows_tsv: "La base de dades permet TSVector (opcional)"
   text_default_administrator_account_changed: "S'ha canviat el compte d'administrador predeterminat"
   text_default_encoding: "Per defecte: UTF-8"
   text_destroy: "Esborrar"
@@ -2636,7 +2636,7 @@ ca:
   text_user_invited: L'usuari ja ha estat convidat i està pendent de que es registri.
   text_user_wrote: "%{value} va escriure:"
   text_warn_on_leaving_unsaved: "The work package contains unsaved text that will be lost if you leave this page."
-  text_what_did_you_change_click_to_add_comment: "What did you change? Click to add comment"
+  text_what_did_you_change_click_to_add_comment: "Què has canviat? Fes clic per afegir un comentari"
   text_wiki_destroy_confirmation: "Segur que voleu suprimir aquesta wiki i tot el seu contingut?"
   text_wiki_page_destroy_children: "Suprimir les pàgines filles i tots els seus descendents"
   text_wiki_page_destroy_question: "Aquesta pàgina té %{descendants} pàgines fill(es) i descendent(s). Què voleu fer?"
@@ -2739,7 +2739,7 @@ ca:
       outline: "Expansió de l'esquema inicial"
       parent: "Mostra els subprojectes de"
       work_package_filters: "Filtrar paquets de treball"
-      work_package_responsible: "Show work packages with accountable"
+      work_package_responsible: "Mostra els paquets de treball amb responsable"
       work_package_assignee: "Mostra els paquest de treball amb assignat"
       types: "Mostra el tipus"
       status: "Mostra l'estat"
@@ -2750,7 +2750,7 @@ ca:
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} fa %{end_label} %{endspan}%{endspanunit} des d'ara"
       project_filters: "Filtrar projectes"
-      project_responsible: "Show projects with accountable"
+      project_responsible: "Mostrar projectes amb responsable"
       project_status: "Mostra l'estat del projecte"
       timeframe: "Mostra el calendari"
       timeframe_end: "a"
@@ -2807,7 +2807,7 @@ ca:
       quarters: "Quatrimestres"
       years: "Anys"
   title_remove_and_delete_user: Eliminar l'usuari convidat del projecte i suprimir l'usuari.
-  title_enterprise_upgrade: "Upgrade to unlock more users."
+  title_enterprise_upgrade: "Actualitza per desbloquejar més usuaris."
   tooltip_user_default_timezone: >
     The default time zone for new users. Can be changed in a user's settings.
   tooltip_resend_invitation: >
@@ -2963,7 +2963,7 @@ ca:
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'L''àmbit demanat és nul, desconegut, o està mal formulat.'
-        invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
+        invalid_code_challenge_method: 'El mètode de desafiament del codi ha de ser senzill o S256.'
         server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
         temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
         #Configuration error messages
@@ -3070,7 +3070,7 @@ ca:
       oauth_state_not_present_explanation: >
         The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
       rack_oauth2:
-        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        client_secret_invalid: "El client secret és invàlid (client_secret_invalid)"
         invalid_request: >
           OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
         invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
@@ -3081,8 +3081,8 @@ ca:
         invalid_scope: "No tens permís per accedir el recurs demanat (invalid_scope)."
   http:
     request:
-      failed_authorization: "The server side request failed authorizing itself."
-      missing_authorization: "The server side request failed due to missing authorization information."
+      failed_authorization: "La sol·licitud lateral del servidor ha fallat en autoritzar-se a si mateixa."
+      missing_authorization: "La sol·licitud lateral del servidor ha fallat a causa de la manca d'informació d'autorització."
     response:
       unexpected: "Resposta inesperada rebuda."
   you: tu
