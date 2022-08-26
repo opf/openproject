@@ -439,10 +439,10 @@ ar:
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
       grids/grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        page: "الصفحة "
+        row_count: "عدد الصفوف"
+        column_count: "عدد الأعمدة"
+        widgets: "الودجات"
       relation:
         delay: "تأخير"
         from: "مجموعة العمل"
@@ -630,13 +630,13 @@ ar:
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_logged_in: "(%{name}) value cannot be set because you are not logged in."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          only_one_allowed: "(%{name}) مسموح بقيمة واحدة فقط."
+          empty: "(%{name}) لا يمكن أن تكون القيمة فارغة."
+          inclusion: "(%{name}) لم يتم تعيين القيمة على إحدى القيم المسموح بها."
+          not_logged_in: "(%{name}) لا يمكن تعيين القيمة لأنك لم تسجل الدخول."
+          not_an_integer: "(%{name}) ليس عددًا صحيحًا."
+          smaller_than_or_equal_to: "(%{name}) يجب أن يكون أصغر من أو يساوي %{count}."
+          greater_than_or_equal_to: "(%{name}) يجب أن تكون أكبر من أو تساوي %{count}."
           format: "%{message}"
         doorkeeper/application:
           attributes:
@@ -651,9 +651,9 @@ ar:
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'تداخل.'
+          outside: 'هو خارج الشبكة.'
+          end_before_start: 'يجب أن تكون قيمة النهاية أكبر من قيمة البداية.'
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -689,7 +689,7 @@ ar:
             project:
               error_not_found: "لم يتم العثور"
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- ليس للمستخدم إذن بإنشاء طرق عرض عامة."
             group_by:
               invalid: "Can't group by: %{value}"
               format: "%{message}"

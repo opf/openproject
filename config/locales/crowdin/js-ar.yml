@@ -503,7 +503,7 @@ ar:
           overview: "Manage your work in the <b>backlogs</b> view."
           sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
           task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
-          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board_select: '... وحدد إدخال <b>لوحة المهام</b> .'
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
           overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
@@ -603,7 +603,7 @@ ar:
       no_other_page: "أنت في الصفحة فقط."
       pages:
         next: "إعادة التوجية إلى الصفحة التالية"
-        previous: "العودة للصفحة السابقة."
+        previous: "العودة للصفحة السابقة"
     placeholders:
       default: '-'
       subject: 'Enter subject here'
@@ -760,7 +760,7 @@ ar:
         left: 'Left'
         right: 'Right'
         farRight: 'Far right'
-        showNone: '-- No label --'
+        showNone: '- بدون تسمية -'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Show Gantt chart'

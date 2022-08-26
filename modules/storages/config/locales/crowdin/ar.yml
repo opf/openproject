@@ -49,7 +49,7 @@ ar:
         new: "Add a file storage to this project"
     instructions:
       type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
-      type_link_text: "“Integration OpenProject”"
+      type_link_text: "\"تكامل OpenProject\""
       name: "Give your storage a name so that users can differentiate between multiple storages."
       host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
       no_storage_set_up: "There are no file storages set up, yet."
