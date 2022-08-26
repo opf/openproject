@@ -71,7 +71,7 @@ export class TimelineCellRenderer {
 
   public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer(this.injector, 'timeline');
 
-  protected dateDisplaysOnMouseMove:{ left?:HTMLElement; right?:HTMLElement } = {};
+  protected cursorType:string;
 
   constructor(readonly injector:Injector,
     readonly workPackageTimeline:WorkPackageTimelineTableController) {
@@ -190,19 +190,21 @@ export class TimelineCellRenderer {
     if (jQuery(ev.target!).hasClass(classNameLeftHandle)) {
       // only left
       direction = 'left';
-      this.workPackageTimeline.forceCursor('col-resize');
+      this.cursorType = 'col-resize'
       if (projection.startDate === null) {
         projection.startDate = projection.dueDate;
       }
     } else if (jQuery(ev.target!).hasClass(classNameRightHandle) || dateForCreate) {
       // only right
       direction = 'right';
-      this.workPackageTimeline.forceCursor('col-resize');
+      this.cursorType = 'col-resize';
     } else {
       // both
       direction = 'both';
-      this.workPackageTimeline.forceCursor('ew-resize');
+      this.cursorType = 'ew-resize';
     }
+
+    this.workPackageTimeline.forceCursor(this.cursorType);
 
     if (dateForCreate) {
       const [dateUnderCursor, _] = this.cursorDateAndDayOffset(ev, renderInfo);
@@ -219,6 +221,9 @@ export class TimelineCellRenderer {
   }
 
   public onMouseDownEnd(labels:WorkPackageCellLabels, change:WorkPackageChangeset) {
+    // Reset the cursor set by onMouseDown
+    this.cursorType = '';
+    this.workPackageTimeline.forceCursor(this.cursorType);
     this.updateLabels(false, labels, change);
   }
 
@@ -522,7 +527,8 @@ export class TimelineCellRenderer {
     if (invalidDates) {
       this.workPackageTimeline.forceCursor('not-allowed');
     } else {
-      this.workPackageTimeline.forceCursor('');
+      // Restore the previous cursor set by onMouseDown
+      this.workPackageTimeline.forceCursor(this.cursorType);
     }
   }
 

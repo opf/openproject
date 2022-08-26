@@ -174,13 +174,13 @@ export function registerWorkPackageMouseHandler(this:void,
     cell.onmousedown = (ev) => {
       placeholderForEmptyCell.remove();
 
+      ev.preventDefault();
+
       if (renderer.cursorOrDatesAreNonWorking(ev, renderInfo)) {
-        ev.preventDefault();
         return;
       }
 
       bar.style.pointerEvents = 'none';
-      ev.preventDefault();
 
       const [clickStart, offsetDayStart] = renderer.cursorDateAndDayOffset(ev, renderInfo);
       const dateForCreate = clickStart.format('YYYY-MM-DD');
