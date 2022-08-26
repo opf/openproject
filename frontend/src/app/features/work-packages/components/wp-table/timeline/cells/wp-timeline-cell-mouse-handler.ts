@@ -186,16 +186,16 @@ export function registerWorkPackageMouseHandler(this:void,
       const dateForCreate = clickStart.format('YYYY-MM-DD');
       const mouseDownType = renderer.onMouseDown(ev, dateForCreate, renderInfo, labels);
       renderer.update(bar, labels, renderInfo);
+
       if (mouseDownType === 'create') {
         deactivate(false);
-        ev.preventDefault();
         return;
       }
 
       jBody.on('mousemove.emptytimelinecell', mouseMoveOnEmptyCellFn(offsetDayStart, mouseDownType));
       jBody.on('mouseup.emptytimelinecell', () => deactivate(false));
 
-      cell.onmouseup = (ev) => {
+      cell.onmouseup = () => {
         deactivate(false);
       };
 
