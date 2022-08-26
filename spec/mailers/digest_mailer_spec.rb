@@ -122,7 +122,7 @@ describe DigestMailer, type: :mailer do
     context 'with only a deleted work package for the digest' do
       let(:work_package) { nil }
 
-      it `is a NullMail which isn't sent` do
+      it "is a NullMail which isn't sent" do
         expect(mail.body)
           .to eql ''
 
