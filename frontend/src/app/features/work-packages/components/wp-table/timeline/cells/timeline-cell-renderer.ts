@@ -71,7 +71,7 @@ export class TimelineCellRenderer {
 
   public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer(this.injector, 'timeline');
 
-  protected cursorType:string;
+  protected mouseDownCursorType:string;
 
   constructor(readonly injector:Injector,
     readonly workPackageTimeline:WorkPackageTimelineTableController) {
@@ -190,21 +190,21 @@ export class TimelineCellRenderer {
     if (jQuery(ev.target!).hasClass(classNameLeftHandle)) {
       // only left
       direction = 'left';
-      this.cursorType = 'col-resize'
+      this.mouseDownCursorType = 'col-resize'
       if (projection.startDate === null) {
         projection.startDate = projection.dueDate;
       }
     } else if (jQuery(ev.target!).hasClass(classNameRightHandle) || dateForCreate) {
       // only right
       direction = 'right';
-      this.cursorType = 'col-resize';
+      this.mouseDownCursorType = 'col-resize';
     } else {
       // both
       direction = 'both';
-      this.cursorType = 'ew-resize';
+      this.mouseDownCursorType = 'ew-resize';
     }
 
-    this.workPackageTimeline.forceCursor(this.cursorType);
+    this.workPackageTimeline.forceCursor(this.mouseDownCursorType);
 
     if (dateForCreate) {
       const [dateUnderCursor, _] = this.cursorDateAndDayOffset(ev, renderInfo);
@@ -222,8 +222,8 @@ export class TimelineCellRenderer {
 
   public onMouseDownEnd(labels:WorkPackageCellLabels, change:WorkPackageChangeset) {
     // Reset the cursor set by onMouseDown
-    this.cursorType = '';
-    this.workPackageTimeline.forceCursor(this.cursorType);
+    this.mouseDownCursorType = '';
+    this.workPackageTimeline.forceCursor(this.mouseDownCursorType);
     this.updateLabels(false, labels, change);
   }
 
@@ -528,7 +528,7 @@ export class TimelineCellRenderer {
       this.workPackageTimeline.forceCursor('not-allowed');
     } else {
       // Restore the previous cursor set by onMouseDown
-      this.workPackageTimeline.forceCursor(this.cursorType);
+      this.workPackageTimeline.forceCursor(this.mouseDownCursorType);
     }
   }
 
