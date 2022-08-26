@@ -930,6 +930,7 @@ ca:
       placeholders:
         default: "-"
         date: "Seleccionar data"
+        formattable: "%{name}: Clica aquí per editar..."
       query:
         column_names: "Columnes"
         group_by: "Agrupa els resultats per"

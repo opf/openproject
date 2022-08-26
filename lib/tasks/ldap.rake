@@ -81,7 +81,7 @@ namespace :ldap do
   end
 
   desc 'Register a LDAP auth source for the given LDAP URL and attribute mapping: ' \
-       'rake ldap:register["url=<URL> name=<Name> onthefly=<true,false>map_{login,firstname,lastname,mail,admin}=attribute"]'
+       'rake ldap:register["url=<URL> name=<Name> onthefly=<true,false>map_{login,firstname,lastname,mail,admin}=attribute,filter_string"]'
   task register: :environment do
     args = parse_args
 
@@ -110,6 +110,8 @@ namespace :ldap do
       attr_mail: args[:map_mail],
       attr_admin: args[:map_admin]
     }
+
+    source.filter_string = args[:filter_string] if args.key?(:filter_string)
 
     if source.save
       puts "Saved LDAP auth source #{args[:name]}."

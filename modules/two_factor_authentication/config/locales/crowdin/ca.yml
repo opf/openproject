@@ -133,6 +133,8 @@ ca:
     message_bird:
       sms_delivery_failed: 'Error en entregar el MessageBird SMS.'
       voice_delivery_failed: 'Error en la trucada de veu de MessageBird.'
+    restdt:
+      delivery_failed_with_code: 'L''entrega del token ha fallat. (Codi d''error %{code})'
     strategies:
       totp: 'Aplicació d''autentificació'
       sns: 'Amazon SNS'
