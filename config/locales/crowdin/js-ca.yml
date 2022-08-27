@@ -37,7 +37,7 @@ ca:
     backup:
       attachments_disabled: Els fitxers adjunts no s'han pogut incloure, ja que excedeixen la mida màxima permesa. Pots canviar això utilitzant la configuració (requereix un reinici del servidor).
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        Pots induir la còpia de seguretat aquí. El procés pot tardar un temps depenent de la quantitat de data (especialment fitxers adjunts) que tinguis. Rebràs un correu electrònic un cop feta.
       note: >
         Una nova còpia de seguretat substituirà tots els anteriors. Només es pot sol·licitar un nombre limitat de còpies de seguretat per dia.
       last_backup: Última còpia de seguretat
@@ -190,10 +190,10 @@ ca:
         trial:
           confirmation: "Confirmació del correu electrònic"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            Et vam enviar un correu electrònic el %{date} a %{email}. Si us plau, comprova la teva safata d'entrada i fes clic a l'enllaç de confirmació per començar la prova de 14 dies.
           form:
             general_consent: >
-              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
+              Accepto les <a target="_blank" href="%{link_terms}">condicions de servei</a> i la <a target="_blank" href="%{link_privacy}">política de privacitat</a>.
             invalid_email: "Adreça de correu electrònic invàlida"
             label_company: "Empresa"
             label_first_name: "Nom"
@@ -205,7 +205,7 @@ ca:
             label_expires_at: "Caduca el"
             receive_newsletter: Vull rebre el <a target="_blank" href="%{link}">butlletí de notícies</a> d'OpenProject.
             taken_domain: Només hi pot haver una prova gratuïta activa per domini.
-            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
+            domain_mismatch: El nom d'allotjament proveït no coincideix amb el nom d'allotjament configurat. Si us plau, valida la teva configuració de sistema.
             taken_email: Cada usuari només pot crear una prova gratuïta.
           email_not_received: "No has rebut un correu electrònic? Pots reenviar el correu electrònic utilitzant l'enllaç de la dreta."
           try_another_email: "O prova amb un altre correu electrònic."
@@ -226,22 +226,22 @@ ca:
             high_security: "Funcions de seguretat"
             high_security_text: "Inici de sessió únic (SAML, OpenID Connect, CAS), autentificació amb dos passos i sincronització automàtica de grups LDAP."
             installation: "Suport d'instal·lació"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
+            installation_text: "Enginyers de programari amb experiència et guien durant tot el procés d'instal·lació i configuració de la teva pròpia estructura."
             premium_features: "Funcions Prèmium"
-            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            premium_features_text: "Taulells \"agile\", tema personalitzat i logotip, gràfiques, fluxos de treball amb accions personalitzades, cerca de text completa per a fitxers adjunt en paquets de treball i la selecció múltiple de camps personalitzats."
             professional_support: "Suport professional"
-            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
+            professional_support_text: "Obté un suport de confiança i d'alt nivell dels nostres enginyers de suport sèniors amb experiència en manegar OpenProject en ambients empresarials crítics."
           button_start_trial: "Inicia la prova gratuïta"
           button_upgrade: "Actualitza ara"
           button_book_now: "Reserva ara"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
+            Tenim la certesa i confiança d'una eina de gestió de projectes testejat i suportat en ambients empresarials - amb Codi Obert i amb una mentalitat oberta.
           link_quote: "Obtenir un pressupost"
           more_info: "Més informació"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            L'edició Enterprise d'OpenProject es construeix a sobre de l'edició Community. Inclou funcions prèmium i suport professional pensat especialment per a organitzacions de més de 10 usuaris que manegin projectes empresarialment crítics amb OpenProject.
           unlimited: "Il·limitat"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Els desenvolupadors també han de pagar les seves factures. Actualitzant a l'edició Enterprise, donaràs suport aquesta comunitat de codi obert i contribueixes al seu desenvolupament, manteniment i millora continuada."
     custom_actions:
       date:
         specific: 'en'
@@ -494,8 +494,8 @@ ca:
       steps:
         help_menu: 'El menú d''Ajuda (?) proveeix <b>recursos d''ajuda addicionals</b>. Aquí podràs trobar la guia d''usuari, vídeos explicatius i molt més. <br> Gaudeix del teu treball amb OpenProject!'
         members: 'Convida nous <b>membres</b> a afegir-se al teu projecte.'
-        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
-        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        project_selection: 'Si us plau, fes clic a un dels projectes de demostració que hem preparat. Les dades de demostració de moment només estan disponibles en anglès. <br>El projecte general <b> de demostració</b> està configurat pensant en una gestió de projectes clàssica, mentre que el <b>projecte Scrum</b> és millor per a gestió de projectes "agile".'
+        quick_add_button: 'Fes clic a la icona de més (+) en la navegació superior per <b>crear un nou projecte</b> o <b>convidar companys de feina</b>.'
         sidebar_arrow: "Utilitza la fletxa de retorn a la cantonada esquerra per tornar al <b>menú principal</b> del projecte."
         welcome: 'Realitzi un tour de tres minuts per aprendre els <b> aspectes més importants</b>. <br>Recomanem completar les passes fins el final. Podrà recomençar el tour en qualsevol moment.'
         wiki: 'Dintre de la <b>wiki</b> pots documentar i compartir el coneixement conjuntament amb el teu equip.'
@@ -507,24 +507,24 @@ ca:
           task_board: "En el tauler de tasques es pot visualitzar el <b> progrés d'aquest \"sprint\"</b>. Fes clic a la icona més (+) al costat d'una història d'usuari per afegir noves tasques o impediments. <br> L'estat es pot actualitzar arrossegant."
         boards:
           overview: 'Selecciona els <b>taulers</b> per canviar la vista i administra el teu projecte utilitza la vista de taulers "agile".'
-          lists_kanban: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          lists_kanban: 'Aquí pots crear múltiples llistes (columnes) en el teu taulell. Aquesta funció, per exemple, permet crear un <b>taulell Kanban</b>.'
           lists_basic: 'Aquí pots crear múltiples llistes (columna) amb el teu taulell "agile".'
-          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
-          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
+          add: 'Fes clic a la icona de més (+) per <b>crear una targeta nova</b> o <b>afegir una targeta existent</b> a la llista del taulell.'
+          drag: 'Arrossega les teves targetes entre les llistes donades per reordenar-és, o moure-les a una altra llista. <br>Pots fer clic a la icona d''informació (i) a la cantonada superior dreta o fes doble clic per obrir-ne els detalls.'
         wp:
-          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
-          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
-          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
-          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
-          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
-          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
-          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
+          toggler: "Ara fem un cop d'ull a la secció <b>Paquets de treball</b>, la qual ens dona una vista més detallada de les teves tasques."
+          list: 'Aquesta visió general de <b>paquets de treball</b> proporciona una llista de totes les feines en el teu projecte, com ara tasques, fites, fases i més. <br>Els paquets de treball poden ser creats directament des d''aquesta vista. Per accedir als detalls d''un paquet de treball en particular simplement fes doble clic a la seva fila.'
+          full_view: 'La vista dels <b>detalls dels paquets de treball</b> proveeixen tota la informació rellevant que pertany al paquet de treball, com ara la descripció, l''estat, la prioritat, activitats, dependències i comentaris.'
+          back_button: 'Utilitza la fletxa de retorn a la cantonada superior esquerra per sortir i tornar a la llista de paquets de treball.'
+          create_button: 'El botó <b>+ Crear</b> afegirà un nou paquet de treball al teu projecte.'
+          timeline_button: 'Pots activar el <b>diagrama de Gantt</b> per a crear una línia de temps al teu projecte.'
+          timeline: 'Aquí pots <b>editar el teu pla de projecte</b>, crear nous paquets de treball com tasques, fites, fases i més. També pots afegir <b>dependències</b>. Tots els membres poden veure i actualitzar l''últim pla en qualsevol moment.'
         team_planner:
-          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          overview: 'El planificador d''equips et permet visualment assignar tasques a membres de l''equip i obtenir una visió general de qui està treballant en què.'
+          calendar: 'El taulell de planificació setmanal o bisetmanal mostra tots els paquets de treball assignats als membres del teu equip.'
+          add_assignee: 'Per començar, afegeix assignats al planificador d''equips.'
+          add_existing: 'Cerca paquets de treball existents i arrossega''ls al planificador d''equips per assignar-los instantàniament a un membre de l''equip i definir les dates d''inici i final.'
+          card: 'Arrossega paquets de treball horitzontalment per moure''ls endavant o enrere temporalment, arrossega els extrems per canviar les dates o arrossega''ls verticalment a una altra fila per canviar l''assignat a un altre membre.'
     notifications:
       title: "Notificacions"
       no_unread: "No hi ha notificacions sense llegir"
@@ -541,15 +541,15 @@ ca:
           one: ' i 1 altre'
           other: ' i %{count} altres'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'Noves notificacions apareixeran aquí quan hi hagi activitats que t''afectin, de mentre també pots modificar la teva configuració de notificacions per estipular quan vols ser notificat.'
           with_current_filter: 'En aquest moment no hi han notificacions en aquesta vista'
         mark_all_read: 'Marca tot com a llegit'
         mark_as_read: 'Marca com a llegit'
         text_update_date: "%{date} per"
-        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+        total_count_warning: "Mostrant el %{newest_count} de notificacions recents. %{more_count} no s'estan mostrant."
         empty_state:
           no_notification: "Sembla que ja ho has enllestit tot."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_project_filter: "Sembla que està tot enllestit per al projecte seleccionat."
           no_notification_with_current_filter: "Sembla que ja ho has enllestit tot pel filtre %{filter}."
           no_selection: "Fes clic en una notificació per veure els detalls de l'activitat."
         new_notifications:
@@ -623,8 +623,8 @@ ca:
         daily:
           add_time: 'Afegeix temps'
           enable: 'Activa els correus electrònics recordatori diaris'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
-          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
+          explanation: 'Rebràs aquests recordatoris per a notificacions no llegides a les hores que especifiquis. %{no_time_zone}'
+          no_time_zone: 'Fins que no configuris una zona horària per al teu compte, els temps seran interpretats en UTC.'
           time_label: 'Temps %{counter}:'
           title: 'Envia''m correus electrònics recordatori diaris per a notificacions no llegides.'
         workdays:
@@ -877,15 +877,15 @@ ca:
         hide: "Amaga l'estructura jeràrquica"
         toggle_button: 'Fes clic per activar el mode jeràrquic.'
         leaf: 'Branca de paquet de treball al nivell %{level}.'
-        children_collapsed: 'Hierarchy level %{level}, collapsed. Click to show the filtered children'
-        children_expanded: 'Hierarchy level %{level}, expanded. Click to collapse the filtered children'
+        children_collapsed: 'Nivell de jerarquia %{level} col·lapsat. Fes clic per mostrar els fills filtrats.'
+        children_expanded: 'Nivell de jerarquia %{level} ampliat. Fes clic per col·lapsar els fills filtrats.'
       faulty_query:
         title: No s'ha pogut carregar el paquet de treball.
         description: La vista és errònia i no pot ser processada.
       no_results:
         title: Cap paquet de treball a visualitzar.
         description: No se n'ha creat cap o tots els paquets de treball s'han filtrat.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      limited_results: Només %{count} paquets de treball es poden mostrar en el mode d'ordenació manual. Si us plau, redueix els resultats filtrant-los o canviant a ordenació automàtica.
       property_groups:
         details: "Detalls"
         people: "Persones"
@@ -944,10 +944,10 @@ ca:
         insert_columns: "Insereix columnes..."
         filters: "Filtres"
         display_sums: "Mostra les sumes"
-        confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
+        confirm_edit_cancel: "Estàs segur que vols cancel·lar l'edició del nom d'aquesta vista? El títol tornarà al valor anterior."
         click_to_edit_query_name: "Fes clic aquí per editar el títol d'aquesta vista."
         rename_query_placeholder: "Nom d'aquesta vista"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Marca aquesta vista com a favorita i afegeix-la a les vistes guardades en el menú lateral de l'esquerra."
         public_text: >
           Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
         errors:
@@ -1171,8 +1171,8 @@ ca:
         title: 'S''ha convidat al %{principal}!'
         description:
           user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+          placeholder: 'L''usuari de marcador de posició ara pot ser utilitzat a %{project}. Per tant, ja pots planejar amb aquest usuari i assignar-li paquets de treball.'
+          group: 'El grup és ara part de %{project}. Per tant, ja pots planejar amb aquest grup i assignar-li paquets de treball.'
         next_button: 'Continua'
     include_projects:
       toggle_title: 'Inclou projectes'
