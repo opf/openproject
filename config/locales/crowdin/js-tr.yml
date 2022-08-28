@@ -151,7 +151,7 @@ tr:
           language_hint: 'Vurgulamak için kullanılacak formatlama dilini girin (destekleniyorsa).'
         dropdown:
           macros: 'Makrolar'
-          chose_macro: 'Choose macro'
+          chose_macro: 'Makro seçin'
         toc: 'İçindekiler'
         toolbar_help: 'Widget''ı seçmek ve araç çubuğunu göstermek için tıklayın. Widget''ı düzenlemek için çift tıklayın'
         wiki_page_include:
@@ -300,7 +300,7 @@ tr:
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "Etkinleştir"
-    label_assignee: 'Assignee'
+    label_assignee: 'Atanan'
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
     label_add_columns: "Sütunlar ekle"
@@ -458,8 +458,8 @@ tr:
     label_unwatch: "İzleme"
     label_unwatch_work_package: "İş pakaketini izlemeyi bırak"
     label_uploaded_by: "Yükleyen"
-    label_default_queries: "Default"
-    label_starred_queries: "Favorite"
+    label_default_queries: "Varsayılan"
+    label_starred_queries: "Sık Kullanılan"
     label_global_queries: "Public"
     label_custom_queries: "Private"
     label_columns: "Sütunlar"
@@ -531,14 +531,14 @@ tr:
       reasons:
         mentioned: 'adı geçen, bahsedilen'
         watched: 'izlendi'
-        assigned: 'assigned'
+        assigned: 'atanmış'
         responsible: 'accountable'
       facets:
         unread: 'okunmamış'
         all: 'Hepsi'
       center:
         and_more_users:
-          one: 'and 1 other'
+          one: 've 1 diğer'
           other: 'and %{count} others'
         no_results:
           at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
@@ -575,16 +575,16 @@ tr:
             description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
           watched: 'Updates on watched items'
           work_package_commented: 'All new comments'
-          work_package_created: 'New work packages'
+          work_package_created: 'Yeni iş paketleri'
           work_package_processed: 'All status changes'
           work_package_prioritized: 'All priority changes'
           work_package_scheduled: 'All date changes'
         global:
           immediately:
-            title: 'Notify me immediately'
+            title: 'Bana hemen haber ver'
             description: 'These settings apply to all projects. You can create project-specific exceptions below.'
           delayed:
-            title: 'Also notify me for'
+            title: 'Ayrıca bana haber ver'
             description: 'Receive notifications for these activities on work packages in all projects:'
         project_specific:
           title: 'Project-specific notification settings'
@@ -627,9 +627,9 @@ tr:
           explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
           no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
           time_label: 'Time %{counter}:'
-          title: 'Send me daily email reminders for unread notifications'
+          title: 'Okunmamış bildirimler için bana günlük e-posta hatırlatıcıları gönder'
         workdays:
-          title: 'Receive email reminders on these days'
+          title: 'Bu günlerde e-posta hatırlatıcıları alın'
         immediate:
           title: 'Bana email hatırlatıcısı gönder'
           mentioned: 'Immediately when someone @mentions me'
@@ -809,7 +809,7 @@ tr:
       zooms: "Yakınlaştırma düzeyi"
       outlines: "Hiyerarşi düzeyi"
     upsale:
-      ee_only: 'Enterprise Edition feature'
+      ee_only: 'Enterprise Edition özelliği'
     wiki_formatting:
       strong: "Kalın"
       italic: "İtalik"
@@ -843,7 +843,7 @@ tr:
         start_date_limited_by_relations: "Available start and finish dates are limited by relations."
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        show_relations: 'İlişkileri göster'
       description_filter: "Filtre"
       description_enter_text: "Metin girin"
       description_options_hide: "Seçenekleri gizle"
@@ -1089,9 +1089,9 @@ tr:
         other: "%{count} saat"
         zero: "0 s"
       day:
-        one: "1 day"
+        one: "1 gün"
         other: "%{count} days"
-        zero: "0 days"
+        zero: "0 gün"
     zen_mode:
       button_activate: 'Zen modunu etkinleştir'
       button_deactivate: 'Zen modunu devre dışı bırak'
@@ -1175,20 +1175,20 @@ tr:
           group: 'Grup artık %{project} ''nin bir parçası. Bu arada, bu grupla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz.'
         next_button: 'Devam et'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Projeleri dahil et'
       title: 'Projeler'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Seçimi temizle'
       apply: 'Uygula'
       selected_filter:
         all: 'Tüm projeler'
-        selected: 'Only selected'
+        selected: 'Sadece seçilen'
       search_placeholder: 'Search project...'
       include_subprojects: 'Include all sub-projects'
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
-        current_project: 'This is the current project you are in.'
-        does_not_match_search: 'Project does not match the search criteria.'
-      no_results: 'No project matches your search criteria.'
+        current_project: 'Bu, içinde bulunduğunuz mevcut projedir.'
+        does_not_match_search: 'Proje arama kriterleriyle eşleşmiyor.'
+      no_results: 'Arama kriterleriniz ile eşleşen proje yok'
     forms:
       submit_success_message: 'Form başarıyla gönderildi'
       load_error_message: 'Form yüklenirken bir hata oluştu'
