@@ -53,6 +53,7 @@ import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
 import {
   debounceTime,
+  distinctUntilChanged,
   filter,
   map,
   switchMap,
@@ -75,7 +76,6 @@ import {
   setDates,
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
-import { whenOutside } from 'core-app/shared/directives/focus/contain-helpers';
 import { castArray } from 'lodash';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 
@@ -205,6 +205,24 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
       this.cdRef.detectChanges();
     });
+
+  // Duration changes
+  durationChanges$ = new Subject<string>();
+
+  durationDebounced$ = this
+    .durationChanges$
+    .pipe(
+      this.untilDestroyed(),
+      distinctUntilChanged(),
+      debounceTime(500),
+      map((value) => (value === '' ? null : parseInt(value, 10))),
+      filter((val) => val !== this.duration),
+    )
+    .subscribe((value) => this.applyDurationChange(value));
+
+  // Duration is a special field as it changes its value based on its focus state
+  // which is different from the highlight state...
+  durationFocused = false;
 
   private changeset:ResourceChangeset;
 
@@ -368,7 +386,12 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   handleDurationFocusIn():void {
+    this.durationFocused = true;
     this.setCurrentActivatedField('duration');
+  }
+
+  handleDurationFocusOut():void {
+    this.durationFocused = false;
   }
 
   get displayedDuration():string {
@@ -376,22 +399,16 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       return '';
     }
 
-    if (this.isStateOfCurrentActivatedField('duration')) {
-      return this.duration.toString(10);
-    }
-
     return this.text.days(this.duration);
   }
 
-  handleDurationFocusOut():void {
-    // Apply changed duration once we really exited the field
-    whenOutside(this.durationField.nativeElement, () => this.applyChangedDuration());
-  }
+  private applyDurationChange(newValue:number|null):void {
+    this.duration = newValue;
+    this.cdRef.detectChanges();
 
-  applyChangedDuration():void {
     // If we cleared duration or left it empty
     // reset the value and the due date
-    if (!this.duration) {
+    if (newValue === null) {
       this.updateDate('end', null);
       return;
     }
@@ -406,14 +423,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         dueDate: this.dates.end,
         duration: this.durationAsIso8601,
       });
-    }
-  }
-
-  updateDuration(value:string|number):void {
-    if (value === '') {
-      this.duration = null;
-    } else {
-      this.duration = typeof value === 'string' ? parseInt(value, 10) : value;
     }
   }
 
@@ -685,10 +694,10 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   private setDurationDaysFromUpstream(value:string|null) {
     const durationDays = value ? this.timezoneService.toDays(value) : null;
 
-    if (durationDays !== null && durationDays > 0) {
-      this.updateDuration(durationDays);
-    } else {
+    if (!durationDays || durationDays === 0) {
       this.duration = null;
+    } else {
+      this.duration = durationDays;
     }
   }
 

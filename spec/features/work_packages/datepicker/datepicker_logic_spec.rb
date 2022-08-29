@@ -74,6 +74,8 @@ describe 'Datepicker modal logic test cases (WP #43539)',
 
     date_field.activate!
     date_field.expect_active!
+    # Wait for the datepicker to be initialized
+    datepicker.expect_visible
   end
 
   context 'when only start_date set, updating duration (test case 1)' do

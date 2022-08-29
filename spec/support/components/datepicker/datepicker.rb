@@ -17,7 +17,7 @@ module Components
     end
 
     def expect_visible
-      expect(flatpickr_container).to be_present
+      expect(container).to have_selector('.flatpickr-calendar .flatpickr-current-month', wait: 10)
     end
 
     ##
