@@ -119,14 +119,14 @@ module Components
       text = ignore_non_working_days_option(val)
 
       container
-        .find('[data-qa-selector="spot-toggle--option"][data-qa-active-toggle]', text: text)
+        .find('[data-qa-selector="spot-toggle--option"][data-qa-active-toggle]', text:)
     end
 
     def ignore_non_working_days(val)
       text = ignore_non_working_days_option(val)
 
       container
-        .find('[data-qa-selector="spot-toggle--option"]', text: text)
+        .find('[data-qa-selector="spot-toggle--option"]', text:)
         .click
     end
 

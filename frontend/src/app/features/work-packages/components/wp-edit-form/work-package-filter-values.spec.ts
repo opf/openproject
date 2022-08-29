@@ -56,6 +56,7 @@ import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { of } from 'rxjs';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 describe('WorkPackageFilterValues', () => {
   let resource:WorkPackageResource;
@@ -150,7 +151,7 @@ describe('WorkPackageFilterValues', () => {
         subject.applyDefaultsFromFilters(changeset);
 
         expect(changeset.changedAttributes.length).toEqual(0);
-        expect(changeset.value('type').href).toEqual('/api/v3/types/1');
+        expect(changeset.value<HalResource>('type').href).toEqual('/api/v3/types/1');
       }));
     });
 
@@ -173,7 +174,7 @@ describe('WorkPackageFilterValues', () => {
         subject.applyDefaultsFromFilters(changeset);
 
         expect(changeset.changedAttributes.length).toEqual(0);
-        expect(changeset.value('type').href).toEqual('/api/v3/types/2');
+        expect(changeset.value<HalResource>('type').href).toEqual('/api/v3/types/2');
       }));
     });
   });

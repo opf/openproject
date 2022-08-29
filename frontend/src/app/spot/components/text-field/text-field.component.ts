@@ -30,7 +30,7 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
   @HostBinding('class.spot-text-field_focused') public focused = false;
 
   @HostListener('click')
-  public onParentClick() {
+  public onParentClick():void {
     this.input.nativeElement.focus();
   }
 
@@ -46,7 +46,7 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
 
   @Input() public value = '';
 
-  valueChanged(value:string) {
+  valueChanged(value:string):void {
     this.writeValue(value);
     this.onChange(value);
     this.onTouched(value);
