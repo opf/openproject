@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Nextcloud integration
+  title: Nextcloud integration setup
   priority: 600
 description: Set up Nextcloud as a file storage in your OpenProject instance
 keywords: Nextcloud file storage integration
@@ -8,7 +8,7 @@ keywords: Nextcloud file storage integration
 
 
 
-# Nextcloud integration
+# Nextcloud integration setup
 
 | Topic                      | Description                                                  |
 | ----------------------------------- | :----------------------------------------------------------- |

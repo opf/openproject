@@ -43,7 +43,7 @@ Please choose the module or topic you want to learn more about.
 | [GitHub](../system-admin-guide/integrations/github-integration/) | How to manage GitHub integration.                                                  |
 | [Meetings](meetings)                                             | How to manage meetings to create and share meeting agenda and meeting minutes.     |
 | [News](news)                                                     | How to create and manage News for your projects.                                   |
-| [Nextcloud integration](nextcloud-integration)                   | How to integrate OpenProject with Nextcloud.                                       |
+| [Using the Nextcloud integration](nextcloud-integration)         | How to use the Nextcloud as a file storage in OpenProject                                  |
 | [Team planner](team-planner)                                     | How to use the team planner module.                                                |
 | [Time and costs](time-and-costs)                                 | How to track time and costs in OpenProject and report spent time and costs.        |
 | [Roadmap](roadmap)                                               | How to create a product roadmap with OpenProject.                                  |
