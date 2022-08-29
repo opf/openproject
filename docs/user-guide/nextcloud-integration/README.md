@@ -22,13 +22,13 @@ This integration makes it possible for you to:
 
 
 
-| Topic                                                        | Description                                                  |
-| ------------------------------------------------------------ | :----------------------------------------------------------- |
+| Topic                                                                                                     | Description                                                                               |
+|-----------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------|
 | [Connecting your OpenProject and Nextcloud accounts](#connecting-your-openproject-and-nextcloud-accounts) | How to connect your Nextcloud and OpenProject accounts to be able to use this integration |
-| [Linking files and folders to work packages](#linking-files-and-folders-to-workpackages) | How to link/unlink files and folders to work packages and view and download linked files |
-| [Permissions and access control](#permissions-and-access-control) | Who has access to linked files and who doesn't               |
-| [Next steps for the integration](#next-steps-for-the-integration) | What is planned in future releases                           |
-| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them                   |
+| [Linking files and folders to work packages](#linking-files-and-folders-to-work-packages)                 | How to link/unlink files and folders to work packages and view and download linked files  |
+| [Permissions and access control](#permissions-and-access-control)                                         | Who has access to linked files and who doesn't                                            |
+| [Next steps for the integration](#next-steps-for-the-integration)                                         | What is planned in future releases                                                        |
+| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting)                               | Common errors and how to troubleshoot them                                                |
 
 
 
