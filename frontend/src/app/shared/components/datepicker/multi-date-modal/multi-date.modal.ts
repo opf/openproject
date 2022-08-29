@@ -236,6 +236,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         //   3. This is already a valid date. Since it is before the start date,the start date would be changed automatically to the first without the debounce.
         //   4. The debounce gives the user enough time to type the last number "9" before the changes are converted to the datepicker and the start date would be affected.
         debounceTime(500),
+        filter((date) => validDate(date)),
       )
       .subscribe((newStart) => {
         // When clearing the field, don't do anything else
@@ -265,6 +266,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         //   3. This is already a valid date. Since it is before the start date,the start date would be changed automatically to the first without the debounce.
         //   4. The debounce gives the user enough time to type the last number "9" before the changes are converted to the datepicker and the start date would be affected.
         debounceTime(500),
+        filter((date) => validDate(date)),
       )
       .subscribe((newEnd) => {
         // When clearing the field, don't do anything else
