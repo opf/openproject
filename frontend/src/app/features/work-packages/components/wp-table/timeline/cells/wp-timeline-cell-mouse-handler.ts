@@ -148,11 +148,10 @@ export function registerWorkPackageMouseHandler(this:void,
     }
 
     // placeholder logic
-    placeholderForEmptyCell && placeholderForEmptyCell.remove();
+    placeholderForEmptyCell?.remove();
     placeholderForEmptyCell = renderer.displayPlaceholderUnderCursor(ev, renderInfo);
 
-    const isEditable =
-      (wp.isLeaf || wp.scheduleManually)
+    const isEditable = (wp.isLeaf || wp.scheduleManually)
       && renderer.canMoveDates(wp)
       && !renderer.cursorOrDatesAreNonWorking(ev, renderInfo);
 
@@ -232,8 +231,7 @@ export function registerWorkPackageMouseHandler(this:void,
 
     // Cancel changes if the startDate or dueDate are not allowed
     const { startDate, dueDate } = renderInfo.change.projectedResource
-    const invalidDates =
-      renderer.cursorOrDatesAreNonWorking([moment(startDate), moment(dueDate)], renderInfo)
+    const invalidDates = renderer.cursorOrDatesAreNonWorking([moment(startDate), moment(dueDate)], renderInfo);
 
     if (cancelled || renderInfo.change.isEmpty() || invalidDates) {
       cancelChange();

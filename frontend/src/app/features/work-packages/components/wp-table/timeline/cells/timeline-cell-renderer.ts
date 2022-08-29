@@ -15,7 +15,7 @@ import {
   classNameBarLabel,
   classNameLeftHandle,
   classNameRightHandle,
-  MouseDirection
+  MouseDirection,
 } from './wp-timeline-cell-mouse-handler';
 import {
   classNameFarRightLabel,
@@ -190,7 +190,7 @@ export class TimelineCellRenderer {
     if (jQuery(ev.target!).hasClass(classNameLeftHandle)) {
       // only left
       direction = 'left';
-      this.mouseDownCursorType = 'col-resize'
+      this.mouseDownCursorType = 'col-resize';
       if (projection.startDate === null) {
         projection.startDate = projection.dueDate;
       }
@@ -207,7 +207,7 @@ export class TimelineCellRenderer {
     this.workPackageTimeline.forceCursor(this.mouseDownCursorType);
 
     if (dateForCreate) {
-      const [dateUnderCursor, _] = this.cursorDateAndDayOffset(ev, renderInfo);
+      const [dateUnderCursor, ] = this.cursorDateAndDayOffset(ev, renderInfo);
       const duration = this.displayDurationForDate(renderInfo, dateUnderCursor) - 1;
 
       projection.startDate = dateForCreate;
@@ -270,7 +270,7 @@ export class TimelineCellRenderer {
     return true;
   }
 
-  public cursorDateAndDayOffset(ev:MouseEvent, renderInfo: RenderInfo):[Moment, number] {
+  public cursorDateAndDayOffset(ev:MouseEvent, renderInfo:RenderInfo):[Moment, number] {
     const dayOffset = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
     const dateUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(dayOffset, 'days');
     return [dateUnderCursor, dayOffset];
@@ -296,15 +296,15 @@ export class TimelineCellRenderer {
    * @return {number} the NonWorkingDays adjusted duration
    */
 
-  protected displayDurationForDate(renderInfo: RenderInfo, date:Moment):number {
-    const workPackage = renderInfo.workPackage;
-    let duration = Number(moment.duration(workPackage.duration || "P1D").asDays().toFixed(0));
+  protected displayDurationForDate(renderInfo:RenderInfo, date:Moment):number {
+    const { workPackage } = renderInfo;
+    let duration = Number(moment.duration(workPackage.duration || 'P1D').asDays().toFixed(0));
 
     if (workPackage.ignoreNonWorkingDays) {
       return duration;
     }
 
-    const dateDisplayEnd = renderInfo.viewParams.dateDisplayEnd;
+    const { dateDisplayEnd } = renderInfo.viewParams;
     let newDuration = 0;
 
     for (newDuration; newDuration < duration; newDuration++) {
@@ -315,7 +315,9 @@ export class TimelineCellRenderer {
         break;
       }
       // Extend the duration if the currentDate is non-working
-      this.weekdayService.isNonWorkingDay(currentDate.toDate()) && duration++;
+      if (this.weekdayService.isNonWorkingDay(currentDate.toDate())) {
+        duration += 1;
+      }
     }
     return newDuration;
   }
@@ -459,11 +461,11 @@ export class TimelineCellRenderer {
   cursorOrDatesAreNonWorking(evOrDates:MouseEvent|Moment[], renderInfo:RenderInfo):boolean {
     if (renderInfo.workPackage.ignoreNonWorkingDays) {
       return false;
-    };
+    }
 
-    const dates = (evOrDates instanceof MouseEvent) ?
-      [this.cursorDateAndDayOffset(evOrDates, renderInfo)[0]] :
-      evOrDates;
+    const dates = (evOrDates instanceof MouseEvent)
+      ? [this.cursorDateAndDayOffset(evOrDates, renderInfo)[0]]
+      : evOrDates;
 
     return dates.some((date) => this.weekdayService.isNonWorkingDay(date.toDate()));
   }
@@ -522,7 +524,7 @@ export class TimelineCellRenderer {
     // Check for non-working days and display a not-allowed cursor
     // when the startDate, dueDate are non-working days
     const { startDate, dueDate } = renderInfo.change.projectedResource;
-    const invalidDates = this.cursorOrDatesAreNonWorking([moment(startDate), moment(dueDate)], renderInfo)
+    const invalidDates = this.cursorOrDatesAreNonWorking([moment(startDate), moment(dueDate)], renderInfo);
 
     if (invalidDates) {
       this.workPackageTimeline.forceCursor('not-allowed');
