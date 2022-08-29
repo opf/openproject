@@ -519,7 +519,7 @@ GEM
     formatador (1.1.0)
     friendly_id (5.4.2)
       activerecord (>= 4.0.0)
-    fugit (1.5.3)
+    fugit (1.6.0)
       et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
     fuubar (2.5.1)
