@@ -48,9 +48,9 @@ nl:
         main-menu-hover-font-color: "Lettertype hoofdmenu bij zweven"
         main-menu-border-color: "Hoofd menu rand"
       custom_colors: "Aangepaste kleuren"
-      customize: "Customize your OpenProject installation with your own logo and colors."
+      customize: "Pas uw OpenProject installatie aan met uw eigen logo en kleuren."
       enterprise_notice: "Als een speciale 'Bedankt!' voor hun financiële bijdrage aan het ontwikkelen van OpenProject, is deze kleine functie alleen beschikbaar voor Enterprise Edition ondersteuning abonnees."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
+      enterprise_more_info: "Opmerking: het gebruikte logo is openbaar toegankelijk."
       manage_colors: "Bewerk de kleur selectie opties"
       instructions:
         alternative-color: "Sterke accentkleur, meestal gebruikt voor de belangrijkste knop op een scherm."
@@ -64,31 +64,31 @@ nl:
         main-menu-bg-color: "De kleur van de achtergrond van de linkerzijde menu's."
       theme_warning: Als u het thema wijzigt, wordt uw aangepaste stijl overschreven. Het ontwerp gaat dan verloren. Weet je zeker dat je door wilt gaan?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "Upgrade naar de Enterprise Edition"
       add_token: "Uploadeneen Enterprise Edition ondersteuningstoken"
       replace_token: "Uw huidige ondersteuningstoken vervangen"
-      order: "Order Enterprise on-premises Edition"
+      order: "Order Enterprise on premises Edition"
       paste: "Plak uw Enterprise Edition ondersteuningstoken"
       required_for_feature: "Deze functie is alleen beschikbaar met een actieve Enterprise Edition ondersteuningstoken."
       enterprise_link: "Klik hier voor meer informatie."
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: 'Start gratis proefperiode'
+      book_now: 'Boek nu'
+      get_quote: 'Vraag een offerte aan'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
-      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+        upgrade: "Nu upgraden"
+        contact: "Neem contact met ons op voor een demo"
+      enterprise_info_html: "is een Enterprise <strong class='icon-medal'></strong> functie."
+      upgrade_info: "Gelieve te upgraden naar een betaald abonnement om het te activeren en te beginnen met het gebruik ervan in uw team."
     journal_aggregation:
       explanation:
-        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        text: "Individuele acties van een gebruiker (bijv. het bijwerken van een werkpakket twee keer) wordt samengevoegd tot een enkele actie als hun leeftijdverschil minder is dan de aangegeven timespat. Ze worden weergegeven als een enkele actie binnen de applicatie. Dit zal ook meldingen vertragen met dezelfde tijd die het aantal verstuurde e-mails vermindert en zal ook %{webhook_link} vertraging beïnvloeden."
         link: "webhook"
   announcements:
     show_until: Toon tot
     is_active: momenteel getoond
     is_inactive: momenteel niet getoond
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    note_public: 'Alle tekst en afbeeldingen die u toevoegt aan dit veld zijn openbaar zichtbaar voor alle ingelogde gebruikers!'
     text_overview: 'In deze weergave kunt u aangepaste helpteksten voor kenmerken weergave. Wanneer gedefinieerd, worden deze teksten door te klikken op het help-pictogram naast het behoren kenmerk weergegeven.'
     label_plural: 'Kenmerk help-teksten'
     show_preview: 'Voorbeeld Tekst'
@@ -102,8 +102,8 @@ nl:
       no_results_content_text: Maak een nieuwe authenticatie methode
   background_jobs:
     status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
+      error_requeue: "Taak ondervond een foutmelding maar probeert opnieuw. De fout was: %{message}"
+      cancelled_due_to: "Taak is geannuleerd als gevolg van fout: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Dit LDAP-formulier vereist technische kennis van uw LDAP / Active Directory-configuratie.
@@ -124,8 +124,8 @@ nl:
         Voer de Basis DN in van de subboom in LDAP waar u wilt dat OpenProject zoekt naar gebruikers en groepen. OpenProject zal filteren op opgegeven gebruikersnamen in deze subboom alleen.
         Voorbeeld: ou=users,dc=example,dc=com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        Voeg een optioneel RFC4515 filter toe om toe te passen op de resultaten van gebruikers die gefilterd zijn in het LDAP.
+        Dit kan worden gebruikt om de set gebruikers te beperken die gevonden zijn in OpenProject voor authenticatie en groepssynchronisatie.
       filter_string_concat: |
         OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
         it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
@@ -170,8 +170,8 @@ nl:
     edit: 'Bewerken van aangepaste actie %{name}'
     execute: 'Uitvoeren van %{name}'
     upsale:
-      title: 'Custom actions'
-      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
+      title: 'Aangepaste acties'
+      description: 'Aangepaste acties zijn met één klik snelkoppelingen naar een aantal vooraf gedefinieerde acties die u op bepaalde werkpakketten op basis van status beschikbaar kunt maken rol, type of project.'
   custom_fields:
     text_add_new_custom_field: >
       Om de nieuwe aangepaste velden toevoegen aan een project moet u deze eerst maken voordat u ze aan dit project toevoegen kunt.
@@ -187,7 +187,7 @@ nl:
   concatenation:
     single: 'of'
   documentation:
-    see_more_link: For more information, please see our documentation on this topic.
+    see_more_link: Raadpleeg onze documentatie over dit onderwerp voor meer informatie.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -205,7 +205,7 @@ nl:
       Geef een lijst van namen op om te negeren bij het verwerken van bijlagen voor inkomende mails (bijv. handtekeningen of iconen). Voer één bestandsnaam per regel in.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
+      scheduled: "Het verwijderen is gepland en wordt op de achtergrond uitgevoerd. U wordt op de hoogte gebracht van het resultaat."
       schedule_failed: "Project kan niet worden verwijderd: %{errors}"
       failed: "Verwijderen van project %{name} is mislukt"
       failed_text: "Het verzoek om het project %{name} verwijderen is mislukt. Het project is gearchiveerd gebleven."
@@ -213,8 +213,8 @@ nl:
       completed_text: "Het verzoek om het verwijderen van project '%{name}' is voltooid."
     index:
       open_as_gantt: 'Open als Gantt weergave'
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
+      open_as_gantt_title: "Gebruik deze knop om een Gantt-weergave te genereren die werkpakketten filtert voor de projecten die op deze pagina zichtbaar zijn."
+      open_as_gantt_title_admin: "Je kunt de weergave-instellingen (zoals geselecteerde soorten werkpakketten) wijzigen in de administratie onder projectinstellingen."
       no_results_title_text: Er zijn momenteel geen projecten
       no_results_content_text: Maak een nieuw project
     settings:
@@ -235,12 +235,12 @@ nl:
         no_results_title_text: Momenteel zijn er geen versies voor het project.
         no_results_content_text: Maak een nieuwe versie
       storage:
-        no_results_title_text: There is no additional recorded disk space consumed by this project.
+        no_results_title_text: Er is geen extra opgenomen schijfruimte verbruikt door dit project.
   members:
     index:
       no_results_title_text: Er zijn momenteel geen leden onderdeel van dit project.
       no_results_content_text: Een lid toevoegen aan het project
-    invite_by_mail: "Send invite to %{mail}"
+    invite_by_mail: "Stuur een uitnodiging naar %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Reset-toegangstoken mislukt: %{error}"
@@ -253,8 +253,8 @@ nl:
       no_results_content_text: Voeg een nieuwsitem toe
   users:
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: 'Deze gebruiker is momenteel lid van de volgende groepen:'
+      no_results_title_text: Deze gebruiker is momenteel geen lid in een groep.
     memberships:
       no_results_title_text: Deze gebruiker is momenteel geen lid van een project.
   placeholder_users:
@@ -262,13 +262,13 @@ nl:
       U heeft geen toestemming om de placeholder gebruiker te verwijderen. U heeft niet het recht om deelnemers te beheren voor alle projecten waarvan de placeholder gebruiker lid is.
     delete_tooltip: "Placeholder gebruiker verwijderen"
     deletion_info:
-      heading: "Delete placeholder user %{name}"
+      heading: "Tijdelijke gebruiker %{name} verwijderen"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
-      irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+        Alle gebeurtenissen van de tijdelijke gebruiker (bijv. als taakontvanger, verantwoordelijke of andere gebruikerswaarden) zullen opnieuw worden toegewezen aan een account genaamd "Verwijderde gebruiker". Aangezien de gegevens van elke verwijderde account opnieuw zijn toegewezen aan dit account, zal het niet mogelijk zijn om de gegevens die de gebruiker heeft aangemaakt van een ander verwijderd account te onderscheiden.
+      irreversible: "Deze actie is onomkeerbaar"
+      confirmation: "Voer de naam van de tijdelijke gebruiker %{name} in om de verwijdering te bevestigen."
     upsale:
-      title: Placeholder users
+      title: Tijdelijke gebruikers
       description: >
         Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
@@ -308,13 +308,13 @@ nl:
       query_group_placeholder: "Geef de tabel een naam"
       reset: "Standaardinstellingen herstellen"
       type_color_text: |
-        The selected color distinguishes different types
-        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        De geselecteerde kleur onderscheidt verschillende types
+        in Gantt grafieken of werkpakketten tabellen. Het wordt daarom aangeraden om een sterke kleur te gebruiken.
   versions:
     overview:
       no_results_title_text: Er zijn momenteel geen werkpakketten toegewezen aan deze versie.
   wiki:
-    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
+    page_not_editable_index: De opgevraagde pagina bestaat (nog) niet. Je bent doorverwezen naar de index van alle wiki-pagina's.
     no_results_title_text: Er zijn momenteel geen wiki-pagina's.
     index:
       no_results_content_text: Voeg een nieuwe wiki-pagina toe
@@ -327,10 +327,10 @@ nl:
       other: '%{count} werk pakket afstammelingen'
     bulk:
       could_not_be_saved: "De volgende werkpakketten konden niet worden opgeslagen:"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
-      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
-      descendant: "descendant of selected"
+      none_could_be_saved: "Geen van de %{total} werkpakketten konden worden bijgewerkt."
+      x_out_of_y_could_be_saved: "%{failing} van de %{total} werkpakketten konden niet worden bijgewerkt terwijl %{success} kon."
+      selected_because_descendants: "Terwijl %{selected} werkpakketten zijn geselecteerd, worden in totaal %{total} werkpakketten beïnvloed, die ook afstammelingen bevatten."
+      descendant: "afstammeling van geselecteerde"
     move:
       no_common_statuses_exists: "Er is geen status beschikbaar voor alle geselecteerde werkpakketten. Hun status kan niet worden gewijzigd."
       unsupported_for_multiple_projects: 'Bulk verplaatsen/kopiëren wordt niet ondersteund voor werkpakketten uit meerdere projecten'
@@ -402,7 +402,7 @@ nl:
         attr_mail: "Emailadres"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatic user creation"
+        onthefly: "Automatische gebruiker aanmaken"
         port: "Poort"
       changeset:
         repository: "Repository"
@@ -521,17 +521,17 @@ nl:
         begin_deletion: "Begin van de verwijdering"
         children: "Subelementen"
         done_ratio: "Voortgang (%)"
-        duration: "Duration"
+        duration: "Tijdsduur"
         end_insertion: "Einde van het invoegen"
         end_deletion: "Einde van de verwijdering"
-        ignore_non_working_days: "Ignore non working days"
+        ignore_non_working_days: "Negeer niet-werkdagen"
         parent: "Bovenliggend werkpakket"
         parent_issue: "Bovenliggend werkpakket"
         parent_work_package: "Bovenliggend werkpakket"
         priority: "Prioriteit"
         progress: "Voortgang (%)"
-        readonly: "Read only"
-        schedule_manually: "Manual scheduling"
+        readonly: "Alleen lezen"
+        schedule_manually: "Handmatige planning"
         spent_hours: "Bestede tijd"
         spent_time: "Bestede tijd"
         subproject: "Subproject"
@@ -559,9 +559,9 @@ nl:
         cant_link_a_work_package_with_a_descendant: "Een werkpakket kan niet worden gekoppeld aan een van de bijbehorende subtaken."
         circular_dependency: "Deze relatie zou een circulaire afhankelijkheid creëren."
         confirmation: "komt niet overeen met %{attribute}."
-        could_not_be_copied: "%{dependency} could not be (fully) copied."
+        could_not_be_copied: "%{dependency} kon niet (volledig) worden gekopieerd."
         does_not_exist: "bestaat niet."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "is alleen beschikbaar in de OpenProject Enterprise Edition"
         error_unauthorized: "geen toegang."
         error_readonly: "werd geprobeerd te schrijven maar is niet schrijfbaar."
         email: "is geen geldig e-mailadres."
@@ -569,7 +569,7 @@ nl:
         even: "moet gelijk zijn."
         exclusion: "is gereserveerd."
         file_too_large: "is te groot (maximum grootte is %{count} Bytes)."
-        filter_does_not_exist: "filter does not exist."
+        filter_does_not_exist: "filter bestaat niet."
         format: "komt niet overeen met het verwachte formaat '%{expected}' '."
         format_nested: "komt niet overeen met het verwachte formaat '%{expected}' op pad '%{path}'."
         greater_than: "moet groter zijn dan %{count}."
@@ -583,8 +583,8 @@ nl:
         invalid_url_scheme: 'is geen ondersteunde protocol (toegestaan: %{allowed_schemes}).'
         less_than_or_equal_to: "moet kleiner zijn dan of gelijk aan %{count}."
         not_available: "is niet beschikbaar vanwege een systeemconfiguratie."
-        not_deletable: "cannot be deleted."
-        not_current_user: "is not the current user."
+        not_deletable: "kan niet worden verwijderd."
+        not_current_user: "is niet de huidige gebruiker."
         not_a_date: "is geen geldige datum."
         not_a_datetime: "is geen geldige datum tijd."
         not_a_number: "is geen getal."
@@ -1028,7 +1028,7 @@ nl:
     x_objects_of_this_type:
       zero: 'No objects of this type'
       one: 'One object of this type'
-      other: '%{count} objects of this type'
+      other: '%{count} objecten van dit type'
     text:
       failed: "Kan project \"%{target_project_name}\" project \"%{source_project_name}\" niet kopiëren."
       succeeded: "Gekopieerde project \"%{source_project_name}\" naar \"%{target_project_name}\"."
@@ -1174,7 +1174,7 @@ nl:
   default_role_anonymous: "Anoniem"
   default_role_developer: "Ontwikkelaar"
   default_role_project_admin: "Project admin"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
+  default_role_project_creator_and_staff_manager: "Medewerker en projectbeheerder"
   default_role_non_member: "Derde"
   default_role_reader: "Lezer"
   default_role_member: "Deelnemer"
@@ -1234,8 +1234,8 @@ nl:
   error_can_not_delete_entry: "Niet in staat om ingave te verwijderen"
   error_can_not_delete_custom_field: "Aangepast veld kan niet verwijderd worden"
   error_can_not_delete_type:
-    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
+    explanation: 'Dit type bevat werkpakketten en kan niet worden verwijderd. Je kunt alle betrokken werkpakketten zien in <a target="_blank" href="%{url}">deze weergave</a>.'
+    archived_projects: 'Er zijn ook werkpakketten in gearchiveerde projecten. U moet eerst de volgende projecten opnieuw activeren voordat u het type van de respectieve werkpakketten kunt wijzigen: %{archived_projects}'
   error_can_not_delete_standard_type: "Standaard types kunnen niet worden verwijderd."
   error_can_not_invite_user: "Het versturen van de uitnodiging naar de gebruiker is mislukt."
   error_can_not_remove_role: "Deze rol is in gebruik en kan niet worden verwijderd."
@@ -1247,7 +1247,7 @@ nl:
   error_cookie_missing: 'De cookie voor OpenProject ontbreekt. Zorg ervoor dat cookies zijn ingeschakeld aangezien deze toepassing anders niet goed zal functioneren.'
   error_custom_option_not_found: "Optie bestaat niet."
   error_enterprise_activation_user_limit: "Uw account kon niet worden geactiveerd (gebruikerslimiet bereikt). Neem contact op met uw beheerder om toegang te krijgen."
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "De Enterprise Edition is niet actief. Het domein van uw Enterprise token (%{actual}) komt niet overeen met de hostnaam van het systeem (%{expected})."
   error_failed_to_delete_entry: 'Fout bij het verwijderen van deze ingave.'
   error_in_dependent: "Fout bij poging tot wijziging van afhankelijke object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"

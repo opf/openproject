@@ -304,7 +304,7 @@ tr:
       settings: "Ayarlar"
       form_configuration: "Formu yapılandırma"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise Edition, şu ek özelliklerle form yapılandırmasını özelleştirmenize olanak tanır: <br> <ul class="%{list_styling_class}"> <li><b>Yeni özellik grupları ekleyin</b></li> <li><b >Özellik gruplarını yeniden adlandırın</b></li> <li><b>İlgili iş paketlerinin bir tablosunu ekleyin</b></li> </ul>
       projects: "Projeler"
       enabled_projects: "Etkin projeler"
       edit_query: "Tabloyu düzenle"
@@ -608,7 +608,7 @@ tr:
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "kaldırılamadı."
         url_not_secure_context: >
-          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
+          bir "Güvenli Bağlam" sağlamıyor. HTTPS veya localhost gibi bir geri döngü adresi kullanın.
         wrong_length: "uzunluğu yanlıştır (%{count} karakter olmalıdır)."
       models:
         attachment:
@@ -640,7 +640,7 @@ tr:
               fragment_present: 'parça içeremez.'
               invalid_uri: 'geçerli bir URI olmalıdır.'
               relative_uri: 'mutlaka bir URI olmalıdır.'
-              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
+              secured_uri: 'bir "Güvenli Bağlam" sağlamıyor. HTTPS veya localhost gibi bir geri döngü adresi kullanın.'
               forbidden_uri: 'sunucu tarafından yasaklanmıştır.'
             scopes:
               not_match_configured: "mevcut kapsamlarla eşleşmiyor."
@@ -833,7 +833,7 @@ tr:
       member: "Üye"
       news: "Haberler"
       notification:
-        one: "Notification"
+        one: "Bildirim"
         other: "Bildirimler"
       placeholder_user: "Yer tutucu kullanıcı"
       project: "Proje"
@@ -911,11 +911,11 @@ tr:
     updated_on: "Güncelleme tarihi"
     uploader: "Yükleyici"
     user: "Kullanıcı"
-    value: "Value"
+    value: "Değer"
     version: "Sürüm"
     work_package: "İş paketi"
   backup:
-    failed: "Backup failed"
+    failed: "Yedekleme başarısız oldu"
     label_backup_token: "Yedek jeton"
     label_create_token: "Yedek jeton oluşturun"
     label_delete_token: "Yedek jetonu silin"
@@ -1791,7 +1791,7 @@ tr:
   label_required: 'gerekli'
   label_requires: 'gerektirir'
   label_result_plural: "Sonuçlar"
-  label_reverse_chronological_order: "Newest first"
+  label_reverse_chronological_order: "Önce en yeni"
   label_revision: "Gözden geçirme"
   label_revision_id: "Düzeltme %{value}"
   label_revision_plural: "Düzeltmeler"
@@ -2180,7 +2180,7 @@ tr:
   permission_comment_news: "Haberlere yorum yazmak"
   permission_commit_access: "Depoya okuma / yazma erişimi (tamamlama)"
   permission_copy_projects: "Proje kopyalamak"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "Yedek oluştur"
   permission_delete_work_package_watchers: "Takipçi sil"
   permission_delete_work_packages: "İş paketi silmek"
   permission_delete_messages: "İleti silmek"
@@ -2197,14 +2197,14 @@ tr:
   permission_edit_own_time_entries: "Kendi zaman kayıtlarını düzenlemek"
   permission_edit_project: "Proje düzenleme"
   permission_edit_reportings: "Raporlamayı düzenlemek"
-  permission_edit_time_entries: "Edit time logs for other users"
+  permission_edit_time_entries: "Diğer kullanıcılar için zaman günlüklerini düzenleyin"
   permission_edit_timelines: "Zaman akışını düzenlemek"
   permission_edit_wiki_pages: "Wiki sayfalarını düzenlemek"
   permission_export_work_packages: "İş paketlerini dışarı aktar"
   permission_export_wiki_pages: "Wiki sayfalarını dışarı aktar"
   permission_list_attachments: "Ekleri listelemek"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "Kendi zamanını günlüğe kaydet"
+  permission_log_time: "Diğer kullanıcıların zamanını günlüğe kaydet"
   permission_manage_forums: "Forumları yönetmek"
   permission_manage_categories: "İş paket kategorilerini yönet"
   permission_manage_work_package_relations: "İş paketi ilişkilerini yönet"
@@ -2456,7 +2456,7 @@ tr:
   setting_work_package_list_default_columns: "Varsayılan olarak göster"
   setting_work_package_properties: "İş paketi özellikleri"
   setting_work_package_startdate_is_adddate: "Yeni iş paketlerinde şu anki tarihi başlangıç tarihi olarak kullan"
-  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
+  setting_work_packages_projects_export_limit: "İş paketleri / Projeler dışa aktarım limiti"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Tüm istekler için kullanıcı oturum açma, ad ve posta adresini girme"
   setting_login_required: "Kimlik doğrulaması gerekli"
@@ -2568,11 +2568,11 @@ tr:
   text_custom_field_hint_activate_per_project_and_type: >
     Özel alanların iş paketi türü ve proje bazında aktive edilmesi gerekiyor.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    Enterprise Edition, iş paketlerinin özel alanları için şu ek özellikleri ekleyecektir: <br> <ul> <li><b>List veya User türündeki özel alanlar için çoklu seçime izin ver</b></li> </ul >
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    Enterprise Edition, iş paketlerinin durum alanları için şu ek özellikleri ekleyecektir: <br> <ul> <li><b>İş paketlerinin belirli durumlar için salt okunur olarak işaretlenmesine izin ver</b></li> </ul >
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    Enterprise Edition, projelerin özel alanları için şu ek özellikleri ekleyecektir: <br> <ul> <li><b>Proje portföy görünümü oluşturmak için Proje listenize projeler için özel alanlar ekleyin</b></li> < /ul>
   text_custom_logo_instructions: >
     Saydam arka plan üzerinde beyaz bir logo önerilir. Hem geleneksel en iyi sonuçları almak ve retina görüntüler için resm boyutlarının 60px ye 460px olduğundan emin olun.
   text_custom_favicon_instructions: >
@@ -2879,9 +2879,9 @@ tr:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'HTTPS modu kurulum uyuşmazlığı'
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        Uygulamanız <code>%{set_protocol}</code> olarak ayarlanmış HTTPS moduyla çalışıyor, ancak istek bir <code>%{actual_protocol}</code> isteğidir. Bu hatalara yol açacaktır! Şu yapılandırma değerini ayarlamanız gerekecek: <code>%{setting_value}</code>. Lütfen bu yapılandırmanın nasıl ayarlanacağıyla ilgili <a href="%{more_info_path}">kurulum belgelerine</a> bakın.
     hostname_mismatch:
       title: 'Ana bilgisayar adı ayar uyuşmazlığı'
       text_html: >
@@ -3048,7 +3048,7 @@ tr:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Hata"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

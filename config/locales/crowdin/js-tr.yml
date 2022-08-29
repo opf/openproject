@@ -270,7 +270,7 @@ tr:
           one: "İlk sıralama ölçütü"
           two: "İkinci sıralama ölçütü"
           three: "Üçüncü sıralama ölçütleri"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
+      upsale_for_more: "Gelişmiş filtreler, dosya adlarını ve iş paketi eklerinin içeriğini de filtrelemenize olanak tanır. Bu özelliği kullanmak için lütfen ücretli bir plana yükseltin."
       upsale_link: 'Kurumsal Sürüm.'
     general_text_no: "hayır"
     general_text_yes: "evet"
@@ -294,11 +294,11 @@ tr:
             standard:
               learn_about_link: https://www.openproject.org/openproject-11-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                Sürüm, çeşitli yeni özellikler ve iyileştirmeler içeriyor: <br> <ul class="%{list_styling_class}"> <li>Artık sonsuza kadar dosya aramaya gerek yok! OpenProject 12.2'deki yeni <b>Nextcloud entegrasyonu</b> ile artık dosyaları doğrudan ilgili çalışma paketinde bulabilir ve her zaman doğru sürüme sahip olabilirsiniz.</li> <li><b>a güncellenmiş giriş davranışına sahip yeni tarih seçici</b> ve Gantt şemasındaki ilişkileri göstermek için bir düğme içeren bir bilgi başlığı.</li> <li><b>Diğer kullanıcılar için zaman kaydetme olanağı ekledik.</b> b></li> <li>Bildirimleri, bildirim merkezinin dışında da okundu olarak işaretleyin.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/openproject-11-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                Sürüm, çeşitli yeni özellikler ve iyileştirmeler içeriyor: <br> <ul class="%{list_styling_class}"> <li>Artık sonsuza dek dosya aramaya gerek yok! OpenProject 12.2'deki yeni <b>Nextcloud entegrasyonu</b> ile artık dosyaları doğrudan ilgili çalışma paketinde bulabilir ve her zaman doğru sürüme sahip olabilirsiniz.</li> <li><b>a güncellenmiş giriş davranışına sahip yeni tarih seçici</b> ve Gantt şemasındaki ilişkileri göstermek için bir düğme içeren bir bilgi başlığı.</li> <li><b>Diğer kullanıcılar için zaman kaydetme olanağı ekledik.</b> b></li> <li>Bildirimleri, bildirim merkezinin dışında da okundu olarak işaretleyin.</li> </ul>
     label_activate: "Etkinleştir"
     label_assignee: 'Atanan'
     label_add_column_after: "Sonrasına sütun ekle"
@@ -492,7 +492,7 @@ tr:
         next: 'Sonraki'
         got_it: 'Anladım'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'Yardım (?) menüsü <b>ek yardım kaynakları</b> sağlar. Burada bir kullanım kılavuzu, yararlı nasıl yapılır videoları ve daha fazlasını bulabilirsiniz. <br> OpenProject ile işinizin tadını çıkarın!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -539,7 +539,7 @@ tr:
       center:
         and_more_users:
           one: 've 1 diğer'
-          other: 'and %{count} others'
+          other: 've 1 diğer'
         no_results:
           at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
@@ -622,7 +622,7 @@ tr:
     reminders:
       settings:
         daily:
-          add_time: 'Add time'
+          add_time: 'Süre ekle'
           enable: 'Günlük email hatırlatıcılarını etkinleştir'
           explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
           no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
@@ -759,7 +759,7 @@ tr:
         farRight: 'Uzak sağ'
         showNone: '-- Etiketsiz --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Her zaman Gantt şemasının ilgili konumlarında gösterilmesini istediğiniz nitelikleri seçin. Bir öğenin üzerine gelindiğinde, bu nitelikler yerine tarih etiketlerinin gösterileceğini unutmayın.
       button_activate: 'İş-Zaman çizelgesi göster'
       button_deactivate: 'İş-Zaman çizelgesi gizle.'
       cancel: İptal etmek
@@ -1158,7 +1158,7 @@ tr:
       role:
         label: 'rol %{project}'
         no_roles_found: 'Hiç rol bulunamadı.'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Bu, projenize katıldıklarında %{prencipal}''in alacağı roldür. Rol, hangi eylemleri gerçekleştirmelerine ve hangi bilgileri görmelerine izin verildiğini tanımlar. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Roller ve izinler hakkında daha fazla bilgi edinin . </a>'
         required: 'Lütfen bir rol seçin.'
         next_button: 'Sonraki'
       message:
