@@ -261,11 +261,11 @@ For more information please contact us.
 
 ### How can I migrate from Community Edition or Enterprise on-premises to Enterprise cloud?
 
-We will need a [backup](../system-admin-guide/backup) of your OpenProject Installation which we will restore to your new Enterprise cloud. Please calculate with a downtime of approximately 60 minutes. We generally Please contact us to plan the migration and get more instructions.
+We will need a [backup](../system-admin-guide/backup) of your OpenProject Installation which we will restore to your new Enterprise cloud. Please calculate with a downtime of approximately 60 minutes in regular cases. We generally Please contact us to plan the migration and get more instructions.
 
 ### How can I migrate from Enterprise cloud to Enterprise on-premises?
 
-We will need a [backup](../system-admin-guide/backup) which we will restore into your Enterprise on-premises edition. This way you can keep all your data.
+We will need a [backup](../system-admin-guide/backup) which we will restore into your Enterprise on-premises edition. Please calculate with a downtime of approximately 60 minutes in regular cases. This way you can keep all your data.
 
 ### How can I migrate from Community Edition to Enterprise on-premises?
 
