@@ -40,7 +40,6 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
       ::Journal
         .connection
         .select_one(insert_sql)
-
     end
 
     raise "ID is missing #{result.inspect}" unless result['id']
@@ -56,7 +55,6 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
     Journal
       .pluck('DISTINCT(journable_type)')
       .to_h do |journable_type|
-      journable_type = 'WorkPackage'
       journal_class = journable_type.constantize.journal_class
       table_name = journal_class.table_name
 
@@ -74,6 +72,7 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
 
   def take_over_from_predecessor(journal, predecessor)
     raise "Related journal does not have data, this shouldn't be!" if predecessor.data.nil?
+
     new_data = predecessor.data.dup
     new_data.save!
 
