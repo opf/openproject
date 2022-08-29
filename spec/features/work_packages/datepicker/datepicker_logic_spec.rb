@@ -230,7 +230,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, changing start date (test case 7)' do
+  describe 'when all values set, changing start date in calendar (test case 7)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -244,7 +244,9 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_due_date '2021-02-11'
       datepicker.expect_duration 4
 
-      datepicker.set_start_date '2021-02-09'
+      # With start date focused, change date in datepicker
+      datepicker.focus_start_date
+      datepicker.set_date '2021-02-09'
 
       datepicker.expect_start_date '2021-02-09'
       datepicker.expect_due_date '2021-02-11'

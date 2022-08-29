@@ -67,25 +67,37 @@ module Components
       container.find_field 'duration'
     end
 
+    def focus_start_date
+      start_date_field.click
+    end
+
+    def focus_due_date
+      due_date_field.click
+    end
+
+    def focus_duration
+      due_date_field.click
+    end
+
     def set_duration(value)
-      duration_field.click
-      duration_field.set value
+      focus_duration
+      fill_in 'duration', with: value, fill_options: { clear: :backspace }
 
       # Focus a different field
       start_date_field.click
     end
 
     def set_start_date(value)
-      start_date_field.click
-      start_date_field.set value
+      focus_start_date
+      fill_in 'startDate', with: value, fill_options: { clear: :backspace }
 
       # Focus a different field
       due_date_field.click
     end
 
     def set_due_date(value)
-      due_date_field.click
-      due_date_field.set value
+      focus_due_date
+      fill_in 'endDate', with: value, fill_options: { clear: :backspace }
 
       # Focus a different field
       start_date_field.click
