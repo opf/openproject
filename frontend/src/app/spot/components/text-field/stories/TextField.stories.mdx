@@ -1,0 +1,75 @@
+import { moduleMetadata } from '@storybook/angular';
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { OpSpotModule } from '../../../spot.module';
+import { SpotTextFieldComponent } from '../text-field.component';
+
+<Meta 
+  title="Blocks/TextField"
+  component={SpotTextFieldComponent}
+  decorators={[
+    moduleMetadata({
+      imports: [
+        OpSpotModule,
+      ],
+    }),
+  ]}
+  parameters={{
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=2066%3A8130',
+    },
+  }}
+/>
+
+## Documentation
+
+Currently undocumented.
+
+## Angular
+
+TextField is compatible with `ngModel`.
+
+export const Template = (args) => ({
+  parameters: {
+    component: SpotTextFieldComponent,
+  },
+  props: {
+    value: args.value,
+    disabled: args.disabled,
+    name: args.name,
+    placeholder: args.placeholder,
+  },
+})
+
+<Canvas>
+  <Story
+    name="Default"
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Preset value"
+    args={{
+      value: 'I have a value set',
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Disabled"
+    args={{
+      disabled: true,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+  <Story
+    name="Placeholder"
+    args={{
+      placeholder: 'Placeholders get cut off if they\'re too long',
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
