@@ -77,7 +77,7 @@ module API
               <<-SQL.squish
                 CASE
                   WHEN ancestors.id IS NOT NULL
-                    THEN json_build_object('href', format('/api/v3/projects/%s', ancestors.id),
+                    THEN json_build_object('href', format('#{api_v3_paths.project('%s')}', ancestors.id),
                                            'title', ancestors.name)
                   ELSE NULL
                 END
@@ -86,7 +86,7 @@ module API
               <<-SQL.squish
                 CASE
                   WHEN ancestors.id IS NOT NULL AND ancestors.id IN (SELECT id FROM visible_projects)
-                    THEN json_build_object('href', format('/api/v3/projects/%s', ancestors.id),
+                    THEN json_build_object('href', format('#{api_v3_paths.project('%s')}', ancestors.id),
                                            'title', ancestors.name)
                   WHEN ancestors.id IS NOT NULL AND ancestors.id NOT IN (SELECT id FROM visible_projects)
                     THEN json_build_object('href', '#{API::V3::URN_UNDISCLOSED}',
