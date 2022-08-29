@@ -313,7 +313,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     if ((val === null || validDate(val)) && this.datePickerInstance) {
       this.dates[key] = mappedDate(val);
       const dateValue = parseDate(val || '') || undefined;
-      this.enforceManualChangesToDatepicker(false, dateValue);
+      this.enforceManualChangesToDatepicker(dateValue);
       this.cdRef.detectChanges();
     }
   }
@@ -335,7 +335,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     this.dates[key] = this.timezoneService.formattedISODate(today);
 
     if (today instanceof Date) {
-      this.enforceManualChangesToDatepicker(true, today);
+      this.enforceManualChangesToDatepicker(today);
+      this.toggleCurrentActivatedField();
     } else {
       this.enforceManualChangesToDatepicker();
     }
@@ -444,7 +445,16 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         onReady: () => {
           this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
         },
-        onChange: (dates:Date[]) => this.datepickerChanged$.next([this.currentlyActivatedDateField, dates]),
+        onChange: (dates:Date[]) => {
+          const activeField = this.currentlyActivatedDateField;
+          this.datepickerChanged$.next([activeField, dates]);
+
+          // The duration field is special in how it handles focus transitions
+          // For start/due we just toggle here
+          if (activeField !== 'duration') {
+            this.toggleCurrentActivatedField();
+          }
+        },
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
@@ -459,7 +469,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     );
   }
 
-  private enforceManualChangesToDatepicker(toggleField = true, enforceDate?:Date) {
+  private enforceManualChangesToDatepicker(enforceDate?:Date) {
     let startDate = parseDate(this.dates.start || '');
     let endDate = parseDate(this.dates.end || '');
 
@@ -478,10 +488,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
     const dates = [startDate, endDate];
     setDates(dates, this.datePickerInstance, enforceDate);
-
-    if (toggleField) {
-      this.toggleCurrentActivatedField();
-    }
   }
 
   private handleDatePickerChange(activeField:DateFields, dates:Date[]) {
@@ -501,7 +507,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       this.durationActiveDateSelected(dates[0]);
     } else if (this.dates.start && this.dates.end) {
       this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
-      this.toggleCurrentActivatedField();
     }
   }
 
@@ -520,8 +525,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
       // Active is on start or end, the other was missing
       this.deriveOtherField(activeField);
-      // Toggle the active date to the other one
-      this.toggleCurrentActivatedField();
     }
   }
 
@@ -596,7 +599,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         // Reset duration and end date
         this.duration = null;
         this.applyNewDates([selectedDate]);
-        this.toggleCurrentActivatedField();
       }
     } else if (areDatesEqual(selectedDate, parsedStartDate) || areDatesEqual(selectedDate, parsedEndDate)) {
       this.applyNewDates([selectedDate, selectedDate]);
