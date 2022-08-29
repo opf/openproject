@@ -58,11 +58,11 @@ describe 'Wysiwyg work package button spec',
         editor.in_editor do |_container, editable|
           editor.insert_macro 'Insert create work package button'
 
-          expect(page).to have_selector('.op-modal')
+          expect(page).to have_selector('.spot-modal')
           select 'MyTaskName', from: 'selected-type'
 
           # Cancel editing
-          find('.op-modal--cancel-button').click
+          find('.spot-modal--cancel-button').click
           expect(editable).to have_no_selector('.macro.-create_work_package_link')
 
           editor.insert_macro  'Insert create work package button'
@@ -70,7 +70,7 @@ describe 'Wysiwyg work package button spec',
           check 'button_style'
 
           # Save widget
-          find('.op-modal--submit-button').click
+          find('.spot-modal--submit-button').click
 
           # Find widget, click to show toolbar
           modal = find('.button.op-uc-placeholder', text: 'Create work package')
@@ -80,7 +80,7 @@ describe 'Wysiwyg work package button spec',
           page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
           expect(page).to have_checked_field('wp_button_macro_style')
           expect(page).to have_select('selected-type', selected: 'MyTaskName')
-          find('.op-modal--cancel-button').click
+          find('.spot-modal--cancel-button').click
         end
 
         # Save wiki page

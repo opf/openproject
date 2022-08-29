@@ -1,4 +1,4 @@
-.op-modal-overlay
+.spot-modal-overlay
   position: fixed
   top: 0
   left: 0
@@ -12,6 +12,14 @@
 
   &_active
     display: flex
+    flex-direction: column-reverse
+
+    @media (max-width: 680px)
+      justify-content: end
+
+    @media (max-height: 480px)
+      // reorder elements to be displayed in row on very small heights
+      flex-direction: row-reverse
 
   &_not-full-screen
     background: transparent

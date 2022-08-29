@@ -95,18 +95,18 @@ describe 'Wysiwyg child pages spec',
           # Edit widget and cancel again
           placeholder.click
           page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
-          expect(page).to have_selector('.op-modal')
+          expect(page).to have_selector('.spot-modal')
           expect(page).to have_field('selected-page', with: '')
-          find('.op-modal--cancel-button').click
+          find('.spot-modal--cancel-button').click
 
           # Edit widget and save
           placeholder.click
           page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
-          expect(page).to have_selector('.op-modal')
+          expect(page).to have_selector('.spot-modal')
           fill_in 'selected-page', with: 'parent-page'
 
           # Save widget
-          find('.op-modal--submit-button').click
+          find('.spot-modal--submit-button').click
 
           # Placeholder states `parent-page` and no `Include parent`
           expect(placeholder).to have_text('parent-page')
@@ -135,11 +135,11 @@ describe 'Wysiwyg child pages spec',
           # Edit widget and save
           placeholder.click
           page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
-          expect(page).to have_selector('.op-modal')
+          expect(page).to have_selector('.spot-modal')
           page.check 'include-parent'
 
           # Save widget
-          find('.op-modal--submit-button').click
+          find('.spot-modal--submit-button').click
 
           # Placeholder states `parent-page` and `Include parent`
           expect(placeholder).to have_text('parent-page')

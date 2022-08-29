@@ -14,7 +14,7 @@ SSL configuration can be applied on the first installation, or at any time by re
 sudo openproject reconfigure
 ```
 
-You will be prompted with the same dialogs than on the [initial configuration](../../installation/packaged/#step-3-apache2-web-server) guide. This assumes that you select the **install** option when the **server/autoinstall** dialog appears, and that you have certificate and key files available on your server at a path you know.
+You will be prompted with the same dialogs than on the [initial configuration](../../installation/packaged/#step-3-apache2-web-server-and-ssl-termination) guide. This assumes that you select the **install** option when the **server/autoinstall** dialog appears, and that you have certificate and key files available on your server at a path you know.
 
 ## Docker-based installation
 

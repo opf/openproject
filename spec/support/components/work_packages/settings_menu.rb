@@ -35,7 +35,7 @@ module Components
       def open_and_save_query(name)
         open!
         find("#{selector} .menu-item", text: 'Save', match: :prefer_exact).click
-        page.within('.op-modal') do
+        page.within('.spot-modal') do
           find('#save-query-name').set name
           click_on 'Save'
         end

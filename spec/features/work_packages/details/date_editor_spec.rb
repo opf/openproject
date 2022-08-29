@@ -232,7 +232,7 @@ describe 'date inplace editor',
     work_packages_page.accept_alert_dialog! if work_packages_page.has_alert_dialog?
 
     # Ensure no modal survives
-    expect(page).to have_no_selector('.op-modal')
+    expect(page).to have_no_selector('.spot-modal')
   end
 
   context 'with a date custom field' do

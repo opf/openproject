@@ -53,14 +53,15 @@ module Components
     def open!
       SeleniumHubWaiter.wait
       container.find("[data-qa-help-text-for='#{help_text.attribute_name}']").click
-      expect(page).to have_selector('.attribute-help-text--modal h1', text: help_text.attribute_caption)
+      expect(page).to have_selector('[data-qa-selector="attribute-help-text--header"]', text: help_text.attribute_caption)
     end
 
     def close!
-      within modal_container do
-        page.find('.icon-close').click
+      # make backdrop click an the pixel x:10,y:10
+      page.find('.spot-modal-overlay').tap do |element|
+        element.click(x: -((element.native.size.width / 2) - 10), y: -((element.native.size.height / 2) - 10))
       end
-      expect(page).to have_no_selector('.attribute-help-text--modal h1', text: help_text.attribute_caption)
+      expect(page).to have_no_selector('[data-qa-selector="attribute-help-text--header"]', text: help_text.attribute_caption)
     end
 
     def expect_edit(admin:)
