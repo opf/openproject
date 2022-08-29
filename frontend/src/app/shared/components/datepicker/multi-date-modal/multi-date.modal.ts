@@ -600,30 +600,37 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     const parsedEndDate = parseDate(this.dates.end || '') as Date;
 
     if (selectedDate < parsedStartDate) {
-      this.overwriteDatePickerWithNewDates([selectedDate, parsedEndDate]);
+      this.applyNewDates([selectedDate, parsedEndDate]);
       this.setCurrentActivatedField('end');
     } else if (selectedDate > parsedEndDate) {
       if (this.isStateOfCurrentActivatedField('end')) {
-        this.overwriteDatePickerWithNewDates([parsedStartDate, selectedDate]);
+        this.applyNewDates([parsedStartDate, selectedDate]);
       } else {
-        // Reset duration and end
-        this.dates.end = null;
+        // Reset duration and end date
         this.duration = null;
-        this.overwriteDatePickerWithNewDates([selectedDate]);
+        this.applyNewDates([selectedDate]);
         this.toggleCurrentActivatedField();
       }
     } else if (areDatesEqual(selectedDate, parsedStartDate) || areDatesEqual(selectedDate, parsedEndDate)) {
-      this.overwriteDatePickerWithNewDates([selectedDate, selectedDate]);
+      this.applyNewDates([selectedDate, selectedDate]);
     } else {
       const newDates = this.isStateOfCurrentActivatedField('start') ? [selectedDate, parsedEndDate] : [parsedStartDate, selectedDate];
-      this.overwriteDatePickerWithNewDates(newDates);
+      this.applyNewDates(newDates);
     }
   }
 
-  private overwriteDatePickerWithNewDates(dates:Date[]) {
-    setDates(dates, this.datePickerInstance);
-    // TODO check if necessary
-    // this.handleDatePickerChange(dates);
+  private applyNewDates([start, end]:Date[]) {
+    this.dates.start = start ? this.timezoneService.formattedISODate(start) : null;
+    this.dates.end = end ? this.timezoneService.formattedISODate(end) : null;
+
+    // Apply the dates to the datepicker
+    setDates([start, end], this.datePickerInstance);
+
+    // We updated either start, end, or both fields
+    // If both are now set, we want to derive duration from them
+    if (this.dates.start && this.dates.end) {
+      this.dateUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+    }
   }
 
   private onDataChange() {
