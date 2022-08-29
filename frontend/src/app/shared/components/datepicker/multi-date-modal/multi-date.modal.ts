@@ -585,7 +585,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     const parsedEndDate = parseDate(this.dates.end || '') as Date;
 
     if (selectedDate < parsedStartDate) {
-      this.applyNewDates([selectedDate, parsedEndDate]);
+      this.applyNewDates([selectedDate]);
       this.setCurrentActivatedField('end');
     } else if (selectedDate > parsedEndDate) {
       if (activeField === 'end') {
@@ -615,6 +615,15 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     // If both are now set, we want to derive duration from them
     if (this.dates.start && this.dates.end) {
       this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+    }
+
+    // If only one is set, derive from duration
+    if (this.dates.start && !this.dates.end && !!this.duration) {
+      this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
+    }
+
+    if (this.dates.end && !this.dates.start && !!this.duration) {
+      this.formUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
     }
   }
 

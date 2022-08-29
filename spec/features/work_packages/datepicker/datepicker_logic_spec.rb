@@ -574,20 +574,20 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.select_day 5
 
       datepicker.expect_start_date '2021-02-05'
-      datepicker.expect_due_date '2021-02-11'
-      datepicker.expect_duration 5
-
-      # Focus is on finish date
-      datepicker.expect_due_highlighted
-      datepicker.select_day 10
-
-      datepicker.expect_start_date '2021-02-05'
       datepicker.expect_due_date '2021-02-10'
       datepicker.expect_duration 4
 
-      apply_and_expect_saved duration: 4,
+      # Focus is on finish date
+      datepicker.expect_due_highlighted
+      datepicker.select_day 15
+
+      datepicker.expect_start_date '2021-02-05'
+      datepicker.expect_due_date '2021-02-15'
+      datepicker.expect_duration 7
+
+      apply_and_expect_saved duration: 7,
                              start_date: Date.parse('2021-02-05'),
-                             due_date: Date.parse('2021-02-10')
+                             due_date: Date.parse('2021-02-15')
     end
   end
 
