@@ -165,9 +165,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   };
 
   // Manual changes from the inputs to start and end dates
-  startDateChanged$ = new Subject<string|null>();
+  startDateChanged$ = new Subject<string>();
 
-  endDateChanged$ = new Subject<string|null>();
+  endDateChanged$ = new Subject<string>();
 
   private changeset:ResourceChangeset;
 
@@ -238,17 +238,18 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         debounceTime(500),
       )
       .subscribe((newStart) => {
-        this.updateDate('start', newStart);
+        // When clearing the field, don't do anything else
+        if (newStart === '') {
+          this.dates.end = null;
+          this.duration = null;
+          this.updateDate('start', newStart);
 
-        // IF start and duration is present, update it with start and duration
-        if (!!this.dates.start && !!this.duration) {
-          this.dateUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
+          return;
         }
 
-        // In case of start and due, but no duration, update form with start and due
-        if (!this.duration && !!this.dates.start && !!this.dates.end) {
-          this.dateUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
-        }
+        // Handle updating of the field as if clicked in the datepicker
+        const parsed = parseDate(newStart) as Date;
+        this.handleSingleDateUpdate(parsed);
       });
 
     this
@@ -266,17 +267,18 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         debounceTime(500),
       )
       .subscribe((newEnd) => {
-        this.updateDate('end', newEnd);
+        // When clearing the field, don't do anything else
+        if (newEnd === '') {
+          this.dates.start = null;
+          this.duration = null;
+          this.updateDate('end', newEnd);
 
-        // IF start is present, update start and end date, deriving duration
-        if (!!this.dates.start && !!this.dates.end) {
-          this.dateUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+          return;
         }
 
-        // IF start is missing, but duration is set, derive start date
-        if (!this.dates.start && !!this.duration && !!this.dates.end) {
-          this.dateUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
-        }
+        // Handle updating of the field as if clicked in the datepicker
+        const parsed = parseDate(newEnd) as Date;
+        this.handleSingleDateUpdate(parsed);
       });
   }
 
