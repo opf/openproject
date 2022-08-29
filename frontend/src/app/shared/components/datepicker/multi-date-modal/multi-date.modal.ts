@@ -77,6 +77,7 @@ import {
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { whenOutside } from 'core-app/shared/directives/focus/contain-helpers';
 import { castArray } from 'lodash';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -117,6 +118,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   @InjectField() dateModalRelations:DateModalRelationsService;
 
   @InjectField() browserDetector:BrowserDetector;
+
+  @InjectField() weekdayService:WeekdayService;
 
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
@@ -439,7 +442,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
           onDayCreate(
             dayElem,
             this.includeNonWorkingDays,
-            this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
+            this.weekdayService.isNonWorkingDay(dayElem.dateObj),
             minimalDate,
             this.isDayDisabled(dayElem, minimalDate),
           );
