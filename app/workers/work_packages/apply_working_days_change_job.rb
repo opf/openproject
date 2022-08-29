@@ -34,10 +34,11 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
 
     WorkPackage
       .where(ignore_non_working_days: false)
+      .order(created_at: :asc)
       .find_each do |work_package|
         next if dates_and_duration_match?(work_package)
 
-        WorkPackages::SetAttributesService
+        WorkPackages::UpdateService
           .new(user:, model: work_package, contract_class: EmptyContract)
           .call(duration: work_package.duration)
         work_package.save

@@ -54,7 +54,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob,
     expect(new_due_dates).to all(eq(Date.parse('Mon 2022-08-29')))
   end
 
-  xit 'updates followers if needed' do
+  it 'updates followers if needed' do
     work_package = create(:work_package,
                           ignore_non_working_days: false,
                           start_date: Date.parse('Mon 2022-08-22'),
