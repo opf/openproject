@@ -679,10 +679,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     this.includeNonWorkingDays = payload.ignoreNonWorkingDays;
 
     this.setDurationDaysFromUpstream(payload.duration);
-    const parsedStartDate = parseDate(this.dates.start) as Date;
-    const parsedEndDate = parseDate(this.dates.end) as Date;
 
-    setDates([parsedStartDate, parsedEndDate], this.datePickerInstance);
+    const parsedStartDate = parseDate(this.dates.start) as Date;
+    this.enforceManualChangesToDatepicker(parsedStartDate);
     this.cdRef.detectChanges();
   }
 
