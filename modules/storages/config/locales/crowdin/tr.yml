@@ -9,7 +9,7 @@ tr:
       storages/storage: "Storage"
     attributes:
       storages/storage:
-        name: "Name"
+        name: "İsim"
         creator: "Creator"
         provider_type: "Provider type"
       storages/file_link:
@@ -42,7 +42,7 @@ tr:
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
-      cancel: "Cancel"
+      cancel: "İptal"
     page_titles:
       project_settings:
         index: "File storages available in this project"
@@ -69,7 +69,7 @@ tr:
     label_creator: "Creator"
     label_file_link: "File link"
     label_file_links: "File links"
-    label_name: "Name"
+    label_name: "İsim"
     label_host: "Host URL"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"

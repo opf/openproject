@@ -6,7 +6,7 @@ tr:
       configure: 'Widget''ı yapılandır'
       upsale:
         text: "İş paketi grafiği pencere aracı gibi bazı pencere araçları yalnızca Enterprise sürümde mevcuttur."
-        link: 'Enterprise Edition.'
+        link: 'Enterprise Sürüm.'
       widgets:
         custom_text:
           title: 'Özel metin'
@@ -31,13 +31,13 @@ tr:
           no_results: 'Projeler için özel alan tanımlanmadı.'
         project_status:
           title: 'Proje Durumu'
-          not_started: 'Not started'
+          not_started: 'Başlatılmadı'
           on_track: 'Takipte'
           off_track: 'Kapalı parça'
           at_risk: 'Riskli'
           not_set: 'Ayarlanmadı'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: 'Bitti'
+          discontinued: 'Durduruldu'
         subprojects:
           title: 'Alt Projeler'
           no_results: 'Alt proje yok.'

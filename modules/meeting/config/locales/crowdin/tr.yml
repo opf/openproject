@@ -64,7 +64,7 @@ tr:
   label_time_zone: "Saat dilim"
   label_start_date: "Başlama tarihi"
   meeting:
-    copied: "Copied from Meeting #%{id}"
+    copied: "#%{id} numaralı toplantıdan kopyalandı"
   notice_successful_notification: "Bildirim başarıyla gönderildi"
   notice_timezone_missing: Saat dilimi ayarlanmadı ve %{zone} kabul edildi. Saat dilimini seçmek için lütfen buraya tıklayın.
   permission_create_meetings: "Toplantı oluşturma"
