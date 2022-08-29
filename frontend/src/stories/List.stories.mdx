@@ -1,0 +1,70 @@
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+<Meta
+  title="Blocks/List"
+  parameters={{
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=859%3A6760',
+    },
+  }}
+/>
+
+# List
+
+Lists are simply a collection of components in a vertical list. They can be used inside modals like dropdowns, within a small scrollable module, or anywhere else a series of items needs to be presented.
+
+This component does not have a Figma object associated with it, since a group of elements itself is the list. This component represents lists that are interactive (checkboxes and drop down selections), or when the list is generated as a result of interaction. The items in the list are all individual components (or list primitives).
+
+This list is not to be confused with a standard HTML list element, which generates a bullet list of text. For this, a component is not needed in the Design System.
+
+# Behaviour
+
+Items are displayed stacked vertically. The behaviour of each individual element is inherited from properties of that element.
+
+Lists also allow nesting. Each nested item has an additional 16px padding to the left in relation to its parent.
+
+The dimensions of the list are defined by the dimensions of the containing element, and its overflow rules.
+
+<Canvas>
+  <Story name="Default">
+    <ul class="spot-list">
+      <li class="spot-list--item">Item one</li>
+      <li class="spot-list--item">Item two</li>
+      <li class="spot-list--item">Item three</li>
+    </ul>
+  </Story>
+  <Story name="As links">
+    <ul class="spot-list">
+      <li class="spot-list--item">
+        <a href="#" class="spot-list--item-action">First link</a>
+      </li>
+      <li class="spot-list--item">
+        <a href="#" class="spot-list--item-action">Second link</a>
+      </li>
+      <li class="spot-list--item">
+        <a href="#" class="spot-list--item-action">Third link</a>
+      </li>
+    </ul>
+  </Story>
+</Canvas>
+
+# Compact
+
+The compact version makes the items a little bit less tall.
+
+<Canvas>
+  <Story name="Compact">
+    <ul class="spot-list spot-list_compact">
+      <li class="spot-list--item">
+        <a href="#" class="spot-list--item-action">First link</a>
+      </li>
+      <li class="spot-list--item">
+        <a href="#" class="spot-list--item-action">Second link</a>
+      </li>
+      <li class="spot-list--item">
+        <a href="#" class="spot-list--item-action">Third link</a>
+      </li>
+    </ul>
+  </Story>
+</Canvas>
