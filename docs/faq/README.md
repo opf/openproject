@@ -261,11 +261,11 @@ For more information please contact us.
 
 ### How can I migrate from Community Edition or Enterprise on-premises to Enterprise cloud?
 
-We will need a database dump from you which we will upload to your new Enterprise cloud. Please contact us to plan the migration and get more instructions.
+We will need a [backup](../system-admin-guide/backup) of your OpenProject Installation which we will restore to your new Enterprise cloud. Please calculate with a downtime of approximately 60 minutes. We generally Please contact us to plan the migration and get more instructions.
 
 ### How can I migrate from Enterprise cloud to Enterprise on-premises?
 
-We will provide a database dump which you can upload into your Enterprise on-premises edition. This way you can keep all your data.
+We will need a [backup](../system-admin-guide/backup) which we will restore into your Enterprise on-premises edition. This way you can keep all your data.
 
 ### How can I migrate from Community Edition to Enterprise on-premises?
 
@@ -275,9 +275,9 @@ If you [book Enterprise on-premises](../enterprise-guide/enterprise-on-premises-
 
 If you cancel your subscription for Enterprise on-premises you will be downgraded to Community Edition automatically as soon as the subscription period ends. You can keep all your data but won't be able to use the [premium features](https://www.openproject.org/de/enterprise-edition/#premium-features) and won't be eligible for support any more.
 
-### Where can I find information on additional migrations (e.g. from MySQL to PostgreSQL)?
+### How can I migrate from an old version of OpenProject to the latest version?
 
-Please have a look at [this section](../installation-and-operations/misc).
+OpenProject changed the database from MySQL (rarely also MariaDB) in older Versions and used PostgreSQL 10 afterwards. With the relase of version 12 OpenProject introduced the PostgreSQL 13 database. For further information on several database migrations, please have a look at [this section](../installation-and-operations/misc).
 
 ## Other
 
