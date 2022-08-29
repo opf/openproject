@@ -6,9 +6,7 @@ import { SpotToggleComponent } from '../toggle.component';
 
 <Meta 
   title="Blocks/Toggle"
-
   component={SpotToggleComponent}
-
   decorators={[
     moduleMetadata({
       imports: [
@@ -16,7 +14,6 @@ import { SpotToggleComponent } from '../toggle.component';
       ],
     }),
   ]}
-
   parameters={{
     design: {
       type: 'figma',
@@ -25,17 +22,14 @@ import { SpotToggleComponent } from '../toggle.component';
   }}
 />
 
-export const Template = (args) => ({
-  props: { 
-    name: args.name,
-    value: args.value,
-    options: args.options,
-  },
-
-  parameters: {
-    layout: 'centered',
-  },
-});
+export const Template = ({ name, value, options }) => {
+  return {
+    props: { name, value, options },
+    parameters: {
+      layout: 'centered',
+    },
+  };
+};
 
 <Canvas>
   <Story
@@ -49,7 +43,6 @@ export const Template = (args) => ({
   >
     {Template.bind({})}
   </Story>
-
   <Story
     name="Preset value"
     args={{
@@ -62,7 +55,6 @@ export const Template = (args) => ({
   >
     {Template.bind({})}
   </Story>
-
   <Story
     name="More than two options"
     args={{
