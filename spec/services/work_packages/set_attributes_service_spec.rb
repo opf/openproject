@@ -1153,7 +1153,7 @@ describe WorkPackages::SetAttributesService,
         let(:call_attributes) { { ignore_non_working_days: false } }
 
         it_behaves_like 'service call' do
-          it "updates the start date to be on next working day, and due date to accomodate duration" do
+          it "updates the start date to be on next working day, and due date to accommodate duration" do
             expect { subject }
               .to change { work_package.slice(:start_date, :due_date, :duration) }
               .from(start_date: monday - 1.day, due_date: friday, duration: 6)

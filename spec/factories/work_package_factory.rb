@@ -30,6 +30,7 @@ FactoryBot.define do
   factory :work_package do
     transient do
       custom_values { nil }
+      days { WorkPackages::Shared::Days.for(self) }
     end
 
     priority
@@ -40,6 +41,21 @@ FactoryBot.define do
     author factory: :user
     created_at { Time.zone.now }
     updated_at { Time.zone.now }
+    start_date do
+      # derive start date if due date and duration were provided
+      next unless OpenProject::FeatureDecisions.work_packages_duration_field_active?
+      next unless %i[due_date duration].all? { |field| __override_names__.include?(field) }
+
+      days.start_date(due_date&.to_date, duration)
+    end
+    due_date do
+      # derive due date if start date and duration were provided
+      next unless OpenProject::FeatureDecisions.work_packages_duration_field_active?
+      next unless %i[start_date duration].all? { |field| __override_names__.include?(field) }
+
+      days.due_date(start_date&.to_date, duration)
+    end
+    duration { days.duration(start_date&.to_date, due_date&.to_date) }
 
     trait :is_milestone do
       type factory: :type_milestone
@@ -47,16 +63,6 @@ FactoryBot.define do
 
     callback(:after_build) do |work_package, evaluator|
       work_package.type = work_package.project.types.first unless work_package.type
-
-      # set duration / start date / due date according to two others
-      days = WorkPackages::Shared::Days.for(work_package)
-      if work_package.duration.nil? && work_package.start_date && work_package.due_date
-        work_package.duration = days.duration(work_package.start_date.to_date, work_package.due_date.to_date)
-      elsif work_package.start_date.nil? && work_package.due_date && work_package.duration
-        work_package.start_date = days.start_date(work_package.due_date.to_date, work_package.duration)
-      elsif work_package.due_date.nil? && work_package.start_date && work_package.duration
-        work_package.due_date = days.due_date(work_package.start_date.to_date, work_package.duration)
-      end
 
       custom_values = evaluator.custom_values || {}
 

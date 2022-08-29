@@ -138,16 +138,19 @@ describe WorkPackages::SetScheduleService do
 
         expect(result.start_date)
           .to eql(start_date),
-              "Expected work package ##{wp.id} '#{wp.subject}' to have start date #{start_date}, got #{result.start_date}"
+              "Expected work package ##{wp.id} '#{wp.subject}' " \
+              "to have start date #{start_date.inspect}, got #{result.start_date.inspect}"
         expect(result.due_date)
           .to eql(due_date),
-              "Expected work package ##{wp.id} '#{wp.subject}' to have due date #{due_date}, got #{result.due_date}"
+              "Expected work package ##{wp.id} '#{wp.subject}' " \
+              "to have due date #{due_date.inspect}, got #{result.due_date.inspect}"
 
         duration = WorkPackages::Shared::AllDays.new.duration(start_date, due_date)
 
         expect(result.duration)
           .to eql(duration),
-              "Expected work package ##{wp.id} '#{wp.subject}' to have duration #{duration}, got #{result.duration}"
+              "Expected work package ##{wp.id} '#{wp.subject}' " \
+              "to have duration #{duration.inspect}, got #{result.duration.inspect}"
       end
     end
 
