@@ -199,7 +199,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       // When clearing the one date, clear the others as well
       if (update === null) {
         this.duration = null;
-        this.dates[field as DateKeys] = null;
         this.dates[field === 'end' ? 'start' : 'end'] = null;
       } else {
         this.handleDatePickerChange(field, castArray(update));
@@ -507,11 +506,18 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   private handleSingleDateUpdate(activeField:DateFields, selectedDate:Date) {
     if (activeField === 'duration') {
       this.durationActiveDateSelected(selectedDate);
-    } else if (this.dates.start && this.dates.end) {
+      return;
+    }
+
+    // If both dates were already set, update approparitely
+    if (this.dates.start && this.dates.end) {
       this.replaceDatesWithNewSelection(activeField, selectedDate);
     } else {
-      // Active is on start or end, the other is missing. Update active and derive other date
-      this.setDateAndDeriveOther(activeField, selectedDate);
+      // Set the current date field
+      this.dates[activeField] = this.timezoneService.formattedISODate(selectedDate);
+
+      // Active is on start or end, the other was missing
+      this.deriveOtherField(activeField);
       // Toggle the active date to the other one
       this.toggleCurrentActivatedField();
     }
@@ -542,24 +548,26 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   /**
-   * The active field was updated in the datepicker, while not both dates are set currently.
+   * The active field was updated in the datepicker, while the other date was not set
    *
    * This means we want to derive the non-active field using the duration, if that is set.
    *
-   * @param field The active field that was changed
-   * @param selectedDate The date selected
+   * @param activeField The active field that was changed
    * @private
    */
-  private setDateAndDeriveOther(field:'start'|'end', selectedDate:Date) {
-    this.dates[field] = this.timezoneService.formattedISODate(selectedDate);
+  private deriveOtherField(activeField:'start'|'end') {
+    if (this.duration) {
+      // Duration is set, derive the other field
+      if (activeField === 'start' && !!this.dates.start) {
+        this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
+      }
 
-    // If duration has been set, calculate the other date field
-    if (this.currentlyActivatedDateField === 'start' && !!this.dates.start && this.duration) {
-      this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
-    }
-
-    if (this.currentlyActivatedDateField === 'end' && !!this.dates.end && this.duration) {
-      this.formUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
+      if (activeField === 'end' && !!this.dates.end) {
+        this.formUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
+      }
+    } else if (this.dates.start && this.dates.end) {
+      // Duration is not set but the other two, derive duration
+      this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
     }
   }
 
