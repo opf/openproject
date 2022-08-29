@@ -115,6 +115,7 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -326,6 +327,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly actions$:ActionsService,
     readonly toastService:ToastService,
     readonly loadingIndicatorService:LoadingIndicatorService,
+    readonly weekdayService:WeekdayService,
     readonly deviceService:DeviceService,
   ) {
     super();
@@ -749,11 +751,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private handleDateClicked(info:DateSelectArg) {
+    const startDay = new Date(info.start).getDate();
+    const endDay = new Date(info.end).getDate();
+    const duration = endDay - startDay;
+    const ignoreNonWorkingDays = duration !== 1 ? false : this.weekdayService.isNonWorkingDay(info.start);
+
     this.openNewSplitCreate(
       info.startStr,
       // end date is exclusive
       this.workPackagesCalendar.getEndDateFromTimestamp(info.endStr),
       info.resource?.id || '',
+      ignoreNonWorkingDays,
     );
   }
 
@@ -934,15 +942,15 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   private addBackgroundEventsForNonWorkingDays() {
     const api = this.ucCalendar.getApi();
-    let currentStartDate = this.ucCalendar.getApi().view.currentStart;
-    const currentEndDate = moment(this.ucCalendar.getApi().view.currentEnd).add('1', 'day').toDate();
-    const nonWorkingDays = new Array<{ start:Date, end:Date }>();
+    let currentStartDate = this.ucCalendar.getApi().view.activeStart;
+    const currentEndDate = this.ucCalendar.getApi().view.activeEnd;
+    const nonWorkingDays = new Array<{ start:Date|string, end:Date|string }>();
 
     while (currentStartDate.toString() !== currentEndDate.toString()) {
       if (this.weekdayService.isNonWorkingDay(currentStartDate)) {
         nonWorkingDays.push({
-          start: currentStartDate,
-          end: currentStartDate,
+          start: moment(currentStartDate).format('YYYY-MM-DD'),
+          end: moment(currentStartDate).add('1', 'day').format('YYYY-MM-DD'),
         });
       }
       currentStartDate = moment(currentStartDate).add('1', 'day').toDate();
