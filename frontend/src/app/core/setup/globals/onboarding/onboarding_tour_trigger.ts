@@ -33,11 +33,14 @@ export function detectOnboardingTour():void {
       currentTourPart = '';
       sessionStorage.setItem(onboardingTourStorageKey, 'readyToStart');
 
-      waitForElement('.onboarding-modal .op-modal--close-button', 'body', () => {
-        // Start automatically when the language selection is closed
-        jQuery('.op-modal--close-button').click(() => {
-          tourCancelled = true;
-          void triggerTour('homescreen');
+      // Start automatically when modal is closed by backdrop click
+      waitForElement('.spot-modal-overlay_active', 'body', () => {
+        const elementsByClassName = document.getElementsByClassName('spot-modal-overlay_active');
+        Array.from(elementsByClassName).forEach((modalOverlay) => {
+          modalOverlay.addEventListener('click', () => {
+            tourCancelled = true;
+            void triggerTour('homescreen');
+          });
         });
       });
 

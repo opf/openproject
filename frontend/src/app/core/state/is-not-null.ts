@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2022 the OpenProject GmbH
 //
@@ -26,46 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-@include breakpoint(680px down)
-  form
-    .grid-block
-      display: block
-
-      .grid-content
-        padding: 0
-
-    &.-wide-labels .form--field .form--label,
-    .form--field.-wide-label .form--label,
-    .form--label,
-    .form--field-container,
-    .form--select-container
-      @include grid-content(12)
-      display: flex
-      flex: 1
-      margin-left: 0
-      padding: 0
-    .form--field-instructions
-      margin-left: 0
-      flex-basis: 100%
-      max-width: 100%
-
-  #tab-content-info form,
-    .form--label,
-    .form--field-container
-      flex-basis: 100% !important
-      max-width: 100% !important
-
-  autocomplete-select-decoration
-    width: 100%
-
-  .form--field-inline-buttons-container
-    .form--field-inline-button
-      width: auto !important
-
-  .-browser-safari
-    // Special rule for mobile safari to prevent zooming into the text field
-    // when focused.
-    select,
-    textarea,
-    input
-      font-size: 16px !important
+export default function isNotNull<T>(entity:T|null):entity is T {
+  return entity !== null;
+}

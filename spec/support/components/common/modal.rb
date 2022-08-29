@@ -36,7 +36,7 @@ module Components
 
       def expect_title(text)
         within_modal do
-          expect(page).to have_selector('.op-modal--title', text:)
+          expect(page).to have_selector('.spot-modal--header', text:)
         end
       end
 
@@ -69,7 +69,7 @@ module Components
       end
 
       def selector
-        '.op-modal'
+        '.spot-modal'
       end
     end
   end

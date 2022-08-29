@@ -28,21 +28,12 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <div class="modal-delivery-element">
-  <div class="op-modal--header">
-    <h1 class="op-modal--title">
-      <%= I18n.t('js.label_export') %>
-    </h1>
-    <button
-      type="button"
-      class="op-modal--close-button"
-      aria-label="<%= t('js.close_popup_title') %>"
-    >
-      <%= op_icon('icon-close') %>
-    </button>
+  <div class="spot-modal--header">
+    <%= I18n.t('js.label_export') %>
   </div>
-
-  <div class="op-modal--body">
-    <ul class="op-export-options">
+  <div class="spot-divider"></div>
+  <div class="spot-modal--body">
+    <ul class="spot-export-options">
       <% supported_export_formats.each do |key| %>
         <li class="op-export-options--option">
           <% filter_params = safe_query_params ['filters', 'sortBy'] %>

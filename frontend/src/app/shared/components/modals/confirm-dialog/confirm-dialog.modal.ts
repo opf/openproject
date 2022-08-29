@@ -86,7 +86,7 @@ export class ConfirmDialogModalComponent extends OpModalComponent {
     this.text = _.defaults(this.options.text, this.text);
   }
 
-  public confirmAndClose(evt:JQuery.TriggeredEvent) {
+  public confirmAndClose(evt:Event):void {
     this.confirmed = true;
     this.closeMe(evt);
   }
