@@ -198,11 +198,12 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     .subscribe(([field, update]) => {
       // When clearing the one date, clear the others as well
       if (update === null) {
-        this.duration = null;
-        this.dates[field === 'end' ? 'start' : 'end'] = null;
+        this.clearAllValues();
       } else {
         this.handleDatePickerChange(field, castArray(update));
       }
+
+      this.cdRef.detectChanges();
     });
 
   private changeset:ResourceChangeset;
@@ -423,6 +424,13 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     return null;
   }
 
+  private clearAllValues() {
+    this.duration = null;
+    this.dates.start = null;
+    this.dates.end = null;
+    this.enforceManualChangesToDatepicker();
+  }
+
   private initializeDatepicker(minimalDate?:Date|null) {
     this.datePickerInstance?.destroy();
     this.datePickerInstance = new DatePicker(
@@ -462,13 +470,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       if (startDate > endDate && this.isStateOfCurrentActivatedField('start')) {
         endDate = startDate;
         this.dates.end = this.timezoneService.formattedISODate(endDate);
-
-        this.cdRef.detectChanges();
       } else if (endDate < startDate && this.isStateOfCurrentActivatedField('end')) {
         startDate = endDate;
         this.dates.start = this.timezoneService.formattedISODate(startDate);
-
-        this.cdRef.detectChanges();
       }
     }
 
@@ -486,8 +490,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     } else {
       this.handleSingleDateUpdate(activeField, dates[0]);
     }
-
-    this.cdRef.detectChanges();
   }
 
   private handleMultiDateUpdate(activeField:DateFields, dates:Date[]) {
