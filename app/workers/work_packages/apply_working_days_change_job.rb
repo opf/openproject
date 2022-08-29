@@ -26,31 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :week_day do
-    sequence :day, [1, 2, 3, 4, 5, 6, 7].cycle
-    working { day < 6 }
+class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
+  queue_with_priority :above_normal
 
-    # hack to reuse the day if it already exists in database
-    to_create do |instance|
-      instance.attributes = WeekDay.find_or_create_by(instance.attributes.slice("day", "working")).attributes
-      instance.instance_variable_set('@new_record', false)
-    end
+  def perform(user_id:)
+    user = User.find(user_id)
 
-    trait :tuesday do
-      day { 2 }
-    end
+    WorkPackage
+      .where(ignore_non_working_days: false)
+      .find_each do |work_package|
+        next if dates_and_duration_match?(work_package)
+
+        WorkPackages::SetAttributesService
+          .new(user:, model: work_package, contract_class: EmptyContract)
+          .call(duration: work_package.duration)
+        work_package.save
+      end
   end
 
-  # Factory to create all 7 week days at once, Saturday and Sunday being weekend days
-  factory :week_days, aliases: [:week_days_with_saturday_and_sunday_as_weekend], class: 'Array' do
-    # Skip the create callback to be able to use non-AR models. Otherwise FactoryBot will
-    # try to call #save! on any created object.
-    skip_create
+  private
 
-    initialize_with do
-      days = 1.upto(7).map { |day| create(:week_day, day:) }
-      new(days)
-    end
+  def dates_and_duration_match?(work_package)
+    days.working?(work_package.start_date) \
+      && days.working?(work_package.due_date) \
+      && days.duration(work_package.start_date, work_package.due_date) == work_package.duration
+  end
+
+  def days
+    @days ||= WorkPackages::Shared::WorkingDays.new
   end
 end
