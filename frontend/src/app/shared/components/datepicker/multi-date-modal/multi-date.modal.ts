@@ -54,10 +54,15 @@ import flatpickr from 'flatpickr';
 import {
   debounceTime,
   filter,
+  map,
   switchMap,
 } from 'rxjs/operators';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
-import { Subject } from 'rxjs';
+import {
+  merge,
+  Observable,
+  Subject,
+} from 'rxjs';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
@@ -70,8 +75,8 @@ import {
   setDates,
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
-import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { whenOutside } from 'core-app/shared/directives/focus/contain-helpers';
+import { castArray } from 'lodash';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -80,6 +85,7 @@ type StartUpdate = { startDate:string };
 type EndUpdate = { dueDate:string };
 type DurationUpdate = { duration:string|number|null };
 type DateUpdate = { date:string };
+type ActiveDateChange = [DateFields, null|Date|Date[]];
 
 export type FieldUpdates =
   StartUpdate
@@ -167,16 +173,44 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   // Manual changes from the inputs to start and end dates
   startDateChanged$ = new Subject<string>();
 
+  startDateDebounced$:Observable<ActiveDateChange> = this.debouncedInput(this.startDateChanged$, 'start');
+
   endDateChanged$ = new Subject<string>();
+
+  endDateDebounced$:Observable<ActiveDateChange> = this.debouncedInput(this.endDateChanged$, 'end');
+
+  // Manual changes to the datepicker, with information which field was active
+  datepickerChanged$ = new Subject<ActiveDateChange>();
+
+  // Date updates from the datepicker or a manual change
+  dateUpdates$ = merge(
+    this.startDateDebounced$,
+    this.endDateDebounced$,
+    this.datepickerChanged$,
+  )
+    .pipe(
+      this.untilDestroyed(),
+      filter(() => !!this.datePickerInstance),
+    )
+    .subscribe(([field, update]) => {
+      // When clearing the one date, clear the others as well
+      if (update === null) {
+        this.duration = null;
+        this.dates[field as DateKeys] = null;
+        this.dates[field === 'end' ? 'start' : 'end'] = null;
+      } else {
+        this.handleDatePickerChange(field, castArray(update));
+      }
+    });
 
   private changeset:ResourceChangeset;
 
   private datePickerInstance:DatePicker;
 
-  private dateUpdates$ = new Subject<FieldUpdates>();
+  private formUpdates$ = new Subject<FieldUpdates>();
 
   private dateUpdateRequests$ = this
-    .dateUpdates$
+    .formUpdates$
     .pipe(
       this.untilDestroyed(),
       switchMap((fieldsToUpdate:FieldUpdates) => this
@@ -222,66 +256,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         this.initializeDatepicker(date);
         this.onDataChange();
       });
-
-    this
-      .startDateChanged$
-      .pipe(
-        this.untilDestroyed(),
-        // Skip values that are already set as the current model
-        filter((newStart) => newStart !== this.dates.start),
-        // Avoid that the manual changes are moved to the datepicker too early.
-        // The debounce is chosen quite large on purpose to catch the following case:
-        //   1. Start date is for example 2022-07-15. The user wants to set the end date to the 19th.
-        //   2. So he/she starts entering the finish date 2022-07-1 .
-        //   3. This is already a valid date. Since it is before the start date,the start date would be changed automatically to the first without the debounce.
-        //   4. The debounce gives the user enough time to type the last number "9" before the changes are converted to the datepicker and the start date would be affected.
-        debounceTime(500),
-        filter((date) => validDate(date)),
-      )
-      .subscribe((newStart) => {
-        // When clearing the field, don't do anything else
-        if (newStart === '') {
-          this.dates.end = null;
-          this.duration = null;
-          this.updateDate('start', newStart);
-
-          return;
-        }
-
-        // Handle updating of the field as if clicked in the datepicker
-        const parsed = parseDate(newStart) as Date;
-        this.handleSingleDateUpdate(parsed);
-      });
-
-    this
-      .endDateChanged$
-      .pipe(
-        this.untilDestroyed(),
-        // Skip values that are already set as the current model
-        filter((newEnd) => mappedDate(newEnd) !== this.dates.end),
-        // Avoid that the manual changes are moved to the datepicker too early.
-        // The debounce is chosen quite large on purpose to catch the following case:
-        //   1. Start date is for example 2022-07-15. The user wants to set the end date to the 19th.
-        //   2. So he/she starts entering the finish date 2022-07-1 .
-        //   3. This is already a valid date. Since it is before the start date,the start date would be changed automatically to the first without the debounce.
-        //   4. The debounce gives the user enough time to type the last number "9" before the changes are converted to the datepicker and the start date would be affected.
-        debounceTime(500),
-        filter((date) => validDate(date)),
-      )
-      .subscribe((newEnd) => {
-        // When clearing the field, don't do anything else
-        if (newEnd === '') {
-          this.dates.start = null;
-          this.duration = null;
-          this.updateDate('end', newEnd);
-
-          return;
-        }
-
-        // Handle updating of the field as if clicked in the datepicker
-        const parsed = parseDate(newEnd) as Date;
-        this.handleSingleDateUpdate(parsed);
-      });
   }
 
   changeSchedulingMode():void {
@@ -294,17 +268,17 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
     // Resent the current start and duration so that the end date is calculated
     if (!!this.dates.start && !!this.duration) {
-      this.dateUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
+      this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
     }
 
     // If only one of the dates is set, sent that
     // Resent the current start and duration so that the end date is calculated
     if (!!this.dates.start && !this.dates.end) {
-      this.dateUpdates$.next({ startDate: this.dates.start });
+      this.formUpdates$.next({ startDate: this.dates.start });
     }
 
     if (!!this.dates.end && !this.dates.start) {
-      this.dateUpdates$.next({ dueDate: this.dates.end });
+      this.formUpdates$.next({ dueDate: this.dates.end });
     }
 
     this.cdRef.detectChanges();
@@ -419,12 +393,12 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     }
 
     if (this.dates.start) {
-      this.dateUpdates$.next({
+      this.formUpdates$.next({
         startDate: this.dates.start,
         duration: this.durationAsIso8601,
       });
     } else if (this.dates.end) {
-      this.dateUpdates$.next({
+      this.formUpdates$.next({
         dueDate: this.dates.end,
         duration: this.durationAsIso8601,
       });
@@ -460,11 +434,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         onReady: () => {
           this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
         },
-        onChange: (dates:Date[]) => {
-          this.handleDatePickerChange(dates);
-          this.onDataChange();
-          this.cdRef.detectChanges();
-        },
+        onChange: (dates:Date[]) => this.datepickerChanged$.next([this.currentlyActivatedDateField, dates]),
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
@@ -508,37 +478,37 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     }
   }
 
-  private handleDatePickerChange(dates:Date[]) {
+  private handleDatePickerChange(activeField:DateFields, dates:Date[]) {
     if (dates.length === 2) {
-      this.handleMultiDateUpdate(dates);
+      this.handleMultiDateUpdate(activeField, dates);
     } else {
-      this.handleSingleDateUpdate(dates[0]);
+      this.handleSingleDateUpdate(activeField, dates[0]);
     }
 
     this.cdRef.detectChanges();
   }
 
-  private handleMultiDateUpdate(dates:Date[]) {
+  private handleMultiDateUpdate(activeField:DateFields, dates:Date[]) {
     // Write the dates to the input fields
     this.dates.start = this.timezoneService.formattedISODate(dates[0]);
     this.dates.end = this.timezoneService.formattedISODate(dates[1]);
 
-    if (this.currentlyActivatedDateField === 'duration') {
+    if (activeField === 'duration') {
       this.durationActiveDateSelected(dates[0]);
     } else if (this.dates.start && this.dates.end) {
-      this.dateUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+      this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
       this.toggleCurrentActivatedField();
     }
   }
 
-  private handleSingleDateUpdate(selectedDate:Date) {
-    if (this.currentlyActivatedDateField === 'duration') {
+  private handleSingleDateUpdate(activeField:DateFields, selectedDate:Date) {
+    if (activeField === 'duration') {
       this.durationActiveDateSelected(selectedDate);
     } else if (this.dates.start && this.dates.end) {
-      this.replaceDatesWithNewSelection(selectedDate);
+      this.replaceDatesWithNewSelection(activeField, selectedDate);
     } else {
       // Active is on start or end, the other is missing. Update active and derive other date
-      this.setDateAndDeriveOther(this.currentlyActivatedDateField, selectedDate);
+      this.setDateAndDeriveOther(activeField, selectedDate);
       // Toggle the active date to the other one
       this.toggleCurrentActivatedField();
     }
@@ -564,7 +534,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
     // If duration has value, derive end date from start and duration
     if (this.duration) {
-      this.dateUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
+      this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
     }
   }
 
@@ -582,15 +552,15 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
     // If duration has been set, calculate the other date field
     if (this.currentlyActivatedDateField === 'start' && !!this.dates.start && this.duration) {
-      this.dateUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
+      this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
     }
 
     if (this.currentlyActivatedDateField === 'end' && !!this.dates.end && this.duration) {
-      this.dateUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
+      this.formUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
     }
   }
 
-  private replaceDatesWithNewSelection(selectedDate:Date) {
+  private replaceDatesWithNewSelection(activeField:DateFields, selectedDate:Date) {
     /**
      Overwrite flatpickr default behavior by not starting a new date range everytime but preserving either start or end date.
      There are three cases to cover.
@@ -607,7 +577,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       this.applyNewDates([selectedDate, parsedEndDate]);
       this.setCurrentActivatedField('end');
     } else if (selectedDate > parsedEndDate) {
-      if (this.isStateOfCurrentActivatedField('end')) {
+      if (activeField === 'end') {
         this.applyNewDates([parsedStartDate, selectedDate]);
       } else {
         // Reset duration and end date
@@ -618,7 +588,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     } else if (areDatesEqual(selectedDate, parsedStartDate) || areDatesEqual(selectedDate, parsedEndDate)) {
       this.applyNewDates([selectedDate, selectedDate]);
     } else {
-      const newDates = this.isStateOfCurrentActivatedField('start') ? [selectedDate, parsedEndDate] : [parsedStartDate, selectedDate];
+      const newDates = activeField === 'start' ? [selectedDate, parsedEndDate] : [parsedStartDate, selectedDate];
       this.applyNewDates(newDates);
     }
   }
@@ -633,7 +603,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     // We updated either start, end, or both fields
     // If both are now set, we want to derive duration from them
     if (this.dates.start && this.dates.end) {
-      this.dateUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+      this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
     }
   }
 
@@ -696,5 +666,30 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     } else {
       this.duration = null;
     }
+  }
+
+  private debouncedInput(input$:Subject<string>, key:DateKeys):Observable<ActiveDateChange> {
+    return input$
+      .pipe(
+        this.untilDestroyed(),
+        // Skip values that are already set as the current model
+        filter((value) => value !== this.dates[key]),
+        // Avoid that the manual changes are moved to the datepicker too early.
+        // The debounce is chosen quite large on purpose to catch the following case:
+        //   1. Start date is for example 2022-07-15. The user wants to set the end date to the 19th.
+        //   2. So he/she starts entering the finish date 2022-07-1 .
+        //   3. This is already a valid date. Since it is before the start date,the start date would be changed automatically to the first without the debounce.
+        //   4. The debounce gives the user enough time to type the last number "9" before the changes are converted to the datepicker and the start date would be affected.
+        debounceTime(500),
+        filter((date) => validDate(date)),
+        map((date) => {
+          if (date === '') {
+            return null;
+          }
+
+          return parseDate(date) as Date;
+        }),
+        map((date) => [key, date]),
+      );
   }
 }
