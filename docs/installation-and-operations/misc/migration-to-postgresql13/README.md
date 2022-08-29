@@ -21,7 +21,7 @@ If that is not the case, you are likely using a self-provisioned database or a r
 
 In the following, we assume that you initially let OpenProject setup your PostgreSQL installation, using a local database. 
 
-NOTE: RedHat and CentOS are slightly different, depending on which PostgreSQL pacakge/repository will be used.
+NOTE: RedHat and CentOS are slightly different, depending on which PostgreSQL package/repository will be used.
 For the documentation parts titled RedHat/CentOS RedHat Enterprise Linux 8 was used.
 
 
@@ -133,7 +133,7 @@ include_dir = 'conf.d'
 
 sudo su - postgres -c "cp -p /var/lib/pgsql/10/data/conf.d/custom.conf /var/lib/pgsql/13/data/conf.d/custom.conf"
 sudo su - postgres -c "sed -i 's|45432|45433|' /var/lib/pgsql/10/data/conf.d/custom.conf"
-sudo su - postgres -c "/usr/pgsql-13/bin/pg_ctl start --wait --pgdata=/var/lib/pgsql/13/data -o '-c config_file=/usr/bin/postgresql-13-setup'"
+sudo su - postgres -c "/usr/pgsql-13/bin/pg_ctl start --wait --pgdata=/var/lib/pgsql/13/data -o '-c config_file=/etc/postgresql/13/main/postgresql.conf'"
 
 # Getting the password for the PostgreSQL database from the configuration
 sudo openproject config:get DATABASE_URL
@@ -263,3 +263,20 @@ Please change the command appropriately for other installation methods. Once con
 ```sql
 ANALYZE VERBOSE;
 ```
+
+
+
+## Troubleshooting
+
+###### User "openproject" does not have a valid SCRAM secret - psql: error: FATAL: password authentication failed for user "openproject"
+
+Check `/var/lib/pgsql/13/data/pg_hba.conf` for any appearance of `scram-sha-256` and replace with `md5`
+
+Check `/var/lib/pgsql/13/data/postgresql.conf` for any appearance of `scram-sha-256` and replace with `md5` (search for `encryption`)
+
+Reload Configuration of PostgreSQL server with `systemctl reload postgresql-13`
+
+
+
+
+

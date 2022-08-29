@@ -736,12 +736,16 @@ de:
         work_package:
           is_not_a_valid_target_for_time_entries: "Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnung der Zeiterfassungseinträge."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "ist nicht identisch mit dem Startdatum, obwohl dies bei Meilensteinen Pflicht ist."
+              cannot_be_null: "kann nicht auf Null gesetzt werden, da Startdatum und Dauer bekannt sind."
             duration:
               larger_than_dates: "ist größer als das Intervall zwischen dem Start- und dem Enddatum."
               smaller_than_dates: "ist kleiner als das Intervall zwischen Start und Enddatum."
               not_available_for_milestones: "ist nicht für Meilenstein-typisierte Arbeitspakete verfügbar."
+              cannot_be_null: "kann nicht auf Null gesetzt werden, als Start- und Enddatum bekannt sind."
             parent:
               cannot_be_milestone: "darf kein Meilenstein sein."
               cannot_be_self_assigned: "kann nicht selbst zugewiesen werden."
@@ -749,6 +753,7 @@ de:
               not_a_valid_parent: "ist ungültig."
             start_date:
               violates_relationships: "muss mindestens auf %{soonest_start} gesetzt werden, um Beziehungen zu anderen Arbeitspaketen nicht zu verletzten."
+              cannot_be_null: "kann nicht auf Null gesetzt werden, als Enddatum und Dauer bekannt sind."
             status_id:
               status_transition_invalid: "ist ungültig, da kein valider Übergang vom alten zum neuen Status für die aktuelle Rolle des Nutzers existiert."
               status_invalid_in_type: "ist ungültig, da der aktuelle Status nicht in diesem Typ vorhanden ist."
@@ -1745,7 +1750,7 @@ de:
   label_project_new: "Neues Projekt"
   label_project_plural: "Projekte"
   label_project_settings: "Projektkonfiguration"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "Speicher"
   label_projects_storage_information: "%{count} Projekte verbrauchen insgesamt %{storage} Speicherplatz"
   label_project_view_all: "Alle Projekte anzeigen"
   label_project_show_details: "Projektdetails anzeigen"

@@ -723,12 +723,16 @@ lol:
         work_package:
           is_not_a_valid_target_for_time_entries: "crwdns495623:0%{id}crwdne495623:0"
           attributes:
+            assigned_to:
+              format: "crwdns830344:0%{message}crwdne830344:0"
             due_date:
               not_start_date: "crwdns495625:0crwdne495625:0"
+              cannot_be_null: "crwdns830400:0crwdne830400:0"
             duration:
               larger_than_dates: "crwdns816734:0crwdne816734:0"
               smaller_than_dates: "crwdns816736:0crwdne816736:0"
               not_available_for_milestones: "crwdns820640:0crwdne820640:0"
+              cannot_be_null: "crwdns830402:0crwdne830402:0"
             parent:
               cannot_be_milestone: "crwdns495627:0crwdne495627:0"
               cannot_be_self_assigned: "crwdns495629:0crwdne495629:0"
@@ -736,6 +740,7 @@ lol:
               not_a_valid_parent: "crwdns495633:0crwdne495633:0"
             start_date:
               violates_relationships: "crwdns495635:0%{soonest_start}crwdne495635:0"
+              cannot_be_null: "crwdns830404:0crwdne830404:0"
             status_id:
               status_transition_invalid: "crwdns495637:0crwdne495637:0"
               status_invalid_in_type: "crwdns495639:0crwdne495639:0"

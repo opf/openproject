@@ -37,7 +37,7 @@ ca:
         enabled_text: 'El webhook emetrà les càrregues pels esdeveniments definits a sota.'
         disabled_text: 'Clica el botó editar per activar el webhook.'
       deliveries:
-        no_results_table: No deliveries have been made for this webhook in the past days.
+        no_results_table: No s'ha fet cap entrega per aquest webhook en els dies anteriors.
         title: 'Entregues recents'
         time: 'Temps d''entrega'
       form:

@@ -106,7 +106,7 @@ In order to register a new device for two-factor authentication, lick the green 
 
 To receive the second factor, you can use an authentication app on your mobile phone, such as Google Authenticator or Authy. You have to enter the code that is displaed in the authentication app to your login.
 
-![app-based-autentication](app-based-autentication.png)
+![app-based-authentication](app-based-authentication.png)
 
 ### Backup codes
 

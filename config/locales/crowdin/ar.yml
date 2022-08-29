@@ -439,10 +439,10 @@ ar:
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
       grids/grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        page: "الصفحة "
+        row_count: "عدد الصفوف"
+        column_count: "عدد الأعمدة"
+        widgets: "الودجات"
       relation:
         delay: "تأخير"
         from: "مجموعة العمل"
@@ -630,13 +630,13 @@ ar:
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_logged_in: "(%{name}) value cannot be set because you are not logged in."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          only_one_allowed: "(%{name}) مسموح بقيمة واحدة فقط."
+          empty: "(%{name}) لا يمكن أن تكون القيمة فارغة."
+          inclusion: "(%{name}) لم يتم تعيين القيمة على إحدى القيم المسموح بها."
+          not_logged_in: "(%{name}) لا يمكن تعيين القيمة لأنك لم تسجل الدخول."
+          not_an_integer: "(%{name}) ليس عددًا صحيحًا."
+          smaller_than_or_equal_to: "(%{name}) يجب أن يكون أصغر من أو يساوي %{count}."
+          greater_than_or_equal_to: "(%{name}) يجب أن تكون أكبر من أو تساوي %{count}."
           format: "%{message}"
         doorkeeper/application:
           attributes:
@@ -651,9 +651,9 @@ ar:
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'تداخل.'
+          outside: 'هو خارج الشبكة.'
+          end_before_start: 'يجب أن تكون قيمة النهاية أكبر من قيمة البداية.'
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -689,7 +689,7 @@ ar:
             project:
               error_not_found: "لم يتم العثور"
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- ليس للمستخدم إذن بإنشاء طرق عرض عامة."
             group_by:
               invalid: "Can't group by: %{value}"
               format: "%{message}"
@@ -745,12 +745,16 @@ ar:
         work_package:
           is_not_a_valid_target_for_time_entries: "مجموعة العمل #%{id} ليست هدفًا صالحًا لإعادة تعيين إدخالات الوقت."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "ليس في تاريخ البدء، وعلى الرغم من أن هذا المطلوب للمعالم."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "لا يمكن أن يكون معلما."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -758,6 +762,7 @@ ar:
               not_a_valid_parent: "غير صالح."
             start_date:
               violates_relationships: "يمكن فقط تعيينه إلى %{soonest_start} أو في وقت لاحق حتى لا يتعارض مع علاقات حزمة العمل."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "غير مسموح لأن لا انتقال صالح موجود من القديم إلى مركز جديد للأدوار للمستخدم الحالي."
               status_invalid_in_type: "is invalid because the current status does not exist in this type."

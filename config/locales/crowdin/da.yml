@@ -739,12 +739,16 @@ da:
         work_package:
           is_not_a_valid_target_for_time_entries: "Arbejdspakke # %{id} er ikke et gyldig mål for tildeling af tider."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "er ikke på startdato, selvom dette er påkrævet for milepæle."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "kan ikke være en milepæl."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -752,6 +756,7 @@ da:
               not_a_valid_parent: "er ugyldig."
             start_date:
               violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the work package's relationships."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "er ugyldig, da der mangler gyldig overførsel fra gammel til ny status for den aktuelle brugers roller."
               status_invalid_in_type: "is invalid because the current status does not exist in this type."

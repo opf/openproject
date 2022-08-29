@@ -81,20 +81,18 @@ Starting with OpenProject 12.2, users with certain roles are able to log and edi
 >
 > - *Log time for other users* allows users with that role to log time on behalf of other users
 > - *Edit time logs* for other users allows users with that role to modify and adjust time logged for other users
->
-> <img src="permissions-log-time-others.png" alt="Permissions to log and edit time for others " style="zoom:50%;" />
+
+[Permissions to log and edit time for others](permissions-log-time-others.png)
 
 Once the permissions have been granted, you will notice subtle differences in the interface.
 
 The **Log time** modal now has a new field called "User", that allows you to select a user other than yourself:
 
-<img src="log-time-with-user-field.png" alt="Log time now has a user field" style="zoom:50%;" />
-
-
+[Log time now has a user field](log-time-with-user-field.png)
 
 When accessing cost reports, you will see a new column titled "Logged by". The author of the logged time can be different from the user for whom the time is logged:
 
-<img src="cost-report-logged-by.png" alt="Logged by field" style="zoom:50%;" />
+[Logged by field](cost-report-logged-by.png)
 
 A user with permissions to edit time logged by other users can edit each entry as they would their own. The "Logged by" field will always display the name of the user who made the last edit.
 
@@ -114,13 +112,13 @@ See more information about the My spent time widget on the [MyPage](../../../get
 
 You can define an hourly rate to **track labor costs per user**. You will need system admin permissions for this. Please navigate to the user profile, e.g. by clicking on a hyper link of the user name on a work package.
 
- ![User-profile](User-profile.png)
+![User-profile](User-profile.png)
 
 You will be directed to the user's profile page.
 
 Here, you can click the **Edit button** on the top right corner of the user profile page.
 
- ![User-profile-edit](User-profile-edit.png)
+![User-profile-edit](User-profile-edit.png)
 
 Alternatively, you can navigate to *Administration -> Users and permissions -> Users* and click on the respective user name.
 

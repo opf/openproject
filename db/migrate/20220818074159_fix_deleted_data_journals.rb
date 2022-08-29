@@ -98,7 +98,7 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
   end
 
   def update_with_new_data!(journal, data_id)
-    notes = journal.notes
+    notes = journal.notes || ''
     notes << "\n" unless notes.empty?
     notes << "_(This activity had to be modified by the system and may be missing some changes or contain changes from previous or following activities.)_"
 

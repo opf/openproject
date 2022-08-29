@@ -740,12 +740,16 @@ pt:
         work_package:
           is_not_a_valid_target_for_time_entries: "Pacote de trabalho #%{id} não é válido para re-atribuir os registros de horas gastas."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "é maior que o intervalo entre a data de início e de fim."
               smaller_than_dates: "é menor que o intervalo entre a data de início e a data de término."
               not_available_for_milestones: "Não está disponível para pacotes de trabalho do tipo marco"
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "não pode ser um marco."
               cannot_be_self_assigned: "não pode ser atribuído a ele mesmo."
@@ -753,6 +757,7 @@ pt:
               not_a_valid_parent: "é inválido."
             start_date:
               violates_relationships: "somente pode ser definida como %{soonest_start} ou posterior para não violar as relações de trabalho do pacote."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "é inválido porque não existe transição válida da antiga para a nova situação para o papel do usuário atual."
               status_invalid_in_type: "é inválido porque não existe a situação atual neste tipo."

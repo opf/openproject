@@ -4,9 +4,9 @@ nl:
     bcf:
       label_bcf: 'BCF'
       import: 'Importeren'
-      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
+      import_bcf_xml_file: 'BCF XML-bestand importeren (BCF versie 2.1)'
       export: 'Exporteren'
-      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
+      export_bcf_xml_file: 'Exporteer BCF XML bestand (BCF versie 2.1)'
       viewpoint: 'Viewpoint'
       add_viewpoint: 'Add viewpoint'
       show_viewpoint: 'Show viewpoint'

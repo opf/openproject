@@ -739,12 +739,16 @@ ko:
         work_package:
           is_not_a_valid_target_for_time_entries: "작업 패키지 #%{id}은(는) 시간 항목 재할당에 올바른 대상이 아닙니다."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "마일스톤에서 요구하지만, 시작 날짜가 없음"
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "시작 날짜와 완료 날짜 사이의 간격보다 큽니다."
               smaller_than_dates: "시작 날짜와 완료 날짜 사이의 간격보다 작습니다."
               not_available_for_milestones: "마일스톤 유형 작업 패키지에 사용할 수 없습니다."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "마일스톤에 포함될 수 없음"
               cannot_be_self_assigned: "- 자신에게 할당할 수 없습니다."
@@ -752,6 +756,7 @@ ko:
               not_a_valid_parent: "은(는) 올바르지 않은 값입니다"
             start_date:
               violates_relationships: "은(는) %{soonest_start} 이상으로만 설정할 수 있습니다. 작업 패키지의 관계를 위반하지 않도록 하기 위해서입니다."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "현재 사용자 역할이 새 상태로 바르게 전환될 수 없으므로 유효 하지 않음"
               status_invalid_in_type: "- 유효하지 않습니다. 현재 상태가 이 유형에서 존재하지 않기 때문입니다."

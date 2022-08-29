@@ -47,7 +47,7 @@ Starting from April 2022, we will also offer hosting of the OpenProject Enterpri
 
 **Migration after the beta phase in April 2022**
 
-After the end of the beta phase we plan to migrate <u>all</u> customers to the new infrastructure *OpenProject.eu*. Before this migration we (Processor) notified in March 2022 all clients (Controller) about the new sub-processors by email.  After the expiry of the objection period of two weeks, the modification shall be deemed approved within the meaning of Article 28  (2) GDPR. If the the Controller objects by email to privacy@openproject.com within two weeks we will <u>not</u> migrate their data. For more information please have a look at [§ 8 "Sub-processors](https://www.openproject.org/legal/data-processing-agreement/#-8-sub-processors) in your DPA.
+After the end of the beta phase we plan to migrate <u>all</u> customers to the new infrastructure *OpenProject.eu*. Before this migration we (Processor) notified in March 2022 all clients (Controller) about the new sub-processors by email.  After the expiry of the objection period of two weeks, the modification shall be deemed approved within the meaning of Article 28  (2) GDPR. If the the Controller objects by email to privacy@openproject.com within two weeks we will <u>not</u> migrate their data. For more information please have a look at [Use of sub-processors](https://www.openproject.org/legal/data-processing-agreement/#77-use-of-sub-processors) in your DPA.
 
 ## Can I get a custom domain name instead of example.openproject.com?
 
