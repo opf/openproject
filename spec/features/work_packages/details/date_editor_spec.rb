@@ -35,6 +35,7 @@ require 'features/work_packages/work_packages_page'
 
 describe 'date inplace editor',
          with_settings: { date_format: '%Y-%m-%d' },
+         with_flag: { work_packages_duration_field_active: true },
          js: true, selenium: true do
   let(:project) { create :project_with_types, public: true }
   let(:work_package) { create :work_package, project:, start_date: Date.parse('2016-01-02'), duration: nil }
@@ -58,7 +59,7 @@ describe 'date inplace editor',
     start_date.expect_active!
 
     start_date.datepicker.expect_year '2016'
-    start_date.datepicker.expect_month 'January', true
+    start_date.datepicker.expect_month 'January'
     start_date.datepicker.select_day '25'
 
     start_date.save!
@@ -71,7 +72,7 @@ describe 'date inplace editor',
     start_date.expect_active!
 
     start_date.datepicker.expect_year '2016'
-    start_date.datepicker.expect_month 'January', true
+    start_date.datepicker.expect_month 'January'
     start_date.datepicker.select_day '1'
 
     start_date.save!
@@ -86,7 +87,7 @@ describe 'date inplace editor',
     start_date.click_today
 
     start_date.datepicker.expect_year Time.zone.today.year
-    start_date.datepicker.expect_month Time.zone.today.strftime("%B"), true
+    start_date.datepicker.expect_month Time.zone.today.strftime("%B")
     start_date.datepicker.expect_day Time.zone.today.day
 
     start_date.save!
@@ -107,7 +108,7 @@ describe 'date inplace editor',
       start_date.expect_active!
 
       start_date.datepicker.expect_year '2016'
-      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.expect_month 'January'
       start_date.datepicker.select_day '1'
 
       start_date.save!
@@ -120,7 +121,7 @@ describe 'date inplace editor',
       start_date.expect_active!
 
       start_date.datepicker.expect_year '2016'
-      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.expect_month 'January'
       start_date.datepicker.select_day '3'
 
       # Since the focus shifts automatically, we can directly click again to modify the end date
@@ -136,11 +137,11 @@ describe 'date inplace editor',
       start_date.expect_active!
 
       start_date.datepicker.expect_year '2016'
-      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.expect_month 'January'
 
       # Focus the end date field
       start_date.activate_due_date_within_modal
-      start_date.datepicker.set_date '2016-03-01', true
+      start_date.datepicker.set_date '2016-03-01'
 
       # Since the end date is focused, the date will become the new end date
       start_date.save!
@@ -152,8 +153,8 @@ describe 'date inplace editor',
       start_date.expect_active!
 
       start_date.datepicker.expect_year '2016'
-      start_date.datepicker.expect_month 'January', true
-      start_date.datepicker.set_date '2016-04-01', true
+      start_date.datepicker.expect_month 'January'
+      start_date.datepicker.set_date '2016-04-01'
 
       # This will set the new start and unset the end date
       start_date.save!
@@ -172,7 +173,7 @@ describe 'date inplace editor',
       start_date.click_today
 
       start_date.datepicker.expect_year Time.zone.today.year
-      start_date.datepicker.expect_month Time.zone.today.strftime("%B"), true
+      start_date.datepicker.expect_month Time.zone.today.strftime("%B")
       start_date.datepicker.expect_day Time.zone.today.day
 
       start_date.save!
@@ -190,11 +191,11 @@ describe 'date inplace editor',
     start_date.datepicker.expect_visible
 
     # Set the due date
-    start_date.datepicker.set_date Time.zone.today, true
+    start_date.datepicker.set_date Time.zone.today
 
     # As the to be selected date is automatically toggled,
     # we can directly set the start date afterwards to the same day
-    start_date.datepicker.set_date Time.zone.today, true
+    start_date.datepicker.set_date Time.zone.today
 
     start_date.save!
     start_date.expect_inactive!
@@ -532,13 +533,13 @@ describe 'date inplace editor',
       start_date.expect_active!
 
       start_date.datepicker.expect_year '2016'
-      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.expect_month 'January'
       start_date.datepicker.select_day '25'
 
       sleep 2
 
       start_date.datepicker.expect_year '2016'
-      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.expect_month 'January'
       start_date.datepicker.expect_day '25'
 
       start_date.save!
