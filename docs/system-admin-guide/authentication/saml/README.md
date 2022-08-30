@@ -63,44 +63,54 @@ The following is an exemplary file with a set of common settings:
 
 ```yaml
 saml:
-  # Name of the provider, leave this at saml unless you use multiple providers
-  name: "saml"
-  # The name that will be display in the login button
-  display_name: "My SSO"
-  # Use the default SAML icon
-  icon: "auth_provider-saml.png"
+  # First SAML provider
+  mysaml1:  
+    # Name of the provider, leave this at saml unless you use multiple providers
+    name: "saml"
+    # The name that will be display in the login button
+    display_name: "My SSO"
+    # Use the default SAML icon
+    icon: "auth_provider-saml.png"
 
-  # The callback within OpenProject that your idP should redirect to
-  assertion_consumer_service_url: "https://<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
-  # The SAML issuer string that OpenProject will call your idP with
-  issuer: "https://<YOUR OPENPROJECT HOSTNAME>"
+    # The callback within OpenProject that your idP should redirect to
+    assertion_consumer_service_url: "https://<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
+    # The SAML issuer string that OpenProject will call your idP with
+    issuer: "https://<YOUR OPENPROJECT HOSTNAME>"
 
-  # IF your SSL certificate on your SSO is not trusted on this machine, you need to add it here in ONE line
-  ### one liner to generate certificate in ONE line
-  ### awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' <yourcert.pem>
-  #idp_cert: "-----BEGIN CERTIFICATE-----\n ..... SSL CERTIFICATE HERE ...-----END CERTIFICATE-----\n"
-  # Otherwise, the certificate fingerprint must be added
-  # Either `idp_cert` or `idp_cert_fingerprint` must be present!
-  idp_cert_fingerprint: "E7:91:B2:E1:..."
+    # IF your SSL certificate on your SSO is not trusted on this machine, you need to add it here in ONE line
+    ### one liner to generate certificate in ONE line
+    ### awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' <yourcert.pem>
+    #idp_cert: "-----BEGIN CERTIFICATE-----\n ..... SSL CERTIFICATE HERE ...-----END CERTIFICATE-----\n"
+    # Otherwise, the certificate fingerprint must be added
+    # Either `idp_cert` or `idp_cert_fingerprint` must be present!
+    idp_cert_fingerprint: "E7:91:B2:E1:..."
 
-  # Replace with your SAML 2.0 redirect flow single sign on URL
-  # For example: "https://sso.example.com/saml/singleSignOn"
-  idp_sso_target_url: "<YOUR SSO URL>"
-  # Replace with your redirect flow single sign out URL
-  # or comment out
-  # For example: "https://sso.example.com/saml/proxySingleLogout"
-  idp_slo_target_url: "<YOUR SSO logout URL>"
+    # Replace with your SAML 2.0 redirect flow single sign on URL
+    # For example: "https://sso.example.com/saml/singleSignOn"
+    idp_sso_target_url: "<YOUR SSO URL>"
+    # Replace with your redirect flow single sign out URL
+    # or comment out
+    # For example: "https://sso.example.com/saml/proxySingleLogout"
+    idp_slo_target_url: "<YOUR SSO logout URL>"
 
-  # Attribute map in SAML
-  attribute_statements:
-    # What attribute in SAML maps to email (default: mail)
-    email: ['mail']
-    # What attribute in SAML maps to the user login (default: uid)
-    login: ['uid']
-    # What attribute in SAML maps to the first name (default: givenName)
-    first_name: ['givenName']
-    # What attribute in SAML maps to the last name (default: sn)
-    last_name: ['sn']
+    # Attribute map in SAML
+    attribute_statements:
+      # What attribute in SAML maps to email (default: mail)
+      email: ['mail']
+      # What attribute in SAML maps to the user login (default: uid)
+      login: ['uid']
+      # What attribute in SAML maps to the first name (default: givenName)
+      first_name: ['givenName']
+      # What attribute in SAML maps to the last name (default: sn)
+      last_name: ['sn']
+      
+  # OPTIONAL: Additional SAML provider(s)
+  mysaml2:
+    name: "saml2"
+    display_name: "Additional SSO"
+    (...)
+  mysaml3:
+    (...)
 ```
 
 Be sure to choose the correct indentation and base key. The items below the `saml` key should be indented two spaces more than `saml` already is. And `saml` can will need to be placed in the `default` or `production` group so it will already be indented. You will get an YAML parsing error otherwise when trying to start OpenProject.
