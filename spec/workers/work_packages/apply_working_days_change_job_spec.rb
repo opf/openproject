@@ -12,66 +12,109 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob,
     WeekDay.find_by(day: wday).update(working: false)
   end
 
-  it 'updates finish date of work packages after marking week days as non-working' do
-    work_package = create(:work_package,
-                          ignore_non_working_days: false,
-                          start_date: Date.parse('Mon 2022-08-22'),
-                          duration: 5)
+  context 'when a work package includes a date that is now a non-working day' do
+    let_schedule(<<~CHART, ignore_non_working_days: false)
+      days          | MTWTFSS |
+      work_package  | XXXX    |
+    CHART
 
-    expect do
+    before do
       set_non_working_week_day('wednesday')
-      job.perform_now(user_id: user.id)
     end
-      .to change { work_package.reload.slice(:due_date) }
-      .from(due_date: Date.parse('Fri 2022-08-26'))
-      .to(due_date: Date.parse('Mon 2022-08-29'))
+
+    it 'moves the finish date to the corresponding number of now-excluded days to maintain duration [#31992]' do
+      job.perform_now(user_id: user.id)
+      expect(WorkPackage.all).to match_schedule(<<~CHART)
+        days         | MTWTFSS |
+        work_package | XX.XX   |
+      CHART
+    end
   end
 
-  it 'does not change work packages ignoring non-working days' do
-    work_package = create(:work_package,
-                          ignore_non_working_days: true,
-                          start_date: Date.parse('Mon 2022-08-22'),
-                          duration: 5)
+  context 'when a work package includes a date that is now a non-working day, but has working days include weekends' do
+    let_schedule(<<~CHART)
+      days          | MTWTFSS |
+      work_package  | XXXX    | working days include weekends
+    CHART
 
-    expect do
+    before do
       set_non_working_week_day('wednesday')
-      job.perform_now(user_id: user.id)
     end
-      .not_to change { work_package.reload }
+
+    it 'does not move any dates' do
+      job.perform_now(user_id: user.id)
+      expect(WorkPackage.all).to match_schedule(<<~CHART)
+        days         | MTWTFSS |
+        work_package | XXXX    | working days include weekends
+      CHART
+    end
   end
 
-  it 'updates multiple work packages' do
-    create_list(:work_package,
-                5,
-                ignore_non_working_days: false,
-                start_date: Date.parse('Mon 2022-08-22'),
-                duration: 5)
+  context 'when having multiple work packages' do
+    let_schedule(<<~CHART, ignore_non_working_days: false)
+      days | MTWTFSS |
+      wp1  | XX      |
+      wp2  |  XX     |
+      wp3  |   XX    |
+      wp4  |    XX   |
+      wp5  | XXXXX   |
+    CHART
 
-    set_non_working_week_day('wednesday')
-    job.perform_now(user_id: user.id)
+    before do
+      set_non_working_week_day('wednesday')
+    end
 
-    new_due_dates = WorkPackage.order(:id).pluck(:due_date)
-    expect(new_due_dates).to all(eq(Date.parse('Mon 2022-08-29')))
+    it 'updates all impacted work packages' do
+      job.perform_now(user_id: user.id)
+      expect(WorkPackage.all).to match_schedule(<<~CHART)
+        days | MTWTFSS  |
+        wp1  | XX       |
+        wp2  |  X.X     |
+        wp3  |    XX    |
+        wp4  |    XX    |
+        wp5  | XX.XX..X |
+      CHART
+    end
   end
 
-  it 'updates followers if needed' do
-    work_package = create(:work_package,
-                          ignore_non_working_days: false,
-                          start_date: Date.parse('Mon 2022-08-22'),
-                          duration: 5)
-    follower = create(:work_package,
-                      ignore_non_working_days: true,
-                      start_date: Date.parse('Sat 2022-08-27'),
-                      duration: 2)
-    create(:follows_relation, from: follower, to: work_package)
+  context 'when a work package was scheduled to start on a date that is now a non-working day' do
+    let_schedule(<<~CHART, ignore_non_working_days: false)
+      days          | MTWTFSS |
+      work_package  |   XX    |
+    CHART
 
-    set_non_working_week_day('wednesday')
-    job.perform_now(user_id: user.id)
+    before do
+      set_non_working_week_day('wednesday')
+    end
 
-    follower.reload
-    work_package.reload
-    expect(follower.start_date).not_to eq(Date.parse('Sat 2022-08-27'))
-    expect(follower.start_date).to eq(work_package.due_date + 1)
-    expect(follower.due_date).to eq(work_package.due_date + 2)
+    it 'moves the start date to the earliest working day in the future, ' \
+       'and the finish date changes by consequence [#31992]' do
+      job.perform_now(user_id: user.id)
+      expect(WorkPackage.all).to match_schedule(<<~CHART)
+        days         | MTWTFSS |
+        work_package |    XX   |
+      CHART
+    end
+  end
+
+  context 'when a follower has a predecessor with dates covering a day that is now a non-working day' do
+    let_schedule(<<~CHART)
+      days        | MTWTFSS |
+      predecessor |  XX     | working days work week
+      follower    |    XXX  | working days include weekends, follows predecessor
+    CHART
+
+    before do
+      set_non_working_week_day('wednesday')
+    end
+
+    it 'moves the follower start date by consequence of the predecessor dates shift [#31992]' do
+      job.perform_now(user_id: user.id)
+      expect(WorkPackage.all).to match_schedule(<<~CHART)
+        days        | MTWTFSS |
+        predecessor |  X.X    | working days work week
+        follower    |     XXX | working days include weekends
+      CHART
+    end
   end
 end

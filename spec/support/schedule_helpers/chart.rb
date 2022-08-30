@@ -144,6 +144,11 @@ module ScheduleHelpers
       attributes[:duration] = duration
     end
 
+    def set_ignore_non_working_days(name, ignore_non_working_days)
+      attributes = work_package_attributes(name.to_sym)
+      attributes[:ignore_non_working_days] = ignore_non_working_days
+    end
+
     def add_follows_relation(predecessor:, follower:, delay:)
       predecessors_by_follower(follower) << predecessor
       delays_between[[predecessor, follower]] = delay

@@ -156,6 +156,26 @@ describe ScheduleHelpers::ChartBuilder do
         expect(chart.work_package_attributes(:main)).to include(duration: 3)
       end
     end
+
+    describe 'working days work week' do
+      it 'sets ignore_non_working_days to false for the work package' do
+        chart = builder.parse(<<~CHART)
+          days        | MTWTFSS |
+          main        |         | working days work week
+        CHART
+        expect(chart.work_package_attributes(:main)).to include(ignore_non_working_days: false)
+      end
+    end
+
+    describe 'working days include weekends' do
+      it 'sets ignore_non_working_days to true for the work package' do
+        chart = builder.parse(<<~CHART)
+          days        | MTWTFSS |
+          main        |         | working days include weekends
+        CHART
+        expect(chart.work_package_attributes(:main)).to include(ignore_non_working_days: true)
+      end
+    end
   end
 
   describe 'error handling' do
