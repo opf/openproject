@@ -103,7 +103,7 @@ describe 'date inplace editor',
              due_date: Date.parse('2016-01-25')
     end
 
-    it 'selecting a date before the current start date will change the start date' do
+    it 'selecting a date before the current start date will move the finish date' do
       start_date.activate!
       start_date.expect_active!
 
@@ -113,7 +113,7 @@ describe 'date inplace editor',
 
       start_date.save!
       start_date.expect_inactive!
-      start_date.expect_state_text '2016-01-01 - 2016-01-25'
+      start_date.expect_state_text '2016-01-01 - 2016-01-24'
     end
 
     it 'selecting a date in between changes the date that is currently in focus' do
@@ -190,12 +190,18 @@ describe 'date inplace editor',
     sleep 2
     start_date.datepicker.expect_visible
 
-    # Set the due date
-    start_date.datepicker.set_date Time.zone.today
+    # Expect due date to be focused as it is empty
+    start_date.expect_due_highlighted
+    start_date.set_active_date Time.zone.today
+
+    # Wait for duration to be derived
+    start_date.expect_duration /\d+ days/
 
     # As the to be selected date is automatically toggled,
     # we can directly set the start date afterwards to the same day
-    start_date.datepicker.set_date Time.zone.today
+    start_date.expect_start_highlighted
+    start_date.set_active_date Time.zone.today
+    start_date.expect_duration 1
 
     start_date.save!
     start_date.expect_inactive!

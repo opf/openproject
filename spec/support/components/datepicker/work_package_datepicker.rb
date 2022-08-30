@@ -40,12 +40,14 @@ module Components
 
     ##
     # Expect duration
-    def expect_duration(count)
+    def expect_duration(value)
       value =
-        if count.nil? || count == ''
+        if value.is_a?(Regexp)
+          value
+        elsif value.nil? || value == ''
           ''
         else
-          I18n.t('js.units.day', count:)
+          I18n.t('js.units.day', count: value)
         end
 
       expect(container).to have_field('duration', with: value, wait: 10)

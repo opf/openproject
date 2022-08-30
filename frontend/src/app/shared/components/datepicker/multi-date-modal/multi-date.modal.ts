@@ -660,7 +660,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       case 'duration':
         return 'duration';
       default:
-        return 'start';
+        return (this.dates.start && !this.dates.end) ? 'end' : 'start';
     }
   }
 

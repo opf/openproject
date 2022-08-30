@@ -25,6 +25,8 @@ class DateEditField < EditField
            :expect_start_highlighted,
            :expect_due_highlighted,
            :expect_duration_highlighted,
+           :expect_start_date,
+           :expect_due_date,
            :expect_duration,
            :set_duration,
            :ignore_non_working_days, to: :datepicker
