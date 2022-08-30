@@ -120,17 +120,7 @@ class DateEditField < EditField
     # an attribute, which may cause an input not to open properly.
     retry_block do
       activate_edition
-      if value.is_a?(Array)
-        datepicker.clear!
-        datepicker.set_start_date value.first
-        datepicker.set_due_date value.last
-
-        sleep 1
-        datepicker.expect_start_date value.first
-        datepicker.expect_due_date value.first
-      else
-        set_active_date value
-      end
+      set_value value
 
       save! if save
       expect_state! open: (expect_failure || !save)
@@ -140,6 +130,20 @@ class DateEditField < EditField
   def click_today(which: :start)
     within_modal do
       find("[data-qa-selector='datepicker-#{which}-date'] .form--field-extra-actions a", text: 'Today').click
+    end
+  end
+
+  def set_value(value)
+    if value.is_a?(Array)
+      datepicker.clear!
+      datepicker.set_start_date value.first
+      datepicker.set_due_date value.last
+
+      sleep 1
+      datepicker.expect_start_date value.first
+      datepicker.expect_due_date value.last
+    else
+      set_active_date value
     end
   end
 
