@@ -207,7 +207,7 @@ export class TimelineCellRenderer {
     this.workPackageTimeline.forceCursor(this.mouseDownCursorType);
 
     if (dateForCreate) {
-      const [dateUnderCursor, ] = this.cursorDateAndDayOffset(ev, renderInfo);
+      const dateUnderCursor = this.cursorDateAndDayOffset(ev, renderInfo)[0];
       const duration = this.displayDurationForDate(renderInfo, dateUnderCursor) - 1;
 
       projection.startDate = dateForCreate;

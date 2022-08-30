@@ -230,7 +230,7 @@ export function registerWorkPackageMouseHandler(this:void,
     mouseDownStartDay = null;
 
     // Cancel changes if the startDate or dueDate are not allowed
-    const { startDate, dueDate } = renderInfo.change.projectedResource
+    const { startDate, dueDate } = renderInfo.change.projectedResource;
     const invalidDates = renderer.cursorOrDatesAreNonWorking([moment(startDate), moment(dueDate)], renderInfo);
 
     if (cancelled || renderInfo.change.isEmpty() || invalidDates) {
