@@ -865,7 +865,7 @@ fr:
       inline_create:
         title: 'Cliquez ici pour ajouter un nouveau lot de travaux à cette liste'
       create:
-        title: 'Nouveau Lot de Travaux'
+        title: 'Nouveau lot de travaux'
         header: 'Nouveau lot (%{type})'
         header_no_type: 'Nouveau lot de travaux (type non encore spécifié)'
         header_with_parent: 'Nouveau %{type} (enfant de %{parent_type} #%{id})'

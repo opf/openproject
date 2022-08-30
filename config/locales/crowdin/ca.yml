@@ -764,7 +764,7 @@ ca:
               does_not_exist: "La categoria especificada no existeix."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "ha de ser > = 0."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: 'El paquet de treball està en un estat de només lectura, per això els seus atributs no poden ser modificats.'
         type:
           attributes:
             attribute_groups:
@@ -776,7 +776,7 @@ ca:
         user:
           attributes:
             base:
-              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              user_limit_reached: "Límit d'usuaris assolit. No es poden crear més comptes amb el pla actual."
             password_confirmation:
               confirmation: "La confirmació de la contrasenya no coincideix."
               format: "%{message}"
@@ -920,15 +920,15 @@ ca:
       heading_reset: "Reinicia el token de còpia de seguretat"
       heading_create: "Crea un token de còpia de seguretat"
       implications: >
-        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+        Activar les còpies de seguretat permetrà a qualsevol usuari amb els permisos adients i aquest token de còpia de seguretat descarregar-lo i obtenir totes les dades d'aquesta instal·lació d'OpenProject. Això, inclou les dades de tots els altres usuaris.
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        Hauràs de generar un token de còpia de seguretat per tal de crear la còpia de seguretat. Cada vegada que demanis una còpia de seguretat hauràs de validar aquest token. Pots eliminar el token de còpia de seguretat per desactivar les còpies de seguretat per aquest usuari.
       verification: >
-        Enter %{word} to confirm you want to %{action} the backup token.
+        Escriu %{word} per confirmar que vols %{action} del token de la còpia de seguretat.
       verification_word_reset: reinicia
       verification_word_create: crear
       warning: >
-        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+        Com a mesura de seguretat, només et serà possible demanar una còpia de seguretat després de 24 hores de generar un nou token. Després d'aquest període pots demanar una còpia de seguretat amb aquest token quan tu vulguis.
     text_token_deleted: Token de còpia de seguretat eliminat. Les còpies de seguretat estan ara desactivades.
     error:
       invalid_token: Token de còpia de seguretat invàlid o absent
@@ -1005,9 +1005,9 @@ ca:
     checkbox_label: Ho entenc i consenteixo els termes explicats a sobre.
     failure_message: Error de concentiment, no es pot procedir.
     title: Consentiment d'usuari
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
+    decline_warning_message: Has declinat el consentiment i per tant s'ha tancat la sessió.
+    user_has_consented: L'usuari ha consentit la teva declaració configurada amb el temps requerit.
+    not_yet_consented: L'usuari encara no ha donat el seu consentiment, se li tornarà a demanar en el pròxim inici de sessió.
     contact_mail_instructions: Define the mail address that users can reach a data controller to perform data change or removal requests.
     contact_your_administrator: Please contact your administrator if you want to have your account deleted.
     contact_this_mail_address: Please contact %{mail_address} if you want to have your account deleted.
