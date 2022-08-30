@@ -44,6 +44,7 @@ describe 'Work packages datepicker workdays',
   let(:combined_date) { work_packages_page.edit_field(:combinedDate) }
 
   before do
+    week_days
     login_as(user)
 
     work_packages_page.visit!
@@ -54,7 +55,7 @@ describe 'Work packages datepicker workdays',
   end
 
   context 'with default work days' do
-    let!(:week_days) { create :week_days }
+    let(:week_days) { create :week_days }
 
     it 'shows them as disabled' do
       expect(page).to have_selector('.dayContainer', count: 2)
@@ -75,7 +76,7 @@ describe 'Work packages datepicker workdays',
   end
 
   context 'with all days marked as weekend' do
-    let!(:week_days) do
+    let(:week_days) do
       days = create(:week_days)
 
       WeekDay.update_all(working: false)

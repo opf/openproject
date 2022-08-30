@@ -16,6 +16,16 @@ module Components
       container.find(".flatpickr-calendar")
     end
 
+    ##
+    # Clear all values
+    def clear!
+      focus_start_date
+      fill_in 'startDate', with: '', fill_options: { clear: :backspace }
+
+      focus_due_date
+      fill_in 'endDate', with: '', fill_options: { clear: :backspace }
+    end
+
     def expect_visible
       expect(container).to have_selector('.flatpickr-calendar .flatpickr-current-month', wait: 10)
     end

@@ -53,7 +53,6 @@ module Components
       expect(container).to have_field('duration', with: value, wait: 10)
     end
 
-
     def start_date_field
       container.find_field 'startDate'
     end
@@ -80,16 +79,6 @@ module Components
     # Expect due date
     def expect_due_date(value)
       expect(container).to have_field('endDate', with: value, wait: 20)
-    end
-
-    ##
-    # Clear all values
-    def clear!
-      focus_start_date
-      fill_in 'startDate', with: '', fill_options: { clear: :backspace }
-
-      focus_due_date
-      fill_in 'endDate', with: '', fill_options: { clear: :backspace }
     end
 
     def set_start_date(value)
