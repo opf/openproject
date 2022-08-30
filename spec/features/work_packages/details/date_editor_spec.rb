@@ -211,12 +211,11 @@ describe 'date inplace editor',
   it 'saves the date when clearing and then confirming' do
     start_date.activate!
 
-    sleep 1
-
     start_date.input_element.click
     start_date.clear with_backspace: true
     start_date.input_element.send_keys :backspace
 
+    sleep 1
     start_date.save!
 
     work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
