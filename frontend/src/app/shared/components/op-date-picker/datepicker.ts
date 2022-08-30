@@ -54,6 +54,9 @@ export class DatePicker {
 
   @InjectField() I18n:I18nService;
 
+  private weekdaysPromise:Promise<unknown>;
+
+
   constructor(
     readonly injector:Injector,
     private datepickerElemIdentifier:string,
@@ -65,10 +68,11 @@ export class DatePicker {
   }
 
   private initialize(options:flatpickr.Options.Options) {
-    this
+    this.weekdaysPromise = this
       .weekdaysService
       .loadWeekdays()
-      .subscribe(() => {
+      .toPromise()
+      .then(() => {
         if (this.datepickerInstance) {
           this.datepickerInstance.redraw();
         }
@@ -170,7 +174,8 @@ export class DatePicker {
       getWeek(dateObj:Date) {
         return moment(dateObj).format('W');
       },
-      onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
+      onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
+        await this.weekdaysPromise;
         if (this.weekdaysService.isNonWorkingDay(dayElem.dateObj)) {
           dayElem.classList.add('flatpickr-non-working-day');
         }
