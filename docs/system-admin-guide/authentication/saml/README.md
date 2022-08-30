@@ -105,12 +105,12 @@ saml:
       last_name: ['sn']
       
   # OPTIONAL: Additional SAML provider(s)
-  mysaml2:
-    name: "saml2"
-    display_name: "Additional SSO"
-    (...)
-  mysaml3:
-    (...)
+  #mysaml2:
+  #  name: "saml2"
+  #  display_name: "Additional SSO"
+  #  (...)
+  #mysaml3:
+  #  (...)
 ```
 
 Be sure to choose the correct indentation and base key. The items below the `saml` key should be indented two spaces more than `saml` already is. And `saml` can will need to be placed in the `default` or `production` group so it will already be indented. You will get an YAML parsing error otherwise when trying to start OpenProject.
