@@ -296,9 +296,7 @@ describe 'date inplace editor',
       expect(page).to have_no_selector('[data-qa-selector="op-modal-banner-info"]')
 
       # When toggling manually scheduled
-      start_date.expect_scheduling_mode manually: false
-      start_date.toggle_scheduling_mode
-      start_date.expect_scheduling_mode manually: true
+      start_date.set_scheduling_mode manually: true
 
       expect(page).to have_no_selector('[data-qa-selector="op-modal-banner-warning"]')
       expect(page).to have_no_selector('[data-qa-selector="op-modal-banner-info"]')
@@ -323,9 +321,7 @@ describe 'date inplace editor',
                                       wait: 5)
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: true
-        start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: false
+        start_date.set_scheduling_mode manually: false
 
         # Expect new banner info
         expect(page)
@@ -353,9 +349,7 @@ describe 'date inplace editor',
                             wait: 5)
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: false
-        start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: true
+        start_date.set_scheduling_mode manually: true
 
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                                       text: 'Manual scheduling enabled, all relations ignored.')
@@ -384,9 +378,7 @@ describe 'date inplace editor',
                                       text: 'Manual scheduling enabled, all relations ignored.')
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: true
-        start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: false
+        start_date.set_scheduling_mode manually: false
 
         # Expect banner to switch
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
@@ -409,9 +401,7 @@ describe 'date inplace editor',
                                       text: 'Automatically scheduled. Dates are derived from relations.')
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: false
-        start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: true
+        start_date.set_scheduling_mode manually: true
 
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                                       text: 'Manual scheduling enabled, all relations ignored.')
@@ -449,9 +439,7 @@ describe 'date inplace editor',
                                       text: 'Manual scheduling enabled, all relations ignored.')
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: true
-        start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: false
+        start_date.set_scheduling_mode manually: false
 
         # Expect new banner info
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
@@ -474,9 +462,7 @@ describe 'date inplace editor',
                                       text: 'Available start and finish dates are limited by relations.')
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: false
-        start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: true
+        start_date.set_scheduling_mode manually: true
 
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                                       text: 'Manual scheduling enabled, all relations ignored.')
@@ -508,9 +494,7 @@ describe 'date inplace editor',
                                       text: 'Manual scheduling enabled, all relations ignored.')
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: true
-        start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: false
+        start_date.set_scheduling_mode manually: false
 
         expect(page)
           .to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
@@ -534,9 +518,7 @@ describe 'date inplace editor',
                             text: 'Changing these dates will affect dates of related work packages.')
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: false
-        start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: true
+        start_date.set_scheduling_mode manually: true
 
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                                       text: 'Manual scheduling enabled, all relations ignored.')

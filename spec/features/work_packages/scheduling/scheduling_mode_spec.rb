@@ -34,6 +34,7 @@ require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
 describe 'scheduling mode',
+         with_flag: { work_packages_duration_field_active: true },
          js: true do
   let(:project) { create :project_with_types, public: true }
   # Constructing a work package graph that looks like this:
@@ -124,9 +125,10 @@ describe 'scheduling mode',
     # work package is manually scheduled
     combined_field.activate!(expect_open: false)
     combined_field.expect_active!
-    combined_field.expect_scheduling_mode manually: false
-    combined_field.toggle_scheduling_mode
-    combined_field.update(%w[2016-01-05 2016-01-10])
+    combined_field.set_scheduling_mode manually: true
+    combined_field.update(%w[2016-01-05 2016-01-10], save: false)
+    combined_field.expect_duration 6
+    combined_field.save!
 
     work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
 
@@ -156,8 +158,7 @@ describe 'scheduling mode',
     # and all work packages that are dependent to be rescheduled again.
     combined_field.activate!(expect_open: false)
     combined_field.expect_active!
-    combined_field.expect_scheduling_mode manually: true
-    combined_field.toggle_scheduling_mode
+    combined_field.set_scheduling_mode manually: false
     combined_field.save!
 
     work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
@@ -186,15 +187,16 @@ describe 'scheduling mode',
     # and all work packages that are dependent to be rescheduled again.
     combined_field.activate!(expect_open: false)
     combined_field.expect_active!
-    combined_field.expect_scheduling_mode manually: false
-    combined_field.toggle_scheduling_mode
+    combined_field.set_scheduling_mode manually: true
 
     # The calendar needs some time to get initialised.
     sleep 2
     combined_field.expect_calendar
 
     # Increasing the duration while at it
-    combined_field.update(%w[2015-12-20 2015-12-31])
+    combined_field.update(%w[2015-12-20 2015-12-31], save: false)
+    combined_field.expect_duration 12
+    combined_field.save!
 
     work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
 
@@ -221,8 +223,7 @@ describe 'scheduling mode',
     # and all work packages that are dependent to be rescheduled again.
     combined_field.activate!(expect_open: false)
     combined_field.expect_active!
-    combined_field.expect_scheduling_mode manually: true
-    combined_field.toggle_scheduling_mode
+    combined_field.set_scheduling_mode manually: false
     combined_field.save!
 
     work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'

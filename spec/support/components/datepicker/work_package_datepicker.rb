@@ -2,6 +2,14 @@ require_relative 'datepicker'
 
 module Components
   class WorkPackageDatepicker < Datepicker
+    def clear!
+      super
+
+      clear_duration
+      expect_duration ''
+      expect_start_highlighted
+    end
+
     ##
     # Select month from datepicker
     def select_month(month)
@@ -31,18 +39,6 @@ module Components
     end
 
     ##
-    # Expect start date
-    def expect_start_date(value)
-      expect(container).to have_field('startDate', with: value, wait: 20)
-    end
-
-    ##
-    # Expect due date
-    def expect_due_date(value)
-      expect(container).to have_field('endDate', with: value, wait: 20)
-    end
-
-    ##
     # Expect duration
     def expect_duration(count)
       value =
@@ -55,16 +51,13 @@ module Components
       expect(container).to have_field('duration', with: value, wait: 10)
     end
 
+
     def start_date_field
       container.find_field 'startDate'
     end
 
     def due_date_field
       container.find_field 'endDate'
-    end
-
-    def duration_field
-      container.find_field 'duration'
     end
 
     def focus_start_date
@@ -75,16 +68,26 @@ module Components
       due_date_field.click
     end
 
-    def focus_duration
-      due_date_field.click
+    ##
+    # Expect start date
+    def expect_start_date(value)
+      expect(container).to have_field('startDate', with: value, wait: 20)
     end
 
-    def set_duration(value)
-      focus_duration
-      fill_in 'duration', with: value, fill_options: { clear: :backspace }
+    ##
+    # Expect due date
+    def expect_due_date(value)
+      expect(container).to have_field('endDate', with: value, wait: 20)
+    end
 
-      # Focus a different field
-      start_date_field.click
+    ##
+    # Clear all values
+    def clear!
+      focus_start_date
+      fill_in 'startDate', with: '', fill_options: { clear: :backspace }
+
+      focus_due_date
+      fill_in 'endDate', with: '', fill_options: { clear: :backspace }
     end
 
     def set_start_date(value)
@@ -111,8 +114,37 @@ module Components
       expect(container).to have_selector('[data-qa-selector="op-datepicker-modal--end-date-field"][data-qa-highlighted]')
     end
 
+    def duration_field
+      container.find_field 'duration'
+    end
+
+    def focus_duration
+      due_date_field.click
+    end
+
+    def set_duration(value)
+      focus_duration
+      fill_in 'duration', with: value, fill_options: { clear: :backspace }
+
+      # Focus a different field
+      start_date_field.click
+    end
+
     def expect_duration_highlighted
       expect(container).to have_selector('[data-qa-selector="op-datepicker-modal--duration-field"][data-qa-highlighted]')
+    end
+
+    def expect_scheduling_mode(val)
+      container
+        .find('[data-qa-selector="spot-toggle--option"][data-qa-active-toggle]', text: val.to_s.camelize)
+    end
+
+    def set_scheduling_mode(val)
+      container
+        .find('[data-qa-selector="spot-toggle--option"]', text: val.to_s.camelize)
+        .click
+
+      expect_scheduling_mode(val)
     end
 
     def expect_ignore_non_working_days(val)

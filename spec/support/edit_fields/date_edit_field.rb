@@ -18,6 +18,8 @@ class DateEditField < EditField
     @datepicker ||= ::Components::WorkPackageDatepicker.new modal_selector
   end
 
+  delegate :expect_duration, :set_duration, to: :datepicker
+
   def modal_selector
     '[data-qa-selector="op-datepicker-modal"]'
   end
@@ -39,15 +41,19 @@ class DateEditField < EditField
   end
 
   def expect_scheduling_mode(manually:)
-    within_modal do
-      expect(page).to have_field('scheduling', checked: manually)
-    end
+    val = manually ? :manual : :default
+    datepicker.expect_scheduling_mode(val)
   end
 
-  def toggle_scheduling_mode
-    within_modal do
-      find('[data-qa-selector="op-datepicker-modal--scheduling-action"]').click
-    end
+  def set_scheduling_mode(manually:)
+    val = manually ? :manual : :default
+
+    # Expect currently set before toggling
+    expect_scheduling_mode(manually:)
+    # Change mode
+    datepicker.set_scheduling_mode(val)
+    # Expect toggled
+    expect_scheduling_mode(manually: !manually)
   end
 
   def activate_start_date_within_modal
@@ -106,18 +112,16 @@ class DateEditField < EditField
     # an attribute, which may cause an input not to open properly.
     retry_block do
       activate_edition
-      within_modal do
-        if value.is_a?(Array)
-          value.each do |el|
-            select_value(el)
-          end
-        else
-          select_value value
-        end
+      if value.is_a?(Array)
+        datepicker.clear!
+        datepicker.set_start_date value.first
+        datepicker.set_due_date value.last
+      else
+        select_value value
       end
 
       save! if save
-      expect_state! open: expect_failure
+      expect_state! open: (expect_failure || !save)
     end
   end
 
@@ -132,7 +136,7 @@ class DateEditField < EditField
   end
 
   def select_value(value)
-    datepicker.set_date value, true
+    datepicker.set_date value
   end
 
   def save!

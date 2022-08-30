@@ -243,6 +243,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
           ...fieldsToUpdate,
           lockVersion: this.changeset.value<string>('lockVersion'),
           ignoreNonWorkingDays: this.includeNonWorkingDays,
+          scheduleManually: this.scheduleManually,
         })),
     )
     .subscribe((form) => this.updateDatesFromForm(form));

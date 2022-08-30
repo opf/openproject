@@ -61,8 +61,7 @@ describe 'Manual scheduling', js: true do
         expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Save')
       end
 
-      start_date.toggle_scheduling_mode
-      start_date.expect_scheduling_mode manually: true
+      start_date.set_scheduling_mode manually: true
 
       # Expect editable
       start_date.within_modal do
@@ -96,8 +95,7 @@ describe 'Manual scheduling', js: true do
         expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Save')
       end
 
-      start_date.toggle_scheduling_mode
-      start_date.expect_scheduling_mode manually: true
+      start_date.set_scheduling_mode manually: true
       start_date.expect_calendar
 
       # Expect not editable
