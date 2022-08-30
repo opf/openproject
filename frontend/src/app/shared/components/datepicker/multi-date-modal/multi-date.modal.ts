@@ -203,6 +203,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         this.handleDatePickerChange(field, castArray(update));
       }
 
+      this.onDataChange();
       this.cdRef.detectChanges();
     });
 
@@ -237,7 +238,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       switchMap((fieldsToUpdate:FieldUpdates) => this
         .apiV3Service
         .work_packages
-        .id(this.changeset.id)
+        .withOptionalId(this.changeset.id === 'new' ? null : this.changeset.id)
         .form
         .forPayload({
           ...fieldsToUpdate,
@@ -498,6 +499,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
     const dates = [startDate, endDate];
     setDates(dates, this.datePickerInstance, enforceDate);
+    this.onDataChange();
   }
 
   private handleDatePickerChange(activeField:DateFields, dates:Date[]) {

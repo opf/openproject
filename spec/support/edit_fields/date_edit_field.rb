@@ -18,7 +18,15 @@ class DateEditField < EditField
     @datepicker ||= ::Components::WorkPackageDatepicker.new modal_selector
   end
 
-  delegate :expect_duration, :set_duration, to: :datepicker
+  delegate :set_start_date,
+           :set_due_date,
+           :focus_start_date,
+           :focus_due_date,
+           :expect_start_highlighted,
+           :expect_due_highlighted,
+           :expect_duration,
+           :set_duration,
+           :ignore_non_working_days, to: :datepicker
 
   def modal_selector
     '[data-qa-selector="op-datepicker-modal"]'
@@ -117,7 +125,7 @@ class DateEditField < EditField
         datepicker.set_start_date value.first
         datepicker.set_due_date value.last
       else
-        select_value value
+        set_active_date value
       end
 
       save! if save
@@ -135,7 +143,7 @@ class DateEditField < EditField
     expect(input_element.value).to eq(value)
   end
 
-  def select_value(value)
+  def set_active_date(value)
     datepicker.set_date value
   end
 
