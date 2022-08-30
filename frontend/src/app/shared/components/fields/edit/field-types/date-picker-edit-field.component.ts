@@ -34,9 +34,11 @@ import {
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { take } from 'rxjs/operators';
-import { DatePickerModalComponent } from 'core-app/shared/components/datepicker/datepicker.modal';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
+import { SingleDateModalComponent } from 'core-app/shared/components/datepicker/single-date-modal/single-date.modal';
+import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/multi-date-modal/multi-date.modal';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 
 @Directive()
 export abstract class DatePickerEditFieldComponent extends EditFieldComponent implements OnInit, OnDestroy {
@@ -44,7 +46,7 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
 
   @InjectField() opModalService:OpModalService;
 
-  protected modal:DatePickerModalComponent;
+  protected modal:SingleDateModalComponent|MultiDateModalComponent;
 
   ngOnInit():void {
     super.ngOnInit();
@@ -65,9 +67,10 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
   }
 
   public showDatePickerModal():void {
+    const component = this.change.schema.isMilestone ? SingleDateModalComponent : MultiDateModalComponent;
     this.modal = this
       .opModalService
-      .show(DatePickerModalComponent, this.injector, { changeset: this.change, fieldName: this.name }, true);
+      .show<SingleDateModalComponent|MultiDateModalComponent>(component, this.injector, { changeset: this.change, fieldName: this.name }, true);
 
     const { modal } = this;
 
@@ -77,7 +80,7 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
       modal.reposition(modalElement, field);
     });
 
-    modal
+    (modal as OpModalComponent)
       .closingEvent
       .pipe(take(1))
       .subscribe(() => {

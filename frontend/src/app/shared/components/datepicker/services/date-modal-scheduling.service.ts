@@ -27,54 +27,34 @@
 //++
 
 import {
+  Inject,
   Injectable,
-  Injector,
 } from '@angular/core';
-import * as moment from 'moment';
-import {
-  take,
-  tap,
-} from 'rxjs/operators';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { WeekdayResourceService } from 'core-app/core/state/days/weekday.service';
-import { IWeekday } from 'core-app/core/state/days/weekday.model';
-import {
-  Observable,
-  of,
-} from 'rxjs';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
+import { DayElement } from 'flatpickr/dist/types/instance';
 
-@Injectable({ providedIn: 'root' })
-export class WeekdayService {
-  @InjectField() weekdaysService:WeekdayResourceService;
+@Injectable()
+export class DateModalSchedulingService {
+  private changeset:WorkPackageChangeset = this.locals.changeset as WorkPackageChangeset;
 
-  private weekdays:IWeekday[];
+  scheduleManually = !!this.changeset.value('scheduleManually');
 
   constructor(
-    readonly injector:Injector,
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly dateModalRelations:DateModalRelationsService,
   ) {}
 
   /**
-   * @param date The iso day number (1-7) or a date instance
-   * @return {boolean} whether the given iso day is working or not
+   * Returns whether the user can alter the dates of the work package.
    */
-  public isNonWorkingDay(date:Date|number):boolean {
-    const isoDayOfWeek = (typeof date === 'number') ? date : moment(date).isoWeekday();
-    return !!this.weekdays.find((wd) => wd.day === isoDayOfWeek && !wd.working);
+  get isSchedulable():boolean {
+    return this.scheduleManually || !this.dateModalRelations.isParent;
   }
 
-  loadWeekdays():Observable<IWeekday[]> {
-    if (this.weekdays) {
-      return of(this.weekdays);
-    }
-
-    return this
-      .weekdaysService
-      .require()
-      .pipe(
-        take(1),
-        tap((weekdays) => {
-          this.weekdays = weekdays;
-        }),
-      );
+  isDayDisabled(dayElement:DayElement, minimalDate?:Date|null):boolean {
+    return !this.isSchedulable || (!this.scheduleManually && !!minimalDate && dayElement.dateObj <= minimalDate);
   }
 }

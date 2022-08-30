@@ -30,9 +30,6 @@ import {
   Inject,
   Injectable,
 } from '@angular/core';
-import { DateKeys } from 'core-app/shared/components/datepicker/datepicker.modal';
-import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
-import { DateOption } from 'flatpickr/dist/types/options';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -44,6 +41,7 @@ import {
   map,
   shareReplay,
   switchMap,
+  take,
 } from 'rxjs/operators';
 import {
   combineLatest,
@@ -53,11 +51,10 @@ import {
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { parseDate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 
 @Injectable()
-export class DatepickerModalService {
-  currentlyActivatedDateField:DateKeys;
-
+export class DateModalRelationsService {
   private changeset:WorkPackageChangeset = this.locals.changeset as WorkPackageChangeset;
 
   precedingWorkPackages$:Observable<{ id:string, dueDate?:string, date?:string }[]> = of(this.changeset)
@@ -107,6 +104,39 @@ export class DatepickerModalService {
     private apiV3Service:ApiV3Service,
   ) {}
 
+  getMinimalDateFromPreceeding():Observable<Date|null> {
+    return this
+      .precedingWorkPackages$
+      .pipe(
+        take(1),
+        map((relation) => this.minimalDateFromPrecedingRelationship(relation)),
+      );
+  }
+
+  private minimalDateFromPrecedingRelationship(relations:{ id:string, dueDate?:string, date?:string }[]):Date|null {
+    if (relations.length === 0) {
+      return null;
+    }
+
+    let minimalDate:Date|null = null;
+
+    relations.forEach((relation) => {
+      if (!relation.dueDate && !relation.date) {
+        return;
+      }
+
+      const relationDate = relation.dueDate || relation.date;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const parsedRelationDate = parseDate(relationDate!);
+
+      if (!minimalDate || minimalDate < parsedRelationDate) {
+        minimalDate = parsedRelationDate === '' ? null : parsedRelationDate;
+      }
+    });
+
+    return minimalDate;
+  }
+
   /**
    * Determines whether the work package is a child. It does so
    * by checking the ancestors links.
@@ -149,86 +179,5 @@ export class DatepickerModalService {
           ].map((el) => el.id as string),
         ),
       );
-  }
-
-  /**
-   * Map the date to the internal format,
-   * setting to null if it's empty.
-   * @param date
-   */
-  // eslint-disable-next-line class-methods-use-this
-  mappedDate(date:string):string|null {
-    return date === '' ? null : date;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  parseDate(date:Date|string):Date|'' {
-    if (date instanceof Date) {
-      return new Date(date.setHours(0, 0, 0, 0));
-    }
-    if (date === '') {
-      return '';
-    }
-    return new Date(moment(date).toDate().setHours(0, 0, 0, 0));
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  validDate(date:Date|string):boolean {
-    return (date instanceof Date)
-      || (date === '')
-      || !!new Date(date).valueOf();
-  }
-
-  areDatesEqual(firstDate:Date|string, secondDate:Date|string):boolean {
-    const parsedDate1 = this.parseDate(firstDate);
-    const parsedDate2 = this.parseDate(secondDate);
-
-    if ((typeof (parsedDate1) === 'string') || (typeof (parsedDate2) === 'string')) {
-      return false;
-    }
-    return parsedDate1.getTime() === parsedDate2.getTime();
-  }
-
-  setCurrentActivatedField(val:DateKeys):void {
-    this.currentlyActivatedDateField = val;
-  }
-
-  toggleCurrentActivatedField():void {
-    this.currentlyActivatedDateField = this.currentlyActivatedDateField === 'start' ? 'end' : 'start';
-  }
-
-  isStateOfCurrentActivatedField(val:DateKeys):boolean {
-    return this.currentlyActivatedDateField === val;
-  }
-
-  setDates(dates:DateOption|DateOption[], datePicker:DatePicker, enforceDate?:Date):void {
-    const { currentMonth } = datePicker.datepickerInstance;
-    const { currentYear } = datePicker.datepickerInstance;
-    datePicker.setDates(dates);
-
-    if (enforceDate) {
-      const enforcedMonth = enforceDate.getMonth();
-      const enforcedYear = enforceDate.getFullYear();
-      const monthDiff = enforcedMonth - currentMonth + 12 * (enforcedYear - currentYear);
-
-      // Because of the two-month layout we only have to update the calendar
-      // if the month is further in the past/future than the one additional month that is shown anyway
-      if (Math.abs(monthDiff) > 1) {
-        datePicker.datepickerInstance.currentMonth = enforcedMonth;
-        datePicker.datepickerInstance.currentYear = enforcedYear;
-      } else {
-        this.keepCurrentlyActiveMonth(datePicker, currentMonth, currentYear);
-      }
-    } else {
-      this.keepCurrentlyActiveMonth(datePicker, currentMonth, currentYear);
-    }
-
-    datePicker.datepickerInstance.redraw();
-  }
-
-  private keepCurrentlyActiveMonth(datePicker:DatePicker, currentMonth:number, currentYear:number) {
-    // Keep currently active month and avoid jump because of two-month layout
-    datePicker.datepickerInstance.currentMonth = currentMonth;
-    datePicker.datepickerInstance.currentYear = currentYear;
   }
 }

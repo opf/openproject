@@ -44,6 +44,7 @@ RSpec.describe 'Work package timeline date formatting',
            subject: 'My subject'
   end
 
+  let(:week_days) { nil }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
   let!(:query_tl) do
     query = build(:query, user: current_user, project:)
@@ -66,6 +67,7 @@ RSpec.describe 'Work package timeline date formatting',
   end
 
   before do
+    week_days
     login_as current_user
 
     wp_timeline.visit_query query_tl
@@ -102,7 +104,7 @@ RSpec.describe 'Work package timeline date formatting',
 
     context 'with weekdays defined' do
       let(:current_user) { create :admin, language: 'en' }
-      let!(:week_days) { create :week_days }
+      let(:week_days) { create :week_days }
 
       it 'shows them as disabled' do
         expect_date_week work_package.start_date.iso8601, '01'

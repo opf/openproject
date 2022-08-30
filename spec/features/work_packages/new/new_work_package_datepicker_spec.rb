@@ -35,12 +35,13 @@ require 'features/work_packages/work_packages_page'
 
 describe 'New work package datepicker',
          with_settings: { date_format: '%Y-%m-%d' },
+         with_flag: { work_packages_duration_field_active: true },
          js: true, selenium: true do
   let(:project) { create :project_with_types, public: true }
   let(:user) { create :admin }
 
   let(:wp_page_create) { Pages::FullWorkPackageCreate.new(project:) }
-  let(:start_date) { wp_page_create.edit_field(:combinedDate) }
+  let(:date_field) { wp_page_create.edit_field(:combinedDate) }
 
   before do
     login_as(user)
@@ -49,18 +50,21 @@ describe 'New work package datepicker',
   end
 
   it 'can open and select the datepicker' do
-    start_date.input_element.click
+    date_field.input_element.click
+    date_field.ignore_non_working_days true
 
     start = (Time.zone.today - 1.day).iso8601
-    start_date.activate_start_date_within_modal
-    start_date.datepicker.set_date start, true
+    date_field.focus_start_date
+    date_field.set_active_date start
 
     due = (Time.zone.today + 1.day).iso8601
-    start_date.activate_due_date_within_modal
-    start_date.datepicker.set_date due, true
+    date_field.focus_due_date
+    date_field.set_active_date due
 
-    start_date.save!
-    start_date.expect_inactive!
-    start_date.expect_value "#{start} - #{due}"
+    date_field.expect_duration 3
+
+    date_field.save!
+    date_field.expect_inactive!
+    date_field.expect_value "#{start} - #{due}"
   end
 end

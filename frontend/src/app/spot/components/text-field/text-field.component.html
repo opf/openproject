@@ -4,14 +4,15 @@
   [attr.name]="name"
   [disabled]="disabled"
   [placeholder]="placeholder"
-  [(ngModel)]="value"
+  [ngModel]="value"
+  (ngModelChange)="valueChanged($event)"
   (focus)="onInputFocus($event)"
   (blur)="onInputBlur($event)"
   #input
 />
 <button
   *ngIf="showClearButton && value !== '' && !disabled"
-  (click)="value = ''"
+  (click)="valueChanged('')"
   type="button"
   class="spot-text-field--clear-button"
 >
