@@ -25,6 +25,7 @@ describe 'Duration field in the work package table',
   end
 
   let(:duration) { wp_table.edit_field work_package, :duration }
+  let(:date_field) { wp_table.edit_field work_package, :startDate }
 
   before do
     login_as(current_user)
@@ -33,7 +34,11 @@ describe 'Duration field in the work package table',
     wp_table.expect_work_package_listed work_package
   end
 
-  it 'shows the duration as days' do
+  it 'shows the duration as days and opens the datepicker on click' do
     duration.expect_state_text '4 days'
+    duration.activate!
+
+    date_field.expect_duration_highlighted
+    date_field.expect_duration 4
   end
 end
