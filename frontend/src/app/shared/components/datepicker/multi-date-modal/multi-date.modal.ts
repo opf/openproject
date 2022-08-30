@@ -603,7 +603,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
     if (selectedDate < parsedStartDate) {
       this.applyNewDates([selectedDate]);
-      this.setCurrentActivatedField('end');
     } else if (selectedDate > parsedEndDate) {
       if (activeField === 'end') {
         this.applyNewDates([parsedStartDate, selectedDate]);
