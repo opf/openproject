@@ -7,8 +7,6 @@ import {
   timelineElementCssClass,
 } from '../wp-timeline';
 
-import { MouseDirection } from './wp-timeline-cell-mouse-handler';
-import { CellDateMovement, LabelPosition, TimelineCellRenderer } from './timeline-cell-renderer';
 import {
   classNameFarRightLabel,
   classNameHideOnHover,
@@ -19,8 +17,12 @@ import {
   classNameRightHoverLabel,
   classNameRightLabel,
   classNameShowOnHover,
-  WorkPackageCellLabels,
-} from './wp-timeline-cell';
+  CellDateMovement,
+  LabelPosition,
+  TimelineCellRenderer,
+  MouseDirection,
+} from './timeline-cell-renderer';
+import { WorkPackageCellLabels } from './wp-timeline-cell';
 import Moment = moment.Moment;
 
 export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {

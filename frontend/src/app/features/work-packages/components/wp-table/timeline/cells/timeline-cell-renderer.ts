@@ -11,24 +11,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
-import {
-  classNameBarLabel,
-  classNameLeftHandle,
-  classNameRightHandle,
-  MouseDirection,
-} from './wp-timeline-cell-mouse-handler';
-import {
-  classNameFarRightLabel,
-  classNameHideOnHover,
-  classNameHoverStyle,
-  classNameLeftHoverLabel,
-  classNameLeftLabel,
-  classNameRightContainer,
-  classNameRightHoverLabel,
-  classNameRightLabel,
-  classNameShowOnHover,
-  WorkPackageCellLabels,
-} from './wp-timeline-cell';
+import { WorkPackageCellLabels } from './wp-timeline-cell';
 import {
   calculatePositionValueForDayCount,
   calculatePositionValueForDayCountingPx,
@@ -48,6 +31,20 @@ export interface CellDateMovement {
 }
 
 export type LabelPosition = 'left'|'right'|'farRight';
+export type MouseDirection = 'left'|'right'|'both'|'create'|'dragright';
+
+export const classNameLeftLabel = 'labelLeft';
+export const classNameRightContainer = 'containerRight';
+export const classNameRightLabel = 'labelRight';
+export const classNameLeftHoverLabel = 'labelHoverLeft';
+export const classNameRightHoverLabel = 'labelHoverRight';
+export const classNameHoverStyle = '-label-style';
+export const classNameFarRightLabel = 'labelFarRight';
+export const classNameShowOnHover = 'show-on-hover';
+export const classNameHideOnHover = 'hide-on-hover';
+export const classNameLeftHandle = 'leftHandle';
+export const classNameRightHandle = 'rightHandle';
+export const classNameBarLabel = 'bar-label';
 
 class TimezoneService {
 }

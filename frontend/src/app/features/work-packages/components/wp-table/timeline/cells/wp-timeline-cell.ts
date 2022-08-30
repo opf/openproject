@@ -41,16 +41,6 @@ import { TimelineCellRenderer } from './timeline-cell-renderer';
 import { RenderInfo } from '../wp-timeline';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 
-export const classNameLeftLabel = 'labelLeft';
-export const classNameRightContainer = 'containerRight';
-export const classNameRightLabel = 'labelRight';
-export const classNameLeftHoverLabel = 'labelHoverLeft';
-export const classNameRightHoverLabel = 'labelHoverRight';
-export const classNameHoverStyle = '-label-style';
-export const classNameFarRightLabel = 'labelFarRight';
-export const classNameShowOnHover = 'show-on-hover';
-export const classNameHideOnHover = 'hide-on-hover';
-
 export class WorkPackageCellLabels {
   constructor(public readonly center:HTMLDivElement|null,
     public readonly left:HTMLDivElement,

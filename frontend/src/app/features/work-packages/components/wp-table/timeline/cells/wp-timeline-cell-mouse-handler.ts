@@ -40,17 +40,10 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { take } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageCellLabels } from './wp-timeline-cell';
-import { TimelineCellRenderer } from './timeline-cell-renderer';
+import { MouseDirection, TimelineCellRenderer } from './timeline-cell-renderer';
 import { RenderInfo } from '../wp-timeline';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import Moment = moment.Moment;
-
-export const classNameBar = 'bar';
-export const classNameLeftHandle = 'leftHandle';
-export const classNameRightHandle = 'rightHandle';
-export const classNameBarLabel = 'bar-label';
-
-export type MouseDirection = 'left'|'right'|'both'|'create'|'dragright';
 
 export function registerWorkPackageMouseHandler(this:void,
   injector:Injector,
