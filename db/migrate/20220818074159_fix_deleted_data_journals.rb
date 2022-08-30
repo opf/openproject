@@ -18,23 +18,24 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
     # Best case, no successor
     # restore data from work package itself
     if journal.successor.nil?
-      raise "Previous also has data nil" if (journal.previous && journal.previous.data.nil?)
-      insert_journal_data(journal, journal.previous, write_message: false)
-    elsif predecessor = journal.previous
+      raise "Previous also has data nil" if journal.previous && journal.previous.data.nil?
+
+      insert_journal_data(journal, write_message: false)
+    elsif (predecessor = journal.previous)
       # Case 2, we do have a predecessor
-      take_over_from_predecessor(journal, predecessor)
+      take_over_from_source(journal, predecessor)
     elsif journal.successor
       # Case 3, We are the first, but have a successor
       # Look for data in the successor
-      take_over_from_successor(journal, journal.successor)
+      take_over_from_successor(journal)
     else
       raise "This should not happen for #{journal.inspect}"
     end
   end
 
-  def insert_journal_data(journal, predecessor, write_message: false)
+  def insert_journal_data(journal, write_message: false)
     service = Journals::CreateService.new(journal.journable, User.system)
-    insert_sql = service.instance_eval { insert_data_sql('placeholder', predecessor) }
+    insert_sql = service.instance_eval { insert_data_sql('placeholder', nil) }
 
     result = Journal.connection.uncached do
       ::Journal
@@ -70,29 +71,24 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
     end
   end
 
-  def take_over_from_predecessor(journal, predecessor)
-    raise "Related journal does not have data, this shouldn't be!" if predecessor.data.nil?
+  def take_over_from_successor(journal)
+    # The successors may also have their data deleted.
+    # in this case, look for the first journal with data. If non can be found, instantiate from the journaled object.
+    first_journal_with_data = journal.journable.journals.detect { |j| j.data.present? }
 
-    new_data = predecessor.data.dup
-    new_data.save!
-
-    update_with_new_data!(journal, new_data.id)
+    if first_journal_with_data.nil?
+      insert_journal_data(journal, write_message: true)
+    else
+      take_over_from_source(journal, first_journal_with_data)
+    end
   end
 
-  def take_over_from_successor(journal, successor)
-    # The successor itself may also have its data deleted.
-    # in this case, look for the first journal with data, or insert
-    new_data =
-      if successor.data.nil?
-        first_journal_with_data = journal.journable.journals.detect { |j| j.data.present? }
-        return insert_journal_data(journal, journal.previous, write_message: true) if first_journal_with_data.nil?
+  def take_over_from_source(journal, source)
+    raise "Related journal does not have data, this shouldn't be!" if source.data.nil?
 
-        first_journal_with_data.data.dup
-      else
-        successor.data.dup
-      end
-
+    new_data = source.data.dup
     new_data.save!
+
     update_with_new_data!(journal, new_data.id)
   end
 
@@ -101,6 +97,6 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
     notes << "\n" unless notes.empty?
     notes << "_(This activity had to be modified by the system and may be missing some changes or contain changes from previous or following activities.)_"
 
-    journal.update_columns(notes:, data_id: data_id)
+    journal.update_columns(notes:, data_id:)
   end
 end
