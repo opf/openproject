@@ -25,6 +25,7 @@
     "@storybook/angular": "^6.5.9",
     "@storybook/builder-webpack5": "^6.5.9",
     "@storybook/manager-webpack5": "^6.5.9",
+    "@storybook/mdx2-csf": "^0.0.3",
     "@storybook/preset-scss": "^1.0.3",
     "@storybook/testing-library": "^0.0.13",
     "@types/chart.js": "^2.9.20",

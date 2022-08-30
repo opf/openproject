@@ -30,13 +30,15 @@ export const dummy = (() => window.I18n = new I18nShim())();
 
 The include projects drop modal allows users to include projects other than the current one, so that the current view (be it table view, the team planner, boards view...) also displays work packages of these included projects.
 
-<Story
-  name="Angular component"
-  parameters={{
-    layout: 'centered',
-  }}
->
-  {{
-    component: SbDropModalListComponent,
-  }}
-</Story>
+<Canvas>
+  <Story
+    name="Angular component"
+    parameters={{
+      layout: 'centered',
+    }}
+  >
+    {{
+      component: SbDropModalListComponent,
+    }}
+  </Story>
+</Canvas>

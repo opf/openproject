@@ -1,4 +1,5 @@
 import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { SbActionBarExampleComponent } from './ActionBar.stories.ts';
 
 <Meta
   title="Blocks/Action Bar"
@@ -8,6 +9,7 @@ import { Canvas, Meta, Story } from '@storybook/addon-docs';
       url: 'https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=1788%3A6829',
     },
   }}
+  component={SbActionBarExampleComponent}
 />
 
 # Action Bar
@@ -16,75 +18,8 @@ The action bar is generally used at the bottom of modals to present the user wit
 
 The most common choices are "Save/apply" and "Cancel".  At least one button (Cancel) is the absolute minimum.
 
-<Canvas>
-  <Story name="Default">
-    <div class="spot-action-bar">
-      <div class="spot-action-bar--left">
-        <a
-          class="spot-link"
-          href="#"
-        >Some link</a>
-      </div>
-      <div class="spot-action-bar--right">
-        <button
-          type="button"
-          class="spot-button"
-        >
-        </button>
-      </div>
-    </div>
-  </Story>
-</Canvas>
-
-# Composition
-
-The action bar is composed of:
-
-Button set
-These are a set of either one or two buttons that form the main action choices presented to the user. 
-
-Side option (optional)
-The side option allows for a third action (usually a checkbox, but can also be a button, a toggle or any other control). Ideally, the text should be clear and concise.
+export const Template = (args) => ({ props: { ...args }})
 
 <Canvas>
-  <Story name="Default">
-    <ul class="spot-list">
-      <li class="spot-list--item">Item one</li>
-      <li class="spot-list--item">Item two</li>
-      <li class="spot-list--item">Item three</li>
-    </ul>
-  </Story>
-  <Story name="As links">
-    <ul class="spot-list">
-      <li class="spot-list--item">
-        <a href="#" class="spot-list--item-action">First link</a>
-      </li>
-      <li class="spot-list--item">
-        <a href="#" class="spot-list--item-action">Second link</a>
-      </li>
-      <li class="spot-list--item">
-        <a href="#" class="spot-list--item-action">Third link</a>
-      </li>
-    </ul>
-  </Story>
-</Canvas>
-
-# Compact
-
-The compact version makes the items a little bit less tall.
-
-<Canvas>
-  <Story name="Compact">
-    <ul class="spot-list spot-list_compact">
-      <li class="spot-list--item">
-        <a href="#" class="spot-list--item-action">First link</a>
-      </li>
-      <li class="spot-list--item">
-        <a href="#" class="spot-list--item-action">Second link</a>
-      </li>
-      <li class="spot-list--item">
-        <a href="#" class="spot-list--item-action">Third link</a>
-      </li>
-    </ul>
-  </Story>
+  <Story name="Default">{Template.bind({})}</Story>
 </Canvas>
