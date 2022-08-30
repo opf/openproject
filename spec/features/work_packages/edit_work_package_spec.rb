@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 
 describe 'edit work package',
+         with_flag: { work_packages_duration_field_active: true },
          js: true do
   let(:dev_role) do
     create :role,

@@ -56,7 +56,6 @@ export class DatePicker {
 
   private weekdaysPromise:Promise<unknown>;
 
-
   constructor(
     readonly injector:Injector,
     private datepickerElemIdentifier:string,
