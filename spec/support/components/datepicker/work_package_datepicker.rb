@@ -162,12 +162,8 @@ module Components
     end
 
     def clear_duration
-      duration = find_field 'duration'
-      duration.click
-
-      container
-        .find('[data-qa-selector="datepicker-duration"] .spot-text-field--clear-button')
-        .click
+      duration_field.click
+      fill_in 'duration', with: '', fill_options: { clear: :backspace }
 
       # Focus a different field
       start_date_field.click
