@@ -237,6 +237,8 @@ describe 'Copy work packages through Rails view', js: true do
                           select_text: project2.name,
                           results_selector: 'body'
 
+      sleep(0.5)
+
       select 'nobody', from: 'Assignee'
 
       click_on 'Copy and follow'
