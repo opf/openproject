@@ -31,7 +31,6 @@ require 'support/edit_fields/edit_field'
 
 describe 'Datepicker modal logic test cases (WP #43539)',
          with_settings: { date_format: '%Y-%m-%d' },
-         with_flag: { work_packages_duration_field_active: true },
          js: true do
   shared_let(:user) { create :admin }
 
@@ -39,8 +38,8 @@ describe 'Datepicker modal logic test cases (WP #43539)',
   shared_let(:type_milestone) { create(:type_milestone) }
   shared_let(:project) { create(:project, types: [type_bug, type_milestone]) }
 
-  shared_let(:bug_wp) { create :work_package, project:, type: type_bug, ignore_non_working_days: false }
-  shared_let(:milestone_wp) { create :work_package, project:, type: type_milestone, ignore_non_working_days: false }
+  shared_let(:bug_wp) { create :work_package, project:, type: type_bug }
+  shared_let(:milestone_wp) { create :work_package, project:, type: type_milestone }
 
   # assume sat+sun are non working days
   shared_let(:weekdays) { create :week_days }

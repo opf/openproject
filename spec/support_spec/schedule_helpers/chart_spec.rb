@@ -156,7 +156,7 @@ describe ScheduleHelpers::Chart do
     end
   end
 
-  describe '#to_s', with_flag: { work_packages_duration_field_active: true } do
+  describe '#to_s' do
     let!(:week_days) { create(:week_days) }
 
     context 'with a chart built from ascii representation' do

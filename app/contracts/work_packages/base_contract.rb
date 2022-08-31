@@ -80,10 +80,7 @@ module WorkPackages
     end
 
     attribute :schedule_manually
-    attribute :ignore_non_working_days,
-              writable: ->(*) {
-                OpenProject::FeatureDecisions.work_packages_duration_field_active?
-              }
+    attribute :ignore_non_working_days
 
     attribute :start_date,
               writable: ->(*) {
@@ -99,10 +96,7 @@ module WorkPackages
       validate_after_soonest_start(:due_date)
     end
 
-    attribute :duration,
-              writable: ->(*) {
-                OpenProject::FeatureDecisions.work_packages_duration_field_active?
-              }
+    attribute :duration
 
     attribute :budget
 
@@ -337,7 +331,7 @@ module WorkPackages
     end
 
     def validate_duration_matches_dates
-      return unless calculated_duration && model.duration && OpenProject::FeatureDecisions.work_packages_duration_field_active?
+      return unless calculated_duration && model.duration
 
       if calculated_duration > model.duration
         errors.add :duration, :smaller_than_dates
@@ -353,8 +347,6 @@ module WorkPackages
     end
 
     def validate_duration_and_dates_are_not_derivable
-      return unless OpenProject::FeatureDecisions.work_packages_duration_field_active?
-
       %i[start_date due_date duration].each do |field|
         if not_set_but_others_are_present?(field)
           errors.add field, :cannot_be_null

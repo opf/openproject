@@ -785,7 +785,7 @@ describe MailHandler, type: :model do
             .to include 'The text of the reply.'
         end
 
-        it 'alters the attributes', with_flag: { work_packages_duration_field_active: true } do
+        it 'alters the attributes' do
           subject
 
           expect(work_package.journals.reload.last.details)

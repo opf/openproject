@@ -34,7 +34,6 @@ require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
 describe 'scheduling mode',
-         with_flag: { work_packages_duration_field_active: true },
          js: true do
   let(:project) { create :project_with_types, public: true }
   # Constructing a work package graph that looks like this:
