@@ -723,6 +723,8 @@ lol:
         work_package:
           is_not_a_valid_target_for_time_entries: "crwdns797254:0%{id}crwdne797254:0"
           attributes:
+            assigned_to:
+              format: "crwdns830342:0%{message}crwdne830342:0"
             due_date:
               not_start_date: "crwdns797256:0crwdne797256:0"
             duration:

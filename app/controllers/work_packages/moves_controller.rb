@@ -119,6 +119,8 @@ class WorkPackages::MovesController < ApplicationController
       .merge(type_id: params[:new_type_id],
              project_id: params[:new_project_id],
              journal_notes: params[:notes])
-      .reject { |_, v| v.blank? }
+      .compact_blank
+      # 'none' is used in the frontend as a value to unset the property, e.g. the assignee.
+      .transform_values { |v| v == 'none' ? nil : v }
   end
 end

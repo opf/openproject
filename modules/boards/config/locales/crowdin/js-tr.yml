@@ -2,7 +2,7 @@
 tr:
   js:
     boards:
-      create_new: 'Create new board'
+      create_new: 'Yeni pano oluştur'
       label_unnamed_board: 'Adsız tahta'
       label_unnamed_list: 'Adsız liste'
       label_board_type: 'Yazı tahtası tipi'

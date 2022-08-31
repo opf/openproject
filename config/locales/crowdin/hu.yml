@@ -738,6 +738,8 @@ hu:
         work_package:
           is_not_a_valid_target_for_time_entries: "A  #%{id} feladatcsoport nem érvényes cél az idő bejegyzések ismételt hozzárendeléséhez."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "nincs kezdő dátum, ez szükséges a fordulóponthoz."
             duration:

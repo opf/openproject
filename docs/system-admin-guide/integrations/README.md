@@ -43,7 +43,7 @@ To synchronize tasks from MS Project to OpenProject, you can export your MS Proj
 
 ## Nextcloud
 
-OpenProject offers a Nextcloud integration. You can find more information about the [set-up of the integration with Nextcloud](./nextcloud) and the [use of the Nextcloud plugin](../../user-guide/nextcloud-integration/).
+OpenProject offers integration with Nextcloud for file storage and collaboration. You can find more information about [setting up the integration with Nextcloud](./nextcloud) and [using the integration](../../user-guide/nextcloud-integration/).
 
 ## Slack
 

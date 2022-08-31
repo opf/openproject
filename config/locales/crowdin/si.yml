@@ -741,6 +741,8 @@ si:
         work_package:
           is_not_a_valid_target_for_time_entries: "වැඩ පැකේජය #%{id} යනු කාල සටහන් නැවත පැවරීම සඳහා වලංගු ඉලක්කයක් නොවේ."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "සන්ධිස්ථාන සඳහා මෙය අවශ්ය වුවද ආරම්භක දිනයේ නොවේ."
             duration:

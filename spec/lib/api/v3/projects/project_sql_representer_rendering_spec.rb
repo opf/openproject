@@ -155,6 +155,28 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
         )
     end
 
+    context 'with relative url root', with_config: { rails_relative_url_root: '/foobar' } do
+      it 'renders correctly' do
+        expect(json)
+          .to be_json_eql(
+                {
+                  _links: {
+                    ancestors: [
+                      {
+                        href: "/foobar/api/v3/projects/#{grandparent.id}",
+                        title: grandparent.name
+                      },
+                      {
+                        href: API::V3::URN_UNDISCLOSED,
+                        title: I18n.t(:'api_v3.undisclosed.ancestor')
+                      }
+                    ]
+                  }
+                }.to_json
+              )
+      end
+    end
+
     context 'when in a foreign language with single quotes in the translation hint text' do
       before do
         I18n.locale = :fr

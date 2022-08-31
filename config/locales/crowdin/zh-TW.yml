@@ -740,6 +740,8 @@ zh-TW:
         work_package:
           is_not_a_valid_target_for_time_entries: "工作項目 #%{id} 不是重新分配時間項目有效的目標"
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "不在開始的日期，儘管它是里程碑所必需的。"
             duration:
@@ -1341,7 +1343,7 @@ zh-TW:
   menus:
     admin:
       mail_notification: "電子郵件通知"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "電子郵件通知"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1987,7 +1989,7 @@ zh-TW:
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
   mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
-  mail_body_incoming_email_error_logs: "Logs"
+  mail_body_incoming_email_error_logs: "日誌"
   mail_body_lost_password: "若要變更您的密碼，請按一下以下的連結:"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"

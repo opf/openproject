@@ -122,7 +122,6 @@ hu:
           Nem tudja beolvasni a kódot az alkalmazásával?
         text_cannot_scan: |
           Ha nem tudja beolvasni a kódot, akkor az alábbi adatok segítségével manuálisan is megadhatja a bejegyzést:
-
         description: |
           Regisztráljon egy alkalmazás-hitelesítőt az OpenProject-hez való használatra az időalapú egyszeri jelszavas hitelesítési szabvány használatával.
           Gyakori példák a Google Authenticator vagy az Authy.

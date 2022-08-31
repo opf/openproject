@@ -273,7 +273,7 @@ fr:
     upsale:
       title: Utilisateurs de remplacement
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
+        Les utilisateurs fictifs sont un moyen d'attribuer des lots de travaux à des utilisateurs qui ne font pas partie de votre projet. Ils peuvent être utiles dans une série de scénarios ; par exemple, si vous avez besoin de suivre des tâches pour une ressource qui n'est pas encore nommée ou disponible, ou si vous ne voulez pas donner à cette personne l'accès à OpenProject mais voulez quand même suivre les tâches qui lui sont assignées.
   prioritiies:
     edit:
       priority_color_text: |
@@ -741,6 +741,8 @@ fr:
         work_package:
           is_not_a_valid_target_for_time_entries: "Le lot de travaux #%{id} n'est pas une cible valide pour réaffecter les entrées de temps."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "n'est pas identique à la date de début, bien que cela soit requis pour les jalons."
             duration:
@@ -1605,7 +1607,7 @@ fr:
   label_index_by_title: "Index par titre"
   label_information: "Information"
   label_information_plural: "Information"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: 'Guides d''installation'
   label_integer: "Nombre entier"
   label_internal: "Interne"
   label_introduction_video: "Vidéo de présentation"
@@ -2872,9 +2874,9 @@ fr:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'Mauvaise configuration du mode HTTPS'
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        Votre application fonctionne avec le mode HTTPS réglé sur <code>%{set_protocol}</code>, mais la requête est une requête <code>%{actual_protocol}</code>. Cela entraînera des erreurs ! Vous devrez définir la valeur de configuration suivante : <code>%{setting_value}</code>. Veuillez consulter <a href="%{more_info_path}">la documentation d'installation</a> pour savoir comment régler cette configuration.
     hostname_mismatch:
       title: 'Incompatibilité des paramètres du nom d''hôte'
       text_html: >

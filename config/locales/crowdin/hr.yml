@@ -742,6 +742,8 @@ hr:
         work_package:
           is_not_a_valid_target_for_time_entries: "Radni paket #%{id} nije nadređen za ponovno dodjeljivanje vremena."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "nije na datum početka, međutim potrebno je za ključne točke."
             duration:

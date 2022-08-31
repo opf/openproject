@@ -739,6 +739,8 @@ da:
         work_package:
           is_not_a_valid_target_for_time_entries: "Arbejdspakke # %{id} er ikke et gyldig mål for tildeling af tider."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "er ikke på startdato, selvom dette er påkrævet for milepæle."
             duration:

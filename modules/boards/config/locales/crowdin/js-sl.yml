@@ -49,7 +49,6 @@ sl:
           Osnoven kanban stil odložišča s stolpci za stanja: Za narediti, V delu, Narejeno.
         action_text_assignee: >
           Tabla s samodejnimi stolpci glede na dodeljene člane. Popoln za odpošiljanje delovnih paketov
-
         action_text_version: >
           Tabla s samodejnimi stolpci glede na verzijo lastnosti. Popoln za načrtovanje razvoja projekta.
         action_type:
