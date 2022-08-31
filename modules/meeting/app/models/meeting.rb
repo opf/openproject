@@ -99,6 +99,10 @@ class Meeting < ApplicationRecord
     end
   end
 
+  def start_time=(value)
+    super value&.to_datetime
+  end
+
   def start_month
     start_time.month
   end
@@ -224,7 +228,6 @@ class Meeting < ApplicationRecord
   # If start_time has been changed, check that value.
   # Otherwise start_{date, time_hour} was used, then validate those
   def validate_date_and_time
-    binding.pry
     if parse_start_time?
       errors.add :start_date, :not_an_iso_date if parsed_start_date.nil?
       errors.add :start_time_hour, :invalid_time_format if parsed_start_time_hour.nil?

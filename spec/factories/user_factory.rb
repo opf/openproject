@@ -90,8 +90,8 @@ FactoryBot.define do
     factory :locked_user do
       firstname { 'Locked' }
       lastname { 'User' }
-      sequence(:login) { |n| "bob#{n}" }
-      sequence(:mail) { |n| "bob#{n}.bobbit@bob.com" }
+      sequence(:login) { |n| "locked#{n}" }
+      sequence(:mail) { |n| "locked#{n}@bob.com" }
       password { 'adminADMIN!' }
       password_confirmation { 'adminADMIN!' }
       status { User.statuses[:locked] }

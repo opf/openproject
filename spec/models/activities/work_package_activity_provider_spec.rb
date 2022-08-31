@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe Activities::WorkPackageActivityProvider, type: :model do
-  let(:event_scope)               { 'work_packages' }
-  let(:work_package_edit_event)   { 'work_package-edit' }
+  let(:event_scope) { 'work_packages' }
+  let(:work_package_edit_event) { 'work_package-edit' }
   let(:work_package_closed_event) { 'work_package-closed' }
 
   let(:user) { create :admin }
@@ -138,7 +138,14 @@ describe Activities::WorkPackageActivityProvider, type: :model do
         project.reload
 
         Activities::WorkPackageActivityProvider
-          .find_events(event_scope, user, Time.zone.yesterday.to_datetime, Time.zone.tomorrow.to_datetime, project:, with_subprojects: true)
+          .find_events(
+            event_scope,
+            user,
+            Time.zone.yesterday.to_datetime,
+            Time.zone.tomorrow.to_datetime,
+            project:,
+            with_subprojects: true
+          )
       end
 
       it 'returns only visible work packages' do
