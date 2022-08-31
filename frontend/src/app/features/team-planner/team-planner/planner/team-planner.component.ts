@@ -780,7 +780,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           href: resourceHref,
         },
       },
-      nonWorkingDays,
+      ignoreNonWorkingDays: nonWorkingDays,
     };
 
     void this.$state.go(
