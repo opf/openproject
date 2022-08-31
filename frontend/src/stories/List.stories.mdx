@@ -1,7 +1,21 @@
+import { moduleMetadata } from '@storybook/angular';
 import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { OpSpotModule } from '../app/spot/spot.module';
+import { SbListWithLinksExample } from './ListWithLinks.example.ts';
+import { SbListWithCheckboxesExample } from './ListWithCheckboxes.example.ts';
+import { SbListCompactExample } from './ListCompact.example.ts';
 
 <Meta
   title="Blocks/List"
+  component={SbListWithLinksExample}
+  decorators={[
+    moduleMetadata({
+      imports: [
+        OpSpotModule,
+      ],
+    }),
+  ]}
   parameters={{
     design: {
       type: 'figma',
@@ -26,27 +40,21 @@ Lists also allow nesting. Each nested item has an additional 16px padding to the
 
 The dimensions of the list are defined by the dimensions of the containing element, and its overflow rules.
 
+# Actions
+
+List items have a primary action attached to them. This can be linking somewhere, a button listener, or acting
+as a label for a checkbox.
+
+export const Template = (component) => ({
+  parameters: { component },
+});
+
 <Canvas>
-  <Story name="Default">
-    <ul class="spot-list">
-      <li class="spot-list--item">Item one</li>
-      <li class="spot-list--item">Item two</li>
-      <li class="spot-list--item">Item three</li>
-    </ul>
-  </Story>
-  <Story name="As links">
-    <ul class="spot-list">
-      <li class="spot-list--item">
-        <a href="#" class="spot-list--item-action">First link</a>
-      </li>
-      <li class="spot-list--item">
-        <a href="#" class="spot-list--item-action">Second link</a>
-      </li>
-      <li class="spot-list--item">
-        <a href="#" class="spot-list--item-action">Third link</a>
-      </li>
-    </ul>
-  </Story>
+  <Story name="With Links">{Template.bind(SbListWithLinksExample)}</Story>
+</Canvas>
+
+<Canvas>
+  <Story name="With Checkboxes">{Template.bind(SbListWithCheckboxesExample)}</Story>
 </Canvas>
 
 # Compact
@@ -54,17 +62,5 @@ The dimensions of the list are defined by the dimensions of the containing eleme
 The compact version makes the items a little bit less tall.
 
 <Canvas>
-  <Story name="Compact">
-    <ul class="spot-list spot-list_compact">
-      <li class="spot-list--item">
-        <a href="#" class="spot-list--item-action">First link</a>
-      </li>
-      <li class="spot-list--item">
-        <a href="#" class="spot-list--item-action">Second link</a>
-      </li>
-      <li class="spot-list--item">
-        <a href="#" class="spot-list--item-action">Third link</a>
-      </li>
-    </ul>
-  </Story>
+  <Story name="Compact">{Template.bind(SbListCompactExample)}</Story>
 </Canvas>

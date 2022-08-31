@@ -1,15 +1,23 @@
+import { moduleMetadata } from '@storybook/angular';
 import { Canvas, Meta, Story } from '@storybook/addon-docs';
-import { SbActionBarExampleComponent } from './ActionBar.stories.ts';
+
+import { OpSpotModule } from '../app/spot/spot.module';
 
 <Meta
   title="Blocks/Action Bar"
+  decorators={[
+    moduleMetadata({
+      imports: [
+        OpSpotModule,
+      ],
+    }),
+  ]}
   parameters={{
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=1788%3A6829',
     },
   }}
-  component={SbActionBarExampleComponent}
 />
 
 # Action Bar
@@ -18,8 +26,6 @@ The action bar is generally used at the bottom of modals to present the user wit
 
 The most common choices are "Save/apply" and "Cancel".  At least one button (Cancel) is the absolute minimum.
 
-export const Template = (args) => ({ props: { ...args }})
-
 <Canvas>
-  <Story name="Default">{Template.bind({})}</Story>
+  <Story id="example-stories-action-bar--html"></Story>
 </Canvas>
