@@ -986,10 +986,6 @@ Settings::Definition.define do
   add :work_package_startdate_is_adddate,
       default: false
 
-  add :work_packages_duration_field_active,
-      default: Rails.env.development?,
-      format: :boolean
-
   add :youtube_channel,
       default: 'https://www.youtube.com/c/OpenProjectCommunity',
       writable: false

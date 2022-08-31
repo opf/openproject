@@ -694,10 +694,10 @@ describe WorkPackages::BaseContract do
       it_behaves_like 'contract is valid'
     end
 
-    context 'when setting the value to false and with the feature disabled',
+    context 'when setting the value to true and with the feature disabled',
             with_flag: { work_packages_duration_field_active: false } do
       before do
-        work_package.ignore_non_working_days = false
+        work_package.ignore_non_working_days = true
       end
 
       it_behaves_like 'contract is invalid', ignore_non_working_days: :error_readonly
