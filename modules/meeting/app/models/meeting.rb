@@ -224,6 +224,7 @@ class Meeting < ApplicationRecord
   # If start_time has been changed, check that value.
   # Otherwise start_{date, time_hour} was used, then validate those
   def validate_date_and_time
+    binding.pry
     if parse_start_time?
       errors.add :start_date, :not_an_iso_date if parsed_start_date.nil?
       errors.add :start_time_hour, :invalid_time_format if parsed_start_time_hour.nil?
@@ -239,7 +240,7 @@ class Meeting < ApplicationRecord
   end
 
   ##
-  # Determines whether new raw values werde provided.
+  # Determines whether new raw values were provided.
   def parse_start_time?
     !(changed & %w(start_date start_time_hour)).empty?
   end
