@@ -6,12 +6,44 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
       relation.find_each { |journal| fix_journal_data(journal) }
 
       count = relation.count
-      raise "There shouldn't be any missing data left for #{journable_type}, but found #{count}" if count > 0
+      unfixed_journals_found(journable_type, relation, count) if count > 0
     end
   end
 
   def down
     # nothing to do
+  end
+
+  def unfixed_journals_found(journable_type, relation, count)
+    unless ENV['SKIP_MISSING_JOURNALS'] == 'true'
+      warning = <<~WARNING
+        There shouldn't be any missing data left for #{journable_type}, but found #{count}.
+
+        You can choose to ignore this error by setting the environment variable `SKIP_MISSING_JOURNALS=true`
+        and re-run the migration / configure step.
+
+        This will allow the migration to continue and print the affected journals.
+        Please report them to this bug ticket in our community: https://community.openproject.org/wp/43839
+
+        Aborting the migration at this point.
+      WARNING
+
+      raise warning
+    end
+
+    warning = ["SKIP_MISSING_JOURNALS was set to true."]
+    warning << "Please add the following output to the bug ticket in our community: https://community.openproject.org/wp/43839"
+
+    warning << "--- BEGIN ---"
+    relation.find_each do |journal|
+      warning << "Journal -> #{journal.inspect}"
+      warning << "Journable? -> #{journal.journable.inspect}"
+      warning << "Predecessor? -> #{journal.previous.inspect}"
+      warning << "Successor? -> #{journal.successor.inspect}"
+    end
+
+    warning << "--- END ---"
+    warn warning.join("\n")
   end
 
   def fix_journal_data(journal)
