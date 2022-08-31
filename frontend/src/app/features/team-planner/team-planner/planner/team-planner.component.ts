@@ -771,7 +771,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     'document:teamPlannerSelectDate',
     ['$event.detail.start', '$event.detail.end', '$event.detail.assignee'],
   )
-  openNewSplitCreate(start:string, end:string, resourceHref:string):void {
+  openNewSplitCreate(start:string, end:string, resourceHref:string, nonWorkingDays:boolean):void {
     const defaults = {
       startDate: start,
       dueDate: end,
@@ -780,6 +780,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           href: resourceHref,
         },
       },
+      nonWorkingDays,
     };
 
     void this.$state.go(
