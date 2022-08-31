@@ -737,8 +737,9 @@ pl:
     field_value_enter_prompt: "Wprowadź wartość dla '%{field}'"
     project_menu_details: "Szczegóły"
     scheduling:
-      manual: 'Planowanie ręczne'
-      automatic: 'Planowanie automatyczne'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Zastosowano sortowanie rosnące, '
       sorted_dsc: 'Zastosowano sortowanie malejące, '
@@ -846,6 +847,10 @@ pl:
         changing_dates_affects_follow_relations: "Zmiana tych dat wpłynie na daty powiązanych pakietów roboczych."
         click_on_show_relations_to_open_gantt: 'Kliknij "%{button_name}", aby wyświetlić wykres GANTTa.'
         show_relations: 'Pokaż relacje'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Filtr"
       description_enter_text: "Wpisz tekst"
       description_options_hide: "Ukryj opcje"
@@ -901,6 +906,7 @@ pl:
         description: "Opis"
         date: "Data"
         dueDate: "Data zakończenia"
+        duration: "Duration"
         estimatedTime: "Szacowany czas"
         spentTime: "Czas pracy"
         category: "Kategoria"

@@ -736,8 +736,9 @@ sl:
     field_value_enter_prompt: "Vnesite vrednost za '%{field}'"
     project_menu_details: "Podrobnosti"
     scheduling:
-      manual: 'Ročno razvrščanje.'
-      automatic: 'Samodejno razvrščanje'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Uporabljeno je naraščajoče razvrščanje, '
       sorted_dsc: 'Uporabljeno je padajoče razvrščanje, '
@@ -845,6 +846,10 @@ sl:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Filtriraj"
       description_enter_text: "Vnesite besedilo"
       description_options_hide: "Skrij možnosti"
@@ -900,6 +905,7 @@ sl:
         description: "Opis"
         date: "Datum"
         dueDate: "Končni datum"
+        duration: "Duration"
         estimatedTime: "Predvideni čas"
         spentTime: "Porabljen čas"
         category: "Kategorija"

@@ -1346,7 +1346,7 @@ zh-TW:
   menus:
     admin:
       mail_notification: "電子郵件通知"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "電子郵件通知"
       aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1994,7 +1994,7 @@ zh-TW:
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
   mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
-  mail_body_incoming_email_error_logs: "Logs"
+  mail_body_incoming_email_error_logs: "日誌"
   mail_body_lost_password: "若要變更您的密碼，請按一下以下的連結:"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
@@ -2344,6 +2344,8 @@ zh-TW:
       update_timeout: "替一個版本庫維持最後需要的磁碟空間資訊 N 分鐘。\n計算一個版本庫的所需磁碟空間也許要消耗很多效能，增加這個值來降低效能的影響。"
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "現有的 Subversion 版本庫"

@@ -2360,6 +2360,8 @@ es:
       update_timeout: "Mantener la última información de espacio de disco requerida para un repositorio de N minutos. Contar el espacio de disco requerido de un repositorio puede ser costoso, aumente este valor para reducir el impacto en el rendimiento."
       oauth_application_details: "La clave secreta de cliente no será accesible una vez se cierre esta ventana. Por favor, copie estos valores en la configuración de la integración de OpenProject en Nextcloud:"
       oauth_application_details_link_text: "Ir a la página de configuración"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "Para utilizar este almacenamiento recuerde activar el módulo y el almacenamiento específico en la configuración de cada proyecto deseado."
     subversion:
       existing_title: "Subversion existentes de repositorio"

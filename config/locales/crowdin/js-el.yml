@@ -734,8 +734,9 @@ el:
     field_value_enter_prompt: "Εισαγωγή τιμής για το '%{field}'"
     project_menu_details: "Λεπτομέρειες"
     scheduling:
-      manual: 'Χειροκίνητος προγραμματισμός'
-      automatic: 'Αυτόματος προγραμματισμός'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Εφαρμόστηκε αύξουσα ταξινόμηση, '
       sorted_dsc: 'Εφαρμόστηκε φθίνουσα ταξινόμηση, '
@@ -843,6 +844,10 @@ el:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Φίλτρο"
       description_enter_text: "Εισάγετε κείμενο"
       description_options_hide: "Απόκρυψη επιλογών"
@@ -898,6 +903,7 @@ el:
         description: "Περιγραφή"
         date: "Ημερομηνία"
         dueDate: "Ημερομηνία λήξης"
+        duration: "Duration"
         estimatedTime: "Εκτιμώμενος χρόνος"
         spentTime: "Χρόνος που δαπανήθηκε"
         category: "Κατηγορία"

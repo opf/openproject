@@ -735,8 +735,9 @@ ja:
     field_value_enter_prompt: "'%{field}'の値を入力"
     project_menu_details: "詳細"
     scheduling:
-      manual: '手動スケジュール'
-      automatic: '自動スケジュール'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: '昇順の並べ替えを適用しました。 '
       sorted_dsc: '降順の並べ替えを適用しました。 '
@@ -844,6 +845,10 @@ ja:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "フィルタ"
       description_enter_text: "テキスト"
       description_options_hide: "オプションを非表示"
@@ -899,6 +904,7 @@ ja:
         description: "説明"
         date: "日付"
         dueDate: "終了日"
+        duration: "Duration"
         estimatedTime: "予定工数"
         spentTime: "作業時間の記録"
         category: "カテゴリ"

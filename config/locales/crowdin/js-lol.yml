@@ -734,8 +734,9 @@ lol:
     field_value_enter_prompt: "crwdns788014:0%{field}crwdne788014:0"
     project_menu_details: "crwdns788016:0crwdne788016:0"
     scheduling:
-      manual: 'crwdns788018:0crwdne788018:0'
-      automatic: 'crwdns788020:0crwdne788020:0'
+      title: 'crwdns831846:0crwdne831846:0'
+      manual: 'crwdns831848:0crwdne831848:0'
+      default: 'crwdns831850:0crwdne831850:0'
     sort:
       sorted_asc: 'crwdns788022:0crwdne788022:0'
       sorted_dsc: 'crwdns788024:0crwdne788024:0'
@@ -843,6 +844,10 @@ lol:
         changing_dates_affects_follow_relations: "crwdns818674:0crwdne818674:0"
         click_on_show_relations_to_open_gantt: 'crwdns818666:0%{button_name}crwdne818666:0'
         show_relations: 'crwdns818668:0crwdne818668:0'
+        include_non_working_days:
+          title: 'crwdns831852:0crwdne831852:0'
+          false: 'crwdns831854:0crwdne831854:0'
+          true: 'crwdns831856:0crwdne831856:0'
       description_filter: "crwdns788192:0crwdne788192:0"
       description_enter_text: "crwdns788194:0crwdne788194:0"
       description_options_hide: "crwdns788196:0crwdne788196:0"
@@ -898,6 +903,7 @@ lol:
         description: "crwdns788280:0crwdne788280:0"
         date: "crwdns788282:0crwdne788282:0"
         dueDate: "crwdns788284:0crwdne788284:0"
+        duration: "crwdns831858:0crwdne831858:0"
         estimatedTime: "crwdns788286:0crwdne788286:0"
         spentTime: "crwdns788288:0crwdne788288:0"
         category: "crwdns788290:0crwdne788290:0"

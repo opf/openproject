@@ -2364,6 +2364,8 @@ tr:
       update_timeout: "Bir depo için N dakika boyunca gereken son disk alanı bilgilerini saklayın.\nDeponun gerekli disk alanını saymak maliyetli olabileceğinden performans etkisini azaltmak için bu değeri yükseltin."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "Bu dosya deposunu kullanmak için, istenen her projenin proje ayarlarında modülü ve belirli depolamayı etkinleştirmeyi unutmayın."
     subversion:
       existing_title: "Mevcut Subversion deposu"

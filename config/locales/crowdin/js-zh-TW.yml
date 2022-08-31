@@ -193,7 +193,7 @@ zh-TW:
           form:
             general_consent: >
               I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
+            invalid_email: "無效的電子郵件"
             label_company: "Company"
             label_first_name: "名字"
             label_last_name: "姓："
@@ -207,7 +207,7 @@ zh-TW:
             domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
+          try_another_email: "或嘗試使用其他電子郵件"
           next_steps: "Next steps"
           resend_link: "重新發送"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
@@ -733,8 +733,9 @@ zh-TW:
     field_value_enter_prompt: "輸入'%{field}'的值"
     project_menu_details: "詳細資料"
     scheduling:
-      manual: '手動排程'
-      automatic: '自動排程'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: '已套用升冪排序， '
       sorted_dsc: '已套用降冪排序， '
@@ -842,6 +843,10 @@ zh-TW:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "篩選器"
       description_enter_text: "輸入文字"
       description_options_hide: "隱藏選項"
@@ -897,6 +902,7 @@ zh-TW:
         description: "說明"
         date: "日期"
         dueDate: "完成日期"
+        duration: "Duration"
         estimatedTime: "預估時間"
         spentTime: "耗時"
         category: "類別"

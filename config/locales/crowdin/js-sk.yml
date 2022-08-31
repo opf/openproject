@@ -737,8 +737,9 @@ sk:
     field_value_enter_prompt: "Zadajte hodnotu pre \"%{field}\""
     project_menu_details: "Podrobnosti"
     scheduling:
-      manual: 'Manuálne plánovanie'
-      automatic: 'Automatické plánovanie'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Použiť vzostupné zoradenie, '
       sorted_dsc: 'Použiť zostupné zoradenie, '
@@ -846,6 +847,10 @@ sk:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Filtrovať"
       description_enter_text: "Zadajte text"
       description_options_hide: "Skryť možnosti"
@@ -901,6 +906,7 @@ sk:
         description: "Popis"
         date: "Dátum"
         dueDate: "Dátum dokončenia"
+        duration: "Duration"
         estimatedTime: "Predpokladaný čas"
         spentTime: "Strávený čas"
         category: "Kategória"

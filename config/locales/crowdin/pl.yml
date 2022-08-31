@@ -2396,6 +2396,8 @@ pl:
       update_timeout: "Zachowaj informacje o ostatnim wymaganym dla repozytorium miejscu na dysku przez N minut. Ponieważ obliczenie wymaganej dla repozytorium przestrzeni dysku może być kosztowne, powiększ tę wartość, aby pomniejszyć wpływ na wydajność."
       oauth_application_details: "Wartość kod klienta nie będzie ponownie dostępna po zamknięciu tego okna. Skopiuj tę wartości do ustawień Nextcloud OpenProject Integration:"
       oauth_application_details_link_text: "Przejdź do ustawień"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "Aby wykorzystać ten magazyn plików należy aktywować moduł i konkretny magazyn w ustawieniach projektu dla każdego żądanego projektu."
     subversion:
       existing_title: "Istniejące repozytorium Subversion"

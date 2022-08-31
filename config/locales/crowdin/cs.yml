@@ -2401,6 +2401,8 @@ cs:
       update_timeout: "Uchovávejte poslední požadované informace o úložišti po dobu N minut.\nPři počítání požadovaného místa na disku v úložišti může být nákladné, zvýšit tuto hodnotu, aby se snížil vliv na výkon."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Přejít na stránku nastavení"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "Pro použití tohoto úložiště souborů nezapomeňte aktivovat modul a konkrétní úložiště v nastavení projektu každého požadovaného projektu."
     subversion:
       existing_title: "Existující repozitář Subversion"

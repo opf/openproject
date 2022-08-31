@@ -734,8 +734,9 @@ de:
     field_value_enter_prompt: "Einen Wert für '%{field}' eingeben"
     project_menu_details: "Details"
     scheduling:
-      manual: 'Manuelle Planung'
-      automatic: 'Automatische Planung'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Aufsteigende Sortierung angewendet, '
       sorted_dsc: 'Absteigende Sortierung angewendet, '
@@ -843,6 +844,10 @@ de:
         changing_dates_affects_follow_relations: "Das Ändern dieser Daten wirkt sich auf die Termine verwandter Arbeitspakete aus."
         click_on_show_relations_to_open_gantt: 'Klicken Sie auf "%{button_name}" für eine GANTT-Übersicht.'
         show_relations: 'Beziehungen anzeigen'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Filter"
       description_enter_text: "Text eingeben"
       description_options_hide: "Optionen ausblenden"
@@ -898,6 +903,7 @@ de:
         description: "Beschreibung"
         date: "Datum"
         dueDate: "Endtermin"
+        duration: "Duration"
         estimatedTime: "Geschätzter Aufwand"
         spentTime: "Aufgewendete Zeit"
         category: "Kategorie"

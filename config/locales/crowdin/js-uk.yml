@@ -737,8 +737,9 @@ uk:
     field_value_enter_prompt: "Введіть значення для «%{field}»"
     project_menu_details: "Детальніше"
     scheduling:
-      manual: 'Ручне планування'
-      automatic: 'Автоматичне планування'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Застосовується сортування за зростанням,'
       sorted_dsc: 'Застосовується сортування за спаданням,'
@@ -846,6 +847,10 @@ uk:
         changing_dates_affects_follow_relations: "Змінення цих дат вплине на дати пов’язаних пакетів робіт."
         click_on_show_relations_to_open_gantt: 'Натисніть кнопку «%{button_name}», щоб перейти в режим GANTT.'
         show_relations: 'Показати зв’язки'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Фільтр"
       description_enter_text: "Введіть текст"
       description_options_hide: "Сховати опції"
@@ -901,6 +906,7 @@ uk:
         description: "Опис"
         date: "Дата"
         dueDate: "Дата закінчення"
+        duration: "Duration"
         estimatedTime: "Час (приблизно)"
         spentTime: "Трудовитрати"
         category: "Категорія"

@@ -2364,6 +2364,8 @@ si:
       update_timeout: "එන් විනාඩි සඳහා ගබඩාවක් සඳහා අවසන් අවශ්ය තැටි ඉඩ තොරතුරු තබා ගන්න.\nගබඩාවේ අවශ්ය තැටි අවකාශය ගණන් කිරීම මිල අධික විය හැකි බැවින්, කාර්ය සාධන බලපෑම අඩු කිරීම සඳහා මෙම අගය වැඩි කරන්න."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "දැනට පවතින අනුකරණ ගබඩාව"

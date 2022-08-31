@@ -734,8 +734,9 @@ ko:
     field_value_enter_prompt: "'%{field}'에 대 한 값을 입력하세요."
     project_menu_details: "세부 정보"
     scheduling:
-      manual: '수동 스케줄링'
-      automatic: '자동 스케줄링'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: '오름차순 정렬이 적용됨, '
       sorted_dsc: '내림차순 정렬이 적용됨, '
@@ -843,6 +844,10 @@ ko:
         changing_dates_affects_follow_relations: "이 날짜를 변경하면 관련 작업 패키지의 날짜에 영향을 줍니다."
         click_on_show_relations_to_open_gantt: 'GANTT 개요를 보려면 "%{button_name}" 클릭을 하세요.'
         show_relations: '관계 표시'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "필터"
       description_enter_text: "텍스트 입력"
       description_options_hide: "옵션 숨기기"
@@ -898,6 +903,7 @@ ko:
         description: "설명"
         date: "날짜"
         dueDate: "완료 날짜"
+        duration: "Duration"
         estimatedTime: "예상된 시간"
         spentTime: "소비한 시간"
         category: "카테고리"

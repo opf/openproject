@@ -737,8 +737,9 @@ lt:
     field_value_enter_prompt: "Įveskite \"%{field}\" reikšmę "
     project_menu_details: "Detalės"
     scheduling:
-      manual: 'Rankinis laiko parinkimas'
-      automatic: 'Automatinis laiko parinkimas'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Pritaikytas didėjantis rikiavimas, '
       sorted_dsc: 'Pritaikytas mažėjantis rikiavimas, '
@@ -846,6 +847,10 @@ lt:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Filtras"
       description_enter_text: "Įveskite tekstą"
       description_options_hide: "Slėpti parinktis"
@@ -901,6 +906,7 @@ lt:
         description: "Aprašymas"
         date: "Data"
         dueDate: "Pabaigos data"
+        duration: "Duration"
         estimatedTime: "Numatyta trukmė"
         spentTime: "Praleista laiko"
         category: "Kategorija"

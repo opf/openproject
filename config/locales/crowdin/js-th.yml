@@ -734,8 +734,9 @@ th:
     field_value_enter_prompt: "Enter a value for '%{field}'"
     project_menu_details: "รายละเอียด"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -843,6 +844,10 @@ th:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "ตัวกรอง"
       description_enter_text: "ป้อนข้อความ"
       description_options_hide: "ซ่อนตัวเลือก"
@@ -898,6 +903,7 @@ th:
         description: "คำอธิบาย"
         date: "วันที่"
         dueDate: "Finish date"
+        duration: "Duration"
         estimatedTime: "ระยะเวลาโดยประมาณ"
         spentTime: "เวลาที่ใช้"
         category: "ประเภท"

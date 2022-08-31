@@ -2394,6 +2394,8 @@ uk:
       update_timeout: "Зберігайте останню необхідну інформацію про дисковий простір для сховища протягом N хвилин.\nОскільки підрахунок необхідного дискового простору сховища може бути довгим, збільште це значення, щоб зменшити вплив продуктивності."
       oauth_application_details: "Секретний ключ клієнта стане недоступним, коли ви закриєте це вікно. Скопіюйте це значення в налаштування інтеграції Nextcloud OpenProject:"
       oauth_application_details_link_text: "Перейти на сторінку налаштувань"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "Щоб користуватися цим файловим сховищем, активуйте модуль і визначене сховище в налаштуваннях кожного потрібного проєкту."
     subversion:
       existing_title: "Існуюче сховище Subversion"

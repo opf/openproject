@@ -735,8 +735,9 @@ ro:
     field_value_enter_prompt: "Introduceţi o valoare pentru '%{field}'"
     project_menu_details: "Detalii"
     scheduling:
-      manual: 'Programarea manuală'
-      automatic: 'Programare automată'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Sortare ascendentă aplicată '
       sorted_dsc: 'Sortare descendentă aplicată '
@@ -844,6 +845,10 @@ ro:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Filtrare"
       description_enter_text: "Introduceţi textul"
       description_options_hide: "Ascundere opțiuni"
@@ -899,6 +904,7 @@ ro:
         description: "Descriere"
         date: "Dată"
         dueDate: "Data de finalizare"
+        duration: "Duration"
         estimatedTime: "Durata estimată"
         spentTime: "Timp consumat"
         category: "Categorie"

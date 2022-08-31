@@ -737,8 +737,9 @@ cs:
     field_value_enter_prompt: "Zadejte hodnotu pro '%{field}'"
     project_menu_details: "Podrobnosti"
     scheduling:
-      manual: 'Manuální plánování'
-      automatic: 'Automatické plánování'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Použito vzestupné řazení, '
       sorted_dsc: 'Použité sestupně '
@@ -846,6 +847,10 @@ cs:
         changing_dates_affects_follow_relations: "Změna těchto dat ovlivní data souvisejících pracovních balíčků."
         click_on_show_relations_to_open_gantt: 'Klikněte na "%{button_name}pro přehled GANTT.'
         show_relations: 'Zobrazit vztahy'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Filtr"
       description_enter_text: "Zadejte text"
       description_options_hide: "Skrýt možnosti"
@@ -901,6 +906,7 @@ cs:
         description: "Popis"
         date: "Datum"
         dueDate: "Datum dokončení"
+        duration: "Duration"
         estimatedTime: "Odhadovaný čas"
         spentTime: "Strávený čas"
         category: "Kategorie"

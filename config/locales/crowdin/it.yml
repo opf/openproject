@@ -2361,6 +2361,8 @@ it:
       update_timeout: "Mantieni l'ultima informazione sullo spazio su disco richiesto per un archivio di progetto per N minuti.\nPoichè il calcolo dello spazio su disco richiesto per un archivio di progetto può essere un'attività costosa, aumentare questo intervallo riduce l'impatto sulle prestazioni."
       oauth_application_details: "Il valore segreto del client non sarà nuovamente accessibile dopo aver chiuso questa finestra. Copia questi valori nelle impostazioni d'integrazione di Nextcloud OpenProject:"
       oauth_application_details_link_text: "Vai alla pagina delle impostazioni"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "Per utilizzare questo archivio di file ricordarsi di attivare il modulo e l'archivio specifico nelle impostazioni del progetto di ogni progetto desiderato."
     subversion:
       existing_title: "Archivio Subversion preesistente"

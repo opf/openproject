@@ -2364,6 +2364,8 @@ fr:
       update_timeout: "Garder les dernières informations de l'espace disque requis pour un dépôt pendant N minutes.\nEtant donné que l'opération de comptabilisation de l'espace disque requis pour un dépôt peut être coûteuse, augmentez cette valeur pour réduire l'impact sur les performances."
       oauth_application_details: "La valeur secrète du client ne sera plus accessible après la fermeture de cette fenêtre. Veuillez copier ces valeurs dans les paramètres d'intégration Nextcloud OpenProject :"
       oauth_application_details_link_text: "Aller à la page des paramètres"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "Pour utiliser ce stockage de fichiers, n'oubliez pas d'activer le module et le stockage spécifique dans les paramètres du projet de chaque projet souhaité."
     subversion:
       existing_title: "Dépôt Subversion existant"

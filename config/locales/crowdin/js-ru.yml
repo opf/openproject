@@ -736,8 +736,9 @@ ru:
     field_value_enter_prompt: "Введите значение для '%{field} ' '"
     project_menu_details: "Детали"
     scheduling:
-      manual: 'Ручное планирование'
-      automatic: 'Автоматическое планирование'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Сортировка по возрастанию применяется, '
       sorted_dsc: 'Применяется сортировка по убыванию, '
@@ -845,6 +846,10 @@ ru:
         changing_dates_affects_follow_relations: "Изменение этих дат повлияет на даты связанных пакетов работ."
         click_on_show_relations_to_open_gantt: 'Нажмите на "%{button_name}" для просмотра GANTT.'
         show_relations: 'Показать взаимосвязи'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Фильтр"
       description_enter_text: "Введите текст"
       description_options_hide: "Скрыть параметры"
@@ -900,6 +905,7 @@ ru:
         description: "Описание"
         date: "Дата"
         dueDate: "Дата окончания"
+        duration: "Duration"
         estimatedTime: "Предполагаемое время"
         spentTime: "Затраченное время"
         category: "Категория"

@@ -735,8 +735,9 @@ nl:
     field_value_enter_prompt: "Breng een waarde in voor veld '%{field}'"
     project_menu_details: "Details"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Oplopende sorteervolgorde toegepast, '
       sorted_dsc: 'Aflopende sorteervolgorde toegepast, '
@@ -844,6 +845,10 @@ nl:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Filter"
       description_enter_text: "Tekst invoeren"
       description_options_hide: "Verberg opties"
@@ -899,6 +904,7 @@ nl:
         description: "Omschrijving"
         date: "Datum"
         dueDate: "Einddatum"
+        duration: "Duration"
         estimatedTime: "Geschatte tijd"
         spentTime: "Bestede tijd"
         category: "Categorie"

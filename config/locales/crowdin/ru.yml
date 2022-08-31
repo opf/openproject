@@ -2398,6 +2398,8 @@ ru:
       update_timeout: "Хранить последнюю информацию о дисковом пространстве, необходимом для репозитория, N минут. Так как подсчет необходимого для репозитория дискового пространства могут быть дорогостоящим, увеличить это значение для снижения его влияния на производительность."
       oauth_application_details: "Секретное значение клиента не будет доступно после закрытия этого окна. Пожалуйста, скопируйте это значение в настройки интеграции Nextcloud OpenProject:"
       oauth_application_details_link_text: "Перейти на страницу настроек"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "Для использования этого хранилища файлов не забудьте активировать модуль и определенное хранилище в настройках проекта каждого желаемого проекта."
     subversion:
       existing_title: "Существующий репозиторий Subversion"

@@ -739,8 +739,9 @@ ar:
     field_value_enter_prompt: "أدخِل قيمة ل '%{field}'"
     project_menu_details: "تفاصيل"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -848,6 +849,10 @@ ar:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "فلترة"
       description_enter_text: "ادخل نصا"
       description_options_hide: "إخفاء الخيارات"
@@ -903,6 +908,7 @@ ar:
         description: "الوصف"
         date: "التاريخ"
         dueDate: "Finish date"
+        duration: "Duration"
         estimatedTime: "الوقت المُقّدَّر"
         spentTime: "الوقت المستهلك"
         category: "الفئة"

@@ -737,8 +737,9 @@ he:
     field_value_enter_prompt: "הזן ערך עבור '%{field}'"
     project_menu_details: "פרטים"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -846,6 +847,10 @@ he:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "סינון"
       description_enter_text: "הזן טקסט"
       description_options_hide: "הסתר אפשרויות"
@@ -901,6 +906,7 @@ he:
         description: "תיאור"
         date: "תאריך"
         dueDate: "Finish date"
+        duration: "Duration"
         estimatedTime: "זמן משוער"
         spentTime: "זמן שבוזבז"
         category: "קטגוריה"

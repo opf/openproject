@@ -735,8 +735,9 @@ si:
     field_value_enter_prompt: "'%{field}' සඳහා වටිනාකමක් ඇතුළත් කරන්න"
     project_menu_details: "විස්තර"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'නැගී එන ආකාරයේ අයදුම්, '
       sorted_dsc: 'බැස වර්ග අයදුම්, '
@@ -844,6 +845,10 @@ si:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "පෙරහන්"
       description_enter_text: "පෙළ ඇතුලත් කරන්න"
       description_options_hide: "විකල්ප සඟවන්න"
@@ -899,6 +904,7 @@ si:
         description: "විස්තරය"
         date: "දිනය"
         dueDate: "අවසන් දිනය"
+        duration: "Duration"
         estimatedTime: "ඇස්තමේන්තුගත කාලය"
         spentTime: "වැය කළ කාලය"
         category: "ප්රවර්ගය"
