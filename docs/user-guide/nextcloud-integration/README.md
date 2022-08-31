@@ -60,7 +60,7 @@ The following video gives you a short overview of how to use this integration:
 ![OpenProject Nextcloud integration video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Nextcloud-Integration-2.mp4)
 
 
-### In OpenProject:
+### In OpenProject
 
 In addition to listing files attached to a work package, the **Files** tab now also shows you Nextcloud files that are linked to the current work package. Hovering on any linked file with your mouse will give you options to  **open or download the file, show the containing folder in Nextcloud or remove the link**.
 ![Empty_status_files](1_0_00-No_files_linked.png)
@@ -153,7 +153,7 @@ Further integration efforts are under way. In the near future, you will be able 
 
 #### No permission to see this file 
 
-If you are unable to see the details of a file or are unable to open some of the files linked to a work package, it could be related to your Nextcloud user not having the necessary permissions. In such a case, you will be able to see the name, time of last modification and the name of the modifier but you will not be able to perform any further actions. To open or access these files, please contact your Nextcloud administrator or the creator of the file so that they can grant you the necessary permissions.
+If you are unable to see the details of a file or are unable to open some of the files linked to a work package, it could be related to your Nextcloud account not having the necessary permissions. In such a case, you will be able to see the name, time of last modification and the name of the modifier but you will not be able to perform any further actions. To open or access these files, please contact your Nextcloud administrator or the creator of the file so that they can grant you the necessary permissions.
 
 ![OP_no_permissions](1_1_01-Not_all_files_available.png)
 
