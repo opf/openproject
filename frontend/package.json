@@ -124,7 +124,7 @@
     "mark.js": "^8.11.0",
     "mime": "^2.5.2",
     "moment": "^2.29.4",
-    "moment-timezone": "^0.5.34",
+    "moment-timezone": "^0.5.35",
     "mousetrap": "~1.6.3",
     "ng-dynamic-component": "^6.0.0",
     "ng2-charts": "^2.3.1",
