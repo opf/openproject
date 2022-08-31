@@ -299,6 +299,11 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
     end
 
     context 'with WorkPackage' do
+      shared_let(:project) { create :project }
+      let(:attributes) do
+        { project_id: project.id }
+      end
+
       it_behaves_like 'rewritten record',
                       :work_package,
                       :assigned_to_id
@@ -311,8 +316,11 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_work_package_journal,
                       :assigned_to_id do
         let(:attributes) do
-          # ignore_non_working_days is non nullable. This part is not related to the test.
-          { ignore_non_working_days: false }
+          {
+            # ignore_non_working_days is non nullable. This part is not related to the test.
+            ignore_non_working_days: false,
+            project_id: project.id
+          }
         end
       end
 
@@ -320,8 +328,11 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_work_package_journal,
                       :responsible_id do
         let(:attributes) do
-          # ignore_non_working_days is non nullable. This part is not related to the test.
-          { ignore_non_working_days: false }
+          {
+            # ignore_non_working_days is non nullable. This part is not related to the test.
+            ignore_non_working_days: false,
+            project_id: project.id
+          }
         end
       end
     end
