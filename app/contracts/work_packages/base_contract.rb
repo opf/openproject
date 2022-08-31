@@ -252,15 +252,14 @@ module WorkPackages
     end
 
     def validate_parent_exists
-      if model.parent.is_a?(WorkPackage::InexistentWorkPackage)
-
+      if model.parent.is_a?(WorkPackage::InexistentWorkPackage) ||
+        (model.parent_id && model.parent.nil?)
         errors.add :parent, :does_not_exist
       end
     end
 
     def validate_parent_not_self
       if model.parent == model
-
         errors.add :parent, :cannot_be_self_assigned
       end
     end

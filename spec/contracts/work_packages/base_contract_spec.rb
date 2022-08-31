@@ -835,6 +835,18 @@ describe WorkPackages::BaseContract do
           .to include(:cant_link_a_work_package_with_a_descendant)
       end
     end
+
+    context 'when an invalid parent_id is set' do
+      before do
+        work_package.parent = nil
+        work_package.parent_id = -1
+      end
+
+      it 'is invalid' do
+        expect(subject)
+          .to include(:does_not_exist)
+      end
+    end
   end
 
   describe 'type' do

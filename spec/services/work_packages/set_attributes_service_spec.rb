@@ -565,6 +565,27 @@ describe WorkPackages::SetAttributesService,
           end
         end
       end
+
+      context 'with providing a parent_id that is invalid' do
+        let(:call_attributes) { { parent_id: -1 } }
+        let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 2.days) }
+
+        it_behaves_like 'service call' do
+          it "sets the start_date to the parent`s start_date" do
+            subject
+
+            expect(work_package.start_date)
+              .to eql Time.zone.today
+          end
+
+          it "sets the due_date to the parent`s due_date" do
+            subject
+
+            expect(work_package.due_date)
+              .to eql Time.zone.today + 2.days
+          end
+        end
+      end
     end
 
     context 'with no value set for a new work package and with default setting active',

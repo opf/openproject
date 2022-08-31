@@ -345,7 +345,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
 
   def new_start_date_from_parent
     return unless work_package.parent_id_changed? &&
-                  work_package.parent_id
+                  work_package.parent
 
     work_package.parent.soonest_start
   end
