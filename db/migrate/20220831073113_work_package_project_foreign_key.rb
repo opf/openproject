@@ -18,8 +18,8 @@ class WorkPackageProjectForeignKey < ActiveRecord::Migration[7.0]
       WorkPackages::DeleteService
         .new(user: User.system, model: work_package)
         .call
-        .on_success { puts "Deleted stale work package #{work_package.inspect}" }
-        .on_failure { raise "Failed to delete stale work package #{work_package.inspect}" }
+        .on_success { Rails.logger.info "Deleted stale work package #{work_package.inspect}" }
+        .on_failure { Rails.logger.error "Failed to delete stale work package #{work_package.inspect}" }
     rescue ::ActiveRecord::RecordNotFound
       # raised by #reload if work package no longer exists
       # nothing to do, work package was already deleted (eg. by a parent)
