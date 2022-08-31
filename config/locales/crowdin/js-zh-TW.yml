@@ -193,7 +193,7 @@ zh-TW:
           form:
             general_consent: >
               I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
+            invalid_email: "無效的電子郵件"
             label_company: "Company"
             label_first_name: "名字"
             label_last_name: "姓："
@@ -207,7 +207,7 @@ zh-TW:
             domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
+          try_another_email: "或嘗試使用其他電子郵件"
           next_steps: "Next steps"
           resend_link: "重新發送"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
