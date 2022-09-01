@@ -276,8 +276,12 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
 
     context 'with weekend days (Saturday and Sunday)', :weekend_saturday_sunday do
       include_examples 'delta', previous: friday_2022_07_29, current: saturday_2022_07_30, expected: 0
+      include_examples 'delta', previous: friday_2022_07_29, current: sunday_2022_07_31, expected: 0
       include_examples 'delta', previous: saturday_2022_07_30, current: monday_2022_08_01, expected: 0
+      include_examples 'delta', previous: saturday_2022_07_30, current: sunday_2022_07_31, expected: 0
       include_examples 'delta', previous: sunday_2022_07_31, current: monday_2022_08_01, expected: 0
+      include_examples 'delta', previous: saturday_2022_07_30, current: wednesday_2022_08_03, expected: 2
+      include_examples 'delta', previous: sunday_2022_07_31, current: wednesday_2022_08_03, expected: 2
       include_examples 'delta', previous: friday_2022_07_29, current: monday_2022_08_01, expected: 1
       include_examples 'delta', previous: friday_2022_07_29, current: Date.new(2022, 8, 5), expected: 5
       include_examples 'delta', previous: friday_2022_07_29, current: Date.new(2022, 8, 8), expected: 6

@@ -83,13 +83,17 @@ module WorkPackages
       end
 
       def delta(previous:, current:)
+        if current < previous
+          return -delta(previous: current, current: previous)
+        end
+
         delta = 0
-        direction = previous < current ? 1 : -1
-        pos = last_pos = previous
-        while pos != current
-          pos += direction
+        pos = last_pos = soonest_working_day(previous)
+
+        while pos < current
+          pos += 1
           if working?(last_pos) && working?(pos)
-            delta += direction
+            delta += 1
             last_pos = pos
           end
         end
