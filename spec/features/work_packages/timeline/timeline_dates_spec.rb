@@ -32,10 +32,8 @@ RSpec.describe 'Work package timeline date formatting',
                with_settings: { date_format: '%Y-%m-%d' },
                js: true,
                selenium: true do
-
   shared_let(:type) { create(:type_bug, color: create(:color_green)) }
   shared_let(:project) { create(:project, types: [type]) }
-
   shared_let(:start_date) { Date.parse('2020-12-31') }
   shared_let(:due_date) { Date.parse('2021-01-01') }
   shared_let(:duration) { due_date - start_date + 1 }
@@ -68,7 +66,6 @@ RSpec.describe 'Work package timeline date formatting',
   end
 
   let(:week_days) { nil }
-
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
   let!(:query_tl) do
     query = build(:query, user: current_user, project:)
