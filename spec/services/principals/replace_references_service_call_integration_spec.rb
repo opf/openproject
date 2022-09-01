@@ -311,7 +311,8 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_work_package_journal,
                       :assigned_to_id do
         let(:attributes) do
-          {}
+          # ignore_non_working_days is non nullable. This part is not related to the test.
+          { ignore_non_working_days: false }
         end
       end
 
@@ -319,7 +320,8 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_work_package_journal,
                       :responsible_id do
         let(:attributes) do
-          {}
+          # ignore_non_working_days is non nullable. This part is not related to the test.
+          { ignore_non_working_days: false }
         end
       end
     end
