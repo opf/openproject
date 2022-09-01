@@ -43,14 +43,12 @@ FactoryBot.define do
     updated_at { Time.zone.now }
     start_date do
       # derive start date if due date and duration were provided
-      next unless OpenProject::FeatureDecisions.work_packages_duration_field_active?
       next unless %i[due_date duration].all? { |field| __override_names__.include?(field) }
 
       days.start_date(due_date&.to_date, duration)
     end
     due_date do
       # derive due date if start date and duration were provided
-      next unless OpenProject::FeatureDecisions.work_packages_duration_field_active?
       next unless %i[start_date duration].all? { |field| __override_names__.include?(field) }
 
       days.due_date(start_date&.to_date, duration)
