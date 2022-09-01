@@ -8,7 +8,6 @@ import { SbListCompactExample } from './ListCompact.example.ts';
 
 <Meta
   title="Blocks/List"
-  component={SbListWithLinksExample}
   decorators={[
     moduleMetadata({
       imports: [
@@ -45,16 +44,12 @@ The dimensions of the list are defined by the dimensions of the containing eleme
 List items have a primary action attached to them. This can be linking somewhere, a button listener, or acting
 as a label for a checkbox.
 
-export const Template = (component) => ({
-  parameters: { component },
-});
-
 <Canvas>
-  <Story name="With Links">{Template.bind(SbListWithLinksExample)}</Story>
+  <Story name="With Links">{{ component: SbListWithLinksExample }}</Story>
 </Canvas>
 
 <Canvas>
-  <Story name="With Checkboxes">{Template.bind(SbListWithCheckboxesExample)}</Story>
+  <Story name="With Checkboxes">{{ component: SbListWithCheckboxesExample }}</Story>
 </Canvas>
 
 # Compact
@@ -62,5 +57,5 @@ export const Template = (component) => ({
 The compact version makes the items a little bit less tall.
 
 <Canvas>
-  <Story name="Compact">{Template.bind(SbListCompactExample)}</Story>
+  <Story name="Compact">{{ component: SbListCompactExample }}</Story>
 </Canvas>

@@ -2,6 +2,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { Canvas, Meta, Story } from '@storybook/addon-docs';
 
 import { OpSpotModule } from '../app/spot/spot.module';
+import { SbActionBarExample } from './ActionBar.example';
 
 <Meta
   title="Blocks/Action Bar"
@@ -27,5 +28,7 @@ The action bar is generally used at the bottom of modals to present the user wit
 The most common choices are "Save/apply" and "Cancel".  At least one button (Cancel) is the absolute minimum.
 
 <Canvas>
-  <Story id="example-stories-action-bar--html"></Story>
+  <Story name="Default">
+    {{ component: SbActionBarExample }}
+  </Story>
 </Canvas>

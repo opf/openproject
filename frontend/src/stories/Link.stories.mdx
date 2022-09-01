@@ -1,0 +1,28 @@
+import { moduleMetadata } from '@storybook/angular';
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { OpSpotModule } from '../app/spot/spot.module';
+import { SbLinkExample } from './Link.example.ts';
+
+<Meta
+  title="Blocks/Link"
+  decorators={[
+    moduleMetadata({
+      imports: [
+        OpSpotModule,
+      ],
+    }),
+  ]}
+  parameters={{
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=859%3A6760',
+    },
+  }}
+/>
+
+# Links
+
+<Canvas>
+  <Story name="Default">{{ component: SbLinkExample }}</Story>
+</Canvas>

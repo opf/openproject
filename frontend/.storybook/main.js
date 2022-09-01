@@ -18,6 +18,7 @@ module.exports = {
     disableTelemetry: true,
   },
   features: {
-//    previewMdx2: true,
+    previewMdx2: true,
+    modernInlineRender: true,
   },
 };
