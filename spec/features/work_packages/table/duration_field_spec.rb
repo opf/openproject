@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'Duration field in the work package table',
-         with_flag: { work_packages_duration_field_active: true },
          js: true do
   shared_let(:current_user) { create :admin }
   shared_let(:work_package) do

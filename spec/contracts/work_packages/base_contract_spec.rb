@@ -451,8 +451,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'when setting due date and duration without start date',
-            with_flag: { work_packages_duration_field_active: true } do
+    context 'when setting due date and duration without start date' do
       before do
         work_package.duration = 1
         work_package.start_date = nil
@@ -514,8 +513,7 @@ describe WorkPackages::BaseContract do
       end
     end
 
-    context 'when setting start date and duration without due date',
-            with_flag: { work_packages_duration_field_active: true } do
+    context 'when setting start date and duration without due date' do
       before do
         work_package.duration = 1
         work_package.start_date = Time.zone.today
@@ -526,7 +524,7 @@ describe WorkPackages::BaseContract do
     end
   end
 
-  describe 'duration', with_flag: { work_packages_duration_field_active: true } do
+  describe 'duration' do
     context 'when setting duration' do
       before do
         work_package.duration = 5
@@ -563,14 +561,6 @@ describe WorkPackages::BaseContract do
       end
 
       it_behaves_like 'contract is valid'
-    end
-
-    context 'when setting duration with the feature disabled', with_flag: { work_packages_duration_field_active: false } do
-      before do
-        work_package.duration = 5
-      end
-
-      it_behaves_like 'contract is invalid', duration: :error_readonly
     end
 
     context 'when setting duration to 0' do
@@ -678,7 +668,7 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'ignore_non_working_days' do
-    context 'when setting the value to true', with_flag: { work_packages_duration_field_active: true } do
+    context 'when setting the value to true' do
       before do
         work_package.ignore_non_working_days = true
       end
@@ -686,21 +676,12 @@ describe WorkPackages::BaseContract do
       it_behaves_like 'contract is valid'
     end
 
-    context 'when setting the value to false', with_flag: { work_packages_duration_field_active: true } do
+    context 'when setting the value to false' do
       before do
         work_package.ignore_non_working_days = false
       end
 
       it_behaves_like 'contract is valid'
-    end
-
-    context 'when setting the value to true and with the feature disabled',
-            with_flag: { work_packages_duration_field_active: false } do
-      before do
-        work_package.ignore_non_working_days = true
-      end
-
-      it_behaves_like 'contract is invalid', ignore_non_working_days: :error_readonly
     end
   end
 

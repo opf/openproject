@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 describe WorkPackages::SetAttributesService,
-         type: :model,
-         with_flag: { work_packages_duration_field_active: true } do
+         type: :model do
   let(:today) { Time.zone.today }
   let(:user) { build_stubbed(:user) }
   let(:project) do
@@ -1051,7 +1050,7 @@ describe WorkPackages::SetAttributesService,
 
       context 'when start date changes' do
         let(:work_package) do
-          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday)
         end
         let(:call_attributes) { { start_date: wednesday } }
 
@@ -1067,7 +1066,7 @@ describe WorkPackages::SetAttributesService,
 
       context 'when due date changes' do
         let(:work_package) do
-          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday)
         end
         let(:call_attributes) { { due_date: monday + 14.days } }
 
@@ -1083,7 +1082,7 @@ describe WorkPackages::SetAttributesService,
 
       context 'when duration changes' do
         let(:work_package) do
-          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday)
         end
         let(:call_attributes) { { duration: "13" } }
 
@@ -1099,7 +1098,7 @@ describe WorkPackages::SetAttributesService,
 
       context 'when duration and end_date both change' do
         let(:work_package) do
-          build_stubbed(:work_package, start_date: monday, due_date: next_monday, ignore_non_working_days: false)
+          build_stubbed(:work_package, start_date: monday, due_date: next_monday)
         end
         let(:call_attributes) { { due_date: next_tuesday, duration: 4 } }
 

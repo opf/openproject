@@ -31,7 +31,7 @@ require 'rails_helper'
 RSpec.describe WorkPackages::Shared::Days do
   subject { described_class.new }
 
-  describe '.for', with_flag: { work_packages_duration_field_active: true } do
+  describe '.for' do
     context 'for a work_package ignoring non working days' do
       let(:work_package) { build_stubbed(:work_package, ignore_non_working_days: true) }
 
@@ -41,23 +41,10 @@ RSpec.describe WorkPackages::Shared::Days do
     end
 
     context 'for a work_package respecting non working days' do
-      let(:work_package) { build_stubbed(:work_package, ignore_non_working_days: false) }
+      let(:work_package) { build_stubbed(:work_package) }
 
       it 'returns a WorkingDays instance' do
         expect(described_class.for(work_package)).to be_an_instance_of(WorkPackages::Shared::WorkingDays)
-      end
-    end
-
-    context 'when work packages duration field is inactive', with_flag: { work_packages_duration_field_active: false } do
-      it 'always returns an AllDays instance' do
-        work_package = build_stubbed(:work_package)
-        expect(described_class.for(work_package)).to be_an_instance_of(WorkPackages::Shared::AllDays)
-
-        work_package = build_stubbed(:work_package, ignore_non_working_days: true)
-        expect(described_class.for(work_package)).to be_an_instance_of(WorkPackages::Shared::AllDays)
-
-        work_package = build_stubbed(:work_package, ignore_non_working_days: false)
-        expect(described_class.for(work_package)).to be_an_instance_of(WorkPackages::Shared::AllDays)
       end
     end
   end

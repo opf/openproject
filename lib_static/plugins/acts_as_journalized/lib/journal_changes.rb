@@ -37,8 +37,6 @@ module JournalChanges
                  subsequent_journal_data_changes
                end
 
-    @changes.delete(:duration) unless OpenProject::FeatureDecisions.work_packages_duration_field_active?
-
     @changes.merge!(get_association_changes(predecessor, 'attachable', 'attachments', :attachment_id, :filename))
     @changes.merge!(get_association_changes(predecessor, 'customizable', 'custom_fields', :custom_field_id, :value))
   end

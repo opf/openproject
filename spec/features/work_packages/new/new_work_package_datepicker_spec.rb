@@ -35,7 +35,6 @@ require 'features/work_packages/work_packages_page'
 
 describe 'New work package datepicker',
          with_settings: { date_format: '%Y-%m-%d' },
-         with_flag: { work_packages_duration_field_active: true },
          js: true, selenium: true do
   let(:project) { create :project_with_types, public: true }
   let(:user) { create :admin }

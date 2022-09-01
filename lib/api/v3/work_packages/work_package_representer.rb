@@ -396,19 +396,14 @@ module API
 
         property :duration,
                  exec_context: :decorator,
-                 if: ->(represented:, **) {
-                   !represented.milestone? && OpenProject::FeatureDecisions.work_packages_duration_field_active?
-                 },
+                 if: ->(represented:, **) { !represented.milestone? },
                  getter: ->(*) do
                    datetime_formatter.format_duration_from_hours(represented.duration_in_hours,
                                                                  allow_nil: true)
                  end,
                  render_nil: true
 
-        property :ignore_non_working_days,
-                 if: ->(*) {
-                   OpenProject::FeatureDecisions.work_packages_duration_field_active?
-                 }
+        property :ignore_non_working_days
 
         property :spent_time,
                  exec_context: :decorator,

@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-describe RootSeeder, 'Storage module',
-         with_flag: { work_packages_duration_field_active: true } do
+describe RootSeeder, 'Storage module' do
   it 'seeds role permissions for Storages' do
     expect { described_class.new.do_seed! }.not_to raise_error
 
