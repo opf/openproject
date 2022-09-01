@@ -159,7 +159,7 @@ RSpec.describe 'Work package timeline date formatting',
     end
   end
 
-  describe 'setting dates', with_flag: { work_packages_duration_field_active: true } do
+  describe 'setting dates' do
     let(:current_user) { create :admin }
     let(:week_days) { create :week_days }
     let(:row) { wp_timeline.timeline_row work_package_with_non_working_days.id }
