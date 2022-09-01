@@ -1,5 +1,5 @@
 import { moduleMetadata } from '@storybook/angular';
-import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { Canvas, Meta, Story, ArgsTable } from '@storybook/addon-docs';
 import { I18nShim } from 'test/i18n-shim';
 
 import { OpSpotModule } from '../../../spot.module';
@@ -26,9 +26,7 @@ export const dummy = (() => window.I18n = new I18nShim())();
   }}
 />
 
-## Documentation
-
-The include projects drop modal allows users to include projects other than the current one, so that the current view (be it table view, the team planner, boards view...) also displays work packages of these included projects.
+# Drop Modal
 
 <Canvas>
   <Story
@@ -42,3 +40,6 @@ The include projects drop modal allows users to include projects other than the 
     }}
   </Story>
 </Canvas>
+
+<ArgsTable of={SpotDropModalComponent} />
+

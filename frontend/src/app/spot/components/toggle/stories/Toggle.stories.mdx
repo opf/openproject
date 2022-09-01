@@ -1,5 +1,5 @@
 import { moduleMetadata } from '@storybook/angular';
-import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { Canvas, Meta, Story, ArgsTable } from '@storybook/addon-docs';
 
 import { OpSpotModule } from '../../../spot.module';
 import { SpotToggleComponent } from '../toggle.component';
@@ -22,14 +22,7 @@ import { SpotToggleComponent } from '../toggle.component';
   }}
 />
 
-export const Template = ({ name, value, options }) => {
-  return {
-    props: { name, value, options },
-    parameters: {
-      layout: 'centered',
-    },
-  };
-};
+# Toggles
 
 <Canvas>
   <Story
@@ -43,6 +36,20 @@ export const Template = ({ name, value, options }) => {
   >
     {Template.bind({})}
   </Story>
+</Canvas>
+
+<ArgsTable of={SpotToggleComponent} />
+
+export const Template = ({ name, value, options }) => {
+  return {
+    props: { name, value, options },
+    parameters: {
+      layout: 'centered',
+    },
+  };
+};
+
+<Canvas>
   <Story
     name="Preset value"
     args={{
@@ -55,6 +62,8 @@ export const Template = ({ name, value, options }) => {
   >
     {Template.bind({})}
   </Story>
+</Canvas>
+<Canvas>
   <Story
     name="More than two options"
     args={{

@@ -1,5 +1,5 @@
 import { moduleMetadata } from '@storybook/angular';
-import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { Canvas, Meta, Story, ArgsTable } from '@storybook/addon-docs';
 
 import { OpSpotModule } from '../../../spot.module';
 import { SpotTextFieldComponent } from '../text-field.component';
@@ -22,13 +22,17 @@ import { SpotTextFieldComponent } from '../text-field.component';
   }}
 />
 
-## Documentation
+# Text Fields
 
-Currently undocumented.
+<Canvas>
+  <Story
+    name="Default"
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
 
-## Angular
-
-TextField is compatible with `ngModel`.
+<ArgsTable of={SpotTextFieldComponent} />
 
 export const Template = (args) => ({
   parameters: {
@@ -44,11 +48,6 @@ export const Template = (args) => ({
 
 <Canvas>
   <Story
-    name="Default"
-  >
-    {Template.bind({})}
-  </Story>
-  <Story
     name="Preset value"
     args={{
       value: 'I have a value set',
@@ -56,6 +55,8 @@ export const Template = (args) => ({
   >
     {Template.bind({})}
   </Story>
+</Canvas>
+<Canvas>
   <Story
     name="Disabled"
     args={{
@@ -64,6 +65,8 @@ export const Template = (args) => ({
   >
     {Template.bind({})}
   </Story>
+</Canvas>
+<Canvas>
   <Story
     name="Placeholder"
     args={{
