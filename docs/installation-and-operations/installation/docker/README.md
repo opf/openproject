@@ -69,6 +69,24 @@ This will not remove your data which is persisted in named volumes, likely calle
 If you want to start from scratch and remove the existing data you will have to remove these volumes via
 `docker volume rm compose_opdata compose_pgdata`.
 
+
+
+### Disabling services in the docker-compose file
+
+If you have an override file created, it is also easy to disable certain services, such as the database container if you have an external one running anyway.
+
+To do that, add this section to the file:
+
+
+```yaml
+services: 
+  db:
+    deploy:
+      replicas: 0
+```
+
+
+
 ## All-in-one container
 
 ### Quick Start
@@ -178,6 +196,10 @@ image you need to pass all configuration through environment variables. You can
 overwrite any of the values usually found in the standard YAML file by using
 [environment variables](../../configuration/environment).
 
+
+
+#### All-in-one container
+
 Environment variables can be either passed directly on the command-line to the
 Docker Engine, or via an environment file:
 
@@ -186,6 +208,68 @@ docker run -d -e KEY1=VALUE1 -e KEY2=VALUE2 ...
 # or
 docker run -d --env-file path/to/file ...
 ```
+
+
+
+#### Docker-compose setup
+
+For the docker-compose setup, we recommend you copy the upstream docker-compose.yml and adjust it to your needs. Please observe any changes when updating to the latest versions.
+
+To add an environment variable manually to the docker-compose file, add it to the `environment:` section of the `op-x-app` definition like in the following example:
+
+```yaml
+version: "3.7"
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  pgdata:
+  opdata:
+
+x-op-restart-policy: &restart_policy
+  restart: unless-stopped
+x-op-image: &image
+  image: openproject/community:${TAG:-12}
+x-op-app: &app
+  <<: [*image, *restart_policy]
+  environment:
+    OPENPROJECT_HTTPS: true
+    # ... other configuration
+    RAILS_CACHE_STORE: "memcache"
+    OPENPROJECT_CACHE__MEMCACHE__SERVER: "cache:11211"
+    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+    DATABASE_URL: "${DATABASE_URL:-postgres://postgres:p4ssw0rd@db/openproject?pool=20&encoding=unicode&reconnect=true}"
+    RAILS_MIN_THREADS: 4
+    RAILS_MAX_THREADS: 16
+    # set to true to enable the email receiving feature. See ./docker/cron for more options
+    IMAP_ENABLED: "${IMAP_ENABLED:-false}"
+  volumes:
+    - "${OPDATA:-opdata}:/var/openproject/assets"
+
+# configuration cut off at this point. 
+# Please use the file at https://github.com/opf/openproject-deploy/blob/stable/12/compose/docker-compose.yml
+```
+
+
+
+Alternatively, you can also use an env file for docker-compose like so:
+
+First, add a `.env` file with some variable:
+```
+OPENPROJECT_HTTPS=true
+```
+
+And the  `docker-compose` command will automatically pick it up. You can also specify multiple files if you have different configurations you want to test.
+
+Let's say you have a `.env.prod`  file with some production-specific configuration. Then, start the services with that special env file specified.
+
+```
+docker-compose --env-file .env.prod up
+```
+
+
 
 #### Disabling HTTPS mode
 
