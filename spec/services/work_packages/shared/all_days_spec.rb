@@ -49,7 +49,7 @@ RSpec.describe WorkPackages::Shared::AllDays do
       end
     end
 
-    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+    context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
       include_examples 'it returns duration', 365, Date.new(2022, 1, 1), Date.new(2022, 12, 31)
       include_examples 'it returns duration', 365 * 2, Date.new(2022, 1, 1), Date.new(2023, 12, 31)
     end
@@ -106,7 +106,7 @@ RSpec.describe WorkPackages::Shared::AllDays do
       include_examples 'start_date', due_date: sunday_2022_07_31, duration: 10, expected: sunday_2022_07_31 - 9.days
     end
 
-    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+    context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
       include_examples 'start_date', due_date: Date.new(2022, 12, 31), duration: 365, expected: Date.new(2022, 1, 1)
       include_examples 'start_date', due_date: Date.new(2023, 12, 31), duration: 365 * 2, expected: Date.new(2022, 1, 1)
     end
@@ -139,7 +139,7 @@ RSpec.describe WorkPackages::Shared::AllDays do
       include_examples 'due_date', start_date: sunday_2022_07_31, duration: 10, expected: sunday_2022_07_31 + 9.days
     end
 
-    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+    context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
       include_examples 'due_date', start_date: Date.new(2022, 1, 1), duration: 365, expected: Date.new(2022, 12, 31)
       include_examples 'due_date', start_date: Date.new(2022, 1, 1), duration: 365 * 2, expected: Date.new(2023, 12, 31)
     end
@@ -167,7 +167,7 @@ RSpec.describe WorkPackages::Shared::AllDays do
       end
     end
 
-    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+    context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
       it 'adds the number of days to the date' do
         expect(subject.add_days(Date.new(2022, 1, 1), 365)).to eq(Date.new(2023, 1, 1))
         expect(subject.add_days(Date.new(2022, 1, 1), -365)).to eq(Date.new(2021, 1, 1))
@@ -190,7 +190,7 @@ RSpec.describe WorkPackages::Shared::AllDays do
       end
     end
 
-    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+    context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
       it 'returns the given day' do
         expect(subject.soonest_working_day(Date.new(2022, 12, 25))).to eq(Date.new(2022, 12, 25))
       end
@@ -209,7 +209,7 @@ RSpec.describe WorkPackages::Shared::AllDays do
       end
     end
 
-    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+    context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
       it 'returns the same delta as without them' do
         expect(subject.delta(previous: Date.new(2022, 12, 1), current: Date.new(2023, 1, 1))).to eq(31)
       end

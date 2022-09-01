@@ -74,19 +74,4 @@ describe 'Work packages datepicker workdays',
       end
     end
   end
-
-  context 'with all days marked as weekend' do
-    let(:week_days) do
-      days = create(:week_days)
-
-      WeekDay.update_all(working: false)
-
-      days
-    end
-
-    it 'shows them as disabled' do
-      expect(page).to have_selector('.dayContainer', count: 2)
-      expect(page).to have_selector('.dayContainer:first-of-type .flatpickr-day.flatpickr-non-working-day', count: 31)
-    end
-  end
 end

@@ -37,9 +37,18 @@ RSpec.shared_context 'with non working days Christmas 2022 and new year 2023' do
   shared_let(:new_year_day) { create(:non_working_day, date: Date.new(2023, 1, 1)) }
 end
 
+RSpec.shared_context 'with no working days' do
+  include_context 'with weekend days Saturday and Sunday'
+
+  before do
+    WeekDay.update_all(working: false)
+  end
+end
+
 RSpec.configure do |rspec|
   rspec.include_context 'with weekend days Saturday and Sunday', :weekend_saturday_sunday
   rspec.include_context 'with non working days Christmas 2022 and new year 2023', :christmas_2022_new_year_2023
+  rspec.include_context 'with no working days', :no_working_days
 end
 
 RSpec.shared_examples 'it returns duration' do |expected_duration, start_date, due_date|

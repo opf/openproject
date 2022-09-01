@@ -72,7 +72,7 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
       include_examples 'it returns duration', 5, wednesday_2022_08_03, Date.new(2022, 8, 9)
     end
 
-    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+    context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
       include_examples 'it returns duration', 0, Date.new(2022, 12, 25), Date.new(2022, 12, 25)
       include_examples 'it returns duration', 1, Date.new(2022, 12, 24), Date.new(2022, 12, 25)
       include_examples 'it returns duration', 8, Date.new(2022, 12, 24), Date.new(2023, 1, 2)
@@ -141,7 +141,7 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
       include_examples 'start_date', due_date: saturday_2022_07_30, duration: 6, expected: friday_2022_07_29 - 7.days
     end
 
-    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+    context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
       include_examples 'start_date', due_date: Date.new(2022, 12, 26), duration: 2, expected: Date.new(2022, 12, 24)
       include_examples 'start_date', due_date: Date.new(2023, 1, 2), duration: 8, expected: Date.new(2022, 12, 24)
     end
@@ -185,7 +185,7 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
       include_examples 'due_date', start_date: saturday_2022_07_30, duration: 6, expected: monday_2022_08_01 + 7.days
     end
 
-    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+    context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
       include_examples 'due_date', start_date: Date.new(2022, 12, 24), duration: 2, expected: Date.new(2022, 12, 26)
       include_examples 'due_date', start_date: Date.new(2022, 12, 24), duration: 8, expected: Date.new(2023, 1, 2)
     end
@@ -236,7 +236,7 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
       include_examples 'add_days returns date', date: Date.new(2022, 12, 31), count: -365, expected: Date.new(2021, 8, 9)
     end
 
-    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+    context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
       include_examples 'add_days returns date', date: Date.new(2022, 12, 24), count: 1, expected: Date.new(2022, 12, 26)
       include_examples 'add_days returns date', date: Date.new(2022, 12, 24), count: 7, expected: Date.new(2023, 1, 2)
 
@@ -261,10 +261,17 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
       include_examples 'soonest working day', date: monday_2022_08_01, expected: monday_2022_08_01
     end
 
-    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+    context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
       include_examples 'soonest working day', date: Date.new(2022, 12, 25), expected: Date.new(2022, 12, 26)
       include_examples 'soonest working day', date: Date.new(2022, 12, 31), expected: Date.new(2022, 12, 31)
       include_examples 'soonest working day', date: Date.new(2023, 1, 1), expected: Date.new(2023, 1, 2)
+    end
+
+    context 'with no working days', :no_working_days do
+      it 'prevents looping infinitely by raising a runtime error' do
+        expect { subject.soonest_working_day(sunday_2022_07_31) }
+          .to raise_error(RuntimeError, 'cannot have all week days as non-working days')
+      end
     end
   end
 
@@ -287,7 +294,7 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
       include_examples 'delta', previous: friday_2022_07_29, current: Date.new(2022, 8, 8), expected: 6
     end
 
-    context 'with non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
+    context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
       include_examples 'delta', previous: Date.new(2022, 12, 27), current: Date.new(2022, 12, 20), expected: -6
     end
   end

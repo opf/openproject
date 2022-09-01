@@ -124,11 +124,22 @@ module WorkPackages
       end
 
       def working_week_day?(date)
+        assert_some_working_week_days_exist
         working_week_days[date.wday]
       end
 
       def working_specific_date?(date)
         non_working_dates.exclude?(date)
+      end
+
+      def assert_some_working_week_days_exist
+        return if @working_week_days_exist
+
+        if working_week_days.all? { |working| working == false }
+          raise 'cannot have all week days as non-working days'
+        end
+
+        @working_week_days_exist = true
       end
 
       def working_week_days
