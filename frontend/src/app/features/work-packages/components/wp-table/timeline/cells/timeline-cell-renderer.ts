@@ -46,13 +46,8 @@ export const classNameLeftHandle = 'leftHandle';
 export const classNameRightHandle = 'rightHandle';
 export const classNameBarLabel = 'bar-label';
 
-class TimezoneService {
-}
-
 export class TimelineCellRenderer {
   @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
-
-  @InjectField() TimezoneService:TimezoneService;
 
   @InjectField() weekdayService:WeekdayService;
 
@@ -81,7 +76,7 @@ export class TimelineCellRenderer {
     return 'bar';
   }
 
-  public canMoveDates(wp:WorkPackageResource) {
+  public canMoveDates(wp:WorkPackageResource):boolean {
     const schema = this.schemaCache.of(wp);
     return schema.startDate.writable && schema.dueDate.writable && schema.isAttributeEditable('startDate');
   }
