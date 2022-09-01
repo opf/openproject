@@ -219,10 +219,8 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     this.value = value;
   }
 
-  // eslint-disable-next-line no-unused-vars
   onChange = (_:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void => {};
 
-  // eslint-disable-next-line no-unused-vars
   onTouched = (_:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void => {};
 
   registerOnChange(fn:(_:IProjectAutocompleterData|IProjectAutocompleterData[]|null) => void):void {

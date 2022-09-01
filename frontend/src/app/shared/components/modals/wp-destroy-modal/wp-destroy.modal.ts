@@ -76,10 +76,8 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
     label_confirm_children_deletion: this.I18n.t('js.modals.destroy_work_package.confirm_deletion_children'),
     title: '',
     text: '',
-    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
-    childCount: (wp:WorkPackageResource):string => '',
-    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
-    hasChildren: (wp:WorkPackageResource):string => '',
+    childCount: (_wp:WorkPackageResource):string => '',
+    hasChildren: (_wp:WorkPackageResource):string => '',
     deletesChildren: '',
   };
 

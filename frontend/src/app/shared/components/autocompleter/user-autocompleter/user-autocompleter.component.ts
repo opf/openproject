@@ -202,10 +202,8 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
     this.value = value;
   }
 
-  // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
   onChange = (_:IUserAutocompleteItem|IUserAutocompleteItem[]|null):void => {};
 
-  // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
   onTouched = (_:IUserAutocompleteItem|IUserAutocompleteItem[]|null):void => {};
 
   registerOnChange(fn:(_:IUserAutocompleteItem|IUserAutocompleteItem[]|null) => void):void {
