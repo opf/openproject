@@ -79,8 +79,7 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
   }
 
   // Disable show viewpoint functionality
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  showViewpoint(workPackage:WorkPackageResource, index:number):void {
+  showViewpoint(_workPackage:WorkPackageResource, _index:number):void {
 
   }
 
