@@ -1,5 +1,15 @@
 
 
+```
+-sidebar_navigation:
+-  title: Documentation style guide
+-  priority: 700
+-description: What styles and formats to follow when contributing to the OpenProject documentation
+-keywords: documentation style guide, style guide, format, style
+```
+
+
+
 # Documentation style guide
 
 This document defines the standards for the OpenProject documentation, including grammar, formatting, wording and more.
