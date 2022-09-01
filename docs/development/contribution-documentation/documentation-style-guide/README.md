@@ -1,11 +1,9 @@
-
-
 ```
--sidebar_navigation:
--  title: Documentation style guide
--  priority: 700
--description: What styles and formats to follow when contributing to the OpenProject documentation
--keywords: documentation style guide, style guide, format, style
+sidebar_navigation:
+  title: Documentation style guide
+  priority: 700
+description: What styles and formats to follow when contributing to the OpenProject documentation
+keywords: documentation style guide, style guide, format, style
 ```
 
 
