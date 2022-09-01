@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob,
-               with_flag: { work_packages_duration_field_active: true } do
+RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
   subject(:job) { described_class }
 
   shared_let(:user) { create(:user) }
