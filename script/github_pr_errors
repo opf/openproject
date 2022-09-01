@@ -11,6 +11,7 @@ require 'pry'
 
 GITHUB_API_OPENPROJECT_PREFIX = "https://api.github.com/repos/opf/openproject"
 RAILS_ROOT = Pathname.new(__dir__).dirname
+SPEC_PATTERN = %r{^\S+ (?:rspec (\S+) #.+|An error occurred while loading (\S+)\.\r?)$}
 
 # current branch
 branch_name = `git rev-parse --abbrev-ref HEAD`.strip
@@ -95,19 +96,29 @@ warn "  Commit SHA: #{last_test_action['head_sha']}"
 warn "  Commit message: #{commit_message(last_test_action)}"
 
 errors = []
+is_successful = true
 get_cached_json(last_test_action['jobs_url'])
   .then { |jobs_response| jobs_response['jobs'] }
   .select { _1['conclusion'] == 'failure' }
   .sort_by { _1['name'] }
   .each { warn "  #{_1['name']}: #{_1['conclusion']}" }
   .each do |job|
-    get_log(job).scan(/^\S+ rspec (\S+) #.+$/) do |match|
+    is_successful = false
+    get_log(job)
+      .scan(SPEC_PATTERN)
+      .flatten
+      .compact
+      .uniq
+      .sort
+      .each do |match|
       errors << match
     end
   end
 
-if errors.empty?
+if is_successful
+  warn "All jobs successful 🎉"
+elsif errors.empty?
   warn "No rspec errors found :-/"
 else
-  puts errors.flatten.uniq.map { "'#{_1}'" }.join(" ")
+  puts errors.map { "'#{_1}'" }.join(" ")
 end
