@@ -139,10 +139,10 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       manual: this.I18n.t('js.scheduling.manual'),
       default: this.I18n.t('js.scheduling.default'),
     },
-    includeNonWorkingDays: {
-      title: this.I18n.t('js.work_packages.datepicker_modal.include_non_working_days.title'),
-      yes: this.I18n.t('js.work_packages.datepicker_modal.include_non_working_days.true'),
-      no: this.I18n.t('js.work_packages.datepicker_modal.include_non_working_days.false'),
+    ignoreNonWorkingDays: {
+      title: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.title'),
+      yes: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.true'),
+      no: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.false'),
     },
   };
 
@@ -151,15 +151,15 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   scheduleManually = false;
 
   schedulingOptions = [
-    { value: true, title: this.text.scheduling.manual },
     { value: false, title: this.text.scheduling.default },
+    { value: true, title: this.text.scheduling.manual },
   ];
 
-  includeNonWorkingDays = false;
+  ignoreNonWorkingDays = false;
 
-  includeNonWorkingDaysOptions = [
-    { value: true, title: this.text.includeNonWorkingDays.yes },
-    { value: false, title: this.text.includeNonWorkingDays.no },
+  ignoreNonWorkingDaysOptions = [
+    { value: false, title: this.text.ignoreNonWorkingDays.no },
+    { value: true, title: this.text.ignoreNonWorkingDays.yes },
   ];
 
   duration:number|null;
@@ -243,7 +243,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         .forPayload({
           ...fieldsToUpdate,
           lockVersion: this.changeset.value<string>('lockVersion'),
-          ignoreNonWorkingDays: this.includeNonWorkingDays,
+          ignoreNonWorkingDays: this.ignoreNonWorkingDays,
           scheduleManually: this.scheduleManually,
         })),
     )
@@ -262,7 +262,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     this.htmlId = `wp-datepicker-${locals.fieldName as string}`;
 
     this.scheduleManually = !!this.changeset.value('scheduleManually');
-    this.includeNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
+    this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
 
     this.setDurationDaysFromUpstream(this.changeset.value('duration'));
 
@@ -313,7 +313,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     this.changeset.setValue('scheduleManually', this.scheduleManually);
 
     // Apply include NWD
-    this.changeset.setValue('ignoreNonWorkingDays', this.includeNonWorkingDays);
+    this.changeset.setValue('ignoreNonWorkingDays', this.ignoreNonWorkingDays);
 
     // Apply the dates if they could be changed
     if (this.isSchedulable) {
@@ -469,7 +469,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
-            this.includeNonWorkingDays,
+            this.ignoreNonWorkingDays,
             this.weekdayService.isNonWorkingDay(dayElem.dateObj),
             minimalDate,
             this.isDayDisabled(dayElem, minimalDate),
@@ -678,7 +678,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     const payload = form.payload as { startDate:string, dueDate:string, duration:string, ignoreNonWorkingDays:boolean };
     this.dates.start = payload.startDate;
     this.dates.end = payload.dueDate;
-    this.includeNonWorkingDays = payload.ignoreNonWorkingDays;
+    this.ignoreNonWorkingDays = payload.ignoreNonWorkingDays;
 
     this.setDurationDaysFromUpstream(payload.duration);
 

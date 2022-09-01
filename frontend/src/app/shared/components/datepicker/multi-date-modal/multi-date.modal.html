@@ -28,14 +28,14 @@
 
       <div class="form--field">
         <label class="form--label">
-          {{ text.includeNonWorkingDays.title }}
+          {{ text.ignoreNonWorkingDays.title }}
         </label>
         <div class="form--field-container">
           <spot-toggle
-            [options]="includeNonWorkingDaysOptions"
-            [value]="includeNonWorkingDays"
+            [options]="ignoreNonWorkingDaysOptions"
+            [value]="ignoreNonWorkingDays"
             [name]="'include-non-working-days'"
-            [(ngModel)]="includeNonWorkingDays"
+            [(ngModel)]="ignoreNonWorkingDays"
             (ngModelChange)="changeNonWorkingDays()"
             data-qa-selector="op-datepicker-modal--include-non-working-days"
           ></spot-toggle>

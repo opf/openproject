@@ -108,10 +108,10 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
       manual: this.I18n.t('js.scheduling.manual'),
       default: this.I18n.t('js.scheduling.default'),
     },
-    includeNonWorkingDays: {
-      title: this.I18n.t('js.work_packages.datepicker_modal.include_non_working_days.title'),
-      yes: this.I18n.t('js.work_packages.datepicker_modal.include_non_working_days.true'),
-      no: this.I18n.t('js.work_packages.datepicker_modal.include_non_working_days.false'),
+    ignoreNonWorkingDays: {
+      title: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.title'),
+      yes: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.true'),
+      no: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.false'),
     },
   };
 
@@ -124,11 +124,11 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     { value: false, title: this.text.scheduling.default },
   ];
 
-  includeNonWorkingDays = false;
+  ignoreNonWorkingDays = false;
 
-  includeNonWorkingDaysOptions = [
-    { value: true, title: this.text.includeNonWorkingDays.yes },
-    { value: false, title: this.text.includeNonWorkingDays.no },
+  ignoreNonWorkingDaysOptions = [
+    { value: true, title: this.text.ignoreNonWorkingDays.yes },
+    { value: false, title: this.text.ignoreNonWorkingDays.no },
   ];
 
   htmlId = '';
@@ -157,7 +157,7 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
         .forPayload({
           date,
           lockVersion: this.changeset.value<string>('lockVersion'),
-          ignoreNonWorkingDays: this.includeNonWorkingDays,
+          ignoreNonWorkingDays: this.ignoreNonWorkingDays,
         })),
     )
     .subscribe((form) => this.updateDatesFromForm(form));
@@ -174,7 +174,7 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     this.changeset = locals.changeset as ResourceChangeset;
     this.htmlId = `wp-datepicker-${locals.fieldName as string}`;
 
-    this.includeNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
+    this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
 
     this.date = this.changeset.value('date');
   }
@@ -219,7 +219,7 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     this.initializeDatepicker();
 
     // If we're single date, update the date
-    if (!this.includeNonWorkingDays && this.date) {
+    if (!this.ignoreNonWorkingDays && this.date) {
       // Resent the current start and end dates so duration can be calculated again.
       this.dateUpdates$.next(this.date);
     }
@@ -295,7 +295,7 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
-            this.includeNonWorkingDays,
+            this.ignoreNonWorkingDays,
             this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
             minimalDate,
             this.dateModalScheduling.isDayDisabled(dayElem, minimalDate),
@@ -326,7 +326,7 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     const payload = form.payload as { date:string, ignoreNonWorkingDays:boolean };
 
     this.date = payload.date;
-    this.includeNonWorkingDays = payload.ignoreNonWorkingDays;
+    this.ignoreNonWorkingDays = payload.ignoreNonWorkingDays;
 
     const parsedDate = parseDate(payload.date) as Date;
     this.enforceManualChangesToDatepicker(parsedDate);

@@ -100,12 +100,12 @@ export function setDates(dates:DateOption|DateOption[], datePicker:DatePicker, e
 
 export function onDayCreate(
   dayElem:DayElement,
-  includeNonWorkingDays:boolean,
+  ignoreNonWorkingDays:boolean,
   isNonWorkingDay:boolean,
   minimalDate:Date|null|undefined,
   isDayDisabled:boolean,
 ):void {
-  if (!includeNonWorkingDays && isNonWorkingDay) {
+  if (!ignoreNonWorkingDays && isNonWorkingDay) {
     dayElem.classList.add('flatpickr-non-working-day');
   }
 
