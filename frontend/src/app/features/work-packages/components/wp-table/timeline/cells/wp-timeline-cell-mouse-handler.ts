@@ -39,7 +39,7 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { take } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { WorkPackageCellLabels } from './wp-timeline-cell';
+import { WorkPackageCellLabels } from './wp-timeline-cell-labels';
 import { MouseDirection, TimelineCellRenderer } from './timeline-cell-renderer';
 import { RenderInfo } from '../wp-timeline';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';

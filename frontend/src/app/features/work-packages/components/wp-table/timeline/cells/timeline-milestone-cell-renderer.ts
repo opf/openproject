@@ -22,7 +22,7 @@ import {
   TimelineCellRenderer,
   MouseDirection,
 } from './timeline-cell-renderer';
-import { WorkPackageCellLabels } from './wp-timeline-cell';
+import { WorkPackageCellLabels } from './wp-timeline-cell-labels';
 import Moment = moment.Moment;
 
 export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {

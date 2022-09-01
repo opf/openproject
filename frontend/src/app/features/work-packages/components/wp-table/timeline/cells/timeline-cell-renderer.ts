@@ -11,7 +11,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
-import { WorkPackageCellLabels } from './wp-timeline-cell';
+import { WorkPackageCellLabels } from './wp-timeline-cell-labels';
 import {
   calculatePositionValueForDayCount,
   calculatePositionValueForDayCountingPx,
