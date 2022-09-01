@@ -155,9 +155,9 @@ module Components
 
     def ignore_non_working_days_option(val)
       if val
-        'Include non-working days'
+        'Include weekends'
       else
-        'Working days only'
+        'Work week'
       end
     end
 
