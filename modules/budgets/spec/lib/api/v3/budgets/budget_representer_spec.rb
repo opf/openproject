@@ -36,14 +36,14 @@ describe ::API::V3::Budgets::BudgetRepresenter do
     create(:user,
            member_in_project: project,
            created_at: 1.day.ago,
-           updated_at: Date.today)
+           updated_at: Time.zone.now)
   end
   let(:budget) do
     create(:budget,
            author: user,
            project:,
            created_at: 1.day.ago,
-           updated_at: Date.today)
+           updated_at: Time.zone.now)
   end
 
   let(:representer) { described_class.new(budget, current_user: user) }
