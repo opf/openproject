@@ -73,9 +73,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
       .call(**attributes)
   end
 
-  before do
-    login_as(user)
-  end
+  current_user { user }
 
   describe '#call' do
     shared_examples_for 'copied work package' do
@@ -300,6 +298,35 @@ describe WorkPackages::CopyService, 'integration', type: :model do
       let(:attributes) { { start_date: Time.zone.today - 5.days, due_date: Time.zone.today + 5.days } }
 
       it_behaves_like 'copied work package'
+    end
+
+    context 'with attachments' do
+      let!(:attachment) do
+        create(:attachment,
+               container: work_package)
+      end
+
+      context 'when specifying to copy attachments (default)' do
+        it 'copies the attachment' do
+          expect(copy.attachments.length)
+            .to eq 1
+
+          expect(copy.attachments.first.attributes.slice(:digest, :file, :filesize))
+            .to eq attachment.attributes.slice(:digest, :file, :filesize)
+
+          expect(copy.attachments.first.id)
+            .not_to eq attachment.id
+        end
+      end
+
+      context 'when specifying to not copy attachments' do
+        let(:attributes) { { attachments: false } }
+
+        it 'copies the attachment' do
+          expect(copy.attachments.length)
+            .to eq 0
+        end
+      end
     end
   end
 end

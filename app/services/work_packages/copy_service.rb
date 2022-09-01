@@ -29,6 +29,7 @@
 class WorkPackages::CopyService
   include ::Shared::ServiceContext
   include Contracted
+  include ::Copy::Concerns::CopyAttachments
 
   attr_accessor :user,
                 :work_package,
@@ -40,22 +41,26 @@ class WorkPackages::CopyService
     self.contract_class = contract_class
   end
 
-  def call(send_notifications: true, **attributes)
+  def call(send_notifications: true, attachments: true, **attributes)
     in_context(work_package, send_notifications) do
-      copy(attributes, send_notifications)
+      copy(attributes, attachments, send_notifications)
     end
   end
 
   protected
 
-  def copy(attribute_override, send_notifications)
-    attributes = copied_attributes(work_package, attribute_override)
-
-    copied = create(attributes, send_notifications)
+  def copy(attribute_override, attachments, send_notifications)
+    copied = create(work_package,
+                    attribute_override,
+                    send_notifications)
 
     if copied.success?
       remove_author_watcher(copied.result)
       copy_watchers(copied.result)
+
+      if attachments
+        copy_attachments('WorkPackage', from_id: work_package.id, to_id: copied.result.id)
+      end
     end
 
     copied.state.copied_from_work_package_id = work_package&.id
@@ -63,11 +68,11 @@ class WorkPackages::CopyService
     copied
   end
 
-  def create(attributes, send_notifications)
+  def create(work_package, attribute_overrides, send_notifications)
     WorkPackages::CreateService
       .new(user:,
            contract_class:)
-      .call(**attributes.merge(send_notifications:).symbolize_keys)
+      .call(**copied_attributes(work_package, attribute_overrides).merge(send_notifications:).symbolize_keys)
   end
 
   def copied_attributes(work_package, override)

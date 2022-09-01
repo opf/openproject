@@ -81,7 +81,7 @@ module Projects::Copy
         .new(user:,
              work_package: source_work_package,
              contract_class: WorkPackages::CopyProjectContract)
-        .call(**overrides)
+        .call(attachments: copy_attachments?, **overrides)
 
       if service_call.success?
         service_call.result
@@ -174,6 +174,10 @@ module Projects::Copy
            (Setting.cross_project_work_package_relations? && source_relation.from_id),
          new_wp_id]
       end
+    end
+
+    def copy_attachments?
+      (params.dig(:params, :only) || []).any? { |k| k.to_sym == :work_package_attachments }
     end
   end
 end
