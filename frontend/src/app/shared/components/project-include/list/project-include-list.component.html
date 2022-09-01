@@ -38,14 +38,19 @@
         >{{ project.name }}</div>
       </ng-container>
 
-      <ul
+      <p
         slot="body"
         class="spot-body-small"
       >
-        <li *ngIf="project.disabled">{{ text.does_not_match_search }}</li>
-        <li *ngIf="includeSubprojects && parentChecked">{{ text.include_all_selected }}</li>
-        <li *ngIf="project.href === currentProjectHref">{{ text.current_project }}</li>
-      </ul>
+        <span *ngIf="project.href === currentProjectHref else otherMessages">{{ text.current_project }}</span>
+
+        <ng-template #otherMessages>
+          <span *ngIf="includeSubprojects && parentChecked else searchMatch">{{ text.include_all_selected }}</span>
+          <ng-template #searchMatch>
+            <span *ngIf="project.disabled">{{ text.does_not_match_search }}</span>
+          </ng-template>
+        </ng-template> 
+      </p>
     </spot-tooltip>
   </label>
 
