@@ -1,10 +1,4 @@
----
-sidebar_navigation:
-  title: Documentation style guide
-  priority: 700
-description: What styles and formats to follow when contributing to the OpenProject documentation
-keywords: documentation style guide, style guide, format, style
----
+
 
 # Documentation style guide
 
@@ -284,10 +278,22 @@ To keep tables accessible and scannable, tables should not have any empty cells.
 
 To help tables be easier to maintain, consider adding additional spaces to the column widths to make them consistent. For example:
 
-| **Feature**                                                | **Description**                                              |
-| ---------------------------------------------------------- | ------------------------------------------------------------ |
-| Great feature                                              |  Enhances collaboration between marketing and sales  |
-| Best feature                                               | Use it to synchronize your example table with OpenProject  |
+```markdown
+| **Feature**   | **Description**                                           |
+| ------------- | --------------------------------------------------------- |
+| Great feature | Enhances collaboration between marketing and sales        |
+| Best feature  | Use it to synchronize your example table with OpenProject |
+```
+
+instead of:
+
+```markdown
+| **Feature** | **Description** |
+| ------------- | --------------------------------------------------------- |
+| Great feature | Enhances collaboration between marketing and sales |
+| Best feature | Use it to synchronize your example table with OpenProject |
+```
+
 
 
 ## Headings
