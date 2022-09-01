@@ -181,7 +181,8 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
 
   describe '#add_days' do
     it 'when positive, adds the number of working days to the date, ignoring non-working days' do
-      create(:week_day, day: 5, working: false)
+      # Friday is a non working week day
+      set_non_working_week_days('friday')
       create(:non_working_day, date: wednesday_2022_08_03)
 
       # Wednesday is skipped (non working day)
@@ -195,7 +196,8 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
     end
 
     it 'when negative, removes the number of working days to the date, ignoring non-working days' do
-      create(:week_day, day: 5, working: false)
+      # Friday is a non working week day
+      set_non_working_week_days('friday')
       create(:non_working_day, date: sunday_2022_07_31)
 
       # Sunday is skipped (non working day)

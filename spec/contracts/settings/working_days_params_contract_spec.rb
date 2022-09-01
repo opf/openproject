@@ -27,25 +27,22 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
-describe ::API::V3::Days::DayCollectionRepresenter do
-  let(:days) do
-    [
-      build(:day, date: Date.new(2022, 12, 27)),
-      build(:day, date: Date.new(2022, 12, 28)),
-      build(:day, date: Date.new(2022, 12, 29))
-    ]
-  end
-  let(:current_user) { instance_double(User, name: 'current_user') }
-  let(:representer) do
-    described_class.new(days,
-                        self_link: '/api/v3/self_link_untested',
-                        current_user:)
+describe Settings::WorkingDaysParamsContract do
+  include_context 'ModelContract shared context'
+  let(:setting) { Setting }
+  let(:current_user) { build_stubbed(:admin) }
+  let(:params) { { working_days: [1] } }
+  let(:contract) do
+    described_class.new(setting, current_user, params:)
   end
 
-  describe '#to_json' do
-    subject(:collection) { representer.to_json }
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
-    it_behaves_like 'unpaginated APIv3 collection', 3, 'self_link_untested', 'Day'
+  context 'without working days' do
+    let(:params) { { working_days: [] } }
+
+    include_examples 'contract is invalid', base: :working_days_are_missing
   end
 end

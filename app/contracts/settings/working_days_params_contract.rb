@@ -26,26 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+module Settings
+  class WorkingDaysParamsContract < ::ParamsContract
+    include RequiresAdminGuard
 
-describe ::API::V3::Days::DayCollectionRepresenter do
-  let(:days) do
-    [
-      build(:day, date: Date.new(2022, 12, 27)),
-      build(:day, date: Date.new(2022, 12, 28)),
-      build(:day, date: Date.new(2022, 12, 29))
-    ]
-  end
-  let(:current_user) { instance_double(User, name: 'current_user') }
-  let(:representer) do
-    described_class.new(days,
-                        self_link: '/api/v3/self_link_untested',
-                        current_user:)
-  end
+    validate :working_days_are_present
 
-  describe '#to_json' do
-    subject(:collection) { representer.to_json }
+    protected
 
-    it_behaves_like 'unpaginated APIv3 collection', 3, 'self_link_untested', 'Day'
+    def working_days_are_present
+      if working_days.empty?
+        errors.add :base, :working_days_are_missing
+      end
+    end
+
+    def working_days
+      params[:working_days]
+    end
   end
 end

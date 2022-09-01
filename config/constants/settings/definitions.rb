@@ -986,6 +986,11 @@ Settings::Definition.define do
   add :work_package_startdate_is_adddate,
       default: false
 
+  add :working_days,
+      format: :array,
+      allowed: Array(1..7),
+      default: Array(1..5) # Sat, Sun being non-working days
+
   add :youtube_channel,
       default: 'https://www.youtube.com/c/OpenProjectCommunity',
       writable: false

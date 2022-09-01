@@ -26,26 +26,53 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+def week_with_saturday_and_sunday_as_weekend
+  Setting.working_days = Array(1..5)
+end
 
-describe ::API::V3::Days::DayCollectionRepresenter do
-  let(:days) do
-    [
-      build(:day, date: Date.new(2022, 12, 27)),
-      build(:day, date: Date.new(2022, 12, 28)),
-      build(:day, date: Date.new(2022, 12, 29))
-    ]
+def week_with_all_days_working
+  Setting.working_days = Array(1..7)
+end
+
+def week_with_no_working_days
+  # This a hack to make all days non-working,
+  # because we don't allow that by definition
+  Setting.working_days = [false]
+end
+
+def set_non_working_week_days(*days)
+  week_days = get_week_days(*days)
+  Setting.working_days -= week_days
+end
+
+def set_working_week_days(*days)
+  week_days = get_week_days(*days)
+  Setting.working_days += week_days
+end
+
+def set_week_days(*days, working: true)
+  if working
+    set_working_week_days(*days)
+  else
+    set_non_working_week_days(*days)
   end
-  let(:current_user) { instance_double(User, name: 'current_user') }
-  let(:representer) do
-    described_class.new(days,
-                        self_link: '/api/v3/self_link_untested',
-                        current_user:)
+end
+
+def reset_working_week_days(*days)
+  week_days = get_week_days(*days)
+  Setting.working_days = week_days
+end
+
+def get_week_days(*days)
+  days.map do |day|
+    %w[xxx monday tuesday wednesday thursday friday saturday sunday].index(day.downcase)
   end
+end
 
-  describe '#to_json' do
-    subject(:collection) { representer.to_json }
-
-    it_behaves_like 'unpaginated APIv3 collection', 3, 'self_link_untested', 'Day'
+RSpec.configure do |config|
+  config.before(:suite) do
+    # The test suite assumes the default of all days working.
+    # Since the Setting default is with Sat-Sun non-working, we update it before the tests.
+    week_with_all_days_working
   end
 end
