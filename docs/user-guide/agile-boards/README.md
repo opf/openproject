@@ -96,7 +96,7 @@ Please note: This will only display one hierarchy level below the displayed work
 
 Choose a meaningful title for your Board so that it is clear, e.g. for other team members, what you want to do.
 
-![OpenProject-Boards_title](OpenProject-Boards_title.png) 
+![OpenProject-Boards-title](OpenProject-Boards_title.png) 
 
 ## Add lists to your board
 
@@ -153,7 +153,7 @@ Apart from the Status board you can **update a work package's status** directly 
 
 A **double click on a card** will open the work package's **fullscreen view.** The **arrow** on top will bring you back to the boards view. 
 
-![Bildschirmfoto 2022-08-26 um 09.58.31](Bildschirmfoto 2022-08-26 um 09.58.31.png)
+![back-to-boards-view](back-to-boards-view.png)
 
 Clicking on **Open details view** (the blue "**i**") will open the work package's **[split screen view](../work-packages/work-package-views/#work-package-split-screen-view)**. You can close it by clicking on the **"x"** in its upper right corner.
 
