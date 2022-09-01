@@ -1008,10 +1008,10 @@ ca:
     decline_warning_message: Has declinat el consentiment i per tant s'ha tancat la sessió.
     user_has_consented: L'usuari ha consentit la teva declaració configurada amb el temps requerit.
     not_yet_consented: L'usuari encara no ha donat el seu consentiment, se li tornarà a demanar en el pròxim inici de sessió.
-    contact_mail_instructions: Define the mail address that users can reach a data controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
+    contact_mail_instructions: Defineix l'adreça de correu electrònic que els usuaris poden utilitzar per accedir al controlador de dades per poder canviar dades o fer peticions d'eliminació.
+    contact_your_administrator: Si us plau, contacte el teu administrador si vols eliminar el teu compte.
+    contact_this_mail_address: Si us plau, contacte %{mail_address} si vols eliminar el teu compte.
+    text_update_consent_time: Activa aquest camp si vols forçar els usuaris a acceptar el consentiment de nou. Activa-ho quan hagis fet un canviat un aspecte legal en el consentiment anterior.
     update_consent_last_time: "Última actualització de consentiment: %{update_time}"
   copy_project:
     title: 'Copia projecte "%{source_project_name}"'
@@ -1217,7 +1217,7 @@ ca:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional features:"
+        description: "Personalitza la configuració del formulari amb aquestes funcions addicionals:"
         add_groups: "Afegir un nou atribut de grups"
         rename_groups: "Canviar de nom atribut de grups"
       project_filters:
@@ -1242,25 +1242,25 @@ ca:
   error_code: "Error %{code}"
   error_cookie_missing: 'La cookie d''OpenProject no s''ha trobat. Assegureu-vos que les cookies estan habilitades, ja que aquesta aplicació no pot funcionar correctament sense.'
   error_custom_option_not_found: "L'opció no existeix."
-  error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_activation_user_limit: "El teu compte no s'ha pogut activar (límit d'usuaris assolit). Si us plau, contacte amb el teu administrador per obtenir accés."
+  error_enterprise_token_invalid_domain: "L'edició Enterprise no està activa. El domini del token Enterprise (%{actual}) no concorda amb el nom d'allotjament del sistema (%{expected})."
   error_failed_to_delete_entry: 'Error a l''eliminar aquesta entrada.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
-  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
+  error_in_dependent: "Error en intentar alterar objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}" #%{related_id} -%{related_subject}: %{error}"
+  error_in_new_dependent: "Error en intentar crear objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}" #%{related_id} -%{related_subject}: %{error}"
   error_invalid_selected_value: "Valor seleccionat invàlid."
   error_journal_attribute_not_present: "El diari no conté l'atribut %{attribute}."
-  error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
+  error_pdf_export_too_many_columns: "Masses columnes seleccionades per a l'exportació PDF. Si us plau, redueix el nombre de columnes."
   error_pdf_failed_to_export: "No s'ha pogut guardar l'exportació PDF: %{error}"
-  error_token_authenticity: 'Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again.'
+  error_token_authenticity: 'No s''ha pogut verificar el token de "Cross-Site Request Forgery". Has provat de sotmetre les dades en múltiples navegadors o pestanyes? Si us plau, tanca totes les pestanyes i prova-ho de nou.'
   error_work_package_done_ratios_not_updated: "Ratios d'execució de paquets de treball no actualitzats."
   error_work_package_not_found_in_project: "El paquet de treball no s'ha trobat o no pertany a aquest projecte"
   error_must_be_project_member: "ha de ser membre del projecte"
-  error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
+  error_migrations_are_pending: "La teva instal·lació d'OpenProject té migracions de base de dades pendents. Probablement no vas fer les migracions en la teva última actualització. Si us plau, comprova la guia d'actualització per actualitzar la teva instal·lació correctament."
   error_migrations_visit_upgrade_guides: "Si us plau, visita la nostra guia d'actualització a la nostra documentació"
   error_no_default_work_package_status: "No hi ha cap estat de paquet de treball definit per defecte. Comproveu la configuració (\"Administració-> Estats dels paquets de treball\")."
   error_no_type_in_project: "Aquest projecte no té cap tipus associat. Comproveu els paràmetres del projecte."
   error_omniauth_registration_timed_out: "S'ha esgotat el temps d'espera per a la inscripció mitjançant un proveïdor d'autenticació externa. Torneu-ho a provar."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_omniauth_invalid_auth: "La informació d'autentificació rebuda del proveïdor d'identificació és invàlida. Si us plau, contacta amb el teu administrador per més ajuda."
   error_password_change_failed: 'Hi ha hagut un error l''intentar canviar la contrasenya.'
   error_scm_command_failed: "S'ha produït un error en intentar accedir al repositori: %{value}"
   error_scm_not_found: "No s'ha trobat l'entrada o la revisió en el repositori."
@@ -1274,8 +1274,8 @@ ca:
   error_menu_item_not_created: No es pot afegir l'element de menú
   error_menu_item_not_saved: No es pot desar l'element de menú
   error_wiki_root_menu_item_conflict: >
-    Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+    No es pot reanomenar "%{old_name}" a "%{new_name}" a causa d'un conflicte resultant en l'element de menú amb l'element de menú existent "%{existing_caption}" (%{existing_identifier}).
+  error_external_authentication_failed: "S'ha produït un error durant l'autentificació externa. Torneu-ho a provar."
   error_attribute_not_highlightable: "Atribut(s) no destacables: %{attributes}"
   events:
     project: 'Projecte editat'
@@ -1883,7 +1883,7 @@ ca:
   label_wiki_content_added: "S'ha afegit la pàgina wiki"
   label_wiki_content_updated: "S'ha actualitzat la pàgina wiki"
   label_wiki_toc: "Taula de continguts"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "La taula de continguts està buida, ja que no hi ha cap encapçalament."
   label_wiki_dont_show_menu_item: "No mostris aquest pàgina wiki en la navegació del projecte"
   label_wiki_edit: "Edició wiki"
   label_wiki_edit_plural: "Edicions wiki"
@@ -1947,7 +1947,7 @@ ca:
     errors:
       missing_or_invalid_parameter: 'Paràmetre de macro inexistent o invàlid.'
     legacy_warning:
-      timeline: 'This legacy timeline macro has been removed and is no longer available. You can replace the functionality with an embedded table macro.'
+      timeline: 'Aquesta macro de llegat de línia temporal s''ha eliminat i ja no està disponible. Pots reemplaçar aquesta funció amb una macro de taula incrustada.'
     include_wiki_page:
       removed: 'La macro ja no existeix.'
     wiki_child_pages:
@@ -1955,7 +1955,7 @@ ca:
         page_not_found: "No s'ha pogut trobar la pàgina wiki \"%{name}\"."
     create_work_package_link:
       errors:
-        no_project_context: 'Calling create_work_package_link macro from outside project context.'
+        no_project_context: 'Cridant a la macro "create_work_package_link" des de fora del context del projecte.'
         invalid_type: "Cap classe trobada amb el nom \"%{type}\" en el projecte \"%{project}\"."
       link_name: 'Paquet de treball nou'
       link_name_type: 'Nou %{type_name}'
@@ -1989,52 +1989,50 @@ ca:
         responsible: 'Responsable'
         mentioned: 'Mencionat'
         subscribed: 'tot'
-        prefix: 'Received because of the notification setting: %{reason}'
+        prefix: 'Rebut a causa de la configuració de notificacions: %{reason}'
       see_all: 'Veure tot'
       updated_at: 'Actualitzat a les %{timestamp} per %{user}'
   mail_body_account_activation_request: "S'ha registrat un usuari nou (%{value}). El seu compte està pendent d'aprovació:"
   mail_body_account_information: "Informació del vostre compte"
   mail_body_account_information_external: "Podeu utilitzar el compte «%{value}» per entrar."
-  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
-  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_ready: "La teva còpia de seguretat demanada ja està llesta. Pots descarregar-la aquí:"
+  mail_body_backup_token_reset_admin_info: El token de còpia de seguretat per a l'usuari "%{user}" no s'ha reiniciat.
   mail_body_backup_token_reset_user_info: El teu token de còpia de seguretat s'ha reiniciat.
   mail_body_backup_token_info: El token anterior ja no és vàlid.
   mail_body_backup_waiting_period: El nou token s'activarà en %{hours} hores.
-  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
-  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_backup_token_warning: Si no has sigut tu, inicia sessió immediatament a OpenProject i reinicia'l de nou.
+  mail_body_incoming_email_error: El correu electrònic que vas enviar a OpenProject no s'ha pogut processar.
   mail_body_incoming_email_error_in_reply_to: "A les %{received_at}%{from_email} ha escrit"
   mail_body_incoming_email_error_logs: "Registres"
   mail_body_lost_password: "Per a canviar la teva contrasenya, fes clic a l'enllaç següent:"
-  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
+  mail_body_register: "Benvingut/da a %{app_title}. Si us plau activa el teu compte fent clic a aquest enllaç:"
   mail_body_register_header_title: "Correu electrònic d'invitació de membre del projecte"
   mail_body_register_user: "Benvolgut/da %{name},"
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
-    <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
+    Obté més informació navegant pel nostre canal de Youtube (%{youtube_link}) on podràs trobar un "webinar" (%{webinar_link}) i vides de "Com començar" (%{get_started_link}) per facilitar el màxim possible els teus primers passos amb OpenProject.
+    Si tens qualsevol dubte, consulta la nostra documentació (%{documentation_link}) o contacte el teu administrador.
   mail_body_register_closing: "El teu equip d'OpenProject"
   mail_body_register_ending: "Segueix en contacte! Atentament,"
   mail_body_reminder: "%{count} paquet(s) de treball que teniu assignats venceran en els propers %{days} dies:"
-  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
+  mail_body_group_reminder: "%{count} paquet(s) de treball que estan assignats al grup \"%{group}\" arribaran a la seva data final en els pròxims %{days} dies:"
   mail_body_wiki_content_added: "En %{author} ha afegit la pàgina wiki «%{id}»."
   mail_body_wiki_content_updated: "L'autor %{author} ha actualitzat la pàgina wiki «%{id}»."
   mail_subject_account_activation_request: "Sol·licitud d'activació del compte de %{value}"
   mail_subject_backup_ready: "La teva còpia de seguretat està a punt"
   mail_subject_backup_token_reset: "Còpia de seguretat reiniciada"
-  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
+  mail_subject_incoming_email_error: "Un correu electrònic que vas enviar a OpenProject no s'ha pogut processar."
   mail_subject_lost_password: "La teva contrasenya %{value}"
   mail_subject_register: "L'activació del compte %{value}"
   mail_subject_reminder: "%{count} paquet(s) de treball pendents en els següents %{days} dies"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
+  mail_subject_group_reminder: "Pel grup \"%{group}\" %{count} paquet(s) de treball arribaran a la seva data final en els pròxims %{days} dies"
   mail_subject_wiki_content_added: "S'ha afegit la pàgina wiki «%{id}»"
   mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «%{id}»"
   mail_member_added_project:
     subject: "%{project} - S'et ha afegit com a membre"
     body:
       added_by:
-        without_message: "%{user} added you as a member to the project '%{project}'."
-        with_message: "%{user} added you as a member to the project '%{project}' writing:"
+        without_message: "%{user} t'ha afegit com a membre del projecte \"%{project}\"."
+        with_message: "%{user} t'ha afegit com a membre del projecte \"%{project}\" escrivint:"
       roles: "Tens els següents rols:"
   mail_member_updated_project:
     subject: "%{project} - Els teus rols s'han actualitzat"
@@ -2053,8 +2051,7 @@ ca:
   mail_user_activation_limit_reached:
     subject: S'ha arribat al límit d'activació d'usuaris
     message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+      Un nou usuari (%{email}) ha intentat crear un compte d'OpenProject en el sistema que tu administres (%{host}). L'usuari no pot activar el seu compte, ja que s'ha assolit el límit d'usuaris.
     steps:
       label: "Per permetre a l'usuari iniciar sessió pots:"
       a: "Actualitza el teu pla de pagament ([here](upgrade_url))" #here turned into a link
@@ -2241,7 +2238,7 @@ ca:
       title: Canviar l'identificador del projecte
     template:
       copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+        El teu projecte s'ha creat des de la plantilla de projecte seleccionada. Seràs notificat via correu electrònic quan el projecte estigui disponible.
       use_template: 'Usar plantilla'
       make_template: 'Estableix com a plantilla'
       remove_from_templates: 'Suprimir de les plantilles'
@@ -2322,7 +2319,7 @@ ca:
       instructions:
         managed_url: "Aquesta és l'URL del repositori Git (local) gestionat."
         path: >-
-          Specify the path to your local Git repository ( e.g., %{example_path} ). You can also use remote repositories which are cloned to a local copy by using a value starting with http(s):// or file://.
+          Especifica l'adreça al teu repositori local Git (ex. %{example_path}). També pots utilitzar repositoris remots que estiguin clonats a una còpia local utilitzant un valor que comenci per http(s):// o file://.
         path_encoding: "Modificar la codificació de la ruta d'accés GIT (per defecte: UTF-8)"
       local_title: "Enllaç al repositori existent Git existent"
       local_url: "URL local"
@@ -2349,7 +2346,7 @@ ca:
     storage:
       not_available: "El consum d'emmagatzematge de disc no està disponible per a aquest repositori."
       update_timeout: "Mantenir la darrera informació d'espai de disc necessari per a un dipòsit durant N minuts. Ja que comptar l'espai de disc necessari per un repostori pot ser costós, augmenteu aquest valor per reduir l'impacte en el rendiment."
-      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details: "El valor secret de client no serà accessible de nou un cop tanquis aquesta pestanya. Si us plau, còpia aquests valors a la configuració de \"Nextcloud OpenProject Integration\":"
       oauth_application_details_link_text: "Ves a la pàgina de configuracions"
       show_warning_details: "Per tal d'utilitzar aquest emmagatzematge de fitxers recorda activar el mòdul i l'emmagatzematge específic a la configuració del projecte desitjat."
     subversion:
@@ -2364,7 +2361,7 @@ ca:
       managed_url: "URL gestionada"
       password: "Contrasenya del repositori"
       username: "Nom d'usuari del repositori"
-    truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
+    truncated: "Perdó, hem hagut de truncar aquest directori a %{limit} fitxers. Les %{truncated} entrades seran omeses de la llista."
     named_repository: "repositori %{vendor_name}"
     update_settings_successful: "S'ha desat la configuració correctament."
     url: "URL del repositori"
@@ -2375,16 +2372,16 @@ ca:
     deactivated: 'desactivat'
   search_input_placeholder: "Cerca..."
   setting_apiv3_cors_enabled: "Habilitar CORS"
-  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins: "\"API V3 Cross-Origin Resource Sharing (CORS)\" orígens permesos"
   setting_apiv3_cors_origins_text_html: >
-    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+    Si s'activa el CORS, aquests són els orígens que tenen permís per accedir a l'API d'OpenProject. <br/>Si us plau, valida la <a href="%{origin_link}" target="_blank">Documentació en l'encapçalament d'Origin</a> en com s'ha d'especificar els valors esperats.
   setting_apiv3_max_page_size: "Màxima mida de pàgina API"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Documentació"
   setting_apiv3_docs_enabled: "Activa la pàgina de documents"
   setting_apiv3_docs_enabled_instructions_html: >
-    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+    Si la pàgina docs està habilitada, pots tenir una vista interactiva de la documentació de l'APIv3 a <a href="%{link}" target="_blank">.
   setting_attachment_whitelist: "Llista de blanqueig de fitxers adjuntats pujats"
   setting_email_delivery_method: "Mètode de lliurament del correu electrònic"
   setting_sendmail_location: "Localització de l'executable de sendmail"
