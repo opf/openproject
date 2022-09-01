@@ -45,13 +45,13 @@ FactoryBot.define do
       # derive start date if due date and duration were provided
       next unless %i[due_date duration].all? { |field| __override_names__.include?(field) }
 
-      days.start_date(due_date&.to_date, duration)
+      due_date && duration && days.start_date(due_date.to_date, duration)
     end
     due_date do
       # derive due date if start date and duration were provided
       next unless %i[start_date duration].all? { |field| __override_names__.include?(field) }
 
-      days.due_date(start_date&.to_date, duration)
+      start_date && duration && days.due_date(start_date.to_date, duration)
     end
     duration { days.duration(start_date&.to_date, due_date&.to_date) }
 
