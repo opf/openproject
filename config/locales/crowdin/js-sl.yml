@@ -143,7 +143,7 @@ sl:
           page: 'Wiki stran'
           this_page: 'ta stran'
           hint: |
-            Pustite to polje prazno, za zapis podrejenih strani trenutne strani. Če želite dodati drugo stran, dodajte njen naslov ali slug. 
+            Pustite to polje prazno, za zapis podrejenih strani trenutne strani. Če želite dodati drugo stran, dodajte njen naslov ali slug.
         code_block:
           button: 'Dodaj kodo'
           title: 'Dodaj / uredi kodo'
@@ -151,7 +151,7 @@ sl:
           language_hint: 'Vstavite jezik, ki bo uporabljen za povdarjanje (če je podprt). '
         dropdown:
           macros: 'Makri'
-          chose_macro: 'Izberi makro'
+          chose_macro: 'Choose macro'
         toc: 'Kazalo vsebine'
         toolbar_help: 'Kliknite za izbor gradnika in prikaz orodne vrstice. Kliknite dvakrat za urejanje gradnika'
         wiki_page_include:
@@ -160,7 +160,7 @@ sl:
           page: 'Wiki stran'
           not_set: '(Stran še ni nastavljena) '
           hint: |
-            Dodaj vsebino druge wiki strani, tako da specificiraš njen naslov ali slug. Lahko dodate wiki stran drugega projekta tako da ju ločite s dvopičjem, tako kot prikazuje primer. 
+            Dodaj vsebino druge wiki strani, tako da specificiraš njen naslov ali slug. Lahko dodate wiki stran drugega projekta tako da ju ločite s dvopičjem, tako kot prikazuje primer.
         work_package_button:
           button: 'Vstavite gumb za ustvarjanje delovnega paketa'
           type: 'Vrsta delovnega paketa'
@@ -465,7 +465,7 @@ sl:
     label_attachments: Priponka
     label_drop_files: Spustite datoteke tukaj
     label_drop_files_hint: ali kliknite da dodate datoteke
-    label_drop_folders_hint: Mape ne morate naložiti kot priponke. Prosim izberite samo eno datoteko. 
+    label_drop_folders_hint: Mape ne morate naložiti kot priponke. Prosim izberite samo eno datoteko.
     label_add_attachments: "Dodaj priponke"
     label_formattable_attachment_hint: "Pripnite in povežite datoteke tako, da spustite to polje ali prilepite iz odložišča."
     label_remove_file: "Izbriši %{fileName}"
@@ -473,7 +473,7 @@ sl:
     label_remove_all_files: Izbriši vse datoteke
     label_add_description: "Dodaj opis za %{file}"
     label_upload_notification: "Nalaganje datotek... "
-    label_work_package_upload_notification: "Nalaganje datotek za opravilo #%{id}: %{subject}"
+    label_work_package_upload_notification: "Nalaganje datotek za opravilo #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} dodal %{author}"
     label_files_to_upload: "Te datoteke bodo naložene:"
     label_rejected_files: "Teh datotek ni mogoče naložiti:"
@@ -491,7 +491,7 @@ sl:
         next: 'Naprej'
         got_it: 'Razumem'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -605,6 +605,7 @@ sl:
       default: '-'
       subject: 'Vnesite temo tukaj'
       selection: 'Prosimo izberite'
+      description: 'Description: Click to edit...'
       relation_description: 'Kliknite, da dodate opis za to povezavo'
     project:
       required_outside_context: >
@@ -658,7 +659,7 @@ sl:
         error_no_table_configured: "Prosimo konfigurirajte tabelo za %{group}."
         reset_title: "Po nastavi iz konfiguracije"
         confirm_reset: >
-          Opozorilo: Ali ste prepričani, da želite po nastaviti formo konfiguracije? To bo ponastavilo atribute v njihovo privzeto skupino in onemogočilo vsa polja po meri. 
+          Opozorilo: Ali ste prepričani, da želite po nastaviti formo konfiguracije? To bo ponastavilo atribute v njihovo privzeto skupino in onemogočilo vsa polja po meri.
         upgrade_to_ee: "Nadgradite na Enterprise verzijo na lokaciji"
         upgrade_to_ee_text: "Vau! Če potrebujete to funkcijo, ste super profesionalec! Bi bili pripravljeni podpreti OpenSource razvijalce, tako da postanete uporavnik Podjetniške različice?"
         more_information: "Več informacij"
@@ -735,8 +736,9 @@ sl:
     field_value_enter_prompt: "Vnesite vrednost za '%{field}'"
     project_menu_details: "Podrobnosti"
     scheduling:
-      manual: 'Ročno razvrščanje.'
-      automatic: 'Samodejno razvrščanje'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Uporabljeno je naraščajoče razvrščanje, '
       sorted_dsc: 'Uporabljeno je padajoče razvrščanje, '
@@ -759,7 +761,7 @@ sl:
         farRight: 'Čisto desno'
         showNone: '-- Brez labele --'
         description: >
-          Izberite atribute, ki jih želite ves čas prikazati na ustreznih mestih Gantograma. Upoštevajte, da se ob premikanju elementa namesto teh atributov prikažejo njegove datumske nalepke.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Prikaži gantogram'
       button_deactivate: 'Skrij gantogram'
       cancel: Prekliči
@@ -844,6 +846,10 @@ sl:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Filtriraj"
       description_enter_text: "Vnesite besedilo"
       description_options_hide: "Skrij možnosti"
@@ -856,8 +862,8 @@ sl:
       label_filter_by_text: "Filtreraj po besedilu"
       label_options: "Možnosti"
       label_column_multiselect: "Kombinirano spustno polje: Izberite s puščicami, izbiro potrdite s tipko enter, izbrišite s tipko izbriši."
-      message_error_during_bulk_delete: Med brisanjem delovnih paketov se je zgodila napaka. 
-      message_successful_bulk_delete: Delovni paketi so uspešno izbrisani. 
+      message_error_during_bulk_delete: Med brisanjem delovnih paketov se je zgodila napaka.
+      message_successful_bulk_delete: Delovni paketi so uspešno izbrisani.
       message_successful_show_in_fullscreen: "Za celozaslonski pogled delovnih paketov, kliknite tukaj. "
       message_view_spent_time: "Prikaži porabljen čas za ta delovni paket"
       message_work_package_read_only: "Delovni paket je zaklenjen v tem stanju. Spremenite lahko samo stanje. "
@@ -881,7 +887,7 @@ sl:
         children_collapsed: 'Hierarhijska raven %{level}, se je sesula. Kliknite, če želite prikazati filtrirane ukaze.'
         children_expanded: 'Hierarhijska raven %{level}, se je razširila. Kliknite, če želite prikazati filtrirane ukaze.'
       faulty_query:
-        title: Delavnega paketa ni bilo mogoče naložiti. 
+        title: Delavnega paketa ni bilo mogoče naložiti.
         description: "Vaš pogled je napačen in ga ni mogoče obdelati.\n"
       no_results:
         title: Nobenega delovnega paketa za prikaz.
@@ -899,6 +905,7 @@ sl:
         description: "Opis"
         date: "Datum"
         dueDate: "Končni datum"
+        duration: "Duration"
         estimatedTime: "Predvideni čas"
         spentTime: "Porabljen čas"
         category: "Kategorija"
@@ -930,7 +937,6 @@ sl:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Kliknite za urejanje..."
       query:
         column_names: "Stolpci"
         group_by: "Rezultati grupirani po"

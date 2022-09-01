@@ -136,8 +136,6 @@ ru:
     message_bird:
       sms_delivery_failed: 'Ошибка при отправке SMS через MessageBird.'
       voice_delivery_failed: 'Ошибка голосового вызова MessageBird.'
-    restdt:
-      delivery_failed_with_code: 'Ошибка доставки токена. (Код ошибки: %{code}.)'
     strategies:
       totp: 'Приложение для аутентификации'
       sns: 'Amazon SNS'

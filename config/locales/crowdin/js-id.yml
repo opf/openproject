@@ -151,7 +151,7 @@ id:
           language_hint: 'Masukan format bahasa yang akan digunakan untuk menyorot(jika didukung).'
         dropdown:
           macros: 'Makro'
-          chose_macro: 'Pilih makro'
+          chose_macro: 'Choose macro'
         toc: 'Daftar isi'
         toolbar_help: 'Klik untuk memilih widget dan menampilkan toolbar. klik dua kali untuk mengedit widget'
         wiki_page_include:
@@ -474,7 +474,7 @@ id:
     label_remove_all_files: Hapus semua file
     label_add_description: "Tambahkan deskripsi untuk %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Upload file untuk Work package #%{id}: %{subject}"
+    label_work_package_upload_notification: "Upload file untuk Work package #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Upload file berikut:"
     label_rejected_files: "File ini tidak bisa di-upload:"
@@ -492,7 +492,7 @@ id:
         next: 'Lanjut'
         got_it: 'Got it'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -603,6 +603,7 @@ id:
       default: 'Hapus nilai'
       subject: 'Masukkan subjek di sini'
       selection: 'Silakan pilih'
+      description: 'Description: Click to edit...'
       relation_description: 'Click to add description for this relation'
     project:
       required_outside_context: >
@@ -733,8 +734,9 @@ id:
     field_value_enter_prompt: "Masukkan nilai untuk '%{field}'"
     project_menu_details: "Detil"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Urutan menaik diterapkan, '
       sorted_dsc: 'Urutan menurun diterapkan, '
@@ -757,7 +759,7 @@ id:
         farRight: 'Jauh sekali'
         showNone: '-- Tidak ada label --'
         description: >
-          Pilih atribut-atribut yang ingin Anda tampilkan dalam posisi masing-masing di bagan gantt setiap saat. Perhatikan bahwa ketika kursor menunjuk sebuah elemen, label tanggalnya akan ditampilkan sebagai ganti atributnya.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       cancel: Batal
@@ -842,6 +844,10 @@ id:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Filter"
       description_enter_text: "Masukkan teks"
       description_options_hide: "Sembunyikan opsi"
@@ -897,6 +903,7 @@ id:
         description: "Deskripsi"
         date: "Tanggal"
         dueDate: "Finish date"
+        duration: "Duration"
         estimatedTime: "Estimasi Waktu"
         spentTime: "Durasi"
         category: "Kategori"
@@ -928,7 +935,6 @@ id:
       placeholders:
         default: "Hapus nilai"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Kolom"
         group_by: "Group"

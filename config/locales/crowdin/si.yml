@@ -267,14 +267,13 @@ si:
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Placeholder users
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -742,12 +741,16 @@ si:
         work_package:
           is_not_a_valid_target_for_time_entries: "වැඩ පැකේජය #%{id} යනු කාල සටහන් නැවත පැවරීම සඳහා වලංගු ඉලක්කයක් නොවේ."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "සන්ධිස්ථාන සඳහා මෙය අවශ්ය වුවද ආරම්භක දිනයේ නොවේ."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "සන්ධිස්ථානයක් විය නොහැක."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -755,6 +758,7 @@ si:
               not_a_valid_parent: "අවලංගුයි."
             start_date:
               violates_relationships: "වැඩ පැකේජයේ සබඳතා උල්ලංඝනය නොකිරීමට %{soonest_start} හෝ පසුව පමණක් සැකසිය හැකිය."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "වර්තමාන පරිශීලකයාගේ භූමිකාවන් සඳහා පැරණි සිට නව තත්ත්වය දක්වා වලංගු සංක්රාන්තියක් නොපවතින බැවින් වලංගු නොවේ."
               status_invalid_in_type: "මෙම වර්ගයේ වර්තමාන තත්ත්වය නොපවතින බැවින් එය වලංගු නොවේ."
@@ -1248,7 +1252,7 @@ si:
   error_enterprise_activation_user_limit: "ඔබගේ ගිණුම සක්රිය කළ නොහැක (පරිශීලක සීමාව කරා ළඟා විය). ප්රවේශය ලබා ගැනීම සඳහා කරුණාකර ඔබේ පරිපාලක අමතන්න."
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'මෙම ප්රවේශය මකා දැමීමට අසමත් විය.'
-  error_in_dependent: "යැපෙන වස්තුව වෙනස් කිරීමට උත්සාහ කිරීමේ දෝෂය: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "යැපෙන වස්තුව වෙනස් කිරීමට උත්සාහ කිරීමේ දෝෂය: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "වලංගු නොවන තෝරාගත් අගය."
   error_journal_attribute_not_present: "ජර්නලය %{attribute}ගුණාංගය අඩංගු නොවේ."
@@ -1387,17 +1391,11 @@ si:
     update_info_mail:
       body: >
         We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-
         Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-
         This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-
         We hope you find in-app notifications useful and that they makes you even more productive.
-
-        Sincerely,
-        The OpenProject team
+        Sincerely, The OpenProject team
       body_header: 'Version 12.0 with Notification Center'
       body_subheader: 'පුවත්'
       subject: 'Important changes to notifications with the release of 12.0'
@@ -1612,6 +1610,7 @@ si:
   label_index_by_title: "මාතෘකාව අනුව දර්ශකය"
   label_information: "තොරතුරු"
   label_information_plural: "තොරතුරු"
+  label_installation_guides: 'Installation guides'
   label_integer: "නිඛිල"
   label_internal: "අභ්යන්තර"
   label_introduction_video: "හැඳින්වීම වීඩියෝ"
@@ -1756,6 +1755,7 @@ si:
   label_project_new: "නව ව්යාපෘතිය"
   label_project_plural: "ව්‍යාපෘති"
   label_project_settings: "ව්යාපෘති සැකසුම්"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{storage} තැටි ගබඩාව භාවිතා කරමින් ව්යාපෘති%{count} ක්"
   label_project_view_all: "සියලුම ව්යාපෘති බලන්න"
   label_project_show_details: "ව්යාපෘති විස්තර පෙන්වන්න"
@@ -1907,6 +1907,7 @@ si:
   label_wiki_start: "ආරම්භක පිටුව"
   label_work_package: "වැඩ පැකේජය"
   label_work_package_attachments: "වැඩ පැකේජ ඇමුණුම්"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "නව ප්රවර්ගය"
   label_work_package_category_plural: "වැඩ පැකේජ කාණ්ඩ"
   label_work_package_hierarchy: "වැඩ පැකේජය ධූරාවලිය"
@@ -2363,6 +2364,8 @@ si:
       update_timeout: "එන් විනාඩි සඳහා ගබඩාවක් සඳහා අවසන් අවශ්ය තැටි ඉඩ තොරතුරු තබා ගන්න.\nගබඩාවේ අවශ්ය තැටි අවකාශය ගණන් කිරීම මිල අධික විය හැකි බැවින්, කාර්ය සාධන බලපෑම අඩු කිරීම සඳහා මෙම අගය වැඩි කරන්න."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "දැනට පවතින අනුකරණ ගබඩාව"
@@ -2878,10 +2881,10 @@ si:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'ප්රොටොකෝලය සැකසුම'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        ඔබගේ යෙදුම <code>%{set_protocol}</code>දක්වා සකසා ඇති එහි ප්රොටෝකෝලය සැකසුම සමඟ ක්රියාත්මක වේ, නමුත් ඉල්ලීම <code>%{actual_protocol}</code> ඉල්ලීමකි. මෙය දෝෂ වලට හේතු වනු ඇත! <a href="%{setting_path}">පද්ධති සැකසුම්</a> වෙත ගොස් මෙය නිවැරදි කිරීම සඳහා “ප්රොටෝකෝලය” සැකසුම වෙනස් කරන්න.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'නොගැලපීම් සැකසීම සත්කාරක නාමය'
       text_html: >

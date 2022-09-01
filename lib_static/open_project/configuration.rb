@@ -33,6 +33,8 @@ module OpenProject
   module Configuration
     extend Helpers
 
+    TRUE_VALUES = ['true', true, '1'].freeze
+
     class << self
       # Returns a configuration setting
       def [](name)
@@ -110,7 +112,7 @@ module OpenProject
           if definition.format != :boolean
             ActiveSupport::Deprecation.warn "Calling #{self}.#{definition.name}? is deprecated since it is not a boolean", caller
           end
-          ['true', true, '1'].include? self[definition.name]
+          TRUE_VALUES.include? self[definition.name]
         end
       end
 

@@ -38,13 +38,16 @@ import {
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { WeekdayResourceService } from 'core-app/core/state/days/weekday.service';
 import { IWeekday } from 'core-app/core/state/days/weekday.model';
-import { Observable } from 'rxjs';
+import {
+  Observable,
+  of,
+} from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class WeekdayService {
   @InjectField() weekdaysService:WeekdayResourceService;
 
-  private weekdays:IWeekday[] = [];
+  private weekdays:IWeekday[];
 
   constructor(
     readonly injector:Injector,
@@ -60,6 +63,10 @@ export class WeekdayService {
   }
 
   loadWeekdays():Observable<IWeekday[]> {
+    if (this.weekdays) {
+      return of(this.weekdays);
+    }
+
     return this
       .weekdaysService
       .require()

@@ -8,8 +8,12 @@ import {
   Input,
   Output,
   EventEmitter,
+  ChangeDetectorRef,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 
 @Component({
   selector: 'spot-text-field',
@@ -25,7 +29,8 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
 
   @HostBinding('class.spot-text-field_focused') public focused = false;
 
-  @HostListener('click') public onParentClick() {
+  @HostListener('click')
+  public onParentClick():void {
     this.input.nativeElement.focus();
   }
 
@@ -39,14 +44,10 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
 
   @Input() public placeholder = '';
 
-  @Input('value') public _value = '';
+  @Input() public value = '';
 
-  get value():string {
-    return this._value;
-  }
-
-  set value(value:string) {
-    this._value = value;
+  valueChanged(value:string):void {
+    this.writeValue(value);
     this.onChange(value);
     this.onTouched(value);
   }
@@ -54,6 +55,10 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
   @Output() public inputFocus = new EventEmitter<FocusEvent>();
 
   @Output() public inputBlur = new EventEmitter<FocusEvent>();
+
+  constructor(
+    private cdRef:ChangeDetectorRef,
+  ) {}
 
   onInputFocus(event:FocusEvent):void {
     this.focused = true;
@@ -67,6 +72,7 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
 
   writeValue(value:string) {
     this.value = value || '';
+    this.cdRef.markForCheck();
   }
 
   onChange = (_:string):void => {};

@@ -34,24 +34,19 @@ export class SpotToggleComponent<T> implements ControlValueAccessor {
 
   @Input() name = `spot-toggle-${+(new Date())}`;
 
-  @Input('value') public _value:T;
-
-  public get value():T {
-    return this._value;
-  }
-
-  public set value(value:T) {
-    this._value = value;
-    this.onChange(value);
-    this.onTouched(value);
-    this.valueChange.emit(value);
-  }
+  @Input() public value:T;
 
   writeValue(value:T):void {
     this.value = value;
   }
 
-  onChange: (t:T) => void = (_:T):void => {};
+  onToggle(value:T):void {
+    this.writeValue(value);
+    this.onChange(value);
+    this.onTouched(value);
+  }
+
+  onChange = (_:T):void => {};
 
   onTouched: (t:T) => void = (_:T):void => {};
 

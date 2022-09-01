@@ -16,11 +16,11 @@
       <div *ngIf="!descriptor.multiple && descriptor.field"
            class="attributes-key-value--value-container">
 
-        <editable-attribute-field [ngClass]="{'wp-edit-formattable-field': descriptor.field!.isFormattable }"
+        <op-editable-attribute-field [ngClass]="{'wp-edit-formattable-field': descriptor.field!.isFormattable }"
                                   [resource]="workPackage"
                                   [isDropTarget]="descriptor.field!.isFormattable"
                                   [fieldName]="fieldName(descriptor.name)">
-        </editable-attribute-field>
+        </op-editable-attribute-field>
       </div>
     </ng-template>
   </div>

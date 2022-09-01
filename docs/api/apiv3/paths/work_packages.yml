@@ -159,6 +159,8 @@ post:
     Note that it is only allowed to provide properties or links supporting the write operation.
 
     A project link must be set when creating work packages through this route.
+
+    When setting start date, finish date, and duration together, their correctness will be checked and a 422 error will be returned if one value does not match with the two others. You can make the server compute a value: set only two values in the request and the third one will be computed and returned in the response. For instance, when sending `{ "startDate": "2022-08-23", duration: "P2D" }`, the response will include `{ "dueDate": "2022-08-24" }`.
   requestBody:
     content:
       application/json:

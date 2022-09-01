@@ -151,7 +151,7 @@ nl:
           language_hint: 'Voer de opmaaktaal die wordt gebruikt voor het benadrukken(indien ondersteund).'
         dropdown:
           macros: 'Macro''s'
-          chose_macro: 'Kies macro'
+          chose_macro: 'Choose macro'
         toc: 'Inhoudsopgave'
         toolbar_help: 'Klik op widget en geef de werkbalk weer. Dubbelklikken om de widget te bewerken'
         wiki_page_include:
@@ -474,7 +474,7 @@ nl:
     label_remove_all_files: Verwijder alle bestanden
     label_add_description: "Een beschrijving voor %{file} toevoegen"
     label_upload_notification: "Uploaden van bestanden..."
-    label_work_package_upload_notification: "Uploaden van bestanden voor werk pakket #%{id}: %{subject}"
+    label_work_package_upload_notification: "Uploaden van bestanden voor werk pakket #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} toegevoegd door %{author}"
     label_files_to_upload: "Deze bestanden worden geüpload:"
     label_rejected_files: "Deze bestanden kunnen niet worden geüpload:"
@@ -492,7 +492,7 @@ nl:
         next: 'Volgende'
         got_it: 'Begrepen'
       steps:
-        help_menu: 'Het Help (?) menu biedt <b>extra hulpbronnen</b>. Hier kunt u een gebruikershandleiding en handige how-to videos en meer vinden. <br> Veel plezier met uw werk met OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Nodig nieuwe <b>leden</b> uit om deel te nemen aan uw project.'
         project_selection: 'Klik a.u.b. op een van de demoprojecten die we hebben voorbereid. Demogegevens zijn momenteel alleen beschikbaar in het Engels. <br> Het algemene <b>demo project</b> past het beste bij klassiek projectbeheer. terwijl het <b>Scrum-project</b> beter is voor agile projectbeheer.'
         quick_add_button: 'Klik op het plus (+) pictogram in de koptekst navigatie om <b>een nieuw project te maken</b> of <b>collega''s uit te nodigen</b>.'
@@ -604,6 +604,7 @@ nl:
       default: '-'
       subject: 'Onderwerp hier invoeren'
       selection: 'Gelieve te selecteren'
+      description: 'Description: Click to edit...'
       relation_description: 'Klik om een beschrijving voor deze relatie toe te voegen'
     project:
       required_outside_context: >
@@ -734,8 +735,9 @@ nl:
     field_value_enter_prompt: "Breng een waarde in voor veld '%{field}'"
     project_menu_details: "Details"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Oplopende sorteervolgorde toegepast, '
       sorted_dsc: 'Aflopende sorteervolgorde toegepast, '
@@ -758,7 +760,7 @@ nl:
         farRight: 'Uiterst rechts'
         showNone: '--Geen label--'
         description: >
-          Selecteer de kenmerken die u wilt te allen tijde in de respectieve standpunten van het Gantt-diagram worden weergegeven. Merk op dat wanneer u over een element zweeft, de datumlabels worden weergegeven in plaats van deze kenmerken.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Toon Gantt-diagram'
       button_deactivate: 'Verberg Gantt-diagram'
       cancel: Annuleren
@@ -843,6 +845,10 @@ nl:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Filter"
       description_enter_text: "Tekst invoeren"
       description_options_hide: "Verberg opties"
@@ -898,6 +904,7 @@ nl:
         description: "Omschrijving"
         date: "Datum"
         dueDate: "Einddatum"
+        duration: "Duration"
         estimatedTime: "Geschatte tijd"
         spentTime: "Bestede tijd"
         category: "Categorie"
@@ -929,7 +936,6 @@ nl:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Klik om te bewerken..."
       query:
         column_names: "Kolommen"
         group_by: "Groepeer resultaten op"

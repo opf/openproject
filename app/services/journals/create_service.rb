@@ -177,22 +177,25 @@ module Journals
     def cleanup_predecessor_data(predecessor)
       cleanup_predecessor(predecessor,
                           data_table_name,
-                          :id)
+                          :id,
+                          :data_id)
     end
 
     def cleanup_predecessor_attachable(predecessor)
       cleanup_predecessor(predecessor,
                           'attachable_journals',
-                          :journal_id)
+                          :journal_id,
+                          :id)
     end
 
     def cleanup_predecessor_customizable(predecessor)
       cleanup_predecessor(predecessor,
                           'customizable_journals',
-                          :journal_id)
+                          :journal_id,
+                          :id)
     end
 
-    def cleanup_predecessor(predecessor, table_name, column)
+    def cleanup_predecessor(predecessor, table_name, column, referenced_id)
       return "SELECT 1" unless predecessor
 
       sql = <<~SQL
@@ -204,7 +207,7 @@ module Journals
       SQL
 
       sanitize sql,
-               column => predecessor.id
+               column => predecessor.send(referenced_id)
     end
 
     def update_or_insert_journal_sql(predecessor, notes)

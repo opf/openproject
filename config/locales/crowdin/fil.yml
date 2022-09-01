@@ -267,14 +267,13 @@ fil:
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Placeholder users
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -742,12 +741,16 @@ fil:
         work_package:
           is_not_a_valid_target_for_time_entries: "Ang work package #%{id} ay hindi balido sa target para mag-reassign ng mga oras na entry."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "hindi sa petsa ng pagsisimula, kahit naa ito ay kinakailangan para sa mga milestone."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "hindi maaring maging isang milestone."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -755,6 +758,7 @@ fil:
               not_a_valid_parent: "ay hindi balido."
             start_date:
               violates_relationships: "nakatakda lamang sa %{soonest_start} o mamaya bilang hindi lumalabag sa relasyon ng mga work package."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "ay invalid dahil walang valid na transisyon na umiiral mula sa luma hanggang sa bagong estado para sa mga role ng kasalukuyang user."
               status_invalid_in_type: "is invalid because the current status does not exist in this type."
@@ -1248,7 +1252,7 @@ fil:
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Nabigong burahin ang entry na ito.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
@@ -1387,17 +1391,11 @@ fil:
     update_info_mail:
       body: >
         We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-
         Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-
         This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-
         We hope you find in-app notifications useful and that they makes you even more productive.
-
-        Sincerely,
-        The OpenProject team
+        Sincerely, The OpenProject team
       body_header: 'Version 12.0 with Notification Center'
       body_subheader: 'Mga balita'
       subject: 'Important changes to notifications with the release of 12.0'
@@ -1612,6 +1610,7 @@ fil:
   label_index_by_title: "Index sa pamagat"
   label_information: "Impormasyon"
   label_information_plural: "Impormasyon"
+  label_installation_guides: 'Installation guides'
   label_integer: "Numero"
   label_internal: "Panloob"
   label_introduction_video: "Introduction video"
@@ -1756,6 +1755,7 @@ fil:
   label_project_new: "Bagong proyekto"
   label_project_plural: "Mga proyekto"
   label_project_settings: "Ang mga setting ng proyekto"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "Ang %{count} proyekto gamit ang %{storage} lalagyan ng disk"
   label_project_view_all: "Tingnan lahat ang mga proyekto"
   label_project_show_details: "Ipakita ang mga detalye ng proyekto"
@@ -1907,6 +1907,7 @@ fil:
   label_wiki_start: "Simulan ang pahina"
   label_work_package: "Work package"
   label_work_package_attachments: "Nakakalakip na pahinag trabaho"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Bagong kategorya"
   label_work_package_category_plural: "Ang mga katergorya ng work package"
   label_work_package_hierarchy: "Hierarchy ng work package"
@@ -2361,6 +2362,8 @@ fil:
       update_timeout: "Panatilihin ang huling kailangang espasyo disk impormasyon para sa repositoryo ng N minuto.\nBilang pagbibilang ang kailangang espasyo ng disk ng repositoryo ay maaring gastos, palakihin ang hakaga na ito upang mabawasan ang epekto ng pagganap."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Umiiral na subversion respository"
@@ -2876,10 +2879,10 @@ fil:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Protocol setting mismatch'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Hostname setting mismatch'
       text_html: >

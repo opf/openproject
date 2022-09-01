@@ -98,6 +98,22 @@ module OpenProject
               href: 'https://www.openproject.org/docs/user-guide/',
               label: 'homescreen.links.user_guides'
             },
+            installation_guides: {
+              href: 'https://www.openproject.org/docs/installation-and-operations/installation/',
+              label: :label_installation_guides
+            },
+            packager_installation: {
+              href: 'https://www.openproject.org/docs/installation-and-operations/installation/packaged/',
+              label: 'Packaged installation'
+            },
+            docker_installation: {
+              href: 'https://www.openproject.org/docs/installation-and-operations/installation/docker/',
+              label: 'Docker installation'
+            },
+            manual_installation: {
+              href: 'https://www.openproject.org/docs/installation-and-operations/installation/manual/',
+              label: 'Manual installation'
+            },
             upgrade_guides: {
               href: 'https://www.openproject.org/docs/installation-and-operations/operation/upgrading/',
               label: :label_upgrade_guides
@@ -230,6 +246,11 @@ module OpenProject
               },
               status_read_only: {
                 href: 'https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-status/#create-a-new-work-package-status'
+              }
+            },
+            storage_docs: {
+              setup: {
+                href: 'https://www.openproject.org/docs/system-admin-guide/integrations/nextcloud/'
               }
             }
           }

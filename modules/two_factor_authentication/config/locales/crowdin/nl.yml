@@ -134,8 +134,6 @@ nl:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS versturen mislukt.'
       voice_delivery_failed: 'MessageBird spraakoproep mislukt.'
-    restdt:
-      delivery_failed_with_code: 'Token levering mislukt. (Error code %{code})'
     strategies:
       totp: 'Verificator toepassing'
       sns: 'Amazon SNS'

@@ -520,7 +520,7 @@ class User < Principal
   end
 
   def allowed_to?(action, context, global: false)
-    user_allowed_service.call(action, context, global:).result
+    user_allowed_service.call(action, context, global:)
   end
 
   def allowed_to_in_project?(action, project)

@@ -264,14 +264,13 @@ lt:
     deletion_info:
       heading: "Pašalinti statytinį naudotoją %{name}"
       data_consequences: >
-        Visose vietose, kur naudojamas statytinis naudotojas (t.y. kaip paskirtas, atsakingas ar kitose naudotojo vietose) jis bus pakeistas į naudotoją „Ištrintas naudotojas“.
-        Kadangi visų ištrintų naudotojų visi duomenys yra priskiriami šiam naudotojui, nebebus galima atskirti šio naudotojo sukurtų duomenų, nuo tų, kuriuos sukūrė kiti ištrinti naudotojai.
+        Visose vietose, kur naudojamas statytinis naudotojas (t.y. kaip paskirtas, atsakingas ar kitose naudotojo vietose) jis bus pakeistas į naudotoją „Ištrintas naudotojas“. Kadangi visų ištrintų naudotojų visi duomenys yra priskiriami šiam naudotojui, nebebus galima atskirti šio naudotojo sukurtų duomenų, nuo tų, kuriuos sukūrė kiti ištrinti naudotojai.
       irreversible: "Šis veiksmas negrįžtamas"
       confirmation: "Naikinimo patvirtinimui įveskite statytinio naudotojo vardą %{name}."
     upsale:
       title: Statytiniai naudotojai
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -741,12 +740,16 @@ lt:
         work_package:
           is_not_a_valid_target_for_time_entries: "Darbų paketas #%{id} nėra tinkamas laiko įrašų perskirstymo pasirinkimas."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "nėra pradžios data, nors tai reikalinga svarbiems etapams."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "negali būti svarbus etapas."
               cannot_be_self_assigned: "negalima priskirti sau pačiam"
@@ -754,6 +757,7 @@ lt:
               not_a_valid_parent: " netinkamas."
             start_date:
               violates_relationships: "negali būti nustatyta į %{soonest_start} ar vėliau, kad nepažeistų darbų paketo ryšių."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "netinkamas, nes nėra tinkamo perėjimo iš senos į naują būseną esamiems naudotojų vaidmenims."
               status_invalid_in_type: "yra netinkamas, nes dabartinė būsena neegzistuoja šiame tipe."
@@ -1279,7 +1283,7 @@ lt:
   error_enterprise_activation_user_limit: "Jūsų paskyra negali būti aktyvuota (pasiektas vartotojų limitas). Prašome kreiptis į savo sistemos administratorių."
   error_enterprise_token_invalid_domain: "Enterprise Edition neaktyvi. Jūsų Enterprise rakto domenas (%{actual}) nesutampa su jūsų sistemos serverio vardu (%{expected})."
   error_failed_to_delete_entry: 'Šio įrašo nepavyko panaikinti.'
-  error_in_dependent: "Klaida bandant pakeisti priklausomą objektą: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Klaida bandant pakeisti priklausomą objektą: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Klaida bandant sukurti priklausomą objektą: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Netinkama parinkta reikšmė."
   error_journal_attribute_not_present: "Žurnale nėra atributo %{attribute}."
@@ -1418,17 +1422,11 @@ lt:
     update_info_mail:
       body: >
         Mes džiaugiamės galėdami pranešti apie OpenProject 12.0. Tai didelė laida, kuri tikimės stipriai pagerins tai, kaip jūs naudojate OpenProject.
-
         Pradedant šia laida mes pristatome Pranešimų Centrą. Nuo dabar jūs galėsite gauti pranešimus apie darbo paketų atnaujinimus tiesiai OpenProject. Jūs galite pažymėti šiuos pranešimus perskaitytais, atsakyti į komentarą ar tiesiogiai pakeisti darbo paketo atributus, nepalikdami Pranešimų Centro.
-
         Tai taipogi reiškia, kad jūs daugiau nenaudosite e-pašto pranešimams. Mes galvojame, kad Pranešimų centras yra geresnė vieta peržiūrėti ir imtis veiksmų su atnaujinimais. Kaip bebūtų, jei jūs norėtumėte ir toliau gauti atnaujinimus e-paštu, galite pasirinkti kasdieninius e-pašto priminimus jūsų pasirinktu metu.
-
         Prašome nustatyti savo e-pašto priminimo parinktis jūsų paskyros nustatymuose. Galite tai padaryti paspaudę žemiau esantį mygtuką „Keisti e-pašto nustatymus“.
-
         Mes tikimės, kad vidiniai pranešimai jums bus naudingi ir, kad jie dar labiau pagerins jūsų produktyvumą.
-
-        Nuoširdžiai,
-        OpenProject komanda
+        Nuoširdžiai, OpenProject komanda
       body_header: 'Versija 12.0 su Pranešimų centru'
       body_subheader: 'Naujienos'
       subject: 'Svarbūs pranešimų pakeitimai laidoje 12.0'
@@ -1643,6 +1641,7 @@ lt:
   label_index_by_title: "Rūšiuoti pagal pavadinimą"
   label_information: "Informacija"
   label_information_plural: "Informacija"
+  label_installation_guides: 'Installation guides'
   label_integer: "Sveikasis skaičius"
   label_internal: "Vidinis"
   label_introduction_video: "Įvado video"
@@ -1787,6 +1786,7 @@ lt:
   label_project_new: "Naujas projektas"
   label_project_plural: "Projektai"
   label_project_settings: "Projekto nustatymai"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} projektai(-as, -ų) naudoja %{storage} disko vietos"
   label_project_view_all: "Peržiūrėti visus projektus"
   label_project_show_details: "Rodyti detalią projekto informaciją"
@@ -1938,6 +1938,7 @@ lt:
   label_wiki_start: "Pradžios puslapis"
   label_work_package: "Darbų paketas"
   label_work_package_attachments: "Darbų paketo prisegti failai"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Nauja kategorija"
   label_work_package_category_plural: "Darbų paketo kategorijos"
   label_work_package_hierarchy: "Darbų paketo hierarchija"
@@ -2396,6 +2397,8 @@ lt:
       update_timeout: "Laikyti paskiausią reikalingą disko vietos informaciją repozitorijai N minutes (-ių). Kadangi reikalingos vietos repozitorijai skaičiavimas gali būti reiklus resursams, minučių reikšmės didinimas gali stipriai sumažinti sistemos našumą."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Esama Subversion repozitorija"
@@ -2914,10 +2917,10 @@ lt:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Neatitinka protokolų nustatymai'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Jūsų programa veikia su protokolų nustatymo reikšme <code>%{set_protocol}</code>, tačiau užklausa atėjo per protokolą <code>%{actual_protocol}</code>. Tai lems klaidas! Eikite į <a href="%{setting_path}">Sistemos nustatymus</a> ir pakeiskite „Protokolo“ nustatymus.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Neatitinka serverio vardo nustatymai'
       text_html: >

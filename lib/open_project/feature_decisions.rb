@@ -40,8 +40,9 @@ module OpenProject
     #     Setting.feature_your_module_active || Date.today > release_date
     #   end
 
+    # TODO: remove this feature flag
     def self.work_packages_duration_field_active?
-      Setting.work_packages_duration_field_active
+      true
     end
   end
 end

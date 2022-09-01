@@ -794,7 +794,7 @@ describe MailHandler, type: :model do
               "status_id" => [original_status.id, resolved_status.id],
               "assigned_to_id" => [nil, other_user.id],
               "start_date" => [nil, Date.parse("Fri, 01 Jan 2010")],
-              "duration" => [1, 365],
+              "duration" => [nil, 365],
               "custom_fields_#{float_cf.id}" => [nil, "52.6"]
             )
         end

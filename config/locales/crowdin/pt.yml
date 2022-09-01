@@ -272,7 +272,7 @@ pt:
     upsale:
       title: Usuários de espaço reservado
       description: >
-        Usuários reservados são uma maneira de atribuir pacotes de trabalho aos usuários que não fazem parte do seu projeto. Eles podem ser úteis numa série de cenários; por exemplo, se você precisa acompanhar as tarefas de uma fonte que ainda não é nomeada ou disponível, ou se você não deseja dar a essa pessoa acesso ao OpenProject mas ainda quer acompanhar as tarefas atribuídas a ela.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -740,12 +740,16 @@ pt:
         work_package:
           is_not_a_valid_target_for_time_entries: "Pacote de trabalho #%{id} não é válido para re-atribuir os registros de horas gastas."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "é maior que o intervalo entre a data de início e de fim."
               smaller_than_dates: "é menor que o intervalo entre a data de início e a data de término."
               not_available_for_milestones: "Não está disponível para pacotes de trabalho do tipo marco"
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "não pode ser um marco."
               cannot_be_self_assigned: "não pode ser atribuído a ele mesmo."
@@ -753,6 +757,7 @@ pt:
               not_a_valid_parent: "é inválido."
             start_date:
               violates_relationships: "somente pode ser definida como %{soonest_start} ou posterior para não violar as relações de trabalho do pacote."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "é inválido porque não existe transição válida da antiga para a nova situação para o papel do usuário atual."
               status_invalid_in_type: "é inválido porque não existe a situação atual neste tipo."
@@ -1604,6 +1609,7 @@ pt:
   label_index_by_title: "Índice por título"
   label_information: "Informação"
   label_information_plural: "Informações"
+  label_installation_guides: 'Installation guides'
   label_integer: "Número inteiro"
   label_internal: "Interno"
   label_introduction_video: "Vídeo de introdução"
@@ -1748,6 +1754,7 @@ pt:
   label_project_new: "Novo projeto"
   label_project_plural: "Projetos"
   label_project_settings: "Configurações do projeto"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} projetos usando %{storage} de armazenamento em disco"
   label_project_view_all: "Ver todos os projetos"
   label_project_show_details: "Mostrar detalhes do projeto"
@@ -1899,6 +1906,7 @@ pt:
   label_wiki_start: "Página inicial"
   label_work_package: "Pacote de trabalho"
   label_work_package_attachments: "Anexos de pacote de trabalho"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Nova categoria"
   label_work_package_category_plural: "Categorias de pacote de trabalho"
   label_work_package_hierarchy: "Hierarquia de pacotes de trabalho"
@@ -2353,6 +2361,8 @@ pt:
       update_timeout: "Manter as últimas informações de espaço em disco necessário para um repositório por N minutos. Como contar o espaço em disco necessário de um repositório pode ser custoso, aumente este valor para reduzir o impacto no desempenho."
       oauth_application_details: "O valor secreto do cliente não poderá ser acessado novamente após esta janela ser fechada. Copie estes valores nas configurações de Integração do Nextcloud OpenProject:"
       oauth_application_details_link_text: "Ir para a página de configurações"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "Para usar este armazenamento de arquivos, lembre-se de ativar o módulo e o armazenamento específico nas configurações de projeto de cada projeto desejado."
     subversion:
       existing_title: "Repositório Subversion existente"
@@ -2867,10 +2877,10 @@ pt:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Incompatibilidade de configuração do protocolo'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Seu aplicativo está sendo executado com sua configuração de protocolo definida para <code>%{set_protocol}</code>, mas solicitação é uma solicitação <code>%{actual_protocol}</code>. Isto pode provocar erros! Avance para as <a href="%{setting_path}">Configurações do sistema</a> e altere a configuração "Protocolo" para corrigir isto.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Incompatibilidade de configuração do anfitrião'
       text_html: >

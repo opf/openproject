@@ -1,9 +1,16 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
+require 'bundler'
+Bundler.setup(:default, :development)
+
 require 'pathname'
 require 'json'
 require 'rest-client'
 require 'pry'
+
+GITHUB_API_OPENPROJECT_PREFIX = "https://api.github.com/repos/opf/openproject"
+RAILS_ROOT = Pathname.new(__dir__).dirname
 
 # current branch
 branch_name = `git rev-parse --abbrev-ref HEAD`.strip
@@ -19,7 +26,7 @@ def get_http(path)
     if path.start_with?('http')
       path
     else
-      "https://api.github.com/repos/opf/openproject/#{path}"
+      "#{GITHUB_API_OPENPROJECT_PREFIX}/#{path}"
     end
 
   response = RestClient::Request.new(
@@ -39,10 +46,37 @@ def get_json(path)
   JSON.parse(get_http(path))
 end
 
+def get_cached_json(path)
+  unique_name = path
+    .gsub(/\?.*$/, '') # remove query parameter
+    .gsub(/^#{GITHUB_API_OPENPROJECT_PREFIX}\/?/, '') # remove https://.../
+    .gsub(/\W/, '_') # transform non alphanum chars
+  cached(unique_name) { get_json(path) }
+end
+
 def commit_message(workflow_run)
-  get_json("commits/#{workflow_run['head_sha']}?per_page=1")
+  get_cached_json("commits/#{workflow_run['head_sha']}?per_page=1")
     .then { |commit_response| commit_response["commit"]["message"] }
     .then { |message| message.split("\n", 2).first }
+end
+
+def get_log(job)
+  cached("job_#{job['id']}.log") do
+    get_http("actions/jobs/#{job['id']}/logs")
+  end
+end
+
+def cached(unique_name)
+  cached_file = RAILS_ROOT.join("tmp/github_pr_errors/#{unique_name}")
+  if cached_file.file?
+    content = cached_file.read
+    content.start_with?("---") ? YAML::load(content) : content
+  else
+    content = yield
+    cached_file.dirname.mkpath
+    cached_file.write(content.is_a?(String) ? content : YAML::dump(content))
+    content
+  end
 end
 
 warn "Looking for the last 'Test suite' workflow run in branch #{branch_name}"
@@ -61,14 +95,13 @@ warn "  Commit SHA: #{last_test_action['head_sha']}"
 warn "  Commit message: #{commit_message(last_test_action)}"
 
 errors = []
-get_json(last_test_action['jobs_url'])
+get_cached_json(last_test_action['jobs_url'])
   .then { |jobs_response| jobs_response['jobs'] }
   .select { _1['conclusion'] == 'failure' }
   .sort_by { _1['name'] }
   .each { warn "  #{_1['name']}: #{_1['conclusion']}" }
   .each do |job|
-    log = get_http "actions/jobs/#{job['id']}/logs"
-    log.scan(/^\S+ rspec (\S+) #.+$/) do |match|
+    get_log(job).scan(/^\S+ rspec (\S+) #.+$/) do |match|
       errors << match
     end
   end
@@ -76,5 +109,5 @@ get_json(last_test_action['jobs_url'])
 if errors.empty?
   warn "No rspec errors found :-/"
 else
-  puts errors.flatten.uniq.join(" ")
+  puts errors.flatten.uniq.map { "'#{_1}'" }.join(" ")
 end

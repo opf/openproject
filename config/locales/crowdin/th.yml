@@ -238,7 +238,7 @@ th:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: สร้างรุ่นใหม่
       storage:
-        no_results_title_text: ไม่มีการระบุ พื้นที่ดิสก์ ไว้ในโปรเจ็กต์นี้ 
+        no_results_title_text: ไม่มีการระบุ พื้นที่ดิสก์ ไว้ในโปรเจ็กต์นี้
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -267,14 +267,13 @@ th:
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Placeholder users
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -741,12 +740,16 @@ th:
         work_package:
           is_not_a_valid_target_for_time_entries: "ชุดภารกิจ #%{id} ไม่ใช่เป้าหมายที่ถูกต้องสำหรับการกำหนดรายการเวลา"
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "is not on start date, although this is required for milestones."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "cannot be a milestone."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -754,6 +757,7 @@ th:
               not_a_valid_parent: "is invalid."
             start_date:
               violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the work package's relationships."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
               status_invalid_in_type: "is invalid because the current status does not exist in this type."
@@ -919,19 +923,18 @@ th:
       heading_create: "สร้าง โทเค็น (token) สำรอง"
       implications: >
         การเปิดใช้งานการสำรองข้อมูลจะอนุญาตให้ผู้ใช้ที่มีสิทธิ์ที่จำเป็นและโทเค็นสำรองนี้สามารถดาวน์โหลดข้อมูลสำรองที่มีข้อมูลทั้งหมดของการติดตั้ง OpenProject นี้ได้ ซึ่งรวมถึงข้อมูลของผู้ใช้รายอื่นทั้งหมด
-
       info: >
-        คุณจะต้องสร้างโทเค็นสำรอง จึงจะสามารถสร้างข้อมูลสำรองได้ แต่ละครั้งที่คุณต้องการขอข้อมูลสำรอง คุณจะต้องจัดเตรียมโทเค็นนี้ คุณสามารถลบโทเค็นสำรองเพื่อปิดใช้งานการสำรองข้อมูลสำหรับผู้ใช้รายนี้ 
+        คุณจะต้องสร้างโทเค็นสำรอง จึงจะสามารถสร้างข้อมูลสำรองได้ แต่ละครั้งที่คุณต้องการขอข้อมูลสำรอง คุณจะต้องจัดเตรียมโทเค็นนี้ คุณสามารถลบโทเค็นสำรองเพื่อปิดใช้งานการสำรองข้อมูลสำหรับผู้ใช้รายนี้
       verification: >
         ป้อน %{word} เพื่อยืนยัน การดำเนินการ %{action} โทเค็น (token) สำรอง.
       verification_word_reset: รีเซ็ต
       verification_word_create: สร้าง
       warning: >
-        เมื่อคุณสร้างโทเค็นใหม่ คุณจะได้รับอนุญาตให้ขอสำรองข้อมูลหลังจาก 24 ชั่วโมงเท่านั้น นี่คือมาตรการด้านความปลอดภัย หลังจากนั้น คุณสามารถขอสำรองข้อมูลได้ตลอดเวลาโดยใช้โทเค็นนั้น 
+        เมื่อคุณสร้างโทเค็นใหม่ คุณจะได้รับอนุญาตให้ขอสำรองข้อมูลหลังจาก 24 ชั่วโมงเท่านั้น นี่คือมาตรการด้านความปลอดภัย หลังจากนั้น คุณสามารถขอสำรองข้อมูลได้ตลอดเวลาโดยใช้โทเค็นนั้น
     text_token_deleted: โทเค็นสำรองถูกลบ การสำรองข้อมูลถูกปิดใช้งานในขณะนี้
     error:
-      invalid_token: โทเค็นสำรองไม่ถูกต้อง หรือขาดหายไป 
-      token_cooldown: โทเค็นสำรองจะใช้งานได้ใน %{hours} ชั่วโมง 
+      invalid_token: โทเค็นสำรองไม่ถูกต้อง หรือขาดหายไป
+      token_cooldown: โทเค็นสำรองจะใช้งานได้ใน %{hours} ชั่วโมง
       backup_pending: มีการสำรองข้อมูลที่รอดำเนินการอยู่แล้ว
       limit_reached: คุณสามารถสำรองข้อมูลได้เพียง %{limit} รายการต่อวัน
   button_add: "เพิ่ม"
@@ -1232,7 +1235,7 @@ th:
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
@@ -1371,17 +1374,11 @@ th:
     update_info_mail:
       body: >
         We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-
         Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-
         This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-
         We hope you find in-app notifications useful and that they makes you even more productive.
-
-        Sincerely,
-        The OpenProject team
+        Sincerely, The OpenProject team
       body_header: 'Version 12.0 with Notification Center'
       body_subheader: 'ข่าวสาร'
       subject: 'Important changes to notifications with the release of 12.0'
@@ -1596,6 +1593,7 @@ th:
   label_index_by_title: "จัดเรียงตามชื่อเรื่อง"
   label_information: "ข้อมูล"
   label_information_plural: "ข้อมูล"
+  label_installation_guides: 'Installation guides'
   label_integer: "จำนวนเต็ม"
   label_internal: "ภายใน"
   label_introduction_video: "Introduction video"
@@ -1740,6 +1738,7 @@ th:
   label_project_new: "โครงการใหม่"
   label_project_plural: "โครงการ"
   label_project_settings: "การตั้งค่าโครงการ"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "ดูโครงการทั้งหมด"
   label_project_show_details: "Show project details"
@@ -1891,6 +1890,7 @@ th:
   label_wiki_start: "เพจเริ่มต้น"
   label_work_package: "ชุดภารกิจ"
   label_work_package_attachments: "Work package attachments"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "ประเภทใหม่"
   label_work_package_category_plural: "ประเภทของชุดภารกิจ"
   label_work_package_hierarchy: "Work package hierarchy"
@@ -2345,6 +2345,8 @@ th:
       update_timeout: "Keep the last required disk space information for a repository for N minutes.\nAs counting the required disk space of a repository may be costly, increase this value to reduce performance impact."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Existing Subversion repository"
@@ -2858,10 +2860,10 @@ th:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Protocol setting mismatch'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Hostname setting mismatch'
       text_html: >

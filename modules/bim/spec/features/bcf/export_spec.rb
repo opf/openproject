@@ -88,7 +88,7 @@ describe 'bcf export',
     expect(page).to have_text("completed successfully")
 
     # Close the modal
-    page.find('.op-modal--close-button').click
+    page.find('.spot-modal-overlay').click
 
     @download_list.refresh_from(page)
 

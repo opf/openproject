@@ -122,8 +122,9 @@ module.exports = {
       //////////////////////////////////////////////////////////////////////
       // It's common in Angular to wrap even pure functions in classes for injection purposes
       "class-methods-use-this": "off"
-    }
-  }, {
+    },
+  },
+  {
     files: ["*.html"],
     extends: ["plugin:@angular-eslint/template/recommended"],
     rules: {

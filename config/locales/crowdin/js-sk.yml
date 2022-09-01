@@ -151,7 +151,7 @@ sk:
           language_hint: 'Zadajte jazyk pre zvýrazňovanie syntaxe, ktorý sa používa pre zvýraznenie časti kódu (ak je podporovaný).'
         dropdown:
           macros: 'Makrá'
-          chose_macro: 'Použiť makro'
+          chose_macro: 'Choose macro'
         toc: 'Obsah'
         toolbar_help: 'Kliknutím vyberte miniaplikáciu, a zobrazenie panela nástrojov.. Dvojitým kliknutím upravíte miniaplikáciu'
         wiki_page_include:
@@ -474,7 +474,7 @@ sk:
     label_remove_all_files: Odstrániť všetky súbory
     label_add_description: "Pridať popis %{file}"
     label_upload_notification: "Nahrávanie súborov..."
-    label_work_package_upload_notification: "Nahrávanie súborov pre Pracovný balík #%{id}: %{subject}"
+    label_work_package_upload_notification: "Nahrávanie súborov pre Pracovný balík #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} pridané %{author}"
     label_files_to_upload: "Tieto súbory budú odovzdané:"
     label_rejected_files: "Tieto súbory nie je možné odovzdať:"
@@ -492,7 +492,7 @@ sk:
         next: 'Ďalšie'
         got_it: 'Rozumiem'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -606,6 +606,7 @@ sk:
       default: '-'
       subject: 'Sem zadajte predmet'
       selection: 'Prosím, vyberte'
+      description: 'Description: Click to edit...'
       relation_description: 'Kliknutím pridáte popis tohto vzťahu'
     project:
       required_outside_context: >
@@ -736,8 +737,9 @@ sk:
     field_value_enter_prompt: "Zadajte hodnotu pre \"%{field}\""
     project_menu_details: "Podrobnosti"
     scheduling:
-      manual: 'Manuálne plánovanie'
-      automatic: 'Automatické plánovanie'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Použiť vzostupné zoradenie, '
       sorted_dsc: 'Použiť zostupné zoradenie, '
@@ -760,7 +762,7 @@ sk:
         farRight: 'Vzdialene vpravo'
         showNone: '-- Žiadna menovka --'
         description: >
-          Vyberte atribúty, ktoré chcete vždy zobraziť v príslušnej pozície Ganttovho diagramu. Myslite na to, že pri vznášajúcom sa prvku bude namiesto tohto atribútu zobrazená menovka s dátumom.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Zobraziť Ganttov graf'
       button_deactivate: 'Skryť Ganttov graf'
       cancel: Zrušíť
@@ -845,6 +847,10 @@ sk:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Filtrovať"
       description_enter_text: "Zadajte text"
       description_options_hide: "Skryť možnosti"
@@ -900,6 +906,7 @@ sk:
         description: "Popis"
         date: "Dátum"
         dueDate: "Dátum dokončenia"
+        duration: "Duration"
         estimatedTime: "Predpokladaný čas"
         spentTime: "Strávený čas"
         category: "Kategória"
@@ -931,7 +938,6 @@ sk:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Stĺpce"
         group_by: "zoskupiť výsledky podľa"

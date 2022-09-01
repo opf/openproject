@@ -25,7 +25,7 @@ In order to use integrate OpenProject as a service provider (SP) using SAML, you
 
 - needs to be able to handle SAML 2.0 redirect Single-Sign On (SSO) flows, in some implementations also referred to as WebSSO
 - has a known or configurable set of attributes that map to the following required OpenProject attributes. The way these attribute mappings will be defined is described later in this document.
-  - **login**: A stable attribute used to uniquely identify the user. This willl most commonly map to an account ID, samAccountName or email (but please note that emails are often interchangeable, and this might result in logins changing in OpenProject).
+  - **login**: A stable attribute used to uniquely identify the user. This will most commonly map to an account ID, samAccountName or email (but please note that emails are often interchangeable, and this might result in logins changing in OpenProject).
   - **email**: The email attribute of the user being authenticated
   - **first name** and **last name** of the user.
 - provides the public certificate or certificate fingerprint (SHA1) in use for communicating with the idP.
@@ -63,44 +63,54 @@ The following is an exemplary file with a set of common settings:
 
 ```yaml
 saml:
-  # Name of the provider, leave this at saml unless you use multiple providers
-  name: "saml"
-  # The name that will be display in the login button
-  display_name: "My SSO"
-  # Use the default SAML icon
-  icon: "auth_provider-saml.png"
+  # First SAML provider
+  mysaml1:  
+    # Name of the provider, leave this at saml unless you use multiple providers
+    name: "saml"
+    # The name that will be display in the login button
+    display_name: "My SSO"
+    # Use the default SAML icon
+    icon: "auth_provider-saml.png"
 
-  # The callback within OpenProject that your idP should redirect to
-  assertion_consumer_service_url: "https://<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
-  # The SAML issuer string that OpenProject will call your idP with
-  issuer: "https://<YOUR OPENPROJECT HOSTNAME>"
+    # The callback within OpenProject that your idP should redirect to
+    assertion_consumer_service_url: "https://<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
+    # The SAML issuer string that OpenProject will call your idP with
+    issuer: "https://<YOUR OPENPROJECT HOSTNAME>"
 
-  # IF your SSL certificate on your SSO is not trusted on this machine, you need to add it here in ONE line
-  ### one liner to generate certificate in ONE line
-  ### awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' <yourcert.pem>
-  #idp_cert: "-----BEGIN CERTIFICATE-----\n ..... SSL CERTIFICATE HERE ...-----END CERTIFICATE-----\n"
-  # Otherwise, the certificate fingerprint must be added
-  # Either `idp_cert` or `idp_cert_fingerprint` must be present!
-  idp_cert_fingerprint: "E7:91:B2:E1:..."
+    # IF your SSL certificate on your SSO is not trusted on this machine, you need to add it here in ONE line
+    ### one liner to generate certificate in ONE line
+    ### awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' <yourcert.pem>
+    #idp_cert: "-----BEGIN CERTIFICATE-----\n ..... SSL CERTIFICATE HERE ...-----END CERTIFICATE-----\n"
+    # Otherwise, the certificate fingerprint must be added
+    # Either `idp_cert` or `idp_cert_fingerprint` must be present!
+    idp_cert_fingerprint: "E7:91:B2:E1:..."
 
-  # Replace with your SAML 2.0 redirect flow single sign on URL
-  # For example: "https://sso.example.com/saml/singleSignOn"
-  idp_sso_target_url: "<YOUR SSO URL>"
-  # Replace with your redirect flow single sign out URL
-  # or comment out
-  # For example: "https://sso.example.com/saml/proxySingleLogout"
-  idp_slo_target_url: "<YOUR SSO logout URL>"
+    # Replace with your SAML 2.0 redirect flow single sign on URL
+    # For example: "https://sso.example.com/saml/singleSignOn"
+    idp_sso_target_url: "<YOUR SSO URL>"
+    # Replace with your redirect flow single sign out URL
+    # or comment out
+    # For example: "https://sso.example.com/saml/proxySingleLogout"
+    idp_slo_target_url: "<YOUR SSO logout URL>"
 
-  # Attribute map in SAML
-  attribute_statements:
-    # What attribute in SAML maps to email (default: mail)
-    email: ['mail']
-    # What attribute in SAML maps to the user login (default: uid)
-    login: ['uid']
-    # What attribute in SAML maps to the first name (default: givenName)
-    first_name: ['givenName']
-    # What attribute in SAML maps to the last name (default: sn)
-    last_name: ['sn']
+    # Attribute map in SAML
+    attribute_statements:
+      # What attribute in SAML maps to email (default: mail)
+      email: ['mail']
+      # What attribute in SAML maps to the user login (default: uid)
+      login: ['uid']
+      # What attribute in SAML maps to the first name (default: givenName)
+      first_name: ['givenName']
+      # What attribute in SAML maps to the last name (default: sn)
+      last_name: ['sn']
+      
+  # OPTIONAL: Additional SAML provider(s)
+  #mysaml2:
+  #  name: "saml2"
+  #  display_name: "Additional SSO"
+  #  (...)
+  #mysaml3:
+  #  (...)
 ```
 
 Be sure to choose the correct indentation and base key. The items below the `saml` key should be indented two spaces more than `saml` already is. And `saml` can will need to be placed in the `default` or `production` group so it will already be indented. You will get an YAML parsing error otherwise when trying to start OpenProject.
@@ -132,10 +142,10 @@ OPENPROJECT_SAML_SAML_ISSUER="https://<openproject.host>"
 # Either `OPENPROJECT_SAML_SAML_IDP__CERT` or `OPENPROJECT_SAML_SAML_IDP__CERT__FINGERPRINT` must be present!
 OPENPROJECT_SAML_SAML_IDP__CERT="-----BEGIN CERTIFICATE-----<cert one liner>-----END CERTIFICATE-----"
 OPENPROJECT_SAML_SAML_IDP__CERT__FINGERPRINT="da:39:a3:ee:5e:6b:4b:0d:32:55:bf:ef:95:60:18:90:af:d8:07:09"
-# Replace with your single sign on URL, the exact value depends on your idP implemention
+# Replace with your single sign on URL, the exact value depends on your idP implementation
 OPENPROJECT_SAML_SAML_IDP__SSO__TARGET__URL="https://<hostname of your idp>/application/saml/<slug>/sso/binding/post/"
 
-# (Optinal) Replace with your redirect flow single sign out URL that we should redirect to
+# (Optional) Replace with your redirect flow single sign out URL that we should redirect to
 OPENPROJECT_SAML_SAML_IDP__SLO__TARGET__URL=""
 
 # 

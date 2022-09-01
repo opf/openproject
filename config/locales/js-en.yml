@@ -173,7 +173,7 @@ en:
           language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
         dropdown:
           macros: 'Macros'
-          chose_macro: 'Chose macro'
+          chose_macro: 'Choose macro'
         toc: 'Table of contents'
         toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
         wiki_page_include:
@@ -537,7 +537,7 @@ en:
         next: 'Next'
         got_it: 'Got it'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -653,6 +653,7 @@ en:
       default: '-'
       subject: 'Enter subject here'
       selection: 'Please select'
+      description: 'Description: Click to edit...'
       relation_description: 'Click to add description for this relation'
 
     project:
@@ -804,8 +805,9 @@ en:
     project_menu_details: "Details"
 
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
 
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -831,7 +833,7 @@ en:
         showNone: '-- No label --'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times.
-          Note that when hovering an element, its date labels will be shown instead of these attributes.
+          Note that when hovering over an element, its date labels will be shown instead of these attributes.
 
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
@@ -917,6 +919,10 @@ en:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        ignore_non_working_days:
+          title: 'Working days'
+          false: 'Work week'
+          true: 'Include weekends'
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
@@ -973,6 +979,7 @@ en:
         description: "Description"
         date: "Date"
         dueDate: "Finish date"
+        duration: "Duration"
         estimatedTime: "Estimated time"
         spentTime: "Spent time"
         category: "Category"
@@ -1004,7 +1011,6 @@ en:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Columns"
         group_by: "Group results by"

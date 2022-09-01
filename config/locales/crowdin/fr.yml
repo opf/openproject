@@ -741,12 +741,16 @@ fr:
         work_package:
           is_not_a_valid_target_for_time_entries: "Le lot de travaux #%{id} n'est pas une cible valide pour réaffecter les entrées de temps."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "n'est pas identique à la date de début, bien que cela soit requis pour les jalons."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "est plus grand que l'intervalle entre la date de début et la date de fin."
               smaller_than_dates: "est plus petit que l'intervalle entre la date de début et la date de fin."
               not_available_for_milestones: "n'est pas disponible pour les lots de travaux de type jalon."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "ne peut pas être un jalon."
               cannot_be_self_assigned: "ne peut pas être assigné à lui-même."
@@ -754,6 +758,7 @@ fr:
               not_a_valid_parent: "est invalide."
             start_date:
               violates_relationships: "peut uniquement valoir %{soonest_start} ou une date ultérieure afin de ne pas violer les relations du lot de travaux."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "n'est pas valide, car aucune transition valide n'existe de l'ancien vers le nouveau statut pour les rôles de l'utilisateur actuel."
               status_invalid_in_type: "est invalide car le statut actuel n’existe pas dans ce type."
@@ -1605,6 +1610,7 @@ fr:
   label_index_by_title: "Index par titre"
   label_information: "Information"
   label_information_plural: "Information"
+  label_installation_guides: 'Guides d''installation'
   label_integer: "Nombre entier"
   label_internal: "Interne"
   label_introduction_video: "Vidéo de présentation"
@@ -1749,6 +1755,7 @@ fr:
   label_project_new: "Nouveau projet"
   label_project_plural: "Projets"
   label_project_settings: "Paramètres du projet"
+  label_project_storage_plural: "Stockages"
   label_projects_storage_information: "%{count} projets utilisant %{storage} d'espace disque"
   label_project_view_all: "Afficher tous les projets"
   label_project_show_details: "Afficher les détails du projet"
@@ -1900,6 +1907,7 @@ fr:
   label_wiki_start: "Page d'accueil"
   label_work_package: "Lot de travaux"
   label_work_package_attachments: "Pièces jointes du lot de travaux"
+  label_work_package_file_link_plural: "Liens des fichiers du lot de travaux"
   label_work_package_category_new: "Nouvelle catégorie"
   label_work_package_category_plural: "Catégories de Lots de Travaux"
   label_work_package_hierarchy: "Hiérarchie du lot de travaux"
@@ -2356,6 +2364,8 @@ fr:
       update_timeout: "Garder les dernières informations de l'espace disque requis pour un dépôt pendant N minutes.\nEtant donné que l'opération de comptabilisation de l'espace disque requis pour un dépôt peut être coûteuse, augmentez cette valeur pour réduire l'impact sur les performances."
       oauth_application_details: "La valeur secrète du client ne sera plus accessible après la fermeture de cette fenêtre. Veuillez copier ces valeurs dans les paramètres d'intégration Nextcloud OpenProject :"
       oauth_application_details_link_text: "Aller à la page des paramètres"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "Pour utiliser ce stockage de fichiers, n'oubliez pas d'activer le module et le stockage spécifique dans les paramètres du projet de chaque projet souhaité."
     subversion:
       existing_title: "Dépôt Subversion existant"
@@ -2870,10 +2880,10 @@ fr:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Incompatibilité des paramètres de protocole'
+    https_mismatch:
+      title: 'Mauvaise configuration du mode HTTPS'
       text_html: >
-        Votre application est en cours d'exécution avec sa configuration de protocole définie sur <code>%{set_protocol}</code>, mais la requête est une requête <code>%{actual_protocol}</code> . Cela causera des erreurs ! Allez dans <a href="%{setting_path}">Paramètres système</a> et modifiez le paramètre « Protocole » pour corriger cela.
+        Votre application fonctionne avec le mode HTTPS réglé sur <code>%{set_protocol}</code>, mais la requête est une requête <code>%{actual_protocol}</code>. Cela entraînera des erreurs ! Vous devrez définir la valeur de configuration suivante : <code>%{setting_value}</code>. Veuillez consulter <a href="%{more_info_path}">la documentation d'installation</a> pour savoir comment régler cette configuration.
     hostname_mismatch:
       title: 'Incompatibilité des paramètres du nom d''hôte'
       text_html: >

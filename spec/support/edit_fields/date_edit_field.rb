@@ -15,8 +15,21 @@ class DateEditField < EditField
   end
 
   def datepicker
-    @datepicker ||= ::Components::Datepicker.new modal_selector
+    @datepicker ||= ::Components::WorkPackageDatepicker.new modal_selector
   end
+
+  delegate :set_start_date,
+           :set_due_date,
+           :focus_start_date,
+           :focus_due_date,
+           :expect_start_highlighted,
+           :expect_due_highlighted,
+           :expect_duration_highlighted,
+           :expect_start_date,
+           :expect_due_date,
+           :expect_duration,
+           :set_duration,
+           :ignore_non_working_days, to: :datepicker
 
   def modal_selector
     '[data-qa-selector="op-datepicker-modal"]'
@@ -39,15 +52,19 @@ class DateEditField < EditField
   end
 
   def expect_scheduling_mode(manually:)
-    within_modal do
-      expect(page).to have_field('scheduling', checked: manually)
-    end
+    val = manually ? :manual : :default
+    datepicker.expect_scheduling_mode(val)
   end
 
-  def toggle_scheduling_mode
-    within_modal do
-      find('[data-qa-selector="op-datepicker-modal--scheduling-action"]').click
-    end
+  def set_scheduling_mode(manually:)
+    val = manually ? :manual : :default
+
+    # Expect currently set before toggling
+    expect_scheduling_mode(manually:)
+    # Change mode
+    datepicker.set_scheduling_mode(val)
+    # Expect toggled
+    expect_scheduling_mode(manually: !manually)
   end
 
   def activate_start_date_within_modal
@@ -106,18 +123,10 @@ class DateEditField < EditField
     # an attribute, which may cause an input not to open properly.
     retry_block do
       activate_edition
-      within_modal do
-        if value.is_a?(Array)
-          value.each do |el|
-            select_value(el)
-          end
-        else
-          select_value value
-        end
-      end
+      set_value value
 
       save! if save
-      expect_state! open: expect_failure
+      expect_state! open: (expect_failure || !save)
     end
   end
 
@@ -127,12 +136,26 @@ class DateEditField < EditField
     end
   end
 
+  def set_value(value)
+    if value.is_a?(Array)
+      datepicker.clear!
+      datepicker.set_start_date value.first
+      datepicker.set_due_date value.last
+
+      sleep 1
+      datepicker.expect_start_date value.first
+      datepicker.expect_due_date value.last
+    else
+      set_active_date value
+    end
+  end
+
   def expect_value(value)
     expect(input_element.value).to eq(value)
   end
 
-  def select_value(value)
-    datepicker.set_date value, true
+  def set_active_date(value)
+    datepicker.set_date value
   end
 
   def save!

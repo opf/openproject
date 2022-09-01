@@ -32,8 +32,8 @@ module Components::Autocompleter
       # Open the element
       element.click
       # Insert the text to find
+      sleep(0.1)
       element.set(query)
-      sleep(0.5)
 
       ##
       # Find the open dropdown

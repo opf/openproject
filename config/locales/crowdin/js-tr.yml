@@ -237,7 +237,7 @@ tr:
           confidence: >
             Açık Kaynak ve açık fikirli olmak üzere, test edilmiş ve desteklenen bir kurumsal sınıf proje yönetimi yazılımının güvenini sunuyoruz.
           link_quote: "Fiyat teklifi alın"
-          more_info: "More information"
+          more_info: "Daha fazla bilgi"
           text: >
             OpenProject Enterprise Edition, Topluluk Sürümü'nün üzerine kuruludur. OpenProject ile iş açısından kritik öneme sahip projeleri yöneten 10'dan fazla kullanıcısı olan kuruluşlara yönelik premium özellikler ve profesyonel destek içerir.
           unlimited: "Sınırsız"
@@ -270,7 +270,7 @@ tr:
           one: "İlk sıralama ölçütü"
           two: "İkinci sıralama ölçütü"
           three: "Üçüncü sıralama ölçütleri"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
+      upsale_for_more: "Gelişmiş filtreler, dosya adlarını ve iş paketi eklerinin içeriğini de filtrelemenize olanak tanır. Bu özelliği kullanmak için lütfen ücretli bir plana yükseltin."
       upsale_link: 'Kurumsal Sürüm.'
     general_text_no: "hayır"
     general_text_yes: "evet"
@@ -292,15 +292,15 @@ tr:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/openproject-11-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                Sürüm, çeşitli yeni özellikler ve iyileştirmeler içeriyor: <br> <ul class="%{list_styling_class}"> <li>Artık sonsuza kadar dosya aramaya gerek yok! OpenProject 12.2'deki yeni <b>Nextcloud entegrasyonu</b> ile artık dosyaları doğrudan ilgili çalışma paketinde bulabilir ve her zaman doğru sürüme sahip olabilirsiniz.</li> <li><b>a güncellenmiş giriş davranışına sahip yeni tarih seçici</b> ve Gantt şemasındaki ilişkileri göstermek için bir düğme içeren bir bilgi başlığı.</li> <li><b>Diğer kullanıcılar için zaman kaydetme olanağı ekledik.</b> b></li> <li>Bildirimleri, bildirim merkezinin dışında da okundu olarak işaretleyin.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/openproject-11-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                Sürüm, çeşitli yeni özellikler ve iyileştirmeler içeriyor: <br> <ul class="%{list_styling_class}"> <li>Artık sonsuza dek dosya aramaya gerek yok! OpenProject 12.2'deki yeni <b>Nextcloud entegrasyonu</b> ile artık dosyaları doğrudan ilgili çalışma paketinde bulabilir ve her zaman doğru sürüme sahip olabilirsiniz.</li> <li><b>a güncellenmiş giriş davranışına sahip yeni tarih seçici</b> ve Gantt şemasındaki ilişkileri göstermek için bir düğme içeren bir bilgi başlığı.</li> <li><b>Diğer kullanıcılar için zaman kaydetme olanağı ekledik.</b> b></li> <li>Bildirimleri, bildirim merkezinin dışında da okundu olarak işaretleyin.</li> </ul>
     label_activate: "Etkinleştir"
-    label_assignee: 'Assignee'
+    label_assignee: 'Atanan'
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
     label_add_columns: "Sütunlar ekle"
@@ -370,7 +370,7 @@ tr:
     label_in_more_than: "daha fazla"
     label_incoming_emails: "Gelen e-postalar"
     label_information_plural: "Bilgi"
-    label_invalid: "Invalid"
+    label_invalid: "Geçersiz"
     label_import: "İçeri Aktar"
     label_latest_activity: "En son etkinlik"
     label_last_updated_on: "Son güncelleme"
@@ -458,8 +458,8 @@ tr:
     label_unwatch: "İzleme"
     label_unwatch_work_package: "İş pakaketini izlemeyi bırak"
     label_uploaded_by: "Yükleyen"
-    label_default_queries: "Default"
-    label_starred_queries: "Favorite"
+    label_default_queries: "Varsayılan"
+    label_starred_queries: "Sık Kullanılan"
     label_global_queries: "Public"
     label_custom_queries: "Private"
     label_columns: "Sütunlar"
@@ -492,7 +492,7 @@ tr:
         next: 'Sonraki'
         got_it: 'Anladım'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'Yardım (?) menüsü <b>ek yardım kaynakları</b> sağlar. Burada bir kullanım kılavuzu, yararlı nasıl yapılır videoları ve daha fazlasını bulabilirsiniz. <br> OpenProject ile işinizin tadını çıkarın!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -531,15 +531,15 @@ tr:
       reasons:
         mentioned: 'adı geçen, bahsedilen'
         watched: 'izlendi'
-        assigned: 'assigned'
+        assigned: 'atanmış'
         responsible: 'accountable'
       facets:
         unread: 'okunmamış'
         all: 'Hepsi'
       center:
         and_more_users:
-          one: 'and 1 other'
-          other: 'and %{count} others'
+          one: 've 1 diğer'
+          other: 've 1 diğer'
         no_results:
           at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
@@ -575,16 +575,16 @@ tr:
             description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
           watched: 'Updates on watched items'
           work_package_commented: 'All new comments'
-          work_package_created: 'New work packages'
+          work_package_created: 'Yeni iş paketleri'
           work_package_processed: 'All status changes'
           work_package_prioritized: 'All priority changes'
           work_package_scheduled: 'All date changes'
         global:
           immediately:
-            title: 'Notify me immediately'
+            title: 'Bana hemen haber ver'
             description: 'These settings apply to all projects. You can create project-specific exceptions below.'
           delayed:
-            title: 'Also notify me for'
+            title: 'Ayrıca bana haber ver'
             description: 'Receive notifications for these activities on work packages in all projects:'
         project_specific:
           title: 'Project-specific notification settings'
@@ -604,6 +604,7 @@ tr:
       default: '-'
       subject: 'Buraya konuyu girin'
       selection: 'Lütfen seçin'
+      description: 'Description: Click to edit...'
       relation_description: 'Bu ilişkiye açıklama eklemek için tıklayın'
     project:
       required_outside_context: >
@@ -621,14 +622,14 @@ tr:
     reminders:
       settings:
         daily:
-          add_time: 'Add time'
+          add_time: 'Süre ekle'
           enable: 'Günlük email hatırlatıcılarını etkinleştir'
           explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
           no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
           time_label: 'Time %{counter}:'
-          title: 'Send me daily email reminders for unread notifications'
+          title: 'Okunmamış bildirimler için bana günlük e-posta hatırlatıcıları gönder'
         workdays:
-          title: 'Receive email reminders on these days'
+          title: 'Bu günlerde e-posta hatırlatıcıları alın'
         immediate:
           title: 'Bana email hatırlatıcısı gönder'
           mentioned: 'Immediately when someone @mentions me'
@@ -734,8 +735,9 @@ tr:
     field_value_enter_prompt: "'%{field}' için bir değer girin"
     project_menu_details: "Detaylar"
     scheduling:
-      manual: 'Manuel zamanlamayı etkinleştir'
-      automatic: 'Otomatik zamanlama çizelgesi'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Artan sıralama, uygulandı, '
       sorted_dsc: 'Azalan sırılama uygulandı, '
@@ -758,7 +760,7 @@ tr:
         farRight: 'Uzak sağ'
         showNone: '-- Etiketsiz --'
         description: >
-          Gantt görünümünde ilgili pozisyonlarda her zaman gösterilmesini istediğiniz öznitelikleri seçin. Bir elementin üzerine geldiğinizde onun özellikleri yerine etiketinin görüneceğini unutmayın.
+          Her zaman Gantt şemasının ilgili konumlarında gösterilmesini istediğiniz nitelikleri seçin. Bir öğenin üzerine gelindiğinde, bu nitelikler yerine tarih etiketlerinin gösterileceğini unutmayın.
       button_activate: 'İş-Zaman çizelgesi göster'
       button_deactivate: 'İş-Zaman çizelgesi gizle.'
       cancel: İptal etmek
@@ -808,7 +810,7 @@ tr:
       zooms: "Yakınlaştırma düzeyi"
       outlines: "Hiyerarşi düzeyi"
     upsale:
-      ee_only: 'Enterprise Edition feature'
+      ee_only: 'Enterprise Edition özelliği'
     wiki_formatting:
       strong: "Kalın"
       italic: "İtalik"
@@ -842,7 +844,11 @@ tr:
         start_date_limited_by_relations: "Available start and finish dates are limited by relations."
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        show_relations: 'İlişkileri göster'
+        include_non_working_days:
+          title: 'Working days'
+          false: 'Working days only'
+          true: 'Include non-working days'
       description_filter: "Filtre"
       description_enter_text: "Metin girin"
       description_options_hide: "Seçenekleri gizle"
@@ -898,6 +904,7 @@ tr:
         description: "Açıklama"
         date: "Tarih"
         dueDate: "Bitiş tarihi"
+        duration: "Duration"
         estimatedTime: "Tahmini süre"
         spentTime: "Harcanan zaman"
         category: "Kategori"
@@ -929,7 +936,6 @@ tr:
       placeholders:
         default: "-"
         date: "Tarih seçin"
-        formattable: "%{name}: Düzenlemek için tıklayın ..."
       query:
         column_names: "Sütunlar"
         group_by: "Sonuçları grupla"
@@ -1089,9 +1095,9 @@ tr:
         other: "%{count} saat"
         zero: "0 s"
       day:
-        one: "1 day"
+        one: "1 gün"
         other: "%{count} days"
-        zero: "0 days"
+        zero: "0 gün"
     zen_mode:
       button_activate: 'Zen modunu etkinleştir'
       button_deactivate: 'Zen modunu devre dışı bırak'
@@ -1158,7 +1164,7 @@ tr:
       role:
         label: 'rol %{project}'
         no_roles_found: 'Hiç rol bulunamadı.'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Bu, projenize katıldıklarında %{prencipal}''in alacağı roldür. Rol, hangi eylemleri gerçekleştirmelerine ve hangi bilgileri görmelerine izin verildiğini tanımlar. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Roller ve izinler hakkında daha fazla bilgi edinin . </a>'
         required: 'Lütfen bir rol seçin.'
         next_button: 'Sonraki'
       message:
@@ -1175,20 +1181,20 @@ tr:
           group: 'Grup artık %{project} ''nin bir parçası. Bu arada, bu grupla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz.'
         next_button: 'Devam et'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Projeleri dahil et'
       title: 'Projeler'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Seçimi temizle'
       apply: 'Uygula'
       selected_filter:
         all: 'Tüm projeler'
-        selected: 'Only selected'
+        selected: 'Sadece seçilen'
       search_placeholder: 'Search project...'
       include_subprojects: 'Include all sub-projects'
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
-        current_project: 'This is the current project you are in.'
-        does_not_match_search: 'Project does not match the search criteria.'
-      no_results: 'No project matches your search criteria.'
+        current_project: 'Bu, içinde bulunduğunuz mevcut projedir.'
+        does_not_match_search: 'Proje arama kriterleriyle eşleşmiyor.'
+      no_results: 'Arama kriterleriniz ile eşleşen proje yok'
     forms:
       submit_success_message: 'Form başarıyla gönderildi'
       load_error_message: 'Form yüklenirken bir hata oluştu'

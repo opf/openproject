@@ -10,6 +10,7 @@
 # rubocop:disable Rails
 require 'ostruct'
 require 'pathname'
+require 'fileutils'
 
 RAILS_ROOT = Pathname.new File.expand_path('../', __dir__)
 RSPEC_EXAMPLE_STATUS_PERSISTENCE_FILE_PATH = RAILS_ROOT.join('tmp/spec_examples.txt')

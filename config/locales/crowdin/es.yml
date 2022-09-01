@@ -264,8 +264,7 @@ es:
     deletion_info:
       heading: "Eliminar usuario de marcador de posición %{name}"
       data_consequences: >
-        Todas las repeticiones del usuario de marcador de posición (por ejemplo, como asignado, responsable u otros valores de usuario) se reasignarán a una cuenta denominada «Usuario eliminado».
-        Como los datos de todas las cuentas eliminadas se reasignarán a esta cuenta, no podrán distinguirse los datos del usuario de los datos creados con cualquier otra cuenta eliminada.
+        Todas las repeticiones del usuario de marcador de posición (por ejemplo, como asignado, responsable u otros valores de usuario) se reasignarán a una cuenta denominada «Usuario eliminado». Como los datos de todas las cuentas eliminadas se reasignarán a esta cuenta, no podrán distinguirse los datos del usuario de los datos creados con cualquier otra cuenta eliminada.
       irreversible: "Esta acción no se puede deshacer"
       confirmation: "Escriba el nombre de usuario de marcador de posición %{name} para confirmar la eliminación."
     upsale:
@@ -739,12 +738,16 @@ es:
         work_package:
           is_not_a_valid_target_for_time_entries: "Paquete de trabajo #%{id} no es un objetivo válido para reasignar las entradas de tiempo."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "no es en fecha de inicio, aunque esto es necesario para hitos."
+              cannot_be_null: "no puede establecerse como nulo, ya que la fecha de inicio y la duración son conocidas."
             duration:
               larger_than_dates: "es más largo que el intervalo entre la fecha de inicio y la final."
               smaller_than_dates: "es más corto que el intervalo entre la fecha de inicio y la final."
               not_available_for_milestones: "no está disponible para paquetes de trabajo con estilo hitos."
+              cannot_be_null: "no puede establecerse como nulo, ya que la fecha de inicio y final son conocidas."
             parent:
               cannot_be_milestone: "no puede ser un hito."
               cannot_be_self_assigned: "no se puede asignar a su propio usuario."
@@ -752,6 +755,7 @@ es:
               not_a_valid_parent: "no es válido."
             start_date:
               violates_relationships: "sólo se puede establecer a %{soonest_start} o posterior para que no se violen las relaciones de los paquetes de trabajo."
+              cannot_be_null: "no puede establecerse como nulo, ya que la fecha final y la duración son conocidas."
             status_id:
               status_transition_invalid: "no es válido porque no existe ninguna transición desde el estado antiguo al nuevo para los roles del usuario actual."
               status_invalid_in_type: "no es válido porque el estado actual no existe en este tipo."
@@ -1245,7 +1249,7 @@ es:
   error_enterprise_activation_user_limit: "Su cuenta no puede ser activada (se alcanzó el límite del usuario). Por favor, contacte su administrador para obtener acceso."
   error_enterprise_token_invalid_domain: "La versión Enterprise Edition no está activa. Su dominio del token de Enterprise (%{actual}) no coincide con el nombre de host del sistema (%{expected})."
   error_failed_to_delete_entry: 'No se puede eliminar esta entrada.'
-  error_in_dependent: "Error al intentar alterar el objeto dependiente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error al intentar alterar el objeto dependiente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error al crear el objeto dependiente: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "El valor seleccionado no es válido."
   error_journal_attribute_not_present: "El diario no contiene el atributo %{attribute}."
@@ -1384,17 +1388,11 @@ es:
     update_info_mail:
       body: >
         Nos complace anunciar la publicación de la versión OpenProject 12.0. Esta, es una nueva versión con muchos cambios que esperamos simplifiquen y mejoren en gran medida la forma en que usa OpenProject.
-
         Para empezar, con esta versión introducimos las notificaciones dentro de la aplicación. Des de ahora, va a recibir notificaciones por actualizaciones en los paquetes de trabajo directamente en OpenProject. Puede marcar estas notificaciones como leídas, contestar a comentarios e incluso modificar los atributos de un paquete de trabajo sin salir del centro de notificaciones.
-
         Esto también supone que no se van a usar más los correos electrónicos para este tipo de notificaciones. Creemos que el centro de notificaciones es el mejor sitio para ver y realizar cambios sobre estas actualizaciones. No obstante, si desea continuar recibiendo notificaciones vía correo electrónico, puede seleccionar recibir correos recordatorios diarios en horas concretas de su elección.
-
         Por favor, asegúrese de validar sus nuevas configuraciones de notificaciones que se han reseteado por defecto y a posteriori puede crear y modificar sus preferencias tanto para las notificaciones dentro de la aplicación como para los recordatorios vía correo electrónico en la configuración de su cuenta. También puede hacer estos cambios usando el botón abajo "Cambiar configuración de correo electrónico".
-
         Esperamos que las nuevas notificaciones dentro la aplicación le sean útiles y le ayuden a ser aún más productivo.
-
-        Sinceramente,
-        El equipo de OpenProject
+        Sinceramente, El equipo de OpenProject
       body_header: 'Versión 12.0 con el Centro de notificaciones'
       body_subheader: 'Noticias'
       subject: 'Cambios importantes en las notificaciones con la publicación de la versión 12.0'
@@ -1609,6 +1607,7 @@ es:
   label_index_by_title: "Índice por título"
   label_information: "Información"
   label_information_plural: "Información"
+  label_installation_guides: 'Guías de instalación'
   label_integer: "Número entero"
   label_internal: "Interno"
   label_introduction_video: "Vídeo de introducción"
@@ -1753,6 +1752,7 @@ es:
   label_project_new: "Nuevo proyecto"
   label_project_plural: "Proyectos"
   label_project_settings: "Configuración del proyecto"
+  label_project_storage_plural: "Almacenamiento"
   label_projects_storage_information: "%{count} proyectos utilizando %{storage} de almacenamiento en disco"
   label_project_view_all: "Ver todos los proyectos"
   label_project_show_details: "Mostrar los detalles del proyecto"
@@ -1904,6 +1904,7 @@ es:
   label_wiki_start: "Página de inicio"
   label_work_package: "Paquete de trabajo"
   label_work_package_attachments: "Datos adjuntos de paquete de trabajo"
+  label_work_package_file_link_plural: "Enlaces de archivo de paquete de trabajo"
   label_work_package_category_new: "Nueva categoría"
   label_work_package_category_plural: "Categorías de paquete de trabajo"
   label_work_package_hierarchy: "Jerarquía del paquete de trabajo"
@@ -2359,6 +2360,8 @@ es:
       update_timeout: "Mantener la última información de espacio de disco requerida para un repositorio de N minutos. Contar el espacio de disco requerido de un repositorio puede ser costoso, aumente este valor para reducir el impacto en el rendimiento."
       oauth_application_details: "La clave secreta de cliente no será accesible una vez se cierre esta ventana. Por favor, copie estos valores en la configuración de la integración de OpenProject en Nextcloud:"
       oauth_application_details_link_text: "Ir a la página de configuración"
+      setup_documentation_details: "Si necesita ayuda para configurar un nuevo almacenamiento de archivos, compruebe la documentación: "
+      setup_documentation_details_link_text: "Configuración de almacenamiento de archivos"
       show_warning_details: "Para utilizar este almacenamiento recuerde activar el módulo y el almacenamiento específico en la configuración de cada proyecto deseado."
     subversion:
       existing_title: "Subversion existentes de repositorio"
@@ -2873,10 +2876,10 @@ es:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Error de coincidencia de configuración de protocolo'
+    https_mismatch:
+      title: 'La configuración del modo HTTPS no coincide'
       text_html: >
-        La aplicación se ejecuta con el protocolo <code>%{set_protocol}</code>, pero el protocolo de la solicitud es <code>%{actual_protocol}</code>. Se producirán errores. Vaya a <a href="%{setting_path}">Ajustes de sistema</a> y cambie la configuración de «Protocolo» para corregir este problema.
+        Tu aplicación se está ejecutando con el modo HTTPS establecido en <code>%{set_protocol}</code>, pero la solicitud es una solicitud <code>%{actual_protocol}</code> . ¡Esto producirá errores! Necesitará establecer el siguiente valor de configuración: <code>%{setting_value}</code>. Consulte <a href="%{more_info_path}">la documentación de instalación</a> sobre cómo completar esta configuración.
     hostname_mismatch:
       title: 'Error de coincidencia de configuración de nombre de host'
       text_html: >

@@ -2,13 +2,15 @@
   *ngFor="let option of options"
   [ngClass]="{ 'button': true, 'form--field-inline-button': true, '-active': value === option.value }"
   data-qa-selector="spot-toggle--option"
+  [attr.data-qa-active-toggle]="value === option.value"
 >
   <input
     class="spot-toggle--option-input"
     type="radio"
     [name]="name"
     [value]="option.value"
-    [(ngModel)]="value"
+    [ngModel]="value"
+    (ngModelChange)="onToggle($event)"
   />
   {{ option.title }}
 </label>
