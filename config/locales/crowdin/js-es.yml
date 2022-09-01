@@ -735,9 +735,9 @@ es:
     field_value_enter_prompt: "Introduzca un valor para '%{field}'"
     project_menu_details: "Detalles"
     scheduling:
-      title: 'Scheduling'
+      title: 'Planificación'
       manual: 'Manual'
-      default: 'Default'
+      default: 'Por defecto'
     sort:
       sorted_asc: 'Orden ascendiente aplicado, '
       sorted_dsc: 'Orden descendiente aplicado, '
@@ -846,9 +846,9 @@ es:
         click_on_show_relations_to_open_gantt: 'Haga clic en "%{button_name}" para la vista general de GANTT.'
         show_relations: 'Mostrar relaciones'
         include_non_working_days:
-          title: 'Working days'
-          false: 'Working days only'
-          true: 'Include non-working days'
+          title: 'Días laborables'
+          false: 'Solo días laborables'
+          true: 'Incluir días no laborables'
       description_filter: "Filtro"
       description_enter_text: "Introducir texto"
       description_options_hide: "Ocultar opciones"
@@ -904,7 +904,7 @@ es:
         description: "Descripción"
         date: "Fecha"
         dueDate: "Fecha de finalización"
-        duration: "Duration"
+        duration: "Duración"
         estimatedTime: "Tiempo estimado"
         spentTime: "Tiempo empleado"
         category: "Categoría"

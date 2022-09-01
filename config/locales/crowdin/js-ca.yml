@@ -735,9 +735,9 @@ ca:
     field_value_enter_prompt: "Introduïu un valor per a '%{field}'"
     project_menu_details: "Detalls"
     scheduling:
-      title: 'Scheduling'
+      title: 'Planificació'
       manual: 'Manual'
-      default: 'Default'
+      default: 'Per defecte'
     sort:
       sorted_asc: 'Ordre ascendent aplicat,'
       sorted_dsc: 'Ordre descendent aplicat,'
@@ -846,9 +846,9 @@ ca:
         click_on_show_relations_to_open_gantt: 'Fes clic a "%{button_name}" per obtenir una visió general GANTT.'
         show_relations: 'Mostra les relacions'
         include_non_working_days:
-          title: 'Working days'
-          false: 'Working days only'
-          true: 'Include non-working days'
+          title: 'Dies laborables'
+          false: 'Només dies laborables'
+          true: 'Inclou dies no laborables'
       description_filter: "Filtre"
       description_enter_text: "Introduïu text"
       description_options_hide: "Amagar opcions"
@@ -904,7 +904,7 @@ ca:
         description: "Descripció"
         date: "Data"
         dueDate: "Data final"
-        duration: "Duration"
+        duration: "Durada"
         estimatedTime: "Temps estimat"
         spentTime: "Temps utilitzat"
         category: "Categoria"
