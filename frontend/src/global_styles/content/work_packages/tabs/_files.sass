@@ -34,11 +34,6 @@
     margin-bottom: $spot-spacing-0-75
 
     &-item
-      &_disabled
-        .op-files-tab--file-list-item-action
-          opacity: 0.5
-          pointer-events: none
-
       &-action
         padding-left: 0
         padding-right: 0
@@ -46,6 +41,10 @@
 
         &.view-not-allowed
           opacity: 0.5
+
+        &.disabled
+          opacity: 0.5
+          pointer-events: none
 
         &:hover
           .op-files-tab--file-list-item-title
@@ -77,6 +76,7 @@
       &-floating-wrapper
         &_disabled:hover
           background: none
+          cursor: not-allowed
 
       &-floating-text
         @include spot-body-small()
