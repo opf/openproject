@@ -33,7 +33,7 @@ Our Agile boards can be for anything you would like to keep track of within your
 
 The new Boards are tightly integrated with all other project management functionalities in OpenProject, i.e. work packages or Gantt charts. This makes it so easy and practical to include the Boards in your daily project management routines and to gain a much quicker overview of important topics in your project.
 
-![openproject-board-overview](openproject-board-overview-1364050.png)
+![this-is-a-kanban-board](this-is-a-kanban-board.png)
 
 ## Create a new board
 
@@ -43,7 +43,7 @@ If you haven't done so yet, [activate the Boards module](../projects/project-set
 
 Click on the green **+Board** button to create a new Board view. 
 
-![OpenProject-Boards_create-new](OpenProject-Boards_create-new.png)
+![create-a-new-board-in-the-boards-module](create-a-new-board-in-the-boards-module.png)
 
 ## Choose between board types
 
@@ -96,7 +96,7 @@ Please note: This will only display one hierarchy level below the displayed work
 
 Choose a meaningful title for your Board so that it is clear, e.g. for other team members, what you want to do.
 
-![OpenProject-Boards-title](OpenProject-Boards_title.png) 
+![boards-title](boards-title-2111905.png)
 
 ## Add lists to your board
 
@@ -105,13 +105,13 @@ Choose a meaningful title for your Board so that it is clear, e.g. for other tea
 **Action boards lists**: The available lists depend on the [type of board you choose](#choose-between-board-types). Remember: if you change a card between the lists, the respective attribute (e.g. status) will be updated automatically.
 **Basic board lists**: You can create any kind of list and name them to your needs. Remember: No updates to the attributes will happen when moving cards between the lists.
 
-![OpenProject-Boards_lists](OpenProject-Boards_lists.png)
+![this-is-a-list-in-a-board](this-is-a-list-in-a-board.png)
 
   
 
 Click **+ add list** to add lists to your board.
 
-![OpenProject-Boards_new-lists](OpenProject-Boards_new-lists.png) 
+![add-list-to-a-board](add-list-to-a-board.png)
 
 **Basic board lists:** Give the list any meaningful name.
 **Action board lists:** The list's name will depend on the type of Action board you chose, e.g. "New", "In Progress", etc. for the Status board.
@@ -120,17 +120,19 @@ Click **+ add list** to add lists to your board.
 
 ## Remove lists
 
-To remove lists, click on the three dots next to a list's title, and select **Delete list**.![OpenProject-Boards_delete-lists](OpenProject-Boards_delete-lists.png) 
+To remove lists, click on the three dots next to a list's title, and select **Delete list**
+
+![OpenProject-Boards_delete-lists](OpenProject-Boards_delete-lists-2119696.png)
 
 ## Add cards to a list
 
 You can add cards to a list. Cards represent a [work package](../../user-guide/work-packages/) in OpenProject. They can be any kind of work within a project, e.g. a Task, a Bug, a Feature, a Risk, anything.
 
-![OpenProject-Boards_cards](OpenProject-Boards_cards-1568639967764.png) 
+![OpenProject-Boards_cards](OpenProject-Boards_cards.png)
 
 Click **+** under the lists' title to add a card: create a new card or choose an existing work package and add it as a card to your list.
 
- ![OpenProject-Boards_add-cards](OpenProject-Boards_add-cards-1568640084027.png)
+![OpenProject-Boards_add-cards](OpenProject-Boards_add-cards.png)
 
 **Add new card**: enter a title and press Enter.
 **Add existing**: enter an existing title or an ID and press Enter.
@@ -143,13 +145,11 @@ You can update cards in the following ways:
 
 **Move cards with drag and drop** within a list or to a new list. Remember: Moving cards to another list in an Action board will update their attributes, e.g. status.
 
-![OpenProject-Boards_update-cards](OpenProject-Boards_update-cards-1568640157240.png) 
+![OpenProject-Boards_update-cards](OpenProject-Boards_update-cards.png)
 
 
 
-Apart from the Status board you can **update a work package's status** directly in the card.
-
- ![OpenProject-Boards_update-status](OpenProject-Boards_update-status-1568640175105.png)
+Apart from the Status board you can **update a work package's status** directly in the card. ![OpenProject-Boards_update-status](OpenProject-Boards_update-status.png)
 
 A **double click on a card** will open the work package's **fullscreen view.** The **arrow** on top will bring you back to the boards view. 
 
