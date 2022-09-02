@@ -69,7 +69,15 @@ This will not remove your data which is persisted in named volumes, likely calle
 If you want to start from scratch and remove the existing data you will have to remove these volumes via
 `docker volume rm compose_opdata compose_pgdata`.
 
+### Configuration
 
+In the compose folder you will find the file `docker-compose.yml` which can be edited.
+Although we recommend using `docker-compose.override.yml`.
+Please be aware that only those variables shall be edited which are documented as not everything is meant to be configured or bend.
+
+#### BIM Edition
+
+In order to install or change to BIM inside a Docker environment, please navigate to the [Docker](../installation-and-operations/changing-to-bim-edition#docker) paragraph at the [Changing to BIM Edition](../installation-and-operations/changing-to-bim-edition) documentation. 
 
 ### Disabling services in the docker-compose file
 
@@ -77,15 +85,12 @@ If you have an override file created, it is also easy to disable certain service
 
 To do that, add this section to the file:
 
-
 ```yaml
 services: 
   db:
     deploy:
       replicas: 0
 ```
-
-
 
 ## All-in-one container
 
