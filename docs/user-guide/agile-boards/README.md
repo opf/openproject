@@ -149,11 +149,13 @@ You can update cards in the following ways:
 
 
 
-Apart from the Status board you can **update a work package's status** directly in the card. ![OpenProject-Boards_update-status](OpenProject-Boards_update-status.png)
+Apart from the Status board you can **update a work package's status** directly in the card. 
+
+![boards-select-status-from-card](boards-select-status-from-card.png)
 
 A **double click on a card** will open the work package's **fullscreen view.** The **arrow** on top will bring you back to the boards view. 
 
-![back-to-boards-view](back-to-boards-view.png)
+![back-to-boards-view-button](back-to-boards-view-button.png)
 
 Clicking on **Open details view** (the blue "**i**") will open the work package's **[split screen view](../work-packages/work-package-views/#work-package-split-screen-view)**. You can close it by clicking on the **"x"** in its upper right corner.
 
