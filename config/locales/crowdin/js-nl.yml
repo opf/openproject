@@ -533,6 +533,11 @@ nl:
         watched: 'bekeken'
         assigned: 'toegewezen'
         responsible: 'verantwoordelijk'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Ongelezen'
         all: 'Alle'

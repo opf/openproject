@@ -532,6 +532,11 @@ ru:
         watched: 'просмотрено'
         assigned: 'назначено'
         responsible: 'подотчетный'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Непрочтено'
         all: 'Bсе'

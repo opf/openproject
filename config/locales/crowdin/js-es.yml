@@ -533,6 +533,11 @@ es:
         watched: 'observado'
         assigned: 'asignado'
         responsible: 'responsable'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'No leídas'
         all: 'Todos'

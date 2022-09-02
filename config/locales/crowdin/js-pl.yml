@@ -533,6 +533,11 @@ pl:
         watched: 'obserwowane'
         assigned: 'przypisane'
         responsible: 'osoba odpowiedzialna'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Nieprzeczytane'
         all: 'Wszystko'
