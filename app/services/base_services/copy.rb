@@ -61,10 +61,9 @@ module BaseServices
     end
 
     def call(params)
-      User.execute_as(user) do
-        prepare(params)
-        perform(params)
-      end
+      prepare_state(params)
+
+      super
     end
 
     def after_validate(params, _call)
@@ -110,7 +109,7 @@ module BaseServices
     #
     # Note that for dependent copy services to be called
     # this will already be present.
-    def prepare(_params)
+    def prepare_state(_params)
       # Retain the source project itself
       state.source = source
     end
