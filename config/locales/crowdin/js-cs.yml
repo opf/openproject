@@ -847,10 +847,10 @@ cs:
         changing_dates_affects_follow_relations: "Změna těchto dat ovlivní data souvisejících pracovních balíčků."
         click_on_show_relations_to_open_gantt: 'Klikněte na "%{button_name}pro přehled GANTT.'
         show_relations: 'Zobrazit vztahy'
-        include_non_working_days:
+        ignore_non_working_days:
           title: 'Working days'
-          false: 'Working days only'
-          true: 'Include non-working days'
+          false: 'Work week'
+          true: 'Include weekends'
       description_filter: "Filtr"
       description_enter_text: "Zadejte text"
       description_options_hide: "Skrýt možnosti"

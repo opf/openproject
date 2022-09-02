@@ -2590,13 +2590,13 @@ ca:
   text_work_package_category_destroy_question: "Alguns paquets de treball (%{count}) estan assignats a aquesta categoria. Què voleu fer?"
   text_work_package_category_reassign_to: "Tornar a assignar els paquets de treball a aquesta categoria"
   text_work_package_updated: "El paquet de treball %{id} ha estat actualitzat per %{author}."
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
-  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_added: "%{watcher_changer} t'ha afegit com a observador del paquet de treball %{id}."
+  text_work_package_watcher_removed: "%{watcher_changer} t'ha eliminat com a observador del paquet de treball %{id}."
   text_work_packages_destroy_confirmation: "¿Està segur que desitja eliminar el(s) paquet(s) de treball seleccionat(s)?"
   text_work_packages_ref_in_commit_messages: "Referència i arregla els paquets de treball en els missatges dels commits"
   text_journal_added: "S'ha afegit %{label} %{value}"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
+  text_journal_changed_html: "%{label} ha canviat de %{old} %{linebreak}<strong>a</strong> %{new}"
+  text_journal_changed_plain: "%{label} ha canviat de %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "S'ha actualitzat %{label}"
   text_journal_changed_with_diff: "%{label} canviat (%{link})"
   text_journal_deleted: "%{label} s'ha suprimit (%{old})"
@@ -2634,7 +2634,7 @@ ca:
   text_unallowed_characters: "Caràcters no permesos"
   text_user_invited: L'usuari ja ha estat convidat i està pendent de que es registri.
   text_user_wrote: "%{value} va escriure:"
-  text_warn_on_leaving_unsaved: "The work package contains unsaved text that will be lost if you leave this page."
+  text_warn_on_leaving_unsaved: "Aquest paquet de treball conté text sense desar que es perdrà si surt de la pàgina."
   text_what_did_you_change_click_to_add_comment: "Què has canviat? Fes clic per afegir un comentari"
   text_wiki_destroy_confirmation: "Segur que voleu suprimir aquesta wiki i tot el seu contingut?"
   text_wiki_page_destroy_children: "Suprimir les pàgines filles i tots els seus descendents"
@@ -2808,9 +2808,9 @@ ca:
   title_remove_and_delete_user: Eliminar l'usuari convidat del projecte i suprimir l'usuari.
   title_enterprise_upgrade: "Actualitza per desbloquejar més usuaris."
   tooltip_user_default_timezone: >
-    The default time zone for new users. Can be changed in a user's settings.
+    La zona horària per defecte per nous usuaris. Aquesta pot ser canviada a la configuració dels usuaris.
   tooltip_resend_invitation: >
-    Sends another invitation email with a fresh token in case the old one expired or the user did not get the original email. Can also be used for active users to choose a new authentication method. When used with active users their status will be changed to 'invited'.
+    Envia una nova invitació amb un token nou en cas que l'anterior hagi caducat o l'usuari no hagi rebut el correu electrònic original. També es pot utilitzar perquè usuaris actius triïn un nou mètode d'autentificació. Quan s'utilitzi per a usuaris actius el seu estat canviarà a "convidat".
   tooltip:
     setting_email_login: >
       If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
@@ -2835,7 +2835,7 @@ ca:
     blocked_num_failed_logins:
       one: "bloquejat temporalment (un intent fallit de connexió)"
       other: "bloquejat temporalment (%{count} d'intents de connexió)"
-    confirm_status_change: "You are about to change the status of '%{name}'. Are you sure you want to continue?"
+    confirm_status_change: "Estàs a punt de canviar l'estat de \"%{name}\". Estàs segur que vols continuar?"
     deleted: "Usuari eliminat"
     error_status_change_failed: "Canviant l'estat de l'usuari ha fallat a causa dels errors següents: %{errors}"
     invite: Invita l'usuari mitjançant e-mail
@@ -2848,7 +2848,7 @@ ca:
     reset_failed_logins: "Reiniciar inicis de sessió fallits"
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: "Canvi d'estat"
-    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_provider_login: "El nom està fixat pel teu proveïdor d'inici de sessió i per tant no es pot canviar."
     unlock: "Desbloquejar"
     unlock_and_reset_failed_logins: "Desbloquejar i reiniciar inicis de sessió fallits"
   version_status_closed: "tancat"
@@ -2861,12 +2861,12 @@ ca:
   warning_imminent_user_limit: >
     You invited more users than are supported by your current plan. Invited users may not be able to join your OpenProject environment. Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users in order to allow invited and registered users to join.
   warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+    El correu electrònic d'activació ha caducat. N'enviarem un de nou a %{email}.
+    Si us plau, fes clic a l'enllaç dins del correu per activar el teu compte.
   warning_user_limit_reached: >
-    User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
+    Límit d'usuaris assolit. No pots activar cap més usuari. Si us plau, <a href="%{upgrade_url}">actualitza el teu pla</a> o bloqueja a membres per permetre nous usuaris.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
+    Has assolit el nombre d'usuaris límit (%{current}/%{max} usuaris actius. Si us plau, posa't en contacte amb sales@openproject.com per actualitzar la teva edició Enterpirse i afegir nous usuaris.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2902,14 +2902,14 @@ ca:
       code_401_wrong_credentials: "No heu proporcionat les credencials correctes."
       code_403: "No està autoritzat a accedir a aquest recurs."
       code_404: "El recurs sol·licitat no s'ha trobat."
-      code_409: "Could not update the resource because of conflicting modifications."
+      code_409: "No s'ha pogut actualitzar el recurs a causa de modificacions en conflicte."
       code_429: "Masses demandes. Si us plau, prova-ho de nou més tard."
       code_500: "S'ha produït un error intern."
       not_found:
-        work_package: "The work package you are looking for cannot be found or has been deleted."
+        work_package: "No s'ha pogut trobar o s'ha eliminat el paquet de treball que estàs buscant."
       expected:
         date: "AAAA-MM-DD ( només dates ISO 8601)"
-        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (qualsevol data o temps compatible amb la ISO 8601)"
         duration: "durada ISO 8601"
       invalid_content_type: "La CLASSE-DE-CONTINGUT esperat és '%{content_type}' però s'ha trobat \"%{actual}\"."
       invalid_format: "Format no vàlid per a la propietat '%{property}': el format esperat és com \"%{expected_format}\", però s'ha trobat \"%{actual}\"."
@@ -2917,8 +2917,8 @@ ca:
       invalid_relation: "La relació no és vàlida."
       invalid_resource: "Per la propietat '%{property}' s'espera un enllaç com '%{expected}', però s'ha trobat \"%{actual}\"."
       invalid_signal:
-        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
-        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
+        embed: "La petició d'incrustació de %{invalid} no està suportada. Les incrustacions suportades són %{supported}."
+        select: "La petició de selecció de %{invalid} no està suportada. Les seleccions suportades són %{supported}."
       invalid_user_status_transition: "L'estat de compte de l'usuari actual no permet aquesta operació."
       missing_content_type: "no especificat"
       missing_property: "Falta la propietat \"%{property}\"."
@@ -2955,26 +2955,26 @@ ca:
       messages:
         #Common error messages
         invalid_request:
-          unknown: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
+          unknown: 'En la petició manca un paràmetre necessari, inclou un valor de paràmetre no suportat o té un format incorrecte.'
           missing_param: 'Falta paràmetre requerit: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
-        unauthorized_client: 'The client is not authorized to perform this request using this method.'
-        access_denied: 'The resource owner or authorization server denied the request.'
+          request_not_authorized: 'La petició ha de ser autoritzada. Falta o és invàlid un paràmetre requerit per l''autorització de la petició.'
+        invalid_redirect_uri: "L'URI de redirecció sol·licitada té un format incorrecte o no coincideix amb l'URI de redirecció del client."
+        unauthorized_client: 'El client no està autoritzat per formular aquesta petició amb aquest mètode.'
+        access_denied: 'El propietari del recurs o el servidor d''autorització han denegat la petició.'
         invalid_scope: 'L''àmbit demanat és nul, desconegut, o està mal formulat.'
         invalid_code_challenge_method: 'El mètode de desafiament del codi ha de ser senzill o S256.'
-        server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
-        temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+        server_error: 'El servidor d''autorització ha trobat una condició inesperada que ha impedit completar la petició.'
+        temporarily_unavailable: 'El servidor d''autorització ha estat incapaç de respondre la petició a causa d''una sobrecàrrega provisional o per manteniment del servidor.'
         #Configuration error messages
-        credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
-        resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
-        admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        credential_flow_not_configured: 'El flux de les credencials de la contrasenya del recurs del propietari han fallat perquè Doorkeeper.configure.resource_owner_from_credentials no està configurat.'
+        resource_owner_authenticator_not_configured: 'Les credencials de la contrasenya del recurs del propietari han fallat perquè Doorkeeper.configure.resource_owner_from_credentials no està configurat.'
+        admin_authenticator_not_configured: 'L''accés al tauler d''administració està prohibit perquè Doorkeeper.configure.admin_authenticator no està configurat.'
         #Access grant errors
         unsupported_response_type: 'El servidor d''autorització no suporta aquesta classe de resposta.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_mode: 'El servidor d''autorització no suporta aquest mode de resposta.'
         #Access token errors
-        invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
-        invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
+        invalid_client: 'L''autenticació del client ha fallat a causa d''un client desconegut, manca d''autenticació del client o per un mètode d''autenticació no suportat.'
+        invalid_grant: 'L''autorització proporcionada és invàlida, ha expirat, ha estat revocada, no s''ajusta a la redirecció URI utilitzada a la petició d''autorització o ha estat emesa per a un altre client.'
         unsupported_grant_type: 'La classe d''autorització concedida no està suportada pel servidor d''autorització.'
         invalid_token:
           revoked: "El token d'accés s'ha revocat"
@@ -2997,32 +2997,32 @@ ca:
       new: "Nova aplicació OAuth"
       default_scopes: "(Àmbit per defecte)"
       instructions:
-        name: "The name of your application. This will be displayed to other users upon authorization."
+        name: "El nom de la teva aplicació. Aquest serà mostrat a altres usuaris després d'autoritzar-ho."
         redirect_uri_html: >
-          The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
-        confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
+          Les URLs permeses en les que usuaris autoritzats poden ser redirigits. Una entrada per línia. <br/> Si estàs registrant una aplicació d'escriptori, utilitza l'URL següent.
+        confidential: "Comprova que l'aplicació que s'utilitzarà on la clau secreta de client pot mantenir-se confidencial. Aplicacions natives de mòbil i Aplicacions de Pàgina Única es classifiquen com a no confidencials."
         scopes: "Comprova els àmbits als quals vols que l'aplicació garanteixi accés. Si no es comproven els àmbits, s'assumeix l'api_v3."
-        client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
-        register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
+        client_credential_user_id: "ID d'usuari opcional per personificar quan clients utilitzen l'aplicació. Deixa-ho buit per permetre només accés públic"
+        register_intro: "Si estàs desenvolupant una aplicació OAuth API per OpenProject, pots registrar-la utilitzant aquest formulari per a tots els usuaris per utilitzar-la."
         default_scopes: ""
     client_id: "ID de Client"
     client_secret_notice: >
-      This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
+      Aquesta és l'única vegada que pots imprimir la clau de client secreta, si us plau, anota-la i guarda-la en un lloc segur. S'ha de tractar com una contrasenya i no pot ser regenerada més tard per OpenProject.
     authorization_dialog:
       authorize: "Autoritza"
       cancel: "Cancel·la i denega l'autorització."
-      prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
+      prompt_html: "Vols autoritzar <strong>%{application_name}</strong> a utilitzar el teu compte <em>%{login}</em>?"
       title: "Autoritza %{application_name}"
       wants_to_access_html: >
-        This application requests access to your OpenProject account. <br/> <strong>It has requested the following permissions:</strong>
+        Aquesta aplicació demana accés al teu compte d'OpenProject. <br/> <strong>S'han demanat els següents permisos:</strong>
     scopes:
       api_v3: "Accés complet de l'API v3"
       api_v3_text: "L'aplicació rebrà accés complet de lectura i escriptura a la API v3 d'OpenProject per efectuar les accions en nom teu."
     grants:
       created_date: "Aprovat en"
       scopes: "Permisos"
-      successful_application_revocation: "Revocation of application %{application_name} successful."
-      none_given: "No OAuth applications have been granted access to your user account."
+      successful_application_revocation: "Revocació de l'aplicació %{application_name} correcta."
+      none_given: "No s'ha garantit accés al teu compte d'usuari a cap aplicació OAuth."
     x_active_tokens:
       one: 'un token actiu'
       other: '%{count} tokens actius'
@@ -3031,11 +3031,11 @@ ca:
       client_credentials: "Procés de credencials de client"
     client_credentials: "Usuari utilitzat per a les credencials de client"
     client_credentials_impersonation_set_to: "Usuari de credencials de client establert a"
-    client_credentials_impersonation_warning: "Note: Clients using the 'Client credentials' flow in this application will have the rights of this user"
+    client_credentials_impersonation_warning: "Nota: Els clients utilitzant el procés \"Credencials de client\" en aquesta aplicació no tindran els permisos d'aquest usuari"
     client_credentials_impersonation_html: >
-      By default, OpenProject provides OAuth 2.0 authorization via %{authorization_code_flow_link}. You can optionally enable %{client_credentials_flow_link}, but you must provide a user on whose behalf requests will be performed.
+      Per defecte, OpenProject proveeix una autorització OAuth 2.0 via %{authorization_code_flow_link}. Opcional també pots activar %{client_credentials_flow_link}, però hauràs d'especificar un usuari, el qual serà utilitzat per realitzar peticions.
     authorization_error: "S'ha produït un error d'autorització."
-    revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
+    revoke_my_application_confirmation: "Estàs segur que vols eliminar aquesta aplicació? Això, revocarà el seu %{token_count} actiu."
     my_registered_applications: "Aplicacions OAuth registrades"
   oauth_client:
     urn_connection_status:
@@ -3056,25 +3056,25 @@ ca:
       oauth_returned_standard_error: "L'OAuth2 retorna un error intern"
       wrong_token_type_returned: "L'OAuth2 ha retornat una classe de token invàlida, s'espera un AccessToken::Bearer"
       oauth_issue_contact_admin: "L'OAuth2 reporta un error. Si us plau, contacta amb l'administrador del sistema."
-      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      oauth_client_not_found: "No s'ha trobat el client OAuth2 en la \"callback\" al \"endpoint\" (redirect_uri)."
       refresh_token_called_without_existing_token: >
-        Internal error: Called refresh_token without a previously existing token.
+        Error intern: S'ha demanat refrescar el token sense haver-hi un token existent previ.
       refresh_token_updated_failed: "Error durant l'actualització de l'OAuthClientToken"
       oauth_client_not_found_explanation: >
-        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
-      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+        Aquest error apareix després d'haver actualitzat "l'ID de client" i el "Client secret" a OpenProject sense haver actualitzat el camp "URI de retorn" en el proveïdor OAuth2.
+      oauth_code_not_present: "No s'ha trobat el codi OAuth2 en la \"callback\" al \"endpoint\" (redirect_uri)."
       oauth_code_not_present_explanation: >
         Aquest error apareix si has seleccionat la classe de resposta (response_type) incorrecte en el proveïdor OAuth2. La classe de resposta ha de ser "codi" o similar.
-      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present: "No s'ha trobat l'estat OAuth2 en la \"callback\" al \"endpoint\" (redirect_uri)."
       oauth_state_not_present_explanation: >
-        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+        L'estat s'utilitza per indicar a OpenProject on ha de continuar després d'una autorització OAuth2 correcta. La falta d'estat provoca un error intern que pot aparèixer durant la configuració. Si us plau, contacte el teu administrador.
       rack_oauth2:
         client_secret_invalid: "El client secret és invàlid (client_secret_invalid)"
         invalid_request: >
-          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
-        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
-        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
-        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+          El servidor d'autorització OAuth2 ha respost amb una "petició invàlida". Aquest error apareix si intentes autoritzar múltiples vegades o si hi ha errors tècnics.
+        invalid_response: "El servidor d'autorització OAuth2 ha respost amb una resposta invàlida (invalid_response)"
+        invalid_grant: "El servidor d'autorització OAuth2 demana una reautrorització (invalid_grant)."
+        invalid_client: "El servidor d'autorització OAuth2 no reconeix OpenProject (invalid_client)."
         unauthorized_client: "El servidor d'autorització OAuth2 no accepta la classe concedida (unauthorized_client)."
         unsupported_grant_type: "El servidor d'autorització OAuth2 demana una reautrorització (unsupported_grant_type)."
         invalid_scope: "No tens permís per accedir el recurs demanat (invalid_scope)."

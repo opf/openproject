@@ -844,10 +844,10 @@ lol:
         changing_dates_affects_follow_relations: "crwdns818674:0crwdne818674:0"
         click_on_show_relations_to_open_gantt: 'crwdns818666:0%{button_name}crwdne818666:0'
         show_relations: 'crwdns818668:0crwdne818668:0'
-        include_non_working_days:
-          title: 'crwdns831852:0crwdne831852:0'
-          false: 'crwdns831854:0crwdne831854:0'
-          true: 'crwdns831856:0crwdne831856:0'
+        ignore_non_working_days:
+          title: 'crwdns832338:0crwdne832338:0'
+          false: 'crwdns832340:0crwdne832340:0'
+          true: 'crwdns832342:0crwdne832342:0'
       description_filter: "crwdns788192:0crwdne788192:0"
       description_enter_text: "crwdns788194:0crwdne788194:0"
       description_options_hide: "crwdns788196:0crwdne788196:0"
