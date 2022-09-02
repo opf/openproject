@@ -32,20 +32,27 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
   def perform(user_id:)
     user = User.find(user_id)
 
-    WorkPackage
-      .where(ignore_non_working_days: false)
-      .order(created_at: :asc)
-      .find_each do |work_package|
-        next if dates_and_duration_match?(work_package)
-
-        WorkPackages::UpdateService
-          .new(user:, model: work_package, contract_class: EmptyContract)
-          .call(duration: work_package.duration)
-        work_package.save
-      end
+    each_applicable_work_package do |work_package|
+      WorkPackages::UpdateService
+        .new(user:, model: work_package, contract_class: EmptyContract)
+        .call(duration: work_package.duration)
+    end
   end
 
   private
+
+  def each_applicable_work_package
+    WorkPackage
+      .where(ignore_non_working_days: false)
+      .order(start_date: :asc)
+      .pluck(:id)
+      .each do |id|
+        work_package = WorkPackage.find(id)
+        next if dates_and_duration_match?(work_package)
+
+        yield work_package
+      end
+  end
 
   def dates_and_duration_match?(work_package)
     days.working?(work_package.start_date) \
