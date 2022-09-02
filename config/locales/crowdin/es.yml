@@ -77,7 +77,6 @@ es:
       buttons:
         upgrade: "Actualizar ahora"
         contact: "Contáctenos para una demostración"
-        more_info: "Más información"
       enterprise_info_html: "es una función <strong class='icon-medal'>Enterprise</strong>."
       upgrade_info: "Actualice a un plan de pago para activarlo y empezar a usarlo en su equipo."
     journal_aggregation:
@@ -96,7 +95,7 @@ es:
     add_new: 'Agregar texto de ayuda'
     edit: "Editar texto de ayuda para %{attribute_caption}"
     enterprise:
-      description: 'Al pasar el cursor sobre un elemento del menú lateral se muestra un texto de ayuda que permite a todos los usuarios entender mejor que hace cada elemento.'
+      description: 'Proporcione información adicional para atributos (incl. campos personalizados) de los paquetes de trabajo y proyectos. Los textos de ayuda se muestran cuando los usuarios hacen clic en el símbolo de signo de interrogación junto a los campos correspondientes en proyectos y paquetes de trabajo.'
   auth_sources:
     index:
       no_results_content_title: Actualmente no hay modos de autenticación.
@@ -265,8 +264,7 @@ es:
     deletion_info:
       heading: "Eliminar usuario de marcador de posición %{name}"
       data_consequences: >
-        Todas las repeticiones del usuario de marcador de posición (por ejemplo, como asignado, responsable u otros valores de usuario) se reasignarán a una cuenta denominada «Usuario eliminado».
-        Como los datos de todas las cuentas eliminadas se reasignarán a esta cuenta, no podrán distinguirse los datos del usuario de los datos creados con cualquier otra cuenta eliminada.
+        Todas las repeticiones del usuario de marcador de posición (por ejemplo, como asignado, responsable u otros valores de usuario) se reasignarán a una cuenta denominada «Usuario eliminado». Como los datos de todas las cuentas eliminadas se reasignarán a esta cuenta, no podrán distinguirse los datos del usuario de los datos creados con cualquier otra cuenta eliminada.
       irreversible: "Esta acción no se puede deshacer"
       confirmation: "Escriba el nombre de usuario de marcador de posición %{name} para confirmar la eliminación."
     upsale:
@@ -303,7 +301,7 @@ es:
       settings: "Configuración"
       form_configuration: "Configuración del formulario"
       more_info_text_html: >
-        La edición Enterprise le permite personalizar la configuración del formulario con estas características adicionales: <br> <ul class="%{list_styling_class}"> <li><b>Añadir nuevos grupos de atributos</b></li> <li><b>Renombrar grupos de atributos</b></li> </ul>
+        La edición Enterprise te permite personalizar el formulario de configuración con estas funcionalidades adicionales: <br><ul class="%{list_styling_class}"><li><b>Añade nuevos grupos de atributo</b></li> <li><b>Renombra grupos de atributo</b></li> <li><b>Añada tablas de paquetes de trabajo relacionados</b></li> </ul>
       projects: "Proyectos"
       enabled_projects: "Proyectos habilitados"
       edit_query: "Editar tabla"
@@ -607,7 +605,7 @@ es:
         unknown_property_nested: "tiene la ruta de acceso desconocida «%{path}»."
         unremovable: "no puede ser eliminado."
         url_not_secure_context: >
-          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
+          no está proveyendo un "Contexto Seguro". Utiliza HTTPS o una dirección loopack, como un localhost.
         wrong_length: "la longitud es incorrecta (debe ser %{count} caracteres)."
       models:
         attachment:
@@ -639,7 +637,7 @@ es:
               fragment_present: 'no puede contener un fragmento.'
               invalid_uri: 'debe ser una URI válida.'
               relative_uri: 'debe ser un URI absoluto.'
-              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
+              secured_uri: 'no está proveyendo un "Contexto Seguro". Utiliza HTTPS o una dirección loopack, como un localhost.'
               forbidden_uri: 'está prohibida por el servidor.'
             scopes:
               not_match_configured: "no coincide con los ámbitos disponibles."
@@ -740,6 +738,8 @@ es:
         work_package:
           is_not_a_valid_target_for_time_entries: "Paquete de trabajo #%{id} no es un objetivo válido para reasignar las entradas de tiempo."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "no es en fecha de inicio, aunque esto es necesario para hitos."
             duration:
@@ -1246,7 +1246,7 @@ es:
   error_enterprise_activation_user_limit: "Su cuenta no puede ser activada (se alcanzó el límite del usuario). Por favor, contacte su administrador para obtener acceso."
   error_enterprise_token_invalid_domain: "La versión Enterprise Edition no está activa. Su dominio del token de Enterprise (%{actual}) no coincide con el nombre de host del sistema (%{expected})."
   error_failed_to_delete_entry: 'No se puede eliminar esta entrada.'
-  error_in_dependent: "Error al intentar alterar el objeto dependiente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error al intentar alterar el objeto dependiente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error al crear el objeto dependiente: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "El valor seleccionado no es válido."
   error_journal_attribute_not_present: "El diario no contiene el atributo %{attribute}."
@@ -1358,7 +1358,7 @@ es:
     admin:
       mail_notification: "Notificaciones de correo electrónico"
       mails_and_notifications: "Correos electrónicos y notificaciones"
-      aggregation_and_retention: 'Agregación y retención'
+      aggregation: 'Agregación'
       api_and_webhooks: "API y webhooks"
     quick_add:
       label: "Abrir menú de adición rápida"
@@ -1385,17 +1385,11 @@ es:
     update_info_mail:
       body: >
         Nos complace anunciar la publicación de la versión OpenProject 12.0. Esta, es una nueva versión con muchos cambios que esperamos simplifiquen y mejoren en gran medida la forma en que usa OpenProject.
-
         Para empezar, con esta versión introducimos las notificaciones dentro de la aplicación. Des de ahora, va a recibir notificaciones por actualizaciones en los paquetes de trabajo directamente en OpenProject. Puede marcar estas notificaciones como leídas, contestar a comentarios e incluso modificar los atributos de un paquete de trabajo sin salir del centro de notificaciones.
-
         Esto también supone que no se van a usar más los correos electrónicos para este tipo de notificaciones. Creemos que el centro de notificaciones es el mejor sitio para ver y realizar cambios sobre estas actualizaciones. No obstante, si desea continuar recibiendo notificaciones vía correo electrónico, puede seleccionar recibir correos recordatorios diarios en horas concretas de su elección.
-
         Por favor, asegúrese de validar sus nuevas configuraciones de notificaciones que se han reseteado por defecto y a posteriori puede crear y modificar sus preferencias tanto para las notificaciones dentro de la aplicación como para los recordatorios vía correo electrónico en la configuración de su cuenta. También puede hacer estos cambios usando el botón abajo "Cambiar configuración de correo electrónico".
-
         Esperamos que las nuevas notificaciones dentro la aplicación le sean útiles y le ayuden a ser aún más productivo.
-
-        Sinceramente,
-        El equipo de OpenProject
+        Sinceramente, El equipo de OpenProject
       body_header: 'Versión 12.0 con el Centro de notificaciones'
       body_subheader: 'Noticias'
       subject: 'Cambios importantes en las notificaciones con la publicación de la versión 12.0'
@@ -1610,6 +1604,7 @@ es:
   label_index_by_title: "Índice por título"
   label_information: "Información"
   label_information_plural: "Información"
+  label_installation_guides: 'Guías de instalación'
   label_integer: "Número entero"
   label_internal: "Interno"
   label_introduction_video: "Vídeo de introducción"
@@ -2440,7 +2435,6 @@ es:
   setting_email_login: "Usar correo electrónico como nombre de usuario"
   setting_enabled_scm: "SCM activado"
   setting_enabled_projects_columns: "Visible en la lista de proyectos"
-  setting_notification_retention_period_days: "Período de retención de notificación"
   setting_feeds_enabled: "Activar Feeds"
   setting_feeds_limit: "Limite de contenido de feed"
   setting_file_max_size_displayed: "Tamaño máximo de archivos de texto mostrado en linea"
@@ -2513,8 +2507,6 @@ es:
       whitelist_text_html: >
         Define una lista de extensiones de archivo válidas o tipos MIME para los archivos cargados. <br/> Escriba las extensiones de archivo (por ejemplo, <code>%{ext_example}</code>) o tipos MIME (<code>%{mime_example}</code>). <br/> Deje vacío este campo para que pueda cargarse cualquier tipo de archivo. Se permiten varios valores (una línea para cada valor).
     notifications:
-      retention_text: >
-        Establecer el número de días que los eventos de notificación para los usuarios (la fuente de las notificaciones dentro de la aplicación) se mantendrá en el sistema. Cualquier evento anterior a este tiempo será eliminado.
       events_explanation: 'Controla para qué evento se envía un correo electrónico. Los paquetes de trabajo se excluyen de esta lista, ya que las notificaciones para estos se pueden configurar específicamente por usuario.'
       delay_minutes_explanation: "El envío de correos electrónicos se puede retrasar para permitir que los usuarios que reciban notificaciones en la aplicación puedan confirmarlas desde la aplicación antes de que se envíe un correo. Los usuarios que lean notificaciones en la aplicación no recibirán correos electrónicos de las notificaciones ya leídas."
     display:
@@ -2566,6 +2558,12 @@ es:
     Si utiliza campos personalizados: tenga en cuenta que los campos personalizados deben activarse también en cada proyecto por separado.
   text_custom_field_hint_activate_per_project_and_type: >
     Los campos personalizados se deben activar en cada tipo de paquete de trabajo y en cada proyecto por separado.
+  text_wp_custom_field_html: >
+    La edición Enterprise añadirá estas funcionalidades adicionales para los atributos personalizados de los paquetes de trabajo: <br> <ul> <li><b>Permitir la selección múltiple de atributos personalizados de tipo Lista o Usuario</b></li> </ul>
+  text_wp_status_read_only_html: >
+    La edición Enterprise añadirá estas funcionalidades adicionales para los campos de estado de los paquetes de trabajo: <br> <ul> <li><b>Permitir marcar como solo lectura los paquetes de trabajo en estados específicos</b></li> </ul>
+  text_project_custom_field_html: >
+    La edición Enterprise añadirá estas funcionalidades adicionales para los atributos personalizados de los proyectos: <br> <ul> <li><b>Añadir atributos personalizados para proyectos a tu lista de proyectos para crear una vista porfolio de proyectos</b></li> </ul>
   text_custom_logo_instructions: >
     Se recomienda usar un logotipo blanco sobre un fondo transparente. Para obtener los mejores resultados, tanto en pantallas convencionales como en las del tipo Retina, asegúrese de que las dimensiones de la imagen sean de 460 × 60 px.
   text_custom_favicon_instructions: >
@@ -2871,10 +2869,10 @@ es:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Error de coincidencia de configuración de protocolo'
+    https_mismatch:
+      title: 'La configuración del modo HTTPS no coincide'
       text_html: >
-        La aplicación se ejecuta con el protocolo <code>%{set_protocol}</code>, pero el protocolo de la solicitud es <code>%{actual_protocol}</code>. Se producirán errores. Vaya a <a href="%{setting_path}">Ajustes de sistema</a> y cambie la configuración de «Protocolo» para corregir este problema.
+        Tu aplicación se está ejecutando con el modo HTTPS establecido en <code>%{set_protocol}</code>, pero la solicitud es una solicitud <code>%{actual_protocol}</code> . ¡Esto producirá errores! Necesitará establecer el siguiente valor de configuración: <code>%{setting_value}</code>. Consulte <a href="%{more_info_path}">la documentación de instalación</a> sobre cómo completar esta configuración.
     hostname_mismatch:
       title: 'Error de coincidencia de configuración de nombre de host'
       text_html: >

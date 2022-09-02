@@ -13,21 +13,20 @@
       </div>
       <br>
 
-      <span *ngIf="!messageIsHtml" class="op-enterprise-banner--description" [textContent]="textMessage"></span>
-      <span *ngIf="messageIsHtml" class="op-enterprise-banner--description" [innerHtml]="textMessage"></span>
+      <span class="op-enterprise-banner--description" [innerHtml]="textMessage"></span>
 
-      <strong [textContent]="text.become_hero"></strong> &nbsp;
-
-      <span [textContent]="text.you_contribute"></span>
+      <span class="op-enterprise-banner--description">
+        <strong [textContent]="text.become_hero"></strong> {{text.you_contribute}}
+      </span>
 
       <div class="op-enterprise-banner--buttons">
         <a
-          *ngIf="moreInfoText"
+          *ngIf="moreInfoLink"
           [attr.href]="moreInfoLink"
           class="button--link  op-enterprise-banner--info-button"
           target=”_blank”>
           <op-icon icon-classes="icon icon-external-link"></op-icon>
-          {{ moreInfoText }}
+          {{ text.more_info_text }}
         </a>
 
         <a

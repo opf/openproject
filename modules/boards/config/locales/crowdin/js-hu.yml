@@ -7,9 +7,8 @@ hu:
       label_unnamed_list: 'Névtelen lista'
       label_board_type: 'Tábla típus'
       upsale:
-        teaser_text: 'Would you like ready-to-use board templates? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Frissítés most'
-        more_info: 'More information'
       lists:
         delete: 'Törölt lista'
       version:
@@ -38,27 +37,20 @@ hu:
         select_board_type: "Kérjük, válassza ki a szükséges tábla típusát.\n"
         free_text: >
           Kezdje a semmiből egy üres táblával. Kézzel adjon hozzá kártyákat és oszlopokat ehhez a táblához.
-
         action: 'Akció tábla'
         action_by_attribute: 'Akció tábla (%{attribute})'
         action_text: >
           Tábla szűrt listákkal a %{attribute} attribútumon. Ha áthelyezi a munkacsomagokat más listákra, frissül az attribútumuk.
-
         action_text_subprojects: >
           Tábla automatizált oszlopokkal az alprojektekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a(z) (al) projektet.
-
         action_text_subtasks: >
           Tábla automatizált oszlopokkal az alelemekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a szülőt.
-
         action_text_status: >
           Alapvető kanban stílusú tábla oszlopokkal az állapothoz, mint például a Teendő, Folyamatban, Kész.
-
         action_text_assignee: >
           Tábla automatikus oszlopokkal a hozzárendelt felhasználók alapján. Ideális munkacsomagok feladásához.
-
         action_text_version: >
           Tábla automatikus oszlopokkal a verzióattribútum alapján. Ideális termékfejlesztés tervezéséhez.
-
         action_type:
           assignee: felelős
           status: állapot

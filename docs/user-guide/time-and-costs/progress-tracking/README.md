@@ -14,9 +14,9 @@ OpenProject will automatically roll-up progress to parent work packages.
 
 | Topic                                                                                               | Content                                           |
 |-----------------------------------------------------------------------------------------------------|:--------------------------------------------------|
-| [Manual progress tracking](#manual-progress-tracking)                                               | How to track progress manually per work package?  |
-| [Progress tracking in the work package hierarchy](#progress-tracking-in-the-work-package-hierarchy) | How to track progress for multiple work packages? |
-| [Status based progress tracking](#status-based-progress-tracking)                                   | How to track progress use work package status?    |
+| [Manual progress tracking](#manual-progress-tracking)                                               | How to track progress manually per work package.  |
+| [Progress tracking in the work package hierarchy](#progress-tracking-in-the-work-package-hierarchy) | How to track progress for multiple work packages. |
+| [Status based progress tracking](#status-based-progress-tracking)                                   | How to track progress use work package status.    |
 
 ## Manual progress tracking
 
@@ -44,10 +44,9 @@ You can also bulk-modify the **Progress (%)** in the list of work packages.
 
 ## Progress tracking in the work package hierarchy
 
-The progress of of **work package with children** is calculated as the 
+The progress of **work package with children** is calculated as the 
 weighted average of all direct children, using the field **Estimated time** 
-as the weight. OpenProject uses 1 hour as the default value if 
-**Estimated time** is empty. 
+as the weight. 
 When adding the **Progress(%)** column to a work 
 package hierarchy view, please also add the **Estimated time** 
 column as well so that you can track the calculation.
@@ -72,8 +71,7 @@ Calculation examples:
 As an alternative to the manual progress tracking mode above, you can configure 
 your OpenProject system to associate work packages statuses .
 In the administration section please modify the 
-[work package settings](../../../system-admin-guide/manage-work-packages/work-package-settings).
-and choose set the value of “Calculate the work package done ratio” to 
+[work package settings](../../../system-admin-guide/manage-work-packages/work-package-settings) and set the value of “Calculate the work package done ratio” to 
 “Use the work package status”.
 
 In this mode, OpenProject does _not_ allow you to modify the 
@@ -91,4 +89,4 @@ is equivalent to setting **Progress (%)** to 50% manually.
 Note: The status and it’s associated progress value from the 
 administration screen also determines the **Progress (%)** of 
 work packages with children. So there is no roll-up of progress 
-in the project hierarchy in this configuration.
+in the work package table hierarchy in this configuration.

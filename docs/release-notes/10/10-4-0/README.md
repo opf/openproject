@@ -81,7 +81,7 @@ View full 3D objects in OpenProject in IFC format. Select and display the model 
 
 ![OpenProject-BIM_IFC-viewer](OpenProject-BIM_IFC-viewer.png)
 
-### Switch between 3D and 2D view** for your building model in OpenProject.
+### Switch between 3D and 2D view for your building model in OpenProject.
 
 You can change between a 3D view or 2D view of the building model in OpenProject.
 
@@ -195,7 +195,7 @@ Want to upgrade from a Community version to try out the light or dark theme? [Ge
 
 
 
-## How to try the OpenProject BIM Edition?
+## How to try the OpenProject BIM Edition
 
 Try out OpenProject BIM 10.4. right away, create a free trial instance for the [OpenProject BIM Edition.](https://start.openproject.com/go/bim)
 

@@ -8,16 +8,12 @@ import { BehaviorSubject } from 'rxjs';
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { finalize } from 'rxjs/operators';
+import { finalize, take } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HttpClient } from '@angular/common/http';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
-import {
-  projectListActionSelector,
-  projectListItemDisabled,
-  projectListRootSelector,
-} from 'core-app/shared/components/project-list/project-list.component';
-import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
+import { ID } from '@datorama/akita';
+import { IProjectData } from './project-data';
 
 @Injectable()
 export class SearchableProjectListService {
@@ -31,6 +27,8 @@ export class SearchableProjectListService {
     this._searchText = val;
     this.searchText$.next(val);
   }
+
+  activeItemID$ = new BehaviorSubject<ID|null>(null);
 
   searchText$ = new BehaviorSubject<string>('');
 
@@ -81,99 +79,147 @@ export class SearchableProjectListService {
     };
   }
 
-  private handleKeyNavigation(upwards = false):void {
-    const focused = document.activeElement as HTMLElement|undefined;
+  onKeydown(event:KeyboardEvent, projects:IProjectData[]):void {
+    this.activeItemID$
+      .pipe(take(1))
+      .subscribe((activeID) => {
+        switch (event.keyCode) {
+          case KeyCodes.UP_ARROW:
+            event.preventDefault();
+            this.selectPreviousResult(activeID, projects);
+            break;
+          case KeyCodes.DOWN_ARROW:
+            event.preventDefault();
+            this.selectNextResult(activeID, projects);
+            break;
+          case KeyCodes.ENTER:
+            event.stopPropagation();
+            event.preventDefault();
+            this.activateSelectedResult(event);
+            break;
+          default:
+            break;
+        }
+      });
+  }
 
-    // If the current focus is within a list action, move focus in direction
-    if (focused?.closest(projectListActionSelector)) {
-      this.moveFocus(focused, upwards);
+  public resetActiveResult(projects:IProjectData[]):void {
+    const findFirstNonDisabledID = (projects:IProjectData[]):ID|null => {
+      for (let i = 0; i < projects.length; i++) {
+        if (!projects[i].disabled) {
+          return projects[i].id;
+        }
+
+        const childFound = findFirstNonDisabledID(projects[i].children);
+        if (childFound !== null) {
+          return childFound;
+        }
+      }
+
+      return null;
+    }
+
+    this.activeItemID$.next(findFirstNonDisabledID(projects));
+  }
+
+  private selectPreviousResult(activeID:ID|null, allProjects:IProjectData[]):void {
+    if (activeID === null) {
       return;
     }
 
-    // If we're moving down, select first
-    if (!upwards) {
-      const first = document.querySelector<HTMLElement>(`${projectListActionSelector}:not(${projectListItemDisabled})`);
-      first?.focus();
+    const findLastChild = (project:IProjectData):IProjectData => {
+      if (project?.children?.length) {
+        return findLastChild(project.children[project.children.length - 1]);
+      }
+
+      return project;
+    };
+
+    const findPreviousID = (idOfCurrent:ID, projects:IProjectData[], parent?:IProjectData):ID|null => {
+      for (let i = 0; i < projects.length; i++) {
+        if (projects[i].id === idOfCurrent) {
+          const previous = findLastChild(projects[i - 1]) || projects[i - 1] || parent;
+          if (!previous) {
+            return null;
+          }
+
+          if (previous.disabled) {
+            return findPreviousID(previous.id, allProjects);
+          }
+
+          return previous.id;
+        }
+
+        const previous = findPreviousID(idOfCurrent, projects[i].children, projects[i]);
+        if (previous !== null) {
+          return previous;
+        }
+      }
+
+      return null;
+    };
+
+    const foundPreviousID = findPreviousID(activeID, allProjects);
+    if (foundPreviousID !== null) {
+      this.activeItemID$.next(foundPreviousID);
+    } else {
+      this.resetActiveResult(allProjects);
     }
   }
 
-  private moveFocus(source:Element, upwards = false):void {
-    const activeItem = source.closest(projectListActionSelector) as HTMLElement;
-    let nextTarget = this.findNextTarget(activeItem, upwards);
-
-    // If the target is disabled, skip
-    while (nextTarget?.matches(projectListItemDisabled)) {
-      nextTarget = this.findNextTarget(nextTarget, upwards);
+  private selectNextResult(activeID:ID|null, allProjects:IProjectData[]):void {
+    if (activeID === null) {
+      return;
     }
 
-    nextTarget?.focus();
+    const findNextID = (idOfCurrent:ID, projects:IProjectData[], nextParent?:IProjectData):ID|null => {
+      for (let i = 0; i < projects.length; i++) {
+        if (projects[i].id === idOfCurrent) {
+          const next = projects[i].children[0] || projects[i + 1] || nextParent;
+          if (!next) {
+            return null;
+          }
+
+          if (next.disabled) {
+            return findNextID(next.id, allProjects);
+          }
+
+          return next.id;
+        }
+
+        const next = findNextID(idOfCurrent, projects[i].children, projects[i + 1] || nextParent);
+        if (next !== null) {
+          return next;
+        }
+      }
+
+      return null;
+    };
+
+    const foundNextID = findNextID(activeID, allProjects);
+    if (foundNextID !== null) {
+      this.activeItemID$.next(foundNextID);
+    } else {
+      this.resetActiveResult(allProjects);
+    }
   }
 
-  private findNextTarget(from:HTMLElement, upwards = false):HTMLElement|null|undefined {
-    let container:Element|null|undefined = from;
-
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      if (!container || container.matches(projectListRootSelector)) {
+  private activateSelectedResult(event:KeyboardEvent):void {
+    const findSearchableListParent = (el:HTMLElement|null):HTMLElement|null => {
+      if (!el) {
         return null;
       }
 
-      const nextNode:Element|null = upwards ? container.previousElementSibling : container.nextElementSibling;
-
-      // If we don't find anything, move up
-      if (!nextNode) {
-        container = container.parentElement;
-        continue;
+      if ('searchableListParent' in el.dataset) {
+        return el;
       }
 
-      // If we moved to a target, use that
-      if (nextNode?.matches(projectListActionSelector)) {
-        return nextNode as HTMLElement;
-      }
-      // Try to find the next action
-      const targets = nextNode ? Array.from(nextNode.querySelectorAll<HTMLElement>(projectListActionSelector)) : [];
-      const target = upwards ? targets.pop() : targets[0];
-      if (target) {
-        return target;
-      }
+      return findSearchableListParent(el.parentElement);
+    };
 
-      container = nextNode;
-    }
-  }
-
-  onKeydown(event:KeyboardEvent):void {
-    const inputElement = this.findInputElement();
-
-    switch (event.keyCode) {
-      case KeyCodes.UP_ARROW:
-        event.preventDefault();
-        this.handleKeyNavigation(true);
-        break;
-      case KeyCodes.DOWN_ARROW:
-        event.preventDefault();
-        this.handleKeyNavigation(false);
-        break;
-      case KeyCodes.SPACE:
-        if (inputElement && event.target !== inputElement) {
-          event.preventDefault();
-        }
-        break;
-      case KeyCodes.ENTER:
-        break;
-      default:
-        if (inputElement && event.target !== inputElement) {
-          inputElement.focus();
-        }
-        break;
-    }
-  }
-
-  findInputElement():HTMLElement|undefined {
-    const focusCatcherContainer = document.querySelectorAll("[data-list-focus-catcher-container='true']")[0];
-    if (focusCatcherContainer) {
-      return (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement);
-    }
-
-    return undefined;
+    const listParent = findSearchableListParent(event.currentTarget as HTMLElement);
+    const focused = document.activeElement;
+    (listParent?.querySelector('.spot-list--item-action_active') as HTMLElement)?.click();
+    (focused as HTMLElement)?.focus();
   }
 }

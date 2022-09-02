@@ -10,12 +10,11 @@
       *ngIf="eeShowBanners"
       [linkMessage]="text.upsale_link"
       [textMessage]="text.upsale_text"
-      [moreInfoText]="text.more_info_text"
       [moreInfoLink]="text.more_info_link"
       class="grid--add-widget-ee"
       opReferrer="grids#add-widget"
     ></op-enterprise-banner>
-  
+
     <div
       *ngFor="let widget of selectable;trackBy: trackWidgetBy"
       (click)="select($event, widget)"

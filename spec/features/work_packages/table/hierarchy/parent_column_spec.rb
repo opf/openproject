@@ -4,8 +4,9 @@ describe 'Work Package table parent column', js: true do
   let(:user) { create :admin }
   let!(:parent) { create(:work_package, project:) }
   let!(:child) { create(:work_package, project:, parent:) }
+  let!(:other_wp) { create(:work_package, project:) }
   let!(:query) do
-    query              = build(:query, user:, project:)
+    query = build(:query, user:, project:)
     query.column_names = ['subject', 'parent']
     query.filters.clear
     query.show_hierarchies = false
@@ -33,5 +34,18 @@ describe 'Work Package table parent column', js: true do
     page.within(".wp-row-#{child.id}") do
       expect(page).to have_selector('td.parent', text: "##{parent.id}")
     end
+  end
+
+  it 'can edit the parent work package (Regression #43647)' do
+    wp_table.visit_query query
+    wp_table.expect_work_package_listed(parent, child)
+
+    parent_field = wp_table.edit_field(child, :parent)
+    parent_field.update other_wp.subject
+
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
+
+    child.reload
+    expect(child.parent).to eq other_wp
   end
 end

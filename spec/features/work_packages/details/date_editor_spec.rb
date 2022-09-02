@@ -185,8 +185,13 @@ describe 'date inplace editor',
     start_date.activate!
     start_date.expect_active!
 
+    # The calendar needs some time to get initialised.
+    sleep 2
+    start_date.datepicker.expect_visible
+
     # Set the due date
     start_date.datepicker.set_date Time.zone.today, true
+
     # As the to be selected date is automatically toggled,
     # we can directly set the start date afterwards to the same day
     start_date.datepicker.set_date Time.zone.today, true
@@ -536,6 +541,27 @@ describe 'date inplace editor',
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                                       text: 'Manual scheduling enabled, all relations ignored.')
       end
+    end
+  end
+
+  context 'with a negative time zone', driver: :chrome_new_york_time_zone do
+    it 'can normally select the dates via datepicker (regression #43562)' do
+      start_date.activate!
+      start_date.expect_active!
+
+      start_date.datepicker.expect_year '2016'
+      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.select_day '25'
+
+      sleep 2
+
+      start_date.datepicker.expect_year '2016'
+      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.expect_day '25'
+
+      start_date.save!
+      start_date.expect_inactive!
+      start_date.expect_state_text '2016-01-02 - 2016-01-25'
     end
   end
 end

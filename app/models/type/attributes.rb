@@ -41,6 +41,7 @@ module Type::Attributes
                 links
                 parent_id
                 parent
+                readonly
                 schedule_manually].freeze
 
   included do

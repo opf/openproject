@@ -2,7 +2,7 @@
 cs:
   js:
     storages:
-      link_files_in_storage: "Link files in %{storageType}"
+      link_files_in_storage: "Prolinkovat soubory v"
       login: "%{storageType} přihlášení"
       login_to: "Přihlásit se k %{storageType}"
       no_connection: "Žádné připojení %{storageType}"

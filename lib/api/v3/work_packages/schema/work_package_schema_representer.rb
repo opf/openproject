@@ -211,17 +211,16 @@ module API
                                      end
                                    }
 
-          # TODO:
-          # * create an available_work_package_parent resource
-          #   One can use a relatable filter with the 'parent' operator. Will however need to also
-          #   work without a value which is currently not supported.
-          # * turn :parent into a schema_with_allowed_link
-
-          schema :parent,
-                 type: 'WorkPackage',
-                 location: :link,
-                 required: false,
-                 writable: true
+          schema_with_allowed_link :parent,
+                                   type: 'WorkPackage',
+                                   required: false,
+                                   writable: true,
+                                   href_callback: ->(*) {
+                                     work_package = represented.work_package
+                                     if work_package&.persisted?
+                                       api_v3_paths.work_package_available_relation_candidates(represented.id, type: :parent)
+                                     end
+                                   }
 
           schema_with_allowed_link :assignee,
                                    type: 'User',

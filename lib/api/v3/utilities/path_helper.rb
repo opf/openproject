@@ -484,8 +484,9 @@ module API
             "#{work_package_relations(work_package_id)}/#{id}"
           end
 
-          def self.work_package_available_relation_candidates(id)
-            "#{work_package(id)}/available_relation_candidates"
+          def self.work_package_available_relation_candidates(id, type: nil)
+            query = "?type=#{type}" if type
+            "#{work_package(id)}/available_relation_candidates#{query}"
           end
 
           def self.work_package_revisions(id)
@@ -517,11 +518,6 @@ module API
 
           def self.work_packages_by_project(project_id)
             "#{project(project_id)}/work_packages"
-          end
-
-          def self.filtered_path(base_path, *filters)
-            escaped = CGI.escape(::JSON.dump(filters))
-            "#{base_path}?filters=#{escaped}"
           end
 
           def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil, select: nil)

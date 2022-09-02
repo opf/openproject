@@ -2,26 +2,26 @@
 ko:
   js:
     storages:
-      link_files_in_storage: "Link files in %{storageType}"
-      login: "%{storageType} login"
-      login_to: "Login to %{storageType}"
-      no_connection: "No %{storageType} connection"
-      open_storage: "Open %{storageType}"
+      link_files_in_storage: "%{storageType}의 파일 연결"
+      login: "%{storageType} 로그인"
+      login_to: "%{storageType}에 로그인"
+      no_connection: "%{storageType} 연결 없음"
+      open_storage: "%{storageType} 열기"
       types:
         nextcloud: "Nextcloud"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
-        live_data_error: "Error fetching file details"
+          일부 %{storageType} 설정이 작동하지 않습니다. %{storageType} 관리자에게 문의하세요.
+        live_data_error: "파일 세부 정보를 가져오는 중에 오류 발생"
         live_data_error_description: >
-          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
-        no_file_links: "In order to link files to this work package please do it via %{storageType}."
+          일부 %{storageType} 데이터를 가져올 수 없습니다. 이 페이지를 다시 로드하거나 %{storageType} 관리자에게 문의하세요.
+        no_file_links: "이 작업 패키지에 파일을 연결하려면 %{storageType}을(를) 통해 연결하세요."
         not_logged_in: >
-          To add a link, see or upload files related to this work package, please login to %{storageType}.
+          링크를 추가하거나, 이 작업 패키지와 관련된 파일을 보거나 업로드하려면 %{storageType}에 로그인하세요.
       file_links:
-        download: "Download %{fileName}"
-        no_permission: "You have no permission to see this file."
-        open: 'Open file on storage'
-        open_location: 'Open file in location'
-        remove: "Remove file link"
-        remove_confirmation: "Are you sure you want to unlink the file from the work package?"
+        download: "%{fileName} 다운로드"
+        no_permission: "이 파일을 볼 수 있는 권한이 없습니다."
+        open: '저장소의 파일 열기'
+        open_location: '위치의 파일 열기'
+        remove: "파일 링크 제거"
+        remove_confirmation: "작업 패키지에서 파일을 연결 해제하시겠습니까?"

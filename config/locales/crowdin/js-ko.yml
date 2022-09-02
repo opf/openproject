@@ -151,7 +151,7 @@ ko:
           language_hint: '강조 표시(지원되는 경우)에 사용할 서식 언어를 입력하세요.'
         dropdown:
           macros: '매크로'
-          chose_macro: '매크로 선택'
+          chose_macro: 'Choose macro'
         toc: '목차'
         toolbar_help: '위젯을 선택하고 도구 모음을 표시하려면 클릭하세요. 위젯을 편집하려면 두 번 클릭하세요.'
         wiki_page_include:
@@ -205,6 +205,7 @@ ko:
             label_expires_at: "에서 만료됨"
             receive_newsletter: OpenProject <a target="_blank" href="%{link}">뉴스레터</a>를 받아 보겠습니다.
             taken_domain: 도메인당 하나의 활성 평가판만 있어야 합니다.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: 각 사용자는 하나의 평가판만 생성할 수 있습니다.
           email_not_received: "이메일을 받지 못하셨나요? 오른쪽의 링크로 이메일을 재전송할 수 있습니다. "
           try_another_email: "또는 다른 이메일 주소로 시도해보세요."
@@ -231,11 +232,12 @@ ko:
             professional_support: "전문적 지원"
             professional_support_text: "비즈니스 크리티컬 환경에서의 OpenProject 실행에 대한 전문 지식을 갖춘 선임 지원 엔지니어가 신뢰할 수 있는 뛰어난 지원을 제공합니다."
           button_start_trial: "무료 평가판 시작"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "지금 업그레이드"
           button_book_now: "지금 예약"
           confidence: >
             오픈 소스와 오픈 마인드로, 테스트를 거치고 지원이 제공되는 엔터프라이즈급 프로젝트 관리 소프트웨어에 대한 신뢰를 전해드립니다.
           link_quote: "견적 받기"
+          more_info: "자세한 정보"
           text: >
             OpenProject Enterprise Edition은 Community Edition 위에서 빌드됩니다. OpenProject로 비즈니스 크리티컬 프로젝트를 관리하는 사용자가 10명이 넘는 조직을 주로 타겟으로 하는 프리미엄 기능과 전문 지원이 제공됩니다.
           unlimited: "무제한"
@@ -268,8 +270,7 @@ ko:
           one: "첫 번째 정렬 기준"
           two: "두 번째 정렬 기준"
           three: "세 번째 정렬 기준"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "고급 필터를 사용하면 작업 패키지 첨부 파일의 내용과 파일 이름을 필터링할 수도 있습니다. 이 기능을 사용하려면 유료 플랜으로 업그레이드하세요."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "아니요"
     general_text_yes: "예"
@@ -289,15 +290,15 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li><b>새로운 팀 플래너 모듈</b>(Enterprise 기능)을 사용하면 시각적으로 팀원에게 작업을 할당하여 누가 어떤 작업을 하는지에 대한 개요를 확인할 수 있습니다.</li> <li>커뮤니티 버전용 <b>기본 애자일 보드가 출시</b>됩니다.</li> <li><b>"프로젝트 포함" 필터</b> 옵션을 사용하면 작업 패키지, 달력 및 팀 플래너 등 다양한 프로젝트를 보기에 더욱 쉽게 추가할 수 있습니다.</li> <li>작업 패키지 세부 정보에 <b>새로운 "파일" 탭</b>이 추가되어 작업 패키지에 가능한 모든 정보를 함께 첨부할 수 있습니다.</li> <li><b>그룹에 대한 글로벌 역할</b>이 생성되어 이 역할을 그룹에 할당하고 수퍼유저 그룹을 생성할 수 있습니다.</li> <li>프로젝트 상태에 선택할 수 있는 더 많은 옵션이 제공됩니다.</li> </ul>
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>더 이상 끝없이 파일을 검색할 필요가 없습니다! OpenProject 12.2의 새로운 <b>Nextcloud 통합</b>을 통해 이제 해당 작업 패키지에서 직접 파일을 찾고 항상 올바른 버전을 손쉽게 사용할 수 있습니다.</li> <li>업데이트된 입력 동작 및 Gantt 차트에서 관계를 표시하는 버튼이 포함된 정보 배너가 있는 <b>새로운 날짜 선택기</b>가 도입되었습니다.</li> <li><b>다른 사용자의 시간을 기록</b>할 수 있는 기능이 추가되었습니다.</li> <li>알림 센터 외부에서도 알림을 읽은 상태로 표시할 수 있습니다.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>이제 BCF 모듈에서는 선택한 작업 패키지 필터, 열 등을 <b>보기</b>로 저장하고 팀원과 공유할 수 있습니다.</li> <li><b>새로운 팀 플래너 모듈</b>(Enterprise 기능)을 사용하면 시각적으로 팀원에게 작업을 할당하여 누가 어떤 작업을 하는지에 대한 개요를 확인할 수 있습니다.</li> <li>커뮤니티 버전용 <b>기본 애자일 보드가 출시</b>됩니다.</li> <li><b>"프로젝트 포함" 필터</b> 옵션을 사용하면 작업 패키지, 달력 및 팀 플래너 등 다양한 프로젝트를 보기에 더욱 쉽게 추가할 수 있습니다.</li> <li>작업 패키지 세부 정보에 <b>새로운 "파일" 탭</b>이 추가되어 작업 패키지에 가능한 모든 정보를 함께 첨부할 수 있습니다.</li> <li><b>그룹에 대한 글로벌 역할</b>이 생성되어 이 역할을 그룹에 할당하고 수퍼유저 그룹을 생성할 수 있습니다.</li> <li>프로젝트 상태에 선택할 수 있는 더 많은 옵션이 제공됩니다.</li> </ul>
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>더 이상 끝없이 파일을 검색할 필요가 없습니다! OpenProject 12.2의 새로운 <b>Nextcloud 통합</b>을 통해 이제 해당 작업 패키지에서 직접 파일을 찾고 항상 올바른 버전을 손쉽게 사용할 수 있습니다.</li> <li>업데이트된 입력 동작 및 Gantt 차트에서 관계를 표시하는 버튼이 포함된 정보 배너가 있는 <b>새로운 날짜 선택기</b>가 도입되었습니다.</li> <li><b>다른 사용자의 시간을 기록</b>할 수 있는 기능이 추가되었습니다.</li> <li>알림 센터 외부에서도 알림을 읽은 상태로 표시할 수 있습니다.</li> </ul>
     label_activate: "활성화"
     label_assignee: '담당자'
     label_add_column_after: "다음 뒤에 열 추가"
@@ -369,6 +370,7 @@ ko:
     label_in_more_than: "보다 큼"
     label_incoming_emails: "들어오는 이메일"
     label_information_plural: "정보"
+    label_invalid: "유효하지 않음"
     label_import: "가져오기"
     label_latest_activity: "최근 활동"
     label_last_updated_on: "마지막 업데이트 날짜"
@@ -400,8 +402,8 @@ ko:
     label_previous: "이전"
     label_per_page: "페이지 당:"
     label_please_wait: "잠시 기다려 주세요."
-    label_project: "Project"
-    label_project_list: "Projects list"
+    label_project: "프로젝트"
+    label_project_list: "프로젝트 목록"
     label_project_plural: "프로젝트"
     label_visibility_settings: "표시 여부 설정"
     label_quote_comment: "코멘트 인용"
@@ -414,7 +416,7 @@ ko:
     label_report: "보고서"
     label_repository_plural: "리포지토리"
     label_save_as: "다른 이름으로 저장"
-    label_select_project: "Select a project"
+    label_select_project: "프로젝트 선택"
     label_select_watcher: "주시하는 사람을 선택"
     label_selected_filter_list: "선택된 필터"
     label_show_attributes: "모든 특성 표시"
@@ -456,10 +458,10 @@ ko:
     label_unwatch: "주시 안 함"
     label_unwatch_work_package: "작업 패키지 주시 해제"
     label_uploaded_by: "업로드 : "
-    label_default_queries: "Default"
-    label_starred_queries: "Favorite"
-    label_global_queries: "Public"
-    label_custom_queries: "Private"
+    label_default_queries: "기본"
+    label_starred_queries: "즐겨찾기"
+    label_global_queries: "공개"
+    label_custom_queries: "비공개"
     label_columns: "컬럼"
     label_attachments: 첨부 파일
     label_drop_files: 여기에 파일을 놓으세요
@@ -472,7 +474,7 @@ ko:
     label_remove_all_files: 모든 파일을 삭제
     label_add_description: "%{file} 의 설명 추가"
     label_upload_notification: "파일 업로드 중..."
-    label_work_package_upload_notification: "작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩"
+    label_work_package_upload_notification: "작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩" #%{id}: %{subject} 를 위한 파일 업로딩"
     label_wp_id_added_by: "#%{id} - %{author}님이 추가함"
     label_files_to_upload: "이 파일들이 업로드 됩니다."
     label_rejected_files: "파일들이 업로드 할 수 없습니다."
@@ -490,7 +492,7 @@ ko:
         next: '다음'
         got_it: '확인'
       steps:
-        help_menu: '도움말(?) 메뉴에서 <b>기타 도움말 리소스</b>가 제공됩니다. 여기에서 사용자 가이드와 유용한 사용 방법 동영상 등을 찾을 수 있습니다. <br> OpenProject로 즐겁게 작업하세요!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: '프로젝트에 참여할 새로운 <b>멤버</b>를 초대하세요.'
         project_selection: '준비된 데모 프로젝트 중 하나를 클릭하세요. 데모 데이터는 현재 영어로만 제공됩니다. <br> 일반 <b>데모 프로젝트</b>는 클래식 프로젝트 관리에 최적이지만, 애자일 프로젝트 관리에는 <b>스크럼 프로젝트</b>가 더 적합합니다.'
         quick_add_button: '헤더 탐색에서 더하기(+) 아이콘을 클릭하여 <b>새 프로젝트를 생성</b>하거나 <b>동료를 초대</b>하세요.'
@@ -531,6 +533,11 @@ ko:
         watched: '지켜본'
         assigned: '할당됨'
         responsible: '담당'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: '읽지 않음'
         all: '모두'
@@ -538,7 +545,7 @@ ko:
         and_more_users:
           other: '외 %{count}건'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: '사용자와 관련된 활동이 있을 때 여기에 새로운 알림이 표시되므로, 알림 설정을 보고 수정하여 알림을 받을 시기를 구성할 수도 있습니다.'
           with_current_filter: '현재 이 보기에는 알림이 없습니다.'
         mark_all_read: '모두 읽은 상태로 표시'
         mark_as_read: '읽음으로 표시'
@@ -546,8 +553,8 @@ ko:
         total_count_warning: "%{newest_count} 개의 가장 최근 알림을 표시합니다. %{more_count} 개의 알림은 표시되지 않습니다."
         empty_state:
           no_notification: "모두 확인하신 것 같습니다."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification_with_current_project_filter: "선택한 프로젝트에 대한 모든 알림을 본 것 같습니다."
+          no_notification_with_current_filter: "%{filter} 필터에 대한 모든 알림을 본 것 같습니다."
           no_selection: "모든 활동 세부 정보를 보려면 알림을 클릭하세요."
         new_notifications:
           message: '새 알림이 있습니다.'
@@ -755,7 +762,7 @@ ko:
         farRight: '맨 오른쪽'
         showNone: '-- 레이블 없음 --'
         description: >
-          항상 Gantt 차트의 각 위치에 표시할 특성을 선택하세요. 요소를 가리키면 해당 특성 대신 날짜 레이블이 표시됩니다.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Gantt 차트 표시'
       button_deactivate: 'Gantt 차트 숨기기'
       cancel: 취소
@@ -805,7 +812,7 @@ ko:
       zooms: "확대 수준"
       outlines: "계층 수준"
     upsale:
-      ee_only: 'Enterprise Edition feature'
+      ee_only: 'Enterprise Edition 기능'
     wiki_formatting:
       strong: "굵게"
       italic: "기울임꼴"
@@ -834,12 +841,12 @@ ko:
       comment_updated: "코멘트가 성곡적으로 갱신되었습니다."
       confirm_edit_cancel: "편집 중인 작업 패키지를 취소하시겠습니까?"
       datepicker_modal:
-        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
-        manually_scheduled: "Manual scheduling enabled, all relations ignored."
-        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
-        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
-        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        automatically_scheduled_parent: "자동으로 예약됩니다. 날짜는 관계에서 파생됩니다."
+        manually_scheduled: "수동 스케줄링이 활성화되고, 모든 관계가 무시됩니다."
+        start_date_limited_by_relations: "사용 가능한 시작 및 종료 날짜는 관계에 따라 제한됩니다."
+        changing_dates_affects_follow_relations: "이 날짜를 변경하면 관련 작업 패키지의 날짜에 영향을 줍니다."
+        click_on_show_relations_to_open_gantt: 'GANTT 개요를 보려면 "%{button_name}" 클릭을 하세요.'
+        show_relations: '관계 표시'
       description_filter: "필터"
       description_enter_text: "텍스트 입력"
       description_options_hide: "옵션 숨기기"
@@ -993,7 +1000,6 @@ ko:
           attribute_highlighting: '나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?'
           relation_columns: '작업 패키지 목록에서 관계를 표시해야 합니까?'
           check_out_link: 'Enterprise Edition을 체크아웃하세요.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: '관계 유형별 작업 패키지 필터링'
       tabs:
@@ -1085,9 +1091,9 @@ ko:
         other: "%{count}시간"
         zero: "0 h"
       day:
-        one: "1 day"
-        other: "%{count} days"
-        zero: "0 days"
+        one: "1일"
+        other: "%{count}일"
+        zero: "0일"
     zen_mode:
       button_activate: 'Zen 모드 활성화'
       button_deactivate: 'Zen 모드 비활성화'
@@ -1154,7 +1160,7 @@ ko:
       role:
         label: '%{project} 내 역할'
         no_roles_found: '역할이 없습니다'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: '%{principal}이(가) 프로젝트에 참여할 때 받게 되는 역할입니다. 역할은 수행할 수 있는 작업과 볼 수 있는 정보를 정의합니다. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> 역할과 권한에 대해 자세히 알아보세요. </a>'
         required: '역할을 선택하십시오'
         next_button: '다음'
       message:
@@ -1183,7 +1189,8 @@ ko:
       tooltip:
         include_all_selected: '모든 하위 프로젝트 포함이 현재 선택되어 있습니다.'
         current_project: '작업 중인 현재 프로젝트입니다.'
-        does_not_match_search: 'Project does not match the search criteria.'
+        does_not_match_search: '프로젝트가 검색 기준과 일치하지 않습니다.'
+      no_results: '검색 기준과 일치하는 프로젝트가 없습니다.'
     forms:
       submit_success_message: '양식을 성공적으로 제출했습니다'
       load_error_message: '양식을 불러오는 중 오류가 발생했습니다'

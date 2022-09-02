@@ -151,7 +151,7 @@ lol:
           language_hint: 'crwdns804032:0crwdne804032:0'
         dropdown:
           macros: 'crwdns804034:0crwdne804034:0'
-          chose_macro: 'crwdns804036:0crwdne804036:0'
+          chose_macro: 'crwdns830178:0crwdne830178:0'
         toc: 'crwdns804038:0crwdne804038:0'
         toolbar_help: 'crwdns804040:0crwdne804040:0'
         wiki_page_include:
@@ -204,6 +204,7 @@ lol:
             label_expires_at: "crwdns804112:0crwdne804112:0"
             receive_newsletter: crwdns804114:0%{link}crwdne804114:0
             taken_domain: crwdns804116:0crwdne804116:0
+            domain_mismatch: crwdns825742:0crwdne825742:0
             taken_email: crwdns804118:0crwdne804118:0
           email_not_received: "crwdns804120:0crwdne804120:0"
           try_another_email: "crwdns804122:0crwdne804122:0"
@@ -235,6 +236,7 @@ lol:
           confidence: >
             crwdns804168:0crwdne804168:0
           link_quote: "crwdns804170:0crwdne804170:0"
+          more_info: "crwdns825448:0crwdne825448:0"
           text: >
             crwdns804172:0crwdne804172:0
           unlimited: "crwdns804174:0crwdne804174:0"
@@ -267,8 +269,7 @@ lol:
           one: "crwdns804210:0crwdne804210:0"
           two: "crwdns804212:0crwdne804212:0"
           three: "crwdns804214:0crwdne804214:0"
-      upsale_for_more: "crwdns824008:0crwdne824008:0"
-      more_info: "crwdns824010:0crwdne824010:0"
+      upsale_for_more: "crwdns825450:0crwdne825450:0"
       upsale_link: 'crwdns804218:0crwdne804218:0'
     general_text_no: "crwdns804220:0crwdne804220:0"
     general_text_yes: "crwdns804222:0crwdne804222:0"
@@ -288,15 +289,15 @@ lol:
           learn_about: "crwdns804238:0crwdne804238:0"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: crwdns810592:0crwdne810592:0
+              learn_about_link: crwdns825702:0crwdne825702:0
               new_features_html: >
-                crwdns810594:0%{list_styling_class}crwdne810594:0
+                crwdns825704:0%{list_styling_class}crwdne825704:0
             bim:
-              learn_about_link: crwdns810596:0crwdne810596:0
+              learn_about_link: crwdns825706:0crwdne825706:0
               new_features_html: >
-                crwdns810598:0%{list_styling_class}crwdne810598:0
+                crwdns825708:0%{list_styling_class}crwdne825708:0
     label_activate: "crwdns804248:0crwdne804248:0"
     label_assignee: 'crwdns810600:0crwdne810600:0'
     label_add_column_after: "crwdns804250:0crwdne804250:0"
@@ -368,6 +369,7 @@ lol:
     label_in_more_than: "crwdns804382:0crwdne804382:0"
     label_incoming_emails: "crwdns804384:0crwdne804384:0"
     label_information_plural: "crwdns804386:0crwdne804386:0"
+    label_invalid: "crwdns825420:0crwdne825420:0"
     label_import: "crwdns804388:0crwdne804388:0"
     label_latest_activity: "crwdns804390:0crwdne804390:0"
     label_last_updated_on: "crwdns804392:0crwdne804392:0"
@@ -489,7 +491,7 @@ lol:
         next: 'crwdns804612:0crwdne804612:0'
         got_it: 'crwdns804614:0crwdne804614:0'
       steps:
-        help_menu: 'crwdns804616:0crwdne804616:0'
+        help_menu: 'crwdns830188:0crwdne830188:0'
         members: 'crwdns804618:0crwdne804618:0'
         project_selection: 'crwdns804620:0crwdne804620:0'
         quick_add_button: 'crwdns804622:0crwdne804622:0'
@@ -530,6 +532,11 @@ lol:
         watched: 'crwdns804668:0crwdne804668:0'
         assigned: 'crwdns804670:0crwdne804670:0'
         responsible: 'crwdns804672:0crwdne804672:0'
+        created: 'crwdns832410:0crwdne832410:0'
+        scheduled: 'crwdns832412:0crwdne832412:0'
+        commented: 'crwdns832414:0crwdne832414:0'
+        processed: 'crwdns832416:0crwdne832416:0'
+        prioritized: 'crwdns832418:0crwdne832418:0'
       facets:
         unread: 'crwdns804674:0crwdne804674:0'
         all: 'crwdns804676:0crwdne804676:0'
@@ -755,7 +762,7 @@ lol:
         farRight: 'crwdns805034:0crwdne805034:0'
         showNone: 'crwdns805036:0crwdne805036:0'
         description: >
-          crwdns805038:0crwdne805038:0
+          crwdns830190:0crwdne830190:0
       button_activate: 'crwdns805040:0crwdne805040:0'
       button_deactivate: 'crwdns805042:0crwdne805042:0'
       cancel: crwdns805044:0crwdne805044:0
@@ -993,7 +1000,6 @@ lol:
           attribute_highlighting: 'crwdns805432:0crwdne805432:0'
           relation_columns: 'crwdns805434:0crwdne805434:0'
           check_out_link: 'crwdns805436:0crwdne805436:0'
-          more-info-text: 'crwdns824046:0crwdne824046:0'
         relation_filters:
           filter_work_packages_by_relation_type: 'crwdns805438:0crwdne805438:0'
       tabs:
@@ -1186,6 +1192,7 @@ lol:
         include_all_selected: 'crwdns810640:0crwdne810640:0'
         current_project: 'crwdns810642:0crwdne810642:0'
         does_not_match_search: 'crwdns824048:0crwdne824048:0'
+      no_results: 'crwdns825550:0crwdne825550:0'
     forms:
       submit_success_message: 'crwdns805716:0crwdne805716:0'
       load_error_message: 'crwdns805718:0crwdne805718:0'

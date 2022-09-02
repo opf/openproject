@@ -15,7 +15,7 @@ post:
 
     The file's id and name are considered mandatory information. The rest of the origin meta data SHOULD be provided
     by the client. The _mimeType_ SHOULD be a standard mime type. An empty mime type will be handled as unknown. To link
-    a folder, the custom mime type `inode/directory` MUST be used.
+    a folder, the custom mime type `application/x-op-directory` MUST be used.
 
     Up to 20 file links can be submitted at once.
 

@@ -73,16 +73,15 @@ One possible solution: If you receive this error message when trying to create a
 
 You can change this in your account settings. Please find out more [here](../../../getting-started/my-account/#change-the-order-to-display-comments).
 
-### Why are changes on parent work packages which are triggered by changes to child work packages not aggregated?
+### Why are changes on parent work packages which are triggered by making changes to a child work package not aggregated? 
 
 OpenProject aggregates work package activities only if:
 
 - They are within the defined time frame
-
 - Are made by the same user
 - If at most one comment is part of the aggregate (because it is hard to merge two bodies of text)
 
-As an inherited change is always commented ("Updated automatically by...") they can basically never be aggregated.
+As an inherited change is always commented ("Updated automatically by...") they can not be aggregated.
 
 ### How can I fill/populate the position field/column for work packages?
 

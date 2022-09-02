@@ -30,7 +30,7 @@ You can configure the following options to add your OAuth application:
    able to access. Multiple selection is possible. 
    If no scope is checked, per default **api_v3** is assumed.
    api_v3 is the standard OpenProject API, while
-   [bcf_v2_1](../bcf-rest-api) is specific to the BIM edition of 
+   [bcf_v2_1](../../../api/bcf-rest-api/) is specific to the BIM edition of 
    OpenProject.
 4. Check if the application will be **Confidential**.
    This is typically the case for client applications

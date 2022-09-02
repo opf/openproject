@@ -151,7 +151,7 @@ cs:
           language_hint: 'Zadejte jazyk, který bude použit pro zvýraznění (pokud je podporováno).'
         dropdown:
           macros: 'Makra'
-          chose_macro: 'Vybrat makro'
+          chose_macro: 'Choose macro'
         toc: 'Obsah'
         toolbar_help: 'Klikněte pro výběr widgetu a zobrazení panelu nástrojů. Dvojklikem upravíte widget'
         wiki_page_include:
@@ -205,6 +205,7 @@ cs:
             label_expires_at: "Vyprší v"
             receive_newsletter: Chci dostávat<a target="_blank" href="%{link}">newsletter OpenProject</a>.
             taken_domain: V každé doméně může být pouze jedna aktivní zkušební verze.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Každý uživatel může vytvořit pouze jednu zkušební verzi.
           email_not_received: "Neobdrželi jste e-mail? Můžete znovu odeslat e-mail s odkazem vpravo."
           try_another_email: "Nebo to zkuste s jinou e-mailovou adresou."
@@ -236,6 +237,7 @@ cs:
           confidence: >
             Doručujeme testovaný a podporovaný software pro řízení projetků - s Open Source a otevřenou myslí.
           link_quote: "Získat cenovou nabídku"
+          more_info: "More information"
           text: >
             OpenProject Enterprise Edition je postavena na komunitní edici. Obsahuje prémiové funkce a profesionální podporu zaměřenou především na organizace s více než 10 uživateli, kteří spravují kritické projekty
           unlimited: "Bez omezení"
@@ -268,8 +270,7 @@ cs:
           one: "První kritérium třídění"
           two: "Druhé kritérium třídění"
           three: "Třetí kritérium třídění"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "Více informací"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Enterprise Edice'
     general_text_no: "ne"
     general_text_yes: "ano"
@@ -289,15 +290,15 @@ cs:
           learn_about: "Další informace o nových funkcích"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "Aktivovat"
     label_assignee: 'Řešitel'
     label_add_column_after: "Přidat sloupec za"
@@ -369,6 +370,7 @@ cs:
     label_in_more_than: "za více než"
     label_incoming_emails: "Příchozí e-maily"
     label_information_plural: "Informace"
+    label_invalid: "Neplatné"
     label_import: "Import"
     label_latest_activity: "Poslední aktivita"
     label_last_updated_on: "Naposled aktualizováno"
@@ -490,7 +492,7 @@ cs:
         next: 'Další'
         got_it: 'Rozumím'
       steps:
-        help_menu: 'Menu nápovědy (?) poskytuje <b>další zdroje nápovědy</b>. Zde můžete najít uživatelskou příručku a užitečný jak na videa a další. <br> Užijte si vaši práci s OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Pozvěte nové <b>členy</b> , aby se připojili k vašemu projektu.'
         project_selection: 'Pro začátek klikněte na jeden z projektů s ukázkovými daty. <br> <b>Demo projekt</b> vyhovuje nejlepší pro klasické řízení projektu, zatímco projekt <b>Scrum</b> je lepší pro řízení projektu Agile'
         quick_add_button: 'Klikněte na ikonu plus (+) v záhlaví pro <b>vytvoření nového projektu</b> nebo pro <b>pozvání spolupracovníků</b>.'
@@ -519,9 +521,9 @@ cs:
           timeline: 'Zde můžete upravit váš projektový plán. Vytvářet nové fáze, milníky a přidat závislosti. Všichni členové týmu mohou kdykoliv zobrazit a aktualizovat aktuální plán.'
         team_planner:
           overview: 'Plánovač týmu vám umožní vizuálně přiřadit úkoly členům týmu a získat přehled o tom, kdo na čem pracuje.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          calendar: "Týdenní nebo dvoutýdenní plánovací tabule zobrazuje všechny pracovní balíčky přiřazené členům vašeho týmu.\n"
           add_assignee: 'Chcete-li začít, přidejte do plánovače týmu řešitele'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          add_existing: "Vyhledejte existující pracovní balíčky a přetáhněte je do plánovače týmu, abyste je okamžitě přiřadili členovi týmu a definovali datum zahájení a ukončení.\n"
           card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Oznámení"
@@ -531,6 +533,11 @@ cs:
         watched: 'sledován'
         assigned: 'přiřazeno'
         responsible: 'Odpovědný'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Nepřečtené'
         all: 'Vše'
@@ -541,15 +548,15 @@ cs:
           many: 'a %{count} dalšich'
           other: 'a %{count} dalšich'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'Nová oznámení se objeví zde, když se vyskytne aktivita, která se vás týká. V mezidobí si můžete také prohlédnout a změnit nastavení oznámení, abyste mohli nastavit, kdy chcete být upozorněn.'
           with_current_filter: 'V současné době nejsou v tomto zobrazení žádná oznámení'
         mark_all_read: 'Označit vše jako přečtené'
         mark_as_read: 'Označit jako přečteno'
         text_update_date: "%{date} od"
         total_count_warning: "Zobrazení posledních oznámení %{newest_count} . Nezobrazuje se ještě %{more_count}"
         empty_state:
-          no_notification: "Vypadá to, že jste všechno pročetli..."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification: "Vypadá to, že jste všechno dohnali..."
+          no_notification_with_current_project_filter: "Vypadá to, že nemáte žadné nové oznámení pro vybraný projekt."
           no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
@@ -644,7 +651,7 @@ cs:
           wiki_page_updated: 'Wiki stránka aktualizována'
           membership_added: 'Členství přidáno'
           membership_updated: 'Členství bylo aktualizováno'
-        title: 'Upozornění e-mailem'
+        title: 'E-mail upozornění '
         pause:
           label: 'Dočasně pozastavit denní posílání oznámení e-mailem'
           first_day: 'První den'
@@ -658,7 +665,7 @@ cs:
         reset_title: "Vyčistit konfiguraci formuláře"
         confirm_reset: >
           Upozornění: Opravdu chcete resetovat konfiguraci formuláře? Tato akce obnoví atributy na jejich výchozí skupinu a zakáže VŠECHNY vlastní pole.
-        upgrade_to_ee: "Upgradovat na Enterprise Edition"
+        upgrade_to_ee: "Upgradovat na Enterprise Edici"
         upgrade_to_ee_text: "Páni! Pokud potřebujete tuto funkci, jste super pro! Nevadili byste nám podpořit OpenSource vývojáře tím, že se stanete klientem Enterprise Edition?"
         more_information: "Více informací"
         nevermind: "Nevadí"
@@ -758,7 +765,7 @@ cs:
         farRight: 'Dále vpravo'
         showNone: '-- Bez popisku --'
         description: >
-          Vyberte atributy, které chcete zobrazit v příslušných pozicích Ganttova diagramu. Všimněte si, že při najetí kursorem myši budou místo těchto atributů zobrazeny jeho popisky s daty.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Zobrazit Ganttův diagram'
       button_deactivate: 'Skrýt Ganttův diagram'
       cancel: Zrušit
@@ -996,7 +1003,6 @@ cs:
           attribute_highlighting: 'Potřebujete určité pracovní balíčky, aby vyšly z celkového objemu?'
           relation_columns: 'Potřebujete vidět vztahy v seznamu pracovních balíčků?'
           check_out_link: 'Podívejte se na Enterprise Edition.'
-          more-info-text: 'Více informací'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrovat pracovní balíčky podle typu vztahu'
       tabs:
@@ -1163,7 +1169,7 @@ cs:
       role:
         label: 'Role v %{project}'
         no_roles_found: 'Nebyly nalezeny žádné role.'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Toto je role, kterou %{principal} obdrží, když se připojí k vašemu projektu. Role vymezuje, které změny mohou vykonávat a jaké informace mohou vidět. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Další informace o rolích a oprávněních. </a>'
         required: 'Vyberte prosím roli'
         next_button: 'Další'
       message:
@@ -1193,6 +1199,7 @@ cs:
         include_all_selected: 'Zahrnout všechny podprojekty je zvoleno.'
         current_project: 'Toto je aktuální projekt, ve kterém se nacházíte.'
         does_not_match_search: 'Projekt neodpovídá kritériím vyhledávání.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Formulář byl úspěšně odeslán'
       load_error_message: 'Při načítání formuláře došlo k chybě'

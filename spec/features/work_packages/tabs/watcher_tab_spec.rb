@@ -58,10 +58,11 @@ describe 'Watcher tab', js: true, selenium: true do
 
     it 'modifying the watcher list modifies the watch button' do
       # Add user as watcher
-      autocomplete = find('.wp-watcher--autocomplete')
+      autocomplete = find('.wp-watcher--autocomplete ng-select')
       select_autocomplete autocomplete,
                           query: user.firstname,
-                          select_text: user.name
+                          select_text: user.name,
+                          results_selector: 'body'
 
       # Expect the addition of the user to toggle WP watch button
       expect(page).to have_selector('[data-qa-selector="op-wp-watcher-name"]', count: 1, text: user.name)
@@ -91,9 +92,10 @@ describe 'Watcher tab', js: true, selenium: true do
       end
 
       it 'escapes the user name' do
-        autocomplete = find('.wp-watcher--autocomplete')
+        autocomplete = find('.wp-watcher--autocomplete ng-select')
         target_dropdown = search_autocomplete autocomplete,
-                                              query: 'foo'
+                                              query: 'foo',
+                                              results_selector: 'body'
 
         expect(target_dropdown).to have_selector(".ng-option", text: html_user.firstname)
         expect(target_dropdown).to have_no_selector(".ng-option em")
@@ -150,9 +152,10 @@ describe 'Watcher tab', js: true, selenium: true do
     end
 
     it 'does not show the placeholder user as an option' do
-      autocomplete = find('.wp-watcher--autocomplete')
+      autocomplete = find('.wp-watcher--autocomplete ng-select')
       target_dropdown = search_autocomplete autocomplete,
-                                            query: ''
+                                            query: '',
+                                            results_selector: 'body'
 
       expect(target_dropdown).to have_selector(".ng-option", text: user.name)
       expect(target_dropdown).to have_no_selector(".ng-option", text: placeholder.name)

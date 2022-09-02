@@ -20,7 +20,7 @@ tr:
           To add a link, see or upload files related to this work package, please login to %{storageType}.
       file_links:
         download: "Download %{fileName}"
-        no_permission: "You have no permission to see this file."
+        no_permission: "Bu dosyayı görme izniniz yok."
         open: 'Open file on storage'
         open_location: 'Open file in location'
         remove: "Remove file link"

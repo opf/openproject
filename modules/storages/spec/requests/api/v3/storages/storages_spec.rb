@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 storages resource', with_flag: { storages_module_active: true }, type: :request, content_type: :json do
+describe 'API v3 storages resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages view_file_links) }
@@ -104,10 +104,6 @@ describe 'API v3 storages resource', with_flag: { storages_module_active: true }
       let(:current_user) { create(:admin) }
 
       it_behaves_like 'successful storage response'
-    end
-
-    context 'when storages module is inactive', with_flag: { storages_module_active: false } do
-      it_behaves_like 'not found'
     end
 
     context 'when OAuth authorization server is involved' do

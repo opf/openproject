@@ -118,6 +118,39 @@ describe 'filter work packages', js: true do
     end
   end
 
+  context 'when filtering by status in project' do
+    let(:status) { create :status, name: 'Open status' }
+    let(:closed_status) { create :closed_status, name: 'Closed status' }
+    let(:work_package_with_status) do
+      create :work_package, project:, subject: 'With open status', status:
+    end
+    let(:work_package_without_status) { create :work_package, subject: 'With closed status', project:, status: closed_status }
+
+    before do
+      work_package_with_status
+      work_package_without_status
+
+      wp_table.visit!
+    end
+
+    it 'allows filtering and matching the selected value' do
+      filters.open
+
+      filters.remove_filter :status
+      filters.expect_no_filter_by :status
+      filters.add_filter_by('Status', 'is', status.name)
+
+      loading_indicator_saveguard
+      wp_table.expect_work_package_listed work_package_with_status
+      wp_table.ensure_work_package_not_listed! work_package_without_status
+
+      filters.open_autocompleter :status
+
+      expect(page).to have_selector('.ng-option', text: closed_status.name)
+      expect(page).to have_no_selector('.ng-option', text: status.name)
+    end
+  end
+
   context 'by finish date outside of a project' do
     let(:work_package_with_due_date) { create :work_package, project:, due_date: Date.today }
     let(:work_package_without_due_date) { create :work_package, project:, due_date: Date.today + 5.days }

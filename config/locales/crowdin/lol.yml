@@ -77,7 +77,6 @@ lol:
       buttons:
         upgrade: "crwdns810522:0crwdne810522:0"
         contact: "crwdns810524:0crwdne810524:0"
-        more_info: "crwdns823894:0crwdne823894:0"
       enterprise_info_html: "crwdns810526:0crwdne810526:0"
       upgrade_info: "crwdns810528:0crwdne810528:0"
     journal_aggregation:
@@ -96,7 +95,7 @@ lol:
     add_new: 'crwdns796426:0crwdne796426:0'
     edit: "crwdns796428:0%{attribute_caption}crwdne796428:0"
     enterprise:
-      description: 'crwdns823896:0crwdne823896:0'
+      description: 'crwdns825438:0crwdne825438:0'
   auth_sources:
     index:
       no_results_content_title: crwdns796430:0crwdne796430:0
@@ -262,7 +261,7 @@ lol:
     upsale:
       title: crwdns810536:0crwdne810536:0
       description: >
-        crwdns823900:0crwdne823900:0
+        crwdns830170:0crwdne830170:0
   prioritiies:
     edit:
       priority_color_text: |
@@ -288,7 +287,7 @@ lol:
       settings: "crwdns796654:0crwdne796654:0"
       form_configuration: "crwdns796656:0crwdne796656:0"
       more_info_text_html: >
-        crwdns823902:0%{list_styling_class}crwdne823902:0
+        crwdns825440:0%{list_styling_class}crwdne825440:0
       projects: "crwdns796658:0crwdne796658:0"
       enabled_projects: "crwdns796660:0crwdne796660:0"
       edit_query: "crwdns796662:0crwdne796662:0"
@@ -724,6 +723,8 @@ lol:
         work_package:
           is_not_a_valid_target_for_time_entries: "crwdns797254:0%{id}crwdne797254:0"
           attributes:
+            assigned_to:
+              format: "crwdns830342:0%{message}crwdne830342:0"
             due_date:
               not_start_date: "crwdns797256:0crwdne797256:0"
             duration:
@@ -1342,7 +1343,7 @@ lol:
     admin:
       mail_notification: "crwdns798246:0crwdne798246:0"
       mails_and_notifications: "crwdns810550:0crwdne810550:0"
-      aggregation_and_retention: 'crwdns810552:0crwdne810552:0'
+      aggregation: 'crwdns825698:0crwdne825698:0'
       api_and_webhooks: "crwdns810554:0crwdne810554:0"
     quick_add:
       label: "crwdns798250:0crwdne798250:0"
@@ -1583,6 +1584,7 @@ lol:
   label_index_by_title: "crwdns798702:0crwdne798702:0"
   label_information: "crwdns798704:0crwdne798704:0"
   label_information_plural: "crwdns798706:0crwdne798706:0"
+  label_installation_guides: 'crwdns830172:0crwdne830172:0'
   label_integer: "crwdns798708:0crwdne798708:0"
   label_internal: "crwdns798710:0crwdne798710:0"
   label_introduction_video: "crwdns798712:0crwdne798712:0"
@@ -2406,7 +2408,6 @@ lol:
   setting_email_login: "crwdns800164:0crwdne800164:0"
   setting_enabled_scm: "crwdns800166:0crwdne800166:0"
   setting_enabled_projects_columns: "crwdns800168:0crwdne800168:0"
-  setting_notification_retention_period_days: "crwdns800170:0crwdne800170:0"
   setting_feeds_enabled: "crwdns800172:0crwdne800172:0"
   setting_feeds_limit: "crwdns800174:0crwdne800174:0"
   setting_file_max_size_displayed: "crwdns800176:0crwdne800176:0"
@@ -2479,8 +2480,6 @@ lol:
       whitelist_text_html: >
         crwdns800306:0%{ext_example}crwdnd800306:0%{mime_example}crwdne800306:0
     notifications:
-      retention_text: >
-        crwdns800308:0crwdne800308:0
       events_explanation: 'crwdns800310:0crwdne800310:0'
       delay_minutes_explanation: "crwdns800312:0crwdne800312:0"
     display:
@@ -2532,6 +2531,12 @@ lol:
     crwdns800380:0crwdne800380:0
   text_custom_field_hint_activate_per_project_and_type: >
     crwdns800382:0crwdne800382:0
+  text_wp_custom_field_html: >
+    crwdns825442:0crwdne825442:0
+  text_wp_status_read_only_html: >
+    crwdns825444:0crwdne825444:0
+  text_project_custom_field_html: >
+    crwdns825446:0crwdne825446:0
   text_custom_logo_instructions: >
     crwdns800384:0crwdne800384:0
   text_custom_favicon_instructions: >
@@ -2837,10 +2842,10 @@ lol:
   warning_protocol_mismatch_html: >
     crwdns800914:0crwdne800914:0
   warning_bar:
-    protocol_mismatch:
-      title: 'crwdns800916:0crwdne800916:0'
+    https_mismatch:
+      title: 'crwdns830174:0crwdne830174:0'
       text_html: >
-        crwdns800918:0%{set_protocol}crwdnd800918:0%{actual_protocol}crwdnd800918:0%{setting_path}crwdne800918:0
+        crwdns830176:0%{set_protocol}crwdnd830176:0%{actual_protocol}crwdnd830176:0%{setting_value}crwdnd830176:0%{more_info_path}crwdne830176:0
     hostname_mismatch:
       title: 'crwdns800920:0crwdne800920:0'
       text_html: >

@@ -38,10 +38,8 @@ hu:
       attachments_disabled: "A mellékletek nem tartozhatnak bele, mivel meghaladják a megengedett maximális méretet. Ezt a konfiguráción keresztül módosíthatja (szerver újraindítását igényli).\n"
       info: >
         Itt indíthat biztonsági mentést. A folyamat a rendelkezésre álló adatmennyiségtől (különösen a mellékletektől) függően eltarthat egy ideig. Ha elkészült, kapni fog egy e -mailt.
-
       note: >
         Egy új biztonsági mentés felülír minden előzőt. Naponta csak korlátozott számú biztonsági mentés kérhető.
-
       last_backup: 'Utolsó biztonsági mentés:'
       last_backup_from: 'Legutóbbi biztonsági mentés: '
       title: "Az OpenProject biztonsági mentése\n"
@@ -153,7 +151,7 @@ hu:
           language_hint: 'Adja meg a kiemeléshez használt formázási nyelvet (ha támogatott).'
         dropdown:
           macros: 'Makrók'
-          chose_macro: 'Makró választás'
+          chose_macro: 'Choose macro'
         toc: 'Tartalomjegyzék'
         toolbar_help: 'Kattintson a widget kiválasztásához és az eszköztár megjelenítéséhez. Kattintson duplán a widget szerkesztéséhez'
         wiki_page_include:
@@ -207,6 +205,7 @@ hu:
             label_expires_at: "Lejárat ekkor"
             receive_newsletter: Szeretném megkapni az OpenProject <a target="_blank" href="%{link}"> hírlevelét </a>.
             taken_domain: Csak egy próbaverzió lehet aktív egy domainen
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Felhasználónkként csak egy próba verzió engedélyezett
           email_not_received: "Nem kapott e -mailt? A jobb oldali linkkel újra elküldheti az e -mailt."
           try_another_email: "Vagy próbálja meg egy másik e-mail címellel."
@@ -238,9 +237,9 @@ hu:
           confidence: >
             A tesztelt és támogatott vállalati szintű projektmenedzsment szoftver bizalmát nyújtjuk - nyílt forráskóddal és nyitott szemmel.
           link_quote: "Árajánlat kérése"
+          more_info: "More information"
           text: >
             Az OpenProject Enterprise Edition a Community Edition tetejére épül. Prémium funkciókat és professzionális támogatást tartalmaz, amelyek elsősorban olyan szervezeteknek szólnak, amelyek több mint 10 felhasználóval rendelkeznek, és amelyek az üzleti szempontból kritikus projekteket irányítják az OpenProject segítségével.
-
           unlimited: "Korlátlan"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
@@ -271,8 +270,7 @@ hu:
           one: "Első rendezési feltétel"
           two: "Második rendezési feltétel"
           three: "Harmadik rendezési feltétel"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Vállalati kiadás.'
     general_text_no: "nem"
     general_text_yes: "igen"
@@ -292,15 +290,15 @@ hu:
           learn_about: "Tudjon meg többet az új funkciókról"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "Aktivál"
     label_assignee: 'Megbízott'
     label_add_column_after: "Oszlop hozzáadása utána"
@@ -372,6 +370,7 @@ hu:
     label_in_more_than: "több mint"
     label_incoming_emails: "Bejövő e-mailek"
     label_information_plural: "Információk"
+    label_invalid: "Invalid"
     label_import: "Importálás"
     label_latest_activity: "Utolsó aktivitás"
     label_last_updated_on: "Utolsó frissítés"
@@ -475,7 +474,7 @@ hu:
     label_remove_all_files: Összes fájl törlése
     label_add_description: "Adjon meg leírást a %{file} fájlhoz"
     label_upload_notification: "Fájl feltöltése folyamatban"
-    label_work_package_upload_notification: "Fájlok feltöltése a #%{id}: %{subject} feladatcsoporthoz"
+    label_work_package_upload_notification: "Fájlok feltöltése a #%{id}: %{subject} feladatcsoporthoz" #%{id}: %{subject} feladatcsoporthoz"
     label_wp_id_added_by: "%{id} hozzáadva %{author} által"
     label_files_to_upload: "Ezek a fájlok kerülnek feltöltésre:"
     label_rejected_files: "Ezeket a fájlokat nem lehet felölteni:"
@@ -493,7 +492,7 @@ hu:
         next: ' Következő'
         got_it: 'Rendben'
       steps:
-        help_menu: "A Súgó (?) Menü <b> további súgóforrásokat </b> tartalmaz. Itt megtalálhatja a felhasználói útmutatót, valamint hasznos útmutatókat és egyebeket. <br> Élvezze munkáját az OpenProject segítségével!\n"
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Új <b>tagok</b> meghívása, hogy a projekthez csatlakozzanak.'
         project_selection: 'Kérjük, válasszon egyet a projektek közül, amelyek használható példa adatokat tartalmaznak az induláshoz. <br> A <b> Demo projekt </b> a legjobban megfelel a klasszikus projektmenedzsmentnek, míg a <b> Scrum projekt </b> jobb az agilis projektmenedzsment számára.'
         quick_add_button: 'Kattintson a fejlécben található (+) ikonra hogy   <b>create a new project</b> vagy  <b>invite coworkers</b>.'
@@ -534,6 +533,11 @@ hu:
         watched: 'Megfigyelt'
         assigned: 'hozzárendelve'
         responsible: 'felelős'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Olvasatlan'
         all: 'Mind'
@@ -609,7 +613,6 @@ hu:
     project:
       required_outside_context: >
         Kérjük, válasszon egy projektet a munkacsomag létrehozásához az összes attribútum megtekintéséhez. Csak olyan projekteket választhat ki, amelyek aktiválták a fenti típust.
-
       context: 'Projekt kontextus'
       work_package_belongs_to: 'Ez a feladatcsoport a(z) %{projectname} nevű projekthez tartozik.'
       click_to_switch_context: 'Munkacsomag megnyitása a projektben.'
@@ -760,7 +763,7 @@ hu:
         farRight: 'Jobb szélen'
         showNone: '--Nincs címke--'
         description: >
-          Válassza ki azokat az attribútumokat, amiket a Gantt-diagramon mindig látni szeretne. Vegye figyelembe, hogy az egér elemre mozdításával a dátumcímkék jelennek meg ezen attribútumok helyén.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Gannt diagramm megtekintése'
       button_deactivate: 'Gannt diagramm elrejtése'
       cancel: Mégsem
@@ -806,7 +809,6 @@ hu:
         slider: "Nagyítás/kicsinyítés"
         description: >
           Válassza ki a megjelenítendő kezdeti nagyítási szintet, ha az automatikus nagyítás nem áll rendelkezésre.
-
     tl_toolbar:
       zooms: "Nagyítási szint"
       outlines: "Hierarchia szint"
@@ -999,7 +1001,6 @@ hu:
           attribute_highlighting: 'Szüksége van bizonyos munkacsomagokra, hogy kitűnjön a tömegből?'
           relation_columns: 'Szeretné látni a munkacsomag kapcsolatait?'
           check_out_link: 'Tekintse meg az Enterprise Edition-t!'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'A munkacsomagok szűrése relációs típus szerint'
       tabs:
@@ -1192,6 +1193,7 @@ hu:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'Ez a jelenlegi projekt, amiben vagyunk.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Jelentés sikeresen elküldve'
       load_error_message: 'Hiba történt az eredmény betöltésekor.'

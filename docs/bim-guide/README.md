@@ -47,13 +47,13 @@ Details: [Revit Add-in](revit-add-in)
 
 
 
-## How to get a free trial?
+## How to get a free trial
 
 You easily can start a new BIM trial on our [OpenProject BIM website](https://www.openproject.org/bim-project-management/). The have a look at the full description of how to start a new trial installation just follow the Link: [Create trial installation](../enterprise-guide/enterprise-cloud-guide/create-cloud-trial/).
 
 
 
-## How to enable the BCF module?
+## How to enable the BCF module
 
 The BCF Module and the included IFC viewer can be enabled for every single project. Here you can find the description how to [enable a module](../user-guide/projects/project-settings/modules/) within your ***project settings***.
 
@@ -123,7 +123,7 @@ Yes, we want to develop some other integrations to stay interoparable with other
 
 
 
-### How to enable the BCF module?
+### How to enable the BCF module
 
 The BCF Module and the included IFC viewer can be enabled or disabled for every single project. Here you can find the description how to [enable a module](../user-guide/projects/project-settings/modules/) within the project settings. 
 

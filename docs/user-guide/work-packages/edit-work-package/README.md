@@ -2,18 +2,18 @@
 sidebar_navigation:
   title: Edit work packages
   priority: 900
-description: How to edit work packages in OpenProject?
+description: How to edit work packages in OpenProject.
 keywords: edit work packages
 ---
 
 # Edit work packages
 
 | Feature                                             | Documentation for                                  |
-| --------------------------------------------------- | -------------------------------------------------- |
-| [Update a work package](#update-a-work-package)     | How to make a change to an existing work package?  |
-| [Watchers](#watchers)                               | How to add or remove watchers from a work package? |
-| [Export work packages](#export-work-packages)       | How to export work packages?                       |
-| [Bulk edit work packages](#bulk-edit-work-packages) | How to edit several work packages as once?         |
+|-----------------------------------------------------|----------------------------------------------------|
+| [Update a work package](#update-a-work-package)     | How to make a change to an existing work package.  |
+| [Watchers](#watchers)                               | How to add or remove watchers from a work package. |
+| [Export work packages](#export-work-packages)       | How to export work packages.                       |
+| [Bulk edit work packages](#bulk-edit-work-packages) | How to edit several work packages as once.         |
 
 ## Update a work package
 
@@ -36,7 +36,7 @@ All changes of a work package are documented in the work package [Activity](../.
 > **Note**: There is no possibility to undo changes to work packages (Ctrl+Z).
 
 
-### How to assign a team member to a work package?
+### How to assign a team member to a work package
 
 When you assign a team member to a work package, you can distinguish between **assignee** and **accountable**. Accountable per definition would be the one accountable for the delivery of the work package. The assignee is the person currently assigned and working on the work package.
 Choose the respective team member from the drop down for assignee or accountable. If you are looking to add a team member that is not coming up in the drop down, this team member might not yet be a member of the project and needs to be [invited](../../members/#add-members).
@@ -45,7 +45,7 @@ Choose the respective team member from the drop down for assignee or accountable
 
 
 
-### How to update the status of a work package?
+### How to update the status of a work package
 
 To update the status of a work package, click on the current status in the work package details and select the new status in the drop-down list.
 
@@ -53,7 +53,7 @@ To update the status of a work package, click on the current status in the work 
 
 Please note, the status may differ from work package type. They can be configured in the [system administration](../../../system-admin-guide).
 
-### How to add comments to a work package?
+### How to add comments to a work package
 
 To add a comment to a work package, open the [details view](../../work-packages/work-package-views/#work-package-full-screen-view) or the [split screen view](../../work-packages/work-package-views/#work-package-split-screen-view) of a work package. On the tab [Activity](../../../getting-started/work-packages-introduction/#activity-of-work-packages) tab you have a comment field at the bottom (or on top depending on your [My account settings](../../../getting-started/my-account/)).
 
@@ -71,7 +71,7 @@ You can mention and notify team members via [@notification](../../notifications/
 
 ## Watchers
 
-### How to add watchers to a work package?
+### How to add watchers to a work package
 
 <div class="glossary">
 **Watchers** can be added to a work package in order to notify members about changes. They will receive notifications according to their notification settings if changes are made to the respective work package.
@@ -83,7 +83,7 @@ It is also possible to add oneself as watcher (if you have sufficient permission
 
 ![watchers](watchers.png)
 
-### How to remove watchers from a work package?
+### How to remove watchers from a work package
 
 To remove watchers, navigate to the work package [details view](../../work-packages/work-package-views/#work-package-full-screen-view) and select the tab Watchers. Click the cross icon next to a watcher to remove the watcher from a work package. 
 The user will no longer get notifications in OpenProject about changes to this work package according to their notification settings. However, if he/she is the author, assignee or accountable of the work package there still might be notifications. Read [here](../../../getting-started/my-account/#notifications-settings) for more information.

@@ -77,7 +77,6 @@
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-        more_info: "More information"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -96,7 +95,7 @@
     add_new: 'Legge til hjelpetekst'
     edit: "Rediger hjelpetekst for %{attribute_caption}"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Det er ingen autentiseringsmoduser for øyeblikket.
@@ -268,14 +267,13 @@
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Placeholder users
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -306,7 +304,7 @@
       settings: "Innstillinger"
       form_configuration: "Skjema konfigurering"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Prosjekter"
       enabled_projects: "Enabled projects"
       edit_query: "Edit table"
@@ -743,6 +741,8 @@
         work_package:
           is_not_a_valid_target_for_time_entries: "Arbeidspakke nr. %{id} er ikke et gyldig mål for nytildeling av tidsoppføringer."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "is not on start date, although this is required for milestones."
             duration:
@@ -1249,7 +1249,7 @@
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Kan ikke slette denne oppføringen.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Ugyldig valgt verdi."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
@@ -1361,7 +1361,7 @@
     admin:
       mail_notification: "E-postvarsler"
       mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
+      aggregation: 'Aggregation'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
@@ -1388,17 +1388,11 @@
     update_info_mail:
       body: >
         We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-
         Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-
         This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-
         We hope you find in-app notifications useful and that they makes you even more productive.
-
-        Sincerely,
-        The OpenProject team
+        Sincerely, The OpenProject team
       body_header: 'Version 12.0 with Notification Center'
       body_subheader: 'Nyheter'
       subject: 'Important changes to notifications with the release of 12.0'
@@ -1613,6 +1607,7 @@
   label_index_by_title: "Indeksèr på tittel"
   label_information: "Informasjon"
   label_information_plural: "Informasjon"
+  label_installation_guides: 'Installation guides'
   label_integer: "Heltall"
   label_internal: "Intern"
   label_introduction_video: "Introduksjonsvideo"
@@ -2444,7 +2439,6 @@
   setting_email_login: "Use email as login"
   setting_enabled_scm: "SCM aktivert"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "Aktiver Feeds"
   setting_feeds_limit: "Innholdsgrense for Feed"
   setting_file_max_size_displayed: "Maks størrelse på tekstfiler som vises inline"
@@ -2517,8 +2511,6 @@
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
@@ -2570,6 +2562,12 @@
     When using custom fields: Keep in mind that custom fields need to be activated per project, too.
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     En hvit logo på gjennomsiktig bakgrunn anbefales. For best resultat på både konvensjonelle og retina skjermer, kontroller at bildets størrelse er 460x60 px.
   text_custom_favicon_instructions: >
@@ -2876,10 +2874,10 @@
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Protocol setting mismatch'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Hostname setting mismatch'
       text_html: >

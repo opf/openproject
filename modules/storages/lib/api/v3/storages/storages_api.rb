@@ -39,10 +39,6 @@ module API
         # module available from within the endpoint context.
         helpers API::V3::Utilities::StoragesHelpers
 
-        before do
-          reply_with_not_found_if_module_inactive
-        end
-
         # The `:resources` keyword defines the API namespace -> /api/v3/storages/...
         resources :storages do
           # `route_param` extends the route by a route parameter of the endpoint.

@@ -238,6 +238,33 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
           end
         end
       end
+
+      describe 'user' do
+        let(:path) { 'user' }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'User' }
+          let(:name) { TimeEntry.human_attribute_name('user') }
+          let(:required) { true }
+          let(:writable) { true }
+          let(:location) { '_links' }
+        end
+
+        context 'if embedding' do
+          let(:embedded) { true }
+
+          it_behaves_like 'links to allowed values via collection link' do
+            let(:href) do
+              api_v3_paths.path_for :principals,
+                                    filters: [
+                                      { status: { operator: '!', values: [Principal.statuses[:locked].to_s] } },
+                                      { type: { operator: '=', values: ['User'] } },
+                                      { member: { operator: '=', values: [project.id] } }
+                                    ]
+            end
+          end
+        end
+      end
     end
 
     context 'custom value' do

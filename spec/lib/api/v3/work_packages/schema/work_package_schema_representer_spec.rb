@@ -797,6 +797,25 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:writable) { true }
         let(:location) { '_links' }
       end
+
+      it_behaves_like 'links to allowed values via collection link' do
+        let(:path) { 'parent' }
+        let(:href) { api_v3_paths.work_package_available_relation_candidates(work_package.id, type: :parent) }
+      end
+
+      context 'when creating' do
+        let(:work_package) do
+          build(:work_package, project:) do |wp|
+            allow(wp)
+              .to receive(:available_custom_fields)
+                    .and_return(available_custom_fields)
+          end
+        end
+
+        it_behaves_like 'does not link to allowed values' do
+          let(:path) { 'parent' }
+        end
+      end
     end
 
     describe 'type' do

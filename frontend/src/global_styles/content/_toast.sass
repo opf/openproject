@@ -132,9 +132,13 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-error,
   &.-success,
   &.-warning,
-  &.-info,
-  &.-ee-upsale
+  &.-info
     padding: $nm-box-padding
+  &.-ee-upsale
+    z-index: 1
+
+  &.-left-margin
+    margin-left: 20px
 
   &.-error
     @extend %error-placeholder

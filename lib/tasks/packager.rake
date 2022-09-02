@@ -65,19 +65,21 @@ namespace :packager do
     Setting.sys_api_key = ENV.fetch('SYS_API_KEY', nil)
     Setting.host_name = ENV.fetch('SERVER_HOSTNAME', Setting.host_name)
 
+    # SERVER_PROTOCOL is set by the packager apache2 addon
+    # other SERVER_PROTOCOL_xxx variables can be manually set by user
     if ENV['SERVER_PROTOCOL_HTTPS_NO_HSTS']
       # Allow setting only HTTPS setting without enabling FORCE__SSL
       # due to external proxy configuration. This avoids activation of HSTS headers.
       shell_setup(['config:set', "OPENPROJECT_HTTPS=true"])
-      shell_setup(['config:unset', "OPENPROJECT_RAILS__FORCE__SSL"])
+      shell_setup(['config:set', "OPENPROJECT_HSTS=false"])
     elsif ENV['SERVER_PROTOCOL_FORCE_HTTPS'] || ENV.fetch('SERVER_PROTOCOL', Setting.protocol) == 'https'
       # Allow overriding the protocol setting from ENV
       # to allow instances where SSL is terminated earlier to respect that setting
       shell_setup(['config:set', "OPENPROJECT_HTTPS=true"])
-      shell_setup(['config:set', "OPENPROJECT_RAILS__FORCE__SSL=true"])
+      shell_setup(['config:set', "OPENPROJECT_HSTS=true"])
     else
       shell_setup(['config:set', "OPENPROJECT_HTTPS=false"])
-      shell_setup(['config:unset', "OPENPROJECT_RAILS__FORCE__SSL"])
+      shell_setup(['config:set', "OPENPROJECT_HSTS=false"])
     end
 
     # Run customization step, if it is defined.

@@ -143,7 +143,7 @@ sl:
           page: 'Wiki stran'
           this_page: 'ta stran'
           hint: |
-            Pustite to polje prazno, za zapis podrejenih strani trenutne strani. Če želite dodati drugo stran, dodajte njen naslov ali slug. 
+            Pustite to polje prazno, za zapis podrejenih strani trenutne strani. Če želite dodati drugo stran, dodajte njen naslov ali slug.
         code_block:
           button: 'Dodaj kodo'
           title: 'Dodaj / uredi kodo'
@@ -151,7 +151,7 @@ sl:
           language_hint: 'Vstavite jezik, ki bo uporabljen za povdarjanje (če je podprt). '
         dropdown:
           macros: 'Makri'
-          chose_macro: 'Izberi makro'
+          chose_macro: 'Choose macro'
         toc: 'Kazalo vsebine'
         toolbar_help: 'Kliknite za izbor gradnika in prikaz orodne vrstice. Kliknite dvakrat za urejanje gradnika'
         wiki_page_include:
@@ -160,7 +160,7 @@ sl:
           page: 'Wiki stran'
           not_set: '(Stran še ni nastavljena) '
           hint: |
-            Dodaj vsebino druge wiki strani, tako da specificiraš njen naslov ali slug. Lahko dodate wiki stran drugega projekta tako da ju ločite s dvopičjem, tako kot prikazuje primer. 
+            Dodaj vsebino druge wiki strani, tako da specificiraš njen naslov ali slug. Lahko dodate wiki stran drugega projekta tako da ju ločite s dvopičjem, tako kot prikazuje primer.
         work_package_button:
           button: 'Vstavite gumb za ustvarjanje delovnega paketa'
           type: 'Vrsta delovnega paketa'
@@ -204,6 +204,7 @@ sl:
             label_expires_at: "Izteče ob"
             receive_newsletter: Želim prejemati OpenProject  <a target="_blank" href="%{link}">novice</a>.
             taken_domain: Možen je le en aktivni preizkus na domeno.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Vsak uporabnik ima na voljo le en preizkus.
           email_not_received: "Niste prejeli e-pošte? E-pošto lahko ponovno pošljete s povezavo na desni."
           try_another_email: "Ali pa poskusite z drugim e-poštnim naslovom."
@@ -235,6 +236,7 @@ sl:
           confidence: >
             Zagotavljamo zaupanje preizkušene in podprte programske opreme za upravljanje projektov v podjetniškem razredu - z odprto kodo in odprto miselnostjo.
           link_quote: "Pridobite ponudbo"
+          more_info: "More information"
           text: >
             Izdaja OpenProject Enterprise temelji na različici Community Edition. Vključuje vrhunske funkcije in strokovno podporo, namenjeno predvsem organizacijam z več kot 10 uporabniki, ki z OpenProjectom upravljajo poslovno pomembne projekte.
           unlimited: "Neomejeno"
@@ -267,8 +269,7 @@ sl:
           one: "Prvo merilo za razvrščanje"
           two: "Drugo merilo za razvrščanje"
           three: "Tretje merilo za razvrščanje"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Podjetniška verzija. '
     general_text_no: "ne"
     general_text_yes: "da"
@@ -288,15 +289,15 @@ sl:
           learn_about: "Preberite več o novostih"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "Aktiviraj"
     label_assignee: 'Assignee'
     label_add_column_after: "Dodaj stolpec za"
@@ -368,6 +369,7 @@ sl:
     label_in_more_than: "v več kot"
     label_incoming_emails: "Prihajajoča e-pošta"
     label_information_plural: "Informacije"
+    label_invalid: "Invalid"
     label_import: "Uvozi"
     label_latest_activity: "Zadnja dejavnost"
     label_last_updated_on: "Zadnjič posodobljeno dne"
@@ -463,7 +465,7 @@ sl:
     label_attachments: Priponka
     label_drop_files: Spustite datoteke tukaj
     label_drop_files_hint: ali kliknite da dodate datoteke
-    label_drop_folders_hint: Mape ne morate naložiti kot priponke. Prosim izberite samo eno datoteko. 
+    label_drop_folders_hint: Mape ne morate naložiti kot priponke. Prosim izberite samo eno datoteko.
     label_add_attachments: "Dodaj priponke"
     label_formattable_attachment_hint: "Pripnite in povežite datoteke tako, da spustite to polje ali prilepite iz odložišča."
     label_remove_file: "Izbriši %{fileName}"
@@ -471,7 +473,7 @@ sl:
     label_remove_all_files: Izbriši vse datoteke
     label_add_description: "Dodaj opis za %{file}"
     label_upload_notification: "Nalaganje datotek... "
-    label_work_package_upload_notification: "Nalaganje datotek za opravilo #%{id}: %{subject}"
+    label_work_package_upload_notification: "Nalaganje datotek za opravilo #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} dodal %{author}"
     label_files_to_upload: "Te datoteke bodo naložene:"
     label_rejected_files: "Teh datotek ni mogoče naložiti:"
@@ -489,7 +491,7 @@ sl:
         next: 'Naprej'
         got_it: 'Razumem'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -530,6 +532,11 @@ sl:
         watched: 'watched'
         assigned: 'assigned'
         responsible: 'accountable'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Unread'
         all: 'Vse'
@@ -656,7 +663,7 @@ sl:
         error_no_table_configured: "Prosimo konfigurirajte tabelo za %{group}."
         reset_title: "Po nastavi iz konfiguracije"
         confirm_reset: >
-          Opozorilo: Ali ste prepričani, da želite po nastaviti formo konfiguracije? To bo ponastavilo atribute v njihovo privzeto skupino in onemogočilo vsa polja po meri. 
+          Opozorilo: Ali ste prepričani, da želite po nastaviti formo konfiguracije? To bo ponastavilo atribute v njihovo privzeto skupino in onemogočilo vsa polja po meri.
         upgrade_to_ee: "Nadgradite na Enterprise verzijo na lokaciji"
         upgrade_to_ee_text: "Vau! Če potrebujete to funkcijo, ste super profesionalec! Bi bili pripravljeni podpreti OpenSource razvijalce, tako da postanete uporavnik Podjetniške različice?"
         more_information: "Več informacij"
@@ -757,7 +764,7 @@ sl:
         farRight: 'Čisto desno'
         showNone: '-- Brez labele --'
         description: >
-          Izberite atribute, ki jih želite ves čas prikazati na ustreznih mestih Gantograma. Upoštevajte, da se ob premikanju elementa namesto teh atributov prikažejo njegove datumske nalepke.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Prikaži gantogram'
       button_deactivate: 'Skrij gantogram'
       cancel: Prekliči
@@ -854,8 +861,8 @@ sl:
       label_filter_by_text: "Filtreraj po besedilu"
       label_options: "Možnosti"
       label_column_multiselect: "Kombinirano spustno polje: Izberite s puščicami, izbiro potrdite s tipko enter, izbrišite s tipko izbriši."
-      message_error_during_bulk_delete: Med brisanjem delovnih paketov se je zgodila napaka. 
-      message_successful_bulk_delete: Delovni paketi so uspešno izbrisani. 
+      message_error_during_bulk_delete: Med brisanjem delovnih paketov se je zgodila napaka.
+      message_successful_bulk_delete: Delovni paketi so uspešno izbrisani.
       message_successful_show_in_fullscreen: "Za celozaslonski pogled delovnih paketov, kliknite tukaj. "
       message_view_spent_time: "Prikaži porabljen čas za ta delovni paket"
       message_work_package_read_only: "Delovni paket je zaklenjen v tem stanju. Spremenite lahko samo stanje. "
@@ -879,7 +886,7 @@ sl:
         children_collapsed: 'Hierarhijska raven %{level}, se je sesula. Kliknite, če želite prikazati filtrirane ukaze.'
         children_expanded: 'Hierarhijska raven %{level}, se je razširila. Kliknite, če želite prikazati filtrirane ukaze.'
       faulty_query:
-        title: Delavnega paketa ni bilo mogoče naložiti. 
+        title: Delavnega paketa ni bilo mogoče naložiti.
         description: "Vaš pogled je napačen in ga ni mogoče obdelati.\n"
       no_results:
         title: Nobenega delovnega paketa za prikaz.
@@ -995,7 +1002,6 @@ sl:
           attribute_highlighting: 'Potrebujete določene delovne pakete da izstopajo iz nereda?'
           relation_columns: 'Potrebujete videti povezave v seznamu delovnega paketa?'
           check_out_link: 'Preveri Podjetniško verzijo.'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtreraj delovne pakete po vrsti relacije'
       tabs:
@@ -1192,6 +1198,7 @@ sl:
         include_all_selected: 'Include all sub-projects is currently selected.'
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'Obrazev je bil uspešno oddan'
       load_error_message: 'Pri nalaganju obrazca je prišlo do napake'

@@ -108,7 +108,9 @@ class DateEditField < EditField
       activate_edition
       within_modal do
         if value.is_a?(Array)
-          value.each { |el| select_value(el) }
+          value.each do |el|
+            select_value(el)
+          end
         else
           select_value value
         end

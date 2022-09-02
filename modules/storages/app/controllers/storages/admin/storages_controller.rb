@@ -34,10 +34,6 @@ class Storages::Admin::StoragesController < ApplicationController
   # specify which model #find_model_object should look up
   model_object Storages::Storage
 
-  # Will return a 404 if the storages module has not been made available through
-  # a feature flag.
-  before_action :ensure_storages_module_active
-
   # Before executing any action below: Make sure the current user is an admin
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
@@ -92,10 +88,7 @@ class Storages::Admin::StoragesController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_create)
       render :show_oauth_application
     else
-      @errors = service_result.all_errors.reduce(ActiveModel::Errors.new(@object)) do |errors, e|
-        errors.merge!(e)
-        errors
-      end
+      @errors = service_result.errors
       render :new
     end
   end
@@ -173,12 +166,6 @@ class Storages::Admin::StoragesController < ApplicationController
 
   def oauth_application(service_result)
     service_result.dependent_results&.first&.result
-  end
-
-  def ensure_storages_module_active
-    return if OpenProject::FeatureDecisions.storages_module_active?
-
-    raise ActionController::RoutingError, 'Not Found'
   end
 
   # Called by create and update above in order to check if the

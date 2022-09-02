@@ -51,7 +51,6 @@ class WorkPackages::UpdateService < ::BaseServices::Update
 
   def update_related(work_package)
     consolidated_calls(update_descendants(work_package) + reschedule_related(work_package))
-      .reject { |dependent_call| dependent_call.result.id == work_package.id }
       .each { |dependent_call| dependent_call.result.save(validate: false) }
   end
 

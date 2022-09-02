@@ -79,7 +79,7 @@ relative_url_root = config['rails_relative_url_root'].presence
 session_options = {
   key: config['session_cookie_name'],
   httponly: true,
-  secure: config.secure_connection?,
+  secure: config.https?,
   path: relative_url_root
 }
 

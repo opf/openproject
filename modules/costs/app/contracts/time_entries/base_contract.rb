@@ -45,6 +45,11 @@ module TimeEntries
     validate :validate_project_is_set
     validate :validate_work_package
 
+    validates :spent_on,
+              date: { before_or_equal_to: Proc.new { Date.new(9999, 12, 31) },
+                      allow_blank: true },
+              unless: Proc.new { spent_on.blank? }
+
     attribute :project_id
     attribute :work_package_id
     attribute :activity_id do

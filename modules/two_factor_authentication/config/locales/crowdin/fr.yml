@@ -72,7 +72,7 @@ fr:
       text_2fa_disabled: "L’utilisateur n’a pas défini un appareil 2FA via sa page \"Mon compte\""
     upsale:
       title: 'Authentification à deux facteurs'
-      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
+      description: 'Renforcez la sécurité de votre instance OpenProject en offrant (ou en forçant) une authentification à deux facteurs à tous les membres du projet.'
     backup_codes:
       none_found: Aucun code de sauvegarde n’existe pour ce compte.
       singular: Code de sauvegarde

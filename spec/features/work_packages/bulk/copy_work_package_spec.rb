@@ -16,7 +16,7 @@ describe 'Copy work packages through Rails view', js: true do
            firstname: 'Dev',
            lastname: 'Guy',
            member_in_project: project,
-           member_with_permissions: %i[view_work_packages]
+           member_with_permissions: %i[view_work_packages work_package_assigned]
   end
   shared_let(:mover) do
     create :user,
@@ -55,12 +55,14 @@ describe 'Copy work packages through Rails view', js: true do
     wp_table.visit!
     expect_angular_frontend_initialized
     wp_table.expect_work_package_listed work_package, work_package2
-
-    # Select all work packages
-    find('body').send_keys [:control, 'a']
   end
 
   describe 'copying work packages' do
+    before do
+      # Select all work packages
+      find('body').send_keys [:control, 'a']
+    end
+
     context 'with permission' do
       let(:current_user) { mover }
       let(:wp_table_target) { ::Pages::WorkPackagesTable.new(project2) }
@@ -192,6 +194,8 @@ describe 'Copy work packages through Rails view', js: true do
     before do
       display_representation.switch_to_card_layout
       loading_indicator_saveguard
+      # Select all work packages
+      find('body').send_keys [:control, 'a']
     end
 
     context 'with permissions' do
@@ -210,6 +214,40 @@ describe 'Copy work packages through Rails view', js: true do
         context_menu.open_for work_package
         context_menu.expect_no_options ['Bulk copy']
       end
+    end
+  end
+
+  describe 'unsetting the assignee as the current assignee is not a member in the project' do
+    let(:work_packages) { [work_package] }
+    let(:current_user) { mover }
+    let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+
+    before do
+      work_package.assigned_to = dev
+      work_package.save
+    end
+
+    it 'copies the work package' do
+      context_menu.open_for work_package
+      context_menu.choose 'Copy to other project'
+
+      # On work packages move page
+      select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+                          query: project2.name,
+                          select_text: project2.name,
+                          results_selector: 'body'
+
+      select 'nobody', from: 'Assignee'
+
+      click_on 'Copy and follow'
+
+      expect(page)
+        .to have_selector('.flash.notice',
+                          text: I18n.t(:notice_successful_create))
+
+      wp_page = ::Pages::FullWorkPackage.new(WorkPackage.last)
+
+      wp_page.expect_attributes assignee: '-'
     end
   end
 end

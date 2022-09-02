@@ -7,9 +7,8 @@ ca:
       label_unnamed_list: 'Llista sense nom'
       label_board_type: 'Tipus de taulell'
       upsale:
-        teaser_text: 'T''agradaria utilitzar les plantilles de taulells ja preparats? Els taulells avançats són una funcionalitat Enterprise. Si us plau, actualitza a un pla de pagament.'
+        teaser_text: 'T''agradaria automatitzar els teus processos de treball amb taulells? Els taulells avançats són una funcionalitat Enterprise. Si us plau, actualitza a un pla de pagament.'
         upgrade: 'Actualitzeu ara'
-        more_info: 'More information'
       lists:
         delete: 'Suprimeix la llista'
       version:
@@ -79,7 +78,7 @@ ca:
             O bé no n'hi ha cap o ja han estat afegits a un taulell.
           assignee: No hi ha cap usuari que coincideixi amb el teu filtre. <br>
           no_member: Aquest projecte actualment no té cap membre que es pugui afegir. <br>
-          add_members: <a href="%{link}">Afegeix un membre nou a aquest projecte </a> per seleccionar usuaris de nou. 
+          add_members: <a href="%{link}">Afegeix un membre nou a aquest projecte </a> per seleccionar usuaris de nou.
       configuration_modal:
         title: 'Configureu aquest taulell'
         display_settings:

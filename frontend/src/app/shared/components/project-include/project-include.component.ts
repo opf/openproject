@@ -14,8 +14,10 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  tap,
   mergeMap,
   shareReplay,
+  skip,
   take,
 } from 'rxjs/operators';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -26,11 +28,11 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { IProject } from 'core-app/core/state/projects/project.model';
+import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
+import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
 
-import { IProjectData } from '../project-list/project-data';
 import { insertInList } from './insert-in-list';
 import { recursiveSort } from './recursive-sort';
-import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
 
 @Component({
   selector: 'op-project-include',
@@ -53,9 +55,12 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     clear_selection: this.I18n.t('js.include_projects.clear_selection'),
     apply: this.I18n.t('js.include_projects.apply'),
     include_subprojects: this.I18n.t('js.include_projects.include_subprojects'),
+    no_results: this.I18n.t('js.include_projects.no_results'),
   };
 
   public opened = false;
+
+  public textFieldFocused = false;
 
   public query$ = this.wpTableFilters.querySpace.query.values$();
 
@@ -127,57 +132,91 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
   public projects$ = combineLatest([
     this.searchableProjectListService.allProjects$,
     this.displayMode$.pipe(distinctUntilChanged()),
-    this.includeSubprojects$,
+    this.includeSubprojects$.pipe(debounceTime(20)),
     this.searchableProjectListService.searchText$.pipe(debounceTime(200)),
-  ])
-    .pipe(
-      debounceTime(50),
+  ]).pipe(
       mergeMap(([projects, displayMode, includeSubprojects, searchText]) => this.selectedProjects$.pipe(
         take(1),
         map((selected) => [projects, displayMode, includeSubprojects, searchText, selected]),
       )),
       map(
-        ([projects, displayMode, includeSubprojects, searchText, selected]:[IProject[], string, boolean, string, string[]]) => projects
-          .filter(
-            (project) => {
-              if (searchText.length) {
-                const matches = project.name.toLowerCase().includes(searchText.toLowerCase());
+        ([projects, displayMode, includeSubprojects, searchText, selected]:[IProject[], string, boolean, string, string[]]) => [
+          projects
+            .filter(
+              (project) => {
+                if (searchText.length) {
+                  const matches = project.name.toLowerCase().includes(searchText.toLowerCase());
 
-                if (!matches) {
-                  return false;
+                  if (!matches) {
+                    return false;
+                  }
                 }
-              }
 
-              if (displayMode !== 'selected') {
-                return true;
-              }
+                if (displayMode !== 'selected') {
+                  return true;
+                }
 
-              if (selected.includes(project._links.self.href)) {
-                return true;
-              }
+                if (selected.includes(project._links.self.href)) {
+                  return true;
+                }
 
-              const hasSelectedAncestor = project._links.ancestors.reduce(
-                (anySelected, ancestor) => anySelected || selected.includes(ancestor.href),
-                false,
-              );
+                const hasSelectedAncestor = project._links.ancestors.reduce(
+                  (anySelected, ancestor) => anySelected || selected.includes(ancestor.href),
+                  false,
+                );
 
-              if (includeSubprojects && hasSelectedAncestor) {
-                return true;
-              }
+                if (includeSubprojects && hasSelectedAncestor) {
+                  return true;
+                }
 
-              return false;
-            },
-          )
-          .sort((a, b) => a._links.ancestors.length - b._links.ancestors.length)
-          .reduce(
-            (list, project) => {
-              const { ancestors } = project._links;
+                return false;
+              },
+            )
+            .sort((a, b) => a._links.ancestors.length - b._links.ancestors.length)
+            .reduce(
+              (list, project) => {
+                const { ancestors } = project._links;
 
-              return insertInList(projects, project, list, ancestors);
-            },
-            [] as IProjectData[],
-          ),
+                return insertInList(
+                  projects,
+                  project,
+                  list,
+                  ancestors,
+                );
+              },
+              [] as IProjectData[],
+            ),
+          includeSubprojects,
+        ],
       ),
+      mergeMap(([projects, includeSubprojects]) => this.selectedProjects$.pipe(
+        map((selected) => [projects, includeSubprojects, selected]),
+      )),
+      map(([projects, includeSubprojects, selected]: [IProjectData[], boolean, string[]]) => {
+        const isDisabled = (project:IProjectData, parentChecked:boolean) => {
+          if (project.disabled) {
+            return true;
+          }
+
+          if (project.href === this.currentProjectService.apiv3Path) {
+            return true;
+          }
+
+          return includeSubprojects && parentChecked;
+        };
+
+        const setDisabledStatus = (project:IProjectData, parentChecked:boolean):IProjectData => {
+          return {
+            ...project,
+            disabled: isDisabled(project, parentChecked),
+            children: project.children.map(
+              (child) => setDisabledStatus(child, parentChecked || selected.includes(project.href)),
+            ),
+          };
+        };
+
+        return projects.map((project) => setDisabledStatus(project, false));
+      }),
       map((projects) => recursiveSort(projects)),
       shareReplay(),
     );
@@ -209,6 +248,16 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     readonly searchableProjectListService:SearchableProjectListService,
   ) {
     super();
+
+    this.projects$
+      .pipe(
+        this.untilDestroyed(),
+        filter(p => p.length > 0),
+        take(1),
+      )
+      .subscribe((projects) => {
+        this.searchableProjectListService.resetActiveResult(projects);
+      });
   }
 
   public ngOnInit():void {

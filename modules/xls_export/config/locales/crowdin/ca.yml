@@ -1,13 +1,13 @@
 ca:
   export_to_excel: "Exporta a XLS"
-  print_with_description: "Print preview with description"
+  print_with_description: "Previsualització d'impressió amb descripció"
   sentence_separator_or: "o"
-  different_formats: Different formats
+  different_formats: Formats diferents
   export:
     format:
       xls: "XLS"
-      xls_with_descriptions: "XLS with descriptions"
-      xls_with_relations: "XLS with relations"
+      xls_with_descriptions: "XLS amb descripcions"
+      xls_with_relations: "XLS amb relacions"
   xls_export:
-    child_of: child of
-    parent_of: parent of
+    child_of: fill de
+    parent_of: pare de
