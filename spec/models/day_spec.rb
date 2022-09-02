@@ -52,7 +52,7 @@ describe Day, type: :model do
     let(:non_working_dates) { [date_range.begin, date_range.begin + 1.day] }
 
     before do
-      create(:week_days_with_saturday_and_sunday_as_weekend)
+      create(:week_with_saturday_and_sunday_as_weekend)
       non_working_dates.each { |date| create(:non_working_day, date:) }
     end
 

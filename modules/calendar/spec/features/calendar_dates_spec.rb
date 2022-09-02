@@ -77,7 +77,7 @@ describe 'Calendar non working days', type: :feature, js: true do
 
   context 'with all days marked as weekend' do
     let!(:week_days) do
-      days = create(:week_days_with_saturday_and_sunday_as_weekend)
+      days = create(:week_with_saturday_and_sunday_as_weekend)
 
       WeekDay.update_all(working: false)
 
