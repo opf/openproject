@@ -38,7 +38,7 @@ describe ::API::V3::Days::DaysAPI,
   current_user { user }
 
   before do
-    create(:week_days)
+    create(:week_days_with_saturday_and_sunday_as_weekend)
     get api_v3_paths.path_for :days, filters:
   end
 
