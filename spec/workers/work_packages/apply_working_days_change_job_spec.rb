@@ -42,9 +42,13 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
   end
 
   context 'when a work package includes a date that is now a non-working day' do
-    let_schedule(<<~CHART, ignore_non_working_days: false)
-      days          | MTWTFSS |
-      work_package  | XXXX    |
+    let_schedule(<<~CHART)
+      days                  | MTWTFSS |
+      work_package          | XXXX    |
+      work_package_on_start |   XX    |
+      work_package_on_due   | XXX     |
+      wp_start_only         |   [     |
+      wp_due_only           |   ]     |
     CHART
 
     before do
@@ -54,86 +58,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
     it 'moves the finish date to the corresponding number of now-excluded days to maintain duration [#31992]' do
       job.perform_now(user_id: user.id)
       expect(WorkPackage.all).to match_schedule(<<~CHART)
-        days         | MTWTFSS |
-        work_package | XX.XX   |
-      CHART
-    end
-  end
-
-  context 'when a work package includes a date that is now a non-working day, but has working days include weekends' do
-    let_schedule(<<~CHART)
-      days          | MTWTFSS |
-      work_package  | XXXX    | working days include weekends
-    CHART
-
-    before do
-      set_non_working_week_days('wednesday')
-    end
-
-    it 'does not move any dates' do
-      job.perform_now(user_id: user.id)
-      expect(WorkPackage.all).to match_schedule(<<~CHART)
-        days         | MTWTFSS |
-        work_package | XXXX    | working days include weekends
-      CHART
-    end
-  end
-
-  context 'when having multiple work packages' do
-    let_schedule(<<~CHART, ignore_non_working_days: false)
-      days | MTWTFSS |
-      wp1  | XX      |
-      wp2  |  XX     |
-      wp3  |   XX    |
-      wp4  |    XX   |
-      wp5  | XXXXX   |
-    CHART
-
-    before do
-      set_non_working_week_days('wednesday')
-    end
-
-    it 'updates all impacted work packages' do
-      job.perform_now(user_id: user.id)
-      expect(WorkPackage.all).to match_schedule(<<~CHART)
-        days | MTWTFSS  |
-        wp1  | XX       |
-        wp2  |  X.X     |
-        wp3  |    XX    |
-        wp4  |    XX    |
-        wp5  | XX.XX..X |
-      CHART
-    end
-  end
-
-  context 'when having multiple work packages following each other' do
-    let_schedule(<<~CHART, ignore_non_working_days: false)
-      days | MTWTFSS   |
-      wp1  |     X..XX | follows wp2
-      wp2  |    X      | follows wp3
-      wp3  | XXX       |
-    CHART
-
-    before do
-      set_non_working_week_days('tuesday', 'wednesday', 'friday')
-    end
-
-    it 'updates them only once' do
-      expect { job.perform_now(user_id: user.id) }
-        .to change { WorkPackage.pluck(:lock_version) }
-        .from([0, 0, 0])
-        .to([1, 1, 1])
-      expect(WorkPackage.all).to match_schedule(<<~CHART)
-        days | MTWTFSSmtwtfssmtwtfss  |
-        wp1  |               X..X...X |
-        wp2  |           X            |
-        wp3  | X..X...X               |
+        days                  | MTWTFSS |
+        work_package          | XX.XX   |
+        work_package_on_start |    XX   |
+        work_package_on_due   | XX.X    |
+        wp_start_only         |    [    |
+        wp_due_only           |    ]    |
       CHART
     end
   end
 
   context 'when a work package was scheduled to start on a date that is now a non-working day' do
-    let_schedule(<<~CHART, ignore_non_working_days: false)
+    let_schedule(<<~CHART)
       days          | MTWTFSS |
       work_package  |   XX    |
     CHART
@@ -169,6 +105,93 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         days        | MTWTFSS |
         predecessor |  X.X    | working days work week
         follower    |     XXX | working days include weekends
+      CHART
+    end
+  end
+
+  context 'when a work package has working days include weekends, and includes a date that is now a non-working day' do
+    let_schedule(<<~CHART)
+      days          | MTWTFSS |
+      work_package  | XXXX    | working days include weekends
+    CHART
+
+    before do
+      set_non_working_week_days('wednesday')
+    end
+
+    it 'does not move any dates' do
+      job.perform_now(user_id: user.id)
+      expect(WorkPackage.all).to match_schedule(<<~CHART)
+        days         | MTWTFSS |
+        work_package | XXXX    | working days include weekends
+      CHART
+    end
+  end
+
+  context 'when a work package only has a duration' do
+    let_schedule(<<~CHART)
+      days          | MTWTFSS |
+      work_package  |         | duration 3 days
+    CHART
+
+    before do
+      set_non_working_week_days('wednesday')
+    end
+
+    it 'does not change anything' do
+      job.perform_now(user_id: user.id)
+      expect(work_package.duration).to eq(3)
+    end
+  end
+
+  context 'when having multiple work packages following each other' do
+    let_schedule(<<~CHART)
+      days | MTWTFSS   |
+      wp1  |     X..XX | follows wp2
+      wp2  |    X      | follows wp3
+      wp3  | XXX       |
+    CHART
+
+    before do
+      set_non_working_week_days('tuesday', 'wednesday', 'friday')
+    end
+
+    it 'updates them only once' do
+      expect { job.perform_now(user_id: user.id) }
+        .to change { WorkPackage.pluck(:lock_version) }
+        .from([0, 0, 0])
+        .to([1, 1, 1])
+      expect(WorkPackage.all).to match_schedule(<<~CHART)
+        days | MTWTFSSmtwtfssmtwtfss  |
+        wp1  |               X..X...X |
+        wp2  |           X            |
+        wp3  | X..X...X               |
+      CHART
+    end
+  end
+
+  context 'when having multiple work packages following each other and first one only has a due date' do
+    let_schedule(<<~CHART)
+      days | MTWTFSS   |
+      wp1  |     X..XX | follows wp2
+      wp2  |   XX      | follows wp3
+      wp3  |  ]       |
+    CHART
+
+    before do
+      set_non_working_week_days('tuesday', 'wednesday', 'friday')
+    end
+
+    it 'updates them only once' do
+      expect { job.perform_now(user_id: user.id) }
+        .to change { WorkPackage.pluck(:lock_version) }
+        .from([0, 0, 0])
+        .to([1, 1, 1])
+      expect(WorkPackage.all).to match_schedule(<<~CHART)
+        days | MTWTFSSm  t ssm  t ssm |
+        wp1  |               X..X...X |
+        wp2  |        X..X            |
+        wp3  |    ]                   |
       CHART
     end
   end

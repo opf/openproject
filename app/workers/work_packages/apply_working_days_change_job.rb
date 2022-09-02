@@ -44,20 +44,32 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
   def each_applicable_work_package
     WorkPackage
       .where(ignore_non_working_days: false)
-      .order(start_date: :asc)
+      .where.not(start_date: nil, due_date: nil)
+      .order(WorkPackage.arel_table[:start_date].asc.nulls_first,
+             WorkPackage.arel_table[:due_date].asc)
       .pluck(:id)
       .each do |id|
         work_package = WorkPackage.find(id)
-        next if dates_and_duration_match?(work_package)
+        next unless dates_and_duration_mismatch?(work_package)
 
         yield work_package
       end
   end
 
-  def dates_and_duration_match?(work_package)
-    days.working?(work_package.start_date) \
-      && days.working?(work_package.due_date) \
-      && days.duration(work_package.start_date, work_package.due_date) == work_package.duration
+  def dates_and_duration_mismatch?(work_package)
+    # precondition: ignore_non_working_days is false
+    non_working?(work_package.start_date) \
+      || non_working?(work_package.due_date) \
+      || wrong_duration?(work_package)
+  end
+
+  def non_working?(date)
+    date && !days.working?(date)
+  end
+
+  def wrong_duration?(work_package)
+    computed_duration = days.duration(work_package.start_date, work_package.due_date)
+    computed_duration && work_package.duration != computed_duration
   end
 
   def days
