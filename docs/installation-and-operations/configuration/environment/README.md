@@ -10,7 +10,7 @@ sidebar_navigation:
 
 When using environment variables, you can set the options by setting environment variables with the name of the options below in uppercase. So for example, to configure email delivery via an SMTP server, you can set the following environment variables:
 
-```ruby
+```bash
 EMAIL_DELIVERY_METHOD="smtp"
 SMTP_ADDRESS="smtp.example.net"
 SMTP_PORT="587"
@@ -83,7 +83,7 @@ docker exec -it $(docker ps | grep web | cut -d' ' -f 1) bash -c "RAILS_ENV=prod
 
 The default value is also visible for each variable in parenthesis.
 
-```ruby
+```bash
 #OpenProject Version 12.2.1
 
 OPENPROJECT_ACTIVITY__DAYS__DEFAULT (default=30)
