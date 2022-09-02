@@ -72,20 +72,18 @@ A list of all configuration variables that can be overridden by defining them in
 For packaged installations:
 
 ```bash
-sudo openproject run bundle exec rake 'setting:available_envs'
+sudo openproject run bundle exec rake setting:available_envs
 ```
 
 For Docker installations:
 
 ```bash
-docker exec -it $(docker ps | grep web | cut -d' ' -f 1) bash -c "RAILS_ENV=production bundle exec rake 'setting:available_envs'"
+docker exec -it $(docker ps | grep web | cut -d' ' -f 1) bash -c "RAILS_ENV=production bundle exec rake setting:available_envs"
 ```
 
-The default value is also visible for each variable in parenthesis.
+The default value is also visible for each variable in parenthesis. The following are the correct values at the time of writing and that you should use the commands shown above to make sure to get the up-to-date list.
 
 ```bash
-#OpenProject Version 12.2.1
-
 OPENPROJECT_ACTIVITY__DAYS__DEFAULT (default=30)
 OPENPROJECT_ADDITIONAL__FOOTER__CONTENT (default=nil)
 OPENPROJECT_AFTER__FIRST__LOGIN__REDIRECT__URL (default=nil)
